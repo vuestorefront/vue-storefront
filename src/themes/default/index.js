@@ -4,7 +4,7 @@ const routes = [
     { path: '/', component: Home }
 ]
 
-export function registerTheme (app, router) {
+export default function (app, router) {
   router.addRoutes(routes)
   return
 }

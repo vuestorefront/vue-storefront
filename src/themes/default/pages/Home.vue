@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import { page } from 'lib/themes'
+import { corePage } from 'lib/themes'
 
 export default {
   data () {
     return {
     }
   },
-  mixins: [ page('Home') ]
+  mixins: [ corePage('Home') ]
 }
 </script>
 

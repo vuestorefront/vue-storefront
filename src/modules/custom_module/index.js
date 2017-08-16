@@ -6,5 +6,10 @@ import moduleRoutes from './router'
 export default function (app, router, store) {
   router.addRoutes(moduleRoutes) // add custom routes
   store.registerModule(MODULE_KEY, moduleStore) // add custom store
-  return
+   // TODO: register module events here
+  app.$on('application-after-init', () => {
+    console.log('custom-event')
+  })
+
+  return { MODULE_KEY, moduleRoutes, moduleStore }
 }
