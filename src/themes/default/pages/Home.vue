@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { page } from '../../../lib/themes'
+import { page } from 'lib/themes'
 
 export default {
   data () {

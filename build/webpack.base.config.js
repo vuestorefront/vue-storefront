@@ -12,6 +12,10 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.vue'],
     alias: {
+      core_pages: path.resolve(__dirname, '../src/pages'),
+      core_components: path.resolve(__dirname, '../src/components'),
+      lib: path.resolve(__dirname, '../src/lib'),
+      
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components')
