@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import cart from './modules/cart'
-import product from './modules/product'
+import checkout from './modules/checkout'
+import catalog from './modules/catalog'
 
 Vue.use(Vuex)
 
@@ -31,8 +31,8 @@ const mutations = {
 
 export default new Vuex.Store({
   modules: {
-    cart,
-    product
+    checkout,
+    catalog
   },
   state,
   mutations
