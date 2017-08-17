@@ -52,7 +52,7 @@ app.get('*', (req, res) => {
 
   const s = Date.now()
 
-  res.setHeader("Content-Type", "text/html")
+  res.setHeader('Content-Type', 'text/html')
 
   const errorHandler = err => {
     if (err && err.code === 404) {
