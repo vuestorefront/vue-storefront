@@ -5,7 +5,7 @@ import router from './router'
 import { sync } from 'vuex-router-sync'
 
 import { registerTheme } from './lib/themes'
-import { registerModules } from './lib/modules'
+import { registerExtensions } from './lib/extensions'
 
 export function createApp () {
   sync(store, router)
@@ -15,7 +15,7 @@ export function createApp () {
     render: h => h(App)
   })
 
-  registerModules(['custom_module'], app, router, store) // TODO: use config or ENV variables
+  registerExtensions(['custom_extension'], app, router, store) // TODO: use config or ENV variables
   registerTheme('default', app, router)
 
   app.$emit('application-after-init', app)
