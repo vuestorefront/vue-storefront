@@ -1,4 +1,3 @@
-const registerApi = require('./src/lib/api')
 const fs = require('fs')
 const path = require('path')
 const express = require('express')

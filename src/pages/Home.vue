@@ -5,8 +5,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Home',
+  methods: {
+    ...mapActions(['search'])
+  },
+  beforeMount () {
+    this.search()
+  },
   data () {
     return {
       'exampleData': 'Data from base component'
