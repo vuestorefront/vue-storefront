@@ -1,3 +1,4 @@
+const registerApi = require('./src/lib/api')
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
@@ -44,10 +45,6 @@ const serve = (path, cache) => express.static(resolve(path), {
 app.use('/dist', serve('./dist', true))
 app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
-
-app.get('/api/*', (req, res) => { // TODO: bind the API routes here
-  res.end('api call')
-})
 
 app.get('*', (req, res) => {
   if (!renderer) {
