@@ -15,7 +15,7 @@ const actions = {
     })
 
     client.search({
-      index: 'vue_storefront_catalog',
+      index: 'vue_storefront_catalog', // TODO: add grouped prodduct and bundled product support
       'q': '*',
       'size': 1
     }).then(function (resp) {

@@ -44,6 +44,7 @@ const serve = (path, cache) => express.static(resolve(path), {
 app.use('/dist', serve('./dist', true))
 app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
+app.use('/service-worker-ext.js', serve('./dist/service-worker-ext.js'))
 
 app.get('*', (req, res) => {
   if (!renderer) {

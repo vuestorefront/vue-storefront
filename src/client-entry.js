@@ -1,4 +1,5 @@
 import { createApp } from './app'
+require('./service-worker-registration')
 
 const { app, router, store } = createApp()
 

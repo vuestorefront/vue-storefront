@@ -75,7 +75,7 @@
     "sinon-chai": "^2.8.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.4.0",
-    "sw-precache-webpack-plugin": "^0.9.1",
+    "sw-precache-webpack-plugin": "^0.9.2",
     "vue-loader": "^10.0.0",
     "vue-ssr-webpack-plugin": "^1.0.2",
     "vue-template-compiler": "^2.0.0",

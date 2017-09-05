@@ -38,10 +38,18 @@ if (process.env.NODE_ENV === 'production') {
     }),
     // auto generate service worker
     new SWPrecachePlugin({
-      cacheId: 'vue-hn',
+      cacheId: 'vue-sfr',
       filename: 'service-worker.js',
       dontCacheBustUrlsMatching: /./,
-      staticFileGlobsIgnorePatterns: [/index\.html$/, /\.map$/]
+      staticFileGlobsIgnorePatterns: [/\.map$/],
+      runtimeCaching: [{
+        urlPattern: "/", /** cache the html stub  */
+        handler: "cacheFirst"
+      },{
+        urlPattern: "/catalog", /** TODO: cache products catalog */
+        handler: "fastest"
+      }],
+      "importScripts": ['/service-worker-ext.js']       // extensions to work with global.toolbox - https://github.com/GoogleChrome/sw-toolbox
     })
   )
 }
