@@ -7,3 +7,11 @@ if ('serviceWorker' in navigator) {
     }
   })
 }
+
+function checkiIsOnline () {
+  console.log('Are we online: ' + navigator.onLine)
+}
+
+window.addEventListener('online', checkiIsOnline)
+window.addEventListener('offline', checkiIsOnline)
+

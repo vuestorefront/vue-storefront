@@ -6,6 +6,10 @@ const getters = {
 
 // actions
 const actions = {
+  /**
+   * Search ElasticSearch catalog - products OR categories
+   * @param {Object} context search parameters to be used
+   */
   search (context) {
     let es = require('elasticsearch')
 

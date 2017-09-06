@@ -9,6 +9,14 @@ const getters = {
 
 // actions
 const actions = {
+
+  /**
+   * Place order - sending it to service worker queue
+   * @param {Object} context vuex context
+   * @param {Object} order order data to be send
+   */
+  placeOrder (context, order) {
+  }
 }
 
 // mutations

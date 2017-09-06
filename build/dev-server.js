@@ -1,14 +1,25 @@
 const path = require('path')
 const webpack = require('webpack')
 const MFS = require('memory-fs')
-const clientConfig = require('./webpack.client.config')
-const serverConfig = require('./webpack.server.config')
+let clientConfig = require('./webpack.client.config')
+let serverConfig = require('./webpack.server.config')
 
 module.exports = function setupDevServer (app, cb) {
   let bundle
   let template
 
   // modify client config to work with hot middleware
+
+  if(!clientConfig.hasOwnProperty('entry')) // multicompiler
+  {
+    for(let cc of clientConfig)
+    if(cc.hasOwnProperty('entry') && cc.entry.hasOwnProperty('app'))
+      { 
+        clientConfig = cc; 
+        break;
+      }
+    }
+
   clientConfig.entry.app = ['webpack-hot-middleware/client', clientConfig.entry.app]
   clientConfig.output.filename = '[name].js'
   clientConfig.plugins.push(

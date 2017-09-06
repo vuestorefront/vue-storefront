@@ -4,6 +4,8 @@ const base = require('./webpack.base.config')
 const vueConfig = require('./vue-loader.config')
 const HTMLPlugin = require('html-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
+const path = require('path')
+
 
 const config = merge(base, {
   resolve: {
@@ -54,4 +56,15 @@ if (process.env.NODE_ENV === 'production') {
   )
 }
 
-module.exports = config
+const configSW = merge({}, base); // this is basicaly a work-around to compile the service workers extensions as they are not included nowhere but in service worker only
+
+configSW.entry =  {
+  'service-worker-ext': './src/service-worker-ext.js',
+}
+configSW.output =  {
+  path: path.resolve(__dirname, '../dist'),
+  publicPath: '/dist/',
+  filename: '[name].js'
+},
+
+module.exports = [config, configSW];

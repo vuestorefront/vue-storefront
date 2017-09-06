@@ -1,5 +1,5 @@
 import { createApp } from './app'
-require('./service-worker-registration')
+require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
 
