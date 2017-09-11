@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import MainHeader from 'components/blocks/Header.vue'
-import MainFooter from 'components/blocks/Footer.vue'
+import MainHeader from 'components/core/blocks/Header/Header.vue'
+import MainFooter from 'components/core/blocks/Footer/Footer.vue'
 
 export default {
   components: {
