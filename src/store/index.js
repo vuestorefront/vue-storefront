@@ -1,7 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
+import * as localForage from 'localforage'
+
+Vue.prototype.$localDb = localForage.createInstance({
+  name: 'store'
+})
+global.localDb = Vue.prototype.$localDb // localForage instance
+
 import checkout from './modules/checkout'
 import catalog from './modules/catalog'
+import cart from './modules/cart'
 
 Vue.use(Vuex)
 
@@ -29,11 +38,20 @@ const mutations = {
   }
 }
 
+const localStoragePlugin = store => {
+  store.subscribe((mutation, { cart }) => {
+    global.localDb.setItem('vue-storefront-cart', cart.items)
+  })
+}
+const plugins = [localStoragePlugin]
+
 export default new Vuex.Store({
   modules: {
     checkout,
-    catalog
+    catalog,
+    cart
   },
   state,
-  mutations
+  mutations,
+  plugins
 })

@@ -1,7 +1,5 @@
 // initial state
-// shape: [{ id, quantity }]
 const state = {
-  items: []
 }
 
 const getters = {
