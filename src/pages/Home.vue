@@ -10,11 +10,11 @@ import { mapActions } from 'vuex'
 export default {
   name: 'Home',
   methods: {
-    ...mapActions(['search'])
+    ...mapActions('catalog', ['search'])
   },
-  beforeMount () {
-    this.$store.dispatch('loadCart')
-    this.search()
+  created () {
+    this.$store.dispatch('cart/loadCart')
+    this.$store.dispatch('catalog/loadCategories')
   },
   data () {
     return {

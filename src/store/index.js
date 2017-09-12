@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import * as types from './mutation-types'
+// import * as types from './mutation-types'
 import * as localForage from 'localforage'
 
 Vue.prototype.$localDb = localForage.createInstance({
@@ -41,11 +41,9 @@ const mutations = {
 
 const localStoragePlugin = store => {
   store.subscribe((mutation, { cart }) => {
-    if ([types.ADD_CART, types.DEL_CART, types.UPD_CART].indexOf(mutation.type) >= 0) {
-      global.localDb.setItem('vue-storefront-cart', cart.items, (err) => {
-        if (err) throw new Error(err)
-      })
-    }
+    global.localDb.setItem('vue-storefront-cart', cart.items, (err) => {
+      if (err) throw new Error(err)
+    })
   })
 }
 const plugins = [localStoragePlugin]

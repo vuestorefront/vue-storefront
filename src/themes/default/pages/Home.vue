@@ -14,6 +14,13 @@
       </li>
     </ul>    
 
+    Categories:
+    <ul id='example-3'>
+      <li v-for='cat in categories'>
+        {{ cat.name }}
+      </li>
+    </ul>    
+
   </div>
 </template>
 
@@ -25,7 +32,11 @@ export default {
   computed: {
     cartItems () {
       return this.$store.state.cart.items
+    },
+    categories () {
+      return this.$store.state.catalog.categories
     }
+
   },
   data () {
     return {
@@ -402,7 +413,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addToCart'])
+    ...mapActions('cart', ['addToCart'])
   },
   mixins: [corePage('Home')]
 }

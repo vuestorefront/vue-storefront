@@ -2,6 +2,7 @@ import * as types from '../mutation-types'
 import _ from 'lodash'
 
 const store = {
+  namespaced: true,
   state: {
     isLoaded: false,
     items: []
@@ -50,7 +51,6 @@ const store = {
   },
   actions: {
     loadCart ({ commit }) {
-      console.log(global.localDb)
       global.localDb.getItem('vue-storefront-cart', (err, storedItems) => {
         if (err) throw new Error(err)
         commit(types.LOAD_CART, storedItems)
