@@ -24,7 +24,7 @@ import { corePage } from 'lib/themes'
 export default {
   data () {
     return {
-      cartItems: this.store.items,
+      cartItems: this.$store.items,
       products: [
         {
           '_index': 'vue_storefront_catalog',

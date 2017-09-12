@@ -13,6 +13,7 @@ export default {
     ...mapActions(['search'])
   },
   beforeMount () {
+    this.$store.dispatch('loadCart')
     this.search()
   },
   data () {
