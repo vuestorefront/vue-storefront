@@ -6,6 +6,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import AddToCart from '../components/core/AddToCart.vue'
 
 export default {
   name: 'Home',
@@ -22,11 +23,11 @@ export default {
     }
   },
   components: {
+    AddToCart
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>

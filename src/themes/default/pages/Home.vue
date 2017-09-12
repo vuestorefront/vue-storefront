@@ -3,10 +3,10 @@
     Products:
     <ul id='example-1'>
       <li v-for='product in products'>
-        {{ product._source.name[0] }} - {{ product._source.price[0].price }} <button v-on:click="addToCart(product)">Add to cart</button>
+        {{ product._source.name[0] }} - {{ product._source.price[0].price }} <add-to-cart :product="product" />
       </li>
     </ul>
-
+    
     Cart:
     <ul id='example-2'>
       <li v-for='product in cartItems'>
