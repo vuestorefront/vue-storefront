@@ -1,6 +1,6 @@
 <template>
   <div id="main-slider">
-      Main Slider
+    Core Main Slider
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'main-slider'
 }
 </script>
-
-<style scoped>
-
-</style>

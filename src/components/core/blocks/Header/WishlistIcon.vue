@@ -1,6 +1,6 @@
 <template>
-  <div id="microcart-icon">
-      Wishlist
+  <div id="wishlist-icon">
+    Core Wishlist
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'wishlist-icon'
 }
 </script>
-
-<style scoped>
-
-</style>

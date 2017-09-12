@@ -1,6 +1,6 @@
 <template>
   <div id="footer">
-      Footer
+    Core Footer
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'main-footer'
 }
 </script>
-
-<style scoped>
-
-</style>

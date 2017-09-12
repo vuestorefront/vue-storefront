@@ -1,6 +1,6 @@
 <template>
   <div id="logo">
-      Logo
+    Core Logo
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'logo'
 }
 </script>
-
-<style scoped>
-
-</style>

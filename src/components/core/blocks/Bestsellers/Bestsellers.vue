@@ -1,6 +1,6 @@
 <template>
   <div id="bestsellers">
-      Bestsellers
+      Core Bestsellers
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'bestsellers'
 }
 </script>
-
-<style scoped>
-
-</style>

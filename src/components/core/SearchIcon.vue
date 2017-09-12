@@ -1,6 +1,6 @@
 <template>
-  <div id="search-icon">
-      SIc
+  <div id="search-ico">
+    Core Search Icon
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'search-icon'
 }
 </script>
-
-<style scoped>
-
-</style>

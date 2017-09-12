@@ -1,15 +1,19 @@
 <template>
   <div id="microcart-icon">
-      MIc
+      Core Microcart
+      <!-- Total items in cart -->
+      {{ totalItems }}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'microcart-icon'
+  name: 'microcart-icon',
+  computed: {
+    totalItems () {
+      // return this.$store.getters.totals.quantity
+      return 3
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>

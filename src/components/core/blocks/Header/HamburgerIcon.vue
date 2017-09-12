@@ -1,6 +1,6 @@
 <template>
   <div id="hamburger-icon">
-     Hb
+    Core Hamburger
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: 'hamburger-icon'
 }
 </script>
-
-<style scoped>
-
-</style>
