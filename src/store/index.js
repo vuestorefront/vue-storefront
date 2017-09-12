@@ -42,11 +42,9 @@ const mutations = {
 const localStoragePlugin = store => {
   store.subscribe((mutation, { cart }) => {
     if ([types.ADD_CART, types.DEL_CART, types.UPD_CART].indexOf(mutation.type) >= 0) {
-      console.log(mutation)
-      console.log(cart.items)
-
-      console.log(global.localDb)
-      global.localDb.setItem('vue-storefront-cart', cart.items)
+      global.localDb.setItem('vue-storefront-cart', cart.items, (err) => {
+        if (err) throw new Error(err)
+      })
     }
   })
 }

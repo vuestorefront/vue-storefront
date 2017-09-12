@@ -31,9 +31,7 @@ const store = {
       record.quantity = quantity
     },
 
-    [types.LOAD_CART] (state, { storedItems }) {
-      console.log(types.LOAD_CART)
-      console.log(storedItems)
+    [types.LOAD_CART] (state, storedItems) {
       state.items = storedItems || []
       state.isLoaded = true
     }

@@ -8,7 +8,7 @@
     </ul>
 
     Cart:
-    <ul id='example-1'>
+    <ul id='example-2'>
       <li v-for='product in cartItems'>
         {{ product._source.name[0] }} - {{ product._source.price[0].price }}  - x{{ product.quantity }}
       </li>
@@ -22,9 +22,13 @@ import { mapActions } from 'vuex'
 import { corePage } from 'lib/themes'
 
 export default {
+  computed: {
+    cartItems () {
+      return this.$store.state.cart.items
+    }
+  },
   data () {
     return {
-      cartItems: this.$store.items,
       products: [
         {
           '_index': 'vue_storefront_catalog',
