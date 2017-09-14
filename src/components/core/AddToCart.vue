@@ -10,7 +10,7 @@ export default {
   name: 'add-to-cart',
   props: ['product'],
   methods: {
-    ...mapActions(['addToCart'])
+    ...mapActions({'addToCart' : 'cart/addToCart'})
   }
 }
 </script>

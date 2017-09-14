@@ -413,7 +413,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['addToCart'])
+    ...mapActions({ 'addToCart': 'cart/addToCart' })
   },
   mixins: [corePage('Home')]
 }
