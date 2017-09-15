@@ -1,11 +1,17 @@
 <template>
   <div id="microcart" :class="{ active: isOpen }">
-      <div class="material-icons close p15" @click="isOpen = false">close</div>
+    <div class="row">
+      <div class="col-md-12">
+        <i class="material-icons p15" @click="closeMicrocart">close</i>
+      </div>
+    </div>
+
       <ul>
         <li v-for='product in cartItems'>
           {{ product._source.name[0] }} - {{ product._source.price[0].price }}  - x{{ product.quantity }}
         </li>
       </ul>
+      
     </div>
 </template>
 
@@ -24,6 +30,12 @@ export default {
     EventBus.$on('toggle-microcart', () => {
       self.isOpen = !self.isOpen
     })
+  },
+  methods: {
+    closeMicrocart () {
+      this.isOpen = false
+      EventBus.$emit('toggle-overlay')
+    }
   },
   mixins: [coreComponent('core/blocks/Microcart/Microcart')]
 }
@@ -44,6 +56,6 @@ export default {
 }
 #microcart .close {
   cursor: pointer;
-  float: right;
+  ftext-align: right;
 }
 </style>

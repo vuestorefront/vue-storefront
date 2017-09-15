@@ -1,7 +1,6 @@
 <template>
   <div id="microcart-icon" @click="toggleMicrocart">
     <i class="material-icons md-18">shopping_cart</i>
-    {{ info }}
   </div>
 </template>
 
@@ -13,6 +12,7 @@ export default {
   methods: {
     toggleMicrocart () {
       EventBus.$emit('toggle-microcart')
+      EventBus.$emit('toggle-overlay')
     }
   },
   mixins: [coreComponent('core/blocks/Header/MicrocartIcon')]

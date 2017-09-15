@@ -1,11 +1,19 @@
 <template>
     <div id="sidebar-menu" :class="{ active: isOpen }">
-        <div class="material-icons close" @click="isOpen = false">close</div>
-        <ul>
-            <li>
-                <router-link to="/" exact>Home</router-link>
-            </li>
-        </ul>
+        <div class="row">
+            <div class="col-md-12 close end-xs" @click="closeMenu">
+                <i class="material-icons p15">close</i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <li>
+                        <router-link to="/" exact>Home</router-link>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -25,6 +33,12 @@ export default {
       self.isOpen = !self.isOpen
     })
   },
+  methods: {
+    closeMenu () {
+      this.isOpen = false
+      EventBus.$emit('toggle-overlay')
+    }
+  },
   mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')]
 }
 </script>
@@ -37,11 +51,15 @@ export default {
     background: #F2F2F2;
     top: 0;
     left: -350px;
+    overflow: hidden;
 }
 #sidebar-menu.active {
     left: 0;
 }
 #sidebar-menu .close {
-    cursor: pointer
+    cursor: pointer;
+    background: white;
+    text-align: right;
+    display: inline-flex;
 }
 </style>
