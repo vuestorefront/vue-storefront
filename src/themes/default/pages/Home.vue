@@ -6,6 +6,7 @@
           <h2>Everything new</h2>
       </div>
     </div>
+    
     <div class="row">
       <product-tile v-for='product in products' :product="product"/>
     </div>

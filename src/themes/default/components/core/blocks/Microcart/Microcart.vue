@@ -1,10 +1,11 @@
 <template>
   <div id="microcart" :class="{ active: isOpen }">
+      <div class="material-icons close" @click="isOpen = false">close</div>
       <ul>
         <li v-for='product in cartItems'>
           {{ product._source.name[0] }} - {{ product._source.price[0].price }}  - x{{ product.quantity }}
         </li>
-      </ul>    
+      </ul>
     </div>
 </template>
 
@@ -15,12 +16,12 @@ import EventBus from 'src/event-bus/event-bus'
 export default {
   data () {
     return {
-      isOpen: true
+      isOpen: false
     }
   },
   created () {
     const self = this
-    EventBus.$on('toggle-microcart', function () {
+    EventBus.$on('toggle-microcart', () => {
       self.isOpen = !self.isOpen
     })
   },
@@ -32,14 +33,16 @@ export default {
 #microcart {
     position: absolute;
     height: 100vh;
-    width: 200px;
+    width: 600px;
     background: black;
     top: 0;
     color: white;
-    right: -200px;
+    right: -600px;
 }
 #microcart.active {
     right: 0;
-
+}
+#microcart .close {
+  cursor: pointer
 }
 </style>

@@ -1,7 +1,5 @@
 <template>
-    
     <i class="material-icons md-18">search</i>
-    
 </template>
 
 <script>

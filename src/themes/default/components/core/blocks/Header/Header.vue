@@ -1,34 +1,32 @@
 <template>
     <div id="header">
         <div class="row middle-md">
-            <div class="col-md-1">
+            <div class="col-md-1 middle-md">
                 <div class="box">
-                    <hamburger-icon />
+                    <hamburger-icon class="p15 icon"/>
                 </div>
             </div>
             <div class="col-md-9 center-md">
                 <div class="box">              
-                    <logo />
+                    <logo width="65px" height="30px" class="p5"/>
                 </div>
             </div>
-            <div class="col-md-2 center-md">
+            <div class="col-md-2 end-md">
                 <div class="box">
-                    <search-icon class="mx10" />
-                    <wishlist-icon class="mx10" />         
-                    <microcart-icon class="mx10" />
+                    <search-icon class="p15 icon" />
+                    <wishlist-icon class="p15 icon" />         
+                    <microcart-icon class="p15 icon" />
                 </div>
             </div>
         </div>
-        <ul>
-            <li>
-                <router-link to="/" exact>Home</router-link>
-            </li>
-        </ul>
     </div>
 </template>
 
 <script>
 import { coreComponent } from 'lib/themes'
+
+import Logo from '../../Logo.vue'
+
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
 import SearchIcon from '../../SearchIcon.vue'
@@ -39,12 +37,19 @@ export default {
     MicrocartIcon,
     HamburgerIcon,
     WishlistIcon,
-    SearchIcon
+    SearchIcon,
+    Logo
   },
   mixins: [coreComponent('core/blocks/Header/Header')]
 }
 </script>
 
 <style scoped>
-
+    #header .icon:hover {
+        background-color: #F2F2F2;
+        cursor: pointer;
+    }
+    #header .logo {
+        height: 300px;
+    }
 </style>

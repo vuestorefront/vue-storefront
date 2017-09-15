@@ -1,8 +1,8 @@
 <template>
-  <span @click="toggleMicrocart">
+  <div id="microcart-icon" @click="toggleMicrocart">
     <i class="material-icons md-18">shopping_cart</i>
-    {{ info}}
-  </span>
+    {{ info }}
+  </div>
 </template>
 
 <script>
@@ -20,5 +20,7 @@ export default {
 </script>
 
 <style scoped>
-
+  #microcart-icon {
+    display: inline-flex;
+  }
 </style>
