@@ -1,25 +1,20 @@
 <template>
   <div id="hp">
-      Hello World!
+      Core Home
   </div>
 </template>
 
 <script>
-import AddToCart from '../components/core/AddToCart.vue'
+import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
   name: 'Home',
-  created () {
-    this.$store.dispatch('cart/loadCart')
-    this.$store.dispatch('catalog/loadCategories')
-  },
-  data () {
-    return {
-      'exampleData': 'Data from base component'
-    }
+  beforeMount () {
+    this.$store.dispatch('loadCart')
+    this.search()
   },
   components: {
-    AddToCart
+    ProductTile
   }
 }
 </script>
