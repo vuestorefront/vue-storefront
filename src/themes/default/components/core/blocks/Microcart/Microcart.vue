@@ -1,6 +1,6 @@
 <template>
   <div id="microcart" :class="{ active: isOpen }">
-      <div class="material-icons close" @click="isOpen = false">close</div>
+      <div class="material-icons close p15" @click="isOpen = false">close</div>
       <ul>
         <li v-for='product in cartItems'>
           {{ product._source.name[0] }} - {{ product._source.price[0].price }}  - x{{ product.quantity }}
@@ -43,6 +43,7 @@ export default {
     right: 0;
 }
 #microcart .close {
-  cursor: pointer
+  cursor: pointer;
+  float: right;
 }
 </style>
