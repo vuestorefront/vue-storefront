@@ -1,5 +1,5 @@
 <template>
-    <!-- Add to cart button example with addToCart action -->
+    <!-- Add to cart button example with addToCart action from cart store-->
     <button v-on:click="addToCart(product)">Add to cart</button>
 </template>
 
