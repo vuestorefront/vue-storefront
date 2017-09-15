@@ -4,15 +4,11 @@
       <overlay />
       <microcart />
       <sidebar-menu />
-      <div class="container">
-        <main-header />
-      </div>
+      <main-header />
       <div class="container">
         <router-view></router-view>
       </div>
-      <div class="container">
-        <main-footer />
-      </div>
+      <main-footer />
     </div>
   </div>
 </template>

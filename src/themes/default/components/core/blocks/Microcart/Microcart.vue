@@ -54,7 +54,7 @@ export default {
 #microcart.active {
     right: 0;
 }
-#microcart .close {
+.close {
   cursor: pointer;
   ftext-align: right;
 }
