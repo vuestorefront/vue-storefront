@@ -1,18 +1,15 @@
 <template>
-  <div id='hp'>
-    Products:
-    <ul id='example-1'>
-      <li v-for='product in products'>
-        {{ product._source.name[0] }} - {{ product._source.price[0].price }} <add-to-cart :product="product" />
-      </li>
-    </ul>
+  <div id="home">
+
+    <div class="row">
+      <div class="col-md-12">
+          <h2>Everything new</h2>
+      </div>
+    </div>
     
-    Cart:
-    <ul id='example-2'>
-      <li v-for='product in cartItems'>
-        {{ product._source.name[0] }} - {{ product._source.price[0].price }}  - x{{ product.quantity }}
-      </li>
-    </ul>    
+    <div class="row">
+      <product-tile v-for='product in products' :product="product"/>
+    </div>
 
     Categories:
     <ul id='example-3'>
@@ -25,8 +22,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import { corePage } from 'lib/themes'
+import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
   computed: {
@@ -412,14 +409,13 @@ export default {
       ]
     }
   },
-  methods: {
-    ...mapActions({ 'addToCart': 'cart/addToCart' })
+  components: {
+    ProductTile
   },
   mixins: [corePage('Home')]
 }
 </script>
 
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>

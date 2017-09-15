@@ -15,7 +15,7 @@ module.exports = {
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_themes: path.resolve(__dirname, '../src/themes'),
-
+      
       lib: path.resolve(__dirname, '../src/lib'),
       
       'src': path.resolve(__dirname, '../src'),
