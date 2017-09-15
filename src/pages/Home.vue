@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
@@ -14,7 +15,8 @@ export default {
     this.search()
   },
   components: {
-    ProductTile
+    ProductTile,
+    MainSlider
   }
 }
 </script>

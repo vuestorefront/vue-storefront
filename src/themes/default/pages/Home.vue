@@ -1,9 +1,10 @@
 <template>
   <div id="home">
-
+  <main-slider />
+    <div class="container">
     <div class="row">
-      <div class="col-md-12">
-          <h2>Everything new</h2>
+      <div class="col-md-12 pt40">
+          <h2 class="align-center">Everything new</h2>
       </div>
     </div>
     
@@ -11,18 +12,19 @@
       <product-tile v-for='product in products' :product="product"/>
     </div>
 
-    Categories:
     <ul id='example-3'>
       <li v-for='cat in categories'>
         {{ cat.name }}
       </li>
     </ul>    
-
+    </div>
   </div>
 </template>
 
 <script>
 import { corePage } from 'lib/themes'
+
+import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
@@ -410,7 +412,8 @@ export default {
     }
   },
   components: {
-    ProductTile
+    ProductTile,
+    MainSlider
   },
   mixins: [corePage('Home')]
 }

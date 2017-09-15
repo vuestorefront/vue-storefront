@@ -5,9 +5,7 @@
       <microcart />
       <sidebar-menu />
       <main-header />
-      <div class="container">
-        <router-view></router-view>
-      </div>
+      <router-view></router-view>
       <main-footer />
     </div>
   </div>
@@ -33,9 +31,11 @@ export default {
 }
 </script>
 
+<!-- Atomic styles & grid -->
 <style src="./css/grid.css"></style>
 <style src="./css/margin.css"></style>
 <style src="./css/padding.css"></style>
+<style src="./css/text.css"></style>
 
 <style>
 body {

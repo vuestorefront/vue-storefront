@@ -2,7 +2,7 @@
   <div id="microcart" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12">
-        <i class="material-icons p15" @click="closeMicrocart">close</i>
+        <i class="material-icons p15 close" @click="closeMicrocart">close</i>
       </div>
     </div>
 
@@ -56,6 +56,5 @@ export default {
 }
 .close {
   cursor: pointer;
-  ftext-align: right;
 }
 </style>

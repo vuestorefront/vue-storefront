@@ -19,6 +19,7 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+
 import EventBus from 'src/event-bus/event-bus'
 
 export default {
@@ -56,7 +57,7 @@ export default {
 #sidebar-menu.active {
     left: 0;
 }
-#sidebar-menu .close {
+.close {
     cursor: pointer;
     background: white;
     text-align: right;
