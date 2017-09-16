@@ -5,6 +5,7 @@ import _ from 'lodash'
 let es = require('elasticsearch')
 let client = new es.Client({
   host: config.elasticsearch.host,
+  httpAuth: config.elasticsearch.httpAuth,
   log: 'error'
 })
 
