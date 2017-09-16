@@ -10,6 +10,8 @@
     
     <div class="row">
       <product-tile v-for='product in products' :product="product"/>
+      <product-tile v-for='product in products' :product="product"/>
+      <product-tile v-for='product in products' :product="product"/>
     </div>
 
     <ul id='example-3'>
