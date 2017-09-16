@@ -38,7 +38,7 @@ const actions = {
 
     }).then(function (resp) {
       commit(types.UPD_CATEGORIES, resp.hits)
-    }, function (err) {
+    }).catch(function (err) {
       throw new Error(err.message)
     })
   },
@@ -46,16 +46,21 @@ const actions = {
    * Search ElasticSearch catalog - products OR categories
    * @param {Object} context search parameters to be used
    */
-  search ({ commit }, { query, start, limit }) {
+  search ({ commit }, query, start = 0, size = 50) {
+    size = parseInt(size)
+    if (size <= 0) size = 50
+    if (start < 0) start = 0
     client.search({
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-      type: 'category',
+      type: 'product',
       q: query,
-      '_sourceInclude': ['name', 'position', 'id', 'parent_id']
+      size: size,
+      from: start
+//      '_sourceExclude': ['name', 'position', 'id', 'parent_id']
 
     }).then(function (resp) {
-      commit(types.UPD_CATEGORIES, resp.hits)
-    }, function (err) {
+      commit(types.UPD_PRODUCTS, resp.hits)
+    }).catch(function (err) {
       throw new Error(err.message)
     })
   }
@@ -69,6 +74,7 @@ const mutations = {
 
   [types.UPD_PRODUCTS] (state, products) {
     state.results = _.map(products.hits, '_source') // extract fields from ES _source
+    console.log(JSON.stringify(state.results))
   }
 
 }

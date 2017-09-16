@@ -11,8 +11,8 @@ import ProductTile from '../components/core/ProductTile.vue'
 export default {
   name: 'Home',
   beforeMount () {
-    this.$store.dispatch('loadCart')
-    this.search()
+    this.$store.dispatch('cart/loadCart')
+    this.$store.dispatch('catalog/search', 'bag')
   },
   components: {
     ProductTile,
