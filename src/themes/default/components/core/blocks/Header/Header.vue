@@ -54,7 +54,4 @@ export default {
         background-color: #F2F2F2;
         cursor: pointer;
     }
-    .logo {
-        height: 300px;
-    }
 </style>
