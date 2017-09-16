@@ -1,5 +1,5 @@
 <template>
-  <div id="wishlist-icon">
+  <div class="wishlist-icon">
     Core Wishlist
   </div>
 </template>

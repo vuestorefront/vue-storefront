@@ -1,5 +1,5 @@
 <template>
-  <div id="microcart">
+  <div class="microcart">
     Core Microcart
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>

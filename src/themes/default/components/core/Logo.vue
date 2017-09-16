@@ -1,5 +1,5 @@
 <template>
-  <div id="logo">
+  <div class="logo">
     <svg version="1.1" id="svg2811" xmlns:svg="http://www.w3.org/2000/svg"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" :width="width"
 	 :height="height" viewBox="10.63 8.863 708.662 467.493" enable-background="new 10.63 8.863 708.662 467.493"
@@ -45,7 +45,3 @@ export default {
   mixins: [coreComponent('core/Logo')]
 }
 </script>
-
-<style scoped>
-
-</style>

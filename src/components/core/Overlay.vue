@@ -1,5 +1,5 @@
 <template>
-  <div id="overlay" v-if="isVisible">
+  <div class="overlay" v-if="isVisible">
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style scoped>
-#overlay {
+.overlay {
     width: 100%;
     height: 100%;
     position: absolute;

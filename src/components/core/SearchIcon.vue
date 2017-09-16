@@ -1,5 +1,5 @@
 <template>
-  <div id="search-ico">
+  <div class="search-ico">
     Core Search Icon
   </div>
 </template>

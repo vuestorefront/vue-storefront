@@ -1,3 +1,5 @@
+
+
 .p5 {
     padding: 5px;
 }
@@ -5,6 +7,10 @@
     padding: 15px;
 }
 
+.px10p {
+    padding-left: 10%;
+    padding-right: 10%;
+}
 
 
 .pt40 {

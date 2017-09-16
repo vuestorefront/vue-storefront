@@ -1,5 +1,5 @@
 <template>
-    <div id="header">
+    <header>
         <div class="container">
             <div class="row middle-md">
                 <div class="col-md-1 middle-md">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 </template>
 
 <script>
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style scoped>
-    #header {
+    header {
         border-bottom: 1px solid #E0E0E0;
     }
     .icon:hover {

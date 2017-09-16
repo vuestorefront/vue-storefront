@@ -36,6 +36,12 @@ h5, .h5 {
 
 /* Atomic styles for text */
 
+.serif {
+    font-family: 'Playfair Display', serif;
+}
+.uppercase {
+    text-transform: uppercase;
+}
 .align-center {
     text-align: center;
 }

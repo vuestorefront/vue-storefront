@@ -1,5 +1,5 @@
 <template>
-  <div id="hamburger-icon">
+  <div class="hamburger-icon">
     Core Hamburger
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div id="microcart" :class="{ active: isOpen }">
+  <div class="microcart" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12">
         <i class="material-icons p15 close" @click="closeMicrocart">close</i>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style scoped>
-#microcart {
+.microcart {
     position: absolute;
     height: 100vh;
     width: 600px;
@@ -51,7 +51,7 @@ export default {
     color: white;
     right: -600px;
 }
-#microcart.active {
+.microcart.active {
     right: 0;
 }
 .close {

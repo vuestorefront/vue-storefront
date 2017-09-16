@@ -1,25 +1,18 @@
 <template>
   <div id="home">
   <main-slider />
-    <div class="container">
+  <section class="container">
     <div class="row">
-      <div class="col-md-12 pt40">
-          <h2 class="align-center">Everything new</h2>
-      </div>
+      <header class="col-md-12 pt40">
+        <h2 class="align-center">Everything new</h2>
+      </header>
     </div>
-    
     <div class="row">
       <product-tile v-for='product in products' :product="product"/>
       <product-tile v-for='product in products' :product="product"/>
       <product-tile v-for='product in products' :product="product"/>
     </div>
-
-    <ul id='example-3'>
-      <li v-for='cat in categories'>
-        {{ cat.name }}
-      </li>
-    </ul>    
-    </div>
+  </section>
   </div>
 </template>
 

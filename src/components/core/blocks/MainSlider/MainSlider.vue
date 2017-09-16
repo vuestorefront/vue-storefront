@@ -1,5 +1,5 @@
 <template>
-  <div id="main-slider">
+  <div class="main-slider">
     Core Main Slider
   </div>
 </template>

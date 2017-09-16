@@ -1,5 +1,5 @@
 <template>
-  <div id="sidebar-menu">
+  <div class="sidebar-menu">
     Core Sidebar Menu
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div id="header">
+  <header>
       Core Header
       <!-- Components that can be included by default from mixin -->
       <logo />
@@ -7,7 +7,7 @@
       <microcart-icon />
       <hamburger-icon />
       <wishlist-icon />
-  </div>
+  </header>
 </template>
 
 <script>

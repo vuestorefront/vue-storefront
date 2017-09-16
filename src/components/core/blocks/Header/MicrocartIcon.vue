@@ -1,5 +1,5 @@
 <template>
-  <div id="microcart-icon">
+  <div class="microcart-icon">
       Core Microcart
       <!-- Total items in cart -->
       {{ totalItems }}

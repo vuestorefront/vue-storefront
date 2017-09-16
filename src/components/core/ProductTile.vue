@@ -1,5 +1,5 @@
 <template>
-  <div id="product-tile">
+  <div class="product-tile">
     Core Product Tile
     <!-- Product name and price -->
     {{ product._source.name[0] }} - {{ product._source.price[0].price }} 

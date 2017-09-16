@@ -1,9 +1,9 @@
 <template>
-  <div id="header">
+  <footer>
     <div class="container">
       Footer
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>

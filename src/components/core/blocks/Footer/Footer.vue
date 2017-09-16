@@ -1,7 +1,7 @@
 <template>
-  <div id="footer">
+  <footer>
     Core Footer
-  </div>
+  </footer>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <div id="sidebar-menu" :class="{ active: isOpen }">
+    <div class="sidebar-menu" :class="{ active: isOpen }">
         <div class="row">
             <div class="col-md-12 close end-xs" @click="closeMenu">
                 <i class="material-icons p15">close</i>
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style scoped>
-#sidebar-menu {
+.sidebar-menu {
     position: absolute;
     height: 100vh;
     width: 350px;
@@ -54,7 +54,7 @@ export default {
     left: -350px;
     overflow: hidden;
 }
-#sidebar-menu.active {
+.sidebar-menu.active {
     left: 0;
 }
 .close {
