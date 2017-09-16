@@ -5,3 +5,4 @@ export const UPD_CART = 'cart/UPD'
 export const LOAD_CART = 'cart/LOAD'
 
 export const UPD_CATEGORIES = 'catalog/UPD_CATEGORIES'
+export const UPD_PRODUCTS = 'catalog/UPD_PRODUCTS'

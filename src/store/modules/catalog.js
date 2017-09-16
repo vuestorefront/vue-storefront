@@ -9,7 +9,8 @@ let client = new es.Client({
 })
 
 const state = {
-  categories: []
+  categories: [],
+  results: []
 }
 
 const getters = {
@@ -48,11 +49,12 @@ const actions = {
   search ({ commit }, { query, start, limit }) {
     client.search({
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-      'q': '*',
-      'size': 1
-//      '_sourceInclude': ['name', 'position', 'id', 'parent_id']
+      type: 'category',
+      q: query,
+      '_sourceInclude': ['name', 'position', 'id', 'parent_id']
+
     }).then(function (resp) {
-      console.log(resp.hits)
+      commit(types.UPD_CATEGORIES, resp.hits)
     }, function (err) {
       throw new Error(err.message)
     })
@@ -63,7 +65,12 @@ const actions = {
 const mutations = {
   [types.UPD_CATEGORIES] (state, categories) {
     state.categories = _.map(categories.hits, '_source') // extract fields from ES _source
+  },
+
+  [types.UPD_PRODUCTS] (state, products) {
+    state.results = _.map(products.hits, '_source') // extract fields from ES _source
   }
+
 }
 
 export default {
