@@ -57,7 +57,7 @@ if (process.env.NODE_ENV === 'production') {
           origin: 'http://localhost:8080',
           debug: true
         },
-        handler: "cacheFirst"        
+        handler: "fastest"        
       }],
       "importScripts": ['/service-worker-ext.js']       // extensions to work with global.toolbox - https://github.com/GoogleChrome/sw-toolbox
     })
