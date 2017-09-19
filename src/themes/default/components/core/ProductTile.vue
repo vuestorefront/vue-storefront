@@ -1,8 +1,8 @@
 <template>
   <div class="product col-md-3 p15 pb15 align-center">
     <div class="product-image"></div>
-    <p class="mb0">{{ product._source.name[0] }}</p>
-    {{ product._source.price[0].price }} 
+    <p class="mb0">{{ product.name }}</p>
+    {{ product.price }} 
     <add-to-cart :product="product" /> 
   </div>
 </template>
