@@ -86,9 +86,7 @@ const actions = {
     return client.search({
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: 'product',
-      body: bodyObj,
-      'headers': {
-      }
+      body: bodyObj
     }).catch(function (err) {
       throw new Error(err.message)
     })
