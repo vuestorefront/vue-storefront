@@ -46,7 +46,7 @@ export default {
 
 <style scoped>
 .sidebar-menu {
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 350px;
     background: #F2F2F2;

@@ -41,7 +41,14 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  props: ['width', 'height'],
+  props: {
+    width: {
+      required: true
+    },
+    height: {
+      required: true
+    }
+  },
   mixins: [coreComponent('core/Logo')]
 }
 </script>

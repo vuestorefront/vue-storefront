@@ -12,6 +12,16 @@
     padding-right: 10%;
 }
 
+.px40 {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.py15 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
 
 .pt40 {
     padding-top: 40px;

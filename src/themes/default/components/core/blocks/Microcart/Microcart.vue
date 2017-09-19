@@ -43,7 +43,7 @@ export default {
 
 <style scoped>
 .microcart {
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 600px;
     background: black;
