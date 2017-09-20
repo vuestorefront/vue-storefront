@@ -18,6 +18,9 @@ export default {
     EventBus.$on('toggle-overlay', () => {
       self.isVisible = !self.isVisible
     })
+    EventBus.$on('hide-overlay', () => {
+      self.isVisible = false
+    })
   }
 }
 </script>

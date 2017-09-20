@@ -1,11 +1,12 @@
 <template>
   <section class="main-slider">
       <div class="container">
+          <!-- TO-DO: Use v-for and make slides moving from right to left -->
           <div class="row middle-md">
             <div class="col-md-12 px10p">
-                <p class="mb0 serif uppercase h3">Best of blues</p>
-                <h1 class="mt0 mb30">Love Denim</h1>
-                <button-outline text="shop now" color="light" />
+                <p class="mb0 serif uppercase h3">{{ slides[currentSlide].subtitle }}</p>
+                <h1 class="mt0 mb30">{{ slides[currentSlide].title }}</h1>
+                <button-outline :text="slides[currentSlide].button_text" color="light" />
             </div>
           </div>
       </div>

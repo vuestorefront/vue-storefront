@@ -34,7 +34,7 @@
       <div class="col-md-6"></div>
       <div class="col-md-6">
         <div class="row pb45">
-          <div v-for='product in products' class="col-md-6 p15">
+          <div v-for='product in newProducts' class="col-md-6 p15">
             <product-tile :product="product"/>
           </div>
         </div>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <section class="container">
+  <section class="container pb60">
     <div class="row">
       <header class="col-md-12 pt40">
         <h2 class="align-center">Get inspired</h2>
@@ -62,19 +62,16 @@ import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import Inspirations from '../components/theme/blocks/Inspirations/Inspirations.vue'
 
-import productData from '../resource/products.json'
+import productData from 'src/resource/products.json'
 
 export default {
   computed: {
-    cartItems () {
-      return this.$store.state.cart.items
-    },
     categories () {
       return this.$store.state.catalog.categories
     }
-
   },
   data () {
+    // TO-DO: Create separate blocks for all modules in homepage
     return {
       products: productData.data,
       newProducts: {}
