@@ -71,7 +71,7 @@ const actions = {
       '_sourceInclude': ['name', 'position', 'id', 'parent_id']
 
     }).then(function (resp) {
-      commit(types.UPD_CATEGORIES, resp)
+      commit(types.CATALOG_UPD_CATEGORIES, resp)
     }).catch(function (err) {
       throw new Error(err.message)
     })
@@ -152,13 +152,13 @@ const actions = {
     size = parseInt(size)
     if (size <= 0) size = 50
     if (start < 0) start = 0
-    commit(types.UPD_SEARCH_QUERY, bodyObj)
+    commit(types.CATALOG_UPD_SEARCH_QUERY, bodyObj)
     console.log(bodyObj)
     client.search({
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       body: bodyObj
     }).then(function (resp) {
-      commit(types.UPD_PRODUCTS, _handleEsResult(resp, start, size))
+      commit(types.CATALOG_UPD_PRODUCTS, _handleEsResult(resp, start, size))
     }).catch(function (err) {
       throw new Error(err)
     })
@@ -167,15 +167,15 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.UPD_CATEGORIES] (state, categories) {
+  [types.CATALOG_UPD_CATEGORIES] (state, categories) {
     state.categories = _handleEsResult(categories) // extract fields from ES _source
   },
 
-  [types.UPD_SEARCH_QUERY] (bodyObj) {
+  [types.CATALOG_UPD_SEARCH_QUERY] (bodyObj) {
     state._flt_query = bodyObj
   },
 
-  [types.UPD_PRODUCTS] (state, products) {
+  [types.CATALOG_UPD_PRODUCTS] (state, products) {
     state.results = products // extract fields from ES _source
   }
 

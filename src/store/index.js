@@ -12,12 +12,11 @@ global.localDb = Vue.prototype.$localDb // localForage instance
 import checkout from './modules/checkout'
 import catalog from './modules/catalog'
 import cart from './modules/cart'
+import * as types from './mutation-types'
 
 Vue.use(Vuex)
 
 const defaultState = {
-  topics: [],
-  count: 0
 }
 
 const inBrowser = typeof window !== 'undefined'
@@ -39,15 +38,6 @@ const mutations = {
   }
 }
 
-const localStoragePlugin = store => {
-  store.subscribe((mutation, { cart }) => {
-    global.localDb.setItem('vue-storefront-cart', cart.items, (err) => {
-      if (err) throw new Error(err)
-    })
-  })
-}
-const plugins = [localStoragePlugin]
-
 export default new Vuex.Store({
   modules: {
     checkout,
@@ -55,6 +45,5 @@ export default new Vuex.Store({
     cart
   },
   state,
-  mutations,
-  plugins
+  mutations
 })

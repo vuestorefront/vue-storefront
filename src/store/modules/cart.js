@@ -4,46 +4,46 @@ import _ from 'lodash'
 const store = {
   namespaced: true,
   state: {
-    isLoaded: false,
-    items: []
+    cartIsLoaded: false,
+    cartItems: [] // TODO: check if it's properly namespaced
   },
   mutations: {
     /**
      * Add product to cart
      * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
      */
-    [types.ADD_CART] (state, { product }) {
-      const record = state.items.find(p => p._id === product._id)
+    [types.CART_ADD_ITEM] (state, { product }) {
+      const record = state.cartItems.find(p => p._id === product._id)
       if (!record) {
-        state.items.push({
+        state.cartItems.push({
           ...product,
           quantity: 1
         })
       } else {
         record.quantity++
       }
-      console.log(state.items)
+      console.log(state.cartItems)
     },
-    [types.DEL_CART] (state, { product }) {
-      state.items = state.items.filter(p => p.id !== product.id)
+    [types.CART_DEL_ITEM] (state, { product }) {
+      state.cartItems = state.cartItems.filter(p => p.id !== product.id)
     },
-    [types.UPD_CART] (state, { product, quantity }) {
-      const record = state.items.find(p => p.id === product.id)
+    [types.CART_UPD_ITEM] (state, { product, quantity }) {
+      const record = state.cartItems.find(p => p.id === product.id)
       record.quantity = quantity
     },
 
-    [types.LOAD_CART] (state, storedItems) {
-      state.items = storedItems || []
-      state.isLoaded = true
+    [types.CART_LOAD_CART] (state, storedItems) {
+      state.cartItems = storedItems || []
+      state.cartIsLoaded = true
     }
   },
   getters: {
     totals (state) {
       return {
-        subtotal: _.sumBy(state.items, (p) => {
+        subtotal: _.sumBy(state.cartItems, (p) => {
           return p.quantity * p.price
         }),
-        quantity: _.sumBy(state.items, (p) => {
+        quantity: _.sumBy(state.cartItems, (p) => {
           return p.quantity
         })
       }
@@ -53,20 +53,32 @@ const store = {
     loadCart ({ commit }) {
       global.localDb.getItem('vue-storefront-cart', (err, storedItems) => {
         if (err) throw new Error(err)
-        commit(types.LOAD_CART, storedItems)
+        commit(types.CART_LOAD_CART, storedItems)
       })
     },
 
     addToCart ({ commit }, product) {
-      commit(types.ADD_CART, { product })
+      commit(types.CART_ADD_ITEM, { product })
     },
     removeFromCart ({ commit }, product) {
-      commit(types.DEL_CART, { product })
+      commit(types.CART_DEL_ITEM, { product })
     },
     updateQuantity ({ commit }, { product, quantity }) {
-      commit(types.UPD_CART, { product, quantity })
+      commit(types.CART_UPD_ITEM, { product, quantity })
     }
-  }
+  },
+
+  plugins: [
+    store => {
+      store.subscribe((mutation, { store }) => {
+        if (mutation.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
+          global.localDb.setItem('vue-storefront-cart', store.cartItems, (err) => {
+            if (err) throw new Error(err)
+          })
+        }
+      })
+    }
+  ]
 }
 
 export default store

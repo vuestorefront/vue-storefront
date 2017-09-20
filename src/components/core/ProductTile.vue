@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import { AddToCart } from './AddToCart'
+import AddToCart from './AddToCart.vue'
 export default {
   name: 'product-tile',
   props: ['product'],
-  components: { 'add-to-cart': AddToCart }
+  components: { AddToCart }
 }
 </script>
