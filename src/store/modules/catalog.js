@@ -1,6 +1,7 @@
 import config from '../../config'
 import * as types from '../mutation-types'
 import _ from 'lodash'
+const bodybuilder = require('bodybuilder')
 
 let es = require('elasticsearch')
 let client = new es.Client({
@@ -18,6 +19,35 @@ const state = {
 }
 
 const getters = {
+}
+
+/**
+ * Helper function to handle ElasticSearch Results
+ * @param {Object} resp result from ES call
+ * @param {Int} start pagination data
+ * @param {Int} size pagination data
+ */
+function _handleEsResult (resp, start = 0, size = 50) {
+  if (resp == null) {
+    throw new Error('Invalid ES result - null not exepcted')
+  }
+  if (resp.hasOwnProperty('hits')) {
+    return {
+      items: _.map(resp.hits.hits, function (hit) {
+        return Object.assign(hit._source, {_score: hit._score})
+      }), // TODO: add scoring information
+      total: resp.hits.total,
+      start: start,
+      pageSize: size,
+      aggregations: resp.aggregations
+    }
+  } else {
+    if (resp.error) {
+      throw new Error(JSON.stringify(resp.error))
+    } else {
+      throw new Error('Unknown error with ES result in _handleEsResult')
+    }
+  }
 }
 
 // actions
@@ -41,7 +71,7 @@ const actions = {
       '_sourceInclude': ['name', 'position', 'id', 'parent_id']
 
     }).then(function (resp) {
-      commit(types.UPD_CATEGORIES, resp.hits)
+      commit(types.UPD_CATEGORIES, resp)
     }).catch(function (err) {
       throw new Error(err.message)
     })
@@ -59,20 +89,25 @@ const actions = {
     if (size <= 0) size = 50
     if (start < 0) start = 0
 
-    return client.search({
-      index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-      type: 'product',
-      q: queryText,
-      size: size,
-      from: start
+    return new Promise((resolve, reject) => {
+      client.search({
+        index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+        type: 'product',
+        q: queryText,
+        size: size,
+        from: start
 
-    }).catch(function (err) {
-      throw new Error(err.message)
+      }).then(function (resp) {
+        resolve(_handleEsResult(resp, start, size))
+      }).catch(function (err) {
+        reject(err)
+      })
     })
   },
 
   /**
    * Search ElasticSearch catalog of products using simple text query
+   * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
    * @param {Object} bodyObj elasticSearch request body
    * @param {Int} start start index
    * @param {Int} size page size
@@ -83,13 +118,26 @@ const actions = {
     if (size <= 0) size = 50
     if (start < 0) start = 0
 
-    return client.search({
-      index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-      type: 'product',
-      body: bodyObj
-    }).catch(function (err) {
-      throw new Error(err.message)
+    return new Promise((resolve, reject) => {
+      client.search({
+        index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+        type: 'product',
+        body: bodyObj
+      }).then(function (resp) {
+        resolve(_handleEsResult(resp, start, size))
+      }).catch(function (err) {
+        reject(err)
+      })
     })
+  },
+
+  /**
+   * Search products by specific field
+   * @param {String} fieldName field name to search by
+   * @param {Object} value expected value
+   */
+  searchProductBy ({ commit }, fieldName, value) {
+    return this.quickSearchByQuery({ commit }, bodybuilder().query('match', fieldName, value).build())
   },
 
   /**
@@ -98,35 +146,7 @@ const actions = {
    * @param {Object} aggregates - agg. config for elasticsearch
    * @param {Int} start start index
    * @param {Int} size page size
-   *
-   *
-   * {
-  "query": {
-    "filtered": {
-      "filter": {
-        "bool": {
-          "must": [
-            {"term": { "tag": "solr" }},
-            {"term": { "user": "betty" }}
-            ]
-        }
-      }
-    }
-  },
-"aggs": {
-   "agg_user": {
-      "terms": {
-         "field": "user"
-      }
-   },
-   "agg_tag": {
-      "terms": {
-         "field": "tag"
-      }
-   }
-  }
-} => https://stackoverflow.com/questions/30011037/how-to-apply-faceted-search-in-elastic-search-with-multiple-filters
-you can use https://github.com/danpaz/bodybuilder
+   * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
    */
   search ({ commit }, bodyObj, start = 0, size = 50) {
     size = parseInt(size)
@@ -138,7 +158,7 @@ you can use https://github.com/danpaz/bodybuilder
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       body: bodyObj
     }).then(function (resp) {
-      commit(types.UPD_PRODUCTS, resp.hits)
+      commit(types.UPD_PRODUCTS, _handleEsResult(resp, start, size))
     }).catch(function (err) {
       throw new Error(err)
     })
@@ -148,7 +168,7 @@ you can use https://github.com/danpaz/bodybuilder
 // mutations
 const mutations = {
   [types.UPD_CATEGORIES] (state, categories) {
-    state.categories = _.map(categories.hits, '_source') // extract fields from ES _source
+    state.categories = _handleEsResult(categories) // extract fields from ES _source
   },
 
   [types.UPD_SEARCH_QUERY] (bodyObj) {
@@ -156,8 +176,7 @@ const mutations = {
   },
 
   [types.UPD_PRODUCTS] (state, products) {
-    state.results = _.map(products.hits, '_source') // extract fields from ES _source
-    console.log(JSON.stringify(state.results))
+    state.results = products // extract fields from ES _source
   }
 
 }

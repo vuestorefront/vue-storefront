@@ -8,7 +8,7 @@
 
       <ul>
         <li v-for='product in cartItems'>
-          {{ product._source.name[0] }} - {{ product._source.price[0].price }}  - x{{ product.quantity }}
+          {{ product.name }} - {{ product.price.price }}  - x{{ product.quantity }}
         </li>
       </ul>
       

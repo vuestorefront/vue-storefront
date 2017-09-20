@@ -2,14 +2,16 @@
   <div class="product-tile">
     Core Product Tile
     <!-- Product name and price -->
-    {{ product._source.name[0] }} - {{ product._source.price[0].price }} 
+    {{ product.name}} - {{ product.price }} 
     <!-- Add to cart button. Pass whole product as prop -->
   </div>
 </template>
 
 <script>
+import { AddToCart } from './AddToCart'
 export default {
   name: 'product-tile',
-  props: ['product']
+  props: ['product'],
+  components: { 'add-to-cart': AddToCart }
 }
 </script>

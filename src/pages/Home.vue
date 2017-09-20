@@ -15,7 +15,12 @@ export default {
     this.$store.dispatch('cart/loadCart')
     // this.$store.dispatch('catalog/quickSearchByText', 'bag')
 
-    this.$store.dispatch('catalog/quickSearchByQuery', bodybuilder().query('match', 'name', 'Bag').build()).then(function (res) { console.log(res) })
+    const inst = this
+    this.$store.dispatch('catalog/quickSearchByQuery',
+      bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build() // docs: http://bodybuilder.js.org/
+    ).then(function (res) {
+      inst.newProducts = res.items
+     })
   },
   components: {
     ProductTile,
