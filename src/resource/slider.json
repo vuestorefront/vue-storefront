@@ -1,0 +1,17 @@
+{
+    "slides": [
+        {
+            "title" : "Love Denim",
+            "subtitle" : "Best of blues",
+            "button_text" : "Shop now",
+            "image" : "/"
+        },
+        {
+            "title" : "Lorem ipsum",
+            "subtitle" : "Dolor sit amet",
+            "button_text" : "Lorem ipsum",
+            "image" : "/"
+        }
+    ],
+    "total" : "2"
+}

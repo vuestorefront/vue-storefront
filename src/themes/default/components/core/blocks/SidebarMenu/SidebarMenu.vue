@@ -8,8 +8,12 @@
         <div class="row">
             <div class="col-md-12">
                 <ul>
-                    <li>
+                    <!-- TO-DO: Remove closemenu and handle it via store -->
+                    <li @click="closeMenu">
                         <router-link to="/" exact>Home</router-link>
+                    </li>
+                    <li @click="closeMenu">
+                        <router-link to="/category/example" exact>Example category</router-link>
                     </li>
                 </ul>
             </div>

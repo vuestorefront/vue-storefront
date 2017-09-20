@@ -10,7 +10,7 @@
 
 <script>
 import InspirationTile from './InspirationTile.vue'
-import productData from '../../../../resource/products.json'
+import productData from 'src/resource/products.json'
 
 export default {
   name: 'inspirations',
