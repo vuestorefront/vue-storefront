@@ -20,7 +20,7 @@ export default {
       bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build() // docs: http://bodybuilder.js.org/
     ).then(function (res) {
       inst.newProducts = res.items
-     })
+    })
   },
   components: {
     ProductTile,

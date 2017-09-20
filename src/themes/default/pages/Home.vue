@@ -8,21 +8,15 @@
       </header>
     </div>
     <div class="row">
-<<<<<<< HEAD
-      <div v-for='product in products' class="col-md-3 p15">
+      <div v-for='product in newProducts' class="col-md-3 p15">
         <product-tile :product="product"/>
       </div>
-      <div v-for='product in products' class="col-md-3 p15">
+      <div v-for='product in newProducts' class="col-md-3 p15">
         <product-tile :product="product"/>
       </div>
-      <div v-for='product in products' class="col-md-3 p15">
+      <div v-for='product in newProducts' class="col-md-3 p15">
         <product-tile :product="product"/>
       </div>
-=======
-      <product-tile v-for='product in newProducts' :product="product"/>
-      <product-tile v-for='product in newProducts' :product="product"/>
-      <product-tile v-for='product in newProducts' :product="product"/>
->>>>>>> cb3ee459a9ac3e58576592f548c3e05d87eff3c9
     </div>
   </section>
 
