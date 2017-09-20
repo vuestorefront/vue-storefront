@@ -13,7 +13,7 @@ const store = {
      * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
      */
     [types.CART_ADD_ITEM] (state, { product }) {
-      const record = state.cartItems.find(p => p._id === product._id)
+      const record = state.cartItems.find(p => p.id === product.id)
       if (!record) {
         state.cartItems.push({
           ...product,
@@ -66,19 +66,7 @@ const store = {
     updateQuantity ({ commit }, { product, quantity }) {
       commit(types.CART_UPD_ITEM, { product, quantity })
     }
-  },
-
-  plugins: [
-    store => {
-      store.subscribe((mutation, { store }) => {
-        if (mutation.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
-          global.localDb.setItem('vue-storefront-cart', store.cartItems, (err) => {
-            if (err) throw new Error(err)
-          })
-        }
-      })
-    }
-  ]
+  }
 }
 
 export default store

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as types from './mutation-types'
+import * as config from '../config.js'
 
 // import * as types from './mutation-types'
 import * as localForage from 'localforage'
@@ -12,7 +14,6 @@ global.localDb = Vue.prototype.$localDb // localForage instance
 import checkout from './modules/checkout'
 import catalog from './modules/catalog'
 import cart from './modules/cart'
-import * as types from './mutation-types'
 
 Vue.use(Vuex)
 
@@ -38,6 +39,29 @@ const mutations = {
   }
 }
 
+const plugins = [
+  store => {
+    store.subscribe((mutation, store) => {
+      if (mutation.type.indexOf(types.SN_CHECKOUT) === 0) { // check if this mutation is cart related
+        global.localDb.setItem('vue-storefront-orders', store.checkout.checkoutQueue, (err) => {
+          if (err) { throw new Error(err) } else {
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.controller.postMessage({ config: config, queue: store.checkout.checkoutQueue, command: types.CHECKOUT_PROCESS_QUEUE })
+            } else { // no service workers supported push the queue manualy
+
+            }
+          }
+        })
+      }
+      if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
+        global.localDb.setItem('vue-storefront-cart', store.cart.cartItems, (err) => {
+          if (err) throw new Error(err)
+        })
+      }
+    })
+  }
+]
+
 export default new Vuex.Store({
   modules: {
     checkout,
@@ -45,5 +69,6 @@ export default new Vuex.Store({
     cart
   },
   state,
-  mutations
+  mutations,
+  plugins
 })
