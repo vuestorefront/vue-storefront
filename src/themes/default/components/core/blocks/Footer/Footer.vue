@@ -6,13 +6,13 @@
       </div>
     </div>
     <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          United States
+      <div class="row middle-md">
+        <div class="col-md-3" >
+          United States (US)
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 end-md">
           <ul class="links">
-            <li>Legal notice</li>
+            <li class="pr15">Legal notice</li>
             <li>Privacy policy</li>
           </ul>
         </div>
