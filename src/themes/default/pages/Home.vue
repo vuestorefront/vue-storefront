@@ -8,13 +8,13 @@
       </header>
     </div>
     <div class="row">
-      <div v-for='product in newProducts' class="col-md-3 p15">
+      <div v-for='product in products' class="col-md-3 p15">
         <product-tile :product="product"/>
       </div>
-      <div v-for='product in newProducts' class="col-md-3 p15">
+      <div v-for='product in products' class="col-md-3 p15">
         <product-tile :product="product"/>
       </div>
-      <div v-for='product in newProducts' class="col-md-3 p15">
+      <div v-for='product in products' class="col-md-3 p15">
         <product-tile :product="product"/>
       </div>
     </div>
@@ -34,7 +34,7 @@
       <div class="col-md-6"></div>
       <div class="col-md-6">
         <div class="row pb45">
-          <div v-for='product in newProducts' class="col-md-6 p15">
+          <div v-for='product in products' class="col-md-6 p15">
             <product-tile :product="product"/>
           </div>
         </div>
@@ -62,8 +62,6 @@ import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import Inspirations from '../components/theme/blocks/Inspirations/Inspirations.vue'
 
-import productData from 'src/resource/products.json'
-
 export default {
   computed: {
     categories () {
@@ -73,8 +71,7 @@ export default {
   data () {
     // TO-DO: Create separate blocks for all modules in homepage
     return {
-      products: productData.data,
-      newProducts: {}
+      products: {}
     }
   },
   components: {

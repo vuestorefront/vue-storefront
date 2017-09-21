@@ -81,7 +81,7 @@ export default {
     this.$store.dispatch('catalog/quickSearchByQuery',
       bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build() // docs: http://bodybuilder.js.org/
     ).then(function (res) {
-      inst.newProducts = res.items
+      inst.products = res.items
     })
   },
   components: {
