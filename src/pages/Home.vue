@@ -12,7 +12,6 @@ let bodybuilder = require('bodybuilder')
 export default {
   name: 'Home',
   beforeMount () {
-    this.$store.dispatch('checkout/loadQueue')
     this.$store.dispatch('checkout/placeOrder',
       {
         'products': [

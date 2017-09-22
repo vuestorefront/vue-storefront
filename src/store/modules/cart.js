@@ -51,7 +51,7 @@ const store = {
   },
   actions: {
     loadCart ({ commit }) {
-      global.localDb.getItem('vue-storefront-cart', (err, storedItems) => {
+      global.db.cartsCollection.getItem('vue-storefront-cart', (err, storedItems) => {
         if (err) throw new Error(err)
         commit(types.CART_LOAD_CART, storedItems)
       })

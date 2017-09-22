@@ -19,29 +19,49 @@ const serial = funcs =>
 funcs.reduce((promise, func) =>
     promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
 
+import * as localForage from 'localforage'
 
 self.addEventListener('message', function (event) {
   if (event.data.command === 'checkout/PROCESS_QUEUE') {
     console.log('Sending out orders queue to server ...')
     console.debug(event.data)
       // event.data.config - configuration, endpoints etc
-      // event.data.queue - queue object
-      
-      if (event.data.queue !== null) {
+
+      const ordersCollection = localForage.createInstance({
+        name: 'shop',
+        storeName: 'orders'
+      });
+
+
+      const fetchQueue = new Array()
+      ordersCollection.iterate(function(value, key, iterationNumber) {
         
-        // next convert each item to a function that returns a promise
-        const funcs = event.data.queue.map(order => () => {
+        // Resulting key/value pair -- this callback
+        // will be executed for every item in the
+        // database.
+        console.log([key, value]);
+        fetchQueue.push(order => () => {
             // send order using fetch() api - order local variable
             console.log(order)
+
+            fetch(config.orders.endpoint,
+              {
+                method: "POST",
+                body: data
+              }).then(function(res){ return res.json(); })
+                .then(function(data){ console.log(res) })
+            // ordersCollection.removeItem(key) when success!
         })
-        
-        // execute them serially
-        serial(funcs)
-            .then(console.log.bind(console))
- 
-      }
+      }).then(function() {
+        console.log('Iteration has completed');
+      }).catch(function(err) {
+        // This code runs if there were any errors
+        console.log(err);
+      });
 
-
+      // execute them serially
+      serial(fetchQueue)
+          .then(console.log.bind(console))
   }
 })
 

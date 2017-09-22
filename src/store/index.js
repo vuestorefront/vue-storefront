@@ -1,15 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as types from './mutation-types'
-import * as config from '../config.js'
 
 // import * as types from './mutation-types'
 import * as localForage from 'localforage'
 
-Vue.prototype.$localDb = localForage.createInstance({
-  name: 'store'
-})
-global.localDb = Vue.prototype.$localDb // localForage instance
+Vue.prototype.$db = {
+  ordersCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'orders'
+  }),
+
+  cartsCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'carts'
+  })
+}
+
+global.db = Vue.prototype.$db // localForage instance
 
 import checkout from './modules/checkout'
 import catalog from './modules/catalog'
@@ -42,19 +50,8 @@ const mutations = {
 const plugins = [
   store => {
     store.subscribe((mutation, store) => {
-      if (mutation.type.indexOf(types.SN_CHECKOUT) === 0) { // check if this mutation is cart related
-        global.localDb.setItem('vue-storefront-orders', store.checkout.checkoutQueue, (err) => {
-          if (err) { throw new Error(err) } else {
-            if ('serviceWorker' in navigator) {
-              navigator.serviceWorker.controller.postMessage({ config: config, queue: store.checkout.checkoutQueue, command: types.CHECKOUT_PROCESS_QUEUE })
-            } else { // no service workers supported push the queue manualy
-
-            }
-          }
-        })
-      }
       if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
-        global.localDb.setItem('vue-storefront-cart', store.cart.cartItems, (err) => {
+        global.db.cartsCollection.setItem('vue-storefront-cart', store.cart.cartItems, (err) => {
           if (err) throw new Error(err)
         })
       }

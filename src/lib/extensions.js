@@ -4,7 +4,6 @@ export function registerExtensions (extensions, app, router, store) {
 
     if (extEntryPoint !== null) {
       let extDescriptor = extEntryPoint(app, router, store) // register module
-
       if (extDescriptor != null) {
         app.$emit('application-extension-registered', extDescriptor)
       }
