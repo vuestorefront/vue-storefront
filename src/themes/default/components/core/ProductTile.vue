@@ -1,6 +1,6 @@
 <template>
   <div class="product align-center">
-    <div class="product-image"></div>
+    <div class="product-image"><img v-bind:src="thumbnail" /></div>
     <p class="mb0">{{ product.name }}</p>
     {{ product.price }} 
     <add-to-cart :product="product" /> 

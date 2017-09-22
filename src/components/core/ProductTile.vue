@@ -9,9 +9,16 @@
 
 <script>
 import AddToCart from './AddToCart.vue'
+import { thumb } from '../../lib/filters'
+
 export default {
   name: 'product-tile',
   props: ['product'],
-  components: { AddToCart }
+  components: { AddToCart },
+  computed: {
+    thumbnail () {
+      return thumb(this.product.image, 140, 300)
+    }
+  }
 }
 </script>
