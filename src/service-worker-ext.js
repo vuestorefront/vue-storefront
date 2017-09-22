@@ -34,34 +34,55 @@ self.addEventListener('message', function (event) {
 
 
       const fetchQueue = new Array()
-      ordersCollection.iterate(function(value, key, iterationNumber) {
+      ordersCollection.iterate(function(order, id, iterationNumber) {
         
         // Resulting key/value pair -- this callback
         // will be executed for every item in the
         // database.
-        console.log([key, value]);
-        fetchQueue.push(order => () => {
-            // send order using fetch() api - order local variable
-            console.log(order)
+        fetchQueue.push(() =>  {
+            const config = event.data.config;
+            const orderData = order;
+            const orderId = id
 
-            fetch(config.orders.endpoint,
+            console.log('Pushing out order ' + orderId)
+            return fetch(config.orders.endpoint,
               {
                 method: "POST",
-                body: data
-              }).then(function(res){ return res.json(); })
-                .then(function(data){ console.log(res) })
-            // ordersCollection.removeItem(key) when success!
+                headers: {  "Content-Type": "application/json"  },
+                body: JSON.stringify(orderData)
+              }).then(function(response) {
+
+                if (response.status === 200) {
+                  const contentType = response.headers.get("content-type");
+                  if(contentType && contentType.includes("application/json")) {
+                    return response.json();
+                  } else
+                    console.error('Error with response - bad content-type!')
+                } else {
+                    console.error('Bad response status: ' + response.status)
+                }
+              })
+              .then(function (jsonResponse) {
+                  if (jsonResponse.code === 200) {
+                    console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
+                    ordersCollection.removeItem(orderId) 
+                  } else 
+                    console.error(jsonResponse.result)
+                  
+               })
         })
       }).then(function() {
         console.log('Iteration has completed');
+
+        // execute them serially
+        serial(fetchQueue)
+          .then((res) => console.info('Processing orders queue has finished'))
+    
       }).catch(function(err) {
         // This code runs if there were any errors
         console.log(err);
       });
 
-      // execute them serially
-      serial(fetchQueue)
-          .then(console.log.bind(console))
   }
 })
 
