@@ -65,7 +65,7 @@ self.addEventListener('message', function (event) {
               .then(function (jsonResponse) {
                   if (jsonResponse.code === 200) {
                     console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
-                    ordersCollection.removeItem(orderId) 
+                    ordersCollection.removeItem(orderId.toString()) 
                   } else 
                     console.error(jsonResponse.result)
                   

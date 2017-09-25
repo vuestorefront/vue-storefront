@@ -17,7 +17,7 @@ export default {
   components: { AddToCart },
   computed: {
     thumbnail () {
-      return thumb(this.product.image, 140, 300)
+      return thumb(this.product.image, 310, 300)
     }
   }
 }

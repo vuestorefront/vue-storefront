@@ -5,23 +5,45 @@
 </template>
 
 <script>
-let bodybuilder = require('bodybuilder')
+import * as bodybuilder from 'bodybuilder'
 
 export default {
   name: 'category',
-  beforeMount () {
-    const self = this
-    this.$store.dispatch('catalog/quickSearchByQuery',
-      bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build()
-    ).then(function (res) {
-      self.products = res.items
-    })
+
+   methods: {
+     fetchData (to) {
+
+      let self = this
+      let slug = this.$route.params.slug
+
+      self.$store.dispatch('catalog/loadCategories').then((categories) => {
+        self.category = self.$store.state.catalog.categories.find((itm) => { return itm.slug === slug })
+
+        if (self.category === null) {
+          throw new Error('Category not found!') // TODO: handle errors better way
+        }
+
+        this.$store.dispatch('catalog/quickSearchByQuery',
+          bodybuilder().query('match', 'category.category_id', self.category.id).build() // filter out products from this specific category
+        ).then(function (res) {
+          self.products = res.items
+        })
+      })    
+    }
+  },
+  watch: {
+    // call again the method if the route changes
+    '$route': 'fetchData'
+  },
+ 
+  created () {
+    this.fetchData()
   },
   data () {
     return {
       products: {},
-      categoryName: this.$route.params.name,
-      filters: {
+      category: {},
+      filters: { // filters should be set by category, and should be synchronized with magento
         color: ['red', 'blue'],
         size: ['XS', 'S', 'M', 'L', 'XL']
       }

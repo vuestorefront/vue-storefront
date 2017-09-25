@@ -2,6 +2,7 @@ import config from '../../config'
 import * as types from '../mutation-types'
 import _ from 'lodash'
 const bodybuilder = require('bodybuilder')
+import { slugify } from '../../lib/filters'
 
 let es = require('elasticsearch')
 let client = new es.Client({
@@ -34,7 +35,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
   if (resp.hasOwnProperty('hits')) {
     return {
       items: _.map(resp.hits.hits, function (hit) {
-        return Object.assign(hit._source, {_score: hit._score})
+        return Object.assign(hit._source, { _score: hit._score, slug: hit._source.hasOwnProperty('name') ? slugify(hit._source.name) : '' })
       }), // TODO: add scoring information
       total: resp.hits.total,
       start: start,
@@ -64,16 +65,19 @@ const actions = {
       qr = 'parent_id:' + parent.id
     }
 
-    client.search({
-      index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-      type: 'category',
-      q: qr,
-      '_sourceInclude': ['name', 'position', 'id', 'parent_id']
+    return new Promise((resolve, reject) => {
+      client.search({
+        index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+        type: 'category',
+        q: qr,
+        '_sourceInclude': ['name', 'position', 'id', 'parent_id']
 
-    }).then(function (resp) {
-      commit(types.CATALOG_UPD_CATEGORIES, resp)
-    }).catch(function (err) {
-      throw new Error(err.message)
+      }).then(function (resp) {
+        commit(types.CATALOG_UPD_CATEGORIES, resp)
+        resolve(resp)
+      }).catch(function (err) {
+        reject(err)
+      })
     })
   },
 
@@ -168,7 +172,8 @@ const actions = {
 // mutations
 const mutations = {
   [types.CATALOG_UPD_CATEGORIES] (state, categories) {
-    state.categories = _handleEsResult(categories) // extract fields from ES _source
+    state.categories = _handleEsResult(categories).items // extract fields from ES _source
+    console.log(state.categories)
   },
 
   [types.CATALOG_UPD_SEARCH_QUERY] (bodyObj) {
