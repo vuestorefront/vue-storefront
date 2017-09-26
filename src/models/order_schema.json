@@ -1,0 +1,75 @@
+{
+    "additionalProperties": false,
+    "required": [ "products", "addressInformation" ],
+    "properties": {
+
+        "products": {
+           "type": "array",
+           "minItems": 1,
+           "items": [
+               {
+                    "required": [ "sku", "price", "qty" ],
+                    "properties": {
+                        "sku": { "type": "string", "minLength": 1,  "pattern": "[a-zA-Z0-9_]+" },
+                        "qty": { "type" : "number", "minimum": 1 },
+                        "name": { "type": "string", "minLength": 1,  "pattern": "[a-zA-Z0-9_]+" },
+                        "price": { "type" : "number", "minimum": 1 },
+                        "product_type": { "type": "string", "minLength": 1,  "pattern": "[a-zA-Z]+" }
+                    }
+                }
+           ]
+        }, 
+        "addressInformation": {
+
+            "properties": {
+                "shippingAddress": {
+                    "required": [ "street", "city", "postcode", "firstname", "lastname" ],
+                    "properties": {
+                        "region": { "type": "string", "pattern": "[a-zA-Z]+" },
+                        "region_id": { "type": "number" },
+                        "country_id": { "type": "string", "pattern": "[a-zA-Z]+" },
+                        "street": {
+                            "minItems": 1,
+                            "items": { "type": "string", "minLength": 1}
+                        },
+                        "company": { "type": "string" },
+                        "telephone": { "type": "string" , "minLength": 9 },
+                        "postcode": { "type": "string", "minLength": 5,  "pattern": "[a-zA-Z0-9_]+" },
+                        "city": { "type": "string", "pattern": "[a-zA-Z]+" },
+                        "firstname": { "type": "string", "pattern": "[a-zA-Z]+" },
+                        "lastname": { "type": "string", "pattern": "[a-zA-Z]+" },
+                        "email": { "type": "string", "pattern": "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" },
+                        "region_code":{ "type": "string", "pattern": "[a-zA-Z]+" },
+                        "sameAsBilling": { "type": "number"}
+                    }
+                },
+                "billingAddress": {
+                    "required": [ "street", "city", "postcode", "firstname", "lastname" ],
+                    "properties": {
+                        "properties": {
+                            "region": { "type": "string", "pattern": "[a-zA-Z]+" },
+                            "region_id": { "type": "number" },
+                            "country_id": { "type": "string", "pattern": "[a-zA-Z]+" },
+                            "street": {
+                                "minItems": 1,
+                                "items": { "type": "string", "minLength": 1}
+                            },
+                            "company": { "type": "string" },
+                            "telephone": { "type": "string" , "pattern" : "^([01][- .])?(\\(\\d{3}\\)|\\d{3})[- .]?\\d{3}[- .]\\d{4}$" },
+                            "postcode": { "type": "string", "minLength": 5,  "pattern": "[a-zA-Z0-9_]+" },
+                            "city": { "type": "string", "pattern": "[a-zA-Z]+" },
+                            "firstname": { "type": "string", "pattern": "[a-zA-Z]+" },
+                            "lastname": { "type": "string", "pattern": "[a-zA-Z]+" },
+                            "email": { "type": "string", "pattern": "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" },
+                            "region_code":{ "type": "string", "pattern": "[a-zA-Z]+" },
+                            "sameAsBilling": { "type": "number"}
+                        }
+                    }
+                },
+                "shipping_method_code": { "type": "string",  "pattern": "[a-zA-Z]+" },
+                "shipping_carrier_code": { "type": "string",  "pattern": "[a-zA-Z]+" },
+                "payment_method_code": { "type": "string",  "pattern": "[a-zA-Z]+" }
+            }
+        }
+    }
+}

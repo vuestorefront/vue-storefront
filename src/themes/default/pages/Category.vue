@@ -3,7 +3,7 @@
     <header>
         <div class="container">
             <!-- There will be breadcrumbs -->
-            <h1> {{ categoryName }} </h1>
+            <h1> {{ category.name }} </h1>
         </div>
     </header>
     <div class="container pb60">

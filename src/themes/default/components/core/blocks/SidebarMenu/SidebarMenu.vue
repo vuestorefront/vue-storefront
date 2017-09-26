@@ -12,8 +12,8 @@
                     <li @click="closeMenu">
                         <router-link to="/" exact>Home</router-link>
                     </li>
-                    <li @click="closeMenu">
-                        <router-link to="/category/example" exact>Example category</router-link>
+                    <li @click="closeMenu" v-for='category in categories'>
+                        <router-link :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
                     </li>
                 </ul>
             </div>
@@ -32,11 +32,17 @@ export default {
       isOpen: false
     }
   },
+  computed: {
+    categories () {
+      return this.$store.state.catalog.categories
+    }
+  },
   created () {
     const self = this
     EventBus.$on('toggle-sidebar-menu', () => {
       self.isOpen = !self.isOpen
     })
+    this.$store.dispatch('catalog/loadCategories') // load store categories
   },
   methods: {
     closeMenu () {

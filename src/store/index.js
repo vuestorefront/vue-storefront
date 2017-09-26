@@ -1,13 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as types from './mutation-types'
 
 // import * as types from './mutation-types'
 import * as localForage from 'localforage'
 
-Vue.prototype.$localDb = localForage.createInstance({
-  name: 'store'
-})
-global.localDb = Vue.prototype.$localDb // localForage instance
+Vue.prototype.$db = {
+  ordersCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'orders'
+  }),
+
+  cartsCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'carts'
+  })
+}
+
+global.db = Vue.prototype.$db // localForage instance
 
 import checkout from './modules/checkout'
 import catalog from './modules/catalog'
@@ -16,8 +26,6 @@ import cart from './modules/cart'
 Vue.use(Vuex)
 
 const defaultState = {
-  topics: [],
-  count: 0
 }
 
 const inBrowser = typeof window !== 'undefined'
@@ -39,14 +47,17 @@ const mutations = {
   }
 }
 
-const localStoragePlugin = store => {
-  store.subscribe((mutation, { cart }) => {
-    global.localDb.setItem('vue-storefront-cart', cart.items, (err) => {
-      if (err) throw new Error(err)
+const plugins = [
+  store => {
+    store.subscribe((mutation, store) => {
+      if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
+        global.db.cartsCollection.setItem('vue-storefront-cart', store.cart.cartItems, (err) => {
+          if (err) throw new Error(err)
+        })
+      }
     })
-  })
-}
-const plugins = [localStoragePlugin]
+  }
+]
 
 export default new Vuex.Store({
   modules: {
