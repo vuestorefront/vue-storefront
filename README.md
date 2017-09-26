@@ -1,5 +1,5 @@
-# vue-storefront
-Vue.js storefront for Magento2 (and not only). (https://badges.frapsoft.com/os/mit/mit.svg?v=102)
+# vue-storefront - PWA eCommerce app for Vue.js
+Vue.js storefront for Magento2 (and not only). [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 
 Imagine the eCommerce that:
