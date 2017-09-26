@@ -4,7 +4,9 @@
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>
       <li v-for='product in cartItems'>
-        {{ product.name }} - {{ product.price }}  - x{{ product.quantity }}
+        {{ product.name }}
+        {{ product.price }}
+        {{ product.quantity }}
       </li>
     </ul>  
   </div>

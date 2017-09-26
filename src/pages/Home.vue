@@ -7,6 +7,7 @@
 <script>
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
+
 let bodybuilder = require('bodybuilder')
 
 export default {
