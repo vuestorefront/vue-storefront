@@ -4,3 +4,4 @@ dist/
 npm-debug.log
 .vscode/
 yarn.lock
+src/config.js
