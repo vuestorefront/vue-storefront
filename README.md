@@ -1,6 +1,21 @@
 # vue-storefront
-Vue.js storefront for Magento2 (and not only)
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)]]
+Vue.js storefront for Magento2 (and not only). (https://badges.frapsoft.com/os/mit/mit.svg?v=102)
+
+
+Imagine the eCommerce that:
+
+* can be deployed to any existing eCommerce platform (Magento2, Magento1, Shopware ...) - so you can avoid all the integration you already have; focusing on the value for clients,
+* compliant with Progressive Web Apps standard,
+* renders the catalog of products within milliseconds,
+* queues orders if the server is unavailable,
+* works 100% offline without Internet access,
+* therefore is almost impossible to be crushed with huge traffic peaks/loads - it's basically not using server resources to work.
+
+This is the result of such aspirations :) The Discovery project to build PoC of Vue.js storefront, backed by NoSQL database, 100% avaiable offline with Progressive Web Apps support.
+
+More about the goals: https://www.linkedin.com/pulse/magento2-nosql-database-pwa-support-piotr-karwatka
+
+**We're searching for active contributors, eCommerce agencies to work with us on this OSS project**
 
 ## Installation
 
