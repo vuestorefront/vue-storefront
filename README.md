@@ -30,7 +30,7 @@ mkdir vue-storefront-api
 git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
 cd vue-storefront-api
 npm install
-docker-compose-up
+docker-compose up
 ```
 To test out the application you'll need some test data. In vue-storefront-api/var/catalog.json you have data dump for ElasticSearch with default Magento2 products database. We're using for development purposes.
 
