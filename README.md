@@ -1,6 +1,6 @@
 # vue-storefront
 Vue.js storefront for Magento2 (and not only)
-
+[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/
 
 ## Installation
 
