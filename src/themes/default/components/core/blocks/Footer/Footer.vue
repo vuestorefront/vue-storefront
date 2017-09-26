@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="upper-footer">
+    <div class="upper-footer bg-lightgray">
       <div class="container">
         
       </div>
@@ -31,7 +31,6 @@ export default {
 
 <style scoped>
   .upper-footer {
-    background-color: #F2F2F2;
     height: 300px;
   }
   .links {

@@ -5,14 +5,17 @@
 </template>
 
 <script>
+import ProductTile from '../components/core/ProductTile.vue'
+
+import BreadcrumbsData from 'src/resource/breadcrumbs.json'
 import * as bodybuilder from 'bodybuilder'
 
 export default {
   name: 'category',
 
-   methods: {
-     fetchData (to) {
+  methods: {
 
+    fetchData (to) {
       let self = this
       let slug = this.$route.params.slug
 
@@ -28,19 +31,21 @@ export default {
         ).then(function (res) {
           self.products = res.items
         })
-      })    
+      })
     }
+
   },
   watch: {
     // call again the method if the route changes
     '$route': 'fetchData'
   },
- 
+
   created () {
     this.fetchData()
   },
   data () {
     return {
+      breadcrumbs: BreadcrumbsData,
       products: {},
       category: {},
       filters: { // filters should be set by category, and should be synchronized with magento
@@ -48,6 +53,9 @@ export default {
         size: ['XS', 'S', 'M', 'L', 'XL']
       }
     }
+  },
+  components: {
+    ProductTile
   }
 }
 </script>
