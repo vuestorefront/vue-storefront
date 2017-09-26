@@ -6,7 +6,7 @@ Vue.js storefront for Magento2 (and not only)
 
 To make vue-storefront up and runing you need to have the latest version of node (v8.3.0 used for development). You'll also need docker - or ElasticSearch + Redis installed on localhost instead. Let's go:
 
-1. Install the vue-storefront-api (https://github.com/DivanteLtd/vue-storefront-api)
+### Install the vue-storefront-api (https://github.com/DivanteLtd/vue-storefront-api)
 It's the ultimate API backend for this application
 
 ```
@@ -44,3 +44,20 @@ You can check if everything works just fine by executing the following command:
 curl -i http://vue-storefront.divante.pl/api/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
 ```
 
+### Install the vue-storefront (https://github.com/DivanteLtd/vue-storefront)
+Now, it's the time to install the frontend itself:
+
+```
+git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
+cd vue-storefront
+npm install
+```
+
+You have to prepare the config:
+
+```
+mv src/config.example.js config.js
+nano config.js
+```
+
+The default config file should work perfectly fine for default purposes.
