@@ -11,16 +11,31 @@ export default new Vuex.Store({
     microcart: false,
     overlay: false
   },
-  // COULD: actions for interface updates - do we need async updates?
   mutations: {
     setOverlay (state, action) {
-      action === true ? state.overlay = true : state.overlay = false
+      action === true ? () => {
+        state.overlay = true
+      } : () => {
+        state.overlay = true
+      }
     },
     setMicrocart (state, action) {
-      action === true ? state.overlay = true : state.overlay = false
+      action === true ? () => {
+        state.microcart = true
+        state.overlay = true
+      } : () => {
+        state.microcart = false
+        state.overlay = true
+      }
     },
     setSidebar (state, action) {
-      action === true ? state.sidebar = true : state.sidebar = false
+      action === true ? () => {
+        state.sidebar = true
+        state.overlay = true
+      } : () => {
+        state.sidebar = false
+        state.overlay = true
+      }
     }
   }
 })

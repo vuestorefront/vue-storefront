@@ -33,6 +33,7 @@ export default {
 
 <!-- Atomic styles & grid -->
 <style src="./css/grid.css"></style>
+<style src="./css/color.css"></style>
 <style src="./css/margin.css"></style>
 <style src="./css/padding.css"></style>
 <style src="./css/text.css"></style>
@@ -41,6 +42,9 @@ export default {
 body {
   margin: 0;
   padding: 0;
+}
+a {
+  color: 
 }
 #viewport {
   width: 100%;

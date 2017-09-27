@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="autumn-collection">
+  <div class="bg-lightgray">
     <div class="container">
     <div class="row">
       <div class="col-md-6"></div>
@@ -84,7 +84,4 @@ export default {
 </script>
 
 <style scoped>
-.autumn-collection {
-  background-color: #F2F2F2;
-}
 </style>

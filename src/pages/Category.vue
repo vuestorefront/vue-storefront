@@ -5,7 +5,13 @@
 </template>
 
 <script>
-import * as bodybuilder from 'bodybuilder'
+import builder from 'bodybuilder'
+
+import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
+import ProductTile from '../components/core/ProductTile.vue'
+import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+
+import BreadcrumbsData from 'src/resource/breadcrumbs.json'
 
 export default {
   name: 'category',
@@ -13,35 +19,44 @@ export default {
   methods: {
     fetchData (to) {
       let self = this
+      let searchProductQuery = builder().query('match', 'category.category_id', self.category.id).build()
+
+      self.$store.dispatch('catalog/quickSearchByQuery', // TODO: should be exported to separate component maybe?
+        searchProductQuery
+      ).then(function (res) {
+        self.products = res.items
+        self.isCategoryEmpty = (self.products.length == 0)
+      }) 
+    },
+
+    validateRoute () {
+      let self = this
       let slug = this.$route.params.slug
 
       self.$store.dispatch('catalog/loadCategories').then((categories) => {
         self.$store.dispatch('catalog/getCategoryBySlug', slug).then((category) => {
           self.category = category
 
-          if (self.category === null) {
-            throw new Error('Category not found!') // TODO: handle errors better way
+          if (!self.category) {
+            self.$router.push('/')
+          } else {
+            self.fetchData()
           }
-
-          self.$store.dispatch('catalog/quickSearchByQuery', // TODO: should be exported to separate component maybe?
-              bodybuilder().query('match', 'category.category_id', self.category.id).build() // filter out products from this specific category
-            ).then(function (res) {
-              self.products = res.items
-            })
         })
       })
-    }
+    },
   },
   watch: {
-    // call again the method if the route changes
-    '$route': 'fetchData'
+    '$route': 'validateRoute'
   },
 
   beforeMount () {
-    this.fetchData()
+    this.validateRoute()
   },
   data () {
     return {
+      breadcrumbs: BreadcrumbsData,
+      isCategoryEmpty: false,
       products: {},
       category: {},
       filters: { // filters should be set by category, and should be synchronized with magento
@@ -49,10 +64,11 @@ export default {
         size: ['XS', 'S', 'M', 'L', 'XL']
       }
     }
+  },
+  components: {
+    ProductTile,
+    Breadcrumbs,
+    Sidebar
   }
 }
 </script>
-
-<style scoped>
-
-</style>

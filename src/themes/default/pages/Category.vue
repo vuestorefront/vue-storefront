@@ -1,18 +1,22 @@
 <template>
   <div id="category">
-    <header>
+    <header class="bg-lightgray py35">
         <div class="container">
             <!-- There will be breadcrumbs -->
-            <h1> {{ category.name }} </h1>
+            <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
+            <h1 class="mb10"> {{ category.name }} </h1>
         </div>
     </header>
     <div class="container pb60">
         <div class="row">
             <div class="col-md-3">
-                Sidebar
+                <sidebar />
             </div>
             <div class="col-md-9">
                 <div class="row">
+                    <div v-if="isCategoryEmpty">
+                        Category is empty!    
+                    </div>  
                     <div v-for="product in products" class="col-md-4 p15">
                         <product-tile :product="product" />
                     </div>
@@ -24,14 +28,17 @@
 </template>
 
 <script>
-// TO-DO @Piotr jak będziesz sie tym bawił to w route param w core jest nazwa kategorii, trzebaby jej użyć jako parametr do dispatchera żeby wyświetlało odpowiednią kategorie zamiast wszystkich produktów,
-//  jak opiszesz jak ma wygladać API dla filtrowania produktów po parametrach to zrobię jak wróce
 import { corePage } from 'lib/themes'
+
+import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
+import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 
 export default {
   components: {
-    ProductTile
+    ProductTile,
+    Breadcrumbs,
+    Sidebar
   },
   mixins: [corePage('Category')]
 }
