@@ -10,10 +10,13 @@
     <div class="container pb60">
         <div class="row">
             <div class="col-md-3">
-                Sidebar
+                <sidebar />
             </div>
             <div class="col-md-9">
                 <div class="row">
+                    <div v-if="isCategoryEmpty">
+                        Category is empty!    
+                    </div>  
                     <div v-for="product in products" class="col-md-4 p15">
                         <product-tile :product="product" />
                     </div>
@@ -27,13 +30,15 @@
 <script>
 import { corePage } from 'lib/themes'
 
+import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 
 export default {
   components: {
     ProductTile,
-    Breadcrumbs
+    Breadcrumbs,
+    Sidebar
   },
   mixins: [corePage('Category')]
 }

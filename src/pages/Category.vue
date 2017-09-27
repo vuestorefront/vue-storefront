@@ -5,47 +5,59 @@
 </template>
 
 <script>
+import builder from 'bodybuilder'
+
+import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
+import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 
 import BreadcrumbsData from 'src/resource/breadcrumbs.json'
-import * as bodybuilder from 'bodybuilder'
 
 export default {
   name: 'category',
-
   methods: {
 
     fetchData (to) {
       let self = this
+      let searchProductQuery = builder().query('match', 'category.category_id', self.category.id).build()
+
+      this.$store.dispatch('catalog/quickSearchByQuery', searchProductQuery).then((res) => {
+        if (res.items) {
+          self.products = res.items
+          self.isCategoryEmpty = false
+        }
+      })
+    },
+
+    validateRoute () {
+      // Checks if category from slug is a valid category name.
+      let self = this
       let slug = this.$route.params.slug
 
       self.$store.dispatch('catalog/loadCategories').then((categories) => {
-        self.category = self.$store.state.catalog.categories.find((itm) => { return itm.slug === slug })
-
-        if (self.category === null) {
-          throw new Error('Category not found!') // TODO: handle errors better way
-        }
-
-        this.$store.dispatch('catalog/quickSearchByQuery',
-          bodybuilder().query('match', 'category.category_id', self.category.id).build() // filter out products from this specific category
-        ).then(function (res) {
-          self.products = res.items
-        })
+        self.category = self.$store.state.catalog.categories.find(
+          (itm) => { return itm.slug === slug }
+        )
       })
+
+      if (!self.category) {
+        self.$router.push('/')
+      } else {
+        self.fetchData()
+      }
     }
 
   },
   watch: {
-    // call again the method if the route changes
-    '$route': 'fetchData'
+    '$route': 'validateRoute'
   },
-
   created () {
-    this.fetchData()
+    this.validateRoute()
   },
   data () {
     return {
       breadcrumbs: BreadcrumbsData,
+      isCategoryEmpty: true,
       products: {},
       category: {},
       filters: { // filters should be set by category, and should be synchronized with magento
@@ -55,11 +67,9 @@ export default {
     }
   },
   components: {
-    ProductTile
+    ProductTile,
+    Breadcrumbs,
+    Sidebar
   }
 }
 </script>
-
-<style scoped>
-
-</style>
