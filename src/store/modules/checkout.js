@@ -41,7 +41,9 @@ const mutations = {
   [types.CHECKOUT_PLACE_ORDER] (state, order) {
     const ordersCollection = global.db.ordersCollection
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
-    ordersCollection.setItem(orderId.toString(), order)
+    ordersCollection.setItem(orderId.toString(), order).catch((reason) => {
+      console.debug(reason) // it doesn't work on SSR
+    }) // populate cache
     sw.postMessage({ config: config, command: types.CHECKOUT_PROCESS_QUEUE }) // process checkout queue
     console.debug('Order placed, orderId = ' + orderId)
   },

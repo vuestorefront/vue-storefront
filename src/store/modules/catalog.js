@@ -59,7 +59,7 @@ const actions = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  loadCategories ({ commit }, parent) {
+  loadCategories ({ commit, state }, parent) {
     let qr = '*'
 
     if (typeof parent !== 'undefined') {
@@ -67,18 +67,22 @@ const actions = {
     }
 
     return new Promise((resolve, reject) => {
-      client.search({
-        index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-        type: 'category',
-        q: qr,
-        '_sourceInclude': ['name', 'position', 'id', 'parent_id']
+      if (state.categories.length > 0) { // already loaded
+        resolve(state.categories)
+      } else {
+        client.search({
+          index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+          type: 'category',
+          q: qr,
+          '_sourceInclude': ['name', 'position', 'id', 'parent_id']
 
-      }).then(function (resp) {
-        commit(types.CATALOG_UPD_CATEGORIES, resp)
-        resolve(resp)
-      }).catch(function (err) {
-        reject(err)
-      })
+        }).then(function (resp) {
+          commit(types.CATALOG_UPD_CATEGORIES, resp)
+          resolve(resp)
+        }).catch(function (err) {
+          reject(err)
+        })
+      }
     })
   },
 
@@ -89,17 +93,24 @@ const actions = {
    * @param {String} category
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  getCategoryBySlug ({ commit }, slug, setCurrentCategory = true) {
+  getCategoryBySlug ({ commit, state }, slug, setCurrentCategory = true) {
     return new Promise((resolve, reject) => {
-      const catCollection = global.db.categoriesCollection
-      catCollection.getItem(slug, (error, category) => {
+      let setcat = (error, category) => {
         if (error) reject(null)
 
         if (setCurrentCategory) {
           commit(types.CATALOG_UPD_CURRENT_CATEGORY, category)
         }
         resolve(category)
-      })
+      }
+
+      if (state.categories.length > 0) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
+        let category = state.categories.find((itm) => { return itm.slug.toLowerCase() === slug.toLowerCase() })
+        setcat(null, category)
+      } else {
+        const catCollection = global.db.categoriesCollection
+        catCollection.getItem(slug, setcat)
+      }
     })
   },
 
@@ -198,9 +209,13 @@ const mutations = {
 
     for (let category of state.categories) {
       const catCollection = global.db.categoriesCollection
-      catCollection.setItem(category.slug.toLowerCase(), category).catch((reason) => {
-        console.error(reason)
-      }) // populate cache
+      try {
+        catCollection.setItem(category.slug.toLowerCase(), category).catch((reason) => {
+          console.debug(reason) // it doesn't work on SSR
+        }) // populate cache
+      } catch (e) {
+        console.error(e)
+      }
     }
   },
 

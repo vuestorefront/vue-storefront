@@ -56,9 +56,9 @@ const plugins = [
   store => {
     store.subscribe((mutation, store) => {
       if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
-        global.db.cartsCollection.setItem('current-cart', store.cart.cartItems, (err) => {
-          if (err) throw new Error(err)
-        })
+        global.db.cartsCollection.setItem('current-cart', store.cart.cartItems).catch((reason) => {
+          console.debug(reason) // it doesn't work on SSR
+        }) // populate cache
       }
     })
   }
