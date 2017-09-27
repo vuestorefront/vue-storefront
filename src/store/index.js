@@ -11,6 +11,11 @@ Vue.prototype.$db = {
     storeName: 'orders'
   }),
 
+  categoriesCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'categories'
+  }),
+
   cartsCollection: localForage.createInstance({
     name: 'shop',
     storeName: 'carts'
@@ -51,7 +56,7 @@ const plugins = [
   store => {
     store.subscribe((mutation, store) => {
       if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
-        global.db.cartsCollection.setItem('vue-storefront-cart', store.cart.cartItems, (err) => {
+        global.db.cartsCollection.setItem('current-cart', store.cart.cartItems, (err) => {
           if (err) throw new Error(err)
         })
       }

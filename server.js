@@ -37,14 +37,19 @@ function createRenderer (bundle, template) {
   })
 }
 
-const serve = (path, cache) => express.static(resolve(path), {
+const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
-})
+}, options))
 
 app.use('/dist', serve('./dist', true))
 app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')))
-app.use('/service-worker.js', serve('./dist/service-worker.js'))
-app.use('/service-worker-ext.js', serve('./dist/service-worker-ext.js'))
+app.use('/service-worker.js', serve('./dist/service-worker.js', {
+  setHeaders: {'Content-type': 'application/javascript'}
+}))
+
+app.use('/service-worker-ext.js', serve('./dist/service-worker-ext.js', {
+  setHeaders: {'Content-type': 'application/javascript'}
+}))
 
 app.get('*', (req, res) => {
   if (!renderer) {
@@ -52,8 +57,6 @@ app.get('*', (req, res) => {
   }
 
   const s = Date.now()
-
-  res.setHeader('Content-Type', 'text/html')
 
   const errorHandler = err => {
     if (err && err.code === 404) {

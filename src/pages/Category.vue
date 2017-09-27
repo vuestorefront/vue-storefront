@@ -10,33 +10,34 @@ import * as bodybuilder from 'bodybuilder'
 export default {
   name: 'category',
 
-   methods: {
-     fetchData (to) {
-
+  methods: {
+    fetchData (to) {
       let self = this
       let slug = this.$route.params.slug
 
       self.$store.dispatch('catalog/loadCategories').then((categories) => {
-        self.category = self.$store.state.catalog.categories.find((itm) => { return itm.slug === slug })
+        self.$store.dispatch('catalog/getCategoryBySlug', slug).then((category) => {
+          self.category = category
 
-        if (self.category === null) {
-          throw new Error('Category not found!') // TODO: handle errors better way
-        }
+          if (self.category === null) {
+            throw new Error('Category not found!') // TODO: handle errors better way
+          }
 
-        this.$store.dispatch('catalog/quickSearchByQuery',
-          bodybuilder().query('match', 'category.category_id', self.category.id).build() // filter out products from this specific category
-        ).then(function (res) {
-          self.products = res.items
+          self.$store.dispatch('catalog/quickSearchByQuery', // TODO: should be exported to separate component maybe?
+              bodybuilder().query('match', 'category.category_id', self.category.id).build() // filter out products from this specific category
+            ).then(function (res) {
+              self.products = res.items
+            })
         })
-      })    
+      })
     }
   },
   watch: {
     // call again the method if the route changes
     '$route': 'fetchData'
   },
- 
-  created () {
+
+  beforeMount () {
     this.fetchData()
   },
   data () {

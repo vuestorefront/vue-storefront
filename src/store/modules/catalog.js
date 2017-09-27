@@ -16,6 +16,7 @@ let client = new es.Client({
 const state = {
   categories: [],
   results: [],
+  current_category: null,
   _flt_query: {} // elastic search filter query
 }
 
@@ -77,6 +78,27 @@ const actions = {
         resolve(resp)
       }).catch(function (err) {
         reject(err)
+      })
+    })
+  },
+
+  /**
+   * Load category object by slug - using local storage/indexed Db
+   * loadCategories() should be called at first!
+   * @param {Object} commit
+   * @param {String} category
+   * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
+   */
+  getCategoryBySlug ({ commit }, slug, setCurrentCategory = true) {
+    return new Promise((resolve, reject) => {
+      const catCollection = global.db.categoriesCollection
+      catCollection.getItem(slug, (error, category) => {
+        if (error) reject(null)
+
+        if (setCurrentCategory) {
+          commit(types.CATALOG_UPD_CURRENT_CATEGORY, category)
+        }
+        resolve(category)
       })
     })
   },
@@ -173,7 +195,17 @@ const actions = {
 const mutations = {
   [types.CATALOG_UPD_CATEGORIES] (state, categories) {
     state.categories = _handleEsResult(categories).items // extract fields from ES _source
-    console.log(state.categories)
+
+    for (let category of state.categories) {
+      const catCollection = global.db.categoriesCollection
+      catCollection.setItem(category.slug.toLowerCase(), category).catch((reason) => {
+        console.error(reason)
+      }) // populate cache
+    }
+  },
+
+  [types.CATALOG_UPD_CURRENT_CATEGORY] (state, category) {
+    state.current_category = category
   },
 
   [types.CATALOG_UPD_SEARCH_QUERY] (bodyObj) {
