@@ -15,12 +15,18 @@ module.exports = {
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_themes: path.resolve(__dirname, '../src/themes'),
-      
+
       lib: path.resolve(__dirname, '../src/lib'),
       
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      
+
+      theme_pages: path.resolve(__dirname, '../themes/default/pages'),
+      theme_components: path.resolve(__dirname, '../themes/default/components'),
+      'components': path.resolve(__dirname, '../themes/default/components'),
+      'pages': path.resolve(__dirname, '../themes/default/pages')
+      
     }
   },
 

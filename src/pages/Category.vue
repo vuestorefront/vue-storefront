@@ -25,8 +25,8 @@ export default {
         searchProductQuery
       ).then(function (res) {
         self.products = res.items
-        self.isCategoryEmpty = (self.products.length == 0)
-      }) 
+        self.isCategoryEmpty = (self.products.length === 0)
+      })
     },
 
     validateRoute () {
@@ -44,7 +44,7 @@ export default {
           }
         })
       })
-    },
+    }
   },
   watch: {
     '$route': 'validateRoute'
