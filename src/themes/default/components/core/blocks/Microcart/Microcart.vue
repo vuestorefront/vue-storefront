@@ -7,8 +7,8 @@
     </div>
 
       <ul>
-        <li v-for='product in cartItems'>
-          {{ product.name }} - {{ product.price.price }}  - x{{ product.quantity }}
+        <li v-for='product in items'>
+          {{ product.name }} - {{ product.price }}  - x{{ product.quantity }} <button v-on:click="removeFromCart(product)">Remove</button>
         </li>
       </ul>
       

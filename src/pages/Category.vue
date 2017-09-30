@@ -15,49 +15,48 @@ import BreadcrumbsData from 'src/resource/breadcrumbs.json'
 
 export default {
   name: 'category',
-  methods: {
 
+  methods: {
     fetchData (to) {
       let self = this
       let searchProductQuery = builder().query('match', 'category.category_id', self.category.id).build()
 
-      this.$store.dispatch('catalog/quickSearchByQuery', searchProductQuery).then((res) => {
-        if (res.items) {
-          self.products = res.items
-          self.isCategoryEmpty = false
-        }
+      self.$store.dispatch('catalog/quickSearchByQuery', // TODO: should be exported to separate component maybe?
+        searchProductQuery
+      ).then(function (res) {
+        self.products = res.items
+        self.isCategoryEmpty = (self.products.length === 0)
       })
     },
 
     validateRoute () {
-      // Checks if category from slug is a valid category name.
       let self = this
       let slug = this.$route.params.slug
 
       self.$store.dispatch('catalog/loadCategories').then((categories) => {
-        self.category = self.$store.state.catalog.categories.find(
-          (itm) => { return itm.slug === slug }
-        )
+        self.$store.dispatch('catalog/getCategoryBySlug', slug).then((category) => {
+          self.category = category
+
+          if (!self.category) {
+            self.$router.push('/')
+          } else {
+            self.fetchData()
+          }
+        })
       })
-
-      if (!self.category) {
-        self.$router.push('/')
-      } else {
-        self.fetchData()
-      }
     }
-
   },
   watch: {
     '$route': 'validateRoute'
   },
-  created () {
+
+  beforeMount () {
     this.validateRoute()
   },
   data () {
     return {
       breadcrumbs: BreadcrumbsData,
-      isCategoryEmpty: true,
+      isCategoryEmpty: false,
       products: {},
       category: {},
       filters: { // filters should be set by category, and should be synchronized with magento

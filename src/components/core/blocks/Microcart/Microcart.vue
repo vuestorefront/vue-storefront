@@ -3,7 +3,7 @@
     Core Microcart
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>
-      <li v-for='product in cartItems'>
+      <li v-for='product in items'>
         {{ product.name }}
         {{ product.price }}
         {{ product.quantity }}
@@ -13,12 +13,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'microcart',
   props: ['product'],
+  created () {
+    this.$store.dispatch('cart/loadCart') // load cart from the indexedDb
+  },
+  methods: {
+    ...mapActions({ 'removeFromCart': 'cart/removeFromCart' })
+  },
   computed: {
-    cartItems () {
-      return this.$store.state.cart.items
+    items () {
+      return this.$store.state.cart.cartItems
     }
   }
 }

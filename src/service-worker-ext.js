@@ -39,38 +39,44 @@ self.addEventListener('message', function (event) {
         // Resulting key/value pair -- this callback
         // will be executed for every item in the
         // database.
-        fetchQueue.push(() =>  {
-            const config = event.data.config;
-            const orderData = order;
-            const orderId = id
 
-            console.log('Pushing out order ' + orderId)
-            return fetch(config.orders.endpoint,
-              {
-                method: "POST",
-                headers: {  "Content-Type": "application/json"  },
-                body: JSON.stringify(orderData)
-              }).then(function(response) {
+        if(!order.transmited) { // not sent to the server yet
+          fetchQueue.push(() =>  {
+              const config = event.data.config;
+              const orderData = order;
+              const orderId = id
 
-                if (response.status === 200) {
-                  const contentType = response.headers.get("content-type");
-                  if(contentType && contentType.includes("application/json")) {
-                    return response.json();
-                  } else
-                    console.error('Error with response - bad content-type!')
-                } else {
-                    console.error('Bad response status: ' + response.status)
-                }
-              })
-              .then(function (jsonResponse) {
-                  if (jsonResponse.code === 200) {
-                    console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
-                    ordersCollection.removeItem(orderId.toString()) 
-                  } else 
-                    console.error(jsonResponse.result)
-                  
-               })
-        })
+              console.log('Pushing out order ' + orderId)
+              return fetch(config.orders.endpoint,
+                {
+                  method: "POST",
+                  headers: {  "Content-Type": "application/json"  },
+                  body: JSON.stringify(orderData)
+                }).then(function(response) {
+
+                  if (response.status === 200) {
+                    const contentType = response.headers.get("content-type");
+                    if(contentType && contentType.includes("application/json")) {
+                      return response.json();
+                    } else
+                      console.error('Error with response - bad content-type!')
+                  } else {
+                      console.error('Bad response status: ' + response.status)
+                  }
+                })
+                .then(function (jsonResponse) {
+                    if (jsonResponse && jsonResponse.code === 200) {
+                      console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
+                      
+                      orderData.transmited = true
+                      orderData.transmited_at = new Date()
+                      ordersCollection.setItem(orderId.toString(), orderData) 
+                    } else 
+                      console.error(jsonResponse.result)
+                    
+                })
+          })
+        }
       }).then(function() {
         console.log('Iteration has completed');
 
