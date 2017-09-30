@@ -33,6 +33,8 @@ Vue.prototype.$db = {
 global.db = Vue.prototype.$db // localForage instance
 ```
 
+## Exmaple Vuex store
+
 Here you have example on how to the Vuex store should be constructed. Please notice the *Ajv data validation*:
 
 ```js
@@ -111,6 +113,34 @@ export default {
 
 ```
 
+## Data formats & validation
+
+Data formats for vue-storefront and vue-storefront-api are the same JSON files. There is Ajv validator (https://github.com/epoberezkin/ajv) used for validation.
+
+The convention is, that schemas are stored under `/src/models` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/src/models/order_schema.json).
+
+Validation of objects is rather straight forward:
+
+```js
+    const Ajv = require('ajv') // json validator
+    const ajv = new Ajv()
+    const validate = ajv.compile(require('../../models/order_schema.json'))
+
+    if (!validate(order)) { // schema validation of upcoming order
+      throw new ValidationError(validate.errors)
+    }
+```
+
+Validation errors format:
+
+```json
+[ { keyword: 'additionalProperties',
+    dataPath: '',
+    schemaPath: '#/additionalProperties',
+    params: { additionalProperty: 'id' },
+    message: 'should NOT have additional properties' } ]
+```
+
 ### Orders
 `Orders` repository stores all orders transmitted and *to be transmitted* (aka. order queue) used by service worker.
 ![Orders data format as seen on Developers Tools](orders-localstorage.png)
@@ -185,19 +215,100 @@ Here you have a validation schema for order: https://github.com/DivanteLtd/vue-s
 
 ### Categories
 `Categories` is a hash organized by category 'slug' (for example for category with name = 'Example category', slug = 'example-category')
-![Categories data format as seen on Developers Tools](categories-localstorage.png)
+![Categories data format as seen on Developers Tools](categories-localstorage.png).
+
+If category do have any child categories - you have access to them via "children_data" property.
 
 ```json
+{  
+  "id":13,
+  "parent_id":11,
+  "name":"Bottoms",
+  "is_active":true,
+  "position":2,
+  "level":3,
+  "product_count":0,
+  "children_data":[  
+    {  
+      "id":18,
+      "parent_id":13,
+      "name":"Pants",
+      "is_active":true,
+      "position":1,
+      "level":4,
+      "product_count":156,
+      "children_data":[  
 
+      ]
+    },
+    {  
+      "id":19,
+      "parent_id":13,
+      "name":"Shorts",
+      "is_active":true,
+      "position":2,
+      "level":4,
+      "product_count":148,
+      "children_data":[  
+
+      ]
+    }
+  ],
+  "tsk":1505573191094
+}
 ```
 
 ### Carts
 `Carts` is a store for shopping cart with default key = 'current-cart' representing current shopping cart.
 Cart object is an array consit of Products with additional field `quantity` in case when 2+ items are ordered.
-![Carts data format as seen on Developers Tools](carts-localstorage.png)
+
+![Carts data format as seen on Developers Tools](cart-localstorage.png)
 
 ```json
+[  
+  {  
+    "id":26,
+    "quantity":5,
+    "sku":"24-WG081-blue",
+    "name":"Sprite Stasis Ball 55 cm",
+    "attribute_set_id":12,
+    "price":23,
+    "status":1,
+    "visibility":1,
+    "type_id":"simple",
+    "created_at":"2017-09-16 13:46:48",
+    "updated_at":"2017-09-16 13:46:48",
+    "extension_attributes":[  
 
+    ],
+    "product_links":[  
+
+    ],
+    "tier_prices":[  
+
+    ],
+    "custom_attributes":null,
+    "category":[  
+
+    ],
+    "tsk":1505573582376,
+    "description":"<p>The Sprite Stasis Ball gives you the toned abs, sides, and back you want by amping up your core workout. With bright colors and a burst-resistant design, it's a must-have for every hard-core exercise addict. Use for abdominal conditioning, balance training, yoga, or even physical therapy.</p> <ul> <li>Durable, burst-resistant design.</li> <li>Hand pump included.</li> </ul>",
+    "image":"/l/u/luma-stability-ball.jpg",
+    "small_image":"/l/u/luma-stability-ball.jpg",
+    "thumbnail":"/l/u/luma-stability-ball.jpg",
+    "color":"50",
+    "options_container":"container2",
+    "required_options":"0",
+    "has_options":"0",
+    "url_key":"sprite-stasis-ball-55-cm-blue",
+    "tax_class_id":"2",
+    "activity":"8,11",
+    "material":"44",
+    "gender":"80,81,82,83,84",
+    "category_gear":"87",
+    "size":"91"
+  }
+]
 ```
 
-# Data validation
+
