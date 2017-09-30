@@ -105,3 +105,6 @@ The default config file should work perfectly fine for default purposes.
 
 <img width="1440" alt="4" src="https://user-images.githubusercontent.com/18116406/31016670-f240aaa0-a525-11e7-97be-f5b931f42e4c.png">
 
+## Documentation
+
+The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
