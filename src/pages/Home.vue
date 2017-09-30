@@ -5,25 +5,24 @@
 </template>
 
 <script>
+import builder from 'bodybuilder'
+
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
 import OrderData from 'src/resource/order.json'
-let bodybuilder = require('bodybuilder')
 
 export default {
   name: 'Home',
   beforeMount () {
+    let self = this
+    let catalogQuery = builder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build()
+    // mock for checkout
     this.$store.dispatch('checkout/placeOrder', OrderData)
-
     this.$store.dispatch('cart/loadCart')
-    // this.$store.dispatch('catalog/quickSearchByText', 'bag')
 
-    const inst = this
-    this.$store.dispatch('catalog/quickSearchByQuery',
-      bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build() // docs: http://bodybuilder.js.org/
-    ).then(function (res) {
-      inst.products = res.items
+    this.$store.dispatch('catalog/quickSearchByQuery', catalogQuery).then((res) => {
+      self.products = res.items
     })
   },
   components: {

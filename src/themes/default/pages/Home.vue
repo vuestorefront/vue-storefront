@@ -58,8 +58,10 @@
 <script>
 import { corePage } from 'lib/themes'
 
+// Base components overwrite
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
+
 import Inspirations from '../components/theme/blocks/Inspirations/Inspirations.vue'
 
 export default {

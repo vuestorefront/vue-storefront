@@ -1,9 +1,11 @@
 <template>
   <div class="product align-center">
-    <div class="product-image"><img v-bind:src="thumbnail" /></div>
-    <p class="mb0">{{ product.name }}</p>
-    {{ product.price }} 
-    <add-to-cart :product="product" /> 
+    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.url_key }}">
+      <div class="product-image"><img v-bind:src="thumbnail" /></div>
+      <p class="mb0">{{ product.name }}</p>
+      {{ product.price }}
+    </router-link>
+    <add-to-cart :product="product" />    
   </div>
 </template>
 
