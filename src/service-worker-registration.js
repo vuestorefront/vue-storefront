@@ -1,4 +1,4 @@
-import * as config from './config'
+import config from './config'
 import * as types from './store/mutation-types'
 
 if ('serviceWorker' in navigator) {

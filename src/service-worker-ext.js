@@ -65,11 +65,11 @@ self.addEventListener('message', function (event) {
                   }
                 })
                 .then(function (jsonResponse) {
-                    if (jsonResponse.code === 200) {
+                    if (jsonResponse && jsonResponse.code === 200) {
                       console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
                       
                       orderData.transmited = true
-                      orderData.transmited_at = new Time()
+                      orderData.transmited_at = new Date()
                       ordersCollection.setItem(orderId.toString(), orderData) 
                     } else 
                       console.error(jsonResponse.result)
