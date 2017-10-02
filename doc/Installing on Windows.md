@@ -17,13 +17,7 @@ Vue storefront is based on open source technologies which SHOULD (in theory ;)) 
 5. Run Docker containers required by vue-storefront-api: `docker-compose up`. This can take a while ...
 6. Restore products database `npm run restore`
 7. Copy `src/config.example.json` to default config file `src/config.json`
-8. Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
-
-```
-git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data
-```
-
-9. Run API using `npm run dev` 
+8. Run API using `npm run dev` 
 
 
 ## Installation of vue-storefront
@@ -31,5 +25,24 @@ git clone https://github.com/magento/magento2-sample-data.git var/magento2-sampl
 2. Clone the [vue-storefront](https://github.com/DivanteLtd/vue-storefront) project: `git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront`
 3. Go to vue-storefront-api in dir: `cd vue-storefront`
 4. Install dependencies: `npm install`
-5. Copy `src/config.example.json` to `src/config.json`
+5. Copy `src/config.example.js` to `src/config.js`
+6. Images: because vue-storefront-api uses `imagemagick` and some nodejs cmdline bindings it can be dificult to run the image proxy on localhost/windows machine. Please point out the vue-storefront to image proxy provided by changing `src/config.js` images.baseUrl:
+
+```json
+export default {
+  elasticsearch: {
+    httpAuth: '',
+    host: 'localhost:8080/api/catalog',
+    index: 'vue_storefront_catalog'
+  },
+  // we have vue-storefront-api (https://github.com/DivanteLtd/vue-storefront-api) endpoints below:
+  orders: {
+    endpoint: 'localhost:8080/api/order/create'
+  },
+  images: {
+    baseUrl: 'http://vue-storefront.divante.pl/img/'
+  }
+}
+
+```
 6. Run API using `npm run dev` 
