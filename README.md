@@ -60,7 +60,7 @@ npm run restore
 Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
 
 ```
-git clone https://github.com/magento/magento2-sample-data.git var/
+git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data
 ```
 
 Last step is to configure the application:
