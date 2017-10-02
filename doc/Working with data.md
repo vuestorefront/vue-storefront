@@ -143,7 +143,7 @@ Validation errors format:
 
 ### Orders
 `Orders` repository stores all orders transmitted and *to be transmitted* (aka. order queue) used by service worker.
-![Orders data format as seen on Developers Tools](orders-localstorage.png)
+![Orders data format as seen on Developers Tools](media/orders-localstorage.png)
 
 Here you have a validation schema for order: https://github.com/DivanteLtd/vue-storefront/blob/master/src/models/order_schema.json
 
@@ -215,7 +215,7 @@ Here you have a validation schema for order: https://github.com/DivanteLtd/vue-s
 
 ### Categories
 `Categories` is a hash organized by category 'slug' (for example for category with name = 'Example category', slug = 'example-category')
-![Categories data format as seen on Developers Tools](categories-localstorage.png).
+![Categories data format as seen on Developers Tools](media/categories-localstorage.png).
 
 If category do have any child categories - you have access to them via "children_data" property.
 
@@ -262,7 +262,7 @@ If category do have any child categories - you have access to them via "children
 `Carts` is a store for shopping cart with default key = 'current-cart' representing current shopping cart.
 Cart object is an array consit of Products with additional field `quantity` in case when 2+ items are ordered.
 
-![Carts data format as seen on Developers Tools](cart-localstorage.png)
+![Carts data format as seen on Developers Tools](media/cart-localstorage.png)
 
 ```json
 [  
