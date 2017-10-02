@@ -44,8 +44,6 @@ You need to use https://github.com/DivanteLtd/vue-storefront-api.
 It's the ultimate API backend for this application
 
 ```
-mkdir vue-storefront
-mkdir vue-storefront-api
 git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
 cd vue-storefront-api
 npm install
@@ -59,10 +57,16 @@ To import these products we'll use 'elasticdump' - which is provided by default 
 npm run restore
 ```
 
+Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
+
+```
+git clone https://github.com/magento/magento2-sample-data.git var/
+```
+
 Last step is to configure the application:
 
 ```
-mv src/config.example.json config.json
+mv src/config.example.json src/config.json
 nano config.json
 ```
 The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
@@ -91,8 +95,14 @@ npm install
 You have to prepare the config:
 
 ```
-mv src/config.example.js config.js
+mv src/config.example.js src/config.js
 nano config.js
+```
+
+And then you can build app and run dev server:
+```
+npm run build
+npm run dev
 ```
 
 The default config file should work perfectly fine for default purposes.
