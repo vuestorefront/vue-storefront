@@ -37,7 +37,11 @@ If you like the idea behind Vue Storefront and want to become a contributor - do
 
 ## Installation
 
-To make vue-storefront up and runing you need to have the latest version of node (v8.3.0 used for development). You'll also need docker - or ElasticSearch + Redis installed on localhost instead. Let's go:
+To make vue-storefront up and runing you need to have the latest version of node (v8.3.0 used for development). You'll also need docker - or ElasticSearch + Redis installed on localhost instead. The steps below are tested on MacOS and Linux environments.
+
+If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
+
+Let's go:
 
 ### Install the vue-storefront-api
 You need to use https://github.com/DivanteLtd/vue-storefront-api.
