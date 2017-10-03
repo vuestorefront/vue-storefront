@@ -19,7 +19,7 @@ Here you can read more about the proof of concept for [Vue Storefront connected 
 Besides a big improvement for the shopping experience, we also want to create a great code base for every developer who needs to work on a front-end application for the eCommerce.
 
 ## The architecture
-[Architecture diagram](doc/media/Vue-storefront-architecture.png)
+![Architecture diagram](doc/media/Vue-storefront-architecture.png)
 
 ## The design
 The application is prepared to be fully customized in design through theming system.
