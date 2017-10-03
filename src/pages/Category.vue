@@ -11,8 +11,6 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 
-import BreadcrumbsData from 'src/resource/breadcrumbs.json'
-
 export default {
   name: 'category',
 
@@ -21,9 +19,35 @@ export default {
       let self = this
       let searchProductQuery = builder().query('match', 'category.category_id', self.category.id).build()
 
-      self.$store.dispatch('catalog/quickSearchByQuery', // TODO: should be exported to separate component maybe?
-        searchProductQuery
-      ).then(function (res) {
+      self.breadcrumbs.routes = []
+
+      if (self.category) { // fill breadcrumb data - TODO: extract it to Breadcrumb component or to helper
+        let recurCatFinder = (category) => {
+          if (!category) {
+            return
+          }
+          self.$store.dispatch('catalog/getCategoryBy', { key: 'id', value: category.parent_id }).then((category) => {
+            if (!category) {
+              return
+            }
+            self.breadcrumbs.routes.unshift({
+              name: category.name,
+              route_link: '/c/' + category.slug
+            })
+
+            if (category.parent_id) {
+              recurCatFinder(category)
+            }
+          })
+        }
+        if (self.category.parent_id) {
+          recurCatFinder(self.category) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
+        }
+      }
+
+      self.$store.dispatch('catalog/quickSearchByQuery', {
+        query: searchProductQuery
+      }).then(function (res) {
         self.products = res.items
         self.isCategoryEmpty = (self.products.length === 0)
       })
@@ -33,8 +57,8 @@ export default {
       let self = this
       let slug = this.$route.params.slug
 
-      self.$store.dispatch('catalog/loadCategories').then((categories) => {
-        self.$store.dispatch('catalog/getCategoryBySlug', slug).then((category) => {
+      self.$store.dispatch('catalog/loadCategories', {}).then((categories) => {
+        self.$store.dispatch('catalog/getCategoryBy', { key: 'slug', value: slug }).then((category) => {
           self.category = category
 
           if (!self.category) {
@@ -55,8 +79,8 @@ export default {
   },
   data () {
     return {
-      breadcrumbs: BreadcrumbsData,
       isCategoryEmpty: false,
+      breadcrumbs: { routes: [] },
       products: {},
       category: {},
       filters: { // filters should be set by category, and should be synchronized with magento

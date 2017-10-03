@@ -1,8 +1,8 @@
 <template>  
   <div class="breadcrumbs h5">
-      <span v-for="link in routes">
+      <a v-for="link in routes" :href="link.route_link">
         {{ link.name }} /
-      </span>
+      </a>
       <strong>
         {{ activeRoute }}
       </strong>

@@ -27,6 +27,7 @@ global.db = Vue.prototype.$db // localForage instance
 import checkout from './modules/checkout'
 import catalog from './modules/catalog'
 import cart from './modules/cart'
+import user from './modules/user'
 
 Vue.use(Vuex)
 
@@ -68,7 +69,8 @@ export default new Vuex.Store({
   modules: {
     checkout,
     catalog,
-    cart
+    cart,
+    user
   },
   state,
   mutations,

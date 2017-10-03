@@ -42,7 +42,7 @@ export default {
     EventBus.$on('toggle-sidebar-menu', () => {
       self.isOpen = !self.isOpen
     })
-    this.$store.dispatch('catalog/loadCategories')
+    this.$store.dispatch('catalog/loadCategories', {})
   },
   methods: {
     closeMenu () {

@@ -17,12 +17,12 @@ export default {
     this.$store.dispatch('checkout/placeOrder', OrderData)
 
     this.$store.dispatch('cart/loadCart')
-    // this.$store.dispatch('catalog/quickSearchByText', 'bag')
+    // this.$store.dispatch('catalog/quickSearchByText', { queryText: 'bag' })
 
     const inst = this
-    this.$store.dispatch('catalog/quickSearchByQuery',
-      bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build() // docs: http://bodybuilder.js.org/
-    ).then(function (res) {
+    this.$store.dispatch('catalog/quickSearchByQuery', {
+      query: bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build() // docs: http://bodybuilder.js.org/
+    }).then(function (res) {
       inst.products = res.items
     })
   },
