@@ -1,6 +1,6 @@
 <template>
     <button>
-        
+        {{ content }}
     </button>
 </template>
 
@@ -15,6 +15,8 @@ export default {
 <style scoped>
 
     button {
+        width: 40px;
+        height: 40px;
         border: 1px solid;
         border-color: #BDBDBD;
         border-radius: 0;

@@ -15,6 +15,8 @@ export default {
 <style scoped>
     
     button {
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         border: 1px solid;
         position: relative;
@@ -36,6 +38,14 @@ export default {
 
     button.active {
         border-color: rgba(113,113,113,1);
+    }
+
+    .red:before {
+        background-color: red;
+    }
+
+    .blue:before {
+        background-color: #305B95;
     }
 
 </style>

@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <button>
     Core price button
-  </div>
+  </button>
 </template>
 
 <script>
 export default {
-  name: 'price-button'
+  name: 'price-button',
+  props: ['content']
 }
 </script>

@@ -10,7 +10,7 @@
     <div class="container pb60">
         <div class="row">
             <div class="col-md-3">
-                <sidebar />
+                <sidebar :filters="filters"/>
             </div>
             <div class="col-md-9">
                 <div class="row">
