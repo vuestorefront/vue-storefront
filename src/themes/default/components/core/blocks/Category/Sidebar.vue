@@ -2,18 +2,11 @@
     <div class="sidebar">
         <h4>Filter</h4>
         <h5>Color</h5>
-        <color-button class="color-select gray active mr10"/><color-button class="color-select blue"/>
+        <color-button class="color-select mr10" v-for="(color, index) in filters.color" :key="index" :class="color"/>
         <h5>Size</h5>
-        <size-button class="size-select mr10"/>
-        <size-button class="size-select disabled mr10"/>
-        <size-button class="size-select mr10"/>
-        <size-button class="size-select active mr10"/>
-        <size-button class="size-select"/>
+        <size-button class="size-select mr10" v-for="(size, index) in filters.size" :key="index" :content="size"/>
         <h5>Price</h5>
-        <price-button class="price-select active mb10"/>
-        <price-button class="price-select mb10"/>
-        <price-button class="price-select mb10"/>
-        <price-button class="price-select mb10"/>
+        <price-button class="price-select mb10" v-for="(price, index) in filters.price" :key="index" :content="'$'+price"/>
     </div>
 </template>
 
@@ -35,29 +28,9 @@ export default {
 </script>
 
 <style scoped>
-    
-    .color-select {
-        width: 40px;
-        height: 40px;
-    }
-
-    .color-select.size-select.gray:before {
-        background-color: #6E6E6E;
-    }
-
-    .color-select.blue:before {
-        background-color: #305B95;
-    }
-
-    .size-select {
-        width: 40px;
-        height: 40px;
-    }
 
     .price-select {
         display: block;
-        width: 20px;
-        height: 20px;
     }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
-    <button>
-        
-    </button>
+    <span>
+        <button></button> <span>{{ content }}</span>
+    </span>
 </template>
 
 <script>
@@ -15,6 +15,9 @@ export default {
 <style scoped>
 
     button {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
         border: 1px solid;
         border-color: #BDBDBD;
         background-color: transparent;
@@ -33,8 +36,17 @@ export default {
         background-color: transparent;
     }
 
-    button.active:before {
+    span {
+        position: relative;
+        bottom: 3px;
+    }
+
+    .active button:before {
         background-color: #333333;
+    }
+
+    .active span {
+        font-weight: 400;
     }
 
 </style>

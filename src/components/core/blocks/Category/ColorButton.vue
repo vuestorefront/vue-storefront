@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <button>
     Core color button
-  </div>
+  </button>
 </template>
 
 <script>
