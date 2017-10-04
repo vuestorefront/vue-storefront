@@ -43,6 +43,11 @@ export default {
         if (self.category.parent_id) {
           recurCatFinder(self.category) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
         }
+
+        self.$store.dispatch('catalog/loadAttributes', { // load filter attributes for this specific category
+          attrCodes: ['']
+        })
+
       }
 
       self.$store.dispatch('catalog/quickSearchByQuery', {

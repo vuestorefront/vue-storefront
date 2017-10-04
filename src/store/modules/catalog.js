@@ -16,6 +16,7 @@ let client = new es.Client({
 
 const state = {
   categories: [],
+  attributes: {},
   results: [],
   current_category: null,
   _flt_query: {} // elastic search filter query
@@ -91,6 +92,21 @@ const actions = {
   },
 
   /**
+   * Load attributes with specific codes
+   * @param {Object} context
+   * @param {Array} attrCodes attribute codes to load
+   */
+  loadAttributes (context, { attrCodes = null, size = 150, start = 0 }) {
+    const commit = context.commit
+
+    return this.quickSearchByQuery(context, { entityType: 'attribute', query: bodybuilder().query('match', 'attribute_code', attrCodes).build() }).then(function (resp) {
+      commit(types.CATALOG_UPD_ATTRIBUTES, resp)
+    }).catch(function (err) {
+      console.error(err)
+    })
+  },
+
+  /**
    * Load category object by specific field - using local storage/indexed Db
    * loadCategories() should be called at first!
    * @param {Object} commit
@@ -158,7 +174,7 @@ const actions = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  quickSearchByQuery (context, { commit, query, start = 0, size = 50 }) {
+  quickSearchByQuery (context, { query, start = 0, size = 50, entityType = 'product' }) {
     size = parseInt(size)
     if (size <= 0) size = 50
     if (start < 0) start = 0
@@ -166,7 +182,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       client.search({
         index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-        type: 'product',
+        type: entityType,
         body: query
       }).then(function (resp) {
         resolve(_handleEsResult(resp, start, size))
@@ -230,6 +246,29 @@ const mutations = {
         console.error(e)
       }
     }
+  },
+  /**
+   * Store attributes by code in state and localForage
+   * @param {} state
+   * @param {Array} attributes
+   */
+  [types.CATALOG_UPD_ATTRIBUTES] (state, attributes) {
+    let attrList = _handleEsResult(attributes).items // extract fields from ES _source
+    let attrHash = {}
+
+    for (let attr of attrList) {
+      attrHash[attr.attribute_code] = attr
+
+      const attrCollection = global.db.attributesCollection
+      try {
+        attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
+          console.debug(reason) // it doesn't work on SSR
+        }) // populate cache by slug
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    state.attributes = attrHash
   },
 
   [types.CATALOG_UPD_CURRENT_CATEGORY] (state, category) {

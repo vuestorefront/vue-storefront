@@ -16,6 +16,11 @@ Vue.prototype.$db = {
     storeName: 'categories'
   }),
 
+  attributesCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'attributes'
+  }),
+
   cartsCollection: localForage.createInstance({
     name: 'shop',
     storeName: 'carts'
