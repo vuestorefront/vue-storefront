@@ -15,9 +15,69 @@ export default {
   name: 'category',
 
   methods: {
+    /**
+     * Helper method for getting attribute name - TODO: to be moved to external/shared helper
+     * 
+     * @param {String} attributeCode 
+     * @param {String} optionId - value to get label for
+     */
+    _attributeOptionName (attributeCode, optionId) {
+      const state = this.$store.state.catalog
+      let attrCache = state.attributeLabels[attributeCode]
+
+      if (attrCache) {
+        let label = attrCache[optionId]
+
+        if (label) {
+          return label
+        }
+      }
+
+
+      let attr = state.attributes[attributeCode]
+      if (attr) {
+        let opt = attr.options.find((op) => { // TODO: cache it in memory
+          if (op.value === optionId.toString()) {
+            return op
+          }
+        }) // TODO: i18n support with multi website attribute names
+
+        if (opt) {
+          if (!state.attributeLabels[attributeCode])
+          {
+            state.attributeLabels[attributeCode] = {}
+          }
+          state.attributeLabels[attributeCode][optionId] = opt.label
+          return opt ? opt.label : optionId
+        } else {
+          return optionId
+        }
+      } else {
+        return optionId
+      }
+    },
     fetchData (to) {
       let self = this
-      let searchProductQuery = builder().query('match', 'category.category_id', self.category.id).build()
+      let searchProductQuery = builder().query('match', 'category.category_id', self.category.id)  // FIXME!
+
+      // add filters to query
+
+      for (let attrToFilter of Object.keys(self.filters)) {
+
+        if (attrToFilter != 'price') {
+          searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
+        } else { 
+          searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
+          searchProductQuery.aggregation('range', 'price', {
+            ranges: [
+              { from: 0, to: 50 }, 
+              { from: 50, to: 100 },
+              { from: 100, to: 150 },
+              { from: 150 }
+            ]
+          })
+        }
+      }
 
       self.breadcrumbs.routes = []
 
@@ -45,16 +105,36 @@ export default {
         }
 
         self.$store.dispatch('catalog/loadAttributes', { // load filter attributes for this specific category
-          attrCodes: ['']
+          attrCodes: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
-
       }
-
       self.$store.dispatch('catalog/quickSearchByQuery', {
-        query: searchProductQuery
+        query: searchProductQuery.build(),
+        start: self.pagination.offset,
+        size: self.pagination.pageSize
       }).then(function (res) {
+
+        self.aggregations = res.aggregations
         self.products = res.items
         self.isCategoryEmpty = (self.products.length === 0)
+
+        for (let attrToFilter of Object.keys(self.filters)) { // fill out the filter options
+          self.filters[attrToFilter] = []
+
+          if (attrToFilter != 'price') {
+            for(let option of res.aggregations['agg_terms_' + attrToFilter].buckets){
+              self.filters[attrToFilter].push({ 
+                id: option.key,
+                label: self._attributeOptionName(attrToFilter, option.key)
+              })
+            }
+          } else {
+            for(let option of res.aggregations['agg_range_' + attrToFilter].buckets){
+              self.filters[attrToFilter].push(option.key)              
+            }
+          }
+        }
+        
       })
     },
 
@@ -88,6 +168,12 @@ export default {
       breadcrumbs: { routes: [] },
       products: {},
       category: {},
+      aggregations: {}, // facets
+      pagination: {
+        pageSize: 150,
+        offset: 0
+      },
+
       filters: { // filters should be set by category, and should be synchronized with magento
         color: [{'id': 165, 'label': 'red'}, {'id': 166, 'label': 'blue'}],
         size: [

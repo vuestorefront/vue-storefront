@@ -40,12 +40,41 @@ export default {
         border-color: rgba(113,113,113,1);
     }
 
-    .red:before {
+    .Blue:before {
+        background-color: blue;
+    }
+
+
+    .Green:before {
+        background-color: green;
+    }
+
+    .Red:before {
         background-color: red;
     }
 
-    .blue:before {
-        background-color: #305B95;
+    .Purple:before {
+        background-color: purple;
+    }    
+    
+    .Orange:before {
+        background-color: orange;
     }
+
+    .Gray:before {
+        background-color: gray;
+    }    
+
+    .White:before {
+        background-color: white;
+    }
+
+    .Brown:before {
+        background-color: brown;
+    }
+
+    .Yellow:before {
+        background-color: yellow;
+    }    
 
 </style>

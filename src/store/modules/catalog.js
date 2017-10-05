@@ -17,6 +17,7 @@ let client = new es.Client({
 const state = {
   categories: [],
   attributes: {},
+  attributeLabels: {},
   results: [],
   current_category: null,
   _flt_query: {} // elastic search filter query
@@ -99,7 +100,12 @@ const actions = {
   loadAttributes (context, { attrCodes = null, size = 150, start = 0 }) {
     const commit = context.commit
 
-    return this.quickSearchByQuery(context, { entityType: 'attribute', query: bodybuilder().query('match', 'attribute_code', attrCodes).build() }).then(function (resp) {
+    let qrObj = bodybuilder()
+    for (let attrCode of attrCodes) {
+      qrObj = qrObj.orFilter('term', 'attribute_code', attrCode)
+    }
+
+    return context.dispatch('quickSearchByQuery', { entityType: 'attribute', query: qrObj.build() }).then(function (resp) {
       commit(types.CATALOG_UPD_ATTRIBUTES, resp)
     }).catch(function (err) {
       console.error(err)
@@ -183,7 +189,9 @@ const actions = {
       client.search({
         index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
         type: entityType,
-        body: query
+        body: query,
+        size: size,
+        from: start
       }).then(function (resp) {
         resolve(_handleEsResult(resp, start, size))
       }).catch(function (err) {
@@ -253,7 +261,7 @@ const mutations = {
    * @param {Array} attributes
    */
   [types.CATALOG_UPD_ATTRIBUTES] (state, attributes) {
-    let attrList = _handleEsResult(attributes).items // extract fields from ES _source
+    let attrList = attributes.items // extract fields from ES _source
     let attrHash = {}
 
     for (let attr of attrList) {
