@@ -60,8 +60,14 @@ export default {
       products: {},
       category: {},
       filters: { // filters should be set by category, and should be synchronized with magento
-        color: ['red', 'blue'],
-        size: ['XS', 'S', 'M', 'L', 'XL'],
+        color: [{'id': 165, 'label': 'red'}, {'id': 166, 'label': 'blue'}],
+        size: [
+            {'id': 50, 'label': 'XS'},
+            {'id': 51, 'label': 'S'},
+            {'id': 52, 'label': 'M'},
+            {'id': 53, 'label': 'L'},
+            {'id': 54, 'label': 'XL'}
+        ],
         price: ['0.00 - 50.00', '50.01 - 100.00', '100.01 - 150.00', '150.01 and more']
       }
     }
