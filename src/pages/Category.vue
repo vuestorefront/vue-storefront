@@ -122,7 +122,7 @@ export default {
                 label: self._attributeOptionName(attrToFilter, option.key)
               })
             }
-          } else {
+          } else { // special case is range filter for prices
             for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
               self.filters[attrToFilter].push(option.key)
             }
