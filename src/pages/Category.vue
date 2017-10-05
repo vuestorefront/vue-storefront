@@ -123,8 +123,8 @@ export default {
               })
             }
           } else {
-            for(let option of res.aggregations['agg_range_' + attrToFilter].buckets){
-              self.filters[attrToFilter].push(option.key)              
+            for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
+              self.filters[attrToFilter].push(option.key)
             }
           }
         }
