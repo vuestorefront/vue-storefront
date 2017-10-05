@@ -6,6 +6,7 @@
 
 <script>
 export default {
-  name: 'category-sidebar'
+  name: 'category-sidebar',
+  props: ['filters']
 }
 </script>
