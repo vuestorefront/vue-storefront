@@ -80,7 +80,7 @@ const actions = {
           q: qr,
           size: 150,
           from: start,
-          '_sourceInclude': ['name', 'position', 'id', 'parent_id']
+          '_sourceInclude': ['name', 'position', 'id', 'level', 'parent_id', 'children_data']
 
         }).then(function (resp) {
           commit(types.CATALOG_UPD_CATEGORIES, resp)

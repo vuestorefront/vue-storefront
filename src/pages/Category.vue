@@ -17,8 +17,8 @@ export default {
   methods: {
     /**
      * Helper method for getting attribute name - TODO: to be moved to external/shared helper
-     * 
-     * @param {String} attributeCode 
+     *
+     * @param {String} attributeCode
      * @param {String} optionId - value to get label for
      */
     _attributeOptionName (attributeCode, optionId) {
@@ -33,7 +33,6 @@ export default {
         }
       }
 
-
       let attr = state.attributes[attributeCode]
       if (attr) {
         let opt = attr.options.find((op) => { // TODO: cache it in memory
@@ -43,8 +42,7 @@ export default {
         }) // TODO: i18n support with multi website attribute names
 
         if (opt) {
-          if (!state.attributeLabels[attributeCode])
-          {
+          if (!state.attributeLabels[attributeCode]) {
             state.attributeLabels[attributeCode] = {}
           }
           state.attributeLabels[attributeCode][optionId] = opt.label
@@ -59,18 +57,15 @@ export default {
     fetchData (to) {
       let self = this
       let searchProductQuery = builder().query('match', 'category.category_id', self.category.id)  // FIXME!
-
       // add filters to query
-
       for (let attrToFilter of Object.keys(self.filters)) {
-
-        if (attrToFilter != 'price') {
+        if (attrToFilter !== 'price') {
           searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
-        } else { 
+        } else {
           searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
           searchProductQuery.aggregation('range', 'price', {
             ranges: [
-              { from: 0, to: 50 }, 
+              { from: 0, to: 50 },
               { from: 50, to: 100 },
               { from: 100, to: 150 },
               { from: 150 }
@@ -113,7 +108,6 @@ export default {
         start: self.pagination.offset,
         size: self.pagination.pageSize
       }).then(function (res) {
-
         self.aggregations = res.aggregations
         self.products = res.items
         self.isCategoryEmpty = (self.products.length === 0)
@@ -121,9 +115,9 @@ export default {
         for (let attrToFilter of Object.keys(self.filters)) { // fill out the filter options
           self.filters[attrToFilter] = []
 
-          if (attrToFilter != 'price') {
-            for(let option of res.aggregations['agg_terms_' + attrToFilter].buckets){
-              self.filters[attrToFilter].push({ 
+          if (attrToFilter !== 'price') {
+            for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
+              self.filters[attrToFilter].push({
                 id: option.key,
                 label: self._attributeOptionName(attrToFilter, option.key)
               })
