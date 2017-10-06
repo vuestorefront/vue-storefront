@@ -14,6 +14,12 @@
                     </li>
                     <li @click="closeMenu" v-for='category in categories'>
                         <router-link :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
+                        <ul v-if="category.children_data">
+                            <li @click="closeMenu" v-for='subcat in category.children_data'>
+                                <router-link :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
+                            </li>
+                            
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -34,7 +40,9 @@ export default {
   },
   computed: {
     categories () {
-      return this.$store.state.catalog.categories
+      return this.$store.state.catalog.categories.filter((op) => {
+        return op.level === 2 // display only the root level (level =1 => Default Category)
+      })
     }
   },
   created () {
@@ -42,7 +50,7 @@ export default {
     EventBus.$on('toggle-sidebar-menu', () => {
       self.isOpen = !self.isOpen
     })
-    this.$store.dispatch('catalog/loadCategories')
+    this.$store.dispatch('catalog/loadCategories', {})
   },
   methods: {
     closeMenu () {

@@ -18,6 +18,9 @@ Here you can read more about the proof of concept for [Vue Storefront connected 
 
 Besides a big improvement for the shopping experience, we also want to create a great code base for every developer who needs to work on a front-end application for the eCommerce.
 
+## The architecture
+![Architecture diagram](doc/media/Vue-storefront-architecture.png)
+
 ## The design
 The application is prepared to be fully customized in design through theming system.
 With the current version we work on raw, basic template of typical eCommerce for a fashion industry.
@@ -37,15 +40,17 @@ If you like the idea behind Vue Storefront and want to become a contributor - do
 
 ## Installation
 
-To make vue-storefront up and runing you need to have the latest version of node (v8.3.0 used for development). You'll also need docker - or ElasticSearch + Redis installed on localhost instead. Let's go:
+To make vue-storefront up and runing you need to have the latest version of node (v8.3.0 used for development). You'll also need docker - or ElasticSearch + Redis installed on localhost instead. The steps below are tested on MacOS and Linux environments.
+
+If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
+
+Let's go:
 
 ### Install the vue-storefront-api
 You need to use https://github.com/DivanteLtd/vue-storefront-api.
 It's the ultimate API backend for this application
 
 ```
-mkdir vue-storefront
-mkdir vue-storefront-api
 git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
 cd vue-storefront-api
 npm install
@@ -59,10 +64,16 @@ To import these products we'll use 'elasticdump' - which is provided by default 
 npm run restore
 ```
 
+Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
+
+```
+git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data
+```
+
 Last step is to configure the application:
 
 ```
-mv src/config.example.json config.json
+mv src/config.example.json src/config.json
 nano config.json
 ```
 The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
@@ -91,8 +102,14 @@ npm install
 You have to prepare the config:
 
 ```
-mv src/config.example.js config.js
+mv src/config.example.js src/config.js
 nano config.js
+```
+
+And then you can build app and run dev server:
+```
+npm run build
+npm run dev
 ```
 
 The default config file should work perfectly fine for default purposes.

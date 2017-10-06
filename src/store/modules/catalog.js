@@ -1,6 +1,7 @@
 import config from '../../config'
 import * as types from '../mutation-types'
 import _ from 'lodash'
+import { entityKeyName } from '../../lib/entities'
 const bodybuilder = require('bodybuilder')
 import { slugify } from '../../lib/filters'
 
@@ -15,6 +16,8 @@ let client = new es.Client({
 
 const state = {
   categories: [],
+  attributes: {},
+  attributeLabels: {},
   results: [],
   current_category: null,
   _flt_query: {} // elastic search filter query
@@ -36,7 +39,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
   if (resp.hasOwnProperty('hits')) {
     return {
       items: _.map(resp.hits.hits, function (hit) {
-        return Object.assign(hit._source, { _score: hit._score, slug: hit._source.hasOwnProperty('name') ? slugify(hit._source.name) : '' })
+        return Object.assign(hit._source, { _score: hit._score, slug: hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '' }) // TODO: assign slugs server side
       }), // TODO: add scoring information
       total: resp.hits.total,
       start: start,
@@ -59,10 +62,11 @@ const actions = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  loadCategories ({ commit, state }, parent) {
+  loadCategories (context, { parent = null, size = 150, start = 0 }) {
+    const commit = context.commit
     let qr = '*'
 
-    if (typeof parent !== 'undefined') {
+    if (parent && typeof parent !== 'undefined') {
       qr = 'parent_id:' + parent.id
     }
 
@@ -74,7 +78,9 @@ const actions = {
           index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
           type: 'category',
           q: qr,
-          '_sourceInclude': ['name', 'position', 'id', 'parent_id']
+          size: 150,
+          from: start,
+          '_sourceInclude': ['name', 'position', 'id', 'level', 'parent_id', 'children_data']
 
         }).then(function (resp) {
           commit(types.CATALOG_UPD_CATEGORIES, resp)
@@ -87,13 +93,36 @@ const actions = {
   },
 
   /**
-   * Load category object by slug - using local storage/indexed Db
+   * Load attributes with specific codes
+   * @param {Object} context
+   * @param {Array} attrCodes attribute codes to load
+   */
+  loadAttributes (context, { attrCodes = null, size = 150, start = 0 }) {
+    const commit = context.commit
+
+    let qrObj = bodybuilder()
+    for (let attrCode of attrCodes) {
+      qrObj = qrObj.orFilter('term', 'attribute_code', attrCode)
+    }
+
+    return context.dispatch('quickSearchByQuery', { entityType: 'attribute', query: qrObj.build() }).then(function (resp) {
+      commit(types.CATALOG_UPD_ATTRIBUTES, resp)
+    }).catch(function (err) {
+      console.error(err)
+    })
+  },
+
+  /**
+   * Load category object by specific field - using local storage/indexed Db
    * loadCategories() should be called at first!
    * @param {Object} commit
-   * @param {String} category
+   * @param {String} key
+   * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  getCategoryBySlug ({ commit, state }, slug, setCurrentCategory = true) {
+  getCategoryBy (context, { key, value, setCurrentCategory = true }) {
+    const state = context.state
+    const commit = context.commit
     return new Promise((resolve, reject) => {
       let setcat = (error, category) => {
         if (error) reject(null)
@@ -105,11 +134,12 @@ const actions = {
       }
 
       if (state.categories.length > 0) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
-        let category = state.categories.find((itm) => { return itm.slug.toLowerCase() === slug.toLowerCase() })
+        let category = state.categories.find((itm) => { return itm[key] === value })
         setcat(null, category)
       } else {
         const catCollection = global.db.categoriesCollection
-        catCollection.getItem(slug, setcat)
+        console.log(entityKeyName(key, value))
+        catCollection.getItem(entityKeyName(key, value), setcat)
       }
     })
   },
@@ -121,7 +151,7 @@ const actions = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  quickSearchByText ({ commit }, queryText, start = 0, size = 50) {
+  quickSearchByText (context, { queryText, start = 0, size = 50 }) {
     size = parseInt(size)
     if (size <= 0) size = 50
     if (start < 0) start = 0
@@ -145,12 +175,12 @@ const actions = {
   /**
    * Search ElasticSearch catalog of products using simple text query
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
-   * @param {Object} bodyObj elasticSearch request body
+   * @param {Object} query elasticSearch request body
    * @param {Int} start start index
    * @param {Int} size page size
    * @return {Promise}
    */
-  quickSearchByQuery ({ commit }, bodyObj, start = 0, size = 50) {
+  quickSearchByQuery (context, { query, start = 0, size = 50, entityType = 'product' }) {
     size = parseInt(size)
     if (size <= 0) size = 50
     if (start < 0) start = 0
@@ -158,8 +188,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       client.search({
         index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-        type: 'product',
-        body: bodyObj
+        type: entityType,
+        body: query,
+        size: size,
+        from: start
       }).then(function (resp) {
         resolve(_handleEsResult(resp, start, size))
       }).catch(function (err) {
@@ -173,8 +205,8 @@ const actions = {
    * @param {String} fieldName field name to search by
    * @param {Object} value expected value
    */
-  searchProductBy ({ commit }, fieldName, value) {
-    return this.quickSearchByQuery({ commit }, bodybuilder().query('match', fieldName, value).build())
+  searchProductBy (context, { fieldName, value }) {
+    return this.quickSearchByQuery(context, { query: bodybuilder().query('match', fieldName, value).build() })
   },
 
   /**
@@ -185,15 +217,17 @@ const actions = {
    * @param {Int} size page size
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
    */
-  search ({ commit }, bodyObj, start = 0, size = 50) {
+  search (context, { query, start = 0, size = 50 }) {
+    const commit = context.commit
+
     size = parseInt(size)
     if (size <= 0) size = 50
     if (start < 0) start = 0
-    commit(types.CATALOG_UPD_SEARCH_QUERY, bodyObj)
-    console.log(bodyObj)
+    commit(types.CATALOG_UPD_SEARCH_QUERY, query)
+    console.log(query)
     client.search({
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
-      body: bodyObj
+      body: query
     }).then(function (resp) {
       commit(types.CATALOG_UPD_PRODUCTS, _handleEsResult(resp, start, size))
     }).catch(function (err) {
@@ -210,13 +244,39 @@ const mutations = {
     for (let category of state.categories) {
       const catCollection = global.db.categoriesCollection
       try {
-        catCollection.setItem(category.slug.toLowerCase(), category).catch((reason) => {
+        catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
           console.debug(reason) // it doesn't work on SSR
-        }) // populate cache
+        }) // populate cache by slug
+        catCollection.setItem(entityKeyName('id', category.id), category).catch((reason) => {
+          console.debug(reason) // it doesn't work on SSR
+        }) // populate cache by id
       } catch (e) {
         console.error(e)
       }
     }
+  },
+  /**
+   * Store attributes by code in state and localForage
+   * @param {} state
+   * @param {Array} attributes
+   */
+  [types.CATALOG_UPD_ATTRIBUTES] (state, attributes) {
+    let attrList = attributes.items // extract fields from ES _source
+    let attrHash = {}
+
+    for (let attr of attrList) {
+      attrHash[attr.attribute_code] = attr
+
+      const attrCollection = global.db.attributesCollection
+      try {
+        attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
+          console.debug(reason) // it doesn't work on SSR
+        }) // populate cache by slug
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    state.attributes = attrHash
   },
 
   [types.CATALOG_UPD_CURRENT_CATEGORY] (state, category) {
