@@ -17,9 +17,9 @@ export default {
   methods: {
     fetchData (to) {
       let self = this
-      let productQuery = builder().query('match', 'id', this.$route.params.id).build()
+      let productQuery = builder().query('match', 'id', self.$route.params.id).build()
 
-      this.$store.dispatch('catalog/quickSearchByQuery', productQuery).then((res) => {
+      self.$store.dispatch('catalog/quickSearchByQuery', productQuery).then((res) => {
         if (res.items) {
           self.product = res.items[0]
         }

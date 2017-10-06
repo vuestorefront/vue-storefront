@@ -18,15 +18,13 @@ export default {
     let self = this
     let catalogQuery = builder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build()
     // mock for checkout
-    this.$store.dispatch('checkout/placeOrder', OrderData)
-    this.$store.dispatch('cart/loadCart')
-    // this.$store.dispatch('catalog/quickSearchByText', { queryText: 'bag' })
+    self.$store.dispatch('checkout/placeOrder', OrderData)
+    self.$store.dispatch('cart/loadCart')
 
-    const inst = this
-    this.$store.dispatch('catalog/quickSearchByQuery', {
-      query: bodybuilder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build() // docs: http://bodybuilder.js.org/
+    self.$store.dispatch('catalog/quickSearchByQuery', {
+      query: catalogQuery
     }).then(function (res) {
-      inst.products = res.items
+      self.products = res.items
     })
   },
   components: {
