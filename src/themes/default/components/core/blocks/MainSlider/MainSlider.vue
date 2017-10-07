@@ -1,5 +1,5 @@
 <template>
-  <section class="main-slider">
+  <section class="main-slider bg-darkgray clr-white">
       <div class="container">
           <!-- TO-DO: Use v-for and make slides moving from right to left -->
           <div class="row middle-md">
@@ -28,9 +28,7 @@ export default {
 <style scoped>
 .main-slider {
     width: 100%;
-    height: 640px;
-    background: #333333;
-    color: white;
+    height: 640px
 }
 .row {
     height: 640px;

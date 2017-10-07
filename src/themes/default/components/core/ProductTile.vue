@@ -1,7 +1,7 @@
 <template>
   <div class="product align-center">
     <router-link :to="{ name: 'product', params: { id: product.id, slug: product.url_key }}">
-      <div class="product-image">
+      <div class="product-image bg-lightgray">
         <!-- <img v-bind:src="thumbnail" /> -->
       </div>
       <p class="mb0">{{ product.name }}</p>
@@ -23,6 +23,5 @@ export default {
 .product-image {
   width: 100%;
   height: 300px;
-  background-color: #F2F2F2;
 }
 </style>

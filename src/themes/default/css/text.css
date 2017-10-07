@@ -45,3 +45,15 @@ h5, .h5 {
 .align-center {
     text-align: center;
 }
+
+.align-right {
+    text-align: right;
+}
+
+.weight-200 {
+    font-weight: 200;
+}
+
+.weight-400 {
+    font-weight: 400;
+}

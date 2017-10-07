@@ -1,7 +1,7 @@
 <template>
-    <div class="sidebar-menu" :class="{ active: isOpen }">
+    <div class="sidebar-menu bg-lightgray position-fixed top-0" :class="{ active: isOpen }">
         <div class="row">
-            <div class="col-md-12 close end-xs" @click="closeMenu">
+            <div class="col-md-12 close bg-white align-right display-inline-flex end-xs" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
@@ -64,11 +64,8 @@ export default {
 
 <style scoped>
 .sidebar-menu {
-    position: fixed;
     height: 100vh;
     width: 350px;
-    background: #F2F2F2;
-    top: 0;
     left: -350px;
     overflow: hidden;
 }
@@ -77,8 +74,5 @@ export default {
 }
 .close {
     cursor: pointer;
-    background: white;
-    text-align: right;
-    display: inline-flex;
 }
 </style>

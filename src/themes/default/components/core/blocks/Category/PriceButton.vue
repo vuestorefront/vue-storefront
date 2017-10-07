@@ -1,6 +1,9 @@
 <template>
     <span>
-        <button></button> <span>{{ content }}</span>
+        <button class="brdr-gray brdr-1 position-relative bg-transparent mr10">
+            <div class="cntr display-block position-absolute bg-transparent"></div>
+        </button> 
+        <span>{{ content }}</span>
     </span>
 </template>
 
@@ -17,36 +20,11 @@ export default {
     button {
         width: 20px;
         height: 20px;
-        margin-right: 10px;
-        border: 1px solid;
-        border-color: #BDBDBD;
-        background-color: transparent;
-        position: relative;
     }
 
-    button:before {
-        content: "";
+    button > div {
         width: 80%;
         height: 80%;
-        left: 50%;
-        top: 50%;
-        position: absolute;
-        display: block;
-        transform: translate(-50%,-50%);
-        background-color: transparent;
-    }
-
-    span {
-        position: relative;
-        bottom: 3px;
-    }
-
-    .active button:before {
-        background-color: #333333;
-    }
-
-    .active span {
-        font-weight: 400;
     }
 
 </style>

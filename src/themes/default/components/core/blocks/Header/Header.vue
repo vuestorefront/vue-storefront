@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="brdr-underline">
         <div class="container">
             <div class="row middle-md">
                 <div class="col-md-1 middle-md">
@@ -48,7 +48,7 @@ export default {
 
 <style scoped>
     header {
-        border-bottom: 1px solid #E0E0E0;
+        border-bottom-color: #E0E0E0;
     }
     .icon:hover {
         background-color: #F2F2F2;
