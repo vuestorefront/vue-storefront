@@ -12,11 +12,19 @@
     padding-right: 10%;
 }
 
+.px10 {
+    padding-left: 10px;
+    padding-right: 10px
+}
 .px40 {
     padding-left: 40px;
     padding-right: 40px;
 }
 
+.py5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 .py15 {
     padding-top: 15px;
     padding-bottom: 15px;

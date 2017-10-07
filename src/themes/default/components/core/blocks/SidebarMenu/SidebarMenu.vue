@@ -12,7 +12,7 @@
                     <li @click="closeMenu">
                         <router-link to="/" exact>Home</router-link>
                     </li>
-                    <li @click="closeMenu" v-for='category in categories'>
+                    <li class="px10 py5" @click="closeMenu" v-for='category in categories'>
                         <router-link :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
                         <ul v-if="category.children_data">
                             <li @click="closeMenu" v-for='subcat in category.children_data'>
@@ -63,6 +63,10 @@ export default {
 </script>
 
 <style scoped>
+ul {
+    list-style-type: none;
+}
+
 .sidebar-menu {
     position: fixed;
     height: 100vh;
