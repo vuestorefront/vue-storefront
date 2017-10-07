@@ -1,0 +1,25 @@
+/* Atomic border styles */
+
+.brdr-1 {
+    border: 1px solid;
+}
+
+.brdr-gray {
+    border-color: #BDBDBD;
+}
+
+.brdr-lightgray {
+    border-color: #E0E0E0;
+}
+
+.brdr-square {
+    border-radius: 0;
+}
+
+.brdr-circle {
+    border-radius: 50%;
+}
+
+.brdr-underline {
+    border-bottom: 1px solid;
+}

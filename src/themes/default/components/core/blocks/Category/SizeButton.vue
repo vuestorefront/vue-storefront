@@ -1,5 +1,5 @@
 <template>
-    <button>
+    <button class="bg-transparent clr-lightgray brdr-1 brdr-gray brdr-square">
         {{ content }}
     </button>
 </template>
@@ -17,22 +17,6 @@ export default {
     button {
         width: 40px;
         height: 40px;
-        border: 1px solid;
-        border-color: #BDBDBD;
-        border-radius: 0;
-        color: #BDBDBD;
-        background-color: transparent;
-    }
-
-    button.active {
-        border-color: #4F4F4F;
-        color: #4F4F4F;
-        background-color: #E0E0E0;
-    }
-
-    button.disabled {
-        border-color: #E0E0E0;
-        content: #E0E0E0;
     }
     
 </style>
