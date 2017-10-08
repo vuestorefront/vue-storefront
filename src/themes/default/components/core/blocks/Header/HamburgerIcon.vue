@@ -1,5 +1,5 @@
 <template>
-    <div class="hamburger-icon box display-inline-flex" @click="toggleSidebarMenu">
+    <div class="hamburger-icon box" @click="toggleSidebarMenu">
         <i class="material-icons md-18">dehaze</i>
     </div>
 </template>
@@ -20,5 +20,7 @@ export default {
 </script>
 
 <style scoped>
-    
+    .hamburger-icon {
+      display: inline-flex;
+    }
 </style>
