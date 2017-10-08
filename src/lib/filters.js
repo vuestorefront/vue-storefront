@@ -22,6 +22,9 @@ export function slugify (text) {
     .replace(/[^\w-]+/g, '') // Remove all non-word chars
     .replace(/--+/g, '-') // Replace multiple - with single -
 }
+export function price (value) {
+  return '$' + parseFloat(value).toFixed(2)
+}
 
 /**
  * Register Vue common filters
@@ -31,4 +34,5 @@ export function slugify (text) {
 export function registerFilters (app) {
   Vue.filter('thumb', thumb)
   Vue.filter('slugify', slugify)
+  Vue.filter('price', price)
 }

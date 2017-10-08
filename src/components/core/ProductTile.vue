@@ -1,8 +1,8 @@
 <template>
   <div class="product-tile">
     Core Product Tile
-    <!-- Product name and price -->
-    {{ product.name}} - {{ product.price }} 
+    <!-- Product name and price with price filter -->
+    {{ product.name}} - {{ product.price | price }} 
     <!-- Add to cart button. Pass whole product as prop -->
   </div>
 </template>

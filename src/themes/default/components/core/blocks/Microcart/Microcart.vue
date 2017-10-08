@@ -5,7 +5,7 @@
         <i class="material-icons p15 close" @click="closeMicrocart">close</i>
       </div>
     </div>
-
+{{ total }}
       <ul>
         <li v-for='product in items'>
           {{ product.name }} - {{ product.price }}  - x{{ product.quantity }} <button v-on:click="removeFromCart(product)">Remove</button>

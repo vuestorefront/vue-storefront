@@ -5,7 +5,7 @@
         <!-- <img v-bind:src="thumbnail" /> -->
       </div>
       <p class="mb0">{{ product.name }}</p>
-      {{ product.price }}
+      {{ product.price | price }}
     </router-link>
     <add-to-cart :product="product" />    
   </div>
