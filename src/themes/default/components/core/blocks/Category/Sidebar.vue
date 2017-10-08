@@ -13,7 +13,7 @@
 
         <div v-if="filters.price.length">
             <h5>Price</h5>
-            <price-button class="price-select mb10 display-block" v-for="(price, index) in filters.price" :key="index" :content="'$' + price" />
+            <price-button class="price-select mb10" v-for="(price, index) in filters.price" :key="index" :content="'$' + price" />
         </div>
     </div>
 </template>
@@ -36,5 +36,7 @@ export default {
 </script>
 
 <style scoped>
-    
+.price-select {
+    display: block;
+}
 </style>
