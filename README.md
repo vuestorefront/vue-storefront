@@ -2,7 +2,7 @@
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
-The project is still in the prove of concept phase. **We are looking for Contributors and Designer willing to help us the the solution development.**
+The project is still in the prove of concept phase. **We are looking for Contributors and Designer willing to help us in the solution development.**
 
 ## The business challenges
 Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
