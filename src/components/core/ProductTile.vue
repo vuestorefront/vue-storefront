@@ -9,7 +9,7 @@
 
 <script>
 import AddToCart from './AddToCart.vue'
-import { thumb } from '../../lib/filters'
+import { thumbnail } from '../../lib/filters'
 
 export default {
   name: 'product-tile',
@@ -17,7 +17,7 @@ export default {
   components: { AddToCart },
   computed: {
     thumbnail () {
-      return thumb(this.product.image, 310, 300)
+      return thumbnail(this.product.image, 310, 300)
     }
   }
 }

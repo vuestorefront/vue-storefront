@@ -7,7 +7,7 @@ import config from '../config'
  * @param {Int} width
  * @param {Int} height
  */
-export function thumb (relativeUrl, width, height) {
+export function thumbnail (relativeUrl, width, height) {
   return config.images.baseUrl + parseInt(width) + '/' + parseInt(height) + '/resize' + relativeUrl
 }
 
@@ -22,6 +22,11 @@ export function slugify (text) {
     .replace(/[^\w-]+/g, '') // Remove all non-word chars
     .replace(/--+/g, '-') // Replace multiple - with single -
 }
+  
+/**
+ * Converts number to price string
+ * @param {Number} value
+ */
 export function price (value) {
   return '$' + parseFloat(value).toFixed(2)
 }
@@ -32,7 +37,7 @@ export function price (value) {
  * @param {Object} config
  */
 export function registerFilters (app) {
-  Vue.filter('thumb', thumb)
+  Vue.filter('thumbnail', thumbnail)
   Vue.filter('slugify', slugify)
   Vue.filter('price', price)
 }
