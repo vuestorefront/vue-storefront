@@ -12,6 +12,9 @@
     border-color: #E0E0E0;
 }
 
+.brdr-c-darkgray {
+    border-color: #F2F2F2;
+}
 .brdr-square {
     border-radius: 0;
 }
@@ -21,5 +24,6 @@
 }
 
 .brdr-underline {
-    border-bottom: 1px solid;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
 }

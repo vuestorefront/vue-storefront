@@ -1,7 +1,12 @@
 
-
+.p0 {
+    padding: 0;
+}
 .p5 {
     padding: 5px;
+}
+.p10 {
+    padding: 10px;
 }
 .p15 {
     padding: 15px;
@@ -16,6 +21,13 @@
     padding-left: 10px;
     padding-right: 10px
 }
+
+
+.px25 {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
 .px40 {
     padding-left: 40px;
     padding-right: 40px;
@@ -30,6 +42,11 @@
     padding-bottom: 15px;
 }
 
+.py20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .py35 {
     padding-top: 35px;
     padding-bottom: 35px;
@@ -38,6 +55,9 @@
     padding-right: 15px;
 }
 
+.pl0 {
+    padding-left: 0px;
+}
 .pt20 {
     padding-top: 20px;
 }

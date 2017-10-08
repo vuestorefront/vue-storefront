@@ -6,19 +6,18 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <ul>
+            <div class="col-md-12 h4 serif">
+                <ul class="p0 m0">
                     <!-- TO-DO: Remove closemenu and handle it via store -->
-                    <li @click="closeMenu">
+                    <li @click="closeMenu" class="px25 py20 brdr-underline brdr-c-darkgray bg-white">
                         <router-link to="/" exact>Home</router-link>
                     </li>
-                    <li class="px10 py5" @click="closeMenu" v-for='category in categories'>
+                    <li class="px25 py20 brdr-underline brdr-c-darkgray bg-white" @click="closeMenu" v-for='category in categories'>
                         <router-link :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
-                        <ul v-if="category.children_data">
-                            <li @click="closeMenu" v-for='subcat in category.children_data'>
+                        <ul v-if="category.children_data" class="p0">
+                            <li @click="closeMenu" v-for='subcat in category.children_data'  style="display: none">
                                 <router-link :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
                             </li>
-                            
                         </ul>
                     </li>
                 </ul>
@@ -81,5 +80,12 @@ ul {
 .close {
     cursor: pointer;
     display: inline-flex;
+}
+a {
+    display: block;
+    color: black;
+}
+li:hover {
+    background-color: #F2F2F2;
 }
 </style>

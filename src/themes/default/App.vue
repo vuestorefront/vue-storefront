@@ -45,7 +45,7 @@ body {
   padding: 0;
 }
 a {
-  color: 
+  text-decoration: none;
 }
 #viewport {
   width: 100%;
