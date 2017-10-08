@@ -125,3 +125,7 @@ The default config file should work perfectly fine for default purposes.
 ## Documentation
 
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
+
+## Questions and discussion 
+
+If you have any questions or ideas feel free to join our slack: https://vue-storefront.slack.com
