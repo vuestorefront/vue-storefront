@@ -1,5 +1,5 @@
 <template>
-  <section class="main-slider bg-darkgray clr-white">
+  <section class="main-slider bg-darkgray c-white">
       <div class="container">
           <!-- TO-DO: Use v-for and make slides moving from right to left -->
           <div class="row middle-md">
