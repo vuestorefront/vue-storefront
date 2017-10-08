@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-9 end-md">
           <ul class="links">
-            <li class="pr15 display-inline-flex">Legal notice</li>
+            <li class="pr15">Legal notice</li>
             <li>Privacy policy</li>
           </ul>
         </div>
@@ -35,5 +35,8 @@ export default {
   }
   .links {
     list-style-type: none;
+  }
+  .links li {
+    display: inline-flex;
   }
 </style>
