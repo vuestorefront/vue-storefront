@@ -45,8 +45,8 @@
     }
     @each $i in $margin-x-p {
       .mx#{$i}p {
-        margin-top: percentage($i/100);
-        margin-bottom: percentage($i/100);
+        margin-left: percentage($i/100);
+        margin-right: percentage($i/100);
       }
     }
 
@@ -58,8 +58,8 @@
     }
     @each $i in $margin-y-p {
       .my#{$i}p {
-        margin-left: percentage($i/100);
-        margin-right: percentage($i/100);
+        margin-top: percentage($i/100);
+        margin-bottom: percentage($i/100);
       }
     }
 

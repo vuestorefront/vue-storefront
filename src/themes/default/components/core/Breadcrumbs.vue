@@ -1,5 +1,5 @@
 <template>  
-  <div class="breadcrumbs h5 weight-200 clr-mediumgray">
+  <div class="breadcrumbs h5 weight-200 c-mediumgray">
       <a v-for="link in routes" :href="link.route_link">
         {{ link.name }} /
       </a>

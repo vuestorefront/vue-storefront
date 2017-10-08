@@ -1,5 +1,5 @@
 <template>
-    <button class="bg-transparent clr-lightgray brdr-1 brdr-gray brdr-square">
+    <button class="bg-transparent c-lightgray brdr-1 brdr-gray">
         {{ content }}
     </button>
 </template>

@@ -1,6 +1,6 @@
 <template>
-    <button class="bg-transparent position-relative brdr-1 brdr-circle">
-        <div class="brdr-circle display-block cntr" :style="'background-color: ' + color"></div>
+    <button class="bg-transparent brdr-1 brdr-circle">
+        <div class="brdr-circle" :style="'background-color: ' + color"></div>
     </button>
 </template>
 
@@ -18,11 +18,16 @@ export default {
         width: 40px;
         height: 40px;
         border-color: rgba(113,113,113,0);
+        position: relative;
     }
 
     button > div {
         width: 89%;
         height: 89%;
+        display: block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
     }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
-    <div class="sidebar-menu bg-lightgray position-fixed top-0" :class="{ active: isOpen }">
+    <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
         <div class="row">
-            <div class="col-md-12 close bg-white align-right display-inline-flex end-xs" @click="closeMenu">
+            <div class="col-md-12 close bg-white align-right end-xs" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
@@ -72,11 +72,14 @@ ul {
     width: 350px;
     left: -350px;
     overflow: hidden;
+    position: fixed;
+    top: 0;
 }
 .sidebar-menu.active {
     left: 0;
 }
 .close {
     cursor: pointer;
+    display: inline-flex;
 }
 </style>

@@ -1,5 +1,3 @@
-/* Atomic background styles */
-
 .bg-white {
     background-color: white;
 }
@@ -20,16 +18,15 @@
     background-color: transparent;
 }
 
-/* Atomic color styles */
 
-.clr-white {
+.c-white {
     color: white;
 }
 
-.clr-mediumgray {
+.c-mediumgray {
     color: #828282;
 }
 
-.clr-lightgray {
+.c-lightgray {
     color: #BDBDBD;
 }
