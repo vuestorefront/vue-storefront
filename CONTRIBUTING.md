@@ -18,6 +18,8 @@ Always define type of issue:
 While writing issues, be as specific as possible
 All requests regarding support with implementation or application setup should be sent to contributors@vuestorefront.io
 
+## Pull requests
+
 Here’s how to submit a pull request:
 
 1. Fork the repository and clone it locally. Connect your local repository to the original “upstream” repository by adding it as a remote repository. Pull in changes from “upstream” often in order to stay up to date so that when you submit your pull request, merge conflicts will be less likely.
