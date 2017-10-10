@@ -21,12 +21,20 @@
       </div>
       <div class="row pt20 pb20 pl30 pr55">
         <div class="col-xs">
-          Shipping
+          Shipping ({{ shipping.name }})
         </div>
         <div class="col-xs align-right">
           {{ shipping.cost | price }}
         </div>
       </div>
+        <div class="col-xs">
+          Payment ({{ payment.name }})
+        </div>
+        <div class="col-xs align-right" v-if='payment.cost > 0'>
+          {{ payment.cost | price }}
+        </div>
+      </div>
+
       <div class="row pt20 pb20 pl30 pr55">
         <div class="col-xs weight-400">
           Total
