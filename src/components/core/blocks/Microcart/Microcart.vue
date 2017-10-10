@@ -28,6 +28,9 @@ export default {
     shipping () {
       return this.$store.state.cart.shipping
     },
+    payment () {
+      return this.$store.state.cart.payment
+    },
     total () {
       return this.$store.getters['cart/totals']
     },

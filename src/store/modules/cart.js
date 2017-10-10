@@ -5,8 +5,8 @@ const store = {
   namespaced: true,
   state: {
     cartIsLoaded: false,
-    shipping: { cost: 15, method: 'carrier' },
-    payment: { method: 'cod' },
+    shipping: { cost: 0, code: '' },
+    payment: { cost: 0, code: '' },
     cartItems: [] // TODO: check if it's properly namespaced
   },
   mutations: {
@@ -35,7 +35,7 @@ const store = {
     },
     [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
       state.shipping.cost = shippingCost
-      state.shipping.method = shippingMethod
+      state.shipping.code = shippingMethod
     },
     [types.CART_LOAD_CART] (state, storedItems) {
       state.cartItems = storedItems || []
@@ -55,7 +55,17 @@ const store = {
     }
   },
   actions: {
-    load ({ commit }) {
+    load (context) {
+      const commit = context.commit
+      const rootState = context.rootState
+      const state = context.state
+
+      if (!state.shipping.code) {
+        state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el })
+      }
+      if (!state.payment.code) {
+        state.payment = rootState.payment.methods.find((el) => { if (el.default === true) return el })
+      }
       global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
         if (err) throw new Error(err)
         commit(types.CART_LOAD_CART, storedItems)

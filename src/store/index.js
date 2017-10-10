@@ -35,6 +35,8 @@ import category from './modules/category'
 import attribute from './modules/attribute'
 import cart from './modules/cart'
 import user from './modules/user'
+import payment from './modules/payment'
+import shipping from './modules/shipping'
 
 Vue.use(Vuex)
 
@@ -79,7 +81,9 @@ export default new Vuex.Store({
     category,
     attribute,
     cart,
-    user
+    user,
+    payment,
+    shipping
   },
   state,
   mutations,

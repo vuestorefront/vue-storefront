@@ -32,7 +32,7 @@
           Total
         </div>
         <div class="col-xs align-right weight-400 h3">
-          {{ (total.subtotal + shipping.cost) | price }}
+          {{ (total.subtotal + shipping.cost + payment.cost) | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">

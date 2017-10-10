@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Cash on delivery",
+        "code": "cod",
+        "cost": 15, 
+        "default": true,
+        "offline": true
+    },
+    {
+        "name": "paypal",
+        "code": "paypal",
+        "cost": 0, 
+        "default": false,
+        "offline": false
+    }
+]
