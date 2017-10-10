@@ -4,6 +4,10 @@
     border: 1px solid;
 }
 
+.brdr-none {
+    border: none;
+}
+
 .brdr-c-gray {
     border-color: #BDBDBD;
 }
