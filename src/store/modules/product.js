@@ -19,8 +19,8 @@ const actions = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product' }) {
-    return quickSearchByQuery({ query, start, size, entityType }).then((resp) => {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '' }) {
+    return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
       context.commit(types.CATALOG_UPD_PRODUCTS, resp)
       return resp
     }).catch(function (err) {

@@ -49,7 +49,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product' }) {
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '' }) {
   size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -60,7 +60,8 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       type: entityType,
       body: query,
       size: size,
-      from: start
+      from: start,
+      sort: sort
     }).then(function (resp) {
       resolve(_handleEsResult(resp, start, size))
     }).catch(function (err) {
