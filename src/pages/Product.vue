@@ -19,7 +19,7 @@ export default {
       let self = this
       let productQuery = builder().query('match', 'id', self.$route.params.id).build()
 
-      self.$store.dispatch('catalog/quickSearchByQuery', productQuery).then((res) => {
+      self.$store.dispatch('product/quickSearchByQuery', productQuery).then((res) => {
         if (res.items) {
           self.product = res.items[0]
         }

@@ -22,7 +22,7 @@ export default {
      * @param {String} optionId - value to get label for
      */
     _attributeOptionName (attributeCode, optionId) {
-      const state = this.$store.state.catalog
+      const state = this.$store.state.attribute
       let attrCache = state.attributeLabels[attributeCode]
 
       if (attrCache) {
@@ -81,7 +81,7 @@ export default {
           if (!category) {
             return
           }
-          self.$store.dispatch('catalog/getCategoryBy', { key: 'id', value: category.parent_id }).then((category) => {
+          self.$store.dispatch('category/single', { key: 'id', value: category.parent_id }).then((category) => {
             if (!category) {
               return
             }
@@ -99,11 +99,11 @@ export default {
           recurCatFinder(self.category) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
         }
 
-        self.$store.dispatch('catalog/loadAttributes', { // load filter attributes for this specific category
+        self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
           attrCodes: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
-      self.$store.dispatch('catalog/quickSearchByQuery', {
+      self.$store.dispatch('product/list', {
         query: searchProductQuery.build(),
         start: self.pagination.offset,
         size: self.pagination.pageSize
@@ -135,8 +135,8 @@ export default {
       let self = this
       let slug = this.$route.params.slug
 
-      self.$store.dispatch('catalog/loadCategories', {}).then((categories) => {
-        self.$store.dispatch('catalog/getCategoryBy', { key: 'slug', value: slug }).then((category) => {
+      self.$store.dispatch('category/list', {}).then((categories) => {
+        self.$store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
           self.category = category
 
           if (!self.category) {

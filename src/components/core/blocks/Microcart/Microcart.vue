@@ -19,10 +19,10 @@ export default {
   name: 'microcart',
   props: ['product'],
   created () {
-    this.$store.dispatch('cart/loadCart') // load cart from the indexedDb
+    this.$store.dispatch('cart/load') // load cart from the indexedDb
   },
   methods: {
-    ...mapActions({ 'removeFromCart': 'cart/removeFromCart' })
+    ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },
   computed: {
     items () {
