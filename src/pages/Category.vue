@@ -56,7 +56,7 @@ export default {
     },
     fetchData (to) {
       let self = this
-      let searchProductQuery = builder().query('match', 'category.category_id', self.category.id)  // FIXME!
+      let searchProductQuery = builder().orFilter('term', 'category.category_id', self.category.id)  // FIXME!
       // add filters to query
       for (let attrToFilter of Object.keys(self.filters)) {
         if (attrToFilter !== 'price') {
@@ -74,6 +74,28 @@ export default {
         }
       }
 
+      if (self.category.children_data) {
+        let recurCatFinderBuilder = (category, searchProductQuery) => {
+          if (!category) {
+            return searchProductQuery
+          }
+
+          if (!category.children_data) {
+            return searchProductQuery
+          }
+
+          for (let sc of category.children_data) {
+            if (sc && sc.id) {
+              searchProductQuery = searchProductQuery.orFilter('term', 'category.category_id', sc.id)
+            }
+            return recurCatFinderBuilder(sc, searchProductQuery)
+          }
+
+          return searchProductQuery
+        }
+        recurCatFinderBuilder(self.category, searchProductQuery)
+      }
+      console.log(searchProductQuery)
       self.breadcrumbs.routes = []
 
       if (self.category) { // fill breadcrumb data - TODO: extract it to Breadcrumb component or to helper
