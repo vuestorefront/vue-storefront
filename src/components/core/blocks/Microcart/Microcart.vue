@@ -25,6 +25,9 @@ export default {
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },
   computed: {
+    total () {
+      return this.$store.getters['cart/totals']
+    },
     items () {
       return this.$store.state.cart.cartItems
     }

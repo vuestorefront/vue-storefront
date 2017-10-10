@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import builder from 'bodybuilder'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 
 export default {
@@ -18,9 +17,7 @@ export default {
   methods: {
     fetchData (to) {
       let self = this
-      let productQuery = builder().query('match', 'id', self.$route.params.id).build()
-
-      self.$store.dispatch('product/quickSearchByQuery', productQuery).then((res) => {
+      self.$store.dispatch('product/single', { fieldName: 'id', value: self.$route.params.id }).then((res) => {
         if (res.items) {
           self.product = res.items[0]
         }
