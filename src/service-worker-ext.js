@@ -22,7 +22,7 @@ funcs.reduce((promise, func) =>
 import * as localForage from 'localforage'
 
 self.addEventListener('message', function (event) {
-  if (event.data.command === 'checkout/PROCESS_QUEUE') {
+  if (event.data.command === 'order/PROCESS_QUEUE') {
     console.log('Sending out orders queue to server ...')
     console.debug(event.data)
       // event.data.config - configuration, endpoints etc

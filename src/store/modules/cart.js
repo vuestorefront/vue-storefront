@@ -50,17 +50,17 @@ const store = {
     }
   },
   actions: {
-    loadCart ({ commit }) {
+    load ({ commit }) {
       global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
         if (err) throw new Error(err)
         commit(types.CART_LOAD_CART, storedItems)
       })
     },
 
-    addToCart ({ commit }, product) {
+    addItem ({ commit }, product) {
       commit(types.CART_ADD_ITEM, { product })
     },
-    removeFromCart ({ commit }, product) {
+    removeItem ({ commit }, product) {
       commit(types.CART_DEL_ITEM, { product })
     },
     updateQuantity ({ commit }, { product, quantity }) {

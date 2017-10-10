@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     categories () {
-      return this.$store.state.catalog.categories.filter((op) => {
+      return this.$store.state.category.list.filter((op) => {
         return op.level === 2 // display only the root level (level =1 => Default Category)
       })
     }
@@ -49,7 +49,7 @@ export default {
     EventBus.$on('toggle-sidebar-menu', () => {
       self.isOpen = !self.isOpen
     })
-    this.$store.dispatch('catalog/loadCategories', {})
+    this.$store.dispatch('category/list', {})
   },
   methods: {
     closeMenu () {

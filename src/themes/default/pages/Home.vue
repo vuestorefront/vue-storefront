@@ -67,7 +67,7 @@ import Inspirations from '../components/theme/blocks/Inspirations/Inspirations.v
 export default {
   computed: {
     categories () {
-      return this.$store.state.catalog.categories
+      return this.$store.state.category.list
     }
   },
   data () {

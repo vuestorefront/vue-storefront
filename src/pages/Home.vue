@@ -18,10 +18,10 @@ export default {
     let self = this
     let catalogQuery = builder().query('match', 'name', 'Bag').aggregation('terms', 'category.id').build()
     // mock for checkout
-    self.$store.dispatch('checkout/placeOrder', OrderData)
-    self.$store.dispatch('cart/loadCart')
+    self.$store.dispatch('order/placeOrder', OrderData)
+    self.$store.dispatch('cart/load')
 
-    self.$store.dispatch('catalog/quickSearchByQuery', {
+    self.$store.dispatch('product/list', {
       query: catalogQuery
     }).then(function (res) {
       self.products = res.items

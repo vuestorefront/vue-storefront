@@ -29,8 +29,10 @@ Vue.prototype.$db = {
 
 global.db = Vue.prototype.$db // localForage instance
 
-import checkout from './modules/checkout'
-import catalog from './modules/catalog'
+import order from './modules/order'
+import product from './modules/product'
+import category from './modules/category'
+import attribute from './modules/attribute'
 import cart from './modules/cart'
 import user from './modules/user'
 
@@ -72,8 +74,10 @@ const plugins = [
 
 export default new Vuex.Store({
   modules: {
-    checkout,
-    catalog,
+    order,
+    product,
+    category,
+    attribute,
     cart,
     user
   },
