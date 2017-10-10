@@ -5,6 +5,8 @@ const store = {
   namespaced: true,
   state: {
     cartIsLoaded: false,
+    shipping: { cost: 15, method: 'carrier' },
+    payment: { method: 'cod' },
     cartItems: [] // TODO: check if it's properly namespaced
   },
   mutations: {
@@ -31,7 +33,10 @@ const store = {
       const record = state.cartItems.find(p => p.id === product.id)
       record.quantity = quantity
     },
-
+    [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
+      state.shipping.cost = shippingCost
+      state.shipping.method = shippingMethod
+    },
     [types.CART_LOAD_CART] (state, storedItems) {
       state.cartItems = storedItems || []
       state.cartIsLoaded = true
@@ -65,6 +70,9 @@ const store = {
     },
     updateQuantity ({ commit }, { product, quantity }) {
       commit(types.CART_UPD_ITEM, { product, quantity })
+    },
+    changeShippingMethod ({ commit }, { shippingMethod, shippingCost }) {
+      commit(types.CART_UPD_SHIPPING, { shippingMethod, shippingCost })
     }
   }
 }

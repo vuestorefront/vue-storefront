@@ -32,7 +32,7 @@ import RemoveButton from './ui/RemoveButton'
 export default {
   methods: {
     removeFromCart () {
-      this.$store.dispatch('cart/removeFromCart', this.product)
+      this.$store.dispatch('cart/removeItem', this.product)
     }
   },
   components: {

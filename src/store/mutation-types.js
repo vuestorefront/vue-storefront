@@ -4,6 +4,7 @@ export const CART_ADD_ITEM = SN_CART + '/ADD'
 export const CART_DEL_ITEM = SN_CART + '/DEL'
 export const CART_UPD_ITEM = SN_CART + '/UPD'
 export const CART_LOAD_CART = SN_CART + '/LOAD'
+export const CART_UPD_SHIPPING = SN_CART + '/SHIPPING'
 
 export const SN_CATEGORY = 'category'
 export const CATEGORY_UPD_CATEGORIES = SN_CATEGORY + '/UPD_CATEGORIES'

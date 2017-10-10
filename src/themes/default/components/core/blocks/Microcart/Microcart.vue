@@ -16,7 +16,7 @@
           Subtotal
         </div>
         <div class="col-xs align-right">
-          $130.00
+          {{ total.subtotal | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
@@ -24,7 +24,7 @@
           Shipping
         </div>
         <div class="col-xs align-right">
-          Standard shipping $5.00
+          {{ shipping.cost | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
@@ -32,7 +32,7 @@
           Total
         </div>
         <div class="col-xs align-right weight-400 h3">
-          $130.00
+          {{ (total.subtotal + shipping.cost) | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
