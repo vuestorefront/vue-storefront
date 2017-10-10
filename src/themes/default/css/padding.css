@@ -2,12 +2,15 @@
 .p0 {
     padding: 0;
 }
+
 .p5 {
     padding: 5px;
 }
+
 .p10 {
     padding: 10px;
 }
+
 .p15 {
     padding: 15px;
 }
@@ -21,7 +24,6 @@
     padding-left: 10px;
     padding-right: 10px
 }
-
 
 .px25 {
     padding-left: 25px;
@@ -51,22 +53,69 @@
     padding-top: 35px;
     padding-bottom: 35px;
 }
+
 .pr15 {
     padding-right: 15px;
+}
+
+.pr30 {
+    padding-right: 30px;
+}
+
+.pr55 {
+    padding-right: 55px;
+}
+
+.pr70 {
+    padding-right: 70px;
 }
 
 .pl0 {
     padding-left: 0px;
 }
+
+.pl30 {
+    padding-left: 30px;
+}
+
+.pl40 {
+    padding-left: 40px;
+}
+
+.pl70 {
+    padding-left: 70px;
+}
+
+.pt5 {
+    padding-top: 5px;
+}
+
+.pt10 {
+    padding-top: 10px;
+}
+
+.pt15 {
+    padding-top: 15px;
+}
+
 .pt20 {
     padding-top: 20px;
 }
+
 .pt40 {
     padding-top: 40px;
 }
 
+.pt70 {
+    padding-top: 70px;
+}
+
 .pb15 {
     padding-bottom: 15px;
+}
+
+.pb20 {
+    padding-bottom: 20px;
 }
 
 .pb45 {
@@ -75,4 +124,8 @@
 
 .pb60 {
     padding-bottom: 60px;
+}
+
+.pb70 {
+    padding-bottom: 70px;
 }
