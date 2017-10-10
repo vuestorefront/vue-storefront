@@ -6,6 +6,7 @@
 
 <script>
 import builder from 'bodybuilder'
+import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 
 export default {
   name: 'Home',
@@ -28,6 +29,9 @@ export default {
   },
   created () {
     this.fetchData()
+  },
+  components: {
+    Breadcrumbs
   }
 }
 </script>
