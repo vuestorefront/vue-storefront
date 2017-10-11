@@ -3,17 +3,16 @@
         <h4>Filter</h4>
         <div v-if="filters.color.length">
             <h5>Color</h5>
-            <color-button class="color-select mr10" v-for="(color, index) in filters.price" :key="index" :color="color.colorcode" />
+            <color-button class="color-select mr10" v-for="(color, index) in filters.price" :key="index" :id="color.id" :color="color.label" />
         </div>
-
         <div v-if="filters.size.length">
             <h5>Size</h5>
-            <size-button class="size-select mr10" v-for="(size, index) in filters.size" :key="index" :content="size.label" />
+            <size-button class="size-select mr10" v-for="(size, index) in filters.size" :key="index" :id="size.id" :content="size.label" />
         </div>
 
         <div v-if="filters.price.length">
             <h5>Price</h5>
-            <price-button class="price-select mb10" v-for="(price, index) in filters.price" :key="index" :content="'$' + price" />
+            <price-button class="price-select mb10" v-for="(price, index) in filters.price" :key="index" :id="price.id" :content="'$' + price" />
         </div>
     </div>
 </template>
