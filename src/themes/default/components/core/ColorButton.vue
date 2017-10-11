@@ -1,6 +1,6 @@
 <template>
     <button class="bg-transparent brdr-1 brdr-circle">
-        <div class="brdr-circle" :style="'background-color: ' + color"></div>
+        <div class="brdr-circle" :style="'background-color: ' + color" @click="switchFilter()"></div>
     </button>
 </template>
 
@@ -8,6 +8,11 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
+  methods: {
+    switchFilter () {
+      console.log('Switch Filter')
+    }
+  },
   mixins: [coreComponent('core/ColorButton')]
 }
 </script>

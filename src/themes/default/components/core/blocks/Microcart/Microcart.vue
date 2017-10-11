@@ -27,6 +27,7 @@
           {{ shipping.cost | price }}
         </div>
       </div>
+      <div class="row pt20 pb20 pl30 pr55">
         <div class="col-xs">
           Payment ({{ payment.name }})
         </div>
@@ -34,7 +35,6 @@
           {{ payment.cost | price }}
         </div>
       </div>
-
       <div class="row pt20 pb20 pl30 pr55">
         <div class="col-xs weight-400">
           Total
@@ -90,6 +90,7 @@ export default {
     right: -600px;
     position: fixed;
     top: 0;
+    z-index: 2;
 }
 .microcart.active {
     right: 0;

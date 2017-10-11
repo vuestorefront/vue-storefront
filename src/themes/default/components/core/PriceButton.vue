@@ -1,6 +1,6 @@
 <template>
     <span>
-        <button class="brdr-c-gray brdr-1 bg-transparent mr10">
+        <button class="brdr-c-gray brdr-1 bg-transparent mr10" @click="switchFilter()">
             <div class="bg-transparent"></div>
         </button> 
         <span>{{ content }}</span>
@@ -11,6 +11,11 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
+  methods: {
+    switchFilter () {
+      console.log('Switch Filter')
+    }
+  },
   mixins: [coreComponent('core/PriceButton')]
 }
 </script>
