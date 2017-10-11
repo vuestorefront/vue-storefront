@@ -1,5 +1,5 @@
 <template>
-    <button class="bg-transparent c-lightgray brdr-1 brdr-gray">
+    <button class="bg-transparent c-lightgray brdr-1 brdr-gray" @click="switchFilter()">
         {{ content }}
     </button>
 </template>
@@ -8,6 +8,11 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
+  methods: {
+    switchFilter () {
+      console.log('Switch Filter')
+    }
+  },
   mixins: [coreComponent('core/blocks/Category/SizeButton')]
 }
 </script>
