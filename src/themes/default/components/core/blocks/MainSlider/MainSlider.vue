@@ -26,6 +26,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+    font-size: 72px;
+}
 .main-slider {
     width: 100%;
     height: 640px

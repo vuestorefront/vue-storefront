@@ -31,9 +31,9 @@ export default {
     payment () {
       return this.$store.state.cart.payment
     },
-    total () {
-      return this.$store.getters['cart/totals']
-    },
+    // total () {
+    //   return this.$store.getters['cart/totals']
+    // },
     items () {
       return this.$store.state.cart.cartItems
     }

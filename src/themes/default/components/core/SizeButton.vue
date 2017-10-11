@@ -1,6 +1,6 @@
 <template>
-    <button class="bg-transparent c-lightgray brdr-1 brdr-gray">
-        {{ content }}
+    <button class="bg-white c-lightgray brdr-1 brdr-gray">
+        {{ size }}
     </button>
 </template>
 
@@ -8,7 +8,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Category/SizeButton')]
+  mixins: [coreComponent('core/SizeButton')]
 }
 </script>
 

@@ -23,10 +23,10 @@
     color: white;
 }
 
-.c-mediumgray {
-    color: #828282;
-}
-
 .c-lightgray {
     color: #BDBDBD;
+}
+
+.c-darkgray {
+    color: #828282;
 }

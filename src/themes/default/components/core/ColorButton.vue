@@ -8,7 +8,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Category/ColorButton')]
+  mixins: [coreComponent('core/ColorButton')]
 }
 </script>
 

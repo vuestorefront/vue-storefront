@@ -5,10 +5,10 @@
       <div class="col-xs pl40 pb15 pt15">
         <div>
           <div>{{ product.name }}</div>
-          <div class="h6 c-mediumgray pt5">{{ product.sku }}</div>
+          <div class="h6 c-darkgray pt5">{{ product.sku }}</div>
         </div>
         <div>
-          <div><span class="c-mediumgray">Qty</span> <span class="weight-400">{{ product.quantity }}</span></div>
+          <div><span class="c-darkgray">Qty</span> <span class="weight-400">{{ product.quantity }}</span></div>
         </div>
       </div>
       <div class="col-xs pl40 pb15 pt15 align-right">
@@ -16,8 +16,8 @@
           $ {{ product.price }}
         </div>
         <div>
-          <div class="c-mediumgray"><edit-button class="c-mediumgray" /></div>
-          <div class="mt6"><span v-on:click="removeFromCart"><remove-button class="c-mediumgray" /></span></div>
+          <div class="c-darkgray"><edit-button class="c-darkgray" /></div>
+          <div class="mt6"><span v-on:click="removeFromCart"><remove-button class="c-darkgray" /></span></div>
         </div>
       </div>
     </div>
