@@ -8,7 +8,12 @@
           <div class="h6 c-mediumgray pt5">{{ product.sku }}</div>
         </div>
         <div>
-          <div><span class="c-mediumgray">Qty</span> <span class="weight-400">{{ product.quantity }}</span></div>
+          <div><span class="c-mediumgray">Qty</span> 
+          <span class="weight-400" :class="{ hidden: isEditing }">{{ product.quantity }}</span>
+          <span :class="{ hidden: !isEditing }">
+            <input type="number" v-model="qty">
+          </span>
+          </div>
         </div>
       </div>
       <div class="col-xs pl40 pb15 pt15 align-right">
@@ -16,8 +21,8 @@
           $ {{ product.price }}
         </div>
         <div>
-          <div class="c-mediumgray"><edit-button class="c-mediumgray" /></div>
-          <div class="mt6"><span v-on:click="removeFromCart"><remove-button class="c-mediumgray" /></span></div>
+          <div class="c-mediumgray"><span @click="switchEdit"><edit-button class="c-mediumgray" /></span></div>
+          <div class="mt6"><span @click="removeItem"><remove-button class="c-mediumgray" /></span></div>
         </div>
       </div>
     </div>
@@ -30,9 +35,25 @@ import EditButton from './ui/EditButton'
 import RemoveButton from './ui/RemoveButton'
 
 export default {
+  data () {
+    return {
+      qty: 0,
+      isEditing: false
+    }
+  },
   methods: {
-    removeFromCart () {
+    removeItem () {
       this.$store.dispatch('cart/removeItem', this.product)
+    },
+    updateQuantity () {
+      if (this.qty <= 0) {
+        this.qty = this.product.quantity
+      }
+      this.$store.dispatch('cart/updateQuantity', { product: this.product, quantity: this.qty })
+    },
+    switchEdit () {
+      this.isEditing ? this.updateQuantity() : this.qty = this.product.quantity
+      this.isEditing = !this.isEditing
     }
   },
   components: {
@@ -48,5 +69,11 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.hidden {
+  display: none;
+}
+input {
+  width: 60px;
 }
 </style>
