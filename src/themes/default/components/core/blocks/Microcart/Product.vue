@@ -8,16 +8,12 @@
           <div class="h6 c-darkgray pt5">{{ product.sku }}</div>
         </div>
         <div>
-<<<<<<< HEAD
-          <div><span class="c-darkgray">Qty</span> <span class="weight-400">{{ product.quantity }}</span></div>
-=======
-          <div><span class="c-mediumgray">Qty</span> 
+          <div><span class="c-darkgray">Qty</span> 
           <span class="weight-400" :class="{ hidden: isEditing }">{{ product.quantity }}</span>
           <span :class="{ hidden: !isEditing }">
             <input type="number" v-model="qty">
           </span>
           </div>
->>>>>>> e76d899a6d7dd6fd2b64021be9312701f21e3ab7
         </div>
       </div>
       <div class="col-xs pl40 pb15 pt15 align-right">
@@ -25,13 +21,8 @@
           $ {{ product.price }}
         </div>
         <div>
-<<<<<<< HEAD
-          <div class="c-darkgray"><edit-button class="c-darkgray" /></div>
-          <div class="mt6"><span v-on:click="removeFromCart"><remove-button class="c-darkgray" /></span></div>
-=======
-          <div class="c-mediumgray"><span @click="switchEdit"><edit-button class="c-mediumgray" /></span></div>
-          <div class="mt6"><span @click="removeItem"><remove-button class="c-mediumgray" /></span></div>
->>>>>>> e76d899a6d7dd6fd2b64021be9312701f21e3ab7
+          <div class="c-darkgray"><span @click="switchEdit"><edit-button class="c-darkgray" /></span></div>
+          <div class="mt6"><span @click="removeItem"><remove-button class="c-darkgray" /></span></div>
         </div>
       </div>
     </div>
@@ -40,8 +31,9 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EditButton from './ui/EditButton'
-import RemoveButton from './ui/RemoveButton'
+
+import EditButton from './EditButton'
+import RemoveButton from './RemoveButton'
 
 export default {
   data () {
@@ -69,7 +61,7 @@ export default {
     EditButton,
     RemoveButton
   },
-  mixins: [coreComponent('core/ProductRow')]
+  mixins: [coreComponent('core/blocks/Microcart/Product')]
 }
 </script>
 

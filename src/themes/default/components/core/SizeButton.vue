@@ -1,5 +1,5 @@
 <template>
-    <button class="bg-transparent c-lightgray brdr-1 brdr-gray" @click="switchFilter()">
+    <button class="bg-white c-lightgray brdr-1 brdr-gray" @click="switchFilter()">
         {{ size }}
     </button>
 </template>

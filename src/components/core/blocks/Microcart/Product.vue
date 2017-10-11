@@ -5,17 +5,19 @@
 </template>
 
 <script>
-import AddToCart from './AddToCart.vue'
-import { thumbnail } from '../../lib/filters'
+import AddToCart from 'src/components/core/AddToCart.vue'
+import { thumbnail } from 'src/lib/filters'
 
 export default {
-  name: 'product-row',
+  name: 'product',
   props: ['product'],
-  components: { AddToCart },
   computed: {
     thumbnail () {
       return thumbnail(this.product.image, 150, 150)
     }
+  },
+  components: {
+    AddToCart
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
-    <button class="bg-transparent brdr-1 brdr-circle">
+    <div class="bg-transparent brdr-1 brdr-circle color">
         <div class="brdr-circle" :style="'background-color: ' + color" @click="switchFilter()"></div>
-    </button>
+    </div>
 </template>
 
 <script>
@@ -19,20 +19,18 @@ export default {
 
 <style scoped>
     
-    button {
-        width: 40px;
-        height: 40px;
+    .color {
+        width: 45px;
+        height: 45px;
         border-color: rgba(113,113,113,0);
         position: relative;
+        display: inline-flex;
     }
 
-    button > div {
-        width: 89%;
-        height: 89%;
+    .color > div {
+        width: 100%;
+        height: 100%;
         display: block;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
     }
 
 </style>

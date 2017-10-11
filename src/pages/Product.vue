@@ -6,6 +6,7 @@
 
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import AddToCart from '../components/core/AddToCart.vue'
 
 export default {
   name: 'Home',
@@ -28,7 +29,8 @@ export default {
     this.fetchData()
   },
   components: {
-    Breadcrumbs
+    Breadcrumbs,
+    AddToCart
   }
 }
 </script>

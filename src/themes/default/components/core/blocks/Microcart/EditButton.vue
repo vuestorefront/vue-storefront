@@ -8,7 +8,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/ui/EditButton')]
+  mixins: [coreComponent('core/blocks/Microcart/EditButton')]
 }
 </script>
 

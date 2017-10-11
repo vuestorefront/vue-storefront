@@ -7,7 +7,7 @@
     </div>
     <h2 class="ml30">Shopping cart</h2>
     <ul>
-      <product-row v-for="product in items" :key="product.id" :product="product" />
+      <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
     <div class="checkout bg-lightgray pt10">
       <h3 class="ml30">Shopping summary</h3>
@@ -55,7 +55,7 @@
 <script>
 import { coreComponent } from 'lib/themes'
 import EventBus from 'src/event-bus/event-bus'
-import ProductRow from '../../ProductRow'
+import Product from './Product'
 
 export default {
   data () {
@@ -77,7 +77,7 @@ export default {
     }
   },
   components: {
-    ProductRow
+    Product
   },
   mixins: [coreComponent('core/blocks/Microcart/Microcart')]
 }

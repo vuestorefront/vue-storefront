@@ -24,7 +24,10 @@
     padding-left: 10px;
     padding-right: 10px
 }
-
+.px15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 .px25 {
     padding-left: 25px;
     padding-right: 25px;
@@ -33,6 +36,11 @@
 .px40 {
     padding-left: 40px;
     padding-right: 40px;
+}
+
+.px55 {
+    padding-left: 55px;
+    padding-right: 55px;
 }
 
 .py5 {
@@ -47,6 +55,11 @@
 .py20 {
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+.py25 {
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
 
 .py35 {
@@ -104,6 +117,10 @@
 
 .pt40 {
     padding-top: 40px;
+}
+
+.pt35 {
+    padding-top: 25px;
 }
 
 .pt70 {
