@@ -56,7 +56,7 @@ export default {
     },
     fetchData (to) {
       let self = this
-      let searchProductQuery = builder()./* query('range', 'price', { 'gt': 0 }). */orFilter('term', 'category.category_id', self.category.id)  // FIXME!
+      let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).orFilter('term', 'category.category_id', self.category.id)  // FIXME!
 
       // add filters to query
       for (let attrToFilter of Object.keys(self.filters)) {

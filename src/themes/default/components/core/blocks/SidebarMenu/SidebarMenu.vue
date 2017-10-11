@@ -13,7 +13,7 @@
                         <router-link to="/" exact>Home</router-link>
                     </li>
                     <li class="px25 py20 brdr-underline brdr-c-darkgray bg-white" @click="closeMenu" v-for='category in categories'>
-                        <router-link :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
+                        <router-link v-if='category.product_count >0 || category.children_data.length>0' :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
                         <ul v-if="category.children_data" class="p0">
                             <li @click="closeMenu" v-for='subcat in category.children_data'  style="display: none">
                                 <router-link :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>

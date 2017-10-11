@@ -19,13 +19,22 @@ const actions = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, size = 150, start = 0 }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 150, start = 0 }) {
     const commit = context.commit
     let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
       qrObj = qrObj.filter('term', 'parent_id', parent.id)
     }
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build() }).then(function (resp) {
+
+    if (onlyActive === true) {
+      qrObj = qrObj.andFilter('term', 'is_active', true) // show only active cateogires
+    }
+
+    if (onlyNotEmpty === true) {
+      qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
+    }
+
+    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: 'position:asc' }).then(function (resp) {
       commit(types.CATEGORY_UPD_CATEGORIES, resp)
       return resp
     }).catch(function (err) {
