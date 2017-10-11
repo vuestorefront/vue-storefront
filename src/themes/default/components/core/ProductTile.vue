@@ -7,7 +7,6 @@
       <p class="mb0">{{ product.name }}</p>
       {{ product.price | price }}
     </router-link>
-    <add-to-cart :product="product" />    
   </div>
 </template>
 
