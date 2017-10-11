@@ -13,7 +13,7 @@ export default {
       console.log('Switch Filter')
     }
   },
-  mixins: [coreComponent('core/blocks/Category/SizeButton')]
+  mixins: [coreComponent('core/SizeButton')]
 }
 </script>
 
