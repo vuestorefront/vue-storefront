@@ -73,6 +73,7 @@ ul {
     overflow: hidden;
     position: fixed;
     top: 0;
+    z-index: 2;
 }
 .sidebar-menu.active {
     left: 0;
