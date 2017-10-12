@@ -4,8 +4,8 @@ import { entityKeyName } from '../../lib/entities'
 import { quickSearchByQuery } from '../../api/search'
 
 const state = {
-  attributes: {},
-  attributeLabels: {}
+  list_by_code: {},
+  list_by_id: {}
 }
 
 const getters = {
@@ -18,12 +18,12 @@ const actions = {
    * @param {Object} context
    * @param {Array} attrCodes attribute codes to load
    */
-  list (context, { attrCodes = null, size = 150, start = 0 }) {
+  list (context, { filterValues = null, filterField = 'attribute_code', size = 150, start = 0 }) {
     const commit = context.commit
 
     let qrObj = bodybuilder()
-    for (let attrCode of attrCodes) {
-      qrObj = qrObj.orFilter('term', 'attribute_code', attrCode)
+    for (let value of filterValues) {
+      qrObj = qrObj.orFilter('term', filterField, value)
     }
 
     return quickSearchByQuery({ entityType: 'attribute', query: qrObj.build() }).then(function (resp) {
@@ -43,21 +43,27 @@ const mutations = {
    */
   [types.ATTRIBUTE_UPD_ATTRIBUTES] (state, attributes) {
     let attrList = attributes.items // extract fields from ES _source
-    let attrHash = {}
+    let attrHashByCode = {}
+    let attrHashById = {}
 
     for (let attr of attrList) {
-      attrHash[attr.attribute_code] = attr
+      attrHashByCode[attr.attribute_code] = attr
+      attrHashById[attr.attribute_id] = attr
 
       const attrCollection = global.db.attributesCollection
       try {
         attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
           console.debug(reason) // it doesn't work on SSR
         }) // populate cache by slug
+        attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toLowerCase()), attr).catch((reason) => {
+          console.debug(reason) // it doesn't work on SSR
+        }) // populate cache by id
       } catch (e) {
         console.error(e)
       }
     }
-    state.attributes = attrHash
+    state.list_by_code = attrHashByCode
+    state.list_by_id = attrHashById
   }
 }
 

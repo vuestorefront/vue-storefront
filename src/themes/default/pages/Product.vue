@@ -18,22 +18,18 @@
               {{ product.price | price }}
             </div>
 
-            <div class="h4">
-              <span>Color
-                <strong>Blue</strong>
-              </span>
-              <div class="mt10">
-                <color-button v-for="c in colors" :color="c" class="mr10" />
-              </div>
-            </div>
+            <div class="variants" v-if="product.type_id =='configurable'">
+              <div class="h4" v-for="option in product.configurable_options">
+                <span>{{ option.label }}
+                  <strong>Blue</strong>
+                </span>
+                <div class="mt10">
+                  <color-button v-for="c in options.color" :color="c" class="mr10" v-if="option.label == 'Color'" />
+                  <size-button v-for="s in options.size" :size="s" class="mr10" v-if="option.label == 'Size'"/>
 
-            <div class="h4 mt25">
-              <span>Size
-                <strong>34</strong>
-              </span>
-              <div class="mt10">
-                <size-button v-for="s in sizes" :size="s" class="mr10" />
+                </div>
               </div>
+
             </div>
             <add-to-cart :product="product" class="h4 bg-black c-white px55 py20 brdr-none mt50" />
           </div>
@@ -58,6 +54,7 @@ import { corePage } from 'lib/themes'
 
 import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
+import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 
 import { thumbnail } from 'src/lib/filters'
 
@@ -69,18 +66,12 @@ export default {
         name: ''
       },
       // TO-DO: Variants should be in product object
-      colors: [
-        'red',
-        'black',
-        'blue'
-      ],
-      sizes: [
-        '31',
-        '32',
-        '33',
-        '34',
-        '35'
-      ]
+      options: {
+        color: [
+        ],
+        size: [
+        ]
+      }
     }
   },
   computed: {
@@ -90,7 +81,8 @@ export default {
   },
   components: {
     ColorButton,
-    SizeButton
+    SizeButton,
+    Breadcrumbs
   },
   mixins: [corePage('Product')]
 }

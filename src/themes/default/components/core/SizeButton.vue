@@ -1,6 +1,6 @@
 <template>
     <button class="bg-white c-lightgray brdr-1 brdr-gray" @click="switchFilter()">
-        {{ size }}
+        {{ label }}
     </button>
 </template>
 

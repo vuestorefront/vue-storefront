@@ -103,7 +103,7 @@ export default {
         self.breadcrumbs.routes = breadCrumbRoutes(self.$store.state.category.current_path)
 
         self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
-          attrCodes: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+          filterValues: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
       self.$store.dispatch('product/list', {

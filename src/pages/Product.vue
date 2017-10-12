@@ -7,7 +7,7 @@
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import AddToCart from '../components/core/AddToCart.vue'
-import { slugify, breadCrumbRoutes } from 'src/lib/filters'
+import { breadCrumbRoutes } from 'src/lib/filters'
 
 export default {
   name: 'Home',
@@ -20,31 +20,48 @@ export default {
     fetchData (to) {
       let self = this
       self.$store.dispatch('product/single', { fieldName: 'id', value: self.$route.params.id }).then((res) => {
-        if (res.items) {
-          self.product = res.items[0]
+        if (res) {
+          self.product = res
 
-          // TODO: Fix it when product is enterd from outside the category page
-          let path = self.$store.state.category.current_path
-
-          if (path) { // && self.$store.state.category.current) {
+          let setbrcmb = (path) => {
             path.push({
-              name: self.$store.state.category.current.name,
-              route_link: '/c/' + self.$store.state.category.current.slug
-            })
-            
-          } else { // product is entered not from categoyr page
+              slug: self.$store.state.category.current.slug,
+              name: self.$store.state.category.current.name
+            }) // current category at the end
+            self.breadcrumbs.routes = breadCrumbRoutes(path)
+          }
+          // TODO: Fix it when product is enterd from outside the category page
+          let currentPath = self.$store.state.category.current_path
+          let currentCat = self.$store.state.category.current
 
-            if (self.product.category && self.product.category.length > 0){
-              let cat = self.product.category.pop() // we have to use single method here to populate the whole category path!
-              path = [{
-                name: cat.name,
-                route_link: '/c/' + slugify(cat.name) + '-' + cat.id
-              }]
+          if (currentPath && currentCat) {
+            setbrcmb(currentPath)
+          } else {
+            if (self.product.category && self.product.category.length > 0) {
+              let cat = self.product.category[self.product.category.length - 1]
+
+              self.$store.dispatch('category/single', { key: 'id', value: cat.category_id }).then((category) => { // this sets up category path and current category
+                setbrcmb(self.$store.state.category.current_path)
+              })
             }
           }
-
-          self.breadcrumbs.routes = breadCrumbRoutes(path)
+          console.log(self.product)
           self.breadcrumbs.name = self.product.name
+
+          if (self.product.type_id === 'configurable') {
+            const configurableAttrIds = self.product.configurable_options.map((item) => { return item.attribute_id })
+
+            for (let option of self.product.configurable_options) {
+              for (let ov of option.values) {
+                self.options[option.label.toLower()].push({
+                  label: ov, // TODO: get the right label
+                  id: ov
+                })
+              }
+            }
+          }
+        } else { // error or redirect
+
         }
       })
     }

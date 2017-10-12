@@ -1,6 +1,6 @@
 <template>
     <div class="bg-transparent brdr-1 brdr-circle color">
-        <div class="brdr-circle" :style="'background-color: ' + color" @click="switchFilter()"></div>
+        <div class="brdr-circle" :style="'background-color: ' + label" @click="switchFilter()"></div>
     </div>
 </template>
 

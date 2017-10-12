@@ -3,7 +3,8 @@ const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 
 const state = {
-  products: []
+  products: [],
+  product_selected_variant: null
 }
 
 const getters = {
@@ -34,7 +35,28 @@ const actions = {
    * @param {Object} value expected value
    */
   single (context, { fieldName, value }) {
-    return quickSearchByQuery({ query: bodybuilder().query('match', fieldName, value).build() })
+    return quickSearchByQuery({ query: bodybuilder().query('match', fieldName, value).build() }).then((res) => {
+      if (res && res.items.length > 0) {
+        const prod = res.items[0]
+
+        if (prod.type_id === 'configurable') { // TODO: kind of inheritance or trait here to avoid ifology?
+          if (prod.configurable_children.length > 0) {
+            context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod.configurable_children[0]) // select the first variant - TODO: add support for variant selection from product list (parameters)
+          }
+        }
+
+        return prod
+      }
+    })
+  },
+
+  /**
+  * Select product on product page
+   * @param {Object} context
+   * @param {Object} child_product
+   */
+  selectVariant (context, { child_product }) {
+    context.commit(types.CATALOG_UPD_SELECTED_VARIANT, child_product)
   }
 }
 
@@ -42,6 +64,9 @@ const actions = {
 const mutations = {
   [types.CATALOG_UPD_PRODUCTS] (state, products) {
     state.results = products // extract fields from ES _source
+  },
+  [types.CATALOG_UPD_SELECTED_VARIANT] (state, product) {
+    state.product_selected_variant = product
   }
 
 }

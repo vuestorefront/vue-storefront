@@ -55,14 +55,17 @@ const actions = {
     const state = context.state
     const commit = context.commit
     const dispatch = context.dispatch
+
     return new Promise((resolve, reject) => {
       let setcat = (error, mainCategory) => {
-        if (error) reject(null)
+        if (error) {
+          console.error(error)
+          reject(error)
+        }
 
         if (setCurrentCategory) {
           commit(types.CATEGORY_UPD_CURRENT_CATEGORY, mainCategory)
         }
-
         if (setCurrentCategoryPath) {
           let currentPath = []
           let recurCatFinder = (category) => {
@@ -85,7 +88,7 @@ const actions = {
               resolve(mainCategory)
             }
           }
-          if (typeof category !== 'undefined' && mainCategory.parent_id) {
+          if (typeof mainCategory !== 'undefined' && mainCategory.parent_id) {
             recurCatFinder(mainCategory) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
           }
         } else {
@@ -98,7 +101,6 @@ const actions = {
         setcat(null, category)
       } else {
         const catCollection = global.db.categoriesCollection
-        console.log(entityKeyName(key, value))
         catCollection.getItem(entityKeyName(key, value), setcat)
       }
     })
