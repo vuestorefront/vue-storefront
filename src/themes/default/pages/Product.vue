@@ -55,7 +55,6 @@
 
 <script>
 import { corePage } from 'lib/themes'
-import breadcrumbsData from 'src/resource/breadcrumbs.json'
 
 import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
@@ -66,8 +65,8 @@ export default {
   data () {
     return {
       breadcrumbs: {
-        routes: breadcrumbsData.routes,
-        name: 'Lorem ipsum'
+        routes: [],
+        name: ''
       },
       // TO-DO: Variants should be in product object
       colors: [

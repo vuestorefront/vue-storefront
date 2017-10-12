@@ -41,3 +41,19 @@ export function registerFilters (app) {
   Vue.filter('slugify', slugify)
   Vue.filter('price', price)
 }
+
+/**
+ * Re-fromat category path to be suitable for breadcrumb
+ * @param {Array} categoryPath
+ */
+export function breadCrumbRoutes (categoryPath) {
+  const tmpRts = []
+  for (let sc of categoryPath) {
+    tmpRts.push({
+      name: sc.name,
+      route_link: '/c/' + sc.slug
+    })
+  }
+
+  return tmpRts
+}

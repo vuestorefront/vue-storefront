@@ -7,6 +7,7 @@
 <script>
 import builder from 'bodybuilder'
 
+import { breadCrumbRoutes } from 'src/lib/filters'
 import EventBus from 'src/event-bus/event-bus'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
@@ -97,10 +98,9 @@ export default {
         }
         recurCatFinderBuilder(self.category, searchProductQuery)
       }
-      console.log(searchProductQuery)
-      self.breadcrumbs.routes = []
       if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
         EventBus.$emit('current-category-changed', self.$store.state.category.current_path)
+        self.breadcrumbs.routes = breadCrumbRoutes(self.$store.state.category.current_path)
 
         self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
           attrCodes: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
