@@ -71,6 +71,13 @@ module.exports = {
       {
         test: /\.s[a|c]ss$/,
         loader: 'style!css!sass'
+      },
+      {
+        test: /\.md$/,
+        loader: 'vue-markdown-loader',
+        options: {
+          wrapper: 'div'
+        }
       }
     ]
   }
