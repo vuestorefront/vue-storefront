@@ -7,6 +7,7 @@
 <script>
 import builder from 'bodybuilder'
 
+import EventBus from 'src/event-bus/event-bus'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
@@ -98,29 +99,8 @@ export default {
       }
       console.log(searchProductQuery)
       self.breadcrumbs.routes = []
-
-      if (self.category) { // fill breadcrumb data - TODO: extract it to Breadcrumb component or to helper
-        let recurCatFinder = (category) => {
-          if (!category) {
-            return
-          }
-          self.$store.dispatch('category/single', { key: 'id', value: category.parent_id }).then((category) => {
-            if (!category) {
-              return
-            }
-            self.breadcrumbs.routes.unshift({
-              name: category.name,
-              route_link: '/c/' + category.slug
-            })
-
-            if (category.parent_id) {
-              recurCatFinder(category)
-            }
-          })
-        }
-        if (self.category.parent_id) {
-          recurCatFinder(self.category) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
-        }
+      if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
+        EventBus.$emit('current-category-changed', self.$store.state.category.current_path)
 
         self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
           attrCodes: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories

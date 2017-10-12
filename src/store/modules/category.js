@@ -6,7 +6,8 @@ import { quickSearchByQuery } from '../../api/search'
 
 const state = {
   list: [],
-  current: null
+  current: null,
+  current_path: [] // list of categories from root to current
 }
 
 const getters = {
@@ -50,17 +51,46 @@ const actions = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single (context, { key, value, setCurrentCategory = true }) {
+  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true }) {
     const state = context.state
     const commit = context.commit
+    const dispatch = context.dispatch
     return new Promise((resolve, reject) => {
-      let setcat = (error, category) => {
+      let setcat = (error, mainCategory) => {
         if (error) reject(null)
 
         if (setCurrentCategory) {
-          commit(types.CATEGORY_UPD_CURRENT_CATEGORY, category)
+          commit(types.CATEGORY_UPD_CURRENT_CATEGORY, mainCategory)
         }
-        resolve(category)
+
+        if (setCurrentCategoryPath) {
+          let currentPath = []
+          let recurCatFinder = (category) => {
+            if (!category) {
+              return
+            }
+            if (category.parent_id) {
+              dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
+                if (!sc) {
+                  commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
+                  return resolve(mainCategory)
+                }
+                currentPath.unshift(sc)
+                if (sc.parent_id) {
+                  recurCatFinder(sc)
+                }
+              })
+            } else {
+              commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
+              resolve(mainCategory)
+            }
+          }
+          if (typeof category !== 'undefined' && mainCategory.parent_id) {
+            recurCatFinder(mainCategory) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
+          }
+        } else {
+          resolve(mainCategory)
+        }
       }
 
       if (state.list.length > 0) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
@@ -81,6 +111,10 @@ const mutations = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
     state.current = category
   },
+  [types.CATEGORY_UPD_CURRENT_CATEGORY_PATH] (state, path) {
+    state.current_path = path // TODO: store to cache
+  },
+
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
     state.list = categories.items // extract fields from ES _source
 
