@@ -12,50 +12,12 @@ import EventBus from 'src/event-bus/event-bus'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import { optionLabel } from 'src/store/modules/attribute'
 
 export default {
   name: 'category',
 
   methods: {
-    /**
-     * Helper method for getting attribute name - TODO: to be moved to external/shared helper
-     *
-     * @param {String} attributeCode
-     * @param {String} optionId - value to get label for
-     */
-    _attributeOptionName (attributeCode, optionId) {
-      const state = this.$store.state.attribute
-      let attrCache = state.attributeLabels[attributeCode]
-
-      if (attrCache) {
-        let label = attrCache[optionId]
-
-        if (label) {
-          return label
-        }
-      }
-
-      let attr = state.attributes[attributeCode]
-      if (attr) {
-        let opt = attr.options.find((op) => { // TODO: cache it in memory
-          if (op.value === optionId.toString()) {
-            return op
-          }
-        }) // TODO: i18n support with multi website attribute names
-
-        if (opt) {
-          if (!state.attributeLabels[attributeCode]) {
-            state.attributeLabels[attributeCode] = {}
-          }
-          state.attributeLabels[attributeCode][optionId] = opt.label
-          return opt ? opt.label : optionId
-        } else {
-          return optionId
-        }
-      } else {
-        return optionId
-      }
-    },
     fetchData (to) {
       let self = this
       let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).orFilter('term', 'category.category_id', self.category.id)  // FIXME!
@@ -122,7 +84,7 @@ export default {
             for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
               self.filters[attrToFilter].push({
                 id: option.key,
-                label: self._attributeOptionName(attrToFilter, option.key)
+                label: optionLabel(self.$store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
               })
             }
           } else { // special case is range filter for prices

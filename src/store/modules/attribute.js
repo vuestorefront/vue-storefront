@@ -5,7 +5,8 @@ import { quickSearchByQuery } from '../../api/search'
 
 const state = {
   list_by_code: {},
-  list_by_id: {}
+  list_by_id: {},
+  labels: {}
 }
 
 const getters = {
@@ -55,7 +56,7 @@ const mutations = {
         attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
           console.debug(reason) // it doesn't work on SSR
         }) // populate cache by slug
-        attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toLowerCase()), attr).catch((reason) => {
+        attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toString()), attr).catch((reason) => {
           console.debug(reason) // it doesn't work on SSR
         }) // populate cache by id
       } catch (e) {
@@ -73,4 +74,43 @@ export default {
   getters,
   actions,
   mutations
+}
+
+/**
+ * Helper method for getting attribute name - TODO: to be moved to external/shared helper
+ *
+ * @param {String} attributeCode
+ * @param {String} optionId - value to get label for
+ */
+export function optionLabel (state, { attributeKey, searchBy = 'code', optionId }) {
+  let attrCache = state.labels[attributeKey]
+
+  if (attrCache) {
+    let label = attrCache[optionId]
+
+    if (label) {
+      return label
+    }
+  }
+
+  let attr = state['list_by_' + searchBy][attributeKey]
+  if (attr) {
+    let opt = attr.options.find((op) => { // TODO: cache it in memory
+      if (op.value === optionId.toString()) {
+        return op
+      }
+    }) // TODO: i18n support with multi website attribute names
+
+    if (opt) {
+      if (!state.labels[attributeKey]) {
+        state.labels[attributeKey] = {}
+      }
+      state.labels[attributeKey][optionId] = opt.label
+      return opt ? opt.label : optionId
+    } else {
+      return optionId
+    }
+  } else {
+    return optionId
+  }
 }

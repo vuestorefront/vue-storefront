@@ -21,17 +21,17 @@
             <div class="variants" v-if="product.type_id =='configurable'">
               <div class="h4" v-for="option in product.configurable_options">
                 <span>{{ option.label }}
-                  <strong>Blue</strong>
+                  <strong>{{ configuration[option.label.toLowerCase()].label }}</strong>
                 </span>
                 <div class="mt10">
-                  <color-button v-for="c in options.color" :color="c" class="mr10" v-if="option.label == 'Color'" />
-                  <size-button v-for="s in options.size" :size="s" class="mr10" v-if="option.label == 'Size'"/>
+                  <color-button v-for="c in options.color" :id="c.id" :label="c.label" code="color" class="mr10" v-if="option.label == 'Color'" />
+                  <size-button v-for="s in options.size" :id="s.id" :label="s.label" code="size" class="mr10" v-if="option.label == 'Size'"/>
 
                 </div>
               </div>
 
             </div>
-            <add-to-cart :product="product" class="h4 bg-black c-white px55 py20 brdr-none mt50" />
+            <add-to-cart :product="configured_product" class="h4 bg-black c-white px55 py20 brdr-none mt50" />
           </div>
         </div>
       </div>
@@ -59,21 +59,6 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { thumbnail } from 'src/lib/filters'
 
 export default {
-  data () {
-    return {
-      breadcrumbs: {
-        routes: [],
-        name: ''
-      },
-      // TO-DO: Variants should be in product object
-      options: {
-        color: [
-        ],
-        size: [
-        ]
-      }
-    }
-  },
   computed: {
     thumbnail () {
       return thumbnail(this.product.image, 570, 569)

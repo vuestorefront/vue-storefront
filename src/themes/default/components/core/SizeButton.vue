@@ -1,16 +1,17 @@
 <template>
-    <button class="bg-white c-lightgray brdr-1 brdr-gray" @click="switchFilter()">
+    <button class="bg-white c-lightgray brdr-1 brdr-gray" @click="switchFilter(id, label)">
         {{ label }}
     </button>
 </template>
 
 <script>
 import { coreComponent } from 'lib/themes'
+import EventBus from 'src/event-bus/event-bus'
 
 export default {
   methods: {
-    switchFilter () {
-      console.log('Switch Filter')
+    switchFilter (id, label) {
+      EventBus.$emit('filter-changed', { attribute_code: this.code, id: id, label: label })
     }
   },
   mixins: [coreComponent('core/SizeButton')]

@@ -7,6 +7,6 @@
 <script>
 export default {
   name: 'size-button',
-  props: ['label', 'id']
+  props: ['label', 'id', 'code']
 }
 </script>
