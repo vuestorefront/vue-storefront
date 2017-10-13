@@ -1,17 +1,23 @@
 {
     "slides": [
         {
+            "title" : "Luma Yoga",
+            "subtitle" : "New collection",
+            "button_text" : "Shop now",
+            "image" : "/assets/slide_01.png"
+        },
+        {
             "title" : "Love Denim",
             "subtitle" : "Best of blues",
             "button_text" : "Shop now",
-            "image" : "/"
+            "image" : "/assets/slide_01.png"
         },
         {
-            "title" : "Lorem ipsum",
-            "subtitle" : "Dolor sit amet",
-            "button_text" : "Lorem ipsum",
-            "image" : "/"
+            "title" : "Empire State of mind",
+            "subtitle" : "New York City ultimate collection",
+            "button_text" : "Shop now",
+            "image" : "/assets/slide_01.png"
         }
     ],
-    "total" : "2"
+    "total" : "3"
 }
