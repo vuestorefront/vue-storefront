@@ -61,7 +61,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../../../css/transitions.scss";
+
 ul {
     list-style-type: none;
 }
@@ -74,6 +76,7 @@ ul {
     position: fixed;
     top: 0;
     z-index: 2;
+    transition: left 500ms $motion-main;
 }
 .sidebar-menu.active {
     left: 0;

@@ -95,7 +95,7 @@ export default {
                   id: option.key,
                   from: option.from,
                   to: option.to,
-                  label: (index === 0 || (index == count-1)) ? (option.to ? '< $' + option.to  : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
+                  label: (index === 0 || (index === count - 1)) ? (option.to ? '< $' + option.to : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
                 })
                 index++
               }
@@ -166,7 +166,7 @@ export default {
           if (filter.to) {
             rangeqr['lte'] = filter.to
           }
-            
+
           filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
         }
       }
