@@ -90,7 +90,7 @@ export default {
     let self = this
     self.fetchData()
 
-    EventBus.$on('filter-changed', (filterOption) => {
+    EventBus.$on('filter-changed', (filterOption) => { // slection of product variant on product page
       self.configuration[filterOption.attribute_code] = filterOption
       self.$store.dispatch('product/configure', { product: self.product, configuration: self.configuration }).then((selectedVariant) => {
         self.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item

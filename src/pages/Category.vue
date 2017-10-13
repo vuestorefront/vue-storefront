@@ -18,7 +18,8 @@ export default {
   name: 'category',
 
   methods: {
-    fetchData (to) {
+
+    baseFilterQuery () {
       let self = this
       let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).orFilter('term', 'category.category_id', self.category.id)  // FIXME!
 
@@ -60,14 +61,12 @@ export default {
         }
         recurCatFinderBuilder(self.category, searchProductQuery)
       }
-      if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
-        EventBus.$emit('current-category-changed', self.$store.state.category.current_path)
-        self.breadcrumbs.routes = breadCrumbRoutes(self.$store.state.category.current_path)
 
-        self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
-          filterValues: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        })
-      }
+      return searchProductQuery
+    },
+
+    filterData ({ populateAggregations = false, searchProductQuery }) {
+      let self = this
       self.$store.dispatch('product/list', {
         query: searchProductQuery.build(),
         start: self.pagination.offset,
@@ -77,23 +76,48 @@ export default {
         self.products = res.items
         self.isCategoryEmpty = (self.products.length === 0)
 
-        for (let attrToFilter of Object.keys(self.filters)) { // fill out the filter options
-          self.filters[attrToFilter] = []
+        if (populateAggregations === true) { // populate filter aggregates
+          for (let attrToFilter of Object.keys(self.filters)) { // fill out the filter options
+            self.filters[attrToFilter] = []
 
-          if (attrToFilter !== 'price') {
-            for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
-              self.filters[attrToFilter].push({
-                id: option.key,
-                label: optionLabel(self.$store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
-              })
-            }
-          } else { // special case is range filter for prices
-            for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
-              self.filters[attrToFilter].push(option.key)
+            if (attrToFilter !== 'price') {
+              for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
+                self.filters[attrToFilter].push({
+                  id: option.key,
+                  label: optionLabel(self.$store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
+                })
+              }
+            } else { // special case is range filter for prices
+              let index = 0
+              let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
+              for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
+                self.filters[attrToFilter].push({
+                  id: option.key,
+                  from: option.from,
+                  to: option.to,
+                  label: (index === 0 || (index == count-1)) ? (option.to ? '<' : '>') + ' $' + option.from : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
+                })
+                index++
+              }
             }
           }
         }
       })
+    },
+
+    fetchData () {
+      let self = this
+      let searchProductQuery = self.baseFilterQuery()
+
+      if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
+        EventBus.$emit('current-category-changed', self.$store.state.category.current_path)
+        self.breadcrumbs.routes = breadCrumbRoutes(self.$store.state.category.current_path)
+
+        self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
+          filterValues: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+        })
+      }
+      self.filterData({ searchProductQuery: searchProductQuery, populateAggregations: true })
     },
 
     validateRoute () {
@@ -119,6 +143,35 @@ export default {
 
   beforeMount () {
     this.validateRoute()
+    let self = this // TODO: refactor it to bind()
+    EventBus.$on('filter-changed', (filterOption) => { // slection of product variant on product page
+      console.log(filterOption)
+      if (self.filterSet[filterOption.attribute_code]) {
+        delete self.filterSet[filterOption.attribute_code]
+      } else {
+        self.filterSet[filterOption.attribute_code] = filterOption
+      }
+
+      let filterQr = self.baseFilterQuery()
+      for (let code of Object.keys(self.filterSet)) {
+        const filter = self.filterSet[code]
+
+        if (filter.attribute_code !== 'price') {
+          filterQr = filterQr.andFilter('match', filter.attribute_code, filter.id)
+        } else { // multi should be possible filter here?
+          const rangeqr = {}
+          if (filter.from) {
+            rangeqr['gte'] = filter.from
+          }
+          if (filter.to) {
+            rangeqr['lte'] = filter.to
+          }
+            
+          filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
+        }
+      }
+      self.filterData({ populateAggregations: false, searchProductQuery: filterQr }) // because already aggregated
+    })
   },
   data () {
     return {
@@ -131,7 +184,7 @@ export default {
         pageSize: 18,
         offset: 0
       },
-
+      filterSet: {}, // filter set selected by user
       filters: { // filters should be set by category, and should be synchronized with magento
         color: [{'id': 165, 'label': 'red'}, {'id': 166, 'label': 'blue'}],
         size: [

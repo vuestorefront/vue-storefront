@@ -1,6 +1,6 @@
 <template>
     <span>
-        <button class="brdr-c-gray brdr-1 bg-transparent mr10" @click="switchFilter()">
+        <button class="brdr-c-gray brdr-1 bg-transparent mr10" @click="switchFilter(id, label, from, to)">
             <div class="bg-transparent"></div>
         </button> 
         <span>{{ content }}</span>
@@ -9,11 +9,12 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import EventBus from 'src/event-bus/event-bus'
 
-export default {
+export default { // TODO: move logic to parent component
   methods: {
-    switchFilter () {
-      console.log('Switch Filter')
+    switchFilter (id, label, from, to) {
+      EventBus.$emit('filter-changed', { attribute_code: this.code, id: id, label: label, from: from, to: to })
     }
   },
   mixins: [coreComponent('core/PriceButton')]

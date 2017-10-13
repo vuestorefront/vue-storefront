@@ -7,6 +7,6 @@
 <script>
 export default {
   name: 'price-button',
-  props: ['content', 'id', 'code']
+  props: ['content', 'id', 'code', 'from', 'to']
 }
 </script>
