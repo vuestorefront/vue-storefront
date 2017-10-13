@@ -9,6 +9,6 @@ export default {
     endpoint: 'localhost:8080/api/order/create'
   },
   images: {
-    baseUrl: 'https://demo.veustorefront.io/img/'
+    baseUrl: 'https://demo.vuestorefront.io/img/'
   }
 }

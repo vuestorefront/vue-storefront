@@ -128,7 +128,7 @@ export default {
       category: {},
       aggregations: {}, // facets
       pagination: {
-        pageSize: 150,
+        pageSize: 18,
         offset: 0
       },
 
