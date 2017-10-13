@@ -2,7 +2,11 @@
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
-The project is still in the prove of concept phase. **We are looking for Contributors and Designer willing to help us the the solution development.**
+The project is still in the prove of concept phase. **We are looking for Contributors and Designer willing to help us in the solution development.**
+
+## Join the community on Slack
+If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
+You can request joining the slack channel by clicking [here](https://join.slack.com/t/vuestorefront/shared_invite/enQtMjUyMzA1NDM1ODg4LTYzZjljNjZlN2JmMmM4NzQzOWFkOTA5NTMyOTg0NzIwNjMxNTNjYTZhNzAzOWM5MjEyYzE2OWE3ZTJmOTU3OTY)
 
 ## The business challenges
 Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
@@ -31,6 +35,8 @@ To make the prototype more realistic we used H&M brand and products in our conce
 <img width="1440" alt="1" src="https://user-images.githubusercontent.com/18116406/31016336-89a075bc-a524-11e7-9855-f385bf140f55.png">
 
 Here you can read more about the process of [designing PWA for eCommerce](https://www.linkedin.com/pulse/designing-pwa-ecommerce-karl-bzik/).
+
+The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## The license
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
@@ -125,3 +131,4 @@ The default config file should work perfectly fine for default purposes.
 ## Documentation
 
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
+

@@ -1,11 +1,12 @@
 <template>
   <button>
-    Core color button
+    Core size button
   </button>
 </template>
 
 <script>
 export default {
-  name: 'color-button'
+  name: 'size-button',
+  props: ['label', 'id', 'code']
 }
 </script>

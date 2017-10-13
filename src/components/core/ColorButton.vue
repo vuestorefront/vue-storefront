@@ -1,12 +1,12 @@
 <template>
   <button>
-    Core price button
+    Core color button
   </button>
 </template>
 
 <script>
 export default {
-  name: 'price-button',
-  props: ['content']
+  name: 'color-button',
+  props: ['label', 'id', 'code']
 }
 </script>

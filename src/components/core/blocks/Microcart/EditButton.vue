@@ -1,12 +1,11 @@
 <template>
   <button>
-    Core size button
+    Edit
   </button>
 </template>
 
 <script>
 export default {
-  name: 'size-button',
-  props: ['content']
+  name: 'edit-button'
 }
 </script>

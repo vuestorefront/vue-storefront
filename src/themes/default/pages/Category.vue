@@ -12,10 +12,10 @@
             <div class="col-md-3">
                 <sidebar :filters="filters"/>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 pt20">
                 <div class="row">
                     <div v-if="isCategoryEmpty">
-                        Category is empty!    
+                        No products found!   
                     </div>  
                     <div v-for="product in products" class="col-md-4 p15">
                         <product-tile :product="product" />

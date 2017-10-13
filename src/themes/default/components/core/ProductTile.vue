@@ -1,9 +1,12 @@
 <template>
   <div class="product align-center">
-    <div class="product-image"><img v-bind:src="thumbnail" /></div>
-    <p class="mb0">{{ product.name }}</p>
-    {{ product.price }} 
-    <add-to-cart :product="product" /> 
+    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug }}">
+      <div class="product-image bg-lightgray">
+        <img v-bind:src="thumbnail" class="product-thumbnail" />
+      </div>
+      <p class="mb0">{{ product.name }}</p>
+      {{ product.price | price }}
+    </router-link>
   </div>
 </template>
 
@@ -16,9 +19,12 @@ export default {
 </script>
 
 <style scoped>
+.product-thumbnail {
+  mix-blend-mode: multiply;
+}
 .product-image {
   width: 100%;
   height: 300px;
-  background-color: #F2F2F2;
+  mix-blend-mode: multiply;
 }
 </style>

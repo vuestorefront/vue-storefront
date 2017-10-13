@@ -5,6 +5,8 @@ const store = {
   namespaced: true,
   state: {
     cartIsLoaded: false,
+    shipping: { cost: 0, code: '' },
+    payment: { cost: 0, code: '' },
     cartItems: [] // TODO: check if it's properly namespaced
   },
   mutations: {
@@ -31,7 +33,10 @@ const store = {
       const record = state.cartItems.find(p => p.id === product.id)
       record.quantity = quantity
     },
-
+    [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
+      state.shipping.cost = shippingCost
+      state.shipping.code = shippingMethod
+    },
     [types.CART_LOAD_CART] (state, storedItems) {
       state.cartItems = storedItems || []
       state.cartIsLoaded = true
@@ -50,21 +55,34 @@ const store = {
     }
   },
   actions: {
-    loadCart ({ commit }) {
+    load (context) {
+      const commit = context.commit
+      const rootState = context.rootState
+      const state = context.state
+
+      if (!state.shipping.code) {
+        state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el })
+      }
+      if (!state.payment.code) {
+        state.payment = rootState.payment.methods.find((el) => { if (el.default === true) return el })
+      }
       global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
         if (err) throw new Error(err)
         commit(types.CART_LOAD_CART, storedItems)
       })
     },
 
-    addToCart ({ commit }, product) {
+    addItem ({ commit }, product) {
       commit(types.CART_ADD_ITEM, { product })
     },
-    removeFromCart ({ commit }, product) {
+    removeItem ({ commit }, product) {
       commit(types.CART_DEL_ITEM, { product })
     },
     updateQuantity ({ commit }, { product, quantity }) {
       commit(types.CART_UPD_ITEM, { product, quantity })
+    },
+    changeShippingMethod ({ commit }, { shippingMethod, shippingCost }) {
+      commit(types.CART_UPD_SHIPPING, { shippingMethod, shippingCost })
     }
   }
 }

@@ -34,9 +34,10 @@ export default {
 <!-- Atomic styles & grid -->
 <style src="./css/grid.css"></style>
 <style src="./css/color.css"></style>
-<style src="./css/margin.css"></style>
+<style src="./css/margin.scss" lang="scss"></style>
 <style src="./css/padding.css"></style>
 <style src="./css/text.css"></style>
+<style src="./css/border.css"></style>
 
 <style>
 body {
@@ -44,7 +45,7 @@ body {
   padding: 0;
 }
 a {
-  color: 
+  text-decoration: none;
 }
 #viewport {
   width: 100%;

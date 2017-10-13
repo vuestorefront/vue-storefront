@@ -1,24 +1,23 @@
 <template>
-    <div class="sidebar-menu" :class="{ active: isOpen }">
+    <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
         <div class="row">
-            <div class="col-md-12 close end-xs" @click="closeMenu">
+            <div class="col-md-12 close bg-white align-right end-xs" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <ul>
+            <div class="col-md-12 h4 serif">
+                <ul class="p0 m0">
                     <!-- TO-DO: Remove closemenu and handle it via store -->
-                    <li @click="closeMenu">
-                        <router-link to="/" exact>Home</router-link>
+                    <li @click="closeMenu" class="brdr-underline brdr-c-darkgray bg-white">
+                        <router-link class="px25 py20" to="/" exact>Home</router-link>
                     </li>
-                    <li @click="closeMenu" v-for='category in categories'>
-                        <router-link :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
-                        <ul v-if="category.children_data">
-                            <li @click="closeMenu" v-for='subcat in category.children_data'>
-                                <router-link :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
+                    <li class="brdr-underline brdr-c-darkgray bg-white" @click="closeMenu" v-for='category in categories'>
+                        <router-link class="px25 py20" v-if='category.product_count >0 || category.children_data.length>0' :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
+                        <ul v-if="category.children_data" class="p0">
+                            <li @click="closeMenu" v-for='subcat in category.children_data'  style="display: none">
+                                <router-link class="px25 py20" :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
                             </li>
-                            
                         </ul>
                     </li>
                 </ul>
@@ -40,7 +39,7 @@ export default {
   },
   computed: {
     categories () {
-      return this.$store.state.catalog.categories.filter((op) => {
+      return this.$store.state.category.list.filter((op) => {
         return op.level === 2 // display only the root level (level =1 => Default Category)
       })
     }
@@ -50,7 +49,7 @@ export default {
     EventBus.$on('toggle-sidebar-menu', () => {
       self.isOpen = !self.isOpen
     })
-    this.$store.dispatch('catalog/loadCategories', {})
+    this.$store.dispatch('category/list', {})
   },
   methods: {
     closeMenu () {
@@ -63,22 +62,31 @@ export default {
 </script>
 
 <style scoped>
+ul {
+    list-style-type: none;
+}
+
 .sidebar-menu {
-    position: fixed;
     height: 100vh;
     width: 350px;
-    background: #F2F2F2;
-    top: 0;
     left: -350px;
     overflow: hidden;
+    position: fixed;
+    top: 0;
+    z-index: 2;
 }
 .sidebar-menu.active {
     left: 0;
 }
 .close {
     cursor: pointer;
-    background: white;
-    text-align: right;
     display: inline-flex;
+}
+a {
+    display: block;
+    color: black;
+}
+li:hover {
+    background-color: #F2F2F2;
 }
 </style>

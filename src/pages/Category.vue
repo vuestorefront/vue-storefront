@@ -7,56 +7,21 @@
 <script>
 import builder from 'bodybuilder'
 
+import { breadCrumbRoutes } from 'src/lib/filters'
+import EventBus from 'src/event-bus/event-bus'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import { optionLabel } from 'src/store/modules/attribute'
 
 export default {
   name: 'category',
 
   methods: {
-    /**
-     * Helper method for getting attribute name - TODO: to be moved to external/shared helper
-     *
-     * @param {String} attributeCode
-     * @param {String} optionId - value to get label for
-     */
-    _attributeOptionName (attributeCode, optionId) {
-      const state = this.$store.state.catalog
-      let attrCache = state.attributeLabels[attributeCode]
-
-      if (attrCache) {
-        let label = attrCache[optionId]
-
-        if (label) {
-          return label
-        }
-      }
-
-      let attr = state.attributes[attributeCode]
-      if (attr) {
-        let opt = attr.options.find((op) => { // TODO: cache it in memory
-          if (op.value === optionId.toString()) {
-            return op
-          }
-        }) // TODO: i18n support with multi website attribute names
-
-        if (opt) {
-          if (!state.attributeLabels[attributeCode]) {
-            state.attributeLabels[attributeCode] = {}
-          }
-          state.attributeLabels[attributeCode][optionId] = opt.label
-          return opt ? opt.label : optionId
-        } else {
-          return optionId
-        }
-      } else {
-        return optionId
-      }
-    },
     fetchData (to) {
       let self = this
-      let searchProductQuery = builder().query('match', 'category.category_id', self.category.id)  // FIXME!
+      let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).orFilter('term', 'category.category_id', self.category.id)  // FIXME!
+
       // add filters to query
       for (let attrToFilter of Object.keys(self.filters)) {
         if (attrToFilter !== 'price') {
@@ -74,36 +39,36 @@ export default {
         }
       }
 
-      self.breadcrumbs.routes = []
-
-      if (self.category) { // fill breadcrumb data - TODO: extract it to Breadcrumb component or to helper
-        let recurCatFinder = (category) => {
+      if (self.category.children_data) {
+        let recurCatFinderBuilder = (category, searchProductQuery) => {
           if (!category) {
-            return
+            return searchProductQuery
           }
-          self.$store.dispatch('catalog/getCategoryBy', { key: 'id', value: category.parent_id }).then((category) => {
-            if (!category) {
-              return
-            }
-            self.breadcrumbs.routes.unshift({
-              name: category.name,
-              route_link: '/c/' + category.slug
-            })
 
-            if (category.parent_id) {
-              recurCatFinder(category)
-            }
-          })
-        }
-        if (self.category.parent_id) {
-          recurCatFinder(self.category) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
-        }
+          if (!category.children_data) {
+            return searchProductQuery
+          }
 
-        self.$store.dispatch('catalog/loadAttributes', { // load filter attributes for this specific category
-          attrCodes: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+          for (let sc of category.children_data) {
+            if (sc && sc.id) {
+              searchProductQuery = searchProductQuery.orFilter('term', 'category.category_id', sc.id)
+            }
+            return recurCatFinderBuilder(sc, searchProductQuery)
+          }
+
+          return searchProductQuery
+        }
+        recurCatFinderBuilder(self.category, searchProductQuery)
+      }
+      if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
+        EventBus.$emit('current-category-changed', self.$store.state.category.current_path)
+        self.breadcrumbs.routes = breadCrumbRoutes(self.$store.state.category.current_path)
+
+        self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
+          filterValues: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
-      self.$store.dispatch('catalog/quickSearchByQuery', {
+      self.$store.dispatch('product/list', {
         query: searchProductQuery.build(),
         start: self.pagination.offset,
         size: self.pagination.pageSize
@@ -119,7 +84,7 @@ export default {
             for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
               self.filters[attrToFilter].push({
                 id: option.key,
-                label: self._attributeOptionName(attrToFilter, option.key)
+                label: optionLabel(self.$store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
               })
             }
           } else { // special case is range filter for prices
@@ -128,7 +93,6 @@ export default {
             }
           }
         }
-        
       })
     },
 
@@ -136,8 +100,8 @@ export default {
       let self = this
       let slug = this.$route.params.slug
 
-      self.$store.dispatch('catalog/loadCategories', {}).then((categories) => {
-        self.$store.dispatch('catalog/getCategoryBy', { key: 'slug', value: slug }).then((category) => {
+      self.$store.dispatch('category/list', {}).then((categories) => {
+        self.$store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
           self.category = category
 
           if (!self.category) {

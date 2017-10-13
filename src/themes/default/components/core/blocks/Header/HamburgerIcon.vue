@@ -21,6 +21,6 @@ export default {
 
 <style scoped>
     .hamburger-icon {
-       display: inline-flex;
+      display: inline-flex;
     }
 </style>

@@ -1,3 +1,36 @@
+.bg-white {
+    background-color: white;
+}
+
+.bg-black {
+    background-color: black;
+}
+
 .bg-lightgray {
     background-color: #F2F2F2;
+}
+
+.bg-darkgray {
+    background-color: #333333;
+}
+
+.bg-transparent {
+    background-color: transparent;
+}
+
+
+.c-white {
+    color: white;
+}
+
+.c-lightgray {
+    color: #BDBDBD;
+}
+
+.c-darkgray {
+    color: #828282;
+}
+
+.c-black {
+    color: black;
 }

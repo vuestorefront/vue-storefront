@@ -1,5 +1,5 @@
 const path = require('path')
-// const projectRoot = path.resolve(__dirname, '../')
+  // const projectRoot = path.resolve(__dirname, '../')
 const vueConfig = require('./vue-loader.config')
 
 module.exports = {
@@ -15,18 +15,20 @@ module.exports = {
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_themes: path.resolve(__dirname, '../src/themes'),
+      'core/components': path.resolve(__dirname, '../src/components'),
+      'core/pages': path.resolve(__dirname, '../src/pages'),
 
       lib: path.resolve(__dirname, '../src/lib'),
-      
+
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      
+
 
       theme_pages: path.resolve(__dirname, '../themes/default/pages'),
       theme_components: path.resolve(__dirname, '../themes/default/components'),
-      'components': path.resolve(__dirname, '../themes/default/components'),
-      'pages': path.resolve(__dirname, '../themes/default/pages')
-      
+      'theme/components': path.resolve(__dirname, '../themes/default/components'),
+      'theme/pages': path.resolve(__dirname, '../themes/default/pages')
+
     }
   },
 
@@ -37,8 +39,7 @@ module.exports = {
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         enforce: 'pre',
         test: /\.js$/,
         loader: 'eslint-loader',
@@ -65,6 +66,17 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
+        }
+      },
+      {
+        test: /\.s[a|c]ss$/,
+        loader: 'style!css!sass'
+      },
+      {
+        test: /\.md$/,
+        loader: 'vue-markdown-loader',
+        options: {
+          wrapper: 'div'
         }
       }
     ]

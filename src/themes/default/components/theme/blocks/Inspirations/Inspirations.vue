@@ -9,14 +9,28 @@
 </template>
 
 <script>
-import InspirationTile from './InspirationTile.vue'
-import productData from 'src/resource/products.json'
+import builder from 'bodybuilder'
 
+import InspirationTile from './InspirationTile.vue'
 export default {
   name: 'inspirations',
+
+  beforeMount () {
+    let self = this
+    let inspirationsQuery = builder().query('match', 'category.name', 'Bottoms').build()
+
+    self.$store.dispatch('product/list', {
+      query: inspirationsQuery,
+      size: 3,
+      sort: 'created_at:desc'
+    }).then(function (res) {
+      self.products = res.items
+    })
+  },
+
   data () {
     return {
-      products: productData.data
+      products: []
     }
   },
   components: {

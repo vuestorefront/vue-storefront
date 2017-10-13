@@ -1,5 +1,5 @@
 <template>  
-  <div class="breadcrumbs h5">
+  <div class="breadcrumbs h5 c-darkgray">
       <a v-for="link in routes" :href="link.route_link">
         {{ link.name }} /
       </a>
@@ -18,8 +18,5 @@ export default {
 </script>
 
 <style scoped>
-  .breadcrumbs {
-    color: #828282;
-    font-weight: 200;
-  }
+  
 </style>
