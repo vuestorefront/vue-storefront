@@ -6,7 +6,7 @@
       </div>
     </div>
     <h2 class="ml30">Shopping cart</h2>
-    <ul>
+    <ul class="products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
     <div class="checkout bg-lightgray pt10">
@@ -94,6 +94,11 @@ export default {
 }
 .microcart.active {
     right: 0;
+}
+.products {
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .close {
   cursor: pointer;

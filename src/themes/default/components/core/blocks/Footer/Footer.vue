@@ -12,8 +12,8 @@
         </div>
         <div class="col-md-9 end-md">
           <ul class="links">
-            <li class="pr15">Legal notice</li>
-            <li>Privacy policy</li>
+            <router-link class="c-black pr15" to="/legal" exact>Legal notice</router-link>
+            <router-link class="c-black" to="/privacy" exact>Privacy policy</router-link>
           </ul>
         </div>
       </div>
