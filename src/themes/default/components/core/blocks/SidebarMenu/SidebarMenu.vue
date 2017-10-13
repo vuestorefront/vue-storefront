@@ -20,6 +20,18 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>Magazine</router-link>
+                    </li>
+                    <li>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>Sale</router-link>
+                    </li>
+                    <li>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>Track my order</router-link>
+                    </li>
+                    <li>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>My account</router-link>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -61,7 +73,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../../../css/transitions.scss";
+
 ul {
     list-style-type: none;
 }
@@ -74,6 +88,7 @@ ul {
     position: fixed;
     top: 0;
     z-index: 2;
+    transition: left 500ms $motion-main;
 }
 .sidebar-menu.active {
     left: 0;

@@ -1,32 +1,27 @@
 <template>
   <div>
-    <h2 class="align-center" :class="{ hidden: !showError }">We couldn't find what you were looking for</h2>
-    <h3 class="align-center" :class="{ hidden: !showError }">But you can always <router-link class="c-darkgray" to="/" exact>go back</router-link></h3>
-    {{ body }}
+    <div class="bg-lightgray p45">
+      <h5 class="mt0 c-lightgray">{{ breadcrumbs }}</h5>
+      <h2>{{ this.$props.title }}</h2>
+    </div>
+    <div>
+      <staticpage/>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import staticpage from '../resource/lorem.md'
 
 export default {
   data () {
     return {
-      body: '',
-      showError: false
+      breadcrumbs: 'Homepage / ' + this.$props.title
     }
   },
-  props: ['url'],
-  created () {
-    this.body = ''
-    axios.get(this.$props.url)
-      .then(res => {
-        this.body = res
-      })
-      .catch(e => {
-        this.showError = true
-        console.log('Static content could not be loaded')
-      })
+  props: ['page', 'title'],
+  components: {
+    staticpage
   }
 }
 </script>

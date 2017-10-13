@@ -83,7 +83,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../../../css/transitions.scss";
+
 .microcart {
     height: 100vh;
     width: 600px;
@@ -91,6 +93,7 @@ export default {
     position: fixed;
     top: 0;
     z-index: 2;
+    transition: right 500ms $motion-main;
 }
 .microcart.active {
     right: 0;
