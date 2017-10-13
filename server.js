@@ -52,6 +52,7 @@ app.use('/service-worker-ext.js', serve('./dist/service-worker-ext.js', {
 }))
 
 app.get('*', (req, res) => {
+  res.append('Content-Type', 'text/html')
   if (!renderer) {
     return res.end('waiting for compilation... refresh in a moment.')
   }
