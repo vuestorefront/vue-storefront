@@ -128,8 +128,6 @@ export default {
       if (route == null) {
         route = self.$route
       }
-      console.log(store)
-      console.log(route)
       let slug = route.params.slug
 
       store.dispatch('category/list', {}).then((categories) => {
