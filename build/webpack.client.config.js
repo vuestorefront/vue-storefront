@@ -43,6 +43,11 @@ if (process.env.NODE_ENV === 'production') {
       cacheId: 'vue-sfr',
       filename: 'service-worker.js',
       staticFileGlobsIgnorePatterns: [/\.map$/],
+      staticFileGlobs: [
+        'dist/**.*',
+        'src/resource/**.html',
+        'src/assets/**.*'
+      ],      
       runtimeCaching: [{
         urlPattern: "/", /** cache the html stub  */
         handler: "cacheFirst"
@@ -54,6 +59,9 @@ if (process.env.NODE_ENV === 'production') {
         handler: "cacheFirst"
       },{
         urlPattern: "/dist/logo.png",
+        handler: "cacheFirst"
+      },{
+        urlPattern: "/assets/(.*)",
         handler: "cacheFirst"
       },{
         urlPattern:'/(.*)', /** cache products catalog */
@@ -70,7 +78,7 @@ if (process.env.NODE_ENV === 'production') {
           origin: 'https://demo.vuestorefront.io/',
           debug: true
         },
-        handler: "fastest"        
+        handler: "cacheFirst"        
       }],
       "importScripts": ['/service-worker-ext.js'] /* custom logic */
     })

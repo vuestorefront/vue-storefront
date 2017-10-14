@@ -45,15 +45,18 @@ app.use('/dist', serve('./dist', true))
 app.use('/assets', serve(path.resolve(__dirname, 'src/assets'), true))
 app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')))
 app.use('/service-worker.js', serve('./dist/service-worker.js', {
-  setHeaders: {'Content-type': 'application/javascript'}
+  setHeaders: {'Content-Type': 'application/javascript'}
 }))
 
 app.use('/service-worker-ext.js', serve('./dist/service-worker-ext.js', {
-  setHeaders: {'Content-type': 'application/javascript'}
+  setHeaders: {'Content-Type': 'application/javascript'}
 }))
 
 app.get('*', (req, res) => {
-  res.append('Content-Type', 'text/html')
+  if (!res.get('Content-Type')) {
+    res.append('Content-Type', 'text/html')
+  }
+
   if (!renderer) {
     return res.end('waiting for compilation... refresh in a moment.')
   }
