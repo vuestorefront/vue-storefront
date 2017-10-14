@@ -47,6 +47,12 @@ if (process.env.NODE_ENV === 'production') {
         urlPattern: "/", /** cache the html stub  */
         handler: "cacheFirst"
       },{
+        urlPattern: "https://demo.vuestorefront.io/img/(.*)", /** cache the html stub  */
+        handler: "cacheFirst"
+      },{
+        urlPattern: "https://demo.vuestorefront.io/api/(.*)", /** cache the html stub  */
+        handler: "cacheFirst"
+      },{
         urlPattern: "/dist/logo.png",
         handler: "cacheFirst"
       },{
@@ -54,6 +60,14 @@ if (process.env.NODE_ENV === 'production') {
         method: "post",
         options: {
           origin: 'http://localhost:8080',
+          debug: true
+        },
+        handler: "fastest"        
+      },{
+        urlPattern:'/api/(.*)', /** cache products catalog */
+        method: "post",
+        options: {
+          origin: 'https://demo.vuestorefront.io/',
           debug: true
         },
         handler: "fastest"        
