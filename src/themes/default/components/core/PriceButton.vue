@@ -1,6 +1,6 @@
 <template>
-    <span>
-        <button class="brdr-c-gray brdr-1 bg-transparent mr10" @click="switchFilter(id, label, from, to)">
+    <span @click="switchFilter(id, label, from, to)">
+        <button class="brdr-c-gray brdr-1 bg-transparent mr10" :class="{ active: active }">
             <div class="bg-transparent"></div>
         </button> 
         <span>{{ content }}</span>
@@ -12,6 +12,28 @@ import { coreComponent } from 'lib/themes'
 import EventBus from 'src/event-bus/event-bus'
 
 export default { // TODO: move logic to parent component
+  data () {
+    return {
+      active: false
+    }
+  },
+  beforeMount () {
+    EventBus.$on('filter-changed', (filterOption) => {
+      if (filterOption.attribute_code === this.code) {
+        if (filterOption.id === this.id) {
+          if (this.active) {
+            this.active = false
+            return
+          } else {
+            this.active = true
+          }
+        } else {
+          this.active = false
+        }
+        // filterOption.id === this.id ? this.active = true : this.active = false
+      }
+    })
+  },
   methods: {
     switchFilter (id, label, from, to) {
       EventBus.$emit('filter-changed', { attribute_code: this.code, id: id, label: label, from: from, to: to })
@@ -27,6 +49,7 @@ export default { // TODO: move logic to parent component
         width: 20px;
         height: 20px;
         position: relative;
+        cursor: pointer;
     }
 
     button > div {
@@ -37,6 +60,10 @@ export default { // TODO: move logic to parent component
         left: 50%;
         top: 50%;
         transform: translate(-50%,-50%);
+    }
+
+    button.active > div {
+        background-color: black;
     }
 
 </style>
