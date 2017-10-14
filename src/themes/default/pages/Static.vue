@@ -4,7 +4,7 @@
       <h5 class="mt0 c-lightgray">{{ breadcrumbs }}</h5>
       <h2>{{ this.$props.title }}</h2>
     </div>
-    <div>
+    <div class="p45 pt0">
       <staticpage/>
     </div>
   </div>

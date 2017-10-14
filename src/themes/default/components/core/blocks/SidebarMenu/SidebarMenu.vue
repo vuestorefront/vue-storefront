@@ -20,17 +20,17 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>Magazine</router-link>
+                    <li @click="closeMenu">
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/magazine" exact>Magazine</router-link>
                     </li>
-                    <li>
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>Sale</router-link>
+                    <li @click="closeMenu">
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/sale" exact>Sale</router-link>
                     </li>
-                    <li>
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>Track my order</router-link>
+                    <li @click="closeMenu">
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/order-tracking" exact>Track my order</router-link>
                     </li>
-                    <li>
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/" exact>My account</router-link>
+                    <li @click="closeMenu">
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray" to="/my-account" exact>My account</router-link>
                     </li>
                 </ul>
             </div>
@@ -60,6 +60,9 @@ export default {
     const self = this
     EventBus.$on('toggle-sidebar-menu', () => {
       self.isOpen = !self.isOpen
+    })
+    EventBus.$on('hide-sidebar-menu', () => {
+      self.isOpen = false
     })
     this.$store.dispatch('category/list', {})
   },

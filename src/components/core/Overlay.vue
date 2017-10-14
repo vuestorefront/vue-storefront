@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" v-if="isVisible">
+  <div class="overlay" @click="onClick" v-if="isVisible">
   </div>
 </template>
 
@@ -21,6 +21,13 @@ export default {
     EventBus.$on('hide-overlay', () => {
       self.isVisible = false
     })
+  },
+  methods: {
+    onClick () {
+      EventBus.$emit('hide-overlay')
+      EventBus.$emit('hide-sidebar-menu')
+      EventBus.$emit('hide-microcart')
+    }
   }
 }
 </script>

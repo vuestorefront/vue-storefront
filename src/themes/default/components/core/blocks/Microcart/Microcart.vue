@@ -68,6 +68,9 @@ export default {
     EventBus.$on('toggle-microcart', () => {
       self.isOpen = !self.isOpen
     })
+    EventBus.$on('hide-microcart', () => {
+      self.isOpen = false
+    })
     console.log('CI  ' + self.cartItems)
   },
   methods: {
