@@ -3,7 +3,7 @@
 }
 
 .bg-black {
-    background-color: black;
+    background-color: #333;
 }
 
 .bg-lightgray {
@@ -32,5 +32,5 @@
 }
 
 .c-black {
-    color: black;
+    color: #333;
 }

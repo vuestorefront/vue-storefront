@@ -7,7 +7,7 @@
         </div>
         <div v-if="filters.size.length">
             <h5>Size</h5>
-            <size-button :attribute_code="size" code="size" class="size-select mr10" v-for="(size, index) in filters.size" :key="index" :id="size.id" :label="size.label" />
+            <size-button :attribute_code="size" code="size" class="size-select mr10 mb10" v-for="(size, index) in filters.size" :key="index" :id="size.id" :label="size.label" />
         </div>
 
         <div v-if="filters.price.length">

@@ -7,7 +7,21 @@ body {
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
     font-weight: 200;
+}
 
+a {
+    color: inherit;
+    position: relative;
+}
+
+a:not(.no-underline):hover:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #BDBDBD;
 }
 
 h1, h2, h3, h4, h5 {
@@ -57,4 +71,8 @@ h6, .h6 {
 
 .weight-400 {
     font-weight: 400;
+}
+
+.lh-30 {
+    line-height: 30px;
 }

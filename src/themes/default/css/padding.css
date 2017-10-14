@@ -103,6 +103,10 @@
     padding-left: 70px;
 }
 
+.pt0 {
+    padding-top: 0;
+}
+
 .pt5 {
     padding-top: 5px;
 }
