@@ -40,5 +40,6 @@ export default {
     top: 0;
     left: 0;
     background: rgba(0,0,0,.4);
+    z-index: 1;
 }
 </style>

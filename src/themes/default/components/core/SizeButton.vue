@@ -49,6 +49,7 @@ export default {
     }
     button.active {
         border-color: black;
+        background-color: #BDBDBD;
         color: black;
     }
     
