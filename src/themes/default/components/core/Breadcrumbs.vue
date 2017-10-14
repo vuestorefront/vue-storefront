@@ -5,9 +5,9 @@
           {{ link.name }}
         </a> / 
       </span>
-      <span>
+      <strong>
         {{ activeRoute }}
-      </span>
+      </strong>
   </div>
 </template>
 

@@ -13,7 +13,7 @@
           </div>
           <div class="col-md-5">
 
-            <h1 class="mb10"> {{ product.name }} </h1>
+            <h1 class="mb10 c-black"> {{ product.name }} </h1>
             <div class="h3 c-darkgray mb35">
               {{ product.price | price }}
             </div>
@@ -37,11 +37,12 @@
       </div>
     </div>
     <div>
-      <div class="container">
+      <div class="container mb15 c-black">
         <div class="row py35">
           <div class="col-md-12">
-            <h2 class="h3 sans-serif">Product description</h2>
-            <span v-html="product.description"></span>
+            <h2 class="h3 sans-serif">Product details</h2>
+            <h2 class="h3 sans-serif">Description</h2>
+            <span class="lh-30 h5" v-html="product.description"></span>
           </div>
         </div>
       </div>
@@ -76,5 +77,6 @@ export default {
 <style scoped>
 .product-image {
   display: inline-flex;
+  mix-blend-mode: multiply;
 }
 </style>
