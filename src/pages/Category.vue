@@ -150,11 +150,10 @@ export default {
   },
 
   asyncData ({ store, route }) {
-    let self = this 
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       console.info('Entering asyncData! Populate some data for SSR')
       return resolve()
-    }))
+    })
   },
 
   beforeMount () {
