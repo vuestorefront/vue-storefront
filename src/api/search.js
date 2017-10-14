@@ -3,6 +3,7 @@ let es = require('elasticsearch')
 import config from '../config'
 import _ from 'lodash'
 import { slugify } from '../lib/filters'
+import hash from 'object-hash'
 
 let client = new es.Client({
   host: config.elasticsearch.host,
@@ -55,15 +56,35 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
-    client.search({
+    const esQuery = {
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: entityType,
       body: query,
       size: size,
       from: start,
       sort: sort
-    }).then(function (resp) {
-      resolve(_handleEsResult(resp, start, size))
+    }
+    const cache = global.db.elasticCacheCollection // switch to appcache?
+    const cacheKey = hash(esQuery)
+
+    let validCacheResult = cache.getItem(cacheKey, (err, res) => {
+      if (err) {
+        console.log(err)
+      }
+
+      if (res) {
+        validCacheResult = true
+        resolve(res)
+        console.log('Result from cache')
+      }
+    })
+    client.search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
+      const res = _handleEsResult(resp, start, size)
+      cache.setItem(cacheKey, res)
+
+      if (!validCacheResult) {
+        resolve(res)
+      }
     }).catch(function (err) {
       reject(err)
     })
