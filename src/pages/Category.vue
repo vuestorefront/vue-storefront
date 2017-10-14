@@ -65,9 +65,9 @@ export default {
       return searchProductQuery
     },
 
-    filterData ({ populateAggregations = false, searchProductQuery }) {
+    filterData ({ populateAggregations = false, searchProductQuery, store, route }) {
       let self = this
-      self.$store.dispatch('product/list', {
+      store.dispatch('product/list', {
         query: searchProductQuery.build(),
         start: self.pagination.offset,
         size: self.pagination.pageSize
@@ -84,7 +84,7 @@ export default {
               for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
                 self.filters[attrToFilter].push({
                   id: option.key,
-                  label: optionLabel(self.$store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
+                  label: optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
                 })
               }
             } else { // special case is range filter for prices
@@ -105,33 +105,41 @@ export default {
       })
     },
 
-    fetchData () {
+    fetchData ({ store, route }) {
       let self = this
       let searchProductQuery = self.baseFilterQuery()
 
       if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
-        EventBus.$emit('current-category-changed', self.$store.state.category.current_path)
-        self.breadcrumbs.routes = breadCrumbRoutes(self.$store.state.category.current_path)
+        EventBus.$emit('current-category-changed', store.state.category.current_path)
+        self.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
 
-        self.$store.dispatch('attribute/list', { // load filter attributes for this specific category
+        store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: Object.keys(self.filters) // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
-      self.filterData({ searchProductQuery: searchProductQuery, populateAggregations: true })
+      self.filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route })
     },
 
-    validateRoute () {
+    validateRoute ({store, route}) {
       let self = this
-      let slug = this.$route.params.slug
+      if (store == null) {
+        store = self.$store
+      }
+      if (route == null) {
+        route = self.$route
+      }
+      console.log(store)
+      console.log(route)
+      let slug = route.params.slug
 
-      self.$store.dispatch('category/list', {}).then((categories) => {
-        self.$store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
+      store.dispatch('category/list', {}).then((categories) => {
+        store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
           self.category = category
 
           if (!self.category) {
             self.$router.push('/')
           } else {
-            self.fetchData()
+            self.fetchData({store: store, route: route})
           }
         })
       })
@@ -141,8 +149,17 @@ export default {
     '$route': 'validateRoute'
   },
 
+  asyncData ({ store, route }) {
+    let self = this 
+    return new Promise(((resolve, reject) => {
+      console.info('Entering asyncData! Populate some data for SSR')
+      return resolve()
+    }))
+  },
+
   beforeMount () {
-    this.validateRoute()
+    this.validateRoute({store: this.$store, route: this.$route})
+
     let self = this // TODO: refactor it to bind()
     EventBus.$on('filter-changed', (filterOption) => { // slection of product variant on product page
       console.log(filterOption)
@@ -170,9 +187,10 @@ export default {
           filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
         }
       }
-      self.filterData({ populateAggregations: false, searchProductQuery: filterQr }) // because already aggregated
+      self.filterData({ populateAggregations: false, searchProductQuery: filterQr, store: self.$store, route: self.$route }) // because already aggregated
     })
   },
+
   data () {
     return {
       isCategoryEmpty: false,

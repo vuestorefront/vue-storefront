@@ -78,7 +78,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         console.log('Result from cache for ' + cacheKey)
         servedFromCache = true
       }
-    })
+    }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
     client.search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
 
@@ -87,7 +87,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         resolve(res)
       }
 
-      cache.setItem(cacheKey, res)
+      cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
     }).catch(function (err) {
       reject(err)
     })
