@@ -67,24 +67,27 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
     const cache = global.db.elasticCacheCollection // switch to appcache?
     const cacheKey = hash(esQuery)
 
-    let validCacheResult = cache.getItem(cacheKey, (err, res) => {
+    let servedFromCache = false
+    cache.getItem(cacheKey, (err, res) => {
       if (err) {
         console.log(err)
       }
 
-      if (res) {
-        validCacheResult = true
+      if (res !== null) {
         resolve(res)
-        console.log('Result from cache')
+        console.log('Result from cache for ' + cacheKey)
+        servedFromCache = true
       }
     })
     client.search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
-      cache.setItem(cacheKey, res)
 
-      if (!validCacheResult) {
+      if (!servedFromCache) {
+        console.log('Result from ES for ' + cacheKey)
         resolve(res)
       }
+
+      cache.setItem(cacheKey, res)
     }).catch(function (err) {
       reject(err)
     })
