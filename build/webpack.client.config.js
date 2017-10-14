@@ -44,35 +44,36 @@ if (process.env.NODE_ENV === 'production') {
       filename: 'service-worker.js',
       staticFileGlobsIgnorePatterns: [/\.map$/],
       staticFileGlobs: [
-        'dist/**.*',
-        'src/resource/**.html',
-        'src/assets/**.*'
+        'dist/**.*'
       ],      
       runtimeCaching: [{
         urlPattern: "/", /** cache the html stub  */
         handler: "cacheFirst"
       },{
-        urlPattern: "https://demo.vuestorefront.io/img/(.*)", /** cache the html stub  */
+        urlPattern: "https://demo.vuestorefront.io/img/*", /** cache the html stub  */
         handler: "cacheFirst"
       },{
-        urlPattern: "https://demo.vuestorefront.io/api/(.*)", /** cache the html stub  */
+        urlPattern: "https://demo.vuestorefront.io/api/*", /** cache the html stub  */
         handler: "cacheFirst"
       },{
         urlPattern: "/dist/logo.png",
         handler: "cacheFirst"
       },{
-        urlPattern: "/assets/(.*)",
+        urlPattern: "/assets/*",
         handler: "cacheFirst"
       },{
-        urlPattern:'/(.*)', /** cache products catalog */
+        urlPattern: "/dist/*",
+        handler: "cacheFirst"
+      },{
+        urlPattern:'/api/catalog/*', /** cache products catalog */
         method: "post",
         options: {
           origin: 'http://localhost:8080',
           debug: true
         },
-        handler: "fastest"        
+        handler: "cacheFirst"        
       },{
-        urlPattern:'/api/(.*)', /** cache products catalog */
+        urlPattern:'/api/*', /** cache products catalog */
         method: "post",
         options: {
           origin: 'https://demo.vuestorefront.io/',
