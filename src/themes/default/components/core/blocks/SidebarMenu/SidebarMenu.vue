@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
         <div class="row">
-            <div class="col-md-12 close bg-white align-right end-xs" @click="closeMenu">
+            <div class="col-md-12 close bg-white align-right end-xs brdr-underline brdr-c-darkgray" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
@@ -10,10 +10,10 @@
                 <ul class="p0 m0">
                     <!-- TO-DO: Remove closemenu and handle it via store -->
                     <li @click="closeMenu" class="brdr-underline brdr-c-darkgray bg-white">
-                        <router-link class="px25 py20" to="/" exact>Home</router-link>
+                        <router-link class="px25 py20 c-black no-underline" to="/" exact>Home</router-link>
                     </li>
                     <li class="brdr-underline brdr-c-darkgray bg-white" @click="closeMenu" v-for='category in categories'>
-                        <router-link class="px25 py20 no-underline" v-if='category.product_count >0 || category.children_data.length>0' :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
+                        <router-link class="px25 py20 c-black no-underline" v-if='category.product_count >0 || category.children_data.length>0' :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
                         <ul v-if="category.children_data" class="p0">
                             <li @click="closeMenu" v-for='subcat in category.children_data'  style="display: none">
                                 <router-link class="px25 py20 no-underline" :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
@@ -21,16 +21,16 @@
                         </ul>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray no-underline" to="/magazine" exact>Magazine</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/magazine" exact>Magazine</router-link>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray no-underline" to="/sale" exact>Sale</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/sale" exact>Sale</router-link>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray no-underline" to="/order-tracking" exact>Track my order</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/order-tracking" exact>Track my order</router-link>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray no-underline" to="/my-account" exact>My account</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/my-account" exact>My account</router-link>
                     </li>
                 </ul>
             </div>
@@ -104,9 +104,14 @@ ul {
 }
 a {
     display: block;
-    color: black;
 }
 li:hover {
     background-color: #F2F2F2;
+}
+i {
+    opacity: 0.6;
+}
+i:hover {
+    opacity: 1;
 }
 </style>
