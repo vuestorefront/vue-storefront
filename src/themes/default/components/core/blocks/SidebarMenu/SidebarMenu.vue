@@ -86,15 +86,17 @@ ul {
 .sidebar-menu {
     height: 100vh;
     width: 350px;
-    left: -350px;
+    max-width: 100%;
+    top: 0;
+    left: 0;
     overflow: hidden;
     position: fixed;
-    top: 0;
+    transform: translateX(-100%);
     z-index: 2;
-    transition: left 500ms $motion-main;
+    transition: transform 500ms $motion-main;
 }
 .sidebar-menu.active {
-    left: 0;
+    transform: translateX(0);
 }
 .close {
     cursor: pointer;

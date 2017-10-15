@@ -5,42 +5,43 @@
         <i class="material-icons p15 close c-lightgray" @click="closeMicrocart">close</i>
       </div>
     </div>
-    <h2 class="ml30">Shopping cart</h2>
+    <h2 v-if="items.length" class="c-black ml30">Shopping cart</h2>
+    <h2 v-if="!items.length" class="c-black ml30">Your shopping cart is empty</h2>
     <ul class="products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
-    <div class="checkout bg-lightgray pt10">
-      <h3 class="ml30">Shopping summary</h3>
+    <div v-if="items.length" class="checkout bg-lightgray pt10">
+      <h3 class="ml30 c-black">Shopping summary</h3>
       <div class="row pt15 pb20 pl30 pr55">
-        <div class="col-xs">
+        <div class="col-xs c-black">
           Subtotal
         </div>
-        <div class="col-xs align-right">
-          <!-- {{ total.subtotal | price }} -->
+        <div class="col-xs align-right c-black">
+          {{ subtotal | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
-        <div class="col-xs">
+        <div class="col-xs c-black">
           Shipping ({{ shipping.name }})
         </div>
-        <div class="col-xs align-right">
+        <div class="col-xs align-right c-black">
           {{ shipping.cost | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
-        <div class="col-xs">
+        <div class="col-xs c-black">
           Payment ({{ payment.name }})
         </div>
-        <div class="col-xs align-right" v-if='payment.cost > 0'>
+        <div class="col-xs align-right c-black" v-if='payment.cost > 0'>
           {{ payment.cost | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
-        <div class="col-xs weight-400">
+        <div class="col-xs weight-400 c-black">
           Total
         </div>
-        <div class="col-xs align-right weight-400 h3">
-          <!-- {{ (total.subtotal + shipping.cost + payment.cost) | price }} -->
+        <div class="col-xs align-right weight-400 h3 c-black">
+          {{ total | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
@@ -61,6 +62,18 @@ export default {
   data () {
     return {
       isOpen: false
+    }
+  },
+  computed: {
+    subtotal: function () {
+      let sum = 0
+      this.items.forEach((el) => {
+        sum = sum + el.price
+      })
+      return sum
+    },
+    total: function () {
+      return this.subtotal + this.shipping.cost + this.payment.cost
     }
   },
   created () {
@@ -91,20 +104,19 @@ export default {
 
 .microcart {
     height: 100vh;
-    width: 600px;
-    right: -600px;
+    width: 800px;
+    right: 0;
+    max-width: 100%;
     position: fixed;
     top: 0;
     z-index: 2;
-    transition: right 500ms $motion-main;
+    transform: translateX(100%);
+    transition: transform 500ms $motion-main;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .microcart.active {
-    right: 0;
-}
-.products {
-  max-height: 350px;
-  overflow-y: auto;
-  overflow-x: hidden;
+    transform: translateX(0)
 }
 .close {
   cursor: pointer;
