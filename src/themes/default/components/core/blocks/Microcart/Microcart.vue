@@ -2,7 +2,7 @@
   <div class="microcart bg-white c-black" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 close c-lightgray" @click="closeMicrocart">close</i>
+        <i class="material-icons p15 close c-black" @click="closeMicrocart">close</i>
       </div>
     </div>
     <h2 v-if="items.length" class="c-black ml30">Shopping cart</h2>
@@ -123,5 +123,11 @@ export default {
 }
 .checkout-button {
   
+}
+i {
+  opacity: 0.6;
+}
+i:hover {
+  opacity: 1;
 }
 </style>

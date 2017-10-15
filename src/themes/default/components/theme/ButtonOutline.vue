@@ -33,15 +33,15 @@ export default {
     border-color: white;
 }
 .light:hover {
-    color: black;
+    color: #000;
     background: white;
 }
 .dark {
-    color: black;
-    border-color: black;
+    color: #000;
+    border-color: #000;
 }
 .dark:hover {
     color: white;
-    background: black;
+    background: #000;
 }
 </style>
