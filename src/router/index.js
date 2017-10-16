@@ -5,7 +5,19 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: __dirname
+  base: __dirname,
+  scrollBehavior: (to, from, savedPosition) => {
+    if (to.hash) {
+      return {
+        selector: to.hash
+      }
+    }
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
+    }
+  }
 }) // routes are registered by themes or modules - here is only global router instance
 
 export default router
