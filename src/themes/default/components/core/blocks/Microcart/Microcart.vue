@@ -65,12 +65,8 @@ export default {
     }
   },
   computed: {
-    subtotal: function () {
-      let sum = 0
-      this.items.forEach((el) => {
-        sum = sum + el.price
-      })
-      return sum
+    subtotal () {
+      return this.$store.getters['cart/totals'].subtotal
     },
     total: function () {
       return this.subtotal + this.shipping.cost + this.payment.cost
