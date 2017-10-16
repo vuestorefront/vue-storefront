@@ -213,13 +213,7 @@ export default {
         pageSize: 18,
         offset: 0
       },
-      filterSet: {}, // filter set selected by user
-      filters: { // filters should be set by category, and should be synchronized with magento
-        color: [],
-        size: [
-        ],
-        price: ['0.00 - 50.00', '50.01 - 100.00', '100.01 - 150.00', '150.01 and more']
-      }
+      filterSet: {} // filter set selected by user
     }
   },
   components: {
