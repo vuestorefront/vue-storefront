@@ -55,27 +55,26 @@ export default {
 <style src="./css/padding.css"></style>
 <style src="./css/text.css"></style>
 <style src="./css/border.css"></style>
+<style src="./css/visibility.scss"></style>
 
 <style>
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 a {
   text-decoration: none;
 }
-#app {
-  max-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 #app.noScroll {
+  height: 100%;
   overflow: hidden;
 }
 #viewport {
   width: 100%;
-  min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
