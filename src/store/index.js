@@ -29,6 +29,11 @@ Vue.prototype.$db = {
   elasticCacheCollection: localForage.createInstance({
     name: 'shop',
     storeName: 'elasticCache'
+  }),
+
+  productsCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'products'
   })
 }
 

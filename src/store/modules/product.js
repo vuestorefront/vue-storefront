@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
+import { entityKeyName } from '../../lib/entities'
 
 const state = {
   list: [],
@@ -36,22 +37,39 @@ const actions = {
    * @param {Object} value expected value
    */
   single (context, { fieldName, value, setCurrentProduct = true, selectDefaultVariant = true }) {
-    return quickSearchByQuery({ query: bodybuilder().query('match', fieldName, value).build() }).then((res) => {
-      if (res && res.items.length > 0) {
-        const prod = res.items[0]
+    const cacheKey = entityKeyName(fieldName, value)
+    const cache = global.db.productsCollection // switch to appcache?
 
-        if (setCurrentProduct) {
-          context.state.current = prod
+    return new Promise((resolve, reject) => {
+      const benchmarkTime = new Date()
+      cache.getItem(cacheKey, (err, res) => {
+        if (err) {
+          console.log(err)
         }
 
-        if (prod.type_id === 'configurable') { // TODO: kind of inheritance or trait here to avoid ifology?
-          if (prod.configurable_children.length > 0 && selectDefaultVariant) {
-            context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod.configurable_children[0]) // select the first variant - TODO: add support for variant selection from product list (parameters)
+        const setupProduct = (prod) => {
+          if (setCurrentProduct) {
+            context.state.current = prod
           }
+          if (prod.type_id === 'configurable') { // TODO: kind of inheritance or trait here to avoid ifology?
+            if (prod.configurable_children.length > 0 && selectDefaultVariant) {
+              context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod.configurable_children[0]) // select the first variant - TODO: add support for variant selection from product list (parameters)
+            }
+          }
+          return prod
         }
 
-        return prod
-      }
+        if (res !== null) {
+          console.debug('Product:single - result from localForage for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          resolve(setupProduct(res))
+        } else {
+          quickSearchByQuery({ query: bodybuilder().query('match', fieldName, value).build() }).then((res) => {
+            if (res && res.items.length > 0) {
+              resolve(setupProduct(res.items[0])) // we don't store result into cache here as it's already populated by quickSerchByQuery (diffrent key)
+            }
+          })
+        }
+      }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
     })
   },
 
@@ -97,6 +115,11 @@ const actions = {
 // mutations
 const mutations = {
   [types.CATALOG_UPD_PRODUCTS] (state, products) {
+    const cache = global.db.productsCollection // switch to appcache?
+    for (let prod of products.items) { // we store each product separately in cache to have offline acces for products/single method
+      const cacheKey = entityKeyName('id', prod.id)
+      cache.setItem(cacheKey, prod).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+    }
     state.list = products // extract fields from ES _source
   },
   [types.CATALOG_UPD_SELECTED_VARIANT] (state, product) {
