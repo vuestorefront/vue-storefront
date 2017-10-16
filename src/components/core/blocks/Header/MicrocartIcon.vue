@@ -2,18 +2,18 @@
   <div class="microcart-icon">
       Core Microcart
       <!-- Total items in cart -->
-      {{ totalItems }}
+      {{ totals.quantity }}
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'microcart-icon',
   computed: {
-    totalItems () {
-      // return this.$store.getters.totals.quantity
-      return 3
-    }
+    ...mapGetters({
+      totals: 'cart/totals'
+    })
   }
 }
 </script>
