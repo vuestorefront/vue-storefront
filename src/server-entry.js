@@ -10,16 +10,22 @@ export default context => {
         return reject({ code: 404 })
       }
       Promise.all(matchedComponents.map(Component => {
-        if (Component.asyncData) {
-          return Component.asyncData({
-            store,
-            route: router.currentRoute
-          })
+        if (Component.mixins) {
+          const components = Array.from(Component.mixins)
+          components.push(Component)
+          Promise.all(components.map(SubComponent => {
+            if (SubComponent.asyncData) {
+              return SubComponent.asyncData({
+                store,
+                route: router.currentRoute
+              })
+            }
+          })).then(() => {
+            context.state = store.state
+            resolve(app)
+          }).catch(reject)
         }
-      })).then(() => {
-        context.state = store.state
-        resolve(app)
-      }).catch(reject)
+      }))
     }, reject)
   })
 }

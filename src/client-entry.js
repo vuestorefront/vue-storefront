@@ -19,7 +19,7 @@ router.onReady(() => {
     if (!activated.length) {
       return next()
     }
-    Promise.all(activated.map(c => {
+    Promise.all(activated.map(c => { // TODO: update me for mixins support
       if (c.asyncData) {
         return c.asyncData({ store, route: to })
       }
