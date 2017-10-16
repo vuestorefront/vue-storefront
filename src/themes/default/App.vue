@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ noScroll: !scroll }">
+  <div id="app" :class="{ 'no-scroll': !scroll }">
     <div id="viewport">
       <overlay />
       <microcart />
@@ -41,8 +41,7 @@ export default {
     MainFooter,
     Microcart,
     SidebarMenu,
-    Overlay,
-    EventBus
+    Overlay
   }
 }
 </script>
@@ -70,7 +69,7 @@ a {
   overflow-x: hidden;
   overflow-y: auto;
 }
-#app.noScroll {
+#app.no-scroll {
   overflow: hidden;
 }
 #viewport {
