@@ -5,13 +5,13 @@
       <div class="col-xs pl40 pb15 pt15">
         <div>
           <div>{{ product.name }}</div>
-          <div class="h6 c-darkgray pt5">{{ product.sku }}</div>
+          <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
         </div>
         <div>
-          <div><span class="c-darkgray">Qty</span> 
-          <span class="weight-400" :class="{ hidden: isEditing }">{{ product.quantity }}</span>
+          <div><span class="h6 c-darkgray">Qty</span> 
+          <span class="h6 weight-400" :class="{ hidden: isEditing }">{{ product.quantity }}</span>
           <span :class="{ hidden: !isEditing }">
-            <input type="number" v-model="qty">
+            <input class="h6" type="number" v-model="qty">
           </span>
           </div>
         </div>

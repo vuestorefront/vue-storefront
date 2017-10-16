@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ noScroll: !scroll }">
     <div id="viewport">
       <overlay />
       <microcart />
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import EventBus from 'src/event-bus/event-bus'
+
 import MainHeader from './components/core/blocks/Header/Header.vue'
 import MainFooter from './components/core/blocks/Footer/Footer.vue'
 
@@ -21,12 +23,26 @@ import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import Overlay from './components/core/Overlay.vue'
 
 export default {
+  data () {
+    return {
+      scroll: true
+    }
+  },
+  created () {
+    EventBus.$on('toggle-overlay', () => {
+      this.scroll = !this.scroll
+    })
+    EventBus.$on('hide-overlay', () => {
+      this.scroll = true
+    })
+  },
   components: {
     MainHeader,
     MainFooter,
     Microcart,
     SidebarMenu,
-    Overlay
+    Overlay,
+    EventBus
   }
 }
 </script>
@@ -44,9 +60,18 @@ export default {
 body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 a {
   text-decoration: none;
+}
+#app {
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#app.noScroll {
+  overflow: hidden;
 }
 #viewport {
   width: 100%;

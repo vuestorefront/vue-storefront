@@ -50,8 +50,12 @@ export default {
     header {
         border-bottom-color: #E0E0E0;
     }
+    .icon {
+        opacity: 0.6;
+    }
     .icon:hover {
         background-color: #F2F2F2;
         cursor: pointer;
+        opacity: 1;
     }
 </style>
