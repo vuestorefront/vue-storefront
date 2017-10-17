@@ -6,6 +6,10 @@
     background-color: #333;
 }
 
+.bg-gray {
+    background-color: #8E8E8E;
+}
+
 .bg-lightgray {
     background-color: #F2F2F2;
 }
@@ -18,9 +22,12 @@
     background-color: transparent;
 }
 
-
 .c-white {
     color: white;
+}
+
+.c-gray {
+    color: #8E8E8E;
 }
 
 .c-lightgray {

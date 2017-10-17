@@ -1,7 +1,7 @@
 <template>
   <div class="microcart-icon" @click="toggleMicrocart">
     <i class="material-icons md-18">shopping_cart</i>
-    <span class="minicart-count" v-cloak>{{totals.quantity}}</span>
+    <span class="minicart-count l-center-vh brdr-circle fs-10 weight-700 bg-gray c-white" v-cloak>{{totals.quantity}}</span>
   </div>
 </template>
 
@@ -27,17 +27,9 @@ export default {
 
   .minicart-count {
     position: relative;
-    display: flex;
     top: -5px;
     left: -5px;
     width: 16px;
     height: 16px;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    font-size: 10px;
-    font-weight: 700;
-    background-color: #8e8e8e;
-    color: #fff;
   }
 </style>

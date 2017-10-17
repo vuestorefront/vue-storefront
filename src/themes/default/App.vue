@@ -54,7 +54,8 @@ export default {
 <style src="./css/padding.css"></style>
 <style src="./css/text.css"></style>
 <style src="./css/border.css"></style>
-<style src="./css/visibility.scss"></style>
+<style src="./css/layout.scss" lang="scss"></style>
+<style src="./css/visibility.scss" lang="scss"></style>
 
 <style>
 html,
