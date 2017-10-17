@@ -73,6 +73,14 @@ h6, .h6 {
     font-weight: 400;
 }
 
+.weight-700 {
+    font-weight: 700;
+}
+
 .lh-30 {
     line-height: 30px;
+}
+
+.fs-10 {
+    font-size: 10px;
 }
