@@ -4,29 +4,18 @@
 </template>
 
 <script>
-import EventBus from 'src/event-bus/event-bus'
+import { mapState } from 'vuex'
 
 export default {
   name: 'overlay',
-  data () {
-    return {
-      isVisible: false
-    }
-  },
-  created () {
-    const self = this
-    EventBus.$on('toggle-overlay', () => {
-      self.isVisible = !self.isVisible
-    })
-    EventBus.$on('hide-overlay', () => {
-      self.isVisible = false
-    })
-  },
+  computed: mapState({
+    isVisible: state => state.ui.overlay
+  }),
   methods: {
     onClick () {
-      EventBus.$emit('hide-overlay')
-      EventBus.$emit('hide-sidebar-menu')
-      EventBus.$emit('hide-microcart')
+      this.$store.commit('setOverlay', false)
+      this.$store.commit('setSidebar', false)
+      this.$store.commit('setMicrocart', false)
     }
   }
 }
