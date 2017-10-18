@@ -11,10 +11,10 @@
                     <li @click="closeMenu" class="brdr-underline brdr-c-darkgray bg-white">
                         <router-link class="px25 py20 c-black no-underline" to="/" exact>Home</router-link>
                     </li>
-                    <li class="brdr-underline brdr-c-darkgray bg-white" v-bind:key="category.id"  @click="closeMenu" v-for='category in categories' v-if='category.product_count >0 || category.children_data.length>0' >
+                    <li class="brdr-underline brdr-c-darkgray bg-white" v-bind:key="category.slug"  @click="closeMenu" v-for='category in categories' v-if='category.product_count >0 || category.children_data.length>0' >
                         <router-link class="px25 py20 c-black no-underline" :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
                         <ul v-if="category.children_data" class="p0">
-                            <li @click="closeMenu" v-bind:key="subcat.id" v-for='subcat in category.children_data'  style="display: none">
+                            <li @click="closeMenu" v-bind:key="subcat.slug" v-for='subcat in category.children_data'  style="display: none">
                                 <router-link class="px25 py20 no-underline" :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
                             </li>
                         </ul>

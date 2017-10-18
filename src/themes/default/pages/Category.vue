@@ -2,7 +2,6 @@
   <div id="category">
     <header class="bg-lightgray py35">
         <div class="container">
-            <!-- There will be breadcrumbs -->
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
             <h1 class="mb10"> {{ category.name }} </h1> 
         </div>

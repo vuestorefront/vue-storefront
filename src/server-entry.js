@@ -21,7 +21,7 @@ export default context => {
               })
             }
           })).then(() => {
-            context.state = store.state
+            context.state = store.state // TODO: for some pages like category it's massive; need to be optimized
             resolve(app)
           }).catch(reject)
         }
