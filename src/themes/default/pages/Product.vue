@@ -53,6 +53,7 @@
 <script>
 import { corePage } from 'lib/themes'
 
+import AddToCart from '../components/core/AddToCart.vue'
 import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
@@ -66,6 +67,7 @@ export default {
     }
   },
   components: {
+    AddToCart,
     ColorButton,
     SizeButton,
     Breadcrumbs
