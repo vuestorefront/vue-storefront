@@ -91,6 +91,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
         }
       }
     }
+    return res
   })
 }
 
@@ -103,6 +104,9 @@ export default {
 
       if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
         EventBus.$emit('current-category-changed', store.state.category.current_path)
+        store.dispatch('attribute/list', { // load filter attributes for this specific category
+          filterValues: Object.keys(self.filters)// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+        })
       }
       filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, ofset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) })
     },
@@ -119,6 +123,8 @@ export default {
 
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
+          store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
+
           if (!self.category) {
             self.$router.push('/')
           } else {
@@ -150,7 +156,6 @@ export default {
       })
     })
   },
-
   beforeMount () {
     this.validateRoute({store: this.$store, route: this.$route})
 
@@ -181,7 +186,7 @@ export default {
           filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
         }
       }
-      self.filterData({ populateAggregations: false, searchProductQuery: filterQr, store: self.$store, route: self.$route, offset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) }) // because already aggregated
+      filterData({ populateAggregations: false, searchProductQuery: filterQr, store: self.$store, route: self.$route, offset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) }) // because already aggregated
     })
   },
 

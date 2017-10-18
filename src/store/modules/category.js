@@ -6,8 +6,8 @@ import { quickSearchByQuery } from '../../api/search'
 
 const state = {
   list: [],
-  current: null,
-  filters: {},
+  current: {},
+  filters: { color: [], size: [], price: [] },
   breadcrumbs: {routes: []},
   current_path: [] // list of categories from root to current
 }
