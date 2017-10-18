@@ -6,7 +6,7 @@ The project is still in the prove of concept phase. **We are looking for Contrib
 
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
-You can request joining the slack channel by clicking [here](https://join.slack.com/t/vuestorefront/shared_invite/enQtMjUyMzA1NDM1ODg4LTYzZjljNjZlN2JmMmM4NzQzOWFkOTA5NTMyOTg0NzIwNjMxNTNjYTZhNzAzOWM5MjEyYzE2OWE3ZTJmOTU3OTY)
+You can request joining the slack channel by dropping us a line to: *contributors@vuestorefront.io*
 
 ## The business challenges
 Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
