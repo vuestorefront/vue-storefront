@@ -8,7 +8,8 @@ The project is still in the prove of concept phase. **We are looking for Contrib
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
 You can request joining the slack channel by dropping us a line to: *contributors@vuestorefront.io*
 
-## Docs table of contents
+## Documentation + table of contents
+The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
 
 * [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
 * [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
@@ -135,8 +136,4 @@ The default config file should work perfectly fine for default purposes.
 <img width="1440" alt="3" src="https://user-images.githubusercontent.com/18116406/31016669-ef97db8e-a525-11e7-858d-debe7c42d36e.png">
 
 <img width="1440" alt="4" src="https://user-images.githubusercontent.com/18116406/31016670-f240aaa0-a525-11e7-97be-f5b931f42e4c.png">
-
-## Documentation
-
-The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
 
