@@ -6,7 +6,7 @@ The project is still in the prove of concept phase. **We are looking for Contrib
 
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
-You can request joining the slack channel by dropping us a line to: *contributors@vuestorefront.io*
+You can request joining the slack channel by dropping us a line to: *contributors@vuestorefront.io* or via [this link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMjU3NjE4NTI3MTY5LTFhMmRlNGE1ZTJjZWExNGJjNmJhMDA5ZmU5YWMzOGYyMTdiODAyODZlYWE0NGNhZTYxYWYxNTcyMzdjZjYxYzg)
 
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
