@@ -1,5 +1,5 @@
 <template>
-  <div class="microcart">
+  <div class="microcart" :class="{ active: isOpen }">
     Core Microcart
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'microcart',
@@ -22,6 +22,9 @@ export default {
     this.$store.dispatch('cart/load') // load cart from the indexedDb
   },
   methods: {
+    closeMicrocart () {
+      this.$store.commit('setMicrocart', false)
+    },
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },
   computed: {
@@ -31,12 +34,21 @@ export default {
     payment () {
       return this.$store.state.cart.payment
     },
+    subtotal () {
+      return this.$store.getters['cart/totals'].subtotal
+    },
+    total: function () {
+      return this.subtotal + this.shipping.cost + this.payment.cost
+    },
     // total () {
     //   return this.$store.getters['cart/totals']
     // },
     items () {
       return this.$store.state.cart.cartItems
-    }
+    },
+    ...mapState({
+      isOpen: state => state.ui.microcart
+    })
   }
 }
 </script>

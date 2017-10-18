@@ -55,38 +55,11 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 import Product from './Product'
 
 export default {
-  data () {
-    return {
-      isOpen: false
-    }
-  },
-  computed: {
-    subtotal () {
-      return this.$store.getters['cart/totals'].subtotal
-    },
-    total: function () {
-      return this.subtotal + this.shipping.cost + this.payment.cost
-    }
-  },
   created () {
-    const self = this
-    EventBus.$on('toggle-microcart', () => {
-      self.isOpen = !self.isOpen
-    })
-    EventBus.$on('hide-microcart', () => {
-      self.isOpen = false
-    })
-    console.log('CI  ' + self.cartItems)
-  },
-  methods: {
-    closeMicrocart () {
-      this.isOpen = false
-      EventBus.$emit('toggle-overlay')
-    }
+    console.log('CI  ' + this.cartItems)
   },
   components: {
     Product

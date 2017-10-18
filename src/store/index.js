@@ -48,6 +48,7 @@ import cart from './modules/cart'
 import user from './modules/user'
 import payment from './modules/payment'
 import shipping from './modules/shipping'
+import ui from './modules/ui-store'
 
 Vue.use(Vuex)
 
@@ -89,7 +90,8 @@ export default new Vuex.Store({
     cart,
     user,
     payment,
-    shipping
+    shipping,
+    ui
   },
   state,
   mutations,

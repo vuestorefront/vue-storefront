@@ -1,11 +1,21 @@
 <template>
-  <div class="hamburger-icon">
+  <div class="hamburger-icon" @click="toggleSidebarMenu">
     Core Hamburger
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'hamburger-icon'
+  name: 'hamburger-icon',
+  computed: mapState({
+    isOpen: state => state.ui.sidebar
+  }),
+  methods: {
+    toggleSidebarMenu () {
+      this.$store.commit('setSidebar', !this.isOpen)
+    }
+  }
 }
 </script>

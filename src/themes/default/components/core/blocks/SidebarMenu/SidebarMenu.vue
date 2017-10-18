@@ -40,37 +40,7 @@
 <script>
 import { coreComponent } from 'lib/themes'
 
-import EventBus from 'src/event-bus/event-bus'
-
 export default {
-  data () {
-    return {
-      isOpen: false
-    }
-  },
-  computed: {
-    categories () {
-      return this.$store.state.category.list.filter((op) => {
-        return op.level === 2 // display only the root level (level =1 => Default Category)
-      })
-    }
-  },
-  created () {
-    const self = this
-    EventBus.$on('toggle-sidebar-menu', () => {
-      self.isOpen = !self.isOpen
-    })
-    EventBus.$on('hide-sidebar-menu', () => {
-      self.isOpen = false
-    })
-    this.$store.dispatch('category/list', {})
-  },
-  methods: {
-    closeMenu () {
-      this.isOpen = false
-      EventBus.$emit('toggle-overlay')
-    }
-  },
   mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')]
 }
 </script>
