@@ -8,6 +8,14 @@ The project is still in the prove of concept phase. **We are looking for Contrib
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
 You can request joining the slack channel by dropping us a line to: *contributors@vuestorefront.io*
 
+## Docs table of contents
+
+* [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
+* [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
+* [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
+* [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
+* [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md)
+
 ## The business challenges
 Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
 * The ultrafast front-end for the store - with the PWA approach we can now render the catalog of products within milliseconds;
