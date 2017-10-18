@@ -25,9 +25,9 @@ According to mocks the above `<div>` should have 20px padding top and bottom (y-
 
 Let's check the [CSS folder](https://github.com/DivanteLtd/vue-storefront/tree/master/src/themes/default/css) and find required classes.
 
-For padding top/bottom there is `py-x` class where `x` is a size in px and `py` means 'padding y-axis'. We will use `py-20` in this case. Same with x-axis - we will use `px-10`.
+For padding top/bottom there is `py-x` class where `py` means 'padding y-axis' and `x` is a size in px. We will use `py-20` in this case. Same with x-axis - we will use `px-10`.
 
-For colors we will use `c-white` for `color: white` property and `bg-black` for `background-black`.
+For colors we will use `c-white` for `color: white` property and `bg-black` for `background-color: black`.
 
 Now our `<div>` should look like this:
 ```html
