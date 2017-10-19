@@ -1,0 +1,55 @@
+// IMPORTANT: Add new css rules ON DEMAND only when you need them! 
+// Try to use multiples of 5 when using pixels
+
+// Pixel sizes
+
+$border-px: 1;
+
+// Display
+
+$border-display: none;
+
+// Colors
+
+$border-colors: (
+    gray: #BDBDBD,
+    lightgray: #E0E0E0,
+    darkgray: #F2F2F2
+);
+
+// Radius
+
+$border-radius: (
+    square: 0,
+    circle: 50%
+);
+
+@mixin border {
+    @each $i in $border-px {
+        .brdr-#{$i} {
+            border: #{$i}px solid;
+        }
+    }
+    @each $i in $border-display {
+        .brdr-none {
+            border: #{$i}
+        }
+    }
+    @each $color, $colorcode in $border-colors {
+        .brdr-c-#{$color} {
+            border-color: #{$colorcode};
+        }
+    }
+    @each $name, $value in $border-colors {
+        .brdr-#{$name} {
+            border-radius: #{$value};
+        }
+    }
+}
+
+.brdr-underline {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+@include border;

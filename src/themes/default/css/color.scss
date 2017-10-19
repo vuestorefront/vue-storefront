@@ -1,0 +1,38 @@
+// IMPORTANT: Add new css rules ON DEMAND only when you need them! 
+// Try to use multiples of 5 when using pixels
+
+// Background colors
+
+$background-colors: (
+    white: white,
+    black: #333,
+    gray: #8E8E8E,
+    lightgray: #F2F2F2,
+    darkgray: #333333,
+    transparent: transparent
+);
+
+// Font colors
+
+$font-colors: (
+    white: white,
+    gray: #8E8E8E,
+    lightgray: #BDBDBD,
+    darkgray: #828282,
+    black: #333
+);
+
+@mixin color {
+    @each $color, $colorcode in $background-colors {
+        .bg-#{$color} {
+            background-color: #{$colorcode};
+        }
+    }
+    @each $color, $colorcode in $font-colors {
+        .c-#{$color} {
+            color: #{$colorcode};
+        }
+    }
+}
+
+@include color;
