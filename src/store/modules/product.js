@@ -6,6 +6,9 @@ import { entityKeyName } from '../../lib/entities'
 const state = {
   list: [],
   current: null,
+  current_options: {color: [], size: []},
+  current_configuration: {},
+  breadcrumbs: {routes: []},
   product_selected_variant: null
 }
 
@@ -38,13 +41,13 @@ const actions = {
    */
   single (context, { fieldName, value, setCurrentProduct = true, selectDefaultVariant = true }) {
     const cacheKey = entityKeyName(fieldName, value)
-    const cache = global.db.productsCollection // switch to appcache?
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
+      const cache = global.db.elasticCacheCollection
       cache.getItem(cacheKey, (err, res) => {
         if (err) {
-          console.log(err)
+          console.error(err)
         }
 
         const setupProduct = (prod) => {
@@ -69,7 +72,7 @@ const actions = {
             }
           })
         }
-      }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
+      })// .catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
     })
   },
 
@@ -89,7 +92,6 @@ const actions = {
           return a.attribute_code === configuration[option].attribute_code
         })
 
-        console.log(attr)
         if (attr) {
           match = attr.value.toString() === configuration[option].id.toString()
         }
@@ -115,7 +117,7 @@ const actions = {
 // mutations
 const mutations = {
   [types.CATALOG_UPD_PRODUCTS] (state, products) {
-    const cache = global.db.productsCollection // switch to appcache?
+    const cache = global.db.elasticCacheCollection
     for (let prod of products.items) { // we store each product separately in cache to have offline acces for products/single method
       const cacheKey = entityKeyName('id', prod.id)
       cache.setItem(cacheKey, prod).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
