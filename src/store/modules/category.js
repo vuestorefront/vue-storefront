@@ -6,7 +6,9 @@ import { quickSearchByQuery } from '../../api/search'
 
 const state = {
   list: [],
-  current: null,
+  current: {},
+  filters: { color: [], size: [], price: [] },
+  breadcrumbs: {routes: []},
   current_path: [] // list of categories from root to current
 }
 
@@ -118,11 +120,11 @@ const mutations = {
   },
 
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
-    state.list = categories.items // extract fields from ES _source
+    state.list = categories.items
 
     for (let category of state.list) {
       for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
-        subcat.slug = Object.assign(subcat, { slug: subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '' })
+        subcat = Object.assign(subcat, { slug: subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '' })
       }
       const catCollection = global.db.categoriesCollection
       try {

@@ -4,6 +4,7 @@ import * as types from './mutation-types'
 
 // import * as types from './mutation-types'
 import * as localForage from 'localforage'
+import UniversalStorage from '../lib/storage'
 
 Vue.prototype.$db = {
   ordersCollection: localForage.createInstance({
@@ -11,30 +12,30 @@ Vue.prototype.$db = {
     storeName: 'orders'
   }),
 
-  categoriesCollection: localForage.createInstance({
+  categoriesCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'categories'
-  }),
+  })),
 
-  attributesCollection: localForage.createInstance({
+  attributesCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'attributes'
-  }),
+  })),
 
   cartsCollection: localForage.createInstance({
     name: 'shop',
     storeName: 'carts'
   }),
 
-  elasticCacheCollection: localForage.createInstance({
+  elasticCacheCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'elasticCache'
-  }),
+  })),
 
-  productsCollection: localForage.createInstance({
+  productsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'products'
-  })
+  }))
 }
 
 global.db = Vue.prototype.$db // localForage instance
@@ -50,13 +51,8 @@ import shipping from './modules/shipping'
 
 Vue.use(Vuex)
 
-const defaultState = {
+const state = {
 }
-
-const inBrowser = typeof window !== 'undefined'
-
-// if in browser, use pre-fetched state injected by SSR
-const state = (inBrowser && window.__INITIAL_STATE__) || defaultState
 
 const mutations = {
   TOPICS_LIST: (state, topics) => {

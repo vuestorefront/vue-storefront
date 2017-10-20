@@ -2,9 +2,8 @@
   <div id="category">
     <header class="bg-lightgray py35">
         <div class="container">
-            <!-- There will be breadcrumbs -->
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
-            <h1 class="mb10"> {{ category.name }} </h1>
+            <h1 class="mb10"> {{ category.name }} </h1> 
         </div>
     </header>
     <div class="container pb60">
@@ -17,7 +16,7 @@
                     <div v-if="isCategoryEmpty">
                         No products found!   
                     </div>  
-                    <div v-for="product in products" class="col-md-4 p15">
+                    <div v-for="product in products" v-bind:key="product.id" class="col-md-4 p15">
                         <product-tile :product="product" />
                     </div>
                 </div>

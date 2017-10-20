@@ -60,8 +60,8 @@
         </div>
         <div class="col-md-9 end-md">
           <ul class="links">
-            <router-link class="c-black mr15" to="/legal" exact>Legal notice</router-link>
-            <router-link class="c-black" to="/privacy" exact>Privacy policy</router-link>
+            <li><router-link class="c-black mr15" to="/legal" exact>Legal notice</router-link></li>
+            <li><router-link class="c-black" to="/privacy" exact>Privacy policy</router-link></li>
           </ul>
         </div>
       </div>

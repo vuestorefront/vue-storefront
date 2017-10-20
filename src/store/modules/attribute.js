@@ -92,7 +92,6 @@ export function optionLabel (state, { attributeKey, searchBy = 'code', optionId 
       return label
     }
   }
-
   let attr = state['list_by_' + searchBy][attributeKey]
   if (attr) {
     let opt = attr.options.find((op) => { // TODO: cache it in memory
