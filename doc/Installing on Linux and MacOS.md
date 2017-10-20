@@ -23,6 +23,7 @@ To import these products we'll use 'elasticdump' - which is provided by default 
 
 ```
 npm run restore
+npm run migrate
 ```
 
 Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
