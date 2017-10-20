@@ -20,11 +20,9 @@ export default {
     },
     setMicrocart (state, action) {
       state.microcart = action === true
-      state.overlay = action === true
     },
     setSidebar (state, action) {
       state.sidebar = action === true
-      state.overlay = action === true
     }
   }
 }

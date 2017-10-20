@@ -14,8 +14,6 @@ export default {
   methods: {
     onClick () {
       this.$store.commit('setOverlay', false)
-      this.$store.commit('setSidebar', false)
-      this.$store.commit('setMicrocart', false)
     }
   }
 }
