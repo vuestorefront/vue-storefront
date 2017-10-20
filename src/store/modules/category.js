@@ -120,7 +120,7 @@ const mutations = {
   },
 
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
-    state.list = categories.items // extract fields from ES _source
+    state.list = categories.items
 
     for (let category of state.list) {
       for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api

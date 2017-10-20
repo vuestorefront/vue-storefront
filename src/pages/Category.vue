@@ -157,8 +157,6 @@ export default {
     })
   },
   beforeMount () {
-    this.validateRoute({store: this.$store, route: this.$route})
-
     let self = this // TODO: refactor it to bind()
     EventBus.$on('filter-changed', (filterOption) => { // slection of product variant on product page
       console.log(filterOption)

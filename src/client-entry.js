@@ -4,7 +4,6 @@ require('./service-worker-registration') // register the service worker
 const { app, router, store } = createApp()
 
 if (window.__INITIAL_STATE__) {
-  console.log(window.__INITIAL_STATE__)
   store.replaceState(window.__INITIAL_STATE__)
 }
 
@@ -21,12 +20,22 @@ router.onReady(() => {
       return next()
     }
     Promise.all(activated.map(c => { // TODO: update me for mixins support
-      if (c.asyncData) {
-        return c.asyncData({ store, route: to })
+      if (c.mixins) {
+        const components = Array.from(c.mixins)
+        components.push(c)
+        Promise.all(components.map(SubComponent => {
+          if (SubComponent.asyncData) {
+            console.log(SubComponent)
+            return SubComponent.asyncData({
+              store,
+              route: to
+            })
+          }
+        })).then(() => {
+          next()
+        }).catch(next)
       }
-    })).then(() => {
-      next()
-    }).catch(next)
+    }))
   })
   app.$mount('#app')
 })
