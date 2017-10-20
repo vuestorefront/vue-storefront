@@ -6,7 +6,17 @@ The project is still in the prove of concept phase. **We are looking for Contrib
 
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
-You can request joining the slack channel by clicking [here](https://join.slack.com/t/vuestorefront/shared_invite/enQtMjUyMzA1NDM1ODg4LTYzZjljNjZlN2JmMmM4NzQzOWFkOTA5NTMyOTg0NzIwNjMxNTNjYTZhNzAzOWM5MjEyYzE2OWE3ZTJmOTU3OTY)
+You can request joining the slack channel by dropping us a line to: *contributors@vuestorefront.io* or via [this link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMjU3NjE4NTI3MTY5LTFhMmRlNGE1ZTJjZWExNGJjNmJhMDA5ZmU5YWMzOGYyMTdiODAyODZlYWE0NGNhZTYxYWYxNTcyMzdjZjYxYzg)
+
+## Documentation + table of contents
+The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
+
+* [Installing on Linux/MacOS](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md)
+* [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
+* [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
+* [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
+* [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
+* [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md)
 
 ## The business challenges
 Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
@@ -44,82 +54,6 @@ Vue Storefront source code is completely free and released under the [MIT Licens
 ## Contributing
 If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via vuestorefront@divante.co.
 
-## Installation
-
-To make vue-storefront up and runing you need to have the latest version of node (v8.3.0 used for development). You'll also need docker - or ElasticSearch + Redis installed on localhost instead. The steps below are tested on MacOS and Linux environments.
-
-If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
-
-Let's go:
-
-### Install the vue-storefront-api
-You need to use https://github.com/DivanteLtd/vue-storefront-api.
-It's the ultimate API backend for this application
-
-```
-git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
-cd vue-storefront-api
-npm install
-docker-compose up
-```
-To test out the application you'll need some test data. In vue-storefront-api/var/catalog.json you have data dump for ElasticSearch with default Magento2 products database. We're using for development purposes.
-
-To import these products we'll use 'elasticdump' - which is provided by default with package.json dependencies and npm command:
-
-```
-npm run restore
-```
-
-Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
-
-```
-git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data
-```
-
-Last step is to configure the application:
-
-```
-mv src/config.example.json src/config.json
-nano config.json
-```
-The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
-
-After all these steps you should be able to run the application using following command (development mode with dynamic file reloads when changed):
-
-```
-npm run dev
-```
-
-You can check if everything works just fine by executing the following command:
-```
-curl -i http://vue-storefront.divante.pl/api/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
-```
-
-### Install the vue-storefront
-You need to use https://github.com/DivanteLtd/vue-storefront.
-Now, it's the time to install the frontend itself:
-
-```
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
-cd vue-storefront
-npm install
-```
-
-You have to prepare the config:
-
-```
-mv src/config.example.js src/config.js
-nano config.js
-```
-
-And then you can build app and run dev server:
-```
-npm run build
-npm run dev
-```
-
-The default config file should work perfectly fine for default purposes.
-
 ## The screenshots
 
 <img width="1440" alt="2" src="https://user-images.githubusercontent.com/18116406/31016666-eafb3fee-a525-11e7-9317-18ec3f91aaf1.png">
@@ -127,8 +61,4 @@ The default config file should work perfectly fine for default purposes.
 <img width="1440" alt="3" src="https://user-images.githubusercontent.com/18116406/31016669-ef97db8e-a525-11e7-858d-debe7c42d36e.png">
 
 <img width="1440" alt="4" src="https://user-images.githubusercontent.com/18116406/31016670-f240aaa0-a525-11e7-97be-f5b931f42e4c.png">
-
-## Documentation
-
-The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
 

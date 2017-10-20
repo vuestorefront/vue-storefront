@@ -44,6 +44,7 @@
     "serve-favicon": "^2.3.0",
     "update": "^0.7.4",
     "vue": "^2.5.2",
+    "vue-carousel": "^0.6.5",
     "vue-markdown": "^2.2.4",
     "vue-markdown-loader": "^2.2.1",
     "vue-router": "^3.0.1",

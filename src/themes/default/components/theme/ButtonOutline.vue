@@ -1,5 +1,8 @@
 <template>
-  <div class="button-outline uppercase px40 py15" :class="{ light : color === 'light', dark : color === 'dark' }">
+  <div class="button-outline uppercase px40 py15" :class="{ 
+    light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
+    dark : color === 'dark', 'brdr-black' : color === 'dark', 'c-black' : color === 'dark'
+  }">
     {{ text }}
   </div>
 </template>
@@ -28,20 +31,14 @@ export default {
     cursor: pointer;
     font-weight: 400;
 }
-.light {
-    color: white;
-    border-color: white;
-}
 .light:hover {
     color: #000;
     background: white;
-}
-.dark {
-    color: #000;
-    border-color: #000;
+    border-color: white;
 }
 .dark:hover {
     color: white;
     background: #000;
+    border-color: black;
 }
 </style>
