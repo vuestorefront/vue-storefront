@@ -1,6 +1,6 @@
 <template>
   <section class="main-slider bg-darkgray c-white">
-    <no-ssr :placeholder="Loading">
+    <no-ssr>
         <carousel :perPage='1'>
             <slide v-for='slide in slides'>
                 <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
