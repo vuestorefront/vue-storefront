@@ -32,9 +32,10 @@ export default {
           let currentPath = self.$store.state.category.current_path
           let currentCat = self.$store.state.category.current
 
-          if (currentPath && currentCat) {
+          if (currentPath.length>0 && currentCat) {
             setbrcmb(currentPath)
           } else {
+            console.log(self.product.category)
             if (self.product.category && self.product.category.length > 0) {
               let cat = self.product.category[self.product.category.length - 1]
 
@@ -43,7 +44,7 @@ export default {
               })
             }
           }
-          console.log(self.product)
+          console.log(currentPath)
           self.breadcrumbs.name = self.product.name
 
           if (self.product.type_id === 'configurable') {
