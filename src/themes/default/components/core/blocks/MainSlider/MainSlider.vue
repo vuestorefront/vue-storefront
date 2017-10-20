@@ -1,24 +1,27 @@
 <template>
   <section class="main-slider bg-darkgray c-white">
-    <carousel :perPage='1'>
-        <slide v-for='slide in slides'>
-            <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
-                <div class="row middle-md">
-                    <div class="col-md-12 px10p">
-                        <p class="mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
-                        <h1 class="mt0 mb30 align-center">{{ slide.title }}</h1>
-                        <div class="align-center">
-                            <button-outline :text="slide.button_text" color="light" />
+    <no-ssr :placeholder="Loading">
+        <carousel :perPage='1'>
+            <slide v-for='slide in slides'>
+                <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
+                    <div class="row middle-md">
+                        <div class="col-md-12 px10p">
+                            <p class="mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
+                            <h1 class="mt0 mb30 align-center">{{ slide.title }}</h1>
+                            <div class="align-center">
+                                <button-outline :text="slide.button_text" color="light" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </slide>
-    </carousel>
+            </slide>
+        </carousel>
+    </no-ssr>
   </section>
 </template>
 
 <script>
+import NoSSR from 'vue-no-ssr'
 import { coreComponent } from 'lib/themes'
 import { Carousel, Slide } from 'vue-carousel'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
@@ -27,7 +30,8 @@ export default {
   components: {
     ButtonOutline,
     Carousel,
-    Slide
+    Slide,
+    'no-ssr': NoSSR
   },
   mixins: [coreComponent('core/blocks/MainSlider/MainSlider')]
 }
