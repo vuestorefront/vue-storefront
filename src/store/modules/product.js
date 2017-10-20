@@ -54,10 +54,12 @@ const actions = {
           if (setCurrentProduct) {
             context.state.current = prod
           }
-          if (prod.type_id === 'configurable') { // TODO: kind of inheritance or trait here to avoid ifology?
+          if (prod.type_id === 'configurable' && prod.configurable_children.length > 0) { // TODO: kind of inheritance or trait here to avoid ifology?
             if (prod.configurable_children.length > 0 && selectDefaultVariant) {
-              context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod.configurable_children[0]) // select the first variant - TODO: add support for variant selection from product list (parameters)
+              context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children[0])) // select the first variant - TODO: add support for variant selection from product list (parameters)
             }
+          } else if (selectDefaultVariant) {
+            context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod) // select the first variant - TODO: add support for variant selection from product list (parameters)
           }
           return prod
         }
