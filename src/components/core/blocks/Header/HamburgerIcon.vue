@@ -14,7 +14,7 @@ export default {
   }),
   methods: {
     toggleSidebarMenu () {
-      this.$store.commit('setSidebar', !this.isOpen)
+      this.$store.commit('ui/setSidebar', !this.isOpen)
     }
   }
 }

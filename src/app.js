@@ -18,7 +18,7 @@ export function createApp () {
   })
 
   registerExtensions(['custom_extension'], app, router, store) // TODO: use config or ENV variables
-  registerTheme('default', app, router)
+  registerTheme('default', app, router, store)
   registerFilters(app, config)
 
   app.$emit('application-after-init', app)

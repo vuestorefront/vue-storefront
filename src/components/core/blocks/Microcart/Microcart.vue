@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     closeMicrocart () {
-      this.$store.commit('setMicrocart', false)
+      this.$store.commit('ui/setMicrocart', false)
     },
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },

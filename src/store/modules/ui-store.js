@@ -1,28 +1,23 @@
-export default {
-  // TO-DO: Make ui-stores inheritance in themes from default ui-store like pages/components
-  state: {
-    sidebar: false,
-    microcart: false,
-    overlay: false
+const state = {
+  sidebar: false,
+  microcart: false,
+  overlay: false
+}
+
+const mutations = {
+  setOverlay (state, action) {
+    state.overlay = action === true
   },
-  getters: {
-    ui (state) {
-      return {
-        sidebar: state.sidebar,
-        microcart: state.microcart,
-        overlay: state.overlay
-      }
-    }
+  setMicrocart (state, action) {
+    state.microcart = action === true
   },
-  mutations: {
-    setOverlay (state, action) {
-      state.overlay = action === true
-    },
-    setMicrocart (state, action) {
-      state.microcart = action === true
-    },
-    setSidebar (state, action) {
-      state.sidebar = action === true
-    }
+  setSidebar (state, action) {
+    state.sidebar = action === true
   }
+}
+
+export default {
+  namespaced: true,
+  state,
+  mutations
 }

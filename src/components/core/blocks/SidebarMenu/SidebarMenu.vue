@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     closeMenu () {
-      this.$store.commit('setSidebar', false)
+      this.$store.commit('ui/setSidebar', false)
     }
   }
 }

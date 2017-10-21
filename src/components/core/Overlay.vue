@@ -13,7 +13,7 @@ export default {
   }),
   methods: {
     onClick () {
-      this.$store.commit('setOverlay', false)
+      this.$store.commit('ui/setOverlay', false)
     }
   }
 }

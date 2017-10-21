@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     toggleMicrocart () {
-      this.$store.commit('setMicrocart', !this.isOpen)
+      this.$store.commit('ui/setMicrocart', !this.isOpen)
     }
   }
 }
