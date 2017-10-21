@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ 'no-scroll': !scroll }">
+  <div id="app" :class="{ 'no-scroll': scroll }">
     <div id="viewport">
       <overlay />
       <microcart />
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import EventBus from 'src/event-bus/event-bus'
+import { mapState } from 'vuex'
 
 import MainHeader from './components/core/blocks/Header/Header.vue'
 import MainFooter from './components/core/blocks/Footer/Footer.vue'
@@ -23,17 +23,9 @@ import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import Overlay from './components/core/Overlay.vue'
 
 export default {
-  data () {
-    return {
-      scroll: true
-    }
-  },
-  created () {
-    EventBus.$on('toggle-overlay', () => {
-      this.scroll = !this.scroll
-    })
-    EventBus.$on('hide-overlay', () => {
-      this.scroll = true
+  computed: {
+    ...mapState({
+      scroll: state => state.ui.overlay
     })
   },
   components: {
