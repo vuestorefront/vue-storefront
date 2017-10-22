@@ -14,6 +14,7 @@ module.exports = {
     alias: {
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
+      core_stores: path.resolve(__dirname, '../src/store'),
       core_themes: path.resolve(__dirname, '../src/themes'),
       'core/components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../src/pages'),

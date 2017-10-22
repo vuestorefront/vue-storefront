@@ -2,6 +2,7 @@ import Home from './pages/Home.vue'
 import Category from './pages/Category.vue'
 import Product from './pages/Product.vue'
 import Static from './pages/Static.vue'
+import UIStore from './store/ui-store'
 
 const routes = [
     { path: '/', component: Home },
@@ -15,7 +16,8 @@ const routes = [
     { name: 'my-account', path: '/my-account', component: Static, props: {page: 'lorem', title: 'My Account'} }
 ]
 
-export default function (app, router) {
+export default function (app, router, store) {
   router.addRoutes(routes)
+  store.registerModule('ui', UIStore)
   return
 }
