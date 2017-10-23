@@ -1,17 +1,17 @@
 <template>
     <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
         <div class="row">
-            <div class="col-md-12 close bg-white align-right end-xs brdr-underline brdr-c-darkgray" @click="closeMenu">
+            <div class="col-md-12 close bg-white align-right end-xs brdr-underline brdr-c-lightgray" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 h4 serif">
                 <ul class="p0 m0">
-                    <li @click="closeMenu" class="brdr-underline brdr-c-darkgray bg-white">
+                    <li @click="closeMenu" class="brdr-underline brdr-c-lightgray bg-white">
                         <router-link class="px25 py20 c-black no-underline" to="/" exact>Home</router-link>
                     </li>
-                    <li class="brdr-underline brdr-c-darkgray bg-white" v-bind:key="category.slug"  @click="closeMenu" v-for='category in categories' v-if='category.product_count >0 || category.children_data.length>0' >
+                    <li class="brdr-underline brdr-c-lightgray bg-white" v-bind:key="category.slug"  @click="closeMenu" v-for='category in categories' v-if='category.product_count >0 || category.children_data.length>0' >
                         <router-link class="px25 py20 c-black no-underline" :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
                         <ul v-if="category.children_data" class="p0">
                             <li @click="closeMenu" v-bind:key="subcat.slug" v-for='subcat in category.children_data'  style="display: none">
@@ -20,16 +20,16 @@
                         </ul>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/magazine" exact>Magazine</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-alto c-black no-underline" to="/magazine" exact>Magazine</router-link>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/sale" exact>Sale</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-alto c-black no-underline" to="/sale" exact>Sale</router-link>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/order-tracking" exact>Track my order</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-alto c-black no-underline" to="/order-tracking" exact>Track my order</router-link>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-underline brdr-c-lightgray c-black no-underline" to="/my-account" exact>My account</router-link>
+                        <router-link class="px25 py20 brdr-underline brdr-c-alto c-black no-underline" to="/my-account" exact>My account</router-link>
                     </li>
                 </ul>
             </div>
