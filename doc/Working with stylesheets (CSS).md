@@ -168,9 +168,10 @@ Below you can see how they are used to generate Atomic CSS classes:
   }
 ```
 Let's say you need a class for 55px top margin that isn't available now. In this case you just need to add a `55` value to `  $margin-top-px` array.
-``SCSS
+```SCSS
 $margin-top-px: 0 6 10 15 25 50;
 ```
+
 After your changes it should look like this:
 ```SCSS
 $margin-top-px: 0 6 10 15 25 50 55;
