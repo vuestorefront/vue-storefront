@@ -71,32 +71,29 @@ export default {
 <style lang="scss" scoped>
 @import "../../../../css/transitions.scss";
 
-.microcart {
-    height: 100vh;
-    width: 800px;
-    right: 0;
-    max-width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 2;
-    transform: translateX(100%);
-    transition: transform 500ms $motion-main;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-.microcart.active {
-    transform: translateX(0)
-}
-.close {
-  cursor: pointer;
-}
-.checkout-button {
-  
-}
-i {
-  opacity: 0.6;
-}
-i:hover {
-  opacity: 1;
-}
+  .microcart {
+      height: 100vh;
+      width: 800px;
+      right: 0;
+      max-width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 2;
+      transform: translateX(100%);
+      transition: transform 500ms $motion-main;
+      overflow-y: auto;
+      overflow-x: hidden;
+  }
+  .microcart.active {
+      transform: translateX(0)
+  }
+  .close {
+    cursor: pointer;
+  }
+  i {
+    opacity: 0.6;
+  }
+  i:hover {
+    opacity: 1;
+  }
 </style>

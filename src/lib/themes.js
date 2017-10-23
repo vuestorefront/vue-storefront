@@ -1,4 +1,4 @@
-const _merge = require('lodash.merge')
+const _ = require('lodash')
 
 export function corePage (path) {
   return require('core_pages/' + path + '.vue') // using webpack path alias  - core_pages = src/pages
@@ -13,7 +13,7 @@ export function coreStore (path) {
 }
 
 export function extendStore (coreStore, extendStore) {
-  return _merge(coreStore.default, extendStore)
+  return _.merge(coreStore.default, extendStore)
 }
 
 export function registerTheme (themeName, app, routes, store) {
