@@ -1,37 +1,23 @@
 <template>
   <div class="inspirations">
     <div class="row">
-      <div class="col-md-4 p15" v-for="product in products">
-        <inspiration-tile :product="product" />
+      <div class="col-md-4 p15" v-for="inspiration_block in inspiration_blocks">
+        <inspiration-tile :inspiration-block="inspiration_block" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import builder from 'bodybuilder'
+import { mapGetters } from 'vuex'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
   name: 'inspirations',
-
-  beforeMount () {
-    let self = this
-    let inspirationsQuery = builder().query('match', 'category.name', 'Bottoms').build()
-
-    self.$store.dispatch('product/list', {
-      query: inspirationsQuery,
-      size: 3,
-      sort: 'created_at:desc'
-    }).then(function (res) {
-      self.products = res.items
+  computed: {
+    ...mapGetters({
+      inspiration_blocks: 'inspirations/getInspirations'
     })
-  },
-
-  data () {
-    return {
-      products: []
-    }
   },
   components: {
     InspirationTile

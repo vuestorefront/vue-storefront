@@ -1,13 +1,10 @@
 <template>
     <div class="inspiration-tile">
-        <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug }}">
-        <div class="product-image bg-lightgray">
-            <img v-bind:src="thumbnail" class="product-thumbnail"/>
-        </div>
-        <p class="mb0">{{ product.name }}</p>
-        {{ product.price | price }}
-        </router-link>
-        
+        <a :href="inspirationBlock.account_link">
+          <div class="inspiration-image bg-lightgray" :style="{ backgroundImage: 'url(' + inspirationBlock.background_image + ')' }">
+            <div class="overlay bg-white h4">@{{ inspirationBlock.account_name }}</div>
+          </div>
+        </a>
     </div>
 </template>
 
@@ -15,22 +12,37 @@
 import { thumbnail } from '../../../../../../lib/filters'
 
 export default {
-  name: 'inspirations',
-  props: ['product'],
+  name: 'inspiration-tile',
+  props: ['inspiration-block'],
   computed: {
     thumbnail () {
-      return thumbnail(this.product.image, 310, 300)
+      return thumbnail(this.inspirationBlock.background_image, 310, 300)
     }
   }
 }
 </script>
 
 <style scoped>
-    .inspiration-tile {
-        width: 100%;
-        height: 350px;
-    }
-    .product-thumbnail {
-       mix-blend-mode: multiply;
-    }
+.inspiration-tile {
+  width: 100%;
+  height: 350px;
+}
+.inspiration-image {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+.overlay:hover {
+  opacity: 0.75;
+}
 </style>
