@@ -1,7 +1,7 @@
 # Introduction
 
 Below you can find solutions for most common problems encountered in Vue Storefront.
-If you solved any new issues by yourself please let us know on (slack)[http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
+If you solved any new issues by yourself please let us know on [slack](http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
 
 # Issues
 
