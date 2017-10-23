@@ -37,12 +37,9 @@ export default {
     subtotal () {
       return this.$store.getters['cart/totals'].subtotal
     },
-    total: function () {
+    total () {
       return this.subtotal + this.shipping.cost + this.payment.cost
     },
-    // total () {
-    //   return this.$store.getters['cart/totals']
-    // },
     items () {
       return this.$store.state.cart.cartItems
     },

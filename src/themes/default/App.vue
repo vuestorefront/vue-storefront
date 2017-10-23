@@ -38,36 +38,47 @@ export default {
 }
 </script>
 
-<!-- Atomic styles & grid -->
-<style src="./css/grid.css"></style>
+<!-- CSS DOCS: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md -->
+<style src="./css/flexbox-grid.css"></style>
 <style src="./css/color.scss" lang="scss"></style>
 <style src="./css/margin.scss" lang="scss"></style>
 <style src="./css/transitions.scss" lang="scss"></style>
 <style src="./css/padding.scss" lang="scss"></style>
-<style src="./css/text.css"></style>
+<style src="./css/text.scss" lang="scss"></style>
 <style src="./css/border.scss" lang="scss"></style>
-<style src="./css/layout.scss" lang="scss"></style>
 <style src="./css/visibility.scss" lang="scss"></style>
 
 <style>
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  padding: 0;
-}
-a {
-  text-decoration: none;
-}
-#app.no-scroll {
-  height: 100%;
-  overflow: hidden;
-}
-#viewport {
-  width: 100%;
-  position: relative;
-  overflow-x: hidden;
-}
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: inherit;
+    position: relative;
+    text-decoration: none;
+  }
+
+  a:not(.no-underline):hover:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #BDBDBD;
+  }
+
+  #app.no-scroll {
+    height: 100%;
+    overflow: hidden;
+  }
+  #viewport {
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+  }
 </style>

@@ -1,4 +1,4 @@
-const _merge = require('lodash/merge')
+const _merge = require('lodash.merge')
 
 export function corePage (path) {
   return require('core_pages/' + path + '.vue') // using webpack path alias  - core_pages = src/pages

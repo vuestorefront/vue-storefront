@@ -9,20 +9,6 @@ body {
     font-weight: 200;
 }
 
-a {
-    color: inherit;
-    position: relative;
-}
-
-a:not(.no-underline):hover:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #BDBDBD;
-}
 
 h1, h2, h3, h4, h5 {
     font-family: 'Playfair Display', serif;
@@ -47,6 +33,8 @@ h4, .h4 {
 h5, .h5 {
     font-size: 14px;
 }
+
+// DOCS: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md
 
 h6, .h6 {
     font-size: 12px;

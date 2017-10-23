@@ -1,7 +1,6 @@
-@import 'color.scss';
+@import 'global_vars';
 
 // IMPORTANT: Add new css rules ON DEMAND only when you need them! 
-// Try to use multiples of 5 when using pixels
 
 // Pixel sizes
 
@@ -34,7 +33,7 @@ $border-radius: (
             border-color: #{$colorcode};
         }
     }
-    @each $name, $value in $colors {
+    @each $name, $value in $border-radius {
         .brdr-#{$name} {
             border-radius: #{$value};
         }
