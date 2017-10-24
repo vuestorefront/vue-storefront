@@ -1,7 +1,7 @@
 <template>
   <button class="brdr-none bg-transparent">
-    Remove i
-  </button>  
+    Remove <i class="material-icons h6">remove_shopping_cart</i>
+  </button>
 </template>
 
 <script>
