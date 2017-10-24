@@ -34,6 +34,8 @@ router.onReady(() => {
         })).then(() => {
           next()
         }).catch(next)
+      } else {
+        next()
       }
     }))
   })
