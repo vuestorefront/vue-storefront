@@ -17,6 +17,15 @@ const getters = {
 
 // actions
 const actions = {
+
+  /**
+   * Reset current category and path
+   * @param {Object} context
+   */
+  reset (context) {
+    context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, [])
+    context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY, {})
+  },
   /**
    * Load categories within specified parent
    * @param {Object} commit promise

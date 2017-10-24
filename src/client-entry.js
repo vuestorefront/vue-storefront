@@ -20,23 +20,18 @@ router.onReady(() => {
       return next()
     }
     Promise.all(activated.map(c => { // TODO: update me for mixins support
-      if (c.mixins) {
-        const components = Array.from(c.mixins)
-        components.push(c)
-        Promise.all(components.map(SubComponent => {
-          if (SubComponent.asyncData) {
-            console.log(SubComponent)
-            return SubComponent.asyncData({
-              store,
-              route: to
-            })
-          }
-        })).then(() => {
-          next()
-        }).catch(next)
-      } else {
+      const components = c.mixins ? Array.from(c.mixins) : []
+      components.push(c)
+      Promise.all(components.map(SubComponent => {
+        if (SubComponent.asyncData) {
+          return SubComponent.asyncData({
+            store,
+            route: to
+          })
+        }
+      })).then(() => {
         next()
-      }
+      }).catch(next)
     }))
   })
   app.$mount('#app')
