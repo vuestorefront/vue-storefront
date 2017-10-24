@@ -24,7 +24,6 @@ router.onReady(() => {
       components.push(c)
       Promise.all(components.map(SubComponent => {
         if (SubComponent.asyncData) {
-          console.log(SubComponent)
           return SubComponent.asyncData({
             store,
             route: to

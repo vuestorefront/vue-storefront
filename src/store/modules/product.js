@@ -18,6 +18,14 @@ const getters = {
 const actions = {
 
   /**
+   * Reset current configuration and selected variatnts
+   */
+  reset (context) {
+    context.state.product_selected_variant = null
+    context.state.current_configuration = {}
+    context.state.current_options = {color: [], size: []}
+  },
+  /**
    * Search ElasticSearch catalog of products using simple text query
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
    * @param {Object} query elasticSearch request body

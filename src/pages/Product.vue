@@ -12,14 +12,19 @@ import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus/event-bus'
 
 function fetchData (store, route) {
+  store.dispatch('product/reset')
   return store.dispatch('product/single', { fieldName: 'id', value: route.params.id }).then((product) => {
     let subloaders = []
     if (product) {
       let setbrcmb = (path) => {
-        path.push({
-          slug: store.state.category.current.slug,
-          name: store.state.category.current.name
-        }) // current category at the end
+        if (path.findIndex(itm => {
+          return itm.slug === store.state.category.current.slug
+        }) < 0) {
+          path.push({
+            slug: store.state.category.current.slug,
+            name: store.state.category.current.name
+          }) // current category at the end
+        }
         store.state.product.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
       }
       // TODO: Fix it when product is enterd from outside the category page
