@@ -2,14 +2,14 @@
     <header class="brdr-underline">
         <div class="container">
             <div class="row middle-md">
-                <div class="col-md-1 middle-md">
+                <div class="col-md-2 middle-md">
                     <div class="box">
                         <hamburger-icon class="p15 icon"/>
                     </div>
                 </div>
-                <div class="col-md-9 center-md">
+                <div class="col-md-8 center-md">
                     <div class="box">              
-                        <logo width="65px" height="30px" class="p5"/>
+                        <logo width="36px" height="41px" class="p5"/>
                     </div>
                 </div>
                 <div class="col-md-2 end-md">
