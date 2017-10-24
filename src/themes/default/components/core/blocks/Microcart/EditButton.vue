@@ -1,6 +1,6 @@
 <template>
   <button class="brdr-none bg-transparent">
-    <i class="material-icons">mode_edit</i>
+    Edit <i class="material-icons h6">mode_edit</i>
   </button>
 </template>
 

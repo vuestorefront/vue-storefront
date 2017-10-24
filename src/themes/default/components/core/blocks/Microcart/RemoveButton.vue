@@ -1,6 +1,6 @@
 <template>
   <button class="brdr-none bg-transparent">
-    <i class="material-icons">remove_shopping_cart</i>
+    Remove <i class="material-icons h6">remove_shopping_cart</i>
   </button>
 </template>
 
