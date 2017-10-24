@@ -4,15 +4,13 @@
         <div class="product-image bg-lightgray">
             <img v-bind:src="thumbnail" class="product-thumbnail"/>
         </div>
-        <p class="mb0">{{ product.name }}</p>
-        {{ product.price | price }}
         </router-link>
         
     </div>
 </template>
 
 <script>
-import { thumbnail } from '../../../../../../lib/filters'
+import { thumbnail } from 'lib/filters'
 
 export default {
   name: 'inspirations',
