@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { thumbnail } from 'lib/filters'
+import { thumbnail } from 'src/lib/filters'
 
 export default {
   name: 'inspirations',

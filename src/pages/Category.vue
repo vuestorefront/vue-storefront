@@ -10,7 +10,7 @@ import builder from 'bodybuilder'
 import { breadCrumbRoutes } from 'src/lib/filters'
 import EventBus from 'src/event-bus/event-bus'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
-import ProductTile from '../components/core/ProductTile.vue'
+import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { optionLabel } from 'src/store/modules/attribute'
 
@@ -220,7 +220,7 @@ export default {
     }
   },
   components: {
-    ProductTile,
+    ProductListing,
     Breadcrumbs,
     Sidebar
   }

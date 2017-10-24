@@ -1,6 +1,7 @@
 <template>
   <div id="home">
   <main-slider />
+  
   <section class="container">
     <div class="row">
       <header class="col-md-12 pt40">
