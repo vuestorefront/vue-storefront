@@ -1,12 +1,12 @@
 <template>
     <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
         <div class="row">
-            <div class="col-md-12 close bg-white align-right end-xs brdr-underline brdr-c-lightgray" @click="closeMenu">
+            <div class="col-xs-12 close bg-white align-right end-xs brdr-underline brdr-c-lightgray" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 h4 serif">
+            <div class="col-xs-12 h4 serif">
                 <ul class="p0 m0">
                     <li @click="closeMenu" class="brdr-underline brdr-c-lightgray bg-white">
                         <router-link class="px25 py20 c-black no-underline" to="/" exact>Home</router-link>
