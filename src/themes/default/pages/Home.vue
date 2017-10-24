@@ -64,34 +64,36 @@ export default {
   computed: {
     categories () {
       return this.$store.state.category.list
+    },
+    everythingNewCollection () {
+      return this.$store.state.homepage.new_collection
+    },
+    coolBagsCollection () {
+      return this.$store.state.homepage.coolbags_collection
     }
   },
-  data () {
-    // TO-DO: Create separate blocks for all modules in homepage
-    return {
-      everythingNewCollection: {},
-      coolBagsCollection: {}
-    }
-  },
-  beforeMount () {
-    let self = this
-    let newProductsQuery = builder().query('match', 'category.name', 'Tees').build()
-    let coolBagsQuery = builder().query('match', 'name', 'Bag').build()
-
-    self.$store.dispatch('product/list', {
-      query: newProductsQuery,
-      size: 8,
-      sort: 'created_at:desc'
-    }).then(function (res) {
-      self.everythingNewCollection = res.items
-    })
-
-    self.$store.dispatch('product/list', {
-      query: coolBagsQuery,
-      size: 8,
-      sort: 'created_at:desc'
-    }).then(function (res) {
-      self.coolBagsCollection = res.items
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      console.log('Entering asyncData for Home ' + new Date())
+      let newProductsQuery = builder().query('match', 'category.name', 'Tees').build()
+      let coolBagsQuery = builder().query('match', 'name', 'Bag').build()
+      store.dispatch('category/list', {}).then((categories) => {
+        store.dispatch('product/list', {
+          query: newProductsQuery,
+          size: 8,
+          sort: 'created_at:desc'
+        }).then(function (res) {
+          store.state.homepage.new_collection = res.items
+          store.dispatch('product/list', {
+            query: coolBagsQuery,
+            size: 8,
+            sort: 'created_at:desc'
+          }).then(function (res) {
+            store.state.homepage.coolbags_collection = res.items
+            return resolve()
+          })
+        })
+      })
     })
   },
   components: {

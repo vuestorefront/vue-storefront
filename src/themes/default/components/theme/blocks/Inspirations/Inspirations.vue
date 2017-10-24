@@ -17,7 +17,7 @@ export default {
 
   beforeMount () {
     let self = this
-    let inspirationsQuery = builder().query('match', 'category.name', 'Bottoms').build()
+    let inspirationsQuery = builder().query('match', 'category.name', 'Performance Fabrics').build()
 
     self.$store.dispatch('product/list', {
       query: inspirationsQuery,
