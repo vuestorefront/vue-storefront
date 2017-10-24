@@ -1,7 +1,7 @@
 <template>
   <button class="brdr-none bg-transparent">
-    Edit i
-  </button>  
+    <i class="material-icons">mode_edit</i>
+  </button>
 </template>
 
 <script>
