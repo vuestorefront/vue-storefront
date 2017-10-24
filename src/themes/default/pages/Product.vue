@@ -42,7 +42,7 @@
           <div class="col-md-12">
             <h2 class="h3 sans-serif">Product details</h2>
             <h2 class="h3 sans-serif">Description</h2>
-            <span class="lh-30 h5" v-html="product.description"></span>
+            <span class="lh30 h5" v-html="product.description"></span>
           </div>
         </div>
       </div>

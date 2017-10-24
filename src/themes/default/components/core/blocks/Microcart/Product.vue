@@ -22,7 +22,7 @@
         </div>
         <div>
           <div class="c-darkgray"><span @click="switchEdit"><edit-button class="c-darkgray" /></span></div>
-          <div class="mt6"><span @click="removeItem"><remove-button class="c-darkgray" /></span></div>
+          <div class="mt5"><span @click="removeItem"><remove-button class="c-darkgray" /></span></div>
         </div>
       </div>
     </div>

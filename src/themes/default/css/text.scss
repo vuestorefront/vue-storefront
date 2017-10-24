@@ -9,7 +9,6 @@ body {
     font-weight: 200;
 }
 
-
 h1, h2, h3, h4, h5 {
     font-family: 'Playfair Display', serif;
 }
@@ -34,12 +33,9 @@ h5, .h5 {
     font-size: 14px;
 }
 
-// DOCS: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md
-
 h6, .h6 {
     font-size: 12px;
 }
-
 
 /* Atomic styles for text */
 
@@ -65,8 +61,12 @@ h6, .h6 {
     font-weight: 700;
 }
 
-.lh-30 {
+.lh30 {
     line-height: 30px;
+}
+
+.lh40 {
+    line-height: 40px;
 }
 
 .fs-10 {
