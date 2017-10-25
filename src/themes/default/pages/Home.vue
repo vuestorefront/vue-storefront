@@ -31,6 +31,9 @@
         <div class="row pb45">
           <div v-for='product in coolBagsCollection' v-bind:key='product.id' class="col-md-6 p15">
             <product-tile :product="product"/>
+            <product-tile :product="product"/>
+            <product-tile :product="product"/>
+            <product-tile :product="product"/>
           </div>
         </div>
       </div>    
