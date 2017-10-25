@@ -2,7 +2,7 @@
   <div id="home">
   <main-slider />
   <section class="container">
-    <div class="row">
+    <div>
       <header class="col-md-12 pt40">
         <h2 class="align-center">Everything new</h2>
       </header>
@@ -103,4 +103,7 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 </style>
