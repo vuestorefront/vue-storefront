@@ -104,6 +104,11 @@ const actions = {
 
         if (attr) {
           match = attr.value.toString() === configuration[option].id.toString()
+          if (!match) {
+            return false
+          }
+        } else {
+          return false // by some reason configurable_children doesn't have such attribute
         }
       }
 
