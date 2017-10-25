@@ -12,12 +12,10 @@
                 <sidebar :filters="filters"/>
             </div>
             <div class="col-md-9 pt20">
-                <div class="row">
-                    <div v-if="isCategoryEmpty">
-                        No products found!   
-                    </div>  
-                    <product-listing columns="3" :products="products" />
+                <div v-if="isCategoryEmpty">
+                    No products found!
                 </div>
+                <product-listing columns="3" :products="products" />
             </div>
         </div>
     </div>
