@@ -23,7 +23,7 @@ Vue storefront is based on open source technologies which SHOULD (in theory ;)) 
 ## Installation of vue-storefront
 1. Open your cmdline of choice with [Git](https://git-scm.com/download/win) access or use Github desktop
 2. Clone the [vue-storefront](https://github.com/DivanteLtd/vue-storefront) project: `git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront`
-3. Go to vue-storefront-api in dir: `cd vue-storefront`
+3. Go to vue-storefront in dir: `cd vue-storefront`
 4. Install dependencies: `npm install`
 5. Copy `src/config.example.js` to `src/config.js`
 6. Images: because vue-storefront-api uses `imagemagick` and some nodejs cmdline bindings it can be dificult to run the image proxy on localhost/windows machine. Please point out the vue-storefront to image proxy provided by changing `src/config.js` images.baseUrl:
