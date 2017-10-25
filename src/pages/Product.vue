@@ -68,7 +68,7 @@ function fetchData (store, route) {
               return (a.attribute_code === attr.attribute_code)
             })
             store.state.product.current_configuration[attr.attribute_code] = {
-              code: attr.attribute_code,
+              attribute_code: attr.attribute_code,
               id: selectedOption.value,
               label: optionLabel(store.state.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
             }
