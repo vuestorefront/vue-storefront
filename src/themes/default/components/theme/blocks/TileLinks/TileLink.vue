@@ -1,8 +1,8 @@
 <template>
-    <div class="inspiration-tile">
-        <a :href="inspirationBlock.account_link">
-          <div class="inspiration-image bg-lightgray" :style="{ backgroundImage: 'url(' + inspirationBlock.background_image + ')' }">
-            <div class="overlay bg-white h4">@{{ inspirationBlock.account_name }}</div>
+    <div class="tile-link">
+        <a :href="tile.account_link">
+          <div class="tile-image bg-lightgray" :style="{ backgroundImage: 'url(' + tile.background_image + ')' }">
+            <div class="overlay bg-white h4">@{{ tile.account_name }}</div>
           </div>
         </a>
     </div>
@@ -12,8 +12,8 @@
 import { thumbnail } from '../../../../../../lib/filters'
 
 export default {
-  name: 'inspiration-tile',
-  props: ['inspiration-block'],
+  name: 'tile-link',
+  props: ['tile'],
   computed: {
     thumbnail () {
       return thumbnail(this.inspirationBlock.background_image, 310, 300)
@@ -23,11 +23,11 @@ export default {
 </script>
 
 <style scoped>
-.inspiration-tile {
+.tile-link {
   width: 100%;
   height: 350px;
 }
-.inspiration-image {
+.tile-image {
   width: 100%;
   height: 100%;
   background-position: center;

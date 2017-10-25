@@ -57,7 +57,7 @@ import builder from 'bodybuilder'
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
-import Inspirations from '../components/theme/blocks/Inspirations/Inspirations.vue'
+import Inspirations from '../components/theme/blocks/TileLinks/TileLinks.vue'
 
 export default {
   computed: {

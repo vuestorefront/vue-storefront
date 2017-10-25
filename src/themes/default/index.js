@@ -3,7 +3,6 @@ import Category from './pages/Category.vue'
 import Product from './pages/Product.vue'
 import Static from './pages/Static.vue'
 import UIStore from './store/ui-store'
-import InspirationsStore from './store/inspirations'
 
 const routes = [
     { path: '/', component: Home },
@@ -20,6 +19,5 @@ const routes = [
 export default function (app, router, store) {
   router.addRoutes(routes)
   store.registerModule('ui', UIStore)
-  store.registerModule('inspirations', InspirationsStore)
   return
 }
