@@ -11,7 +11,7 @@
           <div><span class="h6 c-darkgray">Qty</span> 
           <span class="h6 weight-400" :class="{ hidden: isEditing }">{{ product.quantity }}</span>
           <span :class="{ hidden: !isEditing }">
-            <input class="h6" type="number" v-model="qty">
+            <input class="h6" type="number" v-model.number="qty">
           </span>
           </div>
         </div>
