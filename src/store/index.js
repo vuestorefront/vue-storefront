@@ -48,6 +48,7 @@ import cart from './modules/cart'
 import user from './modules/user'
 import payment from './modules/payment'
 import shipping from './modules/shipping'
+import meta from './modules/meta'
 import ui from './modules/ui-store'
 import homepage from './modules/homepage'
 import social from './modules/social-tiles'
@@ -93,6 +94,7 @@ export default new Vuex.Store({
     user,
     payment,
     shipping,
+    meta,
     ui,
     homepage,
     social

@@ -12,16 +12,31 @@
 
 <script>
 import staticpage from '../resource/lorem.md'
+import Meta from 'src/lib/meta'
 
 export default {
+  components: {
+    staticpage
+  },
+  mixins: [Meta],
+  meta () {
+    return {
+      title: this.$props.title
+    }
+  },
   data () {
     return {
       breadcrumbs: 'Homepage / ' + this.$props.title
     }
   },
   props: ['page', 'title'],
-  components: {
-    staticpage
+  watch: {
+    '$route': 'validateRoute'
+  },
+  methods: {
+    validateRoute () {
+      this.setMeta()
+    }
   }
 }
 </script>

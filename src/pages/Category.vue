@@ -8,6 +8,7 @@
 import builder from 'bodybuilder'
 
 import { breadCrumbRoutes } from 'src/lib/filters'
+import Meta from 'src/lib/meta'
 import EventBus from 'src/event-bus/event-bus'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
@@ -97,6 +98,12 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
 
 export default {
   name: 'category',
+  mixins: [Meta],
+  meta () {
+    return {
+      title: this.$store.state.category.current.name
+    }
+  },
   methods: {
     fetchData ({ store, route }) {
       let self = this
@@ -124,6 +131,7 @@ export default {
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
           store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
+          self.setMeta()
 
           if (!self.category) {
             self.$router.push('/')
@@ -147,6 +155,7 @@ export default {
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
             console.log('Loading products list in SSR')
+            store.dispatch('meta/set', { title: store.state.category.current.name })
             filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, ofset: 0, pageSize: 50, filters: defaultFilters }).then((res) => {
               store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
               return resolve()
