@@ -19,6 +19,14 @@ docker-compose up
 ```
 To test out the application you'll need some test data. In vue-storefront-api/var/catalog.json you have data dump for ElasticSearch with default Magento2 products database. We're using for development purposes.
 
+First step is to configure the application:
+
+```
+cp src/config.example.json src/config.json
+nano config.json
+```
+The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
+
 To import these products we'll use 'elasticdump' - which is provided by default with package.json dependencies and npm command:
 
 ```
@@ -32,14 +40,6 @@ Clone the image files for default product database (we're using Magento2 example
 git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data
 ```
 
-Last step is to configure the application:
-
-```
-mv src/config.example.json src/config.json
-nano config.json
-```
-The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
-
 After all these steps you should be able to run the application using following command (development mode with dynamic file reloads when changed):
 
 ```
@@ -48,7 +48,7 @@ npm run dev
 
 You can check if everything works just fine by executing the following command:
 ```
-curl -i http://vue-storefront.divante.pl/api/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
+curl -i https://demo.vuestorefront.io/api/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
 ```
 
 ### Install the vue-storefront
@@ -64,7 +64,7 @@ npm install
 You have to prepare the config:
 
 ```
-mv src/config.example.js src/config.js
+cp src/config.example.js src/config.js
 nano config.js
 ```
 
