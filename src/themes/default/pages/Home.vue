@@ -18,7 +18,7 @@
   <div class="container">
     <div class="row">
       <header class="col-md-12 pt40 pb15">
-        <h2 class="align-center">Cool Bags of '17 collection</h2>
+        <h2 class="align-center">Cool Stuff of '17 collection</h2>
       </header>
     </div>
   </div>
@@ -27,14 +27,8 @@
     <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="row pb45 pt35 center-md">
-          <div v-for='product in coolBagsCollection' v-bind:key='product.id' class="row middle-md center-md">
-            
-            <product-tile class="col-md-3 pb15" :product="product"/>
-            <product-tile class="col-md-3 pb15" :product="product"/>
-            <product-tile class="col-md-3 pb15" :product="product"/>
-            <product-tile class="col-md-3 pb15" :product="product"/>
-          </div>
+        <div class="row pb45 pt45 center-md">
+            <product-tile  v-for='product in coolBagsCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
         </div>
       </div>    
     </div>
@@ -79,7 +73,7 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
       let newProductsQuery = builder().query('match', 'category.name', 'Tees').build()
-      let coolBagsQuery = builder().query('match', 'name', 'Bag').build()
+      let coolBagsQuery = builder().query('match', 'category.name', 'Women').build()
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('product/list', {
           query: newProductsQuery,
@@ -89,7 +83,7 @@ export default {
           store.state.homepage.new_collection = res.items
           store.dispatch('product/list', {
             query: coolBagsQuery,
-            size: 8,
+            size: 4,
             sort: 'created_at:desc'
           }).then(function (res) {
             store.state.homepage.coolbags_collection = res.items
