@@ -3,7 +3,7 @@
   <main-slider />
   
   <section class="container">
-    <div class="row">
+    <div>
       <header class="col-md-12 pt40">
         <h2 class="align-center">Everything new</h2>
       </header>
@@ -61,7 +61,7 @@ import builder from 'bodybuilder'
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
-import Inspirations from '../components/theme/blocks/Inspirations/Inspirations.vue'
+import Inspirations from '../components/theme/blocks/TileLinks/TileLinks.vue'
 
 export default {
   computed: {
@@ -109,4 +109,7 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 </style>

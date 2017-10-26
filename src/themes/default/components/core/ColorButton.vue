@@ -15,21 +15,23 @@ export default {
     }
   },
   beforeMount () {
-    EventBus.$on('filter-changed', (filterOption) => {
-      if (filterOption.attribute_code === this.code) {
-        if (filterOption.id === this.id) {
-          if (this.active) {
-            this.active = false
-            return
+    if (this.$route.name !== 'product') {
+      EventBus.$on('filter-changed', (filterOption) => {
+        if (filterOption.attribute_code === this.code) {
+          if (filterOption.id === this.id) {
+            if (this.active) {
+              this.active = false
+              return
+            } else {
+              this.active = true
+            }
           } else {
-            this.active = true
+            this.active = false
           }
-        } else {
-          this.active = false
+          // filterOption.id === this.id ? this.active = true : this.active = false
         }
-        // filterOption.id === this.id ? this.active = true : this.active = false
-      }
-    })
+      })
+    }
   },
   methods: {
     switchFilter (id, label) {
