@@ -109,7 +109,7 @@ export default {
       })
     })
   },
-  /*eslint no-alert: "off"*/
+  /* eslint no-alert: "off" */
   created () {
     let self = this
     EventBus.$on('filter-changed', (filterOption) => { // slection of product variant on product page
