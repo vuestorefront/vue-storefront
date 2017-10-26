@@ -26,14 +26,13 @@
   <div class="bg-lightgray">
     <div class="container">
     <div class="row">
-      <div class="col-md-6"></div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="row pb45">
-          <div v-for='product in coolBagsCollection' v-bind:key='product.id' class="col-md-6 p15">
-            <product-tile :product="product"/>
-            <product-tile :product="product"/>
-            <product-tile :product="product"/>
-            <product-tile :product="product"/>
+          <div v-for='product in coolBagsCollection' v-bind:key='product.id' class="row p15">
+            <product-tile class="col-md-4 pb15" :product="product"/>
+            <product-tile class="col-md-4 pb15" :product="product"/>
+            <product-tile class="col-md-4 pb15" :product="product"/>
+            <product-tile class="col-md-4 pb15" :product="product"/>
           </div>
         </div>
       </div>    
@@ -47,7 +46,7 @@
         <h2 class="align-center">Get inspired</h2>
       </header>
     </div>
-    <inspirations />
+    <tile-links />
   </section>
 
   </div>
@@ -61,7 +60,7 @@ import builder from 'bodybuilder'
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
-import Inspirations from '../components/theme/blocks/TileLinks/TileLinks.vue'
+import TileLinks from '../components/theme/blocks/TileLinks/TileLinks.vue'
 
 export default {
   computed: {
@@ -102,7 +101,7 @@ export default {
   components: {
     ProductTile,
     MainSlider,
-    Inspirations
+    TileLinks
   },
   mixins: [corePage('Home')]
 }
