@@ -27,12 +27,13 @@
     <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="row pb45">
-          <div v-for='product in coolBagsCollection' v-bind:key='product.id' class="row p15">
-            <product-tile class="col-md-4 pb15" :product="product"/>
-            <product-tile class="col-md-4 pb15" :product="product"/>
-            <product-tile class="col-md-4 pb15" :product="product"/>
-            <product-tile class="col-md-4 pb15" :product="product"/>
+        <div class="row pb45 pt35 center-md">
+          <div v-for='product in coolBagsCollection' v-bind:key='product.id' class="row middle-md center-md">
+            
+            <product-tile class="col-md-3 pb15" :product="product"/>
+            <product-tile class="col-md-3 pb15" :product="product"/>
+            <product-tile class="col-md-3 pb15" :product="product"/>
+            <product-tile class="col-md-3 pb15" :product="product"/>
           </div>
         </div>
       </div>    
