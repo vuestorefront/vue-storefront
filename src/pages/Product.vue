@@ -109,15 +109,19 @@ export default {
       })
     })
   },
-
+  /*eslint no-alert: "off"*/
   created () {
     let self = this
     EventBus.$on('filter-changed', (filterOption) => { // slection of product variant on product page
       self.configuration[filterOption.attribute_code] = filterOption
       self.$store.dispatch('product/configure', { product: self.product, configuration: self.configuration }).then((selectedVariant) => {
-        self.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
-          this.$store.state.product.product_selected_variant = confProduct
-        })
+        if (typeof selectedVariant === 'undefined' || selectedVariant === null) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
+          alert('No such configuration for the product. Please do choose another combination of attributes.')
+        } else {
+          self.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
+            this.$store.state.product.product_selected_variant = confProduct
+          })
+        }
       })
     })
   },
