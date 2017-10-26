@@ -5,3 +5,4 @@ npm-debug.log
 .vscode/
 yarn.lock
 src/config.js
+package-lock.json
