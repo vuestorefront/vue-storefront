@@ -40,7 +40,7 @@ export default {
     endpoint: 'localhost:8080/api/order/create'
   },
   images: {
-    baseUrl: 'http://vue-storefront.divante.pl/img/'
+    baseUrl: 'https://demo.vuestorefront.io/img/'
   }
 }
 
