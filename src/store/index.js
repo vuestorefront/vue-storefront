@@ -50,6 +50,7 @@ import payment from './modules/payment'
 import shipping from './modules/shipping'
 import ui from './modules/ui-store'
 import homepage from './modules/homepage'
+import social from './modules/social-tiles'
 
 Vue.use(Vuex)
 
@@ -93,7 +94,8 @@ export default new Vuex.Store({
     payment,
     shipping,
     ui,
-    homepage
+    homepage,
+    social
   },
   state,
   mutations,
