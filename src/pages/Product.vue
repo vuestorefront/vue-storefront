@@ -6,6 +6,7 @@
 
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
 import { breadCrumbRoutes } from 'src/lib/filters'
 import { optionLabel } from 'src/store/modules/attribute'
@@ -25,6 +26,7 @@ function fetchData (store, route) {
             name: store.state.category.current.name
           }) // current category at the end
         }
+        store.dispatch('meta/set', { title: product.name })
         store.state.product.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
       }
       // TODO: Fix it when product is enterd from outside the category page
@@ -148,10 +150,16 @@ export default {
       // TO-DO: Variants should be in product object
     }
   },
+  meta () {
+    return {
+      title: this.product.name
+    }
+  },
   components: {
     Breadcrumbs,
     AddToCart
-  }
+  },
+  mixins: [Meta]
 }
 </script>
 

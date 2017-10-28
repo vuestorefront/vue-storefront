@@ -8,7 +8,7 @@ const routes = [
     { path: '/', component: Home },
     { name: 'category', path: '/c/:slug', component: Category },
     { name: 'product', path: '/p/:id/:slug', component: Product },
-    { name: 'legal', path: '/legal', component: Static, props: {page: 'lorem', title: 'Legal Notice'} },
+    { name: 'legal', path: '/legal', component: Static, props: {page: 'lorem', title: 'Legal Notice'}, meta: {title: 'Legal Notice', description: 'Legal Notice - example of description usage'} },
     { name: 'privacy', path: '/privacy', component: Static, props: {page: 'lorem', title: 'Privacy'} },
     { name: 'magazine', path: '/magazine', component: Static, props: {page: 'lorem', title: 'Magazine'} },
     { name: 'sale', path: '/sale', component: Static, props: {page: 'lorem', title: 'Sale'} },
