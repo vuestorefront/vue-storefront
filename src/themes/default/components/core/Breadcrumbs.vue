@@ -1,9 +1,9 @@
 <template>  
   <div class="breadcrumbs h5 c-darkgray">
       <span v-for="link in routes" v-bind:key="link.route_link">
-        <a :href="link.route_link">
+        <router-link :to="link.route_link">
           {{ link.name }}
-        </a> / 
+        </router-link> /
       </span>
       <strong>
         {{ activeRoute }}
