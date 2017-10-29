@@ -1,5 +1,5 @@
 <template>
-  <a href="/" title="Home Page">
+  <router-link to="/" title="Home Page" class="no-underline">
     <div class="logo">
       <svg :width="width" :height="height" viewBox="0 0 40 47" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g id="Canvas" transform="translate(306 321)">
@@ -83,7 +83,7 @@
       </svg>
 
     </div>
-  </a>
+  </router-link>
 </template>
 
 <script>
