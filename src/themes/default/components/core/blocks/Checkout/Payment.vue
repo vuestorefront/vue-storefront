@@ -1,5 +1,5 @@
 <template>
-  <div id='payment'>
+  <div class='payment'>
     Core payment
   </div>
 </template>
@@ -8,11 +8,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Checkout/Payment')],
-  beforeMount () {
-  },
-  components: {
-  }
+  mixins: [coreComponent('core/blocks/Checkout/Payment')]
 }
 </script>
 

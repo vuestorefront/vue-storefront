@@ -1,16 +1,12 @@
 <template>
-  <div id='order-review'>
+  <div class='order-review'>
     Core order review
   </div>
 </template>
 
 <script>
 export default {
-  name: 'OrderReview',
-  beforeMount () {
-  },
-  components: {
-  }
+  name: 'OrderReview'
 }
 </script>
 

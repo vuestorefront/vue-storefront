@@ -1,16 +1,12 @@
 <template>
-  <div id='shipping'>
+  <div class='shipping'>
     Core shipping
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Shipping',
-  beforeMount () {
-  },
-  components: {
-  }
+  name: 'Shipping'
 }
 </script>
 

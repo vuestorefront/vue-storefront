@@ -1,5 +1,5 @@
 <template>
-  <div id='order-review'>
+  <div class='order-review'>
     Core order review
   </div>
 </template>
@@ -8,11 +8,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Checkout/OrderReview')],
-  beforeMount () {
-  },
-  components: {
-  }
+  mixins: [coreComponent('core/blocks/Checkout/OrderReview')]
 }
 </script>
 

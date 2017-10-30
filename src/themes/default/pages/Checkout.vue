@@ -4,7 +4,7 @@
     <shipping></shipping>
     <payment></payment>
     <order-review></order-review>
-    <microcart isCheckoutMode="true"></microcart>
+    <cart-summary></cart-summary>
   </div>
 </template>
 
@@ -12,11 +12,11 @@
 /**
  * TODO: Regarding Figma.com design this page should have different layout than App.vue - how to apply it?
  */
-import PersonalDetails from '../components/core/blocks/Checkout/PersonalDetails.vue'
-import Shipping from '../components/core/blocks/Checkout/Shipping.vue'
-import Payment from '../components/core/blocks/Checkout/Payment.vue'
-import OrderReview from '../components/core/blocks/Checkout/OrderReview.vue'
-import Microcart from '../components/core/blocks/Microcart/Microcart.vue'
+import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails.vue'
+import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
+import Payment from 'theme/components/core/blocks/Checkout/Payment.vue'
+import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview.vue'
+import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
 import { corePage } from 'lib/themes'
 
 export default {
@@ -28,7 +28,7 @@ export default {
     'shipping': Shipping,
     'payment': Payment,
     'order-review': OrderReview,
-    'microcart': Microcart
+    'cart-summary': CartSummary
   },
   mixins: [corePage('Checkout')]
 }

@@ -1,16 +1,12 @@
 <template>
-  <div id='payment'>
+  <div class='payment'>
     Core payment
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Payment',
-  beforeMount () {
-  },
-  components: {
-  }
+  name: 'Payment'
 }
 </script>
 

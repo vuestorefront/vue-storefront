@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import PersonalDetails from '../components/core/blocks/Checkout/PersonalDetails.vue'
-import Shipping from '../components/core/blocks/Checkout/Shipping.vue'
-import Payment from '../components/core/blocks/Checkout/Payment.vue'
-import OrderReview from '../components/core/blocks/Checkout/OrderReview.vue'
-import Microcart from '../components/core/blocks/Microcart/Microcart.vue'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails.vue'
+import Shipping from 'core/components/blocks/Checkout/Shipping.vue'
+import Payment from 'core/components/blocks/Checkout/Payment.vue'
+import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
 
 export default {
   name: 'Checkout',
@@ -20,7 +20,7 @@ export default {
     Shipping,
     Payment,
     OrderReview,
-    Microcart
+    CartSummary
   }
 }
 </script>
