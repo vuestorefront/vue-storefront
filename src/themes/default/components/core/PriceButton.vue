@@ -18,7 +18,7 @@ export default { // TODO: move logic to parent component
     }
   },
   beforeMount () {
-    EventBus.$on('filter-changed', (filterOption) => {
+    EventBus.$on('filter-changed-' + this.context, (filterOption) => {
       if (filterOption.attribute_code === this.code) {
         if (filterOption.id === this.id) {
           if (this.active) {
@@ -36,7 +36,7 @@ export default { // TODO: move logic to parent component
   },
   methods: {
     switchFilter (id, label, from, to) {
-      EventBus.$emit('filter-changed', { attribute_code: this.code, id: id, label: label, from: from, to: to })
+      EventBus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label, from: from, to: to })
     }
   },
   mixins: [coreComponent('core/PriceButton')]

@@ -24,8 +24,8 @@
                   <strong>{{ configuration[option.label.toLowerCase()].label }}</strong>
                 </span>
                 <div class="mt10">
-                  <color-button v-for="c in options.color" :id="c.id" :label="c.label" code="color" class="mr10" :class="{ active: c.id == configuration.color.id }" v-if="option.label == 'Color'" />
-                  <size-button v-for="s in options.size" :id="s.id" :label="s.label" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'"/>
+                  <color-button v-for="c in options.color" :id="c.id" :label="c.label" context="product" code="color" class="mr10" :class="{ active: c.id == configuration.color.id }" v-if="option.label == 'Color'" />
+                  <size-button v-for="s in options.size" :id="s.id" :label="s.label" context="product" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'"/>
                 </div>
               </div>
 

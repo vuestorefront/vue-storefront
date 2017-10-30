@@ -12,6 +12,21 @@ import { breadCrumbRoutes } from 'src/lib/filters'
 import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus/event-bus'
 
+function filterChanged (filterOption) { // slection of product variant on product page
+  this.configuration[filterOption.attribute_code] = filterOption
+  this.$store.dispatch('product/configure', { product: this.product, configuration: this.configuration }).then((selectedVariant) => {
+    if (typeof selectedVariant === 'undefined' || selectedVariant === null) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
+      /* eslint no-alert: "off" */
+      /* eslint no-undef: "off" */
+      alert('No such configuration for the product. Please do choose another combination of attributes.')
+    } else {
+      this.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
+        this.$store.state.product.product_selected_variant = confProduct
+      })
+    }
+  })
+}
+
 function fetchData (store, route) {
   store.dispatch('product/reset')
   return store.dispatch('product/single', { fieldName: 'id', value: route.params.id }).then((product) => {
@@ -111,22 +126,11 @@ export default {
       })
     })
   },
-  created () {
-    let self = this
-    EventBus.$on('filter-changed', (filterOption) => { // slection of product variant on product page
-      self.configuration[filterOption.attribute_code] = filterOption
-      self.$store.dispatch('product/configure', { product: self.product, configuration: self.configuration }).then((selectedVariant) => {
-        if (typeof selectedVariant === 'undefined' || selectedVariant === null) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
-          /* eslint no-alert: "off" */
-          /* eslint no-undef: "off" */
-          alert('No such configuration for the product. Please do choose another combination of attributes.')
-        } else {
-          self.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
-            this.$store.state.product.product_selected_variant = confProduct
-          })
-        }
-      })
-    })
+  beforeDestroy () {
+    EventBus.$off('filter-changed-product')
+  },
+  beforeMount () {
+    EventBus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {
     breadcrumbs () {
