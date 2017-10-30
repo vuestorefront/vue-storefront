@@ -48,8 +48,17 @@ if (process.env.NODE_ENV === 'production') {
       ],      
       runtimeCaching: [{
         urlPattern: "/", /** cache the html stub  */
-        handler: "cacheFirst"
-      },{
+        handler: "networkFirst"
+      },
+      {
+        urlPattern: "/p/*", /** cache the html stub  */
+        handler: "networkFirst"
+      },
+      {
+        urlPattern: "/c/*", /** cache the html stub  */
+        handler: "networkFirst"
+      },
+      {
         urlPattern: "https://demo.vuestorefront.io/img/*", /** cache the html stub  */
         handler: "cacheFirst"
       },{
