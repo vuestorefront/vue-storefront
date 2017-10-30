@@ -1,14 +1,14 @@
 <template>
   <div id="category">
-    <header class="bg-lightgray py35">
+    <header class="bg-lightgray py35 pl20">
         <div class="container">
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
             <h1 class="mb10"> {{ category.name }} </h1> 
         </div>
     </header>
     <div class="container pb60">
-        <div class="row pt15">
-            <div class="col-md-3">
+        <div class="row pt15 pl20 center-xs">
+            <div class="col-md-3 start-xs">
                 <sidebar :filters="filters"/>
             </div>
             <div class="col-md-9 pt20">

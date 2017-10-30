@@ -1,5 +1,5 @@
 <template>
-  <div class="product align-center">
+  <div class="product align-center p15">
     <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug }}">
       <div class="product-image bg-lightgray">
         <img v-bind:src="thumbnail"/>
@@ -18,14 +18,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '~src/themes/default/css/transitions';
+
 .product-image > img {
   mix-blend-mode: multiply;
-  transition: 0.5s all;
+  transition: 0.5s all $motion-main;
 }
 .product-image:hover > img {
   transform: scale(1.1);
-  transition: 0.5s all;
+  transition: 0.5s all $motion-main;
 }
 .product-image {
   width: 100%;

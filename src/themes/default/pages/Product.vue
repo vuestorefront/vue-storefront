@@ -1,6 +1,6 @@
 <template>
   <div id="product">
-    <div class="bg-lightgray py35">
+    <div class="bg-lightgray py35 pl20 px20">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -37,7 +37,7 @@
     </div>
     <div>
       <div class="container mb15 c-black">
-        <div class="row py35">
+        <div class="row py35 px20">
           <div class="col-md-12">
             <h2 class="h3 sans-serif">Product details</h2>
             <h2 class="h3 sans-serif">Description</h2>

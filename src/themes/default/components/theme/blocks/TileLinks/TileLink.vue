@@ -22,10 +22,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '~src/themes/default/css/transitions';
+
 .tile-link {
-  width: 100%;
-  height: 350px;
+  width: 280px;
+  height: 280px;
 }
 .tile-image {
   width: 100%;
@@ -41,6 +43,7 @@ export default {
   align-items: center;
   justify-content: center;
   opacity: 0;
+  transition: 0.5s all $motion-main;
 }
 .overlay:hover {
   opacity: 0.75;
