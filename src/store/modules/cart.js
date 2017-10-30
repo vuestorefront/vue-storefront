@@ -72,8 +72,18 @@ const store = {
       })
     },
 
-    addItem ({ commit }, product) {
-      commit(types.CART_ADD_ITEM, { product })
+    addItem ({ commit, dispatch }, product) {
+      dispatch('stock/check', {}, {root: true}).then(result => {
+        console.log(result)
+        if (result.status === 'volatile') {
+          /* eslint no-alert: "off" */
+          /* eslint no-undef: "off" */
+          alert('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation')
+        }
+        if (result.status === 'ok' || result.status === 'volatile') {
+          commit(types.CART_ADD_ITEM, { product })
+        }
+      })
     },
     removeItem ({ commit }, product) {
       commit(types.CART_DEL_ITEM, { product })

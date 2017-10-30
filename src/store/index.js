@@ -51,6 +51,7 @@ import shipping from './modules/shipping'
 import meta from './modules/meta'
 import ui from './modules/ui-store'
 import homepage from './modules/homepage'
+import stock from './modules/stock'
 import social from './modules/social-tiles'
 
 Vue.use(Vuex)
@@ -97,7 +98,8 @@ export default new Vuex.Store({
     meta,
     ui,
     homepage,
-    social
+    social,
+    stock
   },
   state,
   mutations,
