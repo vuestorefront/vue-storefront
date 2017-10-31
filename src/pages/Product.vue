@@ -66,6 +66,10 @@ function fetchData (store, route) {
         }
       }
       store.state.product.breadcrumbs.name = product.name
+      subloaders.push(store.dispatch('attribute/list', { // load attributes to be shown on the product details
+        filterValues: [true],
+        filterField: 'is_user_defined'
+      }))
 
       if (product.type_id === 'configurable') {
         const configurableAttrIds = product.configurable_options.map((item) => { return item.attribute_id })
@@ -133,6 +137,12 @@ export default {
     EventBus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {
+    all_custom_atributes () {
+      let inst = this
+      return Object.values(this.$store.state.attribute.list_by_code).filter(a => {
+        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
+      })
+    },
     breadcrumbs () {
       return this.$store.state.product.breadcrumbs
     },
