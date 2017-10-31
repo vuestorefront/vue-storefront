@@ -49,6 +49,7 @@ import user from './modules/user'
 import payment from './modules/payment'
 import shipping from './modules/shipping'
 import ui from './modules/ui-store'
+import checkout from './modules/checkout'
 import homepage from './modules/homepage'
 import social from './modules/social-tiles'
 
@@ -95,7 +96,8 @@ export default new Vuex.Store({
     shipping,
     ui,
     homepage,
-    social
+    social,
+    checkout
   },
   state,
   mutations,
