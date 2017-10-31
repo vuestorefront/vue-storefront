@@ -63,19 +63,26 @@ export default {
   }
 
   a:not(.no-underline):hover:after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: #BDBDBD;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #BDBDBD;
+  }
+
+  @media (hover: none) {
+    a:not(.no-underline):after {
+      display: none;
+    }
   }
 
   #app.no-scroll {
     height: 100%;
     overflow: hidden;
   }
+
   #viewport {
     width: 100%;
     position: relative;
