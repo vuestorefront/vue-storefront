@@ -8,7 +8,7 @@
         <h2 class="align-center">Everything new</h2>
       </header>
     </div>
-    <div class="row">
+    <div class="row center-xs">
       <div v-for='product in everythingNewCollection' v-bind:key='product.id' class="col-md-3 p15">
         <product-tile :product="product"/>
       </div>
@@ -16,7 +16,7 @@
   </section>
 
   <div class="container">
-    <div class="row">
+    <div class="row center-xs">
       <header class="col-md-12 pt40 pb15">
         <h2 class="align-center">Cool Stuff of '17 collection</h2>
       </header>
@@ -27,7 +27,7 @@
     <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="row pb45 pt45 center-md">
+        <div class="row pb45 pt45 center-xs">
             <product-tile  v-for='product in coolBagsCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
         </div>
       </div>    
@@ -36,7 +36,7 @@
   </div>
 
   <section class="container pb60">
-    <div class="row">
+    <div class="row center-xs">
       <header class="col-md-12 pt40">
         <h2 class="align-center">Get inspired</h2>
       </header>

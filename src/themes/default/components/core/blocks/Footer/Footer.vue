@@ -2,7 +2,7 @@
   <footer>
     <div class="upper-footer p50 bg-lightgray">
       <div class="container">
-        <div class="row">
+        <div class="row center-xs around-xs">
           <div class="col-md-3">
             <h3 class="c-black weight-400">Departments</h3>
             <div class="mt15">
@@ -54,11 +54,11 @@
       </div>
     </div>
     <div class="container">
-      <div class="row middle-md">
+      <div class="row middle-xs px20">
         <div class="col-md-3" >
           United States (US)
         </div>
-        <div class="col-md-9 end-md">
+        <div class="col-md-9 end-xs">
           <ul class="links">
             <li><router-link class="c-black mr15" to="/legal" exact>Legal notice</router-link></li>
             <li><router-link class="c-black" to="/privacy" exact>Privacy policy</router-link></li>
