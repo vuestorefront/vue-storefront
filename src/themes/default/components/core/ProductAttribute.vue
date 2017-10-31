@@ -27,11 +27,8 @@ export default {
             /* eslint eqeqeq: "off" */
             return av.value == parsedVal
           })
-          console.log(option)
-
           if (option) {
             results.push(option.label)
-            console.log(results)
           }
         } else {
           results.push(parsedVal)
