@@ -12,6 +12,15 @@ export function thumbnail (relativeUrl, width, height) {
 }
 
 /**
+ * Return attribute name or option for product
+ * @param {Object} product
+ * @param {Object} attribute descriptor - attribute entity
+ */
+export function displayAttribute (product, attribute) {
+  return '<strong>' + attribute.default_frontend_label + '</strong>: ' + product[attribute.attribute_code]
+}
+
+/**
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text
  */
@@ -40,6 +49,7 @@ export function registerFilters (app) {
   Vue.filter('thumbnail', thumbnail)
   Vue.filter('slugify', slugify)
   Vue.filter('price', price)
+  Vue.filter('displayAttribute', displayAttribute)
 }
 
 /**

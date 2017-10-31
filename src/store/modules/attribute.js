@@ -44,8 +44,8 @@ const mutations = {
    */
   [types.ATTRIBUTE_UPD_ATTRIBUTES] (state, attributes) {
     let attrList = attributes.items // extract fields from ES _source
-    let attrHashByCode = {}
-    let attrHashById = {}
+    let attrHashByCode = state.list_by_code
+    let attrHashById = state.list_by_id
 
     for (let attr of attrList) {
       attrHashByCode[attr.attribute_code] = attr
@@ -65,6 +65,7 @@ const mutations = {
     }
     state.list_by_code = attrHashByCode
     state.list_by_id = attrHashById
+    console.log(state.list_by_code)
   }
 }
 

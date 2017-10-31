@@ -38,10 +38,16 @@
     <div>
       <div class="container mb15 c-black">
         <div class="row py35 px20">
-          <div class="col-md-12">
-            <h2 class="h3 sans-serif">Product details</h2>
+          <div class="col-md-9">
             <h2 class="h3 sans-serif">Description</h2>
             <span class="lh30 h5" v-html="product.description"></span>
+          </div>
+          <div class="col-md-3">
+            <h2 class="h3 sans-serif">Product details</h2>
+            <ul>
+              <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_atributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
+            </ul>
+            
           </div>
         </div>
       </div>
@@ -56,6 +62,7 @@ import AddToCart from '../components/core/AddToCart.vue'
 import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import ProductAttribute from '../components/core/ProductAttribute.vue'
 
 import { thumbnail } from 'src/lib/filters'
 
@@ -69,7 +76,8 @@ export default {
     AddToCart,
     ColorButton,
     SizeButton,
-    Breadcrumbs
+    Breadcrumbs,
+    ProductAttribute
   },
   mixins: [corePage('Product')]
 }
