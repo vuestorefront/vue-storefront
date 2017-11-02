@@ -76,7 +76,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
 
       if (res !== null) {
         resolve(res)
-        console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.info('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         servedFromCache = true
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
@@ -84,7 +84,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       const res = _handleEsResult(resp, start, size)
 
       if (!servedFromCache) {
-        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.info('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         resolve(res)
       }
 

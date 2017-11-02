@@ -9,6 +9,9 @@ import { registerFilters } from './lib/filters'
 import { registerTheme } from './lib/themes'
 import { registerExtensions } from './lib/extensions'
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 export function createApp () {
   sync(store, router)
   const app = new Vue({

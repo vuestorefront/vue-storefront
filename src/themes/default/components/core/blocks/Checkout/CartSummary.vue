@@ -55,16 +55,13 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import Product from './Product'
+import Product from '../Microcart/Product'
 
 export default {
-  created () {
-    console.log('CI  ' + this.cartItems)
-  },
   components: {
     Product
   },
-  mixins: [coreComponent('core/blocks/Microcart/Microcart')]
+  mixins: [coreComponent('core/blocks/Checkout/CartSummary')]
 }
 </script>
 

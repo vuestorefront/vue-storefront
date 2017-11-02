@@ -54,10 +54,10 @@ const mutations = {
       const attrCollection = global.db.attributesCollection
       try {
         attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
-          console.debug(reason) // it doesn't work on SSR
+          console.error(reason) // it doesn't work on SSR
         }) // populate cache by slug
         attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toString()), attr).catch((reason) => {
-          console.debug(reason) // it doesn't work on SSR
+          console.error(reason) // it doesn't work on SSR
         }) // populate cache by id
       } catch (e) {
         console.error(e)
