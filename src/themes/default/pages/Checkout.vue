@@ -86,8 +86,8 @@ export default {
             email: this.personalDetails.emailAddress,
             region_code: 'MH'
           },
-          shipping_method_code: 'flatrate',
-          shipping_carrier_code: 'flatrate',
+          shipping_method_code: this.shipping.shippingMethod,
+          shipping_carrier_code: this.shipping.shippingMethod,
           payment_method_code: 'cashondelivery'
         }
       }

@@ -6,14 +6,9 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12 mb25">
-        <input type="text" name="first-name" placeholder="First name"v-model="payment.firstName"> 
-      </div>
-      <div class="col-md-6 mb25">
-        <input type="text" name="first-name" placeholder="First name"v-model="payment.firstName"> 
-      </div>
-      <div class="col-md-6 mb25">
-        <input type="text" name="first-name" placeholder="First name"v-model="payment.firstName"> 
+      <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb25">
+        <input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod">
+        <label> {{ method.name }} | {{ method.cost | price }} </label>
       </div>
       <div class="col-md-12">
         <button @click="sendDataToCheckout">Go review the order</button>
@@ -26,17 +21,17 @@
 import { coreComponent } from 'lib/themes'
 import EventBus from 'src/event-bus/event-bus'
 
+import PaymentMethods from 'src/resource/payment_methods.json'
+
 export default {
   props: ['isActive'],
   data () {
     return {
       isActive: true,
       isFilled: false,
+      paymentMethods: PaymentMethods,
       payment: {
-        firstName: '',
-        lastName: '',
-        emailAddress: '',
-        paymentMethod: ''
+        paymentNethod: ''
       }
     }
   },

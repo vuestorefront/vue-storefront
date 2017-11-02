@@ -31,6 +31,13 @@
         <input type="text" name="zip-code" placeholder="Phone Number" v-model="shipping.phoneNumber">
       </div>
       <div class="col-md-12">
+        <h4>Shipping method</h4>
+      </div>
+      <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb25">
+        <input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod">
+        <label> {{ method.name }} | {{ method.cost | price }} </label>
+      </div>
+      <div class="col-md-12">
         <button @click="sendDataToCheckout">Continue to payment</button>
       </div>
     </div>
@@ -56,7 +63,8 @@ export default {
       shipping: {
         firstName: '',
         lastName: '',
-        streetAdress: ''
+        streetAdress: '',
+        shippingMethod: ''
       }
     }
   },
