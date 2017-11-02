@@ -50,6 +50,7 @@ import payment from './modules/payment'
 import shipping from './modules/shipping'
 import meta from './modules/meta'
 import ui from './modules/ui-store'
+import checkout from './modules/checkout'
 import homepage from './modules/homepage'
 import stock from './modules/stock'
 import social from './modules/social-tiles'
@@ -78,7 +79,7 @@ const plugins = [
     store.subscribe((mutation, store) => {
       if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
         global.db.cartsCollection.setItem('current-cart', store.cart.cartItems).catch((reason) => {
-          console.debug(reason) // it doesn't work on SSR
+          console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
     })
@@ -99,7 +100,8 @@ export default new Vuex.Store({
     ui,
     homepage,
     social,
-    stock
+    stock,
+    checkout
   },
   state,
   mutations,

@@ -50,9 +50,9 @@ It allows you to send data to service worker. For example, when the order is pla
     order.updated_at = new Date()
 
     ordersCollection.setItem(orderId.toString(), order).catch((reason) => {
-      console.debug(reason) // it doesn't work on SSR
+      console.error(reason) // it doesn't work on SSR
       sw.postMessage({ config: config, command: types.CHECKOUT_PROCESS_QUEUE }) // process checkout queue
-      console.debug('Order placed, orderId = ' + orderId)
+      console.info('Order placed, orderId = ' + orderId)
     }) // populate cache
   },
 

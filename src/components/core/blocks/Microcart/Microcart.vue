@@ -17,7 +17,7 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'microcart',
-  props: ['product'],
+  props: ['product', 'isCheckoutMode'],
   created () {
     this.$store.dispatch('cart/load') // load cart from the indexedDb
   },

@@ -16,7 +16,8 @@ module.exports = {
       core_components: path.resolve(__dirname, '../src/components'),
       core_stores: path.resolve(__dirname, '../src/store'),
       core_themes: path.resolve(__dirname, '../src/themes'),
-      'core/components': path.resolve(__dirname, '../src/components'),
+      'core/components': path.resolve(__dirname, '../src/components/core'),
+      'components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../src/pages'),
 
       lib: path.resolve(__dirname, '../src/lib'),
@@ -25,10 +26,10 @@ module.exports = {
       'assets': path.resolve(__dirname, '../src/assets'),
 
 
-      theme_pages: path.resolve(__dirname, '../themes/default/pages'),
-      theme_components: path.resolve(__dirname, '../themes/default/components'),
-      'theme/components': path.resolve(__dirname, '../themes/default/components'),
-      'theme/pages': path.resolve(__dirname, '../themes/default/pages')
+      theme_pages: path.resolve(__dirname, '../src/themes/default/pages'),
+      theme_components: path.resolve(__dirname, '../src/themes/default/components'),
+      'theme/components': path.resolve(__dirname, '../src/themes/default/components'),
+      'theme/pages': path.resolve(__dirname, '../src/themes/default/pages')
 
     }
   },

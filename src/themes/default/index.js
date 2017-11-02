@@ -2,10 +2,12 @@ import Home from './pages/Home.vue'
 import Category from './pages/Category.vue'
 import Product from './pages/Product.vue'
 import Static from './pages/Static.vue'
+import Checkout from './pages/Checkout.vue'
 import UIStore from './store/ui-store'
 
 const routes = [
     { path: '/', component: Home },
+    { name: 'checkout', path: '/checkout', component: Checkout },
     { name: 'category', path: '/c/:slug', component: Category },
     { name: 'product', path: '/p/:id/:slug', component: Product },
     { name: 'legal', path: '/legal', component: Static, props: {page: 'lorem', title: 'Legal Notice'}, meta: {title: 'Legal Notice', description: 'Legal Notice - example of description usage'} },

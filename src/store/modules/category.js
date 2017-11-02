@@ -138,10 +138,10 @@ const mutations = {
       const catCollection = global.db.categoriesCollection
       try {
         catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
-          console.debug(reason) // it doesn't work on SSR
+          console.error(reason) // it doesn't work on SSR
         }) // populate cache by slug
         catCollection.setItem(entityKeyName('id', category.id), category).catch((reason) => {
-          console.debug(reason) // it doesn't work on SSR
+          console.error(reason) // it doesn't work on SSR
         }) // populate cache by id
       } catch (e) {
         console.error(e)

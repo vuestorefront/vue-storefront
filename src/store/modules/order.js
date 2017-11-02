@@ -47,10 +47,10 @@ const mutations = {
     order.updated_at = new Date()
 
     ordersCollection.setItem(orderId.toString(), order).catch((reason) => {
-      console.debug(reason) // it doesn't work on SSR
+      console.error(reason) // it doesn't work on SSR
     }).then((resp) => {
       sw.postMessage({ config: config, command: types.ORDER_PROCESS_QUEUE }) // process checkout queue
-      console.debug('Order placed, orderId = ' + orderId)
+      console.info('Order placed, orderId = ' + orderId)
     }) // populate cache
   },
   /**
@@ -59,7 +59,7 @@ const mutations = {
    */
   [types.ORDER_LOAD_QUEUE] (state, queue) {
     state.checkoutQueue = queue
-    console.debug('Order queue loaded, queue size is: ' + state.checkoutQueue.length)
+    console.info('Order queue loaded, queue size is: ' + state.checkoutQueue.length)
   }
 }
 
