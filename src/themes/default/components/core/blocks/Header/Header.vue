@@ -14,9 +14,9 @@
                 </div>
                 <div class="col-md-2 end-md">
                     <div class="box">
-                        <search-icon class="p12 icon" />
-                        <wishlist-icon class="p12 icon" />         
-                        <microcart-icon class="p12 icon" />
+                        <search-icon class="p15 icon" />
+                        <wishlist-icon class="p15 icon" />         
+                        <microcart-icon class="p15 icon" />
                     </div>
                 </div>
             </div>
