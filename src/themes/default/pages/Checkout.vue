@@ -10,6 +10,7 @@
           <shipping :is-active="true"/>
           <payment />
           <order-review />
+          <button @click="placeOrder">Place Order</button>
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -68,7 +69,7 @@ export default {
             city: this.shipping.city,
             firstname: this.shipping.firstName,
             lastname: this.shipping.lastName,
-            email: this.shipping.emailAddress,
+            email: this.personalDetails.emailAddress,
             region_code: 'MH'
           },
           billingAddress: {
@@ -85,9 +86,9 @@ export default {
             email: this.personalDetails.emailAddress,
             region_code: 'MH'
           },
-          shipping_method_code: '',
-          shipping_carrier_code: '',
-          payment_method_code: ''
+          shipping_method_code: 'flatrate',
+          shipping_carrier_code: 'flatrate',
+          payment_method_code: 'cashondelivery'
         }
       }
     },
@@ -108,6 +109,17 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+  #checkout input {
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #BDBDBD;
+  }
+  #checkout input::-webkit-input-placeholder {
+  color: #636363;
+ }
+  #checkout input:-moz-placeholder {
+  color: #636363;
+}
+  
 </style>

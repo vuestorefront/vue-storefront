@@ -6,23 +6,23 @@
       </div>
     </div>
     <div class="row" v-show="isActive">
-      <div class="col-md-6">
+      <div class="col-md-6 mb25">
         <input type="text" name="first-name" placeholder="First name" v-model="personalDetails.firstName">
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mb25">
         <input type="text" name="last-name" placeholder="Last name" v-model="personalDetails.lastName">
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12 mb25">
         <input type="email" name="email-address" placeholder="Email address" v-model="personalDetails.emailAddress">
       </div>
-      <!-- <div class="col-md-12">
+      <!-- <div class="col-md-12 mb25">
         <input type="checkbox" name="create-account" value="create-account" v-model="personalDetails.createAccount">
         <label>I want to create an account</label>
       </div>
-      <div class="col-md-12" v-show="personalDetails.createAccount">
+      <div class="col-md-12 mb25" v-show="personalDetails.createAccount">
         <input type="password" name="password" placeholder="Password *" v-model="personalDetails.emailAddress">
       </div>
-      <div class="col-md-12" v-show="personalDetails.createAccount">
+      <div class="col-md-12 mb25" v-show="personalDetails.createAccount">
         <input type="password" name="password-confirmation" placeholder="Repeat password *" v-model="personalDetails.emailAddress">
       </div> -->
       <div class="col-md-12">
