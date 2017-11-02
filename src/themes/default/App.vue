@@ -1,6 +1,7 @@
 <template>
   <div id="app" :class="{ 'no-scroll': scroll }">
     <div id="viewport">
+      <notification />
       <overlay />
       <microcart />
       <sidebar-menu />
@@ -21,6 +22,7 @@ import Microcart from './components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 
 import Overlay from './components/core/Overlay.vue'
+import Notification from './components/core/Notification.vue'
 
 export default {
   computed: {
@@ -33,7 +35,8 @@ export default {
     MainFooter,
     Microcart,
     SidebarMenu,
-    Overlay
+    Overlay,
+    Notification
   }
 }
 </script>

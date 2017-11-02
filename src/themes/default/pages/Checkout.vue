@@ -42,6 +42,9 @@ export default {
     EventBus.$on('checkout.shipping', (receivedData) => { this.shipping = receivedData })
     EventBus.$on('checkout.orderHistory', (receivedData) => { this.orderHistory = receivedData })
     EventBus.$on('checkout.cartSummary', (receivedData) => { this.cartSummary = receivedData })
+    EventBus.$emit('notification', {
+      a: 'b'
+    })
   },
   data () {
     return {
