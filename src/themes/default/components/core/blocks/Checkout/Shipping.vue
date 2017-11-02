@@ -30,6 +30,9 @@
       <div class="col-md-12">
         <input type="text" name="zip-code" placeholder="Phone Number" v-model="shipping.phoneNumber">
       </div>
+      <div class="col-md-12">
+        <button @click="sendDataToCheckout">Continue to payment</button>
+      </div>
     </div>
 
   </div>
