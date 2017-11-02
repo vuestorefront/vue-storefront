@@ -1,3 +1,8 @@
+<template>
+  <div class="notification" style="display: none">
+  </div>
+</template>
+
 <script>
 import EventBus from 'src/event-bus/event-bus'
 
