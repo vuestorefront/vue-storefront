@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-md-8 center-md">
                     <div class="box">              
-                        <logo width="36px" height="41px" class="p5"/>
+                        <logo width="36px" height="41px"/>
                     </div>
                 </div>
                 <div class="col-md-2 end-md">

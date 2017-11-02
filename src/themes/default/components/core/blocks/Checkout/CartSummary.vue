@@ -55,9 +55,13 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import EventBus from 'src/event-bus/event-bus'
 import Product from '../Microcart/Product'
 
 export default {
+  created () {
+    EventBus.$emit('checkout.cartSummary', this.items)
+  },
   components: {
     Product
   },

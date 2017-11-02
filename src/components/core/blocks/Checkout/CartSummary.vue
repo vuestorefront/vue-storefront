@@ -1,5 +1,5 @@
 <template>
-  <div class="microcart" :class="{ active: isOpen }">
+  <div class="cart-summary">
     Core CartSumary
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>
@@ -16,7 +16,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  name: 'cartsummary',
+  name: 'cart-summary',
   mixins: [coreComponent('core/blocks/Microcart/Microcart')]
 }
 </script>
