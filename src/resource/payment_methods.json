@@ -7,7 +7,7 @@
         "offline": true
     },
     {
-        "name": "paypal",
+        "name": "PayPal online payments",
         "code": "paypal",
         "cost": 0, 
         "default": false,

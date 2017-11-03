@@ -61,7 +61,7 @@ const store = {
       const state = context.state
 
       if (!state.shipping.code) {
-        state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el })
+        state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el }) // TODO: use commit() instead of modifying the state in actions
       }
       if (!state.payment.code) {
         state.payment = rootState.payment.methods.find((el) => { if (el.default === true) return el })

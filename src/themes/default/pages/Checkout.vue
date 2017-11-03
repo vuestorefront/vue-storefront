@@ -94,11 +94,11 @@ export default {
           payment_method_code: 'cashondelivery'
         }
       }
+      return this.order
     },
     placeOrder () {
-      this.prepareOrder()
+      this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       console.log(this.order)
-      // TO-DO: Perform Vuex action to send order
     }
   },
   components: {

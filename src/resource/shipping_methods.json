@@ -1,7 +1,7 @@
 [
     {
-        "name": "Courier",
-        "code": "courier",
+        "name": "DPD Courier",
+        "code": "dpd",
         "cost": 15, 
         "default": true,
         "offline": true
