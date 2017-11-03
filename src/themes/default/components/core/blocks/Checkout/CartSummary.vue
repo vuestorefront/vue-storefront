@@ -48,7 +48,3 @@ export default {
   mixins: [coreComponent('core/blocks/Checkout/CartSummary')]
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
