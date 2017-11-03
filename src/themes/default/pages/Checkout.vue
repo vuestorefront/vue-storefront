@@ -6,10 +6,10 @@
           <header>
             <h1>Checkout</h1>
           </header>
-          <personal-details :is-active="true"/>
-          <shipping :is-active="true"/>
-          <payment />
-          <order-review />
+          <personal-details :is-active="activeSection.personalDetails"/>
+          <shipping :is-active="activeSection.shipping"/>
+          <payment :is-active="activeSection.payment"/>
+          <order-review :is-active="activeSection.orderReview"/>
           <button-full text="Place order" @click="placeOrder" />
         </div>
         <div class="col-md-5 bg-lightgray">
@@ -49,6 +49,12 @@ export default {
   },
   data () {
     return {
+      activeSection: {
+        personalDetails: true,
+        shipping: true,
+        payment: true,
+        orderReview: true
+      },
       order: {},
       personalDetails: {},
       shipping: {},
@@ -58,6 +64,12 @@ export default {
     }
   },
   methods: {
+    activateSection (activeSection) {
+      for (let section in this.activeSection) {
+        this.activeSection[section] = false
+      }
+      activeSection = true
+    },
     prepareOrder () {
       this.order = {
         products: this.cartSummary,
