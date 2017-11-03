@@ -2,7 +2,7 @@
   <footer>
     <div class="upper-footer p50 bg-lightgray">
       <div class="container">
-        <div class="row center-xs around-xs">
+        <div class="row center-xs start-md around-xs">
           <div class="col-md-3">
             <h3 class="c-black weight-400">Departments</h3>
             <div class="mt15">
@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="container">
-      <div class="row middle-xs px20">
+      <div class="row middle-xs">
         <div class="col-md-3" >
           United States (US)
         </div>
