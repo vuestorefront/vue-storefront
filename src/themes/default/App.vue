@@ -75,12 +75,16 @@ export default {
     background-color: #BDBDBD;
   }
 
+  .no-underline:hover:after {
+    height: 0;
+  }
+
   @media (hover: none) {
     a:not(.no-underline):after {
       display: none;
     }
   }
-
+  
   #app.no-scroll {
     height: 100%;
     overflow: hidden;

@@ -46,7 +46,7 @@
       </div>
       <div class="row pt20 pb20 pl30 pr55" v-if="!isCheckoutMode">
         <div class="col-xs align-right">
-              <router-link :to="{ name: 'checkout' }"><button class="checkout-button bg-black brdr-none c-white pb20 pt20 pl70 pr70">CHECKOUT</button></router-link>
+              <router-link class="no-underline" :to="{ name: 'checkout' }"><button class="checkout-button bg-black brdr-none c-white pb20 pt20 pl70 pr70">CHECKOUT</button></router-link>
         </div>
       </div>
     </div>

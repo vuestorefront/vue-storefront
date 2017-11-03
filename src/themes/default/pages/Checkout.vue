@@ -2,7 +2,7 @@
   <div id="checkout">
     <div class="container">
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-7 pb70">
           <header>
             <h1>Checkout</h1>
           </header>
@@ -10,7 +10,7 @@
           <shipping :is-active="true"/>
           <payment />
           <order-review />
-          <button @click="placeOrder">Place Order</button>
+          <button-full text="Place order" @click="placeOrder" />
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -33,6 +33,7 @@ import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
 import Payment from 'theme/components/core/blocks/Checkout/Payment.vue'
 import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   name: 'Checkout',
@@ -102,27 +103,41 @@ export default {
     }
   },
   components: {
-    'personal-details': PersonalDetails,
-    'shipping': Shipping,
-    'payment': Payment,
-    'order-review': OrderReview,
-    'cart-summary': CartSummary
+    PersonalDetails,
+    Shipping,
+    Payment,
+    OrderReview,
+    CartSummary,
+    ButtonFull
   },
   mixins: [corePage('Checkout')]
 }
 </script>
 
-<style>
-  #checkout input {
+<style lang="scss">
+@import '../css/text.scss';
+
+#checkout {
+  input[type=text], input[type=email], input[type=tel] {
+    @extend .h4;
     padding: 10px 0;
     border: none;
     border-bottom: 1px solid #BDBDBD;
+    width: calc(100% - 35px);
   }
-  #checkout input::-webkit-input-placeholder {
-  color: #636363;
- }
-  #checkout input:-moz-placeholder {
-  color: #636363;
+  input::-webkit-input-placeholder {
+    color: #BDBDBD;
+  }
+  input:-moz-placeholder {
+    color: #BDBDBD;
+  }
+  input:focus {
+    outline: none;
+    border-color: black;
+    transition: 0.3s all;
+  }
+  h4 {
+    @extend .weight-200;
+  }
 }
-  
 </style>

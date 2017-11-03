@@ -1,8 +1,8 @@
 <template>
   <div class='order-review'>
     <div class="row">
-      <div class="col-md-12">
-        <h4>Review order</h4>
+      <div class="col-md-12 mb15">
+        <h3>Review order</h3>
       </div>
     </div>
     <div class="row">

@@ -1,7 +1,7 @@
 <template>
   <div class="shipping">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 mb15">
         <h3>Shipping</h3>
       </div>
     </div>
@@ -33,12 +33,12 @@
       <div class="col-md-12">
         <h4>Shipping method</h4>
       </div>
-      <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb25">
+      <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
         <input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod">
         <label> {{ method.name }} | {{ method.cost | price }} </label>
       </div>
-      <div class="col-md-12">
-        <button @click="sendDataToCheckout">Continue to payment</button>
+      <div class="col-md-12 my30">
+        <button-full @click="sendDataToCheckout" text="Continue to payment" />
       </div>
     </div>
 
@@ -48,8 +48,9 @@
 <script>
 import { coreComponent } from 'lib/themes'
 import EventBus from 'src/event-bus/event-bus'
-
 import ShippingMethods from 'src/resource/shipping_methods.json'
+
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 // https://monterail.github.io/vuelidate/#sub-contextified-validators
 
@@ -73,6 +74,9 @@ export default {
       EventBus.$emit('checkout.shipping', this.shipping)
       this.isFilled = true
     }
+  },
+  components: {
+    ButtonFull
   },
   mixins: [coreComponent('core/blocks/Checkout/Shipping')]
 }
