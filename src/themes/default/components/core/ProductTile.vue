@@ -22,6 +22,7 @@ export default {
 @import '~src/themes/default/css/transitions';
 
 .product-image > img {
+  height: 100%;
   mix-blend-mode: multiply;
   transition: 0.5s all $motion-main;
 }
