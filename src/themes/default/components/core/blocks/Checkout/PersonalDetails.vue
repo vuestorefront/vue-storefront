@@ -7,13 +7,13 @@
     </div>
     <div class="row" v-show="isActive">
       <div class="col-md-6 mb25">
-        <input type="text" name="first-name" placeholder="First name" v-model="personalDetails.firstName">
+        <input type="text" name="first-name" placeholder="First name" v-model="personalDetails.firstName" v-on:change="sendDataToCheckout">
       </div>
       <div class="col-md-6 mb25">
-        <input type="text" name="last-name" placeholder="Last name" v-model="personalDetails.lastName">
+        <input type="text" name="last-name" placeholder="Last name" v-model="personalDetails.lastName" v-on:change="sendDataToCheckout">
       </div>
       <div class="col-md-12 mb15">
-        <input type="email" name="email-address" placeholder="Email address" v-model="personalDetails.emailAddress">
+        <input type="email" name="email-address" placeholder="Email address" v-model="personalDetails.emailAddress" v-on:change="sendDataToCheckout">
       </div>
       <!-- <div class="col-md-12 mb25">
         <input type="checkbox" name="create-account" value="create-account" v-model="personalDetails.createAccount">
@@ -26,7 +26,7 @@
         <input type="password" name="password-confirmation" placeholder="Repeat password *" v-model="personalDetails.emailAddress">
       </div> -->
       <div class="col-md-12 my30">
-        <button-full @click="sendDataToCheckout" text="Continue to shipping" />
+        <button-full @click="sendDataToCheckout" text="Continue to shipping" color="dark" />
         <!-- <p>Or login to the existing account</p> -->
       </div>
     </div>
@@ -45,7 +45,6 @@ export default {
   props: ['isActive'],
   data () {
     return {
-      isActive: true,
       isFilled: false,
       personalDetails: {
         firstName: '',

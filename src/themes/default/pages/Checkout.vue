@@ -10,7 +10,7 @@
           <shipping :is-active="activeSection.shipping"/>
           <payment :is-active="activeSection.payment"/>
           <order-review :is-active="activeSection.orderReview"/>
-          <button-full text="Place order" @click="placeOrder" />
+          <button @click="placeOrder" color="dark">Place order</button> <!-- FIX ME: button-full doesn't properly support @click -->
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -72,7 +72,7 @@ export default {
     },
     prepareOrder () {
       this.order = {
-        products: this.cartSummary,
+        products: this.$store.state.cart.cartItems,
         addressInformation: {
           shippingAddress: {
             region: 'MH',

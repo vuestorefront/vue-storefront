@@ -260,7 +260,7 @@ If category do have any child categories - you have access to them via "children
 
 ### Carts
 `Carts` is a store for shopping cart with default key = 'current-cart' representing current shopping cart.
-Cart object is an array consit of Products with additional field `quantity` in case when 2+ items are ordered.
+Cart object is an array consit of Products with additional field `qty` in case when 2+ items are ordered.
 
 ![Carts data format as seen on Developers Tools](media/cart-localstorage.png)
 
@@ -268,7 +268,7 @@ Cart object is an array consit of Products with additional field `quantity` in c
 [  
   {  
     "id":26,
-    "quantity":5,
+    "qty":5,
     "sku":"24-WG081-blue",
     "name":"Sprite Stasis Ball 55 cm",
     "attribute_set_id":12,

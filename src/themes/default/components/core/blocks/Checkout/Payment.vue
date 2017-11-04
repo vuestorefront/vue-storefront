@@ -7,11 +7,10 @@
     </div>
     <div class="row">
       <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
-        <input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod">
-        <label> {{ method.name }} | {{ method.cost | price }} </label>
+        <label><input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod" v-on:change="sendDataToCheckout"> {{ method.name }} | {{ method.cost | price }} </label>
       </div>
       <div class="col-md-12 my30">
-        <button-full @click="sendDataToCheckout" text="Go review the order" />
+        <button-full @click="sendDataToCheckout" text="Go review the order" color="dark" />
       </div>
     </div>
   </div>
@@ -28,11 +27,10 @@ export default {
   props: ['isActive'],
   data () {
     return {
-      isActive: true,
       isFilled: false,
       paymentMethods: PaymentMethods,
       payment: {
-        paymentNethod: ''
+        paymentMethod: 'cod'
       }
     }
   },

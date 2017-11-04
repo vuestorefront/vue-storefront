@@ -26,8 +26,8 @@ const store = {
       try {
         context.dispatch('order/placeOrder', order, {root: true})
       } catch (e) {
-        if (e.getMessages) {
-          console.error(e.getMessages())
+        if (e.name === 'ValidationError') {
+          console.error(e.messages)
         } else {
           console.error(e)
         }

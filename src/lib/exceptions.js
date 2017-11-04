@@ -1,17 +1,17 @@
-export class ValidationError extends Error {
+export class ValidationError {
     /**
      * ValidationError to be used with multiple validation errors return from Ajv or other validators
      * @param {Object} _validationMessages dictionary of validation errors
      */
   constructor (_validationMessages) {
-    super('Validation error, check "getMessages"')
     this._messages = _validationMessages
+    this.name = 'ValidationError'
   }
 
   /**
    * @return {Array} array of errors
    */
-  getMessages () {
+  get messages () {
     return this._messages
   }
 
