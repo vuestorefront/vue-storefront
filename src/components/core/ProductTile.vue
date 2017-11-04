@@ -14,7 +14,7 @@ export default {
   props: ['product'],
   computed: {
     thumbnail () {
-      return thumbnail(this.product.image, 570, 569)
+      return thumbnail(this.product.image, 310, 300)
     }
   }
 }
