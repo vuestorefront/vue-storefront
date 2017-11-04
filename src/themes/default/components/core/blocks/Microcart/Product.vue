@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row pr55 pt20 pb20">
-      <img :src="thumbnail" />
+      <img v-lazy="thumbnail" />
       <div class="col-xs pl40 pb15 pt15">
         <div>
           <div>{{ product.name }}</div>
