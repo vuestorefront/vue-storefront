@@ -1,5 +1,6 @@
 import config from './config'
 import * as types from './store/mutation-types'
+import EventBus from 'src/event-bus/event-bus'
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js', { scope: '/' }).then(function () {
@@ -15,6 +16,7 @@ if ('serviceWorker' in navigator) {
  * Process order queue when we're back onlin
  */
 function checkiIsOnline () {
+  EventBus.$emit('network.status', { online: navigator.onLine })
   console.log('Are we online: ' + navigator.onLine)
 
   if (navigator.onLine) {
