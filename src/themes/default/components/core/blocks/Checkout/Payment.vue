@@ -9,6 +9,8 @@
       <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
         <label><input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod" v-on:change="sendDataToCheckout"> {{ method.name }} | {{ method.cost | price }} </label>
       </div>
+      <span class="validation-error" v-if="!$v.payment.paymentMethod.required">Field is required</span>
+      
       <div class="col-md-12 my30">
         <button-full @click="sendDataToCheckout" text="Go review the order" color="dark" />
       </div>
@@ -22,21 +24,29 @@ import EventBus from 'src/event-bus/event-bus'
 import PaymentMethods from 'src/resource/payment_methods.json'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   props: ['isActive'],
+  validations: {
+    payment: {
+      paymentMethod: {
+        required
+      }
+    }
+  },
   data () {
     return {
       isFilled: false,
       paymentMethods: PaymentMethods,
       payment: {
-        paymentMethod: 'cod'
+        paymentMethod: 'cashondelivery'
       }
     }
   },
   methods: {
     sendDataToCheckout () {
-      EventBus.$emit('checkout.payment', this.payment)
+      EventBus.$emit('checkout.payment', this.payment, this.$v)
     }
   },
   components: {
@@ -47,5 +57,8 @@ export default {
 </script>
 
 <style scoped>
-
+.validation-error{
+  color: red;
+  display: block;
+}
 </style>

@@ -7,13 +7,18 @@
     </div>
     <div class="row" v-show="isActive">
       <div class="col-md-6 mb25">
-        <input type="text" name="first-name" placeholder="First name" v-model="personalDetails.firstName" v-on:change="sendDataToCheckout">
+        <input type="text" name="first-name" placeholder="First name" v-model="personalDetails.firstName" v-on:change="sendDataToCheckout" @input="$v.personalDetails.firstName.$touch()">
+        <span class="validation-error" v-if="!$v.personalDetails.firstName.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">Name must have at least {{$v.personalDetails.firstName.$params.minLength.min}} letters.</span>
+        
       </div>
       <div class="col-md-6 mb25">
         <input type="text" name="last-name" placeholder="Last name" v-model="personalDetails.lastName" v-on:change="sendDataToCheckout">
+        <span class="validation-error" v-if="!$v.personalDetails.lastName.required">Field is required</span>
       </div>
       <div class="col-md-12 mb15">
         <input type="email" name="email-address" placeholder="Email address" v-model="personalDetails.emailAddress" v-on:change="sendDataToCheckout">
+        <span class="validation-error" v-if="!$v.personalDetails.emailAddress.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.emailAddress.email">Please provide valid e-mail address.</span>
+
       </div>
       <!-- <div class="col-md-12 mb25">
         <input type="checkbox" name="create-account" value="create-account" v-model="personalDetails.createAccount">
@@ -38,11 +43,27 @@ import { coreComponent } from 'lib/themes'
 import EventBus from 'src/event-bus/event-bus'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { required, minLength, email } from 'vuelidate/lib/validators'
 
-// https://monterail.github.io/vuelidate/#sub-contextified-validators
+// https://monterail.github.io/vuelidate/#sub-basic-usage
 
 export default {
   props: ['isActive'],
+  validations: {
+    personalDetails: {
+      firstName: {
+        required,
+        minLength: minLength(3)
+      },
+      lastName: {
+        required
+      },
+      emailAddress: {
+        required,
+        email
+      }
+    }
+  },
   data () {
     return {
       isFilled: false,
@@ -57,7 +78,7 @@ export default {
   },
   methods: {
     sendDataToCheckout () {
-      EventBus.$emit('checkout.personalDetails', this.personalDetails)
+      EventBus.$emit('checkout.personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
     }
   },
@@ -69,5 +90,8 @@ export default {
 </script>
 
 <style scoped>
-
+.validation-error{
+  color: red;
+  display: block;
+}
 </style>

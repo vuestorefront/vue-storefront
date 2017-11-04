@@ -1,4 +1,5 @@
 import * as types from '../mutation-types'
+import EventBus from 'src/event-bus/event-bus'
 
 const store = {
   namespaced: true,
@@ -27,7 +28,12 @@ const store = {
         context.dispatch('order/placeOrder', order, {root: true})
       } catch (e) {
         if (e.name === 'ValidationError') {
-          console.error(e.messages)
+          console.error('Internal validation error; Order entity is not compliant with the schema', e.messages)
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: 'Internal validation error. Please check if all required fileds are filled in. Please contact us on contributors@vuestorefront.io',
+            action1: { label: 'OK', action: 'close' }
+          })
         } else {
           console.error(e)
         }
