@@ -35,6 +35,8 @@
     </div>
   </div>
 
+    <collection title="New Luma Yoga Collection" coverImage="/assets/collection.jpg" category="Women"></collection>
+
   <section class="container pb60">
     <div class="row center-xs">
       <header class="col-md-12 pt40">
@@ -56,6 +58,7 @@ import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
 import TileLinks from '../components/theme/blocks/TileLinks/TileLinks.vue'
+import Collection from '../components/theme/blocks/Collection/Collection'
 
 export default {
   computed: {
@@ -96,7 +99,8 @@ export default {
   components: {
     ProductTile,
     MainSlider,
-    TileLinks
+    TileLinks,
+    Collection
   },
   mixins: [corePage('Home')]
 }
