@@ -13,7 +13,7 @@
       <div class="container">
         <div class="row bottom-md middle-sm center-xs pt45">
           <div class="col-md-6 col-sm-5 col-xs-8 colection-cover">
-            <img :src="coverImage">
+            <img :src="coverImage" :alt="title">
           </div>
           <div class="col-md-6 col-sm-7">
             <div class="row pb45 center-xs">
@@ -65,6 +65,10 @@
   }
 
   .colection-cover {
+    @media (max-width: 767px) {
+      display: none;
+    }
+
     img {
       width: 100%;
       mix-blend-mode: multiply;
