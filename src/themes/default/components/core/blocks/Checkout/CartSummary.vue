@@ -6,21 +6,29 @@
     </ul>
     <div v-if="items.length" class="checkout bg-lightgray pt10 serif c-black">
       <div class="row pt15 pb20 pl30 pr55 ">
-        <div class="col-xs">
-          Delivery
+        <div class="col-xs c-black">
+          Shipping ({{ shipping.name }})
         </div>
-        <div class="col-xs align-right">
-          {{ 10 | price }}
+        <div class="col-xs align-right c-black">
+          {{ shipping.cost | price }}
         </div>
       </div>
-      <div class="row pt20 pb20 pl30 pr55">
-        <div class="col-xs">
+      <div class="row pt15 pb20 pl30 pr55 ">
+        <div class="col-xs c-black">
+          Payment ({{ payment.name }})
+        </div>
+        <div class="col-xs align-right c-black" v-if='payment.cost > 0'>
+          {{ payment.cost | price }}
+        </div>
+      </div>
+<!--             <div class="row pt20 pb20 pl30 pr55">
+    <div class="col-xs">
           Taxes
         </div>
         <div class="col-xs align-right">
           {{ 10 | price }}
         </div>
-      </div>
+      </div> -->
       <div class="row pt20 pb20 pl30 pr55 weight-400 h3">
         <div class="col-xs">
           Order summary

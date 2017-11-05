@@ -6,7 +6,7 @@
       <li v-for='product in items'>
         {{ product.name }}
         {{ product.price }}
-        {{ product.quantity }}
+        {{ product.qty }}
       </li>
     </ul>  
   </div>

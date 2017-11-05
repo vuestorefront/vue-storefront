@@ -8,9 +8,13 @@ import { sync } from 'vuex-router-sync'
 import { registerFilters } from './lib/filters'
 import { registerTheme } from './lib/themes'
 import { registerExtensions } from './lib/extensions'
+import VueLazyload from 'vue-lazyload'
 
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+Vue.use(VueLazyload, {
+  attempt: 2
+})
 
 export function createApp () {
   sync(store, router)

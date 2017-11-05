@@ -19,10 +19,13 @@ export const CATALOG_UPD_SELECTED_VARIANT = SN_PRODUCT + '/UPD_SELECTED_VARIANT'
 export const SN_ATTRIBUTE = 'attribute'
 export const ATTRIBUTE_UPD_ATTRIBUTES = SN_ATTRIBUTE + '/UPD_ATTRIBUTES'
 
-export const SN_ORDER = 'ATTRIBUTE_UPD_ATTRIBUTES'
+export const SN_ORDER = 'order'
 export const ORDER_PLACE_ORDER = SN_ORDER + '/PLACE_ORDER'
 export const ORDER_PROCESS_QUEUE = SN_ORDER + '/PROCESS_QUEUE'
 export const ORDER_LOAD_QUEUE = SN_ORDER + '/LOAD_QUEUE'
+
+export const SN_CHECKOUT = 'checkout'
+export const CHECKOUT_PLACE_ORDER = SN_CHECKOUT + ' /PLACE_ORDER'
 
 export const SN_USER = 'user'
 export const USER_NEWSLETTER_SIGNUP = SN_USER + '/NEWSLETTER_SIGNUP'

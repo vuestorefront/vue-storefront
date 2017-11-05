@@ -10,7 +10,7 @@
           <shipping :is-active="activeSection.shipping"/>
           <payment :is-active="activeSection.payment"/>
           <order-review :is-active="activeSection.orderReview"/>
-          <button-full text="Place order" @click="placeOrder" />
+          <button @click="placeOrder" color="dark">Place order</button> <!-- FIX ME: button-full doesn't properly support @click -->
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -39,13 +39,28 @@ export default {
   name: 'Checkout',
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
-    EventBus.$on('checkout.personalDetails', (receivedData) => { this.personalDetails = receivedData })
-    EventBus.$on('checkout.shipping', (receivedData) => { this.shipping = receivedData })
+    EventBus.$on('network.status', (status) => { this.checkConnection(status) })
+
+    EventBus.$on('checkout.personalDetails', (receivedData, validationResult) => { this.personalDetails = receivedData; this.validationResults.personalDetails = validationResult })
+    EventBus.$on('checkout.shipping', (receivedData, validationResult) => { this.shipping = receivedData; this.validationResults.shipping = validationResult })
     EventBus.$on('checkout.orderHistory', (receivedData) => { this.orderHistory = receivedData })
+    EventBus.$on('checkout.payment', (receivedData, validationResult) => { this.payment = receivedData; this.validationResults.payment = validationResult })
     EventBus.$on('checkout.cartSummary', (receivedData) => { this.cartSummary = receivedData })
-    EventBus.$emit('notification', {
-      a: 'b'
-    })
+  },
+  computed: {
+    isValid () {
+      let isValid = true
+      for (let child of this.$children) {
+        console.log(child)
+        if (child.hasOwnProperty('$v')) {
+          if (child.$v.$invalid) {
+            isValid = false
+            break
+          }
+        }
+      }
+      return isValid
+    }
   },
   data () {
     return {
@@ -60,10 +75,24 @@ export default {
       shipping: {},
       payment: {},
       orderReview: {},
-      cartSummary: {}
+      cartSummary: {},
+      validationResults: {
+        personalDetails: { $invalid: true },
+        shipping: { $invalid: true },
+        payment: { $invalid: true }
+      }
     }
   },
   methods: {
+    checkConnection (status) {
+      if (!status.online) {
+        EventBus.$emit('notification', {
+          type: 'warning',
+          message: 'There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now.',
+          action1: { label: 'OK', action: 'close' }
+        })
+      }
+    },
     activateSection (activeSection) {
       for (let section in this.activeSection) {
         this.activeSection[section] = false
@@ -72,26 +101,26 @@ export default {
     },
     prepareOrder () {
       this.order = {
-        products: this.cartSummary,
+        products: this.$store.state.cart.cartItems,
         addressInformation: {
           shippingAddress: {
-            region: 'MH',
+            region: this.shipping.state,
             region_id: 0,
-            country_id: 'PL',
+            country_id: 'US', // TODO: translate country name to country id it should be = PL, US ... => http://www.nextbits.eu/blog/magento-country-codes-for-shipping-methods-table-rate/
             street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-            company: 'Company name',
+            company: 'Company name', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
             telephone: this.shipping.phoneNumber,
             postcode: this.shipping.zipCode,
             city: this.shipping.city,
             firstname: this.shipping.firstName,
             lastname: this.shipping.lastName,
             email: this.personalDetails.emailAddress,
-            region_code: 'MH'
+            region_code: ''
           },
           billingAddress: {
-            region: 'MH',
+            region: this.shipping.state,
             region_id: 0,
-            country_id: 'PL',
+            country_id: 'US',
             street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
             company: 'Company name',
             telephone: this.shipping.phoneNumber,
@@ -100,18 +129,27 @@ export default {
             firstname: this.personalDetails.firstName,
             lastname: this.personalDetails.lastName,
             email: this.personalDetails.emailAddress,
-            region_code: 'MH'
+            region_code: ''
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingMethod,
-          payment_method_code: 'cashondelivery'
+          payment_method_code: this.payment.paymentMethod
         }
       }
+      return this.order
     },
     placeOrder () {
-      this.prepareOrder()
-      console.log(this.order)
-      // TO-DO: Perform Vuex action to send order
+      this.checkConnection({ online: navigator.onLine })
+      if (this.isValid) {
+        this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
+        console.log(this.order)
+      } else {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: 'Please do correct validation errors',
+          action1: { label: 'OK', action: 'close' }
+        })
+      }
     }
   },
   components: {

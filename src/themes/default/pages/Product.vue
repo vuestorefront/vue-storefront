@@ -9,7 +9,7 @@
         </div>
         <div class="row py35">
           <div class="col-md-7 center-md middle-md">
-            <img class="product-image" v-bind:src="thumbnail" />
+            <img class="product-image" v-bind:src="thumbnail" ref="image"/>
           </div>
           <div class="col-md-5">
 
@@ -69,6 +69,9 @@ import { thumbnail } from 'src/lib/filters'
 export default {
   computed: {
     thumbnail () {
+      return thumbnail(this.product.image, 310, 300)
+    },
+    image () {
       return thumbnail(this.product.image, 570, 569)
     }
   },
@@ -79,7 +82,15 @@ export default {
     Breadcrumbs,
     ProductAttribute
   },
-  mixins: [corePage('Product')]
+  mixins: [corePage('Product')],
+  methods: {
+    setProductImage () {
+      this.$refs.image.src = this.image
+    }
+  },
+  mounted () {
+    this.setProductImage()
+  }
 }
 </script>
 
@@ -87,5 +98,6 @@ export default {
 .product-image {
   display: inline-flex;
   mix-blend-mode: multiply;
+  width: 460px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row pr55 pt20 pb20">
-      <img :src="thumbnail" />
+      <img v-lazy="thumbnail" />
       <div class="col-xs pl40 pb15 pt15">
         <div>
           <div>{{ product.name }}</div>
@@ -9,7 +9,7 @@
         </div>
         <div>
           <div><span class="h6 c-darkgray">Qty </span> 
-          <span class="h6 weight-400" :class="{ hidden: isEditing }">{{ product.quantity }}</span>
+          <span class="h6 weight-400" :class="{ hidden: isEditing }">{{ product.qty }}</span>
           <span :class="{ hidden: !isEditing }">
             <input class="h6" type="number" v-model.number="qty" @change="updateQuantity">
           </span>
@@ -48,12 +48,12 @@ export default {
     },
     updateQuantity () {
       if (this.qty <= 0) {
-        this.qty = this.product.quantity
+        this.qty = this.product.qty
       }
-      this.$store.dispatch('cart/updateQuantity', { product: this.product, quantity: this.qty })
+      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: this.qty })
     },
     switchEdit () {
-      this.isEditing ? this.updateQuantity() : this.qty = this.product.quantity
+      this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
       this.isEditing = !this.isEditing
     }
   },

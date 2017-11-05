@@ -93,6 +93,13 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
       }
     }
     return res
+  }).catch((err) => {
+    console.error(err)
+    EventBus.$emit('notification', {
+      type: 'warning',
+      message: 'No products synchronized for this category. Please come back while online!',
+      action1: { label: 'OK', action: 'close' }
+    })
   })
 }
 

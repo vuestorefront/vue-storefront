@@ -19,19 +19,19 @@ const store = {
       if (!record) {
         state.cartItems.push({
           ...product,
-          quantity: 1
+          qty: 1
         })
       } else {
-        record.quantity++
+        record.qty++
       }
       console.log(state.cartItems)
     },
     [types.CART_DEL_ITEM] (state, { product }) {
       state.cartItems = state.cartItems.filter(p => p.id !== product.id)
     },
-    [types.CART_UPD_ITEM] (state, { product, quantity }) {
+    [types.CART_UPD_ITEM] (state, { product, qty }) {
       const record = state.cartItems.find(p => p.id === product.id)
-      record.quantity = quantity
+      record.qty = qty
     },
     [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
       state.shipping.cost = shippingCost
@@ -46,10 +46,10 @@ const store = {
     totals (state) {
       return {
         subtotal: _.sumBy(state.cartItems, (p) => {
-          return p.quantity * p.price
+          return p.qty * p.price
         }),
         quantity: _.sumBy(state.cartItems, (p) => {
-          return p.quantity
+          return p.qty
         })
       }
     }
@@ -61,7 +61,7 @@ const store = {
       const state = context.state
 
       if (!state.shipping.code) {
-        state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el })
+        state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el }) // TODO: use commit() instead of modifying the state in actions
       }
       if (!state.payment.code) {
         state.payment = rootState.payment.methods.find((el) => { if (el.default === true) return el })
@@ -88,8 +88,8 @@ const store = {
     removeItem ({ commit }, product) {
       commit(types.CART_DEL_ITEM, { product })
     },
-    updateQuantity ({ commit }, { product, quantity }) {
-      commit(types.CART_UPD_ITEM, { product, quantity })
+    updateQuantity ({ commit }, { product, qty }) {
+      commit(types.CART_UPD_ITEM, { product, qty })
     },
     changeShippingMethod ({ commit }, { shippingMethod, shippingCost }) {
       commit(types.CART_UPD_SHIPPING, { shippingMethod, shippingCost })
