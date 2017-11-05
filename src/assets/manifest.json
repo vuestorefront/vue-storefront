@@ -31,5 +31,5 @@
         "sizes": "192x192"
       }
     ],
-    "start_url": "/pwa-homepage"
+    "start_url": "/index.html"
   }
