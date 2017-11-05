@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './themes/default/App.vue'
 import store from './store'
 import router from './router'
-import config from './config'
+import config from './config.json'
 import { sync } from 'vuex-router-sync'
 
 import { registerFilters } from './lib/filters'
