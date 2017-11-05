@@ -393,11 +393,6 @@ class Manager extends Abstract {
       Message.info('Trying to create log files...')
 
       try {
-        Abstract.logsWereCreated = false
-        Abstract.infoLogStream = '/dev/null'
-        Abstract.storefrontLogStream = '/dev/null'
-        Abstract.backendLogStream = '/dev/null'
-
         mkdirp.sync(LOG_DIR, {mode: parseInt('0755', 8)})
 
         let logFiles = [
@@ -430,7 +425,6 @@ class Manager extends Abstract {
    * @returns {Promise}
    */
   initBackend () {
-    Abstract.wasLocalBackendInstalled = false
     if (this.answers.is_remote_backend === false) {
       Abstract.wasLocalBackendInstalled = true
 
@@ -572,6 +566,15 @@ let questions = [
  */
 Manager.checkUserOS()
 Manager.showWelcomeMessage()
+
+/**
+ * Predefine class static variables
+ */
+Abstract.wasLocalBackendInstalled = false
+Abstract.logsWereCreated = false
+Abstract.infoLogStream = '/dev/null'
+Abstract.storefrontLogStream = '/dev/null'
+Abstract.backendLogStream = '/dev/null'
 
 /**
  * This is where all the magic happens
