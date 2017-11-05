@@ -44,12 +44,11 @@ if (process.env.NODE_ENV === 'production') {
       filename: 'service-worker.js',
       staticFileGlobsIgnorePatterns: [/\.map$/],
       staticFileGlobs: [
-        'dist/**.*'
+        'dist/**.*',
+        'assets/**.*',
+        'index.html'
       ],      
-      runtimeCaching: [{
-        urlPattern: "/", /** cache the html stub  */
-        handler: "networkFirst"
-      },
+      runtimeCaching: [
       {
         urlPattern: "/p/*", /** cache the html stub  */
         handler: "networkFirst"
@@ -66,6 +65,9 @@ if (process.env.NODE_ENV === 'production') {
         handler: "cacheFirst"
       },{
         urlPattern: "/dist/logo.png",
+        handler: "cacheFirst"
+      },{
+        urlPattern: "/index.html",
         handler: "cacheFirst"
       },{
         urlPattern: "/assets/*",
