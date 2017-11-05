@@ -1,0 +1,35 @@
+{
+    "short_name": "VueStorefront",
+    "name": "Vue-storefront eCommerce",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1B2A3A",
+    "icons": [
+      {
+        "src": "/assets/launcher-icon-1x.png",
+        "type": "image/png",
+        "sizes": "48x48"
+      },
+      {
+        "src": "/assets/launcher-icon-2x.png",
+        "type": "image/png",
+        "sizes": "96x96"
+      },
+      {
+        "src": "/assets/launcher-icon-144x144.png",
+        "type": "image/png",
+        "sizes": "144x144"
+      },
+      {
+        "src": "/assets/launcher-icon-168x168.png",
+        "type": "image/png",
+        "sizes": "168x168"
+      },
+      {
+        "src": "/assets/launcher-icon-4x.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      }
+    ],
+    "start_url": "/"
+  }
