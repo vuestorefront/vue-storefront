@@ -2,7 +2,7 @@
     {
         "name": "Cash on delivery",
         "code": "cashondelivery",
-        "cost": 2, 
+        "cost": 0, 
         "default": true,
         "offline": true
     }
