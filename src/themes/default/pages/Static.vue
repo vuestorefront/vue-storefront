@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bg-lightgray p45">
-      <h5 class="mt0 c-lightgray">{{ breadcrumbs }}</h5>
+      <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
       <h2>{{ this.$props.title }}</h2>
     </div>
     <div class="p45 pt0">
@@ -11,22 +11,19 @@
 </template>
 
 <script>
+import Breadcrumbs from '../components/core/Breadcrumbs'
 import staticpage from '../resource/lorem.md'
 import Meta from 'src/lib/meta'
 
 export default {
   components: {
+    Breadcrumbs,
     staticpage
   },
   mixins: [Meta],
   meta () {
     return {
       title: this.$props.title
-    }
-  },
-  data () {
-    return {
-      breadcrumbs: 'Homepage / ' + this.$props.title
     }
   },
   props: ['page', 'title'],
@@ -42,7 +39,4 @@ export default {
 </script>
 
 <style scoped>
-  .hidden {
-    display: none;
-  }
 </style>
