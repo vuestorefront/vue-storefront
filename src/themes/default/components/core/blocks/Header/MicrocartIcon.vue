@@ -1,5 +1,5 @@
 <template>
-  <div class="microcart-icon" @click="toggleMicrocart">
+  <div class="microcart-icon inline-flex" @click="toggleMicrocart">
     <i class="material-icons md-18">shopping_cart</i>
     <span class="minicart-count brdr-circle fs-10 weight-700 bg-gray c-white" v-cloak>{{totals.quantity}}</span>
   </div>
@@ -14,10 +14,6 @@ export default {
 </script>
 
 <style scoped>
-  .microcart-icon {
-    display: inline-flex;
-  }
-
   .minicart-count {
     position: relative;
     top: -5px;
