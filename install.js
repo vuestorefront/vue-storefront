@@ -64,6 +64,8 @@ class Message {
       '',
       `Please check log file for details: ${logFile}`
     ], {borderColor: 'red', marginBottom: 1})
+
+    shell.exit(1)
   }
 
   /**
@@ -343,7 +345,7 @@ class Storefront extends Abstract {
     return new Promise((resolve, reject) => {
       Message.info('Build storefront npm...')
 
-      if (shell.exec(`npm run build > /dev/null 2>&1`).code !== 0) {
+      if (shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>$1`).code !== 0) {
         reject('Can\'t build storefront npm.')
       }
 
@@ -360,7 +362,7 @@ class Storefront extends Abstract {
     return new Promise((resolve, reject) => {
       Message.info('Starting storefront server...')
 
-      if (shell.exec(`nohup npm run dev > ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
+      if (shell.exec(`nohup npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
         reject('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE)
       }
 
