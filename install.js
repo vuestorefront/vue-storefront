@@ -57,12 +57,18 @@ class Message {
       text = text[0].stack.split('\n')
     }
 
+    let logDetailsInfo = `Please check log file for details: ${logFile}`
+
+    if (!Abstract.logsWereCreated) {
+      logDetailsInfo = 'Try to fix problem with logs to see the error details.'
+    }
+
     message([
       'ERROR',
       '',
       ...text,
       '',
-      `Please check log file for details: ${logFile}`
+      logDetailsInfo
     ], {borderColor: 'red', marginBottom: 1})
 
     shell.exit(1)
@@ -346,7 +352,7 @@ class Storefront extends Abstract {
       Message.info('Build storefront npm...')
 
       if (shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>$1`).code !== 0) {
-        reject('Can\'t build storefront npm.')
+        reject('Can\'t build storefront npm.', VUE_STOREFRONT_LOG_FILE)
       }
 
       resolve()
