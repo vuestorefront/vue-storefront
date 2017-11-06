@@ -58,10 +58,10 @@ if (process.env.NODE_ENV === 'production') {
         handler: "networkFirst"
       },
       {
-        urlPattern: "https://demo.vuestorefront.io/img/*", /** cache the html stub  */
+        urlPattern: "/img/*", 
         handler: "cacheFirst"
       },{
-        urlPattern: "https://demo.vuestorefront.io/api/*", /** cache the html stub  */
+        urlPattern: "/api/*", 
         handler: "cacheFirst"
       },{
         urlPattern: "/dist/logo.png",
