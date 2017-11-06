@@ -49,6 +49,10 @@ if (process.env.NODE_ENV === 'production') {
         'index.html'
       ],      
       runtimeCaching: [
+       {
+        urlPattern: "/", /** cache the html stub  */
+        handler: "networkFirst"
+      },
       {
         urlPattern: "/p/*", /** cache the html stub  */
         handler: "networkFirst"
@@ -58,7 +62,7 @@ if (process.env.NODE_ENV === 'production') {
         handler: "networkFirst"
       },
       {
-        urlPattern: "/img/*", 
+        urlPattern: "/img/(.*)", 
         handler: "cacheFirst"
       },{
         urlPattern: "/api/*", 
