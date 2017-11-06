@@ -142,11 +142,10 @@ export default {
 
           if (!self.category) {
             self.$router.push('/')
-          } else {
-            self.fetchData({store: store, route: route})
           }
         })
       })
+      self.fetchData({store: store, route: route})
     }
   },
   watch: {

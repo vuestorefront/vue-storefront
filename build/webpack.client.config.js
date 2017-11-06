@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === 'production') {
       },
       {
         urlPattern: "/img/(.*)", 
-        handler: "cacheFirst"
+        handler: "fastest"
       },{
         urlPattern: "/api/*", 
         handler: "cacheFirst"
@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'production') {
         urlPattern: "/assets/*",
         handler: "cacheFirst"
       },{
-        urlPattern: "/dist/*",
+        urlPattern: "/dist/(.*)",
         handler: "cacheFirst"
       },{
         urlPattern:'/api/catalog/*', /** cache products catalog */
