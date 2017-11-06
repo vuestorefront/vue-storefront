@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div class="bg-lightgray p45">
-      <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
-      <h2>{{ this.$props.title }}</h2>
+    <div class="bg-lightgray py35 pl20">
+      <div class="container">
+        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
+        <h2>{{ this.$props.title }}</h2>
+      </div>
     </div>
     <div class="p45 pt0">
       <staticpage/>
