@@ -73,7 +73,7 @@ export default {
       order: {},
       personalDetails: {},
       shipping: {},
-      payment: {},
+      payment: { paymentMethod: 'cashondelivery' },
       orderReview: {},
       cartSummary: {},
       validationResults: {
@@ -108,7 +108,7 @@ export default {
             region_id: 0,
             country_id: 'US', // TODO: translate country name to country id it should be = PL, US ... => http://www.nextbits.eu/blog/magento-country-codes-for-shipping-methods-table-rate/
             street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-            company: 'Company name', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
+            company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
             telephone: this.shipping.phoneNumber,
             postcode: this.shipping.zipCode,
             city: this.shipping.city,
@@ -122,7 +122,7 @@ export default {
             region_id: 0,
             country_id: 'US',
             street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-            company: 'Company name',
+            company: 'NA',
             telephone: this.shipping.phoneNumber,
             postcode: this.shipping.zipCode,
             city: this.shipping.city,
