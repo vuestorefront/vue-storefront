@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ 'no-scroll': scroll }">
+  <div id="app" class="pt55" :class="{ 'no-scroll': scroll }">
     <div id="viewport">
       <notification />
       <overlay />

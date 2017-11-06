@@ -62,7 +62,7 @@ ul {
     position: fixed;
     transform: translateX(-100%);
     z-index: 2;
-    transition: transform 500ms $motion-main;
+    transition: transform 300ms $motion-main;
 }
 .sidebar-menu.active {
     transform: translateX(0);

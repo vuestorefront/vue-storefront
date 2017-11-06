@@ -80,7 +80,7 @@ export default {
       top: 0;
       z-index: 2;
       transform: translateX(100%);
-      transition: transform 500ms $motion-main;
+      transition: transform 300ms $motion-main;
       overflow-y: auto;
       overflow-x: hidden;
   }

@@ -1,5 +1,5 @@
 <template>
-    <header class="brdr-underline">
+    <header class="brdr-underline bg-white">
         <div class="container">
             <div class="row middle-xs">
                 <div class="col-md-2 middle-md">
@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 end-md">
-                    <div class="box">
+                    <div class="box inline-flex">
                         <search-icon class="p15 icon" />
                         <wishlist-icon class="p15 icon" />         
                         <microcart-icon class="p15 icon" />
@@ -49,6 +49,10 @@ export default {
 <style scoped>
     header {
         border-bottom-color: #E0E0E0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 2;
     }
     .icon {
         opacity: 0.6;
