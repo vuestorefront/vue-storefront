@@ -6,6 +6,7 @@ const exists = require('fs-exists-sync')
 const message = require('print-message')
 const inquirer = require('inquirer')
 const jsonFile = require('jsonfile')
+const urlParser = require('url-parse')
 const isWindows = require('is-windows')
 const isEmptyDir = require('empty-dir')
 const commandExists = require('command-exists')
@@ -203,6 +204,14 @@ class Backend extends Abstract {
 
       try {
         config = jsonFile.readFileSync(SOURCE_CONFIG_FILE)
+        let host = urlParser(this.answers.images_endpoint).host
+
+        if (!host.length) {
+          throw new Error()
+        }
+
+        config.imageable.whitelist.allowedHosts.push(host)
+        config.imageable.whitelist.trustedHosts.push(host)
 
         jsonFile.writeFileSync(TARGET_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
@@ -351,7 +360,7 @@ class Storefront extends Abstract {
     return new Promise((resolve, reject) => {
       Message.info('Build storefront npm...')
 
-      if (shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>$1`).code !== 0) {
+      if (shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>&1`).code !== 0) {
         reject('Can\'t build storefront npm.', VUE_STOREFRONT_LOG_FILE)
       }
 
@@ -565,7 +574,10 @@ let questions = [
     type: 'input',
     name: 'images_endpoint',
     message: 'Please provide path for images endpoint',
-    default: `${STOREFRONT_REMOTE_BACKEND_URL}/img`
+    default: `${STOREFRONT_REMOTE_BACKEND_URL}/img`,
+    filter: function (url) {
+      return url.slice(-1) === '/' ? url : `${url}/`
+    }
   }
 ]
 
