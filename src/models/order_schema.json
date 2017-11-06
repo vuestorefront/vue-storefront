@@ -33,7 +33,7 @@
                 "shippingAddress": {
                     "required": [ "street", "city", "postcode", "firstname", "lastname" ],
                     "properties": {
-                        "region": { "type": "string", "pattern": "[a-zA-Z]" },
+                        "region": { "type": "string" },
                         "region_id": { "type": "number" },
                         "country_id": { "type": "string", "pattern": "[a-zA-Z]" },
                         "street": {
@@ -56,7 +56,7 @@
                     "required": [ "street", "city", "postcode", "firstname", "lastname" ],
                     "properties": {
                         "properties": {
-                            "region": { "type": "string", "pattern": "[a-zA-Z]" },
+                            "region": { "type": "string" },
                             "region_id": { "type": "number" },
                             "country_id": { "type": "string", "pattern": "[a-zA-Z]" },
                             "street": {
