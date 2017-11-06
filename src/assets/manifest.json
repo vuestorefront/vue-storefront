@@ -1,9 +1,9 @@
 {
-    "short_name": "Vue Store",
-    "name": "Vue.js eCommerce",
+    "short_name": "Vue Storefront",
+    "name": "Vue Storefront - PWA for eCommerce",
     "background_color": "#ffffff",
     "display": "standalone",
-    "theme_color": "#1B2A3A",
+    "theme_color": "#ffffff",
     "icons": [
       {
         "src": "/assets/launcher-icon-1x.png",
