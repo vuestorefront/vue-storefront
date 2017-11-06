@@ -43,7 +43,7 @@ export default {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: 0.5s all $motion-main;
+  transition: 0.3s all $motion-main;
 }
 .overlay:hover {
   opacity: 0.75;

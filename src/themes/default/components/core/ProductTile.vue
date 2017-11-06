@@ -24,11 +24,11 @@ export default {
 .product-image > img {
   height: 100%;
   mix-blend-mode: multiply;
-  transition: 0.5s all $motion-main;
+  transition: 0.3s all $motion-main;
 }
 .product-image:hover > img {
   transform: scale(1.1);
-  transition: 0.5s all $motion-main;
+  transition: 0.3s all $motion-main;
 }
 .product-image {
   width: 100%;
