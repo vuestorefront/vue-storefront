@@ -1,7 +1,8 @@
 {
-    "short_name": "VueStorefront",
-    "name": "Vue-storefront eCommerce",
+    "short_name": "Vue Store",
+    "name": "Vue.js eCommerce",
     "background_color": "#ffffff",
+    "display": "standalone",
     "theme_color": "#1B2A3A",
     "icons": [
       {
