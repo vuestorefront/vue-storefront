@@ -1,7 +1,6 @@
 {
     "short_name": "VueStorefront",
     "name": "Vue-storefront eCommerce",
-    "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#1B2A3A",
     "icons": [

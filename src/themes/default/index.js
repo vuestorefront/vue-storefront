@@ -7,6 +7,7 @@ import UIStore from './store/ui-store'
 
 const routes = [
     { path: '/', component: Home },
+    { path: 'index.html', component: Home },
     { name: 'checkout', path: '/checkout', component: Checkout },
     { name: 'category', path: '/c/:slug', component: Category },
     { name: 'product', path: '/p/:id/:slug', component: Product },
