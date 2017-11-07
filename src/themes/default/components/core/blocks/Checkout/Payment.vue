@@ -5,14 +5,14 @@
         <h3>Payment</h3>
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-show="this.isActive">
       <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
-        <label><input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod" v-on:change="sendDataToCheckout"> {{ method.name }} | {{ method.cost | price }} </label>
+        <label><input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod"> {{ method.name }} | {{ method.cost | price }} </label>
       </div>
       <span class="validation-error" v-if="!$v.payment.paymentMethod.required">Field is required</span>
       
       <div class="col-md-12 my30">
-        <button-full @click="sendDataToCheckout" text="Go review the order" color="dark" />
+        <button-full @click.native="sendDataToCheckout" text="Go review the order"/>
       </div>
     </div>
   </div>

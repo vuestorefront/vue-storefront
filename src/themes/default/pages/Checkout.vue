@@ -10,7 +10,7 @@
           <shipping :is-active="activeSection.shipping"/>
           <payment :is-active="activeSection.payment"/>
           <order-review :is-active="activeSection.orderReview"/>
-          <button-full @click="placeOrder" color="dark" /> <!-- FIX ME: button-full doesn't properly support @click -->
+          <button-full v-show="activeSection.orderReview" text="Place the order" @click.native="placeOrder" />
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -79,9 +79,9 @@ export default {
     return {
       activeSection: {
         personalDetails: true,
-        shipping: true,
-        payment: true,
-        orderReview: true
+        shipping: false,
+        payment: false,
+        orderReview: false
       },
       order: {},
       personalDetails: {},

@@ -5,10 +5,11 @@
         <h3>Shipping</h3>
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-show="this.isActive">
       <div class="col-md-6 mb25">
         <input type="text" name="first-name" placeholder="First name" v-model="shipping.firstName">
-        <span class="validation-error" v-if="!$v.shipping.firstName.required">Field is required</span><span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{$v.shipping.firstName.$params.minLength.min}} letters.</span>
+        <span class="validation-error" v-if="!$v.shipping.firstName.required">Field is required</span>
+        <span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{$v.shipping.firstName.$params.minLength.min}} letters.</span>
       </div>
       <div class="col-md-6 mb25">
         <input type="text" name="last-name" placeholder="Last name" v-model="shipping.lastName">
@@ -41,11 +42,11 @@
         <h4>Shipping method</h4>
       </div>
       <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
-        <label><input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod" v-on:change="sendDataToCheckout"> {{ method.name }} | {{ method.cost | price }} </label>
+        <label><input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod"> {{ method.name }} | {{ method.cost | price }} </label>
       </div>
       <span class="validation-error" v-if="!$v.shipping.shippingMethod.required">Field is required</span>
       <div class="col-md-12 my30">
-        <button-full v-on:click="sendDataToCheckout" text="Continue to payment"/>
+        <button-full @click.native="sendDataToCheckout" text="Continue to payment"/>
       </div>
     </div>
 
