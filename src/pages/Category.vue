@@ -135,17 +135,17 @@ export default {
       }
       let slug = route.params.slug
 
-      store.dispatch('category/list', {}).then((categories) => {
-        store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
-          store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
-          self.setMeta()
+      store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
+        store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
+        self.setMeta()
 
-          if (!self.category) {
-            self.$router.push('/')
-          }
-        })
+        if (!self.category) {
+          self.$router.push('/')
+        } else {
+          self.fetchData({store: store, route: route})
+        }
       })
-      self.fetchData({store: store, route: route})
+
     }
   },
   watch: {
