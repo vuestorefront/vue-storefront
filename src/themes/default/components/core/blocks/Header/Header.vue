@@ -1,22 +1,22 @@
 <template>
     <header class="brdr-underline bg-white">
         <div class="container">
-            <div class="row middle-xs">
-                <div class="col-md-2 middle-md">
+            <div class="row between-xs middle-xs">
+                <div class="col-md-2 middle-xs">
                     <div class="box">
                         <hamburger-icon class="p15 icon"/>
                     </div>
                 </div>
-                <div class="col-md-8 center-md">
+                <div class="col-md-8 center-xs">
                     <div class="box">              
                         <logo width="36px" height="41px"/>
                     </div>
                 </div>
-                <div class="col-md-2 end-md">
+                <div class="col-md-2 end-xs">
                     <div class="box inline-flex">
-                        <search-icon class="p15 icon" />
-                        <wishlist-icon class="p15 icon" />         
-                        <microcart-icon class="p15 icon" />
+                        <search-icon class="p15 icon search-icon" />
+                        <wishlist-icon class="p15 icon wishlist-icon" />         
+                        <microcart-icon class="p15 icon microcart-icon" />
                     </div>
                 </div>
             </div>
@@ -62,5 +62,12 @@ export default {
         cursor: pointer;
         opacity: 1;
     }
-    @media (max-width: )
+    @media (max-width: 510px) {
+        .search-icon {
+            display: none;
+        }
+        .wishlist-icon {
+            display: none;
+        }
+    }
 </style>
