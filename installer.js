@@ -628,7 +628,7 @@ Abstract.infoLogStream = '/dev/null'
 Abstract.storefrontLogStream = '/dev/null'
 Abstract.backendLogStream = '/dev/null'
 
-if (path.basename(require.main.filename) === 'install.js') {
+if (path.basename(require.main.filename) === path.basename(__filename)) {
   /**
    * Pre-loading staff
    */

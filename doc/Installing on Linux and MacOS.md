@@ -21,7 +21,7 @@ You need to use https://github.com/DivanteLtd/vue-storefront.
 git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
 cd vue-storefront
 npm install
-npm run install
+npm run installer
 ```
 
 After answering some questions precess would start automatically. Enjoy :)
