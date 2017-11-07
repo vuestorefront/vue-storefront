@@ -1,12 +1,8 @@
 <template>
   <div class="tile-links">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="row center-xs p15">
-          <div class="col-md-4 p15" v-for="tile in social_tiles">
-            <tile-link :tile="tile" />
-          </div>
-        </div>
+    <div class="row center-xs">
+      <div class="tile-container middle-xs center-xs row col-md-4 p15" v-for="tile in social_tiles">
+        <tile-link :tile="tile" />
       </div>
     </div>
   </div>
@@ -29,5 +25,5 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 </style>
