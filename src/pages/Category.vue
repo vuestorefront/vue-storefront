@@ -145,7 +145,6 @@ export default {
           self.fetchData({store: store, route: route})
         }
       })
-
     }
   },
   watch: {
