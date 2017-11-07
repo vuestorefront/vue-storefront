@@ -50,6 +50,7 @@ export default {
     header {
         border-bottom-color: #E0E0E0;
         position: fixed;
+        height: 55px;
         top: 0;
         width: 100%;
         z-index: 2;
