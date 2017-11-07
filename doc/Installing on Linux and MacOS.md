@@ -1,11 +1,32 @@
-
-## Installation
+# Installation
 
 To make vue-storefront up and runing you need to have the latest version of node (v8.3.0 used for development). You'll also need docker - or ElasticSearch + Redis installed on localhost instead. The steps below are tested on MacOS and Linux environments.
 
 If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
 
 Let's go:
+
+## User-friendly installation
+
+If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
+
+### Requirements
+1. Docker
+2. Node.js (with npm package)
+
+### Installing
+You need to use https://github.com/DivanteLtd/vue-storefront.
+
+```
+git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
+cd vue-storefront
+npm install
+```
+
+After answering some questions precess would start automatically. Enjoy :)
+
+
+## Manual installation
 
 ### Install the vue-storefront-api
 You need to use https://github.com/DivanteLtd/vue-storefront-api.
@@ -64,8 +85,8 @@ npm install
 You have to prepare the config:
 
 ```
-cp src/config.example.js src/config.js
-nano config.js
+cp src/config.example.json src/config.json
+nano config.json
 ```
 
 And then you can build app and run dev server:
