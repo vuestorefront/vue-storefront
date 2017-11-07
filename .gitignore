@@ -5,6 +5,5 @@ npm-debug.log
 .vscode/
 .idea/
 yarn.lock
-src/config.json
+src/config.js
 package-lock.json
-var

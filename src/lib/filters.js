@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import config from '../config.json'
+import config from '../config'
 
 /**
  * Return thumbnail url for specific base url
