@@ -1,5 +1,5 @@
 <template>
-  <div class="product-listing row center-xs">
+  <div class="product-listing row start-xs">
     <div v-for="product in products" :key="product.id" :class="'col-md-' + (12/columns)%10">
       <product-tile :product="product" />
     </div>
