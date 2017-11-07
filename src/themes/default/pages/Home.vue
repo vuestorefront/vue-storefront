@@ -83,13 +83,18 @@ export default {
           size: 8,
           sort: 'created_at:desc'
         }).then(function (res) {
-          store.state.homepage.new_collection = res.items
+          if (res) {
+            store.state.homepage.new_collection = res.items
+          }
+
           store.dispatch('product/list', {
             query: coolBagsQuery,
             size: 4,
             sort: 'created_at:desc'
           }).then(function (res) {
-            store.state.homepage.coolbags_collection = res.items
+            if (res) {
+              store.state.homepage.coolbags_collection = res.items
+            }
             return resolve()
           })
         })

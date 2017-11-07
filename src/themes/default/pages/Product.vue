@@ -85,7 +85,9 @@ export default {
   mixins: [corePage('Product')],
   methods: {
     setProductImage () {
-      this.$refs.image.src = this.image
+      if (navigator.onLine) {
+        this.$refs.image.src = this.image
+      }
     }
   },
   mounted () {
