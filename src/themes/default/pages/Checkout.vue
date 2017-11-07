@@ -10,7 +10,7 @@
           <shipping :is-active="activeSection.shipping"/>
           <payment :is-active="activeSection.payment"/>
           <order-review :is-active="activeSection.orderReview"/>
-          <button @click="placeOrder" color="dark">Place order</button> <!-- FIX ME: button-full doesn't properly support @click -->
+          <button-full v-show="activeSection.orderReview" text="Place the order" @click.native="placeOrder" />
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -41,11 +41,24 @@ export default {
     // TO-DO: Dont use event bus ad use v-on at components (?)
     EventBus.$on('network.status', (status) => { this.checkConnection(status) })
 
-    EventBus.$on('checkout.personalDetails', (receivedData, validationResult) => { this.personalDetails = receivedData; this.validationResults.personalDetails = validationResult })
-    EventBus.$on('checkout.shipping', (receivedData, validationResult) => { this.shipping = receivedData; this.validationResults.shipping = validationResult })
-    EventBus.$on('checkout.orderHistory', (receivedData) => { this.orderHistory = receivedData })
-    EventBus.$on('checkout.payment', (receivedData, validationResult) => { this.payment = receivedData; this.validationResults.payment = validationResult })
-    EventBus.$on('checkout.cartSummary', (receivedData) => { this.cartSummary = receivedData })
+    EventBus.$on('checkout.personalDetails', (receivedData, validationResult) => {
+      this.personalDetails = receivedData
+      this.validationResults.personalDetails = validationResult
+      this.activateSection('shipping')
+    })
+    EventBus.$on('checkout.shipping', (receivedData, validationResult) => {
+      this.shipping = receivedData
+      this.validationResults.shipping = validationResult
+      this.activateSection('payment')
+    })
+    EventBus.$on('checkout.payment', (receivedData, validationResult) => {
+      this.payment = receivedData
+      this.validationResults.payment = validationResult
+      this.activateSection('orderReview')
+    })
+    EventBus.$on('checkout.cartSummary', (receivedData) => {
+      this.cartSummary = receivedData
+    })
   },
   computed: {
     isValid () {
@@ -66,9 +79,9 @@ export default {
     return {
       activeSection: {
         personalDetails: true,
-        shipping: true,
-        payment: true,
-        orderReview: true
+        shipping: false,
+        payment: false,
+        orderReview: false
       },
       order: {},
       personalDetails: {},
@@ -93,11 +106,12 @@ export default {
         })
       }
     },
-    activateSection (activeSection) {
+    activateSection (sectionToActivate) {
       for (let section in this.activeSection) {
         this.activeSection[section] = false
       }
-      activeSection = true
+      this.activeSection[sectionToActivate] = true
+      console.log(sectionToActivate)
     },
     prepareOrder () {
       this.order = {

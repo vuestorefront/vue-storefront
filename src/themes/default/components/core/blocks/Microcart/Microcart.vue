@@ -72,12 +72,12 @@ export default {
 @import "../../../../css/transitions.scss";
 
   .microcart {
-      height: 100vh;
+      height: calc(100vh - 55px);
       width: 800px;
+      top: 55px;
       right: 0;
       max-width: 100%;
       position: fixed;
-      top: 0;
       z-index: 2;
       transform: translateX(100%);
       transition: transform 300ms $motion-main;

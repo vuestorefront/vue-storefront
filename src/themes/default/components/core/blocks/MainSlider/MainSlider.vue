@@ -6,10 +6,10 @@
                 <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
                     <div class="row middle-xs center-xs">
                         <div class="col-md-12 px10p">
-                            <p class="mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
-                            <h1 class="mt0 mb30 align-center">{{ slide.title }}</h1>
+                            <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
+                            <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
                             <div class="align-center">
-                                <button-outline :text="slide.button_text" color="light" />
+                                <button-outline class="button" :text="slide.button_text" color="light" />
                             </div>
                         </div>
                     </div>
@@ -53,5 +53,36 @@ h1 {
 }
 .row {
     height: 640px;
+}
+@media (max-width: 75em) {
+    .main-slider {
+        height: 400px;
+    }
+    .title {
+        font-size: 50px;
+    }
+    .subtitle {
+        font-size: 20px;
+    }
+    .row {
+        height: 400px;
+    }
+}
+@media (max-width: 64em) {
+    .main-slider {
+        height: 300px;
+    }
+    .title {
+        font-size: 48px;
+    }
+    .subtitle {
+        font-size: 18px;
+    }
+    .button {
+        font-size: 16px;
+    }
+    .row {
+        height: 300px;
+    }
 }
 </style>

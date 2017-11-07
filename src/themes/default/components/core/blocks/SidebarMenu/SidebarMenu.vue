@@ -53,10 +53,10 @@ ul {
 }
 
 .sidebar-menu {
-    height: 100vh;
+    height: calc(100vh - 55px);
     width: 350px;
     max-width: 100%;
-    top: 0;
+    top: 55px;
     left: 0;
     overflow: hidden;
     position: fixed;
