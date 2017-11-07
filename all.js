@@ -1,10 +1,10 @@
 'use strict'
 
 const shell = require('shelljs')
-const install = require('./install')
 const jsonFile = require('jsonfile')
+const installer = require('./installer')
 
-class Manager extends install.Manager {
+class Manager extends installer.Manager {
   /**
    * {@inheritDoc}
    */
@@ -31,7 +31,7 @@ class Manager extends install.Manager {
    * {@inheritDoc}
    */
   static showWelcomeMessage () {
-    install.Message.greeting([
+    installer.Message.greeting([
       'Hi, seat, relax...',
       'I\'ll start everything for you ;)'
     ])
@@ -42,14 +42,14 @@ class Manager extends install.Manager {
    */
   showGoodbyeMessage () {
     return new Promise((resolve, reject) => {
-      install.Message.greeting([
+      installer.Message.greeting([
         'Congratulations!',
         '',
         'You\'ve just successfully started vue-storefront.',
         'All required servers are running in background',
         '',
         'Storefront: http://localhost:3000',
-        'Backend: ' + (Manager.isBackendInstalledLocally() ? 'http://localhost:8080' : install.STOREFRONT_REMOTE_BACKEND_URL),
+        'Backend: ' + (Manager.isBackendInstalledLocally() ? 'http://localhost:8080' : installer.STOREFRONT_REMOTE_BACKEND_URL),
         '',
         'Good Luck!'
       ], true)
@@ -64,13 +64,13 @@ class Manager extends install.Manager {
    * @returns {boolean}
    */
   static isBackendInstalledLocally () {
-    if (typeof install.Abstract.wasLocalBackendInstalled === 'undefined') {
-      let config = jsonFile.readFileSync(install.TARGET_CONFIG_FILE)
+    if (typeof installer.Abstract.wasLocalBackendInstalled === 'undefined') {
+      let config = jsonFile.readFileSync(installer.TARGET_CONFIG_FILE)
 
-      install.Abstract.wasLocalBackendInstalled = Boolean(config.install.is_local_backend)
+      installer.Abstract.wasLocalBackendInstalled = Boolean(config.install.is_local_backend)
     }
 
-    return Boolean(install.Abstract.wasLocalBackendInstalled)
+    return Boolean(installer.Abstract.wasLocalBackendInstalled)
   }
 
   /**
@@ -79,21 +79,21 @@ class Manager extends install.Manager {
    * @returns {string}
    */
   static getBackendDirectory () {
-    if (typeof install.Abstract.backendDir === 'undefined') {
-      let config = jsonFile.readFileSync(install.TARGET_CONFIG_FILE)
+    if (typeof installer.Abstract.backendDir === 'undefined') {
+      let config = jsonFile.readFileSync(installer.TARGET_CONFIG_FILE)
 
-      install.Abstract.backendDir = config.install.backend_dir
+      installer.Abstract.backendDir = config.install.backend_dir
     }
 
-    return install.Abstract.backendDir
+    return installer.Abstract.backendDir
   }
 }
 
 /**
  * Predefine class static variables
  */
-install.Abstract.wasLocalBackendInstalled = undefined
-install.Abstract.backendDir = undefined
+installer.Abstract.wasLocalBackendInstalled = undefined
+installer.Abstract.backendDir = undefined
 
 /**
  * Pre-loading staff
@@ -111,7 +111,7 @@ Manager.showWelcomeMessage();
     .then(manager.initBackend.bind(manager))
     .then(manager.initStorefront.bind(manager))
     .then(manager.showGoodbyeMessage.bind(manager))
-    .catch(install.Message.error)
+    .catch(installer.Message.error)
 
   shell.exit(0)
 })()

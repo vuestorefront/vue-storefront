@@ -1,6 +1,5 @@
 'use strict'
 
-const path = require('path')
 const shell = require('shelljs')
 const mkdirp = require('mkdirp')
 const exists = require('fs-exists-sync')
@@ -628,7 +627,7 @@ Abstract.infoLogStream = '/dev/null'
 Abstract.storefrontLogStream = '/dev/null'
 Abstract.backendLogStream = '/dev/null'
 
-if (path.basename(require.main.filename) === 'install.js') {
+if (require.main.filename === __filename) {
   /**
    * Pre-loading staff
    */
