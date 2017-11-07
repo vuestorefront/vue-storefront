@@ -13,15 +13,6 @@ export default {
 }
 </script>
 
-<style scoped>
-  .minicart-count {
-    position: relative;
-    top: -5px;
-    left: -5px;
-    width: 16px;
-    height: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+<style lang="scss" scoped>
+  
 </style>

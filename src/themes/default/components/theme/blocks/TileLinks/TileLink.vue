@@ -26,7 +26,7 @@ export default {
 @import '~src/themes/default/css/transitions';
 
 .tile-link {
-  width: 280px;
+  width: 322px;
   height: 280px;
 }
 .tile-image {
