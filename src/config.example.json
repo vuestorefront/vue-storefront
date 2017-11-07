@@ -9,5 +9,9 @@
   },
   "images": {
     "baseUrl": "https://demo.vuestorefront.io/img/"
+  },
+  "install": {
+    "is_local_backend": true,
+    "backend_dir": "../vue-storefront-api"
   }
 }
