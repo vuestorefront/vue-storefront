@@ -34,6 +34,7 @@ export default {
   methods: {
     closeMenu () {
       this.$store.commit('ui/setSidebar', false)
+      this.$store.commit('ui/setMicrocart', false)
     }
   }
 }
