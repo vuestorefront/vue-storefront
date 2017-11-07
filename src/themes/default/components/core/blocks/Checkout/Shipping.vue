@@ -105,7 +105,7 @@ export default {
         firstName: '',
         lastName: '',
         streetAdress: '',
-        shippingMethod: 'dpd'
+        shippingMethod: 'flatrate'
       }
     }
   },
