@@ -51,6 +51,7 @@ export default {
 <style src="./css/border.scss" lang="scss"></style>
 <style src="./css/visibility.scss" lang="scss"></style>
 <style src="./css/positioning.scss" lang="scss"></style>
+<style src="./css/microcart/microcart.scss" lang="scss"></style>
 
 <style>
   html,

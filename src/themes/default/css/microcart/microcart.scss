@@ -1,0 +1,21 @@
+/* Fix for #247
+ * 
+ * The styles set in the template file of MicrocartIcon.vue do not work
+ * on production environment.
+ *
+ * This is a custom solution that should be avoided in the project
+ *
+ * More on the topic: github.com/DivanteLtd/vue-storefront/issues/247
+ *
+ */
+
+   .minicart-count {
+    position: relative;
+    top: -5px;
+    left: -5px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
