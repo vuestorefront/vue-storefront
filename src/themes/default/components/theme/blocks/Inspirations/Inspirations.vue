@@ -24,7 +24,9 @@ export default {
       size: 3,
       sort: 'created_at:desc'
     }).then(function (res) {
-      self.products = res.items
+      if (res) {
+        self.products = res.items
+      }
     })
   },
 
