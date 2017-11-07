@@ -1,4 +1,4 @@
-import config from './config'
+import config from './config.json'
 import * as types from './store/mutation-types'
 import EventBus from 'src/event-bus/event-bus'
 
