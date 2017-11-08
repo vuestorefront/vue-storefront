@@ -27,7 +27,7 @@
     <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="row pb45 pt45 center-xs">
+        <div class="row pb45 pt45 center-xs cool-stuff-collection">
             <product-tile  v-for='product in coolBagsCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
         </div>
       </div>    
@@ -111,8 +111,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-
+  .cool-stuff-collection {
+    mix-blend-mode: darken;
+  }
 
 </style>
