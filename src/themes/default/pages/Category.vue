@@ -7,7 +7,7 @@
         </div>
     </header>
     <div class="container pb60">
-        <div class="row pt15 pl20 center-xs">
+        <div class="row pt15 pl20 center-md">
             <div class="col-md-3 start-xs">
                 <sidebar :filters="filters"/>
             </div>
