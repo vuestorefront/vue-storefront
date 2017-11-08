@@ -42,13 +42,14 @@
             <h2 class="h3 sans-serif">Description</h2>
             <span class="lh30 h5" v-html="product.description"></span>
           </div>
-          <div class="col-md-3">
+          <!-- Needs to be fixed, hidden for the demo purposes -->
+          <!-- <div class="col-md-3">
             <h2 class="h3 sans-serif">Product details</h2>
             <ul>
               <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_atributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
             </ul>
             
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -100,6 +101,7 @@ export default {
 .product-image {
   display: inline-flex;
   mix-blend-mode: multiply;
+  max-width: 100%;
   width: 460px;
 }
 </style>
