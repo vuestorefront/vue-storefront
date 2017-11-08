@@ -66,35 +66,50 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     start: offset,
     size: pageSize
   }).then(function (res) {
-    if (populateAggregations === true) { // populate filter aggregates
-      for (let attrToFilter of filters) { // fill out the filter options
-        store.state.category.filters[attrToFilter] = []
+    if (!res || (res.noresults)) {
+      EventBus.$emit('notification', {
+        type: 'warning',
+        message: 'No products synchronized for this category. Please come back while online!',
+        action1: { label: 'OK', action: 'close' }
+      })
 
-        if (attrToFilter !== 'price') {
-          for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
-            store.state.category.filters[attrToFilter].push({
-              id: option.key,
-              label: optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
-            })
-          }
-        } else { // special case is range filter for prices
-          let index = 0
-          let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
-          for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
-            store.state.category.filters[attrToFilter].push({
-              id: option.key,
-              from: option.from,
-              to: option.to,
-              label: (index === 0 || (index === count - 1)) ? (option.to ? '< $' + option.to : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
-            })
-            index++
+      store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
+      // store.state.category.filters = { color: [], size: [], price: [] }
+    } else {
+      if (populateAggregations === true) { // populate filter aggregates
+        for (let attrToFilter of filters) { // fill out the filter options
+          store.state.category.filters[attrToFilter] = []
+
+          if (attrToFilter !== 'price') {
+            if (res.aggregations['agg_terms_' + attrToFilter]) {
+              for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
+                store.state.category.filters[attrToFilter].push({
+                  id: option.key,
+                  label: optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
+                })
+              }
+            }
+          } else { // special case is range filter for prices
+            if (res.aggregations['agg_range_' + attrToFilter]) {
+              let index = 0
+              let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
+              for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
+                store.state.category.filters[attrToFilter].push({
+                  id: option.key,
+                  from: option.from,
+                  to: option.to,
+                  label: (index === 0 || (index === count - 1)) ? (option.to ? '< $' + option.to : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
+                })
+                index++
+              }
+            }
           }
         }
       }
     }
     return res
   }).catch((err) => {
-    console.error(err)
+    console.info(err)
     EventBus.$emit('notification', {
       type: 'warning',
       message: 'No products synchronized for this category. Please come back while online!',
