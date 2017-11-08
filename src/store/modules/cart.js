@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import _ from 'lodash'
+import EventBus from 'src/event-bus/event-bus'
 
 const store = {
   namespaced: true,
@@ -74,7 +75,6 @@ const store = {
 
     addItem ({ commit, dispatch }, product) {
       dispatch('stock/check', {}, {root: true}).then(result => {
-        console.log(result)
         if (result.status === 'volatile') {
           /* eslint no-alert: "off" */
           /* eslint no-undef: "off" */
@@ -82,6 +82,11 @@ const store = {
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
+          EventBus.$emit('notification', {
+            type: 'success',
+            message: 'Product has been added to the cart!',
+            action1: { label: 'OK', action: 'close' }
+          })
         }
       })
     },

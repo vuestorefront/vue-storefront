@@ -6,7 +6,7 @@ import Checkout from './pages/Checkout.vue'
 import UIStore from './store/ui-store'
 
 const routes = [
-    { path: '/', component: Home },
+    { path: '/', component: Home, alias: '/pwa.html' },
     { name: 'checkout', path: '/checkout', component: Checkout },
     { name: 'category', path: '/c/:slug', component: Category },
     { name: 'product', path: '/p/:id/:slug', component: Product },

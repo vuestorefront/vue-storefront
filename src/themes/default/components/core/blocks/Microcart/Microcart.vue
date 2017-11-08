@@ -6,7 +6,8 @@
       </div>
     </div>
     <h2 v-if="items.length" class="c-black ml30">Shopping cart</h2>
-    <h2 v-if="!items.length" class="c-black ml30">Your shopping cart is empty</h2>
+    <h4 v-if="!items.length" class="c-black ml30">Your shopping cart is empty.</h4>
+    <em v-if="!items.length" class="ml30" @click="closeMicrocart">Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for You!</em>
     <ul class="products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
