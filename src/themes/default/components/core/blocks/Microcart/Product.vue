@@ -11,12 +11,12 @@
           <div><span class="h6 c-darkgray">Qty </span> 
           <span class="h6 weight-400" :class="{ hidden: isEditing }">{{ product.qty }}</span>
           <span :class="{ hidden: !isEditing }">
-            <input class="h6" type="number" v-model.number="qty" @change="updateQuantity">
+            <input class="h6" type="number" autofocus v-model.number="qty" @change="updateQuantity">
           </span>
           </div>
         </div>
       </div>
-      <div class="col-xs pl40 pb15 pt15 align-right">
+      <div class="col-xs pb15 pt15 align-right">
         <div>
           $ {{ product.price }}
         </div>
@@ -51,6 +51,7 @@ export default {
         this.qty = this.product.qty
       }
       this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: this.qty })
+      this.isEditing = !this.isEditing
     },
     switchEdit () {
       this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
@@ -75,6 +76,6 @@ export default {
   display: none;
 }
 input {
-  width: 60px;
+  width: 30px;
 }
 </style>
