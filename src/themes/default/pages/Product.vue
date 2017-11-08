@@ -9,7 +9,9 @@
         </div>
         <div class="row py35">
           <div class="col-md-7 center-md middle-md">
-            <img class="product-image" v-bind:src="thumbnail" ref="image"/>
+            <transition name="fade" appear>
+              <img class="product-image" v-bind:src="thumbnail" ref="image"/>
+            </transition>  
           </div>
           <div class="col-md-5">
 
@@ -98,6 +100,12 @@ export default {
 </script>
 
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .3s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0
+  }
 .product-image {
   display: inline-flex;
   mix-blend-mode: multiply;
