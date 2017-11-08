@@ -3,7 +3,7 @@
     <div class="upper-footer p50 bg-lightgray">
       <div class="container">
         <div class="row center-xs start-md around-xs">
-          <div class="col-md-3">
+          <div class="col-md-3 no-mobile">
             <h3 class="c-black weight-400">Departments</h3>
             <div class="mt15">
               <router-link class="c-darkgray" to="/c/women-20" exact>Women fashion</router-link>
@@ -18,7 +18,7 @@
               <router-link class="c-darkgray" to="/" exact>Home</router-link>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 no-mobile">
             <h3 class="c-black weight-400">My account</h3>
             <div class="mt15">
               <router-link class="c-darkgray" to="/" exact>My orders</router-link>
@@ -33,7 +33,7 @@
               <router-link class="c-darkgray" to="/" exact>Gift card</router-link>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 no-mobile">
             <h3 class="c-black weight-400">Help</h3>
             <div class="mt15">
               <router-link class="c-darkgray" to="/" exact>Store locator</router-link>
@@ -47,14 +47,14 @@
           </div>
           <div class="col-md-3">
             <h3 class="c-black weight-400">Join Fashion Club</h3>
-            <h6 class="c-lightgray weight-400">Sign up for our loyalty program, earn points, get rewards and buy cheaper</h6>
+            <h6 class="c-gray weight-400">Sign up for our loyalty program, earn points, get rewards and buy cheaper</h6>
             <button-outline :text="'Subscribe'" color="dark" />
           </div>
         </div>
       </div>
     </div>
     <div class="container">
-      <div class="row middle-xs">
+      <div class="row middle-xs px15">
         <div class="col-md-3" >
           United States (US)
         </div>
@@ -93,4 +93,11 @@ export default {
   .links li {
     display: inline-flex;
   }
+
+  @media (max-width: 595px) {
+    .no-mobile {
+      display: none;
+    }
+  }
+
 </style>
