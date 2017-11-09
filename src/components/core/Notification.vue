@@ -15,6 +15,11 @@ export default {
           type: 'info',
           message: 'Product has been added to the cart!',
           action1: { label: 'OK', action: 'close' }
+        },
+        {
+          type: 'info',
+          message: 'Product has been added to the cart!',
+          action1: { label: 'OK', action: 'close' }
         }
       ]
     }
