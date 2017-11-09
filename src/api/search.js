@@ -75,20 +75,42 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       }
 
       if (res !== null) {
+        res.cache = true
+        res.noresults = false
+        res.offline = !navigator.onLine // TODO: refactor it to checking ES heartbit
         resolve(res)
         console.info('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         servedFromCache = true
+      } else {
+        if (!navigator.onLine) {
+          console.info('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+
+          res = {
+            items: [],
+            total: 0,
+            start: 0,
+            pageSize: 0,
+            aggregations: {},
+            offline: true,
+            cache: true,
+            noresults: true
+          }
+
+          servedFromCache = true
+          resolve(res)
+        }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
     client.search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
-
-      if (!servedFromCache) {
+      cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+      if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
         console.info('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        res.cache = false
+        res.noresults = false
+        res.offline = false
         resolve(res)
       }
-
-      cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
     }).catch(function (err) {
       reject(err)
     })

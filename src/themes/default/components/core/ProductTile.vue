@@ -2,7 +2,10 @@
   <div class="product align-center p15">
     <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug }}">
       <div class="product-image bg-lightgray">
-        <img v-lazy="thumbnail"/>
+        <transition name="fade" appear>
+          <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
+          <img v-if="!instant" v-lazy="thumbnail" :key="thumbnail"/>
+        </transition>  
       </div>
       <p class="mb0">{{ product.name }}</p>
       <span class="lh30 c-gray">{{ product.price | price }}</span>
@@ -14,6 +17,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
+  props: ['instant'],
   mixins: [coreComponent('core/ProductTile')]
 }
 </script>

@@ -7,16 +7,16 @@
             "image" : "/assets/slide_01.jpg"
         },
         {
-            "title" : "Love Denim",
-            "subtitle" : "Best of blues",
+            "title" : "Luma’s Performance Fabric",
+            "subtitle" : "Collection",
             "button_text" : "Shop now",
-            "image" : "/assets/slide_01.jpg"
+            "image" : "/assets/slide_02.jpg"
         },
         {
-            "title" : "Empire State of mind",
-            "subtitle" : "New York City ultimate collection",
+            "title" : "Luma’s Performance Fabric",
+            "subtitle" : "What's new",
             "button_text" : "Shop now",
-            "image" : "/assets/slide_01.jpg"
+            "image" : "/assets/slide_03.jpg"
         }
     ],
     "total" : "3"

@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'production') {
       ],      
       runtimeCaching: [
        {
-        urlPattern: "/", /** cache the html stub  */
+        urlPattern: "/pwa.html", /** cache the html stub  */
         handler: "networkFirst"
       },
       {

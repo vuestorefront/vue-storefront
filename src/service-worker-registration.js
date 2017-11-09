@@ -3,7 +3,7 @@ import * as types from './store/mutation-types'
 import EventBus from 'src/event-bus/event-bus'
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js', { scope: '/' }).then(function () {
+  navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).then(function () {
     if (navigator.serviceWorker.controller) {
       console.log('The service worker is currently handling network operations.')
     } else {

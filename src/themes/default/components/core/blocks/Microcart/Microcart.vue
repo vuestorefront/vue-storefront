@@ -6,7 +6,8 @@
       </div>
     </div>
     <h2 v-if="items.length" class="c-black ml30">Shopping cart</h2>
-    <h2 v-if="!items.length" class="c-black ml30">Your shopping cart is empty</h2>
+    <h4 v-if="!items.length" class="c-black ml30">Your shopping cart is empty.</h4>
+    <em v-if="!items.length" class="ml30" @click="closeMicrocart">Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for You!</em>
     <ul class="products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
@@ -72,12 +73,12 @@ export default {
 @import "../../../../css/transitions.scss";
 
   .microcart {
-      height: 100vh;
+      height: calc(100vh - 55px);
       width: 800px;
+      top: 55px;
       right: 0;
       max-width: 100%;
       position: fixed;
-      top: 0;
       z-index: 2;
       transform: translateX(100%);
       transition: transform 300ms $motion-main;

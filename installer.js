@@ -11,14 +11,14 @@ const isWindows = require('is-windows')
 const isEmptyDir = require('empty-dir')
 const commandExists = require('command-exists')
 
-const TARGET_CONFIG_FILE = 'src/config.json'
 const SAMPLE_DATA_PATH = 'var/magento2-sample-data'
+const TARGET_CONFIG_FILE = 'src/config.json'
 const SOURCE_CONFIG_FILE = 'src/config.example.json'
 
-const STOREFRONT_REMOTE_BACKEND_URL = 'https://demo.vuestorefront.io'
 const STOREFRONT_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront'
 const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront-api'
 const MAGENTO_SAMPLE_DATA_GIT_URL = 'https://github.com/magento/magento2-sample-data.git'
+const STOREFRONT_REMOTE_BACKEND_URL = 'https://demo.vuestorefront.io'
 
 const STOREFRONT_DIRECTORY = shell.pwd()
 
@@ -93,13 +93,14 @@ class Message {
    * Render block info message
    *
    * @param text
+   * @param isLastMessage
    */
-  static greeting (text) {
+  static greeting (text, isLastMessage = false) {
     text = Array.isArray(text) ? text : [text]
 
     message([
       ...text
-    ], {borderColor: 'green', marginBottom: 1})
+    ], Object.assign(isLastMessage ? {marginTop: 1} : {}, {borderColor: 'green', marginBottom: 1}))
   }
 }
 
@@ -143,12 +144,14 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  goToDirectory () {
+  goToDirectory (backendDir = null) {
     return new Promise((resolve, reject) => {
-      Message.info(`Trying change directory to '${this.answers.backend_dir}'...`)
+      let dir = this.answers ? this.answers.backend_dir : backendDir
 
-      if (shell.cd(this.answers.backend_dir).code !== 0) {
-        reject(`Can't change directory to '${this.answers.backend_dir}'.`)
+      Message.info(`Trying change directory to '${dir}'...`)
+
+      if (shell.cd(dir).code !== 0) {
+        reject(`Can't change directory to '${dir}'.`)
       }
 
       Message.info(`Working in directory '${shell.pwd()}'...`)
@@ -204,7 +207,7 @@ class Backend extends Abstract {
 
       try {
         config = jsonFile.readFileSync(SOURCE_CONFIG_FILE)
-        let host = urlParser(this.answers.images_endpoint).host
+        let host = urlParser(this.answers.images_endpoint).hostname
 
         if (!host.length) {
           throw new Error()
@@ -341,6 +344,11 @@ class Storefront extends Abstract {
         config.elasticsearch.host = `${backendPath}/api/catalog`
         config.orders.endpoint = `${backendPath}/api/order/create`
         config.images.baseUrl = this.answers.images_endpoint
+
+        config.install = {
+          is_local_backend: Abstract.wasLocalBackendInstalled,
+          backend_dir: this.answers.backend_dir || false
+        }
 
         jsonFile.writeFileSync(TARGET_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
@@ -510,10 +518,10 @@ class Manager extends Abstract {
         'Storefront: http://localhost:3000',
         'Backend: ' + (Abstract.wasLocalBackendInstalled ? 'http://localhost:8080' : STOREFRONT_REMOTE_BACKEND_URL),
         '',
-        Abstract.logsWereCreated ? `Logs: ${LOG_DIR}/.` : '',
+        Abstract.logsWereCreated ? `Logs: ${LOG_DIR}/` : 'You don\'t have log files created.',
         '',
         'Good Luck!'
-      ])
+      ], true)
 
       resolve()
     })
@@ -571,21 +579,44 @@ let questions = [
     }
   },
   {
+    type: 'list',
+    name: 'images_endpoint',
+    message: 'Choose path for images endpoint',
+    choices: [
+      `${STOREFRONT_REMOTE_BACKEND_URL}/img/`,
+      'http://localhost:8080/img/',
+      'Custom url'
+    ],
+    when: function (answers) {
+      return answers.is_remote_backend === false
+    }
+  },
+  {
     type: 'input',
     name: 'images_endpoint',
     message: 'Please provide path for images endpoint',
-    default: `${STOREFRONT_REMOTE_BACKEND_URL}/img`,
+    default: `${STOREFRONT_REMOTE_BACKEND_URL}/img/`,
+    when: function (answers) {
+      let isProvideByYourOwn = answers.images_endpoint === 'Custom url'
+
+      return isProvideByYourOwn || answers.is_remote_backend === true
+    },
     filter: function (url) {
+      let prefix = 'http://'
+      let prefixSsl = 'https://'
+
+      url = url.trim()
+
+      // add http:// if no protocol set
+      if (url.substr(0, prefix.length) !== prefix && url.substr(0, prefixSsl.length) !== prefixSsl) {
+        url = prefix + url
+      }
+
+      // add extra slash as suffix if was not set
       return url.slice(-1) === '/' ? url : `${url}/`
     }
   }
 ]
-
-/**
- * Pre-loading staff
- */
-Manager.checkUserOS()
-Manager.showWelcomeMessage()
 
 /**
  * Predefine class static variables
@@ -596,17 +627,31 @@ Abstract.infoLogStream = '/dev/null'
 Abstract.storefrontLogStream = '/dev/null'
 Abstract.backendLogStream = '/dev/null'
 
-/**
- * This is where all the magic happens
- */
-inquirer.prompt(questions).then(async function (answers) {
-  let manager = new Manager(answers)
+if (require.main.filename === __filename) {
+  /**
+   * Pre-loading staff
+   */
+  Manager.checkUserOS()
+  Manager.showWelcomeMessage()
 
-  await manager.tryToCreateLogFiles()
-    .then(manager.initBackend.bind(manager))
-    .then(manager.initStorefront.bind(manager))
-    .then(manager.showGoodbyeMessage.bind(manager))
-    .catch(Message.error)
+  /**
+   * This is where all the magic happens
+   */
+  inquirer.prompt(questions).then(async function (answers) {
+    let manager = new Manager(answers)
 
-  shell.exit(0)
-})
+    await manager.tryToCreateLogFiles()
+      .then(manager.initBackend.bind(manager))
+      .then(manager.initStorefront.bind(manager))
+      .then(manager.showGoodbyeMessage.bind(manager))
+      .catch(Message.error)
+
+    shell.exit(0)
+  })
+} else {
+  module.exports.Message = Message
+  module.exports.Manager = Manager
+  module.exports.Abstract = Abstract
+  module.exports.STOREFRONT_REMOTE_BACKEND_URL = STOREFRONT_REMOTE_BACKEND_URL
+  module.exports.TARGET_CONFIG_FILE = TARGET_CONFIG_FILE
+}

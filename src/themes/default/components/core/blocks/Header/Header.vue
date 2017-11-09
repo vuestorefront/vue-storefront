@@ -1,10 +1,10 @@
 <template>
     <header class="brdr-underline bg-white">
         <div class="container">
-            <div class="row between-xs middle-xs">
+            <div class="row between-xs middle-xs px15">
                 <div class="col-md-2 middle-xs">
                     <div class="box">
-                        <hamburger-icon class="p15 icon"/>
+                        <hamburger-icon class="p15 icon bg-lightgray"/>
                     </div>
                 </div>
                 <div class="col-md-8 center-xs">
@@ -50,6 +50,7 @@ export default {
     header {
         border-bottom-color: #E0E0E0;
         position: fixed;
+        height: 55px;
         top: 0;
         width: 100%;
         z-index: 2;

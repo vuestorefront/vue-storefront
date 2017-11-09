@@ -9,8 +9,8 @@
       </header>
     </div>
     <div class="row center-xs">
-      <div v-for='product in everythingNewCollection' v-bind:key='product.id' class="col-md-3">
-        <product-tile :product="product"/>
+      <div v-for='(product, key) in everythingNewCollection' v-bind:key='product.id' class="col-md-3">
+        <product-tile :instant='key < 4 ? true : false' :product="product"/>
       </div>
     </div>
   </section>
@@ -27,7 +27,7 @@
     <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="row pb45 pt45 center-xs">
+        <div class="row pb45 pt45 center-xs cool-stuff-collection">
             <product-tile  v-for='product in coolBagsCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
         </div>
       </div>    
@@ -83,13 +83,18 @@ export default {
           size: 8,
           sort: 'created_at:desc'
         }).then(function (res) {
-          store.state.homepage.new_collection = res.items
+          if (res) {
+            store.state.homepage.new_collection = res.items
+          }
+
           store.dispatch('product/list', {
             query: coolBagsQuery,
             size: 4,
             sort: 'created_at:desc'
           }).then(function (res) {
-            store.state.homepage.coolbags_collection = res.items
+            if (res) {
+              store.state.homepage.coolbags_collection = res.items
+            }
             return resolve()
           })
         })
@@ -106,8 +111,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-
+  .cool-stuff-collection {
+    mix-blend-mode: darken;
+  }
 
 </style>
