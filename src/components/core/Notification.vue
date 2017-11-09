@@ -8,9 +8,14 @@ import EventBus from 'src/event-bus/event-bus'
 
 export default {
   name: 'notification',
+  data () {
+    return {
+      notifications: []
+    }
+  },
   created () {
     EventBus.$on('notification', function (data) {
-      console.log(data)
+      this.notifications.push(data)
     })
   }
 }
