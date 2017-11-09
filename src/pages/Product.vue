@@ -16,9 +16,11 @@ function filterChanged (filterOption) { // slection of product variant on produc
   this.configuration[filterOption.attribute_code] = filterOption
   this.$store.dispatch('product/configure', { product: this.product, configuration: this.configuration }).then((selectedVariant) => {
     if (typeof selectedVariant === 'undefined' || selectedVariant === null) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
-      /* eslint no-alert: "off" */
-      /* eslint no-undef: "off" */
-      alert('No such configuration for the product. Please do choose another combination of attributes.')
+      EventBus.$emit('notification', {
+        type: 'warning',
+        message: 'No such configuration for the product. Please do choose another combination of attributes.',
+        action1: { label: 'OK', action: 'close' }
+      })
     } else {
       this.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
         this.$store.state.product.product_selected_variant = confProduct

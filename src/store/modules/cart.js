@@ -76,9 +76,11 @@ const store = {
     addItem ({ commit, dispatch }, product) {
       dispatch('stock/check', {}, {root: true}).then(result => {
         if (result.status === 'volatile') {
-          /* eslint no-alert: "off" */
-          /* eslint no-undef: "off" */
-          alert('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation')
+          EventBus.$emit('notification', {
+            type: 'warning',
+            message: 'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.',
+            action1: { label: 'OK', action: 'close' }
+          })
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
