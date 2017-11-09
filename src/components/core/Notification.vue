@@ -10,18 +10,7 @@ export default {
   name: 'notification',
   data () {
     return {
-      notifications: [
-        {
-          type: 'info',
-          message: 'Product has been added to the cart!',
-          action1: { label: 'OK', action: 'close' }
-        },
-        {
-          type: 'info',
-          message: 'Product has been added to the cart!',
-          action1: { label: 'OK', action: 'close' }
-        }
-      ]
+      notifications: []
     }
   },
   created () {
