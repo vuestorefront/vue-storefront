@@ -1,13 +1,13 @@
 <template>
   <div id="app" class="pt55" :class="{ 'no-scroll': scroll }">
     <div id="viewport">
-      <notification />
       <overlay />
       <microcart />
       <sidebar-menu />
       <main-header />
       <router-view></router-view>
       <main-footer />
+      <notification />
     </div>
   </div>
 </template>

@@ -8,7 +8,7 @@
         // For now you can place your actions in this file like i put 'DELETE' action below
         {
             "label" : "Ok",
-            "action_type" : "DELETE"
+            "type" : "DELETE"
         }
     ]
 }
