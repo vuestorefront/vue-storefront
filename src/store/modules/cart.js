@@ -16,7 +16,7 @@ const store = {
      * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
      */
     [types.CART_ADD_ITEM] (state, { product }) {
-      const record = state.cartItems.find(p => p.id === product.id)
+      const record = state.cartItems.find(p => p.sku === product.sku)
       if (!record) {
         state.cartItems.push({
           ...product,
@@ -28,10 +28,10 @@ const store = {
       console.log(state.cartItems)
     },
     [types.CART_DEL_ITEM] (state, { product }) {
-      state.cartItems = state.cartItems.filter(p => p.id !== product.id)
+      state.cartItems = state.cartItems.filter(p => p.sku !== product.sku)
     },
     [types.CART_UPD_ITEM] (state, { product, qty }) {
-      const record = state.cartItems.find(p => p.id === product.id)
+      const record = state.cartItems.find(p => p.sku === product.sku)
       record.qty = qty
     },
     [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
@@ -76,9 +76,11 @@ const store = {
     addItem ({ commit, dispatch }, product) {
       dispatch('stock/check', {}, {root: true}).then(result => {
         if (result.status === 'volatile') {
-          /* eslint no-alert: "off" */
-          /* eslint no-undef: "off" */
-          alert('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation')
+          EventBus.$emit('notification', {
+            type: 'warning',
+            message: 'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.',
+            action1: { label: 'OK', action: 'close' }
+          })
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })

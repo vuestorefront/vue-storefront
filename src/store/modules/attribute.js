@@ -65,7 +65,6 @@ const mutations = {
     }
     state.list_by_code = attrHashByCode
     state.list_by_id = attrHashById
-    console.log(state.list_by_code)
   }
 }
 
