@@ -125,7 +125,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
               }
 
               for (let option of buckets) {
-                uniqueFilterValues.add(option.key)
+                uniqueFilterValues.add(parseInt(option.key))
               }
             }
 
