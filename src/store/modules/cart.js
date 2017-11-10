@@ -16,7 +16,7 @@ const store = {
      * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
      */
     [types.CART_ADD_ITEM] (state, { product }) {
-      const record = state.cartItems.find(p => p.id === product.id)
+      const record = state.cartItems.find(p => p.sku === product.sku)
       if (!record) {
         state.cartItems.push({
           ...product,
@@ -28,10 +28,10 @@ const store = {
       console.log(state.cartItems)
     },
     [types.CART_DEL_ITEM] (state, { product }) {
-      state.cartItems = state.cartItems.filter(p => p.id !== product.id)
+      state.cartItems = state.cartItems.filter(p => p.sku !== product.sku)
     },
     [types.CART_UPD_ITEM] (state, { product, qty }) {
-      const record = state.cartItems.find(p => p.id === product.id)
+      const record = state.cartItems.find(p => p.sku === product.sku)
       record.qty = qty
     },
     [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {

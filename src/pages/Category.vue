@@ -15,13 +15,48 @@ import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { optionLabel } from 'src/store/modules/attribute'
 
-function baseFilterQuery (filters, parentCategory) {
-  let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).orFilter('term', 'category.category_id', parentCategory.id)  // FIXME!
+function filterChanged (filterOption) { // slection of product variant on product page
+  console.log(filterOption)
+  if (this.filterSet[filterOption.attribute_code]) {
+    delete this.filterSet[filterOption.attribute_code]
+  } else {
+    this.filterSet[filterOption.attribute_code] = filterOption
+  }
+
+  let filterQr = baseFilterQuery(Object.keys(this.filters), this.$store.state.category.current)
+
+  let attrFilterBuilder = (filterQr, attrPostfix = '') => {
+    for (let code of Object.keys(this.filterSet)) {
+      const filter = this.filterSet[code]
+
+      if (filter.attribute_code !== 'price') {
+        filterQr = filterQr.andFilter('match', filter.attribute_code + attrPostfix, filter.id)
+      } else { // multi should be possible filter here?
+        const rangeqr = {}
+        if (filter.from) {
+          rangeqr['gte'] = filter.from
+        }
+        if (filter.to) {
+          rangeqr['lte'] = filter.to
+        }
+        filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
+      }
+    }
+    return filterQr
+  }
+  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
+                      .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
+  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, offset: this.pagination.offset, pageSize: this.pagination.pageSize, filters: Object.keys(this.filters) }) // because already aggregated
+}
+
+function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of color_options and size_options fields
+  let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */)
 
   // add filters to query
   for (let attrToFilter of filters) {
     if (attrToFilter !== 'price') {
       searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
+      searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter + '_options')
     } else {
       searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
       searchProductQuery.aggregation('range', 'price', {
@@ -35,28 +70,29 @@ function baseFilterQuery (filters, parentCategory) {
     }
   }
 
+  let childCats = [parentCategory.id]
   if (parentCategory.children_data) {
-    let recurCatFinderBuilder = (category, searchProductQuery) => {
+    let recurCatFinderBuilder = (category) => {
       if (!category) {
-        return searchProductQuery
+        return
       }
 
       if (!category.children_data) {
-        return searchProductQuery
+        return
       }
 
       for (let sc of category.children_data) {
         if (sc && sc.id) {
-          searchProductQuery = searchProductQuery.orFilter('term', 'category.category_id', sc.id)
+          childCats.push(sc.id)
         }
-        return recurCatFinderBuilder(sc, searchProductQuery)
+        return recurCatFinderBuilder(sc)
       }
 
-      return searchProductQuery
+      return
     }
-    recurCatFinderBuilder(parentCategory, searchProductQuery)
+    recurCatFinderBuilder(parentCategory)
   }
-
+  searchProductQuery = searchProductQuery.filter('terms', 'category.category_id', childCats)
   return searchProductQuery
 }
 
@@ -80,14 +116,24 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
         for (let attrToFilter of filters) { // fill out the filter options
           store.state.category.filters[attrToFilter] = []
 
+          let uniqueFilterValues = new Set()
           if (attrToFilter !== 'price') {
             if (res.aggregations['agg_terms_' + attrToFilter]) {
-              for (let option of res.aggregations['agg_terms_' + attrToFilter].buckets) {
-                store.state.category.filters[attrToFilter].push({
-                  id: option.key,
-                  label: optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: option.key })
-                })
+              let buckets = res.aggregations['agg_terms_' + attrToFilter].buckets
+              if (res.aggregations['agg_terms_' + attrToFilter + '_options']) {
+                buckets = buckets.concat(res.aggregations['agg_terms_' + attrToFilter + '_options'].buckets)
               }
+
+              for (let option of buckets) {
+                uniqueFilterValues.add(option.key)
+              }
+            }
+
+            for (let key of uniqueFilterValues.values()) {
+              store.state.category.filters[attrToFilter].push({
+                id: key,
+                label: optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: key })
+              })
             }
           } else { // special case is range filter for prices
             if (res.aggregations['agg_range_' + attrToFilter]) {
@@ -186,37 +232,11 @@ export default {
     })
   },
   beforeMount () {
-    let self = this // TODO: refactor it to bind()
-    EventBus.$on('filter-changed-category', (filterOption) => { // slection of product variant on product page
-      console.log(filterOption)
-      if (self.filterSet[filterOption.attribute_code]) {
-        delete self.filterSet[filterOption.attribute_code]
-      } else {
-        self.filterSet[filterOption.attribute_code] = filterOption
-      }
-
-      let filterQr = baseFilterQuery(Object.keys(self.filters), this.$store.state.category.current)
-      for (let code of Object.keys(self.filterSet)) {
-        const filter = self.filterSet[code]
-
-        if (filter.attribute_code !== 'price') {
-          filterQr = filterQr.andFilter('match', filter.attribute_code, filter.id)
-        } else { // multi should be possible filter here?
-          const rangeqr = {}
-          if (filter.from) {
-            rangeqr['gte'] = filter.from
-          }
-          if (filter.to) {
-            rangeqr['lte'] = filter.to
-          }
-
-          filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
-        }
-      }
-      filterData({ populateAggregations: false, searchProductQuery: filterQr, store: self.$store, route: self.$route, offset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) }) // because already aggregated
-    })
+    EventBus.$on('filter-changed-category', filterChanged.bind(this))
   },
-
+  beforeDestroy () {
+    EventBus.$off('filter-changed-category')
+  },
   computed: {
     products () {
       return this.$store.state.product.list.items

@@ -13,6 +13,13 @@ let client = new es.Client({
   requestTimeout: 5000
 })
 
+function isOnline () {
+  if (typeof navigator !== 'undefined') {
+    return navigator.onLine
+  } else {
+    return true // SSR
+  }
+}
 /**
  * Helper function to handle ElasticSearch Results
  * @param {Object} resp result from ES call
@@ -77,12 +84,12 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       if (res !== null) {
         res.cache = true
         res.noresults = false
-        res.offline = !navigator.onLine // TODO: refactor it to checking ES heartbit
+        res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
         resolve(res)
         console.info('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         servedFromCache = true
       } else {
-        if (!navigator.onLine) {
+        if (!isOnline()) {
           console.info('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
 
           res = {
