@@ -10,8 +10,7 @@ export default {
   name: 'notification',
   data () {
     return {
-      notifications: [
-      ]
+      notifications: []
     }
   },
   created () {
