@@ -10,7 +10,7 @@
         <div class="row py35">
           <div class="col-md-7 center-md middle-md">
             <transition name="fade" appear>
-              <img class="product-image" v-bind:src="thumbnail" ref="image"/>
+              <img class="product-image" v-lazy="imgObj" ref="image"/>
             </transition>  
           </div>
           <div class="col-md-5">
@@ -71,11 +71,12 @@ import { thumbnail } from 'src/lib/filters'
 
 export default {
   computed: {
-    thumbnail () {
-      return thumbnail(this.product.image, 310, 300)
-    },
-    image () {
-      return thumbnail(this.product.image, 570, 569)
+    imgObj () {
+      return {
+        src: thumbnail(this.product.image, 570, 569),
+        error: thumbnail(this.product.image, 310, 300),
+        loading: thumbnail(this.product.image, 310, 300)
+      }
     }
   },
   components: {
@@ -85,17 +86,7 @@ export default {
     Breadcrumbs,
     ProductAttribute
   },
-  mixins: [corePage('Product')],
-  methods: {
-    setProductImage () {
-      if (navigator.onLine) {
-        this.$refs.image.src = this.image
-      }
-    }
-  },
-  mounted () {
-    this.setProductImage()
-  }
+  mixins: [corePage('Product')]
 }
 </script>
 
