@@ -1,23 +1,39 @@
 <template>
   <div>
-    <div class="bg-lightgray p45">
-      <h5 class="mt0 c-lightgray">{{ breadcrumbs }}</h5>
-      <h2>{{ this.$props.title }}</h2>
+    <div class="bg-lightgray py35 pl20">
+      <div class="container">
+        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
+        <h2>{{ this.$props.title }}</h2>
+      </div>
     </div>
-    <div class="p45 pt0">
-      <staticpage/>
+
+    <div class="container pt45 pb70">
+      <div class="row pl20 pt0">
+        <div class="col-sm-3">
+          <nav class="static-menu serif h4 mb35">
+            <ul class="m0 p0">
+              <li class="mb10" v-for="page in navigation"><router-link :to="page.link" class="c-black">{{page.title}}</router-link></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="static-content col-sm-9">
+          <static-page :is="loaded"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import staticpage from '../resource/lorem.md'
+import Breadcrumbs from '../components/core/Breadcrumbs'
 import Meta from 'src/lib/meta'
 
 export default {
   components: {
-    staticpage
+    Breadcrumbs,
+    staticPage: null
   },
+  props: ['page', 'title'],
   mixins: [Meta],
   meta () {
     return {
@@ -26,23 +42,69 @@ export default {
   },
   data () {
     return {
-      breadcrumbs: 'Homepage / ' + this.$props.title
+      loaded: false,
+      navigation: [
+        { title: 'About us', link: '/about-us' },
+        { title: 'Customer service', link: '/customer-service' },
+        { title: 'Store locator', link: '/store-locator' },
+        { title: 'Delivery', link: '/delivery' },
+        { title: 'Return policy', link: '/returns' },
+        { title: 'Privacy policy', link: '/privacy' },
+        { title: 'Contact us', link: '/contact' }
+      ]
     }
   },
-  props: ['page', 'title'],
   watch: {
     '$route': 'validateRoute'
   },
   methods: {
     validateRoute () {
       this.setMeta()
+      this.loadStaticPage()
+    },
+    loadStaticPage () {
+      this.$options.components.staticPage = require('../resource/' + this.$props.page + '.md')
+      this.loaded = 'staticPage'
     }
+  },
+  mounted () {
+    this.loadStaticPage()
   }
 }
 </script>
 
-<style scoped>
-  .hidden {
-    display: none;
+<style lang="scss">
+  .static-menu {
+    ul {
+      list-style: none;
+    }
+
+    a {
+      position: relative;
+    }
+
+    a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #BDBDBD;
+    }
+
+    a:hover::after,
+    .router-link-active::after {
+      opacity: 0;
+    }
+  }
+
+  .static-content {
+    font-size: 1.2em;
+    line-height: 2.1em;
+
+    *:first-of-type {
+      margin-top: 0;
+    }
   }
 </style>

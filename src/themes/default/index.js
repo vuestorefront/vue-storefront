@@ -15,7 +15,13 @@ const routes = [
     { name: 'magazine', path: '/magazine', component: Static, props: {page: 'lorem', title: 'Magazine'} },
     { name: 'sale', path: '/sale', component: Static, props: {page: 'lorem', title: 'Sale'} },
     { name: 'order-tracking', path: '/order-tracking', component: Static, props: {page: 'lorem', title: 'Track my Order'} },
-    { name: 'my-account', path: '/my-account', component: Static, props: {page: 'lorem', title: 'My Account'} }
+    { name: 'my-account', path: '/my-account', component: Static, props: {page: 'lorem', title: 'My Account'} },
+    { name: 'about-us', path: '/about-us', component: Static, props: {page: 'about', title: 'About us'} },
+    { name: 'customer-service', path: '/customer-service', component: Static, props: {page: 'lorem', title: 'Customer service'} },
+    { name: 'store-locator', path: '/store-locator', component: Static, props: {page: 'lorem', title: 'Store locator'} },
+    { name: 'delivery', path: '/delivery', component: Static, props: {page: 'lorem', title: 'Delivery'} },
+    { name: 'returns', path: '/returns', component: Static, props: {page: 'lorem', title: 'Returns policy'} },
+    { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} }
 ]
 
 export default function (app, router, store) {
