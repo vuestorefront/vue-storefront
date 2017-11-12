@@ -1,8 +1,8 @@
 <template>
   <div class="shipping">
     <div class="row">
-      <div class="col-md-12 mb15">
-        <h3>Shipping</h3>
+      <div class="col-md-12 mb15" :class="{ 'c-gray' : !isFilled && !isActive }">
+        <h3 @click="edit">Shipping</h3>
       </div>
     </div>
     <div class="row" v-show="this.isActive">
@@ -46,7 +46,7 @@
       </div>
       <span class="validation-error" v-if="!$v.shipping.shippingMethod.required">Field is required</span>
       <div class="col-md-12 my30">
-        <button-full @click.native="sendDataToCheckout" text="Continue to payment"/>
+        <button-full @click.native="sendDataToCheckout" text="Continue to payment" :class="{ 'button-disabled' : $v.shipping.$invalid}"/>
       </div>
     </div>
 
@@ -113,7 +113,12 @@ export default {
     sendDataToCheckout () {
       EventBus.$emit('checkout.shipping', this.shipping, this.$v)
       this.isFilled = true
-      console.log('Shipping data sent to checkout')
+    },
+    edit () {
+      if (this.isFilled) {
+        EventBus.$emit('checkout.edit', 'shipping')
+        this.isFilled = false
+      }
     }
   },
   components: {

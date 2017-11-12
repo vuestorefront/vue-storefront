@@ -41,6 +41,7 @@ export default {
     // TO-DO: Dont use event bus ad use v-on at components (?)
     EventBus.$on('network.status', (status) => { this.checkConnection(status) })
 
+    // TO-DO: Use one event with name as apram
     EventBus.$on('checkout.personalDetails', (receivedData, validationResult) => {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
@@ -58,6 +59,10 @@ export default {
     })
     EventBus.$on('checkout.cartSummary', (receivedData) => {
       this.cartSummary = receivedData
+    })
+
+    EventBus.$on('checkout.edit', (section) => {
+      this.activateSection(section)
     })
   },
   computed: {
@@ -111,7 +116,6 @@ export default {
         this.activeSection[section] = false
       }
       this.activeSection[sectionToActivate] = true
-      console.log(sectionToActivate)
     },
     prepareOrder () {
       this.order = {
@@ -202,6 +206,14 @@ export default {
   }
   h4 {
     @extend .weight-200;
+  }
+  .button-disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .validation-error{
+    color: red;
+    display: block;
   }
 }
 </style>

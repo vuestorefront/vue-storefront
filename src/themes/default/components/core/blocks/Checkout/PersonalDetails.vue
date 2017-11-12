@@ -1,8 +1,8 @@
 <template>
   <div class="personal-details">
     <div class="row">
-      <div class="col-md-12 mb15">
-        <h3>Personal Details</h3>
+      <div class="col-md-12 mb15" :class="{ 'c-gray' : !isFilled && !isActive }">
+        <h3 @click="edit">Personal Details</h3>
       </div>
     </div>
     <div class="row" v-show="isActive">
@@ -31,7 +31,7 @@
         <input type="password" name="password-confirmation" placeholder="Repeat password *" v-model="personalDetails.emailAddress">
       </div> -->
       <div class="col-md-12 my30">
-        <button-full @click.native="sendDataToCheckout" text="Continue to shipping"/>
+        <button-full @click.native="sendDataToCheckout" text="Continue to shipping" :class="{ 'button-disabled' : $v.personalDetails.$invalid}"/>
         <!-- <p>Or login to the existing account</p> -->
       </div>
     </div>
@@ -80,6 +80,12 @@ export default {
     sendDataToCheckout () {
       EventBus.$emit('checkout.personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
+    },
+    edit () {
+      if (this.isFilled) {
+        EventBus.$emit('checkout.edit', 'personalDetails')
+        this.isFilled = false
+      }
     }
   },
   components: {
@@ -88,10 +94,3 @@ export default {
   mixins: [coreComponent('core/blocks/Checkout/PersonalDetails')]
 }
 </script>
-
-<style scoped>
-.validation-error{
-  color: red;
-  display: block;
-}
-</style>

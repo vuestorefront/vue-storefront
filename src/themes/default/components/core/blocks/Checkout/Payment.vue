@@ -1,7 +1,7 @@
 <template>
   <div class="payment">
     <div class="row">
-      <div class="col-md-12 mb15">
+      <div class="col-md-12 mb15" :class="{ 'c-gray' : !isFilled && !isActive }">
         <h3>Payment</h3>
       </div>
     </div>
