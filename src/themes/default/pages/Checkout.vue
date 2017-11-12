@@ -10,7 +10,7 @@
           <shipping :is-active="activeSection.shipping"/>
           <payment :is-active="activeSection.payment"/>
           <order-review :is-active="activeSection.orderReview"/>
-          <button-full v-show="activeSection.orderReview" text="Place the order" @click.native="placeOrder" />
+          <button-full :is-active="activeSection.orderReview" v-show="activeSection.orderReview" text="Place the order" @click.native="placeOrder" />
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -214,6 +214,16 @@ export default {
   .validation-error{
     color: red;
     display: block;
+  }
+  .number-circle {
+    width: 40px;
+    height: 40px;
+  }
+  .section-disabled {
+    cursor: not-allowed;
+  }
+  .section-editable {
+    cursor: pointer;  
   }
 }
 </style>
