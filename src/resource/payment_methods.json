@@ -3,6 +3,7 @@
         "name": "Cash on delivery",
         "code": "cashondelivery",
         "cost": 0, 
+        "costInclTax": 0,
         "default": true,
         "offline": true
     }

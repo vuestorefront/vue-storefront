@@ -30,3 +30,5 @@ export const CHECKOUT_PLACE_ORDER = SN_CHECKOUT + ' /PLACE_ORDER'
 export const SN_USER = 'user'
 export const USER_NEWSLETTER_SIGNUP = SN_USER + '/NEWSLETTER_SIGNUP'
 
+export const SN_TAX = 'tax'
+export const TAX_UPDATE_RULES = SN_TAX + '/UPDATE_RULES'

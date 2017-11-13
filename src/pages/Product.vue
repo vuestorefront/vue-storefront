@@ -30,6 +30,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
       } else { // no internet connection so we're just update'ing the selected product
         this.$store.state.product.product_selected_variant.sku = selectedVariant.sku
         this.$store.state.product.product_selected_variant.price = selectedVariant.price
+        this.$store.state.product.product_selected_variant.priceInclTax = selectedVariant.priceInclTax
         for (let opt of selectedVariant.custom_attributes) {
           this.$store.state.product.product_selected_variant[opt.attribute_code] = opt.value
         }

@@ -14,6 +14,56 @@ const state = {
 
 const getters = {
 }
+
+/**
+ * Calculate taxes for specific product collection
+ */
+function calculateTaxes (products, store) {
+  return new Promise((resolve, reject) => {
+    store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
+      for (let product of products) {
+        let taxClass = tcs.items.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
+        if (taxClass) {
+          for (let rate of taxClass.rates) { // TODO: add checks for zip code ranges and countries (!)
+            product.priceInclTax = (product.price + product.price * (parseFloat(rate.rate) / 100))
+            product.priceTax = (product.price * (parseFloat(rate.rate) / 100))
+
+            product.specialPriceInclTax = (product.special_price + product.special_price * (parseFloat(rate.rate) / 100))
+            product.specialPriceTax = (product.special_price * (parseFloat(rate.rate) / 100))
+
+            if (product.configurable_children) {
+              for (let configurableChildren of product.configurable_children) {
+                configurableChildren.priceInclTax = (configurableChildren.price + configurableChildren.price * (parseFloat(rate.rate) / 100))
+                configurableChildren.priceTax = (configurableChildren.price * (parseFloat(rate.rate) / 100))
+
+                configurableChildren.specialPriceInclTax = (configurableChildren.special_price + configurableChildren.special_price * (parseFloat(rate.rate) / 100))
+                configurableChildren.specialPriceTax = (configurableChildren.special_price * (parseFloat(rate.rate) / 100))
+              }
+            }
+
+            break
+          }
+        } else {
+          console.warning('No such tax class id: ' + product.tax_class_id)
+          product.priceInclTax = product.price
+          product.priceTax = 0
+          product.specialPriceInclTax = 0
+          product.specialPriceTax = 0
+          if (product.configurable_children) {
+            for (let configurableChildren of product.configurable_children) {
+              configurableChildren.priceInclTax = configurableChildren.price
+              configurableChildren.priceTax = 0
+              configurableChildren.specialPriceInclTax = 0
+              configurableChildren.specialPriceTax = 0
+            }
+          }
+        }
+      }
+      resolve(products)
+    })
+  })
+}
+
 // actions
 const actions = {
 
@@ -35,8 +85,10 @@ const actions = {
    */
   list (context, { query, start = 0, size = 50, entityType = 'product', sort = '' }) {
     return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
-      context.commit(types.CATALOG_UPD_PRODUCTS, resp)
-      return resp
+      return calculateTaxes(resp.items, context).then((updatedProducts) => {
+        context.commit(types.CATALOG_UPD_PRODUCTS, resp)
+        return resp
+      })
     }).catch(function (err) {
       console.error(err)
     })
