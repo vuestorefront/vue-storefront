@@ -21,28 +21,28 @@
           <div class="col-md-3 no-mobile">
             <h3 class="c-black weight-400">My account</h3>
             <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>My orders</router-link>
+              <router-link class="c-darkgray" to="/my-orders" exact>My orders</router-link>
             </div>
             <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Size guide</router-link>
+              <router-link class="c-darkgray" to="/size-guide" exact>Size guide</router-link>
             </div>
             <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Delivery</router-link>
+              <router-link class="c-darkgray" to="/delivery" exact>Delivery</router-link>
             </div>
             <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Gift card</router-link>
+              <router-link class="c-darkgray" to="/gift-card" exact>Gift card</router-link>
             </div>
           </div>
           <div class="col-md-3 no-mobile">
             <h3 class="c-black weight-400">Help</h3>
             <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Store locator</router-link>
+              <router-link class="c-darkgray" to="/store-locator" exact>Store locator</router-link>
             </div>
             <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Customer service 24/7</router-link>
+              <router-link class="c-darkgray" to="/customer-service" exact>Customer service 24/7</router-link>
             </div>
             <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Order from catalog</router-link>
+              <router-link class="c-darkgray" to="/order-from-catalog" exact>Order from catalog</router-link>
             </div>
           </div>
           <div class="col-md-3">
