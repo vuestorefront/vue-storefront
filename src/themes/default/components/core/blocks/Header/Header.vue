@@ -2,7 +2,7 @@
 <div class="header">
     <header class="brdr-underline bg-white">
         <div class="container">
-            <div class="row between-xs middle-xs px15">
+            <div class="row between-xs middle-xs px15" v-show="!isCheckout">
                 <div class="col-md-2 middle-xs">
                     <div class="box">
                         <hamburger-icon class="p15 icon bg-lightgray"/>
@@ -19,6 +19,21 @@
                         <wishlist-icon class="p15 icon wishlist-icon" />         
                         <microcart-icon class="p15 icon microcart-icon" />
                     </div>
+                </div>
+            </div>
+             <div class="row between-xs middle-xs px15" v-show="isCheckout">
+                <div class="col-md-1 middle-xs">
+                    <div class="box py10">
+                        <img style="height: 35px"src="/assets/magento-logo.png">
+                    </div>
+                </div>
+                <div class="col-md-5 m5dle-xs links">
+                    <div class="box py15">
+                        <router-link to="/">Return to the shopping</router-link>
+                    </div>
+                </div>
+                <div class="col-md-6 middle-xs end-xs">
+                    <img src="/assets/badges.png">
                 </div>
             </div>
         </div>
@@ -39,6 +54,25 @@ import SearchIcon from '../../SearchIcon.vue'
 import WishlistIcon from './WishlistIcon.vue'
 
 export default {
+  data () {
+    return {
+      isCheckout: false
+    }
+  },
+  created () {
+    if (this.$route.path === '/checkout') {
+      this.isCheckout = true
+    }
+  },
+  watch: {
+    '$route.path': function () {
+      if (this.$route.path === '/checkout') {
+        this.isCheckout = true
+      } else {
+        this.isCheckout = false
+      }
+    }
+  },
   components: {
     MicrocartIcon,
     HamburgerIcon,
@@ -77,5 +111,8 @@ export default {
     }
     .header-placeholder {
         height: 55px;
+    }
+    .links {
+        text-decoration: undeline;
     }
 </style>

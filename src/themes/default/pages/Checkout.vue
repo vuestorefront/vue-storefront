@@ -39,7 +39,6 @@ export default {
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
     EventBus.$on('network.status', (status) => { this.checkConnection(status) })
-
     // TO-DO: Use one event with name as apram
     EventBus.$on('checkout.personalDetails', (receivedData, validationResult) => {
       this.personalDetails = receivedData
@@ -81,7 +80,7 @@ export default {
   },
   data () {
     return {
-      orderPlaced: true,
+      orderPlaced: false,
       activeSection: {
         personalDetails: true,
         shipping: false,
