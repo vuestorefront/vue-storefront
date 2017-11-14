@@ -56,6 +56,9 @@ const store = {
     }
   },
   actions: {
+    clear (context) {
+      context.commit(types.CART_LOAD_CART, [])
+    },
     load (context) {
       const commit = context.commit
       const rootState = context.rootState
