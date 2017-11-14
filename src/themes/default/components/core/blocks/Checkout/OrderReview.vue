@@ -10,13 +10,18 @@
             <h3 class="mt5" :class="{'section-editable' : isFilled && !isActive, 'section-disabled' : !isFilled && !isActive }">Review order</h3>
           </div>
         </div>
-        <div class="row mb35" v-show="this.isActive">
+        <div class="row mb35" >
           <div class="col-md-12">
             <p>Please check if all data are correct</p>
-            <div class="bg-lightgray p15">
-              <div>
+            <div class="row">
+              <div class="col-md-8  bg-lightgray p15 mb35">
                 <label><input type="checkbox" name="checkbox" v-model="orderReview.terms" value="value">I agree for terms and conditions</label>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button-full text="Place the order" @click.native="placeOrder"  :class="{ 'button-disabled' : $v.orderReview.$invalid}"/>
               </div>
             </div>
           </div>
@@ -28,6 +33,9 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import EventBus from 'src/event-bus/event-bus'
+
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required } from 'vuelidate/lib/validators'
 
 export default {
@@ -46,6 +54,14 @@ export default {
         terms: ''
       }
     }
+  },
+  methods: {
+    placeOrder () {
+      EventBus.$emit('checkout.placeOrder')
+    }
+  },
+  components: {
+    ButtonFull
   },
   mixins: [coreComponent('core/blocks/Checkout/OrderReview')]
 }

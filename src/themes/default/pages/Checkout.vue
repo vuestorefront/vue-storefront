@@ -10,7 +10,6 @@
           <shipping :is-active="activeSection.shipping"/>
           <payment :is-active="activeSection.payment"/>
           <order-review :is-active="activeSection.orderReview"/>
-          <button-full :is-active="activeSection.orderReview" v-show="activeSection.orderReview" text="Place the order" @click.native="placeOrder" />
         </div>
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
@@ -29,7 +28,6 @@ import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
 import Payment from 'theme/components/core/blocks/Checkout/Payment.vue'
 import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   name: 'Checkout',
@@ -56,7 +54,7 @@ export default {
     EventBus.$on('checkout.cartSummary', (receivedData) => {
       this.cartSummary = receivedData
     })
-
+    EventBus.$on('checkout.placeOrder', () => this.placeOrder())
     EventBus.$on('checkout.edit', (section) => {
       this.activateSection(section)
     })
@@ -171,8 +169,7 @@ export default {
     Shipping,
     Payment,
     OrderReview,
-    CartSummary,
-    ButtonFull
+    CartSummary
   },
   mixins: [corePage('Checkout')]
 }
