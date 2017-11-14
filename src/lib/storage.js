@@ -19,6 +19,7 @@ class LocalForageCacheDriver {
       if (typeof callback !== 'undefined' && callback) {
         callback(null, result)
       }
+      return result
     }).catch(err => {
       console.debug('UniversalStorage - probably in SSR mode: ' + err)
       callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
