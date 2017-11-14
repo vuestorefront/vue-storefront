@@ -2,7 +2,7 @@
   <div id="checkout">
     <div class="container">
       <div class="row">
-        <div class="col-md-7 pb70">
+        <div class="col-md-7 pb70" v-show="!orderPlaced">
           <header>
             <h1>Checkout</h1>
           </header>
@@ -14,6 +14,11 @@
         <div class="col-md-5 bg-lightgray">
             <cart-summary />
         </div>
+      </div>
+      <div class="row" v-show="orderPlaced">
+        <div class="col-md-12">
+          <thank-you-page />
+        </div>  
       </div>
     </div>
   </div>
@@ -76,6 +81,7 @@ export default {
   },
   data () {
     return {
+      orderPlaced: true,
       activeSection: {
         personalDetails: true,
         shipping: false,
@@ -154,6 +160,7 @@ export default {
       this.checkConnection({ online: navigator.onLine })
       if (this.isValid) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
+        this.orderPlaced = true
         console.log(this.order)
       } else {
         EventBus.$emit('notification', {

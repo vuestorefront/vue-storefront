@@ -10,6 +10,7 @@ import Shipping from 'core/components/blocks/Checkout/Shipping.vue'
 import Payment from 'core/components/blocks/Checkout/Payment.vue'
 import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
+import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
 
 export default {
   name: 'Checkout',
@@ -20,7 +21,8 @@ export default {
     Shipping,
     Payment,
     OrderReview,
-    CartSummary
+    CartSummary,
+    ThankYouPage
   }
 }
 </script>

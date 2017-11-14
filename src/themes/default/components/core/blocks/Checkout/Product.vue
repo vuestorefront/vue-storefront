@@ -9,7 +9,7 @@
         </div>
         <div>
           <div>
-            <span class="h6 c-darkgray">Qty {{ qty }}</span> 
+            <span class="h6 c-darkgray">Qty {{ product.qty }}</span> 
           </div>
         </div>
       </div>
@@ -26,11 +26,6 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  data () {
-    return {
-      qty: 0
-    }
-  },
   mixins: [coreComponent('core/blocks/Checkout/Product')]
 }
 </script>
