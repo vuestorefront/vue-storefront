@@ -10,7 +10,7 @@
             <h3 class="mt5" :class="{'section-editable' : isFilled && !isActive, 'section-disabled' : !isFilled && !isActive }">Review order</h3>
           </div>
         </div>
-        <div class="row mb35" >
+        <div class="row mb35" v-show="isActive">
           <div class="col-md-12">
             <p>Please check if all data are correct</p>
             <div class="row">
