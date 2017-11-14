@@ -48,7 +48,7 @@
           <div class="col-md-3">
             <h3 class="c-black weight-400">Join Fashion Club</h3>
             <h6 class="c-gray weight-400">Sign up for our loyalty program, earn points, get rewards and buy cheaper</h6>
-            <button-outline :text="'Subscribe'" color="dark" />
+            <button-outline :text="'Subscribe'" @click.native="newsletterClick" color="dark" />
           </div>
         </div>
       </div>
@@ -73,8 +73,18 @@
 import { coreComponent } from 'lib/themes'
 
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
+import EventBus from 'src/event-bus/event-bus'
 
 export default {
+  methods: {
+    newsletterClick () {
+      EventBus.$emit('notification', {
+        type: 'success',
+        message: 'This feature is not implemented yet :( Newsletter is on our roadmap - issue #200!',
+        action1: { label: 'OK', action: 'close' }
+      })
+    }
+  },
   components: {
     ButtonOutline
   },

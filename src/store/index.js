@@ -35,6 +35,11 @@ Vue.prototype.$db = {
   productsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'products'
+  })),
+
+  claimsCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'claims'
   }))
 }
 
@@ -54,6 +59,7 @@ import checkout from './modules/checkout'
 import homepage from './modules/homepage'
 import stock from './modules/stock'
 import social from './modules/social-tiles'
+import claims from './modules/claims'
 
 Vue.use(Vuex)
 
@@ -101,7 +107,8 @@ export default new Vuex.Store({
     homepage,
     social,
     stock,
-    checkout
+    checkout,
+    claims
   },
   state,
   mutations,

@@ -30,5 +30,13 @@ export function createApp () {
 
   app.$emit('application-after-init', app)
 
+  if (config.demomode === true) {
+    global.__DEMO_MODE__ = true
+  } else {
+    global.__DEMO_MODE__ = false
+  }
+
+  global.__VERSION__ = '0.2.0'
+
   return { app, router, store }
 }
