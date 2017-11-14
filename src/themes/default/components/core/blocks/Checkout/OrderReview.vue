@@ -14,7 +14,7 @@
           <div class="col-md-12">
             <p>Please check if all data are correct</p>
             <div class="row">
-              <div class="col-md-8  bg-lightgray p15 mb35">
+              <div class="col-md-8  bg-lightgray p15 mb35 ml10">
                 <label><input type="checkbox" name="checkbox" v-model="orderReview.terms" value="value">I agree for terms and conditions</label>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
               </div>
