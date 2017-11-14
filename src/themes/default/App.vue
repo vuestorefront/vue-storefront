@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="pt55" :class="{ 'no-scroll': scroll }">
-    <div id="viewport">
-      <overlay />
+  <div id="app" :class="{ 'no-scroll': noScroll }">
+    <overlay />
+    <div id="viewport p55">
       <microcart />
       <sidebar-menu />
       <main-header />
@@ -27,7 +27,7 @@ import Notification from './components/core/Notification.vue'
 export default {
   computed: {
     ...mapState({
-      scroll: state => state.ui.overlay
+      noScroll: state => state.ui.overlay
     })
   },
   components: {
@@ -46,6 +46,7 @@ export default {
 <style src="./css/color.scss" lang="scss"></style>
 <style src="./css/margin.scss" lang="scss"></style>
 <style src="./css/transitions.scss" lang="scss"></style>
+<style src="./css/animations.scss" lang="scss"></style>
 <style src="./css/padding.scss" lang="scss"></style>
 <style src="./css/text.scss" lang="scss"></style>
 <style src="./css/border.scss" lang="scss"></style>

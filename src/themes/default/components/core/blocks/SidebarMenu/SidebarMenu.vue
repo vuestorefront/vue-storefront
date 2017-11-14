@@ -53,15 +53,15 @@ ul {
 }
 
 .sidebar-menu {
-    height: calc(100vh - 55px);
+    height: 100vh;
     width: 350px;
     max-width: 100%;
-    top: 55px;
+    top: 0;
     left: 0;
     overflow: hidden;
     position: fixed;
     transform: translateX(-100%);
-    z-index: 2;
+    z-index: 3;
     transition: transform 300ms $motion-main;
 }
 .sidebar-menu.active {

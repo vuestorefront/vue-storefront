@@ -22,11 +22,11 @@ export default {
 <style scoped>
 .overlay {
     width: 100%;
-    height: 100%;
-    position: absolute;
+    height: 100vh;
+    position: fixed;
     top: 0;
     left: 0;
     background: rgba(0,0,0,.4);
-    z-index: 1;
+    z-index: 3;
 }
 </style>

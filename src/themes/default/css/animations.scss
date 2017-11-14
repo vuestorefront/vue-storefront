@@ -1,0 +1,14 @@
+@keyframes products-loaded {
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+}
+
+[lazy="loaded"] {
+  animation: products-loaded;
+  animation-duration: .3s;
+}
