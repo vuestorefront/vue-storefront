@@ -21,10 +21,6 @@
 </template>
 
 <script>
-/**
- * TODO: Regarding Figma.com design this page should have different layout than App.vue - how to apply it?
- * Make new template, please make an issue - Filip
- */
 import { corePage } from 'lib/themes'
 import EventBus from 'src/event-bus/event-bus'
 

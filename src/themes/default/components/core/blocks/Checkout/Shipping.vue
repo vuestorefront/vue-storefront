@@ -54,6 +54,58 @@
             <button-full @click.native="sendDataToCheckout" text="Continue to payment" :class="{ 'button-disabled' : $v.shipping.$invalid}"/>
           </div>
         </div>
+        <div class="row fs16 mb35" v-show="isFilled">
+          <div class="col-md-12">
+
+            <div class="row">
+              <div class="col-md-6 ">
+                <strong>First name</strong><br>
+                {{ shipping.firstName }}
+              </div>
+              <div class="col-md-6 ">
+                <strong>Last name</strong><br>
+                {{ shipping.lastName }}
+              </div>
+            </div>
+
+            <div class="row mt15">
+              <div class="col-md-6 ">
+                <strong>Street address</strong><br>
+                {{ shipping.streetAddress }}
+              </div>
+              <div class="col-md-6" v-show="shipping.apartmentNumber">
+                <strong>Apartment number</strong><br>
+                {{ shipping.apartmentNumber }}
+              </div>
+            </div>
+            
+            <div class="row mt15">
+              <div class="col-md-6 ">
+                <strong>City</strong><br>
+                {{ shipping.city }}
+              </div>
+              <div class="col-md-6" v-show="shipping.state">
+                <strong>State / Province</strong><br>
+                {{ shipping.state }}
+              </div>
+            </div>
+
+            <div class="row mt15">
+              <div class="col-md-12 ">
+                <strong>Zip Code</strong><br>
+                {{ shipping.zipCode }}
+              </div>
+            </div>
+
+            <div class="row mt15" v-show="shipping.phoneNumber">
+              <div class="col-md-12 ">
+                <strong>Phone number</strong><br>
+                {{ shipping.phoneNumber }}
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>

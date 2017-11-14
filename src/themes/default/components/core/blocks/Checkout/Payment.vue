@@ -20,6 +20,12 @@
             <button-full @click.native="sendDataToCheckout" text="Go review the order" :class="{ 'button-disabled' : $v.payment.$invalid}"/>
           </div>
         </div>
+        <div class="row fs16 mb35" v-show="isFilled">
+          <div class="col-md-6">
+            <strong>Payment method</strong><br>
+            Cash on delivery
+          </div>
+      </div>
       </div>
     </div>
   </div>
