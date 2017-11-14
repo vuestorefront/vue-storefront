@@ -2,7 +2,7 @@
   <div id="checkout">
     <div class="container">
       <div class="row">
-        <div class="col-md-7 pb70" v-show="!orderPlaced">
+        <div class="col-md-7 pb70">
           <header>
             <h1>Checkout</h1>
           </header>
