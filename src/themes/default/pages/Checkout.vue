@@ -1,7 +1,7 @@
 <template>
   <div id="checkout">
     <div class="container">
-      <div class="row">
+      <div class="row" v-show="!orderPlaced">
         <div class="col-md-7 pb70">
           <header>
             <h1>Checkout</h1>
