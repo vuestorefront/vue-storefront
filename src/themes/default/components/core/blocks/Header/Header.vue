@@ -1,4 +1,5 @@
 <template>
+<div class="header">
     <header class="brdr-underline bg-white">
         <div class="container">
             <div class="row between-xs middle-xs px15">
@@ -22,6 +23,9 @@
             </div>
         </div>
     </header>
+    <div class="header-placeholder">
+    </div>
+</div>
 </template>
 
 <script>
@@ -70,5 +74,8 @@ export default {
         .wishlist-icon {
             display: none;
         }
+    }
+    .header-placeholder {
+        height: 55px;
     }
 </style>
