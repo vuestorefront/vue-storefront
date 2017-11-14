@@ -33,6 +33,16 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   name: 'Checkout',
+  beforeMount () {
+    if (this.$store.state.cart.cartItems.length === 0) {
+      EventBus.$emit('notification', {
+        type: 'warning',
+        message: 'Shopping cart is empty. Please add some products before entering Checkout',
+        action1: { label: 'OK', action: 'close' }
+      })
+      this.$router.push('/')
+    }
+  },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
     EventBus.$on('network.status', (status) => { this.checkConnection(status) })

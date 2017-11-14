@@ -26,6 +26,7 @@ const store = {
     placeOrder (context, { order }) {
       try {
         context.dispatch('order/placeOrder', order, {root: true})
+        context.dispatch('cart/clear', {}, {root: true})
       } catch (e) {
         if (e.name === 'ValidationError') {
           console.error('Internal validation error; Order entity is not compliant with the schema', e.messages)
