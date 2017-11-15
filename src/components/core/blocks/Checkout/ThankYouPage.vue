@@ -6,7 +6,7 @@
             Your order has been sent to the server and will be immediately processed 
         </p>
         <p v-else> 
-            Your order will be sent to the server as soon as you connec to the Internet and then confirmed regarding the stock qunatities of selected items"
+            Your order will be sent to the server as soon as you connect to the Internet and then confirmed regarding the stock qunatities of selected items
         </p>
     </div>
 </template>

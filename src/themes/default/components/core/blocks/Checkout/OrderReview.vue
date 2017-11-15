@@ -15,7 +15,7 @@
             <p>Please check if all data are correct</p>
             <div class="row">
               <div class="col-md-8  bg-lightgray p15 mb35 ml10">
-                <label><input type="checkbox" name="checkbox" v-model="orderReview.terms" value="value">I agree for terms and conditions</label>
+                <label><input type="checkbox" name="checkbox" v-model="orderReview.terms" value="value">I agree for <router-link to="/legal">terms and conditions</router-link></label>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
               </div>
             </div>
@@ -68,5 +68,7 @@ export default {
 </script>
 
 <style scoped>
-
+a {
+  text-decoration: underline;
+}
 </style>

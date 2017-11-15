@@ -22,9 +22,9 @@
                 </div>
             </div>
              <div class="row between-xs middle-xs px15" v-show="isCheckout">
-                <div class="col-md-1 middle-xs">
+                <div class="col-md-1">
                     <div class="box py10">
-                        <img style="height: 35px"src="/assets/magento-logo.png">
+                        <img src="assets/logo.png" height="35px">
                     </div>
                 </div>
                 <div class="col-md-5 m5dle-xs links">
