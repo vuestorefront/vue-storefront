@@ -32,7 +32,7 @@
                         <router-link to="/">Return to the shopping</router-link>
                     </div>
                 </div>
-                <div class="col-md-6 middle-xs end-xs">
+                <div class="col-md-6 middle-xs end-xs hidden-xs">
                     <img src="/assets/badges.png">
                 </div>
             </div>
