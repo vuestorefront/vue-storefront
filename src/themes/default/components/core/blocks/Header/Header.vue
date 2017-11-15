@@ -24,7 +24,7 @@
              <div class="row between-xs middle-xs px15" v-show="isCheckout">
                 <div class="col-md-1">
                     <div class="box py10">
-                        <img src="assets/logo.png" height="35px">
+                        <img src="assets/launcher-icon-1x.png" height="35px">
                     </div>
                 </div>
                 <div class="col-md-5 m5dle-xs links">
