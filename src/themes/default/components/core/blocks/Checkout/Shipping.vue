@@ -1,10 +1,10 @@
 <template>
   <div class="shipping">
     <div class="row">
-      <div class="col-md-1">
+      <div class="col-md-1 col-xs-2">
         <div class="number-circle lh40 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">2</div> 
       </div>
-      <div class="col-md-11">
+      <div class="col-md-11 col-xs-10">
         <div class="row">
           <div class="col-md-12 mb15" :class="{ 'c-gray' : !isFilled && !isActive }">
             <h3 @click="edit" class="mt5" :class="{'section-editable' : isFilled && !isActive, 'section-disabled' : !isFilled && !isActive }">Shipping</h3>
@@ -43,19 +43,19 @@
           <div class="col-md-12 mb25">
             <input type="text" name="phone number" placeholder="Phone Number" v-model="shipping.phoneNumber">
           </div>
-          <div class="col-md-12">
+          <div class="col-xs-12">
             <h4>Shipping method</h4>
           </div>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
             <label><input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod"> {{ method.name }} | {{ method.cost | price }} </label>
           </div>
           <span class="validation-error" v-if="!$v.shipping.shippingMethod.required">Field is required</span>
-          <div class="col-md-12 my30">
+          <div class="col-xs-12 my30">
             <button-full @click.native="sendDataToCheckout" text="Continue to payment" :class="{ 'button-disabled' : $v.shipping.$invalid}"/>
           </div>
         </div>
         <div class="row fs16 mb35" v-show="isFilled">
-          <div class="col-md-12">
+          <div class="col-xs-12">
 
             <div class="row">
               <div class="col-md-6 ">

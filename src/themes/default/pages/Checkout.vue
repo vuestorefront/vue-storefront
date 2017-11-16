@@ -2,7 +2,7 @@
   <div id="checkout">
     <div class="container">
       <div class="row" v-show="!orderPlaced">
-        <div class="col-md-7 pb70">
+        <div class="col-sm-7 col-xs-12 pb70">
           <header>
             <h1>Checkout</h1>
           </header>
@@ -11,12 +11,12 @@
           <payment :is-active="activeSection.payment"/>
           <order-review :is-active="activeSection.orderReview"/>
         </div>
-        <div class="col-md-5 bg-lightgray">
+        <div class="col-sm-5 col-xs-12 bg-lightgray">
             <cart-summary />
         </div>
       </div>
       <div class="row" v-show="orderPlaced">
-        <div class="col-md-12">
+        <div class="col-xs-12">
           <thank-you-page />
         </div>  
       </div>
