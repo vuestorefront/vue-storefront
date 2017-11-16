@@ -3,6 +3,7 @@
     <overlay />
     <div id="viewport p55">
       <microcart />
+      <search-panel />
       <sidebar-menu />
       <main-header />
       <router-view></router-view>
@@ -20,6 +21,7 @@ import MainFooter from './components/core/blocks/Footer/Footer.vue'
 
 import Microcart from './components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
+import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 
 import Overlay from './components/core/Overlay.vue'
 import Notification from './components/core/Notification.vue'
@@ -34,6 +36,7 @@ export default {
     MainHeader,
     MainFooter,
     Microcart,
+    SearchPanel,
     SidebarMenu,
     Overlay,
     Notification

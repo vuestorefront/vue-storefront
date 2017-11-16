@@ -8,6 +8,10 @@ const mutations = {
   setSidebar (state, action) {
     state.sidebar = action === true
     state.overlay = action === true
+  },
+  setSearchpanel (state, action) {
+    state.searchpanel = action === true
+    state.overlay = action === true
   }
 }
 

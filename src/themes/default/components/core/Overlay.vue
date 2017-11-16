@@ -6,6 +6,7 @@ export default {
     onClick () {
       this.$store.commit('ui/setOverlay', false)
       this.$store.commit('ui/setMicrocart', false)
+      this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
     }
   },
