@@ -27,8 +27,10 @@ const actions = {
 
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
+    } else {
+      commit(types.ORDER_PLACE_ORDER, order)
+      return true
     }
-    commit(types.ORDER_PLACE_ORDER, order)
   }
 }
 

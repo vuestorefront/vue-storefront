@@ -16,7 +16,7 @@ export default {
   name: 'thank-you-page',
   data () {
     return {
-      isOnline: navigator.isOnline
+      isOnline: (typeof navigator !== 'undefined' ? navigator.isOnline : true)
     }
   }
 }
