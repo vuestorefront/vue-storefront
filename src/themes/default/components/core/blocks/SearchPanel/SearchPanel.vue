@@ -50,9 +50,9 @@ export default {
 @import "../../../../css/transitions.scss";
 
   .searchpanel {
-      height: calc(100vh - 55px);
+      height: calc(100vh - 54px);
       width: 800px;
-      top: 55px;
+      top: 54px;
       right: 0;
       max-width: 100%;
       position: fixed;
@@ -105,7 +105,7 @@ export default {
     opacity: 1;
   }
 
-  @media only screen and (max-width:50em) { 
+  @media only screen and (max-width:50em) {
     .searchpanel .product-listing .product{
       width:auto;
     }
