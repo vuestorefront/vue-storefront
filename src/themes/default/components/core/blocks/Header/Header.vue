@@ -9,14 +9,14 @@
                     </div>
                 </div>
                 <div class="col-md-8 center-xs">
-                    <div class="box">              
+                    <div class="box">
                         <logo width="36px" height="41px"/>
                     </div>
                 </div>
                 <div class="col-md-2 end-xs">
                     <div class="box inline-flex">
                         <search-icon class="p15 icon search-icon" />
-                        <wishlist-icon class="p15 icon wishlist-icon" />         
+                        <wishlist-icon class="p15 icon wishlist-icon" />
                         <microcart-icon class="p15 icon microcart-icon" />
                     </div>
                 </div>
@@ -88,7 +88,7 @@ export default {
     header {
         border-bottom-color: #E0E0E0;
         position: fixed;
-        height: 55px;
+        height: 54px;
         top: 0;
         width: 100%;
         z-index: 2;
@@ -110,7 +110,7 @@ export default {
         }
     }
     .header-placeholder {
-        height: 55px;
+        height: 54px;
     }
     .links {
         text-decoration: undeline;
