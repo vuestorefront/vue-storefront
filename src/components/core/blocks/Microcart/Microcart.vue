@@ -5,7 +5,7 @@
     <ul>
       <li v-for='product in items'>
         {{ product.name }}
-        {{ product.price }}
+        {{ product.priceInclTax }}
         {{ product.qty }}
       </li>
     </ul>  

@@ -23,19 +23,18 @@ function filterChanged (filterOption) { // slection of product variant on produc
       })
     } else { // TODO: this way of getting product probably brokes offline because products are cached by ID not SKU; we probably can just re-configure the product without getting it from cache
       console.log(selectedVariant)
-      if (navigator.onLine) {
+/*      if (navigator.onLine) {
         this.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
           this.$store.state.product.product_selected_variant = confProduct
         })
-      } else { // no internet connection so we're just update'ing the selected product
-        this.$store.state.product.product_selected_variant.sku = selectedVariant.sku
-        this.$store.state.product.product_selected_variant.price = selectedVariant.price
-        this.$store.state.product.product_selected_variant.priceInclTax = selectedVariant.priceInclTax
-        for (let opt of selectedVariant.custom_attributes) {
-          this.$store.state.product.product_selected_variant[opt.attribute_code] = opt.value
-        }
-        this.$store.state.product.product_selected_variant.custom_attributes = selectedVariant.custom_attributes
+      } else { // no internet connection so we're just update'ing the selected product */
+      this.$store.state.product.product_selected_variant.sku = selectedVariant.sku
+      this.$store.state.product.product_selected_variant.price = selectedVariant.price
+      this.$store.state.product.product_selected_variant.priceInclTax = selectedVariant.priceInclTax
+      for (let opt of selectedVariant.custom_attributes) {
+        this.$store.state.product.product_selected_variant[opt.attribute_code] = opt.value
       }
+      this.$store.state.product.product_selected_variant.custom_attributes = selectedVariant.custom_attributes
     }
   })
 }

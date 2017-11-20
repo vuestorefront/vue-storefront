@@ -15,6 +15,49 @@ const state = {
 const getters = {
 }
 
+function calculateProductTax (product, taxClasses) {
+  let rateFound = false
+  let taxClass = taxClasses.items.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
+  if (taxClass) {
+    for (let rate of taxClass.rates) { // TODO: add check for zip code ranges (!)
+      if (rate.tax_country_id === global.__TAX_COUNTRY__ && (rate.region_name === global.__TAX_REGION__ || rate.tax_region_id === 0 || !rate.region_name)) {
+        product.priceInclTax = (product.price + product.price * (parseFloat(rate.rate) / 100))
+        product.priceTax = (product.price * (parseFloat(rate.rate) / 100))
+
+        product.specialPriceInclTax = (product.special_price + product.special_price * (parseFloat(rate.rate) / 100))
+        product.specialPriceTax = (product.special_price * (parseFloat(rate.rate) / 100))
+
+        if (product.configurable_children) {
+          for (let configurableChildren of product.configurable_children) {
+            configurableChildren.priceInclTax = (configurableChildren.price + configurableChildren.price * (parseFloat(rate.rate) / 100))
+            configurableChildren.priceTax = (configurableChildren.price * (parseFloat(rate.rate) / 100))
+
+            configurableChildren.specialPriceInclTax = (configurableChildren.special_price + configurableChildren.special_price * (parseFloat(rate.rate) / 100))
+            configurableChildren.specialPriceTax = (configurableChildren.special_price * (parseFloat(rate.rate) / 100))
+          }
+        }
+        rateFound = true
+        console.debug('Tax rate ' + rate.code + ' = ' + rate.rate + '% found for ' + global.__TAX_COUNTRY__ + ' / ' + global.__TAX_REGION__)
+        break
+      }
+    }
+  }
+  if (!rateFound) {
+    console.log('No such tax class id: ' + product.tax_class_id + ' or rate not found for ' + global.__TAX_COUNTRY__ + ' / ' + global.__TAX_REGION__)
+    product.priceInclTax = product.price
+    product.priceTax = 0
+    product.specialPriceInclTax = 0
+    product.specialPriceTax = 0
+    if (product.configurable_children) {
+      for (let configurableChildren of product.configurable_children) {
+        configurableChildren.priceInclTax = configurableChildren.price
+        configurableChildren.priceTax = 0
+        configurableChildren.specialPriceInclTax = 0
+        configurableChildren.specialPriceTax = 0
+      }
+    }
+  }
+}
 /**
  * Calculate taxes for specific product collection
  */
@@ -22,42 +65,7 @@ function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
     store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
       for (let product of products) {
-        let taxClass = tcs.items.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
-        if (taxClass) {
-          for (let rate of taxClass.rates) { // TODO: add checks for zip code ranges and countries (!)
-            product.priceInclTax = (product.price + product.price * (parseFloat(rate.rate) / 100))
-            product.priceTax = (product.price * (parseFloat(rate.rate) / 100))
-
-            product.specialPriceInclTax = (product.special_price + product.special_price * (parseFloat(rate.rate) / 100))
-            product.specialPriceTax = (product.special_price * (parseFloat(rate.rate) / 100))
-
-            if (product.configurable_children) {
-              for (let configurableChildren of product.configurable_children) {
-                configurableChildren.priceInclTax = (configurableChildren.price + configurableChildren.price * (parseFloat(rate.rate) / 100))
-                configurableChildren.priceTax = (configurableChildren.price * (parseFloat(rate.rate) / 100))
-
-                configurableChildren.specialPriceInclTax = (configurableChildren.special_price + configurableChildren.special_price * (parseFloat(rate.rate) / 100))
-                configurableChildren.specialPriceTax = (configurableChildren.special_price * (parseFloat(rate.rate) / 100))
-              }
-            }
-
-            break
-          }
-        } else {
-          console.warning('No such tax class id: ' + product.tax_class_id)
-          product.priceInclTax = product.price
-          product.priceTax = 0
-          product.specialPriceInclTax = 0
-          product.specialPriceTax = 0
-          if (product.configurable_children) {
-            for (let configurableChildren of product.configurable_children) {
-              configurableChildren.priceInclTax = configurableChildren.price
-              configurableChildren.priceTax = 0
-              configurableChildren.specialPriceInclTax = 0
-              configurableChildren.specialPriceTax = 0
-            }
-          }
-        }
+        product = calculateProductTax(product, tcs)
       }
       resolve(products)
     })
@@ -128,7 +136,7 @@ const actions = {
           console.debug('Product:single - result from localForage for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           resolve(setupProduct(res))
         } else {
-          quickSearchByQuery({ query: bodybuilder().query('match', fieldName, value).build() }).then((res) => {
+          context.dispatch('list', { query: bodybuilder().query('match', fieldName, value).build() }).then((res) => {
             if (res && res.items.length > 0) {
               resolve(setupProduct(res.items[0])) // we don't store result into cache here as it's already populated by quickSerchByQuery (diffrent key)
             }

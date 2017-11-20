@@ -15,7 +15,7 @@
       </div>
       <div class="col-xs pb15 pt15 align-right">
         <div>
-          $ {{ product.price }}
+          $ {{ product.priceInclTax }}
         </div>
       </div>
     </div>

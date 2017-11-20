@@ -2,7 +2,7 @@
   <div class="product-tile">
     Core Product Tile
     <!-- Product name and price with price filter -->
-    {{ product.name}} - {{ product.price | price }} 
+    {{ product.name}} - {{ product.priceInclTax | price }} 
   </div>
 </template>
 

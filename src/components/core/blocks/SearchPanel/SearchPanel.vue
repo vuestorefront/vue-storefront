@@ -4,7 +4,7 @@
     <ul>
       <li v-for='product in products' v-bind:key="product.sku">
         {{ product.name }}
-        {{ product.price }}
+        {{ product.priceInclTax }}
         {{ product.qty }}
       </li>
     </ul>  
@@ -13,8 +13,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import { quickSearchByQuery } from '../../../../api/search'
-
 const bodybuilder = require('bodybuilder')
 
 export default {
@@ -31,7 +29,6 @@ export default {
     // TODO:show recent searches list
   },
   components: {
-    quickSearchByQuery,
     mapState
   },
   methods: {
@@ -53,7 +50,7 @@ export default {
         .filter('range', 'visibility', { 'gte': 3, 'lte': 4 })
         .build()
 
-      quickSearchByQuery({query, start, size}).then((resp) => {
+      this.$store.dispatch('product/list', {query, start, size}).then((resp) => {
         this.products = resp.items
         this.emptyResults = resp.items.length < 1
       }).catch(function (err) {

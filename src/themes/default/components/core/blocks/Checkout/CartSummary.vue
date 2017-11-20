@@ -10,15 +10,15 @@
           Shipping ({{ shipping.name }})
         </div>
         <div class="col-xs align-right c-black">
-          {{ shipping.cost | price }}
+          {{ shipping.costInclTax | price }}
         </div>
       </div>
       <div class="row pt15 pb20 pl30 pr55 ">
         <div class="col-xs c-black">
           Payment ({{ payment.name }})
         </div>
-        <div class="col-xs align-right c-black" v-if='payment.cost > 0'>
-          {{ payment.cost | price }}
+        <div class="col-xs align-right c-black" v-if='payment.costInclTax > 0'>
+          {{ payment.costInclTax | price }}
         </div>
       </div>
 <!--             <div class="row pt20 pb20 pl30 pr55">
@@ -34,7 +34,7 @@
           Order summary
         </div>
         <div class="col-xs align-right">
-          {{ total | price }}
+          {{ totalInclTax | price }}
         </div>
       </div>
     </div>

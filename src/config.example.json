@@ -14,5 +14,13 @@
     "is_local_backend": true,
     "backend_dir": "../vue-storefront-api"
   },
-  "demomode": true
+  "demomode": true,
+  "tax": {
+    "defaultCountry": "PL",
+    "defaultRegion": ""
+  },  
+  "i18n": {
+    "defaultCountry": "US",
+    "defaultLanguage": "EN"
+  }
 }

@@ -58,6 +58,7 @@ export default {
     EventBus.$on('checkout.shipping', (receivedData, validationResult) => {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
+      global.__TAX_COUNTRY__ = this.shipping.country
       this.activateSection('payment')
     })
     EventBus.$on('checkout.payment', (receivedData, validationResult) => {

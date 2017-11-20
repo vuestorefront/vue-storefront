@@ -37,6 +37,11 @@ export function createApp () {
   }
 
   global.__VERSION__ = '0.2.0'
+  global.__CONFIG__ = config
+  global.__TAX_COUNTRY__ = config.tax.defaultCountry || 'PL'
+  global.__TAX_REGION__ = config.tax.defaultRegion || ''
+  global.__I18N_COUNTRY__ = config.i18n.defaultCountry || 'US'
+  global.__I18N_LANG__ = config.i18n.defaultLanguage || 'EN'
 
   return { app, router, store }
 }
