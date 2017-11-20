@@ -18,7 +18,7 @@
       <div class="row" v-show="orderPlaced">
         <div class="col-xs-12">
           <thank-you-page />
-        </div>  
+        </div>
       </div>
     </div>
   </div>
@@ -133,7 +133,7 @@ export default {
           shippingAddress: {
             region: this.shipping.state,
             region_id: 0,
-            country_id: 'US', // TODO: translate country name to country id it should be = PL, US ... => http://www.nextbits.eu/blog/magento-country-codes-for-shipping-methods-table-rate/
+            country_id: this.shipping.country,
             street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
             company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
             telephone: this.shipping.phoneNumber,
@@ -147,7 +147,7 @@ export default {
           billingAddress: {
             region: this.shipping.state,
             region_id: 0,
-            country_id: 'US',
+            country_id: this.shipping.country,
             street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
             company: 'NA',
             telephone: this.shipping.phoneNumber,
@@ -195,7 +195,7 @@ export default {
 @import '../css/text.scss';
 
 #checkout {
-  input[type=text], input[type=email], input[type=tel] {
+  input[type=text], input[type=email], input[type=tel], select {
     @extend .h4;
     padding: 10px 0;
     border: none;
@@ -208,10 +208,21 @@ export default {
   input:-moz-placeholder {
     color: #BDBDBD;
   }
-  input:focus {
+  input:focus, select:focus {
     outline: none;
     border-color: black;
     transition: 0.3s all;
+  }
+  select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    background-color: transparent;
+  }
+  @media (max-width: 1023px) {
+    select {
+      max-width: 188px;
+    }
   }
   h4 {
     @extend .weight-200;
@@ -232,7 +243,7 @@ export default {
     cursor: not-allowed;
   }
   .section-editable {
-    cursor: pointer;  
+    cursor: pointer;
   }
 }
 </style>
