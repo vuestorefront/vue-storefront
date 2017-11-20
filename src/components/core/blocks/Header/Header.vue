@@ -12,8 +12,8 @@
 
 <script>
 import Logo from '../../Logo.vue'
-import SearchIcon from '../../SearchIcon.vue'
 
+import SearchIcon from './SearchIcon.vue'
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
 import WishlistIcon from './WishlistIcon.vue'

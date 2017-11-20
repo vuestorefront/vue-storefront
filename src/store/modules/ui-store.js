@@ -1,6 +1,7 @@
 const state = {
   sidebar: false,
   microcart: false,
+  searchpanel: false,
   overlay: false
 }
 
@@ -13,6 +14,9 @@ const mutations = {
   },
   setSidebar (state, action) {
     state.sidebar = action === true
+  },
+  setSearchpanel (state, action) {
+    state.searchpanel = action === true
   }
 }
 

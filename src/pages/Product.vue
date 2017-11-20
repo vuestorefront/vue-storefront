@@ -41,7 +41,6 @@ function filterChanged (filterOption) { // slection of product variant on produc
 }
 
 function fetchData (store, route) {
-  store.dispatch('product/reset')
   return store.dispatch('product/single', { fieldName: 'id', value: route.params.id }).then((product) => {
     let subloaders = []
     if (product) {
@@ -126,22 +125,40 @@ function fetchData (store, route) {
 export default {
   name: 'Home',
   methods: {
+    validateRoute () {
+      let inst = this
+      this.loading = true
+      this.$store.dispatch('product/reset').then(() => {
+        fetchData(inst.$store, inst.$route).then((subpromises) => {
+          Promise.all(subpromises).then(subresults => {
+            inst.loading = false
+          }).catch(errs => {
+            console.error(errs)
+          })
+        })
+      })
+    }
   },
 
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      fetchData(store, route).then((subpromises) => {
-        Promise.all(subpromises).then(subresults => {
-          return resolve()
-        }).catch(errs => {
-          console.error(errs)
+      store.dispatch('product/reset').then(() => {
+        fetchData(store, route).then((subpromises) => {
+          Promise.all(subpromises).then(subresults => {
+            return resolve()
+          }).catch(errs => {
+            console.error(errs)
+            return resolve()
+          })
+        }).catch(err => {
+          console.error(err)
           return resolve()
         })
-      }).catch(err => {
-        console.error(err)
-        return resolve()
       })
     })
+  },
+  watch: {
+    '$route': 'validateRoute'
   },
   beforeDestroy () {
     EventBus.$off('filter-changed-product')
@@ -174,6 +191,7 @@ export default {
   },
   data () {
     return {
+      loading: false
       // TO-DO: Variants should be in product object
     }
   },

@@ -21,7 +21,7 @@
             </div>
 
             <div class="variants" v-if="product.type_id =='configurable'">
-              <div class="h4" v-for="option in product.configurable_options">
+              <div class="h4" v-for="option in product.configurable_options" v-if="!loading">
                 <span>{{ option.label }}
                   <strong>{{ configuration[option.label.toLowerCase()].label }}</strong>
                 </span>
