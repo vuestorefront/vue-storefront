@@ -5,7 +5,7 @@
     <ul>
       <li v-for='product in items'>
         {{ product.name }}
-        {{ product.price }}
+        {{ product.priceInclTax }}
         {{ product.qty }}
       </li>
     </ul>  
@@ -38,8 +38,14 @@ export default {
     subtotal () {
       return this.$store.getters['cart/totals'].subtotal
     },
+    subtotalInclTax () {
+      return this.$store.getters['cart/totals'].subtotalInclTax
+    },
     total () {
       return this.subtotal + this.shipping.cost + this.payment.cost
+    },
+    totalInclTax () {
+      return this.subtotalInclTax + this.shipping.costInclTax + this.payment.costInclTax
     },
     items () {
       return this.$store.state.cart.cartItems

@@ -58,6 +58,7 @@ import ui from './modules/ui-store'
 import checkout from './modules/checkout'
 import homepage from './modules/homepage'
 import stock from './modules/stock'
+import tax from './modules/tax'
 import social from './modules/social-tiles'
 import claims from './modules/claims'
 
@@ -108,6 +109,7 @@ export default new Vuex.Store({
     social,
     stock,
     checkout,
+    tax,
     claims
   },
   state,

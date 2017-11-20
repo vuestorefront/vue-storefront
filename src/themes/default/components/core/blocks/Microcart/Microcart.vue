@@ -15,10 +15,10 @@
       <h3 class="ml30 c-black">Shopping summary</h3>
       <div class="row pt15 pb20 pl30 pr55">
         <div class="col-xs c-black">
-          Subtotal
+          Subtotal inc. tax
         </div>
         <div class="col-xs align-right c-black">
-          {{ subtotal | price }}
+          {{ subtotalInclTax | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
@@ -26,7 +26,7 @@
           Shipping ({{ shipping.name }})
         </div>
         <div class="col-xs align-right c-black">
-          {{ shipping.cost | price }}
+          {{ shipping.costInclTax | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
@@ -34,15 +34,15 @@
           Payment ({{ payment.name }})
         </div>
         <div class="col-xs align-right c-black" v-if='payment.cost > 0'>
-          {{ payment.cost | price }}
+          {{ payment.costInclTax | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55">
         <div class="col-xs weight-400 c-black">
-          Total
+          Total inc. tax
         </div>
         <div class="col-xs align-right weight-400 h3 c-black">
-          {{ total | price }}
+          {{ totalInclTax | price }}
         </div>
       </div>
       <div class="row pt20 pb20 pl30 pr55" v-if="!isCheckoutMode">

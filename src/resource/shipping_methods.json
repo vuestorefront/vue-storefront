@@ -2,7 +2,8 @@
     {
         "name": "DPD Courier",
         "code": "flatrate",
-        "cost": 5, 
+        "cost": 4, 
+        "costInclTax": 5,
         "default": true,
         "offline": true
     }

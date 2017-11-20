@@ -8,7 +8,7 @@
         </transition>  
       </div>
       <p class="mb0">{{ product.name }}</p>
-      <span class="lh30 c-gray">{{ product.price | price }}</span>
+      <span class="lh30 c-gray">{{ product.priceInclTax | price }}</span>
     </router-link>
   </div>
 </template>
