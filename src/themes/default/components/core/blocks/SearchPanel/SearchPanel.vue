@@ -50,9 +50,9 @@ export default {
 @import "../../../../css/transitions.scss";
 
   .searchpanel {
-      height: calc(100vh - 54px);
+      height: 100vh;
       width: 800px;
-      top: 54px;
+      top: 0;
       right: 0;
       max-width: 100%;
       position: fixed;
