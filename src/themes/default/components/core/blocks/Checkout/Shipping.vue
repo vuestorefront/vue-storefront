@@ -42,7 +42,6 @@
           </div>
           <div class="col-md-6 mb25">
             <select name="countries" v-model="shipping.country">
-              <option value="" disabled selected hidden>Country</option>
               <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
             </select>
             <span class="validation-error" v-if="!$v.shipping.country.required">Field is required</span>
@@ -142,6 +141,9 @@ export default {
         this.shipping.lastName = receivedData.lastName
       }
     })
+    // Set user's country selection based on browser language
+    const browserLanguage = navigator.language.toUpperCase().substring(0, 2)
+    this.shipping.country = browserLanguage
   },
   validations: {
     shipping: {
