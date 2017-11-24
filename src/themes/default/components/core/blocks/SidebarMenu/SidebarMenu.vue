@@ -59,6 +59,7 @@ ul {
     top: 0;
     left: 0;
     overflow: hidden;
+    overflow-y: auto;
     position: fixed;
     transform: translateX(-100%);
     z-index: 3;
