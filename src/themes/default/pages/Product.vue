@@ -8,15 +8,15 @@
           </div>
         </div>
         <div class="row py35">
-          <div class="col-md-7 center-md middle-md">
+          <div class="col-xs-12 col-md-7 center-xs middle-xs">
             <transition name="fade" appear>
               <img class="product-image" v-lazy="imgObj" ref="image"/>
-            </transition>  
+            </transition>
           </div>
           <div class="col-md-5">
 
-            <h1 class="mb10 c-black"> {{ product.name }} </h1>
-            <div class="h3 c-darkgray mb35">
+            <h1 class="mb25 c-black"> {{ product.name }} </h1>
+            <div class="h3 c-gray mb55">
               {{ product.priceInclTax | price }}
             </div>
 
@@ -25,14 +25,32 @@
                 <span>{{ option.label }}
                   <strong>{{ configuration[option.label.toLowerCase()].label }}</strong>
                 </span>
-                <div class="mt10">
+                <div class="mt20 mb45">
                   <color-button v-for="c in options.color" :id="c.id" :label="c.label" context="product" code="color" class="mr10" :class="{ active: c.id == configuration.color.id }" v-if="option.label == 'Color'" />
                   <size-button v-for="s in options.size" :id="s.id" :label="s.label" context="product" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'"/>
+                  <router-link to="/size-guide" v-if="option.label == 'Size'" class="p0 ml30 action size-guide">
+                    <i class="pr5 material-icons">accessibility</i>
+                      Size guide
+                  </router-link>
                 </div>
               </div>
 
             </div>
-            <add-to-cart :product="configured_product" class="h4 bg-black c-white px55 py20 brdr-none mt50" />
+            <add-to-cart :product="configured_product" class="h4 bg-black c-white px55 py20 brdr-none" />
+            <div class="row pt45">
+              <div class="col-xs-6 col-md-5">
+                <button class="p0 bg-transparent brdr-none action" @click="addToFavorite">
+                  <i class="pr5 material-icons">{{ favorite.icon }}</i>
+                    Add to favorite
+                </button>
+              </div>
+              <div class="col-xs-6 col-md-5">
+                <button class="p0 bg-transparent brdr-none action" @click="addToCompare">
+                  <i class="pr5 material-icons">compare</i>
+                    Add to compare
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -50,7 +68,7 @@
             <ul>
               <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_atributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
             </ul>
-            
+
           </div> -->
         </div>
       </div>
@@ -68,8 +86,17 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 
 import { thumbnail } from 'src/lib/filters'
+import EventBus from 'src/event-bus/event-bus'
 
 export default {
+  data () {
+    return {
+      favorite: {
+        isFavorite: false,
+        icon: 'favorite_border'
+      }
+    }
+  },
   computed: {
     imgObj () {
       return {
@@ -77,6 +104,36 @@ export default {
         error: thumbnail(this.product.image, 310, 300),
         loading: thumbnail(this.product.image, 310, 300)
       }
+    }
+  },
+  methods: {
+    addToFavorite () {
+      // todo
+      if (this.favorite.isFavorite === false) {
+        this.favorite.isFavorite = true
+        this.favorite.icon = 'favorite'
+        EventBus.$emit('notification', {
+          type: 'success',
+          message: 'Product has been added to favorites. This feature is not implemented yet :(',
+          action1: { label: 'OK', action: 'close' }
+        })
+      } else {
+        this.favorite.isFavorite = false
+        this.favorite.icon = 'favorite_border'
+        EventBus.$emit('notification', {
+          type: 'success',
+          message: 'Product has been removed from favorites. This feature is not implemented yet :(',
+          action1: { label: 'OK', action: 'close' }
+        })
+      }
+    },
+    addToCompare () {
+      // todo
+      EventBus.$emit('notification', {
+        type: 'success',
+        message: 'Product has been added to comparison list. This feature is not implemented yet :(',
+        action1: { label: 'OK', action: 'close' }
+      })
     }
   },
   components: {
@@ -91,12 +148,28 @@ export default {
 </script>
 
 <style scoped>
+.action {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #BDBDBD;
+  cursor: pointer;
+}
+.action:hover {
+  color: #828282;
+}
+.size-guide {
+  position: relative;
+  top: 6px;
+}
 .fade-enter-active, .fade-leave-active {
     transition: opacity .3s
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0
-  }
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
+}
 .product-image {
   display: inline-flex;
   mix-blend-mode: multiply;
