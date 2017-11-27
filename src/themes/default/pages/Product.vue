@@ -62,14 +62,12 @@
             <h2 class="h3 sans-serif">Description</h2>
             <span class="lh30 h5" v-html="product.description"></span>
           </div>
-          <!-- Needs to be fixed, hidden for the demo purposes -->
-          <!-- <div class="col-md-3">
+          <div class="col-md-3">
             <h2 class="h3 sans-serif">Product details</h2>
             <ul>
               <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_atributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
             </ul>
-
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
