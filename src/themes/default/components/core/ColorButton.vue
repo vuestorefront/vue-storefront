@@ -1,6 +1,6 @@
 <template>
     <div class="bg-transparent brdr-1 brdr-circle color" :class="{ active: active }">
-        <div class="brdr-circle" :style="'background-color: ' + label" @click="switchFilter(id, label)"></div>
+        <div class="brdr-circle brdr-1" :style="'background-color: ' + label" @click="switchFilter(id, label)"></div>
     </div>
 </template>
 
@@ -43,10 +43,10 @@ export default {
 </script>
 
 <style scoped>
-    
+
     .color {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         border-color: rgba(113,113,113,0);
         position: relative;
         display: inline-flex;
@@ -54,14 +54,15 @@ export default {
     }
 
     .color.active {
-        border-color: #a3a3a3;
+        border-color: #4f4f4f;
     }
 
     .color > div {
-        width: 90%;
-        height: 90%;
+        width: 34px;
+        height: 34px;
         display: block;
         position: absolute;
+        border-color: #E0E0E0;
         left: 50%;
         top: 50%;
         transform: translate(-50%,-50%)

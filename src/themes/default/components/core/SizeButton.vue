@@ -43,14 +43,23 @@ export default {
 <style scoped>
 
     button {
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 0;
+      border-color: #BDBDBD;
+      font-size: 14px;
+      color: #BDBDBD;
     }
     button.active {
-        border-color: black;
-        background-color: #BDBDBD;
-        color: black;
+      border-color: #828282;
+      border-width: 2px;
+      color: #828282;
     }
-    
+    button:disabled {
+      border-color: #E0E0E0;
+      color: #E0E0E0;
+      cursor: not-allowed;
+    }
+
 </style>
