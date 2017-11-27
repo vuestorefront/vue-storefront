@@ -12,6 +12,10 @@ const mutations = {
   setSearchpanel (state, action) {
     state.searchpanel = action === true
     state.overlay = action === true
+  },
+  setSignUp (state, action) {
+    state.signUp = action === true
+    state.overlay = action === true
   }
 }
 

@@ -9,6 +9,7 @@
       <router-view></router-view>
       <main-footer />
       <notification />
+      <sign-up />
     </div>
   </div>
 </template>
@@ -25,6 +26,7 @@ import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 
 import Overlay from './components/core/Overlay.vue'
 import Notification from './components/core/Notification.vue'
+import SignUp from './components/core/blocks/SignUp/SignUp.vue'
 
 export default {
   computed: {
@@ -39,7 +41,8 @@ export default {
     SearchPanel,
     SidebarMenu,
     Overlay,
-    Notification
+    Notification,
+    SignUp
   }
 }
 </script>
@@ -90,7 +93,7 @@ export default {
       display: none;
     }
   }
-  
+
   #app.no-scroll {
     height: 100%;
     overflow: hidden;
