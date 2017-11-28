@@ -15,7 +15,7 @@
           </div>
           <div class="col-md-5">
 
-            <h1 class="mb25 c-black"> {{ product.name }} </h1>
+            <h1 class="mb25 c-black" v-html="product.name"></h1>
             <div class="h3 c-gray mb55">
               {{ product.priceInclTax | price }}
             </div>

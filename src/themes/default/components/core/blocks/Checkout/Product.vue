@@ -4,12 +4,12 @@
       <img v-lazy="thumbnail" />
       <div class="col-xs pl40 pb15 pt15">
         <div>
-          <div>{{ product.name }}</div>
+          <div v-html="product.name"></div>
           <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
         </div>
         <div>
           <div>
-            <span class="h6 c-darkgray">Qty {{ product.qty }}</span> 
+            <span class="h6 c-darkgray">Qty {{ product.qty }}</span>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
