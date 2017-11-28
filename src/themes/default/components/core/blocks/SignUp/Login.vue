@@ -6,10 +6,10 @@
     <div class="py35 px55 bg-white c-gray">
       <form>
         <div class="mb35">
-          <input type="email" name="email" placeholder="E-mail address *">
+          <input type="email" name="email" v-model="email" placeholder="E-mail address *">
         </div>
         <div class="mb35 pass-container">
-          <input :type="passType" name="password" placeholder="Password *">
+          <input :type="passType" name="password" v-model="password" placeholder="Password *">
           <i class="icon material-icons c-alto" @click="togglePassType">{{ iconName }}</i>
         </div>
         <div class="row">
@@ -35,12 +35,15 @@
 <script>
 import { coreComponent } from 'lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import EventBus from 'src/event-bus/event-bus'
 
 export default {
   data () {
     return {
       passType: 'password',
-      iconName: 'visibility'
+      iconName: 'visibility',
+      email: '',
+      password: ''
     }
   },
   mixins: [coreComponent('core/blocks/SignUp/Login')],
@@ -61,7 +64,25 @@ export default {
       // todo
     },
     login () {
-      // todo
+      this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
+        console.log(result)
+        if (result.code !== 200) {
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: result.result,
+            action1: { label: 'OK', action: 'close' }
+          })
+        } else {
+          EventBus.$emit('notification', {
+            type: 'success',
+            message: 'You are logged in!',
+            action1: { label: 'OK', action: 'close' }
+          })
+          this.$store.commit('ui/setSignUp', false)
+        }
+      }).catch(err => {
+        console.error(err)
+      })
     }
   },
   components: {

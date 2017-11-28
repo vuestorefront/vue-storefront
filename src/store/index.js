@@ -40,6 +40,11 @@ Vue.prototype.$db = {
   claimsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'claims'
+  })),
+
+  usersCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'user'
   }))
 }
 
@@ -86,6 +91,11 @@ const plugins = [
     store.subscribe((mutation, store) => {
       if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
         global.db.cartsCollection.setItem('current-cart', store.cart.cartItems).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
+        }) // populate cache
+      }
+      if (mutation.type.indexOf(types.SN_USER) === 0) { // check if this mutation is cart related
+        global.db.usersCollection.setItem('current-token', store.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
