@@ -8,6 +8,11 @@ const state = {
 }
 
 const getters = {
+  totals (state) {
+    return {
+      isLoggedIn: state.current !== null
+    }
+  }
 }
 
 // actions
@@ -29,7 +34,7 @@ const actions = {
       if (resp.code === 200) {
         context.commit(types.USER_TOKEN_CHANGED, resp.result)
 
-        context.dispatch('me').then(result => {
+        context.dispatch('me', { refresh: true, useCache: false }).then(result => {
           context.commit(types.USER_TOKEN_CHANGED, resp.result)
           console.log(result)
         })
@@ -39,26 +44,49 @@ const actions = {
   },
 
   /**
+   * Login user and return user profile and current token
+   */
+  register (context, { email, firstname, lastname, password }) {
+    return fetch(config.users.endpoint + '/create', { method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ customer: { email: email, firstname: firstname, lastname: lastname }, password: password })
+    }).then(resp => { return resp.json() })
+    .then((resp) => {
+      if (resp.code === 200) {
+        context.dispatch('login', { username: email, password: password }).then(result => { // login user
+        })
+      }
+      return resp
+    })
+  },
+  /**
    * Load current user profile
    */
-  me (context, { refresh = true }) {
+  me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       const cache = global.db.usersCollection
       let resolvedFromCache = false
-      cache.getItem('current-user', (err, res) => {
-        if (err) {
-          console.error(err)
-          return
-        }
 
-        if (res) {
-          context.commit(types.USER_INFO_LOADED, res)
+      if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
+        cache.getItem('current-user', (err, res) => {
+          if (err) {
+            console.error(err)
+            return
+          }
 
-          resolve(res)
-          resolvedFromCache = true
-          console.log('Current user served from cache')
-        }
-      })
+          if (res) {
+            context.commit(types.USER_INFO_LOADED, res)
+
+            resolve(res)
+            resolvedFromCache = true
+            console.log('Current user served from cache')
+          }
+        })
+      }
 
       if (refresh) {
         console.log(config.users.endpoint + '/me?token=' + context.state.token)
