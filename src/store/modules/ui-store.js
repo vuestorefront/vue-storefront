@@ -1,6 +1,7 @@
 const state = {
   sidebar: false,
   microcart: false,
+  wishlist: false,
   searchpanel: false,
   overlay: false
 }
@@ -17,6 +18,9 @@ const mutations = {
   },
   setSearchpanel (state, action) {
     state.searchpanel = action === true
+  },
+  setWishlist (state, action) {
+    state.wishlist = action === true
   }
 }
 

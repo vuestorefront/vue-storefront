@@ -12,6 +12,10 @@ const mutations = {
   setSearchpanel (state, action) {
     state.searchpanel = action === true
     state.overlay = action === true
+  },
+  setWishlist (state, action) {
+    state.wishlist = action === true
+    state.overlay = action === true
   }
 }
 

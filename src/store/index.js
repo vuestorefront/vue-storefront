@@ -40,6 +40,11 @@ Vue.prototype.$db = {
   claimsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'claims'
+  })),
+
+  wishlistCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'wishlist'
   }))
 }
 
@@ -50,6 +55,7 @@ import product from './modules/product'
 import category from './modules/category'
 import attribute from './modules/attribute'
 import cart from './modules/cart'
+import wishlist from './modules/wishlist'
 import user from './modules/user'
 import payment from './modules/payment'
 import shipping from './modules/shipping'
@@ -100,6 +106,7 @@ export default new Vuex.Store({
     category,
     attribute,
     cart,
+    wishlist,
     user,
     payment,
     shipping,

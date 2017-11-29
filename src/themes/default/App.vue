@@ -4,6 +4,7 @@
     <div id="viewport p55">
       <microcart />
       <search-panel />
+      <wishlist />
       <sidebar-menu />
       <main-header />
       <router-view></router-view>
@@ -19,6 +20,7 @@ import { mapState } from 'vuex'
 import MainHeader from './components/core/blocks/Header/Header.vue'
 import MainFooter from './components/core/blocks/Footer/Footer.vue'
 
+import Wishlist from './components/core/blocks/Wishlist/Wishlist.vue'
 import Microcart from './components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
@@ -36,6 +38,7 @@ export default {
     MainHeader,
     MainFooter,
     Microcart,
+    Wishlist,
     SearchPanel,
     SidebarMenu,
     Overlay,
@@ -90,7 +93,7 @@ export default {
       display: none;
     }
   }
-  
+
   #app.no-scroll {
     height: 100%;
     overflow: hidden;
