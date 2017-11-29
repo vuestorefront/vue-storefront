@@ -1,67 +1,99 @@
 <template>
   <footer>
-    <div class="upper-footer p50 bg-lightgray">
+    <div class="newsletter px40 bg-lightgray">
       <div class="container">
-        <div class="row center-xs start-md around-xs">
-          <div class="col-md-3 no-mobile">
-            <h3 class="c-black weight-400">Departments</h3>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/c/women-20" exact>Women fashion</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/c/men-11" exact>Men's fashion</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Kidswear</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/" exact>Home</router-link>
-            </div>
+        <div class="newsletter-content m0 row center-xs start-md">
+          <div class="col-md-9 col-xs-12 py10">
+            <h3 class="c-black weight-400 m0">Subscribe to the newsletter and receive a coupon for 10% off</h3>
           </div>
-          <div class="col-md-3 no-mobile">
-            <h3 class="c-black weight-400">My account</h3>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/my-orders" exact>My orders</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/size-guide" exact>Size guide</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/delivery" exact>Delivery</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/gift-card" exact>Gift card</router-link>
-            </div>
-          </div>
-          <div class="col-md-3 no-mobile">
-            <h3 class="c-black weight-400">Help</h3>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/store-locator" exact>Store locator</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/customer-service" exact>Customer service 24/7</router-link>
-            </div>
-            <div class="mt15">
-              <router-link class="c-darkgray" to="/order-from-catalog" exact>Order from catalog</router-link>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <h3 class="c-black weight-400">Join Fashion Club</h3>
-            <h6 class="c-gray weight-400">Sign up for our loyalty program, earn points, get rewards and buy cheaper</h6>
+          <div class="col-md-3 end-xs py25">
             <button-outline :text="'Subscribe'" @click.native="newsletterClick" color="dark" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="upper-footer pt30 pb60 px40 bg-lightgray no-mobile">
+      <div class="container">
+        <div class="row center-xs">
+          <div class="row col-lg-6 col-md-8 col-xs-12 start-md between-md between-xs">
+            <div>
+              <h3 class="c-black weight-400">Departments</h3>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/c/women-20" exact>Women fashion</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/c/men-11" exact>Men's fashion</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/" exact>Kidswear</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/" exact>Home</router-link>
+              </div>
+            </div>
+            <div>
+              <h3 class="c-black weight-400">Orders</h3>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/order-tracking" exact>Track my order</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/my-account" exact>My account</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/delivery" exact>Delivery</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/returns" exact>Return policy</router-link>
+              </div>
+            </div>
+            <div>
+              <h3 class="c-black weight-400">Help</h3>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/customer-service" exact>Customer service</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/size-guide" exact>Size guide</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/contact" exact>Contact us</router-link>
+              </div>
+            </div>
+            <div>
+              <h3 class="c-black weight-400">About us</h3>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/about-us" exact>About us</router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/store-locator" exact>Store locator</router-link>
+              </div>
+            </div>
+          </div>
+          <div class="row col-lg-6 col-md-4 mt30 center-xs end-xs">
+            <a class="social-icon ml20" href="https://www.facebook.com/">
+              <img src="/assets/social-icons/facebook.svg" alt="Facebook icon">
+            </a>
+            <a class="social-icon ml20" href="https://www.instagram.com">
+              <img src="/assets/social-icons/instagram.svg" alt="Instagram icon">
+            </a>
+            <a class="social-icon ml20" href="https://www.pinterest.com">
+              <img src="/assets/social-icons/pinterest.svg" alt="Pinterest icon">
+            </a>
+            <a class="social-icon ml20" href="https://www.youtube.com">
+              <img src="/assets/social-icons/youtube.svg" alt="YouTube icon">
+            </a>
           </div>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="row middle-xs px15">
-        <div class="col-md-3" >
+        <div class="col-md-3 c-lightgray-secondary">
           United States (US)
         </div>
         <div class="col-md-9 end-xs">
           <ul class="links">
-            <li><router-link class="c-black mr15" to="/legal" exact>Legal notice</router-link></li>
-            <li><router-link class="c-black" to="/privacy" exact>Privacy policy</router-link></li>
+            <li><router-link class="c-lightgray-secondary mr15" to="/legal" exact>Legal notice</router-link></li>
+            <li><router-link class="c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link></li>
           </ul>
         </div>
       </div>
@@ -93,9 +125,21 @@ export default {
 </script>
 
 <style scoped>
+  .newsletter {
+    display: flex;
+    border-bottom: 1px solid #E0E0E0;
+  }
+  .newsletter-content {
+    align-items: center;
+  }
   .upper-footer {
     display: flex;
-    align-items: center;
+  }
+  .social-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
   }
   .links {
     list-style-type: none;
@@ -103,11 +147,9 @@ export default {
   .links li {
     display: inline-flex;
   }
-
   @media (max-width: 595px) {
     .no-mobile {
       display: none;
     }
   }
-
 </style>
