@@ -6,27 +6,34 @@
     <div class="py35 px55 bg-white c-gray">
       <form>
         <div class="mb35">
-          <input type="email" name="email" placeholder="E-mail address *">
+          <input type="email" name="email" v-model="email" placeholder="E-mail address *">
+          <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
+          <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
         <div class="row mb35">
           <div class="col-xs-6">
-            <input type="text" name="fist-name" placeholder="First name *">
+            <input type="text" name="fist-name" v-model="firstName" placeholder="First name *">
+            <span class="validation-error" v-if="!$v.firstName.required">Field is required.</span>
           </div>
           <div class="col-xs-6">
-            <input type="text" name="last-name" placeholder="Last name *">
+            <input type="text" name="last-name" v-model="lastName" placeholder="Last name *">
+            <span class="validation-error" v-if="!$v.lastName.required">Field is required.</span>
           </div>
         </div>
         <div class="mb35 pass-container">
-          <input class="pr30" name="password" :type="passType.pass" placeholder="Password *">
+          <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="Password *">
           <i class="icon material-icons c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
+            <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="mb35 pass-container">
-          <input class="pr30" name="password-confirm" :type="passType.repeatPass" placeholder="Repeat password *">
+          <input class="pr30" name="password-confirm" v-model="rPassword" :type="passType.repeatPass" placeholder="Repeat password *">
           <i class="icon material-icons c-alto" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
+          <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>
         <div class="mb35">
-          <input type="checkbox" name="remember" id="remember">
+          <input type="checkbox" name="remember" v-model="conditions" id="remember">
           <label class="ml10" for="remember">I accept terms and conditions *</label>
+          <span class="validation-error" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
         </div>
         <div class="mb35">
           <button-full class="btn-full" text="Register an account" @click.native="register"></button-full>
@@ -40,6 +47,7 @@
 </template>
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { required, email, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   data () {
@@ -51,10 +59,37 @@ export default {
       iconName: {
         pass: 'visibility',
         repeatPass: 'visibility'
-      }
+      },
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      rPassword: '',
+      conditions: ''
     }
   },
-  name: 'register',
+  validations: {
+    email: {
+      required,
+      email
+    },
+    firstName: {
+      required
+    },
+    lastName: {
+      required
+    },
+    password: {
+      required
+    },
+    rPassword: {
+      required,
+      sameAsPassword: sameAs('password')
+    },
+    conditions: {
+      required
+    }
+  },
   methods: {
     switchElem () {
       this.$emit('switched', 'login')
@@ -70,6 +105,7 @@ export default {
     },
     register () {
       // todo
+      console.log(this.$v)
     }
   },
   components: {
@@ -125,6 +161,12 @@ export default {
     &:hover {
       color: #8E8E8E;
     }
+  }
+
+  .validation-error {
+    display: block;
+    font-size: 12px;
+    color: #EB5757;
   }
 </style>
 
