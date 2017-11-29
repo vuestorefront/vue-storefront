@@ -95,6 +95,9 @@ const plugins = [
         }) // populate cache
       }
       if (mutation.type.indexOf(types.SN_USER) === 0) { // check if this mutation is cart related
+        global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
+        }) // populate cache
         global.db.usersCollection.setItem('current-token', store.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
