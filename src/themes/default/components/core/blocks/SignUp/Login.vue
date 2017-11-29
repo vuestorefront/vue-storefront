@@ -7,10 +7,13 @@
       <form>
         <div class="mb35">
           <input type="email" name="email" v-model="email" placeholder="E-mail address *">
+          <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
+          <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
         <div class="mb35 pass-container">
           <input :type="passType" name="password" v-model="password" placeholder="Password *">
           <i class="icon material-icons c-alto" @click="togglePassType">{{ iconName }}</i>
+          <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="row">
           <div class="col-xs-7 mb35">
@@ -34,8 +37,10 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import EventBus from 'src/event-bus/event-bus'
+
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   data () {
@@ -44,6 +49,15 @@ export default {
       iconName: 'visibility',
       email: '',
       password: ''
+    }
+  },
+  validations: {
+    email: {
+      required,
+      email
+    },
+    password: {
+      required
     }
   },
   mixins: [coreComponent('core/blocks/SignUp/Login')],
@@ -139,5 +153,11 @@ export default {
     &:hover {
       color: #8E8E8E;
     }
+  }
+
+  .validation-error {
+    display: block;
+    font-size: 12px;
+    color: #EB5757;
   }
 </style>
