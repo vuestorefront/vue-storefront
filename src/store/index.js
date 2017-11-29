@@ -45,6 +45,11 @@ Vue.prototype.$db = {
   usersCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'user'
+  })),
+
+  syncTaskCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'syncTasks'
   }))
 }
 
@@ -66,6 +71,7 @@ import stock from './modules/stock'
 import tax from './modules/tax'
 import social from './modules/social-tiles'
 import claims from './modules/claims'
+import sync from './modules/sync'
 
 Vue.use(Vuex)
 
@@ -123,7 +129,8 @@ export default new Vuex.Store({
     stock,
     checkout,
     tax,
-    claims
+    claims,
+    sync
   },
   state,
   mutations,

@@ -89,5 +89,79 @@ self.addEventListener('message', function (event) {
       });
 
   }
+
+
+// TODO: refactor the order queue process above to the same data sync. format as tasks sync bellow
+  if (event.data.command === 'sync/PROCESS_QUEUE') {
+    console.log('Executing task queue')
+    console.debug(event.data)
+      // event.data.config - configuration, endpoints etc
+
+      const syncTaskCollection = localForage.createInstance({
+        name: 'shop',
+        storeName: 'syncTasks'
+      });
+
+      const usersCollection = localForage.createInstance({
+        name: 'shop',
+        storeName: 'user'
+      });
+
+      usersCollection.getItem('current-token', function (err, currentToken) { // TODO: if current token is null we should postpone the queue and force re-login
+          
+        if (err) {
+          console.error(err)
+        }
+
+        const fetchQueue = new Array()
+        console.log('Current token = ' + currentToken)
+        syncTaskCollection.iterate(function(task, id, iterationNumber) {
+          
+          if(!task.transmited) { // not sent to the server yet
+            fetchQueue.push(() =>  {
+                const config = event.data.config;
+                const taskData = task;
+                const taskId = id
+
+                console.log('Pushing out offline task ' + taskId)
+                return fetch(task.url.replace('{{token}}', currentToken), task.payload).then(function(response) {
+
+                    if (response.status === 200) {
+                      const contentType = response.headers.get("content-type");
+                      if(contentType && contentType.includes("application/json")) {
+                        return response.json();
+                      } else
+                        console.error('Error with response - bad content-type!')
+                    } else {
+                        console.error('Bad response status: ' + response.status)
+                    }
+                  })
+                  .then(function (jsonResponse) {
+                      if (jsonResponse && jsonResponse.code === 200) {
+                        console.info('Response for: ' + taskId + ' = ' + jsonResponse.result)
+                        
+                        taskData.transmited = true
+                        taskData.transmited_at = new Date()
+                        taskData.result = jsonResponse.result
+                        syncTaskCollection.setItem(taskId.toString(), taskData) 
+                      } else 
+                        console.error(jsonResponse.result)
+                      
+                  })
+            })
+          }
+        }).then(function() {
+          console.log('Iteration has completed');
+
+          // execute them serially
+          serial(fetchQueue)
+            .then((res) => console.info('Processing sync tasks queue has finished'))
+      
+        }).catch(function(err) {
+          // This code runs if there were any errors
+          console.log(err);
+        });
+      })
+  }  
 })
 
