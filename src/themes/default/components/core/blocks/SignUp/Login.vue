@@ -78,6 +78,14 @@ export default {
       // todo
     },
     login () {
+      if (this.$v.$invalid) {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: 'Please fix the validation errors',
+          action1: { label: 'OK', action: 'close' }
+        })
+        return
+      }
       this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
         console.log(result)
         if (result.code !== 200) {

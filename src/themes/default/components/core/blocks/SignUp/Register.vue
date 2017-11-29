@@ -48,6 +48,7 @@
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email, sameAs } from 'vuelidate/lib/validators'
+import EventBus from 'src/event-bus/event-bus'
 
 export default {
   data () {
@@ -104,7 +105,34 @@ export default {
       }
     },
     register () {
-      // todo
+      if (this.$v.$invalid) {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: 'Please fix the validation errors',
+          action1: { label: 'OK', action: 'close' }
+        })
+        return
+      }
+
+      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
+        console.log(result)
+        if (result.code !== 200) {
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: result.result,
+            action1: { label: 'OK', action: 'close' }
+          })
+        } else {
+          EventBus.$emit('notification', {
+            type: 'success',
+            message: 'You are logged in!',
+            action1: { label: 'OK', action: 'close' }
+          })
+          this.$store.commit('ui/setSignUp', false)
+        }
+      }).catch(err => {
+        console.error(err)
+      })
       console.log(this.$v)
     }
   },
