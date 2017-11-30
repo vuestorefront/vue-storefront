@@ -1,7 +1,7 @@
 <template>
   <div v-if="isProductPage">
-    <i class="material-icons md-18 add" v-if="isWishlisted(product)" v-on:click="removeFromWishlist(product)">favorite</i>
-    <i class="material-icons md-18 remove" v-else v-on:click="addFromWishlist(product)">favorite_border</i>
+    <i class="material-icons md-18 add" v-if="!isWishlisted(product)" v-on:click="addFromWishlist(product)">favorite_border</i>
+    <i class="material-icons md-18 remove" v-else v-on:click="removeFromWishlist(product)">favorite</i>
   </div>
   <div v-else>
     <i class="material-icons md-18" v-on:click="toggleWishlistPanel">favorite_border</i>
@@ -10,8 +10,14 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import { mapGetters } from 'vuex'
 
 export default {
+  computed: {
+    ...mapGetters({
+      check: 'wishlist/check'
+    })
+  },
   data () {
     return {
       isProductPage: false
@@ -29,6 +35,11 @@ export default {
       } else {
         this.isProductPage = false
       }
+    }
+  },
+  methods: {
+    isWishlisted (product) {
+      return this.check.isOnWishlist(product)
     }
   },
   mixins: [coreComponent('core/blocks/Header/WishlistIcon')]

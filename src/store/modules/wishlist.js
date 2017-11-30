@@ -13,7 +13,6 @@ const store = {
     * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
     */
     [types.WISH_ADD_ITEM] (state, { product }) {
-      console.log('---> ', product)
       const record = state.itemsWishlist.find(p => p.sku === product.sku)
       if (!record) {
         state.itemsWishlist.push({
@@ -34,7 +33,8 @@ const store = {
     check (state) {
       return {
         isOnWishlist: (product) => {
-          return state.itemsWishlist.find(p => p.sku === product.sku)
+          let item = state.itemsWishlist.find(p => p.sku === product.sku)
+          return (item !== undefined)
         }
       }
     }
@@ -45,7 +45,6 @@ const store = {
     },
     load (context) {
       const commit = context.commit
-      console.log(global.db.wishlistCollection)
       global.db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
         if (err) throw new Error(err)
         commit(types.WISH_LOAD_WISH, storedItems)

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'wishlist-icon',
@@ -15,9 +15,6 @@ export default {
   computed: {
     ...mapState({
       isOpen: state => state.ui.wishlist
-    }),
-    ...mapGetters({
-      check: 'wishlist/check'
     })
   },
   methods: {
@@ -25,9 +22,6 @@ export default {
       'addToWishlist': 'wishlist/addItem',
       'removeFromWishlist': 'wishlist/removeItem'
     }),
-    isWishlisted () {
-      return this.check.isOnWishlist || false
-    },
     toggleWishlistPanel () {
       this.$store.commit('ui/setWishlist', !this.isOpen)
     }
