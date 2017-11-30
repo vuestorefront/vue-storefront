@@ -1,3 +1,5 @@
+import config from '../../config.json'
+
 const state = {
 }
 
@@ -9,12 +11,16 @@ const actions = {
   /**
    * Reset current configuration and selected variatnts
    */
-  check (context, { sku }) {
+  check (context, { product }) {
     return new Promise((resolve, reject) => {
-      if (!navigator.onLine) {
-        resolve({ qty: 1, status: 'volatile' }) // if not online, cannot check the source of true here
-      } else {
-        resolve({ qty: 1, status: 'ok' }) // TODO: add vue-storefront-api query or Magento query here AND user product.stock to check the product config:
+      const stockTaskId = context.dispatch('sync/queue', { url: config.stock.endpoint + '/check/' + product.sku,
+        payload: {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        }
+      }, { root: true })
+
         /**
          * "stock": {
               "min_sale_qty": 1,
@@ -45,7 +51,7 @@ const actions = {
               "use_config_min_sale_qty": 1
               }
          */
-      }
+      resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: stockTaskId }) // if not online, cannot check the source of true here
     })
   }
 }
