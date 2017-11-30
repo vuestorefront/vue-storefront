@@ -9,7 +9,7 @@ export const CART_UPD_SHIPPING = SN_CART + '/SHIPPING'
 export const SN_WISHLIST = 'wishlist'
 export const WISH_ADD_ITEM = SN_WISHLIST + '/ADD'
 export const WISH_DEL_ITEM = SN_WISHLIST + '/DEL'
-export const WISH_LOAD_PANE = SN_WISHLIST + '/LOAD'
+export const WISH_LOAD_WISH = SN_WISHLIST + '/LOAD'
 
 export const SN_CATEGORY = 'category'
 export const CATEGORY_UPD_CATEGORIES = SN_CATEGORY + '/UPD_CATEGORIES'

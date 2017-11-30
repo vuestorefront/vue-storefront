@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     items () {
-      return this.$store.state.wishlist.wishedItems
+      return this.$store.state.wishlist.itemsWishlist
     },
     ...mapState({
       isOpen: state => state.ui.wishlist

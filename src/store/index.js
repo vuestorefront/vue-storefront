@@ -95,6 +95,11 @@ const plugins = [
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
+      if (mutation.type.indexOf(types.SN_WISHLIST) === 0) { // check if this mutation is wishlist related
+        global.db.wishlistCollection.setItem('current-wishlist', store.wishlist.itemsWishlist).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
+        }) // populate cache
+      }
     })
   }
 ]

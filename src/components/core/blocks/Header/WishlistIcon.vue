@@ -1,11 +1,13 @@
 <template>
   <div class="wishlist-icon">
     Core Wishlist
+    <!-- Add to Wishlist button examples with addToCart action from cart store-->
+    <button v-on:click="toggleWishlistPanel">Add to Wishlist</button>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'wishlist-icon',
@@ -13,19 +15,21 @@ export default {
   computed: {
     ...mapState({
       isOpen: state => state.ui.wishlist
+    }),
+    ...mapGetters({
+      check: 'wishlist/check'
     })
   },
   methods: {
-    toggleWish () {
+    ...mapActions({
+      'addToWishlist': 'wishlist/addItem',
+      'removeFromWishlist': 'wishlist/removeItem'
+    }),
+    isWishlisted () {
+      return this.check.isOnWishlist || false
+    },
+    toggleWishlistPanel () {
       this.$store.commit('ui/setWishlist', !this.isOpen)
-    },
-    addWish (product) {
-      this.$store.dispatch('wishlist/addItem', product)
-      this.toggleWish()
-    },
-    removeWish (product) {
-      this.$store.dispatch('wishlist/removeItem', product)
-      this.toggleWish()
     }
   }
 }
