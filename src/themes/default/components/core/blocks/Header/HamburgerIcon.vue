@@ -1,5 +1,5 @@
 <template>
-    <div class="hamburger-icon box" @click="toggleSidebarMenu">
+    <div class="hamburger-icon box" @click="openSidebarMenu">
         <i class="material-icons md-18">dehaze</i>
     </div>
 </template>

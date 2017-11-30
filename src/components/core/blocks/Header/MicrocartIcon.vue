@@ -1,8 +1,11 @@
 <template>
   <div class="microcart-icon">
-      Core Microcart
-      <!-- Total items in cart -->
-      {{ totals.quantity }}
+      <!--
+        methods:
+        openMicrocart - opens microcart
+        data to display:
+        {{ totalItems }} - items in cart
+      -->
   </div>
 </template>
 
@@ -24,7 +27,7 @@ export default {
     })
   },
   methods: {
-    toggleMicrocart () {
+    openMicrocart () {
       this.$store.commit('ui/setMicrocart', !this.isOpen)
     }
   }

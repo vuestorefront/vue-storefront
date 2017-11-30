@@ -1,17 +1,6 @@
 <template>
   <footer>
-    <div class="newsletter px40 bg-lightgray">
-      <div class="container">
-        <div class="newsletter-content m0 row center-xs start-md">
-          <div class="col-md-9 col-xs-12 py10">
-            <h3 class="c-black weight-400 m0">Subscribe to the newsletter and receive a coupon for 10% off</h3>
-          </div>
-          <div class="col-md-3 end-xs py25">
-            <button-outline :text="'Subscribe'" @click.native="newsletterClick" color="dark" />
-          </div>
-        </div>
-      </div>
-    </div>
+    <newsletter />
     <div class="upper-footer pt30 pb60 px40 bg-lightgray no-mobile">
       <div class="container">
         <div class="row center-xs">
@@ -104,7 +93,7 @@
 <script>
 import { coreComponent } from 'lib/themes'
 
-import ButtonOutline from '../../../theme/ButtonOutline.vue'
+import Newsletter from './Newsletter.vue'
 import EventBus from 'src/event-bus/event-bus'
 
 export default {
@@ -118,7 +107,7 @@ export default {
     }
   },
   components: {
-    ButtonOutline
+    Newsletter
   },
   mixins: [coreComponent('core/blocks/Footer/Footer')]
 }
