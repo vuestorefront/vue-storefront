@@ -60,7 +60,7 @@ export default {
       required
     }
   },
-  mixins: [coreComponent('core/blocks/SignUp/Login')],
+  mixins: [coreComponent('core/blocks/Auth/Login')],
   methods: {
     switchElem () {
       this.$emit('switched', 'register')

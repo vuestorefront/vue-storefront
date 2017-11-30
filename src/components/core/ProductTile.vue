@@ -1,7 +1,11 @@
 <template>
   <div class="product-tile">
     Core Product Tile
-    <!-- Product name and price with price filter -->
+    <!-- 
+        Product name and price with price filter 
+        props;
+        {{ product }} - product object width 'name', 'priceInclTax', 'image' properties
+    -->
     {{ product.name}} - {{ product.priceInclTax | price }} 
   </div>
 </template>

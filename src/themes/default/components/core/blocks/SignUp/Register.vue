@@ -143,6 +143,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import '../../../../css/text.scss';
+  @import '../../../../css/modules/modules.scss';
 
   input[type=password], input[type=email], input[type=text] {
     @extend body;
@@ -191,10 +192,6 @@ export default {
     }
   }
 
-  .validation-error {
-    display: block;
-    font-size: 12px;
-    color: #EB5757;
-  }
+
 </style>
 

@@ -26,7 +26,7 @@ import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 
 import Overlay from './components/core/Overlay.vue'
 import Notification from './components/core/Notification.vue'
-import SignUp from './components/core/blocks/SignUp/SignUp.vue'
+import SignUp from './components/core/blocks/Auth/SignUp.vue'
 
 export default {
   computed: {
