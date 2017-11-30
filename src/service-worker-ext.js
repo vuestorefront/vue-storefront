@@ -144,6 +144,7 @@ self.addEventListener('message', function (event) {
                         taskData.transmited_at = new Date()
                         taskData.result = jsonResponse.result
                         syncTaskCollection.setItem(taskId.toString(), taskData) 
+
                       } else 
                         console.error(jsonResponse.result)
                       
