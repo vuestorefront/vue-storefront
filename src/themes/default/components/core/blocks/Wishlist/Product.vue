@@ -27,8 +27,7 @@ import RemoveButton from './RemoveButton'
 export default {
   data () {
     return {
-      qty: 0,
-      isEditing: false
+      qty: 1
     }
   },
   methods: {

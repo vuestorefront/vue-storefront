@@ -16,7 +16,10 @@ const store = {
       console.log('---> ', product)
       const record = state.itemsWishlist.find(p => p.sku === product.sku)
       if (!record) {
-        state.itemsWishlist.push(product)
+        state.itemsWishlist.push({
+          ...product,
+          qty: 1
+        })
       }
     },
     [types.WISH_DEL_ITEM] (state, { product }) {

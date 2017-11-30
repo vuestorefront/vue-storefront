@@ -20,7 +20,7 @@ import Product from './Product'
 
 export default {
   created () {
-    console.log('CI  ' + this.wishedItems)
+    console.log('CI  ' + this.itemsWishlist)
   },
   components: {
     Product
