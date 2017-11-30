@@ -15,8 +15,7 @@ export default {
   name: 'sign-up',
   components: {
     Login,
-    Register,
-    mapState
+    Register
   },
   computed: {
     ...mapState({

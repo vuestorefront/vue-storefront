@@ -7,8 +7,8 @@
 <script>
 import { coreComponent } from 'lib/themes'
 
-  export default {
-    name: 'validation-error',
-    mixins: [coreComponent('core/ValidationError')]
-  }
+export default {
+  name: 'validation-error',
+  mixins: [coreComponent('core/ValidationError')]
+}
 </script>
