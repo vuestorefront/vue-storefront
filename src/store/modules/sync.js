@@ -15,7 +15,8 @@ const actions = {
 
   /**
    * Queue synchronization task
-   * { url: url // {{token}} will be replaced for current user token!
+   * {
+   *  url: url // {{token}} will be replaced for current user token!
    *  payload: {
    *    method: 'POST',
    *    headers: {  "Content-Type": "application/json"  },
@@ -26,6 +27,7 @@ const actions = {
    */
   queue ({ commit }, task) {
     commit(types.SYNC_ADD_TASK, task)
+    return task
   }
 }
 
