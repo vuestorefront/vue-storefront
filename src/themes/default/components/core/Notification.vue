@@ -1,6 +1,6 @@
 <template>
   <div class="notifications">
-    <div class="notification c-white" :class="{ info : notification.type = 'info'} " v-for="(notification, index) in notifications" :key="index">
+    <div class="notification c-white" :class="{ info : notification.type == 'info', success: notification.type == "success", error: notification.type == "error"} " v-for="(notification, index) in notifications" :key="index">
       <div class="message">
         {{ notification.message }}
       </div>
