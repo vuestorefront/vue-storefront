@@ -1,6 +1,6 @@
 <template>
   <div class="notifications">
-    <div class="notification c-white" :class="{ info : notification.type == 'info', success: notification.type == "success", error: notification.type == "error"} " v-for="(notification, index) in notifications" :key="index">
+    <div class="notification c-white" v-for="(notification, index) in notifications" :key="index"  :class="{ info : notification.type == 'info', success: notification.type == 'success', error: notification.type == 'error'} ">
       <div class="message">
         {{ notification.message }}
       </div>
@@ -38,17 +38,17 @@ export default {
 .notification > .actions {
   padding: 10px 20px;
   font-weight: bolder;
-  background: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.2);
   cursor: pointer;
 }
 
 .notification.success {
-  background: #333333;
+  background: #308C14;
 
 }
 
 .notification.error {
-  background: #333333;
+  background: #E63030;
 
 }
 
