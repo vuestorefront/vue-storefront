@@ -11,15 +11,18 @@ const actions = {
   /**
    * Reset current configuration and selected variatnts
    */
-  check (context, { product }) {
+  check (context, { product, qty = 1 }) {
     return new Promise((resolve, reject) => {
-      const stockTaskId = context.dispatch('sync/queue', { url: config.stock.endpoint + '/check/' + product.sku,
+      context.dispatch('sync/queue', { url: config.stock.endpoint + '/check/' + product.sku,
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
         }
-      }, { root: true })
+      }, { root: true }).then(task => {
+        console.log(product.stock)
+        resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: task.task_id }) // if not online, cannot check the source of true here
+      })
 
         /**
          * "stock": {
@@ -51,7 +54,6 @@ const actions = {
               "use_config_min_sale_qty": 1
               }
          */
-      resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: stockTaskId }) // if not online, cannot check the source of true here
     })
   }
 }

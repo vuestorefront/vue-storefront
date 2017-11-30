@@ -82,8 +82,9 @@ const store = {
       })
     },
 
-    addItem ({ commit, dispatch }, product) {
-      dispatch('stock/check', { prodcut: product }, {root: true}).then(result => {
+    addItem ({ commit, dispatch, state }, product) {
+      const record = state.cartItems.find(p => p.sku === product.sku)
+      dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : 1 }, {root: true}).then(result => {
         product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
         if (result.status === 'volatile') {
           EventBus.$emit('notification', {
