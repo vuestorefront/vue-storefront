@@ -4,9 +4,12 @@
     <!-- 
         Product name and price with price filter 
         props;
-        {{ product }} - product object width 'name', 'priceInclTax', 'image' properties
+        "product" - product object width 'name', 'priceInclTax', 'image' properties
+        data to display:
+        {{ product.name }}
+        {{ product.priceInclTax | price }}
+        {{ product.image }}
     -->
-    {{ product.name}} - {{ product.priceInclTax | price }} 
   </div>
 </template>
 

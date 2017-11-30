@@ -1,14 +1,15 @@
 <template>
   <button>
     <!--
-      Filter button for category size
-      props:
-      {{ label }} - text displayed at filter
-      {{ id }} - filter ID
-      {{ code }} - filter code
-      {{ context }}
+        Filter button for category size
+        props:
+        "label" - text displayed at filter
+        "id" - filter ID
+        "code" - filter code
+        "context"
+        data to display:
+        {{ label }}
       -->
-    Core size button
   </button>
 </template>
 

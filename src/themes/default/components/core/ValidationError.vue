@@ -1,5 +1,7 @@
 <template>
-  
+  <div class="validation-error c-red h6">
+
+  </div>
 </template>
 
 <script>
@@ -10,7 +12,3 @@ import { coreComponent } from 'lib/themes'
     mixins: [coreComponent('core/ValidationError')]
   }
 </script>
-
-<style lang="scss">
-
-</style>
