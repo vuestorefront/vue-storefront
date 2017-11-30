@@ -4,11 +4,11 @@
       <img v-lazy="thumbnail" />
       <div class="col-xs pl40 pb15 pt15">
         <div>
-          <div>{{ product.name }}</div>
+          <div v-html="product.name"></div>
           <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
         </div>
         <div>
-          <div><span class="h6 c-darkgray">Qty </span> 
+          <div><span class="h6 c-darkgray">Qty </span>
           <span class="h6 weight-400" :class="{ hidden: isEditing }">{{ product.qty }}</span>
           <span :class="{ hidden: !isEditing }">
             <input class="h6" type="number" autofocus v-model.number="qty" @change="updateQuantity">
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
