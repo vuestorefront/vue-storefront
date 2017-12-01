@@ -16,7 +16,11 @@
           <div class="col-md-5">
 
             <h1 class="mb25 c-black"> {{ product.name }} </h1>
-            <div class="h3 c-gray mb55">
+            <div class="h3 c-gray mb55" v-if="configured_product.special_price">
+              <span class="price-special">{{ configured_product.priceInclTax | price }}</span>&nbsp;
+              <span class="price-original" >{{ configured_product.originalPriceInclTax | price }}</span>
+            </div>
+            <div class="h3 c-gray mb55" v-if="!configured_product.special_price">
               {{ configured_product.priceInclTax | price }}
             </div>
 
@@ -146,6 +150,13 @@ export default {
 </script>
 
 <style scoped>
+.price-original {
+  text-decoration: line-through;
+  font-size: smaller;
+}
+.price-special {
+  color: red;
+}
 .action {
   display: inline-flex;
   align-items: center;

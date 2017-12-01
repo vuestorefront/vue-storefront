@@ -18,7 +18,10 @@
       </div>
       <div class="col-xs pb15 pt15 align-right">
         <div>
-          $ {{ product.priceInclTax }}
+          <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
+          <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+
+          <span v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
         </div>
       </div>
     </div>
@@ -34,6 +37,13 @@ export default {
 </script>
 
 <style scoped>
+.price-special {
+  color: red
+}
+.price-original {
+  text-decoration: line-through;
+  font-size: smaller
+}
 .col-xs {
   display: flex;
   flex-direction: column;

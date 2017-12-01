@@ -8,7 +8,11 @@
         </transition>  
       </div>
       <p class="mb0">{{ product.name }}</p>
-      <span class="lh30 c-gray">{{ product.priceInclTax | price }}</span>
+
+      <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
+      <span class="price-original lh30 c-gray" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+
+      <span class="lh30 c-gray" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
     </router-link>
   </div>
 </template>
@@ -24,6 +28,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '~src/themes/default/css/transitions';
+
+.price-special {
+  color: red
+}
+.price-original {
+  text-decoration: line-through;
+  font-size: smaller
+}
 
 .product-image > img {
   max-width: 242px;
