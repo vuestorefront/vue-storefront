@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row pr55 pt20 pb20">
-      <img v-lazy="thumbnail" />
+      <img class="blend" v-lazy="thumbnail" />
       <div class="col-xs pl40 pb15 pt15">
         <div>
           <div>{{ product.name }}</div>
@@ -12,7 +12,7 @@
         </div>
         <div>
           <div>
-            <span class="h6 c-darkgray">Qty {{ product.qty }}</span> 
+            <span class="h6 c-darkgray">Qty {{ product.qty }}</span>
           </div>
         </div>
       </div>
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -44,5 +44,8 @@ export default {
 }
 input {
   width: 30px;
+}
+.blend {
+  mix-blend-mode: multiply;
 }
 </style>
