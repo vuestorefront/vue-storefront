@@ -110,22 +110,16 @@ export default {
   },
   methods: {
     addToFavorite () {
-      // todo
-      if (this.favorite.isFavorite === false) {
-        this.favorite.isFavorite = true
-        this.favorite.icon = 'favorite'
-        EventBus.$emit('notification', {
-          type: 'success',
-          message: 'Product has been added to favorites. This feature is not implemented yet :(',
-          action1: { label: 'OK', action: 'close' }
+      let self = this
+      if (!self.favorite.isFavorite) {
+        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
+          self.favorite.icon = 'favorite'
+          self.favorite.isFavorite = true
         })
       } else {
-        this.favorite.isFavorite = false
-        this.favorite.icon = 'favorite_border'
-        EventBus.$emit('notification', {
-          type: 'success',
-          message: 'Product has been removed from favorites. This feature is not implemented yet :(',
-          action1: { label: 'OK', action: 'close' }
+        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
+          self.favorite.icon = 'favorite_border'
+          self.favorite.isFavorite = false
         })
       }
     },

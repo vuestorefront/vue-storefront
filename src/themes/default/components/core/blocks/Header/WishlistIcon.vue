@@ -1,35 +1,28 @@
 <template>
-    <!-- <i class="material-icons md-18" @click="wishlistClick">favorite_border</i> -->
-    <i class="material-icons md-18" @click="toggleLogin">favorite_border</i>
+  <div>
+    <i class="material-icons md-18 panel" @click="toggleWishlistPanel">favorite_border</i>
+    <i class="material-icons md-18" @click="toggleLogin">favorite</i>
+  </div>
 </template>
 
 <script>
 import { coreComponent } from 'lib/themes'
 import { mapState } from 'vuex'
-import EventBus from 'src/event-bus/event-bus'
 
 export default {
-  methods: {
-    wishlistClick () {
-      EventBus.$emit('notification', {
-        type: 'success',
-        message: 'This feature is not implemented yet :( Wishlist is on our roadmap!',
-        action1: { label: 'OK', action: 'close' }
-      })
-    },
-    toggleLogin () {
-      this.$store.commit('ui/setSignUp', !this.isOpen)
-    }
-  },
   computed: {
     ...mapState({
-      isOpen: state => state.ui.signUp
+      isOpenLogin: state => state.ui.signUp
     })
+  },
+  methods: {
+    toggleLogin () {
+      this.$store.commit('ui/setSignUp', !this.isOpenLogin)
+    }
   },
   mixins: [coreComponent('core/blocks/Header/WishlistIcon')]
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
 </style>
