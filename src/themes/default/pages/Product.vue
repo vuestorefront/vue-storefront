@@ -17,7 +17,7 @@
 
             <h1 class="mb25 c-black"> {{ product.name }} </h1>
             <div class="h3 c-gray mb55">
-              {{ product.priceInclTax | price }}
+              {{ configured_product.priceInclTax | price }}
             </div>
 
             <div class="variants" v-if="product.type_id =='configurable'">

@@ -27,13 +27,35 @@ function calculateProductTax (product, taxClasses) {
         product.specialPriceInclTax = (product.special_price + product.special_price * (parseFloat(rate.rate) / 100))
         product.specialPriceTax = (product.special_price * (parseFloat(rate.rate) / 100))
 
+        if (product.special_price) {
+          product.originalPrice = product.price
+          product.originalPriceInclTax = product.priceInclTax
+          product.originalPriceTax = product.priceTax
+
+          product.price = product.special_price
+          product.priceInclTax = product.specialPriceInclTax
+          product.priceTax = product.specialPriceTax
+        }
         if (product.configurable_children) {
           for (let configurableChildren of product.configurable_children) {
+            for (let opt of configurableChildren.custom_attributes) {
+              configurableChildren[opt.attribute_code] = opt.value
+            }
             configurableChildren.priceInclTax = (configurableChildren.price + configurableChildren.price * (parseFloat(rate.rate) / 100))
             configurableChildren.priceTax = (configurableChildren.price * (parseFloat(rate.rate) / 100))
 
-            configurableChildren.specialPriceInclTax = (configurableChildren.special_price + configurableChildren.special_price * (parseFloat(rate.rate) / 100))
-            configurableChildren.specialPriceTax = (configurableChildren.special_price * (parseFloat(rate.rate) / 100))
+            configurableChildren.specialPriceInclTax = (parseFloat(configurableChildren.special_price) + parseFloat(configurableChildren.special_price) * (parseFloat(rate.rate) / 100))
+            configurableChildren.specialPriceTax = (parseFloat(configurableChildren.special_price) * (parseFloat(rate.rate) / 100))
+
+            if (configurableChildren.special_price) {
+              configurableChildren.originalPrice = configurableChildren.price
+              configurableChildren.originalPriceInclTax = configurableChildren.priceInclTax
+              configurableChildren.originalPriceTax = configurableChildren.priceTax
+
+              configurableChildren.price = configurableChildren.special_price
+              configurableChildren.priceInclTax = configurableChildren.specialPriceInclTax
+              configurableChildren.priceTax = configurableChildren.specialPriceTax
+            }
           }
         }
         rateFound = true
@@ -175,7 +197,7 @@ const actions = {
       return match
     })
 
-    context.commit(types.CATALOG_UPD_SELECTED_VARIANT, selectedVariant)
+    context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
     return selectedVariant
   },
 
