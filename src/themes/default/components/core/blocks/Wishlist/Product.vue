@@ -10,7 +10,10 @@
       </div>
       <div class="col-xs pb15 pt15 align-right">
         <div>
-          $ {{ product.priceInclTax }}
+          <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
+          <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+
+          <span v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
         </div>
         <div>
           <div class="mt5"><span @click="removeItem"><remove-button class="c-darkgray" /></span></div>

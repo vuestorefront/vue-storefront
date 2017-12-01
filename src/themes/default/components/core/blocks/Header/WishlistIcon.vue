@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <i class="material-icons md-18 panel" @click="toggleWishlistPanel">favorite_border</i>
-    <i class="material-icons md-18" @click="toggleLogin">favorite</i>
+  <div class="wishlist-icon inline-flex" @click="toggleWishlistPanel">
+    <i class="material-icons md-18">favorite_border</i>
+    <!--<i class="material-icons md-18" @click="toggleLogin">favorite</i>-->
   </div>
 </template>
 
