@@ -8,6 +8,7 @@ export default {
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
+      this.$store.commit('ui/setSignUp', false)
     }
   },
   mixins: [coreComponent('core/Overlay')]

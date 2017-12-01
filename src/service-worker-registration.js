@@ -22,6 +22,7 @@ function checkiIsOnline () {
   if (navigator.onLine) {
     if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({ config: config, command: types.ORDER_PROCESS_QUEUE })
+      navigator.serviceWorker.controller.postMessage({ config: config, command: types.SYNC_PROCESS_QUEUE })
     }
   }
 }

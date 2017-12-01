@@ -1,11 +1,10 @@
-<template>
-  <footer>
-    Core Footer
-  </footer>
-</template>
-
 <script>
+import Newsletter from './Newsletter.vue'
+
 export default {
-  name: 'main-footer'
+  name: 'main-footer',
+  components: {
+    Newsletter
+  }
 }
 </script>

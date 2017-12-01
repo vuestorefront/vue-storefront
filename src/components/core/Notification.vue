@@ -1,5 +1,8 @@
 <template>
   <div class="notification">
+    <!--
+        Notifications component storing notifications that can be triggered by sending event 'notification' to Event Bus
+    -->
   </div>
 </template>
 

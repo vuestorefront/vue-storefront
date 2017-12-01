@@ -1,6 +1,9 @@
 <template>
-  <div class="hamburger-icon" @click="toggleSidebarMenu">
-    Core Hamburger
+  <div class="hamburger-icon">
+    <!--
+        methods:
+        openSidebarMenu - opens sidebar menu
+    -->
   </div>
 </template>
 
@@ -13,7 +16,7 @@ export default {
     isOpen: state => state.ui.sidebar
   }),
   methods: {
-    toggleSidebarMenu () {
+    openSidebarMenu () {
       this.$store.commit('ui/setSidebar', !this.isOpen)
     }
   }

@@ -45,6 +45,16 @@ Vue.prototype.$db = {
   wishlistCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'wishlist'
+  })),
+
+  usersCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'user'
+  })),
+
+  syncTaskCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'syncTasks'
   }))
 }
 
@@ -67,6 +77,7 @@ import stock from './modules/stock'
 import tax from './modules/tax'
 import social from './modules/social-tiles'
 import claims from './modules/claims'
+import sync from './modules/sync'
 
 Vue.use(Vuex)
 
@@ -98,6 +109,14 @@ const plugins = [
       if (mutation.type.indexOf(types.SN_WISHLIST) === 0) { // check if this mutation is wishlist related
         global.db.wishlistCollection.setItem('current-wishlist', store.wishlist.itemsWishlist).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
+        })
+      }
+      if (mutation.type.indexOf(types.SN_USER) === 0) { // check if this mutation is cart related
+        global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
+        }) // populate cache
+        global.db.usersCollection.setItem('current-token', store.user.token).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
     })
@@ -122,7 +141,8 @@ export default new Vuex.Store({
     stock,
     checkout,
     tax,
-    claims
+    claims,
+    sync
   },
   state,
   mutations,

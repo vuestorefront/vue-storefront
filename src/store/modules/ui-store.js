@@ -3,7 +3,8 @@ const state = {
   microcart: false,
   wishlist: false,
   searchpanel: false,
-  overlay: false
+  overlay: false,
+  signUp: false
 }
 
 const mutations = {
@@ -18,6 +19,9 @@ const mutations = {
   },
   setSearchpanel (state, action) {
     state.searchpanel = action === true
+  },
+  setSignUp (state, action) {
+    state.signUp = action === true
   },
   setWishlist (state, action) {
     state.wishlist = action === true
