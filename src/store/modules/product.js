@@ -56,6 +56,18 @@ function calculateProductTax (product, taxClasses) {
               configurableChildren.priceInclTax = configurableChildren.specialPriceInclTax
               configurableChildren.priceTax = configurableChildren.specialPriceTax
             }
+
+            if (configurableChildren.priceInclTax < product.priceInclTax) { // always show the lowest price
+              product.priceInclTax = configurableChildren.priceInclTax
+              product.priceTax = configurableChildren.priceTax
+              product.price = configurableChildren.price
+              product.special_price = configurableChildren.special_price
+              product.specialPriceInclTax = configurableChildren.specialPriceInclTax
+              product.specialPriceTax = configurableChildren.specialPriceTax
+              product.originalPrice = configurableChildren.originalPrice
+              product.originalPriceInclTax = configurableChildren.originalPriceInclTax
+              product.originalPriceTax = configurableChildren.originalPriceTax
+            }
           }
         }
         rateFound = true
