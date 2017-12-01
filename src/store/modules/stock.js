@@ -20,7 +20,7 @@ const actions = {
           mode: 'cors'
         }
       }, { root: true }).then(task => {
-        console.log(product.stock)
+        console.log(product)
         resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: task.task_id }) // if not online, cannot check the source of true here
       })
 

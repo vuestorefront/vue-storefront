@@ -32,9 +32,15 @@ function filterChanged (filterOption) { // slection of product variant on produc
       this.$store.state.product.product_selected_variant.sgn = selectedVariant.sgn // copy the signature
       this.$store.state.product.product_selected_variant.price = selectedVariant.price
       this.$store.state.product.product_selected_variant.priceInclTax = selectedVariant.priceInclTax
-      for (let opt of selectedVariant.custom_attributes) {
-        this.$store.state.product.product_selected_variant[opt.attribute_code] = opt.value
-      }
+
+      this.$store.state.product.product_selected_variant.special_price = parseFloat(selectedVariant.special_price)
+      this.$store.state.product.product_selected_variant.specialPriceInclTax = selectedVariant.specialPriceInclTax
+      this.$store.state.product.product_selected_variant.specialPriceTax = selectedVariant.specialPriceTax
+
+      this.$store.state.product.product_selected_variant.originalPrice = parseFloat(selectedVariant.originalPrice)
+      this.$store.state.product.product_selected_variant.originalPriceInclTax = selectedVariant.originalPriceInclTax
+      this.$store.state.product.product_selected_variant.originalPriceTax = selectedVariant.orginalPriceTax
+
       this.$store.state.product.product_selected_variant.custom_attributes = selectedVariant.custom_attributes
     }
   })
