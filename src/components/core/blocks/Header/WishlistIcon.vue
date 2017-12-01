@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'wishlist-icon',
@@ -18,10 +18,6 @@ export default {
     })
   },
   methods: {
-    ...mapActions({
-      'addToWishlist': 'wishlist/addItem',
-      'removeFromWishlist': 'wishlist/removeItem'
-    }),
     toggleWishlistPanel () {
       this.$store.commit('ui/setWishlist', !this.isOpen)
     }

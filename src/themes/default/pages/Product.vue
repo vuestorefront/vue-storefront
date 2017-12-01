@@ -106,7 +106,18 @@ export default {
   },
   methods: {
     addToFavorite () {
-      this.store.dispatch('whishlist/addToWishlist', { product: this.product })
+      let self = this
+      if (!self.favorite.isFavorite) {
+        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
+          self.favorite.icon = 'favorite'
+          self.favorite.isFavorite = true
+        })
+      } else {
+        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
+          self.favorite.icon = 'favorite_border'
+          self.favorite.isFavorite = false
+        })
+      }
     },
     addToCompare () {
       // todo
