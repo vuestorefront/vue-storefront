@@ -4,11 +4,11 @@
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>
       <li v-for='product in items'>
-        {{ product.name }}
+        {{ product.name | htmlDecode}}
         {{ product.priceInclTax }}
         {{ product.qty }}
       </li>
-    </ul>  
+    </ul>
   </div>
 </template>
 

@@ -44,6 +44,41 @@ export default {
         action1: { label: 'OK', action: 'close' }
       })
       this.$router.push('/')
+    } else {
+      this.stockCheckCompleted = false
+      for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
+        const checkPromises = []
+        if (product.onlineStockCheckid) {
+          checkPromises.push(new Promise((resolve, reject) => {
+            global.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
+              if (err) {
+                console.error(err)
+                resolve(null)
+              } else {
+                product.stock = item.result
+                resolve(product)
+              }
+            })
+          }))
+          Promise.all(checkPromises).then(checkedProducts => {
+            this.stockCheckCompleted = true
+            this.stockCheckOK = true
+            for (let chp of checkedProducts) {
+              if (chp) {
+                if (!chp.stock.is_in_stock) {
+                  this.stockCheckOK = false
+                  chp.warning_message = 'Out of stock!'
+                  EventBus.$emit('notification', {
+                    type: 'error',
+                    message: chp.name + ' is out of the stock!',
+                    action1: { label: 'OK', action: 'close' }
+                  })
+                }
+              }
+            }
+          })
+        }
+      }
     }
   },
   created () {
@@ -86,11 +121,33 @@ export default {
           }
         }
       }
+
+      if (navigator.onLine) {
+        if (this.stockCheckCompleted) {
+          if (!this.stockCheckOK) {
+            isValid = false
+            EventBus.$emit('notification', {
+              type: 'error',
+              message: 'Some of the ordered products are not available!',
+              action1: { label: 'OK', action: 'close' }
+            })
+          }
+        } else {
+          EventBus.$emit('notification', {
+            type: 'warning',
+            message: 'Stock check in progress, please wait while available stock quantities are checked',
+            action1: { label: 'OK', action: 'close' }
+          })
+          isValid = false
+        }
+      }
       return isValid
     }
   },
   data () {
     return {
+      stockCheckCompleted: false,
+      stockCheckOK: false,
       orderPlaced: false,
       activeSection: {
         personalDetails: true,

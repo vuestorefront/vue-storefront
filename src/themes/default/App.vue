@@ -4,6 +4,7 @@
     <div id="viewport p55">
       <microcart />
       <search-panel />
+      <wishlist />
       <sidebar-menu />
       <main-header />
       <router-view></router-view>
@@ -20,13 +21,14 @@ import { mapState } from 'vuex'
 import MainHeader from './components/core/blocks/Header/Header.vue'
 import MainFooter from './components/core/blocks/Footer/Footer.vue'
 
+import Wishlist from './components/core/blocks/Wishlist/Wishlist.vue'
 import Microcart from './components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 
 import Overlay from './components/core/Overlay.vue'
 import Notification from './components/core/Notification.vue'
-import SignUp from './components/core/blocks/SignUp/SignUp.vue'
+import SignUp from './components/core/blocks/Auth/SignUp.vue'
 
 export default {
   computed: {
@@ -38,6 +40,7 @@ export default {
     MainHeader,
     MainFooter,
     Microcart,
+    Wishlist,
     SearchPanel,
     SidebarMenu,
     Overlay,

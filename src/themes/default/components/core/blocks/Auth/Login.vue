@@ -60,7 +60,7 @@ export default {
       required
     }
   },
-  mixins: [coreComponent('core/blocks/SignUp/Login')],
+  mixins: [coreComponent('core/blocks/Auth/Login')],
   methods: {
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'register')
@@ -78,6 +78,14 @@ export default {
       this.$store.commit('ui/setAuthElem', 'forgot-pass')
     },
     login () {
+      if (this.$v.$invalid) {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: 'Please fix the validation errors',
+          action1: { label: 'OK', action: 'close' }
+        })
+        return
+      }
       this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
         console.log(result)
         if (result.code !== 200) {

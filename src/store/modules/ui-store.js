@@ -1,6 +1,7 @@
 const state = {
   sidebar: false,
   microcart: false,
+  wishlist: false,
   searchpanel: false,
   overlay: false,
   signUp: false,
@@ -28,6 +29,9 @@ const mutations = {
   },
   setAuthElem (state, action) {
     state.authElem = action
+  },
+  setWishlist (state, action) {
+    state.wishlist = action === true
   }
 }
 

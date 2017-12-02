@@ -1,10 +1,10 @@
 <template>
   <div class="breadcrumbs">
       <span v-for="link in routes">
-          {{ link.name }} /
+          {{ link.name | htmlDecode }} /
       </span>
       <strong>
-        {{ activeRoute }}
+        {{ activeRoute | htmlDecode }}
       </strong>
   </div>
 </template>
