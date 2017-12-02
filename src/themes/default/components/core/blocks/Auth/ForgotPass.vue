@@ -42,7 +42,7 @@ export default {
       // send email with reset pass instructions
     }
   },
-  mixins: [coreComponent('core/blocks/SignUp/ForgotPass')],
+  mixins: [coreComponent('core/blocks/Auth/ForgotPass')],
   components: {
     ButtonFull
   }
