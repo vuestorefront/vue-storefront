@@ -4,7 +4,7 @@
     <!-- Items in wishlist -->
     <ul>
       <li v-for='product in items'>
-        {{ product.name }}
+        {{ product.name | htmlDecode }}
         {{ product.priceInclTax }}
       </li>
     </ul>

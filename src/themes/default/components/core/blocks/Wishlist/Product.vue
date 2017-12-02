@@ -4,7 +4,7 @@
       <img v-lazy="thumbnail" />
       <div class="col-xs pl40 pb15 pt15">
         <div>
-          <div>{{ product.name }}</div>
+          <div>{{ product.name | htmlDecode}}</div>
           <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
         </div>
       </div>
