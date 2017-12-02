@@ -3,21 +3,22 @@
     <header class="brdr-underline bg-white">
         <div class="container">
             <div class="row between-xs middle-xs px15" v-show="!isCheckout">
-                <div class="col-md-2 middle-xs">
+                <div class="col-md-3 middle-xs">
                     <div class="box">
                         <hamburger-icon class="p15 icon bg-lightgray"/>
                     </div>
                 </div>
-                <div class="col-md-8 center-xs">
+                <div class="col-md-6 center-xs">
                     <div class="box">
                         <logo width="36px" height="41px"/>
                     </div>
                 </div>
-                <div class="col-md-2 end-xs">
+                <div class="col-md-3 end-xs">
                     <div class="box inline-flex">
                         <search-icon class="p15 icon search-icon" />
                         <wishlist-icon class="p15 icon wishlist-icon" />
                         <microcart-icon class="p15 icon microcart-icon" />
+                        <account-icon class="p15 icon account-icon" />
                     </div>
                 </div>
             </div>
@@ -48,6 +49,7 @@ import { coreComponent } from 'lib/themes'
 
 import Logo from '../../Logo.vue'
 
+import AccountIcon from './AccountIcon.vue'
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
 import SearchIcon from './SearchIcon.vue'
@@ -74,6 +76,7 @@ export default {
     }
   },
   components: {
+    AccountIcon,
     MicrocartIcon,
     HamburgerIcon,
     WishlistIcon,
@@ -106,6 +109,9 @@ export default {
             display: none;
         }
         .wishlist-icon {
+            display: none;
+        }
+        .account-icon {
             display: none;
         }
     }

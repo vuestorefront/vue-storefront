@@ -7,12 +7,14 @@
       <microcart-icon />
       <hamburger-icon />
       <wishlist-icon />
+      <account-icon />
   </header>
 </template>
 
 <script>
 import Logo from '../../Logo.vue'
 
+import AccountIcon from './AccountIcon.vue'
 import SearchIcon from './SearchIcon.vue'
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
@@ -21,6 +23,7 @@ import WishlistIcon from './WishlistIcon.vue'
 export default {
   name: 'main-header',
   components: {
+    AccountIcon,
     Logo,
     SearchIcon,
     MicrocartIcon,
