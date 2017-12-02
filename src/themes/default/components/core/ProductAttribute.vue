@@ -1,5 +1,5 @@
 <template>
-    <li><strong>{{label}}:</strong> {{value}}</li>
+    <li><strong>{{label|htmlDecode}}:</strong> {{value|htmlDecode}}</li>
 </template>
 
 <script>
