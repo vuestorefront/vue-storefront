@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     switchElem () {
-      this.$emit('switched', 'login')
+      this.$store.commit('ui/setAuthElem', 'login')
     },
     togglePassType (name) {
       if (this.passType[name] === 'password') {

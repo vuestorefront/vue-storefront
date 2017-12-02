@@ -63,7 +63,7 @@ export default {
   mixins: [coreComponent('core/blocks/SignUp/Login')],
   methods: {
     switchElem () {
-      this.$emit('switched', 'register')
+      this.$store.commit('ui/setAuthElem', 'register')
     },
     togglePassType (name) {
       if (this.passType === 'password') {
@@ -75,7 +75,7 @@ export default {
       }
     },
     remindPassword () {
-      // todo
+      this.$store.commit('ui/setAuthElem', 'forgot-pass')
     },
     login () {
       this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
