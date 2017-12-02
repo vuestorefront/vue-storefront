@@ -4,7 +4,7 @@
       <img class="blend" v-lazy="thumbnail" />
       <div class="col-xs pl40 pb15 pt15">
         <div>
-          <div>{{ product.name }}</div>
+          <div>{{ product.name | htmlDecode }}</div>
           <div class="error" v-if="product.warning_message">
             {{ product.warning_message }}
           </div>

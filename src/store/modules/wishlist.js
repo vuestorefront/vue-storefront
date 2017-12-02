@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import EventBus from 'src/event-bus/event-bus'
+import { htmlDecode } from '../../lib/filters'
 
 const store = {
   namespaced: true,
@@ -54,7 +55,7 @@ const store = {
       commit(types.WISH_ADD_ITEM, { product })
       EventBus.$emit('notification', {
         type: 'success',
-        message: `Product ${product.name} has been added to the wishlist!`,
+        message: `Product ${htmlDecode(product.name)} has been added to the wishlist!`,
         action1: { label: 'OK', action: 'close' }
       })
     },
@@ -62,7 +63,7 @@ const store = {
       commit(types.WISH_DEL_ITEM, { product })
       EventBus.$emit('notification', {
         type: 'success',
-        message: `Product ${product.name} has been removed`,
+        message: `Product ${htmlDecode(product.name)} has been removed`,
         action1: { label: 'OK', action: 'close' }
       })
     }

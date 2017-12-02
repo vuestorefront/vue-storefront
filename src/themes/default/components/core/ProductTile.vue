@@ -5,9 +5,9 @@
         <transition name="fade" appear>
           <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
           <img v-if="!instant" v-lazy="thumbnail" :key="thumbnail"/>
-        </transition>  
+        </transition>
       </div>
-      <p class="mb0">{{ product.name }}</p>
+      <p class="mb0">{{ product.name | htmlDecode }}</p>
 
       <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
       <span class="price-original lh30 c-gray" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>

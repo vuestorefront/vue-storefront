@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import config from '../config.json'
+import he from 'he'
 
 /**
  * Return thumbnail url for specific base url
@@ -41,6 +42,14 @@ export function price (value) {
 }
 
 /**
+ * Decodes any named and numerical character references in text
+ * @param {String} value
+ */
+export function htmlDecode (value) {
+  return he.decode(value)
+}
+
+/**
  * Register Vue common filters
  * @param {Object} app
  * @param {Object} config
@@ -48,6 +57,7 @@ export function price (value) {
 export function registerFilters (app) {
   Vue.filter('thumbnail', thumbnail)
   Vue.filter('slugify', slugify)
+  Vue.filter('htmlDecode', htmlDecode)
   Vue.filter('price', price)
   Vue.filter('displayAttribute', displayAttribute)
 }
