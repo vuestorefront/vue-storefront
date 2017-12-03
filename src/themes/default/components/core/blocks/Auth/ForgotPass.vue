@@ -21,6 +21,7 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import EventBus from 'src/event-bus/event-bus'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email } from 'vuelidate/lib/validators'
@@ -39,7 +40,23 @@ export default {
   },
   methods: {
     sendEmail () {
-      // send email with reset pass instructions
+      // todo: send email with reset password instructions
+
+      if (this.$v.$invalid) {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: 'Please fix the validation errors',
+          action1: { label: 'OK', action: 'close' }
+        })
+        return
+      }
+
+      EventBus.$emit('notification', {
+        type: 'success',
+        message: `An email has been sent to '${this.email}' with further informations on how to reset your password.`,
+        action1: { label: 'OK', action: 'close' }
+      })
+      this.$store.commit('ui/setSignUp', false)
     }
   },
   mixins: [coreComponent('core/blocks/Auth/ForgotPass')],
