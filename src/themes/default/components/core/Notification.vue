@@ -1,13 +1,15 @@
 <template>
   <div class="notifications">
-    <div class="notification c-white" v-for="(notification, index) in notifications" :key="index"  :class="{ info : notification.type == 'info', success: notification.type == 'success', error: notification.type == 'error'} ">
-      <div class="message">
-        {{ notification.message }}
+    <transition-group name="fade-in-down">
+      <div class="notification c-white" v-for="(notification, index) in notifications" :key="index"  :class="{ info : notification.type == 'info', success: notification.type == 'success', error: notification.type == 'error'} ">
+        <div class="message">
+          {{ notification.message }}
+        </div>
+        <div class="actions uppercase" @click="action(notification.action1.action, index)">
+          {{ notification.action1.label}}
+        </div>
       </div>
-      <div class="actions uppercase" @click="action(notification.action1.action, index)">
-        {{ notification.action1.label}}
-      </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -19,18 +21,35 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .notifications {
   position: fixed;
   top: 100px;
   right: 5%;
+  width: 320px;
   z-index: 10000;
+
+  @media (max-width: 64em) {
+    width: auto;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    .fade-in-down-enter,
+    .fade-in-down-leave-to {
+      transform: translateY(100%);
+    }
+  }
 }
 .notification {
-  width: 320px;
   box-sizing: border-box;
   box-shadow: 0px 0px 35px -5px rgba(0,0,0,.7);
-  margin-bottom: 30px;
+
+  & + &  {
+    margin-top: 30px;
+  }
+
 }
 .notification > .message {
   padding: 20px;
