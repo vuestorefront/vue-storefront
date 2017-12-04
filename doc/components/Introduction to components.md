@@ -12,8 +12,7 @@ In Vue storefront there are two types of components:
 
 First of all: <strong>NEVER override core components</strong> as they are part of Vue Storefront core and are updatad with whole core from time to time. The correct approach for using core components in your theme is thinking of them as an external API. You can inherit the functionalities and extend them in theme but never change it in a core.
 
-Inheritance by itself is be done by [vue mixins](https://vuejs.org/v2/guide/mixins.html).
-
+Inheritance by itself is done by [vue mixins](https://vuejs.org/v2/guide/mixins.html).
 
 To inherit from core component:
 
@@ -32,10 +31,14 @@ export default {
 ```
 From now you can access and override all methods, data and components from core component like it was declaired in your theme component.
 
+# The component's folder structure
 
-# Creating your own components for theme
+* `core` - all ore components. Components thet can be used across whole project should be placed in root of this folder. 
+* `core/blocks` - All other component's specific to pages (e.g Home, Category), other components (e.g Header, Footer) or functionalities (e.g Auth).
 
-# Creating your own components for core
+# Pages
 
-# Components list (data & usage)
+Inheritance in pages works exactly like in other components. Core pages are placed in `src/pages`, and theme's pages should be placed in `src/themes/{theme_name}/pages`.
+
+# Components list and data formats
 
