@@ -33,8 +33,9 @@ From now you can access and override all methods, data and components from core 
 
 # The component's folder structure
 
-* `core` - all ore components. Components thet can be used across whole project should be placed in root of this folder. 
+* `core` - Components thet can be used across whole project should be placed in root of this folder. 
 * `core/blocks` - All other component's specific to pages (e.g Home, Category), other components (e.g Header, Footer) or functionalities (e.g Auth).
+* `theme` (theme components only) - Components that are theme-specific and doesn't override core component's
 
 # Pages
 
