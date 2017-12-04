@@ -11,6 +11,3 @@ export default {
   mixins: [coreComponent('core/blocks/Header/WishlistIcon')]
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
