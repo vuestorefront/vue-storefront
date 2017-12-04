@@ -1,6 +1,6 @@
 <template>
   <footer :class="{ 'brdr-top-1 brdr-c-alto' : isCheckout }">
-    <newsletter class="brdr-underline brdr-c-alto" v-if="!isCheckout" />
+    <newsletter class="brdr-underline brdr-c-alto" v-if="!isCheckout && !isVisible" />
     <div class="upper-footer pt30 pb60 px40 bg-lightgray no-mobile" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
@@ -92,6 +92,7 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import { mapState } from 'vuex'
 
 import Newsletter from './Newsletter.vue'
 import EventBus from 'src/event-bus/event-bus'
@@ -101,6 +102,11 @@ export default {
     return {
       isCheckout: false
     }
+  },
+  computed: {
+    ...mapState({
+      isVisible: state => state.ui.newsletter
+    })
   },
   created () {
     if (this.$route.path === '/checkout') {
