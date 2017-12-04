@@ -15,10 +15,10 @@
                 </div>
                 <div class="col-md-3 end-xs">
                     <div class="box inline-flex">
-                        <search-icon class="p15 icon search-icon" />
-                        <wishlist-icon class="p15 icon wishlist-icon" />
-                        <microcart-icon class="p15 icon microcart-icon" />
-                        <account-icon class="p15 icon account-icon" />
+                        <search-icon class="p15 icon hidden-xs" />
+                        <wishlist-icon class="p15 icon hidden-xs" />
+                        <microcart-icon class="p15 icon" />
+                        <account-icon class="p15 icon hidden-xs" />
                     </div>
                 </div>
             </div>
@@ -103,17 +103,6 @@ export default {
         background-color: #F2F2F2;
         cursor: pointer;
         opacity: 1;
-    }
-    @media (max-width: 510px) {
-        .search-icon {
-            display: none;
-        }
-        .wishlist-icon {
-            display: none;
-        }
-        .account-icon {
-            display: none;
-        }
     }
     .header-placeholder {
         height: 54px;
