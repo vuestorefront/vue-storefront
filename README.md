@@ -2,7 +2,7 @@
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
-The project is still in the prove of concept phase. **We are looking for Contributors and Designer willing to help us in the solution development.**
+The project is still in the proof of concept phase. **We are looking for Contributors and Designer willing to help us in the solution development.**
 
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
@@ -46,6 +46,10 @@ To make the prototype more realistic we used H&M brand and products in our conce
 
 <img width="1440" alt="1" src="https://user-images.githubusercontent.com/18116406/31016336-89a075bc-a524-11e7-9855-f385bf140f55.png">
 
+<img width="880" alt="Vue Storefront - Annimations in sidebar menu" src="https://user-images.githubusercontent.com/18116406/33559404-ed674bcc-d90c-11e7-864a-91e42d1c92cd.gif">
+
+<img width="880" alt="Vue Storefront - Annimations in featured products box" src="https://user-images.githubusercontent.com/18116406/33559277-920deb00-d90c-11e7-95e6-ffd55a36a5c6.gif">
+
 Here you can read more about the process of [designing PWA for eCommerce](https://www.linkedin.com/pulse/designing-pwa-ecommerce-karl-bzik/).
 
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
@@ -57,6 +61,10 @@ Vue Storefront source code is completely free and released under the [MIT Licens
 If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via vuestorefront@divante.co.
 
 ## The screenshots
+
+<img width="880" alt="Vue Storefront - Annimations in the sidebar cart" src="https://user-images.githubusercontent.com/18116406/33559769-2840fb70-d90e-11e7-8f2b-298f35d1b412.gif">
+
+<img width="880" alt="Vue Storefront - Annimations on producy card" src="https://user-images.githubusercontent.com/18116406/33560504-3105dac6-d910-11e7-847d-70ef8e944321.gif">
 
 <img width="1440" alt="2" src="https://user-images.githubusercontent.com/18116406/31016666-eafb3fee-a525-11e7-9317-18ec3f91aaf1.png">
 
