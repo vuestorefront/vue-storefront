@@ -3,11 +3,11 @@
     <!-- Serach Results -->
     <ul>
       <li v-for='product in products' v-bind:key="product.sku">
-        {{ product.name }}
+        {{ product.name | htmlDecode }}
         {{ product.priceInclTax }}
         {{ product.qty }}
       </li>
-    </ul>  
+    </ul>
   </div>
 </template>
 

@@ -1,3 +1,5 @@
+import { htmlDecode } from '../lib/filters'
+
 function getMeta (vm) {
   const { meta } = vm.$options
   if (meta) {
@@ -30,7 +32,7 @@ const clientMeta = {
 
       if (typeof meta !== 'undefined') {
         if (meta.title) {
-          document.title = meta.title + this.$store.state.meta.suffix
+          document.title = htmlDecode(meta.title + this.$store.state.meta.suffix)
           this.$store.commit('meta/title', meta.title)
         }
 
