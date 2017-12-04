@@ -1,12 +1,10 @@
-The page is under construction
-
-# Introudction
+# Types of components
 
 In Vue storefront there are two types of components:
 
 * <strong>Core components</strong> (`src/components`) - In core components we implemented all basic business logic for ecommerce shop so you don't need to write it from scratch by yourself. All you need to do is inherit from them in theme components where you can override, style or extend each one of them. Core component's shouldn't be used directly in theme's (only via inheritance as mixins. They also shouldn't include styling since they are designed to be theme-agnostic. Think of it as a inheritable javascript code.
 
-* <strong>Theme components</strong> (`src/themes/{theme_name}components`) - The theme component is what you really see in the app. They can inherit from core components (`src/themes/{theme_name}components/core`) or be created as theme-specific components (`src/themes/{theme_name}components/theme`). All CDD and HTML should be placed in theme components.
+* <strong>Theme components</strong> (`src/themes/{theme_name}/components`) - The theme component is what you really see in the app. They can inherit from core components (`src/themes/{theme_name}components/core`) or be created as theme-specific components (`src/themes/{theme_name}/components/theme`). All CDD and HTML should be placed in theme components.
 
 # Using the core components in your theme
 

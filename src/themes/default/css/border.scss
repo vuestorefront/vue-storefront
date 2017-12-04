@@ -21,6 +21,11 @@ $border-radius: (
             border: #{$i}px solid;
         }
     }
+    @each $i in $border-px {
+        .brdr-top-#{$i} {
+            border: #{$i}px solid;
+        }
+    }
     @each $i in $border-display {
         .brdr-none {
             border: #{$i}

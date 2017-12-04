@@ -1,7 +1,7 @@
 <template>
-  <footer>
-    <newsletter />
-    <div class="upper-footer pt30 pb60 px40 bg-lightgray no-mobile">
+  <footer class="brdr-top-1 brdr-c-lightgray">
+    <newsletter v-if="!isCheckout" />
+    <div class="upper-footer pt30 pb60 px40 bg-lightgray no-mobile" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
           <div class="row col-lg-6 col-md-8 col-xs-12 start-md between-md between-xs">
@@ -97,6 +97,25 @@ import Newsletter from './Newsletter.vue'
 import EventBus from 'src/event-bus/event-bus'
 
 export default {
+  data () {
+    return {
+      isCheckout: false
+    }
+  },
+  created () {
+    if (this.$route.path === '/checkout') {
+      this.isCheckout = true
+    }
+  },
+  watch: {
+    '$route.path': function () {
+      if (this.$route.path === '/checkout') {
+        this.isCheckout = true
+      } else {
+        this.isCheckout = false
+      }
+    }
+  },
   methods: {
     newsletterClick () {
       EventBus.$emit('notification', {
