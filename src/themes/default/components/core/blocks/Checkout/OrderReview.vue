@@ -36,6 +36,7 @@ import { coreComponent } from 'lib/themes'
 import EventBus from 'src/event-bus/event-bus'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import ValidationError from 'theme/components/core/ValidationError.vue'
 import { required } from 'vuelidate/lib/validators'
 
 export default {
@@ -61,7 +62,8 @@ export default {
     }
   },
   components: {
-    ButtonFull
+    ButtonFull,
+    ValidationError
   },
   mixins: [coreComponent('core/blocks/Checkout/OrderReview')]
 }

@@ -113,6 +113,9 @@ export default {
       }
     }
   },
+  created () {
+    console.log(this)
+  },
   components: {
     ButtonFull
   },
