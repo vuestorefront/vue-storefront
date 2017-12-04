@@ -19,7 +19,7 @@ To inherit from core component:
 
 1. <strong>Create new component in your theme. </strong> The theme component's path and name in `src/themes/{theme_name}components`should be the same as component's which it inherits from in `src/components` e.g Lets say we have core component AddToCart in `src/components/core/AddToCart.vue` which we want to use for our theme's AddToCart component. Following the rules the path for theme's component should be `src/themes/{theme_name}component/core/AddToCart.vue`). 
 
-2. <strong>Import coreComponent module.</strong> Just add the below code at the top of `<script>` tag in your components.
+2. <strong>Import coreComponent module.</strong>
 ```javascript
 import { coreComponent } from 'lib/themes'
 ```
