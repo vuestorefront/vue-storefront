@@ -1,18 +1,18 @@
 <template>
-  <div class="newsletter mb20" v-if="isOpen">
-    <i class="material-icons p15 close c-gray" @click="closeNewsletter">close</i>
+  <div class="newsletter mb20 bg-white" v-if="isOpen">
+    <i class="material-icons close p15 c-gray" @click="closeNewsletter">close</i>
     <div class="py35 px55 bg-lightgray">
       <h1 class="my0">Newsletter</h1>
     </div>
     <div class="py35 px55 bg-white c-gray">
       <form>
         <div class="mb35">
-          <p>Sign up to our newsletter and receive a coupon for 10% off!</p>
-          <input type="email" name="email" v-model="email" placeholder="E-mail address *">
-          <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <p class="h4">Sign up to our newsletter and receive a coupon for 10% off!</p>
+          <input class="brdr-none py10 h4 weight-200" type="email" name="email" v-model="email" placeholder="E-mail address *">
+          <p class="m0 c-red h6" v-if="!$v.email.required">Field is required.</p>
+          <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
         </div>
-        <div class="mb35">
+        <div class="mb35 center-xs">
           <button-full class="btn-full p0" text="Subscribe" @click.native="sendEmail"></button-full>
         </div>
       </form>
@@ -66,17 +66,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '../../css/text.scss';
 
   input[type=email] {
-    @extend body;
     box-sizing: border-box;
-    font-size: 18px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: none;
     border-bottom: 1px solid #BDBDBD;
     width: 100%;
+    font-family: 'Roboto', sans-serif;
   }
 
   input::-webkit-input-placeholder {
@@ -89,23 +84,20 @@ export default {
 
   input:focus {
     outline: none;
-    border-color: black;
+    border-color: #000000;
     transition: 0.3s all;
   }
 
   .newsletter {
     position: absolute;
     width: 450px;
-    background-color: white;
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
-    font-size: 18px;
 
     @media (max-width: 600px) {
       top: 0;
-      margin: 0;
       width: 100%;
       height: 100%;
     }
@@ -119,15 +111,7 @@ export default {
   }
 
   .btn-full {
-    box-sizing: border-box;
-    width: 100%;
-    justify-content: center;
-    text-align: center;
+    display: block;
   }
 
-  .validation-error {
-    display: block;
-    font-size: 12px;
-    color: #EB5757;
-  }
 </style>
