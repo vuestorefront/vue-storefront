@@ -56,7 +56,7 @@ export default {
         action1: { label: 'OK', action: 'close' }
       })
       this.$store.commit('ui/setNewsletterPopup', false)
-      this.$store.commit('ui/setNewsletter', true)
+      this.$store.commit('userData/setNewsletter', true)
     }
   },
   components: {
