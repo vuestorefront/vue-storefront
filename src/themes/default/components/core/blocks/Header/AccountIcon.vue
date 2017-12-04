@@ -11,7 +11,3 @@ export default {
   mixins: [coreComponent('core/blocks/Header/AccountIcon')]
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
