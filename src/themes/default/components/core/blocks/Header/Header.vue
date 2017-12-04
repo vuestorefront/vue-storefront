@@ -1,6 +1,6 @@
 <template>
 <div class="header">
-    <header class="brdr-underline bg-white">
+    <header class="brdr-underline bg-white brdr-c-alto">
         <div class="container">
             <div class="row between-xs middle-xs px15" v-show="!isCheckout">
                 <div class="col-md-2 middle-xs">
@@ -86,7 +86,6 @@ export default {
 
 <style scoped>
     header {
-        border-bottom-color: #E0E0E0;
         position: fixed;
         height: 54px;
         top: 0;

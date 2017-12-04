@@ -23,7 +23,8 @@ $border-radius: (
     }
     @each $i in $border-px {
         .brdr-top-#{$i} {
-            border: #{$i}px solid;
+            border-top-width: #{$i}px;
+            border-top-style: solid;
         }
     }
     @each $i in $border-display {

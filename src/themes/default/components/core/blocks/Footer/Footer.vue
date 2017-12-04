@@ -1,6 +1,6 @@
 <template>
-  <footer class="brdr-top-1 brdr-c-lightgray">
-    <newsletter v-if="!isCheckout" />
+  <footer :class="{ 'brdr-top-1 brdr-c-alto' : isCheckout }">
+    <newsletter class="brdr-underline brdr-c-alto" v-if="!isCheckout" />
     <div class="upper-footer pt30 pb60 px40 bg-lightgray no-mobile" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
@@ -135,7 +135,6 @@ export default {
 <style scoped>
   .newsletter {
     display: flex;
-    border-bottom: 1px solid #E0E0E0;
   }
   .newsletter-content {
     align-items: center;
