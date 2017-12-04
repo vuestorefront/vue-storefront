@@ -18,8 +18,7 @@ export default {
   components: {
     Login,
     Register,
-    ForgotPass,
-    mapState
+    ForgotPass
   },
   computed: {
     ...mapState({
