@@ -1,6 +1,6 @@
 <template>
     <!-- Add to cart button example with addToCart action from cart store-->
-    <button v-on:click="addToCart(product)">Add to cart</button>
+    <button class="ripple" v-on:click="addToCart(product)">Add to cart</button>
 </template>
 
 <script>

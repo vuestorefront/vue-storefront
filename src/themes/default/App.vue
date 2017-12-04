@@ -56,6 +56,7 @@ export default {
 <style src="./css/margin.scss" lang="scss"></style>
 <style src="./css/transitions.scss" lang="scss"></style>
 <style src="./css/animations.scss" lang="scss"></style>
+<style src="./css/buttons.scss" lang="scss"></style>
 <style src="./css/padding.scss" lang="scss"></style>
 <style src="./css/text.scss" lang="scss"></style>
 <style src="./css/border.scss" lang="scss"></style>
