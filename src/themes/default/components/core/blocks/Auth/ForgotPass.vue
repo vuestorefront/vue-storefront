@@ -101,17 +101,6 @@ export default {
     text-align: center;
   }
 
-  .icon {
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 10px;
-
-    &:hover {
-      color: #8E8E8E;
-    }
-  }
-
   .validation-error {
     display: block;
     font-size: 12px;
