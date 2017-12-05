@@ -3,21 +3,22 @@
     <header class="brdr-underline bg-white brdr-c-alto">
         <div class="container">
             <div class="row between-xs middle-xs px15" v-show="!isCheckout">
-                <div class="col-md-2 middle-xs">
+                <div class="col-md-3 middle-xs">
                     <div class="box">
                         <hamburger-icon class="p15 icon bg-lightgray"/>
                     </div>
                 </div>
-                <div class="col-md-8 center-xs">
+                <div class="col-md-6 center-xs">
                     <div class="box">
                         <logo width="36px" height="41px"/>
                     </div>
                 </div>
-                <div class="col-md-2 end-xs">
+                <div class="col-md-3 end-xs">
                     <div class="box inline-flex">
-                        <search-icon class="p15 icon search-icon" />
-                        <wishlist-icon class="p15 icon wishlist-icon" />
-                        <microcart-icon class="p15 icon microcart-icon" />
+                        <search-icon class="p15 icon hidden-xs" />
+                        <wishlist-icon class="p15 icon hidden-xs" />
+                        <microcart-icon class="p15 icon" />
+                        <account-icon class="p15 icon hidden-xs" />
                     </div>
                 </div>
             </div>
@@ -48,6 +49,7 @@ import { coreComponent } from 'lib/themes'
 
 import Logo from '../../Logo.vue'
 
+import AccountIcon from './AccountIcon.vue'
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
 import SearchIcon from './SearchIcon.vue'
@@ -74,6 +76,7 @@ export default {
     }
   },
   components: {
+    AccountIcon,
     MicrocartIcon,
     HamburgerIcon,
     WishlistIcon,
@@ -99,14 +102,6 @@ export default {
         background-color: #F2F2F2;
         cursor: pointer;
         opacity: 1;
-    }
-    @media (max-width: 510px) {
-        .search-icon {
-            display: none;
-        }
-        .wishlist-icon {
-            display: none;
-        }
     }
     .header-placeholder {
         height: 54px;

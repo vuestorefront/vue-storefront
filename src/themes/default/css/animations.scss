@@ -2,7 +2,7 @@
   from {
     opacity: 0;
   }
-  
+
   to {
     opacity: 1;
   }
@@ -11,4 +11,17 @@
 [lazy="loaded"] {
   animation: products-loaded;
   animation-duration: .3s;
+}
+
+@keyframes ripple-effect {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }

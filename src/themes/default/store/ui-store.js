@@ -20,6 +20,10 @@ const mutations = {
   setSignUp (state, action) {
     state.signUp = action === true
     state.overlay = action === true
+  },
+  setNewsletterPopup (state, action) {
+    state.newsletterPopup = action === true
+    state.overlay = action === true
   }
 }
 

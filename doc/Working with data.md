@@ -33,7 +33,7 @@ Vue.prototype.$db = {
 global.db = Vue.prototype.$db // localForage instance
 ```
 
-## Exmaple Vuex store
+## Example Vuex store
 
 Here you have example on how to the Vuex store should be constructed. Please notice the *Ajv data validation*:
 

@@ -102,9 +102,9 @@ export default {
   computed: {
     imgObj () {
       return {
-        src: thumbnail(this.product.image, 570, 569),
-        error: thumbnail(this.product.image, 310, 300),
-        loading: thumbnail(this.product.image, 310, 300)
+        src: thumbnail(this.configured_product.image, 570, 569),
+        error: thumbnail(this.configured_product.image, 310, 300),
+        loading: thumbnail(this.configured_product.image, 310, 300)
       }
     }
   },

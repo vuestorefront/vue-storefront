@@ -3,8 +3,10 @@ const state = {
   microcart: false,
   wishlist: false,
   searchpanel: false,
+  newsletterPopup: false,
   overlay: false,
-  signUp: false
+  signUp: false,
+  authElem: 'login'
 }
 
 const mutations = {
@@ -22,6 +24,15 @@ const mutations = {
   },
   setSignUp (state, action) {
     state.signUp = action === true
+    if (action === false) {
+      state.authElem = 'login'
+    }
+  },
+  setAuthElem (state, action) {
+    state.authElem = action
+  },
+  setNewsletterPopup (state, action) {
+    state.newsletterPopup = action === true
   },
   setWishlist (state, action) {
     state.wishlist = action === true
