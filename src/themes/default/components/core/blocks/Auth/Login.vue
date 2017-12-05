@@ -75,7 +75,15 @@ export default {
       }
     },
     remindPassword () {
-      this.$store.commit('ui/setAuthElem', 'forgot-pass')
+      if (!navigator.onLine) {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: 'Reset password feature does not work while offline!',
+          action1: { label: 'OK', action: 'close' }
+        })
+      } else {
+        this.$store.commit('ui/setAuthElem', 'forgot-pass')
+      }
     },
     login () {
       if (this.$v.$invalid) {

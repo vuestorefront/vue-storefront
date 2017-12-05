@@ -105,7 +105,7 @@ export default {
   },
   computed: {
     ...mapState({
-      isVisible: state => state.userData.newsletter
+      isVisible: state => state.ui.newsletterPopup
     })
   },
   created () {

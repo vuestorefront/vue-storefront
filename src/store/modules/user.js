@@ -4,19 +4,47 @@ import config from '../../config.json'
 // initial state
 const state = {
   token: '',
-  current: null
+  current: null,
+  session_started: new Date()
 }
 
 const getters = {
-  totals (state) {
-    return {
-      isLoggedIn: state.current !== null
-    }
+  isLoggedIn (state) {
+    return state.current !== null
   }
 }
 
 // actions
 const actions = {
+
+  startSession (context) {
+    context.commit(types.USER_START_SESSION)
+  },
+
+  /**
+   * Send password reset link for specific e-mail
+   */
+  resetPassword (context, { email }) {
+    console.log({ email: email })
+    return fetch(config.users.endpoint + '/resetPassword', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    }).then((response) => {
+      const contentType = response.headers.get('content-type')
+      if (contentType && contentType.includes('application/json')) {
+        return response.json()
+      } else {
+        console.error('Error with response - bad content-type!')
+      }
+
+      return response
+    })
+  },
 
   /**
    * Login user and return user profile and current token
@@ -127,6 +155,9 @@ const actions = {
 const mutations = {
   [types.USER_TOKEN_CHANGED] (state, newToken) {
     state.token = newToken
+  },
+  [types.USER_START_SESSION] (state) {
+    state.session_started = new Date()
   },
   [types.USER_INFO_LOADED] (state, currentUser) {
     state.current = currentUser

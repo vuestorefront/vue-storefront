@@ -71,9 +71,12 @@ export default {
 
 }
 
+.notification.warning {
+  background: #775555;
+}
+
 .notification.info {
   background: #333333;
-
 }
 </style>
 

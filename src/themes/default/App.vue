@@ -38,6 +38,9 @@ export default {
       noScroll: state => state.ui.overlay
     })
   },
+  mounted () {
+    this.$store.dispatch('user/startSession')
+  },
   components: {
     MainHeader,
     MainFooter,
