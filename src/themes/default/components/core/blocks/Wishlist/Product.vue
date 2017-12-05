@@ -2,13 +2,13 @@
   <div>
     <div class="row pr55 pt20 pb20">
       <img v-lazy="thumbnail" />
-      <div class="col-xs pl40 pb15 pt15">
+      <div class="col-xs flex pl40 pb15 pt15">
         <div>
           <div>{{ product.name | htmlDecode}}</div>
           <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
         </div>
       </div>
-      <div class="col-xs pb15 pt15 align-right">
+      <div class="col-xs flex pb15 pt15 align-right">
         <div>
           <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
           <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
@@ -47,7 +47,6 @@ export default {
 
 <style scoped>
 .col-xs {
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }

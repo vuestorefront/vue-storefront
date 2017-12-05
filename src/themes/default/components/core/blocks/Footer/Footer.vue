@@ -1,7 +1,7 @@
 <template>
   <footer :class="{ 'brdr-top-1 brdr-c-alto' : isCheckout }">
-    <newsletter class="brdr-underline brdr-c-alto" v-if="!isCheckout && !isVisible" />
-    <div class="upper-footer pt30 pb60 px40 bg-lightgray no-mobile" v-if="!isCheckout">
+    <newsletter class=" flex brdr-bottom brdr-c-alto" v-if="!isCheckout" />
+    <div class="flex pt30 pb60 px40 bg-lightgray no-mobile" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
           <div class="row col-lg-6 col-md-8 col-xs-12 start-md between-md between-xs">
@@ -92,7 +92,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import { mapState } from 'vuex'
 
 import Newsletter from './Newsletter.vue'
 import EventBus from 'src/event-bus/event-bus'
@@ -102,11 +101,6 @@ export default {
     return {
       isCheckout: false
     }
-  },
-  computed: {
-    ...mapState({
-      isVisible: state => state.ui.newsletterPopup
-    })
   },
   created () {
     if (this.$route.path === '/checkout') {
@@ -139,14 +133,8 @@ export default {
 </script>
 
 <style scoped>
-  .newsletter {
-    display: flex;
-  }
   .newsletter-content {
     align-items: center;
-  }
-  .upper-footer {
-    display: flex;
   }
   .social-icon {
     display: inline-block;
