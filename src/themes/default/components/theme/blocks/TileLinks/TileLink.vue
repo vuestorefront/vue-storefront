@@ -2,7 +2,7 @@
     <div class="tile-link">
         <a :href="tile.account_link">
           <div class="tile-image bg-lightgray" v-lazy:background-image="tile.background_image">
-            <div class="overlay bg-white h4">@{{ tile.account_name }}</div>
+            <div class="overlay flex bg-white h4">@{{ tile.account_name }}</div>
           </div>
         </a>
     </div>
@@ -39,7 +39,6 @@ export default {
 .overlay {
   width: 100%;
   height: 100%;
-  display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
