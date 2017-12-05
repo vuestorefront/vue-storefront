@@ -191,9 +191,9 @@ const actions = {
       Object.assign(child, customAttributesAsObject)
     })
     // find selected variant
-    let selectedVariant = product.configurable_children.find((child) => {
-      return Object.keys(configuration).every((configPropeprty) => {
-        return parseInt(child[configPropeprty]) === parseInt(configuration[configPropeprty].id)
+    let selectedVariant = product.configurable_children.find((configurableChild) => {
+      return Object.keys(configuration).every((configProperty) => {
+        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
       })
     })
     // use chosen variant
