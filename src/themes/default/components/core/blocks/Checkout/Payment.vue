@@ -17,7 +17,7 @@
           <span class="validation-error" v-if="!$v.payment.paymentMethod.required">Field is required</span>
           
           <div class="col-xs-12 my30">
-            <button-full @click.native="sendDataToCheckout" text="Go review the order" :class="{ 'button-disabled' : $v.payment.$invalid}"/>
+            <button-full @click.native="sendDataToCheckout" text="Go review the order" :class="{ 'ripple': true, 'button-disabled' : $v.payment.$invalid}"/>
           </div>
         </div>
         <div class="row fs16 mb35" v-show="isFilled">

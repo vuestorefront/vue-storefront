@@ -107,7 +107,7 @@ self.addEventListener('message', function (event) {
         storeName: 'user'
       });
 
-      usersCollection.getItem('current-token', function (err, currentToken) { // TODO: if current token is null we should postpone the queue and force re-login
+      usersCollection.getItem('current-token', function (err, currentToken) { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
           
         if (err) {
           console.error(err)
@@ -137,12 +137,14 @@ self.addEventListener('message', function (event) {
                     }
                   })
                   .then(function (jsonResponse) {
-                      if (jsonResponse && jsonResponse.code === 200) {
+                      if (jsonResponse) {
                         console.info('Response for: ' + taskId + ' = ' + jsonResponse.result)
                         
                         taskData.transmited = true
                         taskData.transmited_at = new Date()
                         taskData.result = jsonResponse.result
+                        taskData.resultCode = jsonResponse.code
+                        taskData.acknowledged = false
                         syncTaskCollection.setItem(taskId.toString(), taskData) 
 
                       } else 

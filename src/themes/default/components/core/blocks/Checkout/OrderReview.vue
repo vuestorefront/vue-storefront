@@ -21,7 +21,7 @@
             </div>
             <div class="row">
               <div class="col-xs-12">
-                <button-full text="Place the order" @click.native="placeOrder"  :class="{ 'button-disabled' : $v.orderReview.$invalid}"/>
+                <button-full text="Place the order" @click.native="placeOrder"  :class="{ 'ripple': true, 'button-disabled' : $v.orderReview.$invalid}"/>
               </div>
             </div>
           </div>

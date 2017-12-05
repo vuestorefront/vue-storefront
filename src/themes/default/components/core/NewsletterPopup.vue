@@ -13,7 +13,7 @@
           <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
         </div>
         <div class="mb35 center-xs">
-          <button-full class="btn-full p0" text="Subscribe" @click.native="sendEmail"></button-full>
+          <button-full class="btn-full p0 ripple" text="Subscribe" @click.native="subscribe"></button-full>
         </div>
       </form>
     </div>
@@ -38,7 +38,7 @@ export default {
     }
   },
   methods: {
-    sendEmail () {
+    subscribe () {
       if (this.$v.$invalid) {
         EventBus.$emit('notification', {
           type: 'error',
@@ -49,6 +49,7 @@ export default {
       }
 
       // todo: add user email to newsletter list
+      EventBus.$emit('newsletter-after-subscribe', { email: this.email })
 
       EventBus.$emit('notification', {
         type: 'success',
@@ -56,7 +57,6 @@ export default {
         action1: { label: 'OK', action: 'close' }
       })
       this.$store.commit('ui/setNewsletterPopup', false)
-      this.$store.commit('userData/setNewsletter', true)
     }
   },
   components: {

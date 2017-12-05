@@ -67,7 +67,6 @@ import attribute from './modules/attribute'
 import cart from './modules/cart'
 import wishlist from './modules/wishlist'
 import user from './modules/user'
-import userData from './modules/user-data.js'
 import payment from './modules/payment'
 import shipping from './modules/shipping'
 import meta from './modules/meta'
@@ -133,7 +132,6 @@ export default new Vuex.Store({
     cart,
     wishlist,
     user,
-    userData,
     payment,
     shipping,
     meta,

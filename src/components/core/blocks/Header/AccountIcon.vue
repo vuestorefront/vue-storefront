@@ -1,12 +1,13 @@
 <template>
   <div class="account-icon">
     Core Account
-    <button @click="toggleLogin">Login</button>
+    <button @click="gotoAccount">Account</button>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import EventBus from 'src/event-bus/event-bus'
 
 export default {
   name: 'account-icon',
@@ -16,8 +17,16 @@ export default {
     })
   },
   methods: {
-    toggleLogin () {
-      this.$store.commit('ui/setSignUp', !this.isOpenLogin)
+    gotoAccount () {
+      if (!this.$store.state.user.current) {
+        this.$store.commit('ui/setSignUp', !this.isOpenLogin)
+      } else {
+        EventBus.$emit('notification', {
+          type: 'success',
+          message: 'You are logged in as ' + this.$store.state.user.current.email + ' and the User Account feature is work in progress!',
+          action1: { label: 'OK', action: 'close' }
+        })
+      }
     }
   }
 }

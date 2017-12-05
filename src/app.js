@@ -24,7 +24,7 @@ export function createApp () {
     render: h => h(App)
   })
 
-  registerExtensions(['custom_extension'], app, router, store) // TODO: use config or ENV variables
+  registerExtensions(config.registeredExtensions || [], app, router, store, config) // TODO: use config or ENV variables
   registerTheme('default', app, router, store)
   registerFilters(app, config)
 
