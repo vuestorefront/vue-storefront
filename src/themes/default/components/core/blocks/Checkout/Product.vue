@@ -2,7 +2,7 @@
   <div>
     <div class="row pr55 pt20 pb20">
       <img class="blend" v-lazy="thumbnail" />
-      <div class="col-xs pl40 pb15 pt15">
+      <div class="col-xs flex pl40 pb15 pt15">
         <div>
           <div>{{ product.name | htmlDecode }}</div>
           <div class="error" v-if="product.warning_message">
@@ -16,11 +16,10 @@
           </div>
         </div>
       </div>
-      <div class="col-xs pb15 pt15 align-right">
+      <div class="col-xs flex pb15 pt15 align-right">
         <div>
           <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
           <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
-
           <span v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
         </div>
       </div>
@@ -45,7 +44,6 @@ export default {
   font-size: smaller
 }
 .col-xs {
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }

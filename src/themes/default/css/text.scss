@@ -13,72 +13,29 @@ h1, h2, h3, h4, h5 {
     font-family: 'Playfair Display', serif;
 }
 
-h1, .h1 {
-    font-size: 48px;
-}
-
-h2, .h2 {
-    font-size: 36px;
-}
-
-h3, .h3 {
-    font-size: 24px;
-}
-
-h4, .h4 {
-    font-size: 18px;
-}
-
-h5, .h5 {
-    font-size: 14px;
-}
-
-h6, .h6 {
-    font-size: 12px;
-}
+h1, .h1 { font-size: 48px; }
+h2, .h2 { font-size: 36px; }
+h3, .h3 { font-size: 24px; }
+h4, .h4 { font-size: 18px; }
+h5, .h5 { font-size: 14px; }
+h6, .h6 { font-size: 12px; }
 
 /* Atomic styles for text */
 
-.serif {
-    font-family: 'Playfair Display', serif;
-}
-.uppercase {
-    text-transform: uppercase;
-}
-.align-center {
-    text-align: center;
-}
+.serif { font-family: 'Playfair Display', serif; }
 
-.align-right {
-    text-align: right;
-}
-.weight-200 {
-    font-weight: 200;
-}
-.weight-400 {
-    font-weight: 400;
-}
+.uppercase { text-transform: uppercase; }
 
-.weight-700 {
-    font-weight: 700;
-}
+.align-center { text-align: center; }
+.align-right { text-align: right; }
 
-.lh30 {
-    line-height: 30px;
-}
+.weight-200 { font-weight: 200; }
+.weight-400 { font-weight: 400; }
+.weight-700 { font-weight: 700; }
 
-.lh40 {
-    line-height: 40px;
-}
-.lh40 {
-    line-height: 40px;
-}
+.lh30 { line-height: 30px; }
+.lh40 { line-height: 40px; }
+.lh40 { line-height: 40px; }
 
-/* TO-DO: Find and repalce with h4 */
-.fs-10 {
-    font-size: 10px;
-}
-
-.fs16 {
-    font-size: 16px;
-}
+/* @todo its not in styleguite therefore shouldn't be here, ask Karol Bzik */
+.fs16 { font-size: 16px; }
