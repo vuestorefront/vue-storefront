@@ -37,36 +37,38 @@ function calculateProductTax (product, taxClasses) {
           product.priceTax = product.specialPriceTax
         }
         if (product.configurable_children) {
-          for (let configurableChildren of product.configurable_children) {
-            for (let opt of configurableChildren.custom_attributes) {
-              configurableChildren[opt.attribute_code] = opt.value
+          for (let configurableChild of product.configurable_children) {
+            for (let opt of configurableChild.custom_attributes) {
+              configurableChild[opt.attribute_code] = opt.value
             }
-            configurableChildren.priceInclTax = (configurableChildren.price + configurableChildren.price * (parseFloat(rate.rate) / 100))
-            configurableChildren.priceTax = (configurableChildren.price * (parseFloat(rate.rate) / 100))
+            configurableChild.priceInclTax = (configurableChild.price + configurableChild.price * (parseFloat(rate.rate) / 100))
+            configurableChild.priceTax = (configurableChild.price * (parseFloat(rate.rate) / 100))
 
-            configurableChildren.specialPriceInclTax = (parseFloat(configurableChildren.special_price) + parseFloat(configurableChildren.special_price) * (parseFloat(rate.rate) / 100))
-            configurableChildren.specialPriceTax = (parseFloat(configurableChildren.special_price) * (parseFloat(rate.rate) / 100))
+            configurableChild.specialPriceInclTax = (parseFloat(configurableChild.special_price) + parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
+            configurableChild.specialPriceTax = (parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
 
-            if (configurableChildren.special_price) {
-              configurableChildren.originalPrice = configurableChildren.price
-              configurableChildren.originalPriceInclTax = configurableChildren.priceInclTax
-              configurableChildren.originalPriceTax = configurableChildren.priceTax
+            if (configurableChild.special_price) {
+              configurableChild.originalPrice = configurableChild.price
+              configurableChild.originalPriceInclTax = configurableChild.priceInclTax
+              configurableChild.originalPriceTax = configurableChild.priceTax
 
-              configurableChildren.price = configurableChildren.special_price
-              configurableChildren.priceInclTax = configurableChildren.specialPriceInclTax
-              configurableChildren.priceTax = configurableChildren.specialPriceTax
+              configurableChild.price = configurableChild.special_price
+              configurableChild.priceInclTax = configurableChild.specialPriceInclTax
+              configurableChild.priceTax = configurableChild.specialPriceTax
+            } else {
+              configurableChild.special_price = 0
             }
 
-            if (configurableChildren.priceInclTax < product.priceInclTax) { // always show the lowest price
-              product.priceInclTax = configurableChildren.priceInclTax
-              product.priceTax = configurableChildren.priceTax
-              product.price = configurableChildren.price
-              product.special_price = configurableChildren.special_price
-              product.specialPriceInclTax = configurableChildren.specialPriceInclTax
-              product.specialPriceTax = configurableChildren.specialPriceTax
-              product.originalPrice = configurableChildren.originalPrice
-              product.originalPriceInclTax = configurableChildren.originalPriceInclTax
-              product.originalPriceTax = configurableChildren.originalPriceTax
+            if (configurableChild.priceInclTax < product.priceInclTax) { // always show the lowest price
+              product.priceInclTax = configurableChild.priceInclTax
+              product.priceTax = configurableChild.priceTax
+              product.price = configurableChild.price
+              product.special_price = configurableChild.special_price
+              product.specialPriceInclTax = configurableChild.specialPriceInclTax
+              product.specialPriceTax = configurableChild.specialPriceTax
+              product.originalPrice = configurableChild.originalPrice
+              product.originalPriceInclTax = configurableChild.originalPriceInclTax
+              product.originalPriceTax = configurableChild.originalPriceTax
             }
           }
         }
