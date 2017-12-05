@@ -11,6 +11,7 @@
       <main-footer />
       <notification />
       <sign-up />
+      <newsletter-popup />
     </div>
   </div>
 </template>
@@ -29,6 +30,7 @@ import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 import Overlay from './components/core/Overlay.vue'
 import Notification from './components/core/Notification.vue'
 import SignUp from './components/core/blocks/Auth/SignUp.vue'
+import NewsletterPopup from './components/core/NewsletterPopup.vue'
 
 export default {
   computed: {
@@ -45,7 +47,8 @@ export default {
     SidebarMenu,
     Overlay,
     Notification,
-    SignUp
+    SignUp,
+    NewsletterPopup
   }
 }
 </script>
