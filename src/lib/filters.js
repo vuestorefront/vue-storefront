@@ -9,7 +9,7 @@ import he from 'he'
  * @param {Int} height
  */
 export function thumbnail (relativeUrl, width, height) {
-  return config.images.baseUrl + parseInt(width) + '/' + parseInt(height) + '/resize' + relativeUrl
+  return relativeUrl ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
 }
 
 /**

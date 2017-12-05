@@ -37,36 +37,38 @@ function calculateProductTax (product, taxClasses) {
           product.priceTax = product.specialPriceTax
         }
         if (product.configurable_children) {
-          for (let configurableChildren of product.configurable_children) {
-            for (let opt of configurableChildren.custom_attributes) {
-              configurableChildren[opt.attribute_code] = opt.value
+          for (let configurableChild of product.configurable_children) {
+            for (let opt of configurableChild.custom_attributes) {
+              configurableChild[opt.attribute_code] = opt.value
             }
-            configurableChildren.priceInclTax = (configurableChildren.price + configurableChildren.price * (parseFloat(rate.rate) / 100))
-            configurableChildren.priceTax = (configurableChildren.price * (parseFloat(rate.rate) / 100))
+            configurableChild.priceInclTax = (configurableChild.price + configurableChild.price * (parseFloat(rate.rate) / 100))
+            configurableChild.priceTax = (configurableChild.price * (parseFloat(rate.rate) / 100))
 
-            configurableChildren.specialPriceInclTax = (parseFloat(configurableChildren.special_price) + parseFloat(configurableChildren.special_price) * (parseFloat(rate.rate) / 100))
-            configurableChildren.specialPriceTax = (parseFloat(configurableChildren.special_price) * (parseFloat(rate.rate) / 100))
+            configurableChild.specialPriceInclTax = (parseFloat(configurableChild.special_price) + parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
+            configurableChild.specialPriceTax = (parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
 
-            if (configurableChildren.special_price) {
-              configurableChildren.originalPrice = configurableChildren.price
-              configurableChildren.originalPriceInclTax = configurableChildren.priceInclTax
-              configurableChildren.originalPriceTax = configurableChildren.priceTax
+            if (configurableChild.special_price) {
+              configurableChild.originalPrice = configurableChild.price
+              configurableChild.originalPriceInclTax = configurableChild.priceInclTax
+              configurableChild.originalPriceTax = configurableChild.priceTax
 
-              configurableChildren.price = configurableChildren.special_price
-              configurableChildren.priceInclTax = configurableChildren.specialPriceInclTax
-              configurableChildren.priceTax = configurableChildren.specialPriceTax
+              configurableChild.price = configurableChild.special_price
+              configurableChild.priceInclTax = configurableChild.specialPriceInclTax
+              configurableChild.priceTax = configurableChild.specialPriceTax
+            } else {
+              configurableChild.special_price = 0
             }
 
-            if (configurableChildren.priceInclTax < product.priceInclTax) { // always show the lowest price
-              product.priceInclTax = configurableChildren.priceInclTax
-              product.priceTax = configurableChildren.priceTax
-              product.price = configurableChildren.price
-              product.special_price = configurableChildren.special_price
-              product.specialPriceInclTax = configurableChildren.specialPriceInclTax
-              product.specialPriceTax = configurableChildren.specialPriceTax
-              product.originalPrice = configurableChildren.originalPrice
-              product.originalPriceInclTax = configurableChildren.originalPriceInclTax
-              product.originalPriceTax = configurableChildren.originalPriceTax
+            if (configurableChild.priceInclTax < product.priceInclTax) { // always show the lowest price
+              product.priceInclTax = configurableChild.priceInclTax
+              product.priceTax = configurableChild.priceTax
+              product.price = configurableChild.price
+              product.special_price = configurableChild.special_price
+              product.specialPriceInclTax = configurableChild.specialPriceInclTax
+              product.specialPriceTax = configurableChild.specialPriceTax
+              product.originalPrice = configurableChild.originalPrice
+              product.originalPriceInclTax = configurableChild.originalPriceInclTax
+              product.originalPriceTax = configurableChild.originalPriceTax
             }
           }
         }
@@ -148,24 +150,19 @@ const actions = {
       const benchmarkTime = new Date()
       const cache = global.db.elasticCacheCollection
       cache.getItem(cacheKey, (err, res) => {
-        if (err) {
-          console.error(err)
-        }
-
+        if (err) console.error(err)
         const setupProduct = (prod) => {
-          if (setCurrentProduct) {
-            context.state.current = prod
-          }
-          if (prod.type_id === 'configurable' && prod.configurable_children.length > 0) { // TODO: kind of inheritance or trait here to avoid ifology?
-            if (prod.configurable_children.length > 0 && selectDefaultVariant) {
-              context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children[0])) // select the first variant - TODO: add support for variant selection from product list (parameters)
-            }
-          } else if (selectDefaultVariant) {
-            context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod) // select the first variant - TODO: add support for variant selection from product list (parameters)
+          // check is prod has configurable children
+          const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
+          // set passed product as current
+          if (setCurrentProduct) context.state.current = prod
+          if (selectDefaultVariant) {
+            // todo: add support for variant selection from product list (parameters)
+            if (prod.type_id === 'configurable' && hasConfigurableChildren) context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children[0])) // todo: change prod.configurable_children[0] to specific child, probably by variant id
+            else context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod)
           }
           return prod
         }
-
         if (res !== null) {
           console.debug('Product:single - result from localForage for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           resolve(setupProduct(res))
@@ -185,30 +182,23 @@ const actions = {
    */
   configure (context, { product = null, configuration }) {
     const state = context.state
-    if (product === null) {
-      product = state.current
-    }
-
-    let selectedVariant = product.configurable_children.find((child) => {
-      let match = true
-      for (let option of Object.keys(configuration)) {
-        let attr = child.custom_attributes.find((a) => {
-          return a.attribute_code === configuration[option].attribute_code
-        })
-
-        if (attr) {
-          match = attr.value.toString() === configuration[option].id.toString()
-          if (!match) {
-            return false
-          }
-        } else {
-          return false // by some reason configurable_children doesn't have such attribute
-        }
-      }
-
-      return match
+    // use current product if product wasn't passed
+    if (product === null) product = state.current
+    // handle custom_attributes for easier comparing in the future
+    product.configurable_children.forEach((child) => {
+      let customAttributesAsObject = {}
+      child.custom_attributes.forEach((attr) => {
+        customAttributesAsObject[attr.attribute_code] = attr.value
+      })
+      Object.assign(child, customAttributesAsObject)
     })
-
+    // find selected variant
+    let selectedVariant = product.configurable_children.find((configurableChild) => {
+      return Object.keys(configuration).every((configProperty) => {
+        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+      })
+    })
+    // use chosen variant
     context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
     return selectedVariant
   },

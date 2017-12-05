@@ -24,11 +24,9 @@
               {{ configured_product.priceInclTax | price }}
             </div>
 
-            <div class="variants" v-if="product.type_id =='configurable'">
-              <div class="h4" v-for="option in product.configurable_options" v-if="!loading">
-                <span>{{ option.label }}
-                  <strong>{{ configuration[option.label.toLowerCase()].label }}</strong>
-                </span>
+            <div class="variants" v-if="product.type_id =='configurable' && !loading">
+              <div class="h4" v-for="(option, index) in configured_product.configurable_options" :key="index">
+                <span>{{ option.label }} <strong>{{ configuration[option.label.toLowerCase()].label }}</strong></span>
                 <div class="mt20 mb45">
                   <color-button v-for="c in options.color" :id="c.id" :label="c.label" context="product" code="color" class="mr10" :class="{ active: c.id == configuration.color.id }" v-if="option.label == 'Color'" />
                   <size-button v-for="s in options.size" :id="s.id" :label="s.label" context="product" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'"/>
@@ -38,7 +36,6 @@
                   </router-link>
                 </div>
               </div>
-
             </div>
             <add-to-cart :product="configured_product" class="h4 bg-black c-white px55 py20 brdr-none" />
             <div class="row pt45">
@@ -69,7 +66,7 @@
           <div class="col-md-3">
             <h2 class="h3 sans-serif">Product details</h2>
             <ul>
-              <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_atributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
+              <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
             </ul>
           </div>
         </div>

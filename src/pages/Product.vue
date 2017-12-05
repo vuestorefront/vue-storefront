@@ -14,35 +14,30 @@ import EventBus from 'src/event-bus/event-bus'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   this.configuration[filterOption.attribute_code] = filterOption
-  this.$store.dispatch('product/configure', { product: this.product, configuration: this.configuration }).then((selectedVariant) => {
-    if (typeof selectedVariant === 'undefined' || selectedVariant === null) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
+  this.$store.dispatch('product/configure', {
+    product: this.product,
+    configuration: this.configuration
+  }).then((selectedVariant) => {
+    if (!selectedVariant) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
       EventBus.$emit('notification', {
         type: 'warning',
         message: 'No such configuration for the product. Please do choose another combination of attributes.',
         action1: { label: 'OK', action: 'close' }
       })
-    } else { // TODO: this way of getting product probably brokes offline because products are cached by ID not SKU; we probably can just re-configure the product without getting it from cache
-      console.log(selectedVariant)
-/*      if (navigator.onLine) {
-        this.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
-          this.$store.state.product.product_selected_variant = confProduct
-        })
-      } else { // no internet connection so we're just update'ing the selected product */
-      this.$store.state.product.product_selected_variant.sku = selectedVariant.sku
-      this.$store.state.product.product_selected_variant.sgn = selectedVariant.sgn // copy the signature
-      this.$store.state.product.product_selected_variant.price = selectedVariant.price
-      this.$store.state.product.product_selected_variant.priceInclTax = selectedVariant.priceInclTax
-
-      this.$store.state.product.product_selected_variant.special_price = parseFloat(selectedVariant.special_price)
-      this.$store.state.product.product_selected_variant.specialPriceInclTax = selectedVariant.specialPriceInclTax
-      this.$store.state.product.product_selected_variant.specialPriceTax = selectedVariant.specialPriceTax
-
-      this.$store.state.product.product_selected_variant.originalPrice = parseFloat(selectedVariant.originalPrice)
-      this.$store.state.product.product_selected_variant.originalPriceInclTax = selectedVariant.originalPriceInclTax
-      this.$store.state.product.product_selected_variant.originalPriceTax = selectedVariant.orginalPriceTax
-
-      this.$store.state.product.product_selected_variant.custom_attributes = selectedVariant.custom_attributes
+      return
     }
+    // if (navigator.onLine) {
+    //   this.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
+    //     this.$store.state.product.product_selected_variant = confProduct
+    //   })
+    // } else {
+    //   // no internet connection so we're just update'ing the selected product
+    // }
+
+    // TODO: this way of getting product probably brokes offline because products are cached by ID not SKU; we probably can just re-configure the product without getting it from cache
+
+    // join selected variant object to the store
+    Object.assign(this.$store.state.product.product_selected_variant, selectedVariant)
   })
 }
 
@@ -173,7 +168,7 @@ export default {
     EventBus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {
-    all_custom_atributes () {
+    all_custom_attributes () {
       let inst = this
       return Object.values(this.$store.state.attribute.list_by_code).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
@@ -198,7 +193,6 @@ export default {
   data () {
     return {
       loading: false
-      // TO-DO: Variants should be in product object
     }
   },
   meta () {
