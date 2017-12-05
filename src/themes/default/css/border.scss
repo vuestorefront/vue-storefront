@@ -21,8 +21,8 @@ $border-radius: (
             border-top-style: solid;
         }
         .brdr-bottom {
-            border-bottom-style: #{$i}px;
-            border-bottom-width: solid;
+            border-bottom-width: #{$i}px;
+            border-bottom-style: solid;
         }
     }
     @each $color, $colorcode in $colors {
