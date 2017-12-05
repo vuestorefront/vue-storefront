@@ -1,25 +1,29 @@
 <template>
   <div class="sign-up mb20" v-if="isOpen">
     <i class="material-icons p15 close c-gray" @click="closeSignUp">close</i>
-    <login v-if="activeElem === 'login'" @switched="activeElem = $event" />
-    <register v-if="activeElem === 'register'" @switched="activeElem = $event" />
+    <login v-if="activeElem === 'login'" />
+    <register v-if="activeElem === 'register'" />
+    <forgot-pass v-if="activeElem === 'forgot-pass'" />
   </div>
 </template>
 <script>
 import Login from './Login.vue'
 import Register from './Register.vue'
+import ForgotPass from './ForgotPass.vue'
 
 import { coreComponent } from 'lib/themes'
+import { mapState } from 'vuex'
 
 export default {
-  data () {
-    return {
-      activeElem: 'login'
-    }
+  computed: {
+    ...mapState({
+      activeElem: state => state.ui.authElem
+    })
   },
   components: {
     Login,
-    Register
+    Register,
+    ForgotPass
   },
   mixins: [coreComponent('core/blocks/Auth/SignUp')]
 }

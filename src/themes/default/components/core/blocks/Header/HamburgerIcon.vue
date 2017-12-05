@@ -1,5 +1,5 @@
 <template>
-    <div class="hamburger-icon box" @click="openSidebarMenu">
+    <div class="hamburger-icon inline-flex" @click="openSidebarMenu">
         <i class="material-icons md-18">dehaze</i>
     </div>
 </template>
@@ -11,9 +11,3 @@ export default {
   mixins: [coreComponent('core/blocks/Header/HamburgerIcon')]
 }
 </script>
-
-<style scoped>
-    .hamburger-icon {
-      display: inline-flex;
-    }
-</style>

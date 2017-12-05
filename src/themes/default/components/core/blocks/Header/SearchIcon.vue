@@ -11,7 +11,3 @@ export default {
   mixins: [coreComponent('core/blocks/Header/SearchIcon')]
 }
 </script>
-
-<style lang="scss" scoped>
-  
-</style>

@@ -3,11 +3,13 @@
     Core SignUp
     <login />
     <register />
+    <forgot-pass />
   </div>
 </template>
 <script>
 import Login from './Login.vue'
 import Register from './Register.vue'
+import ForgotPass from './ForgotPass.vue'
 
 import { mapState } from 'vuex'
 
@@ -15,7 +17,8 @@ export default {
   name: 'sign-up',
   components: {
     Login,
-    Register
+    Register,
+    ForgotPass
   },
   computed: {
     ...mapState({
