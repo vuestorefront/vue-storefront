@@ -34,7 +34,7 @@
             <input type="password" name="password-confirmation" placeholder="Repeat password *" v-model="personalDetails.emailAddress">
           </div> -->
           <div class="col-md-12 my30">
-            <button-full @click.native="sendDataToCheckout" text="Continue to shipping" :class="{ 'button-disabled' : $v.personalDetails.$invalid}"/>
+            <button-full @click.native="sendDataToCheckout" text="Continue to shipping" :class="{ 'ripple': true, 'button-disabled' : $v.personalDetails.$invalid}"/>
             <!-- <p>Or login to the existing account</p> -->
           </div>
         </div>

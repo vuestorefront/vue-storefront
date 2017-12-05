@@ -36,6 +36,7 @@ export const SN_USER = 'user'
 export const USER_NEWSLETTER_SIGNUP = SN_USER + '/NEWSLETTER_SIGNUP'
 export const USER_TOKEN_CHANGED = SN_USER + '/TOKEN_CHANGED'
 export const USER_INFO_LOADED = SN_USER + '/INFO_LOADED'
+export const USER_START_SESSION = SN_USER + '/START_SESSION'
 
 export const SN_SYNC = 'sync'
 export const SYNC_ADD_TASK = SN_SYNC + '/ADD_TASK'

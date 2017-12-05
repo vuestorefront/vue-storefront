@@ -51,10 +51,20 @@ export default {
         return
       }
 
-      EventBus.$emit('notification', {
-        type: 'success',
-        message: `An email has been sent to '${this.email}' with further informations on how to reset your password.`,
-        action1: { label: 'OK', action: 'close' }
+      this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
+        if (response.code === 200) {
+          EventBus.$emit('notification', {
+            type: 'success',
+            message: `An email has been sent to '${this.email}' with further informations on how to reset your password.`,
+            action1: { label: 'OK', action: 'close' }
+          })
+        } else {
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: response.result || 'Error while sending reset password e-mail',
+            action1: { label: 'OK', action: 'close' }
+          })
+        }
       })
       this.$store.commit('ui/setSignUp', false)
     }

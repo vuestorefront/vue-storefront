@@ -1,5 +1,5 @@
 <template>
-  <div class="account-icon inline-flex" @click="toggleLogin">
+  <div class="account-icon inline-flex" @click="gotoAccount">
     <i class="material-icons md-18">account_circle</i>
   </div>
 </template>
