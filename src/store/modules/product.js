@@ -148,24 +148,19 @@ const actions = {
       const benchmarkTime = new Date()
       const cache = global.db.elasticCacheCollection
       cache.getItem(cacheKey, (err, res) => {
-        if (err) {
-          console.error(err)
-        }
-
+        if (err) console.error(err)
         const setupProduct = (prod) => {
-          if (setCurrentProduct) {
-            context.state.current = prod
-          }
-          if (prod.type_id === 'configurable' && prod.configurable_children.length > 0) { // TODO: kind of inheritance or trait here to avoid ifology?
-            if (prod.configurable_children.length > 0 && selectDefaultVariant) {
-              context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children[0])) // select the first variant - TODO: add support for variant selection from product list (parameters)
-            }
-          } else if (selectDefaultVariant) {
-            context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod) // select the first variant - TODO: add support for variant selection from product list (parameters)
+          // check is prod has configurable children
+          const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
+          // set passed product as current
+          if (setCurrentProduct) context.state.current = prod
+          if (selectDefaultVariant) {
+            // todo: add support for variant selection from product list (parameters)
+            if (prod.type_id === 'configurable' && hasConfigurableChildren) context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children[0])) // todo: change prod.configurable_children[0] to specific child, probably by variant id
+            else context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod)
           }
           return prod
         }
-
         if (res !== null) {
           console.debug('Product:single - result from localForage for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           resolve(setupProduct(res))
@@ -185,30 +180,23 @@ const actions = {
    */
   configure (context, { product = null, configuration }) {
     const state = context.state
-    if (product === null) {
-      product = state.current
-    }
-
-    let selectedVariant = product.configurable_children.find((child) => {
-      let match = true
-      for (let option of Object.keys(configuration)) {
-        let attr = child.custom_attributes.find((a) => {
-          return a.attribute_code === configuration[option].attribute_code
-        })
-
-        if (attr) {
-          match = attr.value.toString() === configuration[option].id.toString()
-          if (!match) {
-            return false
-          }
-        } else {
-          return false // by some reason configurable_children doesn't have such attribute
-        }
-      }
-
-      return match
+    // use current product if product wasn't passed
+    if (product === null) product = state.current
+    // handle custom_attributes for easier comparing in the future
+    product.configurable_children.forEach((child) => {
+      let customAttributesAsObject = {}
+      child.custom_attributes.forEach((attr) => {
+        customAttributesAsObject[attr.attribute_code] = attr.value
+      })
+      Object.assign(child, customAttributesAsObject)
     })
-
+    // find selected variant
+    let selectedVariant = product.configurable_children.find((configurableChild) => {
+      return Object.keys(configuration).every((configProperty) => {
+        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+      })
+    })
+    // use chosen variant
     context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
     return selectedVariant
   },
