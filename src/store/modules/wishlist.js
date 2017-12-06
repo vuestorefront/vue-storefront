@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import EventBus from 'src/event-bus/event-bus'
+import EventBus from 'src/event-bus'
 import { htmlDecode } from '../../lib/filters'
 
 const store = {

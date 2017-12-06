@@ -6,7 +6,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 
 export default {
   data () {
@@ -16,7 +15,7 @@ export default {
   },
   beforeMount () {
     if (this.$route.name !== 'product') {
-      EventBus.$on('filter-changed-' + this.context, (filterOption) => {
+      this.$bus.$on('filter-changed-' + this.context, (filterOption) => {
         if (filterOption.attribute_code === this.code) {
           if (filterOption.id === this.id) {
             if (this.active) {
@@ -35,7 +34,7 @@ export default {
   },
   methods: {
     switchFilter (id, label) {
-      EventBus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
+      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
     }
   },
   mixins: [coreComponent('core/ColorButton')]

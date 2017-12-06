@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import EventBus from 'src/event-bus/event-bus'
+import EventBus from 'src/event-bus'
 
 const store = {
   namespaced: true,

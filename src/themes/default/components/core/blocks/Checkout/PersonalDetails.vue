@@ -65,7 +65,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, minLength, email } from 'vuelidate/lib/validators'
@@ -103,12 +102,12 @@ export default {
   },
   methods: {
     sendDataToCheckout () {
-      EventBus.$emit('checkout.personalDetails', this.personalDetails, this.$v)
+      this.$bus.$emit('checkout.personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        EventBus.$emit('checkout.edit', 'personalDetails')
+        this.$bus.$emit('checkout.edit', 'personalDetails')
         this.isFilled = false
       }
     }

@@ -85,7 +85,6 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 
 import { thumbnail } from 'src/lib/filters'
-import EventBus from 'src/event-bus/event-bus'
 
 export default {
   data () {
@@ -122,7 +121,7 @@ export default {
     },
     addToCompare () {
       // todo
-      EventBus.$emit('notification', {
+      this.$bus.$emit('notification', {
         type: 'success',
         message: 'Product has been added to comparison list. This feature is not implemented yet :(',
         action1: { label: 'OK', action: 'close' }

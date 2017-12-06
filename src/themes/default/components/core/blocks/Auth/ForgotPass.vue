@@ -21,7 +21,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email } from 'vuelidate/lib/validators'
@@ -43,7 +42,7 @@ export default {
       // todo: send email with reset password instructions
 
       if (this.$v.$invalid) {
-        EventBus.$emit('notification', {
+        this.$emit('notification', {
           type: 'error',
           message: 'Please fix the validation errors',
           action1: { label: 'OK', action: 'close' }
@@ -53,13 +52,13 @@ export default {
 
       this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
         if (response.code === 200) {
-          EventBus.$emit('notification', {
+          this.$emit('notification', {
             type: 'success',
             message: `An email has been sent to '${this.email}' with further informations on how to reset your password.`,
             action1: { label: 'OK', action: 'close' }
           })
         } else {
-          EventBus.$emit('notification', {
+          this.$emit('notification', {
             type: 'error',
             message: response.result || 'Error while sending reset password e-mail',
             action1: { label: 'OK', action: 'close' }
