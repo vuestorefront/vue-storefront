@@ -33,7 +33,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 import PaymentMethods from 'src/resource/payment_methods.json'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -59,12 +58,12 @@ export default {
   },
   methods: {
     sendDataToCheckout () {
-      EventBus.$emit('checkout.payment', this.payment, this.$v)
+      this.$bus.$emit('checkout.payment', this.payment, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        EventBus.$emit('checkout.edit', 'payment')
+        this.$bus.$emit('checkout.edit', 'payment')
         this.isFilled = false
       }
     }

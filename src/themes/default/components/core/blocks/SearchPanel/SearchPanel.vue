@@ -19,7 +19,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 import ProductTile from '../../ProductTile.vue'
 
 export default {
@@ -36,7 +35,7 @@ export default {
   methods: {
   },
   mounted () {
-    EventBus.$on('focusSearchInput', () => {
+    this.$bus.$on('focusSearchInput', () => {
       if (!this.$store.state.ui.searchpanel) {
         this.$refs.search.focus()
       }

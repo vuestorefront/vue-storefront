@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import EventBus from 'src/event-bus/event-bus'
-
 export default {
   name: 'notification',
   data () {
@@ -17,7 +15,7 @@ export default {
     }
   },
   created () {
-    EventBus.$on('notification', data => {
+    this.$bus.$on('notification', data => {
       this.notifications.push(data)
     })
   },

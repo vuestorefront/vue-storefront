@@ -21,7 +21,6 @@
 </template>
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import EventBus from 'src/event-bus/event-bus'
 import { coreComponent } from 'lib/themes'
 import { required, email } from 'vuelidate/lib/validators'
 
@@ -40,7 +39,7 @@ export default {
   methods: {
     subscribe () {
       if (this.$v.$invalid) {
-        EventBus.$emit('notification', {
+        this.$emit('notification', {
           type: 'error',
           message: 'Please fix the validation errors',
           action1: { label: 'OK', action: 'close' }
@@ -49,9 +48,9 @@ export default {
       }
 
       // todo: add user email to newsletter list
-      EventBus.$emit('newsletter-after-subscribe', { email: this.email })
+      this.$emit('newsletter-after-subscribe', { email: this.email })
 
-      EventBus.$emit('notification', {
+      this.$emit('notification', {
         type: 'success',
         message: 'You have been successfully subscribed to our newsletter!',
         action1: { label: 'OK', action: 'close' }

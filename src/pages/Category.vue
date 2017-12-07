@@ -9,7 +9,6 @@ import builder from 'bodybuilder'
 
 import { breadCrumbRoutes } from 'src/lib/filters'
 import Meta from 'src/lib/meta'
-import EventBus from 'src/event-bus/event-bus'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
@@ -103,7 +102,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     size: pageSize
   }).then(function (res) {
     if (!res || (res.noresults)) {
-      EventBus.$emit('notification', {
+      this.$bus.$emit('notification', {
         type: 'warning',
         message: 'No products synchronized for this category. Please come back while online!',
         action1: { label: 'OK', action: 'close' }
@@ -156,7 +155,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     return res
   }).catch((err) => {
     console.info(err)
-    EventBus.$emit('notification', {
+    this.$bus.$emit('notification', {
       type: 'warning',
       message: 'No products synchronized for this category. Please come back while online!',
       action1: { label: 'OK', action: 'close' }
@@ -178,7 +177,7 @@ export default {
       let searchProductQuery = baseFilterQuery(Object.keys(self.filters), store.state.category.current)
 
       if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
-        EventBus.$emit('current-category-changed', store.state.category.current_path)
+        this.$bus.$emit('current-category-changed', store.state.category.current_path)
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: Object.keys(self.filters)// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
@@ -232,10 +231,10 @@ export default {
     })
   },
   beforeMount () {
-    EventBus.$on('filter-changed-category', filterChanged.bind(this))
+    this.$bus.$on('filter-changed-category', filterChanged.bind(this))
   },
   beforeDestroy () {
-    EventBus.$off('filter-changed-category')
+    this.$bus.$off('filter-changed-category')
   },
   computed: {
     products () {

@@ -94,7 +94,6 @@
 import { coreComponent } from 'lib/themes'
 
 import Newsletter from './Newsletter.vue'
-import EventBus from 'src/event-bus/event-bus'
 
 export default {
   data () {
@@ -118,7 +117,7 @@ export default {
   },
   methods: {
     newsletterClick () {
-      EventBus.$emit('notification', {
+      this.$bus.$emit('notification', {
         type: 'success',
         message: 'This feature is not implemented yet :( Newsletter is on our roadmap - issue #200!',
         action1: { label: 'OK', action: 'close' }
