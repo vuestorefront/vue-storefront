@@ -22,7 +22,16 @@ import { coreComponent } from 'lib/themes'
 
 export default {
   props: ['instant'],
-  mixins: [coreComponent('core/ProductTile')]
+  mixins: [coreComponent('core/ProductTile')],
+  created () {
+    this.$bus.$on('product-after-configured', (configuration) => {
+      console.log(configuration)
+      this.$store.dispatch('product/configure', { product: this.product, configuration: configuration, updateCurrentProduct: false }).then((selectedVariant) => {
+        this.$forceUpdate()
+        console.log(selectedVariant.image)
+      })
+    })
+  }
 }
 </script>
 

@@ -181,7 +181,7 @@ const actions = {
   /**
    * Configure product - finding best suited variant regarding configuration attribute
    */
-  configure (context, { product = null, configuration }) {
+  configure (context, { product = null, configuration, updateCurrentProduct = true }) {
     const state = context.state
     // use current product if product wasn't passed
     if (product === null) product = state.current
@@ -200,7 +200,11 @@ const actions = {
       })
     })
     // use chosen variant
-    context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
+    if (updateCurrentProduct) {
+      context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
+    } else {
+      Object.assign(product, selectedVariant)
+    }
     return selectedVariant
   },
 

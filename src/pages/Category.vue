@@ -13,6 +13,7 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { optionLabel } from 'src/store/modules/attribute'
+import EventBus from 'src/event-bus'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   console.log(filterOption)
@@ -45,7 +46,11 @@ function filterChanged (filterOption) { // slection of product variant on produc
   }
   filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
                       .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
-  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, offset: this.pagination.offset, pageSize: this.pagination.pageSize, filters: Object.keys(this.filters) }) // because already aggregated
+
+  const inst = this
+  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, offset: this.pagination.offset, pageSize: this.pagination.pageSize, filters: Object.keys(this.filters) }).then((res) => {
+    EventBus.$emit('product-after-configured', { configuration: inst.filterSet })
+  }) // because already aggregated
 }
 
 function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of color_options and size_options fields
