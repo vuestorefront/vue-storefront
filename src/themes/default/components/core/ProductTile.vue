@@ -1,6 +1,6 @@
 <template>
   <div class="product align-center p15">
-    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug, sku: product.configurable_children[0].sku || null }}">
+    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug, sku: product.configurable_children && product.configurable_children.length > 0 ? product.configurable_children[0].sku : product.sku }}">
       <div class="product-image bg-lightgray">
         <transition name="fade" appear>
           <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
