@@ -124,7 +124,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 import ShippingMethods from 'src/resource/shipping_methods.json'
 import Countries from 'src/resource/countries.json'
 
@@ -136,7 +135,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   props: ['isActive'],
   created () {
-    EventBus.$on('checkout.personalDetails', (receivedData) => {
+    this.$bus.$on('checkout.personalDetails', (receivedData) => {
       if (!this.isFilled) {
         this.shipping.firstName = receivedData.firstName
         this.shipping.lastName = receivedData.lastName
@@ -186,12 +185,12 @@ export default {
   },
   methods: {
     sendDataToCheckout () {
-      EventBus.$emit('checkout.shipping', this.shipping, this.$v)
+      this.$bus.$emit('checkout.shipping', this.shipping, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        EventBus.$emit('checkout.edit', 'shipping')
+        this.$bus.$emit('checkout.edit', 'shipping')
         this.isFilled = false
       }
     }

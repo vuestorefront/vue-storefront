@@ -10,7 +10,6 @@ import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
 import { breadCrumbRoutes } from 'src/lib/filters'
 import { optionLabel } from 'src/store/modules/attribute'
-import EventBus from 'src/event-bus/event-bus'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   this.configuration[filterOption.attribute_code] = filterOption
@@ -19,7 +18,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     configuration: this.configuration
   }).then((selectedVariant) => {
     if (!selectedVariant) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
-      EventBus.$emit('notification', {
+      this.$emit('notification', {
         type: 'warning',
         message: 'No such configuration for the product. Please do choose another combination of attributes.',
         action1: { label: 'OK', action: 'close' }
@@ -162,10 +161,10 @@ export default {
     '$route': 'validateRoute'
   },
   beforeDestroy () {
-    EventBus.$off('filter-changed-product')
+    this.$bus.$off('filter-changed-product')
   },
   beforeMount () {
-    EventBus.$on('filter-changed-product', filterChanged.bind(this))
+    this.$bus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {
     all_custom_attributes () {
@@ -207,7 +206,3 @@ export default {
   mixins: [Meta]
 }
 </script>
-
-<style scoped>
-
-</style>

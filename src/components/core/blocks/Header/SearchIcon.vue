@@ -6,7 +6,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import EventBus from 'src/event-bus/event-bus'
 
 export default {
   name: 'search-icon',
@@ -17,7 +16,7 @@ export default {
   },
   methods: {
     toggleSearchpanel () {
-      EventBus.$emit('focusSearchInput')
+      this.$bus.$emit('focusSearchInput')
       this.$store.commit('ui/setSearchpanel', !this.isOpen)
     }
   }

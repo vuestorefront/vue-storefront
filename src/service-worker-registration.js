@@ -1,6 +1,6 @@
 import config from './config.json'
 import * as types from './store/mutation-types'
-import EventBus from 'src/event-bus/event-bus'
+import EventBus from 'src/event-bus'
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).then(function () {

@@ -33,7 +33,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
@@ -58,7 +57,7 @@ export default {
   },
   methods: {
     placeOrder () {
-      EventBus.$emit('checkout.placeOrder')
+      this.$bus.$emit('checkout.placeOrder')
     }
   },
   components: {

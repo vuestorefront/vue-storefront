@@ -26,7 +26,6 @@
 
 <script>
 import { corePage } from 'lib/themes'
-import EventBus from 'src/event-bus/event-bus'
 
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails.vue'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
@@ -38,7 +37,7 @@ export default {
   name: 'Checkout',
   beforeMount () {
     if (this.$store.state.cart.cartItems.length === 0) {
-      EventBus.$emit('notification', {
+      this.$bus.$emit('notification', {
         type: 'warning',
         message: 'Shopping cart is empty. Please add some products before entering Checkout',
         action1: { label: 'OK', action: 'close' }
@@ -68,7 +67,7 @@ export default {
                 if (!chp.stock.is_in_stock) {
                   this.stockCheckOK = false
                   chp.warning_message = 'Out of stock!'
-                  EventBus.$emit('notification', {
+                  this.$bus.$emit('notification', {
                     type: 'error',
                     message: chp.name + ' is out of the stock!',
                     action1: { label: 'OK', action: 'close' }
@@ -83,29 +82,29 @@ export default {
   },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
-    EventBus.$on('network.status', (status) => { this.checkConnection(status) })
+    this.$bus.$on('network.status', (status) => { this.checkConnection(status) })
     // TO-DO: Use one event with name as apram
-    EventBus.$on('checkout.personalDetails', (receivedData, validationResult) => {
+    this.$bus.$on('checkout.personalDetails', (receivedData, validationResult) => {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
       this.activateSection('shipping')
     })
-    EventBus.$on('checkout.shipping', (receivedData, validationResult) => {
+    this.$bus.$on('checkout.shipping', (receivedData, validationResult) => {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
       global.__TAX_COUNTRY__ = this.shipping.country
       this.activateSection('payment')
     })
-    EventBus.$on('checkout.payment', (receivedData, validationResult) => {
+    this.$bus.$on('checkout.payment', (receivedData, validationResult) => {
       this.payment = receivedData
       this.validationResults.payment = validationResult
       this.activateSection('orderReview')
     })
-    EventBus.$on('checkout.cartSummary', (receivedData) => {
+    this.$bus.$on('checkout.cartSummary', (receivedData) => {
       this.cartSummary = receivedData
     })
-    EventBus.$on('checkout.placeOrder', () => this.placeOrder())
-    EventBus.$on('checkout.edit', (section) => {
+    this.$bus.$on('checkout.placeOrder', () => this.placeOrder())
+    this.$bus.$on('checkout.edit', (section) => {
       this.activateSection(section)
     })
   },
@@ -126,14 +125,14 @@ export default {
         if (this.stockCheckCompleted) {
           if (!this.stockCheckOK) {
             isValid = false
-            EventBus.$emit('notification', {
+            this.$bus.$emit('notification', {
               type: 'error',
               message: 'Some of the ordered products are not available!',
               action1: { label: 'OK', action: 'close' }
             })
           }
         } else {
-          EventBus.$emit('notification', {
+          this.$bus.$emit('notification', {
             type: 'warning',
             message: 'Stock check in progress, please wait while available stock quantities are checked',
             action1: { label: 'OK', action: 'close' }
@@ -171,7 +170,7 @@ export default {
   methods: {
     checkConnection (status) {
       if (!status.online) {
-        EventBus.$emit('notification', {
+        this.$bus.$emit('notification', {
           type: 'warning',
           message: 'There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now.',
           action1: { label: 'OK', action: 'close' }
@@ -230,7 +229,7 @@ export default {
         this.orderPlaced = true
         console.log(this.order)
       } else {
-        EventBus.$emit('notification', {
+        this.$bus.$emit('notification', {
           type: 'error',
           message: 'Please do correct validation errors',
           action1: { label: 'OK', action: 'close' }
