@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
 import * as entities from 'lib/entities'
-import * as sw from 'lib/sw'
 import config from '../../config.json'
+import EventBus from 'src/event-bus'
 
 // initial state
 const state = {
@@ -44,11 +44,10 @@ const mutations = {
     task.transmited = false
     task.created_at = new Date()
     task.updated_at = new Date()
-
     tasksCollection.setItem(taskId.toString(), task).catch((reason) => {
       console.error(reason) // it doesn't work on SSR
     }).then((resp) => {
-      sw.postMessage({ config: config, command: types.SYNC_PROCESS_QUEUE }) // process checkout queue
+      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
       console.info('Synchronization task added taskId = ' + taskId)
     }) // populate cache
   }

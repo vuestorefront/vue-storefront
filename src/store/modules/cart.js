@@ -6,6 +6,7 @@ const store = {
   namespaced: true,
   state: {
     cartIsLoaded: false,
+    cartSavedAt: new Date(),
     shipping: { cost: 0, code: '' },
     payment: { cost: 0, code: '' },
     cartItems: [] // TODO: check if it's properly namespaced
@@ -27,20 +28,34 @@ const store = {
       }
       console.log(state.cartItems)
     },
+    [types.CART_SAVE] (state) {
+      state.cartSavedAt = new Date()
+    },
     [types.CART_DEL_ITEM] (state, { product }) {
       state.cartItems = state.cartItems.filter(p => p.sku !== product.sku)
+      state.cartSavedAt = new Date()
     },
     [types.CART_UPD_ITEM] (state, { product, qty }) {
       const record = state.cartItems.find(p => p.sku === product.sku)
       record.qty = qty
+      state.cartSavedAt = new Date()
+    },
+    [types.CART_UPD_ITEM_PROPS] (state, { product }) {
+      let record = state.cartItems.find(p => p.sku === product.sku)
+      if (record) {
+        record = Object.assign(record, product)
+      }
+      state.cartSavedAt = new Date()
     },
     [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
       state.shipping.cost = shippingCost
       state.shipping.code = shippingMethod
+      state.cartSavedAt = new Date()
     },
     [types.CART_LOAD_CART] (state, storedItems) {
       state.cartItems = storedItems || []
       state.cartIsLoaded = true
+      state.cartSavedAt = new Date()
     }
   },
   getters: {
@@ -65,6 +80,9 @@ const store = {
     clear (context) {
       context.commit(types.CART_LOAD_CART, [])
     },
+    save (context) {
+      context.commit(types.CART_SAVE)
+    },
     load (context) {
       const commit = context.commit
       const rootState = context.rootState
@@ -80,6 +98,10 @@ const store = {
         if (err) throw new Error(err)
         commit(types.CART_LOAD_CART, storedItems)
       })
+    },
+
+    getItem ({ commit, dispatch, state }, sku) {
+      return state.cartItems.find(p => p.sku === sku)
     },
 
     addItem ({ commit, dispatch, state }, product) {
@@ -115,6 +137,9 @@ const store = {
     },
     updateQuantity ({ commit }, { product, qty }) {
       commit(types.CART_UPD_ITEM, { product, qty })
+    },
+    updateItem ({ commit }, { product }) {
+      commit(types.CART_UPD_ITEM_PROPS, { product })
     },
     changeShippingMethod ({ commit }, { shippingMethod, shippingCost }) {
       commit(types.CART_UPD_SHIPPING, { shippingMethod, shippingCost })

@@ -60,7 +60,6 @@ import Product from './Product'
 
 export default {
   created () {
-    console.log('CI  ' + this.cartItems)
   },
   components: {
     Product

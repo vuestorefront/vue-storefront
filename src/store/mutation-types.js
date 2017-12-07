@@ -5,6 +5,8 @@ export const CART_DEL_ITEM = SN_CART + '/DEL'
 export const CART_UPD_ITEM = SN_CART + '/UPD'
 export const CART_LOAD_CART = SN_CART + '/LOAD'
 export const CART_UPD_SHIPPING = SN_CART + '/SHIPPING'
+export const CART_SAVE = SN_CART + '/SAVE'
+export const CART_UPD_ITEM_PROPS = '/UPD_PROPS'
 
 export const SN_WISHLIST = 'wishlist'
 export const WISH_ADD_ITEM = SN_WISHLIST + '/ADD'

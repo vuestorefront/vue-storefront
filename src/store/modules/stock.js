@@ -1,4 +1,21 @@
 import config from '../../config.json'
+import EventBus from 'src/event-bus'
+import store from '../'
+
+EventBus.$on('stock-after-check', (event) => { // example stock check callback
+  store.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
+    if (cartItem) {
+      if (!event.result.is_in_stock) {
+        store.dispatch('cart/updateItem', { product: { warning_message: 'Out of the stock!', sku: event.product_sku, is_in_stock: false } })
+      } else {
+        store.dispatch('cart/updateItem', { product: { info_message: 'In stock!', sku: event.product_sku, is_in_stock: true } })
+      }
+      EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+    }
+  })
+  console.log('Stock quantity checked for ' + event.result.product_id + ', qty = ' + event.result.qty + ', response time: ' + (event.transmited_at - event.created_at) + ' ms')
+  console.log(event)
+})
 
 const state = {
 }
@@ -18,7 +35,9 @@ const actions = {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
-        }
+        },
+        product_sku: product.sku,
+        callback_event: 'stock-after-check'
       }, { root: true }).then(task => {
         console.log(product)
         resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: task.task_id }) // if not online, cannot check the source of true here

@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
 import { ValidationError } from 'lib/exceptions'
 import * as entities from 'lib/entities'
-import * as sw from 'lib/sw'
+import EventBus from '../../event-bus'
 import config from '../../config.json'
 const Ajv = require('ajv') // json validator
 
@@ -51,7 +51,7 @@ const mutations = {
     ordersCollection.setItem(orderId.toString(), order).catch((reason) => {
       console.error(reason) // it doesn't work on SSR
     }).then((resp) => {
-      sw.postMessage({ config: config, command: types.ORDER_PROCESS_QUEUE }) // process checkout queue
+      EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
       console.info('Order placed, orderId = ' + orderId)
     }) // populate cache
   },

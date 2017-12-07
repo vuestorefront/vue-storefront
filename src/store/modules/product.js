@@ -24,15 +24,15 @@ function calculateProductTax (product, taxClasses) {
         product.priceInclTax = (product.price + product.price * (parseFloat(rate.rate) / 100))
         product.priceTax = (product.price * (parseFloat(rate.rate) / 100))
 
-        product.specialPriceInclTax = (product.special_price + product.special_price * (parseFloat(rate.rate) / 100))
-        product.specialPriceTax = (product.special_price * (parseFloat(rate.rate) / 100))
+        product.specialPriceInclTax = (parseFloat(product.special_price) + parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
+        product.specialPriceTax = (parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
 
         if (product.special_price) {
           product.originalPrice = product.price
           product.originalPriceInclTax = product.priceInclTax
           product.originalPriceTax = product.priceTax
 
-          product.price = product.special_price
+          product.price = parseFloat(product.special_price)
           product.priceInclTax = product.specialPriceInclTax
           product.priceTax = product.specialPriceTax
         }
