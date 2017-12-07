@@ -39,7 +39,7 @@ export default {
   methods: {
     subscribe () {
       if (this.$v.$invalid) {
-        this.$emit('notification', {
+        this.$bus.$emit('notification', {
           type: 'error',
           message: 'Please fix the validation errors',
           action1: { label: 'OK', action: 'close' }
@@ -48,9 +48,9 @@ export default {
       }
 
       // todo: add user email to newsletter list
-      this.$emit('newsletter-after-subscribe', { email: this.email })
+      this.$bus.$emit('newsletter-after-subscribe', { email: this.email })
 
-      this.$emit('notification', {
+      this.$bus.$emit('notification', {
         type: 'success',
         message: 'You have been successfully subscribed to our newsletter!',
         action1: { label: 'OK', action: 'close' }
