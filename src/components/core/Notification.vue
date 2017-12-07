@@ -17,6 +17,7 @@ export default {
   created () {
     this.$bus.$on('notification', data => {
       this.notifications.push(data)
+      setTimeout(() => { this.action('close', this.notifications.length - 1) }, data.timeToLive || 5000)
     })
   },
   methods: {

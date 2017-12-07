@@ -1,0 +1,17 @@
+// To perform notification use Event Bus and 'notification' event with below object as param
+// EventBus.$emit('notification', notificationObject)
+{
+    "type": "info/success/error",
+    "title": "Lorem ipsum",
+    // The actions are defined in Notification.vue    
+    "action1": {
+        "label": "OK",
+        "action": "close"
+    },
+    "action2": {
+        "label": "NO",
+        "action": "close"
+    },
+    //Optional param, if its empty TTL is 5s
+    "timeToLive": 10
+}
