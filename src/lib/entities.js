@@ -11,6 +11,6 @@ export function uniqueEntityId (entity) {
    * @param {String} key
    * @param {String} value
    */
-export function entityKeyName (key, value) {
-  return key + '$$' + value
+export function entityKeyName (...values) {
+  return values.join('$$')
 }

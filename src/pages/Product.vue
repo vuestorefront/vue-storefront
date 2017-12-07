@@ -37,12 +37,25 @@ function filterChanged (filterOption) { // slection of product variant on produc
     // TODO: this way of getting product probably brokes offline because products are cached by ID not SKU; we probably can just re-configure the product without getting it from cache
 
     // join selected variant object to the store
+    // todo: use store action instead of objects assigning
     Object.assign(this.$store.state.product.product_selected_variant, selectedVariant)
+    // handle product url
+    this.$router.replace({
+      name: 'product',
+      params: {
+        sku: selectedVariant.sku
+      }
+    })
   })
 }
 
 function fetchData (store, route) {
-  return store.dispatch('product/single', { fieldName: 'id', value: route.params.id }).then((product) => {
+  // pass both id and sku to render a product
+  const productSingleOptions = {
+    id: route.params.id,
+    sku: route && route.params && route.params.sku ? route.params.sku : null
+  }
+  return store.dispatch('product/single', { options: productSingleOptions }).then((product) => {
     let subloaders = []
     if (product) {
       let setbrcmb = (path) => {
