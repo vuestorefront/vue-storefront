@@ -18,7 +18,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     configuration: this.configuration
   }).then((selectedVariant) => {
     if (!selectedVariant) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
-      this.$emit('notification', {
+      this.$bus.$emit('notification', {
         type: 'warning',
         message: 'No such configuration for the product. Please do choose another combination of attributes.',
         action1: { label: 'OK', action: 'close' }
