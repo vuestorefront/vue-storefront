@@ -157,8 +157,10 @@ const actions = {
           if (setCurrentProduct) context.state.current = prod
           if (selectDefaultVariant) {
             // todo: add support for variant selection from product list (parameters)
-            if (prod.type_id === 'configurable' && hasConfigurableChildren) context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children.find((item) => item.sku === options.sku)))
-            else context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod)
+            if (prod.type_id === 'configurable' && hasConfigurableChildren) {
+              const selectedVariant = prod.configurable_children.find((item) => item.sku === options.sku)
+              context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, selectedVariant || prod.configurable_children[0]))
+            } else context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod)
           }
           return prod
         }
@@ -181,27 +183,37 @@ const actions = {
   /**
    * Configure product - finding best suited variant regarding configuration attribute
    */
-  configure (context, { product = null, configuration }) {
+  configure (context, { product = null, configuration, updateCurrentProduct = true }) {
     const state = context.state
     // use current product if product wasn't passed
     if (product === null) product = state.current
-    // handle custom_attributes for easier comparing in the future
-    product.configurable_children.forEach((child) => {
-      let customAttributesAsObject = {}
-      child.custom_attributes.forEach((attr) => {
-        customAttributesAsObject[attr.attribute_code] = attr.value
+    const hasConfigurableChildren = product && product.configurable_children && product.configurable_children.length
+
+    if (hasConfigurableChildren) {
+      // handle custom_attributes for easier comparing in the future
+      product.configurable_children.forEach((child) => {
+        let customAttributesAsObject = {}
+        child.custom_attributes.forEach((attr) => {
+          customAttributesAsObject[attr.attribute_code] = attr.value
+        })
+        Object.assign(child, customAttributesAsObject)
       })
-      Object.assign(child, customAttributesAsObject)
-    })
-    // find selected variant
-    let selectedVariant = product.configurable_children.find((configurableChild) => {
-      return Object.keys(configuration).every((configProperty) => {
-        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+      // find selected variant
+      let selectedVariant = product.configurable_children.find((configurableChild) => {
+        return Object.keys(configuration).every((configProperty) => {
+          return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+        })
       })
-    })
-    // use chosen variant
-    context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
-    return selectedVariant
+      // use chosen variant
+      if (updateCurrentProduct) {
+        context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
+      } else {
+        product = Object.assign(product, selectedVariant)
+      }
+      return selectedVariant
+    } else {
+      return null
+    }
   },
 
   /**

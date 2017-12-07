@@ -12,7 +12,7 @@
 
         <div v-if="filters.price.length">
             <h5>Price</h5>
-            <price-button context="category" :attribute_code="price" class="price-select mb10" code="price" v-for="(price, index) in filters.price" :key="index" :id="price.id" :from="price.from" :to="price.to" :content="price.label" />
+            <price-button context="category" :attribute_code="price" class="price-select mb10" code="price" v-for="(price, index) in filters.price" :key="index" :id="price.id" :from="price.from" :to="price.to" :content="price.label" :label="price.label" />
         </div>
     </div>
 </template>
@@ -29,14 +29,6 @@ export default {
     ColorButton,
     SizeButton,
     PriceButton
-  },
-  created () {
-    this.$bus.$emit('notification', {
-      type: 'warning',
-      message: 'No such configuration for the product. Please do choose another combination of attributes.',
-      action1: { label: 'OK', action: 'close' },
-      timeToLive: 1000
-    })
   },
   mixins: [coreComponent('core/blocks/Category/Sidebar')]
 }
