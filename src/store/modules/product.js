@@ -140,11 +140,10 @@ const actions = {
 
   /**
    * Search products by specific field
-   * @param {String} fieldName field name to search by
-   * @param {Object} value expected value
+   * @param {Object} options
    */
-  single (context, { fieldName, value, setCurrentProduct = true, selectDefaultVariant = true }) {
-    const cacheKey = entityKeyName(fieldName, value)
+  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true }) {
+    const cacheKey = entityKeyName(options)
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
@@ -158,7 +157,7 @@ const actions = {
           if (setCurrentProduct) context.state.current = prod
           if (selectDefaultVariant) {
             // todo: add support for variant selection from product list (parameters)
-            if (prod.type_id === 'configurable' && hasConfigurableChildren) context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children[0])) // todo: change prod.configurable_children[0] to specific child, probably by variant id
+            if (prod.type_id === 'configurable' && hasConfigurableChildren) context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, prod.configurable_children.find((item) => item.sku === options.sku)))
             else context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod)
           }
           return prod
@@ -167,10 +166,12 @@ const actions = {
           console.debug('Product:single - result from localForage for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           resolve(setupProduct(res))
         } else {
-          context.dispatch('list', { query: bodybuilder().query('match', fieldName, value).build() }).then((res) => {
-            if (res && res.items.length > 0) {
-              resolve(setupProduct(res.items[0])) // we don't store result into cache here as it's already populated by quickSerchByQuery (diffrent key)
-            }
+          context.dispatch('list', {
+            query: bodybuilder()
+              .query('match', 'id', options.id)
+              .build()
+          }).then((res) => {
+            if (res && res.items && res.items.length > 0) resolve(setupProduct(res.items[0]))
           })
         }
       })// .catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
