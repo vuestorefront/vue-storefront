@@ -30,6 +30,14 @@ export default {
     SizeButton,
     PriceButton
   },
+  created () {
+    this.$bus.$emit('notification', {
+      type: 'warning',
+      message: 'No such configuration for the product. Please do choose another combination of attributes.',
+      action1: { label: 'OK', action: 'close' },
+      timeToLive: 1000
+    })
+  },
   mixins: [coreComponent('core/blocks/Category/Sidebar')]
 }
 </script>

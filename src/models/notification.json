@@ -1,7 +1,7 @@
 // To perform notification use Event Bus and 'notification' event with below object as param
 // EventBus.$emit('notification', notificationObject)
 {
-    "type": "info/success/error",
+    "type": "info/success/error/warning",
     "title": "Lorem ipsum",
     // The actions are defined in Notification.vue    
     "action1": {

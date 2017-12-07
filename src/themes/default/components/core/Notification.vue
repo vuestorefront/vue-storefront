@@ -1,7 +1,7 @@
 <template>
   <div class="notifications">
     <transition-group name="fade-in-down">
-      <div class="notification c-white" v-for="(notification, index) in notifications" :key="index"  :class="{ info : notification.type == 'info', success: notification.type == 'success', error: notification.type == 'error'} ">
+      <div class="notification c-white" v-for="(notification, index) in notifications" :key="index"  :class="{ info : notification.type == 'info', success: notification.type == 'success', error: notification.type == 'error', warning: notification.type == 'warning'} ">
         <div class="message">
           {{ notification.message }}
         </div>
@@ -65,12 +65,10 @@ export default {
   background: #308C14;
 
 }
-
 .notification.error {
   background: #E63030;
 
 }
-
 .notification.warning {
   background: #775555;
 }
