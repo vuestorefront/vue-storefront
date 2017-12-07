@@ -1,4 +1,5 @@
 import { createApp } from './app'
+import config from './config.json'
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
@@ -36,7 +37,7 @@ router.onReady(() => {
   app.$mount('#app')
 })
 // TODO: Move the order queue here from service worker!
-import EventBus from 'src/event-bus/event-bus'
+import EventBus from 'src/event-bus'
 /*
  * serial executes Promises sequentially.
  * @param {funcs} An array of funcs that return promises.
@@ -51,10 +52,71 @@ funcs.reduce((promise, func) =>
 
 import * as localForage from 'localforage'
 
+EventBus.$on('order/PROCESS_QUEUE', event => {
+  console.log('Sending out orders queue to server ...')
+
+  const ordersCollection = localForage.createInstance({
+    name: 'shop',
+    storeName: 'orders'
+  })
+
+  const fetchQueue = []
+  ordersCollection.iterate((order, id, iterationNumber) => {
+    // Resulting key/value pair -- this callback
+    // will be executed for every item in the
+    // database.
+
+    if (!order.transmited) { // not sent to the server yet
+      fetchQueue.push(() => {
+        const config = event.config
+        const orderData = order
+        const orderId = id
+
+        console.log('Pushing out order ' + orderId)
+        return fetch(config.orders.endpoint,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+          }).then((response) => {
+            if (response.status === 200) {
+              const contentType = response.headers.get('content-type')
+              if (contentType && contentType.includes('application/json')) {
+                return response.json()
+              } else {
+                console.error('Error with response - bad content-type!')
+              }
+            } else {
+              console.error('Bad response status: ' + response.status)
+            }
+          })
+          .then(function (jsonResponse) {
+            if (jsonResponse && jsonResponse.code === 200) {
+              console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
+              orderData.transmited = true
+              orderData.transmited_at = new Date()
+              ordersCollection.setItem(orderId.toString(), orderData)
+            } else {
+              console.error(jsonResponse.result)
+            }
+          })
+      })
+    }
+  }).then(() => {
+    console.log('Iteration has completed')
+
+    // execute them serially
+    serial(fetchQueue)
+      .then((res) => console.info('Processing orders queue has finished'))
+  }).catch((err) => {
+    // This code runs if there were any errors
+    console.log(err)
+  })
+})
+
 // Process the background tasks
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   console.log('Executing task queue')
-  console.debug(event.data)
   // event.data.config - configuration, endpoints etc
 
   const syncTaskCollection = localForage.createInstance({
@@ -100,6 +162,10 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
               taskData.resultCode = jsonResponse.code
               taskData.acknowledged = false
               syncTaskCollection.setItem(taskId.toString(), taskData)
+
+              if (taskData.callback_event) {
+                EventBus.$emit(taskData.callback_event, taskData)
+              }
             } else {
               console.error('Unhandled error, wrong response format!')
             }
@@ -118,3 +184,5 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   })
 })
 
+EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
+EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue

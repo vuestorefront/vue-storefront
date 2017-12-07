@@ -6,6 +6,9 @@
         <div>
           <div>{{ product.name | htmlDecode }}</div>
           <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
+          <div class="h6 pt5 error" v-if="product.warning_message">{{ product.warning_message }}</div>
+          <div class="h6 pt5 info" v-if="product.info_message">{{ product.info_message }}</div>
+
         </div>
         <div>
           <div><span class="h6 c-darkgray">Qty </span>
@@ -45,6 +48,13 @@ export default {
       isEditing: false
     }
   },
+  created () {
+    this.$bus.$on('cart-after-itemchanged', (event) => {
+      if (event.item.sku === this.product.sku) {
+        this.$forceUpdate()
+      }
+    })
+  },
   methods: {
     removeItem () {
       this.$store.dispatch('cart/removeItem', this.product)
@@ -70,6 +80,12 @@ export default {
 </script>
 
 <style scoped>
+.error {
+  color: red
+}
+.info {
+  color: green
+}
 .price-special {
   color: red
 }
