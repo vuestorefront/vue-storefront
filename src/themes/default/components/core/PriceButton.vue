@@ -1,5 +1,5 @@
 <template>
-    <span @click="switchFilter(id, label, from, to)">
+    <span @click="switchFilter(id, from, to)">
         <button class="brdr-c-gray brdr-1 bg-transparent mr10" :class="{ active: active }">
             <div class="bg-transparent"></div>
         </button> 
@@ -34,8 +34,8 @@ export default { // TODO: move logic to parent component
     })
   },
   methods: {
-    switchFilter (id, label, from, to) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label, from: from, to: to })
+    switchFilter (id, from, to) {
+      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
     }
   },
   mixins: [coreComponent('core/PriceButton')]

@@ -12,7 +12,7 @@
 
         <div v-if="filters.price.length">
             <h5>Price</h5>
-            <price-button context="category" :attribute_code="price" class="price-select mb10" code="price" v-for="(price, index) in filters.price" :key="index" :id="price.id" :from="price.from" :to="price.to" :content="price.label" />
+            <price-button context="category" :attribute_code="price" class="price-select mb10" code="price" v-for="(price, index) in filters.price" :key="index" :id="price.id" :from="price.from" :to="price.to" :content="price.label" :label="price.label" />
         </div>
     </div>
 </template>

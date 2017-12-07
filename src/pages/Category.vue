@@ -17,7 +17,7 @@ import EventBus from 'src/event-bus'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   console.log(filterOption)
-  if (this.filterSet[filterOption.attribute_code]) {
+  if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string
     delete this.filterSet[filterOption.attribute_code]
   } else {
     this.filterSet[filterOption.attribute_code] = filterOption
@@ -47,9 +47,9 @@ function filterChanged (filterOption) { // slection of product variant on produc
   filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
                       .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
 
-  const inst = this
+  const fsC = Object.assign({}, this.filterSet) // create a copy because it will be used asynchronously (take a look below)
   filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, offset: this.pagination.offset, pageSize: this.pagination.pageSize, filters: Object.keys(this.filters) }).then((res) => {
-    EventBus.$emit('product-after-configured', { configuration: inst.filterSet })
+    EventBus.$emit('product-after-configured', { configuration: fsC })
   }) // because already aggregated
 }
 
@@ -107,7 +107,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     size: pageSize
   }).then(function (res) {
     if (!res || (res.noresults)) {
-      this.$bus.$emit('notification', {
+      EventBus.$emit('notification', {
         type: 'warning',
         message: 'No products synchronized for this category. Please come back while online!',
         action1: { label: 'OK', action: 'close' }
@@ -160,7 +160,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     return res
   }).catch((err) => {
     console.info(err)
-    this.$bus.$emit('notification', {
+    EventBus.$emit('notification', {
       type: 'warning',
       message: 'No products synchronized for this category. Please come back while online!',
       action1: { label: 'OK', action: 'close' }

@@ -25,26 +25,18 @@ function filterChanged (filterOption) { // slection of product variant on produc
       })
       return
     }
-    // if (navigator.onLine) {
-    //   this.$store.dispatch('product/single', { fieldName: 'sku', value: selectedVariant.sku, setCurrentProduct: false, selectDefaultVariant: false }).then((confProduct) => { // TODO: rewrite me, this ruins the cache for offline! add rather option settings for cart item
-    //     this.$store.state.product.product_selected_variant = confProduct
-    //   })
-    // } else {
-    //   // no internet connection so we're just update'ing the selected product
-    // }
-
-    // TODO: this way of getting product probably brokes offline because products are cached by ID not SKU; we probably can just re-configure the product without getting it from cache
 
     // join selected variant object to the store
     // todo: use store action instead of objects assigning
     Object.assign(this.$store.state.product.product_selected_variant, selectedVariant)
     // handle product url
-    this.$router.replace({
+    /* as for now it forces product re-render and it's disabled because of that */
+    /* this.$router.replace({
       name: 'product',
       params: {
         sku: selectedVariant.sku
       }
-    })
+    }) */
   })
 }
 

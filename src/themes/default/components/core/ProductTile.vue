@@ -1,6 +1,6 @@
 <template>
   <div class="product align-center p15">
-    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug, sku: product.configurable_children && product.configurable_children.length > 0 ? product.configurable_children[0].sku : product.sku }}">
+    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug, sku: product.sku }}">
       <div class="product-image bg-lightgray">
         <transition name="fade" appear>
           <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
@@ -24,11 +24,11 @@ export default {
   props: ['instant'],
   mixins: [coreComponent('core/ProductTile')],
   created () {
-    this.$bus.$on('product-after-configured', (configuration) => {
-      console.log(configuration)
-      this.$store.dispatch('product/configure', { product: this.product, configuration: configuration, updateCurrentProduct: false }).then((selectedVariant) => {
-        this.$forceUpdate()
-        console.log(selectedVariant.image)
+    this.$bus.$on('product-after-configured', (config) => {
+      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, updateCurrentProduct: false }).then((selectedVariant) => {
+        if (selectedVariant) {
+          // this.$forceUpdate()
+        }
       })
     })
   }
