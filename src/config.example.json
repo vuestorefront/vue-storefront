@@ -1,0 +1,36 @@
+{
+    "elasticsearch": {
+      "httpAuth": "",
+      "host": "localhost:8080/api/catalog",
+      "index": "vue_storefront_catalog"
+    },
+    "orders": {
+      "endpoint": "localhost:8080/api/order/create"
+    },
+    "users": {
+      "endpoint": "http://localhost:8080/api/user"
+    },
+    "stock": {
+      "endpoint": "http://localhost:8080/api/stock"
+    },
+    "images": {
+      "baseUrl": "https://demo.vuestorefront.io/img/"
+    },
+    "install": {
+      "is_local_backend": true,
+      "backend_dir": "../vue-storefront-api"
+    },
+    "demomode": true,
+    "tax": {
+      "defaultCountry": "PL",
+      "defaultRegion": ""
+    },  
+    "i18n": {
+      "defaultCountry": "US",
+      "defaultLanguage": "EN"
+    },
+    "mailchimp": {
+      "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+    },
+    "registeredExtensions": ["custom_extension", "mailchimp-subscribe"]
+  }
