@@ -110,6 +110,12 @@ export default {
   },
   destroyed () {
     this.$bus.$off('network.status')
+    this.$bus.$off('checkout.personalDetails')
+    this.$bus.$off('checkout.shipping')
+    this.$bus.$off('checkout.payment')
+    this.$bus.$off('checkout.cartSummary')
+    this.$bus.$off('checkout.placeOrder')
+    this.$bus.$off('checkout.edit')
   },
   computed: {
     isValid () {
