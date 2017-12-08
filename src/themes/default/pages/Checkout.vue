@@ -108,6 +108,9 @@ export default {
       this.activateSection(section)
     })
   },
+  destroyed () {
+    this.$bus.$off('network.status')
+  },
   computed: {
     isValid () {
       let isValid = true
