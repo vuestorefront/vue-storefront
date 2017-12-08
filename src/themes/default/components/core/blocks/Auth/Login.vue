@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="py35 px55 bg-lightgray">
+    <div class="py35 px65 bg-lightgray">
       <h1 class="my0">Log in</h1>
     </div>
-    <div class="py35 px55 bg-white c-gray">
+    <div class="py35 px65 bg-white c-gray">
       <form>
         <div class="mb35">
           <input type="email" name="email" v-model="email" placeholder="E-mail address *">
@@ -16,11 +16,11 @@
           <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="row">
-          <div class="col-xs-7 mb35">
+          <div class="col-xs-6 mb35">
             <input class="m5" type="checkbox" name="remember" id="remember">
             <label for="remember">Remember me</label>
           </div>
-          <div class="col-xs-5 mb35 align-right">
+          <div class="col-xs-6 mb35 align-right">
             <a href="#" @click.prevent="remindPassword">Forgot the password?</a>
           </div>
         </div>
