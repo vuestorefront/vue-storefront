@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="py35 px55 bg-lightgray">
+    <div class="py35 px65 bg-lightgray">
       <h1 class="my0">Register</h1>
     </div>
-    <div class="py35 px55 bg-white c-gray">
+    <div class="py35 px65 bg-white c-gray">
       <form>
         <div class="mb35">
           <input type="email" name="email" v-model="email" placeholder="E-mail address *">

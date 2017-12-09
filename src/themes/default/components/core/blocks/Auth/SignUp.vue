@@ -32,6 +32,7 @@ export default {
   .sign-up {
     position: absolute;
     width: 555px;
+    min-height: 555px;
     background-color: white;
     top: 100px;
     left: 50%;
