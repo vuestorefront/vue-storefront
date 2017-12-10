@@ -28,6 +28,7 @@ import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 
 import Overlay from './components/core/Overlay.vue'
+import Modal from './components/core/Modal.vue'
 import Notification from './components/core/Notification.vue'
 import SignUp from './components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from './components/core/NewsletterPopup.vue'
@@ -50,6 +51,7 @@ export default {
     SidebarMenu,
     Overlay,
     Notification,
+    Modal,
     SignUp,
     NewsletterPopup
   }
