@@ -1,13 +1,13 @@
 <template>
   <div id="product">
-    <div class="bg-lightgray py35 px20">
+    <section class="bg-lightgray py35 px20">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name" />
           </div>
         </div>
-        <div class="row py35">
+        <section class="row py35">
           <div class="col-xs-12 col-md-7 center-xs middle-xs">
             <transition name="fade" appear>
               <img class="product-image" v-lazy="imgObj" ref="image"/>
@@ -53,11 +53,11 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </section>
 
-    <div class="container pt50 pb20 px40 c-black">
+    <section class="container pt50 pb20 px40 c-black">
       <h2 class="h3 m0 mb10 sans-serif">Product details</h2>
       <div class="row between-md">
         <div class="col-md-5">
@@ -69,19 +69,19 @@
           </ul>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="container">
-      <div class="row center-xs">
-        <div class="col-md-12">
-          <h2 class="align-center">Perfect match</h2>
+    <!-- Replace with slider -->
+    <section>
+      <div class="container">
+        <div class="row center-xs">
+          <div class="col-md-12">
+            <h2 class="align-center">Perfect match</h2>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- Replace with slider -->
-    <div class="bg-lightgray">
-      <div class="container">
-        <div class="row">
+      <div class="row bg-lightgray">
+        <div class="container">
           <div class="col-md-12">
             <div class="row pb45 pt45 center-xs perfect-match">
               <product-tile v-for='product in perfectMatchCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
@@ -89,22 +89,24 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="container pt50">
-      <div class="row center-xs">
-        <div class="col-md-12">
-          <h2 class="align-center">Others bought also</h2>
+    <section>
+      <div class="container pt50">
+        <div class="row center-xs">
+          <div class="col-md-12">
+            <h2 class="align-center">Others bought also</h2>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container pb70">
-      <div class="row center-xs">
-        <div v-for='(product, key) in othersBoughtCollection' v-bind:key='product.id' class="col-md-3">
-          <product-tile :instant='key < 4 ? true : false' :product="product"/>
+      <div class="container pb70">
+        <div class="row center-xs">
+          <div v-for='(product, key) in othersBoughtCollection' v-bind:key='product.id' class="col-md-3">
+            <product-tile :instant='key < 4 ? true : false' :product="product"/>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
