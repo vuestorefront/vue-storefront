@@ -5,7 +5,7 @@
     </div>
     <div class="py35 px65 bg-white c-gray-secondary lh25">
       <template v-if="!passwordSent">
-        <form>
+        <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
             <p class="mb45">Enter your email to receive instructions on how to reset your password.</p>
             <input class="brdr-none py10 h4 weight-200" type="email" name="email" v-model="email" placeholder="E-mail address *">

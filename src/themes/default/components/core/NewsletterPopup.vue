@@ -5,7 +5,7 @@
       <h1 class="my0">Newsletter</h1>
     </div>
     <div class="py35 px55 bg-white c-gray">
-      <form>
+      <form @submit.prevent="subscribe" novalidate>
         <div class="mb35">
           <p class="h4">Sign up to our newsletter and receive a coupon for 10% off!</p>
           <input class="brdr-none py10 h4 weight-200" type="email" name="email" v-model="email" placeholder="E-mail address *">
