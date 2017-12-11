@@ -56,7 +56,8 @@
         </div>
       </div>
     </div>
-    <div class="container py50 px40 c-black">
+
+    <div class="container pt50 pb20 px40 c-black">
       <h2 class="h3 m0 mb10 sans-serif">Product details</h2>
       <div class="row between-md">
         <div class="col-md-5">
@@ -66,6 +67,41 @@
           <ul class="attributes h4 p0 pt10 m0">
             <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
           </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row center-xs">
+        <div class="col-md-12">
+          <h2 class="align-center">Perfect match</h2>
+        </div>
+      </div>
+    </div>
+    <!-- Replace with slider -->
+    <div class="bg-lightgray">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row pb45 pt45 center-xs perfect-match">
+              <product-tile v-for='product in perfectMatchCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container pt50">
+      <div class="row center-xs">
+        <div class="col-md-12">
+          <h2 class="align-center">Others bought also</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container pb70">
+      <div class="row center-xs">
+        <div v-for='(product, key) in othersBoughtCollection' v-bind:key='product.id' class="col-md-3">
+          <product-tile :instant='key < 4 ? true : false' :product="product"/>
         </div>
       </div>
     </div>
@@ -80,8 +116,10 @@ import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
+import ProductTile from '../components/core/ProductTile.vue'
 
 import { thumbnail } from 'src/lib/filters'
+import builder from 'bodybuilder'
 
 export default {
   data () {
@@ -99,6 +137,12 @@ export default {
         error: thumbnail(this.configured_product.image, 310, 300),
         loading: thumbnail(this.configured_product.image, 310, 300)
       }
+    },
+    perfectMatchCollection () {
+      return this.$store.state.product.perfect_match
+    },
+    othersBoughtCollection () {
+      return this.$store.state.product.others_bought
     }
   },
   methods: {
@@ -125,12 +169,40 @@ export default {
       })
     }
   },
+  asyncData ({ store, route }) {
+    return new Promise((resolve, reject) => {
+      let perfectMatchQuery = builder().query('match', 'category.name', 'Women').build()
+      let otherBoughtQuery = builder().query('match', 'category.name', 'Tees').build()
+      store.dispatch('product/list', {
+        query: perfectMatchQuery,
+        size: 4,
+        sort: 'created_at:desc'
+      }).then(function (res) {
+        if (res) {
+          store.state.product.perfect_match = res.items
+        }
+        store.dispatch('category/list', {}).then((categories) => {
+          store.dispatch('product/list', {
+            query: otherBoughtQuery,
+            size: 8,
+            sort: 'created_at:desc'
+          }).then(function (res) {
+            if (res) {
+              store.state.product.others_bought = res.items
+            }
+            return resolve()
+          })
+        })
+      })
+    })
+  },
   components: {
     AddToCart,
     ColorButton,
     SizeButton,
     Breadcrumbs,
-    ProductAttribute
+    ProductAttribute,
+    ProductTile
   },
   mixins: [corePage('Product')]
 }
@@ -174,5 +246,8 @@ export default {
   mix-blend-mode: multiply;
   max-width: 100%;
   width: 460px;
+}
+.perfect-match {
+  mix-blend-mode: darken;
 }
 </style>
