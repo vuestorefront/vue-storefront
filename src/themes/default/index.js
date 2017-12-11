@@ -3,6 +3,7 @@ import Category from './pages/Category.vue'
 import Product from './pages/Product.vue'
 import Static from './pages/Static.vue'
 import Checkout from './pages/Checkout.vue'
+import PageNotFound from './pages/PageNotFound.vue'
 import UIStore from './store/ui-store'
 
 const routes = [
@@ -25,7 +26,8 @@ const routes = [
     { name: 'delivery', path: '/delivery', component: Static, props: {page: 'lorem', title: 'Delivery'} },
     { name: 'returns', path: '/returns', component: Static, props: {page: 'lorem', title: 'Returns policy'} },
     { name: 'order-from-catalog', path: '/order-from-catalog', component: Static, props: {page: 'lorem', title: 'Order from catalog'} },
-    { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} }
+    { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
+    { name: 'page-not-found', path: '*', component: PageNotFound }
 ]
 
 export default function (app, router, store) {
