@@ -1,6 +1,6 @@
 <template>
   <div id="product">
-    <div class="bg-lightgray py35 pl20 px20">
+    <div class="bg-lightgray py35 px20">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -56,19 +56,16 @@
         </div>
       </div>
     </div>
-    <div>
-      <div class="container mb15 c-black">
-        <div class="row py35 px20">
-          <div class="col-md-9">
-            <h2 class="h3 sans-serif">Description</h2>
-            <span class="lh30 h5" v-html="product.description"></span>
-          </div>
-          <div class="col-md-3">
-            <h2 class="h3 sans-serif">Product details</h2>
-            <ul>
-              <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
-            </ul>
-          </div>
+    <div class="container py50 px40 c-black">
+      <h2 class="h3 m0 mb10 sans-serif">Product details</h2>
+      <div class="row between-md">
+        <div class="col-md-5">
+          <div class="lh30 h4 c-gray-secondary" v-html="product.description"></div>
+        </div>
+        <div class="col-md-6">
+          <ul class="attributes h4 p0 pt10 m0">
+            <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
+          </ul>
         </div>
       </div>
     </div>
@@ -158,6 +155,9 @@ export default {
 }
 .action:hover {
   color: #828282;
+}
+.attributes {
+  list-style-type: none;
 }
 .size-guide {
   position: relative;
