@@ -49,8 +49,8 @@ const store = {
         return state.shippingDetails
       } else {
         return {
-          firstName: '',
-          lastName: '',
+          firstName: state.personalDetails.firstName,
+          lastName: state.personalDetails.lastName,
           country: '',
           streetAddress: '',
           apartmentNumber: '',

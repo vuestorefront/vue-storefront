@@ -72,47 +72,14 @@
     </section>
 
     <!-- Replace with slider -->
-    <section>
-      <div class="container">
-        <div class="row center-xs">
-          <div class="col-md-12">
-            <h2 class="align-center">Perfect match</h2>
-          </div>
-        </div>
-      </div>
-      <div class="row bg-lightgray">
-        <div class="container">
-          <div class="col-md-12">
-            <div class="row pb45 pt45 center-xs perfect-match">
-              <product-tile v-for='product in perfectMatchCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container pt50">
-        <div class="row center-xs">
-          <div class="col-md-12">
-            <h2 class="align-center">Others bought also</h2>
-          </div>
-        </div>
-      </div>
-      <div class="container pb70">
-        <div class="row center-xs">
-          <div v-for='(product, key) in othersBoughtCollection' v-bind:key='product.id' class="col-md-3">
-            <product-tile :instant='key < 4 ? true : false' :product="product"/>
-          </div>
-        </div>
-      </div>
-    </section>
+  <related-products />
   </div>
 </template>
 
 <script>
 import { corePage } from 'lib/themes'
 
+import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
 import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
@@ -121,7 +88,6 @@ import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
 import { thumbnail } from 'src/lib/filters'
-import builder from 'bodybuilder'
 
 export default {
   data () {
@@ -140,11 +106,8 @@ export default {
         loading: thumbnail(this.configured_product.image, 310, 300)
       }
     },
-    perfectMatchCollection () {
-      return this.$store.state.product.perfect_match
-    },
-    othersBoughtCollection () {
-      return this.$store.state.product.others_bought
+    related () {
+      return this.$store.state.product.related
     }
   },
   methods: {
@@ -166,37 +129,10 @@ export default {
       // todo
       this.$bus.$emit('notification', {
         type: 'success',
-        message: 'Product has been added to comparison list. This feature is not implemented yet :(',
+        message: 'Product has been added to comparison list. However - this feature is not implemented yet :(',
         action1: { label: 'OK', action: 'close' }
       })
     }
-  },
-  asyncData ({ store, route }) {
-    return new Promise((resolve, reject) => {
-      let perfectMatchQuery = builder().query('match', 'category.name', 'Women').build()
-      let otherBoughtQuery = builder().query('match', 'category.name', 'Tees').build()
-      store.dispatch('product/list', {
-        query: perfectMatchQuery,
-        size: 4,
-        sort: 'created_at:desc'
-      }).then(function (res) {
-        if (res) {
-          store.state.product.perfect_match = res.items
-        }
-        store.dispatch('category/list', {}).then((categories) => {
-          store.dispatch('product/list', {
-            query: otherBoughtQuery,
-            size: 8,
-            sort: 'created_at:desc'
-          }).then(function (res) {
-            if (res) {
-              store.state.product.others_bought = res.items
-            }
-            return resolve()
-          })
-        })
-      })
-    })
   },
   components: {
     AddToCart,
@@ -204,7 +140,8 @@ export default {
     SizeButton,
     Breadcrumbs,
     ProductAttribute,
-    ProductTile
+    ProductTile,
+    RelatedProducts
   },
   mixins: [corePage('Product')]
 }
