@@ -12,31 +12,30 @@
         </div>
         <div class="row" v-show="this.isActive">
           <div class="col-md-6 mb25">
-            <input type="text" name="first-name" placeholder="First name" v-model="shipping.firstName" @focusout="trimFieldValue">
+            <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName">
             <span class="validation-error" v-if="!$v.shipping.firstName.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{$v.shipping.firstName.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="last-name" placeholder="Last name" v-model="shipping.lastName" @focusout="trimFieldValue">
+            <input type="text" name="last-name" placeholder="Last name" v-model.trim="shipping.lastName">
             <span class="validation-error" v-if="!$v.shipping.lastName.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="street-address" placeholder="Street address" v-model="shipping.streetAddress" @focusout="trimFieldValue">
+            <input type="text" name="street-address" placeholder="Street address" v-model.trim="shipping.streetAddress">
             <span class="validation-error" v-if="!$v.shipping.streetAddress.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="apartment-number" placeholder="Apartment number" v-model="shipping.apartmentNumber" @focusout="trimFieldValue">
+            <input type="text" name="apartment-number" placeholder="Apartment number" v-model.trim="shipping.apartmentNumber">
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="city" placeholder="City" v-model="shipping.city" @focusout="trimFieldValue">
+            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city">
             <span class="validation-error" v-if="!$v.shipping.city.required">Field is required</span>
-
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="state" placeholder="State / Province" v-model="shipping.state" @focusout="trimFieldValue">
+            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state">
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="zip-code" placeholder="Zip-code" v-model="shipping.zipCode" @focusout="trimFieldValue">
+            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode">
             <span class="validation-error" v-if="!$v.shipping.zipCode.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{$v.shipping.zipCode.$params.minLength.min}} letters.</span>
           </div>
@@ -48,7 +47,7 @@
             <span class="validation-error" v-if="!$v.shipping.country.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="phone-number" placeholder="Phone Number" v-model="shipping.phoneNumber" @focusout="trimFieldValue">
+            <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="shipping.phoneNumber">
           </div>
           <div class="col-xs-12">
             <h4>Shipping method</h4>
@@ -190,34 +189,6 @@ export default {
       if (this.isFilled) {
         this.$bus.$emit('checkout.edit', 'shipping')
         this.isFilled = false
-      }
-    },
-    trimFieldValue (event) {
-      switch (event.target.getAttribute('name')) {
-        case 'first-name':
-          this.shipping.firstName = this.shipping.firstName.trim()
-          break
-        case 'last-name':
-          this.shipping.lastName = this.shipping.lastName.trim()
-          break
-        case 'street-address':
-          this.shipping.streetAddress = this.shipping.streetAddress.trim()
-          break
-        case 'apartment-number':
-          this.shipping.apartmentNumber = this.shipping.apartmentNumber.trim()
-          break
-        case 'city':
-          this.shipping.city = this.shipping.city.trim()
-          break
-        case 'state':
-          this.shipping.state = this.shipping.state.trim()
-          break
-        case 'zip-code':
-          this.shipping.zipCode = this.shipping.zipCode.trim()
-          break
-        case 'phone-number':
-          this.shipping.phoneNumber = this.shipping.phoneNumber.trim()
-          break
       }
     }
   },
