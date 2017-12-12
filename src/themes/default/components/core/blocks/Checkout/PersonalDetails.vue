@@ -12,11 +12,11 @@
         </div>
         <div class="row" v-show="isActive">
           <div class="col-md-6 mb25">
-            <input type="text" name="first-name" placeholder="First name" v-model="personalDetails.firstName" @input="$v.personalDetails.firstName.$touch()">
+            <input type="text" name="first-name" placeholder="First name" v-model="personalDetails.firstName" @input="$v.personalDetails.firstName.$touch()" @focusout="trimFieldValue">
             <span class="validation-error" v-if="!$v.personalDetails.firstName.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">Name must have at least {{$v.personalDetails.firstName.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="last-name" placeholder="Last name" v-model="personalDetails.lastName">
+            <input type="text" name="last-name" placeholder="Last name" v-model="personalDetails.lastName" @focusout="trimFieldValue">
             <span class="validation-error" v-if="!$v.personalDetails.lastName.required">Field is required</span>
           </div>
           <div class="col-md-12 mb15">
@@ -90,14 +90,12 @@ export default {
   },
   data () {
     return {
-      isFilled: false,
-      personalDetails: {
-        firstName: '',
-        lastName: '',
-        emailAddress: ''
-        // createAcount: false,
-        // password: ''
-      }
+      isFilled: false
+    }
+  },
+  computed: {
+    personalDetails () {
+      return this.$store.getters['checkout/getPersonalDetails']
     }
   },
   methods: {
@@ -109,6 +107,16 @@ export default {
       if (this.isFilled) {
         this.$bus.$emit('checkout.edit', 'personalDetails')
         this.isFilled = false
+      }
+    },
+    trimFieldValue (event) {
+      switch (event.target.getAttribute('name')) {
+        case 'first-name':
+          this.personalDetails.firstName = this.personalDetails.firstName.trim()
+          break
+        case 'last-name':
+          this.personalDetails.lastName = this.personalDetails.lastName.trim()
+          break
       }
     }
   },

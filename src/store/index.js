@@ -55,7 +55,12 @@ Vue.prototype.$db = {
   syncTaskCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'syncTasks'
-  }))
+  })),
+
+  checkoutFieldsCollection: localForage.createInstance({
+    name: 'shop',
+    storeName: 'checkoutFieldValues'
+  })
 }
 
 global.db = Vue.prototype.$db // localForage instance
@@ -118,6 +123,17 @@ const plugins = [
         global.db.usersCollection.setItem('current-token', store.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+      }
+      if (mutation.type.indexOf(types.SN_CHECKOUT) === 0) {
+        if (mutation.type.indexOf(types.CHECKOUT_SAVE_PERSONAL_DETAILS) > 0) {
+          global.db.checkoutFieldsCollection.setItem('personal-details', store.checkout.personalDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
+        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_SHIPPING_DETAILS) > 0) {
+          global.db.checkoutFieldsCollection.setItem('shipping-details', store.checkout.shippingDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
+        }
       }
     })
   }
