@@ -10,6 +10,7 @@ import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
 import { breadCrumbRoutes } from 'src/lib/filters'
 import { optionLabel } from 'src/store/modules/attribute'
+import EventBus from 'src/event-bus'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   this.configuration[filterOption.attribute_code] = filterOption
@@ -47,7 +48,7 @@ function fetchData (store, route) {
     sku: route && route.params && route.params.sku ? route.params.sku : null
   }
   return store.dispatch('product/single', { options: productSingleOptions }).then((product) => {
-    let subloaders = []
+    let subloaders = store.state.product.subloaders || []
     if (product) {
       let setbrcmb = (path) => {
         if (path.findIndex(itm => {
@@ -136,6 +137,7 @@ export default {
       this.$store.dispatch('product/reset').then(() => {
         fetchData(inst.$store, inst.$route).then((subpromises) => {
           Promise.all(subpromises).then(subresults => {
+            EventBus.$emit('product-after-load', { product: inst.product, page: inst })
             inst.loading = false
           }).catch(errs => {
             console.error(errs)
