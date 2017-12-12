@@ -4,7 +4,7 @@
       <h1 class="my0">Log in</h1>
     </div>
     <div class="py35 px65 bg-white c-gray">
-      <form>
+      <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input type="email" name="email" v-model="email" placeholder="E-mail address *">
           <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
@@ -24,9 +24,10 @@
             <a href="#" @click.prevent="remindPassword">Forgot the password?</a>
           </div>
         </div>
-        <div class="mb35">
+        <div class="mb20">
           <button-full class="btn-full p0" text="Log in to your account" @click.native="login"></button-full>
         </div>
+        <input type="submit">
         <div class="center-xs">
           <span>or <a href="#" @click.prevent="switchElem">register an account</a></span>
         </div>
@@ -132,6 +133,10 @@ export default {
     border: none;
     border-bottom: 1px solid #BDBDBD;
     width: 100%;
+  }
+
+  input[type=submit] {
+    visibility: hidden;
   }
 
   input::-webkit-input-placeholder {

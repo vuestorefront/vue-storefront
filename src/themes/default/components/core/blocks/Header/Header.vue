@@ -1,6 +1,6 @@
 <template>
 <div class="header">
-    <header class="brdr-underline bg-white brdr-c-alto">
+    <header class="brdr-bottom bg-white brdr-c-alto">
         <div class="container">
             <div class="row between-xs middle-xs px15" v-show="!isCheckout">
                 <div class="col-md-3 middle-xs">
