@@ -1,6 +1,6 @@
 <template>
 <div class="header">
-    <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': menuFixed }">
+    <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
         <div class="container">
             <div class="row between-xs middle-xs px15" v-show="!isCheckout">
                 <div class="col-md-3 middle-xs">
@@ -59,7 +59,7 @@ export default {
   data () {
     return {
       isCheckout: false,
-      menuFixed: false
+      navVisible: true
     }
   },
   created () {
@@ -91,9 +91,9 @@ export default {
         return
       }
       if (st > lastScrollTop && st > navbarHeight) {
-        this.menuFixed = false
+        this.navVisible = false
       } else {
-        this.menuFixed = true
+        this.navVisible = true
       }
       lastScrollTop = st
     }
