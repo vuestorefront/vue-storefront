@@ -29,7 +29,8 @@ module.exports = {
       theme_pages: path.resolve(__dirname, '../src/themes/default/pages'),
       theme_components: path.resolve(__dirname, '../src/themes/default/components'),
       'theme/components': path.resolve(__dirname, '../src/themes/default/components'),
-      'theme/pages': path.resolve(__dirname, '../src/themes/default/pages')
+      'theme/pages': path.resolve(__dirname, '../src/themes/default/pages'),
+      'theme/css': path.resolve(__dirname, '../src/themes/default/css')
 
     }
   },

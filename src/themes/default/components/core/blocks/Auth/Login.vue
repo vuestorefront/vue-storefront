@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="py35 px55 bg-lightgray">
+    <div class="py35 px65 bg-lightgray">
       <h1 class="my0">Log in</h1>
     </div>
-    <div class="py35 px55 bg-white c-gray">
-      <form>
+    <div class="py35 px65 bg-white c-gray">
+      <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input type="email" name="email" v-model="email" placeholder="E-mail address *">
           <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
@@ -16,17 +16,18 @@
           <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="row">
-          <div class="col-xs-7 mb35">
+          <div class="col-xs-6 mb35">
             <input class="m5" type="checkbox" name="remember" id="remember">
             <label for="remember">Remember me</label>
           </div>
-          <div class="col-xs-5 mb35 align-right">
+          <div class="col-xs-6 mb35 align-right">
             <a href="#" @click.prevent="remindPassword">Forgot the password?</a>
           </div>
         </div>
-        <div class="mb35">
+        <div class="mb20">
           <button-full class="btn-full p0" text="Log in to your account" @click.native="login"></button-full>
         </div>
+        <input type="submit">
         <div class="center-xs">
           <span>or <a href="#" @click.prevent="switchElem">register an account</a></span>
         </div>
@@ -132,6 +133,10 @@ export default {
     border: none;
     border-bottom: 1px solid #BDBDBD;
     width: 100%;
+  }
+
+  input[type=submit] {
+    visibility: hidden;
   }
 
   input::-webkit-input-placeholder {

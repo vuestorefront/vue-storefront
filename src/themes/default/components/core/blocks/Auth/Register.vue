@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="py35 px55 bg-lightgray">
+    <div class="py35 px65 bg-lightgray">
       <h1 class="my0">Register</h1>
     </div>
-    <div class="py35 px55 bg-white c-gray">
-      <form>
+    <div class="py35 px65 bg-white c-gray">
+      <form @submit.prevent="register" novalidate>
         <div class="mb35">
           <input type="email" name="email" v-model="email" placeholder="E-mail address *">
           <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
@@ -35,9 +35,10 @@
           <label class="ml10" for="remember">I accept terms and conditions *</label>
           <span class="validation-error" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
         </div>
-        <div class="mb35">
+        <div class="mb20">
           <button-full class="btn-full" text="Register an account" @click.native="register"></button-full>
         </div>
+        <input type="submit">
         <div class="center-xs">
           <span>or <a href="#" @click.prevent="switchElem">login to your account</a></span>
         </div>
@@ -152,6 +153,10 @@ export default {
     border: none;
     border-bottom: 1px solid #BDBDBD;
     width: 100%;
+  }
+
+  input[type=submit] {
+    visibility: hidden;
   }
 
   input::-webkit-input-placeholder {

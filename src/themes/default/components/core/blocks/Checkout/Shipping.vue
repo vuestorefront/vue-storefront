@@ -12,31 +12,30 @@
         </div>
         <div class="row" v-show="this.isActive">
           <div class="col-md-6 mb25">
-            <input type="text" name="first-name" placeholder="First name" v-model="shipping.firstName">
+            <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName">
             <span class="validation-error" v-if="!$v.shipping.firstName.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{$v.shipping.firstName.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="last-name" placeholder="Last name" v-model="shipping.lastName">
+            <input type="text" name="last-name" placeholder="Last name" v-model.trim="shipping.lastName">
             <span class="validation-error" v-if="!$v.shipping.lastName.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="street-address" placeholder="Street address" v-model="shipping.streetAddress">
+            <input type="text" name="street-address" placeholder="Street address" v-model.trim="shipping.streetAddress">
             <span class="validation-error" v-if="!$v.shipping.streetAddress.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="apartment-number" placeholder="Apartment number" v-model="shipping.apartmentNumber">
+            <input type="text" name="apartment-number" placeholder="Apartment number" v-model.trim="shipping.apartmentNumber">
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="city" placeholder="City" v-model="shipping.city">
+            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city">
             <span class="validation-error" v-if="!$v.shipping.city.required">Field is required</span>
-
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="state" placeholder="State / Province" v-model="shipping.state">
+            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state">
           </div>
           <div class="col-md-6 mb25">
-            <input type="text" name="country" placeholder="Zip-code" v-model="shipping.zipCode">
+            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode">
             <span class="validation-error" v-if="!$v.shipping.zipCode.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{$v.shipping.zipCode.$params.minLength.min}} letters.</span>
           </div>
@@ -48,7 +47,7 @@
             <span class="validation-error" v-if="!$v.shipping.country.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="phone number" placeholder="Phone Number" v-model="shipping.phoneNumber">
+            <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="shipping.phoneNumber">
           </div>
           <div class="col-xs-12">
             <h4>Shipping method</h4>
@@ -137,8 +136,8 @@ export default {
   created () {
     this.$bus.$on('checkout.personalDetails', (receivedData) => {
       if (!this.isFilled) {
-        this.shipping.firstName = receivedData.firstName
-        this.shipping.lastName = receivedData.lastName
+        this.$store.dispatch('checkout/updatePropValue', ['firstName', receivedData.firstName])
+        this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
       }
     })
   },
@@ -173,14 +172,12 @@ export default {
     return {
       isFilled: false,
       shippingMethods: ShippingMethods,
-      shipping: {
-        firstName: '',
-        lastName: '',
-        country: '',
-        streetAdress: '',
-        shippingMethod: 'flatrate'
-      },
       countries: Countries
+    }
+  },
+  computed: {
+    shipping () {
+      return this.$store.getters['checkout/getShippingDetails']
     }
   },
   methods: {
