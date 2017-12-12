@@ -9,7 +9,8 @@ const state = {
   current_options: {color: [], size: []},
   current_configuration: {},
   breadcrumbs: {routes: []},
-  product_selected_variant: null
+  product_selected_variant: null,
+  related: {}
 }
 
 const getters = {
@@ -223,11 +224,21 @@ const actions = {
    */
   selectVariant (context, { child_product }) {
     context.commit(types.CATALOG_UPD_SELECTED_VARIANT, child_product)
+  },
+
+  /**
+   * Set related products
+   */
+  related (context, { key = 'related-products', items }) {
+    context.commit(types.CATALOG_UPD_RELATED, { key, items })
   }
 }
 
 // mutations
 const mutations = {
+  [types.CATALOG_UPD_RELATED] (state, { key, items }) {
+    state.related[key] = items
+  },
   [types.CATALOG_UPD_PRODUCTS] (state, products) {
     const cache = global.db.elasticCacheCollection
     for (let prod of products.items) { // we store each product separately in cache to have offline acces for products/single method

@@ -5,8 +5,23 @@ const store = {
   namespaced: true,
   state: {
     order: {},
-    personalDetails: {},
-    shippingDetails: {}
+    personalDetails: {
+      firstName: '',
+      lastName: '',
+      emailAddress: ''
+    },
+    shippingDetails: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      streetAddress: '',
+      apartmentNumber: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      phoneNumber: '',
+      shippingMethod: 'flatrate'
+    }
   },
   mutations: {
     /**
@@ -33,35 +48,6 @@ const store = {
     }
   },
   getters: {
-    getPersonalDetails (state) {
-      if (Object.keys(state.personalDetails).length > 0) {
-        return state.personalDetails
-      } else {
-        return {
-          firstName: '',
-          lastName: '',
-          emailAddress: ''
-        }
-      }
-    },
-    getShippingDetails (state) {
-      if (Object.keys(state.shippingDetails).length > 0) {
-        return state.shippingDetails
-      } else {
-        return {
-          firstName: '',
-          lastName: '',
-          country: '',
-          streetAddress: '',
-          apartmentNumber: '',
-          city: '',
-          state: '',
-          zipCode: '',
-          phoneNumber: '',
-          shippingMethod: 'flatrate'
-        }
-      }
-    }
   },
   actions: {
     /**

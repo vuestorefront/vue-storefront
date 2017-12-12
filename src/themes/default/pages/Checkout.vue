@@ -63,7 +63,7 @@ export default {
             this.stockCheckCompleted = true
             this.stockCheckOK = true
             for (let chp of checkedProducts) {
-              if (chp) {
+              if (chp && chp.stock) {
                 if (!chp.stock.is_in_stock) {
                   this.stockCheckOK = false
                   chp.warning_message = 'Out of stock!'
@@ -109,8 +109,6 @@ export default {
     this.$bus.$on('checkout.edit', (section) => {
       this.activateSection(section)
     })
-    // Load personal and shipping details from IndexedDB
-    this.$store.dispatch('checkout/load')
   },
   destroyed () {
     this.$bus.$off('network.status')
