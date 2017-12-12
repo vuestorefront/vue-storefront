@@ -172,12 +172,8 @@ export default {
     return {
       isFilled: false,
       shippingMethods: ShippingMethods,
-      countries: Countries
-    }
-  },
-  computed: {
-    shipping () {
-      return this.$store.getters['checkout/getShippingDetails']
+      countries: Countries,
+      shipping: this.$store.state.checkout.shippingDetails
     }
   },
   methods: {
