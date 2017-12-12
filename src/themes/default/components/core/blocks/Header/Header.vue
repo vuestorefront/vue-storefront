@@ -68,10 +68,10 @@ export default {
     }
   },
   beforeMount () {
-    var didScroll
-    var lastScrollTop = 0
-    var delta = 5
-    var navbarHeight = 54
+    let didScroll
+    let lastScrollTop = 0
+    const delta = 5
+    const navbarHeight = 54
 
     window.addEventListener('scroll', () => {
       didScroll = true
@@ -85,7 +85,7 @@ export default {
     }, 250)
 
     function hasScrolled () {
-      var st = document.scrollingElement.scrollTop
+      let st = document.scrollingElement.scrollTop
 
       if (Math.abs(lastScrollTop - st) <= delta) {
         return
