@@ -1,6 +1,6 @@
 <template>
 <div class="header">
-    <header class="brdr-bottom bg-white brdr-c-alto">
+    <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': menuFixed }">
         <div class="container">
             <div class="row between-xs middle-xs px15" v-show="!isCheckout">
                 <div class="col-md-3 middle-xs">
@@ -58,7 +58,8 @@ import WishlistIcon from './WishlistIcon.vue'
 export default {
   data () {
     return {
-      isCheckout: false
+      isCheckout: false,
+      menuFixed: false
     }
   },
   created () {
@@ -66,12 +67,43 @@ export default {
       this.isCheckout = true
     }
   },
+  beforeMount () {
+    var didScroll
+    var lastScrollTop = 0
+    var delta = 5
+    var navbarHeight = 54
+
+    window.addEventListener('scroll', () => {
+      didScroll = true
+    })
+
+    setInterval(() => {
+      if (didScroll) {
+        hasScrolled.apply(this)
+        didScroll = false
+      }
+    }, 250)
+
+    function hasScrolled () {
+      var st = document.scrollingElement.scrollTop
+
+      if (Math.abs(lastScrollTop - st) <= delta) {
+        return
+      }
+      if (st > lastScrollTop && st > navbarHeight) {
+        this.menuFixed = false
+      } else {
+        this.menuFixed = true
+      }
+      lastScrollTop = st
+    }
+  },
   watch: {
     '$route.path': function () {
       if (this.$route.path === '/checkout') {
-        this.isCheckout = true
+        this.menuFixed = true
       } else {
-        this.isCheckout = false
+        this.menuFixed = false
       }
     }
   },
@@ -91,9 +123,10 @@ export default {
     header {
         position: fixed;
         height: 54px;
-        top: 0;
+        top: -54px;
         width: 100%;
         z-index: 2;
+        transition: top 0.2s ease-in-out;
     }
     .icon {
         opacity: 0.6;
@@ -109,4 +142,8 @@ export default {
     .links {
         text-decoration: undeline;
     }
+    .is-visible {
+        top: 0 !important;
+    }
+    
 </style>
