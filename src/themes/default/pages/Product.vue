@@ -1,13 +1,13 @@
 <template>
   <div id="product">
-    <div class="bg-lightgray py35 pl20 px20">
+    <section class="bg-lightgray py35 px20">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name" />
           </div>
         </div>
-        <div class="row py35">
+        <section class="row py35">
           <div class="col-xs-12 col-md-7 center-xs middle-xs">
             <transition name="fade" appear>
               <img class="product-image" v-lazy="imgObj" ref="image"/>
@@ -53,25 +53,60 @@
               </div>
             </div>
           </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="container pt50 pb20 px40 c-black">
+      <h2 class="h3 m0 mb10 sans-serif">Product details</h2>
+      <div class="row between-md">
+        <div class="col-md-5">
+          <div class="lh30 h4 c-gray-secondary" v-html="product.description"></div>
+        </div>
+        <div class="col-md-6">
+          <ul class="attributes h4 p0 pt10 m0">
+            <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
+          </ul>
         </div>
       </div>
-    </div>
-    <div>
-      <div class="container mb15 c-black">
-        <div class="row py35 px20">
-          <div class="col-md-9">
-            <h2 class="h3 sans-serif">Description</h2>
-            <span class="lh30 h5" v-html="product.description"></span>
-          </div>
-          <div class="col-md-3">
-            <h2 class="h3 sans-serif">Product details</h2>
-            <ul>
-              <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
-            </ul>
+    </section>
+
+    <!-- Replace with slider -->
+    <section>
+      <div class="container">
+        <div class="row center-xs">
+          <div class="col-md-12">
+            <h2 class="align-center">Perfect match</h2>
           </div>
         </div>
       </div>
-    </div>
+      <div class="row bg-lightgray">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="row pb45 pt45 center-xs perfect-match">
+              <product-tile v-for='product in perfectMatchCollection' v-bind:key='product.id' class="col-md-3" :product="product"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container pt50">
+        <div class="row center-xs">
+          <div class="col-md-12">
+            <h2 class="align-center">Others bought also</h2>
+          </div>
+        </div>
+      </div>
+      <div class="container pb70">
+        <div class="row center-xs">
+          <div v-for='(product, key) in othersBoughtCollection' v-bind:key='product.id' class="col-md-3">
+            <product-tile :instant='key < 4 ? true : false' :product="product"/>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -83,8 +118,10 @@ import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
+import ProductTile from '../components/core/ProductTile.vue'
 
 import { thumbnail } from 'src/lib/filters'
+import builder from 'bodybuilder'
 
 export default {
   data () {
@@ -102,6 +139,12 @@ export default {
         error: thumbnail(this.configured_product.image, 310, 300),
         loading: thumbnail(this.configured_product.image, 310, 300)
       }
+    },
+    perfectMatchCollection () {
+      return this.$store.state.product.perfect_match
+    },
+    othersBoughtCollection () {
+      return this.$store.state.product.others_bought
     }
   },
   methods: {
@@ -128,12 +171,40 @@ export default {
       })
     }
   },
+  asyncData ({ store, route }) {
+    return new Promise((resolve, reject) => {
+      let perfectMatchQuery = builder().query('match', 'category.name', 'Women').build()
+      let otherBoughtQuery = builder().query('match', 'category.name', 'Tees').build()
+      store.dispatch('product/list', {
+        query: perfectMatchQuery,
+        size: 4,
+        sort: 'created_at:desc'
+      }).then(function (res) {
+        if (res) {
+          store.state.product.perfect_match = res.items
+        }
+        store.dispatch('category/list', {}).then((categories) => {
+          store.dispatch('product/list', {
+            query: otherBoughtQuery,
+            size: 8,
+            sort: 'created_at:desc'
+          }).then(function (res) {
+            if (res) {
+              store.state.product.others_bought = res.items
+            }
+            return resolve()
+          })
+        })
+      })
+    })
+  },
   components: {
     AddToCart,
     ColorButton,
     SizeButton,
     Breadcrumbs,
-    ProductAttribute
+    ProductAttribute,
+    ProductTile
   },
   mixins: [corePage('Product')]
 }
@@ -159,6 +230,9 @@ export default {
 .action:hover {
   color: #828282;
 }
+.attributes {
+  list-style-type: none;
+}
 .size-guide {
   position: relative;
   top: 6px;
@@ -174,5 +248,8 @@ export default {
   mix-blend-mode: multiply;
   max-width: 100%;
   width: 460px;
+}
+.perfect-match {
+  mix-blend-mode: darken;
 }
 </style>
