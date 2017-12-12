@@ -61,6 +61,10 @@ import TileLinks from '../components/theme/blocks/TileLinks/TileLinks.vue'
 import Collection from '../components/theme/blocks/Collection/Collection'
 
 export default {
+  created () {
+    // Load personal and shipping details for Checkout page from IndexedDB
+    this.$store.dispatch('checkout/load')
+  },
   computed: {
     categories () {
       return this.$store.state.category.list
