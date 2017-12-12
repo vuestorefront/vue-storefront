@@ -88,12 +88,14 @@ export default {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
       this.activateSection('shipping')
+      this.savePersonalDetails()
     })
     this.$bus.$on('checkout.shipping', (receivedData, validationResult) => {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
       global.__TAX_COUNTRY__ = this.shipping.country
       this.activateSection('payment')
+      this.saveShippingDetails()
     })
     this.$bus.$on('checkout.payment', (receivedData, validationResult) => {
       this.payment = receivedData
@@ -107,6 +109,8 @@ export default {
     this.$bus.$on('checkout.edit', (section) => {
       this.activateSection(section)
     })
+    // Load personal and shipping details from IndexedDB
+    this.$store.dispatch('checkout/load')
   },
   destroyed () {
     this.$bus.$off('network.status')
@@ -244,6 +248,12 @@ export default {
           action1: { label: 'OK', action: 'close' }
         })
       }
+    },
+    savePersonalDetails () {
+      this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)
+    },
+    saveShippingDetails () {
+      this.$store.dispatch('checkout/saveShippingDetails', this.shipping)
     }
   },
   components: {
