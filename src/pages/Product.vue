@@ -27,7 +27,6 @@ function filterChanged (filterOption) { // slection of product variant on produc
       })
       return
     }
-    // TODO: this way of getting product probably brokes offline because products are cached by ID not SKU; we probably can just re-configure the product without getting it from cache
 
     // join selected variant object to the store
     this.$store.dispatch('product/setCurrent', selectedVariant)
@@ -105,7 +104,7 @@ function fetchData (store, route) {
       }))
 
       if (product.type_id === 'configurable') {
-        const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_code)
+        const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
         subloaders.push(store.dispatch('attribute/list', {
           filterValues: configurableAttrIds,
           filterField: 'attribute_id'
@@ -187,12 +186,16 @@ export default {
     this.$bus.$off('filter-changed-product')
   },
   beforeMount () {
-    this.validateRoute()
     this.$bus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {
     ...mapGetters({
-      product: 'product/productCurrent'
+      product: 'product/productCurrent',
+      attributesByCode: 'attribute/attributeListByCode',
+      attributesByUd: 'attribute/attributeListById',
+      breadcrumbs: 'product/breadcrumbs',
+      configuration: 'product/currentConfiguration',
+      options: 'product/currentOptions'
     }),
     imgObj () {
       return {
@@ -203,18 +206,9 @@ export default {
     },
     all_custom_attributes () {
       let inst = this
-      return Object.values(this.$store.state.attribute.list_by_code).filter(a => {
+      return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
       })
-    },
-    breadcrumbs () {
-      return this.$store.state.product.breadcrumbs
-    },
-    configuration () {
-      return this.$store.state.product.current_configuration
-    },
-    options () {
-      return this.$store.state.product.current_options
     }
   },
   data () {

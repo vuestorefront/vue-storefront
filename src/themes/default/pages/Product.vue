@@ -24,7 +24,7 @@
               {{ product.priceInclTax | price }}
             </div>
 
-            <!-- <div class="variants" v-if="product.type_id =='configurable' && !loading && configuration">
+            <div class="variants" v-if="product.type_id =='configurable' && !loading">
               <div class="h4" v-for="(option, index) in product.configurable_options" :key="index">
                 <span>{{ option.label }} <strong>{{ configuration[option.label.toLowerCase()].label }}</strong></span>
                 <div class="mt20 mb45">
@@ -36,7 +36,7 @@
                   </router-link>
                 </div>
               </div>
-            </div> -->
+            </div>
             <add-to-cart :product="product" class="h4 bg-black c-white px55 py20 brdr-none" />
             <div class="row pt45">
               <div class="col-xs-6 col-md-5">

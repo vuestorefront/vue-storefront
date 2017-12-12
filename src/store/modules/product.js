@@ -108,8 +108,38 @@ const state = {
 
 const getters = {
   productCurrent: (state) => state.current,
+  currentConfiguration: (state) => state.current_configuration,
   productOriginal: (state) => state.original,
-  attributeListByCode: (state) => state.attribute.list_by_code
+  currentOptions: (state) => state.current_options,
+  breadcrumbs: (state) => state.breadcrumbs
+}
+
+function configureProductAsync (context, { product, configuration }) {
+  // use current product if product wasn't passed
+  if (product === null) product = context.getters.productCurrent
+  // handle custom_attributes for easier comparing in the future
+  product.configurable_children.forEach((child) => {
+    let customAttributesAsObject = {}
+    child.custom_attributes.forEach((attr) => {
+      customAttributesAsObject[attr.attribute_code] = attr.value
+    })
+    // add values from custom_attributes in a different form
+    Object.assign(child, customAttributesAsObject)
+  })
+  // find selected variant
+  let selectedVariant = product.configurable_children.find((configurableChild) => {
+    if (configuration.sku) {
+      return configurableChild.sku === configuration.sku // by sku or first one
+    } else {
+      return Object.keys(configuration).every((configProperty) => {
+        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+      })
+    }
+  }) || product.configurable_children[0]
+
+  // use chosen variant
+  context.dispatch('setCurrent', selectedVariant)
+  return selectedVariant
 }
 
 // actions
@@ -178,8 +208,7 @@ const actions = {
           if (prod.type_id === 'configurable' && hasConfigurableChildren) {
             // set first available configuration
             // todo: probably a good idea is to change this [0] to specific id
-            const productPreconfigured = Object.assign(prod, prod.configurable_children.find((item) => item.sku === options.sku))
-            context.dispatch('setCurrent', productPreconfigured)
+            configureProductAsync(context, { product: prod, configuration: { sku: options.sku } })
           } else context.dispatch('setCurrent', prod)
           return prod
         }
@@ -205,26 +234,7 @@ const actions = {
    * @param {Array} configuration
    */
   configure (context, { product = null, configuration }) {
-    // use current product if product wasn't passed
-    if (product === null) product = context.getters.productCurrent
-    // handle custom_attributes for easier comparing in the future
-    product.configurable_children.forEach((child) => {
-      let customAttributesAsObject = {}
-      child.custom_attributes.forEach((attr) => {
-        customAttributesAsObject[attr.attribute_code] = attr.value
-      })
-      // add values from custom_attributes in a different form
-      Object.assign(child, customAttributesAsObject)
-    })
-    // find selected variant
-    let selectedVariant = product.configurable_children.find((configurableChild) => {
-      return Object.keys(configuration).every((configProperty) => {
-        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
-      })
-    })
-    // use chosen variant
-    context.dispatch('setCurrent', selectedVariant)
-    return selectedVariant
+    return configureProductAsync(context, { product: product, configuration: configuration })
   },
   /**
    * Set current product with given variant's properties
