@@ -115,32 +115,39 @@ const getters = {
   breadcrumbs: (state) => state.breadcrumbs
 }
 
-function configureProductAsync (context, { product, configuration }) {
+function configureProductAsync (context, { product, configuration, updateCurrentProduct = true }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
-  // handle custom_attributes for easier comparing in the future
-  product.configurable_children.forEach((child) => {
-    let customAttributesAsObject = {}
-    child.custom_attributes.forEach((attr) => {
-      customAttributesAsObject[attr.attribute_code] = attr.value
-    })
-    // add values from custom_attributes in a different form
-    Object.assign(child, customAttributesAsObject)
-  })
-  // find selected variant
-  let selectedVariant = product.configurable_children.find((configurableChild) => {
-    if (configuration.sku) {
-      return configurableChild.sku === configuration.sku // by sku or first one
-    } else {
-      return Object.keys(configuration).every((configProperty) => {
-        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
-      })
-    }
-  }) || product.configurable_children[0]
+  const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
 
-  // use chosen variant
-  context.dispatch('setCurrent', selectedVariant)
-  return selectedVariant
+  if (hasConfigurableChildren) {
+    // handle custom_attributes for easier comparing in the future
+    product.configurable_children.forEach((child) => {
+      let customAttributesAsObject = {}
+      child.custom_attributes.forEach((attr) => {
+        customAttributesAsObject[attr.attribute_code] = attr.value
+      })
+      // add values from custom_attributes in a different form
+      Object.assign(child, customAttributesAsObject)
+    })
+    // find selected variant
+    let selectedVariant = product.configurable_children.find((configurableChild) => {
+      if (configuration.sku) {
+        return configurableChild.sku === configuration.sku // by sku or first one
+      } else {
+        return Object.keys(configuration).every((configProperty) => {
+          return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+        })
+      }
+    }) || product.configurable_children[0]
+    // use chosen variant
+    if (updateCurrentProduct) {
+      context.dispatch('setCurrent', selectedVariant)
+    }
+    return selectedVariant
+  } else {
+    return product
+  }
 }
 
 // actions
@@ -234,8 +241,8 @@ const actions = {
    * @param {Object} product
    * @param {Array} configuration
    */
-  configure (context, { product = null, configuration }) {
-    return configureProductAsync(context, { product: product, configuration: configuration })
+  configure (context, { product = null, configuration, updateCurrentProduct = true }) {
+    return configureProductAsync(context, { product: product, configuration: configuration, updateCurrentProduct: updateCurrentProduct })
   },
   /**
    * Set current product with given variant's properties

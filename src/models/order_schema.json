@@ -42,7 +42,7 @@
                             "items": { "minLength": 1, "description": "Street name"}
                         },
                         "company": { "type": "string" },
-                        "telephone": { "type": "string" , "minLength": 9 },
+                        "telephone": { "type": "string" , "pattern" : "^([01][- .])?(\\(\\d{3}\\)|\\d{3})[- .]?\\d{3}[- .]\\d{4}$" },
                         "postcode": { "type": "string", "minLength": 5,  "pattern": "[a-zA-Z0-9_]+" },
                         "city": { "type": "string", "pattern": "[a-zA-Z]+" },
                         "firstname": { "type": "string", "pattern": "[a-zA-Z]+", "description": "First name" },
