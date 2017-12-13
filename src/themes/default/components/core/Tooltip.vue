@@ -7,6 +7,14 @@
   </span>
 </template>
 
+<script>
+import { coreComponent } from 'lib/themes'
+
+export default {
+  mixins: [coreComponent('core/SizeButton')]
+}
+</script>
+
 <style lang="scss" scoped>
 .tooltip {
   cursor: default;

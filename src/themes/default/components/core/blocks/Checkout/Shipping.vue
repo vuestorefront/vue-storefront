@@ -99,7 +99,7 @@ import ShippingMethods from 'src/resource/shipping_methods.json'
 import Countries from 'src/resource/countries.json'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tooltip from './Tooltip.vue'
+import Tooltip from 'theme/components/core/Tooltip.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-contextified-validators
