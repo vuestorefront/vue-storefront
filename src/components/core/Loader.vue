@@ -25,6 +25,10 @@ export default {
     hide () {
       this.$store.commit('ui/setLoader', false)
     }
+  },
+  mounted: function () {
+    this.$bus.$on('notification-progress-start', this.show)
+    this.$bus.$on('notification-progress-stop', this.hide)
   }
 }
 </script>
