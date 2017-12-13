@@ -90,12 +90,8 @@ export default {
   },
   data () {
     return {
-      isFilled: false
-    }
-  },
-  computed: {
-    personalDetails () {
-      return this.$store.getters['checkout/getPersonalDetails']
+      isFilled: false,
+      personalDetails: this.$store.state.checkout.personalDetails
     }
   },
   methods: {

@@ -9,20 +9,18 @@
       </div>
     </div>
 
-    <div class="bg-lightgray">
-      <div class="container">
-        <div class="row bottom-md middle-sm center-xs pt45">
-          <div class="col-md-6 col-sm-5 col-xs-8 colection-cover">
-            <img :src="coverImage" :alt="title">
-          </div>
-          <div class="col-md-6 col-sm-7">
-            <div class="row pb45 center-xs">
-              <product-tile  v-for='product in products' v-bind:key='product.id' class="col-sm-6 collection-product" :product="product"/>
-            </div>
-          </div>
+
+  <div class="bg-lightgray">
+    <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row pb45 pt45 center-xs cool-stuff-collection">
+            <product-tile  v-for='product in products' v-bind:key='product.id' class="col-md-3" :product="product"/>
         </div>
-      </div>
+      </div>    
     </div>
+    </div>
+  </div>
   </div>
 </template>
 <script>
@@ -56,7 +54,7 @@
 </script>
 <style lang="scss">
   .collection-product .product-image {
-    mix-blend-mode: normal;
+    mix-blend-mode: darken;
     height: auto;
 
     img {
