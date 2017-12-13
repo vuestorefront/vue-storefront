@@ -21,11 +21,12 @@
             <span class="validation-error" v-if="!$v.shipping.lastName.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="street-address" placeholder="Street address" v-model.trim="shipping.streetAddress">
+            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress">
             <span class="validation-error" v-if="!$v.shipping.streetAddress.required">Field is required</span>
           </div>
           <div class="col-md-12 mb25">
-            <input type="text" name="apartment-number" placeholder="Apartment number" v-model.trim="shipping.apartmentNumber">
+            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber">
+            <span class="validation-error" v-if="!$v.shipping.apartmentNumber.required">Field is required</span>
           </div>
           <div class="col-md-6 mb25">
             <input type="text" name="city" placeholder="City" v-model.trim="shipping.city">
@@ -154,6 +155,9 @@ export default {
         required
       },
       streetAddress: {
+        required
+      },
+      apartmentNumber: {
         required
       },
       shippingMethod: {
