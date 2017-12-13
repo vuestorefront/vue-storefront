@@ -103,7 +103,8 @@ const state = {
   current_options: {color: [], size: []},
   current_configuration: {},
   list: [],
-  original: null // default, not configured product
+  original: null, // default, not configured product
+  related: {}
 }
 
 const getters = {
@@ -258,11 +259,20 @@ const actions = {
   setOriginal (context, originalProduct) {
     if (originalProduct && typeof originalProduct === 'object') context.commit(types.CATALOG_SET_PRODUCT_ORIGINAL, originalProduct)
     else console.debug('Unable to setup original product.')
+  },
+  /**
+   * Set related products
+   */
+  related (context, { key = 'related-products', items }) {
+    context.commit(types.CATALOG_UPD_RELATED, { key, items })
   }
 }
 
 // mutations
 const mutations = {
+  [types.CATALOG_UPD_RELATED] (state, { key, items }) {
+    state.related[key] = items
+  },
   [types.CATALOG_UPD_PRODUCTS] (state, products) {
     state.list = products // extract fields from ES _source
   },

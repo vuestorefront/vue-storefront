@@ -1,13 +1,13 @@
 <template>
   <div id="product">
-    <div class="bg-lightgray py35 pl20 px20">
+    <section class="bg-lightgray py35 px20">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name" />
           </div>
         </div>
-        <div class="row py35">
+        <section class="row py35">
           <div class="col-xs-12 col-md-7 center-xs middle-xs">
             <transition name="fade" appear>
               <img class="product-image" v-lazy="imgObj" ref="image"/>
@@ -53,36 +53,39 @@
               </div>
             </div>
           </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="container pt50 pb20 px40 c-black">
+      <h2 class="h3 m0 mb10 sans-serif">Product details</h2>
+      <div class="row between-md">
+        <div class="col-md-5">
+          <div class="lh30 h4 c-gray-secondary" v-html="product.description"></div>
+        </div>
+        <div class="col-md-6">
+          <ul class="attributes h4 p0 pt10 m0">
+            <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
+          </ul>
         </div>
       </div>
-    </div>
-    <div>
-      <div class="container mb15 c-black">
-        <div class="row py35 px20">
-          <div class="col-md-9">
-            <h2 class="h3 sans-serif">Description</h2>
-            <span class="lh30 h5" v-html="product.description"></span>
-          </div>
-          <div class="col-md-3">
-            <h2 class="h3 sans-serif">Product details</h2>
-            <ul>
-              <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
+
+    <!-- Replace with slider -->
+  <related-products />
   </div>
 </template>
 
 <script>
 import { corePage } from 'lib/themes'
 
+import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
 import ColorButton from '../components/core/ColorButton.vue'
 import SizeButton from '../components/core/SizeButton.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
+import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
   data () {
@@ -112,7 +115,7 @@ export default {
       // todo
       this.$bus.$emit('notification', {
         type: 'success',
-        message: 'Product has been added to comparison list. This feature is not implemented yet :(',
+        message: 'Product has been added to comparison list. However - this feature is not implemented yet :(',
         action1: { label: 'OK', action: 'close' }
       })
     }
@@ -122,7 +125,9 @@ export default {
     ColorButton,
     SizeButton,
     Breadcrumbs,
-    ProductAttribute
+    ProductAttribute,
+    ProductTile,
+    RelatedProducts
   },
   mixins: [corePage('Product')]
 }
@@ -148,6 +153,9 @@ export default {
 .action:hover {
   color: #828282;
 }
+.attributes {
+  list-style-type: none;
+}
 .size-guide {
   position: relative;
   top: 6px;
@@ -163,5 +171,8 @@ export default {
   mix-blend-mode: multiply;
   max-width: 100%;
   width: 460px;
+}
+.perfect-match {
+  mix-blend-mode: darken;
 }
 </style>
