@@ -267,6 +267,8 @@ export default {
 
 <style lang="scss">
 @import '../css/text.scss';
+@import '~theme/css/global_vars';
+$lightgray: map-get($colors, lightgray);
 
 #checkout {
   input[type=text], input[type=email], input[type=tel], select {
@@ -323,7 +325,7 @@ export default {
       z-index: -1;
       width: 1px;
       height: 100%;
-      background-color: #f2f2f2;
+      background-color: $lightgray;
     }
   }
 }
