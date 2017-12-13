@@ -2,12 +2,18 @@
   <div class="personal-details">
     <div class="row">
       <div class="col-md-1 col-xs-2">
-        <div class="number-circle lh40 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">1</div> 
+        <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">1</div>
       </div>
       <div class="col-md-11 col-xs-10">
         <div class="row">
-          <div class="col-md-12 mb15" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 @click="edit" class="mt5" :class="{'section-editable' : isFilled && !isActive, 'section-disabled' : !isFilled && !isActive }">Personal Details</h3>
+          <div class="col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
+            <h3 class="mt0">Personal Details</h3>
+          </div>
+          <div class="col-md-6 pr30">
+            <div class="lh30 flex end-xs" v-if="isFilled && !isActive">
+              <a href="#" class="c-lightgray-secondary pr5" @click.prevent="edit">Edit personal details</a>
+              <i class="material-icons c-lightgray-secondary">edit</i>
+            </div>
           </div>
         </div>
         <div class="row" v-show="isActive">
@@ -39,23 +45,14 @@
           </div>
         </div>
         <div class="row fs16 mb35" v-show="isFilled">
-          <div class="col-xs-12">
-            <div class="row">
-              <div class="col-md-6 ">
-                <strong>First name</strong><br>
-                {{ personalDetails.firstName }}
-              </div>
-              <div class="col-md-6 ">
-                <strong>Last name</strong><br>
-                {{ personalDetails.lastName }}
-              </div>             
-            </div>
-            <div class="row mt15">
-              <div class="col-md-12">
-                <strong>Email address</strong><br>
-                {{ personalDetails.emailAddress }}
-              </div>
-            </div>
+          <div class="col-xs-12 h4">
+            <p>
+              {{ personalDetails.firstName }} {{ personalDetails.lastName }}
+            </p>
+            <p>
+              <span class="pr15">{{ personalDetails.emailAddress }}</span>
+              <tooltip>We will send you details regarding the order</tooltip>
+            </p>
           </div>
         </div>
       </div>
@@ -67,6 +64,7 @@
 import { coreComponent } from 'lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import Tooltip from './Tooltip.vue'
 import { required, minLength, email } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-basic-usage
@@ -110,7 +108,8 @@ export default {
     console.log(this)
   },
   components: {
-    ButtonFull
+    ButtonFull,
+    Tooltip
   },
   mixins: [coreComponent('core/blocks/Checkout/PersonalDetails')]
 }

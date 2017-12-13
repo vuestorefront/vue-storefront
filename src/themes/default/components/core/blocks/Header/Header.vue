@@ -102,8 +102,10 @@ export default {
   watch: {
     '$route.path': function () {
       if (this.$route.path === '/checkout') {
+        this.isCheckout = true
         this.menuFixed = true
       } else {
+        this.isCheckout = false
         this.menuFixed = false
       }
     }
@@ -156,5 +158,4 @@ export default {
     .is-visible {
         top: 0 !important;
     }
-    
 </style>

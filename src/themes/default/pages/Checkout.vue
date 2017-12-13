@@ -4,12 +4,12 @@
       <div class="row" v-show="!orderPlaced">
         <div class="col-sm-7 col-xs-12 pb70 pl40">
           <header>
-            <h1>Checkout</h1>
+            <h1 class="mb55">Checkout</h1>
           </header>
-          <personal-details :is-active="activeSection.personalDetails"/>
-          <shipping :is-active="activeSection.shipping"/>
-          <payment :is-active="activeSection.payment"/>
-          <order-review :is-active="activeSection.orderReview"/>
+          <personal-details class="line relative" :is-active="activeSection.personalDetails"/>
+          <shipping class="line relative" :is-active="activeSection.shipping"/>
+          <payment class="line relative" :is-active="activeSection.payment"/>
+          <order-review class="line relative" :is-active="activeSection.orderReview"/>
         </div>
         <div class="col-sm-5 col-xs-12 bg-lightgray">
             <cart-summary />
@@ -310,14 +310,21 @@ export default {
     display: block;
   }
   .number-circle {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
   }
-  .section-disabled {
-    cursor: not-allowed;
-  }
-  .section-editable {
-    cursor: pointer;
+  .line {
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 17px;
+      z-index: -1;
+      width: 1px;
+      height: 100%;
+      background-color: #f2f2f2;
+    }
   }
 }
 </style>

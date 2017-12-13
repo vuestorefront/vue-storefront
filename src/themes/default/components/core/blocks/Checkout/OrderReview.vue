@@ -2,17 +2,17 @@
   <div class='order-review'>
     <div class="row">
       <div class="col-md-1 col-xs-2">
-        <div class="number-circle lh40 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">4</div>
+        <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">4</div>
       </div>
       <div class="col-md-11 col-xs-10">
         <div class="row">
-          <div class="col-md-12 mb15" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 class="mt5" :class="{'section-editable' : isFilled && !isActive, 'section-disabled' : !isFilled && !isActive }">Review order</h3>
+          <div class="col-md-12" :class="{ 'c-gray' : !isFilled && !isActive }">
+            <h3 class="m0">Review order</h3>
           </div>
         </div>
-        <div class="row mb35" v-show="isActive">
+        <div class="row mb35 mt20" v-show="isActive">
           <div class="col-xs-12">
-            <p>Please check if all data are correct</p>
+            <p class="h4">Please check if all data are correct</p>
             <div class="row">
               <div class="col-md-8  bg-lightgray p15 mb35 ml10">
                 <label><input type="checkbox" name="checkbox" v-model="orderReview.terms" value="value">I agree for <router-link to="/legal">terms and conditions</router-link></label>
