@@ -42,7 +42,7 @@
                             "items": { "minLength": 1, "description": "Street name"}
                         },
                         "company": { "type": "string" },
-                        "telephone": { "type": "string" , "pattern" : "^([01][- .])?(\\(\\d{3}\\)|\\d{3})[- .]?\\d{3}[- .]\\d{4}$" },
+                        "telephone": { "type": "string" , "pattern" : "^\\+?(\\d{1,2})?\\s*[- \\(]?\\d{3}[- \\)]?\\s*\\d{3}[- ]?\\d{2}[- ]?\\d{2}$" },
                         "postcode": { "type": "string", "minLength": 5,  "pattern": "[a-zA-Z0-9_]+" },
                         "city": { "type": "string", "pattern": "[a-zA-Z]+" },
                         "firstname": { "type": "string", "pattern": "[a-zA-Z]+", "description": "First name" },
@@ -64,7 +64,7 @@
                                 "items": { "minLength": 1}
                             },
                             "company": { "type": "string" },
-                            "telephone": { "type": "string" , "pattern" : "^([01][- .])?(\\(\\d{3}\\)|\\d{3})[- .]?\\d{3}[- .]\\d{4}$" },
+                            "telephone": { "type": "string" , "pattern" : "^\\+?(\\d{1,2})?\\s*[- \\(]?\\d{3}[- \\)]?\\s*\\d{3}[- ]?\\d{2}[- ]?\\d{2}$" },
                             "postcode": { "type": "string", "minLength": 5,  "pattern": "[a-zA-Z0-9_]+" },
                             "city": { "type": "string", "pattern": "[a-zA-Z]+" },
                             "firstname": { "type": "string", "pattern": "[a-zA-Z]+" },
