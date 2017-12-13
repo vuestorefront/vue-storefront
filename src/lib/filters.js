@@ -46,7 +46,8 @@ export function price (value) {
  * @param {String} value
  */
 export function htmlDecode (value) {
-  return he.decode(value)
+  if (value) return he.decode(value)
+  else return ''
 }
 
 /**

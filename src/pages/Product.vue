@@ -8,9 +8,11 @@
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
-import { breadCrumbRoutes } from 'src/lib/filters'
+import { breadCrumbRoutes, thumbnail } from 'src/lib/filters'
 import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus'
+
+import { mapGetters } from 'vuex'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   this.configuration[filterOption.attribute_code] = filterOption
@@ -28,18 +30,31 @@ function filterChanged (filterOption) { // slection of product variant on produc
     }
 
     // join selected variant object to the store
-    // todo: use store action instead of objects assigning
-    Object.assign(this.$store.state.product.product_selected_variant, selectedVariant)
-    // handle product url
-    /* as for now it forces product re-render and it's disabled because of that */
-    /* this.$router.replace({
-      name: 'product',
-      params: {
-        sku: selectedVariant.sku
-      }
-    }) */
+    this.$store.dispatch('product/setCurrent', selectedVariant)
+      .catch(err => console.error({
+        info: 'Dispatch product/setCurrent in Product.vue',
+        err
+      }))
+
+    // // todo: activate below when vue-router create 'silent' url replace method
+    // // handle product url
+    // this.$router.replace({
+    //   name: 'product',
+    //   params: {
+    //     sku: selectedVariant.sku
+    //   }
+    // })
   })
+  .catch(err => console.error({
+    info: 'Dispatch product/configure in Product.vue',
+    err
+  }))
 }
+
+// function setBreadcrumbs (product, path) {
+//   const categorySlug = this.$store.state.category.current.slug
+//   const categoryName = this.$store.state.category.current.name
+// }
 
 function fetchData (store, route) {
   // pass both id and sku to render a product
@@ -90,7 +105,7 @@ function fetchData (store, route) {
       }))
 
       if (product.type_id === 'configurable') {
-        const configurableAttrIds = product.configurable_options.map((item) => { return item.attribute_id })
+        const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
         subloaders.push(store.dispatch('attribute/list', {
           filterValues: configurableAttrIds,
           filterField: 'attribute_id'
@@ -104,17 +119,19 @@ function fetchData (store, route) {
               })
             }
           }
-
-          let selectedVariant = store.state.product.product_selected_variant
+          // todo: this doesn't populate product.current_configuration
+          let selectedVariant = store.state.product.current
           for (let option of product.configurable_options) {
             let attr = store.state.attribute.list_by_id[option.attribute_id]
-            let selectedOption = selectedVariant.custom_attributes.find((a) => {
-              return (a.attribute_code === attr.attribute_code)
-            })
-            store.state.product.current_configuration[attr.attribute_code] = {
-              attribute_code: attr.attribute_code,
-              id: selectedOption.value,
-              label: optionLabel(store.state.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+            if (selectedVariant.custom_attributes) {
+              let selectedOption = selectedVariant.custom_attributes.find((a) => {
+                return (a.attribute_code === attr.attribute_code)
+              })
+              store.state.product.current_configuration[attr.attribute_code] = {
+                attribute_code: attr.attribute_code,
+                id: selectedOption.value,
+                label: optionLabel(store.state.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+              }
             }
           }
         }).catch(err => {
@@ -174,26 +191,26 @@ export default {
     this.$bus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {
+    ...mapGetters({
+      product: 'product/productCurrent',
+      attributesByCode: 'attribute/attributeListByCode',
+      attributesByUd: 'attribute/attributeListById',
+      breadcrumbs: 'product/breadcrumbs',
+      configuration: 'product/currentConfiguration',
+      options: 'product/currentOptions'
+    }),
+    imgObj () {
+      return {
+        src: thumbnail(this.product.image, 570, 569),
+        error: thumbnail(this.product.image, 310, 300),
+        loading: thumbnail(this.product.image, 310, 300)
+      }
+    },
     all_custom_attributes () {
       let inst = this
-      return Object.values(this.$store.state.attribute.list_by_code).filter(a => {
+      return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
       })
-    },
-    breadcrumbs () {
-      return this.$store.state.product.breadcrumbs
-    },
-    product () {
-      return this.$store.state.product.current
-    },
-    configured_product () {
-      return this.$store.state.product.product_selected_variant
-    },
-    configuration () {
-      return this.$store.state.product.current_configuration
-    },
-    options () {
-      return this.$store.state.product.current_options
     }
   },
   data () {

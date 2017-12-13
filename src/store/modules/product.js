@@ -3,19 +3,6 @@ const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
 
-const state = {
-  list: [],
-  current: null,
-  current_options: {color: [], size: []},
-  current_configuration: {},
-  breadcrumbs: {routes: []},
-  product_selected_variant: null,
-  related: {}
-}
-
-const getters = {
-}
-
 function calculateProductTax (product, taxClasses) {
   let rateFound = false
   let taxClass = taxClasses.items.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
@@ -109,6 +96,53 @@ function calculateTaxes (products, store) {
   })
 }
 
+const state = {
+  breadcrumbs: {routes: []},
+  configured: null, // configured product with variant selected
+  current: null, // shown product
+  current_options: {color: [], size: []},
+  current_configuration: {},
+  list: [],
+  original: null, // default, not configured product
+  related: {}
+}
+
+const getters = {
+  productCurrent: (state) => state.current,
+  currentConfiguration: (state) => state.current_configuration,
+  productOriginal: (state) => state.original,
+  currentOptions: (state) => state.current_options,
+  breadcrumbs: (state) => state.breadcrumbs
+}
+
+function configureProductAsync (context, { product, configuration }) {
+  // use current product if product wasn't passed
+  if (product === null) product = context.getters.productCurrent
+  // handle custom_attributes for easier comparing in the future
+  product.configurable_children.forEach((child) => {
+    let customAttributesAsObject = {}
+    child.custom_attributes.forEach((attr) => {
+      customAttributesAsObject[attr.attribute_code] = attr.value
+    })
+    // add values from custom_attributes in a different form
+    Object.assign(child, customAttributesAsObject)
+  })
+  // find selected variant
+  let selectedVariant = product.configurable_children.find((configurableChild) => {
+    if (configuration.sku) {
+      return configurableChild.sku === configuration.sku // by sku or first one
+    } else {
+      return Object.keys(configuration).every((configProperty) => {
+        return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+      })
+    }
+  }) || product.configurable_children[0]
+
+  // use chosen variant
+  context.dispatch('setCurrent', selectedVariant)
+  return selectedVariant
+}
+
 // actions
 const actions = {
 
@@ -116,9 +150,8 @@ const actions = {
    * Reset current configuration and selected variatnts
    */
   reset (context) {
-    context.state.product_selected_variant = null
-    context.state.current_configuration = {}
-    context.state.current_options = {color: [], size: []}
+    const productOriginal = context.getters.productOriginal
+    context.commit(types.CATALOG_RESET_PRODUCT, productOriginal)
   },
   /**
    * Search ElasticSearch catalog of products using simple text query
@@ -131,6 +164,16 @@ const actions = {
   list (context, { query, start = 0, size = 50, entityType = 'product', sort = '' }) {
     return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
+        // handle cache
+        const cache = global.db.elasticCacheCollection
+        for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
+          const cacheKey = entityKeyName('id', prod.id)
+          cache.setItem(cacheKey, prod)
+            .catch((err) => {
+              console.error('Cannot store cache for ' + cacheKey + ', ' + err)
+            })
+        }
+        // commit update products list mutation
         context.commit(types.CATALOG_UPD_PRODUCTS, resp)
         return resp
       })
@@ -144,25 +187,30 @@ const actions = {
    * @param {Object} options
    */
   single (context, { options, setCurrentProduct = true, selectDefaultVariant = true }) {
-    const cacheKey = entityKeyName(options)
+    const cacheKey = entityKeyName('id', options.id)
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
       const cache = global.db.elasticCacheCollection
       cache.getItem(cacheKey, (err, res) => {
-        if (err) console.error(err)
+        // report errors
+        if (err) {
+          console.error({
+            info: 'Get item from cache in ./store/modules/product.js',
+            err
+          })
+        }
         const setupProduct = (prod) => {
+          // set original product
+          context.dispatch('setOriginal', prod)
           // check is prod has configurable children
           const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
-          // set passed product as current
-          if (setCurrentProduct) context.state.current = prod
-          if (selectDefaultVariant) {
-            // todo: add support for variant selection from product list (parameters)
-            if (prod.type_id === 'configurable' && hasConfigurableChildren) {
-              const selectedVariant = prod.configurable_children.find((item) => item.sku === options.sku)
-              context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(prod, selectedVariant || prod.configurable_children[0]))
-            } else context.commit(types.CATALOG_UPD_SELECTED_VARIANT, prod)
-          }
+          // set current product - configurable or not
+          if (prod.type_id === 'configurable' && hasConfigurableChildren) {
+            // set first available configuration
+            // todo: probably a good idea is to change this [0] to specific id
+            configureProductAsync(context, { product: prod, configuration: { sku: options.sku } })
+          } else context.dispatch('setCurrent', prod)
           return prod
         }
         if (res !== null) {
@@ -174,58 +222,44 @@ const actions = {
               .query('match', 'id', options.id)
               .build()
           }).then((res) => {
-            if (res && res.items && res.items.length > 0) resolve(setupProduct(res.items[0]))
+            if (res && res.items && res.items.length) resolve(setupProduct(res.items[0]))
           })
         }
       })// .catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
     })
   },
-
   /**
-   * Configure product - finding best suited variant regarding configuration attribute
-   */
-  configure (context, { product = null, configuration, updateCurrentProduct = true }) {
-    const state = context.state
-    // use current product if product wasn't passed
-    if (product === null) product = state.current
-    const hasConfigurableChildren = product && product.configurable_children && product.configurable_children.length
-
-    if (hasConfigurableChildren) {
-      // handle custom_attributes for easier comparing in the future
-      product.configurable_children.forEach((child) => {
-        let customAttributesAsObject = {}
-        child.custom_attributes.forEach((attr) => {
-          customAttributesAsObject[attr.attribute_code] = attr.value
-        })
-        Object.assign(child, customAttributesAsObject)
-      })
-      // find selected variant
-      let selectedVariant = product.configurable_children.find((configurableChild) => {
-        return Object.keys(configuration).every((configProperty) => {
-          return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
-        })
-      })
-      // use chosen variant
-      if (updateCurrentProduct) {
-        context.commit(types.CATALOG_UPD_SELECTED_VARIANT, Object.assign(product, selectedVariant))
-      } else {
-        product = Object.assign(product, selectedVariant)
-      }
-      return selectedVariant
-    } else {
-      return null
-    }
-  },
-
-  /**
-  * Select product on product page
+   * Configure product with given configuration and set it as current
    * @param {Object} context
-   * @param {Object} child_product
+   * @param {Object} product
+   * @param {Array} configuration
    */
-  selectVariant (context, { child_product }) {
-    context.commit(types.CATALOG_UPD_SELECTED_VARIANT, child_product)
+  configure (context, { product = null, configuration }) {
+    return configureProductAsync(context, { product: product, configuration: configuration })
   },
-
+  /**
+   * Set current product with given variant's properties
+   * @param {Object} context
+   * @param {Object} productVariant
+   */
+  setCurrent (context, productVariant) {
+    if (productVariant && typeof productVariant === 'object') {
+      // get original product
+      const productOriginal = context.getters.productOriginal
+      // check if passed variant is the same as original
+      const productUpdated = Object.assign(productOriginal, productVariant)
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
+    } else console.debug('Unable to update current product.')
+  },
+  /**
+   * Set given product as original
+   * @param {Object} context
+   * @param {Object} originalProduct
+   */
+  setOriginal (context, originalProduct) {
+    if (originalProduct && typeof originalProduct === 'object') context.commit(types.CATALOG_SET_PRODUCT_ORIGINAL, originalProduct)
+    else console.debug('Unable to setup original product.')
+  },
   /**
    * Set related products
    */
@@ -240,17 +274,19 @@ const mutations = {
     state.related[key] = items
   },
   [types.CATALOG_UPD_PRODUCTS] (state, products) {
-    const cache = global.db.elasticCacheCollection
-    for (let prod of products.items) { // we store each product separately in cache to have offline acces for products/single method
-      const cacheKey = entityKeyName('id', prod.id)
-      cache.setItem(cacheKey, prod).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
-    }
     state.list = products // extract fields from ES _source
   },
-  [types.CATALOG_UPD_SELECTED_VARIANT] (state, product) {
-    state.product_selected_variant = product
+  [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {
+    state.current = product
+  },
+  [types.CATALOG_SET_PRODUCT_ORIGINAL] (state, product) {
+    state.original = product
+  },
+  [types.CATALOG_RESET_PRODUCT] (state, productOriginal) {
+    state.current = productOriginal || {}
+    state.current_configuration = {}
+    state.current_options = {color: [], size: []}
   }
-
 }
 
 export default {
