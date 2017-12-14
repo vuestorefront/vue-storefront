@@ -8,9 +8,8 @@
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
-import { breadCrumbRoutes, thumbnail } from 'src/lib/filters'
+import { thumbnail } from 'src/lib/filters'
 import EventBus from 'src/event-bus'
-
 import { mapGetters } from 'vuex'
 
 /**
@@ -65,40 +64,8 @@ function fetchData (store, route) {
   return store.dispatch('product/single', { options: productSingleOptions }).then((product) => {
     let subloaders = store.state.product.subloaders || []
     if (product) {
-      let setbrcmb = (path) => {
-        if (path.findIndex(itm => {
-          return itm.slug === store.state.category.current.slug
-        }) < 0) {
-          path.push({
-            slug: store.state.category.current.slug,
-            name: store.state.category.current.name
-          }) // current category at the end
-        }
-        store.dispatch('meta/set', { title: product.name })
-        store.state.product.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
-      }
-      // TODO: Fix it when product is enterd from outside the category page
-      let currentPath = store.state.category.current_path
-      let currentCat = store.state.category.current
+      subloaders.push(store.dispatch('product/setupBreadcrumbs', { product: product }))
 
-      if (currentPath.length > 0 && currentCat) {
-        setbrcmb(currentPath)
-      } else {
-        if (product.category && product.category.length > 0) {
-          let cat = product.category[product.category.length - 1]
-
-          subloaders.push(
-            store.dispatch('category/list', {}).then((categories) => {
-              store.dispatch('category/single', { key: 'id', value: cat.category_id }).then((category) => { // this sets up category path and current category
-                setbrcmb(store.state.category.current_path)
-              }).catch(err => {
-                console.error(err)
-              })
-            })
-          )
-        }
-      }
-      store.state.product.breadcrumbs.name = product.name
       subloaders.push(store.dispatch('attribute/list', { // load attributes to be shown on the product details
         filterValues: [true],
         filterField: 'is_user_defined'

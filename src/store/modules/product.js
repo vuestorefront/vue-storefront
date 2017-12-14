@@ -3,6 +3,7 @@ const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from 'src/store/modules/attribute'
+import { breadCrumbRoutes } from 'src/lib/filters'
 
 function calculateProductTax (product, taxClasses) {
   let rateFound = false
@@ -160,6 +161,49 @@ const actions = {
   reset (context) {
     const productOriginal = context.getters.productOriginal
     context.commit(types.CATALOG_RESET_PRODUCT, productOriginal)
+  },
+
+  /**
+   * Setup product breadcrumbs path
+   */
+  setupBreadcrumbs (context, { product }) {
+    let subloaders = []
+    let setbrcmb = (path) => {
+      if (path.findIndex(itm => {
+        return itm.slug === context.rootState.category.current.slug
+      }) < 0) {
+        path.push({
+          slug: context.rootState.category.current.slug,
+          name: context.rootState.category.current.name
+        }) // current category at the end
+      }
+      context.dispatch('meta/set', { title: product.name }, { root: true })
+      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
+    }
+    // TODO: Fix it when product is enterd from outside the category page
+    let currentPath = context.rootState.category.current_path
+    let currentCat = context.rootState.category.current
+
+    if (currentPath.length > 0 && currentCat) {
+      setbrcmb(currentPath)
+    } else {
+      if (product.category && product.category.length > 0) {
+        let cat = product.category[product.category.length - 1]
+
+        subloaders.push(
+          context.dispatch('category/list', {}, { root: true }).then((categories) => {
+            context.dispatch('category/single', { key: 'id', value: cat.category_id }, { root: true }).then((category) => { // this sets up category path and current category
+              setbrcmb(context.rootState.category.current_path)
+            }).catch(err => {
+              console.error(err)
+            })
+          }, { root: true })
+        )
+      }
+    }
+    context.state.breadcrumbs.name = product.name
+
+    return Promise.all(subloaders)
   },
 
   /**
