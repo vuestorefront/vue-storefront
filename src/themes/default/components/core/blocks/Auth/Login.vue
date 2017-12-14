@@ -94,8 +94,12 @@ export default {
         })
         return
       }
+
+      this.$bus.$emit('notification-progress-start', 'Authorization in progress ...')
       this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
         console.log(result)
+        this.$bus.$emit('notification-progress-stop', {})
+
         if (result.code !== 200) {
           this.$bus.$emit('notification', {
             type: 'error',
@@ -112,6 +116,7 @@ export default {
         }
       }).catch(err => {
         console.error(err)
+        this.$bus.$emit('notification-progress-stop')
       })
     }
   },
