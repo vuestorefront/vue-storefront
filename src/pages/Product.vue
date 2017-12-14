@@ -16,11 +16,15 @@ import { mapGetters } from 'vuex'
  * User selected specific color x size (or other attributes) variant
  */
 function filterChanged (filterOption) { // slection of product variant on product page
+  EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+
   this.configuration[filterOption.attribute_code] = filterOption
   this.$store.dispatch('product/configure', {
     product: this.product,
     configuration: this.configuration
   }).then((selectedVariant) => {
+    EventBus.$emit('product-after-configure', { filterOption: filterOption, selectedVariant: selectedVariant, configuration: this.configuration })
+
     if (!selectedVariant) {
       this.$bus.$emit('notification', {
         type: 'warning',
@@ -62,7 +66,7 @@ function fetchData (store, route) {
     sku: route && route.params && route.params.sku ? route.params.sku : null
   }
   return store.dispatch('product/single', { options: productSingleOptions }).then((product) => {
-    let subloaders = store.state.product.subloaders || []
+    let subloaders = []
     if (product) {
       subloaders.push(store.dispatch('product/setupBreadcrumbs', { product: product }))
 
