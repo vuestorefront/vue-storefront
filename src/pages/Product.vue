@@ -79,41 +79,43 @@ function fetchData (store, route) {
   })
 }
 
+/**
+ * Load data required for this view
+ */
+function loadData ({ store, route }) {
+  return new Promise((resolve, reject) => {
+    EventBus.$emit('product-before-load', { store: store, route: route })
+
+    store.dispatch('product/reset').then(() => {
+      fetchData(store, route).then((subpromises) => {
+        Promise.all(subpromises).then(subresults => {
+          EventBus.$emit('product-after-load', { store: store, route: route })
+          return resolve()
+        }).catch(errs => {
+          console.error(errs)
+          return resolve()
+        })
+      }).catch(err => {
+        console.error(err)
+        return resolve()
+      })
+    })
+  })
+}
+
 export default {
   name: 'Home',
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return loadData({ store: store, route: route })
+  },
   methods: {
     validateRoute () {
       let inst = this
-      this.loading = true
-      this.$store.dispatch('product/reset').then(() => {
-        fetchData(inst.$store, inst.$route).then((subpromises) => {
-          Promise.all(subpromises).then(subresults => {
-            EventBus.$emit('product-after-load', { product: inst.product, page: inst })
-            inst.loading = false
-          }).catch(errs => {
-            console.error(errs)
-          })
-        })
+      inst.loading = true
+      loadData({ store: this.$store, route: this.$route }).then((res) => {
+        inst.loading = false
       })
     }
-  },
-
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      store.dispatch('product/reset').then(() => {
-        fetchData(store, route).then((subpromises) => {
-          Promise.all(subpromises).then(subresults => {
-            return resolve()
-          }).catch(errs => {
-            console.error(errs)
-            return resolve()
-          })
-        }).catch(err => {
-          console.error(err)
-          return resolve()
-        })
-      })
-    })
   },
   watch: {
     '$route': 'validateRoute'
