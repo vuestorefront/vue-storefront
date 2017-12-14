@@ -66,7 +66,9 @@ export default {
         return
       }
 
+      this.$bus.$emit('notification-progress-start', 'Reseting the password ... ')
       this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
+        this.$bus.$emit('notification-progress-stop')
         if (response.code === 200) {
           this.passwordSent = true
         } else {
@@ -76,6 +78,9 @@ export default {
             action1: { label: 'OK', action: 'close' }
           })
         }
+      }).catch((err) => {
+        console.error(err)
+        this.$bus.$emit('notification-progress-stop')
       })
     },
     switchElem () {
