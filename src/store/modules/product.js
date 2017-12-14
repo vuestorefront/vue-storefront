@@ -2,6 +2,8 @@ import * as types from '../mutation-types'
 const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
+import { optionLabel } from 'src/store/modules/attribute'
+import { breadCrumbRoutes } from 'src/lib/filters'
 
 function calculateProductTax (product, taxClasses) {
   let rateFound = false
@@ -159,6 +161,91 @@ const actions = {
   reset (context) {
     const productOriginal = context.getters.productOriginal
     context.commit(types.CATALOG_RESET_PRODUCT, productOriginal)
+  },
+
+  /**
+   * Setup product breadcrumbs path
+   */
+  setupBreadcrumbs (context, { product }) {
+    let subloaders = []
+    let setbrcmb = (path) => {
+      if (path.findIndex(itm => {
+        return itm.slug === context.rootState.category.current.slug
+      }) < 0) {
+        path.push({
+          slug: context.rootState.category.current.slug,
+          name: context.rootState.category.current.name
+        }) // current category at the end
+      }
+      context.dispatch('meta/set', { title: product.name }, { root: true })
+      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
+    }
+    // TODO: Fix it when product is enterd from outside the category page
+    let currentPath = context.rootState.category.current_path
+    let currentCat = context.rootState.category.current
+
+    if (currentPath.length > 0 && currentCat) {
+      setbrcmb(currentPath)
+    } else {
+      if (product.category && product.category.length > 0) {
+        let cat = product.category[product.category.length - 1]
+
+        subloaders.push(
+          context.dispatch('category/list', {}, { root: true }).then((categories) => {
+            context.dispatch('category/single', { key: 'id', value: cat.category_id }, { root: true }).then((category) => { // this sets up category path and current category
+              setbrcmb(context.rootState.category.current_path)
+            }).catch(err => {
+              console.error(err)
+            })
+          }, { root: true })
+        )
+      }
+    }
+    context.state.breadcrumbs.name = product.name
+
+    return Promise.all(subloaders)
+  },
+
+  /**
+   * Setup product current variants
+   */
+  setupVariants (context, { product }) {
+    let subloaders = []
+    if (product.type_id === 'configurable') {
+      const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
+      subloaders.push(context.dispatch('attribute/list', {
+        filterValues: configurableAttrIds,
+        filterField: 'attribute_id'
+      }, { root: true }).then((attributes) => {
+        for (let option of product.configurable_options) {
+          for (let ov of option.values) {
+            let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
+            context.state.current_options[option.label.toLowerCase()].push({
+              label: lb,
+              id: ov.value_index
+            })
+          }
+        }
+        // todo: this doesn't populate product.current_configuration
+        let selectedVariant = context.state.current
+        for (let option of product.configurable_options) {
+          let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+          if (selectedVariant.custom_attributes) {
+            let selectedOption = selectedVariant.custom_attributes.find((a) => {
+              return (a.attribute_code === attr.attribute_code)
+            })
+            context.state.current_configuration[attr.attribute_code] = {
+              attribute_code: attr.attribute_code,
+              id: selectedOption.value,
+              label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+            }
+          }
+        }
+      }).catch(err => {
+        console.error(err)
+      }))
+    }
+    return Promise.all(subloaders)
   },
   /**
    * Search ElasticSearch catalog of products using simple text query

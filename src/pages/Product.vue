@@ -8,19 +8,24 @@
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
-import { breadCrumbRoutes, thumbnail } from 'src/lib/filters'
-import { optionLabel } from 'src/store/modules/attribute'
+import { thumbnail } from 'src/lib/filters'
 import EventBus from 'src/event-bus'
-
 import { mapGetters } from 'vuex'
 
+/**
+ * User selected specific color x size (or other attributes) variant
+ */
 function filterChanged (filterOption) { // slection of product variant on product page
+  EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+
   this.configuration[filterOption.attribute_code] = filterOption
   this.$store.dispatch('product/configure', {
     product: this.product,
     configuration: this.configuration
   }).then((selectedVariant) => {
-    if (!selectedVariant) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
+    EventBus.$emit('product-after-configure', { filterOption: filterOption, selectedVariant: selectedVariant, configuration: this.configuration })
+
+    if (!selectedVariant) {
       this.$bus.$emit('notification', {
         type: 'warning',
         message: 'No such configuration for the product. Please do choose another combination of attributes.',
@@ -51,11 +56,9 @@ function filterChanged (filterOption) { // slection of product variant on produc
   }))
 }
 
-// function setBreadcrumbs (product, path) {
-//   const categorySlug = this.$store.state.category.current.slug
-//   const categoryName = this.$store.state.category.current.name
-// }
-
+/**
+ * Load the product data
+ */
 function fetchData (store, route) {
   // pass both id and sku to render a product
   const productSingleOptions = {
@@ -63,81 +66,16 @@ function fetchData (store, route) {
     sku: route && route.params && route.params.sku ? route.params.sku : null
   }
   return store.dispatch('product/single', { options: productSingleOptions }).then((product) => {
-    let subloaders = store.state.product.subloaders || []
+    let subloaders = []
     if (product) {
-      let setbrcmb = (path) => {
-        if (path.findIndex(itm => {
-          return itm.slug === store.state.category.current.slug
-        }) < 0) {
-          path.push({
-            slug: store.state.category.current.slug,
-            name: store.state.category.current.name
-          }) // current category at the end
-        }
-        store.dispatch('meta/set', { title: product.name })
-        store.state.product.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
-      }
-      // TODO: Fix it when product is enterd from outside the category page
-      let currentPath = store.state.category.current_path
-      let currentCat = store.state.category.current
+      subloaders.push(store.dispatch('product/setupBreadcrumbs', { product: product }))
 
-      if (currentPath.length > 0 && currentCat) {
-        setbrcmb(currentPath)
-      } else {
-        if (product.category && product.category.length > 0) {
-          let cat = product.category[product.category.length - 1]
-
-          subloaders.push(
-            store.dispatch('category/list', {}).then((categories) => {
-              store.dispatch('category/single', { key: 'id', value: cat.category_id }).then((category) => { // this sets up category path and current category
-                setbrcmb(store.state.category.current_path)
-              }).catch(err => {
-                console.error(err)
-              })
-            })
-          )
-        }
-      }
-      store.state.product.breadcrumbs.name = product.name
       subloaders.push(store.dispatch('attribute/list', { // load attributes to be shown on the product details
         filterValues: [true],
         filterField: 'is_user_defined'
       }))
 
-      if (product.type_id === 'configurable') {
-        const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
-        subloaders.push(store.dispatch('attribute/list', {
-          filterValues: configurableAttrIds,
-          filterField: 'attribute_id'
-        }).then((attributes) => {
-          for (let option of product.configurable_options) {
-            for (let ov of option.values) {
-              let lb = optionLabel(store.state.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
-              store.state.product.current_options[option.label.toLowerCase()].push({
-                label: lb,
-                id: ov.value_index
-              })
-            }
-          }
-          // todo: this doesn't populate product.current_configuration
-          let selectedVariant = store.state.product.current
-          for (let option of product.configurable_options) {
-            let attr = store.state.attribute.list_by_id[option.attribute_id]
-            if (selectedVariant.custom_attributes) {
-              let selectedOption = selectedVariant.custom_attributes.find((a) => {
-                return (a.attribute_code === attr.attribute_code)
-              })
-              store.state.product.current_configuration[attr.attribute_code] = {
-                attribute_code: attr.attribute_code,
-                id: selectedOption.value,
-                label: optionLabel(store.state.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
-              }
-            }
-          }
-        }).catch(err => {
-          console.error(err)
-        }))
-      }
+      subloaders.push(store.dispatch('product/setupVariants', { product: product }))
     } else { // error or redirect
 
     }
@@ -145,41 +83,43 @@ function fetchData (store, route) {
   })
 }
 
+/**
+ * Load data required for this view
+ */
+function loadData ({ store, route }) {
+  return new Promise((resolve, reject) => {
+    EventBus.$emit('product-before-load', { store: store, route: route })
+
+    store.dispatch('product/reset').then(() => {
+      fetchData(store, route).then((subpromises) => {
+        Promise.all(subpromises).then(subresults => {
+          EventBus.$emit('product-after-load', { store: store, route: route })
+          return resolve()
+        }).catch(errs => {
+          console.error(errs)
+          return resolve()
+        })
+      }).catch(err => {
+        console.error(err)
+        return resolve()
+      })
+    })
+  })
+}
+
 export default {
   name: 'Home',
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return loadData({ store: store, route: route })
+  },
   methods: {
     validateRoute () {
       let inst = this
-      this.loading = true
-      this.$store.dispatch('product/reset').then(() => {
-        fetchData(inst.$store, inst.$route).then((subpromises) => {
-          Promise.all(subpromises).then(subresults => {
-            EventBus.$emit('product-after-load', { product: inst.product, page: inst })
-            inst.loading = false
-          }).catch(errs => {
-            console.error(errs)
-          })
-        })
+      inst.loading = true
+      loadData({ store: this.$store, route: this.$route }).then((res) => {
+        inst.loading = false
       })
     }
-  },
-
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      store.dispatch('product/reset').then(() => {
-        fetchData(store, route).then((subpromises) => {
-          Promise.all(subpromises).then(subresults => {
-            return resolve()
-          }).catch(errs => {
-            console.error(errs)
-            return resolve()
-          })
-        }).catch(err => {
-          console.error(err)
-          return resolve()
-        })
-      })
-    })
   },
   watch: {
     '$route': 'validateRoute'
@@ -197,7 +137,8 @@ export default {
       attributesByUd: 'attribute/attributeListById',
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
-      options: 'product/currentOptions'
+      options: 'product/currentOptions',
+      category: 'category/current'
     }),
     imgObj () {
       return {

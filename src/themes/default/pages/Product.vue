@@ -96,6 +96,8 @@ export default {
       }
     }
   },
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  },
   methods: {
     addToFavorite () {
       let self = this

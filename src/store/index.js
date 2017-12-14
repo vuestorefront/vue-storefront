@@ -6,10 +6,10 @@ import * as types from './mutation-types'
 import UniversalStorage from '../lib/storage'
 
 Vue.prototype.$db = {
-  ordersCollection: localForage.createInstance({
+  ordersCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders'
-  }),
+  })),
 
   categoriesCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
@@ -21,10 +21,10 @@ Vue.prototype.$db = {
     storeName: 'attributes'
   })),
 
-  cartsCollection: localForage.createInstance({
+  cartsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'carts'
-  }),
+  })),
 
   elasticCacheCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
@@ -56,10 +56,10 @@ Vue.prototype.$db = {
     storeName: 'syncTasks'
   })),
 
-  checkoutFieldsCollection: localForage.createInstance({
+  checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'checkoutFieldValues'
-  })
+  }))
 }
 
 global.db = Vue.prototype.$db // localForage instance

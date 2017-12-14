@@ -26,7 +26,6 @@ const store = {
       } else {
         record.qty++
       }
-      console.log(state.cartItems)
     },
     [types.CART_SAVE] (state) {
       state.cartSavedAt = new Date()
