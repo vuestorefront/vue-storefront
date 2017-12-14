@@ -27,7 +27,7 @@ export default {
     this.$bus.$on('product-after-configured', (config) => {
       this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, updateCurrentProduct: false }).then((selectedVariant) => {
         if (selectedVariant) {
-          // this.$forceUpdate()
+          Object.assign(this.product, selectedVariant)
         }
       })
     })

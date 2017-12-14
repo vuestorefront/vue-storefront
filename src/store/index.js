@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as types from './mutation-types'
-
-// import * as types from './mutation-types'
 import * as localForage from 'localforage'
+
+import * as types from './mutation-types'
 import UniversalStorage from '../lib/storage'
 
 Vue.prototype.$db = {
