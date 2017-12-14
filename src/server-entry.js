@@ -1,8 +1,12 @@
 import { createApp } from './app'
+import EventBus from 'src/event-bus'
 
 export default context => {
   return new Promise((resolve, reject) => {
     const { app, router, store } = createApp()
+    EventBus.$on('product.not-exist', () => {
+      router.push({ name: 'page-not-found' })
+    })
     router.push(context.url)
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()

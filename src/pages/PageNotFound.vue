@@ -1,5 +1,7 @@
 <template>
-  <div class="page-not-found">Page is not found</div>
+  <div id="page_not_found">
+    Core PageNotFound
+  </div>
 </template>
 
 <script>

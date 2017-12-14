@@ -27,7 +27,8 @@ const routes = [
     { name: 'returns', path: '/returns', component: Static, props: {page: 'lorem', title: 'Returns policy'} },
     { name: 'order-from-catalog', path: '/order-from-catalog', component: Static, props: {page: 'lorem', title: 'Order from catalog'} },
     { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
-    { name: 'page-not-found', path: '*', component: PageNotFound }
+    { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
+    { path: '*', redirect: 'page-not-found' }
 ]
 
 export default function (app, router, store) {

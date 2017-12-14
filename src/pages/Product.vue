@@ -142,6 +142,8 @@ function fetchData (store, route) {
 
     }
     return subloaders
+  }).catch((err) => {
+    throw new Error('Product is not found', err)
   })
 }
 
@@ -156,8 +158,6 @@ export default {
           Promise.all(subpromises).then(subresults => {
             EventBus.$emit('product-after-load', { product: inst.product, page: inst })
             inst.loading = false
-          }).catch(errs => {
-            console.error(errs)
           })
         })
       })
@@ -171,11 +171,11 @@ export default {
           Promise.all(subpromises).then(subresults => {
             return resolve()
           }).catch(errs => {
-            console.error(errs)
-            return resolve()
+            return reject(Error(errs))
           })
         }).catch(err => {
           console.error(err)
+          EventBus.$emit('product.not-exist')
           return resolve()
         })
       })

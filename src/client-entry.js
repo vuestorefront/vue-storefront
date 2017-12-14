@@ -38,6 +38,11 @@ router.onReady(() => {
 })
 // TODO: Move the order queue here from service worker!
 import EventBus from 'src/event-bus'
+
+EventBus.$on('product.not-exist', () => {
+  router.push({ name: 'page-not-found' })
+})
+
 /*
  * serial executes Promises sequentially.
  * @param {funcs} An array of funcs that return promises.
