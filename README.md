@@ -42,10 +42,6 @@ The application is prepared to be fully customized in design through theming sys
 With the current version we work on raw, basic template of typical eCommerce for a fashion industry.
 In the project we used [Material Icons](https://github.com/google/material-design-icons).
 
-To make the prototype more realistic we used H&M brand and products in our concept design. The graphics and photos from the H&M concept visualisation are not included, they are the exclusive property of the [H&M fashion brand](http://www.hm.com/).
-
-<img width="1440" alt="1" src="https://user-images.githubusercontent.com/18116406/31016336-89a075bc-a524-11e7-9855-f385bf140f55.png">
-
 <img width="880" alt="Vue Storefront - Annimations in sidebar menu" src="https://user-images.githubusercontent.com/18116406/33559404-ed674bcc-d90c-11e7-864a-91e42d1c92cd.gif">
 
 <img width="880" alt="Vue Storefront - Annimations in featured products box" src="https://user-images.githubusercontent.com/18116406/33559277-920deb00-d90c-11e7-95e6-ffd55a36a5c6.gif">
@@ -64,11 +60,5 @@ If you like the idea behind Vue Storefront and want to become a contributor - do
 
 <img width="880" alt="Vue Storefront - Annimations in the sidebar cart" src="https://user-images.githubusercontent.com/18116406/33559769-2840fb70-d90e-11e7-8f2b-298f35d1b412.gif">
 
-<img width="880" alt="Vue Storefront - Annimations on producy card" src="https://user-images.githubusercontent.com/18116406/33560504-3105dac6-d910-11e7-847d-70ef8e944321.gif">
-
-<img width="1440" alt="2" src="https://user-images.githubusercontent.com/18116406/31016666-eafb3fee-a525-11e7-9317-18ec3f91aaf1.png">
-
-<img width="1440" alt="3" src="https://user-images.githubusercontent.com/18116406/31016669-ef97db8e-a525-11e7-858d-debe7c42d36e.png">
-
-<img width="1440" alt="4" src="https://user-images.githubusercontent.com/18116406/31016670-f240aaa0-a525-11e7-97be-f5b931f42e4c.png">
+<img width="880" alt="Vue Storefront - Annimations on producy card" src="https://user-images.githubusercontent.com/18116406/33560504-3105dac6-d910-11e7-847d-70ef8e944321.gif">]
 
