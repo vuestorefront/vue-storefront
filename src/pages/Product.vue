@@ -9,18 +9,20 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
 import { breadCrumbRoutes, thumbnail } from 'src/lib/filters'
-import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus'
 
 import { mapGetters } from 'vuex'
 
+/**
+ * User selected specific color x size (or other attributes) variant
+ */
 function filterChanged (filterOption) { // slection of product variant on product page
   this.configuration[filterOption.attribute_code] = filterOption
   this.$store.dispatch('product/configure', {
     product: this.product,
     configuration: this.configuration
   }).then((selectedVariant) => {
-    if (!selectedVariant) { // TODO: add fancy modal here regarding https://github.com/DivanteLtd/vue-storefront/issues/73
+    if (!selectedVariant) {
       this.$bus.$emit('notification', {
         type: 'warning',
         message: 'No such configuration for the product. Please do choose another combination of attributes.',
@@ -51,11 +53,9 @@ function filterChanged (filterOption) { // slection of product variant on produc
   }))
 }
 
-// function setBreadcrumbs (product, path) {
-//   const categorySlug = this.$store.state.category.current.slug
-//   const categoryName = this.$store.state.category.current.name
-// }
-
+/**
+ * Load the product data
+ */
 function fetchData (store, route) {
   // pass both id and sku to render a product
   const productSingleOptions = {
@@ -104,40 +104,7 @@ function fetchData (store, route) {
         filterField: 'is_user_defined'
       }))
 
-      if (product.type_id === 'configurable') {
-        const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
-        subloaders.push(store.dispatch('attribute/list', {
-          filterValues: configurableAttrIds,
-          filterField: 'attribute_id'
-        }).then((attributes) => {
-          for (let option of product.configurable_options) {
-            for (let ov of option.values) {
-              let lb = optionLabel(store.state.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
-              store.state.product.current_options[option.label.toLowerCase()].push({
-                label: lb,
-                id: ov.value_index
-              })
-            }
-          }
-          // todo: this doesn't populate product.current_configuration
-          let selectedVariant = store.state.product.current
-          for (let option of product.configurable_options) {
-            let attr = store.state.attribute.list_by_id[option.attribute_id]
-            if (selectedVariant.custom_attributes) {
-              let selectedOption = selectedVariant.custom_attributes.find((a) => {
-                return (a.attribute_code === attr.attribute_code)
-              })
-              store.state.product.current_configuration[attr.attribute_code] = {
-                attribute_code: attr.attribute_code,
-                id: selectedOption.value,
-                label: optionLabel(store.state.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
-              }
-            }
-          }
-        }).catch(err => {
-          console.error(err)
-        }))
-      }
+      subloaders.push(store.dispatch('product/setupVariants', { product: product }))
     } else { // error or redirect
 
     }
@@ -197,7 +164,8 @@ export default {
       attributesByUd: 'attribute/attributeListById',
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
-      options: 'product/currentOptions'
+      options: 'product/currentOptions',
+      category: 'category/current'
     }),
     imgObj () {
       return {

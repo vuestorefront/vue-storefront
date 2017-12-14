@@ -16,7 +16,6 @@ import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus'
 
 function filterChanged (filterOption) { // slection of product variant on product page
-  console.log(filterOption)
   if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string
     delete this.filterSet[filterOption.attribute_code]
   } else {

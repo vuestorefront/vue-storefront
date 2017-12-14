@@ -2,6 +2,7 @@ import * as types from '../mutation-types'
 const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
+import { optionLabel } from 'src/store/modules/attribute'
 
 function calculateProductTax (product, taxClasses) {
   let rateFound = false
@@ -159,6 +160,48 @@ const actions = {
   reset (context) {
     const productOriginal = context.getters.productOriginal
     context.commit(types.CATALOG_RESET_PRODUCT, productOriginal)
+  },
+
+  /**
+   * Setup product current variants
+   */
+  setupVariants (context, { product }) {
+    let subloaders = []
+    if (product.type_id === 'configurable') {
+      const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
+      subloaders.push(context.dispatch('attribute/list', {
+        filterValues: configurableAttrIds,
+        filterField: 'attribute_id'
+      }, { root: true }).then((attributes) => {
+        for (let option of product.configurable_options) {
+          for (let ov of option.values) {
+            let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
+            context.state.current_options[option.label.toLowerCase()].push({
+              label: lb,
+              id: ov.value_index
+            })
+          }
+        }
+        // todo: this doesn't populate product.current_configuration
+        let selectedVariant = context.state.current
+        for (let option of product.configurable_options) {
+          let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+          if (selectedVariant.custom_attributes) {
+            let selectedOption = selectedVariant.custom_attributes.find((a) => {
+              return (a.attribute_code === attr.attribute_code)
+            })
+            context.state.current_configuration[attr.attribute_code] = {
+              attribute_code: attr.attribute_code,
+              id: selectedOption.value,
+              label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+            }
+          }
+        }
+      }).catch(err => {
+        console.error(err)
+      }))
+    }
+    return Promise.all(subloaders)
   },
   /**
    * Search ElasticSearch catalog of products using simple text query
