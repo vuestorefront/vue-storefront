@@ -25,7 +25,7 @@
     </div>
     <tile-links />
   </section>
-
+  <Onboard/>
   </div>
 </template>
 
@@ -39,6 +39,7 @@ import ProductTile from '../components/core/ProductTile.vue'
 
 import TileLinks from '../components/theme/blocks/TileLinks/TileLinks.vue'
 import Collection from '../components/theme/blocks/Collection/Collection'
+import Onboard from '../components/theme/blocks/Home/Onboard.vue'
 
 export default {
   created () {
@@ -89,8 +90,15 @@ export default {
     ProductTile,
     MainSlider,
     TileLinks,
-    Collection
+    Collection,
+    Onboard
   },
   mixins: [corePage('Home')]
 }
 </script>
+
+<style lang="scss" scoped>
+  .cool-stuff-collection {
+    mix-blend-mode: darken;
+  }
+</style>
