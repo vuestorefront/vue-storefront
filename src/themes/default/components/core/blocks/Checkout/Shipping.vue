@@ -2,12 +2,18 @@
   <div class="shipping">
     <div class="row">
       <div class="col-md-1 col-xs-2">
-        <div class="number-circle lh40 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">2</div>
+        <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">2</div>
       </div>
       <div class="col-md-11 col-xs-10">
         <div class="row">
-          <div class="col-md-12 mb15" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 @click="edit" class="mt5" :class="{'section-editable' : isFilled && !isActive, 'section-disabled' : !isFilled && !isActive }">Shipping</h3>
+          <div class="col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
+            <h3 class="mt0">Shipping</h3>
+          </div>
+          <div class="col-md-6 pr30">
+            <div class="lh30 flex end-xs" v-if="isFilled && !isActive">
+              <a href="#" class="c-lightgray-secondary pr5" @click.prevent="edit">Edit shipping</a>
+              <i class="material-icons c-lightgray-secondary">edit</i>
+            </div>
           </div>
         </div>
         <div class="row" v-show="this.isActive">
@@ -62,59 +68,25 @@
           </div>
         </div>
         <div class="row fs16 mb35" v-show="isFilled">
-          <div class="col-xs-12">
-
-            <div class="row">
-              <div class="col-md-6 ">
-                <strong>First name</strong><br>
-                {{ shipping.firstName }}
-              </div>
-              <div class="col-md-6 ">
-                <strong>Last name</strong><br>
-                {{ shipping.lastName }}
-              </div>
-            </div>
-
-            <div class="row mt15">
-              <div class="col-md-6 ">
-                <strong>Street address</strong><br>
+          <div class="col-xs-12 h4">
+              <p>
+                {{ shipping.firstName }} {{ shipping.lastName }}
+              </p>
+              <p>
                 {{ shipping.streetAddress }}
-              </div>
-              <div class="col-md-6" v-show="shipping.apartmentNumber">
-                <strong>Apartment number</strong><br>
-                {{ shipping.apartmentNumber }}
-              </div>
-            </div>
-
-            <div class="row mt15">
-              <div class="col-md-6 ">
-                <strong>City</strong><br>
-                {{ shipping.city }}
-              </div>
-              <div class="col-md-6" v-show="shipping.state">
-                <strong>State / Province</strong><br>
-                {{ shipping.state }}
-              </div>
-            </div>
-
-            <div class="row mt15">
-              <div class="col-md-6 ">
-                <strong>Zip Code</strong><br>
-                {{ shipping.zipCode }}
-              </div>
-              <div class="col-md-6 ">
-                <strong>Country</strong><br>
-                {{ shipping.country }}
-              </div>
-            </div>
-
-            <div class="row mt15" v-show="shipping.phoneNumber">
-              <div class="col-md-12 ">
-                <strong>Phone number</strong><br>
-                {{ shipping.phoneNumber }}
-              </div>
-            </div>
-
+                <span v-show="shipping.apartmentNumber"> {{ shipping.apartmentNumber }}</span>
+              </p>
+              <p>
+                {{ shipping.city }} {{ shipping.zipCode }}
+              </p>
+              <p>
+                <span v-show="shipping.state">{{ shipping.state }}</span>
+                <span>, {{ shipping.country }}</span>
+              </p>
+              <p>
+                <span class="pr15">{{ shipping.phoneNumber }}</span>
+                <tooltip>Phone number may be needed by carrier</tooltip>
+              </p>
           </div>
         </div>
       </div>
@@ -128,6 +100,7 @@ import ShippingMethods from 'src/resource/shipping_methods.json'
 import Countries from 'src/resource/countries.json'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import Tooltip from 'theme/components/core/Tooltip.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-contextified-validators
@@ -193,7 +166,8 @@ export default {
     }
   },
   components: {
-    ButtonFull
+    ButtonFull,
+    Tooltip
   },
   mixins: [coreComponent('core/blocks/Checkout/Shipping')]
 }
