@@ -22,12 +22,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~theme/css/global_vars';
+$z-index-notification: map-get($z-index, notification);
+
 .notifications {
   position: fixed;
   top: 100px;
   right: 5%;
   width: 320px;
-  z-index: 10000;
+  z-index: $z-index-notification;
 
   @media (max-width: 64em) {
     width: auto;
