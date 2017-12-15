@@ -1,6 +1,6 @@
 <template>
   <div class="product align-center p15">
-    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug, childSku: product.sku }}">
+    <router-link :to="{ name: 'product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
       <div class="product-image">
         <transition name="fade" appear>
           <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
@@ -27,6 +27,7 @@ export default {
     this.$bus.$on('product-after-configured', (config) => {
       this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, updateCurrentProduct: false }).then((selectedVariant) => {
         if (selectedVariant) {
+          this.product.parentSku = this.product.sku
           Object.assign(this.product, selectedVariant)
         }
       })
