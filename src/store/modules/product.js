@@ -316,7 +316,11 @@ const actions = {
               .query('match', 'id', options.id)
               .build()
           }).then((res) => {
-            if (res && res.items && res.items.length) resolve(setupProduct(res.items[0]))
+            if (res && res.items && res.items.length) {
+              resolve(setupProduct(res.items[0]))
+            } else {
+              reject(Error('Product query returned empty result'))
+            }
           })
         }
       })// .catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })

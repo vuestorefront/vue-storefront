@@ -231,6 +231,9 @@ export default {
                 return resolve()
               })
             })
+          }).catch(err => {
+            console.error(err)
+            return reject(Error(err))
           })
         })
       })
