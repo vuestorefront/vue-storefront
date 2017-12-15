@@ -10,7 +10,7 @@
             <p>Vue Storefront is a PWA storefront  for eCommerce. 
 It is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.</p>
             <p>This demo is synchronized with Magento 2.2.0.</p>
-            <p><strong>If you want to use the solution or join our passionate PWA community - feel free to contact us via <a href="#" class="c-ocean-green">e-mail</a> or <a href="#" class="c-ocean-green">Slack</a>.</strong></p>
+            <p><strong>If you want to use the solution or join our passionate PWA community - feel free to contact us via <a href="mailto:contributors@vuestorefront.io" class="c-ocean-green">e-mail</a> or <a href="https://vuestorefront.slack.com/" class="c-ocean-green">Slack</a>.</strong></p>
             <p>
               <button type="button" class="show-demo ripple brdr-none bg-ocean-green c-white h4" @click="close">Show me the demo</button>
             </p>
