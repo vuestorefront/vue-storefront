@@ -9,8 +9,8 @@
       </div>
       <p class="mb0">{{ product.name | htmlDecode }}</p>
 
-      <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
-      <span class="price-original lh30 c-gray" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+      <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
+      <span class="price-original lh30 c-gray" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
 
       <span class="lh30 c-gray" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
     </router-link>
@@ -39,7 +39,8 @@ export default {
 @import '~src/themes/default/css/transitions';
 
 .price-special {
-  color: red
+  color: red;
+  margin-right: 5px
 }
 .price-original {
   text-decoration: line-through;

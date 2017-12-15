@@ -49,7 +49,7 @@ function calculateProductTax (product, taxClasses) {
               configurableChild.special_price = 0
             }
 
-            if (configurableChild.priceInclTax < product.priceInclTax) { // always show the lowest price
+            if (configurableChild.priceInclTax < product.priceInclTax || product.price === 0) { // always show the lowest price
               product.priceInclTax = configurableChild.priceInclTax
               product.priceTax = configurableChild.priceTax
               product.price = configurableChild.price
