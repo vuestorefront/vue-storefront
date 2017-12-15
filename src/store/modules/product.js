@@ -117,7 +117,7 @@ const getters = {
   breadcrumbs: (state) => state.breadcrumbs
 }
 
-function configureProductAsync (context, { product, configuration, updateCurrentProduct = true }) {
+function configureProductAsync (context, { product, configuration, selectDefaultVariant = true }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
@@ -143,7 +143,7 @@ function configureProductAsync (context, { product, configuration, updateCurrent
       }
     }) || product.configurable_children[0]
     // use chosen variant
-    if (updateCurrentProduct) {
+    if (selectDefaultVariant) {
       context.dispatch('setCurrent', selectedVariant)
     }
     return selectedVariant
@@ -193,7 +193,6 @@ const actions = {
             for (let cat of product.category.reverse()) {
               let category = categories.items.find((itm) => { return itm['id'] === cat.category_id })
               if (category) {
-                console.log(category)
                 context.dispatch('category/single', { key: 'id', value: category.id }, { root: true }).then((category) => { // this sets up category path and current category
                   setbrcmb(context.rootState.category.current_path)
                 }).catch(err => {
@@ -218,12 +217,23 @@ const actions = {
   setupAssociated (context, { product }) {
     let subloaders = []
     if (product.type_id === 'grouped') {
+      product.price = 0
+      product.priceInclTax = 0
+      console.log(product.name + ' SETUP ASSOCIATED')
       for (let pl of product.product_links) {
-        if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // TODO: add support for more sophisticated grouped products here
-          subloaders.push(context.dispatch('product/single', { // add support to get product by sku or id; as for now we add support for both - by SKU and by ID for product single
-            sku: pl.linked_product_sku
-          }, { root: true }).then((linkedProduct) => {
-          }))
+        if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
+          console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
+          context.dispatch('single', {
+            options: { sku: pl.linked_product_sku },
+            setCurrentProduct: false,
+            selectDefaultVariant: false
+          }).catch(err => { console.log('err'); console.error(err) }).then((asocProd) => {
+            pl.product = asocProd
+            pl.product.qty = 1
+            product.price += pl.product.price
+            product.priceInclTax += pl.product.priceInclTax
+            product.tax += pl.product.tax
+          })
         }
       }
     }
@@ -279,7 +289,7 @@ const actions = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku' }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true }) {
     return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
@@ -293,6 +303,9 @@ const actions = {
             .catch((err) => {
               console.error('Cannot store cache for ' + cacheKey + ', ' + err)
             })
+          if (prod.type_id === 'grouped' && prefetchGroupProducts) {
+            context.dispatch('setupAssociated', { product: prod })
+          }
         }
         // commit update products list mutation
         context.commit(types.CATALOG_UPD_PRODUCTS, resp)
@@ -326,15 +339,19 @@ const actions = {
         }
         const setupProduct = (prod) => {
           // set original product
-          context.dispatch('setOriginal', prod)
+          if (setCurrentProduct) {
+            context.dispatch('setOriginal', prod)
+          }
           // check is prod has configurable children
           const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
           // set current product - configurable or not
           if (prod.type_id === 'configurable' && hasConfigurableChildren) {
             // set first available configuration
             // todo: probably a good idea is to change this [0] to specific id
-            configureProductAsync(context, { product: prod, configuration: { sku: options.childSku } })
-          } else context.dispatch('setCurrent', prod)
+            configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant })
+          } else {
+            if (setCurrentProduct) context.dispatch('setCurrent', prod)
+          }
           return prod
         }
         if (res !== null) {
@@ -344,7 +361,8 @@ const actions = {
           context.dispatch('list', {
             query: bodybuilder()
               .query('match', key, options[key])
-              .build()
+              .build(),
+            prefetchGroupProducts: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
               resolve(setupProduct(res.items[0]))

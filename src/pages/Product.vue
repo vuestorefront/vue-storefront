@@ -76,6 +76,7 @@ function fetchData (store, route) {
       }))
 
       subloaders.push(store.dispatch('product/setupVariants', { product: product }))
+      subloaders.push(store.dispatch('product/setupAssociated', { product: product }))
     } else { // error or redirect
 
     }
