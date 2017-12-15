@@ -80,6 +80,8 @@ function fetchData (store, route) {
 
     }
     return subloaders
+  }).catch((err) => {
+    throw new Error(err)
   })
 }
 
@@ -101,7 +103,7 @@ function loadData ({ store, route }) {
         })
       }).catch(err => {
         console.error(err)
-        return resolve()
+        return reject(Error(err))
       })
     })
   })

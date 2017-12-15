@@ -65,7 +65,8 @@ app.get('*', (req, res) => {
 
   const errorHandler = err => {
     if (err && err.code === 404) {
-      res.status(404).end('404 | Page Not Found')
+      // res.status(404).end('404 | Page Not Found')
+      res.redirect('/page-not-found')
     } else {
       // Render Error Page or Redirect
       res.status(500).end('500 | Internal Server Error')
