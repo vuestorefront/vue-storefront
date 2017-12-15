@@ -19,9 +19,6 @@ import { coreComponent } from 'lib/themes'
 import Product from './Product'
 
 export default {
-  created () {
-    console.log('WI: ', this.items)
-  },
   components: {
     Product
   },

@@ -1,0 +1,64 @@
+
+<svg width="50" height="60" viewBox="0 0 50 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Canvas" transform="translate(-784 -9459)">
+<g id="Logo">
+<g id="Vector 2">
+<use xlink:href="#path0_fill" transform="translate(788.266 9471.6)" fill="url(#paint0_linear)"/>
+</g>
+<g id="Vector 2">
+<use xlink:href="#path1_fill" transform="translate(784 9476.25)" fill="url(#paint1_linear)"/>
+</g>
+<g id="Vector 3">
+<use xlink:href="#path2_fill" transform="translate(787.593 9471.6)" fill="url(#paint2_linear)"/>
+</g>
+<g id="Ellipse 9">
+<use xlink:href="#path3_fill" transform="translate(796.799 9483.6)" fill="#FFFFFF"/>
+</g>
+<g id="Ellipse 9 (Stroke)">
+<use xlink:href="#path4_fill" transform="translate(795.751 9482.55)" fill="#1B2A3A"/>
+</g>
+<g id="Ellipse 9">
+<use xlink:href="#path3_fill" transform="translate(818.057 9483.6)" fill="#FFFFFF"/>
+</g>
+<g id="Ellipse 9 (Stroke)">
+<use xlink:href="#path4_fill" transform="translate(817.009 9482.55)" fill="#1B2A3A"/>
+</g>
+<g id="Ellipse 10 (Stroke)">
+<use xlink:href="#path5_fill" transform="translate(797.249 9459)" fill="#1B2A3A"/>
+</g>
+<g id="path14">
+<use xlink:href="#path6_fill" transform="matrix(1.33333 0 0 -1.33333 797.698 9510)" fill="#4DBA87"/>
+</g>
+<g id="path18">
+<use xlink:href="#path7_fill" transform="matrix(1.33333 0 0 -1.33333 802.248 9502.02)" fill="#435466"/>
+</g>
+<clipPath id="clip-0" clip-rule="evenodd">
+<path d="M 797.698 9490.05L 820.452 9490.05L 820.452 9510L 797.698 9510L 797.698 9490.05Z" fill="#FFFFFF"/>
+</clipPath>
+<g id="Vue.js_Logo" clip-path="url(#clip-0)">
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.63095e-13 -32.9251 38.3819 1.42159e-06 -0.852601 32.9251)">
+<stop offset="0" stop-color="#41B883"/>
+<stop offset="1" stop-color="#35495E"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(16.2425 39.7502 -46.4912 19.0732 48.2456 -9.53662)">
+<stop offset="0" stop-color="#41B883"/>
+<stop offset="1" stop-color="#35495E"/>
+</linearGradient>
+<linearGradient id="paint2_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.60787e-15 4.65002 -42.5898 2.84731e-16 42.5898 0)">
+<stop offset="0" stop-color="#1B2A3A"/>
+<stop offset="1" stop-color="#365061"/>
+</linearGradient>
+<path id="path0_fill" d="M 41.6168 35.7001L 0 35.7001L 2.99043 0L 38.5017 0L 41.6168 35.7001Z"/>
+<path id="path1_fill" d="M 50 42.7502L 0 42.7502L 3.59281 0L 46.2575 0L 50 42.7502Z"/>
+<path id="path2_fill" d="M 5.46407 2.55001L 0 4.65002L 42.5898 4.65002L 37.5 2.32501L 39.2216 0L 3.59281 0L 5.46407 2.55001Z"/>
+<path id="path3_fill" d="M 3.14371 1.57501C 3.14371 2.44486 2.43997 3.15001 1.57186 3.15001C 0.703744 3.15001 0 2.44486 0 1.57501C 0 0.705154 0.703744 0 1.57186 0C 2.43997 0 3.14371 0.705154 3.14371 1.57501Z"/>
+<path id="path4_fill" fill-rule="evenodd" d="M 5.23952 2.62501C 5.23952 4.07476 4.06661 5.25002 2.61976 5.25002C 1.17291 5.25002 0 4.07476 0 2.62501C 0 1.17526 1.17291 0 2.61976 0C 4.06661 0 5.23952 1.17526 5.23952 2.62501ZM 2.61976 4.20002C 3.48787 4.20002 4.19162 3.49486 4.19162 2.62501C 4.19162 1.75516 3.48787 1.05 2.61976 1.05C 1.75165 1.05 1.0479 1.75516 1.0479 2.62501C 1.0479 3.49486 1.75165 4.20002 2.61976 4.20002Z"/>
+<path id="path5_fill" fill-rule="evenodd" d="M 5.14624 8.80027C 3.24798 13.2274 2.09111 19.282 2.09581 26.1001C 2.09581 26.68 1.62665 27.1501 1.0479 27.1501C 0.469163 27.1501 0 26.68 0 26.1001C 0.00469478 19.0834 1.24391 12.6129 3.21959 7.97374C 4.22354 5.63243 5.48771 3.62853 6.84872 2.2716C 8.26094 0.873661 9.9189 0 11.7515 0C 13.5841 0 15.2421 0.873661 16.6543 2.2716C 18.0153 3.62853 19.2795 5.63243 20.2834 7.97374C 22.2591 12.6129 23.4983 19.0834 23.503 26.1001C 23.503 26.68 23.0338 27.1501 22.4551 27.1501C 21.8763 27.1501 21.4072 26.68 21.4072 26.1001C 21.4119 19.282 20.255 13.2274 18.3568 8.80027C 17.4237 6.60841 16.3815 4.94381 15.1814 3.76553C 14.0325 2.62826 12.8746 2.10001 11.7515 2.10001C 10.6284 2.10001 9.47053 2.62826 8.32163 3.76553C 7.12152 4.94381 6.07926 6.60841 5.14624 8.80027Z"/>
+<path id="path6_fill" d="M 10.5035 14.9626L 8.53293 11.5071L 6.56234 14.9626L -2.06923e-07 14.9626L 8.53293 1.50401e-07L 17.0659 14.9626L 10.5035 14.9626Z"/>
+<path id="path7_fill" d="M 7.09035 8.97752L 5.11976 5.52204L 3.14917 8.97752L -2.12229e-07 8.97752L 5.11976 -1.88002e-07L 10.2395 8.97752L 7.09035 8.97752Z"/>
+</defs>
+</svg>

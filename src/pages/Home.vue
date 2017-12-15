@@ -36,6 +36,7 @@ export default {
             action1: { label: 'OK', action: 'close' }
           })
 
+          this.$bus.$emit('modal.toggle', 'modal-onboard')
           this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
         }
       })

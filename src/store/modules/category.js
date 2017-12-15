@@ -13,6 +13,8 @@ const state = {
 }
 
 const getters = {
+  current: (state) => state.current,
+  list: (state) => state.list
 }
 
 // actions

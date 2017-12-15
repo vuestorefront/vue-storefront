@@ -1,18 +1,22 @@
 <template>
     <transition name="fade-in-down">
-        <div class="modal modal-wrapper flex center-xs middle-xs"
+        <div class="modal"
             v-if="isVisible"
-            ref="modal-wrapper"
+            ref="modal"
             @click.self="close">
-            <div class="modal-container" ref="modal" :style="style">
-                <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray" v-if="$slots.header">
-                    <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
-                    <slot name="header"></slot>
-                </header>
-                <div class="modal-content pt30 pb60 px65 bg-white" v-if="$slots.content">
-                    <slot name="content"></slot>
+            <div class="modal-wrapper">
+                <div class="modal-center">
+                    <div class="modal-container bg-white" ref="modal-content" :style="style">
+                        <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray" v-if="$slots.header">
+                            <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+                            <slot name="header"></slot>
+                        </header>
+                        <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
+                            <slot name="content"></slot>
+                        </div>
+                        <slot/>
+                    </div>
                 </div>
-                <slot/>
             </div>
         </div>
     </transition>
@@ -41,7 +45,7 @@ export default {
 @import '~theme/css/global_vars';
 $z-index-modal: map-get($z-index, modal);
 
-.modal-wrapper {
+.modal {
     position: fixed;
     top: 0;
     right: 0;
@@ -52,15 +56,28 @@ $z-index-modal: map-get($z-index, modal);
     text-align: inherit;
 }
 
+.modal-wrapper {
+    display: table;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    pointer-events: none;
+}
+
+.modal-center {     
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .modal-container {
     width: 945px;
+    margin: 0 auto;
     max-width: 100%;
-    margin: 15px;
+    max-height: 100%;
     z-index: $z-index-modal+1;
+    pointer-events: auto;
 
     @media (max-width: 600px) {
-      display: flex;
-      flex-direction: column;
       min-height: 100%;
       min-width: 100%;
       margin: 0;
@@ -73,10 +90,6 @@ $z-index-modal: map-get($z-index, modal);
     > * {
         margin: 0;
     }
-}
-
-.modal-content {
-    flex: 1;
 }
 
 .modal-close {

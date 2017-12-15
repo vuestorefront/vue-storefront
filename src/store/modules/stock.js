@@ -39,7 +39,6 @@ const actions = {
         product_sku: product.sku,
         callback_event: 'stock-after-check'
       }, { root: true }).then(task => {
-        console.log(product)
         resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: task.task_id }) // if not online, cannot check the source of true here
       })
 
