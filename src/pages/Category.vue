@@ -230,6 +230,9 @@ export default {
               store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
               return resolve()
             })
+          }).catch(err => {
+            console.error(err)
+            return reject(Error(err))
           })
         })
       })

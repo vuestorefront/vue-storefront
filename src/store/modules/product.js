@@ -199,14 +199,13 @@ const actions = {
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
       const cache = global.db.elasticCacheCollection
-      const cacheSearchResult = cache.getItem(cacheKey, (err, res) => {
+      cache.getItem(cacheKey, (err, res) => {
         // report errors
         if (err) {
           console.error({
             info: 'Get item from cache in ./store/modules/product.js',
             err
           })
-          reject(Error('Product is not found in cache'))
         }
         const setupProduct = (prod) => {
           // set original product
@@ -233,22 +232,11 @@ const actions = {
             if (res && res.items && res.items.length) {
               resolve(setupProduct(res.items[0]))
             } else {
-              console.error(err)
-              reject(Error('Product is not found in DB', err))
+              reject(Error('Product query returned empty result'))
             }
-          }).catch((err) => {
-            console.error(err)
-            reject(Error('Product is not found in DB', err))
           })
         }
-      }).catch((err) => {
-        console.error('Cannot read cache for ' + cacheKey + ', ' + err)
-        reject(Error('Cannot read cache for ' + cacheKey + ', ' + err))
-      })
-
-      if (cacheSearchResult === null) {
-        reject(Error('Requested product is not found in indexedDB'))
-      }
+      })// .catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
     })
   },
   /**

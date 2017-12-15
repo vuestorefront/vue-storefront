@@ -143,7 +143,7 @@ function fetchData (store, route) {
     }
     return subloaders
   }).catch((err) => {
-    throw new Error('Product is not found', err)
+    throw new Error(err)
   })
 }
 
@@ -175,8 +175,7 @@ export default {
           })
         }).catch(err => {
           console.error(err)
-          EventBus.$emit('product.not-exist')
-          return resolve()
+          return reject(Error(err))
         })
       })
     })

@@ -109,10 +109,18 @@ const actions = {
 
       if (state.list.length > 0) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
         let category = state.list.find((itm) => { return itm[key] === value })
-        setcat(null, category)
+        // Check if category exists in the store OR we have recursively reached Default category (id=1)
+        if (category || value === 1) {
+          setcat(null, category)
+        } else {
+          reject(Error('Category query returned empty result'))
+        }
       } else {
         const catCollection = global.db.categoriesCollection
-        catCollection.getItem(entityKeyName(key, value), setcat)
+        // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
+        if (!catCollection.getItem(entityKeyName(key, value), setcat) && value !== 1) {
+          reject(Error('Category query returned empty result'))
+        }
       }
     })
   }
