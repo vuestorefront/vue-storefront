@@ -37,6 +37,17 @@
                 </div>
               </div>
             </div>
+            
+            <div class="links py10" v-if="product.type_id =='grouped' && !loading">
+              <div class="row between-md">
+                <div class="col-md-7 py10 link-header">Product name</div>
+                <div class="col-md-4 py10 link-header">Qty</div>
+              </div>
+              <div class="row between-md" v-for="(productLink, index) in product.product_links" :key="index">
+                <div class="col-md-7 product-name px10 py5">{{ productLink.product.name | htmlDecode }}</div>
+                <div class="col-md-4 product-qty px10 py5"><input type="number" autofocus v-model.number="productLink.product.qty" @change="updateQuantity(productLink.product)"/></div>
+              </div>
+            </div>            
             <add-to-cart :product="product" class="h4 bg-black c-white px55 py20 brdr-none" />
             <div class="row pt45">
               <div class="col-xs-6 col-md-5">
@@ -99,6 +110,11 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
   },
   methods: {
+    updateQuantity (product) {
+      if (product.qty <= 0) {
+        product.qty = 1
+      }
+    },
     addToFavorite () {
       let self = this
       if (!self.favorite.isFavorite) {
@@ -136,6 +152,15 @@ export default {
 </script>
 
 <style scoped>
+.link-header {
+  font-weight: bold;
+}
+.product-qty input {
+  width: 30px
+}
+.product-name {
+  font-size: 14px;
+}
 .price-original {
   text-decoration: line-through;
   font-size: smaller;
