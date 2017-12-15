@@ -49,7 +49,7 @@ function calculateProductTax (product, taxClasses) {
               configurableChild.special_price = 0
             }
 
-            if (configurableChild.priceInclTax < product.priceInclTax) { // always show the lowest price
+            if (configurableChild.priceInclTax < product.priceInclTax || product.price === 0) { // always show the lowest price
               product.priceInclTax = configurableChild.priceInclTax
               product.priceTax = configurableChild.priceTax
               product.price = configurableChild.price
@@ -188,21 +188,45 @@ const actions = {
       setbrcmb(currentPath)
     } else {
       if (product.category && product.category.length > 0) {
-        let cat = product.category[product.category.length - 1]
-
         subloaders.push(
           context.dispatch('category/list', {}, { root: true }).then((categories) => {
-            context.dispatch('category/single', { key: 'id', value: cat.category_id }, { root: true }).then((category) => { // this sets up category path and current category
-              setbrcmb(context.rootState.category.current_path)
-            }).catch(err => {
-              console.error(err)
-            })
+            for (let cat of product.category.reverse()) {
+              let category = categories.items.find((itm) => { return itm['id'] === cat.category_id })
+              if (category) {
+                console.log(category)
+                context.dispatch('category/single', { key: 'id', value: category.id }, { root: true }).then((category) => { // this sets up category path and current category
+                  setbrcmb(context.rootState.category.current_path)
+                }).catch(err => {
+                  setbrcmb(context.rootState.category.current_path)
+                  console.error(err)
+                })
+                break
+              }
+            }
           }, { root: true })
         )
       }
     }
     context.state.breadcrumbs.name = product.name
 
+    return Promise.all(subloaders)
+  },
+
+  /**
+   * Setup associated products
+   */
+  setupAssociated (context, { product }) {
+    let subloaders = []
+    if (product.type_id === 'grouped') {
+      for (let pl of product.product_links) {
+        if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // TODO: add support for more sophisticated grouped products here
+          subloaders.push(context.dispatch('product/single', { // add support to get product by sku or id; as for now we add support for both - by SKU and by ID for product single
+            sku: pl.linked_product_sku
+          }, { root: true }).then((linkedProduct) => {
+          }))
+        }
+      }
+    }
     return Promise.all(subloaders)
   },
 
@@ -255,13 +279,16 @@ const actions = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '' }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku' }) {
     return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
         const cache = global.db.elasticCacheCollection
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
-          const cacheKey = entityKeyName('id', prod.id)
+          if (!prod[cacheByKey]) {
+            cacheByKey = 'id'
+          }
+          const cacheKey = entityKeyName(cacheByKey, prod[cacheByKey])
           cache.setItem(cacheKey, prod)
             .catch((err) => {
               console.error('Cannot store cache for ' + cacheKey + ', ' + err)
@@ -280,8 +307,11 @@ const actions = {
    * Search products by specific field
    * @param {Object} options
    */
-  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true }) {
-    const cacheKey = entityKeyName('id', options.id)
+  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku' }) {
+    if (!options[key]) {
+      throw Error('Please provide the search key ' + key + ' for product/single action!')
+    }
+    const cacheKey = entityKeyName(key, options[key])
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
@@ -303,7 +333,7 @@ const actions = {
           if (prod.type_id === 'configurable' && hasConfigurableChildren) {
             // set first available configuration
             // todo: probably a good idea is to change this [0] to specific id
-            configureProductAsync(context, { product: prod, configuration: { sku: options.sku } })
+            configureProductAsync(context, { product: prod, configuration: { sku: options.childSku } })
           } else context.dispatch('setCurrent', prod)
           return prod
         }
@@ -313,7 +343,7 @@ const actions = {
         } else {
           context.dispatch('list', {
             query: bodybuilder()
-              .query('match', 'id', options.id)
+              .query('match', key, options[key])
               .build()
           }).then((res) => {
             if (res && res.items && res.items.length) {

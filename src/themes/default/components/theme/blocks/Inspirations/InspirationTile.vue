@@ -1,6 +1,6 @@
 <template>
     <div class="inspiration-tile">
-        <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug }}">
+        <router-link :to="{ name: 'product', params: { parentSku: product.sku, slug: product.slug }}">
         <div class="product-image bg-lightgray">
             <img v-bind:src="thumbnail" class="product-thumbnail"/>
         </div>

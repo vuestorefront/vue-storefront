@@ -62,8 +62,8 @@ function filterChanged (filterOption) { // slection of product variant on produc
 function fetchData (store, route) {
   // pass both id and sku to render a product
   const productSingleOptions = {
-    id: route.params.id,
-    sku: route && route.params && route.params.sku ? route.params.sku : null
+    sku: route.params.parentSku,
+    childSku: route && route.params && route.params.childSku ? route.params.childSku : null
   }
   return store.dispatch('product/single', { options: productSingleOptions }).then((product) => {
     let subloaders = []
