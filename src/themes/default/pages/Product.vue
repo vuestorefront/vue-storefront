@@ -44,8 +44,18 @@
                 <div class="col-md-4 py10 link-header">Qty</div>
               </div>
               <div class="row between-md" v-for="(productLink, index) in product.product_links" :key="index">
-                <div class="col-md-7 product-name px10 py5">{{ productLink.product.name | htmlDecode }}</div>
-                <div class="col-md-4 product-qty px10 py5"><input type="number" autofocus v-model.number="productLink.product.qty" @change="updateQuantity(productLink.product)"/></div>
+                <div class="col-md-7 product-name px10 py5" v-if="productLink.product">{{ productLink.product.name | htmlDecode }}
+                  <div class="c-gray" v-if="productLink.product.special_price && productLink.product.priceInclTax && productLink.product.originalPriceInclTax">
+                    <span class="price-special">{{ productLink.product.priceInclTax | price }}</span>&nbsp;
+                    <span class="price-original" >{{ productLink.product.originalPriceInclTax | price }}</span>
+                  </div>
+                  <div class="c-gray" v-if="!productLink.product.special_price && productLink.product.priceInclTax">
+                    {{ productLink.product.priceInclTax | price }}
+                  </div>
+
+
+                </div>
+                <div v-if="productLink.product" class="col-md-4 product-qty px10 py5"><input type="number" autofocus v-model.number="productLink.product.qty" @change="updateQuantity(productLink.product)"/></div>
               </div>
             </div>            
             <add-to-cart :product="product" class="h4 bg-black c-white px55 py20 brdr-none" />

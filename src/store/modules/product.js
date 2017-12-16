@@ -289,7 +289,7 @@ const actions = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true }) {
     return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
@@ -308,7 +308,9 @@ const actions = {
           }
         }
         // commit update products list mutation
-        context.commit(types.CATALOG_UPD_PRODUCTS, resp)
+        if (updateState) {
+          context.commit(types.CATALOG_UPD_PRODUCTS, resp)
+        }
         return resp
       })
     }).catch(function (err) {
@@ -380,8 +382,8 @@ const actions = {
    * @param {Object} product
    * @param {Array} configuration
    */
-  configure (context, { product = null, configuration, updateCurrentProduct = true }) {
-    return configureProductAsync(context, { product: product, configuration: configuration, updateCurrentProduct: updateCurrentProduct })
+  configure (context, { product = null, configuration, selectDefaultVariant = true }) {
+    return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant })
   },
   /**
    * Set current product with given variant's properties

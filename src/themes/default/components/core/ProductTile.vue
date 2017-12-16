@@ -25,7 +25,7 @@ export default {
   mixins: [coreComponent('core/ProductTile')],
   created () {
     this.$bus.$on('product-after-configured', (config) => {
-      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, updateCurrentProduct: false }).then((selectedVariant) => {
+      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, selectDefaultVariant: false }).then((selectedVariant) => {
         if (selectedVariant) {
           this.product.parentSku = this.product.sku
           Object.assign(this.product, selectedVariant)
