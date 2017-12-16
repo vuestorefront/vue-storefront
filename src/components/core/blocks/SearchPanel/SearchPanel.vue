@@ -50,7 +50,7 @@ export default {
         .filter('range', 'visibility', { 'gte': 3, 'lte': 4 })
         .build()
 
-      this.$store.dispatch('product/list', {query, start, size}).then((resp) => {
+      this.$store.dispatch('product/list', {query, start, size, updateState: false}).then((resp) => {
         this.products = resp.items
         this.emptyResults = resp.items.length < 1
       }).catch(function (err) {
