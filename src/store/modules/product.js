@@ -380,8 +380,8 @@ const actions = {
    * @param {Object} product
    * @param {Array} configuration
    */
-  configure (context, { product = null, configuration, updateCurrentProduct = true }) {
-    return configureProductAsync(context, { product: product, configuration: configuration, updateCurrentProduct: updateCurrentProduct })
+  configure (context, { product = null, configuration, selectDefaultVariant = true }) {
+    return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant })
   },
   /**
    * Set current product with given variant's properties
