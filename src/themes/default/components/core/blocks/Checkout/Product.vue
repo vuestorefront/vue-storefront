@@ -1,26 +1,28 @@
 <template>
-  <div>
-    <div class="row pr55 pt20 pb20">
-      <img class="blend" v-lazy="thumbnail" />
-      <div class="col-xs flex pl40 pb15 pt15">
-        <div>
-          <div>{{ product.name | htmlDecode }}</div>
-          <div class="error" v-if="product.warning_message">
-            {{ product.warning_message }}
+  <div class="row p25 between-xs">
+    <img class="blend" v-lazy="thumbnail" />
+    <div class="col-xs">
+      <div class="row">
+        <div class="col-xs-12 col-md-9 pb15">
+          <div class="mb15">
+            <div class="h4 weight-400 c-darkgray serif">{{ product.name | htmlDecode }}</div>
+            <div class="error" v-if="product.warning_message">
+              {{ product.warning_message }}
+            </div>
+            <div class="h5 c-lightgray-secondary pt5">{{ product.sku }}</div>
           </div>
-          <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
-        </div>
-        <div>
           <div>
-            <span class="h6 c-darkgray">Qty {{ product.qty }}</span>
+            <div>
+              <span class="h5 c-gray-secondary">Qty <span class="weight-700">{{ product.qty }}</span></span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-xs flex pb15 pt15 align-right">
-        <div>
-          <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
-          <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
-          <span v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
+        <div class="col-xs-12 col-md-3 serif">
+          <div>
+            <span class="h4 c-red" v-if="product.special_price">{{ product.priceInclTax | price }} </span>
+            <span class="price-original h5" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax | price }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -36,22 +38,8 @@ export default {
 </script>
 
 <style scoped>
-.price-special {
-  color: red
-}
 .price-original {
   text-decoration: line-through;
-  font-size: smaller
-}
-.col-xs {
-  flex-direction: column;
-  justify-content: space-between;
-}
-.hidden {
-  display: none;
-}
-input {
-  width: 30px;
 }
 .blend {
   mix-blend-mode: multiply;
