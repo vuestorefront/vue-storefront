@@ -13,6 +13,7 @@
       <notification />
       <sign-up />
       <newsletter-popup />
+      <CookieNotification />
     </div>
   </div>
 </template>
@@ -34,6 +35,7 @@ import Modal from './components/core/Modal.vue'
 import Notification from './components/core/Notification.vue'
 import SignUp from './components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from './components/core/NewsletterPopup.vue'
+import CookieNotification from './components/core/CookieNotification.vue'
 
 export default {
   computed: {
@@ -56,7 +58,8 @@ export default {
     Notification,
     Modal,
     SignUp,
-    NewsletterPopup
+    NewsletterPopup,
+    CookieNotification
   }
 }
 </script>
