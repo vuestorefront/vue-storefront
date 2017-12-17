@@ -11,25 +11,30 @@
 
 
   <div class="bg-lightgray">
-    <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="row pb45 pt45 center-xs cool-stuff-collection">
-            <product-tile  v-for='product in products' v-bind:key='product.id' class="col-md-3" :product="product"/>
+          <no-ssr>
+            <carousel :perPage="5" :paginationEnabled="false" :autoplay="true" class="col-md-12">
+              <slide class="row" v-for='product in products' v-bind:key='product.id' >
+                <product-tile class="col-md-12 collection-product" :product="product"/>
+              </slide>
+            </carousel>
+          </no-ssr>
         </div>
       </div>    
-    </div>
     </div>
   </div>
   </div>
 </template>
 <script>
+  import NoSSR from 'vue-no-ssr'
+  import { Carousel, Slide } from 'vue-carousel'
   import builder from 'bodybuilder'
   import ProductTile from 'theme/components/core/ProductTile.vue'
 
   export default {
     name: 'Collection',
-    components: { ProductTile },
     props: ['title', 'coverImage', 'category'],
     data () {
       return {
@@ -42,18 +47,29 @@
 
       self.$store.dispatch('product/list', {
         query: inspirationsQuery,
-        size: 4,
+        size: 12,
         sort: 'created_at:desc'
       }).then(function (res) {
         if (res) {
           self.products = res.items
         }
       })
+    },
+    components: {
+      Slide,
+      Carousel,
+      ProductTile,
+      'no-ssr': NoSSR
     }
   }
 </script>
 <style lang="scss">
+//TO-DO: Clean blending mode mess on products!
+.collection-product {
+  background-color: #f2f2f2;
+}
   .collection-product .product-image {
+    //TO-DO: Should be global
     mix-blend-mode: darken;
     height: auto;
 
