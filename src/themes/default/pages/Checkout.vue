@@ -295,11 +295,6 @@ $lightgray: map-get($colors, lightgray);
     border-radius: 0;
     background-color: transparent;
   }
-  @media (max-width: 1023px) {
-    select {
-      max-width: 188px;
-    }
-  }
   h4 {
     @extend .weight-200;
   }

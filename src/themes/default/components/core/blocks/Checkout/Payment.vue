@@ -1,18 +1,20 @@
 <template>
   <div class="payment">
     <div class="row">
-      <div class="col-md-1 col-xs-2">
+      <div class="col-xs-2 col-md-1">
         <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">3</div>
       </div>
-      <div class="col-md-11 col-xs-10">
-        <div class="row">
-          <div class="col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 class="mt0">Payment</h3>
+      <div class="col-xs-9 col-md-11">
+        <div class="row mb15">
+          <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
+            <h3 class="m0 mb5">Payment</h3>
           </div>
-          <div class="col-md-6 pr30">
-            <div class="lh30 flex end-xs" v-if="isFilled && !isActive">
-              <a href="#" class="c-lightgray-secondary pr5" @click.prevent="edit">Edit payment</a>
-              <i class="material-icons c-lightgray-secondary">edit</i>
+          <div class="col-xs-12 col-md-6 pr30">
+            <div class="lh30 flex end-md" v-if="isFilled && !isActive">
+              <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
+                <span class="pr5">Edit payment</span>
+                <i class="material-icons c-lightgray-secondary">edit</i>
+              </a>
             </div>
           </div>
         </div>

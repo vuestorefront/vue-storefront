@@ -1,15 +1,14 @@
 <template>
-  <div class="cart-summary">
-    <h3 class="c-black ml30">Order Summary</h3>
-    <ul class="products">
-      <product v-for="product in items" :key="product.id" :product="product" />
-    </ul>
+<div>
+  <div class="brdr-bottom brdr-c-lightgray-secondary pb60">
+    <h3 class="c-black ml30 mt50">Order Summary</h3>
+    <product v-for="product in items" :key="product.id" :product="product" />
     <div v-if="items.length" class="checkout bg-lightgray pt10 serif c-black">
       <div class="row pt15 pb20 pl30 pr55 ">
         <div class="col-xs c-black">
           Shipping ({{ shipping.name }})
         </div>
-        <div class="col-xs align-right c-black">
+        <div class="col-xs align-right c-black h4">
           {{ shipping.costInclTax | price }}
         </div>
       </div>
@@ -39,6 +38,30 @@
       </div>
     </div>
   </div>
+  <div class="py50 px25">
+    <h4 class="h3 m0">
+      Safety
+    </h4>
+    <p class="c-lightgray-secondary lh20">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
+    </p>
+    <h4 class="h3 mb0">
+      Shipping
+    </h4>
+    <p class="c-lightgray-secondary lh20">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
+    </p>
+    <h4 class="h3 mb0">
+      Returns
+    </h4>
+    <p class="c-lightgray-secondary lh20">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
+    </p>
+  </div>
+</div>
 </template>
 
 <script>
