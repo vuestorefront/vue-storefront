@@ -10,12 +10,12 @@
     </div>
 
 
-  <div class="bg-lightgray">
+  <div class="bg-lightgray collection-slider">
     <div class="row">
       <div class="col-md-12">
         <div class="row pb45 pt45 center-xs cool-stuff-collection">
           <no-ssr>
-            <carousel :perPage="5" :paginationEnabled="false" :autoplay="true" class="col-md-12">
+            <carousel :perPage="5" :paginationEnabled="false" :autoplay="true" :loop="true" class="col-md-12">
               <slide class="row" v-for='product in products' v-bind:key='product.id' >
                 <product-tile class="col-md-12 collection-product" :product="product"/>
               </slide>
@@ -64,6 +64,9 @@
   }
 </script>
 <style lang="scss">
+.collection-slider {
+  overflow: hidden;
+}
 //TO-DO: Clean blending mode mess on products!
 .collection-product {
   background-color: #f2f2f2;
