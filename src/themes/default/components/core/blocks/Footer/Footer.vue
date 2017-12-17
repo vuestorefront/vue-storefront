@@ -4,7 +4,7 @@
     <div class="flex pt30 pb60 px40 bg-lightgray no-mobile" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
-          <div class="row col-lg-6 col-md-8 col-xs-12 start-md between-md between-xs">
+          <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs">
             <div>
               <h3 class="c-black weight-400">Departments</h3>
               <div class="mt15">
@@ -57,7 +57,7 @@
               </div>
             </div>
           </div>
-          <div class="row col-lg-6 col-md-4 mt30 center-xs end-xs">
+          <div class="row col-lg-5 col-md-4 mt30 center-xs end-xs">
             <a class="social-icon ml20" href="https://www.facebook.com/">
               <img src="/assets/social-icons/facebook.svg" alt="Facebook icon">
             </a>
