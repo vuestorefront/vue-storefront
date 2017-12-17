@@ -1,5 +1,5 @@
 <template>
-  <div class="button-full px55 py20">
+  <div class="button-full px55 py20 center-xs">
     {{ text }}
   </div>
 </template>

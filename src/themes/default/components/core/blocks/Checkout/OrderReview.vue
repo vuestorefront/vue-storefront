@@ -1,10 +1,10 @@
 <template>
   <div class='order-review'>
     <div class="row">
-      <div class="col-md-1 col-xs-2">
+      <div class="col-xs-2 col-md-1">
         <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">4</div>
       </div>
-      <div class="col-md-11 col-xs-10">
+      <div class="col-xs-9 col-md-11">
         <div class="row">
           <div class="col-md-12" :class="{ 'c-gray' : !isFilled && !isActive }">
             <h3 class="m0">Review order</h3>
