@@ -15,7 +15,7 @@
             <p class="h4">Please check if all data are correct</p>
             <div class="row">
               <div class="col-md-8  bg-lightgray p15 mb35 ml10">
-                <label><input type="checkbox" name="checkbox" v-model="orderReview.terms" value="value">I agree for <router-link to="/legal">terms and conditions</router-link></label>
+                <label><input type="checkbox" name="checkbox" v-model="orderReview.terms" value="value">I agree for <span class="link" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span></label>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
               </div>
             </div>
@@ -28,6 +28,9 @@
         </div>
       </div>
     </div>
+    <modal name="modal-terms" static="terms">
+      <p slot="header">Terms and conditions</p>
+    </modal>
   </div>
 </template>
 
@@ -36,6 +39,7 @@ import { coreComponent } from 'lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
+import Modal from 'theme/components/core/Modal.vue'
 import { required } from 'vuelidate/lib/validators'
 
 export default {
@@ -62,14 +66,16 @@ export default {
   },
   components: {
     ButtonFull,
-    ValidationError
+    ValidationError,
+    Modal
   },
   mixins: [coreComponent('core/blocks/Checkout/OrderReview')]
 }
 </script>
 
 <style scoped>
-a {
+.link {
+  cursor: pointer;
   text-decoration: underline;
 }
 </style>
