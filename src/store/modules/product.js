@@ -1,4 +1,5 @@
 import * as types from '../mutation-types'
+import config from '../../config.json'
 const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
@@ -13,6 +14,8 @@ function calculateProductTax (product, taxClasses) {
       if (rate.tax_country_id === global.__TAX_COUNTRY__ && (rate.region_name === global.__TAX_REGION__ || rate.tax_region_id === 0 || !rate.region_name)) {
         product.priceInclTax = (product.price + product.price * (parseFloat(rate.rate) / 100))
         product.priceTax = (product.price * (parseFloat(rate.rate) / 100))
+        product.price = parseFloat(product.price)
+        product.special_price = parseFloat(product.special_price)
 
         product.specialPriceInclTax = (parseFloat(product.special_price) + parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
         product.specialPriceTax = (parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
@@ -31,6 +34,7 @@ function calculateProductTax (product, taxClasses) {
             for (let opt of configurableChild.custom_attributes) {
               configurableChild[opt.attribute_code] = opt.value
             }
+            configurableChild.price = parseFloat(configurableChild.price)
             configurableChild.priceInclTax = (configurableChild.price + configurableChild.price * (parseFloat(rate.rate) / 100))
             configurableChild.priceTax = (configurableChild.price * (parseFloat(rate.rate) / 100))
 
@@ -38,11 +42,11 @@ function calculateProductTax (product, taxClasses) {
             configurableChild.specialPriceTax = (parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
 
             if (configurableChild.special_price) {
-              configurableChild.originalPrice = configurableChild.price
+              configurableChild.originalPrice = parseFloat(configurableChild.price)
               configurableChild.originalPriceInclTax = configurableChild.priceInclTax
               configurableChild.originalPriceTax = configurableChild.priceTax
 
-              configurableChild.price = configurableChild.special_price
+              configurableChild.price = parseFloat(configurableChild.special_price)
               configurableChild.priceInclTax = configurableChild.specialPriceInclTax
               configurableChild.priceTax = configurableChild.specialPriceTax
             } else {
@@ -50,10 +54,10 @@ function calculateProductTax (product, taxClasses) {
             }
 
             if (configurableChild.priceInclTax < product.priceInclTax || product.price === 0) { // always show the lowest price
-              product.priceInclTax = configurableChild.priceInclTax
-              product.priceTax = configurableChild.priceTax
-              product.price = configurableChild.price
-              product.special_price = configurableChild.special_price
+              product.priceInclTax = parseFloat(configurableChild.priceInclTax)
+              product.priceTax = parseFloat(configurableChild.priceTax)
+              product.price = parseFloat(configurableChild.price)
+              product.special_price = parseFloat(configurableChild.special_price)
               product.specialPriceInclTax = configurableChild.specialPriceInclTax
               product.specialPriceTax = configurableChild.specialPriceTax
               product.originalPrice = configurableChild.originalPrice
@@ -89,12 +93,17 @@ function calculateProductTax (product, taxClasses) {
  */
 function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
-    store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
-      for (let product of products) {
-        product = calculateProductTax(product, tcs)
-      }
+    if (config.tax.calculateServerSide) {
+      console.log('Taxes calculated server side, skipping')
       resolve(products)
-    })
+    } else {
+      store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
+        for (let product of products) {
+          product = calculateProductTax(product, tcs)
+        }
+        resolve(products)
+      })
+    }
   })
 }
 
