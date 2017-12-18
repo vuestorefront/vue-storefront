@@ -1,7 +1,12 @@
 <template>
     <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
         <div class="row">
-            <div class="col-xs-12 close bg-white align-right end-xs brdr-bottom brdr-c-lightgray" @click="closeMenu">
+            <div @click="closeMenu" class="col-xs-7 px15 bg-white brdr-bottom brdr-c-lightgray ">
+                <search-icon class="p15 icon hidden-md" />
+                <wishlist-icon class="p15 icon hidden-md" />
+                <account-icon class="p15 icon hidden-md" />
+            </div>
+            <div class="col-xs-5 close bg-white align-right end-xs brdr-bottom brdr-c-lightgray" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
@@ -39,8 +44,16 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import AccountIcon from '../Header/AccountIcon.vue'
+import SearchIcon from '../Header/SearchIcon.vue'
+import WishlistIcon from '../Header/WishlistIcon.vue'
 
 export default {
+  components: {
+    AccountIcon,
+    WishlistIcon,
+    SearchIcon
+  },
   mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')]
 }
 </script>
@@ -78,10 +91,10 @@ a {
 li:hover {
     background-color: #F2F2F2;
 }
-i {
-    opacity: 0.6;
-}
-i:hover {
-    opacity: 1;
-}
 </style>
+<style>
+    .sidebar-menu i{
+        opacity: 0.6;
+    }
+</style>
+
