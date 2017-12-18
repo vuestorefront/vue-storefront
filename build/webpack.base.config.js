@@ -1,4 +1,7 @@
 const path = require('path')
+// TO-DO: FIgure out why critical css doesn't work with SSR 
+// const CriticalPlugin = require('webpack-plugin-critical').CriticalPlugin;
+
   // const projectRoot = path.resolve(__dirname, '../')
 const vueConfig = require('./vue-loader.config')
 
@@ -40,7 +43,6 @@ module.exports = {
     publicPath: '/dist/',
     filename: '[name].[hash].js'
   },
-
   module: {
     rules: [{
         enforce: 'pre',
@@ -83,5 +85,15 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  // plugins: [
+  //   new CriticalPlugin({
+  //     base: path.join(path.resolve(__dirname)),
+      
+  //     src: '../src/index.template.html',
+  //     inline: true,
+  //     minify: true,
+  //     dest: 'index.html'
+  //   })
+  // ]
 }
