@@ -28,7 +28,6 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
 
-
       theme_pages: path.resolve(__dirname, '../src/themes/default/pages'),
       theme_components: path.resolve(__dirname, '../src/themes/default/components'),
       'theme/components': path.resolve(__dirname, '../src/themes/default/components'),
@@ -85,7 +84,7 @@ module.exports = {
         }
       }
     ]
-  },
+  }
   // plugins: [
   //   new CriticalPlugin({
   //     base: path.join(path.resolve(__dirname)),
