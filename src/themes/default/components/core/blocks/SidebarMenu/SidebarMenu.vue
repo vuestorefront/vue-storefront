@@ -92,9 +92,13 @@ li:hover {
     background-color: #F2F2F2;
 }
 </style>
-<style>
+<style lang="scss">
     .sidebar-menu i{
         opacity: 0.6;
+
+        &:hover{
+            opacity: 1;
+        }
     }
 </style>
 
