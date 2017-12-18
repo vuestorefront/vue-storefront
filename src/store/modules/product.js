@@ -202,7 +202,9 @@ const actions = {
                 break
               }
             }
-          }, { root: true })
+          }, { root: true }).catch(err => {
+            console.error(err)
+          })
         )
       }
     }

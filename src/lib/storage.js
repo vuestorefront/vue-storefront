@@ -15,14 +15,15 @@ class LocalForageCacheDriver {
 // is `undefined`, we pass that value to the callback function.
   getItem (key, callback) {
     const self = this
+    const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     const promise = this._localForageCollection.getItem(key).then(result => {
-      if (typeof callback !== 'undefined' && callback) {
+      if (isCallbackCallable) {
         callback(null, result)
       }
       return result
     }).catch(err => {
       console.debug('UniversalStorage - probably in SSR mode: ' + err)
-      callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+      if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
     })
 
     return promise
@@ -58,8 +59,9 @@ class LocalForageCacheDriver {
 // saved, or something like that.
   setItem (key, value, callback) {
     const self = this
+    const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     const promise = this._localForageCollection.setItem(key, value).then(result => {
-      if (typeof callback !== 'undefined' && callback) {
+      if (isCallbackCallable) {
         callback(null, result)
       }
     }).catch(err => {
