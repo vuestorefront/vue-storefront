@@ -17,7 +17,7 @@
           </nav>
         </div>
         <div class="static-content col-sm-9">
-          <static-page :is="loaded"/>
+          <static-content :file="$props.page"/>
         </div>
       </div>
     </div>
@@ -27,11 +27,12 @@
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import Meta from 'src/lib/meta'
+import staticContent from 'theme/components/theme/StaticContent'
 
 export default {
   components: {
     Breadcrumbs,
-    staticPage: null
+    staticContent
   },
   props: ['page', 'title'],
   mixins: [Meta],
@@ -42,7 +43,6 @@ export default {
   },
   data () {
     return {
-      loaded: false,
       navigation: [
         { title: 'About us', link: '/about-us' },
         { title: 'Customer service', link: '/customer-service' },
@@ -60,15 +60,7 @@ export default {
   methods: {
     validateRoute () {
       this.setMeta()
-      this.loadStaticPage()
-    },
-    loadStaticPage () {
-      this.$options.components.staticPage = require('../resource/' + this.$props.page + '.md')
-      this.loaded = 'staticPage'
     }
-  },
-  mounted () {
-    this.loadStaticPage()
   }
 }
 </script>

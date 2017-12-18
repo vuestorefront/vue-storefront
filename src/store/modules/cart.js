@@ -21,12 +21,11 @@ const store = {
       if (!record) {
         state.cartItems.push({
           ...product,
-          qty: 1
+          qty: product.qty ? product.qty : 1
         })
       } else {
-        record.qty++
+        record.qty += (product.qty ? product.qty : 1)
       }
-      console.log(state.cartItems)
     },
     [types.CART_SAVE] (state) {
       state.cartSavedAt = new Date()
@@ -104,33 +103,42 @@ const store = {
       return state.cartItems.find(p => p.sku === sku)
     },
 
-    addItem ({ commit, dispatch, state }, product) {
-      const record = state.cartItems.find(p => p.sku === product.sku)
-      dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : 1 }, {root: true}).then(result => {
-        product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
-        if (result.status === 'volatile') {
-          EventBus.$emit('notification', {
-            type: 'warning',
-            message: 'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.',
-            action1: { label: 'OK', action: 'close' }
-          })
-        }
-        if (result.status === 'out_of_stock') {
-          EventBus.$emit('notification', {
-            type: 'error',
-            message: 'The product is out of stock and cannot be added to the cart!',
-            action1: { label: 'OK', action: 'close' }
-          })
-        }
-        if (result.status === 'ok' || result.status === 'volatile') {
-          commit(types.CART_ADD_ITEM, { product })
-          EventBus.$emit('notification', {
-            type: 'success',
-            message: 'Product has been added to the cart!',
-            action1: { label: 'OK', action: 'close' }
-          })
-        }
-      })
+    addItem ({ commit, dispatch, state }, productToAdd) {
+      let productsToAdd = []
+      if (productToAdd.type_id === 'grouped') {
+        productsToAdd = productToAdd.product_links.map((pl) => { return pl.product })
+      } else {
+        productsToAdd.push(productToAdd)
+      }
+
+      for (let product of productsToAdd) {
+        const record = state.cartItems.find(p => p.sku === product.sku)
+        dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
+          product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
+          if (result.status === 'volatile') {
+            EventBus.$emit('notification', {
+              type: 'warning',
+              message: 'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.',
+              action1: { label: 'OK', action: 'close' }
+            })
+          }
+          if (result.status === 'out_of_stock') {
+            EventBus.$emit('notification', {
+              type: 'error',
+              message: 'The product is out of stock and cannot be added to the cart!',
+              action1: { label: 'OK', action: 'close' }
+            })
+          }
+          if (result.status === 'ok' || result.status === 'volatile') {
+            commit(types.CART_ADD_ITEM, { product })
+            EventBus.$emit('notification', {
+              type: 'success',
+              message: 'Product has been added to the cart!',
+              action1: { label: 'OK', action: 'close' }
+            })
+          }
+        })
+      }
     },
     removeItem ({ commit }, product) {
       commit(types.CART_DEL_ITEM, { product })

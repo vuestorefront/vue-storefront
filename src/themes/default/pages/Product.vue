@@ -16,16 +16,16 @@
           <div class="col-md-5">
 
             <h1 class="mb25 c-black"> {{ product.name | htmlDecode }} </h1>
-            <div class="h3 c-gray mb55" v-if="configured_product.special_price">
-              <span class="price-special">{{ configured_product.priceInclTax | price }}</span>&nbsp;
-              <span class="price-original" >{{ configured_product.originalPriceInclTax | price }}</span>
+            <div class="h3 c-gray mb55" v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax">
+              <span class="price-special">{{ product.priceInclTax | price }}</span>&nbsp;
+              <span class="price-original" >{{ product.originalPriceInclTax | price }}</span>
             </div>
-            <div class="h3 c-gray mb55" v-if="!configured_product.special_price">
-              {{ configured_product.priceInclTax | price }}
+            <div class="h3 c-gray mb55" v-if="!product.special_price && product.priceInclTax">
+              {{ product.priceInclTax | price }}
             </div>
 
             <div class="variants" v-if="product.type_id =='configurable' && !loading">
-              <div class="h4" v-for="(option, index) in configured_product.configurable_options" :key="index">
+              <div class="h4" v-for="(option, index) in product.configurable_options" :key="index">
                 <span>{{ option.label }} <strong>{{ configuration[option.label.toLowerCase()].label }}</strong></span>
                 <div class="mt20 mb45">
                   <color-button v-for="(c, i) in options.color" :key="i" :id="c.id" :label="c.label" context="product" code="color" class="mr10" :class="{ active: c.id == configuration.color.id }" v-if="option.label == 'Color'" />
@@ -37,7 +37,28 @@
                 </div>
               </div>
             </div>
-            <add-to-cart :product="configured_product" class="h4 bg-black c-white px55 py20 brdr-none" />
+            
+            <div class="links py10" v-if="product.type_id =='grouped' && !loading">
+              <div class="row between-md">
+                <div class="col-md-7 py10 link-header">Product name</div>
+                <div class="col-md-4 py10 link-header">Qty</div>
+              </div>
+              <div class="row between-md" v-for="(productLink, index) in product.product_links" :key="index">
+                <div class="col-md-7 product-name px10 py5" v-if="productLink.product">{{ productLink.product.name | htmlDecode }}
+                  <div class="c-gray" v-if="productLink.product.special_price && productLink.product.priceInclTax && productLink.product.originalPriceInclTax">
+                    <span class="price-special">{{ productLink.product.priceInclTax | price }}</span>&nbsp;
+                    <span class="price-original" >{{ productLink.product.originalPriceInclTax | price }}</span>
+                  </div>
+                  <div class="c-gray" v-if="!productLink.product.special_price && productLink.product.priceInclTax">
+                    {{ productLink.product.priceInclTax | price }}
+                  </div>
+
+
+                </div>
+                <div v-if="productLink.product" class="col-md-4 product-qty px10 py5"><input type="number" autofocus v-model.number="productLink.product.qty" @change="updateQuantity(productLink.product)"/></div>
+              </div>
+            </div>            
+            <add-to-cart :product="product" class="h4 bg-black c-white px55 py20 brdr-none" />
             <div class="row pt45">
               <div class="col-xs-6 col-md-5">
                 <button class="p0 bg-transparent brdr-none action" @click="addToFavorite">
@@ -87,8 +108,6 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 
-import { thumbnail } from 'src/lib/filters'
-
 export default {
   data () {
     return {
@@ -98,19 +117,14 @@ export default {
       }
     }
   },
-  computed: {
-    imgObj () {
-      return {
-        src: thumbnail(this.configured_product.image, 570, 569),
-        error: thumbnail(this.configured_product.image, 310, 300),
-        loading: thumbnail(this.configured_product.image, 310, 300)
-      }
-    },
-    related () {
-      return this.$store.state.product.related
-    }
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
   },
   methods: {
+    updateQuantity (product) {
+      if (product.qty <= 0) {
+        product.qty = 1
+      }
+    },
     addToFavorite () {
       let self = this
       if (!self.favorite.isFavorite) {
@@ -148,6 +162,15 @@ export default {
 </script>
 
 <style scoped>
+.link-header {
+  font-weight: bold;
+}
+.product-qty input {
+  width: 30px
+}
+.product-name {
+  font-size: 14px;
+}
 .price-original {
   text-decoration: line-through;
   font-size: smaller;

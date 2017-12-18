@@ -22,7 +22,13 @@ export default context => {
         })).then(() => {
           context.state = store.state
           resolve(app)
-        }).catch(reject)
+        }).catch(err => {
+          if (err.message.indexOf('query returned empty result') > 0) {
+            reject({ code: 404 })
+          } else {
+            reject()
+          }
+        })
       }))
     }, reject)
   })

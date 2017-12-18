@@ -5,6 +5,7 @@ const state = {
   searchpanel: false,
   newsletterPopup: false,
   overlay: false,
+  loader: false,
   signUp: false,
   authElem: 'login',
   checkoutMode: false
@@ -13,6 +14,9 @@ const state = {
 const mutations = {
   setOverlay (state, action) {
     state.overlay = action === true
+  },
+  setLoader (state, action) {
+    state.loader = action === true
   },
   setMicrocart (state, action) {
     state.microcart = action === true

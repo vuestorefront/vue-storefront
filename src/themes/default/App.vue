@@ -1,6 +1,7 @@
 <template>
   <div id="app" :class="{ 'no-scroll': noScroll }">
     <overlay />
+    <loader />
     <div id="viewport p55">
       <microcart />
       <search-panel />
@@ -12,6 +13,7 @@
       <notification />
       <sign-up />
       <newsletter-popup />
+      <CookieNotification />
     </div>
   </div>
 </template>
@@ -28,10 +30,12 @@ import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 
 import Overlay from './components/core/Overlay.vue'
+import Loader from './components/core/Loader.vue'
 import Modal from './components/core/Modal.vue'
 import Notification from './components/core/Notification.vue'
 import SignUp from './components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from './components/core/NewsletterPopup.vue'
+import CookieNotification from './components/core/CookieNotification.vue'
 
 export default {
   computed: {
@@ -50,10 +54,12 @@ export default {
     SearchPanel,
     SidebarMenu,
     Overlay,
+    Loader,
     Notification,
     Modal,
     SignUp,
-    NewsletterPopup
+    NewsletterPopup,
+    CookieNotification
   }
 }
 </script>

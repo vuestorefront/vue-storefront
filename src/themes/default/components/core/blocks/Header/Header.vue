@@ -2,19 +2,19 @@
 <div class="header">
     <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
         <div class="container">
-            <div class="row between-xs middle-xs px15" v-show="!isCheckout">
+            <div class="row between-xs middle-xs px15" v-if="!isCheckout">
                 <div class="col-md-3 middle-xs">
-                    <div class="box">
+                    <div>
                         <hamburger-icon class="p15 icon bg-lightgray"/>
                     </div>
                 </div>
                 <div class="col-md-6 center-xs">
-                    <div class="box">
+                    <div>
                         <logo width="36px" height="41px"/>
                     </div>
                 </div>
                 <div class="col-md-3 end-xs">
-                    <div class="box inline-flex">
+                    <div class="inline-flex">
                         <search-icon class="p15 icon hidden-xs" />
                         <wishlist-icon class="p15 icon hidden-xs" />
                         <microcart-icon class="p15 icon" />
@@ -22,19 +22,19 @@
                     </div>
                 </div>
             </div>
-             <div class="row between-xs middle-xs px15" v-show="isCheckout">
-                <div class="col-md-1">
-                    <div class="box py10">
-                        <img src="assets/launcher-icon-1x.png" height="35px">
+             <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
+                <div class="col-md-3 middle-xs">
+                    <div>
+                        <router-link to="/" class="c-lightgray-secondary">Return to shopping</router-link>
                     </div>
                 </div>
-                <div class="col-md-5 m5dle-xs links">
-                    <div class="box py15">
-                        <router-link to="/">Return to the shopping</router-link>
-                    </div>
+                <div class="col-md-6 center-xs">
+                    <logo width="36px" height="41px"/>
                 </div>
-                <div class="col-md-6 middle-xs end-xs hidden-xs">
-                    <img src="/assets/badges.png">
+                <div class="col-md-3 end-xs">
+                    <div>
+                        <a href="#" @click="gotoAccount" class="c-lightgray-secondary">Login to your account</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,6 +46,7 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import { mapState } from 'vuex'
 
 import Logo from '../../Logo.vue'
 
@@ -101,10 +102,22 @@ export default {
   watch: {
     '$route.path': function () {
       if (this.$route.path === '/checkout') {
+        this.isCheckout = true
         this.menuFixed = true
       } else {
+        this.isCheckout = false
         this.menuFixed = false
       }
+    }
+  },
+  computed: {
+    ...mapState({
+      isOpenLogin: state => state.ui.signUp
+    })
+  },
+  methods: {
+    gotoAccount () {
+      this.$store.commit('ui/setSignUp', !this.isOpenLogin)
     }
   },
   components: {
@@ -145,5 +158,4 @@ export default {
     .is-visible {
         top: 0 !important;
     }
-    
 </style>

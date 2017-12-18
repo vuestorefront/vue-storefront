@@ -16,7 +16,6 @@ import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus'
 
 function filterChanged (filterOption) { // slection of product variant on product page
-  console.log(filterOption)
   if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string
     delete this.filterSet[filterOption.attribute_code]
   } else {
@@ -106,6 +105,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     start: offset,
     size: pageSize
   }).then(function (res) {
+    let subloaders = []
     if (!res || (res.noresults)) {
       EventBus.$emit('notification', {
         type: 'warning',
@@ -157,7 +157,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
         }
       }
     }
-    return res
+    return subloaders
   }).catch((err) => {
     console.info(err)
     EventBus.$emit('notification', {
@@ -187,7 +187,7 @@ export default {
           filterValues: Object.keys(self.filters)// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
-      filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, ofset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) })
+      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, ofset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) })
     },
 
     validateRoute ({store, route}) {
@@ -224,12 +224,16 @@ export default {
           filterValues: defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            console.log('Loading products list in SSR')
             store.dispatch('meta/set', { title: store.state.category.current.name })
-            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, ofset: 0, pageSize: 50, filters: defaultFilters }).then((res) => {
-              store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
-              return resolve()
+            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, ofset: 0, pageSize: 50, filters: defaultFilters }).then((subloaders) => {
+              Promise.all(subloaders).then((results) => {
+                store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
+                return resolve()
+              })
             })
+          }).catch(err => {
+            console.error(err)
+            return reject(Error(err))
           })
         })
       })

@@ -9,11 +9,13 @@ $colors: (
     transparent: transparent,
     gray-secondary: #828282,
     lightgray-secondary: #BDBDBD,
-    red: #EB5757
+    red: #EB5757,
+    ocean-green: #4DBA87
 );
 
 //@to-do make it more customizable - change colors to match their usage not color name so other people can customize it when creatign own theme
 
 $z-index: (
-    modal: 10
+    modal: 10,
+    notification: 1000
 )

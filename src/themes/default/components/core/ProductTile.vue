@@ -1,6 +1,6 @@
 <template>
   <div class="product align-center p15">
-    <router-link :to="{ name: 'product', params: { id: product.id, slug: product.slug, sku: product.sku }}">
+    <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
       <div class="product-image">
         <transition name="fade" appear>
           <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
@@ -9,8 +9,8 @@
       </div>
       <p class="mb0">{{ product.name | htmlDecode }}</p>
 
-      <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
-      <span class="price-original lh30 c-gray" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+      <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
+      <span class="price-original lh30 c-gray" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
 
       <span class="lh30 c-gray" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
     </router-link>
@@ -25,9 +25,10 @@ export default {
   mixins: [coreComponent('core/ProductTile')],
   created () {
     this.$bus.$on('product-after-configured', (config) => {
-      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, updateCurrentProduct: false }).then((selectedVariant) => {
+      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, selectDefaultVariant: false }).then((selectedVariant) => {
         if (selectedVariant) {
-          // this.$forceUpdate()
+          this.product.parentSku = this.product.sku
+          Object.assign(this.product, selectedVariant)
         }
       })
     })
@@ -39,7 +40,8 @@ export default {
 @import '~src/themes/default/css/transitions';
 
 .price-special {
-  color: red
+  color: red;
+  margin-right: 5px
 }
 .price-original {
   text-decoration: line-through;
