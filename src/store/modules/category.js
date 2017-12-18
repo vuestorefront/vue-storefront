@@ -95,6 +95,9 @@ const actions = {
                 if (sc.parent_id) {
                   recurCatFinder(sc)
                 }
+              }).catch(err => {
+                console.error(err)
+                reject(err)
               })
             } else {
               commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
