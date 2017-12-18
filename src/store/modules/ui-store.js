@@ -6,7 +6,8 @@ const state = {
   newsletterPopup: false,
   overlay: false,
   signUp: false,
-  authElem: 'login'
+  authElem: 'login',
+  checkoutMode: false
 }
 
 const mutations = {

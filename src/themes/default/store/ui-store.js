@@ -1,6 +1,9 @@
 import { coreStore, extendStore } from 'lib/themes'
 
 const mutations = {
+  setCheckoutMode (state, action) {
+    state.checkoutMode = action === true
+  },
   setMicrocart (state, action) {
     state.microcart = action === true
     state.overlay = action === true
