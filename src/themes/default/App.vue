@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{ 'no-scroll': noScroll }">
-    <overlay />
-    <loader />
+    <overlay v-if="overlayActive"/>
+    <loader v-if="loaderActive"/>
     <div id="viewport p55">
       <microcart />
       <search-panel />
@@ -42,7 +42,9 @@ export default {
     ...mapState({
       noScroll: state => state.ui.overlay,
       newsletterOpen: state => state.ui.newsletterPopup,
-      signUpOpen: state => state.ui.signUp
+      signUpOpen: state => state.ui.signUp,
+      loaderActive: state => state.ui.loader,
+      overlayActive: state => state.ui.overlay
     })
   },
   mounted () {
