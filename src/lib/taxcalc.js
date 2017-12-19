@@ -13,7 +13,6 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
         product.specialPriceTax = (parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
 
         if (product.special_price && (product.special_price < product.price)) {
-          console.log('PRICE ' + product.price + ' ' + product.special_price)
           product.originalPrice = product.price
           product.originalPriceInclTax = product.priceInclTax
           product.originalPriceTax = product.priceTax
