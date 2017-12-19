@@ -4,15 +4,16 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
   if (taxClass) {
     for (let rate of taxClass.rates) { // TODO: add check for zip code ranges (!)
       if (rate.tax_country_id === taxCountry && (rate.region_name === taxRegion || rate.tax_region_id === 0 || !rate.region_name)) {
+        product.price = parseFloat(product.price)
         product.priceInclTax = (product.price + product.price * (parseFloat(rate.rate) / 100))
         product.priceTax = (product.price * (parseFloat(rate.rate) / 100))
-        product.price = parseFloat(product.price)
-        product.special_price = parseFloat(product.special_price)
 
+        product.special_price = parseFloat(product.special_price)
         product.specialPriceInclTax = (parseFloat(product.special_price) + parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
         product.specialPriceTax = (parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
 
-        if (product.special_price) {
+        if (product.special_price && (product.special_price < product.price)) {
+          console.log('PRICE ' + product.price + ' ' + product.special_price)
           product.originalPrice = product.price
           product.originalPriceInclTax = product.priceInclTax
           product.originalPriceTax = product.priceTax
@@ -20,6 +21,8 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
           product.price = parseFloat(product.special_price)
           product.priceInclTax = product.specialPriceInclTax
           product.priceTax = product.specialPriceTax
+        } else {
+          product.special_price = 0 // the same price as original; it's not a promotion
         }
 
         if (product.configurable_children) {
@@ -34,7 +37,7 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
             configurableChild.specialPriceInclTax = (parseFloat(configurableChild.special_price) + parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
             configurableChild.specialPriceTax = (parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
 
-            if (configurableChild.special_price) {
+            if (configurableChild.special_price && (configurableChild.special_price < configurableChild.price)) {
               configurableChild.originalPrice = parseFloat(configurableChild.price)
               configurableChild.originalPriceInclTax = configurableChild.priceInclTax
               configurableChild.originalPriceTax = configurableChild.priceTax
