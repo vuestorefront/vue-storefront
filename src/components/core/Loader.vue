@@ -1,6 +1,6 @@
 <template>
 
-  <div class="loader-container" v-if="isVisible">
+  <div class="loader-container">
 
       <div class="loader-inner-container">
 
@@ -21,18 +21,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   name: 'loader',
-  data: function () {
+  data () {
     return {
       message: null
     }
   },
-  computed: mapState({
-    isVisible: state => state.ui.loader
-  }),
   methods: {
     show (message = null) {
       this.message = message
@@ -42,7 +37,7 @@ export default {
       this.$store.commit('ui/setLoader', false)
     }
   },
-  mounted: function () {
+  mounted () {
     this.$bus.$on('notification-progress-start', (message) => {
       this.show(message)
     })
