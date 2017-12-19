@@ -1,5 +1,5 @@
 <template>
-    <button class="bg-white c-gray brdr-1 brdr-gray" :class="{ active: active }" @click="switchFilter(id, label)">
+    <button class="p0 bg-white c-gray brdr-1 brdr-gray" :class="{ active: active }" @click="switchFilter(id, label)">
         {{ label }}
     </button>
 </template>
