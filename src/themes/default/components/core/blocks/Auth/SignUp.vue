@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-up mb20" v-if="isOpen">
+  <div class="sign-up mb20">
     <i class="material-icons p15 close c-gray" @click="closeSignUp">close</i>
     <login v-if="activeElem === 'login'" />
     <register v-if="activeElem === 'register'" />
