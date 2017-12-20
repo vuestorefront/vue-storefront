@@ -36,6 +36,7 @@ import Notification from './components/core/Notification.vue'
 import SignUp from './components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
+// import OfflineBadge from './components/core/OfflineBadge.vue'
 
 export default {
   computed: {
@@ -60,6 +61,7 @@ export default {
     SignUp,
     NewsletterPopup,
     CookieNotification
+    // OfflineBadge
   }
 }
 </script>
