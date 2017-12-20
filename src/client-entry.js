@@ -115,6 +115,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 })
 
 // Process the background tasks
+const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   console.log('Executing task queue')
   // event.data.config - configuration, endpoints etc
@@ -136,7 +137,8 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
     const fetchQueue = []
     console.log('Current token = ' + currentToken)
     syncTaskCollection.iterate((task, id, iterationNumber) => {
-      if (!task.transmited) { // not sent to the server yet
+      if (!task.transmited && !mutex[id]) { // not sent to the server yet
+        mutex[id] = true // mark this task as being processed
         fetchQueue.push(() => {
           const taskData = task
           const taskId = id
@@ -149,9 +151,11 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
                 return response.json()
               } else {
                 console.error('Error with response - bad content-type!')
+                mutex[id] = false
               }
             } else {
               console.error('Bad response status: ' + response.status)
+              mutex[id] = false
             }
           }).then((jsonResponse) => {
             if (jsonResponse) {
@@ -168,6 +172,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
               }
             } else {
               console.error('Unhandled error, wrong response format!')
+              mutex[id] = false
             }
           })
         })
@@ -186,3 +191,20 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
 
 EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
 EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+
+/**
+ * Process order queue when we're back onlin
+ */
+function checkiIsOnline () {
+  EventBus.$emit('network.status', { online: navigator.onLine })
+  console.log('Are we online: ' + navigator.onLine)
+
+  if (navigator.onLine) {
+    EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
+    EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+  }
+}
+
+window.addEventListener('online', checkiIsOnline)
+window.addEventListener('offline', checkiIsOnline)
+

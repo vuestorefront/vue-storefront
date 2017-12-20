@@ -189,8 +189,9 @@ class Backend extends Abstract {
       if (shell.exec(`docker-compose up -d > /dev/null 2>&1`).code !== 0) {
         reject('Can\'t start docker in background.')
       }
-
-      resolve()
+      // Adding 20sec timer for ES to get up and running
+      // before starting restoration and migration processes
+      setTimeout(() => { resolve() }, 20000)
     })
   }
 
@@ -336,13 +337,16 @@ class Storefront extends Abstract {
         let backendPath
 
         if (Abstract.wasLocalBackendInstalled) {
-          backendPath = 'localhost:8080'
+          backendPath = 'http://localhost:8080'
         } else {
           backendPath = STOREFRONT_REMOTE_BACKEND_URL
         }
 
         config.elasticsearch.host = `${backendPath}/api/catalog`
-        config.orders.endpoint = `${backendPath}/api/order/create`
+        config.orders.endpoint = `${backendPath}/api/order`
+        config.users.endpoint = `${backendPath}/api/user`
+        config.stock.endpoint = `${backendPath}/api/stock`
+        config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.images.baseUrl = this.answers.images_endpoint
 
         config.install = {
@@ -456,8 +460,8 @@ class Manager extends Abstract {
       return this.backend.cloneRepository()
         .then(this.backend.goToDirectory.bind(this.backend))
         .then(this.backend.npmInstall.bind(this.backend))
-        .then(this.backend.dockerComposeUp.bind(this.backend))
         .then(this.backend.createConfig.bind(this.backend))
+        .then(this.backend.dockerComposeUp.bind(this.backend))
         .then(this.backend.restoreElasticSearch.bind(this.backend))
         .then(this.backend.migrateElasticSearch.bind(this.backend))
         .then(this.backend.cloneMagentoSampleData.bind(this.backend))
@@ -543,8 +547,8 @@ let questions = [
   {
     type: 'input',
     name: 'git_path',
-    message: 'Please provide Git path',
-    default: '/usr/bin/git',
+    message: 'Please provide Git path (if it\'s not globally installed)',
+    default: 'git',
     when: function (answers) {
       return answers.is_remote_backend === false
     },

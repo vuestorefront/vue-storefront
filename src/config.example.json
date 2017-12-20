@@ -23,7 +23,8 @@
     "demomode": true,
     "tax": {
       "defaultCountry": "PL",
-      "defaultRegion": ""
+      "defaultRegion": "",
+      "calculateServerSide": false
     },  
     "i18n": {
       "defaultCountry": "US",

@@ -25,14 +25,11 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'loader',
-  data: function () {
+  data () {
     return {
       message: null
     }
   },
-  computed: mapState({
-    isVisible: state => state.ui.loader
-  }),
   methods: {
     show (message = null) {
       this.message = message
@@ -42,7 +39,10 @@ export default {
       this.$store.commit('ui/setLoader', false)
     }
   },
-  mounted: function () {
+  computed: mapState({
+    isVisible: state => state.ui.loader
+  }),
+  mounted () {
     this.$bus.$on('notification-progress-start', (message) => {
       this.show(message)
     })

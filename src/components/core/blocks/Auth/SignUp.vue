@@ -11,19 +11,12 @@ import Login from './Login.vue'
 import Register from './Register.vue'
 import ForgotPass from './ForgotPass.vue'
 
-import { mapState } from 'vuex'
-
 export default {
   name: 'sign-up',
   components: {
     Login,
     Register,
     ForgotPass
-  },
-  computed: {
-    ...mapState({
-      isOpen: state => state.ui.signUp
-    })
   },
   methods: {
     closeSignUp () {

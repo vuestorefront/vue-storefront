@@ -6,7 +6,7 @@
     <div class="py35 px65 bg-white c-gray">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
-          <input type="email" name="email" v-model="email" placeholder="E-mail address *">
+          <input type="email" name="email" ref="email" v-model="email" placeholder="E-mail address *">
           <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
           <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
@@ -119,6 +119,9 @@ export default {
         this.$bus.$emit('notification-progress-stop')
       })
     }
+  },
+  mounted () {
+    this.$refs.email.focus()
   },
   components: {
     ButtonFull

@@ -1,16 +1,11 @@
 <template>
-  <div class="overlay" @click="onClick" v-if="isVisible">
+  <div class="overlay" @click="onClick">
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   name: 'overlay',
-  computed: mapState({
-    isVisible: state => state.ui.overlay
-  }),
   methods: {
     onClick () {
       this.$store.commit('ui/setOverlay', false)

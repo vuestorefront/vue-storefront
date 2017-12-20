@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{ 'no-scroll': noScroll }">
-    <overlay />
+    <overlay v-if="overlayActive"/>
     <loader />
     <div id="viewport p55">
       <microcart />
@@ -11,8 +11,8 @@
       <router-view></router-view>
       <main-footer />
       <notification />
-      <sign-up />
-      <newsletter-popup />
+      <sign-up v-if="signUpOpen" />
+      <newsletter-popup v-if="newsletterOpen"/>
       <CookieNotification />
     </div>
   </div>
@@ -41,7 +41,10 @@ import CookieNotification from './components/core/CookieNotification.vue'
 export default {
   computed: {
     ...mapState({
-      noScroll: state => state.ui.overlay
+      noScroll: state => state.ui.overlay,
+      newsletterOpen: state => state.ui.newsletterPopup,
+      signUpOpen: state => state.ui.signUp,
+      overlayActive: state => state.ui.overlay
     })
   },
   mounted () {
