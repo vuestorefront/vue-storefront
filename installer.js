@@ -189,8 +189,9 @@ class Backend extends Abstract {
       if (shell.exec(`docker-compose up -d > /dev/null 2>&1`).code !== 0) {
         reject('Can\'t start docker in background.')
       }
-
-      resolve()
+      // Adding 20sec timer for ES to get up and running
+      // before starting restoration and migration processes
+      setTimeout(() => { resolve() }, 20000)
     })
   }
 
@@ -336,7 +337,7 @@ class Storefront extends Abstract {
         let backendPath
 
         if (Abstract.wasLocalBackendInstalled) {
-          backendPath = 'localhost:8080'
+          backendPath = 'http://localhost:8080'
         } else {
           backendPath = STOREFRONT_REMOTE_BACKEND_URL
         }
@@ -456,8 +457,8 @@ class Manager extends Abstract {
       return this.backend.cloneRepository()
         .then(this.backend.goToDirectory.bind(this.backend))
         .then(this.backend.npmInstall.bind(this.backend))
-        .then(this.backend.dockerComposeUp.bind(this.backend))
         .then(this.backend.createConfig.bind(this.backend))
+        .then(this.backend.dockerComposeUp.bind(this.backend))
         .then(this.backend.restoreElasticSearch.bind(this.backend))
         .then(this.backend.migrateElasticSearch.bind(this.backend))
         .then(this.backend.cloneMagentoSampleData.bind(this.backend))
