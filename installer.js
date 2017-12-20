@@ -343,7 +343,10 @@ class Storefront extends Abstract {
         }
 
         config.elasticsearch.host = `${backendPath}/api/catalog`
-        config.orders.endpoint = `${backendPath}/api/order/create`
+        config.orders.endpoint = `${backendPath}/api/order`
+        config.users.endpoint = `${backendPath}/api/user`
+        config.stock.endpoint = `${backendPath}/api/stock`
+        config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.images.baseUrl = this.answers.images_endpoint
 
         config.install = {
@@ -544,8 +547,8 @@ let questions = [
   {
     type: 'input',
     name: 'git_path',
-    message: 'Please provide Git path',
-    default: '/usr/bin/git',
+    message: 'Please provide Git path (if it\'s not globally installed)',
+    default: 'git',
     when: function (answers) {
       return answers.is_remote_backend === false
     },
