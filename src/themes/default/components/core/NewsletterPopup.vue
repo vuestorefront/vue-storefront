@@ -23,7 +23,7 @@
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { coreComponent } from 'lib/themes'
 import { required, email } from 'vuelidate/lib/validators'
-
+import EventBus from 'src/event-bus'
 export default {
   data () {
     return {
@@ -48,7 +48,7 @@ export default {
       }
 
       // todo: add user email to newsletter list
-      this.$bus.$emit('newsletter-after-subscribe', { email: this.email })
+      EventBus.$emit('newsletter-after-subscribe', { email: this.email })
 
       this.$bus.$emit('notification', {
         type: 'success',
