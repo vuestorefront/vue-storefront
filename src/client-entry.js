@@ -191,3 +191,20 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
 
 EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
 EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+
+/**
+ * Process order queue when we're back onlin
+ */
+function checkiIsOnline () {
+  EventBus.$emit('network.status', { online: navigator.onLine })
+  console.log('Are we online: ' + navigator.onLine)
+
+  if (navigator.onLine) {
+    EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
+    EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+  }
+}
+
+window.addEventListener('online', checkiIsOnline)
+window.addEventListener('offline', checkiIsOnline)
+
