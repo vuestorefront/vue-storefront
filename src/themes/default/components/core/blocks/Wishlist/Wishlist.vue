@@ -7,7 +7,7 @@
     </div>
     <h2 v-if="items.length" class="c-black ml30">Wishlist</h2>
     <h4 v-if="!items.length" class="c-black ml30">Your wishlist is empty.</h4>
-    <em v-if="!items.length" class="ml30">Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for you!</em>
+    <div v-if="!items.length" class="ml30">Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for you!</div>
     <ul class="products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
