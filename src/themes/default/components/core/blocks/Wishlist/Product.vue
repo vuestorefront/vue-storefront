@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="row pr55 pt20 pb20">
-      <img v-lazy="thumbnail" />
+      <div>
+        <img v-lazy="thumbnail" />
+      </div>
       <div class="col-xs flex pl40 pb15 pt15">
         <div>
           <div>{{ product.name | htmlDecode}}</div>
