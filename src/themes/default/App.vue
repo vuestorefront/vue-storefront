@@ -13,7 +13,8 @@
       <notification />
       <sign-up v-if="signUpOpen" />
       <newsletter-popup v-if="newsletterOpen"/>
-      <CookieNotification />
+      <cookie-notification />
+      <Offline-badge />
     </div>
   </div>
 </template>
@@ -36,7 +37,7 @@ import Notification from './components/core/Notification.vue'
 import SignUp from './components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
-// import OfflineBadge from './components/core/OfflineBadge.vue'
+import OfflineBadge from './components/core/OfflineBadge.vue'
 
 export default {
   computed: {
@@ -63,8 +64,8 @@ export default {
     Modal,
     SignUp,
     NewsletterPopup,
-    CookieNotification
-    // OfflineBadge
+    CookieNotification,
+    OfflineBadge
   }
 }
 </script>

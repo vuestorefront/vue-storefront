@@ -1,6 +1,6 @@
 <template>
-  <div class="offline-badge absolute bg-black c-white">
-      You are offline
+  <div v-show="!isOnline" class="offline-badge fixed p10 c-white center-xs">
+      You are offline, some of the functionalities are limited
   </div>
 </template>
 
@@ -9,15 +9,18 @@ export default {
   name: 'offline-badge',
   data () {
     return {
-      isOnline: navigator.onLine
+      isOnline: true
     }
   },
-  created () {
+  mounted () {
+    this.isOnline = window.navigator.onLine
     window.addEventListener('online', (e) => {
+      console.log('on')
       this.isOnline = true
     })
 
     window.addEventListener('offline', (e) => {
+      console.log('off')
       this.isOnline = false
     })
   }
@@ -29,5 +32,6 @@ export default {
     width: 100%;
     bottom: 0;
     left: 0;
+    background: #e63030;
 }
 </style>
