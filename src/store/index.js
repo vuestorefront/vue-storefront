@@ -46,6 +46,11 @@ Vue.prototype.$db = {
     storeName: 'wishlist'
   })),
 
+  compareCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'compare'
+  })),
+
   usersCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'user'
@@ -70,6 +75,7 @@ import category from './modules/category'
 import attribute from './modules/attribute'
 import cart from './modules/cart'
 import wishlist from './modules/wishlist'
+import compare from './modules/compare'
 import user from './modules/user'
 import payment from './modules/payment'
 import shipping from './modules/shipping'
@@ -115,6 +121,11 @@ const plugins = [
           console.error(reason) // it doesn't work on SSR
         })
       }
+      if (mutation.type.indexOf(types.SN_COMPARE) === 0) { // check if this mutation is compare related
+        global.db.compareCollection.setItem('current-compare', store.compare.itemsCompare).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
+        })
+      }
       if (mutation.type.indexOf(types.SN_USER) === 0) { // check if this mutation is cart related
         global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
@@ -146,6 +157,7 @@ export default new Vuex.Store({
     attribute,
     cart,
     wishlist,
+    compare,
     user,
     payment,
     shipping,
