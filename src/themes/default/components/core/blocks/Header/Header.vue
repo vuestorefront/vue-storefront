@@ -33,7 +33,8 @@
                 </div>
                 <div class="col-md-3 end-xs">
                     <div>
-                        <a href="#" @click="gotoAccount" class="c-lightgray-secondary">Login to your account</a>
+                        <a v-if="!currentUser" href="#" @click="gotoAccount" class="c-lightgray-secondary">Login to your account</a>
+                        <span v-else>You are logged in as {{ currentUser.firstname }}</span>
                     </div>
                 </div>
             </div>
@@ -112,7 +113,8 @@ export default {
   },
   computed: {
     ...mapState({
-      isOpenLogin: state => state.ui.signUp
+      isOpenLogin: state => state.ui.signUp,
+      currentUser: state => state.user.current
     })
   },
   methods: {

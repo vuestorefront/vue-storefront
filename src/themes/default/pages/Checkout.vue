@@ -123,11 +123,20 @@ export default {
     isValid () {
       let isValid = true
       for (let child of this.$children) {
-        console.log(child)
+        console.log('Child: ', child)
         if (child.hasOwnProperty('$v')) {
           if (child.$v.$invalid) {
-            isValid = false
-            break
+            // Check if child component is Personal Details.
+            // If so, then ignore validation of account creation fields.
+            if (child.$v.hasOwnProperty('personalDetails')) {
+              if (child.$v.personalDetails.$invalid) {
+                isValid = false
+                break
+              }
+            } else {
+              isValid = false
+              break
+            }
           }
         }
       }

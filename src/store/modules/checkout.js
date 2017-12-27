@@ -8,7 +8,9 @@ const store = {
     personalDetails: {
       firstName: '',
       lastName: '',
-      emailAddress: ''
+      emailAddress: '',
+      password: '',
+      createAccount: false
     },
     shippingDetails: {
       firstName: '',
@@ -45,6 +47,10 @@ const store = {
     },
     [types.CHECKOUT_UPDATE_PROP_VALUE] (state, payload) {
       state.shippingDetails[payload[0]] = payload[1]
+    },
+    [types.CHECKOUT_DROP_PASSWORD] (state) {
+      state.personalDetails.password = ''
+      state.personalDetails.createAccount = false
     }
   },
   getters: {
@@ -59,6 +65,9 @@ const store = {
       try {
         context.dispatch('order/placeOrder', order, {root: true}).then(result => {
           context.dispatch('cart/clear', {}, {root: true})
+          if (context.state.personalDetails.createAccount) {
+            context.commit(types.CHECKOUT_DROP_PASSWORD)
+          }
         })
       } catch (e) {
         if (e.name === 'ValidationError') {

@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import config from '../../config.json'
+import EventBus from 'src/event-bus'
 
 // initial state
 const state = {
@@ -136,6 +137,12 @@ const actions = {
         .then((resp) => {
           if (resp.code === 200) {
             context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
+
+            EventBus.$emit('user.loggedin', {
+              firstName: resp.result.firstname,
+              lastName: resp.result.lastname,
+              emailAddress: resp.result.email
+            })
           }
           if (!resolvedFromCache) {
             resolve(resp.code === 200 ? resp : null)
