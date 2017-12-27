@@ -3,6 +3,7 @@ import Category from './pages/Category.vue'
 import Product from './pages/Product.vue'
 import Static from './pages/Static.vue'
 import Checkout from './pages/Checkout.vue'
+import Compare from './pages/Compare.vue'
 import PageNotFound from './pages/PageNotFound.vue'
 import UIStore from './store/ui-store'
 
@@ -30,6 +31,7 @@ const routes = [
     { name: 'returns', path: '/returns', component: Static, props: {page: 'lorem', title: 'Returns policy'} },
     { name: 'order-from-catalog', path: '/order-from-catalog', component: Static, props: {page: 'lorem', title: 'Order from catalog'} },
     { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
+    { name: 'compare', path: '/compare', component: Compare },
     { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
     { path: '*', redirect: 'page-not-found' }
 ]
