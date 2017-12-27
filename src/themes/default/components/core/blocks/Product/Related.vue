@@ -8,11 +8,13 @@
           </div>
         </div>
       </div>
-      <div class="row bg-lightgray">
-        <div class="container">
-          <div class="col-md-12">
-            <div class="row pb45 pt45 center-xs perfect-match">
-              <product-tile v-for='product in related.by_erin' v-bind:key='product.id' class="col-md-3" :product="product"/>
+      <div class="container-fluid bg-lightgray">
+        <div class="row">
+          <div class="container">
+            <div class="col-md-12">
+              <div class="row pb45 pt45 center-xs perfect-match">
+                <product-tile v-for='product in related.by_erin' v-bind:key='product.id' class="col-md-3" :product="product"/>
+              </div>
             </div>
           </div>
         </div>
