@@ -37,7 +37,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="links py10" v-if="product.type_id =='grouped' && !loading">
               <div class="row between-md">
                 <div class="col-md-7 py10 link-header">Product name</div>
@@ -57,7 +57,7 @@
                 </div>
                 <div v-if="productLink.product" class="col-md-4 product-qty px10 py5"><input type="number" autofocus v-model.number="productLink.product.qty" @change="updateQuantity(productLink.product)"/></div>
               </div>
-            </div>            
+            </div>
             <add-to-cart :product="product" class="h4 bg-black c-white px55 py20 brdr-none" />
             <div class="row pt45">
               <div class="col-xs-6 col-md-5">
@@ -146,6 +146,12 @@ export default {
         message: 'Product has been added to comparison list. However - this feature is not implemented yet :(',
         action1: { label: 'OK', action: 'close' }
       })
+    }
+  },
+  mounted: function () {
+    if (this.wishlistCheck.isOnWishlist(this.product)) {
+      this.favorite.icon = 'favorite'
+      this.favorite.isFavorite = true
     }
   },
   components: {
