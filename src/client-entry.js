@@ -208,6 +208,6 @@ function checkiIsOnline () {
 window.addEventListener('online', checkiIsOnline)
 window.addEventListener('offline', checkiIsOnline)
 
-EventBus.$on('user.loggedin', (receivedData) => {
+EventBus.$on('user-after-loggedin', (receivedData) => {
   store.dispatch('checkout/savePersonalDetails', receivedData)
 })

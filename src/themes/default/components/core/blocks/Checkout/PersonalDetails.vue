@@ -106,6 +106,7 @@ import { coreComponent } from 'lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
+import Modal from 'theme/components/core/Modal.vue'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-basic-usage
@@ -191,16 +192,17 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('user.loggedin', (receivedData) => {
+    this.$bus.$on('user-after-loggedin', (receivedData) => {
       this.personalDetails = receivedData
     })
   },
   destroyed () {
-    this.$bus.$off('user.loggedin')
+    this.$bus.$off('user-after-loggedin')
   },
   components: {
     ButtonFull,
-    Tooltip
+    Tooltip,
+    Modal
   },
   mixins: [coreComponent('core/blocks/Checkout/PersonalDetails')]
 }

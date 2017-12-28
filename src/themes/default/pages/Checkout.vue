@@ -123,7 +123,6 @@ export default {
     isValid () {
       let isValid = true
       for (let child of this.$children) {
-        console.log('Child: ', child)
         if (child.hasOwnProperty('$v')) {
           if (child.$v.$invalid) {
             // Check if child component is Personal Details.
@@ -205,6 +204,7 @@ export default {
     },
     prepareOrder () {
       this.order = {
+        user_id: this.$store.state.user.current ? this.$store.state.user.current.email : null,
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           shippingAddress: {

@@ -138,7 +138,7 @@ const actions = {
           if (resp.code === 200) {
             context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
 
-            EventBus.$emit('user.loggedin', {
+            EventBus.$emit('user-after-loggedin', {
               firstName: resp.result.firstname,
               lastName: resp.result.lastname,
               emailAddress: resp.result.email
