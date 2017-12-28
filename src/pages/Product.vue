@@ -142,7 +142,8 @@ export default {
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
       category: 'category/current',
-      wishlistCheck: 'wishlist/check'
+      wishlistCheck: 'wishlist/check',
+      compareCheck: 'compare/check'
     }),
     imgObj () {
       return {
