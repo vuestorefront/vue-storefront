@@ -1,19 +1,21 @@
 <template>
   <div class="product align-center p15">
-    <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
-      <div class="product-image">
-        <transition name="fade" appear>
-          <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
-          <img v-if="!instant" v-lazy="thumbnail" :key="thumbnail"/>
-        </transition>
-      </div>
-      <p class="mb0">{{ product.name | htmlDecode }}</p>
+    <span @click.capture="preventClicks">
+      <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
+        <div class="product-image">
+          <transition name="fade" appear>
+            <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
+            <img v-if="!instant" v-lazy="thumbnail" :key="thumbnail"/>
+          </transition>
+        </div>
+        <p class="mb0">{{ product.name | htmlDecode }}</p>
 
-      <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
-      <span class="price-original lh30 c-gray" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
+        <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
+        <span class="price-original lh30 c-gray" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
 
-      <span class="lh30 c-gray" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
-    </router-link>
+        <span class="lh30 c-gray" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
+      </router-link>
+    </span>
   </div>
 </template>
 
@@ -32,6 +34,19 @@ export default {
         }
       })
     })
+  },
+  data () {
+    return {
+      clicks: 0
+    }
+  },
+  methods: {
+    preventClicks (e) {
+      this.clicks++
+      if (this.clicks > 1) {
+        e.preventDefault()
+      }
+    }
   }
 }
 </script>
