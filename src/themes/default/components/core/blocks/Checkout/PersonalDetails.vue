@@ -67,7 +67,7 @@
             <span class="validation-error" v-if="!$v.acceptConditions.required">You must accept the terms and conditions.</span>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 my30 button-container">
-            <button-full @click.native="sendDataToCheckout" text="Continue to shipping" :class="{ 'ripple': true, 'button-disabled' : $v.$invalid && createAccount }"/>
+            <button-full @click.native="sendDataToCheckout" text="Continue to shipping" :class="{ 'ripple': true, 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"/>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 my30 login-prompt" v-show="!currentUser">
             <p class="fs16 c-darkgray">or <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 c-darkgray">login to your account</a></p>
