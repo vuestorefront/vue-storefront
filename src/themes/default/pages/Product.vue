@@ -31,7 +31,7 @@
                 <span>{{ option.label }} <strong>{{ configuration[option.label.toLowerCase()].label }}</strong></span>
                 <div class="mt20 mb45">
                   <color-button v-for="(c, i) in options.color" :key="i" :id="c.id" :label="c.label" context="product" code="color" class="mr10" :class="{ active: c.id == configuration.color.id }" v-if="option.label == 'Color'" />
-                  <size-button v-for="(s, i) in options.size" :key="i" :id="s.id" :label="s.label" context="product" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'" />
+                  <size-button v-for="(s, i) in options.size" :key="i" :id="s.id" :label="s.label" context="product" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'" v-focus-clean />
                   <router-link to="/size-guide" v-if="option.label == 'Size'" class="p0 ml30 action size-guide">
                     <i class="pr5 material-icons">accessibility</i>
                       Size guide
