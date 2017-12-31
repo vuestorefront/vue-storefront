@@ -154,6 +154,9 @@ export default {
     .social {
       margin-top: 0;
     }
+    .social-icon:first-of-type {
+      margin-left: 0;
+    }
     .footer-links {
       padding-bottom: 30px;
     }
