@@ -14,6 +14,7 @@ import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus'
+import _ from 'lodash'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string
@@ -88,7 +89,7 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
         if (sc && sc.id) {
           childCats.push(sc.id)
         }
-        return recurCatFinderBuilder(sc)
+        recurCatFinderBuilder(sc)
       }
 
       return
@@ -134,10 +135,13 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
             }
 
             for (let key of uniqueFilterValues.values()) {
-              store.state.category.filters[attrToFilter].push({
-                id: key,
-                label: optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: key })
-              })
+              const label = optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: key })
+              if (_.trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
+                store.state.category.filters[attrToFilter].push({
+                  id: key,
+                  label: label
+                })
+              }
             }
           } else { // special case is range filter for prices
             if (res.aggregations['agg_range_' + attrToFilter]) {
