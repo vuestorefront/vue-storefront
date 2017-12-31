@@ -1,10 +1,10 @@
 <template>
   <footer :class="{ 'brdr-top-1 brdr-c-alto' : isCheckout }">
     <newsletter class=" flex brdr-bottom brdr-c-alto" v-if="!isCheckout" />
-    <div class="flex pt30 pb60 px40 bg-lightgray no-mobile" v-if="!isCheckout">
+    <div class="footer-links flex pt30 pb60 px40 bg-lightgray" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
-          <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs">
+          <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">
             <div>
               <h3 class="c-black weight-400">Departments</h3>
               <div class="mt15">
@@ -57,17 +57,17 @@
               </div>
             </div>
           </div>
-          <div class="row col-lg-5 col-md-4 mt30 center-xs end-xs">
-            <a class="social-icon ml20" href="https://www.facebook.com/">
+          <div class="row social col-lg-5 col-md-4 mt30 center-xs end-xs">
+            <a class="social-icon ml20 no-underline" href="https://www.facebook.com/">
               <img src="/assets/social-icons/facebook.svg" alt="Facebook icon">
             </a>
-            <a class="social-icon ml20" href="https://www.instagram.com">
+            <a class="social-icon ml20 no-underline" href="https://www.instagram.com">
               <img src="/assets/social-icons/instagram.svg" alt="Instagram icon">
             </a>
-            <a class="social-icon ml20" href="https://www.pinterest.com">
+            <a class="social-icon ml20 no-underline" href="https://www.pinterest.com">
               <img src="/assets/social-icons/pinterest.svg" alt="Pinterest icon">
             </a>
-            <a class="social-icon ml20" href="https://www.youtube.com">
+            <a class="social-icon ml20 no-underline" href="https://www.youtube.com">
               <img src="/assets/social-icons/youtube.svg" alt="YouTube icon">
             </a>
           </div>
@@ -150,6 +150,15 @@ export default {
   @media (max-width: 595px) {
     .no-mobile {
       display: none;
+    }
+    .social {
+      margin-top: 0;
+    }
+    .social-icon:first-of-type {
+      margin-left: 0;
+    }
+    .footer-links {
+      padding-bottom: 30px;
     }
   }
 </style>
