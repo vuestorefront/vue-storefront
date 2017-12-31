@@ -6,6 +6,7 @@ import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from 'src/store/modules/attribute'
 import { breadCrumbRoutes } from 'src/lib/filters'
 import { calculateProductTax } from 'src/lib/taxcalc'
+import _ from 'lodash'
 
 /**
  * Calculate taxes for specific product collection
@@ -184,13 +185,14 @@ const actions = {
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
-            context.state.current_options[option.label.toLowerCase()].push({
-              label: lb,
-              id: ov.value_index
-            })
+            if (_.trim(lb) !== '') {
+              context.state.current_options[option.label.toLowerCase()].push({
+                label: lb,
+                id: ov.value_index
+              })
+            }
           }
         }
-        // todo: this doesn't populate product.current_configuration
         let selectedVariant = context.state.current
         for (let option of product.configurable_options) {
           let attr = context.rootState.attribute.list_by_id[option.attribute_id]
