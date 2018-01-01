@@ -1,7 +1,7 @@
 <template>
   <div class="button-outline uppercase px40 py15" :class="{ 
     light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-    dark : color === 'dark', 'brdr-black' : color === 'dark', 'c-black' : color === 'dark'
+    dark : color === 'dark', 'brdr-black' : color === 'dark', 'c-gray-secondary' : color === 'dark'
   }">
     {{ text }}
   </div>
@@ -23,13 +23,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '~theme/css/global_vars';
+$gray-secondary: map-get($colors, gray-secondary);
+
 .button-outline {
     font-size: 16px;
     border: 2px solid;
     display: inline-flex;
     cursor: pointer;
     font-weight: 400;
+}
+.button-outline.dark {
+    font-weight: 200;
+    border: 1px solid $gray-secondary;
 }
 .light:hover {
     color: #000;

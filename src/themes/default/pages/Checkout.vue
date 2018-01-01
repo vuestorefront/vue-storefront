@@ -123,11 +123,19 @@ export default {
     isValid () {
       let isValid = true
       for (let child of this.$children) {
-        console.log(child)
         if (child.hasOwnProperty('$v')) {
           if (child.$v.$invalid) {
-            isValid = false
-            break
+            // Check if child component is Personal Details.
+            // If so, then ignore validation of account creation fields.
+            if (child.$v.hasOwnProperty('personalDetails')) {
+              if (child.$v.personalDetails.$invalid) {
+                isValid = false
+                break
+              }
+            } else {
+              isValid = false
+              break
+            }
           }
         }
       }
@@ -196,6 +204,7 @@ export default {
     },
     prepareOrder () {
       this.order = {
+        user_id: this.$store.state.user.current ? this.$store.state.user.current.email : null,
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           shippingAddress: {
