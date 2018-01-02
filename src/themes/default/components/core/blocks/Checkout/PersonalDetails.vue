@@ -96,7 +96,6 @@
         </div>
       </div>
     </div>
-    <modal name="modal-terms" static="terms"></modal>
   </div>
 </template>
 
