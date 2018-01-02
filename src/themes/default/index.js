@@ -31,7 +31,7 @@ const routes = [
     { name: 'returns', path: '/returns', component: Static, props: {page: 'lorem', title: 'Returns policy'} },
     { name: 'order-from-catalog', path: '/order-from-catalog', component: Static, props: {page: 'lorem', title: 'Order from catalog'} },
     { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
-    { name: 'compare', path: '/compare', component: Compare },
+    { name: 'compare', path: '/compare', component: Compare, props: {title: 'Compare Products'} },
     { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
     { path: '*', redirect: 'page-not-found' }
 ]
