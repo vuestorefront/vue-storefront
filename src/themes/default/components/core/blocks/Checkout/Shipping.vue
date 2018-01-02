@@ -20,36 +20,36 @@
         </div>
         <div class="row" v-show="this.isActive">
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName">
+            <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName" autocomplete="given-name">
             <span class="validation-error" v-if="!$v.shipping.firstName.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{$v.shipping.firstName.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="last-name" placeholder="Last name" v-model.trim="shipping.lastName">
+            <input type="text" name="last-name" placeholder="Last name" v-model.trim="shipping.lastName" autocomplete="family-name">
             <span class="validation-error" v-if="!$v.shipping.lastName.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress">
+            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress" autocomplete="shipping address-line1">
             <span class="validation-error" v-if="!$v.shipping.streetAddress.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber">
+            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber" autocomplete="address-line2">
             <span class="validation-error" v-if="!$v.shipping.apartmentNumber.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city">
+            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city" autocomplete="address-level2">
             <span class="validation-error" v-if="!$v.shipping.city.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state">
+            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state" autocomplete="address-level1">
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode">
+            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode" autocomplete="postal-code">
             <span class="validation-error" v-if="!$v.shipping.zipCode.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{$v.shipping.zipCode.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <select name="countries" v-model="shipping.country">
+            <select name="countries" v-model="shipping.country" autocomplete="country">
               <option value="" disabled selected hidden>Country</option>
               <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
             </select>
