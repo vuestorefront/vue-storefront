@@ -48,7 +48,7 @@ const actions = {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: 'position:asc' }).then(function (resp) {
+    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: 'position:asc', size: size, start: start }).then(function (resp) {
       commit(types.CATEGORY_UPD_CATEGORIES, resp)
       return resp
     }).catch(function (err) {
