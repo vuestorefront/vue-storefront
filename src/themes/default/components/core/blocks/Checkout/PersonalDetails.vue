@@ -20,16 +20,16 @@
         </div>
         <div class="row" v-show="isActive">
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-            <input type="text" name="first-name" placeholder="First name" v-model.trim="personalDetails.firstName" autocomplete="given-name">
-            <span class="validation-error" v-if="$v.personalDetails.firstName.dirty">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">Name must have at least {{$v.personalDetails.firstName.$params.minLength.min}} letters.</span>
+            <input type="text" name="first-name" placeholder="First name" v-model.trim="personalDetails.firstName" @blur="$v.personalDetails.firstName.$touch()" autocomplete="given-name">
+            <span class="validation-error" v-if="$v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">Name must have at least {{$v.personalDetails.firstName.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-            <input type="text" name="last-name" placeholder="Last name" v-model.trim="personalDetails.lastName" autocomplete="family-name">
-            <span class="validation-error" v-if="!$v.personalDetails.lastName.required">Field is required</span>
+            <input type="text" name="last-name" placeholder="Last name" v-model.trim="personalDetails.lastName" @blur="$v.personalDetails.lastName.$touch()" autocomplete="family-name">
+            <span class="validation-error" v-if="$v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="email" name="email-address" placeholder="Email address" v-model="personalDetails.emailAddress" autocomplete="email">
-            <span class="validation-error" v-if="!$v.personalDetails.emailAddress.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.emailAddress.email">Please provide valid e-mail address.</span>
+            <input type="email" name="email-address" placeholder="Email address" v-model="personalDetails.emailAddress" @blur="$v.personalDetails.emailAddress.$touch()" autocomplete="email">
+            <span class="validation-error" v-if="$v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.emailAddress.email">Please provide valid e-mail address.</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb15" v-show="!currentUser">
             <div class="checkboxStyled">
@@ -42,12 +42,12 @@
           </div>
           <div class="col-xs-12 col-sm-12 mb25 mt10" v-show="createAccount && !currentUser">
             <div class="pass-container">
-              <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="Password *" autocomplete="new-password">
+              <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="Password *" @blur="$v.password.$touch()" autocomplete="new-password">
               <div class="icon">
                 <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
               </div>
             </div>
-            <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
+            <span class="validation-error" v-if="$v.password.$error && !$v.password.required">Field is required.</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="createAccount && !currentUser">
             <div class="pass-container">
