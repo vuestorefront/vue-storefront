@@ -52,7 +52,7 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
-# Other platforms
+## Other platforms
 Vue Storefront is platform agnostic which mean - it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/pimcore2vuestorefront) to give you an idea how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
 ## The license
