@@ -50,10 +50,15 @@
                     Add to favorite
                 </button>
               </div>
-              <div class="col-xs-6 col-md-5">
+              <div class="col-xs-6">
                 <button class="p0 bg-transparent brdr-none action" @click="addToCompare">
                   <i class="pr5 material-icons">compare</i>
-                    Add to compare
+                    <span v-if="!compare.isCompare">
+                      Add to compare
+                    </span>
+                    <span v-else>
+                      Remove from compare
+                    </span>
                 </button>
               </div>
             </div>
@@ -99,6 +104,9 @@ export default {
       favorite: {
         isFavorite: false,
         icon: 'favorite_border'
+      },
+      compare: {
+        isCompare: false
       }
     }
   },
@@ -120,12 +128,25 @@ export default {
       }
     },
     addToCompare () {
-      // todo
-      this.$bus.$emit('notification', {
-        type: 'success',
-        message: 'Product has been added to comparison list. However - this feature is not implemented yet :(',
-        action1: { label: 'OK', action: 'close' }
-      })
+      let self = this
+      if (!self.compare.isCompare) {
+        this.$store.dispatch('compare/addItem', self.product).then(res => {
+          self.compare.isCompare = true
+        })
+      } else {
+        this.$store.dispatch('compare/removeItem', self.product).then(res => {
+          self.compare.isCompare = false
+        })
+      }
+    }
+  },
+  mounted: function () {
+    if (this.wishlistCheck.isOnWishlist(this.product)) {
+      this.favorite.icon = 'favorite'
+      this.favorite.isFavorite = true
+    }
+    if (this.compareCheck.isOnCompare(this.product)) {
+      this.compare.isCompare = true
     }
   },
   components: {
