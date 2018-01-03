@@ -101,53 +101,11 @@ import ProductLinks from '../components/core/ProductLinks.vue'
 export default {
   data () {
     return {
-      favorite: {
-        isFavorite: false,
-        icon: 'favorite_border'
-      },
-      compare: {
-        isCompare: false
-      }
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
   },
   methods: {
-    addToFavorite () {
-      let self = this
-      if (!self.favorite.isFavorite) {
-        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
-          self.favorite.icon = 'favorite'
-          self.favorite.isFavorite = true
-        })
-      } else {
-        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
-          self.favorite.icon = 'favorite_border'
-          self.favorite.isFavorite = false
-        })
-      }
-    },
-    addToCompare () {
-      let self = this
-      if (!self.compare.isCompare) {
-        this.$store.dispatch('compare/addItem', self.product).then(res => {
-          self.compare.isCompare = true
-        })
-      } else {
-        this.$store.dispatch('compare/removeItem', self.product).then(res => {
-          self.compare.isCompare = false
-        })
-      }
-    }
-  },
-  mounted: function () {
-    if (this.wishlistCheck.isOnWishlist(this.product)) {
-      this.favorite.icon = 'favorite'
-      this.favorite.isFavorite = true
-    }
-    if (this.compareCheck.isOnCompare(this.product)) {
-      this.compare.isCompare = true
-    }
   },
   components: {
     AddToCart,

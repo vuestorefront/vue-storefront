@@ -14,7 +14,6 @@ export default {
     }
   },
   beforeMount () {
-    console.log(this.label)
     if (this.$route.name !== 'product') {
       this.$bus.$on('filter-changed-' + this.context, (filterOption) => {
         if (filterOption.attribute_code === this.code) {
