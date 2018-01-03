@@ -1,5 +1,5 @@
 <template>
-  <div class="button-outline uppercase px40 py15" :class="{ 
+  <div class="button-outline uppercase px40 py15" tabindex="0" :class="{
     light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
     dark : color === 'dark', 'brdr-black' : color === 'dark', 'c-gray-secondary' : color === 'dark'
   }">
@@ -8,8 +8,10 @@
 </template>
 
 <script>
+import focusClean from 'theme/components/theme/directives/focusClean'
 export default {
   name: 'button-outline',
+  directives: { focusClean },
   props: {
     text: {
       type: String,
