@@ -6,7 +6,9 @@
       </div>
       <div class="col-xs flex pl40 pb15 pt15">
         <div>
-          <div>{{ product.name | htmlDecode}}</div>
+          <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
+            {{ product.name | htmlDecode}}
+           </router-link>
           <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
         </div>
       </div>
