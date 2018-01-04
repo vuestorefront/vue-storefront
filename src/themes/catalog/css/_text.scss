@@ -1,0 +1,30 @@
+//globals
+
+body {
+    font-family: $font-family;
+    color: $c-text-primary;    
+    font-size: $font-size;
+}
+
+a {
+    text-decoration: $link-text-decoration;
+}
+
+i.material-icons {
+    color: $c-icon;
+    @include transition-icon;
+    &:hover {
+        color: $c-icon-hover;
+    }
+}
+//atomics
+
+.c-primary {
+    color: $c-text-primary;
+}
+.c-secondary {
+    color: $c-text-secondary;    
+}
+.c-secondary-lighter {
+    color: $c-text-secondary-lighter;        
+}

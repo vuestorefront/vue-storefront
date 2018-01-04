@@ -1,7 +1,7 @@
 const state = {
   title: 'Vue Storefront',
   description: 'Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.',
-  suffix: ' - Vue Storefront'
+  suffix: ' - Vue Catalog'
 }
 
 const getters = {

@@ -28,11 +28,11 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
 
-      theme_pages: path.resolve(__dirname, '../src/themes/default/pages'),
-      theme_components: path.resolve(__dirname, '../src/themes/default/components'),
-      'theme/components': path.resolve(__dirname, '../src/themes/default/components'),
-      'theme/pages': path.resolve(__dirname, '../src/themes/default/pages'),
-      'theme/css': path.resolve(__dirname, '../src/themes/default/css')
+      theme_pages: path.resolve(__dirname, '../src/themes/catalog/pages'),
+      theme_components: path.resolve(__dirname, '../src/themes/catalog/components'),
+      'theme/components': path.resolve(__dirname, '../src/themes/catalog/components'),
+      'theme/pages': path.resolve(__dirname, '../src/themes/catalog/pages'),
+      'theme/css': path.resolve(__dirname, '../src/themes/catalog/css')
 
     }
   },
@@ -58,7 +58,7 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueConfig
+        options: vueConfig,
       },
       {
         test: /\.js$/,
@@ -74,7 +74,8 @@ module.exports = {
       },
       {
         test: /\.s[a|c]ss$/,
-        loader: 'style!css!sass'
+        loader: 'style!css!sass',
+        
       },
       {
         test: /\.md$/,

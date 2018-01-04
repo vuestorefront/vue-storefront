@@ -1,0 +1,27 @@
+$sizes: 0 5 10 15 20 25 30 35 40 45 50;
+
+@each $p in $sizes {
+    .p#{$p} {
+      padding: #{$p}px;
+    }
+    .pt#{$p} {
+        padding-top: #{$p}px;
+    }
+    .pb#{$p} {
+        padding-bottom: #{$p}px;
+    }
+    .pl#{$p} {
+        padding-left: #{$p}px;
+    }
+    .pr#{$p} {
+        padding-right: #{$p}px;
+    }
+    .px#{$p} {
+        padding-left: #{$p}px;
+        padding-right: #{$p}px;        
+    }
+    .py#{$p} {
+        padding-top: #{$p}px;
+        padding-bottom: #{$p}px;        
+    }
+  }

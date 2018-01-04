@@ -82,6 +82,7 @@
     "eslint-config-standard": "^6.0.0-beta.2",
     "eslint-friendly-formatter": "^2.0.6",
     "eslint-loader": "^1.5.0",
+    "eslint-plugin-flowtype-errors": "^3.3.6",
     "eslint-plugin-html": "^1.5.2",
     "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.0",

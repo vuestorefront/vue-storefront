@@ -1,0 +1,17 @@
+@import 'vars/colors';
+@import 'vars/text';
+@import 'vars/additional';
+
+@import 'mixins/transitions';
+
+@import 'text';
+@import 'background';
+@import 'border';
+@import 'padding';
+@import 'margin';
+
+
+body {
+    padding: 0;
+    margin: 0;
+}
