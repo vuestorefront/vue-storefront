@@ -60,10 +60,13 @@ export default {
 .product-image > img {
   max-width: 242px;
   height: 100%;
+  opacity: 0.8;
   transition: 0.3s all $motion-main;
+  mix-blend-mode: multiply;
 }
 .product-image:hover > img {
   transform: scale(1.1);
+  opacity: 1;
   transition: 0.3s all $motion-main;
 }
 .product-image {
@@ -71,5 +74,11 @@ export default {
   height: 300px;
   mix-blend-mode: multiply;
   overflow: hidden;
+  background-color: #F2F2F2;
+  transition: 0.3s all $motion-main;
+
+  &:hover {
+    background-color: #FBFBFB;
+  }
 }
 </style>
