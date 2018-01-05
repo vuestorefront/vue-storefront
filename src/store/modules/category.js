@@ -97,7 +97,8 @@ const actions = {
                 }
               }).catch(err => {
                 console.error(err)
-                reject(err)
+                commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath) // this is the case when category is not binded to the root tree - for example "Erin Recommends"
+                resolve(mainCategory)
               })
             } else {
               commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
