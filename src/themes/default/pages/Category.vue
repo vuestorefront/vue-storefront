@@ -3,9 +3,13 @@
     <header class="bg-lightgray py35 pl20">
         <div class="container">
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
-            <h1 class="mb10"> {{ category.name }} </h1> 
+            <h1 class="category-title mb10"> {{ category.name }} </h1>
         </div>
-        <button class="mobile-filters-button bg-black brdr-none c-white" @click="openFilters">ADD FILTERS</button>
+        <div class="container">
+          <div class="row m0">
+            <button class="col-xs-5 mt25 p15 mobile-filters-button bg-black brdr-none c-white h5" @click="openFilters">Filters</button>
+          </div>
+        </div>
     </header>
     <div class="container pb60">
         <div class="row pt15 pl20 center-md">
@@ -71,8 +75,6 @@ export default {
     }
 
     .mobile-filters-button {
-        margin-top: 25px;
-        padding: 15px;
         display: none;
     }
 
@@ -83,6 +85,11 @@ export default {
     }
 
     @media (max-width: 770px) {
+
+        .category-title {
+            margin: 0;
+            font-size: 36px;
+        }
 
         .products-list {
             width: 100%;

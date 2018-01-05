@@ -8,12 +8,11 @@
             <img v-if="!instant" v-lazy="thumbnail" :key="thumbnail"/>
           </transition>
         </div>
-        <p class="mb0">{{ product.name | htmlDecode }}</p>
+        <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>
 
-        <span class="price-special lh30 c-gray" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
-        <span class="price-original lh30 c-gray" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
-
-        <span class="lh30 c-gray" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
+        <span class="price-original mr5 lh30 c-gray-secondary" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
+        <span class="price-special lh30 c-darkgray weight-700" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
+        <span class="lh30 c-gray-secondary" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
       </router-link>
     </span>
   </div>
@@ -54,13 +53,8 @@ export default {
 <style lang="scss" scoped>
 @import '~src/themes/default/css/transitions';
 
-.price-special {
-  color: red;
-  margin-right: 5px
-}
 .price-original {
   text-decoration: line-through;
-  font-size: smaller
 }
 
 .product-image > img {
