@@ -119,8 +119,8 @@ export default {
             padding: 0 40px;
             left: 0;
             width: 100vw;
-            height: calc(100vh - 56px);
-            top: 56px;
+            height: 100vh;
+            top: 0;
             box-sizing: border-box;
         }
 
