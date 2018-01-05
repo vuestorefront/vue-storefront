@@ -211,7 +211,7 @@ export default {
       },
       compare: {
         isCompare: false
-      }      
+      }
     }
   },
   meta () {
