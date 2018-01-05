@@ -12,7 +12,7 @@
         </div>
     </header>
     <div class="container pb60">
-        <div class="row pt15 pl20 center-md">
+        <div class="row m0 pt15 center-md">
             <div class="col-md-3 start-xs category-filters">
                 <sidebar :filters="filters"/>
             </div>

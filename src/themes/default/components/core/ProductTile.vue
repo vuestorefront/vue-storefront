@@ -2,7 +2,7 @@
   <div class="product align-center p15">
     <span @click.capture="preventClicks">
       <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
-        <div class="product-image">
+        <div class="product-image bg-lightgray">
           <transition name="fade" appear>
             <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
             <img v-if="!instant" v-lazy="thumbnail" :key="thumbnail"/>
@@ -56,10 +56,11 @@ export default {
 .price-original {
   text-decoration: line-through;
 }
-
 .product-image > img {
-  max-width: 242px;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   opacity: 0.8;
   transition: 0.3s all $motion-main;
   mix-blend-mode: multiply;
@@ -71,10 +72,8 @@ export default {
 }
 .product-image {
   width: 100%;
-  height: 300px;
   mix-blend-mode: multiply;
   overflow: hidden;
-  background-color: #F2F2F2;
   transition: 0.3s all $motion-main;
 
   &:hover {

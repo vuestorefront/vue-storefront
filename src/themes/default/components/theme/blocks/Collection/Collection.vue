@@ -22,7 +22,7 @@
             </carousel>
           </no-ssr>
         </div>
-      </div>    
+      </div>
     </div>
   </div>
   </div>
