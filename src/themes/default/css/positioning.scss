@@ -1,16 +1,23 @@
 .inline-flex {
   display: inline-flex;
 }
+
 .flex {
   display: flex;
+}
+
+.center-self {
+ align-self: center;
 }
 
 .relative {
   position: relative;
 }
+
 .absolute {
   position: absolute;
 }
+
 .fixed {
   position: fixed;
 }

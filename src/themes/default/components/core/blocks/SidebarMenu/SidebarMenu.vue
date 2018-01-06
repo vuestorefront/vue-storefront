@@ -1,28 +1,26 @@
 <template>
     <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
-        <div class="row">
-            <div @click="closeMenu" class="col-xs-7 px15 bg-white brdr-bottom brdr-c-lightgray ">
+        <div class="row between-xs">
+            <div @click="closeMenu" class="flex-start px15 bg-white brdr-bottom brdr-c-lightgray ">
                 <search-icon class="p15 icon hidden-md" />
                 <wishlist-icon class="p15 icon hidden-md" />
                 <account-icon class="p15 icon hidden-md" />
+                <sub-btn type="back" v-if="submenu.depth"></sub-btn>
             </div>
-            <div class="col-xs-5 close bg-white align-right end-xs brdr-bottom brdr-c-lightgray" @click="closeMenu">
+            <div class="flex-end col-xs close bg-white align-right end-xs brdr-bottom brdr-c-lightgray" @click="closeMenu">
                 <i class="material-icons p15">close</i>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 h4 serif">
-                <ul class="p0 m0">
+                <ul class="p0 m0 sidebar-menu__list" v-bind:style="mainListStyles">
                     <li @click="closeMenu" class="brdr-bottom brdr-c-lightgray bg-white">
                         <router-link class="px25 py20 c-black no-underline" to="/" exact>Home</router-link>
                     </li>
-                    <li class="brdr-bottom brdr-c-lightgray bg-white" v-bind:key="category.slug"  @click="closeMenu" v-for='category in categories' v-if='category.product_count >0 || category.children_data.length>0' >
-                        <router-link class="px25 py20 c-black no-underline" :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
-                        <ul v-if="category.children_data" class="p0">
-                            <li @click="closeMenu" v-bind:key="subcat.slug" v-for='subcat in category.children_data'  style="display: none">
-                                <router-link class="px25 py20 no-underline" :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
-                            </li>
-                        </ul>
+                    <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="category.slug" @click="closeMenu" v-for='category in categories' v-if='category.product_count >0 || category.children_data.length>0' >
+                      <router-link class="px25 py20 c-black no-underline col-xs" :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
+                      <sub-btn class="flex-end center-self" :id="category.id"></sub-btn>
+                      <sub-category :links="category.children_data" :id="category.id"></sub-category>
                     </li>
                     <li @click="closeMenu">
                         <router-link class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/magazine" exact>Magazine</router-link>
@@ -43,24 +41,36 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { coreComponent } from 'lib/themes'
 import AccountIcon from '../Header/AccountIcon.vue'
 import SearchIcon from '../Header/SearchIcon.vue'
 import WishlistIcon from '../Header/WishlistIcon.vue'
+import SubBtn from './SubBtn.vue'
+import SubCategory from './SubCategory.vue'
 
 export default {
+  mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')],
   components: {
     AccountIcon,
     WishlistIcon,
-    SearchIcon
+    SearchIcon,
+    SubCategory,
+    SubBtn
   },
-  mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')]
+  computed: {
+    mainListStyles () {
+      return this.submenu.depth ? `transform: translateX(${this.submenu.depth * 100}%)` : false
+    },
+    ...mapState({
+      submenu: state => state.ui.submenu
+    })
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../../../css/transitions.scss";
-
 ul {
     list-style-type: none;
 }
@@ -76,29 +86,42 @@ ul {
     position: fixed;
     transform: translateX(-100%);
     z-index: 3;
-    transition: transform 300ms $motion-main;
+    transition: transform $duration-main $motion-main;
 }
+
 .sidebar-menu.active {
-    transform: translateX(0);
+  transform: translateX(0);
 }
+
+.sidebar-menu__list {
+    position: relative;
+    transition: transform $duration-main $motion-main;
+}
+
 .close {
     cursor: pointer;
     display: inline-flex;
 }
+
 a {
     display: block;
 }
-li:hover {
-    background-color: #F2F2F2;
-}
 </style>
 <style lang="scss">
-    .sidebar-menu i{
+    .sidebar-menu {
+      li {
+        &:hover {
+           background-color: #F2F2F2;
+         }
+      }
+
+      i {
         opacity: 0.6;
 
         &:hover{
-            opacity: 1;
+          opacity: 1;
         }
+      }
     }
 </style>
 
