@@ -19,6 +19,11 @@ Vue.use(VueLazyload, {
   attempt: 2
 })
 
+Vue.use(VueAnalytics, {
+  id: config.googleanalytics.id,
+  router
+})
+
 export function createApp () {
   sync(store, router)
   const app = new Vue({
