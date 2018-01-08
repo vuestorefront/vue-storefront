@@ -146,9 +146,13 @@ const mutations = {
     state.list = categories.items
 
     for (let category of state.list) {
-      for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
-        subcat = Object.assign(subcat, { slug: subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '' })
+      let catSlugSetter = (category) => {
+        for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
+          subcat = Object.assign(subcat, { slug: subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '' })
+          catSlugSetter(subcat)
+        }
       }
+      catSlugSetter(category)
       const catCollection = global.db.categoriesCollection
       try {
         catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
