@@ -2,7 +2,7 @@
   <section class="search c-on-dark middle-xs">
       <div class="row center-xs pb20">
           <div class="col-md-6">
-              <h1 class="extrabold">Find the right sporting clothes for all situations</h1>
+              <h1 class="c-on-dark extrabold">Find the right sporting clothes for all situations</h1>
           </div>
       </div>
       <div class="row center-xs">

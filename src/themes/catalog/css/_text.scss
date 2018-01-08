@@ -23,9 +23,11 @@ i.material-icons {
 
 h1 {
     font-size: $font-size-h1;
+    color: $c-text-heading;
 }
 h2 {
     font-size: $font-size-h2;
+    color: $c-text-heading;
 }
 //atomics
 
@@ -73,4 +75,8 @@ h2 {
 
 .fs-medium {
     font-size: $font-size-medium;
+}
+
+.fs-large {
+    font-size: $font-size-large;
 }

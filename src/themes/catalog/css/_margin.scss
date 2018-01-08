@@ -1,0 +1,29 @@
+$sizes: 0 5 10 15 20 25 30 35 40 45 50 70;
+
+@each $m in $sizes {
+    .m#{$m} {
+      margin: #{$m}px;
+    }
+    .mt#{$m} {
+        margin-top: #{$m}px;
+    }
+    .mb#{$m} {
+        margin-bottom: #{$m}px;
+    }
+    .ml#{$m} {
+        margin-left: #{$m}px;
+    }
+    .mr#{$m} {
+        margin-right: #{$m}px;
+    }
+    .mx#{$m} {
+        margin-left: #{$m}px;
+        margin-right: #{$m}px;        
+    }
+    .my#{$m} {
+        margin-top: #{$m}px;
+        margin-bottom: #{$m}px;        
+    }
+  }
+
+  

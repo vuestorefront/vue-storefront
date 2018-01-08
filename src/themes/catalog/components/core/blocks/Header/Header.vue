@@ -1,11 +1,9 @@
 <template>
   <header class="header b-bottom">
 
-    <div class="row">
-      <div class="col-sm-12 p15 c-secondary-lighter bg-secondary center-md">
-        <router-link to="/">Visit our stores</router-link>, choose one of 100+ stores in 52 countries all over the world!
-      </div>  
-    </div>
+    <div class="col-sm-12 p15 c-secondary-lighter bg-secondary center-md">
+      <router-link to="/">Visit our stores</router-link>, choose one of 100+ stores in 52 countries all over the world!
+    </div>  
 
     <nav class="menu container">
       <div class="row middle-xs full-size">
