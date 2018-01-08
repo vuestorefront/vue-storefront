@@ -1,4 +1,4 @@
-import config from '../../config.json'
+import { Config as config } from 'src/config'
 import EventBus from 'src/event-bus'
 import store from '../'
 

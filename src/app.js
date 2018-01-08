@@ -3,7 +3,8 @@ import App from './themes/default/App.vue'
 import store from './store'
 import router from './router'
 import { EventBusPlugin as EventBus } from './event-bus'
-import config from './config.json'
+import { ConfigPlugin as ConfigPlg, Config as config } from 'src/config'
+
 import { sync } from 'vuex-router-sync'
 
 import { registerFilters } from './lib/filters'
@@ -13,6 +14,7 @@ import { registerExtensions } from './lib/extensions'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 
+Vue.use(ConfigPlg)
 Vue.use(EventBus)
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
