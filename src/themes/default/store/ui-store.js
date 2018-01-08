@@ -1,5 +1,12 @@
 import { coreStore, extendStore } from 'lib/themes'
 
+const state = {
+  submenu: {
+    depth: false,
+    path: []
+  }
+}
+
 const mutations = {
   setCheckoutMode (state, action) {
     state.checkoutMode = action === true
@@ -11,6 +18,16 @@ const mutations = {
   setSidebar (state, action) {
     state.sidebar = action === true
     state.overlay = action === true
+  },
+  setSubmenu (state, { id, depth }) {
+    if (id) {
+      state.submenu.path.push(id)
+    } else if (state.submenu.path.length) {
+      setTimeout(() => {
+        state.submenu.path.pop()
+      }, 300)
+    }
+    state.submenu.depth = state.submenu.depth > 0 && depth
   },
   setSearchpanel (state, action) {
     state.searchpanel = action === true
@@ -31,5 +48,6 @@ const mutations = {
 }
 
 export default extendStore(coreStore('modules/ui-store'), {
+  state,
   mutations
 })
