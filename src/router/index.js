@@ -18,6 +18,6 @@ const router = new VueRouter({
       return {x: 0, y: 0}
     }
   }
-}) // routes are registered by themes or modules - here is only global router instance
+}) // routes are registered by theme or modules - here is only global router instance
 
 export default router

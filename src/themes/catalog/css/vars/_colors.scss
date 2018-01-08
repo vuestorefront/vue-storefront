@@ -1,13 +1,26 @@
+// Layout accent
+$c-accent: #1A4D96;
+
+// Text
 $c-text-primary: #4F4F4F;
 $c-text-secondary: #828282;
 $c-text-secondary-lighter: #BDBDBD;
-$c-text-accent: #1A4D96;
+
+$c-text-on-dark: white;
+$c-text-on-accent: white;
+
 $c-text-heading: black;
 $c-text-header-link: black;
 
+
+// Icons
 $c-icon: #E0E0E0;
 $c-icon-hover: #4F4F4F;
+$c-icon-header-background-hover: #F2F2F2;
+
+// Borders
 $c-border: #F2F2F2;
 
+//Backgrounds
 $c-bg-primary: #FFFFFF;
 $c-bg-secondary: #F2F2F2;

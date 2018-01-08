@@ -1,6 +1,6 @@
 @mixin transition-icon {
-    transition: $transition-time-icon color;
+    transition: $transition-time-icon all;
     &:hover {
-        transition: $transition-time-icon color;        
+        transition: $transition-time-icon all;        
     }
 }
