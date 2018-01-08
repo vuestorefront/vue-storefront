@@ -7,12 +7,14 @@
         </div>
         <div class="container">
           <div class="row m0">
-            <button class="col-xs-5 mt25 p15 mobile-filters-button bg-black brdr-none c-white h5" @click="openFilters">Filters</button>
+            <button class="col-xs-5 mt25 p15 mobile-filters-button bg-black brdr-none c-white h5 weight-300" @click="openFilters">
+              Filters ({{ filtersCounter }})
+            </button>
           </div>
         </div>
     </header>
     <div class="container pb60">
-        <div class="row m0 pt15 center-md">
+        <div class="row m0 pt15 px10 center-md">
             <div class="col-md-3 start-xs category-filters">
                 <sidebar :filters="filters"/>
             </div>
@@ -22,6 +24,7 @@
                 </div>
                 <sidebar class="mobile-filters-body" :filters="filters"/>
             </div>
+            <p class="col-xs-12 hidden-md m0 c-gray-secondary">{{ productsCounter }} items</p>
             <div class="col-md-9 pt20 products-list">
                 <div v-if="isCategoryEmpty">
                     No products found!
@@ -51,6 +54,14 @@ export default {
       mobileFilters: false
     }
   },
+  computed: {
+    productsCounter () {
+      return this.$store.state.product.list.items.length
+    },
+    filtersCounter () {
+      return Object.keys(this.$store.state.category.filters).length
+    }
+  },
   methods: {
     openFilters () {
       this.mobileFilters = true
@@ -75,6 +86,7 @@ export default {
     }
 
     .mobile-filters-button {
+        font-family: 'Roboto', sans-serif;
         display: none;
     }
 
