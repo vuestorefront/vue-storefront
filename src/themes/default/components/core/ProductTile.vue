@@ -1,6 +1,6 @@
 <template>
   <div class="product align-center p15">
-    <span @click.capture="preventClicks">
+    <div @click.capture="preventClicks">
       <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
         <div class="product-image bg-lightgray">
           <transition name="fade" appear>
@@ -14,7 +14,7 @@
         <span class="price-special lh30 c-darkgray weight-700" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
         <span class="lh30 c-gray-secondary" v-if="!product.special_price" >{{ product.priceInclTax | price }}</span>
       </router-link>
-    </span>
+    </div>
   </div>
 </template>
 
@@ -53,6 +53,11 @@ export default {
 <style lang="scss" scoped>
 @import '~src/themes/default/css/transitions';
 
+.product {
+  @media (max-width: 700px) {
+    padding: 0;
+  }
+}
 .price-original {
   text-decoration: line-through;
 }
