@@ -22,7 +22,7 @@
             </carousel>
           </no-ssr>
         </div>
-      </div>    
+      </div>
     </div>
   </div>
   </div>
@@ -71,6 +71,13 @@
 .collection-product {
   background-color: #f2f2f2;
 }
+
+  .product {
+    &.collection-product {
+      padding: 15px;
+    }
+  }
+
   .collection-product .product-image {
     //TO-DO: Should be global
     mix-blend-mode: darken;

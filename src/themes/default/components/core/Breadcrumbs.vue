@@ -1,5 +1,5 @@
-<template>  
-  <div class="breadcrumbs h5 c-darkgray">
+<template>
+  <div class="breadcrumbs h5 c-darkgray hidden-xs">
       <span v-for="link in routes" v-bind:key="link.route_link">
         <router-link :to="link.route_link">
           {{ link.name | htmlDecode }}
@@ -20,5 +20,5 @@ export default {
 </script>
 
 <style scoped>
-  
+
 </style>
