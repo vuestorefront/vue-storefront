@@ -4,7 +4,7 @@
   
   <section class="container">
     <div>
-      <header class="col-md-12 pt40">
+      <header class="col-xs-12 pt40">
         <h2 class="align-center">Everything new</h2>
       </header>
     </div>
@@ -19,7 +19,7 @@
 
   <section class="container pb60">
     <div class="row center-xs">
-      <header class="col-md-12 pt40">
+      <header class="col-xs-12 pt40">
         <h2 class="align-center">Get inspired</h2>
       </header>
     </div>
