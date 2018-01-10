@@ -166,7 +166,7 @@ export default {
     .is-visible {
         top: 0 !important;
     }
-    @media (max-width: 75rem) {
+    @media (max-width: 75em) {
         .row.middle-xs {
             margin: 0 -15px;
         }
