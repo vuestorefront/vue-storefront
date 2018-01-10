@@ -1,7 +1,7 @@
 <template>
   <section class="main-slider bg-darkgray c-white">
     <no-ssr>
-        <carousel :perPage='1'>
+        <carousel :perPage='1' paginationActiveColor="transparent" paginationColor="#F2F2F2">
             <slide v-for='slide in slides'>
                 <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
                     <div class="row middle-xs center-xs">
@@ -36,7 +36,20 @@ export default {
   mixins: [coreComponent('core/blocks/MainSlider/MainSlider')]
 }
 </script>
-
+<style lang="scss">
+@import '~theme/css/global_vars';
+$white: map-get($colors, white);
+    .main-slider {
+        .VueCarousel-pagination {
+            position: absolute;
+            bottom: 15px;
+        }
+        .VueCarousel-dot--active .VueCarousel-dot-inner {
+            border: 2px solid $white;
+            margin-top: -2px;
+        }
+    }
+</style>
 <style scoped>
 h1 {
     font-size: 72px;
@@ -70,7 +83,10 @@ h1 {
 }
 @media (max-width: 64em) {
     .main-slider {
-        height: 300px;
+        height: 359px;
+    }
+    .container {
+        background-position: left;
     }
     .title {
         font-size: 48px;
@@ -82,7 +98,7 @@ h1 {
         font-size: 16px;
     }
     .row {
-        height: 300px;
+        height: 359px;
     }
 }
 </style>
