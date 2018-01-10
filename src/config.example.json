@@ -25,6 +25,9 @@
       "defaultCountry": "PL",
       "defaultRegion": "",
       "calculateServerSide": false
+    },
+    "googleanalytics": {
+      "id": "UA-NNNNNNNNN-N"
     },  
     "i18n": {
       "defaultCountry": "US",

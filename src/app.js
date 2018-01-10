@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueAnalytics from 'vue-analytics'
 import App from './themes/default/App.vue'
 import store from './store'
 import router from './router'
@@ -17,6 +18,11 @@ Vue.use(EventBus)
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
   attempt: 2
+})
+
+Vue.use(VueAnalytics, {
+  id: config.googleanalytics.id,
+  router
 })
 
 export function createApp () {
