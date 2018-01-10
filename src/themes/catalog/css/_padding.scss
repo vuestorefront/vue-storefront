@@ -1,4 +1,5 @@
 $sizes: 0 5 10 15 20 25 30 35 40 45 50 70;
+$sizespercent: 20 50;
 
 @each $p in $sizes {
     .p#{$p} {
@@ -26,4 +27,28 @@ $sizes: 0 5 10 15 20 25 30 35 40 45 50 70;
     }
   }
 
-  
+  @each $p in $sizespercent {
+    .p#{$p}\% {
+      padding: percentage($p/100);
+    }
+    .pt#{$p}\% {
+        padding-top: percentage($p/100);
+    }
+    .pb#{$p}\% {
+        padding-bottom: percentage($p/100);
+    }
+    .pl#{$p}\% {
+        padding-left: percentage($p/100);
+    }
+    .pr#{$p}\% {
+        padding-right: percentage($p/100);
+    }
+    .px#{$p}\% {
+        padding-left: percentage($p/100);
+        padding-right: percentage($p/100);        
+    }
+    .py#{$p}\% {
+        padding-top: percentage($p/100);
+        padding-bottom: percentage($p/100);       
+    }
+  }

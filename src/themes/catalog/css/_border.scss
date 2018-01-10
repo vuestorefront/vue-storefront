@@ -15,3 +15,15 @@
     border-left-width: $border-width;
     border-left-style: $border-style;
 }
+
+.b {
+    border: $border-width $border-style $c-border;
+}
+
+.b-bottom-none {
+    border-bottom: none;
+}
+
+.b-right-none {
+    border-right: none;
+}
