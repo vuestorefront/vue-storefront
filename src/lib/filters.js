@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Config as config } from 'src/config'
+import config from 'config'
 import he from 'he'
 
 /**

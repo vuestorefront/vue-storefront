@@ -3,7 +3,8 @@ import App from './themes/default/App.vue'
 import store from './store'
 import router from './router'
 import { EventBusPlugin as EventBus } from './event-bus'
-import { ConfigPlugin as ConfigPlg, Config as config } from 'src/config'
+import { ConfigPlugin as ConfigPlg } from 'src/config'
+import config from 'config'
 
 import { sync } from 'vuex-router-sync'
 

@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import * as entities from 'lib/entities'
-import { Config as config } from 'src/config'
+import config from 'config'
 import EventBus from 'src/event-bus'
 
 // initial state

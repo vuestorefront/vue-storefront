@@ -25,8 +25,8 @@ Vue storefront is based on open source technologies which SHOULD (in theory ;)) 
 2. Clone the [vue-storefront](https://github.com/DivanteLtd/vue-storefront) project: `git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront`
 3. Go to vue-storefront in dir: `cd vue-storefront`
 4. Install dependencies: `npm install`
-5. Copy `src/config.example.json` to `src/config.json`
-6. Images: because vue-storefront-api uses `imagemagick` and some nodejs cmdline bindings it can be dificult to run the image proxy on localhost/windows machine. Please point out the vue-storefront to image proxy provided by changing `src/config.json` images.baseUrl:
+5. Copy `config/default.json` to `config/local.json`
+6. Images: because vue-storefront-api uses `imagemagick` and some nodejs cmdline bindings it can be dificult to run the image proxy on localhost/windows machine. Please point out the vue-storefront to image proxy provided by changing `config/local.json` images.baseUrl:
 
 ```json
 export default {
@@ -43,6 +43,7 @@ export default {
     baseUrl: 'https://demo.vuestorefront.io/img/'
   }
 }
+(we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config)
 
 ```
 6. Run API using `npm run dev` 

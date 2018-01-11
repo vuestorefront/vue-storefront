@@ -2,7 +2,7 @@ import * as types from '../mutation-types'
 import { ValidationError } from 'lib/exceptions'
 import * as entities from 'lib/entities'
 import EventBus from 'src/event-bus'
-import { Config as config } from 'src/config'
+import config from 'config'
 const Ajv = require('ajv') // json validator
 
 // initial state

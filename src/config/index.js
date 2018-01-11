@@ -1,4 +1,4 @@
-const Config = require('config')
+import config from 'config'
 
 const ConfigPlugin = {
   install (Vue) {
@@ -6,7 +6,7 @@ const ConfigPlugin = {
       Object.defineProperties(Vue.prototype, {
         $config: {
           get: function () {
-            return Config
+            return config
           }
         }
       })
@@ -14,4 +14,4 @@ const ConfigPlugin = {
   }
 }
 
-export { Config as default, ConfigPlugin }
+export { config as default, ConfigPlugin }

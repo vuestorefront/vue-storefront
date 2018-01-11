@@ -1,5 +1,5 @@
 import { createApp } from './app'
-import { Config as config } from 'src/config'
+import config from 'config'
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
