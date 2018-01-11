@@ -7,6 +7,7 @@ $c-text-secondary: #828282;
 $c-text-secondary-lighter: #BDBDBD;
 
 $c-text-on-dark: white;
+$c-text-on-light: black;
 $c-text-on-accent: white;
 
 $c-text-heading: #333333;
@@ -17,7 +18,9 @@ $c-text-header-link: black;
 // Icons
 $c-icon: #E0E0E0;
 $c-icon-hover: #4F4F4F;
-$c-icon-header-background-hover: #F2F2F2;
+$c-icon-with-background: #ffffff;
+$c-icon-with-background-bg: #BDBDBD;
+$c-header-background-hover: #F2F2F2;
 
 // Borders
 $c-border: #F2F2F2;

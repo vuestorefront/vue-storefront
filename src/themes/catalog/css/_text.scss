@@ -1,4 +1,4 @@
-//globals
+// Globals
 
 body {
     font-family: $font-family;
@@ -11,16 +11,6 @@ a {
     text-decoration: $link-text-decoration;
 }
 
-i.material-icons {
-    @include transition-icon;
-    
-    color: $c-icon;
-    &:hover {
-        color: $c-icon-hover;
-        background: $c-icon-header-background-hover;
-    }
-}
-
 h1 {
     font-size: $font-size-h1;
     color: $c-text-heading;
@@ -30,7 +20,8 @@ h2 {
     color: $c-text-heading;
     font-weight: $font-weight-h2;
 }
-//atomics
+
+// Colors
 
 .c-primary {
     color: $c-text-primary;
@@ -54,6 +45,12 @@ h2 {
     color: $c-text-on-dark;
 }
 
+.c-on-light {
+    color: $c-text-on-light;
+}
+
+// Weights
+
 .regular {
     font-weight: 300;
 }
@@ -72,6 +69,12 @@ h2 {
 
 .uppercase {
     text-transform: uppercase;
+}
+
+// Sizes
+
+.fs-medium-small {
+    font-size: $font-size-medium-small;
 }
 
 .fs-medium {

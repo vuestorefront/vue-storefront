@@ -1,10 +1,10 @@
-//globals
+// Global
 
 body {
     background: $c-bg-primary;
 }
 
-//atomics 
+// Colors 
 
 .bg-secondary {
     background: $c-bg-secondary;
@@ -12,4 +12,10 @@ body {
 
 .bg-accent {
     background: $c-accent;
+}
+
+// Colors on hover
+
+.bg-accent-hover {
+    @include hover-bg-darken($c-accent);
 }

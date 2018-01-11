@@ -8,10 +8,10 @@
       <div class="row center-xs">
           <div class="search-box col-md-8">
               <input type="text" class="m0 px25 inline-flex fs-medium" placeholder="What are you looking for?">
-              <button class="m0 fs-medium inline-flex center-xs c-on-accent bg-accent">Find Product</button>
+              <button class="m0 fs-medium inline-flex center-xs c-on-accent bg-accent bg-accent-hover">Find Product</button>
           </div>
       </div>
-      <div class="row center-xs py70 fs-medium">
+      <div class="top-searches row center-xs py70 fs-medium">
           <span class="extrabold px15">Top searches</span>
           <router-link to="/" class="px15 c-on-dark">Shoes</router-link>
           <router-link to="/" class="px15 c-on-dark">Bags</router-link>
@@ -46,5 +46,9 @@ export default {
         width: 25%;
         outline: none;
     }
+}
+
+.top-searches a:hover {
+    text-decoration: underline;
 }
 </style>

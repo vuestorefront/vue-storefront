@@ -1,5 +1,5 @@
 <template>
-  <div class="category-tile center-xs middle-xs flex fs-large extrabold">
+  <div class="category-tile center-xs middle-xs flex fs-large extrabold bg-accent bg-accent-hover c-on-accent">
       {{ label }}
   </div>
 </template>
@@ -15,11 +15,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/vars/colors';
 
 .category-tile {
-    background: $c-accent;
-    color: $c-text-on-accent;
     height: 350px;
 }
 </style>

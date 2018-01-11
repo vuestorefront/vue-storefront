@@ -12,14 +12,24 @@
           <i class="material-icons b-left middle-xs px25 full-size inline-flex">search</i>
         </div>
         <div class="col-md-5 semibold end-xs middle-xs inline-flex uppercase">
-          <router-link to="/" class="menu-link px20">Football</router-link>
-          <router-link to="/" class="menu-link px20">Running</router-link>
-          <router-link to="/" class="menu-link px20">Indoor</router-link>
+          <router-link to="/" class="menu-link full-size px20 middle-xs flex">
+            <div class="inline-flex">Football</div>
+            <div class="material-icons inline-flex c-accent">keyboard_arrow_down</div>
+          </router-link>
+          <router-link to="/" class="menu-link full-size px20 middle-xs flex">
+            <div class="inline-flex">Running</div>
+            <div class="material-icons inline-flex c-accent">keyboard_arrow_down</div>          
+          </router-link>
+          <router-link to="/" class="menu-link full-size px20 middle-xs flex">
+            <div class="inline-flex">Indoor</div>
+            <div class="material-icons inline-flex c-accent">keyboard_arrow_down</div>        
+          </router-link>
         </div>
-        <div class="col-md-2 uppercase end-xs">
-          <router-link to="/" class="px20 semibold">Magazine</router-link>
-        </div>
-        <div class="col-md-2 center-xs">
+        <div class="col-md-4 uppercase end-xs">
+          <router-link to="/" class="px20 full-size magazine middle-xs semibold inline-flex">
+            <div class="material-icons inline-flex pr10">book</div>   
+            <div class="inline-flex">Magazine</div>
+          </router-link>
           <i class="material-icons middle-xs px25 full-size inline-flex b-left">favorite_border</i>
           <i class="material-icons middle-xs px25 full-size inline-flex">forum</i>
         </div>
@@ -40,7 +50,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/vars/_colors.scss';
+@import '~theme/css/vars/colors';
+@import '~theme/css/mixins/transitions';
+@import '~theme/css/mixins/hovers';
 
 a {
   color: $c-text-header-link;
@@ -48,5 +60,32 @@ a {
 
 .full-size {
   height: 75px;
+}
+
+.magazine {
+    @include hover-bg($c-header-background-hover);
+    line-height: 25px;
+    .material-icons {
+      color: $c-icon;
+    }
+}
+
+i.material-icons {
+    @include transition-icon;
+    @include hover-bg($c-header-background-hover);
+    color: $c-icon;
+    &:hover {
+        color: $c-icon-hover;
+    }
+}
+
+.menu-link {
+  @include hover-bg($c-header-background-hover);
+  line-height: 25px;
+}
+
+//temporary
+i.material-icons {
+  cursor: pointer;
 }
 </style>

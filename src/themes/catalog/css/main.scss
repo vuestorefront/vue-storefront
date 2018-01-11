@@ -3,6 +3,7 @@
 @import 'vars/additional';
 
 @import 'mixins/transitions';
+@import 'mixins/hovers';
 
 @import 'text';
 @import 'background';
@@ -10,9 +11,5 @@
 @import 'padding';
 @import 'margin';
 @import 'layout';
+@import 'icon';
 
-
-body {
-    padding: 0;
-    margin: 0;
-}
