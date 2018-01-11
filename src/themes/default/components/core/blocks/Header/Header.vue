@@ -166,13 +166,14 @@ export default {
     .is-visible {
         top: 0 !important;
     }
-    @media (max-width: 767px) {
+    @media (max-width: 75em) {
         .row.middle-xs {
             margin: 0 -15px;
         }
 
         .col-xs-2:first-of-type {
             padding-left: 0;
+            margin-left: -0.5rem;
         }
         .col-xs-2:last-of-type {
             padding-right: 0;

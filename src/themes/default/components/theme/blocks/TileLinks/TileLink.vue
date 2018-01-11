@@ -1,5 +1,5 @@
 <template>
-    <div class="tile-link">
+    <div class="tile-link ">
         <a :href="tile.account_link">
           <div class="tile-image bg-lightgray" v-lazy:background-image="tile.background_image">
             <div class="overlay flex bg-white h4">@{{ tile.account_name }}</div>
@@ -28,6 +28,9 @@ export default {
 .tile-link {
   width: 322px;
   height: 280px;
+  @media screen and (max-width: 75em){
+    width: 100%;
+  }
 }
 .tile-image {
   width: 100%;
