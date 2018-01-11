@@ -174,6 +174,9 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
               console.error('Unhandled error, wrong response format!')
               mutex[id] = false
             }
+          }).catch((err) => {
+            console.error(err)
+            mutex[id] = false
           })
         })
       }
@@ -196,7 +199,7 @@ EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout que
  * Process order queue when we're back onlin
  */
 function checkiIsOnline () {
-  this.$bus.$emit('network.status', { online: navigator.onLine })
+  EventBus.$emit('network.status', { online: navigator.onLine })
   console.log('Are we online: ' + navigator.onLine)
 
   if (navigator.onLine) {

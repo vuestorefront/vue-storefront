@@ -4,6 +4,14 @@
       "host": "localhost:8080/api/catalog",
       "index": "vue_storefront_catalog"
     },
+    "cart": {
+      "synchronize": false,
+      "create_endpoint": "http://localhost:8080/api/cart/create",
+      "updateitem_endpoint": "http://localhost:8080/api/cart/add",
+      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete",
+      "billing_endpoint": "http://localhost:8080/api/cart/billingAddress",
+      "shipping_endpoint": "http://localhost:8080/api/cart/shippingInformation"
+    },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"
     },
