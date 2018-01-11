@@ -44,8 +44,8 @@ To test out the application you'll need some test data. In vue-storefront-api/va
 First step is to configure the application:
 
 ```
-cp src/config.example.json src/config.json
-nano config.json
+cp config/default.json config/local.json
+nano config/local.json
 ```
 The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
 
@@ -84,10 +84,11 @@ npm install
 ```
 
 You have to prepare the config:
+(we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config)
 
 ```
-cp src/config.example.json src/config.json
-nano config.json
+cp config/default.json config/local.json
+nano config/local.json
 ```
 
 And then you can build app and run dev server:
