@@ -12,8 +12,8 @@ const isEmptyDir = require('empty-dir')
 const commandExists = require('command-exists')
 
 const SAMPLE_DATA_PATH = 'var/magento2-sample-data'
-const TARGET_CONFIG_FILE = 'config/default.json'
-const SOURCE_CONFIG_FILE = 'config/local.json'
+const TARGET_CONFIG_FILE = 'config/local.json'
+const SOURCE_CONFIG_FILE = 'config/default.json'
 
 const STOREFRONT_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront'
 const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront-api'
