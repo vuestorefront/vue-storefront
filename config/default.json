@@ -34,4 +34,4 @@
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
     "registeredExtensions": ["custom_extension", "mailchimp-subscribe"]
-  }
+ }
