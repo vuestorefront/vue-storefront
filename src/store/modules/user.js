@@ -62,15 +62,6 @@ const actions = {
     .then((resp) => {
       if (resp.code === 200) {
         context.commit(types.USER_TOKEN_CHANGED, resp.result)
-
-/*        context.dispatch('sync/queue',
-          { url: config.users.endpoint + '/me?token={{token}}',
-            payload: {
-              method: 'GET',
-              headers: { 'Content-Type': 'application/json' },
-              mode: 'cors'
-            }
-          }, { root: true }) */
         context.dispatch('me', { refresh: true, useCache: false }).then(result => {
           context.commit(types.USER_TOKEN_CHANGED, resp.result)
           context.dispatch('cart/serverCreate', {}, { root: true })
