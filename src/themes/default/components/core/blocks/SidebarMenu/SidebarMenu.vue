@@ -34,7 +34,8 @@
                         <router-link class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/order-tracking" exact>Track my order</router-link>
                     </li>
                     <li @click="closeMenu">
-                        <router-link class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/my-account" exact>My account</router-link>
+                        <router-link v-if="currentUser" class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/my-account" exact>My account</router-link>
+                        <a v-else href="#" @click="login" class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline">My account</a>
                     </li>
                 </ul>
             </div>
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { coreComponent } from 'lib/themes'
 import AccountIcon from '../Header/AccountIcon.vue'
 import SearchIcon from '../Header/SearchIcon.vue'
@@ -53,6 +55,17 @@ export default {
     AccountIcon,
     WishlistIcon,
     SearchIcon
+  },
+  computed: {
+    ...mapState({
+      currentUser: state => state.user.current
+    })
+  },
+  methods: {
+    login () {
+      this.$store.commit('ui/setSignUp', true)
+      this.$store.commit('ui/setOpenMyAccount', true)
+    }
   },
   mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')]
 }

@@ -144,6 +144,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
           const taskId = id
 
           console.log('Pushing out offline task ' + taskId)
+          console.log(task.url.replace('{{token}}', currentToken))
           return fetch(task.url.replace('{{token}}', currentToken), task.payload).then((response) => {
             if (response.status === 200) {
               const contentType = response.headers.get('content-type')
@@ -210,4 +211,8 @@ window.addEventListener('offline', checkiIsOnline)
 
 EventBus.$on('user-after-loggedin', (receivedData) => {
   store.dispatch('checkout/savePersonalDetails', receivedData)
+  if (store.state.ui.openMyAccount) {
+    router.push({ name: 'my-account' })
+    store.commit('ui/setOpenMyAccount', false)
+  }
 })

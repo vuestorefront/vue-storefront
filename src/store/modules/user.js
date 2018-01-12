@@ -1,6 +1,21 @@
 import * as types from '../mutation-types'
 import config from '../../config.json'
 import EventBus from 'src/event-bus'
+import { ValidationError } from 'lib/exceptions'
+import store from '../'
+
+const Ajv = require('ajv') // json validator
+
+EventBus.$on('user-after-update', (event) => {
+  if (event.resultCode === 200) {
+    EventBus.$emit('notification', {
+      type: 'success',
+      message: 'Accound data has successfully been updated',
+      action1: { label: 'OK', action: 'close' }
+    })
+    store.dispatch('user/refreshCurrentUser', event.result)
+  }
+})
 
 // initial state
 const state = {
@@ -153,6 +168,69 @@ const actions = {
         if (!resolvedFromCache) {
           resolve(null)
         }
+      }
+    })
+  },
+  /**
+   * Update user profile with data from My Account page
+   */
+  update (context, userData) {
+    const ajv = new Ajv()
+    const validate = ajv.compile(require('../../models/userProfile.schema.json'))
+
+    if (!validate(userData)) { // schema validation of user profile data
+      throw new ValidationError(validate.errors)
+    } else {
+      return new Promise((resolve, reject) => {
+        context.dispatch('sync/queue', { url: config.users.endpoint + '/me?token={{token}}',
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            body: JSON.stringify(userData)
+          },
+          callback_event: 'user-after-update'
+        }, { root: true }).then(task => {
+          resolve()
+        })
+      })
+    }
+  },
+
+  refreshCurrentUser (context, userData) {
+    context.commit(types.USER_INFO_LOADED, userData)
+  },
+
+  /**
+   * Change user password
+   */
+  changePassword (context, passwordData) {
+    return fetch(config.users.endpoint + '/changePassword?token=' + context.state.token,
+      {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(passwordData)
+      }
+    ).then(resp => { return resp.json() })
+    .then((resp) => {
+      if (resp.code === 200) {
+        EventBus.$emit('notification', {
+          type: 'success',
+          message: 'Password has successfully been changed',
+          action1: { label: 'OK', action: 'close' }
+        })
+
+        store.dispatch('user/login', {
+          username: context.state.current.email,
+          password: passwordData.newPassword
+        })
+      } else {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: resp.result,
+          action1: { label: 'OK', action: 'close' }
+        })
       }
     })
   }

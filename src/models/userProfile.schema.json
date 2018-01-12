@@ -1,0 +1,99 @@
+{
+    "additionalProperties": false,
+    "required": ["customer"],
+    "properties": {
+        "customer": {
+            "additionalProperties": true,
+            "required": [
+                "email",
+                "firstname",
+                "lastname"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "pattern": "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                },
+                "firstname": {
+                    "type": "string",
+                    "pattern": "[a-zA-Z]+"
+                },
+                "lastname": {
+                    "type": "string",
+                    "pattern": "[a-zA-Z]+"
+                },
+                "website_id": {
+                    "type": "integer"
+                },
+                "addresses": {
+                    "maxItems": 2,
+                    "items": {
+                        "required": [
+                            "firstname",
+                            "lastname",
+                            "street",
+                            "city",
+                            "country_id",
+                            "postcode"
+                        ],
+                        "properties": {
+                            "firstname": {
+                                "type": "string",
+                                "pattern": "[a-zA-Z]+"
+                            },
+                            "lastname": {
+                                "type": "string",
+                                "pattern": "[a-zA-Z]+"
+                            },
+                            "street": {
+                                "minItems": 2,
+                                "items": {
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            },
+                            "city": {
+                                "type": "string"
+                            },
+                            "region": {
+                                "required": ["region"],
+                                "properties": {
+                                    "region": {
+                                        "type": ["string", "null"]
+                                    }
+                                }
+                            },
+                            "country_id": {
+                                "type": "string",
+                                "minLength": 2,
+                                "pattern": "[A-Z]+"
+                            },
+                            "postcode": {
+                                "type": "string",
+                                "minLength": 5
+                            },
+                            "company": {
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "vat_id": {
+                                "type": "string",
+                                "minLength": 3
+                            },
+                            "telephone": {
+                                "type": "string",
+                                "pattern": "^(\\+?(\\d{1,2})?\\s*[- \\(]?\\d{3}[- \\)]?\\s*\\d{3}[- ]?\\d{2}[- ]?\\d{2})$|^$"
+                            },
+                            "default_billing": {
+                                "type": "boolean"
+                            },
+                            "default_shipping": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
