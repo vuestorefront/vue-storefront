@@ -1,12 +1,21 @@
 import * as types from '../mutation-types'
 import _ from 'lodash'
 import EventBus from 'src/event-bus'
+import config from 'config'
+import rootStore from '../'
+
+EventBus.$on('serverCart-after-created', (event) => { // example stock check callback
+  const cartToken = event.result
+  console.log(`Server cart token = ${cartToken}`)
+  rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
+})
 
 const store = {
   namespaced: true,
   state: {
     cartIsLoaded: false,
     cartSavedAt: new Date(),
+    cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: { cost: 0, code: '' },
     payment: { cost: 0, code: '' },
     cartItems: [] // TODO: check if it's properly namespaced
@@ -55,6 +64,9 @@ const store = {
       state.cartItems = storedItems || []
       state.cartIsLoaded = true
       state.cartSavedAt = new Date()
+    },
+    [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
+      state.cartServerToken = token
     }
   },
   getters: {
@@ -78,9 +90,28 @@ const store = {
   actions: {
     clear (context) {
       context.commit(types.CART_LOAD_CART, [])
+      context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
     },
     save (context) {
       context.commit(types.CART_SAVE)
+    },
+    serverPush (context) { // push current cart TO the server
+      return
+    },
+    serverPull (context) { // pull current cart FROM the server
+      return
+    },
+    serverCreate (context) {
+      context.dispatch('sync/queue', { url: config.cart.create_endpoint, // sync the cart
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        callback_event: 'serverCart-after-created'
+      }, { root: true }).then(task => {
+        return
+      })
     },
     load (context) {
       const commit = context.commit
@@ -95,6 +126,19 @@ const store = {
       }
       global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
         if (err) throw new Error(err)
+
+        if (config.cart.synchronize) {
+          global.db.cartsCollection.getItem('current-cart-token', (err, token) => {
+            if (err) throw new Error(err)
+            // TODO: if token is null create cart server side and store the token!
+            if (token) { // previously set token
+              commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
+              console.log('Server cart token = ' + token)
+            } else {
+              context.dispatch('serverCreate')
+            }
+          })
+        }
         commit(types.CART_LOAD_CART, storedItems)
       })
     },
@@ -154,5 +198,4 @@ const store = {
     }
   }
 }
-
 export default store

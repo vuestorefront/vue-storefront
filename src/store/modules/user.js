@@ -73,7 +73,8 @@ const actions = {
           }, { root: true }) */
         context.dispatch('me', { refresh: true, useCache: false }).then(result => {
           context.commit(types.USER_TOKEN_CHANGED, resp.result)
-          console.log(result)
+          context.dispatch('cart/serverCreate', {}, { root: true })
+          console.log('CU', result)
         })
       }
       return resp
