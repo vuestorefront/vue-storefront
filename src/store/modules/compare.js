@@ -19,14 +19,16 @@ const store = {
         state.itemsCompare.push({
           ...product
         })
+        state.compare = true
       }
     },
     [types.COMPARE_DEL_ITEM] (state, {product}) {
       state.itemsCompare = state.itemsCompare.filter(p => p.sku !== product.sku)
+      state.compare = state.itemsCompare.length > 0
     },
     [types.COMPARE_LOAD_COMPARE] (state, storedItems) {
       state.itemsCompare = storedItems || []
-      state.compare = true
+      state.compare = state.itemsCompare.length > 0
     }
   },
   getters: {
