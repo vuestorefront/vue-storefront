@@ -1,5 +1,5 @@
 <template>
-  <div class="button-full px55 py20 center-xs">
+  <div class="button-full px55 py20 center-xs ripple" tabindex="0" v-focus-clean="{class: 'no-outline'}">
     {{ text }}
   </div>
 </template>

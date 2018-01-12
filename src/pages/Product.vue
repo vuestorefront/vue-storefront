@@ -110,6 +110,21 @@ function loadData ({ store, route }) {
   })
 }
 
+function stateCheck () {
+  if (this.wishlistCheck.isOnWishlist(this.product)) {
+    this.favorite.icon = 'favorite'
+    this.favorite.isFavorite = true
+  } else {
+    this.favorite.icon = 'favorite_border'
+    this.favorite.isFavorite = false
+  }
+  if (this.compareCheck.isOnCompare(this.product)) {
+    this.compare.isCompare = true
+  } else {
+    this.compare.isCompare = false
+  }
+}
+
 export default {
   name: 'Home',
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
@@ -121,7 +136,34 @@ export default {
       inst.loading = true
       loadData({ store: this.$store, route: this.$route }).then((res) => {
         inst.loading = false
+        stateCheck.bind(this)()
       })
+    },
+    addToFavorite () {
+      let self = this
+      if (!self.favorite.isFavorite) {
+        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
+          self.favorite.icon = 'favorite'
+          self.favorite.isFavorite = true
+        })
+      } else {
+        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
+          self.favorite.icon = 'favorite_border'
+          self.favorite.isFavorite = false
+        })
+      }
+    },
+    addToCompare () {
+      let self = this
+      if (!self.compare.isCompare) {
+        this.$store.dispatch('compare/addItem', self.product).then(res => {
+          self.compare.isCompare = true
+        })
+      } else {
+        this.$store.dispatch('compare/removeItem', self.product).then(res => {
+          self.compare.isCompare = false
+        })
+      }
     }
   },
   watch: {
@@ -131,6 +173,7 @@ export default {
     this.$bus.$off('filter-changed-product')
   },
   beforeMount () {
+    stateCheck.bind(this)()
     this.$bus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {
@@ -141,7 +184,9 @@ export default {
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
-      category: 'category/current'
+      category: 'category/current',
+      wishlistCheck: 'wishlist/check',
+      compareCheck: 'compare/check'
     }),
     imgObj () {
       return {
@@ -159,7 +204,14 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      favorite: {
+        isFavorite: false,
+        icon: 'favorite_border'
+      },
+      compare: {
+        isCompare: false
+      }
     }
   },
   meta () {

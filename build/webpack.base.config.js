@@ -5,6 +5,11 @@ const path = require('path')
   // const projectRoot = path.resolve(__dirname, '../')
 const vueConfig = require('./vue-loader.config')
 
+const config = require('config')
+const fs = require('fs')
+fs.writeFileSync(path.resolve(__dirname, '../build/config.json'), JSON.stringify(config))
+
+
 module.exports = {
   devtool: '#source-map',
   entry: {
@@ -15,6 +20,7 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.vue'],
     alias: {
+      config: path.resolve(__dirname, '../build/config.json'),
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_stores: path.resolve(__dirname, '../src/store'),

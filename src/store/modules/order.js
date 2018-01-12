@@ -1,8 +1,8 @@
 import * as types from '../mutation-types'
 import { ValidationError } from 'lib/exceptions'
 import * as entities from 'lib/entities'
-import EventBus from '../../event-bus'
-import config from '../../config.json'
+import EventBus from 'src/event-bus'
+import config from 'config'
 const Ajv = require('ajv') // json validator
 
 // initial state

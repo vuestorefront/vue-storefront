@@ -1,6 +1,6 @@
 <template>
     <div class="bg-transparent brdr-1 brdr-circle color" :class="{ active: active }">
-        <div class="brdr-circle brdr-1" :style="'background-color: ' + label" @click="switchFilter(id, label)"></div>
+        <div class="brdr-circle brdr-1" :style="colorFrom(label)" @click="switchFilter(id, label)"></div>
     </div>
 </template>
 
@@ -33,6 +33,13 @@ export default {
     }
   },
   methods: {
+    colorFrom (label) {
+      if (label.indexOf(',') >= 0) {
+        return 'background: linear-gradient(' + label + ')'
+      } else {
+        return 'background-color: ' + label
+      }
+    },
     switchFilter (id, label) {
       this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
     }

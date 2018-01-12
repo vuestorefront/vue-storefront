@@ -13,6 +13,11 @@ export const WISH_ADD_ITEM = SN_WISHLIST + '/ADD'
 export const WISH_DEL_ITEM = SN_WISHLIST + '/DEL'
 export const WISH_LOAD_WISH = SN_WISHLIST + '/LOAD'
 
+export const SN_COMPARE = 'compare'
+export const COMPARE_ADD_ITEM = SN_COMPARE + '/ADD'
+export const COMPARE_DEL_ITEM = SN_COMPARE + '/DEL'
+export const COMPARE_LOAD_COMPARE = SN_COMPARE + '/LOAD'
+
 export const SN_CATEGORY = 'category'
 export const CATEGORY_UPD_CATEGORIES = SN_CATEGORY + '/UPD_CATEGORIES'
 export const CATEGORY_UPD_CURRENT_CATEGORY = SN_CATEGORY + '/UPD_CURRENT_CATEGORY'

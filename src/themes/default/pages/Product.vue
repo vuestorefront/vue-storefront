@@ -31,7 +31,7 @@
                 <span>{{ option.label }} <strong>{{ configuration[option.label.toLowerCase()].label }}</strong></span>
                 <div class="mt20 mb45">
                   <color-button v-for="(c, i) in options.color" :key="i" :id="c.id" :label="c.label" context="product" code="color" class="mr10" :class="{ active: c.id == configuration.color.id }" v-if="option.label == 'Color'" />
-                  <size-button v-for="(s, i) in options.size" :key="i" :id="s.id" :label="s.label" context="product" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'" />
+                  <size-button v-for="(s, i) in options.size" :key="i" :id="s.id" :label="s.label" context="product" code="size" class="mr10" :class="{ active: s.id == configuration.size.id }" v-if="option.label == 'Size'" v-focus-clean />
                   <router-link to="/size-guide" v-if="option.label == 'Size'" class="p0 ml30 action size-guide">
                     <i class="pr5 material-icons">accessibility</i>
                       Size guide
@@ -50,10 +50,15 @@
                     Add to favorite
                 </button>
               </div>
-              <div class="col-xs-6 col-md-5">
+              <div class="col-xs-6">
                 <button class="p0 bg-transparent brdr-none action" @click="addToCompare">
                   <i class="pr5 material-icons">compare</i>
-                    Add to compare
+                    <span v-if="!compare.isCompare">
+                      Add to compare
+                    </span>
+                    <span v-else>
+                      Remove from compare
+                    </span>
                 </button>
               </div>
             </div>
@@ -96,37 +101,11 @@ import ProductLinks from '../components/core/ProductLinks.vue'
 export default {
   data () {
     return {
-      favorite: {
-        isFavorite: false,
-        icon: 'favorite_border'
-      }
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
   },
   methods: {
-    addToFavorite () {
-      let self = this
-      if (!self.favorite.isFavorite) {
-        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
-          self.favorite.icon = 'favorite'
-          self.favorite.isFavorite = true
-        })
-      } else {
-        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
-          self.favorite.icon = 'favorite_border'
-          self.favorite.isFavorite = false
-        })
-      }
-    },
-    addToCompare () {
-      // todo
-      this.$bus.$emit('notification', {
-        type: 'success',
-        message: 'Product has been added to comparison list. However - this feature is not implemented yet :(',
-        action1: { label: 'OK', action: 'close' }
-      })
-    }
   },
   components: {
     AddToCart,

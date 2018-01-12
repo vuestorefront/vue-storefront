@@ -3,12 +3,18 @@
     <header class="bg-lightgray py35 pl20">
         <div class="container">
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
-            <h1 class="mb10"> {{ category.name }} </h1> 
+            <h1 class="category-title mb10"> {{ category.name }} </h1>
         </div>
-        <button class="mobile-filters-button bg-black brdr-none c-white" @click="openFilters">ADD FILTERS</button>
+        <div class="container">
+          <div class="row m0">
+            <button class="col-xs-5 mt25 p15 mobile-filters-button bg-black brdr-none c-white h5 weight-300" @click="openFilters">
+              Filters
+            </button>
+          </div>
+        </div>
     </header>
     <div class="container pb60">
-        <div class="row pt15 pl20 center-md">
+        <div class="row m0 pt15 center-md">
             <div class="col-md-3 start-xs category-filters">
                 <sidebar :filters="filters"/>
             </div>
@@ -18,7 +24,8 @@
                 </div>
                 <sidebar class="mobile-filters-body" :filters="filters"/>
             </div>
-            <div class="col-md-9 pt20 products-list">
+            <p class="col-xs-12 hidden-md m0 px20 c-gray-secondary">{{ productsCounter }} items</p>
+            <div class="col-md-9 pt20 products-list px10">
                 <div v-if="isCategoryEmpty">
                     No products found!
                 </div>
@@ -47,6 +54,11 @@ export default {
       mobileFilters: false
     }
   },
+  computed: {
+    productsCounter () {
+      return this.$store.state.product.list.items.length
+    }
+  },
   methods: {
     openFilters () {
       this.mobileFilters = true
@@ -61,6 +73,10 @@ export default {
 
 <style lang="scss" scoped>
 
+    .products-list {
+      box-sizing: border-box;
+    }
+
     .category-filters {
         width: 242px;
     }
@@ -71,8 +87,7 @@ export default {
     }
 
     .mobile-filters-button {
-        margin-top: 25px;
-        padding: 15px;
+        font-family: 'Roboto', sans-serif;
         display: none;
     }
 
@@ -83,6 +98,11 @@ export default {
     }
 
     @media (max-width: 770px) {
+
+        .category-title {
+            margin: 0;
+            font-size: 36px;
+        }
 
         .products-list {
             width: 100%;
@@ -112,8 +132,8 @@ export default {
             padding: 0 40px;
             left: 0;
             width: 100vw;
-            height: calc(100vh - 56px);
-            top: 56px;
+            height: 100vh;
+            top: 0;
             box-sizing: border-box;
         }
 
