@@ -10,7 +10,7 @@
     <div class="py35 px20">
       <div class="container">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-xs-12">
             <div v-if="items.length">
               <div class="py10 align-right">
                 <a href="javascript:window.print()" title="Print This Page">Print This Page</a>
