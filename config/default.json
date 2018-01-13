@@ -7,12 +7,9 @@
     "cart": {
       "synchronize": true,
       "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "http://localhost:8080/api/cart/update",
-      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete",
-      "billing_endpoint": "http://localhost:8080/api/cart/billingAddress",
-      "shipping_endpoint": "http://localhost:8080/api/cart/shippingInformation",
-      "totals_endpoint": "http://localhost:8080/api/cart/totals",
-      "items_endpoint": "http://localhost:8080/api/cart/items"
+      "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}"
     },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"

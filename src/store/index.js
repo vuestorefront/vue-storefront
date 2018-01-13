@@ -129,7 +129,7 @@ const plugins = [
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.SN_USER) === 0) { // check if this mutation is cart related
+      if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is cart related
         global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache

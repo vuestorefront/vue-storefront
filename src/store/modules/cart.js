@@ -4,10 +4,72 @@ import EventBus from 'src/event-bus'
 import config from 'config'
 import rootStore from '../'
 
-EventBus.$on('serverCart-after-created', (event) => { // example stock check callback
+EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
   console.log(`Server cart token = ${cartToken}`)
   rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
+  rootStore.dispatch('cart/serverPull', {}, { root: true })
+})
+
+EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
+  rootStore.dispatch('cart/serverCreate', {}, { root: true })
+})
+
+EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
+  const serverItems = event.result
+  const clientItems = rootStore.state.cart.cartItems
+  for (const clientItem of clientItems) {
+    const serverItem = serverItems.find((itm) => {
+      return itm.sku === clientItem.sku
+    })
+
+    if (!serverItem) {
+      console.log('No server item for ' + clientItem.sku)
+      rootStore.dispatch('cart/serverUpdateItem', {
+        sku: clientItem.sku,
+        qty: clientItem.qty
+      }, { root: true })
+    } else if (serverItem.qty !== clientItem.qty) {
+      console.log('Wrog qty for ' + clientItem.sku)
+      rootStore.dispatch('cart/serverUpdateItem', {
+        sku: clientItem.sku,
+        qty: clientItem.qty,
+        item_id: clientItem.server_cart_id === serverItem.quote_id ? clientItem.server_item_id : null
+      }, { root: true })
+    } else {
+      console.log('Server and client items synced for ' + clientItem.sku)
+    }
+  }
+
+  for (const serverItem of serverItems) {
+    if (serverItem) {
+      const clientItem = clientItems.find((itm) => {
+        return itm.sku === serverItem.sku
+      })
+      if (!clientItem) {
+        console.log('No client item for ' + serverItem.sku)
+        rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+          rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
+            rootStore.dispatch('cart/updateQuantity', { product: product, qty: serverItem.qty, forceServerSilence: true })
+          })
+        })
+      }
+    }
+  }
+})
+
+EventBus.$on('servercart-after-itemupdated', (event) => {
+  console.log('Cart item server sync', event)
+  rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
+    if (cartItem) {
+      rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: event.result.sku, server_cart_id: event.result.quote_id } }, { root: true }) // update the server_id reference
+      EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+    }
+  })
+})
+
+EventBus.$on('servercart-after-itemdeleted', (event) => {
+
 })
 
 const store = {
@@ -99,19 +161,68 @@ const store = {
       return
     },
     serverPull (context) { // pull current cart FROM the server
-      return
+      if (config.cart.synchronize) {
+        context.dispatch('sync/queue', { url: config.cart.pull_endpoint, // sync the cart
+          payload: {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          callback_event: 'servercart-after-pulled'
+        }, { root: true }).then(task => {
+          return
+        })
+      }
     },
     serverCreate (context) {
-      context.dispatch('sync/queue', { url: config.cart.create_endpoint, // sync the cart
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        },
-        callback_event: 'serverCart-after-created'
-      }, { root: true }).then(task => {
-        return
-      })
+      if (config.cart.synchronize) {
+        context.dispatch('sync/queue', { url: config.cart.create_endpoint, // sync the cart
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          callback_event: 'servercart-after-created'
+        }, { root: true }).then(task => {
+          return
+        })
+      }
+    },
+    serverUpdateItem (context, cartItem) {
+      if (config.cart.synchronize) {
+        cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
+        context.dispatch('sync/queue', { url: config.cart.updateitem_endpoint, // sync the cart
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            body: JSON.stringify({
+              cartItem: cartItem
+            })
+          },
+          callback_event: 'servercart-after-itemupdated'
+        }, { root: true }).then(task => {
+          return
+        })
+      }
+    },
+    serverDeleteItem (context, cartItem) {
+      if (config.cart.synchronize) {
+        cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
+        context.dispatch('sync/queue', { url: config.cart.deleteitem_endpoint, // sync the cart
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            body: JSON.stringify({
+              cartItem: cartItem
+            })
+          },
+          callback_event: 'servercart-after-itemdeleted'
+        }, { root: true }).then(task => {
+          return
+        })
+      }
     },
     load (context) {
       const commit = context.commit
@@ -134,6 +245,7 @@ const store = {
             if (token) { // previously set token
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               console.log('Server cart token = ' + token)
+//              context.dispatch('serverPull')
             } else {
               context.dispatch('serverCreate')
             }
@@ -147,7 +259,7 @@ const store = {
       return state.cartItems.find(p => p.sku === sku)
     },
 
-    addItem ({ commit, dispatch, state }, productToAdd) {
+    addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
       let productsToAdd = []
       if (productToAdd.type_id === 'grouped') {
         productsToAdd = productToAdd.product_links.map((pl) => { return pl.product })
@@ -175,6 +287,13 @@ const store = {
           }
           if (result.status === 'ok' || result.status === 'volatile') {
             commit(types.CART_ADD_ITEM, { product })
+            if (config.cart.synchronize && !forceServerSilence) {
+              dispatch('serverUpdateItem', {
+                sku: product.sku,
+                qty: 1
+              })
+            }
+
             EventBus.$emit('notification', {
               type: 'success',
               message: 'Product has been added to the cart!',
@@ -184,11 +303,24 @@ const store = {
         })
       }
     },
-    removeItem ({ commit }, product) {
+    removeItem ({ commit, dispatch }, product) {
       commit(types.CART_DEL_ITEM, { product })
+      if (config.cart.synchronize && product.server_item_id) {
+        dispatch('serverDeleteItem', {
+          sku: product.sku,
+          item_id: product.server_item_id
+        })
+      }
     },
-    updateQuantity ({ commit }, { product, qty }) {
+    updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
       commit(types.CART_UPD_ITEM, { product, qty })
+      if (config.cart.synchronize && product.server_item_id && !forceServerSilence) {
+        dispatch('serverUpdateItem', {
+          sku: product.sku,
+          item_id: product.server_item_id,
+          qty: qty
+        })
+      }
     },
     updateItem ({ commit }, { product }) {
       commit(types.CART_UPD_ITEM_PROPS, { product })

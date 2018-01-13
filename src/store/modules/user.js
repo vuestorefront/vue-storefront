@@ -1,6 +1,13 @@
 import * as types from '../mutation-types'
 import config from 'config'
 import EventBus from 'src/event-bus'
+import store from '../'
+
+EventBus.$on('session-after-started', (event) => { // example stock check callback
+  console.log('Loading user profile')
+  store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {
+  })
+})
 
 // initial state
 const state = {
@@ -20,6 +27,19 @@ const actions = {
 
   startSession (context) {
     context.commit(types.USER_START_SESSION)
+
+    const cache = global.db.usersCollection
+    cache.getItem('current-token', (err, res) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+
+      if (res) {
+        context.commit(types.USER_TOKEN_CHANGED, res)
+      }
+      EventBus.$emit('session-after-started')
+    })
   },
 
   /**
@@ -63,9 +83,6 @@ const actions = {
       if (resp.code === 200) {
         context.commit(types.USER_TOKEN_CHANGED, resp.result)
         context.dispatch('me', { refresh: true, useCache: false }).then(result => {
-          context.commit(types.USER_TOKEN_CHANGED, resp.result)
-          context.dispatch('cart/serverCreate', {}, { root: true })
-          console.log('CU', result)
         })
       }
       return resp
@@ -97,6 +114,10 @@ const actions = {
    */
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
+      if (!context.state.token) {
+        console.log('No User token, user unathorized')
+        return resolve(null)
+      }
       const cache = global.db.usersCollection
       let resolvedFromCache = false
 
@@ -109,6 +130,7 @@ const actions = {
 
           if (res) {
             context.commit(types.USER_INFO_LOADED, res)
+            EventBus.$emit('user-after-loggedin', res)
 
             resolve(res)
             resolvedFromCache = true
@@ -130,11 +152,7 @@ const actions = {
           if (resp.code === 200) {
             context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
 
-            EventBus.$emit('user-after-loggedin', {
-              firstName: resp.result.firstname,
-              lastName: resp.result.lastname,
-              emailAddress: resp.result.email
-            })
+            EventBus.$emit('user-after-loggedin', resp.result)
           }
           if (!resolvedFromCache) {
             resolve(resp.code === 200 ? resp : null)
