@@ -24,7 +24,7 @@
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
       Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for You!
     </div>
-    <ul class="bg-white m0 products">
+    <ul class="bg-white m0 px40 pb40 products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
     <div v-if="items.length" class="checkout px40 c-black serif">
