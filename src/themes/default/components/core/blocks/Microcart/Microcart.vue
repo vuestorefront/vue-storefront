@@ -2,7 +2,10 @@
   <div class="microcart bg-lightgray c-black" :class="{ active: isOpen }">
     <div class="row middle-xs bg-white top-sm">
       <div class="col-xs-10">
-        <h2 v-if="items.length" class="c-black mt60 mb35 ml40 microcart-heading">
+        <h2
+          v-if="items.length"
+          class="c-black mt60 mb35 ml40 microcart-heading"
+        >
           Shopping cart
         </h2>
       </div>
@@ -24,50 +27,61 @@
     <ul class="bg-white m0 products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
-    <div v-if="items.length" class="checkout pt10 serif">
-      <h3 class="m40 c-black weight-400">
+    <div v-if="items.length" class="checkout px40 c-black serif">
+      <h3 class="m0 pt50 mb30 weight-400">
         Shopping summary
       </h3>
-      <div class="row pt15 pb20 pl40 pr55">
-        <div class="col-xs c-black">
+      <div class="row py20">
+        <div class="col-xs">
           Subtotal inc. tax
         </div>
-        <div class="col-xs align-right c-black">
+        <div class="col-xs align-right">
           {{ subtotalInclTax | price }}
         </div>
       </div>
-      <div class="row pt20 pb20 pl40 pr55">
-        <div class="col-xs c-black">
+      <div class="row py20">
+        <div class="col-xs">
           Shipping ({{ shipping.name }})
         </div>
-        <div class="col-xs align-right c-black">
+        <div class="col-xs align-right">
           {{ shipping.costInclTax | price }}
         </div>
       </div>
-      <div class="row pt20 pb20 pl40 pr55">
-        <div class="col-xs c-black">
+      <div class="row py20">
+        <div class="col-xs">
           Payment ({{ payment.name }})
         </div>
-        <div class="col-xs align-right c-black" v-if='payment.cost > 0'>
+        <div class="col-xs align-right" v-if='payment.cost > 0'>
           {{ payment.costInclTax | price }}
         </div>
       </div>
-      <div class="row pt20 pb20 pl40 pr55">
-        <div class="col-xs weight-400 c-black">
+      <div class="row pt30 pb20 weight-700 middle-xs">
+        <div class="col-xs h4">
           Total inc. tax
         </div>
-        <div class="col-xs align-right weight-400 h3 c-black">
+        <div class="col-xs align-right h2">
           {{ totalInclTax | price }}
         </div>
       </div>
-      <div class="row pt20 pb20 pl40 pr55" v-if="!isCheckoutMode">
-        <div class="col-xs align-right">
-          <router-link class="no-underline" :to="{ name: 'checkout' }">
-            <button class="ripple checkout-button bg-black brdr-none c-white pb20 pt20 pl70 pr70" @click="closeMicrocart">
-              CHECKOUT
-            </button>
-          </router-link>
-        </div>
+    </div>
+    <div class="row py20 px40 middle-xs" v-if="!isCheckoutMode">
+      <div class="col-xs">
+        <router-link to="/" class="c-gray-secondary">
+          Return to shopping
+        </router-link>
+      </div>
+      <div class="col-xs end-xs">
+        <router-link
+          class="no-underline inline-flex h4"
+          :to="{ name: 'checkout' }"
+        >
+          <span
+            class="ripple checkout-button bg-black brdr-none c-white py20 px70"
+            @click="closeMicrocart"
+          >
+            Go to checkout
+          </span>
+        </router-link>
       </div>
     </div>
   </div>
@@ -78,8 +92,6 @@ import { coreComponent } from 'lib/themes'
 import Product from './Product'
 
 export default {
-  created () {
-  },
   components: {
     Product
   },
@@ -112,7 +124,8 @@ export default {
 
     i {
       opacity: 0.6;
-      &:hover {
+      &:hover,
+      &:focus {
         opacity: 1;
       }
     }
