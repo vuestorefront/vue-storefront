@@ -1,5 +1,8 @@
 <template>
-  <div class="microcart bg-lightgray c-black" :class="{ active: isOpen }">
+  <div
+    class="microcart c-black"
+    :class="[items.length ? 'bg-lightgray' : 'bg-white', { active: isOpen }]"
+  >
     <div class="row middle-xs bg-white top-sm">
       <div class="col-xs-10">
         <h2
@@ -10,7 +13,7 @@
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 close-button">
+        <button type="button" class="p0 brdr-none bg-transparent close-button">
           <i class="material-icons p15 close c-black" @click="closeMicrocart">
             close
           </i>
@@ -132,8 +135,6 @@ export default {
   }
 
   .close-button {
-    background: transparent;
-    border: none;
     cursor: pointer;
   }
 

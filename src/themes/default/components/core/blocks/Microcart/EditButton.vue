@@ -1,6 +1,9 @@
 <template>
-  <button class="brdr-none bg-transparent">
-    Edit <i class="material-icons h6">mode_edit</i>
+  <button class="brdr-none bg-transparent p0 inline-flex c-gray-secondary">
+    <span class="hidden-xs h6 weight-300">
+      Edit
+    </span>
+    <i class="material-icons h4 p5 pr0">mode_edit</i>
   </button>
 </template>
 
@@ -13,7 +16,7 @@ export default {
 </script>
 
 <style scoped>
-  button:hover {
-    cursor: pointer;
+  button {
+    align-items: center;
   }
 </style>

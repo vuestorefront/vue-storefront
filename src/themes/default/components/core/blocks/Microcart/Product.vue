@@ -1,5 +1,5 @@
 <template>
-  <li class="row py20">
+  <li class="row py10">
     <div class="bg-lightgray product-image">
       <img v-lazy="thumbnail" />
     </div>
@@ -51,15 +51,11 @@
         </span>
       </div>
       <div>
-        <div class="c-darkgray">
-          <span @click="switchEdit">
-            <edit-button class="c-darkgray" />
-          </span>
+        <div @click="switchEdit">
+          <edit-button />
         </div>
-        <div class="mt5">
-          <span @click="removeItem">
-            <remove-button class="c-darkgray" />
-          </span>
+        <div class="mt5" @click="removeItem">
+          <remove-button />
         </div>
       </div>
     </div>
