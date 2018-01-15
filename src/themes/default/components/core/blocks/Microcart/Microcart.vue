@@ -27,7 +27,7 @@
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
       Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for You!
     </div>
-    <ul class="bg-white m0 px40 pb40 products">
+    <ul v-if="items.length"  class="bg-white m0 px40 pb40 products">
       <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
     <div v-if="items.length" class="checkout px40 c-black serif">
@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <div class="row py20 px40 middle-xs" v-if="!isCheckoutMode">
+    <div class="row py20 px40 middle-xs" v-if="items.length && !isCheckoutMode">
       <div class="col-xs">
         <router-link to="/" class="c-gray-secondary">
           Return to shopping
