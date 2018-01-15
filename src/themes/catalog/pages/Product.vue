@@ -8,12 +8,12 @@
               <div class="col-md-5">
                   <div class="row">
                       <div class="col-md-12">
-                          <h1 class="mt0">Isha running Jacket</h1>
+                          <h1 class="mt0">{{ product.name }}</h1>
                       </div>
                   </div>
                   <div class="row mb10">
                       <div class="fs-large col-md-12">
-                          {{ 83.12 | price }}
+                          {{ product.price | price }}
                       </div>
                   </div>
                   <div class="row">
@@ -41,14 +41,28 @@
                   </div>
                     <div class="row mt30">
                       <div class="col-md-12">
-                          <button class="availibility-btn c-on-accent fs-large b-none py20 medium"
-                                  :class="{ 'bg-accent' : !availability.checked, 
-                                            'bg-btn-positive' : availability.checked || availability.available, 
-                                            'bg-btn-positive' : availability.checked || !availability.available }"
-                                  @click="isAvailable()"> {{ availabilityLabel }}</button>
+                          <button 
+                            class="availibility-btn c-on-accent fs-large b-none py20 medium"
+                            :class="{ 'bg-accent' : !availability.checked, 
+                                      'bg-btn-positive' : availability.checked || availability.available, 
+                                      'bg-btn-positive' : availability.checked || !availability.available }"
+                            @click="isAvailable()"> {{ availabilityLabel }}</button>
                       </div>
                   </div>
+                  <div class="row mt40 fs-medium-small">
+                    <div class="col-md-12 uppercase bold c-secondary-lighter">
+                      <span class="c-primary mr20">About product</span>
+                      <span>Qualities</span>
+                    </div>
+                    <div v-html="product.description" class="col-md-12 mt10"></div>
+                  </div>
               </div>
+          </div>
+          <div class="row center-xs">
+            <div class="col-md-12 py60">
+              <h2 class="mb40">Similar products</h2>
+              <similar-pdoducts number="4" classes="col-md-3 b"/>
+            </div>
           </div>
       </div>
   </div>
@@ -56,8 +70,11 @@
 
 
 <script>
+import { corePage } from 'lib/themes'
+
 import ColorFilter from 'theme/components/core/ColorFilter'
 import SizeFilter from 'theme/components/core/SizeFilter'
+import SimilarPdoducts from 'theme/components/core/blocks/Product/SimilarProducts'
 
 export default {
   data () {
@@ -82,8 +99,11 @@ export default {
   },
   components: {
     ColorFilter,
-    SizeFilter
-  }
+    SizeFilter,
+    SimilarPdoducts
+  },
+  asyncData ({ store, route }) {},
+  mixins: [corePage('Product')]
 }
 </script>
 

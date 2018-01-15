@@ -8,7 +8,7 @@
     <nav class="menu container">
       <div class="row middle-xs full-size">
         <div class="col-md-3 start-xs middle-xs inline-flex">
-          <logo class="inline-flex pr25"/>
+          <router-link to="/"><logo class="inline-flex pr25"/></router-link>
           <i class="material-icons b-left middle-xs px25 full-size inline-flex">search</i>
         </div>
         <div class="col-md-5 semibold end-xs middle-xs inline-flex uppercase">

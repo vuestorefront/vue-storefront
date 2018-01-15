@@ -1,11 +1,28 @@
 <template>
   <div class="product-tile center-xs fs-medium-small p30">
-        <img src="/assets/product-tile.png" alt="">
-        <div class="c-secondary mt30">Force in Jr.</div>
-        <div class="bold c-on-light mt10"> {{ '39.87' | price }}</div>
+        <img :src="thumbnail()" alt="">
+        <div class="c-secondary mt30"> {{ product.name }}</div>
+        <div class="bold c-on-light mt10"> {{ product.price | price }}</div>
   </div>
 </template>
 
+<script>
+import { thumbnail } from 'src/lib/filters'
+
+export default {
+  props: {
+    product: {
+      require: true,
+      default: {}
+    }
+  },
+  methods: {
+    thumbnail () {
+      return thumbnail(this.product.image, 310, 300)
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import '~theme/css/mixins/transitions';
@@ -17,3 +34,4 @@
     transform: scale(1.05);
 }
 </style>
+

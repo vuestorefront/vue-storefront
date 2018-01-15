@@ -2,23 +2,23 @@
   <div id="home">
     <div class="container mb45">
       <search />
-      <div class="row mt70">
+      <div class="row mt70 animate">
         <div v-for="category in pinnedCategories" :key="category.title" class="col-md-4 mb20">
-          <router-link to="/">
+          <router-link to="/c/cat">
             <category-tile :label="category.title"/>
           </router-link>
         </div>
       </div>
-      <h2 class="center-xs mt80 mb40">New items</h2>
-      <div class="row">
-        <div v-for="index in 16" :key="index" class="col-md-3" :class="{ pr0 : index % 4 != 0, pl0 : index % 4 != 1 }">
-          <router-link to="/">
-            <product-tile class="b" :class="{ 'b-right-none' : index % 4 != 0 }"/>
+      <div class="row animate">
+        <h2 class="center-xs mt80 mb40 col-md-12">New items</h2>
+        <div v-for="(product, index) in newProducts" :key="index" class="col-md-3" :class="{ pr0 : (index+1) % 4 != 0, pl0 : (index+1) % 4 != 1 }">
+          <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
+            <product-tile :product="product" class="b" :class="{ 'b-right-none' : (index+1) % 4 != 0 }"/>
           </router-link>
         </div>
       </div>
-      <h2 class="center-xs mt80 mb40">Magazine</h2>
-      <div class="row">
+      <div class="row animate">
+          <h2 class="center-xs mt80 mb40 animate col-md-12">Magazine</h2>
           <div v-for="(magazine, index) in magazines" :key="magazine.title" class="col-md-6" :class="{ pr0 : index % 2 == 0, pl0 : index % 2 == 1 }">
             <router-link to="/">
               <magazine-tile class="b" :class="{ 'b-right-none' : index % 2 == 0 }" :title="magazine.title" :category="magazine.category" :bg-url="magazine.bgUrl" />            
@@ -87,7 +87,15 @@ export default {
   },
   created () {
     const query = builder().query('match', 'category.name', 'Tees').build()
-    this.getProducts(query, 8).then(res => { this.newProducts = res.items })
+    this.getProducts(query, 8).then(res => { this.newProducts = res.items; console.log(this.newProducts) })
+  },
+  mounted () {
+    const ScrollReveal = require('scrollreveal')()
+    ScrollReveal.reveal('.animate', {
+      distance: 0,
+      scale: 0.7,
+      duration: 1000
+    })
   },
   components: {
     Search,
