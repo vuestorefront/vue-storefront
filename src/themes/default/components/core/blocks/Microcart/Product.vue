@@ -3,7 +3,7 @@
     <div class="bg-lightgray product-image">
       <img v-lazy="thumbnail" />
     </div>
-    <div class="col-xs flex pl35 py15 vartical-content">
+    <div class="col-xs flex pl35 py15 product-details">
       <div>
         <div class="serif h4">
           {{ product.name | htmlDecode }}
@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="flex pb15 pt15 align-right vartical-content">
+    <div class="flex pb15 pt15 align-right product-actions">
       <div>
         <span class="price-special" v-if="product.special_price">
           {{ product.priceInclTax | price }}
@@ -108,6 +108,7 @@ export default {
 
 <style lang="scss" scoped>
   .product-image {
+    margin-left: .5rem;
     img {
       mix-blend-mode: multiply;
       vertical-align: top;
@@ -117,6 +118,12 @@ export default {
   .product-details {
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .product-actions {
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 0.5rem;
   }
 
   .error {
@@ -134,15 +141,6 @@ export default {
   .price-original {
     text-decoration: line-through;
     font-size: smaller
-  }
-
-  .vartical-content{
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .hidden {
-    display: none;
   }
 
   input {
