@@ -12,13 +12,14 @@
         <div class="col-sm-3">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="page in navigation"><router-link :to="page.link" class="c-black">{{page.title}}</router-link></li>
+              <li class="mb10" v-for="page in navigation"><a :href="page.link" class="c-black">{{page.title}}</a></li>
             </ul>
           </nav>
         </div>
         <div class="col-sm-9">
           <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"></my-profile>
           <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"></my-shipping-details>
+          <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"></my-newsletter>
         </div>
       </div>
     </div>
@@ -30,13 +31,15 @@
   import Breadcrumbs from '../components/core/Breadcrumbs'
   import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
   import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
+  import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 
   export default {
     name: 'MyAccount',
     components: {
       Breadcrumbs,
       MyProfile,
-      MyShippingDetails
+      MyShippingDetails,
+      MyNewsletter
     },
     created () {
       this.$bus.$on('myAccount.activateSection', (sectionName) => {
@@ -44,7 +47,6 @@
       })
       this.$bus.$on('myAccount.updateUser', (updatedData) => {
         if (updatedData) {
-          console.log('execute user action')
           this.$store.dispatch('user/update', { customer: updatedData })
         }
         this.editMode = true
@@ -62,9 +64,9 @@
     data () {
       return {
         navigation: [
-          { title: 'My profile', link: '/my-account#profile' },
-          { title: 'My shipping details', link: '/my-account#shipping_details' },
-          { title: 'My newsletter', link: '/my-account#newsletter' },
+          { title: 'My profile', link: '#profile' },
+          { title: 'My shipping details', link: '#shipping_details' },
+          { title: 'My newsletter', link: '#newsletter' },
           { title: 'My orders', link: '/my-account' },
           { title: 'My loyalty card', link: '/my-account' },
           { title: 'My product reviews', link: '/my-account' }

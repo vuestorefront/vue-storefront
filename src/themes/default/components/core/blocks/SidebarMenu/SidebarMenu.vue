@@ -20,7 +20,7 @@
                     <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="category.slug" @click="closeMenu" v-for='category in categories' v-if='category.product_count >0 || category.children_data.length>0' >
                       <router-link class="px25 py20 c-black no-underline col-xs" :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
                       <sub-btn class="flex-end center-self" :id="category.id"></sub-btn>
-                      <sub-category :links="category.children_data" :id="category.id"></sub-category>
+                      <sub-category :categoryLinks="category.children_data" :id="category.id"></sub-category>
                     </li>
                     <li @click="closeMenu">
                         <router-link class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/magazine" exact>Magazine</router-link>
@@ -31,9 +31,11 @@
                     <li @click="closeMenu">
                         <router-link class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/order-tracking" exact>Track my order</router-link>
                     </li>
-                    <li @click="closeMenu">
-                        <router-link v-if="currentUser" class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/my-account" exact>My account</router-link>
-                        <a v-else href="#" @click="login" class="px25 py20 brdr-bottom brdr-c-alto c-black no-underline">My account</a>
+                    <li @click="closeMenu" class="brdr-bottom brdr-c-alto flex">
+                        <router-link v-if="currentUser" class="px25 py20 c-black no-underline col-xs" to="/my-account" exact>My account</router-link>
+                        <sub-btn v-if="currentUser" class="flex-end center-self"></sub-btn>
+                        <sub-category v-if="currentUser" :myAccountLinks="myAccountLinks" :id="'foo'"></sub-category>
+                        <a v-if="!currentUser" href="#" @click="login" class="px25 py20 c-black no-underline">My account</a>
                     </li>
                 </ul>
             </div>
@@ -58,6 +60,42 @@ export default {
     SearchIcon,
     SubCategory,
     SubBtn
+  },
+  data () {
+    return {
+      myAccountLinks: [
+        {
+          id: 1,
+          name: 'My profile',
+          anchor: 'profile'
+        },
+        {
+          id: 2,
+          name: 'My shipping details',
+          anchor: 'shipping_details'
+        },
+        {
+          id: 3,
+          name: 'My newsletter',
+          anchor: 'newsletter'
+        },
+        {
+          id: 4,
+          name: 'My orders',
+          anchor: ''
+        },
+        {
+          id: 5,
+          name: 'My loyalty card',
+          anchor: ''
+        },
+        {
+          id: 6,
+          name: 'My product reviews',
+          anchor: ''
+        }
+      ]
+    }
   },
   computed: {
     mainListStyles () {

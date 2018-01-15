@@ -92,6 +92,24 @@
                             }
                         }
                     }
+                },
+                "custom_attributes": {
+                    "maxItems": 5,
+                    "items": {
+                        "required": [
+                            "attribute_code",
+                            "value"
+                        ],
+                        "properties": {
+                            "attribute_code": {
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "value": {
+                                "type": ["string", "null"]
+                            }
+                        }
+                    }
                 }
             }
         }

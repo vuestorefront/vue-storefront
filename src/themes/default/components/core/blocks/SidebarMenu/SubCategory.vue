@@ -1,11 +1,18 @@
 <template>
-  <ul v-if="links" class="sidebar-submenu p0" v-bind:style="styles">
-    <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.slug" v-for="link in links">
-      <router-link class="px25 py20 c-black no-underline col-xs" :to="{ name: 'category', params: { id: link.id, slug: link.slug }}">{{ link.name }}</router-link>
-      <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"></sub-btn>
-      <sub-category :links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
-    </li>
-  </ul>
+  <div>
+    <ul v-if="categoryLinks" class="sidebar-submenu p0" v-bind:style="styles">
+      <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.slug" v-for="link in categoryLinks">
+        <router-link class="px25 py20 c-black no-underline col-xs" :to="{ name: 'category', params: { id: link.id, slug: link.slug }}">{{ link.name }}</router-link>
+        <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"></sub-btn>
+        <sub-category :categoryLinks="link.children_data" :id="link.id" v-if="link.children_data.length"/>
+      </li>
+    </ul>
+    <ul v-else-if="myAccountLinks" class="sidebar-submenu p0" v-bind:style="styles">
+      <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.id" v-for="link in myAccountLinks">
+        <router-link class="px25 py20 c-black no-underline col-xs" :to="'/my-account#' + link.anchor">{{ link.name }}</router-link>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -20,9 +27,13 @@ export default {
     id: {
       required: true
     },
-    links: {
+    categoryLinks: {
       type: Array,
-      required: true
+      required: false
+    },
+    myAccountLinks: {
+      type: Array,
+      required: false
     }
   },
   computed: {

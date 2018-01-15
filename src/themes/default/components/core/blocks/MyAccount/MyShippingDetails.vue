@@ -25,7 +25,7 @@
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="shippingDetails.lastName">
         <span class="validation-error" v-if="!$v.shippingDetails.lastName.required">Field is required</span>
       </div>
-      <div class="col-xs-12 col-md-12 mb25" v-if="isCompanyExist">
+      <div class="col-xs-12 col-md-12 mb25" v-if="currentUser.hasOwnProperty('default_billing')">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress" @click="fillCompanyAddress">
           <label for="useCompanyAddress"></label>
@@ -106,7 +106,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import { coreComponent } from 'lib/themes'
   import { required, minLength } from 'vuelidate/lib/validators'
   
@@ -145,6 +144,7 @@
     },
     data () {
       return {
+        currentUser: this.$store.state.user.current,
         shippingDetails: {
           firstName: '',
           lastName: '',
@@ -162,12 +162,6 @@
     },
     mounted () {
       this.shippingDetails = this.getShippingDetails()
-    },
-    computed: {
-      ...mapState({
-        currentUser: state => state.user.current,
-        isCompanyExist: state => state.user.current.hasOwnProperty('default_billing')
-      })
     },
     methods: {
       edit () {
@@ -200,7 +194,6 @@
       updateDetails () {
         let updatedShippingDetails
         if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
-          console.log('Objects are not equal!!!')
           updatedShippingDetails = this.currentUser
           if (this.currentUser.hasOwnProperty('default_shipping')) {
             let index
@@ -242,7 +235,6 @@
             })
           }
         }
-        console.log(updatedShippingDetails)
         this.exitSection(null, updatedShippingDetails)
       },
       exitSection (event, updatedShippingDetails) {

@@ -291,7 +291,6 @@
           !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
           (this.userCompany.company && !this.addCompany)
         ) {
-          console.log('Objects are not equal!!!')
           updatedProfile = this.currentUser
           if (this.currentUser.hasOwnProperty('default_billing')) {
             let index
@@ -351,7 +350,6 @@
             newPassword: this.password
           })
         }
-        console.log(updatedProfile)
         this.exitSection(null, updatedProfile)
       },
       exitSection (event, updatedProfile) {
