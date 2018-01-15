@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <div class="container mb45">
-      <search />
+      <search class="animate"/>
       <div class="row mt70 animate">
         <div v-for="category in pinnedCategories" :key="category.title" class="col-md-4 mb20">
           <router-link to="/c/cat">
@@ -18,12 +18,12 @@
         </div>
       </div>
       <div class="row animate">
-          <h2 class="center-xs mt80 mb40 animate col-md-12">Magazine</h2>
-          <div v-for="(magazine, index) in magazines" :key="magazine.title" class="col-md-6" :class="{ pr0 : index % 2 == 0, pl0 : index % 2 == 1 }">
-            <router-link to="/">
-              <magazine-tile class="b" :class="{ 'b-right-none' : index % 2 == 0 }" :title="magazine.title" :category="magazine.category" :bg-url="magazine.bgUrl" />            
-            </router-link>
-          </div>
+        <h2 class="center-xs mt80 mb40 animate col-md-12">Magazine</h2>
+        <div v-for="(magazine, index) in magazines" :key="magazine.title" class="col-md-6" :class="{ pr0 : index % 2 == 0, pl0 : index % 2 == 1 }">
+          <router-link to="/">
+            <magazine-tile class="b" :class="{ 'b-right-none' : index % 2 == 0 }" :title="magazine.title" :category="magazine.category" :bg-url="magazine.bgUrl" />            
+          </router-link>
+        </div>
       </div>
     </div>
   

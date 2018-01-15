@@ -2,10 +2,10 @@
   <div id="product">
       <div class="container mt40">
           <div class="row">
-              <div class=" image col-md-7">
+              <div class="animate image col-md-7">
                   <img class="full-width" src="/assets/product.png" alt="">
               </div>
-              <div class="col-md-5">
+              <div class="animate col-md-5">
                   <div class="row">
                       <div class="col-md-12">
                           <h1 class="mt0">{{ product.name }}</h1>
@@ -58,8 +58,8 @@
                   </div>
               </div>
           </div>
-          <div class="row center-xs">
-            <div class="col-md-12 py60">
+          <div class="row py60 center-xs">
+            <div class="col-md-12 animate">
               <h2 class="mb40">Similar products</h2>
               <similar-pdoducts number="4" classes="col-md-3 b"/>
             </div>
@@ -96,6 +96,15 @@ export default {
       this.availability.checked = true
       this.availability.available = true
     }
+  },
+  mounted () {
+    const ScrollReveal = require('scrollreveal')()
+    ScrollReveal.reveal('.animate', {
+      distance: 0,
+      scale: 0.7,
+      duration: 1000,
+      viewFactor: 0.5
+    })
   },
   components: {
     ColorFilter,

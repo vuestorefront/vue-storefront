@@ -20,7 +20,7 @@
             </div>
         </div>
         <div>
-            <div class="container">
+            <div class="container animate">
                 <div class="row my50">
                     <div v-for="index in 16" :key="index" class="col-md-3" :class="{ pr0 : index % 4 != 0, pl0 : index % 4 != 1 }">
                         <router-link to="/">
@@ -37,6 +37,14 @@
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
+  mounted () {
+    const ScrollReveal = require('scrollreveal')()
+    ScrollReveal.reveal('.animate', {
+      distance: 0,
+      scale: 0.7,
+      duration: 1000
+    })
+  },
   components: {
     ProductTile
   }
