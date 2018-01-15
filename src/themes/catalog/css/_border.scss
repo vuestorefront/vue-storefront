@@ -20,6 +20,9 @@
     border: $border-width $border-style $c-border;
 }
 
+.b-none {
+    border: none;
+}
 .b-bottom-none {
     border-bottom: none;
 }
@@ -30,4 +33,8 @@
 
 .b-left-none {
     border-left: none;
+}
+
+.b-circle {
+    border-radius: 50%;
 }

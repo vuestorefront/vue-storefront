@@ -19,3 +19,13 @@ body {
 .bg-accent-hover {
     @include hover-bg-darken($c-accent);
 }
+
+// Btn colors
+
+.bg-btn-negaive {
+    background: $c-bg-btn-negative;
+}
+
+.bg-btn-positive {
+    background: $c-bg-btn-positive;
+}
