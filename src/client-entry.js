@@ -220,7 +220,7 @@ function checkiIsOnline () {
   EventBus.$emit('network.status', { online: navigator.onLine })
   console.log('Are we online: ' + navigator.onLine)
 
-  if (navigator.onLine) {
+  if (typeof navigator !== 'undefined' && navigator.onLine) {
     EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
   }

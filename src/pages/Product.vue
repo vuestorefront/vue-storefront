@@ -111,7 +111,7 @@ function loadData ({ store, route }) {
 }
 
 function stateCheck () {
-  if (this.wishlistCheck.isOnWishlist(this.product)) {
+  if (this.wishlistCheck.isOnWishlist(this.originalProduct)) {
     this.favorite.icon = 'favorite'
     this.favorite.isFavorite = true
   } else {
@@ -142,12 +142,13 @@ export default {
     addToFavorite () {
       let self = this
       if (!self.favorite.isFavorite) {
-        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
+        console.log(self.originalProduct)
+        this.$store.dispatch('wishlist/addItem', self.originalProduct).then(res => {
           self.favorite.icon = 'favorite'
           self.favorite.isFavorite = true
         })
       } else {
-        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
+        this.$store.dispatch('wishlist/removeItem', self.originalProduct).then(res => {
           self.favorite.icon = 'favorite_border'
           self.favorite.isFavorite = false
         })
@@ -179,6 +180,7 @@ export default {
   computed: {
     ...mapGetters({
       product: 'product/productCurrent',
+      originalProduct: 'product/productOriginal',
       attributesByCode: 'attribute/attributeListByCode',
       attributesByUd: 'attribute/attributeListById',
       breadcrumbs: 'product/breadcrumbs',

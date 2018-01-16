@@ -72,7 +72,7 @@ function configureProductAsync (context, { product, configuration, selectDefault
       }
     }) || product.configurable_children[0]
 
-    if (navigator) {
+    if (typeof navigator !== 'undefined') {
       if (selectedVariant && !navigator.onLine) { // this is fix for not preloaded images for offline
         selectedVariant.image = product.image
       }
@@ -334,7 +334,7 @@ const actions = {
       // get original product
       const productOriginal = context.getters.productOriginal
       // check if passed variant is the same as original
-      const productUpdated = Object.assign(productOriginal, productVariant)
+      const productUpdated = Object.assign({}, productOriginal, productVariant)
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
     } else console.debug('Unable to update current product.')
   },
