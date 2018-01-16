@@ -1,14 +1,21 @@
 <template>
   <div id="product">
-      <div class="container mt40">
+      <div class="container">
+          <div class="row my30">
+            <div class="col-md-12">
+              <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name" />
+            </div>
+          </div>
           <div class="row">
-              <div class="animate image col-md-7">
-                  <img class="full-width" src="/assets/product.png" alt="">
+              <div class="animate col-md-7 pr20">
+                <img class="full-width b" v-lazy="imgObj" ref="image"/>
               </div>
               <div class="animate col-md-5">
                   <div class="row">
                       <div class="col-md-12">
-                          <h1 class="mt0">{{ product.name }}</h1>
+                          <h1 class="mt0">
+                            {{ product.name }}
+                          </h1>
                       </div>
                   </div>
                   <div class="row mb10">
@@ -16,27 +23,13 @@
                           {{ product.price | price }}
                       </div>
                   </div>
-                  <div class="row">
+                  <div class="row" v-for="(variant, index) in product.configurable_options" :key="index">
                       <div class="col-md-12 uppercase c-secondary">
-                        <h4>Available colors</h4>
+                        <h4>{{ variant.label }}</h4>
                       </div>
                       <div class="col-md-12">
-                        <color-filter class="mr5" color="#2F80ED" :active="true" />
-                        <color-filter class="mr5" color="#BDBDBD" :active="false" />
-                        <color-filter class="mr5" color="#ED5B5B" :active="false" />
-                        <color-filter class="mr5" color="#F2994A" :active="false" />
-                      </div>
-                  </div>
-                  <div class="row mt10">
-                      <div class="col-md-12 uppercase c-secondary">
-                        <h4>Sizes</h4>
-                      </div>
-                      <div class="col-md-12">
-                        <size-filter class="mr10" size="XS" :active="true" />
-                        <size-filter class="mr10" size="S" :active="false" />
-                        <size-filter class="mr10" size="M" :active="false" />
-                        <size-filter class="mr10" size="L" :active="false" />
-                        <size-filter class="mr10" size="XL" :active="false" />
+                          <color-filter v-for="(color, i) in options.color" :key="i" :color="color.label" class="mr5" :active="color.id == configuration.color.id" v-if="variant.label == 'Color'" />
+                          <size-filter v-for="(size, i) in options.size" :key="i"  :size="size.label"  class="mr15" :active="size.id == configuration.size.id" v-if="variant.label == 'Size'" />
                       </div>
                   </div>
                     <div class="row mt30">
@@ -72,6 +65,7 @@
 <script>
 import { corePage } from 'lib/themes'
 
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import ColorFilter from 'theme/components/core/ColorFilter'
 import SizeFilter from 'theme/components/core/SizeFilter'
 import SimilarPdoducts from 'theme/components/core/blocks/Product/SimilarProducts'
@@ -107,6 +101,7 @@ export default {
     })
   },
   components: {
+    Breadcrumbs,
     ColorFilter,
     SizeFilter,
     SimilarPdoducts

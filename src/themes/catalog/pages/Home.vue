@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       newProducts: [],
+      categories: [],
       pinnedCategories: [{
         title: 'Sale',
         bgUrl: ''
@@ -83,15 +84,18 @@ export default {
         sort: 'created_at:desc'
       }
       return this.$store.dispatch('product/list', params)
+    },
+    getCategories () {
+      return this.$store.dispatch('category/list', {})
     }
   },
   created () {
-    const query = builder().query('match', 'category.name', 'Tees').build()
-    this.getProducts(query, 8).then(res => { this.newProducts = res.items; console.log(this.newProducts) })
+    const productQuery = builder().query('match', 'category.name', 'Tees').build()
+    this.getProducts(productQuery, 8).then(res => { this.newProducts = res.items })
+    this.getCategories().then(categories => { this.categories = categories.items })
   },
   mounted () {
-    const ScrollReveal = require('scrollreveal')()
-    ScrollReveal.reveal('.animate', {
+    require('scrollreveal')().reveal('.animate', {
       distance: 0,
       scale: 0.7,
       duration: 1000
