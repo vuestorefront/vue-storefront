@@ -19,12 +19,6 @@ export default {
     gotoAccount () {
       if (!this.$store.state.user.current) {
         this.$store.commit('ui/setSignUp', !this.isOpenLogin)
-      } else {
-        this.$bus.$emit('notification', {
-          type: 'success',
-          message: 'You are logged in as ' + this.$store.state.user.current.email + ' and the User Account feature is work in progress!',
-          action1: { label: 'OK', action: 'close' }
-        })
       }
     }
   }
