@@ -13,7 +13,7 @@ export default {
     }
   },
   mounted () {
-    this.isOnline = navigator.onLine
+    this.isOnline = typeof navigator !== 'undefined' ? navigator.onLine : true
     window.addEventListener('online', (e) => {
       console.log('on')
       this.isOnline = true

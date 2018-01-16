@@ -140,7 +140,7 @@ export default {
         }
       }
 
-      if (navigator.onLine) {
+      if (typeof navigator !== 'undefined' && navigator.onLine) {
         if (this.stockCheckCompleted) {
           if (!this.stockCheckOK) {
             isValid = false
@@ -243,7 +243,7 @@ export default {
       return this.order
     },
     placeOrder () {
-      this.checkConnection({ online: navigator.onLine })
+      this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.isValid) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
         this.orderPlaced = true
