@@ -71,6 +71,13 @@ function configureProductAsync (context, { product, configuration, selectDefault
         })
       }
     }) || product.configurable_children[0]
+
+    if (navigator) {
+      if (selectedVariant && !navigator.onLine) { // this is fix for not preloaded images for offline
+        selectedVariant.image = product.image
+      }
+    }
+
     // use chosen variant
     if (selectDefaultVariant) {
       context.dispatch('setCurrent', selectedVariant)
