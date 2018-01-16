@@ -192,7 +192,11 @@ export default {
   },
   created () {
     this.$bus.$on('user-after-loggedin', (receivedData) => {
-      this.personalDetails = receivedData
+      this.personalDetails = {
+        firstName: receivedData.firstname,
+        lastName: receivedData.lastname,
+        emailAddress: receivedData.email
+      }
     })
   },
   destroyed () {

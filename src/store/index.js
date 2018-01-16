@@ -115,6 +115,9 @@ const plugins = [
         global.db.cartsCollection.setItem('current-cart', store.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+        global.db.cartsCollection.setItem('current-cart-token', store.cart.cartServerToken).catch((reason) => {
+          console.error(reason)
+        })
       }
       if (mutation.type.indexOf(types.SN_WISHLIST) === 0) { // check if this mutation is wishlist related
         global.db.wishlistCollection.setItem('current-wishlist', store.wishlist.itemsWishlist).catch((reason) => {
@@ -126,7 +129,7 @@ const plugins = [
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.SN_USER) === 0) { // check if this mutation is cart related
+      if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is cart related
         global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache

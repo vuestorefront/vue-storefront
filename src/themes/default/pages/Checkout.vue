@@ -204,7 +204,7 @@ export default {
     },
     prepareOrder () {
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.email : null,
+        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : null,
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           shippingAddress: {

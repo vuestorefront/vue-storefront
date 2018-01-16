@@ -4,13 +4,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
   name: 'add-to-cart',
   props: ['product'],
   methods: {
-    ...mapActions({ 'addToCart': 'cart/addItem' })
+    addToCart (product) {
+      this.$store.dispatch('cart/addItem', { productToAdd: product })
+    }
   }
 }
 </script>

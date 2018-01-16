@@ -17,6 +17,12 @@ EventBus.$on('user-after-update', (event) => {
   }
 })
 
+EventBus.$on('session-after-started', (event) => { // example stock check callback
+  console.log('Loading user profile')
+  store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {
+  })
+})
+
 // initial state
 const state = {
   token: '',
@@ -35,6 +41,19 @@ const actions = {
 
   startSession (context) {
     context.commit(types.USER_START_SESSION)
+
+    const cache = global.db.usersCollection
+    cache.getItem('current-token', (err, res) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+
+      if (res) {
+        context.commit(types.USER_TOKEN_CHANGED, res)
+      }
+      EventBus.$emit('session-after-started')
+    })
   },
 
   /**
@@ -77,18 +96,7 @@ const actions = {
     .then((resp) => {
       if (resp.code === 200) {
         context.commit(types.USER_TOKEN_CHANGED, resp.result)
-
-/*        context.dispatch('sync/queue',
-          { url: config.users.endpoint + '/me?token={{token}}',
-            payload: {
-              method: 'GET',
-              headers: { 'Content-Type': 'application/json' },
-              mode: 'cors'
-            }
-          }, { root: true }) */
         context.dispatch('me', { refresh: true, useCache: false }).then(result => {
-          context.commit(types.USER_TOKEN_CHANGED, resp.result)
-          console.log(result)
         })
       }
       return resp
@@ -120,6 +128,10 @@ const actions = {
    */
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
+      if (!context.state.token) {
+        console.log('No User token, user unathorized')
+        return resolve(null)
+      }
       const cache = global.db.usersCollection
       let resolvedFromCache = false
 
@@ -132,6 +144,7 @@ const actions = {
 
           if (res) {
             context.commit(types.USER_INFO_LOADED, res)
+            EventBus.$emit('user-after-loggedin', res)
 
             resolve(res)
             resolvedFromCache = true
@@ -153,11 +166,7 @@ const actions = {
           if (resp.code === 200) {
             context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
 
-            EventBus.$emit('user-after-loggedin', {
-              firstName: resp.result.firstname,
-              lastName: resp.result.lastname,
-              emailAddress: resp.result.email
-            })
+            EventBus.$emit('user-after-loggedin', resp.result)
           }
           if (!resolvedFromCache) {
             resolve(resp.code === 200 ? resp : null)
@@ -233,6 +242,18 @@ const actions = {
         })
       }
     })
+  },
+
+  /**
+   * Logout user
+   */
+  logout (context) {
+    context.commit(types.USER_END_SESSION)
+    EventBus.$emit('notification', {
+      type: 'success',
+      message: 'You\'re logged out',
+      action1: { label: 'OK', action: 'close' }
+    })
   }
 }
 
@@ -246,6 +267,11 @@ const mutations = {
   },
   [types.USER_INFO_LOADED] (state, currentUser) {
     state.current = currentUser
+  },
+  [types.USER_END_SESSION] (state) {
+    state.token = ''
+    state.current = null
+    state.session_started = null
   }
 }
 

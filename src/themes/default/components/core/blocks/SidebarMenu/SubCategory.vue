@@ -11,6 +11,9 @@
       <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.id" v-for="link in myAccountLinks">
         <router-link class="px25 py20 c-black no-underline col-xs" :to="'/my-account#' + link.anchor">{{ link.name }}</router-link>
       </li>
+      <li class="brdr-bottom brdr-c-lightgray bg-white flex">
+        <a href="#" class="px25 py20 c-black no-underline col-xs" @click="logout">Logout</a>
+      </li>
     </ul>
   </div>
 </template>
@@ -45,6 +48,11 @@ export default {
       return pos !== -1 ? {
         zIndex: pos + 1
       } : false
+    }
+  },
+  methods: {
+    logout () {
+      this.$bus.$emit('user-before-logout')
     }
   }
 }

@@ -1,9 +1,10 @@
 <template>
     <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
         <div class="row between-xs">
-            <div @click="closeMenu" class="flex-start px15 bg-white brdr-bottom brdr-c-lightgray ">
+            <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-c-lightgray ">
                 <search-icon class="p15 icon hidden-md" />
                 <wishlist-icon class="p15 icon hidden-md" />
+                <compare-icon class="p15 icon hidden-md" />
                 <account-icon class="p15 icon hidden-md" />
                 <sub-btn type="back" v-if="submenu.depth"></sub-btn>
             </div>
@@ -49,6 +50,7 @@ import { coreComponent } from 'lib/themes'
 import AccountIcon from '../Header/AccountIcon.vue'
 import SearchIcon from '../Header/SearchIcon.vue'
 import WishlistIcon from '../Header/WishlistIcon.vue'
+import CompareIcon from '../Header/CompareIcon.vue'
 import SubBtn from './SubBtn.vue'
 import SubCategory from './SubCategory.vue'
 
@@ -57,6 +59,7 @@ export default {
   components: {
     AccountIcon,
     WishlistIcon,
+    CompareIcon,
     SearchIcon,
     SubCategory,
     SubBtn
@@ -142,15 +145,15 @@ ul {
 .sidebar-menu__list {
     position: relative;
     transition: transform $duration-main $motion-main;
+
+    a {
+        display: block;
+    }
 }
 
 .close {
     cursor: pointer;
     display: inline-flex;
-}
-
-a {
-    display: block;
 }
 </style>
 <style lang="scss">
