@@ -3,9 +3,9 @@
     <div class="container mb45">
       <search class="animate"/>
       <div class="row mt70 animate">
-        <div v-for="category in pinnedCategories" :key="category.title" class="col-md-4 mb20">
+        <div v-for="category in categories" :key="category.name" class="col-md-4 mb20">
           <router-link to="/c/cat">
-            <category-tile :label="category.title"/>
+            <category-tile :label="category.name"/>
           </router-link>
         </div>
       </div>
@@ -46,25 +46,6 @@ export default {
     return {
       newProducts: [],
       categories: [],
-      pinnedCategories: [{
-        title: 'Sale',
-        bgUrl: ''
-      }, {
-        title: 'Outdoor',
-        bgUrl: ''
-      }, {
-        title: 'Handball',
-        bgUrl: ''
-      }, {
-        title: 'Nordic',
-        bgUrl: ''
-      }, {
-        title: 'Sport Gear',
-        bgUrl: ''
-      }, {
-        title: 'Basketball',
-        bgUrl: ''
-      }],
       magazines: [{
         title: '10 the most extreme roads for running',
         category: 'Guide',
@@ -92,13 +73,13 @@ export default {
   created () {
     const productQuery = builder().query('match', 'category.name', 'Tees').build()
     this.getProducts(productQuery, 8).then(res => { this.newProducts = res.items })
-    this.getCategories().then(categories => { this.categories = categories.items })
+    this.getCategories().then(categories => { this.categories = categories.items.slice(0, 6) })
   },
   mounted () {
     require('scrollreveal')().reveal('.animate', {
       distance: 0,
-      scale: 0.7,
-      duration: 1000
+      scale: 0.8,
+      duration: 600
     })
   },
   components: {

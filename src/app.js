@@ -1,6 +1,6 @@
 
 import Vue from 'vue'
-import App from './themes/catalog/App.vue'
+import App from 'theme/app'
 import store from './store'
 import router from './router'
 import { EventBusPlugin as EventBus } from './event-bus'
@@ -28,7 +28,7 @@ export function createApp () {
   })
 
   registerExtensions(config.registeredExtensions || [], app, router, store, config) // TODO: use config or ENV variables
-  registerTheme('catalog', app, router, store)
+  registerTheme(config.theme, app, router, store)
   registerFilters(app, config)
 
   app.$emit('application-after-init', app)

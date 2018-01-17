@@ -1,6 +1,8 @@
 <template>
   <div class="similar row" >
-      <product-tile :class="classes" v-for='(product, key) in related.by_category' v-bind:key='product.id'  :instant='key < 4 ? true : false' :product="product"/>
+    <router-link :class="classes" v-for='(product, key) in related.by_category' v-bind:key='product.id' :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
+      <product-tile  :instant='key < 4 ? true : false' :product="product"/>
+    </router-link>
   </div>
 </template>
 

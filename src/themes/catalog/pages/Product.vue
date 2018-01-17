@@ -23,13 +23,13 @@
                           {{ product.price | price }}
                       </div>
                   </div>
-                  <div class="row" v-for="(variant, index) in product.configurable_options" :key="index">
+                  <div class="row" v-if="product.type_id =='configurable'" v-for="(variant, index) in product.configurable_options" :key="index">
                       <div class="col-md-12 uppercase c-secondary">
                         <h4>{{ variant.label }}</h4>
                       </div>
                       <div class="col-md-12">
-                          <color-filter v-for="(color, i) in options.color" :key="i" :color="color.label" class="mr5" :active="color.id == configuration.color.id" v-if="variant.label == 'Color'" />
-                          <size-filter v-for="(size, i) in options.size" :key="i"  :size="size.label"  class="mr15" :active="size.id == configuration.size.id" v-if="variant.label == 'Size'" />
+                          <color-filter v-for="(color, i) in options.color" :key="i" :color="color.label" :id="color.id" class="mr5" :active="color.id == configuration.color.id" v-if="variant.label == 'Color'" />
+                          <size-filter v-for="(size, i) in options.size" :key="i"  :size="size.label"  :id="size.id" class="mr15" :active="size.id == configuration.size.id" v-if="variant.label == 'Size'" />
                       </div>
                   </div>
                     <div class="row mt30">
@@ -54,7 +54,7 @@
           <div class="row py60 center-xs">
             <div class="col-md-12 animate">
               <h2 class="mb40">Similar products</h2>
-              <similar-pdoducts number="4" classes="col-md-3 b"/>
+              <similar-pdoducts :number="4" classes="col-md-3 b"/>
             </div>
           </div>
       </div>
@@ -92,11 +92,10 @@ export default {
     }
   },
   mounted () {
-    const ScrollReveal = require('scrollreveal')()
-    ScrollReveal.reveal('.animate', {
+    require('scrollreveal')().reveal('.animate', {
       distance: 0,
-      scale: 0.7,
-      duration: 1000,
+      scale: 0.8,
+      duration: 600,
       viewFactor: 0.5
     })
   },
@@ -106,7 +105,6 @@ export default {
     SizeFilter,
     SimilarPdoducts
   },
-  asyncData ({ store, route }) {},
   mixins: [corePage('Product')]
 }
 </script>
