@@ -13,15 +13,15 @@
         </div>
         <div class="col-md-5 semibold end-xs middle-xs inline-flex uppercase">
           <router-link to="/" class="menu-link full-size px20 middle-xs flex">
-            <div class="inline-flex">Football</div>
+            <div class="inline-flex">{{ categories[0] ? categories[0].name : null }}</div>
             <div class="material-icons inline-flex c-accent">keyboard_arrow_down</div>
           </router-link>
           <router-link to="/" class="menu-link full-size px20 middle-xs flex">
-            <div class="inline-flex">Running</div>
+            <div class="inline-flex">{{ categories[1] ? categories[1].name : null }}</div>
             <div class="material-icons inline-flex c-accent">keyboard_arrow_down</div>          
           </router-link>
           <router-link to="/" class="menu-link full-size px20 middle-xs flex">
-            <div class="inline-flex">Indoor</div>
+            <div class="inline-flex">{{ categories[4] ? categories[4].name : null }}</div>
             <div class="material-icons inline-flex c-accent">keyboard_arrow_down</div>        
           </router-link>
         </div>
@@ -43,6 +43,21 @@
 import Logo from 'theme/components/core/Logo'
 
 export default {
+  data () {
+    return {
+      categories: []
+    }
+  },
+  methods: {
+    getCategories () {
+      return this.$store.dispatch('category/list', {})
+    }
+  },
+  created () {
+    this.getCategories().then(({ items }) => {
+      this.categories = items
+    })
+  },
   components: {
     Logo
   }

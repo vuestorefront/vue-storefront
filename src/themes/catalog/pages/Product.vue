@@ -88,7 +88,7 @@ export default {
   methods: {
     isAvailable () {
       this.availability.checked = true
-      this.availability.available = true
+      this.availability.available = this.product.stock.is_in_stock
     }
   },
   mounted () {
