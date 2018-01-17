@@ -110,6 +110,7 @@
         <span class="validation-error" v-if="!$v.userCompany.taxId.required">Field is required</span>
         <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">Tax ID must have at least {{$v.userCompany.taxId.$params.minLength.min}} letters.</span>
       </div>
+      <div class="hidden-xs col-sm-6 mb25" v-show="addCompany"></div>
 
       <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full text="Update my profile" @click.native="updateProfile" :class="{ 'button-disabled': checkValidation() }" />
@@ -146,6 +147,9 @@
             <span v-show="userCompany.region">{{ userCompany.region }}, </span>
             <span>{{ getCountryName() }}</span>
           </p>
+          <p class="mb25" v-show="userCompany.taxId">
+            {{ userCompany.taxId }}
+          </p>
         </div>
       </div>
     </div>
@@ -154,6 +158,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import { coreComponent } from 'lib/themes'
   import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
   import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -242,6 +247,11 @@
         addCompany: false
       }
     },
+    computed: {
+      ...mapState({
+        freshCurrentUser: state => state.user.current
+      })
+    },
     mounted () {
       this.userCompany = this.getUserCompany()
       if (this.userCompany.company) {
@@ -291,11 +301,11 @@
           !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
           (this.userCompany.company && !this.addCompany)
         ) {
-          updatedProfile = this.currentUser
-          if (this.currentUser.hasOwnProperty('default_billing')) {
+          updatedProfile = this.freshCurrentUser
+          if (updatedProfile.hasOwnProperty('default_billing')) {
             let index
-            for (let i = 0; i < this.currentUser.addresses.length; i++) {
-              if (this.currentUser.addresses[i].id === Number(this.currentUser.default_billing)) {
+            for (let i = 0; i < updatedProfile.addresses.length; i++) {
+              if (updatedProfile.addresses[i].id === Number(updatedProfile.default_billing)) {
                 index = i
               }
             }
@@ -314,7 +324,6 @@
                 updatedProfile.addresses[index].country_id = this.userCompany.country
                 updatedProfile.addresses[index].postcode = this.userCompany.postcode
                 updatedProfile.addresses[index].vat_id = this.userCompany.taxId
-                updatedProfile.addresses[index].default_billing = true
               } else {
                 updatedProfile.addresses.splice(index, 1)
                 this.userCompany = {

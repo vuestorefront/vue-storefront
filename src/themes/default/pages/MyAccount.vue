@@ -12,7 +12,7 @@
         <div class="col-md-3 side-menu">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="page in navigation"><a :href="page.link" class="c-black">{{page.title}}</a></li>
+              <li class="mb10" v-for="page in navigation"><a :href="page.link" class="c-black" @click="notify(page.title)">{{ page.title }}</a></li>
             </ul>
           </nav>
         </div>
@@ -55,11 +55,26 @@
       this.$bus.$on('myAccount.changePassword', (passwordData) => {
         this.$store.dispatch('user/changePassword', passwordData)
       })
+      this.$bus.$on('myAccount.updatePreferences', (updatedData) => {
+        console.log(updatedData)
+        if (updatedData) {
+          if (updatedData.action === 'subscribe') {
+            this.$bus.$emit('newsletter-after-subscribe', { email: updatedData.email })
+            this.$store.dispatch('user/updatePreferences', updatedData.preferences)
+          } else {
+            this.$bus.$emit('newsletter-after-unsubscribe', { email: updatedData.email })
+            this.$store.dispatch('user/updatePreferences', null)
+          }
+        }
+        this.editMode = true
+        this.activateSection()
+      })
     },
     destroyed () {
       this.$bus.$off('myAccount.activateSection')
       this.$bus.$off('myAccount.updateUser')
       this.$bus.$off('myAccount.changePassword')
+      this.$bus.$off('myAccount.updatePreferences')
     },
     data () {
       return {
@@ -67,9 +82,9 @@
           { title: 'My profile', link: '#profile' },
           { title: 'My shipping details', link: '#shipping_details' },
           { title: 'My newsletter', link: '#newsletter' },
-          { title: 'My orders', link: '/my-account' },
-          { title: 'My loyalty card', link: '/my-account' },
-          { title: 'My product reviews', link: '/my-account' }
+          { title: 'My orders', link: '#' },
+          { title: 'My loyalty card', link: '#' },
+          { title: 'My product reviews', link: '#' }
         ],
         activeSection: {
           profile: false,
@@ -87,6 +102,15 @@
         if (sectionToActivate) {
           this.activeSection[sectionToActivate] = true
           this.editMode = false
+        }
+      },
+      notify (title) {
+        if (title === 'My loyalty card' || title === 'My product reviews') {
+          this.$bus.$emit('notification', {
+            type: 'warning',
+            message: 'This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!',
+            action1: { label: 'OK', action: 'close' }
+          })
         }
       }
     },

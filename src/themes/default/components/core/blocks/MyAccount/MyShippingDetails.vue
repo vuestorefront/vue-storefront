@@ -106,6 +106,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import { coreComponent } from 'lib/themes'
   import { required, minLength } from 'vuelidate/lib/validators'
   
@@ -144,7 +145,6 @@
     },
     data () {
       return {
-        currentUser: this.$store.state.user.current,
         shippingDetails: {
           firstName: '',
           lastName: '',
@@ -159,6 +159,11 @@
         countries: Countries,
         useCompanyAddress: false
       }
+    },
+    computed: {
+      ...mapState({
+        currentUser: state => state.user.current
+      })
     },
     mounted () {
       this.shippingDetails = this.getShippingDetails()
@@ -217,7 +222,6 @@
               if (this.shippingDetails.phone) {
                 updatedShippingDetails.addresses[index].telephone = this.shippingDetails.phone
               }
-              updatedShippingDetails.addresses[index].default_shipping = true
             } else {
               updatedShippingDetails = null
             }

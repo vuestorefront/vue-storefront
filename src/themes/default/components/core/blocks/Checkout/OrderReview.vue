@@ -20,7 +20,7 @@
                   <label for="acceptTermsCheckbox"></label>
                 </div>
                 <div class="checkboxText ml15 lh25">
-                  <span class="fs16 c-darkgray">I agree to <span class="link" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span></span>
+                  <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">I agree to <span class="link" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span></span>
                 </div>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
               </div>

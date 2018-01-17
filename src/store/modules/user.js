@@ -27,7 +27,8 @@ EventBus.$on('session-after-started', (event) => { // example stock check callba
 const state = {
   token: '',
   current: null,
-  session_started: new Date()
+  session_started: new Date(),
+  newsletter: null
 }
 
 const getters = {
@@ -53,6 +54,18 @@ const actions = {
         context.commit(types.USER_TOKEN_CHANGED, res)
       }
       EventBus.$emit('session-after-started')
+    })
+
+    const newsletterStorage = global.db.newsletterPreferencesCollection
+    newsletterStorage.getItem('newsletter-preferences', (err, res) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+
+      if (res) {
+        context.commit(types.USER_UPDATE_PREFERENCES, res)
+      }
     })
   },
 
@@ -254,6 +267,18 @@ const actions = {
       message: 'You\'re logged out',
       action1: { label: 'OK', action: 'close' }
     })
+  },
+
+  /**
+   * Save user's newsletter preferences
+   */
+  updatePreferences (context, newsletterPreferences) {
+    context.commit(types.USER_UPDATE_PREFERENCES, newsletterPreferences)
+    EventBus.$emit('notification', {
+      type: 'success',
+      message: 'Newsletter preferences have successfully been updated',
+      action1: { label: 'OK', action: 'close' }
+    })
   }
 }
 
@@ -272,6 +297,9 @@ const mutations = {
     state.token = ''
     state.current = null
     state.session_started = null
+  },
+  [types.USER_UPDATE_PREFERENCES] (state, newsletterPreferences) {
+    state.newsletter = newsletterPreferences
   }
 }
 

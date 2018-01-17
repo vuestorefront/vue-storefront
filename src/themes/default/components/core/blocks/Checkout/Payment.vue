@@ -25,7 +25,7 @@
               <label for="sendToShippingAddressCheckbox"></label>
             </div>
             <div class="checkboxText ml15 lh25" @click="useShippingAddress">
-              <span class="fs16 c-darkgray">Use the same personal and shipping data</span>
+              <span class="fs16 c-darkgray">Copy address data from shipping</span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 mb15" v-show="hasBillingData()">

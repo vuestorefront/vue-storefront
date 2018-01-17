@@ -64,6 +64,11 @@ Vue.prototype.$db = {
   checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'checkoutFieldValues'
+  })),
+
+  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'newsletterPreferences'
   }))
 }
 
@@ -151,6 +156,11 @@ const plugins = [
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
+      }
+      if (mutation.type.indexOf(types.USER_UPDATE_PREFERENCES) >= 0) {
+        global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', store.user.newsletter).catch((reason) => {
+          console.error(reason)
+        })
       }
     })
   }

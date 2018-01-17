@@ -25,7 +25,7 @@
               <label for="shipToMyAddressCheckbox"></label>
             </div>
             <div class="checkboxText ml15 lh25" @click="useMyAddress">
-              <span class="fs16 c-darkgray">Ship to my address</span>
+              <span class="fs16 c-darkgray">Ship to my default address</span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
@@ -224,7 +224,8 @@ export default {
           streetAddress: this.myAddressDetails.street[0],
           apartmentNumber: this.myAddressDetails.street[1],
           zipCode: this.myAddressDetails.postcode,
-          phoneNumber: this.myAddressDetails.telephone
+          phoneNumber: this.myAddressDetails.telephone,
+          shippingMethod: this.$store.state.checkout.shippingDetails.shippingMethod
         }
       } else {
         this.shipping = this.$store.state.checkout.shippingDetails

@@ -90,22 +90,13 @@
     props: ['isActive', 'editMode'],
     data () {
       return {
-        newsletterPreferences: {
-          generalAgreement: false,
-          men: false,
-          women: false,
-          kids: false,
-          home: false
-        }
+        newsletterPreferences: this.getNewsletter()
       }
     },
     computed: {
       ...mapState({
-        currentUser: state => state.user.current
+        stateNewsletter: state => state.user.newsletter
       })
-    },
-    mounted () {
-      this.newsletterPreferences = this.getNewsletter()
     },
     methods: {
       edit () {
@@ -137,62 +128,44 @@
       },
       updateNewsletter () {
         let updatedNewsletter
-        if (!this.objectsEqual(this.newsletterPreferences, this.getNewsletter())) {
-          updatedNewsletter = this.currentUser
-          if (!this.currentUser.hasOwnProperty('custom_attributes')) {
-            updatedNewsletter.custom_attributes = []
+        if (!this.objectsEqual(this.newsletterPreferences, (this.stateNewsletter ? this.stateNewsletter : {}))) {
+          updatedNewsletter = {
+            action: 'unsubscribe',
+            email: this.$store.state.user.current.email,
+            preferences: Object.assign({}, this.newsletterPreferences)
           }
-          let attrs = Object.keys(this.newsletterPreferences)
-          for (let i = 0; i < attrs.length; i++) {
-            let index
-            for (let j = 0; j < this.currentUser.custom_attributes.length; j++) {
-              if (this.currentUser.custom_attributes.attribute_code === attrs[i]) {
-                index = j
-              }
-            }
-            if (index >= 0) {
-              updatedNewsletter.custom_attributes[index].value = (this.newsletterPreferences[attrs[i]] ? '1' : '0')
-            } else {
-              updatedNewsletter.custom_attributes.push({
-                attribute_code: attrs[i],
-                value: (this.newsletterPreferences[attrs[i]] ? '1' : '0')
-              })
+          for (let pref in this.newsletterPreferences) {
+            if (this.newsletterPreferences[pref]) {
+              updatedNewsletter.action = 'subscribe'
+              break
             }
           }
         }
         this.exitSection(null, updatedNewsletter)
       },
       exitSection (event, updatedNewsletter) {
-        this.$bus.$emit('myAccount.updateUser', updatedNewsletter)
+        this.$bus.$emit('myAccount.updatePreferences', updatedNewsletter)
+        if (!updatedNewsletter) {
+          this.newsletterPreferences = this.getNewsletter()
+        }
       },
       getNewsletter () {
-        let generalAgreement = false
-        let men = false
-        let women = false
-        let kids = false
-        let home = false
-        if (this.currentUser.hasOwnProperty('custom_attributes')) {
-          let attributes = this.currentUser.custom_attributes
-          for (let i = 0; i < attributes; i++) {
-            if (attributes[i].attribute_code === 'generalAgreement') {
-              generalAgreement = attributes[i].value === '1'
-            } else if (attributes[i].attribute_code === 'men') {
-              men = attributes[i].value === '1'
-            } else if (attributes[i].attribute_code === 'women') {
-              women = attributes[i].value === '1'
-            } else if (attributes[i].attribute_code === 'kids') {
-              kids = attributes[i].value === '1'
-            } else if (attributes[i].attribute_code === 'home') {
-              home = attributes[i].value === '1'
-            }
+        if (this.stateNewsletter) {
+          return {
+            generalAgreement: this.stateNewsletter.generalAgreement,
+            men: this.stateNewsletter.men,
+            women: this.stateNewsletter.women,
+            kids: this.stateNewsletter.kids,
+            home: this.stateNewsletter.home
           }
-        }
-        return {
-          generalAgreement,
-          men,
-          women,
-          kids,
-          home
+        } else {
+          return {
+            generalAgreement: false,
+            men: false,
+            women: false,
+            kids: false,
+            home: false
+          }
         }
       }
     },
@@ -204,7 +177,9 @@
 </script>
 
 <style lang="scss" scoped>
-  .preferences {
-    padding-left: 15px;
+  @media (max-width: 768px) {
+    .preferences {
+      padding-left: 15px;
+    }
   }
 </style>

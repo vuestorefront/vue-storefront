@@ -1,6 +1,6 @@
 <template>
   <div class="account-icon inline-flex">
-    <div class="dropdown" @mouseover="hoverIcon">
+    <div class="dropdown" @mouseover="hoverIcon" @click="openMyAccount">
       <i class="material-icons md-18" @click="gotoAccount">account_circle</i>
       <div v-if="currentUser" :class="showDropdown ? 'dropdown-content show-dropdown' : 'dropdown-content'">
         <p>You're logged in as {{ currentUser.firstname }}</p>
@@ -22,8 +22,12 @@ import { coreComponent } from 'lib/themes'
 export default {
   data () {
     return {
-      showDropdown: false
+      showDropdown: false,
+      screenWidth: null
     }
+  },
+  mounted () {
+    this.screenWidth = window.innerWidth
   },
   methods: {
     hoverIcon () {
@@ -40,6 +44,11 @@ export default {
     },
     hideDropdown () {
       this.showDropdown = false
+    },
+    openMyAccount () {
+      if (this.screenWidth <= 768) {
+        this.$router.push('/my-account')
+      }
     }
   },
   mixins: [coreComponent('core/blocks/Header/AccountIcon')]
