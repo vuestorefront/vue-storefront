@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row center-xs">
         <header class="col-md-12 pt40 pb15">
-          <h2 class="align-center">{{title}}</h2>
+          <h2 class="align-center c-black">{{title}}</h2>
         </header>
       </div>
     </div>
