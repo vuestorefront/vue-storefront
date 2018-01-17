@@ -1,7 +1,7 @@
 <template>
   <div class="product align-center p15">
     <div @click.capture="preventClicks">
-      <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
+      <router-link class="no-underline" :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
         <div class="product-image bg-lightgray">
           <transition name="fade" appear>
             <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
