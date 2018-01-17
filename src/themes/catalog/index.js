@@ -4,7 +4,7 @@ import Product from './pages/Product.vue'
 
 const routes = [
     { path: '/', component: Home },
-    { path: '/c/:name', component: Category },
+    { path: '/c/:slug', component: Category },
     { path: '/p/:parentSku/:slug/:childSku', component: Product }
 ]
 

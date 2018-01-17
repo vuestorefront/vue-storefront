@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 center-xs mt20 mb0">
-                        <h1> Football</h1>
+                        <h1> {{ category.name }}</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -22,9 +22,9 @@
         <div>
             <div class="container animate">
                 <div class="row my50">
-                    <div v-for="index in 16" :key="index" class="col-md-3" :class="{ pr0 : index % 4 != 0, pl0 : index % 4 != 1 }">
-                        <router-link to="/">
-                            <product-tile class="b" :class="{ 'b-right-none' : index % 4 != 0 }"/>
+                    <div v-for="(product, index) in products" :key="product.name" class="col-md-3" :class="{ pr0 : index % 4 != 0, pl0 : index % 4 != 1 }">
+                        <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
+                            <product-tile class="b" :product="product" :class="{ 'b-right-none' : index % 4 != 0 }"/>
                         </router-link>
                     </div>
                 </div>
@@ -34,20 +34,24 @@
 </template>
 
 <script>
+import { corePage } from 'lib/themes'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
   mounted () {
-    const ScrollReveal = require('scrollreveal')()
-    ScrollReveal.reveal('.animate', {
-      distance: 0,
-      scale: 0.7,
-      duration: 1000
-    })
+    // const ScrollReveal = require('scrollreveal')()
+    // ScrollReveal.reveal('.animate', {
+    //   distance: 0,
+    //   scale: 0.7,
+    //   duration: 1000,
+    //   viewFactor: 0.01,
+    //   origin: 'top'
+    // })
   },
   components: {
     ProductTile
-  }
+  },
+  mixins: [corePage('Category')]
 }
 </script>
 

@@ -4,7 +4,7 @@
       <search class="animate"/>
       <div class="row mt70 animate">
         <div v-for="category in categories" :key="category.name" class="col-md-4 mb20">
-          <router-link to="/c/cat">
+          <router-link :to="'/c/' + category.slug ">
             <category-tile :label="category.name"/>
           </router-link>
         </div>
