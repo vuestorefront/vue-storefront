@@ -65,10 +65,10 @@
         <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="shippingDetails.phone">
       </div>
       <div class="hidden-xs col-sm-6 mb25"></div>
-      <div class="col-xs-12 col-sm-6">
+      <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full text="Update my shipping details" @click.native="updateDetails" :class="{ 'button-disabled': $v.$invalid }" />
       </div>
-      <div class="col-xs-12 col-sm-6 pt15">
+      <div class="col-xs-12 col-sm-6 pt15 bottom-button">
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
       </div>
     </div>
@@ -264,14 +264,7 @@
             this.shippingDetails.country = this.currentUser.addresses[index].country_id
           }
         } else {
-          this.shippingDetails.firstName = this.currentUser.firstname
-          this.shippingDetails.lastName = this.currentUser.lastname
-          this.shippingDetails.street = ''
-          this.shippingDetails.house = ''
-          this.shippingDetails.city = ''
-          this.shippingDetails.postcode = ''
-          this.shippingDetails.region = ''
-          this.shippingDetails.country = ''
+          this.shippingDetails = this.getShippingDetails()
         }
       },
       getShippingDetails () {
@@ -325,11 +318,3 @@
     mixins: [coreComponent('core/blocks/MyAccount/MyShippingDetails')]
   }
 </script>
-
-<style lang="scss" scoped>
-
-  .link {
-    text-decoration: underline;
-  }
-
-</style>

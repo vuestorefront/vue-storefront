@@ -32,7 +32,7 @@
       <div class="col-xs-12">  
         <h4>Preferences</h4>
       </div>
-      <div class="col-xs-6 col-sm-6 col-md-3 mb25">
+      <div class="col-xs-6 col-sm-6 col-md-3 preferences mb25">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.men" id="men" :disabled="!isActive">
           <label for="men"></label>
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div class="hidden-xs hidden-sm col-md-6"></div>
-      <div class="col-xs-6 col-sm-6 col-md-3 mb25">
+      <div class="col-xs-6 col-sm-6 col-md-3 preferences mb25">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.kids" id="kids" :disabled="!isActive">
           <label for="kids"></label>
@@ -70,10 +70,10 @@
         </div>
       </div>
       <div class="hidden-xs hidden-sm col-md-6"></div>
-      <div class="col-xs-12 col-sm-6 mt10" v-show="isActive">
-        <button-full text="Update my newsletter preferences" @click.native="updateNewsletter" />
+      <div class="col-xs-12 col-sm-6 mt10 bottom-button" v-show="isActive">
+        <button-full text="Update my preferences" @click.native="updateNewsletter" />
       </div>
-      <div class="col-xs-12 col-sm-6 mt25" v-show="isActive">
+      <div class="col-xs-12 col-sm-6 mt25 bottom-button" v-show="isActive">
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
       </div>
     </div>
@@ -204,8 +204,7 @@
 </script>
 
 <style lang="scss" scoped>
-
-  .link {
-    text-decoration: underline;
+  .preferences {
+    padding-left: 15px;
   }
 </style>

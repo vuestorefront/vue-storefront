@@ -340,7 +340,7 @@ $lightgray: map-get($colors, lightgray);
   .checkboxStyled {
     width: 23px;
     position: relative;
-    display: inline-block;
+    display: table-cell;
 
     label {
       cursor: pointer;
@@ -373,8 +373,9 @@ $lightgray: map-get($colors, lightgray);
   }
 
   .checkboxText {
-    display: inline-block;
+    display: table-cell;
     cursor: pointer;
+    padding-left: 10px;
     
     span {
       vertical-align: middle;

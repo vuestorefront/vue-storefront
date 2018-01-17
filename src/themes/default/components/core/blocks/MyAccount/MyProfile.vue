@@ -73,48 +73,48 @@
           <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
         </div>
       </div>
-      <div class="row" v-show="addCompany">
-        <div class="col-xs-12 col-sm-12 mb25">
-          <input type="text" name="company-name" placeholder="Company name" v-model.trim="userCompany.company">
-          <span class="validation-error" v-if="!$v.userCompany.company.required">Field is required</span>
-        </div>
-        <div class="col-xs-12 col-sm-6 mb25">
-          <input type="text" name="street-address" placeholder="Street name" v-model.trim="userCompany.street">
-          <span class="validation-error" v-if="!$v.userCompany.street.required">Field is required</span>
-        </div>
-        <div class="col-xs-12 col-sm-6 mb25">
-          <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="userCompany.house">
-          <span class="validation-error" v-if="!$v.userCompany.house.required">Field is required</span>
-        </div>
-        <div class="col-xs-12 col-sm-6 mb25">
-          <input type="text" name="city" placeholder="City" v-model.trim="userCompany.city">
-          <span class="validation-error" v-if="!$v.userCompany.city.required">Field is required</span>
-        </div>
-        <div class="col-xs-12 col-sm-6 mb25">
-          <input type="text" name="state" placeholder="State / Province" v-model.trim="userCompany.region">
-        </div>
-        <div class="col-xs-12 col-sm-6 mb25">
-          <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="userCompany.postcode">
-          <span class="validation-error" v-if="!$v.userCompany.postcode.required">Field is required</span>
-          <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">Zip-code must have at least {{$v.userCompany.postcode.$params.minLength.min}} letters.</span>
-        </div>
-        <div class="col-xs-12 col-sm-6 mb25">
-          <select name="countries" v-model="userCompany.country">
-            <option value="" disabled selected hidden>Country</option>
-            <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
-          </select>
-          <span class="validation-error" v-if="!$v.userCompany.country.required">Field is required</span>
-        </div>
-         <div class="col-xs-12 col-sm-6 mb25">
-          <input type="text" name="taxId" placeholder="Tax ID" v-model.trim="userCompany.taxId">
-          <span class="validation-error" v-if="!$v.userCompany.taxId.required">Field is required</span>
-          <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">Tax ID must have at least {{$v.userCompany.taxId.$params.minLength.min}} letters.</span>
-        </div>
+
+      <div class="col-xs-12 col-sm-12 mb25" v-show="addCompany">
+        <input type="text" name="company-name" placeholder="Company name" v-model.trim="userCompany.company">
+        <span class="validation-error" v-if="!$v.userCompany.company.required">Field is required</span>
       </div>
-      <div class="col-xs-12 col-sm-6">
+      <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+        <input type="text" name="street-address" placeholder="Street name" v-model.trim="userCompany.street">
+        <span class="validation-error" v-if="!$v.userCompany.street.required">Field is required</span>
+      </div>
+      <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+        <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="userCompany.house">
+        <span class="validation-error" v-if="!$v.userCompany.house.required">Field is required</span>
+      </div>
+      <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+        <input type="text" name="city" placeholder="City" v-model.trim="userCompany.city">
+        <span class="validation-error" v-if="!$v.userCompany.city.required">Field is required</span>
+      </div>
+      <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+        <input type="text" name="state" placeholder="State / Province" v-model.trim="userCompany.region">
+      </div>
+      <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+        <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="userCompany.postcode">
+        <span class="validation-error" v-if="!$v.userCompany.postcode.required">Field is required</span>
+        <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">Zip-code must have at least {{$v.userCompany.postcode.$params.minLength.min}} letters.</span>
+      </div>
+      <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+        <select name="countries" v-model="userCompany.country">
+          <option value="" disabled selected hidden>Country</option>
+          <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
+        </select>
+        <span class="validation-error" v-if="!$v.userCompany.country.required">Field is required</span>
+      </div>
+       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+        <input type="text" name="taxId" placeholder="Tax ID" v-model.trim="userCompany.taxId">
+        <span class="validation-error" v-if="!$v.userCompany.taxId.required">Field is required</span>
+        <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">Tax ID must have at least {{$v.userCompany.taxId.$params.minLength.min}} letters.</span>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full text="Update my profile" @click.native="updateProfile" :class="{ 'button-disabled': checkValidation() }" />
       </div>
-      <div class="col-xs-12 col-sm-6 pt15">
+      <div class="col-xs-12 col-sm-6 pt15 bottom-button">
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
       </div>
     </div>
@@ -459,10 +459,6 @@
         color: #8E8E8E;
       }
     }
-  }
-
-  .link {
-    text-decoration: underline;
   }
 
   .button-container {

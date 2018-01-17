@@ -2,14 +2,14 @@
   <div class="account-icon inline-flex">
     <div class="dropdown" @mouseover="hoverIcon">
       <i class="material-icons md-18" @click="gotoAccount">account_circle</i>
-      <div v-if="currentUser" class="dropdown-content" :class="{ 'show-dropdown': showDropdown }">
+      <div v-if="currentUser" :class="showDropdown ? 'dropdown-content show-dropdown' : 'dropdown-content'">
         <p>You're logged in as {{ currentUser.firstname }}</p>
         <hr>
         <div class="section-wrapper">
-          <router-link class="no-underline" :to="{ name: 'my-account' }">My account</router-link>
+          <router-link class="no-underline" :to="{ name: 'my-account' }" @click="hideDropdown">My account</router-link>
         </div>
         <div class="section-wrapper">
-          <a href="#" class="no-underline" @click="logout">Logout</a>
+          <a href="#" class="no-underline" @click="clickLogout">Logout</a>
         </div>
       </div>
     </div>
@@ -28,10 +28,18 @@ export default {
   methods: {
     hoverIcon () {
       if (this.currentUser) {
+        this.showDropdown = true
         setTimeout(() => {
-          this.showDropdown = !this.showDropdown
-        }, 500)
+          this.showDropdown = false
+        }, 3000)
       }
+    },
+    clickLogout () {
+      this.logout()
+      this.hideDropdown()
+    },
+    hideDropdown () {
+      this.showDropdown = false
     }
   },
   mixins: [coreComponent('core/blocks/Header/AccountIcon')]
@@ -75,8 +83,10 @@ export default {
         }
       }
 
-      &:hover, &.show-dropdown {
-        display: block;
+      @media (min-width: 768px) {
+        &:hover, &.show-dropdown {
+          display: block;
+        }
       }
     }
   }    

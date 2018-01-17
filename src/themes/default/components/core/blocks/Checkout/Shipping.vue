@@ -38,27 +38,27 @@
             <span class="validation-error" v-if="$v.shipping.lastName.$error && !$v.shipping.lastName.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress" @blur="$v.shipping.streetAddress.$touch()" autocomplete="shipping address-line1">
+            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress" @blur="$v.shipping.streetAddress.$touch()" autocomplete="shipping address-line1" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber" @blur="$v.shipping.apartmentNumber.$touch()" autocomplete="address-line2">
+            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber" @blur="$v.shipping.apartmentNumber.$touch()" autocomplete="address-line2" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city" @blur="$v.shipping.city.$touch()" autocomplete="address-level2">
+            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city" @blur="$v.shipping.city.$touch()" autocomplete="address-level2" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.city.$error && !$v.shipping.city.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state" autocomplete="address-level1">
+            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state" autocomplete="address-level1" :disabled="shipToMyAddress">
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode" @blur="$v.shipping.zipCode.$touch()" autocomplete="postal-code">
+            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode" @blur="$v.shipping.zipCode.$touch()" autocomplete="postal-code" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.zipCode.$error && !$v.shipping.zipCode.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{$v.shipping.zipCode.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <select name="countries" v-model="shipping.country" @change="$v.shipping.country.$touch()" autocomplete="country">
+            <select name="countries" v-model="shipping.country" @change="$v.shipping.country.$touch()" autocomplete="country" :disabled="shipToMyAddress">
               <option value="" disabled selected hidden>Country</option>
               <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
             </select>

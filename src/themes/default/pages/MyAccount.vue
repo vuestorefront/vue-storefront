@@ -9,14 +9,14 @@
 
     <div class="container pt45 pb70">
       <div class="row pl20 pt0">
-        <div class="col-sm-3">
+        <div class="col-md-3 side-menu">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation"><a :href="page.link" class="c-black">{{page.title}}</a></li>
             </ul>
           </nav>
         </div>
-        <div class="col-sm-9">
+        <div class="col-md-9">
           <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"></my-profile>
           <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"></my-shipping-details>
           <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"></my-newsletter>
@@ -156,7 +156,7 @@
     .checkboxStyled {
       width: 23px;
       position: relative;
-      display: inline-block;
+      display: table-cell;
 
       label {
         cursor: pointer;
@@ -189,11 +189,72 @@
     }
 
     .checkboxText {
-      display: inline-block;
+      display: table-cell;
       cursor: pointer;
-      
+      padding-left: 10px;
+
       span {
         vertical-align: middle;
+      }
+    }
+
+    .side-menu {
+      display: block;
+
+      @media (max-width: 992px) {
+        display: none;
+      }
+
+      .static-menu {
+        ul {
+          list-style: none;
+        }
+
+        a {
+          position: relative;
+        }
+
+        a::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background-color: #BDBDBD;
+        }
+
+        a:hover::after,
+        .router-link-active::after {
+          opacity: 0;
+        }
+      }
+
+      .static-content {
+        font-size: 1.2em;
+        line-height: 2.1em;
+
+        *:first-of-type {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .link {
+      text-decoration: underline;
+    }
+
+    .bottom-button {
+      @media (max-width: 768px) {
+        text-align: center;
+        padding-left: 0px !important;
+      }
+    }
+
+    .col-xs-12 {
+      @media (max-width: 768px) {
+        padding-left: 15px;
+        padding-right: 15px;
       }
     }
   }
