@@ -84,17 +84,16 @@
                 {{ shipping.firstName }} {{ shipping.lastName }}
               </p>
               <p>
-                {{ shipping.streetAddress }}
-                <span v-show="shipping.apartmentNumber"> {{ shipping.apartmentNumber }}</span>
+                {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}</span>
               </p>
               <p>
                 {{ shipping.city }} {{ shipping.zipCode }}
               </p>
               <p>
                 <span v-show="shipping.state">{{ shipping.state }}, </span>
-                <span>{{ shipping.country }}</span>
+                <span>{{ getCountryName() }}</span>
               </p>
-              <p>
+              <p v-show="shipping.phoneNumber">
                 <span class="pr15">{{ shipping.phoneNumber }}</span>
                 <tooltip>Phone number may be needed by carrier</tooltip>
               </p>
@@ -244,6 +243,14 @@ export default {
         name: '',
         cost: ''
       }
+    },
+    getCountryName () {
+      for (let i = 0; i < this.countries.length; i++) {
+        if (this.countries[i].code === this.shipping.country) {
+          return this.countries[i].name
+        }
+      }
+      return ''
     }
   },
   components: {

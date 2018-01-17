@@ -97,6 +97,9 @@
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
             <label class="fs16">We will send you the invoice to given e-mail address</label>
           </div>
+          <div class="col-xs-12">
+            <h4>Payment method</h4>
+          </div>
           <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
             <label><input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod"> {{ method.name }} </label>
           </div>
@@ -106,11 +109,35 @@
           </div>
         </div>
         <div class="row fs16 mb35" v-show="isFilled">
-          <div class="col-md-6 h4">
-            <h4>Payment method</h4>
+          <div class="col-xs-12 h4">  
             <p>
-              Cash on delivery
+              {{ payment.firstName }} {{ payment.lastName }}
             </p>
+            <p>
+              {{ payment.streetAddress }} {{ payment.apartmentNumber }}</span>
+            </p>
+            <p>
+              {{ payment.city }} {{ payment.zipCode }}
+            </p>
+            <p>
+              <span v-show="payment.state">{{ payment.state }}, </span>
+              <span>{{ getCountryName() }}</span>
+            </p>
+            <p v-show="payment.phoneNumber">
+              <span class="pr15">{{ payment.phoneNumber }}</span>
+              <tooltip>Phone number may be needed by carrier</tooltip>
+            </p>
+            <p v-show="generateInvoice">
+              {{ payment.company }} {{ payment.taxId }}
+            </p>
+            <div class="col-xs-12">
+              <h4>Payment method</h4>
+            </div>
+            <div class="col-md-6 mb15">
+              <label><input type="radio" name="chosen-payment-method" value="" checked disabled> {{ getPaymentMethod().name }} </label>
+            </div>
+          </div>
+          <div class="col-md-6 h4">
           </div>
       </div>
       </div>
@@ -120,11 +147,12 @@
 
 <script>
 import { mapState } from 'vuex'
+import { required, minLength } from 'vuelidate/lib/validators'
 import { coreComponent } from 'lib/themes'
 import PaymentMethods from 'src/resource/payment_methods.json'
 import Countries from 'src/resource/countries.json'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { required, minLength } from 'vuelidate/lib/validators'
+import Tooltip from 'theme/components/core/Tooltip.vue'
 
 export default {
   props: ['isActive'],
@@ -343,10 +371,31 @@ export default {
         this.payment.company = ''
         this.payment.taxId = ''
       }
+    },
+    getCountryName () {
+      for (let i = 0; i < this.countries.length; i++) {
+        if (this.countries[i].code === this.payment.country) {
+          return this.countries[i].name
+        }
+      }
+      return ''
+    },
+    getPaymentMethod () {
+      for (let i = 0; i < PaymentMethods.length; i++) {
+        if (PaymentMethods[i].code === this.payment.paymentMethod) {
+          return {
+            name: PaymentMethods[i].name
+          }
+        }
+      }
+      return {
+        name: ''
+      }
     }
   },
   components: {
-    ButtonFull
+    ButtonFull,
+    Tooltip
   },
   mixins: [coreComponent('core/blocks/Checkout/Payment')]
 }
