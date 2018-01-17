@@ -428,50 +428,6 @@
 
 <style lang="scss" scoped>
 
-  .checkboxStyled {
-    width: 23px;
-    position: relative;
-    display: inline-block;
-
-    label {
-      cursor: pointer;
-      position: absolute;
-      width: 23px;
-      height: 23px;
-      top: 0;
-      left: 0;
-      background: #FFF;
-      border:1px solid #8E8E8E;
-
-      &:after {
-        content: '';
-        position: absolute;
-        width: 11px;
-        height: 5px;
-        background: transparent;
-        top: 6px;
-        left: 5px;
-        border: 3px solid #FFF;
-        border-top: none;
-        border-right: none;
-        transform: rotate(-45deg);
-      }
-    }
-
-    input[type=checkbox]:checked + label {
-      background: #8E8E8E;
-    }
-  }
-
-  .checkboxText {
-    display: inline-block;
-    cursor: pointer;
-    
-    span {
-      vertical-align: middle;
-    }
-  }
-
   .pass-container {
     position: relative;
     margin-right: 35px;

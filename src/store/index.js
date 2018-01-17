@@ -146,6 +146,10 @@ const plugins = [
           global.db.checkoutFieldsCollection.setItem('shipping-details', store.checkout.shippingDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
+        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_PAYMENT_DETAILS) > 0) {
+          global.db.checkoutFieldsCollection.setItem('payment-details', store.checkout.paymentDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
         }
       }
     })

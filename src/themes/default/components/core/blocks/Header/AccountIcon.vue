@@ -1,32 +1,37 @@
 <template>
-  <div class="account-icon inline-flex dropdown">
-    <i class="material-icons md-18" @click="gotoAccount">account_circle</i>
-    <div v-if="currentUser" class="dropdown-content">
-      <p>You're logged in as {{ currentUser.firstname }}</p>
-      <hr>
-      <div class="section-wrapper">
-        <router-link class="no-underline" :to="{ name: 'my-account' }">My account</router-link>
-      </div>
-      <div class="section-wrapper">
-        <a href="#" class="no-underline" @click="logout">Logout</a>
+  <div class="account-icon inline-flex">
+    <div class="dropdown" @mouseover="hoverIcon">
+      <i class="material-icons md-18" @click="gotoAccount">account_circle</i>
+      <div v-if="currentUser" class="dropdown-content" :class="{ 'show-dropdown': showDropdown }">
+        <p>You're logged in as {{ currentUser.firstname }}</p>
+        <hr>
+        <div class="section-wrapper">
+          <router-link class="no-underline" :to="{ name: 'my-account' }">My account</router-link>
+        </div>
+        <div class="section-wrapper">
+          <a href="#" class="no-underline" @click="logout">Logout</a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { coreComponent } from 'lib/themes'
 
 export default {
-  computed: {
-    ...mapState({
-      currentUser: state => state.user.current
-    })
+  data () {
+    return {
+      showDropdown: false
+    }
   },
   methods: {
-    logout () {
-      this.$bus.$emit('user-before-logout')
+    hoverIcon () {
+      if (this.currentUser) {
+        setTimeout(() => {
+          this.showDropdown = !this.showDropdown
+        }, 500)
+      }
     }
   },
   mixins: [coreComponent('core/blocks/Header/AccountIcon')]
@@ -38,7 +43,6 @@ export default {
 
   .dropdown {
     position: relative;
-    display: inline-block;
 
     i {
       display: block;
@@ -47,14 +51,14 @@ export default {
     .dropdown-content {
       display: none;
       position: absolute;
-      right: 0;
+      right: -15px;
       margin-top: 15px;
       padding: 0px 10px 10px 10px;
       text-align: center;
       background-color: map-get($colors, white);
       min-width: 120px;
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
+      z-index: 0;
 
       .section-wrapper {
         display: table;
@@ -70,10 +74,10 @@ export default {
           }
         }
       }
-    }
 
-    &:hover .dropdown-content {
-      display: block;
+      &:hover, &.show-dropdown {
+        display: block;
+      }
     }
   }    
 </style>

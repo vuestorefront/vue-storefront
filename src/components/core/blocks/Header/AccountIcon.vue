@@ -12,7 +12,8 @@ export default {
   name: 'account-icon',
   computed: {
     ...mapState({
-      isOpenLogin: state => state.ui.signUp
+      isOpenLogin: state => state.ui.signUp,
+      currentUser: state => state.user.current
     })
   },
   methods: {
@@ -20,6 +21,9 @@ export default {
       if (!this.$store.state.user.current) {
         this.$store.commit('ui/setSignUp', !this.isOpenLogin)
       }
+    },
+    logout () {
+      this.$bus.$emit('user-before-logout')
     }
   }
 }
