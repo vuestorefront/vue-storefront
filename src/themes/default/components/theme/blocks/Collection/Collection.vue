@@ -15,7 +15,7 @@
       <div class="col-md-12">
         <div class="pb20 pt20 center-xs cool-stuff-collection">
           <no-ssr>
-            <carousel :perPage="6" :paginationEnabled="false" :autoplay="true" :loop="true" ref="carousel">
+            <carousel :perPage="6" :paginationEnabled="false" :loop="true" ref="carousel">
               <slide v-for='(product, index) in products' v-bind:key='product.id'>
                 <product-tile class="collection-product" :product="product"  v-bind:class="{'is-muted': (currentIndex == index || index == currentIndex + 5)}"/>
               </slide>
