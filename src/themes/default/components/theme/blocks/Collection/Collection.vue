@@ -13,11 +13,11 @@
   <div class="bg-lightgray collection-slider">
     <div class="row">
       <div class="col-md-12">
-        <div class="row pb45 pt45 center-xs cool-stuff-collection">
+        <div class="pb20 pt20 center-xs cool-stuff-collection">
           <no-ssr>
-            <carousel :perPage="5" :paginationEnabled="false" :autoplay="true" :loop="true" class="col-md-12">
-              <slide class="row" v-for='product in products' v-bind:key='product.id' >
-                <product-tile class="col-md-12 collection-product" :product="product"/>
+            <carousel :perPage="6" :paginationEnabled="false" :autoplay="true" :loop="true" ref="carousel">
+              <slide v-for='(product, index) in products' v-bind:key='product.id'>
+                <product-tile class="collection-product" :product="product"  v-bind:class="{'is-muted': (currentIndex == index || index == currentIndex + 5)}"/>
               </slide>
             </carousel>
           </no-ssr>
@@ -39,6 +39,14 @@
     data () {
       return {
         products: []
+      }
+    },
+    computed: {
+      currentIndex: {
+        cache: false,
+        get () {
+          return this.$refs.carousel ? this.$refs.carousel.currentPage : 0
+        }
       }
     },
     beforeMount () {
@@ -68,36 +76,34 @@
   overflow: hidden;
 }
 //TO-DO: Clean blending mode mess on products!
-.collection-product {
-  background-color: #f2f2f2;
+.product {
+  &.collection-product {
+     background-color: #f2f2f2;
+     padding: 15px;
+  }
+
+  &.is-muted {
+    @media (min-width: 1024px) {
+      opacity: 0.5;
+    }
+  }
 }
 
-  .product {
-    &.collection-product {
-      padding: 15px;
-    }
-  }
+.collection-product .product-image {
+  //TO-DO: Should be global
+  mix-blend-mode: darken;
+  height: auto;
 
-  .collection-product .product-image {
-    //TO-DO: Should be global
-    mix-blend-mode: darken;
+  img {
+    max-width: 100%;
+    max-height: 100%;
     height: auto;
-
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      height: auto;
-    }
   }
+}
 
-  .colection-cover {
-    @media (max-width: 767px) {
-      display: none;
-    }
-
-    img {
-      width: 100%;
-      mix-blend-mode: multiply;
-    }
+.cool-stuff-collection {
+  @media (min-width: 1024px) {
+    margin: 0 -130px;
   }
+}
 </style>
