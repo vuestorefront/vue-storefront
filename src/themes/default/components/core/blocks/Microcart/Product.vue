@@ -1,14 +1,14 @@
 <template>
   <li class="row py10">
-    <div class="bg-lightgray product-image">
+    <div class="bg-lightgray image">
       <img v-lazy="thumbnail" />
     </div>
-    <div class="col-xs flex pl35 py15 product-details">
+    <div class="col-xs flex pl35 py15 details">
       <div>
-        <div class="serif h4">
+        <div class="serif h4 name">
           {{ product.name | htmlDecode }}
         </div>
-        <div class="h6 c-lightgray pt5">
+        <div class="h6 c-gray pt5 sku">
           {{ product.sku }}
         </div>
         <div class="h6 pt5 error" v-if="product.warning_message">
@@ -18,39 +18,37 @@
           {{ product.info_message }}
         </div>
       </div>
-      <div>
-        <div>
-          <span class="h6 c-darkgray">
-            Qty
-          </span>
-          <span class="h6 weight-400" :class="{ hidden: isEditing }">
-            {{ product.qty }}
-          </span>
-          <span :class="{ hidden: !isEditing }">
-            <input
-              class="h6"
-              type="number"
-              autofocus
-              v-model.number="qty"
-              @change="updateQuantity"
-            >
-          </span>
-        </div>
+      <div class="h5 pt5 c-darkgray lh25 qty">
+        <span>
+          Qty
+        </span>
+        <span class="weight-400" :class="{ hidden: isEditing }">
+          {{ product.qty }}
+        </span>
+        <span :class="{ hidden: !isEditing }">
+          <input
+            class="h6"
+            type="number"
+            autofocus
+            v-model.number="qty"
+            @change="updateQuantity"
+          >
+        </span>
       </div>
     </div>
-    <div class="flex pb15 pt15 align-right product-actions">
+    <div class="flex pb15 pt15 align-right actions">
       <div>
         <span class="price-special" v-if="product.special_price">
-          {{ product.priceInclTax | price }}
-        </span>&nbsp;
+          {{ product.priceInclTax | price }}&nbsp;
+        </span>
         <span class="price-original" v-if="product.special_price">
           {{ product.originalPriceInclTax | price }}
         </span>
-        <span class="h4 serif" v-if="!product.special_price">
+        <span class="h4 serif price-regular" v-if="!product.special_price">
           {{ product.priceInclTax | price }}
         </span>
       </div>
-      <div>
+      <div class="links">
         <div @click="switchEdit">
           <edit-button />
         </div>
@@ -107,7 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .product-image {
+  .image {
     margin-left: .5rem;
     img {
       mix-blend-mode: multiply;
@@ -115,15 +113,47 @@ export default {
     }
   }
 
-  .product-details {
+  .details {
     flex-direction: column;
     justify-content: space-between;
+    @media (max-width: 767px) {
+      justify-content: flex-start;
+      padding:  0 10px 0 20px;
+    }
   }
 
-  .product-actions {
+  .name {
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+
+  .sku {
+    @media (max-width: 767px) {
+      font-size: 10px;
+    }
+  }
+
+  .qty {
+    @media (max-width: 767px) {
+      font-size: 12px;
+    }
+  }
+
+  .actions {
     flex-direction: column;
     justify-content: space-between;
     margin-right: 0.5rem;
+    @media (max-width: 767px) {
+      justify-content: flex-start;
+      padding: 0;
+      font-size: 12px;
+    }
+    .links {
+       @media (max-width: 767px) {
+         margin-top: 20px;
+       }
+    }
   }
 
   .error {
@@ -135,12 +165,24 @@ export default {
   }
 
   .price-special {
-    color: red
+    color: red;
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
 
   .price-original {
     text-decoration: line-through;
-    font-size: smaller
+    font-size: smaller;
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+
+  .price-regular {
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
 
   input {
