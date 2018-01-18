@@ -1,65 +1,67 @@
 <template>
-  <li class="row py10">
-    <div>
-      <div class="bg-lightgray image">
-        <img v-lazy="thumbnail" alt="" />
-      </div>
-    </div>
-    <div class="col-xs flex pl35 py15 details">
+  <transition name="fade" appear>
+    <li class="row py10">
       <div>
-        <div class="serif h4 name">
-          {{ product.name | htmlDecode }}
-        </div>
-        <div class="h6 c-gray pt5 sku">
-          {{ product.sku }}
-        </div>
-        <div class="h6 pt5 error" v-if="product.warning_message">
-          {{ product.warning_message }}
-        </div>
-        <div class="h6 pt5 info" v-if="product.info_message">
-          {{ product.info_message }}
+        <div class="bg-lightgray image">
+          <img v-lazy="thumbnail" alt="" />
         </div>
       </div>
-      <div class="h5 pt5 c-darkgray lh25 qty">
-        <span>
-          Qty
-        </span>
-        <span class="weight-400" :class="{ hidden: isEditing }">
-          {{ product.qty }}
-        </span>
-        <span :class="{ hidden: !isEditing }">
-          <input
-            class="h6"
-            type="number"
-            autofocus
-            v-model.number="qty"
-            @change="updateQuantity"
-          >
-        </span>
-      </div>
-    </div>
-    <div class="flex pb15 pt15 align-right actions">
-      <div>
-        <span class="price-special" v-if="product.special_price">
-          {{ product.priceInclTax | price }}&nbsp;
-        </span>
-        <span class="price-original" v-if="product.special_price">
-          {{ product.originalPriceInclTax | price }}
-        </span>
-        <span class="h4 serif price-regular" v-if="!product.special_price">
-          {{ product.priceInclTax | price }}
-        </span>
-      </div>
-      <div class="links">
-        <div @click="switchEdit">
-          <edit-button />
+      <div class="col-xs flex pl35 py15 details">
+        <div>
+          <div class="serif h4 name">
+            {{ product.name | htmlDecode }}
+          </div>
+          <div class="h6 c-gray pt5 sku">
+            {{ product.sku }}
+          </div>
+          <div class="h6 pt5 error" v-if="product.warning_message">
+            {{ product.warning_message }}
+          </div>
+          <div class="h6 pt5 info" v-if="product.info_message">
+            {{ product.info_message }}
+          </div>
         </div>
-        <div class="mt5" @click="removeItem">
-          <remove-button />
+        <div class="h5 pt5 c-darkgray lh25 qty">
+          <span>
+            Qty
+          </span>
+          <span class="weight-700" :class="{ hidden: isEditing }">
+            {{ product.qty }}
+          </span>
+          <span :class="{ hidden: !isEditing }">
+            <input
+              class="h6"
+              type="number"
+              autofocus
+              v-model.number="qty"
+              @change="updateQuantity"
+            >
+          </span>
         </div>
       </div>
-    </div>
-  </li>
+      <div class="flex pb15 pt15 align-right actions">
+        <div>
+          <span class="h4 serif price-special" v-if="product.special_price">
+            {{ product.priceInclTax | price }}&nbsp;
+          </span>
+          <span class="serif price-original" v-if="product.special_price">
+            {{ product.originalPriceInclTax | price }}
+          </span>
+          <span class="h4 serif price-regular" v-if="!product.special_price">
+            {{ product.priceInclTax | price }}
+          </span>
+        </div>
+        <div class="links">
+          <div @click="switchEdit">
+            <edit-button />
+          </div>
+          <div class="mt5" @click="removeItem">
+            <remove-button />
+          </div>
+        </div>
+      </div>
+    </li>
+  </transition>
 </template>
 
 <script>
@@ -167,7 +169,7 @@ export default {
   }
 
   .price-special {
-    color: red;
+    color: #ff0000;
     @media (max-width: 767px) {
       font-size: 14px;
     }
@@ -175,10 +177,7 @@ export default {
 
   .price-original {
     text-decoration: line-through;
-    font-size: smaller;
-    @media (max-width: 767px) {
-      font-size: 14px;
-    }
+    font-size: 12px;
   }
 
   .price-regular {

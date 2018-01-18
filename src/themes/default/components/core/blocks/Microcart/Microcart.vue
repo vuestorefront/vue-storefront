@@ -124,7 +124,7 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     &.active {
-     transform: translateX(0)
+      transform: translateX(0)
     }
   }
 
