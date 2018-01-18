@@ -107,8 +107,11 @@ const store = {
     },
     [types.CART_UPD_ITEM] (state, { product, qty }) {
       const record = state.cartItems.find(p => p.sku === product.sku)
-      record.qty = qty
-      state.cartSavedAt = new Date()
+
+      if (record) {
+        record.qty = qty
+        state.cartSavedAt = new Date()
+      }
     },
     [types.CART_UPD_ITEM_PROPS] (state, { product }) {
       let record = state.cartItems.find(p => p.sku === product.sku)
@@ -153,6 +156,9 @@ const store = {
     clear (context) {
       context.commit(types.CART_LOAD_CART, [])
       context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
+      if (config.cart.synchronize) {
+        // rootStore.dispatch('cart/serverCreate', {}, { root: true }) // create new server cart TODO: fix it right now after order is placed and not synchronized, the server side cart is being synchronized with our shopping cart :)
+      }
     },
     save (context) {
       context.commit(types.CART_SAVE)
