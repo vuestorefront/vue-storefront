@@ -25,7 +25,7 @@
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="shippingDetails.lastName">
         <span class="validation-error" v-if="!$v.shippingDetails.lastName.required">Field is required</span>
       </div>
-      <div class="col-xs-12 col-md-12 mb25" v-if="currentUser.hasOwnProperty('default_billing')">
+      <div class="col-xs-12 col-md-12 mb25" v-if="currentUser && currentUser.hasOwnProperty('default_billing')">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress" @click="fillCompanyAddress">
           <label for="useCompanyAddress"></label>
@@ -212,16 +212,12 @@
               updatedShippingDetails.addresses[index].lastname = this.shippingDetails.lastName
               updatedShippingDetails.addresses[index].street = [this.shippingDetails.street, this.shippingDetails.house]
               updatedShippingDetails.addresses[index].city = this.shippingDetails.city
-              if (this.shippingDetails.region) {
-                updatedShippingDetails.addresses[index].region = {
-                  region: this.shippingDetails.region
-                }
+              updatedShippingDetails.addresses[index].region = {
+                region: this.shippingDetails.region ? this.shippingDetails.region : null
               }
               updatedShippingDetails.addresses[index].country_id = this.shippingDetails.country
               updatedShippingDetails.addresses[index].postcode = this.shippingDetails.postcode
-              if (this.shippingDetails.phone) {
-                updatedShippingDetails.addresses[index].telephone = this.shippingDetails.phone
-              }
+              updatedShippingDetails.addresses[index].telephone = this.shippingDetails.phone ? this.shippingDetails.phone : ''
             } else {
               updatedShippingDetails = null
             }

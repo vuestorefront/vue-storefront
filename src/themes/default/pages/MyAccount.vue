@@ -105,7 +105,7 @@
         }
       },
       notify (title) {
-        if (title === 'My loyalty card' || title === 'My product reviews') {
+        if (title === 'My loyalty card' || title === 'My product reviews' || title === 'My orders') {
           this.$bus.$emit('notification', {
             type: 'warning',
             message: 'This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!',
