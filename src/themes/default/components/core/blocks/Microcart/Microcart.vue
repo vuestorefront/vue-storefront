@@ -27,11 +27,11 @@
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
       Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for You!
     </div>
-    <ul v-if="items.length"  class="bg-white m0 px40 pb40 products">
-      <product v-for="product in items" :key="product.id" :product="product" />
+    <ul v-if="items.length" class="bg-white m0 px40 pb40 products">
+      <product v-for="product in items" :key="product.sku" :product="product" />
     </ul>
     <div v-if="items.length" class="summary px40 c-black serif">
-      <h3 class="m0 pt50 mb30 weight-400">
+      <h3 class="m0 pt50 mb30 weight-400 summary-heading">
         Shopping summary
       </h3>
       <div class="row py20">
@@ -59,10 +59,10 @@
         </div>
       </div>
       <div class="row pt30 pb20 weight-700 middle-xs">
-        <div class="col-xs h4">
+        <div class="col-xs h4 total-price-label">
           Total inc. tax
         </div>
-        <div class="col-xs align-right h2">
+        <div class="col-xs align-right h2 total-price-value">
           {{ totalInclTax | price }}
         </div>
       </div>
@@ -115,6 +115,7 @@ export default {
     z-index: 3;
     height: 100vh;
     width: 800px;
+    min-width: 320px;
     max-width: 100%;
     transform: translateX(100%);
     transition: transform 300ms $motion-main;
@@ -170,6 +171,25 @@ export default {
   .summary {
     @media (max-width: 767px) {
       padding:  0 15px;
+      font-size: 12px;
+    }
+  }
+
+  .summary-heading {
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+
+  .total-price-label {
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+  }
+
+  .total-price-value {
+    @media (max-width: 767px) {
+      font-size: 24px;
     }
   }
 </style>

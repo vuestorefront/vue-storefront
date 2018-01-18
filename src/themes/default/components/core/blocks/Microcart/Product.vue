@@ -1,7 +1,7 @@
 <template>
   <li class="row py10">
     <div class="bg-lightgray image">
-      <img v-lazy="thumbnail" />
+      <img v-lazy="thumbnail" alt="" />
     </div>
     <div class="col-xs flex pl35 py15 details">
       <div>
@@ -157,11 +157,11 @@ export default {
   }
 
   .error {
-    color: red
+    color: #ff0000;
   }
 
   .info {
-    color: green
+    color: #008000;
   }
 
   .price-special {
