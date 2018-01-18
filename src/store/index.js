@@ -134,10 +134,12 @@ const plugins = [
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is cart related
+      if (mutation.type.indexOf(types.USER_INFO_LOADED) >= 0) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+      }
+      if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-token', store.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
