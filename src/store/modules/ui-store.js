@@ -8,7 +8,8 @@ const state = {
   loader: false,
   signUp: false,
   authElem: 'login',
-  checkoutMode: false
+  checkoutMode: false,
+  openMyAccount: false
 }
 
 const mutations = {
@@ -41,6 +42,9 @@ const mutations = {
   },
   setWishlist (state, action) {
     state.wishlist = action === true
+  },
+  setOpenMyAccount (state, action) {
+    state.openMyAccount = action === true
   }
 }
 

@@ -19,6 +19,15 @@
           </div>
         </div>
         <div class="row" v-show="this.isActive">
+          <div class="col-xs-12 col-sm-12 mb15" v-show="currentUser && hasShippingDetails()">
+            <div class="checkboxStyled">
+              <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox" @click="useMyAddress">
+              <label for="shipToMyAddressCheckbox"></label>
+            </div>
+            <div class="checkboxText ml15 lh25" @click="useMyAddress">
+              <span class="fs16 c-darkgray">Ship to my default address</span>
+            </div>
+          </div>
           <div class="col-xs-12 col-sm-6 mb25">
             <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName" @blur="$v.shipping.firstName.$touch()" autocomplete="given-name" >
             <span class="validation-error" v-if="$v.shipping.firstName.$error && !$v.shipping.firstName.required">Field is required</span>
@@ -29,27 +38,27 @@
             <span class="validation-error" v-if="$v.shipping.lastName.$error && !$v.shipping.lastName.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress" @blur="$v.shipping.streetAddress.$touch()" autocomplete="shipping address-line1">
+            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress" @blur="$v.shipping.streetAddress.$touch()" autocomplete="shipping address-line1" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber" @blur="$v.shipping.apartmentNumber.$touch()" autocomplete="address-line2">
+            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber" @blur="$v.shipping.apartmentNumber.$touch()" autocomplete="address-line2" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city" @blur="$v.shipping.city.$touch()" autocomplete="address-level2">
+            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city" @blur="$v.shipping.city.$touch()" autocomplete="address-level2" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.city.$error && !$v.shipping.city.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state" autocomplete="address-level1">
+            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state" autocomplete="address-level1" :disabled="shipToMyAddress">
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode" @blur="$v.shipping.zipCode.$touch()" autocomplete="postal-code">
+            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode" @blur="$v.shipping.zipCode.$touch()" autocomplete="postal-code" :disabled="shipToMyAddress">
             <span class="validation-error" v-if="$v.shipping.zipCode.$error && !$v.shipping.zipCode.required">Field is required</span>
             <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{$v.shipping.zipCode.$params.minLength.min}} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <select name="countries" v-model="shipping.country" @change="$v.shipping.country.$touch()" autocomplete="country">
+            <select name="countries" v-model="shipping.country" @change="$v.shipping.country.$touch()" autocomplete="country" :disabled="shipToMyAddress">
               <option value="" disabled selected hidden>Country</option>
               <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
             </select>
@@ -75,20 +84,25 @@
                 {{ shipping.firstName }} {{ shipping.lastName }}
               </p>
               <p>
-                {{ shipping.streetAddress }}
-                <span v-show="shipping.apartmentNumber"> {{ shipping.apartmentNumber }}</span>
+                {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}</span>
               </p>
               <p>
                 {{ shipping.city }} {{ shipping.zipCode }}
               </p>
               <p>
                 <span v-show="shipping.state">{{ shipping.state }}, </span>
-                <span>{{ shipping.country }}</span>
+                <span>{{ getCountryName() }}</span>
               </p>
-              <p>
+              <p v-show="shipping.phoneNumber">
                 <span class="pr15">{{ shipping.phoneNumber }}</span>
                 <tooltip>Phone number may be needed by carrier</tooltip>
               </p>
+              <div class="col-xs-12">
+                <h4>Shipping method</h4>
+              </div>
+              <div class="col-md-6 mb15">
+                <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label>
+              </div>
           </div>
         </div>
       </div>
@@ -97,6 +111,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { coreComponent } from 'lib/themes'
 import ShippingMethods from 'src/resource/shipping_methods.json'
 import Countries from 'src/resource/countries.json'
@@ -152,8 +167,24 @@ export default {
       isFilled: false,
       shippingMethods: ShippingMethods,
       countries: Countries,
-      shipping: this.$store.state.checkout.shippingDetails
+      shipping: this.$store.state.checkout.shippingDetails,
+      shipToMyAddress: false,
+      myAddressDetails: {
+        firstname: '',
+        lastname: '',
+        country: '',
+        region: '',
+        city: '',
+        street: ['', ''],
+        postcode: '',
+        telephone: ''
+      }
     }
+  },
+  computed: {
+    ...mapState({
+      currentUser: state => state.user.current
+    })
   },
   methods: {
     sendDataToCheckout () {
@@ -165,6 +196,62 @@ export default {
         this.$bus.$emit('checkout.edit', 'shipping')
         this.isFilled = false
       }
+    },
+    hasShippingDetails () {
+      if (this.currentUser) {
+        if (this.currentUser.hasOwnProperty('default_shipping')) {
+          let id = this.currentUser.default_shipping
+          let addresses = this.currentUser.addresses
+          for (let i = 0; i < addresses.length; i++) {
+            if (addresses[i].id === Number(id)) {
+              this.myAddressDetails = addresses[i]
+              return true
+            }
+          }
+        }
+      }
+      return false
+    },
+    useMyAddress () {
+      this.shipToMyAddress = !this.shipToMyAddress
+      if (this.shipToMyAddress) {
+        this.shipping = {
+          firstName: this.myAddressDetails.firstname,
+          lastName: this.myAddressDetails.lastname,
+          country: this.myAddressDetails.country_id,
+          region: this.myAddressDetails.region.region ? this.myAddressDetails.region.region : '',
+          city: this.myAddressDetails.city,
+          streetAddress: this.myAddressDetails.street[0],
+          apartmentNumber: this.myAddressDetails.street[1],
+          zipCode: this.myAddressDetails.postcode,
+          phoneNumber: this.myAddressDetails.telephone,
+          shippingMethod: this.$store.state.checkout.shippingDetails.shippingMethod
+        }
+      } else {
+        this.shipping = this.$store.state.checkout.shippingDetails
+      }
+    },
+    getShippingMethod () {
+      for (let i = 0; i < ShippingMethods.length; i++) {
+        if (ShippingMethods[i].code === this.shipping.shippingMethod) {
+          return {
+            name: ShippingMethods[i].name,
+            cost: ShippingMethods[i].cost
+          }
+        }
+      }
+      return {
+        name: '',
+        cost: ''
+      }
+    },
+    getCountryName () {
+      for (let i = 0; i < this.countries.length; i++) {
+        if (this.countries[i].code === this.shipping.country) {
+          return this.countries[i].name
+        }
+      }
+      return ''
     }
   },
   components: {

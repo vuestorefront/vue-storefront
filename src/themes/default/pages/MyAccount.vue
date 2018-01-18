@@ -1,0 +1,285 @@
+<template>
+  <div id="my_account">
+    <div class="bg-lightgray py35 pl20">
+      <div class="container">
+        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" activeRoute="My Account" />
+        <h1>My Account</h1>
+      </div>
+    </div>
+
+    <div class="container pt45 pb70">
+      <div class="row pl20 pt0">
+        <div class="col-md-3 side-menu">
+          <nav class="static-menu serif h4 mb35">
+            <ul class="m0 p0">
+              <li class="mb10" v-for="page in navigation"><a :href="page.link" class="c-black" @click="notify(page.title)">{{ page.title }}</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-md-9">
+          <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"></my-profile>
+          <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"></my-shipping-details>
+          <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"></my-newsletter>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { corePage } from 'lib/themes'
+  import Breadcrumbs from '../components/core/Breadcrumbs'
+  import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
+  import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
+  import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
+
+  export default {
+    name: 'MyAccount',
+    components: {
+      Breadcrumbs,
+      MyProfile,
+      MyShippingDetails,
+      MyNewsletter
+    },
+    created () {
+      this.$bus.$on('myAccount.activateSection', (sectionName) => {
+        this.activateSection(sectionName)
+      })
+      this.$bus.$on('myAccount.updateUser', (updatedData) => {
+        if (updatedData) {
+          this.$store.dispatch('user/update', { customer: updatedData })
+        }
+        this.editMode = true
+        this.activateSection()
+      })
+      this.$bus.$on('myAccount.changePassword', (passwordData) => {
+        this.$store.dispatch('user/changePassword', passwordData)
+      })
+      this.$bus.$on('myAccount.updatePreferences', (updatedData) => {
+        console.log(updatedData)
+        if (updatedData) {
+          if (updatedData.action === 'subscribe') {
+            this.$bus.$emit('newsletter-after-subscribe', { email: updatedData.email })
+            this.$store.dispatch('user/updatePreferences', updatedData.preferences)
+          } else {
+            this.$bus.$emit('newsletter-after-unsubscribe', { email: updatedData.email })
+            this.$store.dispatch('user/updatePreferences', null)
+          }
+        }
+        this.editMode = true
+        this.activateSection()
+      })
+    },
+    destroyed () {
+      this.$bus.$off('myAccount.activateSection')
+      this.$bus.$off('myAccount.updateUser')
+      this.$bus.$off('myAccount.changePassword')
+      this.$bus.$off('myAccount.updatePreferences')
+    },
+    data () {
+      return {
+        navigation: [
+          { title: 'My profile', link: '#profile' },
+          { title: 'My shipping details', link: '#shipping_details' },
+          { title: 'My newsletter', link: '#newsletter' },
+          { title: 'My orders', link: '#' },
+          { title: 'My loyalty card', link: '#' },
+          { title: 'My product reviews', link: '#' }
+        ],
+        activeSection: {
+          profile: false,
+          shipping: false,
+          newsletter: false
+        },
+        editMode: true
+      }
+    },
+    methods: {
+      activateSection (sectionToActivate) {
+        for (let section in this.activeSection) {
+          this.activeSection[section] = false
+        }
+        if (sectionToActivate) {
+          this.activeSection[sectionToActivate] = true
+          this.editMode = false
+        }
+      },
+      notify (title) {
+        if (title === 'My loyalty card' || title === 'My product reviews' || title === 'My orders') {
+          this.$bus.$emit('notification', {
+            type: 'warning',
+            message: 'This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!',
+            action1: { label: 'OK', action: 'close' }
+          })
+        }
+      }
+    },
+    mixins: [corePage('MyAccount')]
+  }
+</script>
+
+<style lang="scss">
+  @import '../css/text.scss';
+  @import '~theme/css/global_vars';
+  $lightgray: map-get($colors, lightgray);
+
+  #my_account {
+    input[type=text], input[type=email], input[type=tel], select {
+      @extend .h4;
+      padding: 10px 0;
+      border: none;
+      border-bottom: 1px solid #BDBDBD;
+      width: calc(100% - 35px);
+    }
+    input::-webkit-input-placeholder {
+      color: #BDBDBD;
+    }
+    input:-moz-placeholder {
+      color: #BDBDBD;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: black;
+      transition: 0.3s all;
+    }
+    select {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+      background-color: transparent;
+    }
+    h4 {
+      @extend .weight-200;
+    }
+    .button-disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    .validation-error{
+      color: red;
+      display: block;
+    }
+    .number-circle {
+      width: 35px;
+      height: 35px;
+    }
+    .line {
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 17px;
+        z-index: -1;
+        width: 1px;
+        height: 100%;
+        background-color: $lightgray;
+      }
+    }
+
+    .checkboxStyled {
+      width: 23px;
+      position: relative;
+      display: table-cell;
+
+      label {
+        cursor: pointer;
+        position: absolute;
+        width: 23px;
+        height: 23px;
+        top: 0;
+        left: 0;
+        background: #FFF;
+        border:1px solid #8E8E8E;
+
+        &:after {
+          content: '';
+          position: absolute;
+          width: 11px;
+          height: 5px;
+          background: transparent;
+          top: 6px;
+          left: 5px;
+          border: 3px solid #FFF;
+          border-top: none;
+          border-right: none;
+          transform: rotate(-45deg);
+        }
+      }
+
+      input[type=checkbox]:checked + label {
+        background: #8E8E8E;
+      }
+    }
+
+    .checkboxText {
+      display: table-cell;
+      cursor: pointer;
+      padding-left: 10px;
+
+      span {
+        vertical-align: middle;
+      }
+    }
+
+    .side-menu {
+      display: block;
+
+      @media (max-width: 992px) {
+        display: none;
+      }
+
+      .static-menu {
+        ul {
+          list-style: none;
+        }
+
+        a {
+          position: relative;
+        }
+
+        a::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background-color: #BDBDBD;
+        }
+
+        a:hover::after,
+        .router-link-active::after {
+          opacity: 0;
+        }
+      }
+
+      .static-content {
+        font-size: 1.2em;
+        line-height: 2.1em;
+
+        *:first-of-type {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .link {
+      text-decoration: underline;
+    }
+
+    .bottom-button {
+      @media (max-width: 768px) {
+        text-align: center;
+        padding-left: 0px !important;
+      }
+    }
+
+    .col-xs-12 {
+      @media (max-width: 768px) {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+  }
+</style>

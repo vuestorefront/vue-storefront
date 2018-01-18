@@ -235,4 +235,22 @@ EventBus.$on('user-after-loggedin', (receivedData) => {
     lastName: receivedData.lastname,
     emailAddress: receivedData.email
   })
+  if (store.state.ui.openMyAccount) {
+    router.push({ name: 'my-account' })
+    store.commit('ui/setOpenMyAccount', false)
+  }
+})
+
+EventBus.$on('user-before-logout', () => {
+  store.dispatch('user/logout')
+  store.commit('ui/setSubmenu', {
+    depth: 0
+  })
+
+  const usersCollection = global.db.usersCollection
+  usersCollection.setItem('current-token', '')
+
+  if (store.state.route.path === '/my-account') {
+    router.push('/')
+  }
 })

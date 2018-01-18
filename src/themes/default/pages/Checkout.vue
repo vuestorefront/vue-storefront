@@ -101,6 +101,7 @@ export default {
       this.payment = receivedData
       this.validationResults.payment = validationResult
       this.activateSection('orderReview')
+      this.savePaymentDetails()
     })
     this.$bus.$on('checkout.cartSummary', (receivedData) => {
       this.cartSummary = receivedData
@@ -204,7 +205,7 @@ export default {
     },
     prepareOrder () {
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : null,
+        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           shippingAddress: {
@@ -222,16 +223,16 @@ export default {
             region_code: ''
           },
           billingAddress: {
-            region: this.shipping.state,
+            region: this.payment.state,
             region_id: 0,
-            country_id: this.shipping.country,
-            street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-            company: 'NA',
-            telephone: this.shipping.phoneNumber,
-            postcode: this.shipping.zipCode,
-            city: this.shipping.city,
-            firstname: this.personalDetails.firstName,
-            lastname: this.personalDetails.lastName,
+            country_id: this.payment.country,
+            street: [this.payment.streetAddress, this.payment.apartmentNumber],
+            company: this.payment.company,
+            telephone: this.payment.phoneNumber,
+            postcode: this.payment.zipCode,
+            city: this.payment.city,
+            firstname: this.payment.firstName,
+            lastname: this.payment.lastName,
             email: this.personalDetails.emailAddress,
             region_code: ''
           },
@@ -261,6 +262,9 @@ export default {
     },
     saveShippingDetails () {
       this.$store.dispatch('checkout/saveShippingDetails', this.shipping)
+    },
+    savePaymentDetails () {
+      this.$store.dispatch('checkout/savePaymentDetails', this.payment)
     }
   },
   components: {
@@ -330,6 +334,51 @@ $lightgray: map-get($colors, lightgray);
       width: 1px;
       height: 100%;
       background-color: $lightgray;
+    }
+  }
+
+  .checkboxStyled {
+    width: 23px;
+    position: relative;
+    display: table-cell;
+
+    label {
+      cursor: pointer;
+      position: absolute;
+      width: 23px;
+      height: 23px;
+      top: 0;
+      left: 0;
+      background: #FFF;
+      border:1px solid #8E8E8E;
+
+      &:after {
+        content: '';
+        position: absolute;
+        width: 11px;
+        height: 5px;
+        background: transparent;
+        top: 6px;
+        left: 5px;
+        border: 3px solid #FFF;
+        border-top: none;
+        border-right: none;
+        transform: rotate(-45deg);
+      }
+    }
+
+    input[type=checkbox]:checked + label {
+      background: #8E8E8E;
+    }
+  }
+
+  .checkboxText {
+    display: table-cell;
+    cursor: pointer;
+    padding-left: 10px;
+    
+    span {
+      vertical-align: middle;
     }
   }
 }

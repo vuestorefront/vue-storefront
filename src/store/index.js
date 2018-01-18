@@ -64,6 +64,11 @@ Vue.prototype.$db = {
   checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'checkoutFieldValues'
+  })),
+
+  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'newsletterPreferences'
   }))
 }
 
@@ -146,7 +151,16 @@ const plugins = [
           global.db.checkoutFieldsCollection.setItem('shipping-details', store.checkout.shippingDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
+        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_PAYMENT_DETAILS) > 0) {
+          global.db.checkoutFieldsCollection.setItem('payment-details', store.checkout.paymentDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
         }
+      }
+      if (mutation.type.indexOf(types.USER_UPDATE_PREFERENCES) >= 0) {
+        global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', store.user.newsletter).catch((reason) => {
+          console.error(reason)
+        })
       }
     })
   }
