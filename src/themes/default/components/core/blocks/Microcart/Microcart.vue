@@ -31,7 +31,7 @@
       <product v-for="product in items" :key="product.sku" :product="product" />
     </ul>
     <div v-if="items.length" class="summary px40 c-black serif">
-      <h3 class="m0 pt50 mb30 weight-400 summary-heading">
+      <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         Shopping summary
       </h3>
       <div class="row py20">
@@ -73,7 +73,9 @@
     >
       <div class="col-xs-12 col-sm first-sm">
         <router-link to="/" class="no-underline c-gray-secondary link">
-          Return to shopping
+          <span @click="closeMicrocart">
+            Return to shopping
+          </span>
         </router-link>
       </div>
       <div class="col-xs-12 first-xs col-sm end-sm">
@@ -81,12 +83,12 @@
           class="no-underline inline-flex h4 checkout-button bg-black link checkout"
           :to="{ name: 'checkout' }"
         >
-          <div
+          <span
             class="c-white py20 px70"
             @click="closeMicrocart"
           >
             Go to checkout
-          </div>
+          </span>
         </router-link>
       </div>
     </div>
@@ -143,7 +145,7 @@ export default {
 
   .products {
     @media (max-width: 767px) {
-      padding: 0 15px 30px 15px;
+      padding: 30px 15px;
     }
   }
 
