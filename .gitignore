@@ -7,4 +7,5 @@ npm-debug.log
 yarn.lock
 config/local.json
 package-lock.json
+build/config.json
 var

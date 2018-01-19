@@ -3,7 +3,7 @@
 
     <div class="container">
       <div class="row center-xs">
-        <header class="col-md-12 pt40 pb15">
+        <header class="col-xs-12 pt40 pb15">
           <h2 class="align-center c-black">{{title}}</h2>
         </header>
       </div>
@@ -12,10 +12,10 @@
 
   <div class="bg-lightgray collection-slider">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-xs-12">
         <div class="pb20 pt20 center-xs cool-stuff-collection">
           <no-ssr>
-            <carousel :perPage="6" :paginationEnabled="false" :loop="true" ref="carousel">
+            <carousel :perPage="6" :perPageCustom="[[0, 1], [768, 6]]" :paginationEnabled="false" :loop="true" ref="carousel">
               <slide v-for='(product, index) in products' v-bind:key='product.id'>
                 <product-tile class="collection-product" :product="product"  v-bind:class="{'is-muted': (currentIndex == index || index == currentIndex + 5)}"/>
               </slide>

@@ -5,7 +5,7 @@
             <slide v-for='slide in slides'>
                 <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
                     <div class="row middle-xs center-xs">
-                        <div class="col-md-12 px10p">
+                        <div class="col-xs-12 px10p">
                             <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
                             <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
                             <div class="align-center">
