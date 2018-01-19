@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { coreComponent } from 'lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -111,7 +110,6 @@ import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 // https://monterail.github.io/vuelidate/#sub-basic-usage
 
 export default {
-  props: ['isActive'],
   validations: {
     personalDetails: {
       firstName: {
@@ -139,12 +137,6 @@ export default {
   },
   data () {
     return {
-      isFilled: false,
-      personalDetails: this.$store.state.checkout.personalDetails,
-      createAccount: false,
-      acceptConditions: false,
-      password: '',
-      rPassword: '',
       passType: {
         pass: 'password',
         repeatPass: 'password'
@@ -155,28 +147,7 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState({
-      currentUser: state => state.user.current
-    })
-  },
   methods: {
-    sendDataToCheckout () {
-      if (this.createAccount) {
-        this.personalDetails.password = this.password
-        this.personalDetails.createAccount = true
-      } else {
-        this.personalDetails.createAccount = false
-      }
-      this.$bus.$emit('checkout.personalDetails', this.personalDetails, this.$v)
-      this.isFilled = true
-    },
-    edit () {
-      if (this.isFilled) {
-        this.$bus.$emit('checkout.edit', 'personalDetails')
-        this.isFilled = false
-      }
-    },
     togglePassType (name) {
       if (this.passType[name] === 'password') {
         this.passType[name] = 'text'
@@ -185,22 +156,7 @@ export default {
         this.passType[name] = 'password'
         this.iconName[name] = 'visibility'
       }
-    },
-    gotoAccount () {
-      this.$store.commit('ui/setSignUp', true)
     }
-  },
-  created () {
-    this.$bus.$on('user-after-loggedin', (receivedData) => {
-      this.personalDetails = {
-        firstName: receivedData.firstname,
-        lastName: receivedData.lastname,
-        emailAddress: receivedData.email
-      }
-    })
-  },
-  destroyed () {
-    this.$bus.$off('user-after-loggedin')
   },
   components: {
     ButtonFull,
