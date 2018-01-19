@@ -235,7 +235,8 @@ export default {
             firstname: this.payment.firstName,
             lastname: this.payment.lastName,
             email: this.personalDetails.emailAddress,
-            region_code: ''
+            region_code: '',
+            vat_id: this.payment.taxId
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingMethod,

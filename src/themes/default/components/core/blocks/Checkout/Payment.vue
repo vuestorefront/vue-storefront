@@ -123,10 +123,10 @@
               <span v-show="payment.state">{{ payment.state }}, </span>
               <span>{{ getCountryName() }}</span>
             </p>
-            <p v-show="payment.phoneNumber">
+            <div v-show="payment.phoneNumber">
               <span class="pr15">{{ payment.phoneNumber }}</span>
               <tooltip>Phone number may be needed by carrier</tooltip>
-            </p>
+            </div>
             <p v-show="generateInvoice">
               {{ payment.company }} {{ payment.taxId }}
             </p>

@@ -127,30 +127,28 @@
         <p>
           <span class="pr15">{{ currentUser.email }}</span>
         </p>
-        <div v-show="addCompany">
-          <div class="col-xs-12 col-md-12 mb25">
-            <div class="checkboxStyled">
-              <input type="checkbox" v-model="addCompany" id="addCompanyFilled" disabled>
-              <label for="addCompanyFilled"></label>
-            </div>
-            <div class="checkboxText ml15 lh25">
-              <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
-            </div>
+        <div class="mb25" v-show="addCompany">
+          <div class="checkboxStyled">
+            <input type="checkbox" v-model="addCompany" id="addCompanyFilled" disabled>
+            <label for="addCompanyFilled"></label>
           </div>
-          <p class="mb25">{{ userCompany.company }}</p>
-          <p class="mb25">
-            {{ userCompany.street }}
-            <span v-show="userCompany.house"> {{ userCompany.house }}</span>
-          </p>
-          <p class="mb25">{{ userCompany.city }} {{ userCompany.postcode }}</p>
-          <p class="mb25">
-            <span v-show="userCompany.region">{{ userCompany.region }}, </span>
-            <span>{{ getCountryName() }}</span>
-          </p>
-          <p class="mb25" v-show="userCompany.taxId">
-            {{ userCompany.taxId }}
-          </p>
+          <div class="checkboxText ml15 lh25">
+            <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
+          </div>
         </div>
+        <p class="mb25" v-show="addCompany">{{ userCompany.company }}</p>
+        <p class="mb25" v-show="addCompany">
+          {{ userCompany.street }}
+          <span v-show="userCompany.house"> {{ userCompany.house }}</span>
+        </p>
+        <p class="mb25" v-show="addCompany">{{ userCompany.city }} {{ userCompany.postcode }}</p>
+        <p class="mb25" v-show="addCompany">
+          <span v-show="userCompany.region">{{ userCompany.region }}, </span>
+          <span>{{ getCountryName() }}</span>
+        </p>
+        <p class="mb25" v-show="addCompany && userCompany.taxId">
+          {{ userCompany.taxId }}
+        </p>
       </div>
     </div>
 
@@ -158,7 +156,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import { coreComponent } from 'lib/themes'
   import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
   import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -247,11 +244,6 @@
         addCompany: false
       }
     },
-    computed: {
-      ...mapState({
-        freshCurrentUser: state => state.user.current
-      })
-    },
     mounted () {
       this.userCompany = this.getUserCompany()
       if (this.userCompany.company) {
@@ -301,7 +293,7 @@
           !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
           (this.userCompany.company && !this.addCompany)
         ) {
-          updatedProfile = this.freshCurrentUser
+          updatedProfile = this.$store.state.user.current
           if (updatedProfile.hasOwnProperty('default_billing')) {
             let index
             for (let i = 0; i < updatedProfile.addresses.length; i++) {
@@ -316,10 +308,8 @@
                 updatedProfile.addresses[index].company = this.userCompany.company
                 updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house]
                 updatedProfile.addresses[index].city = this.userCompany.city
-                if (this.userCompany.region) {
-                  updatedProfile.addresses[index].region = {
-                    region: this.userCompany.region
-                  }
+                updatedProfile.addresses[index].region = {
+                  region: this.userCompany.region ? this.userCompany.region : null
                 }
                 updatedProfile.addresses[index].country_id = this.userCompany.country
                 updatedProfile.addresses[index].postcode = this.userCompany.postcode

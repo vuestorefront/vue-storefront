@@ -46,7 +46,7 @@ export default {
       this.showDropdown = false
     },
     openMyAccount () {
-      if (this.screenWidth <= 768) {
+      if (this.screenWidth <= 768 && this.currentUser) {
         this.$router.push('/my-account')
       }
     }
