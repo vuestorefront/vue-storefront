@@ -160,20 +160,22 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
             console.log('Pushing out offline task ' + taskId)
             const url = task.url.replace('{{token}}', isNull(currentToken) ? '' : currentToken).replace('{{cartId}}', isNull(currentCartId) ? '' : currentCartId)
             return fetch(url, task.payload).then((response) => {
-              if (response.status === 200) { // TODO: we need to add token refreshing (a popup for user to log in) if token has expired
-                const contentType = response.headers.get('content-type')
-                if (contentType && contentType.includes('application/json')) {
-                  return response.json()
-                } else {
-                  console.error('Error with response - bad content-type!')
-                  mutex[id] = false
-                }
+              const contentType = response.headers.get('content-type')
+              if (contentType && contentType.includes('application/json')) {
+                return response.json()
               } else {
-                console.error('Bad response status: ' + response.status)
+                console.error('Error with response - bad content-type!')
                 mutex[id] = false
               }
             }).then((jsonResponse) => {
               if (jsonResponse) {
+                if (parseInt(jsonResponse.code) !== 200) {
+                  EventBus.$emit('notification', {
+                    type: 'error',
+                    message: jsonResponse.result,
+                    action1: { label: 'OK', action: 'close' }
+                  })
+                }
                 console.info('Response for: ' + taskId + ' = ' + jsonResponse.result)
                 taskData.transmited = true
                 taskData.transmited_at = new Date()

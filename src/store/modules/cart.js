@@ -3,6 +3,7 @@ import _ from 'lodash'
 import EventBus from 'src/event-bus'
 import config from 'config'
 import rootStore from '../'
+const CART_PULL_INTERVAL_MS = 5000
 
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
@@ -49,6 +50,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
       if (!clientItem) {
         console.log('No client item for ' + serverItem.sku)
         rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+          product.server_item_id = serverItem.item_id
           rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
             rootStore.dispatch('cart/updateQuantity', { product: product, qty: serverItem.qty, forceServerSilence: true })
           })
@@ -76,6 +78,7 @@ const store = {
   namespaced: true,
   state: {
     cartIsLoaded: false,
+    cartServerPullAt: 0,
     cartSavedAt: new Date(),
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: { cost: 0, code: '' },
@@ -168,16 +171,21 @@ const store = {
     },
     serverPull (context) { // pull current cart FROM the server
       if (config.cart.synchronize) {
-        context.dispatch('sync/queue', { url: config.cart.pull_endpoint, // sync the cart
-          payload: {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors'
-          },
-          callback_event: 'servercart-after-pulled'
-        }, { root: true }).then(task => {
-          return
-        })
+        if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS) {
+          context.state.cartServerPullAt = new Date()
+          context.dispatch('sync/queue', { url: config.cart.pull_endpoint, // sync the cart
+            payload: {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors'
+            },
+            callback_event: 'servercart-after-pulled'
+          }, { root: true }).then(task => {
+            return
+          })
+        } else {
+          console.log('Too short interval for refreshing the cart')
+        }
       }
     },
     serverCreate (context) {
@@ -311,6 +319,7 @@ const store = {
     },
     removeItem ({ commit, dispatch }, product) {
       commit(types.CART_DEL_ITEM, { product })
+      console.log(product)
       if (config.cart.synchronize && product.server_item_id) {
         dispatch('serverDeleteItem', {
           sku: product.sku,
