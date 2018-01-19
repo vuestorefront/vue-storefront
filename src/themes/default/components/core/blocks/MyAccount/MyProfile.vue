@@ -127,30 +127,28 @@
         <p>
           <span class="pr15">{{ currentUser.email }}</span>
         </p>
-        <div v-show="addCompany">
-          <div class="col-xs-12 col-md-12 mb25">
-            <div class="checkboxStyled">
-              <input type="checkbox" v-model="addCompany" id="addCompanyFilled" disabled>
-              <label for="addCompanyFilled"></label>
-            </div>
-            <div class="checkboxText ml15 lh25">
-              <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
-            </div>
+        <div class="mb25" v-show="addCompany">
+          <div class="checkboxStyled">
+            <input type="checkbox" v-model="addCompany" id="addCompanyFilled" disabled>
+            <label for="addCompanyFilled"></label>
           </div>
-          <p class="mb25">{{ userCompany.company }}</p>
-          <p class="mb25">
-            {{ userCompany.street }}
-            <span v-show="userCompany.house"> {{ userCompany.house }}</span>
-          </p>
-          <p class="mb25">{{ userCompany.city }} {{ userCompany.postcode }}</p>
-          <p class="mb25">
-            <span v-show="userCompany.region">{{ userCompany.region }}, </span>
-            <span>{{ getCountryName() }}</span>
-          </p>
-          <p class="mb25" v-show="userCompany.taxId">
-            {{ userCompany.taxId }}
-          </p>
+          <div class="checkboxText ml15 lh25">
+            <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
+          </div>
         </div>
+        <p class="mb25" v-show="addCompany">{{ userCompany.company }}</p>
+        <p class="mb25" v-show="addCompany">
+          {{ userCompany.street }}
+          <span v-show="userCompany.house"> {{ userCompany.house }}</span>
+        </p>
+        <p class="mb25" v-show="addCompany">{{ userCompany.city }} {{ userCompany.postcode }}</p>
+        <p class="mb25" v-show="addCompany">
+          <span v-show="userCompany.region">{{ userCompany.region }}, </span>
+          <span>{{ getCountryName() }}</span>
+        </p>
+        <p class="mb25" v-show="addCompany && userCompany.taxId">
+          {{ userCompany.taxId }}
+        </p>
       </div>
     </div>
 
