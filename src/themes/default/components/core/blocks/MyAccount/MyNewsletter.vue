@@ -82,7 +82,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import { coreComponent } from 'lib/themes'
   import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
@@ -90,13 +89,18 @@
     props: ['isActive', 'editMode'],
     data () {
       return {
-        newsletterPreferences: this.getNewsletter()
+        newsletterPreferences: {
+          generalAgreement: false,
+          men: false,
+          women: false,
+          kids: false,
+          home: false
+        },
+        stateNewsletter: Object.assign({}, this.$store.state.user.newsletter)
       }
     },
-    computed: {
-      ...mapState({
-        stateNewsletter: state => state.user.newsletter
-      })
+    mounted () {
+      this.newsletterPreferences = this.getNewsletter()
     },
     methods: {
       edit () {

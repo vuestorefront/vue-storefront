@@ -25,7 +25,7 @@
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="shippingDetails.lastName">
         <span class="validation-error" v-if="!$v.shippingDetails.lastName.required">Field is required</span>
       </div>
-      <div class="col-xs-12 col-md-12 mb25" v-if="currentUser && currentUser.hasOwnProperty('default_billing')">
+      <div class="col-xs-12 col-md-12 mb25" v-if="hasBillingAddress()">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress" @click="fillCompanyAddress">
           <label for="useCompanyAddress"></label>
@@ -96,17 +96,16 @@
           <span v-show="shippingDetails.region">{{ shippingDetails.region }}, </span>
           <span>{{ getCountryName() }}</span>
         </p>
-        <p>
+        <div class="mb25">
           <span class="pr15">{{ shippingDetails.phone }}</span>
           <tooltip v-show="shippingDetails.phone">Phone number may be needed by carrier</tooltip>
-        </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import { coreComponent } from 'lib/themes'
   import { required, minLength } from 'vuelidate/lib/validators'
   
@@ -157,13 +156,9 @@
           phone: ''
         },
         countries: Countries,
-        useCompanyAddress: false
+        useCompanyAddress: false,
+        currentUser: Object.assign({}, this.$store.state.user.current)
       }
-    },
-    computed: {
-      ...mapState({
-        currentUser: state => state.user.current
-      })
     },
     mounted () {
       this.shippingDetails = this.getShippingDetails()
@@ -199,7 +194,7 @@
       updateDetails () {
         let updatedShippingDetails
         if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
-          updatedShippingDetails = this.currentUser
+          updatedShippingDetails = this.$store.state.user.current
           if (this.currentUser.hasOwnProperty('default_shipping')) {
             let index
             for (let i = 0; i < this.currentUser.addresses.length; i++) {
@@ -268,30 +263,44 @@
         }
       },
       getShippingDetails () {
-        if (this.currentUser.hasOwnProperty('default_shipping')) {
-          let index
-          for (let i = 0; i < this.currentUser.addresses.length; i++) {
-            if (this.currentUser.addresses[i].id === Number(this.currentUser.default_shipping)) {
-              index = i
+        if (this.currentUser) {
+          if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
+            let index
+            for (let i = 0; i < this.currentUser.addresses.length; i++) {
+              if (this.currentUser.addresses[i].id === Number(this.currentUser.default_shipping)) {
+                index = i
+              }
             }
-          }
-          if (index >= 0) {
+            if (index >= 0) {
+              return {
+                firstName: this.currentUser.addresses[index].firstname,
+                lastName: this.currentUser.addresses[index].lastname,
+                street: this.currentUser.addresses[index].street[0],
+                house: this.currentUser.addresses[index].street[1],
+                city: this.currentUser.addresses[index].city,
+                postcode: this.currentUser.addresses[index].postcode,
+                region: this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : '',
+                country: this.currentUser.addresses[index].country_id,
+                phone: this.currentUser.addresses[index].hasOwnProperty('telephone') ? this.currentUser.addresses[index].telephone : ''
+              }
+            }
+          } else {
             return {
-              firstName: this.currentUser.addresses[index].firstname,
-              lastName: this.currentUser.addresses[index].lastname,
-              street: this.currentUser.addresses[index].street[0],
-              house: this.currentUser.addresses[index].street[1],
-              city: this.currentUser.addresses[index].city,
-              postcode: this.currentUser.addresses[index].postcode,
-              region: this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : '',
-              country: this.currentUser.addresses[index].country_id,
-              phone: this.currentUser.addresses[index].hasOwnProperty('telephone') ? this.currentUser.addresses[index].telephone : ''
+              firstName: this.currentUser.firstname,
+              lastName: this.currentUser.lastname,
+              street: '',
+              house: '',
+              city: '',
+              postcode: '',
+              region: '',
+              country: '',
+              phone: ''
             }
           }
         } else {
           return {
-            firstName: this.currentUser.firstname,
-            lastName: this.currentUser.lastname,
+            firstName: '',
+            lastName: '',
             street: '',
             house: '',
             city: '',
@@ -309,6 +318,14 @@
           }
         }
         return ''
+      },
+      hasBillingAddress () {
+        if (this.currentUser) {
+          if (this.currentUser.hasOwnProperty('default_billing')) {
+            return true
+          }
+        }
+        return false
       }
     },
     components: {

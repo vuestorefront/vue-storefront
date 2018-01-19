@@ -158,7 +158,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import { coreComponent } from 'lib/themes'
   import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
   import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -247,11 +246,6 @@
         addCompany: false
       }
     },
-    computed: {
-      ...mapState({
-        freshCurrentUser: state => state.user.current
-      })
-    },
     mounted () {
       this.userCompany = this.getUserCompany()
       if (this.userCompany.company) {
@@ -301,7 +295,7 @@
           !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
           (this.userCompany.company && !this.addCompany)
         ) {
-          updatedProfile = this.freshCurrentUser
+          updatedProfile = this.$store.state.user.current
           if (updatedProfile.hasOwnProperty('default_billing')) {
             let index
             for (let i = 0; i < updatedProfile.addresses.length; i++) {
@@ -316,10 +310,8 @@
                 updatedProfile.addresses[index].company = this.userCompany.company
                 updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house]
                 updatedProfile.addresses[index].city = this.userCompany.city
-                if (this.userCompany.region) {
-                  updatedProfile.addresses[index].region = {
-                    region: this.userCompany.region
-                  }
+                updatedProfile.addresses[index].region = {
+                  region: this.userCompany.region ? this.userCompany.region : null
                 }
                 updatedProfile.addresses[index].country_id = this.userCompany.country
                 updatedProfile.addresses[index].postcode = this.userCompany.postcode

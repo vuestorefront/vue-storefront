@@ -78,10 +78,10 @@
             <p>
               {{ personalDetails.firstName }} {{ personalDetails.lastName }}
             </p>
-            <p>
+            <div>
               <span class="pr15">{{ personalDetails.emailAddress }}</span>
               <tooltip>We will send you details regarding the order</tooltip>
-            </p>
+            </div>
             <div v-if="createAccount && !currentUser">
               <div class="checkboxStyled">
                 <input type="checkbox" v-model="createAccount" id="createAccountCheckbox2" disabled>

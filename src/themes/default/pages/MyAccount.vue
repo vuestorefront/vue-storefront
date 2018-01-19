@@ -56,7 +56,6 @@
         this.$store.dispatch('user/changePassword', passwordData)
       })
       this.$bus.$on('myAccount.updatePreferences', (updatedData) => {
-        console.log(updatedData)
         if (updatedData) {
           if (updatedData.action === 'subscribe') {
             this.$bus.$emit('newsletter-after-subscribe', { email: updatedData.email })

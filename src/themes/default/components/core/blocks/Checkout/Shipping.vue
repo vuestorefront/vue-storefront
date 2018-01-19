@@ -93,10 +93,10 @@
                 <span v-show="shipping.state">{{ shipping.state }}, </span>
                 <span>{{ getCountryName() }}</span>
               </p>
-              <p v-show="shipping.phoneNumber">
+              <div v-show="shipping.phoneNumber">
                 <span class="pr15">{{ shipping.phoneNumber }}</span>
                 <tooltip>Phone number may be needed by carrier</tooltip>
-              </p>
+              </div>
               <div class="col-xs-12">
                 <h4>Shipping method</h4>
               </div>
