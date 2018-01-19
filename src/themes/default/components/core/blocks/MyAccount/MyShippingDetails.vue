@@ -35,27 +35,27 @@
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="street-address" placeholder="Street name" v-model.trim="shippingDetails.street" :disabled="useCompanyAddress">
+        <input type="text" name="street-address" placeholder="Street name" v-model.trim="shippingDetails.street">
         <span class="validation-error" v-if="!$v.shippingDetails.street.required">Field is required</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shippingDetails.house" :disabled="useCompanyAddress">
+        <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shippingDetails.house">
         <span class="validation-error" v-if="!$v.shippingDetails.house.required">Field is required</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="city" placeholder="City" v-model.trim="shippingDetails.city" :disabled="useCompanyAddress">
+        <input type="text" name="city" placeholder="City" v-model.trim="shippingDetails.city">
         <span class="validation-error" v-if="!$v.shippingDetails.city.required">Field is required</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="state" placeholder="State / Province" v-model.trim="shippingDetails.region" :disabled="useCompanyAddress">
+        <input type="text" name="state" placeholder="State / Province" v-model.trim="shippingDetails.region">
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shippingDetails.postcode" :disabled="useCompanyAddress">
+        <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shippingDetails.postcode">
         <span class="validation-error" v-if="!$v.shippingDetails.postcode.required">Field is required</span>
         <span class="validation-error" v-if="!$v.shippingDetails.postcode.minLength">Zip-code must have at least {{$v.shippingDetails.postcode.$params.minLength.min}} letters.</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <select name="countries" v-model="shippingDetails.country" :disabled="useCompanyAddress">
+        <select name="countries" v-model="shippingDetails.country">
           <option value="" disabled selected hidden>Country</option>
           <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
         </select>
