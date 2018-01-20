@@ -2,7 +2,7 @@
 <div class="header">
     <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
         <div class="container">
-            <div class="row between-xs middle-xs px15" v-if="!isCheckout">
+            <div class="row between-xs middle-xs px15 header-inner" v-if="!isCheckout">
                 <div class="col-sm-4 col-xs-2 middle-xs">
                     <div>
                         <hamburger-icon class="p15 icon bg-lightgray"/>
@@ -143,7 +143,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .col-xs-2:first-of-type {
+        padding-left: 0;
+    }
     header {
         position: fixed;
         height: 54px;
@@ -151,6 +154,11 @@ export default {
         width: 100%;
         z-index: 2;
         transition: top 0.2s ease-in-out;
+    }
+    .header-inner{
+        @media (max-width: 767px) {
+            padding-left: 0;
+        }
     }
     .icon {
         opacity: 0.6;
@@ -168,17 +176,5 @@ export default {
     }
     .is-visible {
         top: 0 !important;
-    }
-    @media (max-width: 767px) {
-        .row.middle-xs {
-            margin: 0 -15px;
-        }
-
-        .col-xs-2:first-of-type {
-            padding-left: 0;
-        }
-        .col-xs-2:last-of-type {
-            padding-right: 0;
-        }
     }
 </style>

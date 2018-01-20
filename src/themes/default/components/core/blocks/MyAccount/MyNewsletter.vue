@@ -20,7 +20,7 @@
       <div class="col-xs-12">
         <h4>General agreement</h4>
       </div>
-      <div class="col-xs-12 col-md-12 mb15">
+      <div class="col-xs-12 col-xs-12 mb15">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.generalAgreement" id="generalAgreement" :disabled="!isActive">
           <label for="generalAgreement"></label>

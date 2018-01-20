@@ -3,7 +3,7 @@
     <section class="bg-lightgray py35 px20">
       <div class="container">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-xs-12">
             <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name" />
           </div>
         </div>

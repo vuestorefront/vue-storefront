@@ -28,7 +28,7 @@
         <input type="email" name="email-address" placeholder="Email address" v-model="currentUser.email">
         <span class="validation-error" v-if="!$v.currentUser.email.required">Field is required</span><span class="validation-error" v-if="!$v.currentUser.email.email">Please provide valid e-mail address.</span>
       </div>
-      <div class="col-xs-12 col-md-12 mb15">
+      <div class="col-xs-12 col-xs-12 mb15">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="changePassword" id="changePassword">
           <label for="changePassword"></label>
@@ -64,7 +64,7 @@
         <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
       </div>
       <!-- Company information -->
-      <div class="col-xs-12 col-md-12 mb25 mt10">
+      <div class="col-xs-12 col-xs-12 mb25 mt10">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="addCompany" id="addCompany">
           <label for="addCompany"></label>

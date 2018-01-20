@@ -87,10 +87,10 @@
     </div>
     <div class="container">
       <div class="row middle-xs px15">
-        <div class="col-md-3 c-lightgray-secondary">
+        <div class="col-xs-5 col-md-3 c-lightgray-secondary">
           United States (US)
         </div>
-        <div class="col-md-9 end-xs">
+        <div class="col-xs-7 col-sm-7 col-md-9 end-xs">
           <ul class="links">
             <li><router-link class="c-lightgray-secondary mr15" to="/legal" exact>Legal notice</router-link></li>
             <li><router-link class="c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link></li>
@@ -165,6 +165,7 @@ $gray-secondary: map-get($colors, gray-secondary);
   }
   .links {
     list-style-type: none;
+    padding-left: 0;
   }
   .links li {
     display: inline-flex;

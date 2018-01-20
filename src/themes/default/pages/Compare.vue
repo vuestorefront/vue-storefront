@@ -10,7 +10,7 @@
     <div class="py35 px20">
       <div class="container">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-xs-12">
             <div v-if="items.length">
               <div class="py10 align-right">
                 <a href="javascript:window.print()" title="Print This Page">Print This Page</a>
@@ -31,7 +31,7 @@
                   <tr>
                     <th></th>
                     <td v-for="product in items" class="p5">
-                      <product-tile class="col-md-12 collection-product" :product="product"/>
+                      <product-tile class="col-xs-12 collection-product" :product="product"/>
                     </td>
                   </tr>
                   </tbody>

@@ -3,7 +3,7 @@
     <section v-if="related.by_erin && related.by_erin.length > 0">
       <div class="container">
         <div class="row center-xs">
-          <div class="col-md-12">
+          <div class="col-xs-12">
             <h2 class="align-center">Erin Recommends</h2>
           </div>
         </div>
@@ -11,7 +11,7 @@
       <div class="container-fluid bg-lightgray">
         <div class="row">
           <div class="container">
-            <div class="col-md-12">
+            <div class="col-xs-12">
               <div class="row pb45 pt45 center-xs perfect-match">
                 <product-tile v-for='product in related.by_erin' v-bind:key='product.id' class="col-md-3" :product="product"/>
               </div>
@@ -24,7 +24,7 @@
     <section v-if="related.by_category && related.by_category.length > 0">
       <div class="container pt50">
         <div class="row center-xs">
-          <div class="col-md-12">
+          <div class="col-xs-12">
             <h2 class="align-center">Similar products </h2>
           </div>
         </div>
