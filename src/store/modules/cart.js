@@ -7,9 +7,13 @@ const CART_PULL_INTERVAL_MS = 5000
 
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
-  console.log(`Server cart token = ${cartToken}`)
-  rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-  rootStore.dispatch('cart/serverPull', {}, { root: true })
+  if (event.resultCode === 200) {
+    console.log(`Server cart token = ${cartToken}`)
+    rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
+    rootStore.dispatch('cart/serverPull', {}, { root: true })
+  } else {
+    console.error(event.result)
+  }
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
@@ -17,46 +21,54 @@ EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
 })
 
 EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
-  const serverItems = event.result
-  const clientItems = rootStore.state.cart.cartItems
-  for (const clientItem of clientItems) {
-    const serverItem = serverItems.find((itm) => {
-      return itm.sku === clientItem.sku
-    })
-
-    if (!serverItem) {
-      console.log('No server item for ' + clientItem.sku)
-      rootStore.dispatch('cart/serverUpdateItem', {
-        sku: clientItem.sku,
-        qty: clientItem.qty
-      }, { root: true })
-    } else if (serverItem.qty !== clientItem.qty) {
-      console.log('Wrog qty for ' + clientItem.sku)
-      rootStore.dispatch('cart/serverUpdateItem', {
-        sku: clientItem.sku,
-        qty: clientItem.qty,
-        item_id: clientItem.server_cart_id === serverItem.quote_id ? clientItem.server_item_id : null
-      }, { root: true })
-    } else {
-      console.log('Server and client items synced for ' + clientItem.sku)
-    }
-  }
-
-  for (const serverItem of serverItems) {
-    if (serverItem) {
-      const clientItem = clientItems.find((itm) => {
-        return itm.sku === serverItem.sku
+  if (event.resultCode === 200) {
+    const serverItems = event.result
+    const clientItems = rootStore.state.cart.cartItems
+    for (const clientItem of clientItems) {
+      const serverItem = serverItems.find((itm) => {
+        return itm.sku === clientItem.sku
       })
-      if (!clientItem) {
-        console.log('No client item for ' + serverItem.sku)
-        rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
-          product.server_item_id = serverItem.item_id
-          rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
-            rootStore.dispatch('cart/updateQuantity', { product: product, qty: serverItem.qty, forceServerSilence: true })
-          })
-        })
+
+      if (!serverItem) {
+        console.log('No server item for ' + clientItem.sku)
+        rootStore.dispatch('cart/serverUpdateItem', {
+          sku: clientItem.sku,
+          qty: clientItem.qty
+        }, { root: true })
+      } else if (serverItem.qty !== clientItem.qty) {
+        console.log('Wrog qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
+        rootStore.dispatch('cart/serverUpdateItem', {
+          sku: clientItem.sku,
+          qty: clientItem.qty,
+          item_id: clientItem.server_cart_id === serverItem.quote_id ? clientItem.server_item_id : null
+        }, { root: true })
+      } else {
+        console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
+        console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id })
+        rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id } }, { root: true })
       }
     }
+
+    for (const serverItem of serverItems) {
+      if (serverItem) {
+        const clientItem = clientItems.find((itm) => {
+          return itm.sku === serverItem.sku
+        })
+        if (!clientItem) {
+          console.log('No client item for ' + serverItem.sku)
+          rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+            product.server_item_id = serverItem.item_id
+            product.qty = serverItem.qty
+            product.server_cart_id = serverItem.quote_id
+            rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
+//              rootStore.dispatch('cart/updateItem', { product: product })
+            })
+          })
+        }
+      }
+    }
+  } else {
+    console.error(event.result)
   }
 })
 
@@ -64,6 +76,7 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
   console.log('Cart item server sync', event)
   rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
     if (cartItem) {
+      console.log('Updating server id to ', event.result.sku, event.result.item_id)
       rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: event.result.sku, server_cart_id: event.result.quote_id } }, { root: true }) // update the server_id reference
       EventBus.$emit('cart-after-itemchanged', { item: cartItem })
     }
@@ -156,6 +169,9 @@ const store = {
     }
   },
   actions: {
+    serverTokenClear (context) {
+      context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
+    },
     clear (context) {
       context.commit(types.CART_LOAD_CART, [])
       context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
@@ -189,18 +205,16 @@ const store = {
       }
     },
     serverCreate (context) {
-      if (config.cart.synchronize) {
-        context.dispatch('sync/queue', { url: config.cart.create_endpoint, // sync the cart
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors'
-          },
-          callback_event: 'servercart-after-created'
-        }, { root: true }).then(task => {
-          return
-        })
+      const task = { url: config.cart.create_endpoint, // sync the cart
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        callback_event: 'servercart-after-created'
       }
+      context.dispatch('sync/queue', task, { root: true }).then(task => {})
+      return task
     },
     serverUpdateItem (context, cartItem) {
       if (config.cart.synchronize) {
@@ -239,6 +253,7 @@ const store = {
       }
     },
     load (context) {
+      console.log('Loading cart ...')
       const commit = context.commit
       const rootState = context.rootState
       const state = context.state
@@ -261,6 +276,7 @@ const store = {
               console.log('Server cart token = ' + token)
 //              context.dispatch('serverPull')
             } else {
+              console.log('Creating server cart ...')
               context.dispatch('serverCreate')
             }
           })
@@ -319,7 +335,6 @@ const store = {
     },
     removeItem ({ commit, dispatch }, product) {
       commit(types.CART_DEL_ITEM, { product })
-      console.log(product)
       if (config.cart.synchronize && product.server_item_id) {
         dispatch('serverDeleteItem', {
           sku: product.sku,
