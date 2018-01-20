@@ -71,7 +71,7 @@ export default {
 </script>
 
 <!-- CSS DOCS: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md -->
-<style src="../../../node_modules/flexboxgrid2/flexboxgrid2.min.css"></style>
+<style src="flexboxgrid2" lang="scss"></style>
 
 <style src="./css/color.scss" lang="scss"></style>
 <style src="./css/margin.scss" lang="scss"></style>

@@ -6,5 +6,6 @@ npm-debug.log
 .idea/
 yarn.lock
 config/local.json
+build/config.json
 package-lock.json
 var
