@@ -11,6 +11,9 @@
       "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
       "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}"
     },
+    "products": {
+      "preventConfigurableChildrenDirectAccess": true
+    },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"
     },
