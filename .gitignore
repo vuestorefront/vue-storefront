@@ -9,3 +9,4 @@ config/local.json
 build/config.json
 package-lock.json
 var
+build/config.json
