@@ -75,7 +75,7 @@ export default {
       }
     },
     remindPassword () {
-      if (!navigator.onLine) {
+      if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
         this.$bus.$emit('notification', {
           type: 'error',
           message: 'Reset password feature does not work while offline!',

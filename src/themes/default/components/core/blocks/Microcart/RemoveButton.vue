@@ -1,6 +1,9 @@
 <template>
-  <button class="brdr-none bg-transparent">
-    Remove <i class="material-icons h6">remove_shopping_cart</i>
+  <button class="brdr-none bg-transparent p0 inline-flex c-gray-secondary">
+    <span class="hidden-xs h6 weight-300">
+      Remove
+    </span>
+    <i class="material-icons h4 p5 pr0">remove_shopping_cart</i>
   </button>
 </template>
 
@@ -13,7 +16,7 @@ export default {
 </script>
 
 <style scoped>
-  button:hover {
-    cursor: pointer;
+  button {
+    align-items: center;
   }
 </style>

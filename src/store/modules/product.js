@@ -33,12 +33,14 @@ const state = {
   current: null, // shown product
   current_options: {color: [], size: []},
   current_configuration: {},
+  parent: null,
   list: [],
   original: null, // default, not configured product
   related: {}
 }
 
 const getters = {
+  productParent: (state) => state.parent,
   productCurrent: (state) => state.current,
   currentConfiguration: (state) => state.current_configuration,
   productOriginal: (state) => state.original,
@@ -71,6 +73,13 @@ function configureProductAsync (context, { product, configuration, selectDefault
         })
       }
     }) || product.configurable_children[0]
+
+    if (typeof navigator !== 'undefined') {
+      if (selectedVariant && !navigator.onLine) { // this is fix for not preloaded images for offline
+        selectedVariant.image = product.image
+      }
+    }
+
     // use chosen variant
     if (selectDefaultVariant) {
       context.dispatch('setCurrent', selectedVariant)
@@ -169,6 +178,28 @@ const actions = {
       }
     }
     return Promise.all(subloaders)
+  },
+
+  /**
+   * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
+   * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
+   */
+  checkConfigurableParent (context, {product}) {
+    if (product.type_id === 'simple') {
+      console.log('Checking configurable parent')
+      let query = bodybuilder()
+        .query('match', 'configurable_children.sku', context.state.current.sku)
+        .build()
+
+      return context.dispatch('list', {query, start: 0, size: 1, updateState: false}).then((resp) => {
+        if (resp.items.length >= 1) {
+          const parentProduct = resp.items[0]
+          context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
+        }
+      }).catch(function (err) {
+        console.error(err)
+      })
+    }
   },
 
   /**
@@ -289,7 +320,7 @@ const actions = {
           return prod
         }
         if (res !== null) {
-          console.debug('Product:single - result from localForage for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           resolve(setupProduct(res))
         } else {
           context.dispatch('list', {
@@ -327,7 +358,7 @@ const actions = {
       // get original product
       const productOriginal = context.getters.productOriginal
       // check if passed variant is the same as original
-      const productUpdated = Object.assign(productOriginal, productVariant)
+      const productUpdated = Object.assign({}, productOriginal, productVariant)
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
     } else console.debug('Unable to update current product.')
   },
@@ -362,9 +393,13 @@ const mutations = {
   [types.CATALOG_SET_PRODUCT_ORIGINAL] (state, product) {
     state.original = product
   },
+  [types.CATALOG_SET_PRODUCT_PARENT] (state, product) {
+    state.parent = product
+  },
   [types.CATALOG_RESET_PRODUCT] (state, productOriginal) {
     state.current = productOriginal || {}
     state.current_configuration = {}
+    state.parent = null
     state.current_options = {color: [], size: []}
   }
 }

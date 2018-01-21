@@ -23,6 +23,20 @@ const store = {
       zipCode: '',
       phoneNumber: '',
       shippingMethod: 'flatrate'
+    },
+    paymentDetails: {
+      firstName: '',
+      lastName: '',
+      company: '',
+      country: '',
+      streetAddress: '',
+      apartmentNumber: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      phoneNumber: '',
+      taxId: '',
+      paymentMethod: 'cashondelivery'
     }
   },
   mutations: {
@@ -39,11 +53,17 @@ const store = {
     [types.CHECKOUT_SAVE_SHIPPING_DETAILS] (state, shippingDetails) {
       state.shippingDetails = shippingDetails
     },
+    [types.CHECKOUT_SAVE_PAYMENT_DETAILS] (state, paymentDetails) {
+      state.paymentDetails = paymentDetails
+    },
     [types.CHECKOUT_LOAD_PERSONAL_DETAILS] (state, storedPersonalDetails) {
       state.personalDetails = storedPersonalDetails
     },
     [types.CHECKOUT_LOAD_SHIPPING_DETAILS] (state, storedShippingDetails) {
       state.shippingDetails = storedShippingDetails
+    },
+    [types.CHECKOUT_LOAD_PAYMENT_DETAILS] (state, storedPaymentDetails) {
+      state.paymentDetails = storedPaymentDetails
     },
     [types.CHECKOUT_UPDATE_PROP_VALUE] (state, payload) {
       state.shippingDetails[payload[0]] = payload[1]
@@ -88,6 +108,9 @@ const store = {
     saveShippingDetails ({ commit }, shippingDetails) {
       commit(types.CHECKOUT_SAVE_SHIPPING_DETAILS, shippingDetails)
     },
+    savePaymentDetails ({ commit }, paymentDetails) {
+      commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
+    },
     load ({ commit }) {
       global.db.checkoutFieldsCollection.getItem('personal-details', (err, details) => {
         if (err) throw new Error(err)
@@ -99,6 +122,12 @@ const store = {
         if (err) throw new Error(err)
         if (details) {
           commit(types.CHECKOUT_LOAD_SHIPPING_DETAILS, details)
+        }
+      })
+      global.db.checkoutFieldsCollection.getItem('payment-details', (err, details) => {
+        if (err) throw new Error(err)
+        if (details) {
+          commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, details)
         }
       })
     },

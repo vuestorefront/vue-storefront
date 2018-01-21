@@ -64,6 +64,11 @@ Vue.prototype.$db = {
   checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'checkoutFieldValues'
+  })),
+
+  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'newsletterPreferences'
   }))
 }
 
@@ -115,6 +120,9 @@ const plugins = [
         global.db.cartsCollection.setItem('current-cart', store.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+        global.db.cartsCollection.setItem('current-cart-token', store.cart.cartServerToken).catch((reason) => {
+          console.error(reason)
+        })
       }
       if (mutation.type.indexOf(types.SN_WISHLIST) === 0) { // check if this mutation is wishlist related
         global.db.wishlistCollection.setItem('current-wishlist', store.wishlist.itemsWishlist).catch((reason) => {
@@ -126,10 +134,12 @@ const plugins = [
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.SN_USER) === 0) { // check if this mutation is cart related
+      if (mutation.type.indexOf(types.USER_INFO_LOADED) >= 0) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+      }
+      if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-token', store.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
@@ -143,7 +153,16 @@ const plugins = [
           global.db.checkoutFieldsCollection.setItem('shipping-details', store.checkout.shippingDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
+        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_PAYMENT_DETAILS) > 0) {
+          global.db.checkoutFieldsCollection.setItem('payment-details', store.checkout.paymentDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
         }
+      }
+      if (mutation.type.indexOf(types.USER_UPDATE_PREFERENCES) >= 0) {
+        global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', store.user.newsletter).catch((reason) => {
+          console.error(reason)
+        })
       }
     })
   }

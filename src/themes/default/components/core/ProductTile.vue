@@ -1,11 +1,11 @@
 <template>
   <div class="product align-center p15">
     <div @click.capture="preventClicks">
-      <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
+      <router-link class="no-underline" :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
         <div class="product-image bg-lightgray">
           <transition name="fade" appear>
-            <img v-if="instant" :src="thumbnail" :key="thumbnail"/>
-            <img v-if="!instant" v-lazy="thumbnail" :key="thumbnail"/>
+            <img v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder"/>
+            <img v-if="!instant" v-lazy="thumbnailObj" :key="thumbnail"/>
           </transition>
         </div>
         <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>
@@ -20,10 +20,12 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
 
 export default {
   props: ['instant'],
   mixins: [coreComponent('core/ProductTile')],
+  directives: { imgPlaceholder },
   created () {
     this.$bus.$on('product-after-configured', (config) => {
       this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, selectDefaultVariant: false }).then((selectedVariant) => {
@@ -36,7 +38,16 @@ export default {
   },
   data () {
     return {
-      clicks: 0
+      clicks: 0,
+      placeholder: '/assets/placeholder.jpg'
+    }
+  },
+  computed: {
+    thumbnailObj () {
+      return {
+        src: this.thumbnail,
+        loading: this.placeholder
+      }
     }
   },
   methods: {

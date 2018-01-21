@@ -12,20 +12,18 @@ export default {
   name: 'account-icon',
   computed: {
     ...mapState({
-      isOpenLogin: state => state.ui.signUp
+      isOpenLogin: state => state.ui.signUp,
+      currentUser: state => state.user.current
     })
   },
   methods: {
     gotoAccount () {
       if (!this.$store.state.user.current) {
         this.$store.commit('ui/setSignUp', !this.isOpenLogin)
-      } else {
-        this.$bus.$emit('notification', {
-          type: 'success',
-          message: 'You are logged in as ' + this.$store.state.user.current.email + ' and the User Account feature is work in progress!',
-          action1: { label: 'OK', action: 'close' }
-        })
       }
+    },
+    logout () {
+      this.$bus.$emit('user-before-logout')
     }
   }
 }

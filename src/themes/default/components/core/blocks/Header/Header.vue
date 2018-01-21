@@ -23,6 +23,7 @@
                     <div class="inline-flex">
                         <search-icon class="p15 icon hidden-xs" />
                         <wishlist-icon class="p15 icon hidden-xs" />
+                        <compare-icon class="p15 icon hidden-xs" />
                         <microcart-icon class="p15 icon" />
                         <account-icon class="p15 icon hidden-xs" />
                     </div>
@@ -62,6 +63,7 @@ import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
 import SearchIcon from './SearchIcon.vue'
 import WishlistIcon from './WishlistIcon.vue'
+import CompareIcon from './CompareIcon.vue'
 
 export default {
   data () {
@@ -133,6 +135,7 @@ export default {
     MicrocartIcon,
     HamburgerIcon,
     WishlistIcon,
+    CompareIcon,
     SearchIcon,
     Logo
   },

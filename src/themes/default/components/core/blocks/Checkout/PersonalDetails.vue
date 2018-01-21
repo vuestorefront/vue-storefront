@@ -78,10 +78,10 @@
             <p>
               {{ personalDetails.firstName }} {{ personalDetails.lastName }}
             </p>
-            <p>
+            <div>
               <span class="pr15">{{ personalDetails.emailAddress }}</span>
               <tooltip>We will send you details regarding the order</tooltip>
-            </p>
+            </div>
             <div v-if="createAccount && !currentUser">
               <div class="checkboxStyled">
                 <input type="checkbox" v-model="createAccount" id="createAccountCheckbox2" disabled>
@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { coreComponent } from 'lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -111,7 +110,6 @@ import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 // https://monterail.github.io/vuelidate/#sub-basic-usage
 
 export default {
-  props: ['isActive'],
   validations: {
     personalDetails: {
       firstName: {
@@ -139,12 +137,6 @@ export default {
   },
   data () {
     return {
-      isFilled: false,
-      personalDetails: this.$store.state.checkout.personalDetails,
-      createAccount: false,
-      acceptConditions: false,
-      password: '',
-      rPassword: '',
       passType: {
         pass: 'password',
         repeatPass: 'password'
@@ -155,28 +147,7 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState({
-      currentUser: state => state.user.current
-    })
-  },
   methods: {
-    sendDataToCheckout () {
-      if (this.createAccount) {
-        this.personalDetails.password = this.password
-        this.personalDetails.createAccount = true
-      } else {
-        this.personalDetails.createAccount = false
-      }
-      this.$bus.$emit('checkout.personalDetails', this.personalDetails, this.$v)
-      this.isFilled = true
-    },
-    edit () {
-      if (this.isFilled) {
-        this.$bus.$emit('checkout.edit', 'personalDetails')
-        this.isFilled = false
-      }
-    },
     togglePassType (name) {
       if (this.passType[name] === 'password') {
         this.passType[name] = 'text'
@@ -185,18 +156,7 @@ export default {
         this.passType[name] = 'password'
         this.iconName[name] = 'visibility'
       }
-    },
-    gotoAccount () {
-      this.$store.commit('ui/setSignUp', true)
     }
-  },
-  created () {
-    this.$bus.$on('user-after-loggedin', (receivedData) => {
-      this.personalDetails = receivedData
-    })
-  },
-  destroyed () {
-    this.$bus.$off('user-after-loggedin')
   },
   components: {
     ButtonFull,
@@ -208,50 +168,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-  .checkboxStyled {
-    width: 23px;
-    position: relative;
-    display: inline-block;
-
-    label {
-      cursor: pointer;
-      position: absolute;
-      width: 23px;
-      height: 23px;
-      top: 0;
-      left: 0;
-      background: #FFF;
-      border:1px solid #8E8E8E;
-
-      &:after {
-        content: '';
-        position: absolute;
-        width: 11px;
-        height: 5px;
-        background: transparent;
-        top: 6px;
-        left: 5px;
-        border: 3px solid #FFF;
-        border-top: none;
-        border-right: none;
-        transform: rotate(-45deg);
-      }
-    }
-
-    input[type=checkbox]:checked + label {
-      background: #8E8E8E;
-    }
-  }
-
-  .checkboxText {
-    display: inline-block;
-    cursor: pointer;
-    
-    span {
-      vertical-align: middle;
-    }
-  }
 
   .pass-container {
     position: relative;

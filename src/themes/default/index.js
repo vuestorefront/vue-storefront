@@ -5,6 +5,7 @@ import Static from './pages/Static.vue'
 import Checkout from './pages/Checkout.vue'
 import Compare from './pages/Compare.vue'
 import PageNotFound from './pages/PageNotFound.vue'
+import MyAccount from './pages/MyAccount.vue'
 import UIStore from './store/ui-store'
 
 const routes = [
@@ -21,7 +22,7 @@ const routes = [
     { name: 'magazine', path: '/magazine', component: Static, props: {page: 'lorem', title: 'Magazine'} },
     { name: 'sale', path: '/sale', component: Static, props: {page: 'lorem', title: 'Sale'} },
     { name: 'order-tracking', path: '/order-tracking', component: Static, props: {page: 'lorem', title: 'Track my Order'} },
-    { name: 'my-account', path: '/my-account', component: Static, props: {page: 'lorem', title: 'My Account'} },
+    { name: 'my-account', path: '/my-account', component: MyAccount },
     { name: 'my-orders', path: '/my-orders', component: Static, props: {page: 'lorem', title: 'My Orders'} },
     { name: 'about-us', path: '/about-us', component: Static, props: {page: 'about', title: 'About us'} },
     { name: 'customer-service', path: '/customer-service', component: Static, props: {page: 'lorem', title: 'Customer service'} },

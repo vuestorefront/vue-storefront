@@ -19,6 +19,15 @@
           </div>
         </div>
         <div class="row" v-show="this.isActive">
+          <div class="col-xs-12 col-sm-12 mb15" v-show="currentUser && hasShippingDetails()">
+            <div class="checkboxStyled">
+              <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox" @click="useMyAddress">
+              <label for="shipToMyAddressCheckbox"></label>
+            </div>
+            <div class="checkboxText ml15 lh25" @click="useMyAddress">
+              <span class="fs16 c-darkgray">Ship to my default address</span>
+            </div>
+          </div>
           <div class="col-xs-12 col-sm-6 mb25">
             <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName" @blur="$v.shipping.firstName.$touch()" autocomplete="given-name" >
             <span class="validation-error" v-if="$v.shipping.firstName.$error && !$v.shipping.firstName.required">Field is required</span>
@@ -75,20 +84,25 @@
                 {{ shipping.firstName }} {{ shipping.lastName }}
               </p>
               <p>
-                {{ shipping.streetAddress }}
-                <span v-show="shipping.apartmentNumber"> {{ shipping.apartmentNumber }}</span>
+                {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}</span>
               </p>
               <p>
                 {{ shipping.city }} {{ shipping.zipCode }}
               </p>
               <p>
                 <span v-show="shipping.state">{{ shipping.state }}, </span>
-                <span>{{ shipping.country }}</span>
+                <span>{{ getCountryName() }}</span>
               </p>
-              <p>
+              <div v-show="shipping.phoneNumber">
                 <span class="pr15">{{ shipping.phoneNumber }}</span>
                 <tooltip>Phone number may be needed by carrier</tooltip>
-              </p>
+              </div>
+              <div class="col-xs-12">
+                <h4>Shipping method</h4>
+              </div>
+              <div class="col-md-6 mb15">
+                <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label>
+              </div>
           </div>
         </div>
       </div>
@@ -98,9 +112,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import ShippingMethods from 'src/resource/shipping_methods.json'
-import Countries from 'src/resource/countries.json'
-
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
@@ -108,15 +119,6 @@ import { required, minLength } from 'vuelidate/lib/validators'
 // https://monterail.github.io/vuelidate/#sub-contextified-validators
 
 export default {
-  props: ['isActive'],
-  created () {
-    this.$bus.$on('checkout.personalDetails', (receivedData) => {
-      if (!this.isFilled) {
-        this.$store.dispatch('checkout/updatePropValue', ['firstName', receivedData.firstName])
-        this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
-      }
-    })
-  },
   validations: {
     shipping: {
       firstName: {
@@ -144,26 +146,6 @@ export default {
       },
       city: {
         required
-      }
-    }
-  },
-  data () {
-    return {
-      isFilled: false,
-      shippingMethods: ShippingMethods,
-      countries: Countries,
-      shipping: this.$store.state.checkout.shippingDetails
-    }
-  },
-  methods: {
-    sendDataToCheckout () {
-      this.$bus.$emit('checkout.shipping', this.shipping, this.$v)
-      this.isFilled = true
-    },
-    edit () {
-      if (this.isFilled) {
-        this.$bus.$emit('checkout.edit', 'shipping')
-        this.isFilled = false
       }
     }
   },

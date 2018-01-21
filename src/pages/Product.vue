@@ -11,6 +11,7 @@ import AddToCart from '../components/core/AddToCart.vue'
 import { thumbnail } from 'src/lib/filters'
 import EventBus from 'src/event-bus'
 import { mapGetters } from 'vuex'
+import config from 'config'
 
 /**
  * User selected specific color x size (or other attributes) variant
@@ -77,6 +78,10 @@ function fetchData (store, route) {
 
       subloaders.push(store.dispatch('product/setupVariants', { product: product }))
       subloaders.push(store.dispatch('product/setupAssociated', { product: product }))
+
+      if (config.products.preventConfigurableChildrenDirectAccess) {
+        subloaders.push(store.dispatch('product/checkConfigurableParent', { product: product }))
+      }
     } else { // error or redirect
 
     }
@@ -111,7 +116,12 @@ function loadData ({ store, route }) {
 }
 
 function stateCheck () {
-  if (this.wishlistCheck.isOnWishlist(this.product)) {
+  if (this.parentProduct && this.parentProduct.id !== this.product.id) {
+    console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
+    this.$router.push({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
+  }
+
+  if (this.wishlistCheck.isOnWishlist(this.originalProduct)) {
     this.favorite.icon = 'favorite'
     this.favorite.isFavorite = true
   } else {
@@ -142,12 +152,13 @@ export default {
     addToFavorite () {
       let self = this
       if (!self.favorite.isFavorite) {
-        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
+        console.log(self.originalProduct)
+        this.$store.dispatch('wishlist/addItem', self.originalProduct).then(res => {
           self.favorite.icon = 'favorite'
           self.favorite.isFavorite = true
         })
       } else {
-        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
+        this.$store.dispatch('wishlist/removeItem', self.originalProduct).then(res => {
           self.favorite.icon = 'favorite_border'
           self.favorite.isFavorite = false
         })
@@ -179,6 +190,8 @@ export default {
   computed: {
     ...mapGetters({
       product: 'product/productCurrent',
+      originalProduct: 'product/productOriginal',
+      parentProduct: 'product/productParent',
       attributesByCode: 'attribute/attributeListByCode',
       attributesByUd: 'attribute/attributeListById',
       breadcrumbs: 'product/breadcrumbs',

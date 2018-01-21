@@ -48,7 +48,7 @@ const mutations = {
       console.error(reason) // it doesn't work on SSR
     }).then((resp) => {
       EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-      console.info('Synchronization task added taskId = ' + taskId)
+      console.info('Synchronization task added url = ' + task.url + ' taskId = ' + taskId)
     }) // populate cache
   }
 }
