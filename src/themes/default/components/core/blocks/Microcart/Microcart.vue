@@ -115,7 +115,7 @@ export default {
     top: 0;
     right: 0;
     z-index: 3;
-    height: 100vh;
+    height: 100%;
     width: 800px;
     min-width: 320px;
     max-width: 100%;
