@@ -2,7 +2,7 @@
   <div class="collection">
     <div class="container">
       <div class="row center-xs">
-        <header class="col-md-12 pt40 pb15">
+        <header class="col-xs-12 pt40 pb15">
           <h2 class="align-center c-black">
             {{ title }}
           </h2>
@@ -11,7 +11,7 @@
     </div>
     <div class="bg-lightgray collection-slider">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
           <div class="pb20 pt20 center-xs cool-stuff-collection">
             <no-ssr>
               <carousel v-bind="config" @pageChange="setMuted">
