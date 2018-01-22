@@ -3,23 +3,23 @@
     <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
       <div class="container">
         <div class="row between-xs middle-xs px15" v-if="!isCheckout">
-          <div class="col-sm-4 col-xs-2 middle-xs">
+          <div class="col-xs-2 col-sm-2 middle-xs">
             <div>
               <hamburger-icon class="p15 icon bg-lightgray"/>
             </div>
           </div>
-          <div class="col-xs-2 visible-xs">
+          <div class="col-xs-2 col-sm-2 visible-xs">
             <search-icon class="p15 icon" />
           </div>
-          <div class="col-sm-4 col-xs-4 center-xs">
+          <div class="col-xs-4 col-sm-4 center-xs">
             <div>
               <logo width="36px" height="41px"/>
             </div>
           </div>
-          <div class="col-xs-2 visible-xs">
+          <div class="col-xs-2 col-sm-2 visible-xs">
             <wishlist-icon class="p15 icon" />
           </div>
-          <div class="col-sm-4 col-xs-2 end-xs">
+          <div class="col-xs-2 col-sm-2 end-xs">
             <div class="inline-flex">
               <search-icon class="p15 icon hidden-xs" />
               <wishlist-icon class="p15 icon hidden-xs" />
@@ -175,7 +175,6 @@ export default {
   @media (max-width: 767px) {
     .row.middle-xs {
       padding-left: 0;
-
       &.py5 {
         margin: 0;
       }
