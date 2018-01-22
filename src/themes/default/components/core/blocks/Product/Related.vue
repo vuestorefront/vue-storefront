@@ -33,7 +33,10 @@ export default {
   data () {
     return {
       sliderConfig: {
-        perPage: 6,
+        perPage: 4,
+        perPageCustom: [
+          [768, 6]
+        ],
         paginationEnabled: false,
         loop: true
       }
