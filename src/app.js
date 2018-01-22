@@ -14,6 +14,7 @@ import { registerExtensions } from './lib/extensions'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
+import VueAnalytics from 'vue-analytics'
 
 Vue.use(ConfigPlg)
 Vue.use(EventBus)
@@ -21,6 +22,12 @@ Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
   attempt: 2
 })
+if (config.analytics.id) {
+  Vue.use(VueAnalytics, {
+    id: config.analytics.id,
+    router
+  })
+}
 
 export function createApp () {
   sync(store, router)

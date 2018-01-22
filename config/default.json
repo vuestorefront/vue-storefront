@@ -35,13 +35,16 @@
       "defaultCountry": "PL",
       "defaultRegion": "",
       "calculateServerSide": false
-    },  
+    },
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN"
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+    },
+    "analytics": {
+      "id": false
     },
     "registeredExtensions": ["custom_extension", "mailchimp-subscribe"]
  }
