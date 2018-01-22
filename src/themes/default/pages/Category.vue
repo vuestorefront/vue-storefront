@@ -26,7 +26,7 @@
             </div>
             <p class="col-xs-12 hidden-md m0 px20 c-gray-secondary">{{ productsCounter }} items</p>
             <div class="col-md-9 pt20 products-list px10">
-                <div v-if="isCategoryEmpty">
+                <div v-if="isCategoryEmpty" class="hidden-xs">
                     No products found!
                 </div>
                 <product-listing columns="3" :products="products" />
