@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="brdr-bottom brdr-c-lightgray-secondary pb60">
-    <h3 class="c-black ml30 mt50">Order Summary</h3>
+    <h3 class="c-black ml30 mt50 summary-title">Order Summary</h3>
     <product v-for="product in items" :key="product.id" :product="product" />
     <div v-if="items.length" class="checkout bg-lightgray pt10 serif c-black">
       <div class="row pt15 pb20 pl30 pr55 ">
@@ -75,3 +75,13 @@ export default {
   mixins: [coreComponent('core/blocks/Checkout/CartSummary')]
 }
 </script>
+
+<style lang="scss" scoped>
+  .summary-title {
+    margin-top: 20px !important;
+
+    @media (max-width: 767px) {
+      margin-left: 0;
+    }
+  }
+</style>

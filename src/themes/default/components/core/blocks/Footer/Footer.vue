@@ -87,14 +87,20 @@
     </div>
     <div class="container">
       <div class="row middle-xs px15">
-        <div class="col-md-3 c-lightgray-secondary">
+        <div class="col-xs-4 col-sm-3 c-lightgray-secondary">
           United States (US)
         </div>
-        <div class="col-md-9 end-xs">
+        <div class="hidden-xs col-sm-9 end-xs">
           <ul class="links">
             <li><router-link class="c-lightgray-secondary mr15" to="/legal" exact>Legal notice</router-link></li>
             <li><router-link class="c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link></li>
           </ul>
+        </div>
+        <div class="col-xs-4 legal-entity-link">
+          <router-link class="c-lightgray-secondary" to="/legal" exact>Legal notice</router-link>
+        </div>
+        <div class="col-xs-4 privacy-policy-link">
+          <router-link class="c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link>
         </div>
       </div>
     </div>
@@ -163,11 +169,29 @@ $gray-secondary: map-get($colors, gray-secondary);
       fill: $gray-secondary;
     }
   }
+  a {
+    text-decoration: underline;
+  }
   .links {
     list-style-type: none;
+
+    li {
+      display: inline-flex;
+    }
   }
-  .links li {
-    display: inline-flex;
+  .legal-entity-link {
+    text-align: center;
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+  .privacy-policy-link {
+    text-align: right;
+
+    @media (min-width: 768px) {
+      display: none;
+    }
   }
   @media (max-width: 595px) {
     .no-mobile {

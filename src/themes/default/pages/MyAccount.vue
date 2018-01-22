@@ -48,6 +48,7 @@
   @import '../css/text.scss';
   @import '~theme/css/global_vars';
   $lightgray: map-get($colors, lightgray);
+  $gray-secondary: map-get($colors, gray-secondary);
 
   #my_account {
     input[type=text], input[type=email], input[type=tel], select {
@@ -116,7 +117,7 @@
         top: 0;
         left: 0;
         background: #FFF;
-        border:1px solid #8E8E8E;
+        border:1px solid $gray-secondary;
 
         &:after {
           content: '';
@@ -134,7 +135,7 @@
       }
 
       input[type=checkbox]:checked + label {
-        background: #8E8E8E;
+        background: $gray-secondary;
       }
     }
 
@@ -151,7 +152,7 @@
     .side-menu {
       display: block;
 
-      @media (max-width: 992px) {
+      @media (max-width: 991px) {
         display: none;
       }
 
@@ -195,14 +196,14 @@
     }
 
     .bottom-button {
-      @media (max-width: 768px) {
+      @media (max-width: 767px) {
         text-align: center;
         padding-left: 0px !important;
       }
     }
 
     .col-xs-12 {
-      @media (max-width: 768px) {
+      @media (max-width: 767px) {
         padding-left: 15px;
         padding-right: 15px;
       }

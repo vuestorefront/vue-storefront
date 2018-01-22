@@ -9,9 +9,15 @@
   import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
   import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
   import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
+  import Meta from 'src/lib/meta'
 
   export default {
     name: 'MyAccount',
+    meta () {
+      return {
+        title: 'My Account'
+      }
+    },
     data () {
       return {
         navigation: [
@@ -100,6 +106,7 @@
       MyProfile,
       MyShippingDetails,
       MyNewsletter
-    }
+    },
+    mixins: [Meta]
   }
 </script>

@@ -1,10 +1,10 @@
 <template>
-  <div class="shipping">
-    <div class="row">
-      <div class="col-xs-2 col-md-1">
+  <div class="shipping pt20">
+    <div class="row pl20">
+      <div class="col-xs-1 col-sm-2 col-md-1">
         <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">2</div>
       </div>
-      <div class="col-xs-9 col-md-11">
+      <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
             <h3 class="m0 mb5">Shipping</h3>
@@ -18,7 +18,12 @@
             </div>
           </div>
         </div>
-        <div class="row" v-show="this.isActive">
+      </div>
+    </div>
+    <div class="row pl20" v-show="isActive">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row">
           <div class="col-xs-12 col-sm-12 mb15" v-show="currentUser && hasShippingDetails()">
             <div class="checkboxStyled">
               <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox" @click="useMyAddress">
@@ -71,38 +76,57 @@
             <h4>Shipping method</h4>
           </div>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
-            <label><input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod" @change="$v.shipping.shippingMethod.$touch()"> {{ method.name }} | {{ method.cost | price }} </label>
+            <label class="radioStyled"> {{ method.name }} | {{ method.cost | price }} 
+              <input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod" @change="$v.shipping.shippingMethod.$touch()">
+              <span class="checkmark"></span>
+            </label>
           </div>
           <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">Field is required</span>
-          <div class="col-xs-12 my30">
+        </div>
+      </div>
+    </div>
+    <div class="row" v-show="isActive">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row">
+          <div class="col-xs-12 my30 bottom-button">
             <button-full @click.native="sendDataToCheckout" text="Continue to payment" :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"/>
           </div>
         </div>
-        <div class="row fs16 mb35" v-show="isFilled">
+      </div>
+    </div>
+    <div class="row pl20" v-show="isFilled">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row fs16 mb35">
           <div class="col-xs-12 h4">
-              <p>
-                {{ shipping.firstName }} {{ shipping.lastName }}
-              </p>
-              <p>
-                {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}</span>
-              </p>
-              <p>
-                {{ shipping.city }} {{ shipping.zipCode }}
-              </p>
-              <p>
-                <span v-show="shipping.state">{{ shipping.state }}, </span>
-                <span>{{ getCountryName() }}</span>
-              </p>
-              <div v-show="shipping.phoneNumber">
-                <span class="pr15">{{ shipping.phoneNumber }}</span>
-                <tooltip>Phone number may be needed by carrier</tooltip>
-              </div>
-              <div class="col-xs-12">
-                <h4>Shipping method</h4>
-              </div>
-              <div class="col-md-6 mb15">
-                <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label>
-              </div>
+            <p>
+              {{ shipping.firstName }} {{ shipping.lastName }}
+            </p>
+            <p>
+              {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}</span>
+            </p>
+            <p>
+              {{ shipping.city }} {{ shipping.zipCode }}
+            </p>
+            <p>
+              <span v-show="shipping.state">{{ shipping.state }}, </span>
+              <span>{{ getCountryName() }}</span>
+            </p>
+            <div v-show="shipping.phoneNumber">
+              <span class="pr15">{{ shipping.phoneNumber }}</span>
+              <tooltip>Phone number may be needed by carrier</tooltip>
+            </div>
+            <div class="col-xs-12">
+              <h4>Shipping method</h4>
+            </div>
+            <div class="col-md-6 mb15">
+              <!-- <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label> -->
+              <label class="radioStyled"> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} 
+                <input type="radio" value="" checked disabled name="chosen-shipping-method">
+                <span class="checkmark"></span>
+              </label>
+            </div>
           </div>
         </div>
       </div>

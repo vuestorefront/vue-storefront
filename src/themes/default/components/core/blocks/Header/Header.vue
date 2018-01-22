@@ -1,55 +1,55 @@
 <template>
-<div class="header">
+  <div class="header">
     <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
-        <div class="container">
-            <div class="row between-xs middle-xs px15" v-if="!isCheckout">
-                <div class="col-sm-4 col-xs-2 middle-xs">
-                    <div>
-                        <hamburger-icon class="p15 icon bg-lightgray"/>
-                    </div>
-                </div>
-                <div class="col-xs-2 visible-xs">
-                    <search-icon class="p15 icon" />
-                </div>
-                <div class="col-sm-4 col-xs-4 center-xs">
-                    <div>
-                        <logo width="36px" height="41px"/>
-                    </div>
-                </div>
-                <div class="col-xs-2 visible-xs">
-                    <wishlist-icon class="p15 icon" />
-                </div>
-                <div class="col-sm-4 col-xs-2 end-xs">
-                    <div class="inline-flex">
-                        <search-icon class="p15 icon hidden-xs" />
-                        <wishlist-icon class="p15 icon hidden-xs" />
-                        <compare-icon class="p15 icon hidden-xs" />
-                        <microcart-icon class="p15 icon" />
-                        <account-icon class="p15 icon hidden-xs" />
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row between-xs middle-xs px15" v-if="!isCheckout">
+          <div class="col-sm-4 col-xs-2 middle-xs">
+            <div>
+              <hamburger-icon class="p15 icon bg-lightgray"/>
             </div>
-             <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
-                <div class="col-md-3 middle-xs">
-                    <div>
-                        <router-link to="/" class="c-lightgray-secondary">Return to shopping</router-link>
-                    </div>
-                </div>
-                <div class="col-md-6 center-xs">
-                    <logo width="36px" height="41px"/>
-                </div>
-                <div class="col-md-3 end-xs">
-                    <div>
-                        <a v-if="!currentUser" href="#" @click="gotoAccount" class="c-lightgray-secondary">Login to your account</a>
-                        <span v-else>You are logged in as {{ currentUser.firstname }}</span>
-                    </div>
-                </div>
+          </div>
+          <div class="col-xs-2 visible-xs">
+            <search-icon class="p15 icon" />
+          </div>
+          <div class="col-sm-4 col-xs-4 center-xs">
+            <div>
+              <logo width="36px" height="41px"/>
             </div>
+          </div>
+          <div class="col-xs-2 visible-xs">
+            <wishlist-icon class="p15 icon" />
+          </div>
+          <div class="col-sm-4 col-xs-2 end-xs">
+            <div class="inline-flex">
+              <search-icon class="p15 icon hidden-xs" />
+              <wishlist-icon class="p15 icon hidden-xs" />
+              <compare-icon class="p15 icon hidden-xs" />
+              <microcart-icon class="p15 icon" />
+              <account-icon class="p15 icon hidden-xs" />
+            </div>
+          </div>
         </div>
+        <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
+          <div class="col-xs-5 col-md-3 middle-xs">
+            <div>
+              <router-link to="/" class="c-lightgray-secondary links">Return to shopping</router-link>
+            </div>
+          </div>
+          <div class="col-xs-2 col-md-6 center-xs">
+            <logo width="36px" height="41px"/>
+          </div>
+          <div class="col-xs-5 col-md-3 end-xs">
+            <div>
+              <a v-if="!currentUser" href="#" @click="gotoAccount" class="c-lightgray-secondary links">Login to your account</a>
+              <span v-else>You are logged in as {{ currentUser.firstname }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
     <div class="header-placeholder">
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -143,42 +143,51 @@ export default {
 }
 </script>
 
-<style scoped>
-    header {
-        position: fixed;
-        height: 54px;
-        top: -54px;
-        width: 100%;
-        z-index: 2;
-        transition: top 0.2s ease-in-out;
-    }
-    .icon {
-        opacity: 0.6;
-    }
-    .icon:hover {
-        background-color: #F2F2F2;
-        cursor: pointer;
-        opacity: 1;
-    }
-    .header-placeholder {
-        height: 54px;
-    }
-    .links {
-        text-decoration: undeline;
-    }
-    .is-visible {
-        top: 0 !important;
-    }
-    @media (max-width: 767px) {
-        .row.middle-xs {
-            margin: 0 -15px;
-        }
+<style lang="scss" scoped>
+  header {
+    position: fixed;
+    height: 54px;
+    top: -54px;
+    width: 100%;
+    z-index: 2;
+    transition: top 0.2s ease-in-out;
+  }
+  .icon {
+    opacity: 0.6;
+  }
+  .icon:hover {
+    background-color: #F2F2F2;
+    cursor: pointer;
+    opacity: 1;
+  }
+  .header-placeholder {
+    height: 54px;
+  }
+  .links {
+    text-decoration: underline;
+  }
+  .is-visible {
+    top: 0 !important;
+  }
+  .center-xs {
+    text-align: center;
+  }
+  @media (max-width: 767px) {
+    .row.middle-xs {
+      margin: 0 -15px;
 
-        .col-xs-2:first-of-type {
-            padding-left: 0;
-        }
-        .col-xs-2:last-of-type {
-            padding-right: 0;
-        }
+      &.py5 {
+        margin: 0;
+      }
     }
+    .col-xs-2:first-of-type {
+        padding-left: 0;
+    }
+    .col-xs-2:last-of-type {
+        padding-right: 0;
+    }
+    a, span {
+      font-size: 12px;
+    }
+  }
 </style>
