@@ -92,8 +92,8 @@
         </div>
         <div class="footer__sp-links">
           <ul class="links">
-            <li class="links__item"><router-link class="c-lightgray-secondary mr15" to="/legal" exact>Legal notice</router-link></li>
-            <li class="links__item"><router-link class="c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link></li>
+            <li class="links__item"><router-link class="links c-lightgray-secondary mr15" to="/legal" exact>Legal notice</router-link></li>
+            <li class="links__item"><router-link class="links c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link></li>
           </ul>
         </div>
       </div>
