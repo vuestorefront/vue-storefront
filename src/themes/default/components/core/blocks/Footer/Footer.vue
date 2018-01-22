@@ -170,6 +170,9 @@ $gray-secondary: map-get($colors, gray-secondary);
       margin-left: 20px;
     }
   }
+  a {
+    text-decoration: underline;
+  }
   .links {
     list-style-type: none;
     padding-left: 0;
