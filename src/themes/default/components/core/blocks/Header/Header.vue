@@ -3,7 +3,7 @@
     <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
       <div class="container">
         <div class="row between-xs middle-xs px15" v-if="!isCheckout">
-          <div class="col-xs-2 col-sm-2 middle-xs">
+          <div class="col-xs-2 col-sm-2 col-md-4 middle-xs">
             <div>
               <hamburger-icon class="p15 icon bg-lightgray"/>
             </div>
