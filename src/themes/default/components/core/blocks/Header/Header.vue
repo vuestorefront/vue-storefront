@@ -19,7 +19,7 @@
           <div class="col-xs-2 col-sm-2 visible-xs">
             <wishlist-icon class="p15 icon" />
           </div>
-          <div class="col-xs-2 col-sm-2 end-xs">
+          <div class="col-xs-2 col-sm-2 col-md-4 end-xs">
             <div class="inline-flex">
               <search-icon class="p15 icon hidden-xs" />
               <wishlist-icon class="p15 icon hidden-xs" />
