@@ -9,7 +9,7 @@
       </header>
     </div>
     <div class="row center-xs">
-      <div v-for='(product, key) in everythingNewCollection' v-bind:key='product.id' class="col-md-3">
+      <div v-for='(product, key) in everythingNewCollection' v-bind:key='product.id' class="col-xs-6 col-md-3">
         <product-tile :instant='key < 4 ? true : false' :product="product"/>
       </div>
     </div>
