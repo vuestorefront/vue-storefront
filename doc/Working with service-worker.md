@@ -34,7 +34,7 @@ export function postMessage (payload) {
 }
 ```
 
-It allows you to send data to service worker. For example, when the order is places (`/src/store/modules/checkout`):
+It allows you to send data to service worker. For example, when the order is placed (`/src/store/modules/checkout`):
 
 ```js
   /**
