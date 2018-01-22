@@ -262,6 +262,7 @@ const actions = {
    */
   logout (context) {
     context.commit(types.USER_END_SESSION)
+    context.dispatch('cart/serverTokenClear', {}, { root: true })
     EventBus.$emit('notification', {
       type: 'success',
       message: 'You\'re logged out',

@@ -12,7 +12,7 @@
     asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
       return new Promise((resolve, reject) => {
         console.log('Entering asyncData for PageNotFound ' + new Date())
-        let ourBestsellersQuery = builder().build()
+        let ourBestsellersQuery = builder().query('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).build()
         store.dispatch('category/list', {}).then((categories) => {
           store.dispatch('product/list', {
             query: ourBestsellersQuery,

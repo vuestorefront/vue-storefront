@@ -51,7 +51,7 @@ funcs.reduce((promise, func) =>
     promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
 
 import * as localForage from 'localforage'
-import { isNull } from 'util'
+import { isNull, isNullOrUndefined } from 'util'
 
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
@@ -147,10 +147,24 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
       if (!currentCartId && store.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
         currentCartId = store.state.cart.cartServerToken
       }
+
       const fetchQueue = []
       console.log('Current User token = ' + currentToken)
       console.log('Current Cart token = ' + currentCartId)
       syncTaskCollection.iterate((task, id, iterationNumber) => {
+        if (config.cart.synchronize) {
+          if (task.url.indexOf('{{cartId}}') >= 0 && (isNullOrUndefined(currentCartId) || !currentCartId)) { // we don't have cart id, let's create server cart in that case
+            console.log('No cartId, required for async URL', task.url)
+            task = { url: config.cart.create_endpoint, // recreate cart
+              payload: {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors'
+              },
+              callback_event: 'servercart-after-created'
+            }
+          }
+        }
         if (!task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
