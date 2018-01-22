@@ -93,7 +93,8 @@ export default {
         aboutProduct: true,
         qualities: false,
         savedToWishlist: false
-      }
+      },
+      scrollReveal: null
     }
   },
   computed: {
@@ -110,6 +111,10 @@ export default {
     addToWishlist () {
       this.$store.dispatch('wishlist/addItem', this.product)
       this.ui.savedToWishlist = true
+    },
+    resetProductState () {
+      this.ui.savedToWishlist = false
+      this.availability.checked = false
     }
   },
   mounted () {
@@ -119,6 +124,9 @@ export default {
       duration: 600,
       viewFactor: 0.5
     })
+  },
+  watch: {
+    '$route': 'resetProductState'
   },
   components: {
     Breadcrumbs,
