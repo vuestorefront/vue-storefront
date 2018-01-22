@@ -18,7 +18,11 @@
         sliderConfig: {
           perPage: 6,
           paginationEnabled: false,
-          loop: true
+          loop: true,
+          perPageCustom: [
+            ['0', '2.5'],
+            ['768', '6']
+          ]
         }
       }
     },

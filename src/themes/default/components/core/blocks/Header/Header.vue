@@ -174,7 +174,7 @@ export default {
   }
   @media (max-width: 767px) {
     .row.middle-xs {
-      margin: 0 -15px;
+      padding-left: 0;
 
       &.py5 {
         margin: 0;
@@ -184,7 +184,7 @@ export default {
         padding-left: 0;
     }
     .col-xs-2:last-of-type {
-        padding-right: 0;
+        padding-right: 15px;
     }
     a, span {
       font-size: 12px;
