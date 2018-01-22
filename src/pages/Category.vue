@@ -274,7 +274,7 @@ export default {
   data () {
     return {
       pagination: {
-        pageSize: 18,
+        pageSize: 50,
         offset: 0
       },
       filterSet: {} // filter set selected by user
