@@ -1,11 +1,52 @@
 <template>
   <div class="newsletter-subscribe-form">
-    <input type="text" class="m0 px25 inline-flex fs-medium" placeholder="E-mail address">
-    <button class="m0 fs-medium inline-flex center-xs c-on-accent bg-accent bg-accent-hover">Subscribe to magazine</button>
+    <input v-model="email" type="email" class="m0 px25 inline-flex fs-medium" placeholder="E-mail address">
+    <button @click="subscribeNewsletter" class="m0 fs-medium inline-flex center-xs c-on-accent bg-accent bg-accent-hover">Subscribe to magazine</button>
   </div>
 </template>
 
+<script>
+export default {
+  data () {
+    return {
+      email: null,
+      // Temporary for demo purposes, normally we should use Vuex
+      subscribed: false
+    }
+  },
+  methods: {
+    subscribeNewsletter () {
+      const notification = {
+        subscribed: {
+          type: 'success',
+          message: 'Newsletter succesfully subscribed. Thank you!',
+          action1: { label: 'OK', action: 'close' }
+        },
+        alreadySubscribed: {
+          type: 'error',
+          message: 'You have already subscibed our newsletter',
+          action1: { label: 'OK', action: 'close' }
+        },
+        wrongEmail: {
+          type: 'error',
+          message: 'Email field is empty',
+          action1: { label: 'OK', action: 'close' }
+        }
+      }
 
+      if (this.email && !this.subscribed) {
+        this.subscribed = true
+        this.$bus.$emit('newsletter-after-subscribe', { email: this.email })
+        this.$bus.$emit('notification', notification.subscribed)
+      } else if (this.subscribed) {
+        this.$bus.$emit('notification', notification.alreadySubscribed)
+      } else if (!this.email) {
+        this.$bus.$emit('notification', notification.wrongEmail)
+      }
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 .newsletter-subscribe-form {
     input, button {

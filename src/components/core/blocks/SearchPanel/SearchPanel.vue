@@ -25,9 +25,6 @@ export default {
       placeholder: 'Type what you are looking for...'
     }
   },
-  created () {
-    // TODO:show recent searches list
-  },
   components: {
     mapState
   },
@@ -37,8 +34,8 @@ export default {
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setSearchpanel', false)
     },
-    makeSearch: function (e) {
-      let queryText = e.target.value
+    makeSearch: function () {
+      let queryText = this.search
       let start = 0
       let size = 18
 

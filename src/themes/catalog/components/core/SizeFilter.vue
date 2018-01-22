@@ -1,5 +1,5 @@
 <template>
-    <button @click="switchFilter(id, from, to)" class="p0 b" :class="{ 'c-primary active': active, 'c-secondary-lighter' : !active }">
+    <button @click="switchFilter(id, from, to)" class="p0 b pointer" :class="{ 'c-primary active': active, 'c-secondary-lighter' : !active }">
         {{ size }}
     </button>
 </template>
@@ -48,7 +48,6 @@ export default {
 button {
   width: 40px;
   height: 40px;
-  cursor: pointer;
   border-color: $c-border;
   background: transparent;
 }

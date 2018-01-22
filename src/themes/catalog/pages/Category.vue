@@ -38,16 +38,6 @@ import { corePage } from 'lib/themes'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
-  mounted () {
-    // const ScrollReveal = require('scrollreveal')()
-    // ScrollReveal.reveal('.animate', {
-    //   distance: 0,
-    //   scale: 0.7,
-    //   duration: 1000,
-    //   viewFactor: 0.01,
-    //   origin: 'top'
-    // })
-  },
   components: {
     ProductTile
   },

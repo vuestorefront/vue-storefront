@@ -36,18 +36,29 @@
                       <div class="col-md-12">
                           <button 
                             class="availibility-btn c-on-accent fs-large b-none py20 medium"
-                            :class="{ 'bg-accent' : !availability.checked, 
+                            :class="{ 'bg-accent bg-accent-hover' : !availability.checked, 
                                       'bg-btn-positive' : availability.checked || availability.available, 
                                       'bg-btn-positive' : availability.checked || !availability.available }"
                             @click="isAvailable()"> {{ availabilityLabel }}</button>
                       </div>
                   </div>
+                  <div v-if="!ui.savedToWishlist" class="row mt40">
+                    <div class="col-md-4">
+                      <div @click="addToWishlist" class="c-secondary-lighter c-icon-hover pointer flex start-xs middle-xs uppercase fs-medium-small hover-transition">
+                        <span class="material-icons">favorite_border</span>
+                        <span class="pl10">Save product</span>
+                        </div>
+                    </div>
+                  </div>
                   <div class="row mt40 fs-medium-small">
                     <div class="col-md-12 uppercase bold c-secondary-lighter">
-                      <span class="c-primary mr20">About product</span>
-                      <span>Qualities</span>
+                      <span @click="ui.aboutProduct = true; ui.qualities = false" :class="{ 'c-primary' : ui.aboutProduct}" class="mr20 pointer">About product</span>
+                      <span @click="ui.aboutProduct = false; ui.qualities = true" :class="{ 'c-primary' : ui.qualities}" class="pointer">Qualities</span>
                     </div>
-                    <div v-html="product.description" class="col-md-12 mt10"></div>
+                    <div v-if="ui.aboutProduct" v-html="product.description" class="col-md-12 mt10"></div>
+                    <div v-if="ui.qualities" class="col-md-12 mt20">
+                      <product-attribute v-bind:key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" emptyPlaceholder="N/A"></product-attribute>
+                    </div>
                   </div>
               </div>
           </div>
@@ -66,6 +77,7 @@
 import { corePage } from 'lib/themes'
 
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import ProductAttribute from 'theme/components/core/blocks/Product/ProductAttribute'
 import ColorFilter from 'theme/components/core/ColorFilter'
 import SizeFilter from 'theme/components/core/SizeFilter'
 import SimilarPdoducts from 'theme/components/core/blocks/Product/SimilarProducts'
@@ -76,6 +88,11 @@ export default {
       availability: {
         checked: false,
         available: true
+      },
+      ui: {
+        aboutProduct: true,
+        qualities: false,
+        savedToWishlist: false
       }
     }
   },
@@ -89,6 +106,10 @@ export default {
     isAvailable () {
       this.availability.checked = true
       this.availability.available = this.product.stock.is_in_stock
+    },
+    addToWishlist () {
+      this.$store.dispatch('wishlist/addItem', this.product)
+      this.ui.savedToWishlist = true
     }
   },
   mounted () {
@@ -101,6 +122,7 @@ export default {
   },
   components: {
     Breadcrumbs,
+    ProductAttribute,
     ColorFilter,
     SizeFilter,
     SimilarPdoducts

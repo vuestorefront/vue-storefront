@@ -21,6 +21,7 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.vue'],
     alias: {
+      'config': path.resolve(__dirname, '../config.json'),
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_stores: path.resolve(__dirname, '../src/store'),

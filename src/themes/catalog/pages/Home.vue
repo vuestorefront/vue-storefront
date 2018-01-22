@@ -3,8 +3,8 @@
     <div class="container mb45">
       <search class="animate"/>
       <div class="row mt70 animate">
-        <div v-for="category in categories" :key="category.name" class="col-md-4 mb20">
-          <router-link :to="'/c/' + category.slug ">
+        <div v-for="category in categories" :key="category.name" class="col-md-4 mb15">
+          <router-link :to="'/c/' + category.slug">
             <category-tile :label="category.name"/>
           </router-link>
         </div>
@@ -45,7 +45,6 @@ export default {
   data () {
     return {
       newProducts: [],
-      categories: [],
       magazines: [{
         title: '10 the most extreme roads for running',
         category: 'Guide',
@@ -57,6 +56,12 @@ export default {
       }]
     }
   },
+  computed: {
+    categories () {
+      return this.$store.state.category.list.filter(category => category.level === 2)
+      // TODO: also should contain '&& category.product_count > 0' but it's omitted due to demo purposes
+    }
+  },
   methods: {
     getProducts (query, size) {
       const params = {
@@ -65,15 +70,11 @@ export default {
         sort: 'created_at:desc'
       }
       return this.$store.dispatch('product/list', params)
-    },
-    getCategories () {
-      return this.$store.dispatch('category/list', {})
     }
   },
   created () {
     const productQuery = builder().query('match', 'category.name', 'Tees').build()
     this.getProducts(productQuery, 8).then(res => { this.newProducts = res.items })
-    this.getCategories().then(categories => { this.categories = categories.items.slice(0, 6) })
   },
   mounted () {
     require('scrollreveal')().reveal('.animate', {

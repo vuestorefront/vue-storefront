@@ -6,18 +6,21 @@ body {
 
 // Colors 
 
+.bg-primary {
+    background: $c-bg-primary;
+}
 .bg-secondary {
     background: $c-bg-secondary;
+    &-hover:hover {
+        @include hover-bg-darken($c-bg-secondary);
+    }
 }
 
 .bg-accent {
     background: $c-accent;
-}
-
-// Colors on hover
-
-.bg-accent-hover {
-    @include hover-bg-darken($c-accent);
+    &-hover:hover {
+        @include hover-bg-darken($c-accent);
+    }
 }
 
 // Btn colors

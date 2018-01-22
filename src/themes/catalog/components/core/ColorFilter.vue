@@ -1,5 +1,5 @@
 <template>
-    <div @click="switchFilter(id, from, to)" class="color-filter b b-circle inline-flex middle-xs center-xs" :class="{ active : active }">
+    <div @click="switchFilter(id, from, to)" class="color-filter b b-circle inline-flex middle-xs center-xs pointer" :class="{ active : active }">
         <div class="b b-circle" :style="'background-color:' + color"></div>
     </div>
 </template>
@@ -49,7 +49,6 @@ export default {
   width: 40px;
   height: 40px;
   border-color: transparent;
-  cursor: pointer;
 }
 .color-filter.active {
   border-color: darken($c-border, 20%);

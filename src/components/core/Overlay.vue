@@ -1,11 +1,16 @@
 <template>
-  <div class="overlay" @click="onClick">
+  <div class="overlay" @click="onClick" v-if="isVisible">
   </div>
 </template>
 
 <script>
 export default {
   name: 'overlay',
+  computed: {
+    isVisible () {
+      return this.$store.state.ui.overlay
+    }
+  },
   methods: {
     onClick () {
       this.$store.commit('ui/setOverlay', false)
