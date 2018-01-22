@@ -4,7 +4,6 @@
             <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-c-lightgray ">
                 <search-icon class="p15 icon hidden-md" />
                 <wishlist-icon class="p15 icon hidden-md" />
-                <compare-icon class="p15 icon hidden-md" />
                 <account-icon class="p15 icon hidden-md" />
                 <sub-btn type="back" v-if="submenu.depth"></sub-btn>
             </div>

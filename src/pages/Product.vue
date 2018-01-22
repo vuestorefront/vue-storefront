@@ -136,7 +136,7 @@ function stateCheck () {
 }
 
 export default {
-  name: 'Home',
+  name: 'Product',
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return loadData({ store: store, route: route })
   },

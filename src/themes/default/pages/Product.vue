@@ -50,7 +50,7 @@
                     Add to favorite
                 </button>
               </div>
-              <div class="col-xs-6 col-md-7">
+              <div class="hidden-xs col-md-7">
                 <button class="p0 bg-transparent brdr-none action" @click="addToCompare">
                   <i class="pr5 material-icons">compare</i>
                     <span v-if="!compare.isCompare">

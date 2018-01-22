@@ -2,17 +2,17 @@
   <div id="checkout">
     <div class="container">
       <div class="row" v-show="!orderPlaced">
-        <div class="col-sm-7 col-xs-12 pb70 pl40">
-          <header>
-            <h1 class="mb55">Checkout</h1>
-          </header>
+        <div class="col-sm-7 col-xs-12 pb70">
+          <div class="checkout-title py5 px20">
+            <h1>Checkout</h1>
+          </div>
           <personal-details class="line relative" :is-active="activeSection.personalDetails"/>
           <shipping class="line relative" :is-active="activeSection.shipping"/>
           <payment class="line relative" :is-active="activeSection.payment"/>
           <order-review class="line relative" :is-active="activeSection.orderReview"/>
         </div>
-        <div class="col-sm-5 col-xs-12 bg-lightgray">
-            <cart-summary />
+        <div class="hidden-xs col-sm-5 bg-lightgray">
+          <cart-summary />
         </div>
       </div>
       <div class="row" v-show="orderPlaced">
@@ -32,8 +32,14 @@ import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
 import Payment from 'theme/components/core/blocks/Checkout/Payment.vue'
 import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
+import Meta from 'src/lib/meta'
 
 export default {
+  meta () {
+    return {
+      title: 'Checkout'
+    }
+  },
   components: {
     PersonalDetails,
     Shipping,
@@ -41,7 +47,7 @@ export default {
     OrderReview,
     CartSummary
   },
-  mixins: [corePage('Checkout')]
+  mixins: [corePage('Checkout'), Meta]
 }
 </script>
 
@@ -49,6 +55,7 @@ export default {
 @import '../css/text.scss';
 @import '~theme/css/global_vars';
 $lightgray: map-get($colors, lightgray);
+$gray-secondary: map-get($colors, gray-secondary);
 
 #checkout {
   input[type=text], input[type=email], input[type=tel], select {
@@ -57,6 +64,10 @@ $lightgray: map-get($colors, lightgray);
     border: none;
     border-bottom: 1px solid #BDBDBD;
     width: calc(100% - 35px);
+
+    @media (max-width: 767px) {
+      width: calc(100% - 20px);
+    }
   }
   input::-webkit-input-placeholder {
     color: #BDBDBD;
@@ -89,6 +100,18 @@ $lightgray: map-get($colors, lightgray);
   .number-circle {
     width: 35px;
     height: 35px;
+
+    @media (max-width: 768px) {
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+    }
+  }
+  h3 {
+    @media (max-width: 767px) {
+      font-size: 18px;
+      padding-left: 10px;
+    }
   }
   .line {
     &:after {
@@ -96,11 +119,26 @@ $lightgray: map-get($colors, lightgray);
       display: block;
       position: absolute;
       top: 0;
-      left: 17px;
+      left: 37px;
       z-index: -1;
       width: 1px;
       height: 100%;
       background-color: $lightgray;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
+  .checkout-title {
+    @media (max-width: 767px) {
+      background-color: $lightgray;
+      margin-bottom: 25px;
+
+      h1 {
+        font-size: 36px;
+      }
     }
   }
 
@@ -117,7 +155,7 @@ $lightgray: map-get($colors, lightgray);
       top: 0;
       left: 0;
       background: #FFF;
-      border:1px solid #8E8E8E;
+      border:1px solid $gray-secondary;
 
       &:after {
         content: '';
@@ -135,7 +173,7 @@ $lightgray: map-get($colors, lightgray);
     }
 
     input[type=checkbox]:checked + label {
-      background: #8E8E8E;
+      background: $gray-secondary;
     }
   }
 
@@ -146,6 +184,69 @@ $lightgray: map-get($colors, lightgray);
     
     span {
       vertical-align: middle;
+      font-size: 18px;
+    }
+  }
+
+  .container {
+    height: 100%;
+  }
+
+  .bottom-button {
+    @media (max-width: 767px) {
+      text-align: center;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    a {
+      font-size: 18px;
+    }
+  }
+
+  .radioStyled {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 30px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      border-radius: 50%;
+      border: 1px solid $lightgray;
+
+      &:after {
+        content: "";
+        position: absolute;
+        display: none;
+        top: 3px;
+        left: 3px;
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        background: $gray-secondary;
+      }
+    }
+
+    input:checked ~ .checkmark:after {
+      display: block;
     }
   }
 }
