@@ -1,10 +1,10 @@
 <template>
   <div class="personal-details">
-    <div class="row">
-      <div class="col-xs-2 col-md-1">
+    <div class="row pl20">
+      <div class="col-xs-1 col-sm-2 col-md-1">
         <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">1</div>
       </div>
-      <div class="col-xs-9 col-md-11">
+      <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
             <h3 class="m0 mb5">Personal Details</h3>
@@ -18,7 +18,12 @@
             </div>
           </div>
         </div>
-        <div class="row" v-show="isActive">
+      </div>
+    </div>
+    <div class="row pl20" v-show="isActive">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
             <input type="text" name="first-name" placeholder="First name" v-model.trim="personalDetails.firstName" @blur="$v.personalDetails.firstName.$touch()" autocomplete="given-name">
             <span class="validation-error" v-if="$v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">Name must have at least {{$v.personalDetails.firstName.$params.minLength.min}} letters.</span>
@@ -66,14 +71,26 @@
             </div>
             <span class="validation-error" v-if="!$v.acceptConditions.required">You must accept the terms and conditions.</span>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 my30 button-container">
+        </div>
+      </div>
+    </div>
+    <div class="row" v-show="isActive">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 my30 pl20 button-container bottom-button">
             <button-full @click.native="sendDataToCheckout" text="Continue to shipping" :class="{ 'ripple': true, 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"/>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 my30 login-prompt" v-show="!currentUser">
-            <p class="fs16 c-darkgray">or <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 c-darkgray">login to your account</a></p>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
+            <p class="h4 c-darkgray">or <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 c-darkgray">login to your account</a></p>
           </div>
         </div>
-        <div class="row fs16 mb35" v-show="isFilled">
+      </div>
+    </div>  
+    <div class="row pl20" v-show="isFilled">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row fs16 mb35">
           <div class="col-xs-12 h4">
             <p>
               {{ personalDetails.firstName }} {{ personalDetails.lastName }}
@@ -207,8 +224,8 @@ export default {
   }
 
   .login-prompt {
-    @media (max-width: 1200px) {
-      margin-top: 0px;
+    @media (min-width: 1200px) {
+      margin-top: 30px;
     }
   }
 

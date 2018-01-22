@@ -1,10 +1,10 @@
 <template>
-  <div class="payment">
-    <div class="row">
-      <div class="col-xs-2 col-md-1">
+  <div class="payment pt20">
+    <div class="row pl20">
+      <div class="col-xs-1 col-sm-2 col-md-1">
         <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">3</div>
       </div>
-      <div class="col-xs-9 col-md-11">
+      <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
             <h3 class="m0 mb5">Payment</h3>
@@ -18,6 +18,11 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row pl20" v-show="isActive">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row" v-show="this.isActive">
           <div class="col-xs-12 col-sm-12 mb15">
             <div class="checkboxStyled">
@@ -101,14 +106,29 @@
             <h4>Payment method</h4>
           </div>
           <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
-            <label><input type="radio" :value="method.code" name="paymentmethod" v-model="payment.paymentMethod"> {{ method.name }} </label>
+            <label class="radioStyled"> {{ method.name }} 
+              <input type="radio" :value="method.code" name="payment-method" v-model="payment.paymentMethod">
+              <span class="checkmark"></span>
+            </label>
           </div>
           <span class="validation-error" v-if="!$v.payment.paymentMethod.required">Field is required</span>
-          <div class="col-xs-12 my30">
+        </div>
+      </div>
+    </div>
+    <div class="row" v-show="isActive">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row">
+          <div class="col-xs-12 my30 bottom-button">
             <button-full @click.native="sendDataToCheckout" text="Go review the order" :class="{ 'ripple': true, 'button-disabled' : $v.payment.$invalid}"/>
           </div>
         </div>
-        <div class="row fs16 mb35" v-show="isFilled">
+      </div>
+    </div>
+    <div class="row pl20" v-show="isFilled">
+      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row fs16 mb35">
           <div class="col-xs-12 h4">  
             <p>
               {{ payment.firstName }} {{ payment.lastName }}
@@ -134,12 +154,13 @@
               <h4>Payment method</h4>
             </div>
             <div class="col-md-6 mb15">
-              <label><input type="radio" name="chosen-payment-method" value="" checked disabled> {{ getPaymentMethod().name }} </label>
+              <label class="radioStyled"> {{ getPaymentMethod().name }} 
+                <input type="radio" value="" checked disabled name="chosen-payment-method">
+                <span class="checkmark"></span>
+              </label>
             </div>
           </div>
-          <div class="col-md-6 h4">
-          </div>
-      </div>
+        </div>
       </div>
     </div>
   </div>

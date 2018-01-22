@@ -94,7 +94,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .preferences {
       padding-left: 15px;
     }
