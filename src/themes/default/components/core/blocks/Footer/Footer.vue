@@ -1,7 +1,7 @@
 <template>
   <footer :class="{ 'brdr-top-1 brdr-c-alto' : isCheckout }">
     <newsletter class=" flex brdr-bottom brdr-c-alto" v-if="!isCheckout" />
-    <div class="footer-links flex pt30 pb60 px40 bg-lightgray" v-if="!isCheckout">
+    <div class="footer-links pt30 pb60 px40 bg-lightgray" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
           <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">

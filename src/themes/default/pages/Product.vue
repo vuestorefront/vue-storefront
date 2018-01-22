@@ -13,7 +13,7 @@
               <img class="product-image" v-lazy="imgObj" ref="image"/>
             </transition>
           </div>
-          <div class="col-md-5">
+          <div class="col-xs-12 col-md-5">
 
             <h1 class="mb25 mt0 c-black"> {{ product.name | htmlDecode }} </h1>
             <div v-if="product.type_id !== 'grouped'">
@@ -50,7 +50,7 @@
                     Add to favorite
                 </button>
               </div>
-              <div class="hidden-xs col-md-7">
+              <div class="hidden-xs col-xs-6 col-md-7">
                 <button class="p0 bg-transparent brdr-none action" @click="addToCompare">
                   <i class="pr5 material-icons">compare</i>
                     <span v-if="!compare.isCompare">
@@ -121,7 +121,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .link-header {
   font-weight: bold;
 }
@@ -154,6 +154,10 @@ export default {
 .size-guide {
   position: relative;
   top: 6px;
+  @media screen and (max-width: 992px){
+    top: 10px;
+    margin-left: 0;
+  }
 }
 .fade-enter-active, .fade-leave-active {
     transition: opacity .3s
