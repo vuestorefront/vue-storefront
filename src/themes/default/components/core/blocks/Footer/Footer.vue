@@ -157,11 +157,14 @@ $gray-secondary: map-get($colors, gray-secondary);
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-left: 10px;
+    margin-left: 20px;
     &:hover .icon,
     &:focus .icon,
     &:active .icon {
       fill: $gray-secondary;
+    }
+    @media only screen and (max-width: 992px){
+      margin-left: 10px;
     }
     @media screen and (max-width: 767px){
       margin-left: 20px;
