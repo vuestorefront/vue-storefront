@@ -99,7 +99,7 @@
               <span class="pr15">{{ personalDetails.emailAddress }}</span>
               <tooltip>We will send you details regarding the order</tooltip>
             </div>
-            <div v-if="createAccount && !currentUser">
+            <div v-if="createAccount && !currentUser" class="mt25">
               <div class="checkboxStyled">
                 <input type="checkbox" v-model="createAccount" id="createAccountCheckbox2" disabled>
                 <label for="createAccountCheckbox2"></label>
