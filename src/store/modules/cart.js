@@ -4,6 +4,7 @@ import EventBus from 'src/event-bus'
 import config from 'config'
 import rootStore from '../'
 const CART_PULL_INTERVAL_MS = 5000
+const CART_CREATE_INTERVAL_MS = 1000
 
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
@@ -12,7 +13,9 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', {}, { root: true })
   } else {
+    rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
     console.error(event.result)
+    console.log('Bypassing with guest cart')
   }
 })
 
@@ -40,7 +43,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         rootStore.dispatch('cart/serverUpdateItem', {
           sku: clientItem.sku,
           qty: clientItem.qty,
-          item_id: clientItem.server_cart_id === serverItem.quote_id ? clientItem.server_item_id : null
+          item_id: clientItem.server_cart_id === serverItem.quote_id ? serverItem.server_item_id : null
         }, { root: true })
       } else {
         console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
@@ -92,7 +95,9 @@ const store = {
   state: {
     cartIsLoaded: false,
     cartServerPullAt: 0,
+    cartServerCreatedAt: 0,
     cartSavedAt: new Date(),
+    bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: { cost: 0, code: '' },
     payment: { cost: 0, code: '' },
@@ -204,17 +209,19 @@ const store = {
         }
       }
     },
-    serverCreate (context) {
-      const task = { url: config.cart.create_endpoint, // sync the cart
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        },
-        callback_event: 'servercart-after-created'
+    serverCreate (context, guestCart = false) {
+      if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
+        const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          callback_event: 'servercart-after-created'
+        }
+        context.dispatch('sync/queue', task, { root: true }).then(task => {})
+        return task
       }
-      context.dispatch('sync/queue', task, { root: true }).then(task => {})
-      return task
     },
     serverUpdateItem (context, cartItem) {
       if (config.cart.synchronize) {
