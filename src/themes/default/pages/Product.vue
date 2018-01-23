@@ -1,26 +1,22 @@
 <template>
   <div id="product">
-    <section class="bg-lightgray py35 px20">
+    <section class="bg-lightgray py30 px20 product-top-section">
       <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <breadcrumbs
-              :routes="breadcrumbs.routes"
-              :active-route="breadcrumbs.name"
-            />
-          </div>
-        </div>
-        <section class="row py35">
-          <div class="col-xs-12 col-md-7 center-xs middle-xs">
+        <breadcrumbs
+          :routes="breadcrumbs.routes"
+          :active-route="breadcrumbs.name"
+        />
+        <section class="row py35 m0 data-wrapper">
+          <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <transition name="fade" appear>
               <img class="product-image" v-lazy="imgObj" ref="image">
             </transition>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-5 data">
             <div class="uppercase c-gray-secondary">
               sku: {{ product.sku}}
             </div>
-            <h1 class="mb25 mt0 c-black product-name">
+            <h1 class="mb20 mt0 c-black product-name">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb30 price" v-if="product.type_id !== 'grouped'">
@@ -57,34 +53,39 @@
                     {{ configuration[option.label.toLowerCase()].label }}
                   </span>
                 </div>
-                <div class="pt20 pb45 variants-items">
-                  <color-button
-                    v-for="(c, i) in options.color"
-                    :key="i" :id="c.id"
-                    :label="c.label"
-                    context="product"
-                    code="color"
-                    class="mr10"
-                    :class="{ active: c.id == configuration.color.id }"
-                    v-if="option.label == 'Color'"
-                  />
-                  <size-button
-                    v-for="(s, i) in options.size"
-                    :key="i" :id="s.id"
-                    :label="s.label"
-                    context="product"
-                    code="size"
-                    class="mr10"
-                    :class="{ active: s.id == configuration.size.id }"
-                    v-if="option.label == 'Size'" v-focus-clean
-                  />
+                <div class="row middle-xs m0 pt15 pb40 variants-wrapper">
+                  <div>
+                    <color-button
+                      v-for="(c, i) in options.color"
+                      :key="i"
+                      :id="c.id"
+                      :label="c.label"
+                      context="product"
+                      code="color"
+                      class="mr10"
+                      :class="{ active: c.id == configuration.color.id }"
+                      v-if="option.label == 'Color'"
+                    />
+                    <size-button
+                      v-for="(s, i) in options.size"
+                      :key="i" :id="s.id"
+                      :label="s.label"
+                      context="product"
+                      code="size"
+                      class="mr10"
+                      :class="{ active: s.id == configuration.size.id }"
+                      v-if="option.label == 'Size'" v-focus-clean
+                    />
+                  </div>
                   <router-link
                     to="/size-guide"
                     v-if="option.label == 'Size'"
-                    class="p0 ml30 action size-guide"
+                    class="p0 ml30 no-underline action size-guide"
                   >
                     <i class="pr5 material-icons">accessibility</i>
-                    Size guide
+                    <span>
+                      Size guide
+                    </span>
                   </router-link>
                 </div>
               </div>
@@ -93,11 +94,13 @@
               v-if="product.type_id =='grouped' && !loading"
               :products="product.product_links"
             />
-            <add-to-cart
-              :product="product"
-              class="h4 bg-black c-white px55 py20 brdr-none"
-            />
-            <div class="row pt45">
+            <div class="row m0">
+              <add-to-cart
+                :product="product"
+                class="col-xs-12 col-sm-4 col-md-6 h4 bg-black c-white py20 brdr-none"
+              />
+            </div>
+            <div class="row pt45 add-to-buttons">
               <div class="col-xs-6 col-md-5">
                 <button
                   class="p0 bg-transparent brdr-none action"
@@ -192,8 +195,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .data-wrapper {
+    @media (max-width: 767px) {
+      padding: 0;
+    }
+  }
+
+  .data {
+    padding: 0 15px;
+    @media (max-width: 767px) {
+      border-bottom: 1px solid #f2f2f2;
+    }
+  }
+
+  .image {
+    @media (max-width: 1023px) {
+      margin-bottom: 20px;
+      padding: 20px 0 30px 0;
+      background-color: #F2F2F2;
+    }
+  }
+
   .product-name {
     @media (max-width: 767px) {
+      margin-top: 10px;
       font-size: 36px;
     }
   }
@@ -210,9 +235,23 @@ export default {
     }
   }
 
-  .variants-items {
+  .variants-wrapper {
     @media (max-width: 767px) {
       padding-bottom: 30px;
+    }
+  }
+
+  .product-top-section {
+    @media (max-width: 767px) {
+      padding: 0;
+      background-color: #fff;
+    }
+  }
+
+  .add-to-buttons {
+    @media (max-width: 767px) {
+      padding-top: 30px;
+      margin-bottom: 40px;
     }
   }
 
@@ -245,11 +284,6 @@ export default {
 
   .attributes {
     list-style-type: none;
-  }
-
-  .size-guide {
-    position: relative;
-    top: 6px;
   }
 
   .fade-enter-active,
