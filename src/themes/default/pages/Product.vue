@@ -17,12 +17,15 @@
             </transition>
           </div>
           <div class="col-md-5">
-            <h1 class="mb25 mt0 c-black">
+            <div class="uppercase c-gray-secondary">
+              sku: {{ product.sku}}
+            </div>
+            <h1 class="mb25 mt0 c-black product-name">
               {{ product.name | htmlDecode }}
             </h1>
-            <div v-if="product.type_id !== 'grouped'">
+            <div class="mb30 price" v-if="product.type_id !== 'grouped'">
               <div
-                class="h3 c-gray"
+                class="h3 c-gray-secondary"
                 v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
               >
                 <span class="price-special">
@@ -40,7 +43,7 @@
               </div>
             </div>
             <div
-              class="variants"
+              class="c-emperor variants"
               v-if="product.type_id =='configurable' && !loading"
             >
               <div
@@ -48,13 +51,13 @@
                 v-for="(option, index) in product.configurable_options"
                 :key="index"
               >
-                <span>
+                <div class="variants-label">
                   {{ option.label }}
-                  <strong>
+                  <span class="weight-700">
                     {{ configuration[option.label.toLowerCase()].label }}
-                  </strong>
-                </span>
-                <div class="mt20 mb45">
+                  </span>
+                </div>
+                <div class="pt20 pb45 variants-items">
                   <color-button
                     v-for="(c, i) in options.color"
                     :key="i" :id="c.id"
@@ -92,7 +95,7 @@
             />
             <add-to-cart
               :product="product"
-              class="h4 bg-black c-white px55 mt55 py20 brdr-none"
+              class="h4 bg-black c-white px55 py20 brdr-none"
             />
             <div class="row pt45">
               <div class="col-xs-6 col-md-5">
@@ -188,13 +191,33 @@ export default {
 }
 </script>
 
-<style scoped>
-  .link-header {
-    font-weight: bold;
+<style lang="scss" scoped>
+  .product-name {
+    @media (max-width: 767px) {
+      font-size: 36px;
+    }
   }
 
-  .product-name {
-    font-size: 14px;
+  .price {
+    @media (max-width: 767px) {
+      color: #4F4F4F;
+    }
+  }
+
+  .variants-label {
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+
+  .variants-items {
+    @media (max-width: 767px) {
+      padding-bottom: 30px;
+    }
+  }
+
+  .link-header {
+    font-weight: bold;
   }
 
   .price-original {
