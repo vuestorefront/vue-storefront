@@ -2,7 +2,7 @@
   <div id="home">
   <main-slider />
   
-  <section class="container">
+  <section class="container px15">
     <div>
       <header class="col-md-12 pt40">
         <h2 class="align-center c-black">Everything new</h2>
