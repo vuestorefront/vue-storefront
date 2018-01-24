@@ -2,14 +2,14 @@
   <div id="home">
   <main-slider />
   
-  <section class="container px15">
+  <section class="new-collection container pt40 px15">
     <div>
-      <header class="col-md-12 pt40">
+      <header class="col-md-12">
         <h2 class="align-center c-black">Everything new</h2>
       </header>
     </div>
     <div class="row center-xs">
-      <product-listing columns="3" :products="everythingNewCollection" />
+      <product-listing columns="4" :products="everythingNewCollection" />
     </div>
   </section>
 
@@ -99,5 +99,11 @@ export default {
 <style lang="scss" scoped>
   .cool-stuff-collection {
     mix-blend-mode: darken;
+  }
+
+  .new-collection {
+    @media (max-width: 767px) {
+      padding-top: 0;
+    }
   }
 </style>
