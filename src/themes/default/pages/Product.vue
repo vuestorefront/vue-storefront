@@ -50,8 +50,8 @@
                     {{ configuration[option.label.toLowerCase()].label }}
                   </span>
                 </div>
-                <div class="row middle-xs m0 pt15 pb40 variants-wrapper">
-                  <div>
+                <div class="row top-xs m0 pt15 pb40 variants-wrapper">
+                  <div v-if="option.label == 'Color'">
                     <color-button
                       v-for="(c, i) in options.color"
                       :key="i"
@@ -61,8 +61,9 @@
                       code="color"
                       class="mr10"
                       :class="{ active: c.id == configuration.color.id }"
-                      v-if="option.label == 'Color'"
                     />
+                  </div>
+                  <div class="sizes" v-if="option.label == 'Size'">
                     <size-button
                       v-for="(s, i) in options.size"
                       :key="i"
@@ -70,9 +71,8 @@
                       :label="s.label"
                       context="product"
                       code="size"
-                      class="mr10"
+                      class="mr10 mb10"
                       :class="{ active: s.id == configuration.size.id }"
-                      v-if="option.label == 'Size'"
                       v-focus-clean
                     />
                   </div>
@@ -242,6 +242,20 @@ export default {
   .variants-wrapper {
     @media (max-width: 767px) {
       padding-bottom: 30px;
+    }
+
+   .sizes {
+      @media (max-width: 767px) {
+        width: 60%;
+      }
+    }
+
+    .size-guide {
+      height: 40px;
+      @media (max-width: 767px) {
+        width: 40%;
+        margin-left: 0;
+      }
     }
   }
 
