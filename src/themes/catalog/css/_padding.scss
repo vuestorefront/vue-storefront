@@ -1,5 +1,7 @@
-$sizes: 0 5 10 15 20 25 30 35 40 45 50 60 70;
+$sizes: 0 5 8 10 15 20 25 30 35 40 45 50 60 70;
 $sizespercent: 20 50;
+
+//8 is basic flexbox grid padding, keep it in mind when using paddings in RWD
 
 @each $p in $sizes {
     .p#{$p} {
@@ -25,9 +27,9 @@ $sizespercent: 20 50;
         padding-top: #{$p}px;
         padding-bottom: #{$p}px;        
     }
-  }
+}
 
-  @each $p in $sizespercent {
+@each $p in $sizespercent {
     .p#{$p}\% {
       padding: percentage($p/100);
     }
@@ -51,4 +53,34 @@ $sizespercent: 20 50;
         padding-top: percentage($p/100);
         padding-bottom: percentage($p/100);       
     }
-  }
+}
+
+// Responsive for specific breakpoints
+
+@media (min-width: $md) {
+    @each $p in $sizes {
+        .p#{$p}-md {
+        padding: #{$p}px;
+        }
+        .pt#{$p}-md {
+            padding-top: #{$p}px;
+        }
+        .pb#{$p}-md {
+            padding-bottom: #{$p}px;
+        }
+        .pl#{$p}-md {
+            padding-left: #{$p}px;
+        }
+        .pr#{$p}-md {
+            padding-right: #{$p}px;
+        }
+        .px#{$p}-md {
+            padding-left: #{$p}px;
+            padding-right: #{$p}px;        
+        }
+        .py#{$p}-md {
+            padding-top: #{$p}px;
+            padding-bottom: #{$p}px;        
+        }
+    }
+}

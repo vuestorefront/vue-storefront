@@ -1,3 +1,4 @@
+// new core proposal
 export default {
   methods: {
     openWishlist () {

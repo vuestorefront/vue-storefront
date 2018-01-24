@@ -19,3 +19,23 @@ body {
 .full-width {
     width: 100%;
 }
+// Show/hide 
+.hide {
+    display: none;
+}
+
+
+
+
+@media ( min-width: $md ) {
+    
+    .flex-md {
+        display: flex;
+    }
+    .show-md {
+        display: block;
+    }
+    .hide-md {
+        display: none;
+    }
+}

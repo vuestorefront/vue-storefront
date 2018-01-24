@@ -37,6 +37,8 @@ export default {
 }
 .image {
   height: 270px;
+      mix-blend-mode: multiply;
+
 }
 .image img {
   overflow: hidden;

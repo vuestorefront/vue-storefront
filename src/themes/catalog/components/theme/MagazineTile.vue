@@ -18,6 +18,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/mixins/transitions';
+@import '~theme/css/vars/additional';
 
 .magazine-tile {
   height: 520px;
@@ -38,8 +39,13 @@ img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: auto;
   height: 100%;
   z-index: 1;
+}
+@media (min-width: $md) {
+  img {
+    width: 100%;
+  }
 }
 </style>

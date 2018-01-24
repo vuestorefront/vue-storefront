@@ -1,4 +1,4 @@
-$sizes: 0 5 10 15 20 25 30 35 40 45 50 70 80;
+$sizes: 0 5 8 10 15 20 25 30 35 40 45 50 70 80;
 
 @each $m in $sizes {
     .m#{$m} {
@@ -24,6 +24,34 @@ $sizes: 0 5 10 15 20 25 30 35 40 45 50 70 80;
         margin-top: #{$m}px;
         margin-bottom: #{$m}px;        
     }
-  }
+}
 
-  
+// Responsive for specific breakpoints
+
+@media (min-width: $md) {
+    @each $m in $sizes {
+        .m#{$m}-md {
+          margin: #{$m}px;
+        }
+        .mt#{$m}-md {
+            margin-top: #{$m}px;
+        }
+        .mb#{$m}-md {
+            margin-bottom: #{$m}px;
+        }
+        .ml#{$m}-md {
+            margin-left: #{$m}px;
+        }
+        .mr#{$m}-md {
+            margin-right: #{$m}px;
+        }
+        .mx#{$m}-md {
+            margin-left: #{$m}px;
+            margin-right: #{$m}px;        
+        }
+        .my#{$m}-md {
+            margin-top: #{$m}px;
+            margin-bottom: #{$m}px;        
+        }
+    }
+}

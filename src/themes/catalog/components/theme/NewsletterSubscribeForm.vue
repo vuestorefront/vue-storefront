@@ -48,6 +48,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '~theme/css/vars/additional';
+
 .newsletter-subscribe-form {
     input, button {
         height: 60px;
@@ -61,5 +63,11 @@ export default {
         width: 35%;
         outline: none;
     }
+    @media (max-width: $md) {
+      input, button {
+        width: 80%;
+      }
+    }
+
 }
 </style>

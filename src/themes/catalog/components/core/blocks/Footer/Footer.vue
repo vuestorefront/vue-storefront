@@ -13,7 +13,7 @@
 
     <div class="container py70">
         <div class="row">
-            <div v-for="box in boxes" :key="box.title" class="col-sm-4">
+            <div v-for="box in boxes" :key="box.title" class="col-xs-12 col-md-4">
                 <router-link :to="box.link">
                     <box :title="box.title" :content="box.content" :icon="box.icon" />
                 </router-link>
