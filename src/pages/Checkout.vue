@@ -35,7 +35,8 @@ export default {
         personalDetails: { $invalid: true },
         shipping: { $invalid: true },
         payment: { $invalid: true }
-      }
+      },
+      userId: null
     }
   },
   beforeMount () {
@@ -109,7 +110,12 @@ export default {
     this.$bus.$on('checkout.cartSummary', (receivedData) => {
       this.cartSummary = receivedData
     })
-    this.$bus.$on('checkout.placeOrder', () => this.placeOrder())
+    this.$bus.$on('checkout.placeOrder', (userId) => {
+      if (userId) {
+        this.userId = userId.toString()
+      }
+      this.placeOrder()
+    })
     this.$bus.$on('checkout.edit', (section) => {
       this.activateSection(section)
     })
@@ -184,7 +190,7 @@ export default {
     },
     prepareOrder () {
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
+        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : (this.userId ? this.userId : ''),
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
