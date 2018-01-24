@@ -47,7 +47,7 @@ export default {
             action1: { label: 'OK', action: 'close' }
           })
           this.$store.commit('ui/setSignUp', false)
-          this.$bus.$emit('checkout.placeOrder')
+          this.$bus.$emit('checkout.placeOrder', result.result.id)
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')
