@@ -1,7 +1,18 @@
 import * as types from '../mutation-types'
 import * as entities from 'lib/entities'
+import { execute as taskExecute } from 'src/api/task'
 import config from 'config'
 import EventBus from 'src/event-bus'
+import * as localForage from 'localforage'
+
+function _prepareTask (task) {
+  const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
+  task.task_id = taskId.toString()
+  task.transmited = false
+  task.created_at = new Date()
+  task.updated_at = new Date()
+  return task
+}
 
 // initial state
 const state = {
@@ -28,6 +39,35 @@ const actions = {
   queue ({ commit }, task) {
     commit(types.SYNC_ADD_TASK, task)
     return task
+  },
+  execute ({ commit }, task) { // not offline task
+    task = _prepareTask(task)
+    const usersCollection = localForage.createInstance({
+      name: 'shop',
+      storeName: 'user'
+    })
+    const cartsCollection = localForage.createInstance({
+      name: 'shop',
+      storeName: 'carts'
+    })
+    return new Promise((resolve, reject) => {
+      usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
+        if (err) {
+          console.error(err)
+        }
+        cartsCollection.getItem('current-cart-token', (err, currentCartId) => {
+          if (err) {
+            console.error(err)
+          }
+
+          taskExecute(task, currentToken, currentCartId).then((result) => {
+            resolve(result)
+          }).catch(err => {
+            reject(err)
+          })
+        })
+      })
+    })
   }
 }
 
@@ -39,16 +79,12 @@ const mutations = {
    */
   [types.SYNC_ADD_TASK] (state, task) {
     const tasksCollection = global.db.syncTaskCollection
-    const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
-    task.task_id = taskId.toString()
-    task.transmited = false
-    task.created_at = new Date()
-    task.updated_at = new Date()
-    tasksCollection.setItem(taskId.toString(), task).catch((reason) => {
+    task = _prepareTask(task)
+    tasksCollection.setItem(task.task_id.toString(), task).catch((reason) => {
       console.error(reason) // it doesn't work on SSR
     }).then((resp) => {
       EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-      console.info('Synchronization task added url = ' + task.url + ' taskId = ' + taskId)
+      console.info('Synchronization task added url = ' + task.url + ' taskId = ' + task.task_id)
     }) // populate cache
   }
 }

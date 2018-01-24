@@ -29,6 +29,7 @@ const actions = {
       throw new ValidationError(validate.errors)
     } else {
       commit(types.ORDER_PLACE_ORDER, order)
+      EventBus.$emit('order/ORDER_PLACED', { order: order })
       return true
     }
   }

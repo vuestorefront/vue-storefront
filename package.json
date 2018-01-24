@@ -59,6 +59,7 @@
     "update": "^0.7.4",
     "url-parse": "^1.2.0",
     "vue": "^2.5.2",
+    "vue-analytics": "^5.8.0",
     "vue-carousel": "^0.6.5",
     "vue-lazyload": "^1.1.4",
     "vue-markdown": "^2.2.4",
