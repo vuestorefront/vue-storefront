@@ -28,6 +28,10 @@ export default {
 .tile-link {
   width: 322px;
   height: 280px;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 }
 .tile-image {
   width: 100%;
