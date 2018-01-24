@@ -163,7 +163,7 @@ const actions = {
       for (let pl of product.product_links) {
         if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
           console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
-          context.dispatch('single', {
+          subloaders.push(context.dispatch('single', {
             options: { sku: pl.linked_product_sku },
             setCurrentProduct: false,
             selectDefaultVariant: false
@@ -173,7 +173,7 @@ const actions = {
             product.price += pl.product.price
             product.priceInclTax += pl.product.priceInclTax
             product.tax += pl.product.tax
-          })
+          }))
         }
       }
     }
