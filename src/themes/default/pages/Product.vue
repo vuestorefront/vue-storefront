@@ -130,19 +130,19 @@
       </div>
     </section>
 
-    <section class="container pt50 pb20 px40 c-black">
+    <section class="container pt50 pb20 px20 c-black details">
       <h2 class="h3 m0 mb10 sans-serif">
         Product details
       </h2>
-      <div class="row between-md">
+      <div class="row m0 h4 between-md details-wrapper">
         <div class="col-md-5">
           <div
-            class="lh30 h4 c-gray-secondary"
+            class="lh30 c-gray-secondary"
             v-html="product.description"
           ></div>
         </div>
         <div class="col-md-6">
-          <ul class="attributes h4 p0 pt10 m0">
+          <ul class="attributes p0 pt10 m0">
             <product-attribute
               v-bind:key="attr.attribute_code"
               v-for="attr in all_custom_attributes"
@@ -252,6 +252,18 @@ export default {
     @media (max-width: 767px) {
       padding-top: 30px;
       margin-bottom: 40px;
+    }
+  }
+
+  .details {
+    @media (max-width: 767px) {
+      padding: 50px 15px 15px;
+    }
+  }
+
+  .details-wrapper {
+    @media (max-width: 767px) {
+      font-size: 14px;
     }
   }
 
