@@ -92,15 +92,15 @@
         </div>
         <div class="hidden-xs col-sm-9 end-xs">
           <ul class="links">
-            <li><router-link class="c-lightgray-secondary mr15" to="/legal" exact>Legal notice</router-link></li>
-            <li><router-link class="c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link></li>
+            <li><router-link class="c-lightgray-secondary mr15 underline" to="/legal" exact>Legal notice</router-link></li>
+            <li><router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link></li>
           </ul>
         </div>
         <div class="col-xs-4 legal-entity-link">
-          <router-link class="c-lightgray-secondary" to="/legal" exact>Legal notice</router-link>
+          <router-link class="c-lightgray-secondary underline" to="/legal" exact>Legal notice</router-link>
         </div>
         <div class="col-xs-4 privacy-policy-link">
-          <router-link class="c-lightgray-secondary" to="/privacy" exact>Privacy policy</router-link>
+          <router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link>
         </div>
       </div>
     </div>
@@ -169,9 +169,7 @@ $gray-secondary: map-get($colors, gray-secondary);
       fill: $gray-secondary;
     }
   }
-  a {
-    text-decoration: underline;
-  }
+
   .links {
     list-style-type: none;
 
@@ -179,6 +177,17 @@ $gray-secondary: map-get($colors, gray-secondary);
       display: inline-flex;
     }
   }
+
+  .underline {
+    &:hover {
+      color: $gray-secondary;
+
+      &:after {
+         background-color: $gray-secondary;
+       }
+     }
+  }
+
   .legal-entity-link {
     text-align: center;
 

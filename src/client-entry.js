@@ -1,5 +1,7 @@
 import { createApp } from './app'
 import config from 'config'
+import { execute } from 'src/api/task'
+
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
@@ -51,8 +53,7 @@ funcs.reduce((promise, func) =>
     promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
 
 import * as localForage from 'localforage'
-import { isNull, isNullOrUndefined } from 'util'
-
+const orderMutex = {}
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
 
@@ -67,7 +68,8 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
     // will be executed for every item in the
     // database.
 
-    if (!order.transmited) { // not sent to the server yet
+    if (!order.transmited && !orderMutex[id]) { // not sent to the server yet
+      orderMutex[id] = true
       fetchQueue.push(() => {
         const config = event.config
         const orderData = order
@@ -85,9 +87,11 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
               if (contentType && contentType.includes('application/json')) {
                 return response.json()
               } else {
+                orderMutex[id] = false
                 console.error('Error with response - bad content-type!')
               }
             } else {
+              orderMutex[id] = false
               console.error('Bad response status: ' + response.status)
             }
           })
@@ -100,6 +104,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             } else {
               console.error(jsonResponse.result)
             }
+            orderMutex[id] = false
           })
       })
     }
@@ -152,7 +157,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
       console.log('Current User token = ' + currentToken)
       console.log('Current Cart token = ' + currentCartId)
       syncTaskCollection.iterate((task, id, iterationNumber) => {
-        if (config.cart.synchronize) {
+        /** if (config.cart.synchronize) {
           if (task.url.indexOf('{{cartId}}') >= 0 && (isNullOrUndefined(currentCartId) || !currentCartId)) { // we don't have cart id, let's create server cart in that case
             console.log('No cartId, required for async URL', task.url)
             task = { url: config.cart.create_endpoint, // recreate cart
@@ -164,50 +169,17 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
               callback_event: 'servercart-after-created'
             }
           }
-        }
+        } */
         if (!task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
-            const taskData = task
-            const taskId = id
-
-            console.log('Pushing out offline task ' + taskId)
-            const url = task.url.replace('{{token}}', isNull(currentToken) ? '' : currentToken).replace('{{cartId}}', isNull(currentCartId) ? '' : currentCartId)
-            return fetch(url, task.payload).then((response) => {
-              const contentType = response.headers.get('content-type')
-              if (contentType && contentType.includes('application/json')) {
-                return response.json()
-              } else {
-                console.error('Error with response - bad content-type!')
-                mutex[id] = false
-              }
-            }).then((jsonResponse) => {
-              if (jsonResponse) {
-                if (parseInt(jsonResponse.code) !== 200) {
-                  EventBus.$emit('notification', {
-                    type: 'error',
-                    message: jsonResponse.result,
-                    action1: { label: 'OK', action: 'close' }
-                  })
-                }
-                console.info('Response for: ' + taskId + ' = ' + jsonResponse.result)
-                taskData.transmited = true
-                taskData.transmited_at = new Date()
-                taskData.result = jsonResponse.result
-                taskData.resultCode = jsonResponse.code
-                taskData.acknowledged = false
-                syncTaskCollection.setItem(taskId.toString(), taskData)
-
-                if (taskData.callback_event) {
-                  EventBus.$emit(taskData.callback_event, taskData)
-                }
-              } else {
-                console.error('Unhandled error, wrong response format!')
-                mutex[id] = false
-              }
-            }).catch((err) => {
-              console.error(err)
+            return execute(task, currentToken, currentCartId).then((executedTask) => {
+              console.log('Storing the task result', executedTask)
+              syncTaskCollection.setItem(executedTask.task_id.toString(), executedTask)
               mutex[id] = false
+            }).catch((err) => {
+              mutex[id] = false
+              console.error(err)
             })
           })
         }
@@ -224,11 +196,6 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   })
 })
 
-EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
-EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-
-EventBus.$emit('application-after-loaded')
-
 /**
  * Process order queue when we're back onlin
  */
@@ -239,6 +206,7 @@ function checkiIsOnline () {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
     EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+    store.dispatch('cart/serverPull', { forceClientState: false })
   }
 }
 

@@ -26,4 +26,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .tile-links {
+    @media (max-width: 1199px) {
+      padding-top: 15px;
+    }
+
+    @media (max-width: 767px) {
+      padding: 15px;
+    }
+  }
+
+  .tile-container {
+    @media (max-width: 1199px) {
+      margin-top: -15px;
+    }
+
+    @media (max-width: 767px) {
+      flex: 100%;
+    }
+  }
 </style>
