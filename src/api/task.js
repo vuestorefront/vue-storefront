@@ -20,7 +20,7 @@ export function execute (task, currentToken = null, currentCartId = null) {
     }).then((jsonResponse) => {
       if (jsonResponse) {
         if (parseInt(jsonResponse.code) !== 200) {
-          if (!task.silent) {
+          if (!taskData.silent) {
             EventBus.$emit('notification', {
               type: 'error',
               message: jsonResponse.result,
