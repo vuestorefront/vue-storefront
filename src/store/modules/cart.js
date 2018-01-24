@@ -91,14 +91,18 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
 })
 
 EventBus.$on('servercart-after-itemupdated', (event) => {
-  console.debug('Cart item server sync', event)
-  rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
-    if (cartItem) {
-      console.log('Updating server id to ', event.result.sku, event.result.item_id)
-      rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: event.result.sku, server_cart_id: event.result.quote_id } }, { root: true }) // update the server_id reference
-      EventBus.$emit('cart-after-itemchanged', { item: cartItem })
-    }
-  })
+  if (event.resultCode === 200) {
+    console.debug('Cart item server sync', event)
+    rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
+      if (cartItem) {
+        console.log('Updating server id to ', event.result.sku, event.result.item_id)
+        rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: event.result.sku, server_cart_id: event.result.quote_id } }, { root: true }) // update the server_id reference
+        EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+      }
+    })
+  } else {
+    // for example the result can be = We don't have enough <SKU>
+  }
 })
 
 EventBus.$on('servercart-after-itemdeleted', (event) => {
@@ -219,6 +223,7 @@ const store = {
               headers: { 'Content-Type': 'application/json' },
               mode: 'cors'
             },
+            silent: true,
             force_client_state: forceClientState,
             callback_event: 'servercart-after-pulled'
           }, { root: true }).then(task => {
@@ -237,6 +242,7 @@ const store = {
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors'
           },
+          silent: true,
           callback_event: 'servercart-after-created'
         }
         context.dispatch('sync/execute', task, { root: true }).then(task => {})
@@ -278,6 +284,7 @@ const store = {
               cartItem: cartItem
             })
           },
+          silent: true,
           callback_event: 'servercart-after-itemdeleted'
         }, { root: true }).then(task => {
           return
@@ -350,10 +357,11 @@ const store = {
           if (result.status === 'ok' || result.status === 'volatile') {
             commit(types.CART_ADD_ITEM, { product })
             if (config.cart.synchronize && !forceServerSilence) {
-              dispatch('serverUpdateItem', {
+              /* dispatch('serverUpdateItem', {
                 sku: product.sku,
                 qty: 1
-              })
+              }) */
+              dispatch('serverPull', { forceClientState: true })
             }
 
             EventBus.$emit('notification', {
@@ -368,20 +376,22 @@ const store = {
     removeItem ({ commit, dispatch }, product) {
       commit(types.CART_DEL_ITEM, { product })
       if (config.cart.synchronize && product.server_item_id) {
-        dispatch('serverDeleteItem', {
+        /* dispatch('serverDeleteItem', {
           sku: product.sku,
           item_id: product.server_item_id
-        })
+        }) */
+        dispatch('serverPull', { forceClientState: true })
       }
     },
     updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
       commit(types.CART_UPD_ITEM, { product, qty })
       if (config.cart.synchronize && product.server_item_id && !forceServerSilence) {
-        dispatch('serverUpdateItem', {
+        /* dispatch('serverUpdateItem', {
           sku: product.sku,
           item_id: product.server_item_id,
           qty: qty
-        })
+        }) */
+        dispatch('serverPull', { forceClientState: true })
       }
     },
     updateItem ({ commit }, { product }) {
