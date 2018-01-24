@@ -70,6 +70,11 @@
     @media (min-width: 1024px) {
       margin: 0 -130px;
     }
+
+    @media (max-width: 767px) {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
   }
 
   .product {

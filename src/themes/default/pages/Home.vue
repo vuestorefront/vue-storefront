@@ -97,10 +97,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .cool-stuff-collection {
-    mix-blend-mode: darken;
-  }
-
   .new-collection {
     @media (max-width: 767px) {
       padding-top: 0;
