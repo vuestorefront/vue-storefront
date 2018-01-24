@@ -98,6 +98,7 @@ export default {
     text-decoration: none;
   }
 
+  a.underline:after,
   a:not(.no-underline):hover:after {
     content: "";
     position: absolute;
