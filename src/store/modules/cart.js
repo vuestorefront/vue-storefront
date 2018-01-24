@@ -4,20 +4,27 @@ import EventBus from 'src/event-bus'
 import config from 'config'
 import rootStore from '../'
 const CART_PULL_INTERVAL_MS = 5000
+const CART_CREATE_INTERVAL_MS = 1000
 
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
   if (event.resultCode === 200) {
-    console.log(`Server cart token = ${cartToken}`)
+    console.log(`Server cart token after created = ${cartToken}`)
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-    rootStore.dispatch('cart/serverPull', {}, { root: true })
+    rootStore.dispatch('cart/serverPull', { forceClientState: false }, { root: true })
   } else {
+    rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
     console.error(event.result)
+    console.log('Bypassing with guest cart')
   }
+})
+EventBus.$on('user-before-logout', () => {
+  rootStore.dispatch('cart/clear', {}, { root: true })
+  rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
-  rootStore.dispatch('cart/serverCreate', {}, { root: true })
+  rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
 })
 
 EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
@@ -40,7 +47,8 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         rootStore.dispatch('cart/serverUpdateItem', {
           sku: clientItem.sku,
           qty: clientItem.qty,
-          item_id: clientItem.server_cart_id === serverItem.quote_id ? clientItem.server_item_id : null
+          item_id: serverItem.server_item_id,
+          quoteId: serverItem.quote_id
         }, { root: true })
       } else {
         console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
@@ -56,14 +64,24 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         })
         if (!clientItem) {
           console.log('No client item for ' + serverItem.sku)
-          rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
-            product.server_item_id = serverItem.item_id
-            product.qty = serverItem.qty
-            product.server_cart_id = serverItem.quote_id
-            rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
-//              rootStore.dispatch('cart/updateItem', { product: product })
+
+          if (event.force_client_state) {
+            console.log('Removing item', serverItem.sku, serverItem.item_id)
+            rootStore.dispatch('cart/serverDeleteItem', {
+              sku: serverItem.sku,
+              item_id: serverItem.item_id,
+              quoteId: serverItem.quote_id
+            }, { root: true })
+          } else {
+            rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+              product.server_item_id = serverItem.item_id
+              product.qty = serverItem.qty
+              product.server_cart_id = serverItem.quote_id
+              rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
+  //              rootStore.dispatch('cart/updateItem', { product: product })
+              })
             })
-          })
+          }
         }
       }
     }
@@ -73,7 +91,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
 })
 
 EventBus.$on('servercart-after-itemupdated', (event) => {
-  console.log('Cart item server sync', event)
+  console.debug('Cart item server sync', event)
   rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
     if (cartItem) {
       console.log('Updating server id to ', event.result.sku, event.result.item_id)
@@ -92,7 +110,9 @@ const store = {
   state: {
     cartIsLoaded: false,
     cartServerPullAt: 0,
+    cartServerCreatedAt: 0,
     cartSavedAt: new Date(),
+    bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: { cost: 0, code: '' },
     payment: { cost: 0, code: '' },
@@ -145,6 +165,10 @@ const store = {
       state.cartItems = storedItems || []
       state.cartIsLoaded = true
       state.cartSavedAt = new Date()
+
+      EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
+      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+      EventBus.$emit('application-after-loaded')
     },
     [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
       state.cartServerToken = token
@@ -176,7 +200,7 @@ const store = {
       context.commit(types.CART_LOAD_CART, [])
       context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
       if (config.cart.synchronize) {
-        // rootStore.dispatch('cart/serverCreate', {}, { root: true }) // create new server cart TODO: fix it right now after order is placed and not synchronized, the server side cart is being synchronized with our shopping cart :)
+        rootStore.dispatch('cart/serverCreate', { guestCart: true }, {root: true}) // guest cart because when the order hasn't been passed to magento yet it will repopulate your cart
       }
     },
     save (context) {
@@ -185,16 +209,17 @@ const store = {
     serverPush (context) { // push current cart TO the server
       return
     },
-    serverPull (context) { // pull current cart FROM the server
+    serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
       if (config.cart.synchronize) {
         if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS) {
           context.state.cartServerPullAt = new Date()
-          context.dispatch('sync/queue', { url: config.cart.pull_endpoint, // sync the cart
+          context.dispatch('sync/execute', { url: config.cart.pull_endpoint, // sync the cart
             payload: {
               method: 'GET',
               headers: { 'Content-Type': 'application/json' },
               mode: 'cors'
             },
+            force_client_state: forceClientState,
             callback_event: 'servercart-after-pulled'
           }, { root: true }).then(task => {
             return
@@ -204,22 +229,26 @@ const store = {
         }
       }
     },
-    serverCreate (context) {
-      const task = { url: config.cart.create_endpoint, // sync the cart
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        },
-        callback_event: 'servercart-after-created'
+    serverCreate (context, { guestCart = false }) {
+      if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
+        const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          callback_event: 'servercart-after-created'
+        }
+        context.dispatch('sync/execute', task, { root: true }).then(task => {})
+        return task
       }
-      context.dispatch('sync/queue', task, { root: true }).then(task => {})
-      return task
     },
     serverUpdateItem (context, cartItem) {
       if (config.cart.synchronize) {
-        cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-        context.dispatch('sync/queue', { url: config.cart.updateitem_endpoint, // sync the cart
+        if (!cartItem.quoteId) {
+          cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
+        }
+        context.dispatch('sync/execute', { url: config.cart.updateitem_endpoint, // sync the cart
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -236,8 +265,11 @@ const store = {
     },
     serverDeleteItem (context, cartItem) {
       if (config.cart.synchronize) {
+        if (!cartItem.quoteId) {
+          cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
+        }
         cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-        context.dispatch('sync/queue', { url: config.cart.deleteitem_endpoint, // sync the cart
+        context.dispatch('sync/execute', { url: config.cart.deleteitem_endpoint, // sync the cart
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -273,11 +305,11 @@ const store = {
             // TODO: if token is null create cart server side and store the token!
             if (token) { // previously set token
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-              console.log('Server cart token = ' + token)
-//              context.dispatch('serverPull')
+              console.log('Existing cart token = ' + token)
+              context.dispatch('serverPull', { forceClientState: false })
             } else {
               console.log('Creating server cart ...')
-              context.dispatch('serverCreate')
+              context.dispatch('serverCreate', { guestCart: false })
             }
           })
         }
