@@ -2,17 +2,14 @@
   <div id="product">
     <section class="bg-lightgray py30 px20 product-top-section">
       <div class="container">
-        <breadcrumbs
-          :routes="breadcrumbs.routes"
-          :active-route="breadcrumbs.name"
-        />
+        <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
         <section class="row py35 m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <transition name="fade" appear>
               <img class="product-image" v-lazy="imgObj" ref="image">
             </transition>
           </div>
-          <div class="col-md-5 data">
+          <div class="col-md-5 col-xs-12 px15 data">
             <div class="uppercase c-gray-secondary">
               sku: {{ product.sku}}
             </div>
@@ -27,7 +24,7 @@
                 <span class="price-special">
                   {{ product.priceInclTax | price }}
                 </span>&nbsp;
-                <span class="price-original" >
+                <span class="price-original">
                   {{ product.originalPriceInclTax | price }}
                 </span>
               </div>
@@ -68,13 +65,15 @@
                     />
                     <size-button
                       v-for="(s, i) in options.size"
-                      :key="i" :id="s.id"
+                      :key="i"
+                      :id="s.id"
                       :label="s.label"
                       context="product"
                       code="size"
                       class="mr10"
                       :class="{ active: s.id == configuration.size.id }"
-                      v-if="option.label == 'Size'" v-focus-clean
+                      v-if="option.label == 'Size'"
+                      v-focus-clean
                     />
                   </div>
                   <router-link
@@ -129,32 +128,37 @@
         </section>
       </div>
     </section>
-
-    <section class="container pt50 pb20 px20 c-black details">
+    <section class="container pt50 pb20 px20 c-black details" ref="detailsw">
       <h2 class="h3 m0 mb10 sans-serif">
         Product details
       </h2>
-      <div class="row m0 h4 between-md details-wrapper">
-        <div class="col-md-5">
+      <div class="h4 details-wrapper" ref="details">
+        <div class="row between-md m0">
+          <div class="col-md-5">
+            <div
+              class="lh30 c-gray-secondary"
+              v-html="product.description"
+            ></div>
+          </div>
+          <div class="col-md-6">
+            <ul class="attributes p0 pt10 m0">
+              <product-attribute
+                :key="attr.attribute_code"
+                v-for="attr in all_custom_attributes"
+                :product="product"
+                :attribute="attr"
+                emptyPlaceholder="N/A"
+              ></product-attribute>
+            </ul>
+          </div>
           <div
-            class="lh30 c-gray-secondary"
-            v-html="product.description"
+            class="details-overlay"
+            @click="showDetails"
           ></div>
-        </div>
-        <div class="col-md-6">
-          <ul class="attributes p0 pt10 m0">
-            <product-attribute
-              v-bind:key="attr.attribute_code"
-              v-for="attr in all_custom_attributes"
-              :product="product"
-              :attribute="attr"
-              emptyPlaceholder="N/A"
-            ></product-attribute>
-          </ul>
         </div>
       </div>
     </section>
-    <related-products />
+    <related-products/>
   </div>
 </template>
 
@@ -171,14 +175,15 @@ import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
 
 export default {
-  data () {
-    return {
-    }
-  },
   asyncData ({ store, route }) {
     // this is for SSR purposes to prefetch data
   },
   methods: {
+    showDetails (event) {
+      const details = this.$refs.details
+      details.style.maxHeight = details.children[0].offsetHeight + 'px'
+      event.target.classList.add('hidden')
+    }
   },
   components: {
     AddToCart,
@@ -202,9 +207,8 @@ export default {
   }
 
   .data {
-    padding: 0 15px;
     @media (max-width: 767px) {
-      border-bottom: 1px solid #f2f2f2;
+      border-bottom: 1px solid #F2F2F2;
     }
   }
 
@@ -263,7 +267,27 @@ export default {
 
   .details-wrapper {
     @media (max-width: 767px) {
+      position: relative;
+      max-height: 140px;
+      overflow: hidden;
+      transition: all 0.3s ease;
       font-size: 14px;
+    }
+  }
+
+  .details-overlay {
+    @media (max-width: 767px) {
+      position: absolute;
+      height: 75%;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      cursor: pointer;
+      background-image: linear-gradient(to bottom, transparent, #fff);
+      &.hidden {
+        display: none;
+      }
     }
   }
 
