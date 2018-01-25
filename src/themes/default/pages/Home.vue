@@ -2,16 +2,14 @@
   <div id="home">
   <main-slider />
   
-  <section class="container">
+  <section class="new-collection container pt40 px15">
     <div>
-      <header class="col-xs-12 pt40">
+      <header class="col-md-12">
         <h2 class="align-center c-black">Everything new</h2>
       </header>
     </div>
     <div class="row center-xs">
-      <div v-for='(product, key) in everythingNewCollection' v-bind:key='product.id' class="col-xs-6 col-md-3">
-        <product-tile :instant='key < 4 ? true : false' :product="product"/>
-      </div>
+      <product-listing columns="4" :products="everythingNewCollection" />
     </div>
   </section>
 
@@ -35,7 +33,8 @@ import builder from 'bodybuilder'
 
 // Base components overwrite
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
-import ProductTile from '../components/core/ProductTile.vue'
+// import ProductTile from '../components/core/ProductTile.vue'
+import ProductListing from '../components/core/ProductListing.vue'
 
 import TileLinks from '../components/theme/blocks/TileLinks/TileLinks.vue'
 import Collection from '../components/theme/blocks/Collection/Collection'
@@ -87,7 +86,7 @@ export default {
     })
   },
   components: {
-    ProductTile,
+    ProductListing,
     MainSlider,
     TileLinks,
     Collection,
@@ -98,7 +97,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .cool-stuff-collection {
-    mix-blend-mode: darken;
+  .new-collection {
+    @media (max-width: 767px) {
+      padding-top: 0;
+    }
   }
 </style>

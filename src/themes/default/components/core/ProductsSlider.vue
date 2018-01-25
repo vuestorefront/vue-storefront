@@ -2,7 +2,7 @@
   <div class="collection">
     <div class="container">
       <div class="row center-xs">
-        <header class="col-xs-12 pt40 pb15">
+        <header class="col-md-12 pb15">
           <h2 class="align-center c-black">
             {{ title }}
           </h2>
@@ -69,6 +69,11 @@
   .cool-stuff-collection {
     @media (min-width: 1024px) {
       margin: 0 -130px;
+    }
+
+    @media (max-width: 767px) {
+      padding-top: 15px;
+      padding-bottom: 15px;
     }
   }
 
