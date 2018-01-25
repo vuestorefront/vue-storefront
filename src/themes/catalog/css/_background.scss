@@ -15,11 +15,28 @@ body {
         @include hover-bg-darken($c-bg-secondary);
     }
 }
-
 .bg-accent {
     background: $c-accent;
     &-hover:hover {
         @include hover-bg-darken($c-accent);
+    }
+}
+
+@media (min-width: $md) {
+    .bg-primary-md {
+        background: $c-bg-primary;
+    }
+    .bg-secondary-md {
+        background: $c-bg-secondary;
+        &-hover:hover {
+            @include hover-bg-darken($c-bg-secondary);
+        }
+    }
+    .bg-accent-md {
+        background: $c-accent;
+        &-hover:hover {
+            @include hover-bg-darken($c-accent);
+        }
     }
 }
 

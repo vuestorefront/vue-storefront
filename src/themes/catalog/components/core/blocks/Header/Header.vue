@@ -1,24 +1,24 @@
 <template>
   <header class="header b-bottom">
 
-    <div class="col-sm-12 p15 c-secondary-lighter bg-secondary center-md">
+    <div class="col-sm-12 p15 c-secondary-lighter bg-secondary center-xs">
       <router-link to="/">Visit our stores</router-link>, choose one of 100+ stores in 52 countries all over the world!
     </div>  
 
     <nav class="menu container">
       <div class="row middle-xs full-size">
-        <div class="col-md-3 start-xs middle-xs inline-flex">
+        <div class="col-xs-6 col-md-3 start-xs middle-xs inline-flex">
           <router-link to="/"><logo class="inline-flex pr25"/></router-link>
           <i @click="focusSearchBox" class="material-icons b-left middle-xs px25 full-size inline-flex">search</i>
         </div>
-        <div class="col-md-5 semibold end-xs middle-xs inline-flex uppercase">
+        <div class="col-md-5 semibold end-xs middle-xs inline-flex uppercase hide flex-md">
           <router-link v-for="category in categories" :key="category.name" :to="'/c/' + category.slug" class="menu-link full-size px20 middle-xs flex">
             <div class="inline-flex">{{ category.name }}</div>
             <div class="material-icons inline-flex c-accent">keyboard_arrow_down</div>
           </router-link>
         </div>
-        <div class="col-md-4 uppercase end-xs">
-          <router-link to="/" class="px20 full-size magazine middle-xs semibold inline-flex">
+        <div class="col-xs-6 col-md-4 uppercase end-xs">
+          <router-link to="/" class="px20 full-size magazine middle-xs semibold inline-flex-md hide">
             <div class="material-icons inline-flex pr10">book</div>   
             <div class="inline-flex">Magazine</div>
           </router-link>

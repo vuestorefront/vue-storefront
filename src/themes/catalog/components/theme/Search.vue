@@ -1,17 +1,17 @@
 <template>
-  <section class="search c-on-dark middle-xs">
-      <div class="row center-xs pb20">
+  <section class="search c-on-dark middle-xs p0 pt40-md pt100-md">
+      <div class="row center-xs pb20  hide show-md">
           <div class="col-md-6">
               <h1 class="c-on-dark extrabold">Find the right sporting clothes for all situations</h1>
           </div>
       </div>
       <div class="row center-xs">
-          <div class="search-box col-md-8">
+          <div class="search-box col-md-8 col-xs-12">
               <input ref="search" v-model="search" @input="makeSearch" type="text" class="m0 px25 inline-flex fs-medium" placeholder="What are you looking for?">
           </div>
       </div>
-      <div class="top-searches row center-xs py70 fs-medium">
-          <span class="extrabold px15">Top searches</span>
+      <div class="top-searches row center-xs py70-md py30 fs-medium hide show-md">
+          <span class="extrabold px15 inline-flex-md flex">Top searches</span>
           <span class="px15 c-on-dark pointer" @click="search = 'Shoes'; makeSearch()">Shoes</span>
           <span class="px15 c-on-dark pointer" @click="search = 'Bags';  makeSearch()">Bags</span>
           <span class="px15 c-on-dark pointer" @click="search = 'Longsleeves'; makeSearch()">Longsleeves</span>
@@ -57,11 +57,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/vars/_colors.scss';
-
-.search {
-    padding-top: 100px;
-}
+@import '~theme/css/vars/additional';
 
 .search-box {
     input, button {

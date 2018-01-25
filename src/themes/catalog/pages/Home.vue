@@ -123,9 +123,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/vars/additional';
+
 #home {
   background: url('/assets/homepage_bg.png') no-repeat;
-  background-size: 100% auto;
+  @media (min-width: $md) {
+    background-size: 100% auto;
+  }
 }
 
 
