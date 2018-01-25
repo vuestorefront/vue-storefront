@@ -100,10 +100,11 @@
               />
             </div>
             <div class="row pt45 add-to-buttons">
-              <div class="col-xs-6 col-md-5">
+              <div class="col-xs-12 col-sm-5">
                 <button
-                  class="p0 bg-transparent brdr-none action"
                   @click="addToFavorite"
+                  class="p0 bg-transparent brdr-none action"
+                  type="button"
                 >
                   <i class="pr5 material-icons">{{ favorite.icon }}</i>
                   Add to favorite
@@ -111,16 +112,17 @@
               </div>
               <div class="hidden-xs col-md-7">
                 <button
-                  class="p0 bg-transparent brdr-none action"
                   @click="addToCompare"
+                  class="p0 bg-transparent brdr-none action"
+                  type="button"
                 >
                   <i class="pr5 material-icons">compare</i>
-                    <span v-if="!compare.isCompare">
+                    <template v-if="!compare.isCompare">
                       Add to compare
-                    </span>
-                    <span v-else>
+                    </template>
+                    <template v-else>
                       Remove from compare
-                    </span>
+                    </template>
                 </button>
               </div>
             </div>
@@ -128,7 +130,7 @@
         </section>
       </div>
     </section>
-    <section class="container pt50 pb20 px20 c-black details" ref="detailsw">
+    <section class="container pt50 pb20 px20 c-black details">
       <h2 class="h3 m0 mb10 sans-serif">
         Product details
       </h2>
