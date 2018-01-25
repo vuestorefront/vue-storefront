@@ -5,7 +5,9 @@ body {
 }
 
 // Colors 
-
+.bg-transparent {
+    background: transparent;
+}
 .bg-primary {
     background: $c-bg-primary;
 }
@@ -23,6 +25,9 @@ body {
 }
 
 @media (min-width: $md) {
+    .bg-transparent-md {
+        background: transparent;
+    }
     .bg-primary-md {
         background: $c-bg-primary;
     }

@@ -21,7 +21,7 @@ export default {
 @import '~theme/css/vars/additional';
 
 .magazine-tile {
-  height: 520px;
+  height: 450px;
   flex-direction: column;
   background-size: cover;
   box-sizing: border-box;
@@ -44,6 +44,9 @@ img {
   z-index: 1;
 }
 @media (min-width: $md) {
+  .magazine-tile {
+      height: 520px;
+  }
   img {
     width: 100%;
   }

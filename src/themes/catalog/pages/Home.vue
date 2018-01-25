@@ -3,7 +3,7 @@
     <div class="container mb45-md ">
       
       <search class="animate"/>
-      <div class="row mt70 animate ">
+      <div class="row mt70-md mt40 animate ">
         <div v-for="category in categories" :key="category.name" class="col-md-4 mb15 hide show-md">
           <router-link :to="'/c/' + category.slug">
             <category-tile :label="category.name"/>
@@ -20,8 +20,8 @@
         </nossr>
       </div>
 
-      <div class="row animate">
-        <h2 class="center-xs mt80 mb40 col-xs-12">New items</h2>
+      <div class="row animate bg-primary bg-transparent-md mt0-md mt40 ">
+        <h2 class="center-xs mt80-md mt50 mb50 col-xs-12">New items</h2>
         <div v-for="(product, index) in newProducts" :key="index" class="col-md-3 hide show-md  " :class="{ pr0 : (index+1) % 4 != 0, pl0 : (index+1) % 4 != 1 }">
           <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
             <product-tile :product="product" class="b" :class="{ 'b-right-none' : (index+1) % 4 != 0 }"/>
@@ -39,7 +39,7 @@
       </div>
 
       <div class="row animate">
-        <h2 class="center-xs mt80 mb40 animate col-xs-12">Magazine</h2>
+        <h2 class="center-xs mt80-md mt50 mb50 animate col-xs-12">Magazine</h2>
         <div v-for="(magazine, index) in magazines" :key="magazine.title" class="col-md-6 px0 " :class="{ 'pr0-md pl8-md' : index % 2 == 0, 'pl0-md pr8-md' : index % 2 == 1 }">
           <router-link to="/">
             <magazine-tile class="b-md" :class="{ 'b-right-none b-top' : index % 2 == 0 }" :title="magazine.title" :category="magazine.category" :bg-url="magazine.bgUrl" />            

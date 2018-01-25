@@ -15,8 +15,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+@import '~theme/css/vars/additional';
 .category-tile {
-    height: 350px;
+    height: 150px;
+    @media ( min-width: $md ) {
+      height: 350px;
+    }
 }
 </style>

@@ -18,9 +18,9 @@
           <span class="px15 c-on-dark pointer" @click="search = 'Jackets';  makeSearch()">Jackets</span>
       </div>
       <div class="row" v-if="search">
-        <div v-for="(product, index) in products" :key="index" class="col-md-4 mb15">
+        <div v-for="(product, index) in products" :key="index" class="col-md-4 mb15-md px0 px8-md">
           <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
-            <product-tile :product="product" class="b bg-primary"/>
+            <product-tile :product="product" class="b bg-primary" :mobileHorizontalMode="true"/>
           </router-link>
         </div>  
       </div>
