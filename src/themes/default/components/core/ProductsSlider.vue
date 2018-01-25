@@ -2,7 +2,7 @@
   <div class="collection">
     <div class="container">
       <div class="row center-xs">
-        <header class="col-md-12 pb15">
+        <header class="col-xs-12 pb15">
           <h2 class="align-center c-black">
             {{ title }}
           </h2>
