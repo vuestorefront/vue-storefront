@@ -119,6 +119,10 @@ export default {
     this.$bus.$on('checkout.edit', (section) => {
       this.activateSection(section)
     })
+    this.$bus.$on('order-after-placed', (order) => {
+      this.orderPlaced = true
+      console.log(this.order)
+    })
   },
   destroyed () {
     this.$bus.$off('network.status')
@@ -128,6 +132,7 @@ export default {
     this.$bus.$off('checkout.cartSummary')
     this.$bus.$off('checkout.placeOrder')
     this.$bus.$off('checkout.edit')
+    this.$bus.$off('order-after-placed')
   },
   computed: {
     isValid () {
@@ -234,8 +239,6 @@ export default {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.isValid) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
-        this.orderPlaced = true
-        console.log(this.order)
       } else {
         this.$bus.$emit('notification', {
           type: 'error',

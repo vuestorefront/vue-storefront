@@ -31,6 +31,10 @@ export default {
   mounted () {
     if (this.payment.firstName.length === 0) {
       this.initializeBillingAddress()
+    } else {
+      if (this.payment.company) {
+        this.generateInvoice = true
+      }
     }
   },
   methods: {

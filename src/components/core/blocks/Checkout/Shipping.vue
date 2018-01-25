@@ -77,7 +77,7 @@ export default {
           firstName: this.myAddressDetails.firstname,
           lastName: this.myAddressDetails.lastname,
           country: this.myAddressDetails.country_id,
-          region: this.myAddressDetails.region.region ? this.myAddressDetails.region.region : '',
+          state: this.myAddressDetails.region.region ? this.myAddressDetails.region.region : '',
           city: this.myAddressDetails.city,
           streetAddress: this.myAddressDetails.street[0],
           apartmentNumber: this.myAddressDetails.street[1],
