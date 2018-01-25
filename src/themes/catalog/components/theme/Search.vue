@@ -1,6 +1,6 @@
 <template>
   <section class="search c-on-dark middle-xs p0 pt40-md pt100-md">
-      <div class="row center-xs pb20  hide show-md">
+      <div class="row center-xs pb20  hide flex-md">
           <div class="col-md-6">
               <h1 class="c-on-dark extrabold">Find the right sporting clothes for all situations</h1>
           </div>
