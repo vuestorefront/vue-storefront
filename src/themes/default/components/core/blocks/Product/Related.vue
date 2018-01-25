@@ -1,33 +1,33 @@
 <template>
   <div>
-    <products-slider 
-      :products="related.by_erin" 
-      :config="sliderConfig" 
-      v-if="related.by_erin && related.by_erin.length > 0" 
-      title="Erin Recommends" 
+    <products-slider
+      v-if="related.by_erin && related.by_erin.length > 0"
+      :products="related.by_erin"
+      :config="sliderConfig"
+      title="Erin Recommends"
     />
-    <section v-if="related.by_category && related.by_category.length > 0">
-      <div class="container pt50">
-        <div class="row center-xs">
-          <div class="col-md-12">
-            <h2 class="align-center">Similar products </h2>
-          </div>
-        </div>
+    <section
+      v-if="related.by_category && related.by_category.length > 0"
+      class="new-collection container pt40 px15"
+    >
+      <div>
+        <header class="col-md-12">
+          <h2 class="align-center c-black">
+            Similar products
+          </h2>
+        </header>
       </div>
-      <div class="container pb70">
-        <div class="row center-xs">
-          <div v-for='(product, key) in related.by_category' v-bind:key='product.id' class="col-md-3">
-            <product-tile :instant='key < 4 ? true : false' :product="product"/>
-          </div>
-        </div>
+      <div class="row center-xs">
+        <product-listing columns="4" :products="related.by_category" />
       </div>
     </section>
-  </div>    
+  </div>
 </template>
+
 <script>
 import builder from 'bodybuilder'
-import ProductTile from '../../ProductTile.vue'
 import ProductsSlider from '../../ProductsSlider.vue'
+import ProductListing from '../../ProductListing.vue'
 
 export default {
   data () {
@@ -69,8 +69,8 @@ export default {
     })
   },
   components: {
-    ProductTile,
-    ProductsSlider
+    ProductsSlider,
+    ProductListing
   },
   computed: {
     product () {
