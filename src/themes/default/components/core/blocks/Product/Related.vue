@@ -2,7 +2,7 @@
   <div>
     <section
       v-if="related.by_erin && related.by_erin.length > 0"
-      class="new-collection container pt40 px15"
+      class="new-collection container pt15 px15"
     >
       <div>
         <header class="col-md-12">
@@ -17,7 +17,7 @@
     </section>
     <section
       v-if="related.by_category && related.by_category.length > 0"
-      class="new-collection container pt40 px15"
+      class="new-collection container py30 px15"
     >
       <div>
         <header class="col-md-12">
