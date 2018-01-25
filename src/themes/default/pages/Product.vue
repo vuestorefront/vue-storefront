@@ -181,7 +181,7 @@ export default {
   methods: {
     showDetails (event) {
       const details = this.$refs.details
-      details.style.maxHeight = details.children[0].offsetHeight + 'px'
+      details.style.maxHeight = `${details.children[0].offsetHeight}px`
       event.target.classList.add('hidden')
     }
   },
@@ -262,7 +262,7 @@ export default {
   .product-top-section {
     @media (max-width: 767px) {
       padding: 0;
-      background-color: #fff;
+      background-color: #FFF;
     }
   }
 
@@ -298,7 +298,7 @@ export default {
       width: 100%;
       margin: 0;
       cursor: pointer;
-      background-image: linear-gradient(to bottom, transparent, #fff);
+      background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
       &.hidden {
         display: none;
       }
@@ -315,7 +315,7 @@ export default {
   }
 
   .price-special {
-    color: red;
+    color: #FF0000;
   }
 
   .action {
@@ -338,12 +338,12 @@ export default {
 
   .fade-enter-active,
   .fade-leave-active {
-    transition: opacity .3s
+    transition: opacity 0.3s;
   }
 
   .fade-enter,
   .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0
+    opacity: 0;
   }
 
   .product-image {
@@ -351,9 +351,5 @@ export default {
     mix-blend-mode: multiply;
     max-width: 100%;
     width: 460px;
-  }
-
-  .perfect-match {
-    mix-blend-mode: darken;
   }
 </style>
