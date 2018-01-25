@@ -92,15 +92,9 @@
         </div>
         <div class="footer__sp-links">
           <ul class="links">
-            <li><router-link class="c-lightgray-secondary mr15 underline" to="/legal" exact>Legal notice</router-link></li>
-            <li><router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link></li>
+            <li class="links__item"><router-link class="c-lightgray-secondary mr15 underline" to="/legal" exact>Legal notice</router-link></li>
+            <li class="links__item"><router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link></li>
           </ul>
-        </div>
-        <div class="col-xs-4 legal-entity-link">
-          <router-link class="c-lightgray-secondary underline" to="/legal" exact>Legal notice</router-link>
-        </div>
-        <div class="col-xs-4 privacy-policy-link">
-          <router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link>
         </div>
       </div>
     </div>
@@ -181,7 +175,9 @@ $gray-secondary: map-get($colors, gray-secondary);
     list-style-type: none;
     padding-left: 0;
   }
-
+  .links__item{
+    display: inline-block;
+ }
   .underline {
     &:hover {
       color: $gray-secondary;
