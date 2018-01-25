@@ -125,7 +125,7 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-show="isFilled">
+    <div class="row pl20" v-show="!isActive && isFilled">
       <div class="hidden-xs col-sm-2 col-md-1"></div>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
