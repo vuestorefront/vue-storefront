@@ -13,7 +13,9 @@
           <div class="col-md-12 px0">
             <carousel :autoplay="true" :perPage="1" :paginationEnabled="false" :loop="true" :speed="2000">
                 <slide v-for="category in categories" :key="category.name">
-                  <category-tile class="mx8" :label="category.name"/>
+                  <router-link :to="'/c/' + category.slug">
+                    <category-tile class="mx8" :label="category.name"/>
+                  </router-link>
                 </slide>
             </carousel>
           </div>
@@ -31,7 +33,9 @@
           <div class="col-md-12 px0">
             <carousel  :autoplay="true" :perPage="1" :paginationEnabled="false" :loop="true">
               <slide v-for="(product, index) in newProducts" :key="index">
-                <product-tile class="bg-secondary" :product="product"/>
+                <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
+                  <product-tile class="bg-secondary" :product="product"/>
+                </router-link>
               </slide>
             </carousel>
           </div>

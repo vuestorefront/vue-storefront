@@ -9,11 +9,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 uppercase semibold center-xs c-secondary-lighter">
-                        <ul class="mb0">
-                            <li class="active py15 mx15">All items</li>
-                            <li class="py15 mx15">Bestsellers</li>
-                            <li class="py15 mx15">Sales</li>
-                            <li class="py15 mx15">New arrivals</li>
+                        <ul class="mb0 pl0">
+                            <li class="active py15 mx15-md mx8">All items</li>
+                            <li class="py15 mx15-md mx8">Bestsellers</li>
+                            <li class="py15 mx15-md mx8">Sales</li>
+                            <li class="py15 mx15-md mx8">New arrivals</li>
                         </ul>
                     </div>
                 </div>
@@ -21,10 +21,10 @@
         </div>
         <div>
             <div class="container animate">
-                <div class="row my50">
-                    <div v-for="(product, index) in products" :key="product.name" class="col-md-3" :class="{ pr0 : index % 4 != 0, pl0 : index % 4 != 1 }">
+                <div class="row my50-md">
+                    <div v-for="(product, index) in products" :key="product.name" class="col-md-3" :class="{ 'pr0-md' : index % 4 != 0, 'pl0-md' : index % 4 != 1 }">
                         <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
-                            <product-tile class="b" :product="product" :class="{ 'b-right-none' : index % 4 != 0 }"/>
+                            <product-tile  :mobileHorizontalMode="true" class="b-md b-bottom py0-md py10" :product="product" :class="{ 'b-right-none' : index % 4 != 0 }"/>
                         </router-link>
                     </div>
                 </div>
@@ -47,6 +47,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/vars/colors';
+#category {
+    overflow-x: hidden;
+}
 .top-bar ul {
     list-style-type: none;
     position: relative;
