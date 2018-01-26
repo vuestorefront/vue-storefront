@@ -46,6 +46,7 @@ if (process.env.NODE_ENV === 'production') {
       staticFileGlobs: [
         'dist/**.*',
         'assets/**.*',
+        'assets/ig/**.*',
         'index.html'
       ],      
       runtimeCaching: [
@@ -68,13 +69,16 @@ if (process.env.NODE_ENV === 'production') {
         urlPattern: "/api/*", 
         handler: "cacheFirst"
       },{
-        urlPattern: "/dist/logo.png",
+        urlPattern: "/assets/logo.svg",
         handler: "cacheFirst"
       },{
         urlPattern: "/index.html",
         handler: "cacheFirst"
       },{
         urlPattern: "/assets/*",
+        handler: "cacheFirst"
+      },{
+        urlPattern: "/assets/ig/(.*)",
         handler: "cacheFirst"
       },{
         urlPattern: "/dist/(.*)",

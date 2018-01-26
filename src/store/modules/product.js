@@ -1,11 +1,12 @@
 import * as types from '../mutation-types'
-import config from '../../config.json'
+import config from 'config'
 const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from 'src/store/modules/attribute'
 import { breadCrumbRoutes } from 'src/lib/filters'
 import { calculateProductTax } from 'src/lib/taxcalc'
+import _ from 'lodash'
 
 /**
  * Calculate taxes for specific product collection
@@ -32,12 +33,14 @@ const state = {
   current: null, // shown product
   current_options: {color: [], size: []},
   current_configuration: {},
+  parent: null,
   list: [],
   original: null, // default, not configured product
   related: {}
 }
 
 const getters = {
+  productParent: (state) => state.parent,
   productCurrent: (state) => state.current,
   currentConfiguration: (state) => state.current_configuration,
   productOriginal: (state) => state.original,
@@ -70,6 +73,13 @@ function configureProductAsync (context, { product, configuration, selectDefault
         })
       }
     }) || product.configurable_children[0]
+
+    if (typeof navigator !== 'undefined') {
+      if (selectedVariant && !navigator.onLine) { // this is fix for not preloaded images for offline
+        selectedVariant.image = product.image
+      }
+    }
+
     // use chosen variant
     if (selectDefaultVariant) {
       context.dispatch('setCurrent', selectedVariant)
@@ -153,7 +163,7 @@ const actions = {
       for (let pl of product.product_links) {
         if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
           console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
-          context.dispatch('single', {
+          subloaders.push(context.dispatch('single', {
             options: { sku: pl.linked_product_sku },
             setCurrentProduct: false,
             selectDefaultVariant: false
@@ -163,11 +173,33 @@ const actions = {
             product.price += pl.product.price
             product.priceInclTax += pl.product.priceInclTax
             product.tax += pl.product.tax
-          })
+          }))
         }
       }
     }
     return Promise.all(subloaders)
+  },
+
+  /**
+   * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
+   * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
+   */
+  checkConfigurableParent (context, {product}) {
+    if (product.type_id === 'simple') {
+      console.log('Checking configurable parent')
+      let query = bodybuilder()
+        .query('match', 'configurable_children.sku', context.state.current.sku)
+        .build()
+
+      return context.dispatch('list', {query, start: 0, size: 1, updateState: false}).then((resp) => {
+        if (resp.items.length >= 1) {
+          const parentProduct = resp.items[0]
+          context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
+        }
+      }).catch(function (err) {
+        console.error(err)
+      })
+    }
   },
 
   /**
@@ -184,13 +216,14 @@ const actions = {
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
-            context.state.current_options[option.label.toLowerCase()].push({
-              label: lb,
-              id: ov.value_index
-            })
+            if (_.trim(lb) !== '') {
+              context.state.current_options[option.label.toLowerCase()].push({
+                label: lb,
+                id: ov.value_index
+              })
+            }
           }
         }
-        // todo: this doesn't populate product.current_configuration
         let selectedVariant = context.state.current
         for (let option of product.configurable_options) {
           let attr = context.rootState.attribute.list_by_id[option.attribute_id]
@@ -287,7 +320,7 @@ const actions = {
           return prod
         }
         if (res !== null) {
-          console.debug('Product:single - result from localForage for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           resolve(setupProduct(res))
         } else {
           context.dispatch('list', {
@@ -325,7 +358,7 @@ const actions = {
       // get original product
       const productOriginal = context.getters.productOriginal
       // check if passed variant is the same as original
-      const productUpdated = Object.assign(productOriginal, productVariant)
+      const productUpdated = Object.assign({}, productOriginal, productVariant)
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
     } else console.debug('Unable to update current product.')
   },
@@ -360,9 +393,13 @@ const mutations = {
   [types.CATALOG_SET_PRODUCT_ORIGINAL] (state, product) {
     state.original = product
   },
+  [types.CATALOG_SET_PRODUCT_PARENT] (state, product) {
+    state.parent = product
+  },
   [types.CATALOG_RESET_PRODUCT] (state, productOriginal) {
     state.current = productOriginal || {}
     state.current_configuration = {}
+    state.parent = null
     state.current_options = {color: [], size: []}
   }
 }

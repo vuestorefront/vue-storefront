@@ -48,7 +48,7 @@ const actions = {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: 'position:asc' }).then(function (resp) {
+    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: 'position:asc', size: size, start: start }).then(function (resp) {
       commit(types.CATEGORY_UPD_CATEGORIES, resp)
       return resp
     }).catch(function (err) {
@@ -97,7 +97,8 @@ const actions = {
                 }
               }).catch(err => {
                 console.error(err)
-                reject(err)
+                commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath) // this is the case when category is not binded to the root tree - for example "Erin Recommends"
+                resolve(mainCategory)
               })
             } else {
               commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
@@ -145,9 +146,13 @@ const mutations = {
     state.list = categories.items
 
     for (let category of state.list) {
-      for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
-        subcat = Object.assign(subcat, { slug: subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '' })
+      let catSlugSetter = (category) => {
+        for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
+          subcat = Object.assign(subcat, { slug: subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '' })
+          catSlugSetter(subcat)
+        }
       }
+      catSlugSetter(category)
       const catCollection = global.db.categoriesCollection
       try {
         catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {

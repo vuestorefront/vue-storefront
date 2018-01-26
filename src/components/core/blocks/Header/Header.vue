@@ -7,6 +7,7 @@
       <microcart-icon />
       <hamburger-icon />
       <wishlist-icon />
+      <compare-icon />
       <account-icon />
   </header>
 </template>
@@ -19,6 +20,7 @@ import SearchIcon from './SearchIcon.vue'
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
 import WishlistIcon from './WishlistIcon.vue'
+import CompareIcon from './CompareIcon.vue'
 
 export default {
   name: 'main-header',
@@ -28,7 +30,8 @@ export default {
     SearchIcon,
     MicrocartIcon,
     HamburgerIcon,
-    WishlistIcon
+    WishlistIcon,
+    CompareIcon
   }
 }
 </script>

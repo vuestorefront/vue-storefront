@@ -4,6 +4,16 @@
       "host": "localhost:8080/api/catalog",
       "index": "vue_storefront_catalog"
     },
+    "cart": {
+      "synchronize": true,
+      "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}"
+    },
+    "products": {
+      "preventConfigurableChildrenDirectAccess": true
+    },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"
     },
@@ -25,7 +35,7 @@
       "defaultCountry": "PL",
       "defaultRegion": "",
       "calculateServerSide": false
-    },  
+    },
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN"
@@ -33,11 +43,14 @@
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe"],
     "theme": "default",
     "meta": {
       "shopName": "Vue Storefront",
       "titleSuffix": " - Vue Storefront",
       "description": "Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API."
-    }
-}
+    },
+    "analytics": {
+      "id": false
+    },
+    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
+ }

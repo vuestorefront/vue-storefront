@@ -1,6 +1,6 @@
 let es = require('elasticsearch')
 
-import config from '../config.json'
+import config from 'config'
 import _ from 'lodash'
 import { slugify } from '../lib/filters'
 import hash from 'object-hash'
@@ -73,7 +73,6 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
     }
     const cache = global.db.elasticCacheCollection // switch to appcache?
     const cacheKey = hash(esQuery)
-
     let servedFromCache = false
     const benchmarkTime = new Date()
     cache.getItem(cacheKey, (err, res) => {

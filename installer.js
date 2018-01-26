@@ -12,8 +12,11 @@ const isEmptyDir = require('empty-dir')
 const commandExists = require('command-exists')
 
 const SAMPLE_DATA_PATH = 'var/magento2-sample-data'
-const TARGET_CONFIG_FILE = 'src/config.json'
-const SOURCE_CONFIG_FILE = 'src/config.example.json'
+const TARGET_FRONTEND_CONFIG_FILE = 'config/local.json'
+const SOURCE_FRONTEND_CONFIG_FILE = 'config/default.json'
+
+const TARGET_BACKEND_CONFIG_FILE = 'config/local.json'
+const SOURCE_BACKEND_CONFIG_FILE = 'config/default.json'
 
 const STOREFRONT_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront'
 const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront-api'
@@ -196,7 +199,7 @@ class Backend extends Abstract {
   }
 
   /**
-   * Creating backend src/config.json
+   * Creating backend config/local.json
    *
    * @returns {Promise}
    */
@@ -204,10 +207,10 @@ class Backend extends Abstract {
     return new Promise((resolve, reject) => {
       let config
 
-      Message.info(`Creating backend config '${TARGET_CONFIG_FILE}'...`)
+      Message.info(`Creating backend config '${TARGET_BACKEND_CONFIG_FILE}'...`)
 
       try {
-        config = jsonFile.readFileSync(SOURCE_CONFIG_FILE)
+        config = jsonFile.readFileSync(SOURCE_BACKEND_CONFIG_FILE)
         let host = urlParser(this.answers.images_endpoint).hostname
 
         if (!host.length) {
@@ -217,7 +220,7 @@ class Backend extends Abstract {
         config.imageable.whitelist.allowedHosts.push(host)
         config.imageable.whitelist.trustedHosts.push(host)
 
-        jsonFile.writeFileSync(TARGET_CONFIG_FILE, config, {spaces: 2})
+        jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
         reject('Can\'t create backend config.')
       }
@@ -321,7 +324,7 @@ class Storefront extends Abstract {
   }
 
   /**
-   * Creating storefront src/config.json
+   * Creating storefront config/local.json
    *
    * @returns {Promise}
    */
@@ -329,10 +332,10 @@ class Storefront extends Abstract {
     return new Promise((resolve, reject) => {
       let config
 
-      Message.info(`Creating storefront config '${TARGET_CONFIG_FILE}'...`)
+      Message.info(`Creating storefront config '${TARGET_FRONTEND_CONFIG_FILE}'...`)
 
       try {
-        config = jsonFile.readFileSync(SOURCE_CONFIG_FILE)
+        config = jsonFile.readFileSync(SOURCE_FRONTEND_CONFIG_FILE)
 
         let backendPath
 
@@ -346,6 +349,10 @@ class Storefront extends Abstract {
         config.orders.endpoint = `${backendPath}/api/order`
         config.users.endpoint = `${backendPath}/api/user`
         config.stock.endpoint = `${backendPath}/api/stock`
+        config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`
+        config.cart.updateitem_endpoint = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
+        config.cart.deleteitem_endpoint = `${backendPath}/api/cart/delete?token={{token}}&cartId={{cartId}}`
+        config.cart.pull_endpoint = `${backendPath}/api/cart/pull?token={{token}}&cartId={{cartId}}`
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.images.baseUrl = this.answers.images_endpoint
 
@@ -354,7 +361,7 @@ class Storefront extends Abstract {
           backend_dir: this.answers.backend_dir || false
         }
 
-        jsonFile.writeFileSync(TARGET_CONFIG_FILE, config, {spaces: 2})
+        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
         reject('Can\'t create storefront config.')
       }
@@ -657,5 +664,6 @@ if (require.main.filename === __filename) {
   module.exports.Manager = Manager
   module.exports.Abstract = Abstract
   module.exports.STOREFRONT_REMOTE_BACKEND_URL = STOREFRONT_REMOTE_BACKEND_URL
-  module.exports.TARGET_CONFIG_FILE = TARGET_CONFIG_FILE
+  module.exports.TARGET_FRONTEND_CONFIG_FILE = TARGET_FRONTEND_CONFIG_FILE
+  module.exports.TARGET_BACKEND_CONFIG_FILE = TARGET_BACKEND_CONFIG_FILE
 }

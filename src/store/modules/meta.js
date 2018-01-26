@@ -1,4 +1,4 @@
-import config from '../../config.json'
+import config from 'config'
 
 const state = {
   title: config.meta.shopName,

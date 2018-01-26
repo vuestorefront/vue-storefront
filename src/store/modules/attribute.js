@@ -97,7 +97,7 @@ export function optionLabel (state, { attributeKey, searchBy = 'code', optionId 
   let attr = state['list_by_' + searchBy][attributeKey]
   if (attr) {
     let opt = attr.options.find((op) => { // TODO: cache it in memory
-      if (op.value === optionId.toString()) {
+      if (parseInt(op.value) === parseInt(optionId)) {
         return op
       }
     }) // TODO: i18n support with multi website attribute names

@@ -1,15 +1,18 @@
 const path = require('path')
-// TO-DO: FIgure out why critical css doesn't work with SSR 
-// const CriticalPlugin = require('webpack-plugin-critical').CriticalPlugin;
+const config = require('config')
+const fs = require('fs')
 
-// const projectRoot = path.resolve(__dirname, '../')
+fs.writeFileSync(path.resolve(__dirname, '../build/config.json'), JSON.stringify(config))
+
 const vueConfig = require('./vue-loader.config')
 
-const theme = require('../src/config.json').theme
+const theme = require('../build/config.json').theme
 const themeComponents = '../src/theme/' + theme +'/components'
 const themePages = '../src/theme/' + theme +'/pages'
 const themeCSS = '../src/theme/' + theme +'/css'
 const themeApp = '../src/theme/' + theme +'/App.vue'
+
+
 
 module.exports = {
   devtool: '#source-map',
@@ -21,6 +24,7 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.vue'],
     alias: {
+      config: path.resolve(__dirname, '../build/config.json'),
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_stores: path.resolve(__dirname, '../src/store'),
@@ -93,14 +97,4 @@ module.exports = {
       }
     ]
   }
-  // plugins: [
-  //   new CriticalPlugin({
-  //     base: path.join(path.resolve(__dirname)),
-      
-  //     src: '../src/index.template.html',
-  //     inline: true,
-  //     minify: true,
-  //     dest: 'index.html'
-  //   })
-  // ]
 }
