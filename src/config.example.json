@@ -33,5 +33,11 @@
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe"]
+    "registeredExtensions": ["custom_extension", "mailchimp-subscribe"],
+    "theme": "default",
+    "meta": {
+      "shopName": "Vue Storefront",
+      "titleSuffix": " - Vue Storefront",
+      "description": "Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API."
+    }
 }

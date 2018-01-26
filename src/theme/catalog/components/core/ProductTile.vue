@@ -1,12 +1,12 @@
 <template>
-  <div class="product-tile ">
+  <div class="product-tile py10-md">
     <div class="row center-xs fs-medium-small" :class="{ 'middle-xs p10' : mobileHorizontalMode, p30 : !mobileHorizontalMode}">
       <div class="col-md-12" :class="{ 'col-xs-4' : mobileHorizontalMode}">
           <figure class="image center-xs middle-xs flex m0 mt10" :class="{ 'image-horizontal' : mobileHorizontalMode }">
               <img :src="thumbnail()" :alt="product.name">
           </figure>
         </div>
-        <div class="col-md-12" :class="{ 'col-xs-8 middle-xs start-xs' : mobileHorizontalMode}">
+        <div class="col-md-12 center-md" :class="{ 'col-xs-8 middle-xs start-xs' : mobileHorizontalMode}">
           <div class="c-secondary" :class="{ mt20 : !mobileHorizontalMode }"> {{ product.name | htmlDecode }}</div>
           <div class="bold c-on-light mt10"> {{ product.price | price }}</div>
         </div>
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     thumbnail () {
-      return thumbnail(this.product.image, 220, 300)
+      return thumbnail(this.product.image, 230, 250)
     }
   }
 }
@@ -50,7 +50,7 @@ export default {
 }
 .image img {
   overflow: hidden;
-  max-height: 250px;
+  height: 250px;
 }
 
 @media ( max-width: $md ) {

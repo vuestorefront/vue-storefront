@@ -6,10 +6,10 @@ const path = require('path')
 const vueConfig = require('./vue-loader.config')
 
 const theme = require('../src/config.json').theme
-const themeComponents = '../src/themes/' + theme +'/components'
-const themePages = '../src/themes/' + theme +'/pages'
-const themeCSS = '../src/themes/' + theme +'/css'
-const themeApp = '../src/themes/' + theme +'/App.vue'
+const themeComponents = '../src/theme/' + theme +'/components'
+const themePages = '../src/theme/' + theme +'/pages'
+const themeCSS = '../src/theme/' + theme +'/css'
+const themeApp = '../src/theme/' + theme +'/App.vue'
 
 module.exports = {
   devtool: '#source-map',
@@ -21,11 +21,10 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.vue'],
     alias: {
-      'config': path.resolve(__dirname, '../config.json'),
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_stores: path.resolve(__dirname, '../src/store'),
-      core_themes: path.resolve(__dirname, '../src/themes'),
+      core_themes: path.resolve(__dirname, '../src/theme'),
       'core/components': path.resolve(__dirname, '../src/components/core'),
       'components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../src/pages'),

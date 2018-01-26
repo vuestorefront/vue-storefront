@@ -7,9 +7,9 @@
 
     <nav class="menu container">
       <div class="row middle-xs full-size">
-        <div class="col-xs-6 col-md-3 start-xs middle-xs inline-flex">
+        <div class="col-xs-6 col-md-3 center-xs middle-xs inline-flex">
           <router-link to="/"><logo class="inline-flex pr25"/></router-link>
-          <i @click="focusSearchBox" class="material-icons b-left middle-xs px25 full-size inline-flex">search</i>
+          <i @click="focusSearchBox" class="material-icons b-left-md middle-xs px25 full-size inline-flex">search</i>
         </div>
         <div class="col-md-5 semibold end-xs middle-xs inline-flex uppercase hide flex-md">
           <router-link v-for="category in categories" :key="category.name" :to="'/c/' + category.slug" class="menu-link full-size px20 middle-xs flex">
@@ -22,7 +22,7 @@
             <div class="material-icons inline-flex pr10">book</div>   
             <div class="inline-flex">Magazine</div>
           </router-link>
-          <i @click="openWishlist" class="material-icons middle-xs px25 full-size inline-flex b-left">favorite_border</i>
+          <i @click="openWishlist" class="material-icons middle-xs px25 full-size inline-flex b-left-md">favorite_border</i>
           <i @click="liveChatMessage" class="material-icons middle-xs px25 full-size inline-flex">forum</i>
         </div>
       </div>
