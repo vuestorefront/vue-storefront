@@ -1,8 +1,10 @@
 <template>
   <div id="home">
   <main-slider />
-  
-  <section class="new-collection container pt40 px15">
+
+  <promoted-offers></promoted-offers>
+
+  <section class="new-collection container px15">
     <div>
       <header class="col-md-12">
         <h2 class="align-center c-black">Everything new</h2>
@@ -36,6 +38,7 @@ import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
 // import ProductTile from '../components/core/ProductTile.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 
+import PromotedOffers from '../components/theme/blocks/PromotedOffers/PromotedOffers.vue'
 import TileLinks from '../components/theme/blocks/TileLinks/TileLinks.vue'
 import Collection from '../components/theme/blocks/Collection/Collection'
 import Onboard from '../components/theme/blocks/Home/Onboard.vue'
@@ -88,6 +91,7 @@ export default {
   components: {
     ProductListing,
     MainSlider,
+    PromotedOffers,
     TileLinks,
     Collection,
     Onboard
