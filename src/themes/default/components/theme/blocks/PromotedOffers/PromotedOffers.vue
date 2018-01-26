@@ -32,17 +32,6 @@
             </div>
           </router-link>
         </div>
-        <!-- <div class="offer-container px15 pt15">
-          <router-link to="c/women-20">
-            <div
-              class="offer offer-small p5 flex center-xs middle-xs c-white"
-              v-lazy:background-image="'/assets/ig/ig05.png'"
-            >
-              <p class="subtitle m0 serif h3 uppercase">Sales</p>
-              <h2 class="title m0 h1">Eco Friendly</h2>
-            </div>
-          </router-link>
-        </div> -->
       </div>
     </div>
   </section>
