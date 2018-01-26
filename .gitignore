@@ -9,3 +9,4 @@ config/local.json
 package-lock.json
 var
 build/config.json
+theme.js

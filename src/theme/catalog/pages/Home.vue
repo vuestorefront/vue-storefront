@@ -22,7 +22,7 @@
         </nossr>
       </div>
 
-      <div class="row animate bg-primary bg-transparent-md mt0-md mt40 ">
+      <div class="row bg-primary bg-transparent-md mt0-md mt40 ">
         <h2 class="center-xs mt80-md mt50 mb50 col-xs-12">New items</h2>
         <div v-for="(product, index) in newProducts" :key="index" class="col-md-3 hide show-md  " :class="{ pr0 : (index+1) % 4 != 0, pl0 : (index+1) % 4 != 1 }">
           <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
@@ -42,7 +42,7 @@
         </nossr>
       </div>
 
-      <div class="row animate">
+      <div class="row">
         <h2 class="center-xs mt80-md mt50 mb50 animate col-xs-12">Magazine</h2>
         <div v-for="(magazine, index) in magazines" :key="magazine.title" class="col-md-6 px0 " :class="{ 'pr0-md pl8-md' : index % 2 == 0, 'pl0-md pr8-md' : index % 2 == 1 }">
           <router-link to="/">

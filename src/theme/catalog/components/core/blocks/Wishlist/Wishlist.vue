@@ -15,7 +15,7 @@
         </div>
       </div>
    </div>
-   <div class="row pr50">
+   <div class="row pr50-md pl20 pr20 pl0-md">
      <div class="col-md-12">
       <h1 v-if="items.length">Wishlist</h1>
       <div class="products">

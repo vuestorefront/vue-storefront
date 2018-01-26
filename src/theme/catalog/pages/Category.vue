@@ -22,7 +22,7 @@
         <div>
             <div class="container animate">
                 <div class="row my50-md">
-                    <div v-for="(product, index) in products" :key="product.name" class="col-md-3" :class="{ 'pr0-md' : index % 4 != 0, 'pl0-md' : index % 4 != 1 }">
+                    <div v-for="(product, index) in products" :key="product.name" class="col-md-3" :class="{ 'pr0-md' : (index+1) % 4 != 0, 'pl0-md' : (index+1) % 4 != 1 }">
                         <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
                             <product-tile  :mobileHorizontalMode="true" class="b-md b-bottom py0-md py10" :product="product" :class="{ 'b-right-none' : index % 4 != 0 }"/>
                         </router-link>

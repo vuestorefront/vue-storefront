@@ -7,8 +7,8 @@
 
     <nav class="menu container">
       <div class="row middle-xs full-size">
-        <div class="col-xs-6 col-md-3 center-xs middle-xs inline-flex">
-          <router-link to="/"><logo class="inline-flex pr25"/></router-link>
+        <div class="col-xs-6 col-md-3 center-xs start-md middle-xs inline-flex">
+          <router-link to="/"><logo class="logo inline-flex pr25"/></router-link>
           <i @click="focusSearchBox" class="material-icons b-left-md middle-xs px25 full-size inline-flex">search</i>
         </div>
         <div class="col-md-5 semibold end-xs middle-xs inline-flex uppercase hide flex-md">
@@ -78,6 +78,10 @@ export default {
 @import '~theme/css/vars/colors';
 @import '~theme/css/mixins/transitions';
 @import '~theme/css/mixins/hovers';
+
+.logo {
+  height: 50px;
+}
 
 a {
   color: $c-text-header-link;
