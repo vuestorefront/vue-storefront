@@ -1,0 +1,16 @@
+@import 'global_vars';
+
+@mixin color {
+    @each $color, $colorcode in $colors {
+        .bg-#{$color} {
+            background-color: #{$colorcode};
+        }
+    }
+    @each $color, $colorcode in $colors {
+        .c-#{$color} {
+            color: #{$colorcode};
+        }
+    }
+}
+
+@include color;
