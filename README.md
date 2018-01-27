@@ -13,16 +13,21 @@ You can request joining the slack channel by dropping us a line to: *contributor
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
 
-* [Common problems](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
-* [Connecting Prestashop, Sylius as backend ...](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6)
-* [Data formats specification](https://github.com/magento-engcom/es-indexer/wiki)
-* [Pimcore data connector](https://github.com/DivanteLtd/pimcore2vuestorefront)
+### Basics
 * [Installing on Linux/MacOS](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md)
 * [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
-* [Introduction to components in Vue Storefront](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Introduction%20to%20components.md)
+* [Connecting Prestashop, Sylius as backend ...](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6)
+* [Pimcore data connector](https://github.com/DivanteLtd/pimcore2vuestorefront)
+* [Data formats specification](https://github.com/magento-engcom/es-indexer/wiki)
+* [Common problems](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
 * [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
 * [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
 * [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
+
+### Vue Storefront core and themes
+* [Introduction to components in Vue Storefront](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Introduction%20to%20components.md)
+
+### 'Default theme' contriribution rules
 * [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md)
 
 ## The business challenges
