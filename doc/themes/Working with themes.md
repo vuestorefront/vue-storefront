@@ -12,4 +12,4 @@ To use any of the themes located in `src/themes` just change the `theme` propert
 
 ## Creating your own themes
 
-To create your own theme just copy the `theme-starter` folder (it contains all files needed for new theme) located in `src/themes` and change it's name to your new theme's name and that's it. Now you can start development of your own theme for Vue Storefront!
+To create your own theme just copy the `theme-starter` folder (it contains all files needed for new theme) located in `src/themes` and change it's name to your new theme's name. Now you can start development of your own theme for Vue Storefront!
