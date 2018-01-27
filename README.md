@@ -13,19 +13,23 @@ You can request joining the slack channel by dropping us a line to: *contributor
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
 
-### Basics
+### Installation
 * [Installing on Linux/MacOS](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md)
 * [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
-* [Pimcore data connector](https://github.com/DivanteLtd/pimcore2vuestorefront)
-* [Data formats specification](https://github.com/magento-engcom/es-indexer/wiki)
-* [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
-* [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
+
+### Basics
+* [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md)
 * [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * [Common problems](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
 
 ### Vue Storefront core and themes
 * [Wotking with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
+
+### Data in Vue Storefront
+* [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
+* [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
+* [Data formats specification](https://github.com/magento-engcom/es-indexer/wiki)
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
