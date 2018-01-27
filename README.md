@@ -28,6 +28,8 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 
 ### Integrations
+* [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
+* [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 * [How to connect 3rd party platform to Vue Storefront as a backend?](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6)
 
 ### 'Default theme' contriribution rules
