@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~src/theme/default/css/transitions';
+@import '~src/themes/default/css/transitions';
 
 .product {
   @media (max-width: 700px) {

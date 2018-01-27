@@ -1,7 +1,7 @@
 import Vue from 'vue/dist/vue.common.js'
 import Vuex from 'vuex/dist/vuex.js'
 import store from 'src/store'
-import Home from 'src/theme/default/pages/Home.vue'
+import Home from 'src/themes/default/pages/Home.vue'
 
 Vue.use(Vuex)
 
