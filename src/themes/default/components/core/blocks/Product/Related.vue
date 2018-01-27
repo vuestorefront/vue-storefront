@@ -27,7 +27,7 @@
         </header>
       </div>
       <div class="row center-xs">
-        <product-listing columns="4" :products="related.by_category" />
+        <product-listing :columns="{md:4}" :products="related.by_category" />
       </div>
     </section>
   </div>

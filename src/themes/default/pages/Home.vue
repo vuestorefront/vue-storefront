@@ -11,7 +11,7 @@
       </header>
     </div>
     <div class="row center-xs">
-      <product-listing columns="4" :products="everythingNewCollection" />
+      <product-listing :columns="{lg: 4}" :products="everythingNewCollection" />
     </div>
   </section>
 

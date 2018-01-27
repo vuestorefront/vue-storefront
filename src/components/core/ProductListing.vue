@@ -17,7 +17,25 @@ import ProductTile from './ProductTile.vue'
 
 export default {
   name: 'product-listing',
-  props: ['products', 'columns'],
+  props: {
+    products: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    columns: {
+      type: Object,
+      default () {
+        return {
+          xs: 6,
+          sm: 6,
+          md: 3,
+          lg: 4
+        }
+      }
+    }
+  },
   components: {
     ProductTile
   }
