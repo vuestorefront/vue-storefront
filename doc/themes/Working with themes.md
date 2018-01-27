@@ -8,7 +8,7 @@ All themes are located in `src/themes` folder.
 
 ## Switching themes
 
-To use any of the themes located in `src/themes` just change the `theme` property in your config file to folder name of the theme that you want to use. The config files are located in `config` folder. You shouldn't make changes in `config/default.json'. Instead just copy the `default.json` file, name it `local.json` and make changes here.
+To use any of the themes located in `src/themes` just change the `theme` property in your config file to folder name of the theme that you want to use. The config files are located in `config` folder. You shouldn't make changes in `config/default.json`. Instead just copy the `default.json` file to the same folder, name it `local.json` and make changes here.
 
 ## Creating your own themes
 
