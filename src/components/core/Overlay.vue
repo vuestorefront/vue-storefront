@@ -10,6 +10,12 @@ export default {
     onClick () {
       this.$store.commit('ui/setOverlay', false)
     }
+  },
+  beforeCreate () {
+    document.documentElement.classList.add('no-scroll')
+  },
+  destroyed () {
+    document.documentElement.classList.remove('no-scroll')
   }
 }
 </script>
