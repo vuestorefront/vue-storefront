@@ -25,7 +25,8 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 
 ### Vue Storefront core and themes
-* [Introduction to components in Vue Storefront](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Introduction%20to%20components.md)
+* [Wotking with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
+* [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 
 ### 'Default theme' contriribution rules
 * [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md)
