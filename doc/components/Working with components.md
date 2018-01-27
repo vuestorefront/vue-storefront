@@ -45,13 +45,12 @@ Core pages are placed in `src/pages`.
 
 First of all: <strong>override core components only when you're adding features to the core</strong>. The correct approach for using core components in your theme is thinking of them as an external API. You can inherit the functionalities and extend them in theme but never change it in a core.
 
-When you're changing the core component the API (data and methods exposed for themes) shouldn't be changed . Such changes would break the themes using this core component.
+<strong>When you're modifying the core component never change the component's API</strong> (data and methods exposed by component for themes). Such changes would break the themes using this core component.
 
 ## The core component's folder structure
 
 * `core` - Components thet can be used across whole project should be placed in root of this folder. 
 * `core/blocks` - All other component's specific to pages (e.g Home, Category), other components (e.g Header, Footer) or functionalities (e.g Auth).
-* `theme` (theme components only) - Components that are theme-specific and doesn't override core component's
 
 ## Rules to follow when creating new core components
 
@@ -61,4 +60,6 @@ When you're changing the core component the API (data and methods exposed for th
 
 See also: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
 
+# Core components documentation (still working on it)
 
+* [Modal](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/modal.md) - `Modal.vue`
