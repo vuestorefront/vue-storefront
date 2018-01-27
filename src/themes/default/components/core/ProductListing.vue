@@ -13,28 +13,8 @@ import ProductTile from './ProductTile.vue'
 export default {
   name: 'ProductListing',
   mixins: [coreComponent('core/ProductListing')],
-  data () {
-    return {
-      defaultColumns: {
-        xs: 6,
-        sm: 6,
-        md: 4,
-        lg: 4
-      }
-    }
-  },
   components: {
     ProductTile
-  },
-  computed: {
-    computeColumns () {
-      let cols = {}
-      Object.assign(cols, this.columns, this.defaultColumns)
-      return `col-xs-${cols.xs} 
-              col-sm-${cols.sm} 
-              col-md-${cols.md} 
-              col-lg-${cols.lg}`
-    }
   }
 }
 </script>
