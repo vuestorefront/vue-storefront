@@ -58,8 +58,12 @@ First of all: <strong>override core components only when you're adding features 
 2. Don't use `<template>` tag in core components. You can add it only when the component's HTML isn't overridable (like in Overlay component).
 3. Put only theme-agnostic businnes logic in core components.
 
-See also: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
+
 
 # Core components documentation (still working on it)
 
 * [Modal](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/modal.md) - `Modal.vue`
+
+# Related topics
+
+* [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
