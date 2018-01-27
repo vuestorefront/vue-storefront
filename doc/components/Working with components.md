@@ -59,7 +59,6 @@ When you're changing the core component the API (data and methods exposed for th
 2. Don't use `<template>` tag in core components. You can add it only when the component's HTML isn't overridable (like in Overlay component).
 3. Put only theme-agnostic businnes logic in core components.
 
-
-
+See also: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
 
 
