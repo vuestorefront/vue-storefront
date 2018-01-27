@@ -1,0 +1,22 @@
+{
+  "mainBanner": {
+    "title": "Luma Performance",
+    "subtitle": "Collection",
+    "image": "/assets/slide_02.jpg",
+    "link": "c/women-20"
+  },
+  "smallBanners": [
+    {
+      "title": "Erin Renny",
+      "subtitle": "New",
+      "image": "/assets/ig/ig03.png",
+      "link": "c/men-11"
+    },
+    {
+      "title": "Eco-friendly",
+      "subtitle": "Sales",
+      "image": "/assets/ig/ig05.png",
+      "link": "c/gear-3"
+    }
+  ]
+}
