@@ -10,7 +10,7 @@ EventBus.$on('user-after-update', (event) => {
   if (event.resultCode === 200) {
     EventBus.$emit('notification', {
       type: 'success',
-      message: 'Accound data has successfully been updated',
+      message: 'Account data has successfully been updated',
       action1: { label: 'OK', action: 'close' }
     })
     store.dispatch('user/refreshCurrentUser', event.result)

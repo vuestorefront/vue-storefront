@@ -34,7 +34,7 @@
     "tax": {
       "defaultCountry": "PL",
       "defaultRegion": "",
-      "calculateServerSide": false
+      "calculateServerSide": true
     },
     "i18n": {
       "defaultCountry": "US",
