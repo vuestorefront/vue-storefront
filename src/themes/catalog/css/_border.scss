@@ -1,0 +1,99 @@
+
+//todo: loop :)
+.b {
+    border: $border-width $border-style $c-border;
+}
+
+.b-top {
+    border-top-color: $c-border;    
+    border-top-width: $border-width;
+    border-top-style: $border-style;
+}
+
+.b-bottom {
+    border-bottom-color: $c-border;    
+    border-bottom-width: $border-width;
+    border-bottom-style: $border-style;
+}
+
+.b-right {
+    border-right-color: $c-border;    
+    border-right-width: $border-width;
+    border-right-style: $border-style;
+}
+
+.b-left {
+    border-left-color: $c-border;    
+    border-left-width: $border-width;
+    border-left-style: $border-style;
+}
+
+
+
+.b-none {
+    border: none;
+}
+.b-bottom-none {
+    border-bottom: none;
+}
+
+.b-right-none {
+    border-right: none;
+}
+
+.b-left-none {
+    border-left: none;
+}
+
+.b-circle {
+    border-radius: 50%;
+}
+
+@media (min-width: $md) {
+
+    .b-bottom-md {
+        border-bottom-color: $c-border;    
+        border-bottom-width: $border-width;
+        border-bottom-style: $border-style;
+    }
+    
+    .b-right-md {
+        border-right-color: $c-border;    
+        border-right-width: $border-width;
+        border-right-style: $border-style;
+    }
+    
+    .b-left-md {
+        border-left-color: $c-border;    
+        border-left-width: $border-width;
+        border-left-style: $border-style;
+    }
+    
+    .b-md {
+        border: $border-width $border-style $c-border;
+    }
+    
+    .b-none-md {
+        border: none;
+    }
+
+    .b-top-none-md {
+        border-top: none;
+    }
+
+    .b-bottom-none-md {
+        border-bottom: none;
+    }
+    
+    .b-right-none-md {
+        border-right: none;
+    }
+    
+    .b-left-none-md {
+        border-left: none;
+    }
+    
+    .b-circle-md {
+        border-radius: 50%;
+    }
+}

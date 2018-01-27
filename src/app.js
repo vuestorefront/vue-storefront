@@ -1,5 +1,6 @@
+
 import Vue from 'vue'
-import App from './themes/default/App.vue'
+import App from 'theme/app'
 import store from './store'
 import router from './router'
 import { EventBusPlugin as EventBus } from './event-bus'
@@ -7,7 +8,6 @@ import { ConfigPlugin as ConfigPlg } from 'src/config'
 import config from 'config'
 
 import { sync } from 'vuex-router-sync'
-
 import { registerFilters } from './lib/filters'
 import { registerTheme } from './lib/themes'
 import { registerExtensions } from './lib/extensions'
@@ -31,7 +31,7 @@ export function createApp () {
   })
 
   registerExtensions(config.registeredExtensions || [], app, router, store, config) // TODO: use config or ENV variables
-  registerTheme('default', app, router, store)
+  registerTheme(config.theme, app, router, store)
   registerFilters(app, config)
 
   app.$emit('application-after-init', app)

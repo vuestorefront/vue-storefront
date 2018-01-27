@@ -1,0 +1,13 @@
+.icon-with-bg {
+    color: $c-icon-with-background;
+    background: $c-bg-icon-with-background;
+    border-radius: $icon-with-background-radius;
+}
+
+.c-icon {
+    color: $c-icon;
+}
+
+.c-icon-hover:hover {
+    color: $c-icon-hover;
+}

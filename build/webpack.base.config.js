@@ -1,14 +1,16 @@
 const path = require('path')
-// TO-DO: FIgure out why critical css doesn't work with SSR 
-// const CriticalPlugin = require('webpack-plugin-critical').CriticalPlugin;
-
-  // const projectRoot = path.resolve(__dirname, '../')
-const vueConfig = require('./vue-loader.config')
-
 const config = require('config')
 const fs = require('fs')
+
 fs.writeFileSync(path.resolve(__dirname, '../build/config.json'), JSON.stringify(config))
 
+const vueConfig = require('./vue-loader.config')
+
+const theme = require('../build/config.json').theme
+const themeComponents = '../src/themes/' + theme + '/components'
+const themePages = '../src/themes/' + theme + '/pages'
+const themeCSS = '../src/themes/' + theme + '/css'
+const themeApp = '../src/themes/' + theme + '/App.vue'
 
 module.exports = {
   devtool: '#source-map',
@@ -24,7 +26,7 @@ module.exports = {
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../src/components'),
       core_stores: path.resolve(__dirname, '../src/store'),
-      core_themes: path.resolve(__dirname, '../src/themes'),
+      core_themes: path.resolve(__dirname, '../src/themes/' + theme),
       'core/components': path.resolve(__dirname, '../src/components/core'),
       'components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../src/pages'),
@@ -34,12 +36,13 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
 
-      theme_pages: path.resolve(__dirname, '../src/themes/default/pages'),
-      theme_components: path.resolve(__dirname, '../src/themes/default/components'),
-      'theme/components': path.resolve(__dirname, '../src/themes/default/components'),
-      'theme/pages': path.resolve(__dirname, '../src/themes/default/pages'),
-      'theme/css': path.resolve(__dirname, '../src/themes/default/css')
-
+      theme_pages: path.resolve(__dirname, themePages),
+      theme_components: path.resolve(__dirname, themeComponents),
+      'theme/components': path.resolve(__dirname, themeComponents),
+      'theme/pages': path.resolve(__dirname, themePages),
+      'theme/css': path.resolve(__dirname, themeCSS),
+      'theme/app': path.resolve(__dirname, themeApp)
+      
     }
   },
 
@@ -64,7 +67,7 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueConfig
+        options: vueConfig,
       },
       {
         test: /\.js$/,
@@ -80,7 +83,8 @@ module.exports = {
       },
       {
         test: /\.s[a|c]ss$/,
-        loader: 'style!css!sass'
+        loader: 'style!css!sass',
+        
       },
       {
         test: /\.md$/,
@@ -91,14 +95,4 @@ module.exports = {
       }
     ]
   }
-  // plugins: [
-  //   new CriticalPlugin({
-  //     base: path.join(path.resolve(__dirname)),
-      
-  //     src: '../src/index.template.html',
-  //     inline: true,
-  //     minify: true,
-  //     dest: 'index.html'
-  //   })
-  // ]
 }

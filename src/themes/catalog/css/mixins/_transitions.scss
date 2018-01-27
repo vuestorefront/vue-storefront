@@ -1,0 +1,24 @@
+@import '../vars/additional';
+
+@mixin transition {
+    transition: $transition-time all;
+    &:hover {
+        transition: $transition-time all;        
+    }
+}
+
+@mixin transition-long {
+    transition: $transition-time-long all;
+    &:hover {
+        transition: $transition-time-long all;        
+    }
+}
+
+@mixin transition-icon {
+    transition: $transition-time all;
+    &:hover {
+        transition: $transition-time all;        
+    }
+}
+
+

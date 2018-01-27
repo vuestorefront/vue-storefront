@@ -1,7 +1,9 @@
+import config from 'config'
+
 const state = {
-  title: 'Vue Storefront',
-  description: 'Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.',
-  suffix: ' - Vue Storefront'
+  title: config.meta.shopName,
+  description: config.meta.description,
+  suffix: config.meta.titleSuffix
 }
 
 const getters = {

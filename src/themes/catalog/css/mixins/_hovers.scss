@@ -1,0 +1,15 @@
+@mixin hover-bg-darken ($color) {
+    transition: $transition-time-hover background;
+    &:hover {
+        background-color: darken($color, 10%);
+        transition: $transition-time-hover background;
+    }
+}
+
+@mixin hover-bg ($color) {
+    transition: $transition-time-hover background;
+    &:hover {
+        background-color: $color;
+        transition: $transition-time-hover background;
+    }
+}

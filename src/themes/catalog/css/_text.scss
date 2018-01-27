@@ -1,0 +1,83 @@
+// Globals
+
+body {
+    font-family: $font-family;
+    color: $c-text-primary;    
+    font-size: $font-size;
+    font-weight: $font-weight;
+}
+
+a {
+    text-decoration: $link-text-decoration;
+}
+h1 {
+    font-size: $font-size-h1;
+    color: $c-text-heading;
+    font-weight: $font-weight-h1;    
+}
+h2 {
+    font-size: $font-size-h2;
+    color: $c-text-heading;
+    font-weight: $font-weight-h2;
+}
+
+// Colors
+
+
+.c-primary {
+    color: $c-text-primary;
+}
+.c-secondary {
+    color: $c-text-secondary;    
+}
+.c-secondary-lighter {
+    color: $c-text-secondary-lighter;        
+}
+.c-accent {
+    color: $c-accent;
+}
+.c-on-accent {
+    color: $c-text-on-accent;
+}
+.c-on-secondary {
+    color: $c-text-on-bg-secondary;
+}
+.c-on-dark {
+    color: $c-text-on-dark;
+}
+.c-on-light {
+    color: $c-text-on-light;
+}
+
+// Weights
+
+.regular {
+    font-weight: 300;
+}
+.semibold {
+    font-weight: 600;
+}
+.bold {
+    font-weight: 600;
+}
+.extrabold {
+    font-weight: 800;
+}
+.uppercase {
+    text-transform: uppercase;
+}
+
+// Sizes
+
+.fs-medium-small {
+    font-size: $font-size-medium-small;
+}
+.fs-medium {
+    font-size: $font-size-medium;
+}
+.fs-large {
+    font-size: $font-size-large;
+}
+.fs-big {
+    font-size: $font-size-big;
+}
