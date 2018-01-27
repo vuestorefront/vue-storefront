@@ -32,6 +32,7 @@ Vue Storefront was created to solve a set of key business challenges from the wo
 * The off-line shopping capabilities;
 * The smooth shopping experience close to the user experience from the native mobile applications;
 * The all-in-one front-end for desktop and mobile screens with no necessity for maintaining 3 or more applications for different touchpoints (web browser, Android, iOS etc.).
+* Rapid development wothout architecture limitations.
 
 ## The technology
 Vue Storefront was build as a all-in-one front-end for eCommerce. For providing the best performance we decided to use Vue.js as a front-end library, Node.js + Express (and maybe GraphQL support) as a server-API, Elastic Search as a database of products and full PWA/off-line support.
