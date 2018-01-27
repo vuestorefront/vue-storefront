@@ -39,12 +39,21 @@ From now you can access and override all methods, data and components from core 
 
 # Pages
 
-Inheritance in pages works exactly like in other components. Core pages are placed in `src/pages`.
+Inheritance in pages works exactly like in other components. The only difference is that insted of importing `coreComponent` you shoould import `corePage`:
+```javascript
+import { corePage } from 'lib/themes'
+
+export default {
+  ...
+  mixins: [coreComponent('core/Home')]
+}
+```
+Core pages are placed in `src/pages`.
 
 # Rules to follow when creating new core components
 
 1. Don't use `<style>` tag in core components.
 2. Don't use `<template>` tag in core components. You can add it only when the component's HTML isn't overridable (like in Overlay component).
 3. Put only theme-agnostic businnes logic in core components.
-4. By default include  all core components that can be accessed inside this component (e.g `HamburgerIcon`, `WishlistIcon`, `MicrocartIcon` etc. in `Header` component)
+
 
