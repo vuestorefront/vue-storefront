@@ -3,7 +3,7 @@
     <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
       <div class="container">
         <div class="row between-xs middle-xs px15" v-if="!isCheckout">
-          <div class="col-xs-2 col-md-4 middle-xs">
+          <div class="col-xs-2 col-md-4 middle-xs header__menu">
             <div>
               <hamburger-icon class="p15 icon bg-lightgray"/>
             </div>
@@ -19,7 +19,7 @@
           <div class="col-xs-2 visible-xs">
             <wishlist-icon class="p15 icon" />
           </div>
-          <div class="col-xs-2 col-md-4 end-xs">
+          <div class="col-xs-2 col-md-4 end-xs header__personal">
             <div class="inline-flex">
               <search-icon class="p15 icon hidden-xs" />
               <wishlist-icon class="p15 icon hidden-xs" />
@@ -186,13 +186,13 @@ export default {
     }
   }
 
-  .col-xs-2:first-of-type {
+  .header__menu {
       @media (max-width: 767px) {
         padding-left: 0;
       }
   }
 
-  .col-xs-2:last-of-type {
+  .header__personal {
     @media (max-width: 767px) {
       padding-right: 0px;
     }
