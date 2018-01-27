@@ -28,7 +28,7 @@ export default {
 From now you can access and override all methods, data and components from core component like it was declaired in your theme component.
 
 
-# For pages
+## For pages
 
 Inheritance in pages works exactly like in other components. The only difference is that insted of importing `coreComponent` you shoould import `corePage`:
 ```javascript
