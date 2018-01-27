@@ -3,7 +3,7 @@
   Aggregator for multiple ProductTile components to be displayed in columns or other type of grid 
   props:
   "products" - array of products
-  "columns" - # of columns to be displayed
+  "columns" - object of columns to be displayed
   data to display
   v-for="product in products"
     -->
