@@ -1,4 +1,4 @@
-# Types of components
+# Vue Storefront core components and theme components
 
 In Vue Storefront there are two types of components:
 
