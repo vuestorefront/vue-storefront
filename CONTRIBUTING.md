@@ -26,7 +26,7 @@ Here’s how to submit a pull request:
 2. Create a branch for your edits. Use the following branch naming conventions:
  * bugfix/task-title
  * feature/task-name
-3. Reference any relevant issues or supporting documentation in your PR (ex. “OLOY: 39. Issue title.”).
+3. Reference any relevant issues or supporting documentation in your PR (ex. “Issue: 39. Issue title.”).
 4. Include screenshots of the before and after if your changes include differences in HTML/CSS. Drag and drop the images into the body of your pull request.
 5.Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project.
 
