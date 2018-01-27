@@ -1,0 +1,44 @@
+@import 'global_vars';
+
+// Pixel sizes
+
+$border-px: 1;
+
+// Radius
+
+$border-radius: (
+    square: 0,
+    circle: 50%
+);
+
+@mixin border {
+    @each $i in $border-px {
+        .brdr-#{$i} {
+            border: #{$i}px solid;
+        }
+        .brdr-top-#{$i} {
+            border-top-width: #{$i}px;
+            border-top-style: solid;
+        }
+        .brdr-bottom {
+            border-bottom-width: #{$i}px;
+            border-bottom-style: solid;
+        }
+    }
+    @each $color, $colorcode in $colors {
+        .brdr-c-#{$color} {
+            border-color: #{$colorcode};
+        }
+    }
+    @each $name, $value in $border-radius {
+        .brdr-#{$name} {
+            border-radius: #{$value};
+        }
+    }
+}
+
+.brdr-none {
+    border: none;
+}
+
+@include border;
