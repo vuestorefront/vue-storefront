@@ -5,24 +5,6 @@ In Vue Storefront there are two types of components:
 
 * <strong>Theme components</strong> (`src/themes/{theme_name}/components`) - The theme component is what you really see in the app. They can inherit business logic from core components or be created as theme-specific components. All CSS and HTML should be placed in theme components. A good practice is to created theme components inheriting from specific core components with the same name and in the same path ( e.g components inheriting from (`src/themes/{theme_name}/components/core/ProductTile.vue`) should be placed  (`src/themes/{theme_name}/components/core/ProductTile.vue`) but it'ss not obligatory and you can structure your theme in any way you like.
 
-# Working with core components
-
-First of all: <strong>override core components only when you're adding features to the core</strong>. The correct approach for using core components in your theme is thinking of them as an external API. You can inherit the functionalities and extend them in theme but never change it in a core.
-
-When you're changing the core component the API (data and methods exposed for themes) shouldn't be changed . Such changes would break the themes using this core component.
-
-## The core component's folder structure
-
-* `core` - Components thet can be used across whole project should be placed in root of this folder. 
-* `core/blocks` - All other component's specific to pages (e.g Home, Category), other components (e.g Header, Footer) or functionalities (e.g Auth).
-* `theme` (theme components only) - Components that are theme-specific and doesn't override core component's
-
-## Rules to follow when creating new core components
-
-1. Don't use `<style>` tag in core components.
-2. Don't use `<template>` tag in core components. You can add it only when the component's HTML isn't overridable (like in Overlay component).
-3. Put only theme-agnostic businnes logic in core components.
-
 # Using core components in your theme
 
 ## For components
@@ -58,6 +40,26 @@ export default {
 }
 ```
 Core pages are placed in `src/pages`.
+
+# Working with core components
+
+First of all: <strong>override core components only when you're adding features to the core</strong>. The correct approach for using core components in your theme is thinking of them as an external API. You can inherit the functionalities and extend them in theme but never change it in a core.
+
+When you're changing the core component the API (data and methods exposed for themes) shouldn't be changed . Such changes would break the themes using this core component.
+
+## The core component's folder structure
+
+* `core` - Components thet can be used across whole project should be placed in root of this folder. 
+* `core/blocks` - All other component's specific to pages (e.g Home, Category), other components (e.g Header, Footer) or functionalities (e.g Auth).
+* `theme` (theme components only) - Components that are theme-specific and doesn't override core component's
+
+## Rules to follow when creating new core components
+
+1. Don't use `<style>` tag in core components.
+2. Don't use `<template>` tag in core components. You can add it only when the component's HTML isn't overridable (like in Overlay component).
+3. Put only theme-agnostic businnes logic in core components.
+
+
 
 
 
