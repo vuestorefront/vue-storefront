@@ -95,7 +95,6 @@ export default {
     }
   },
   created () {
-    console.log(this.isProductPage)
     if (this.$route.name === 'checkout') {
       this.isCheckout = true
     }
