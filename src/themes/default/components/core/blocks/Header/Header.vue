@@ -1,11 +1,19 @@
 <template>
   <div class="header">
-    <header class="brdr-bottom bg-white brdr-c-alto"  :class="{ 'is-visible': navVisible }">
+    <header
+      class="brdr-bottom bg-white brdr-c-alto"
+      :class="{ 'is-visible': navVisible }"
+    >
       <div class="container">
         <div class="row between-xs middle-xs px15" v-if="!isCheckout">
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
-              <hamburger-icon class="p15 icon bg-lightgray"/>
+              <template v-if="!isProductPage">
+                <hamburger-icon class="p15 icon bg-lightgray" v-if="!isProductPage"/>
+              </template>
+              <template v-else>
+                <return-icon class="p15 icon bg-lightgray" v-if="isProductPage"/>
+              </template>
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
@@ -61,6 +69,7 @@ import Logo from '../../Logo.vue'
 import AccountIcon from './AccountIcon.vue'
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
+import ReturnIcon from './ReturnIcon.vue'
 import SearchIcon from './SearchIcon.vue'
 import WishlistIcon from './WishlistIcon.vue'
 import CompareIcon from './CompareIcon.vue'
@@ -68,12 +77,26 @@ import CompareIcon from './CompareIcon.vue'
 export default {
   data () {
     return {
+      productPageRoutes: [
+        'product',
+        'simple-product',
+        'configurable-product',
+        'downloadable-product',
+        'grouped-product'
+      ],
       isCheckout: false,
+      isProductPage: false,
       navVisible: true
     }
   },
+  beforeCreated () {
+    if (this.productPageRoutes.includes(this.$route.name)) {
+      this.isProductPage = true
+    }
+  },
   created () {
-    if (this.$route.path === '/checkout') {
+    console.log(this.isProductPage)
+    if (this.$route.name === 'checkout') {
       this.isCheckout = true
     }
   },
@@ -109,8 +132,14 @@ export default {
     }
   },
   watch: {
-    '$route.path': function () {
-      if (this.$route.path === '/checkout') {
+    '$route.name': function () {
+      if (this.productPageRoutes.includes(this.$route.name)) {
+        this.isProductPage = true
+      } else {
+        this.isProductPage = false
+      }
+
+      if (this.$route.name === 'checkout') {
         this.isCheckout = true
         this.menuFixed = true
       } else {
@@ -137,6 +166,7 @@ export default {
     WishlistIcon,
     CompareIcon,
     SearchIcon,
+    ReturnIcon,
     Logo
   },
   mixins: [coreComponent('core/blocks/Header/Header')]
