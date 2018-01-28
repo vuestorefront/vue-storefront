@@ -1,7 +1,7 @@
 <template>
-  <div class="hamburger-icon inline-flex" @click="goBack">
+  <button type="button" class="inline-flex" @click="goBack">
     <i class="material-icons md-18">keyboard_backspace</i>
-  </div>
+  </button>
 </template>
 
 <script>
@@ -11,3 +11,9 @@
     mixins: [coreComponent('core/blocks/Header/ReturnIcon')]
   }
 </script>
+
+<style scoped>
+  button {
+    border: none;
+  }
+</style>
