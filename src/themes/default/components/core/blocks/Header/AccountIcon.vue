@@ -1,12 +1,17 @@
 <template>
-  <div class="account-icon inline-flex" @click="openMyAccount">
-    <div class="dropdown" @mouseover="hoverIcon">
-      <i class="material-icons md-18" @click="gotoAccount">account_circle</i>
-      <div v-if="currentUser" :class="showDropdown ? 'dropdown-content show-dropdown' : 'dropdown-content'">
+  <div
+    class="account-icon inline-flex"
+    @click="openMyAccount(); gotoAccount();"
+    @mouseover="showDropdown"
+    @mouseout="hideDropdown"
+  >
+    <div class="dropdown">
+      <i class="material-icons md-18">account_circle</i>
+      <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
         <p>You're logged in as {{ currentUser.firstname }}</p>
         <hr>
         <div class="section-wrapper">
-          <router-link class="no-underline" :to="{ name: 'my-account' }" @click="hideDropdown">My account</router-link>
+          <router-link class="no-underline" :to="{ name: 'my-account' }">My account</router-link>
         </div>
         <div class="section-wrapper">
           <a href="#" class="no-underline" @click="clickLogout">Logout</a>
@@ -22,7 +27,7 @@ import { coreComponent } from 'lib/themes'
 export default {
   data () {
     return {
-      showDropdown: false,
+      dropdownOpen: false,
       screenWidth: null
     }
   },
@@ -30,20 +35,17 @@ export default {
     this.screenWidth = window.innerWidth
   },
   methods: {
-    hoverIcon () {
+    showDropdown () {
       if (this.currentUser) {
-        this.showDropdown = true
-        setTimeout(() => {
-          this.showDropdown = false
-        }, 3000)
+        this.dropdownOpen = true
       }
+    },
+    hideDropdown () {
+      this.dropdownOpen = false
     },
     clickLogout () {
       this.logout()
       this.hideDropdown()
-    },
-    hideDropdown () {
-      this.showDropdown = false
     },
     openMyAccount () {
       if (this.screenWidth <= 768 && this.currentUser) {
@@ -56,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../../../css/global_vars.scss';
+  @import '~theme/css/global_vars';
 
   .dropdown {
     position: relative;
@@ -98,5 +100,5 @@ export default {
         }
       }
     }
-  }    
+  }
 </style>
