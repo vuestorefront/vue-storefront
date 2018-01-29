@@ -29,7 +29,7 @@
                 <div v-if="isCategoryEmpty" class="hidden-xs">
                     No products found!
                 </div>
-                <product-listing columns="3" :products="products" />
+                <product-listing :products="products" />
             </div>
         </div>
     </div>

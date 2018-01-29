@@ -71,7 +71,8 @@ export default {
 </script>
 
 <!-- CSS DOCS: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md -->
-<style src="./css/flexbox-grid.css"></style>
+<style src="flexboxgrid2" lang="scss"></style>
+
 <style src="./css/color.scss" lang="scss"></style>
 <style src="./css/margin.scss" lang="scss"></style>
 <style src="./css/transitions.scss" lang="scss"></style>
@@ -84,7 +85,7 @@ export default {
 <style src="./css/visibility.scss" lang="scss"></style>
 <style src="./css/utilities.scss" lang="scss"></style>
 
-<style>
+<style lang="scss">
   html,
   body {
     height: 100%;
@@ -117,10 +118,6 @@ export default {
     a:not(.no-underline):after {
       display: none;
     }
-  }
-
-  #app {
-    overflow-x: hidden;
   }
 
   #app.no-scroll {

@@ -1,7 +1,7 @@
 <template>
   <div class="wishlist bg-white c-black" :class="{ active: isOpen }">
     <div class="row">
-      <div class="col-md-12 end-xs">
+      <div class="col-xs-12 end-xs">
         <i class="material-icons p15 close c-black" @click="closeWishlist">close</i>
       </div>
     </div>

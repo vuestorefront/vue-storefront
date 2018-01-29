@@ -11,7 +11,7 @@
       </header>
     </div>
     <div class="row center-xs">
-      <product-listing columns="4" :products="everythingNewCollection" />
+      <product-listing :columns="{lg: 4}" :products="everythingNewCollection" />
     </div>
   </section>
 
@@ -19,7 +19,7 @@
 
   <section class="container pb60">
     <div class="row center-xs">
-      <header class="col-md-12 pt40">
+      <header class="col-xs-12 pt40">
         <h2 class="align-center c-black">Get inspired</h2>
       </header>
     </div>

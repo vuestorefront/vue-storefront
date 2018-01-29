@@ -3,7 +3,7 @@
   Aggregator for multiple ProductTile components to be displayed in columns or other type of grid 
   props:
   "products" - array of products
-  "columns" - # of columns to be displayed
+  "columns" - object of columns to be displayed
   data to display
   v-for="product in products"
     -->
@@ -17,9 +17,47 @@ import ProductTile from './ProductTile.vue'
 
 export default {
   name: 'product-listing',
-  props: ['products', 'columns'],
+  props: {
+    products: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    columns: {
+      type: Object,
+      default () {
+        return {
+          xs: 6,
+          sm: 6,
+          md: 3,
+          lg: 4
+        }
+      }
+    }
+  },
+  data () {
+    return {
+      defaultColumns: {
+        xs: 6,
+        sm: 6,
+        md: 4,
+        lg: 4
+      }
+    }
+  },
   components: {
     ProductTile
+  },
+  computed: {
+    computeColumns () {
+      let cols = {}
+      Object.assign(cols, this.columns, this.defaultColumns)
+      return `col-xs-${cols.xs} 
+              col-sm-${cols.sm} 
+              col-md-${cols.md} 
+              col-lg-${cols.lg}`
+    }
   }
 }
 </script>

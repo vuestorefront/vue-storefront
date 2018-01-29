@@ -6,7 +6,7 @@
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-md-12" :class="{ 'c-gray' : !isFilled && !isActive }">
+          <div class="col-xs-12" :class="{ 'c-gray' : !isFilled && !isActive }">
             <h3 class="m0">Review order</h3>
           </div>
         </div>

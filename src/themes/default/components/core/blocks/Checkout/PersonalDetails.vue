@@ -61,7 +61,7 @@
             </div>
             <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
           </div>
-          <div class="col-xs-12 col-md-12 mb15" v-show="createAccount && !currentUser">
+          <div class="col-xs-12 col-xs-12 mb15" v-show="createAccount && !currentUser">
             <div class="checkboxStyled">
               <input type="checkbox" name="remember" v-model="acceptConditions" id="acceptConditions">
               <label for="acceptConditions"></label>

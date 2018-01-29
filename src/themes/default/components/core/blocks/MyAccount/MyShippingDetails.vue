@@ -25,7 +25,7 @@
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="shippingDetails.lastName">
         <span class="validation-error" v-if="!$v.shippingDetails.lastName.required">Field is required</span>
       </div>
-      <div class="col-xs-12 col-md-12 mb25" v-if="hasBillingAddress()">
+      <div class="col-xs-12 col-xs-12 mb25" v-if="hasBillingAddress()">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress" @click="fillCompanyAddress">
           <label for="useCompanyAddress"></label>
@@ -77,7 +77,7 @@
     <div class="row fs16 mb35" v-if="!isActive">
       <div class="col-xs-12 h4">
         <p>{{ shippingDetails.firstName }} {{ shippingDetails.lastName }}</p>
-        <div class="col-xs-12 col-md-12 mb25" v-if="useCompanyAddress">
+        <div class="col-xs-12 col-xs-12 mb25" v-if="useCompanyAddress">
           <div class="checkboxStyled">
             <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddressFilled" disabled>
             <label for="useCompanyAddressFilled"></label>

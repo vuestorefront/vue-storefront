@@ -6,7 +6,7 @@
     >
       <div class="container">
         <div class="row between-xs middle-xs px15" v-if="!isCheckout">
-          <div class="col-sm-4 col-xs-2 middle-xs">
+          <div class="col-xs-2 col-md-4 middle-xs header__menu">
             <div>
               <template v-if="!isProductPage">
                 <hamburger-icon class="p15 icon bg-lightgray" v-if="!isProductPage"/>
@@ -19,7 +19,7 @@
           <div class="col-xs-2 visible-xs">
             <search-icon class="p15 icon" />
           </div>
-          <div class="col-sm-4 col-xs-4 center-xs">
+          <div class="col-xs-4 center-xs">
             <div>
               <logo width="36px" height="41px"/>
             </div>
@@ -27,7 +27,7 @@
           <div class="col-xs-2 visible-xs">
             <wishlist-icon class="p15 icon" />
           </div>
-          <div class="col-sm-4 col-xs-2 end-xs">
+          <div class="col-xs-2 col-md-4 end-xs header__personal">
             <div class="inline-flex">
               <search-icon class="p15 icon hidden-xs" />
               <wishlist-icon class="p15 icon hidden-xs" />
@@ -201,21 +201,33 @@ export default {
   .center-xs {
     text-align: center;
   }
-  @media (max-width: 767px) {
-    .row.middle-xs {
-      margin: 0 -15px;
-
+  .row.middle-xs {
+    
+    @media (max-width: 767px) {
+      padding-left: 0;
+      padding-right: 0;
       &.py5 {
         margin: 0;
       }
     }
-    .col-xs-2:first-of-type {
+    @media (max-width: 374px) {
+      padding-right: 15px;  
+    }
+  }
+
+  .header__menu {
+      @media (max-width: 767px) {
         padding-left: 0;
+      }
+  }
+
+  .header__personal {
+    @media (max-width: 767px) {
+      padding-right: 0px;
     }
-    .col-xs-2:last-of-type {
-        padding-right: 0;
-    }
-    a, span {
+  }
+  a, span {
+    @media (max-width: 767px) {
       font-size: 12px;
     }
   }

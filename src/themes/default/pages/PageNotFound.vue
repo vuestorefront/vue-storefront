@@ -13,7 +13,7 @@
           <p>You can also use <a href='#' class='c-gray-secondary no-underline' @click='toggleSearchpanel'>search</a> to find product you were looking for.</p>
         </div>
         <section class="container">
-          <header class="col-md-12 pt40">
+          <header class="col-xs-12 pt40">
             <h3 class="align-center">See our bestsellers</h3>
           </header>
           <div class="row center-xs">

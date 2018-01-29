@@ -31,7 +31,7 @@
                   <tr>
                     <th></th>
                     <td v-for="product in items" class="p5">
-                      <product-tile class="col-md-12 collection-product" :product="product"/>
+                      <product-tile class="col-xs-12 collection-product" :product="product"/>
                     </td>
                   </tr>
                   </tbody>

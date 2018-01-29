@@ -1,5 +1,5 @@
 <template>
-  <div class="product align-center p15">
+  <div class="product align-center p10">
     <div @click.capture="preventClicks">
       <router-link class="no-underline" :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
         <div class="product-image bg-lightgray">
@@ -64,11 +64,6 @@ export default {
 <style lang="scss" scoped>
 @import '~src/themes/default/css/transitions';
 
-.product {
-  @media (max-width: 700px) {
-    padding: 0;
-  }
-}
 .price-original {
   text-decoration: line-through;
 }

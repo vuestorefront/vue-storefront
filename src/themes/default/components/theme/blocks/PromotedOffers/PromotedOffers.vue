@@ -1,7 +1,7 @@
 <template>
   <section class="offers container my30">
     <div class="row m0">
-      <div class="offer-container col-xs-12 col-sm-6 px15">
+      <div class="offer-container col-xs-12 col-md-6 px15">
       <router-link :to="banners.mainBanner.link">
         <div
           class="offer p5 flex center-xs middle-xs c-white"
@@ -17,7 +17,7 @@
       </router-link>
       </div>
 
-      <div class="col-xs-12 col-sm-6 p0">
+      <div class="col-xs-12 col-md-6 p0">
         <div
           class="offer-container px15 pb30"
           v-for="banner in banners.smallBanners"
