@@ -1,6 +1,6 @@
 <template>
     <button
-      class="bg-transparent brdr-1 brdr-circle brdr-c-transparent relative color"
+      class="mr10 mb5 bg-transparent brdr-1 brdr-circle brdr-c-transparent relative color"
       @click="switchFilter(id, label)"
       :class="{ active: active }"
       :aria-label="'Select color ' + label"

@@ -59,7 +59,6 @@
                       :label="c.label"
                       context="product"
                       code="color"
-                      class="mr10"
                       :class="{ active: c.id == configuration.color.id }"
                     />
                   </div>
