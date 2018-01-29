@@ -36,7 +36,7 @@ import { corePage } from 'lib/themes'
 
 export default {
   ...
-  mixins: [corePage('core/Home')]
+  mixins: [corePage('Home')]
 }
 ```
 Core pages are placed in `src/pages`.
