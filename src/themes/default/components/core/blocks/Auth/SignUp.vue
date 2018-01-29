@@ -30,7 +30,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .sign-up {
-    position: absolute;
+    position: fixed;
     width: 555px;
     min-height: 555px;
     background-color: white;
@@ -39,12 +39,14 @@ export default {
     transform: translateX(-50%);
     z-index: 3;
     font-size: 18px;
+    overflow: auto;
 
-    @media (max-width: 600px) {
+    @media (max-width: 600px), (orientation: landscape) and (max-width: 820px) {
       top: 0;
       margin: 0;
       width: 100%;
       height: 100%;
+      min-height: unset;
     }
   }
   .close {

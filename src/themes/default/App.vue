@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ 'no-scroll': noScroll }">
+  <div id="app">
     <overlay v-if="overlayActive"/>
     <loader />
     <div id="viewport p55">
@@ -42,7 +42,6 @@ import OfflineBadge from './components/core/OfflineBadge.vue'
 export default {
   computed: {
     ...mapState({
-      noScroll: state => state.ui.overlay,
       newsletterOpen: state => state.ui.newsletterPopup,
       signUpOpen: state => state.ui.signUp,
       overlayActive: state => state.ui.overlay
@@ -87,7 +86,6 @@ export default {
 <style>
   html,
   body {
-    height: 100%;
     margin: 0;
     padding: 0;
   }
@@ -123,14 +121,13 @@ export default {
     overflow-x: hidden;
   }
 
-  #app.no-scroll {
-    height: 100%;
-    overflow: hidden;
-  }
-
   #viewport {
     width: 100%;
     position: relative;
     overflow-x: hidden;
+  }
+
+  .no-scroll {
+    overflow: hidden;
   }
 </style>
