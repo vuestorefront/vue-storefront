@@ -1,7 +1,15 @@
 <template>
-    <button class="p0 bg-white c-gray brdr-1 brdr-gray" :class="{ active: active }" @click="switchFilter(id, label)">
-        {{ label }}
-    </button>
+  <button
+    class="
+      p0 bg-white brdr-1 brdr-c-lightgray-secondary
+      brdr-square h5 c-lightgray-secondary size-button
+    "
+    :class="{ active: active }"
+    @click="switchFilter(id, label)"
+    :aria-label="'Select size ' + label"
+  >
+    {{ label }}
+  </button>
 </template>
 
 <script>
@@ -39,26 +47,35 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $gray-secondary: map-get($colors, gray-secondary);
+  $alto: map-get($colors, alto);
 
-    button {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      border-radius: 0;
-      border-color: #BDBDBD;
-      font-size: 14px;
-      color: #BDBDBD;
-    }
-    button.active {
-      border-color: #828282;
+  .size-button {
+    width: 40px;
+    height: 40px;
+
+    &:hover,
+    &:focus {
       border-width: 2px;
-      color: #828282;
-    }
-    button:disabled {
-      border-color: #E0E0E0;
-      color: #E0E0E0;
-      cursor: not-allowed;
     }
 
+    &.active {
+      border-color: $gray-secondary;
+      border-width: 2px;
+      color: $gray-secondary;
+    }
+
+    &:disabled {
+      border-color: $alto;
+      color: $alto;
+      cursor: not-allowed;
+
+      &:hover,
+      &:after {
+        border-width: 1px;
+      }
+    }
+  }
 </style>
