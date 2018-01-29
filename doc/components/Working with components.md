@@ -22,7 +22,7 @@ import { coreComponent } from 'lib/themes'
 ```javascript
 export default {
   ...
-  mixins: [coreComponent('core/AddToCart')]
+  mixins: [coreComponent('core/AddToCart')] // path in components/ folder
 }
 ```
 From now you can access and override all methods, data and components from core component like it was declaired in your theme component.
@@ -36,7 +36,7 @@ import { corePage } from 'lib/themes'
 
 export default {
   ...
-  mixins: [corePage('Home')]
+  mixins: [corePage('Home')] // path in pages/ folder
 }
 ```
 Core pages are placed in `src/pages`.
