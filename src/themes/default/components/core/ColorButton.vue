@@ -1,7 +1,15 @@
 <template>
-    <div class="bg-transparent brdr-1 brdr-circle color" :class="{ active: active }">
-        <div class="brdr-circle brdr-1" :style="colorFrom(label)" @click="switchFilter(id, label)"></div>
-    </div>
+    <button
+      class="bg-transparent brdr-1 brdr-circle brdr-c-transparent relative color"
+      @click="switchFilter(id, label)"
+      :class="{ active: active }"
+      :aria-label="'Select color ' + label"
+    >
+        <div
+          class="brdr-circle brdr-1 brdr-c-alto absolute color-inside"
+          :style="colorFrom(label)"
+        ></div>
+    </button>
 </template>
 
 <script>
@@ -48,30 +56,33 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+  $emperor: map-get($colors, emperor);
 
-    .color {
-        width: 40px;
-        height: 40px;
-        border-color: rgba(113,113,113,0);
-        position: relative;
-        display: inline-flex;
-        cursor: pointer;
+  .color {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      border-color: $lightgray-secondary;
     }
 
-    .color.active {
-        border-color: #4f4f4f;
+    &.active {
+      border-color: $emperor;
     }
+  }
 
-    .color > div {
-        width: 34px;
-        height: 34px;
-        display: block;
-        position: absolute;
-        border-color: #E0E0E0;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%)
-    }
-
+  .color-inside {
+    width: 34px;
+    height: 34px;
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%)
+  }
 </style>
