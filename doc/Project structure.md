@@ -17,6 +17,6 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
   * `pages` - Vue Storefront core pages (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `resource` - Data mocks used to develop new features
-  * `router` - Core Vue Router instance - just basic setu
+  * `router` - Core Vue Router instance - just basic setup
   * `store` - Core Vuex stores (see: [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md))
-  * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
+  * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md))
