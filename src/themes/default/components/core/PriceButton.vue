@@ -1,8 +1,12 @@
 <template>
     <span @click="switchFilter(id, from, to)">
-        <button class="brdr-c-gray brdr-1 bg-transparent mr10" :class="{ active: active }">
-            <div class="bg-transparent"></div>
-        </button> 
+        <button
+          class="relative brdr-c-gray brdr-1 bg-transparent mr10 price-button"
+          :class="{ active: active }"
+          :aria-label="'Price ' + content"
+        >
+          <div class="bg-transparent absolute square"></div>
+        </button>
         <span>{{ content }}</span>
     </span>
 </template>
@@ -42,27 +46,36 @@ export default { // TODO: move logic to parent component
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+  $darkgray: map-get($colors, darkgray);
 
-    button {
-        width: 20px;
-        height: 20px;
-        position: relative;
-        cursor: pointer;
+  .price-button {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      .square {
+        background-color: $lightgray-secondary;
+      }
     }
 
-    button > div {
-        width: 80%;
-        height: 80%;
-        display: block;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
+    &.active {
+      .square {
+        background-color: $darkgray;
+      }
     }
+  }
 
-    button.active > div {
-        background-color: black;
-    }
-
+  .square {
+    width: 80%;
+    height: 80%;
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  }
 </style>
