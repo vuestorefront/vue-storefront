@@ -235,18 +235,20 @@ const store = {
       }
     },
     serverCreate (context, { guestCart = false }) {
-      if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
-        const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors'
-          },
-          silent: true,
-          callback_event: 'servercart-after-created'
+      if (config.cart.synchronize) {
+        if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
+          const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
+            payload: {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors'
+            },
+            silent: true,
+            callback_event: 'servercart-after-created'
+          }
+          context.dispatch('sync/execute', task, { root: true }).then(task => {})
+          return task
         }
-        context.dispatch('sync/execute', task, { root: true }).then(task => {})
-        return task
       }
     },
     serverUpdateItem (context, cartItem) {

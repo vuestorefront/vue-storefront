@@ -105,6 +105,9 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
               console.error(jsonResponse.result)
             }
             orderMutex[id] = false
+          }).catch((err) => {
+            console.error('Error sending order: ' + orderId, err)
+            orderMutex[id] = false
           })
       })
     }
