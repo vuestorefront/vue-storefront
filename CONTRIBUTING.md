@@ -28,9 +28,9 @@ Here’s how to submit a pull request:
  * bugfix/task-title
  * feature/task-name
 3. Reference any relevant issues or supporting documentation in your PR (ex. “Issue: 39. Issue title.”).
-5.Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project.
-
-If you have found a potential security vulnerability, please DO NOT report it on the public issue tracker. Instead, send it to us at contributors@vuestorefront.io. We will work with you to verify and fix it as soon as possible.
+4. Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project.
+5. Make sure that your pull request also meets the case-specific requirements listed below.
+6. If you have found a potential security vulnerability, please DO NOT report it on the public issue tracker. Instead, send it to us at contributors@vuestorefront.io. We will work with you to verify and fix it as soon as possible.
 
 ### Visual changes/new features
 
