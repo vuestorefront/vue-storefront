@@ -34,7 +34,7 @@ Here’s how to submit a pull request:
 
 ### Visual changes/new features
 
-1. Be sure you're following all theme conventions (looka at Documentation part of READM)
+1. Be sure that you are following all theme conventions (you can find most of them linked in [README](https://github.com/DivanteLtd/vue-storefront/blob/master/README.md#documentation--table-of-contents))
 2. Include screenshots of the new feature or the before and after if your changes include differences in HTML/CSS. Drag and drop the images into the body of your pull request.
 
 ### New core components
