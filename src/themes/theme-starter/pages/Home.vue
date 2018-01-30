@@ -1,6 +1,15 @@
 <template>
   <div id="home">
-    Welcome to Vue Storefront!
+    <img src="assets/logo.svg" alt="Vue Storefront Logo">
+    <h1>Welcome to Vue Storefront theme starter!</h1>
+    <p>In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack</p>
+    <P>Here are some links that can help you with developing your own theme:</p>
+    <p>      
+      <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md">Project structure</a> |
+      <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md">Working with themes</a> |
+      <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md">Working with components</a> |
+      <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md">Working with data</a>
+    </p>
   </div>
 </template>
 
@@ -12,3 +21,17 @@ export default {
   }
 }
 </script>
+
+
+<style>
+
+#home {
+  text-align: center;
+  font-family: Arial;
+}
+
+#home img {
+  width: 200px;
+}
+
+</style>
