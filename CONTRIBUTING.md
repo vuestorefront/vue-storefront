@@ -27,8 +27,17 @@ Here’s how to submit a pull request:
  * bugfix/task-title
  * feature/task-name
 3. Reference any relevant issues or supporting documentation in your PR (ex. “Issue: 39. Issue title.”).
-4. Include screenshots of the before and after if your changes include differences in HTML/CSS. Drag and drop the images into the body of your pull request.
 5.Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project.
 
 If you have found a potential security vulnerability, please DO NOT report it on the public issue tracker. Instead, send it to us at contributors@vuestorefront.io. We will work with you to verify and fix it as soon as possible.
 
+### Making visual changes/new features
+
+1. Be sure you're following all theme conventions (looka at Documentation part of READM)
+2. Include screenshots of the new feature or the before and after if your changes include differences in HTML/CSS. Drag and drop the images into the body of your pull request.
+
+### Creating new core components
+
+1. Each new core component should be properly docummented (create docs file with PR). If the component should be accesible via mixin you should specify the public data and methods that will be available in the theme components using this mixin. Before creating the docs taka a look at other core components guideness and try to do something similar (see it [here](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/components)
+2. Core components shouldn't provide any html/css. The exception is when the component's behavior depends on css (for example Modal component)
+3. Read [Working with components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md) guideness before creating new component.
