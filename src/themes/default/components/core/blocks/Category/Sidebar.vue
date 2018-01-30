@@ -1,9 +1,9 @@
-<template> 
+<template>
     <div class="sidebar">
         <h4>Filter</h4>
         <div v-if="filters.color.length">
-            <h5>Color</h5> 
-            <color-button context="category" :attribute_code="color" code="color" class="color-select mr10" v-for="(color, index) in filters.color" :key="index" :id="color.id" :label="color.label" />
+            <h5>Color</h5>
+            <color-button context="category" :attribute_code="color" code="color" v-for="(color, index) in filters.color" :key="index" :id="color.id" :label="color.label" />
         </div>
         <div v-if="filters.size.length">
             <h5>Size</h5>
