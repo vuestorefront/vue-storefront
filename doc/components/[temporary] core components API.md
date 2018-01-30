@@ -1,7 +1,7 @@
 # Core components API
 
 Temporary file for core components API. List of props, public methods and data that are available to use via mixin insertion.
-In case of injectable components (like modal) or trigered by Vuex you should write them down also. Feel free to write some description for each docummented component.
+In case of injectable components (like modal) or the ones triggered by Vuex actions you should write them down also. Feel free to write some description/new api proposal for each docummented component.
 
 ## AddToCart
 
