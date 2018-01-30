@@ -1,3 +1,7 @@
 # Working with plugins
 
-# Core plugins list
+# Core plugins
+
+## Config
+
+## Event Bus
