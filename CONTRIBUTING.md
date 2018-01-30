@@ -18,7 +18,7 @@ Always define type of issue:
 While writing issues, be as specific as possible
 All requests regarding support with implementation or application setup should be sent to contributors@vuestorefront.io
 
-## Pull requests
+## Pull request checklist
 
 Here’s how to submit a pull request:
 
