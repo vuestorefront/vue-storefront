@@ -18,6 +18,7 @@ Always define type of issue:
 While writing issues, be as specific as possible
 All requests regarding support with implementation or application setup should be sent to contributors@vuestorefront.io
 
+If the issue is about some changes with particular theme prefix the issue with theme name (ex. "[default] change product tile background color" )
 ## Pull request checklist
 
 Here’s how to submit a pull request:
