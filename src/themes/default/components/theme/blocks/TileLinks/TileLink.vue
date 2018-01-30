@@ -9,17 +9,10 @@
 </template>
 
 <script>
-import { thumbnail } from '../../../../../../lib/filters'
-
-export default {
-  name: 'tile-link',
-  props: ['tile'],
-  computed: {
-    thumbnail () {
-      return thumbnail(this.inspirationBlock.background_image, 310, 300)
-    }
+  export default {
+    name: 'tile-link',
+    props: ['tile']
   }
-}
 </script>
 
 <style lang="scss" scoped>
