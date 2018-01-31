@@ -134,7 +134,7 @@
               {{ payment.firstName }} {{ payment.lastName }}
             </p>
             <p>
-              {{ payment.streetAddress }} {{ payment.apartmentNumber }}</span>
+              {{ payment.streetAddress }} {{ payment.apartmentNumber }}
             </p>
             <p>
               {{ payment.city }} {{ payment.zipCode }}

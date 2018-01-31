@@ -104,7 +104,7 @@
               {{ shipping.firstName }} {{ shipping.lastName }}
             </p>
             <p>
-              {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}</span>
+              {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}
             </p>
             <p>
               {{ shipping.city }} {{ shipping.zipCode }}
