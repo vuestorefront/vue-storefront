@@ -2,7 +2,7 @@
   <span @click.stop="next()" v-if="type === 'next'">
     <i class="material-icons p15">keyboard_arrow_right</i>
   </span>
-  <span @click.stop="back()" v-else="type === 'back'">
+  <span @click.stop="back()" v-else>
     <i class="material-icons p15">keyboard_arrow_left</i>
   </span>
 </template>

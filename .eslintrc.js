@@ -14,10 +14,13 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    // max attributes per line - we should use this later, when eslint-plugin-vue will support auto fixing this
+    /* max attributes-per-line and order-in-components
+    ** we should use this later, when eslint-plugin-vue will support auto fixing this
+    */
     'vue/max-attributes-per-line': 0,
-    // same as above
     'vue/order-in-components': 0,
+    // less restricted v-for -> v-if rules
+    'vue/no-confusing-v-for-v-if': 0,
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow async-await
