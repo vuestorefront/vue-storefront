@@ -11,7 +11,7 @@
 
 <script>
   export default {
-    name: 'validation-error',
+    name: 'ValidationError',
     props: ['message']
   }
 </script>

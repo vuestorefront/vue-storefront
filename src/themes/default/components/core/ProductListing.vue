@@ -1,7 +1,7 @@
 <template>
   <div class="product-listing row m0 start-xs">
     <div v-for="(product, key) in products" :key="product.id" class="col-xs-6 pb10" :class="'col-md-' + (12/columns)%10">
-      <product-tile :product="product" :instant='key < 6 ? true : false' />
+      <product-tile :product="product" :instant="key < 6 ? true : false" />
     </div>
   </div>
 </template>

@@ -12,7 +12,7 @@
         <div class="col-sm-3">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="page in navigation"><router-link :to="page.link" class="c-black">{{page.title}}</router-link></li>
+              <li class="mb10" v-for="page in navigation"><router-link :to="page.link" class="c-black">{{ page.title }}</router-link></li>
             </ul>
           </nav>
         </div>

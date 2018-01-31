@@ -4,8 +4,8 @@
       <router-link class="no-underline" :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
         <div class="product-image bg-lightgray">
           <transition name="fade" appear>
-            <img v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder"/>
-            <img v-if="!instant" v-lazy="thumbnailObj" :key="thumbnail"/>
+            <img v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder">
+            <img v-if="!instant" v-lazy="thumbnailObj" :key="thumbnail">
           </transition>
         </div>
         <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>

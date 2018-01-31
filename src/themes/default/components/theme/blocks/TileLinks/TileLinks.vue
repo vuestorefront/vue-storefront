@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex'
 
 import TileLink from './TileLink.vue'
 export default {
-  name: 'tile-links',
+  name: 'TileLinks',
   computed: {
     ...mapGetters({
       social_tiles: 'social/getSocialTiles'

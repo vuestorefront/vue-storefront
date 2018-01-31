@@ -3,8 +3,8 @@
     Core Microcart
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>
-      <li v-for='product in items'>
-        {{ product.name | htmlDecode}}
+      <li v-for="product in items">
+        {{ product.name | htmlDecode }}
         {{ product.priceInclTax }}
         {{ product.qty }}
       </li>
@@ -16,7 +16,7 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  name: 'microcart',
+  name: 'Microcart',
   props: ['product', 'isCheckoutMode'],
   created () {
     this.$store.dispatch('cart/load') // load cart from the indexedDb

@@ -23,7 +23,7 @@
         <div class="mb35 pass-container">
           <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="Password *">
           <i class="icon material-icons c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-            <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
+          <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="mb35 pass-container">
           <input class="pr30" name="password-confirm" v-model="rPassword" :type="passType.repeatPass" placeholder="Repeat password *">
@@ -36,7 +36,7 @@
           <span class="validation-error" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
         </div>
         <div class="mb20">
-          <button-full class="btn-full" text="Register an account" @click.native="register"></button-full>
+          <button-full class="btn-full" text="Register an account" @click.native="register"/>
         </div>
         <input type="submit">
         <div class="center-xs">

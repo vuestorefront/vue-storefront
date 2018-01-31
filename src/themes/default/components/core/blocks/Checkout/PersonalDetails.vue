@@ -21,12 +21,12 @@
       </div>
     </div>
     <div class="row pl20" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
             <input type="text" name="first-name" placeholder="First name" v-model.trim="personalDetails.firstName" @blur="$v.personalDetails.firstName.$touch()" autocomplete="given-name">
-            <span class="validation-error" v-if="$v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">Name must have at least {{$v.personalDetails.firstName.$params.minLength.min}} letters.</span>
+            <span class="validation-error" v-if="$v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required">Field is required</span><span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">Name must have at least {{ $v.personalDetails.firstName.$params.minLength.min }} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
             <input type="text" name="last-name" placeholder="Last name" v-model.trim="personalDetails.lastName" @blur="$v.personalDetails.lastName.$touch()" autocomplete="family-name">
@@ -39,7 +39,7 @@
           <div class="col-xs-12 col-sm-12 mb15" v-show="!currentUser">
             <div class="checkboxStyled">
               <input type="checkbox" v-model="createAccount" id="createAccountCheckbox">
-              <label for="createAccountCheckbox"></label>
+              <label for="createAccountCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="createAccount = !createAccount">
               <span v-if="!isFilled" class="fs16 c-darkgray">I want to create an account</span>
@@ -64,7 +64,7 @@
           <div class="col-xs-12 col-md-12 mb15" v-show="createAccount && !currentUser">
             <div class="checkboxStyled">
               <input type="checkbox" name="remember" v-model="acceptConditions" id="acceptConditions">
-              <label for="acceptConditions"></label>
+              <label for="acceptConditions"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="acceptConditions = !acceptConditions">
               <span class="fs16 c-darkgray">I accept <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</a> *</span>
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 my30 pl20 button-container bottom-button">
@@ -88,7 +88,7 @@
       </div>
     </div>  
     <div class="row pl20" v-show="!isActive && isFilled">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
           <div class="col-xs-12 h4">
@@ -102,7 +102,7 @@
             <div v-if="createAccount && !currentUser" class="mt25">
               <div class="checkboxStyled">
                 <input type="checkbox" v-model="createAccount" id="createAccountCheckbox2" disabled>
-                <label for="createAccountCheckbox2"></label>
+                <label for="createAccountCheckbox2"/>
               </div>
               <div class="checkboxText ml15 lh25">
                 <span class="fs16 c-darkgray">Create a new account</span>

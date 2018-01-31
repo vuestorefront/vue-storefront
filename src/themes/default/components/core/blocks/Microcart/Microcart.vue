@@ -54,7 +54,7 @@
         <div class="col-xs">
           Payment ({{ payment.name }})
         </div>
-        <div class="col-xs align-right" v-if='payment.cost > 0'>
+        <div class="col-xs align-right" v-if="payment.cost > 0">
           {{ payment.costInclTax | price }}
         </div>
       </div>

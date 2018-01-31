@@ -1,5 +1,5 @@
 <template>
-  <div class='my-profile'>
+  <div class="my-profile">
     Core My profile
   </div>
 </template>
@@ -8,7 +8,7 @@
   import Countries from 'src/resource/countries.json'
 
   export default {
-    name: 'my-profile',
+    name: 'MyProfile',
     props: ['isActive', 'editMode'],
     data () {
       return {

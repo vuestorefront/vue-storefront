@@ -18,7 +18,7 @@
     <div class="row" v-show="isActive">
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
         <input type="text" name="first-name" placeholder="First name" v-model.trim="currentUser.firstname" @input="$v.currentUser.firstname.$touch()">
-        <span class="validation-error" v-if="!$v.currentUser.firstname.required">Field is required</span><span class="validation-error" v-if="!$v.currentUser.firstname.minLength">Name must have at least {{$v.currentUser.firstname.$params.minLength.min}} letters.</span>
+        <span class="validation-error" v-if="!$v.currentUser.firstname.required">Field is required</span><span class="validation-error" v-if="!$v.currentUser.firstname.minLength">Name must have at least {{ $v.currentUser.firstname.$params.minLength.min }} letters.</span>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="currentUser.lastname">
@@ -31,7 +31,7 @@
       <div class="col-xs-12 col-md-12 mb15">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="changePassword" id="changePassword">
-          <label for="changePassword"></label>
+          <label for="changePassword"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="changePassword = !changePassword">
           <span class="fs16 c-darkgray">Change my password</span>
@@ -46,7 +46,7 @@
         </div>
         <span class="validation-error" v-if="!$v.oldPassword.required">Field is required.</span>
       </div>
-      <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" v-if="changePassword"></div>
+      <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" v-if="changePassword"/>
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container">
           <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="New password *">
@@ -67,7 +67,7 @@
       <div class="col-xs-12 col-md-12 mb25 mt10">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="addCompany" id="addCompany">
-          <label for="addCompany"></label>
+          <label for="addCompany"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="addCompany = !addCompany">
           <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
@@ -96,7 +96,7 @@
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="userCompany.postcode">
         <span class="validation-error" v-if="!$v.userCompany.postcode.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">Zip-code must have at least {{$v.userCompany.postcode.$params.minLength.min}} letters.</span>
+        <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">Zip-code must have at least {{ $v.userCompany.postcode.$params.minLength.min }} letters.</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <select name="countries" v-model="userCompany.country">
@@ -105,12 +105,12 @@
         </select>
         <span class="validation-error" v-if="!$v.userCompany.country.required">Field is required</span>
       </div>
-       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
+      <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input type="text" name="taxId" placeholder="Tax ID" v-model.trim="userCompany.taxId">
         <span class="validation-error" v-if="!$v.userCompany.taxId.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">Tax ID must have at least {{$v.userCompany.taxId.$params.minLength.min}} letters.</span>
+        <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">Tax ID must have at least {{ $v.userCompany.taxId.$params.minLength.min }} letters.</span>
       </div>
-      <div class="hidden-xs col-sm-6 mb25" v-show="addCompany"></div>
+      <div class="hidden-xs col-sm-6 mb25" v-show="addCompany"/>
 
       <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full text="Update my profile" @click.native="updateProfile" :class="{ 'button-disabled': checkValidation() }" />
@@ -130,7 +130,7 @@
         <div class="mb25" v-show="addCompany">
           <div class="checkboxStyled">
             <input type="checkbox" v-model="addCompany" id="addCompanyFilled" disabled>
-            <label for="addCompanyFilled"></label>
+            <label for="addCompanyFilled"/>
           </div>
           <div class="checkboxText ml15 lh25">
             <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>

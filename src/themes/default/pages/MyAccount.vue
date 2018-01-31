@@ -2,7 +2,7 @@
   <div id="my_account">
     <div class="bg-lightgray py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" activeRoute="My Account" />
+        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="My Account" />
         <h1>My Account</h1>
       </div>
     </div>
@@ -17,9 +17,9 @@
           </nav>
         </div>
         <div class="col-md-9">
-          <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"></my-profile>
-          <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"></my-shipping-details>
-          <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"></my-newsletter>
+          <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"/>
+          <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"/>
+          <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"/>
         </div>
       </div>
     </div>

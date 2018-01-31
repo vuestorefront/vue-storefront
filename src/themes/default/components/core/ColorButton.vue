@@ -1,15 +1,15 @@
 <template>
-    <button
-      class="mr10 mb5 bg-transparent brdr-1 brdr-circle brdr-c-transparent relative color"
-      @click="switchFilter(id, label)"
-      :class="{ active: active }"
-      :aria-label="'Select color ' + label"
-    >
-        <div
-          class="brdr-circle brdr-1 brdr-c-alto absolute color-inside"
-          :style="colorFrom(label)"
-        ></div>
-    </button>
+  <button
+    class="mr10 mb5 bg-transparent brdr-1 brdr-circle brdr-c-transparent relative color"
+    @click="switchFilter(id, label)"
+    :class="{ active: active }"
+    :aria-label="'Select color ' + label"
+  >
+    <div
+      class="brdr-circle brdr-1 brdr-c-alto absolute color-inside"
+      :style="colorFrom(label)"
+    />
+  </button>
 </template>
 
 <script>

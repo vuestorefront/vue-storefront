@@ -1,11 +1,11 @@
 <template>
   <router-link to="/" title="Home Page" class="no-underline inline-flex">
-      <img
-        :width="width"
-        :height="height"
-        src="/assets/logo.svg"
-        alt="Vuestore logo"
-      >
+    <img
+      :width="width"
+      :height="height"
+      src="/assets/logo.svg"
+      alt="Vuestore logo"
+    >
   </router-link>
 </template>
 

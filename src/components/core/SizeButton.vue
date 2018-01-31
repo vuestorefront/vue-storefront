@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'size-button',
+  name: 'SizeButton',
   props: ['label', 'id', 'code', 'context']
 }
 </script>

@@ -1,12 +1,12 @@
 <template>
   <div v-show="!isOnline" class="offline-badge fixed p10 c-white center-xs">
-      You are offline, some of the functionalities are limited
+    You are offline, some of the functionalities are limited
   </div>
 </template>
 
 <script>
 export default {
-  name: 'offline-badge',
+  name: 'OfflineBadge',
   data () {
     return {
       isOnline: true

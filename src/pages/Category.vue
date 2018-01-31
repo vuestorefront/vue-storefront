@@ -173,7 +173,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
 }
 
 export default {
-  name: 'category',
+  name: 'Category',
   mixins: [Meta],
   meta () {
     return {

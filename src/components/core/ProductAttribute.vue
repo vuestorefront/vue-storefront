@@ -4,7 +4,7 @@
   {{ value }} = attribute value
 */
 export default {
-  name: 'product-attribute',
+  name: 'ProductAttribute',
   props: ['product', 'attribute', 'emptyPlaceholder'],
   data () {
     return {

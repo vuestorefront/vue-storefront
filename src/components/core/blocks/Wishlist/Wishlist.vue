@@ -3,7 +3,7 @@
     Core Wishlist
     <!-- Items in wishlist -->
     <ul>
-      <li v-for='product in items'>
+      <li v-for="product in items">
         {{ product.name | htmlDecode }}
         {{ product.priceInclTax }}
       </li>

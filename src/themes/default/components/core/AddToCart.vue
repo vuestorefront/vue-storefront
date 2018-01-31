@@ -3,7 +3,7 @@
   <button
     type="button"
     class="ripple"
-    v-on:click="addToCart(product)"
+    @click="addToCart(product)"
     v-focus-clean="{ class: 'no-outline' }"
   >
     Add to cart

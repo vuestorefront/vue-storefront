@@ -13,7 +13,7 @@ import builder from 'bodybuilder'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
-  name: 'inspirations',
+  name: 'Inspirations',
 
   beforeMount () {
     let self = this

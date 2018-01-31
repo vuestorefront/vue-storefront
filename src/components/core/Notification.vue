@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'notification',
+  name: 'Notification',
   data () {
     return {
       notifications: []

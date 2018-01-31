@@ -13,7 +13,7 @@
 
 <script>
   export default {
-    name: 'tile-link',
+    name: 'TileLink',
     props: ['tile']
   }
 </script>

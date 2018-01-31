@@ -1,12 +1,12 @@
 <template>
-  <div class='my-newsletter'>
+  <div class="my-newsletter">
     Core My newsletter
   </div>
 </template>
 
 <script>
   export default {
-    name: 'my-newsletter',
+    name: 'MyNewsletter',
     props: ['isActive', 'editMode'],
     data () {
       return {

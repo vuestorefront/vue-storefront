@@ -2,19 +2,19 @@
   <section class="offers container my30">
     <div class="row m0">
       <div class="offer-container col-xs-12 col-sm-6 px15">
-      <router-link :to="banners.mainBanner.link">
-        <div
-          class="offer p5 flex center-xs middle-xs c-white"
-          v-lazy:background-image="banners.mainBanner.image"
-        >
-          <p class="subtitle m0 serif h3 uppercase">
-            {{ banners.mainBanner.subtitle}}
-          </p>
-          <h2 class="title m0 h1">
-            {{ banners.mainBanner.title }}
-          </h2>
-        </div>
-      </router-link>
+        <router-link :to="banners.mainBanner.link">
+          <div
+            class="offer p5 flex center-xs middle-xs c-white"
+            v-lazy:background-image="banners.mainBanner.image"
+          >
+            <p class="subtitle m0 serif h3 uppercase">
+              {{ banners.mainBanner.subtitle }}
+            </p>
+            <h2 class="title m0 h1">
+              {{ banners.mainBanner.title }}
+            </h2>
+          </div>
+        </router-link>
       </div>
 
       <div class="col-xs-12 col-sm-6 p0">
@@ -40,7 +40,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'promoted-offers',
+  name: 'PromotedOffers',
   computed: {
     ...mapGetters({
       banners: 'promoted/getPromotedOffers'

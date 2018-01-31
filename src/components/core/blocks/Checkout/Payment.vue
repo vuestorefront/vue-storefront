@@ -1,5 +1,5 @@
 <template>
-  <div class='payment'>
+  <div class="payment">
     Core payment
   </div>
 </template>
@@ -10,7 +10,7 @@ import PaymentMethods from 'src/resource/payment_methods.json'
 import Countries from 'src/resource/countries.json'
 
 export default {
-  name: 'payment',
+  name: 'Payment',
   props: ['isActive'],
   data () {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <div id='product'>
+  <div id="product">
     Core Product
   </div>
 </template>

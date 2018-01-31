@@ -1,6 +1,6 @@
 <template>
   <div class="category-tile center-xs middle-xs flex fs-large extrabold bg-accent bg-accent-hover c-on-accent">
-      {{ label }}
+    {{ label }}
   </div>
 </template>
 

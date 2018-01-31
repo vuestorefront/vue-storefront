@@ -7,7 +7,7 @@
 
 <script>
   export default {
-    name: 'compare-icon',
+    name: 'CompareIcon',
     props: ['product'],
     computed: {
       hasCompare () {

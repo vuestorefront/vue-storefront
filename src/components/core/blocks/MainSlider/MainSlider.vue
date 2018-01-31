@@ -14,7 +14,7 @@
 import sliderData from 'src/resource/slider.json'
 
 export default {
-  name: 'main-slider',
+  name: 'MainSlider',
   data () {
     return {
       currentSlide: 1,

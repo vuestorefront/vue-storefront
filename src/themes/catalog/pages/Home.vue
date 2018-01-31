@@ -11,12 +11,12 @@
         </div>
         <nossr class="hide-md">
           <div class="col-md-12 px0">
-            <carousel :autoplay="true" :perPage="1" :paginationEnabled="false" :loop="true" :speed="2000">
-                <slide v-for="category in categories" :key="category.name">
-                  <router-link :to="'/c/' + category.slug">
-                    <category-tile class="mx8" :label="category.name"/>
-                  </router-link>
-                </slide>
+            <carousel :autoplay="true" :per-page="1" :pagination-enabled="false" :loop="true" :speed="2000">
+              <slide v-for="category in categories" :key="category.name">
+                <router-link :to="'/c/' + category.slug">
+                  <category-tile class="mx8" :label="category.name"/>
+                </router-link>
+              </slide>
             </carousel>
           </div>
         </nossr>
@@ -31,7 +31,7 @@
         </div>
         <nossr class="hide-md">
           <div class="col-md-12 px0">
-            <carousel  :autoplay="true" :perPage="1" :paginationEnabled="false" :loop="true">
+            <carousel :autoplay="true" :per-page="1" :pagination-enabled="false" :loop="true">
               <slide v-for="(product, index) in newProducts" :key="index">
                 <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
                   <product-tile class="bg-secondary" :product="product"/>

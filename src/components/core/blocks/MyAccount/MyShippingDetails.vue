@@ -1,5 +1,5 @@
 <template>
-  <div class='my-shipping-details'>
+  <div class="my-shipping-details">
     Core My shipping details
   </div>
 </template>
@@ -8,7 +8,7 @@
   import Countries from 'src/resource/countries.json'
 
   export default {
-    name: 'my-shipping-details',
+    name: 'MyShippingDetails',
     props: ['isActive', 'editMode'],
     data () {
       return {

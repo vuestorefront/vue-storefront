@@ -8,7 +8,7 @@
   v-for="product in products"
     -->
   <div class="product-listi">
-    <div v-for="product in products" :key="product.id"></div>
+    <div v-for="product in products" :key="product.id"/>
   </div>
 </template>
 
@@ -16,7 +16,7 @@
 import ProductTile from './ProductTile.vue'
 
 export default {
-  name: 'product-listing',
+  name: 'ProductListing',
   props: ['products', 'columns'],
   components: {
     ProductTile

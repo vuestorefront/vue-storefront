@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'newsletter-popup',
+  name: 'NewsletterPopup',
   methods: {
     closeNewsletter () {
       this.$store.commit('ui/setNewsletterPopup', false)

@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'compare-remove-button'
+  name: 'CompareRemoveButton'
 }
 </script>

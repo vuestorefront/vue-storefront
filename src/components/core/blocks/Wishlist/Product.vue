@@ -8,7 +8,7 @@
 import { thumbnail } from 'src/lib/filters'
 
 export default {
-  name: 'product',
+  name: 'Product',
   props: ['product'],
   computed: {
     thumbnail () {

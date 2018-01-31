@@ -16,8 +16,8 @@
             <no-ssr>
               <carousel v-bind="config" @pageChange="setMuted">
                 <slide 
-                  v-for='(product, index) in products' 
-                  :key='product.id'
+                  v-for="(product, index) in products" 
+                  :key="product.id"
                 >
                   <product-tile 
                     class="collection-product" 

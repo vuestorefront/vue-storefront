@@ -1,19 +1,19 @@
 <template>
-    <div class="inspiration-tile">
-        <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.sku, slug: product.slug }}">
-        <div class="product-image bg-lightgray">
-            <img v-bind:src="thumbnail" class="product-thumbnail"/>
-        </div>
-        </router-link>
+  <div class="inspiration-tile">
+    <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.sku, slug: product.slug }}">
+      <div class="product-image bg-lightgray">
+        <img :src="thumbnail" class="product-thumbnail">
+      </div>
+    </router-link>
         
-    </div>
+  </div>
 </template>
 
 <script>
 import { thumbnail } from 'src/lib/filters'
 
 export default {
-  name: 'inspirations',
+  name: 'Inspirations',
   props: ['product'],
   computed: {
     thumbnail () {

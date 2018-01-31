@@ -2,7 +2,7 @@
   <div class="wishlist-icon">
     Core Wishlist
     <!-- Add to Wishlist button examples with addToCart action from cart store-->
-    <button v-on:click="toggleWishlistPanel">Add to Wishlist</button>
+    <button @click="toggleWishlistPanel">Add to Wishlist</button>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'wishlist-icon',
+  name: 'WishlistIcon',
   props: ['product'],
   computed: {
     ...mapState({

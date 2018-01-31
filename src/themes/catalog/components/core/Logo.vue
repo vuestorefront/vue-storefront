@@ -1,6 +1,6 @@
 <template>
-      <img
-        src="/assets/logo.svg"
-        alt="Vuestore logo"
-      >
+  <img
+    src="/assets/logo.svg"
+    alt="Vuestore logo"
+  >
 </template>

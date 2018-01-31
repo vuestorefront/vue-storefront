@@ -21,13 +21,13 @@
       </div>
     </div>
     <div class="row pl20" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-sm-12 mb15" v-show="currentUser && hasShippingDetails()">
             <div class="checkboxStyled">
               <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox" @click="useMyAddress">
-              <label for="shipToMyAddressCheckbox"></label>
+              <label for="shipToMyAddressCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useMyAddress">
               <span class="fs16 c-darkgray">Ship to my default address</span>
@@ -36,7 +36,7 @@
           <div class="col-xs-12 col-sm-6 mb25">
             <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName" @blur="$v.shipping.firstName.$touch()" autocomplete="given-name" >
             <span class="validation-error" v-if="$v.shipping.firstName.$error && !$v.shipping.firstName.required">Field is required</span>
-            <span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{$v.shipping.firstName.$params.minLength.min}} letters.</span>
+            <span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{ $v.shipping.firstName.$params.minLength.min }} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
             <input type="text" name="last-name" placeholder="Last name" v-model.trim="shipping.lastName" @blur="$v.shipping.lastName.$touch()" autocomplete="family-name">
@@ -60,7 +60,7 @@
           <div class="col-xs-12 col-sm-6 mb25">
             <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode" @blur="$v.shipping.zipCode.$touch()" autocomplete="postal-code">
             <span class="validation-error" v-if="$v.shipping.zipCode.$error && !$v.shipping.zipCode.required">Field is required</span>
-            <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{$v.shipping.zipCode.$params.minLength.min}} letters.</span>
+            <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{ $v.shipping.zipCode.$params.minLength.min }} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
             <select name="countries" v-model="shipping.country" @change="$v.shipping.country.$touch()" autocomplete="country">
@@ -78,7 +78,7 @@
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
             <label class="radioStyled"> {{ method.name }} | {{ method.cost | price }} 
               <input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod" @change="$v.shipping.shippingMethod.$touch()">
-              <span class="checkmark"></span>
+              <span class="checkmark"/>
             </label>
           </div>
           <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">Field is required</span>
@@ -86,7 +86,7 @@
       </div>
     </div>
     <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 my30 bottom-button">
@@ -96,7 +96,7 @@
       </div>
     </div>
     <div class="row pl20" v-show="!isActive && isFilled">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
           <div class="col-xs-12 h4">
@@ -124,7 +124,7 @@
               <!-- <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label> -->
               <label class="radioStyled"> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} 
                 <input type="radio" value="" checked disabled name="chosen-shipping-method">
-                <span class="checkmark"></span>
+                <span class="checkmark"/>
               </label>
             </div>
           </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class='personal-details'>
+  <div class="personal-details">
     Core personal details
   </div>
 </template>
@@ -8,7 +8,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'personal-details',
+  name: 'PersonalDetails',
   props: ['isActive'],
   data () {
     return {

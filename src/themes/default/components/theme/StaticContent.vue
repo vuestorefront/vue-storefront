@@ -1,5 +1,5 @@
 <template>
-  <static :is="staticLoaded"></static>
+  <static :is="staticLoaded"/>
 </template>
 <script>
 export default {

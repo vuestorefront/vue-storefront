@@ -8,7 +8,7 @@
       <wishlist />
       <sidebar-menu />
       <main-header />
-      <router-view></router-view>
+      <router-view/>
       <main-footer />
       <notification />
       <sign-up v-if="signUpOpen" />
