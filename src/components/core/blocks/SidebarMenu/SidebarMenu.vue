@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar-menu" :class="{ active: isOpen }">
     <ul>
-      <li @click="closeMenu" v-for="category in categories">
+      <li @click="closeMenu" v-for="category in categories" :key="category.id">
         <router-link v-if="category.product_count >0 || category.children_data.length>0" :to="{ name: 'category', params: { id: category.id, slug: category.slug }}">{{ category.name }}</router-link>
         <ul v-if="category.children_data">
-          <li @click="closeMenu" v-for="subcat in category.children_data" style="display: none">
+          <li @click="closeMenu" v-for="subcat in category.children_data" :key="subcat.id" style="display: none">
             <router-link :to="{ name: 'category', params: { id: subcat.id, slug: subcat.slug }}">{{ subcat.name }}</router-link>
           </li>
         </ul>

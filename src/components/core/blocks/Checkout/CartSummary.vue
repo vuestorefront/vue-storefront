@@ -3,7 +3,7 @@
     Core CartSumary
     <!-- Items in cart displayed as a list with quantitys for each item -->
     <ul>
-      <li v-for="product in items">
+      <li v-for="(product, index) in items" :key="index">
         {{ product.name | htmlDecode }}
         {{ product.priceInclTax }}
         {{ product.qty }}

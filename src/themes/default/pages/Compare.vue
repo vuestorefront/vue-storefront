@@ -20,7 +20,7 @@
                   <thead>
                     <tr>
                       <th/>
-                      <td v-for="product in items" class="align-right">
+                      <td v-for="(product, index) in items" :key="index" class="align-right">
                         <span @click="removeFromCompare(product)">
                           <remove-button/>
                         </span>
@@ -30,7 +30,7 @@
                   <tbody class="brdr-bottom brdr-c-alto">
                     <tr>
                       <th/>
-                      <td v-for="product in items" class="p5">
+                      <td v-for="(product, index) in items" :key="index" class="p5">
                         <product-tile class="col-md-12 collection-product" :product="product"/>
                       </td>
                     </tr>
@@ -38,21 +38,21 @@
                   <tbody class="brdr-bottom brdr-c-alto">
                     <tr>
                       <th class="p15 align-left">SKU</th>
-                      <td v-for="product in items" class="p15">
+                      <td v-for="(product, index) in items" :key="index" class="p15">
                         {{ product.sku }}
                       </td>
                     </tr>
                     <tr>
                       <th class="p15 align-left">Description</th>
-                      <td v-for="product in items" class="p15">
+                      <td v-for="(product, index) in items" :key="index" class="p15">
                         <div v-html="product.description"/>
                       </td>
                     </tr>
-                    <tr v-for="attr in all_comparable_attributes">
+                    <tr v-for="(attr, index) in all_comparable_attributes" :key="index">
                       <th class="p15 align-left">
                         {{ attr.default_frontend_label }}
                       </th>
-                      <td v-for="product in items" class="p15">
+                      <td v-for="(product, index) in items" :key="index" class="p15">
                         <product-attribute :key="attr.attribute_code"
                                            :product="product"
                                            :attribute="attr"

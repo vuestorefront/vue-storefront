@@ -20,7 +20,8 @@
       <div class="col-xs-12 col-sm-6 p0">
         <div
           class="offer-container px15 pb30"
-          v-for="banner in banners.smallBanners"
+          v-for="(banner, index) in banners.smallBanners"
+          :key="index"
         >
           <router-link :to="banner.link">
             <div

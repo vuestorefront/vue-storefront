@@ -74,7 +74,7 @@
           <div class="col-xs-12 col-sm-6 mb25">
             <select name="countries" v-model="payment.country" @change="$v.payment.country.$touch()" autocomplete="country">
               <option value="" disabled selected hidden>Country</option>
-              <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
+              <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
             <span class="validation-error" v-if="$v.payment.country.$error && !$v.payment.country.required">Field is required</span>
           </div>

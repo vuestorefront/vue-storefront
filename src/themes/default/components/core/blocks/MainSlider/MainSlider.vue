@@ -2,7 +2,7 @@
   <section class="main-slider bg-darkgray c-white">
     <no-ssr>
       <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
-        <slide v-for="slide in slides">
+        <slide v-for="(slide, index) in slides" :key="index">
           <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
             <div class="row middle-xs center-xs">
               <div class="col-md-12 px10p">

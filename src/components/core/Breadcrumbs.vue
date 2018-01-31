@@ -1,6 +1,6 @@
 <template>
   <div class="breadcrumbs">
-    <span v-for="link in routes">
+    <span v-for="(link, index) in routes" :key="index">
       {{ link.name | htmlDecode }} /
     </span>
     <strong>

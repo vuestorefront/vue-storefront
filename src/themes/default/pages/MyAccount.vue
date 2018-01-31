@@ -12,7 +12,9 @@
         <div class="col-md-3 side-menu">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="page in navigation"><a :href="page.link" class="c-black" @click="notify(page.title)">{{ page.title }}</a></li>
+              <li class="mb10" v-for="(page, index) in navigation" :key="index">
+                <a :href="page.link" class="c-black" @click="notify(page.title)">{{ page.title }}</a>
+              </li>
             </ul>
           </nav>
         </div>

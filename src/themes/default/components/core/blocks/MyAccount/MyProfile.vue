@@ -101,7 +101,7 @@
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <select name="countries" v-model="userCompany.country">
           <option value="" disabled selected hidden>Country</option>
-          <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
+          <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
         </select>
         <span class="validation-error" v-if="!$v.userCompany.country.required">Field is required</span>
       </div>

@@ -3,7 +3,7 @@
     Core Compare page
     <!-- Items in compare -->
     <ul>
-      <li v-for="product in items">
+      <li v-for="(product, index) in items" :key="index">
         {{ product.name | htmlDecode }}
       </li>
     </ul>
