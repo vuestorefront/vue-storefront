@@ -1,18 +1,23 @@
 module.exports = {
   root: true,
   env: { 'browser': true },
-  parser: 'babel-eslint',
+  parser: "vue-eslint-parser",
   parserOptions: {
-    sourceType: 'module'
+    sourceType: "module",
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: 'standard',
-  // required to lint *.vue files
+  extends: [
+    'plugin:vue/recommended'
+  ],
   plugins: [
-    'html'
+    'vue'
   ],
   // add your custom rules here
-  'rules': {
+  rules: {
+    // max attributes per line - we should use this later, when eslint-plugin-vue will support auto fixing this
+    'vue/max-attributes-per-line': 0,
+    // same as above
+    'vue/order-in-components': 0,
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow async-await
