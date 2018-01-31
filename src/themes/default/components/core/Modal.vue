@@ -11,9 +11,9 @@
               <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
               <slot name="header"/>
             </header>
-            <div class="modal-content pt30 pb60 px65" v-if="$slots.content || static">
+            <div class="modal-content pt30 pb60 px65" v-if="$slots.content || staticData">
               <slot name="content"/>
-              <static-content :file="static" v-if="static"/>
+              <static-content :file="staticData" v-if="staticData"/>
             </div>
             <slot/>
           </div>
@@ -31,7 +31,7 @@ export default {
   mixins: [coreComponent('core/Modal')],
   components: { staticContent },
   props: {
-    static: {
+    staticData: {
       type: String
     },
     width: {
