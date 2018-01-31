@@ -3,7 +3,7 @@
     <div class="bg-lightgray py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare"/>
-        <h2>{{ this.title }}</h2>
+        <h2>{{ title }}</h2>
       </div>
     </div>
 
@@ -76,7 +76,6 @@
 
 <script>
   import { corePage } from 'lib/themes'
-
   import Breadcrumbs from '../components/core/Breadcrumbs'
   import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
   import ProductTile from '../components/core/ProductTile'

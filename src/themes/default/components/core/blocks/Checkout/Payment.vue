@@ -23,7 +23,7 @@
     <div class="row pl20" v-show="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
-        <div class="row" v-show="this.isActive">
+        <div class="row" v-show="isActive">
           <div class="col-xs-12 col-sm-12 mb15">
             <div class="checkboxStyled">
               <input type="checkbox" v-model="sendToShippingAddress" id="sendToShippingAddressCheckbox" @click="useShippingAddress">
@@ -92,12 +92,12 @@
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
             <input type="text" name="company-name" placeholder="Company name" v-model.trim="payment.company" @blur="$v.payment.company.$touch()" autocomplete="company-name">
-            <span class="validation-error" v-if="this.generateInvoice && $v.payment.company.$error && !$v.payment.company.required">Field is required</span>
+            <span class="validation-error" v-if="generateInvoice && $v.payment.company.$error && !$v.payment.company.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
             <input type="text" name="tax-id" placeholder="Tax identification number" v-model.trim="payment.taxId" @blur="$v.payment.taxId.$touch()" autocomplete="tax-id">
-            <span class="validation-error" v-if="this.generateInvoice && $v.payment.taxId.$error && !$v.payment.taxId.required">Field is required</span>
-            <span class="validation-error" v-if="this.generateInvoice && !$v.payment.taxId.minLength">Tax identification number must have at least {{ $v.payment.taxId.$params.minLength.min }} letters.</span>
+            <span class="validation-error" v-if="generateInvoice && $v.payment.taxId.$error && !$v.payment.taxId.required">Field is required</span>
+            <span class="validation-error" v-if="generateInvoice && !$v.payment.taxId.minLength">Tax identification number must have at least {{ $v.payment.taxId.$params.minLength.min }} letters.</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
             <label class="fs16">We will send you the invoice to given e-mail address</label>
