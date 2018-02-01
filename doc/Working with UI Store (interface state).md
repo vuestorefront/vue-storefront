@@ -5,8 +5,8 @@ We are using Vuex to store the application interface state. The [ui-store file](
 # State object
 
 * `sidebar` - visible/hidden state of sidebar menu (find: SidebarMenu.vue)
-* `microcart - visible/hidden state of microcart (find: Microcart.vue)
-* 'wishList` - visible/hidden state of wishlist (find: Wishlist.vue)
+* `microcart` - visible/hidden state of microcart (find: Microcart.vue)
+* `wishlist` - visible/hidden state of wishlist (find: Wishlist.vue)
 * `searchpanel` - visible/hidden state of search panel (find: SearchPanel.vue)
 * `newsletterPopup` - visible/hidden state of newletter popup (will be removed from vuex store)
 * `overlay` - visible/hidden state of overlay (find: Overlay.vue)
