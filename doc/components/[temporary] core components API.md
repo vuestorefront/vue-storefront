@@ -89,6 +89,7 @@ No props
 `action(action, id)` - Performs an `action` defined as String on notification with passed `id` - usually the action is `close`. Actions are defined in Notification component. Current Notification object schema:
 ```json
 {
+    // Choose one
     "type": "info/success/error/warning",
     "title": "Lorem ipsum",
     "action1": {
@@ -100,7 +101,7 @@ No props
         "label": "NO",
         "action": "close"
     },
-    //Optional param, if its empty TTL is 5s
+    // Optional param, if its empty TTL is 5s
     "timeToLive": 10
 }
 ```
