@@ -17,7 +17,7 @@ Dispatches 'cart/addItem' action and passes a product instance as a parameter.
 ## Breadcrumbs
 This component represents a hierarchy of the current page in relation to the application's structure. It is used in Product, Category, My Account and Compare pages.
 ### Props
-**routes** - An array of route objects, each representing name and path to a parent page.
+**routes** - An array of route objects, each representing name and path to a parent page.  
 **activeRoute** - A name of the current page
 ### Data
 No data
