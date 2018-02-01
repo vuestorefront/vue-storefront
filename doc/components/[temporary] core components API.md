@@ -77,11 +77,37 @@ No methods
 
 ## Notification
 
+Shows notifications after some actions being performed in shop. There are four types of notifications: success, error, warning and info.
+
 ### Props
+No props 
 
 ### Data
+`notifications` - An Array of notifications that should be currently displayed
 
 ### Methods
+`action(action, id)` - Performs an `action` defined as String on notification with passed `id` - usually the action is `close`. Actions are defined in Notification component. Current Notification object schema:
+```json
+{
+    "type": "info/success/error/warning",
+    "title": "Lorem ipsum",
+    "action1": {
+        "label": "OK",
+        "action": "close"
+    },
+    // Optional param
+    "action2": {
+        "label": "NO",
+        "action": "close"
+    },
+    //Optional param, if its empty TTL is 5s
+    "timeToLive": 10
+}
+```
+
+### Events
+
+`('notification', notificationObject)` - takes notification object and adds it to Notification array, then the nnew notification is displayed
 
 ## OfflineBadge
 
