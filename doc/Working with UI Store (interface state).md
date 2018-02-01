@@ -1,6 +1,6 @@
 # Working with UI Store (Interface state)
 
-We are using Vuex to store the application interface state. The [ui-store file](https://github.com/DivanteLtd/vue-storefront/blob/master/src/store/modules/ui-store.js) determines the actions like Overlay wisibility, Loader visibility, Wishlist visibility etc.
+We are using Vuex to store the application interface state. The [ui-store file](https://github.com/DivanteLtd/vue-storefront/blob/master/src/store/modules/ui-store.js) contains the informations like Overlay wisibility, Loader visibility, Wishlist visibility etc.
 
 # State object
 
