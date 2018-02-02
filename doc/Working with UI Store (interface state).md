@@ -14,4 +14,4 @@ We are using Vuex to store the application interface state. The [ui-store file](
 * `signUp` - signed Up/signed Out state for user 
 * `authElem` - component to be displayed at Auth popup (will be changed and moved only to this component)
 * `checkoutMode` - determines whether user is in checkout or not - useful when you want to change some ui elements or behavior only on checkout (e.g. hide footer)
-* `openMyAccount` - 
+* `openMyAccount` - determines whether to redirect user to My Account page - used when user clicked on My Account link in the sidebar, but had to login first. After successful logging in user will be automatically redirected to My Account page. 
