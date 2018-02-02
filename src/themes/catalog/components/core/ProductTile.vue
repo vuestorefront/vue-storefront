@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { thumbnail } from 'src/lib/filters'
-
 export default {
   props: {
     product: {
@@ -28,7 +26,7 @@ export default {
   },
   methods: {
     thumbnail () {
-      return thumbnail(this.product.image, 230, 250)
+      return this.getThumbnail(this.product.image, 230, 250)
     }
   }
 }

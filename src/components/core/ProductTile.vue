@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import { thumbnail } from 'src/lib/filters'
-
 export default {
   name: 'product-tile',
   props: ['product'],
@@ -24,7 +22,7 @@ export default {
       // get first configurable child image
       // NOTE: might not work when product has no children
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, image is going to be 'red'
-      return thumbnail(this.product.image, 310, 300)
+      return this.getThumbnail(this.product.image, 310, 300)
     }
   }
 }
