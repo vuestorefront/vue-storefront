@@ -8,9 +8,11 @@ import { ConfigPlugin as ConfigPlg } from 'src/config'
 import config from 'config'
 
 import { sync } from 'vuex-router-sync'
-import { registerFilters } from './lib/filters'
+
 import { registerTheme } from './lib/themes'
 import { registerExtensions } from './lib/extensions'
+import thumbnailMixin from './lib/mixins/thumbnail'
+import * as filters from './lib/filters'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
@@ -20,6 +22,14 @@ Vue.use(EventBus)
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
   attempt: 2
+})
+
+// Mixin for handling thumbnail
+Vue.mixin(thumbnailMixin)
+
+// Register global filters
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
 })
 
 export function createApp () {
@@ -32,7 +42,6 @@ export function createApp () {
 
   registerExtensions(config.registeredExtensions || [], app, router, store, config) // TODO: use config or ENV variables
   registerTheme(config.theme, app, router, store)
-  registerFilters(app, config)
 
   app.$emit('application-after-init', app)
 

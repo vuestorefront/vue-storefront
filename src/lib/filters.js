@@ -1,16 +1,4 @@
-import Vue from 'vue'
-import config from 'config'
 import he from 'he'
-
-/**
- * Return thumbnail url for specific base url
- * @param {String} relativeUrl
- * @param {Int} width
- * @param {Int} height
- */
-export function thumbnail (relativeUrl, width, height) {
-  return relativeUrl ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
-}
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -37,21 +25,7 @@ export function price (value) {
  * @param {String} value
  */
 export function htmlDecode (value) {
-  if (value) return he.decode(value)
-  else return ''
-}
-
-/**
- * Register Vue common filters
- * @param {Object} app
- * @param {Object} config
- */
-export function registerFilters (app) {
-  Vue.filter('thumbnail', thumbnail)
-  Vue.filter('slugify', slugify)
-  Vue.filter('htmlDecode', htmlDecode)
-  Vue.filter('price', price)
-  Vue.filter('displayAttribute', displayAttribute)
+  return value ? he.decode(value) : ''
 }
 
 /**
