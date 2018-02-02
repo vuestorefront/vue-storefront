@@ -7,7 +7,7 @@ export default context => {
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
       if (!matchedComponents.length) {
-        return reject({ code: 404 })
+        return reject(new Error({ code: 404 }))
       }
       Promise.all(matchedComponents.map(Component => {
         const components = Component.mixins ? Array.from(Component.mixins) : []
@@ -24,9 +24,9 @@ export default context => {
           resolve(app)
         }).catch(err => {
           if (err.message.indexOf('query returned empty result') > 0) {
-            reject({ code: 404 })
+            reject(new Error({ code: 404 }))
           } else {
-            reject()
+            reject(new Error())
           }
         })
       }))
