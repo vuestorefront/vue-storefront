@@ -15,6 +15,7 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus'
 import _ from 'lodash'
+import { getNotifications } from 'src/lib/messages'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string
@@ -108,11 +109,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
   }).then(function (res) {
     let subloaders = []
     if (!res || (res.noresults)) {
-      EventBus.$emit('notification', {
-        type: 'warning',
-        message: 'No products synchronized for this category. Please come back while online!',
-        action1: { label: 'OK', action: 'close' }
-      })
+      EventBus.$emit('notification', getNotifications('Category').error)
 
       store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
       // store.state.category.filters = { color: [], size: [], price: [] }
@@ -164,16 +161,22 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     return subloaders
   }).catch((err) => {
     console.info(err)
-    EventBus.$emit('notification', {
-      type: 'warning',
-      message: 'No products synchronized for this category. Please come back while online!',
-      action1: { label: 'OK', action: 'close' }
-    })
+    EventBus.$emit('notification', getNotifications('Category').error)
   })
 }
 
 export default {
   name: 'category',
+  data () {
+    return {
+      pagination: {
+        pageSize: 50,
+        offset: 0
+      },
+      errorNotification: getNotifications('Category').error,
+      filterSet: {} // filter set selected by user
+    }
+  },
   mixins: [Meta],
   meta () {
     return {
@@ -193,7 +196,6 @@ export default {
       }
       return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, ofset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) })
     },
-
     validateRoute ({store, route}) {
       let self = this
       if (store == null) {
@@ -219,7 +221,6 @@ export default {
   watch: {
     '$route': 'validateRoute'
   },
-
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       const defaultFilters = ['color', 'size', 'price']
@@ -269,16 +270,6 @@ export default {
       return this.$store.state.category.breadcrumbs
     }
 
-  },
-
-  data () {
-    return {
-      pagination: {
-        pageSize: 50,
-        offset: 0
-      },
-      filterSet: {} // filter set selected by user
-    }
   },
   components: {
     ProductListing,

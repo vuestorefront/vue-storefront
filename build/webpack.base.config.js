@@ -34,6 +34,7 @@ module.exports = {
       lib: path.resolve(__dirname, '../src/lib'),
 
       'src': path.resolve(__dirname, '../src'),
+      'res': path.resolve(__dirname, '../src/resource'),
       'assets': path.resolve(__dirname, '../src/assets'),
 
       theme_pages: path.resolve(__dirname, themePages),
@@ -42,7 +43,6 @@ module.exports = {
       'theme/pages': path.resolve(__dirname, themePages),
       'theme/css': path.resolve(__dirname, themeCSS),
       'theme/app': path.resolve(__dirname, themeApp)
-      
     }
   },
 
@@ -84,7 +84,7 @@ module.exports = {
       {
         test: /\.s[a|c]ss$/,
         loader: 'style!css!sass',
-        
+
       },
       {
         test: /\.md$/,
