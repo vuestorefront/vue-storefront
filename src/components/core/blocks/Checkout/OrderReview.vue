@@ -7,7 +7,12 @@
 <script>
 export default {
   name: 'OrderReview',
-  props: ['isActive'],
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    }
+  },
   data () {
     return {
       isFilled: false,

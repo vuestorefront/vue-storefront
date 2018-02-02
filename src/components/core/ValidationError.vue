@@ -12,7 +12,12 @@
 <script>
   export default {
     name: 'ValidationError',
-    props: ['message']
+    props: {
+      message: {
+        type: String,
+        default: ''
+      }
+    }
   }
 </script>
 

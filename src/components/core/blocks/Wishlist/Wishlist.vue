@@ -16,7 +16,13 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Wishlist',
-  props: ['product'],
+  props: {
+    product: {
+      type: Object,
+      required: false,
+      default: () => {}
+    }
+  },
   created () {
     this.$store.dispatch('wishlist/load') // Load wishlist from the indexedDb
   },

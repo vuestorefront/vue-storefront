@@ -11,7 +11,12 @@ import Countries from 'src/resource/countries.json'
 
 export default {
   name: 'Shipping',
-  props: ['isActive'],
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    }
+  },
   created () {
     this.$bus.$on('checkout.personalDetails', (receivedData) => {
       if (!this.isFilled) {

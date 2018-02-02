@@ -17,7 +17,6 @@ const bodybuilder = require('bodybuilder')
 
 export default {
   name: 'SearchPanel',
-  props: [''],
   data () {
     return {
       products: [],

@@ -15,9 +15,11 @@ import { coreComponent } from 'lib/themes'
 export default {
   props: {
     width: {
+      type: [String, Number],
       required: true
     },
     height: {
+      type: [String, Number],
       required: true
     }
   },

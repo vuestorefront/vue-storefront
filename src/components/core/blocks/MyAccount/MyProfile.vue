@@ -9,7 +9,16 @@
 
   export default {
     name: 'MyProfile',
-    props: ['isActive', 'editMode'],
+    props: {
+      isActive: {
+        type: Boolean,
+        required: true
+      },
+      editMode: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
         currentUser: Object.assign({}, this.$store.state.user.current),

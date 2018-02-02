@@ -8,8 +8,14 @@
 // not in Core
 export default {
   props: {
-    label: { type: String, required: true },
-    img: String
+    label: {
+      type: String,
+      required: true
+    },
+    img: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>

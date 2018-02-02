@@ -17,7 +17,8 @@ export default {
       required: true
     },
     classes: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   beforeMount () {

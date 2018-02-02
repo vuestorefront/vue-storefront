@@ -9,9 +9,18 @@
 <script>
 export default {
   props: {
-    title: { type: String, required: true },
-    category: String,
-    bgUrl: String
+    title: {
+      type: String,
+      required: true
+    },
+    category: {
+      type: String,
+      required: true
+    },
+    bgUrl: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>

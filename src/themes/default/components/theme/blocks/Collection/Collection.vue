@@ -11,7 +11,20 @@
 
   export default {
     name: 'Collection',
-    props: ['title', 'coverImage', 'category'],
+    props: {
+      title: {
+        type: String,
+        required: true
+      },
+      coverImage: {
+        type: String,
+        required: true
+      },
+      category: {
+        type: String,
+        required: true
+      }
+    },
     data () {
       return {
         products: [],

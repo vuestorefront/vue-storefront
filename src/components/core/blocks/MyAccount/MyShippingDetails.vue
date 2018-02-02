@@ -9,7 +9,16 @@
 
   export default {
     name: 'MyShippingDetails',
-    props: ['isActive', 'editMode'],
+    props: {
+      isActive: {
+        type: Boolean,
+        required: true
+      },
+      editMode: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
         shippingDetails: {

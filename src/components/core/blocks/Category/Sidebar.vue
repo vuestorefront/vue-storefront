@@ -31,7 +31,12 @@ import PriceButton from '../../PriceButton.vue'
 
 export default {
   name: 'CategorySidebar',
-  props: ['filters'],
+  props: {
+    filters: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     ColorButton,
     SizeButton,

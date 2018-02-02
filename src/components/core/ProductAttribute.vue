@@ -5,7 +5,20 @@
 */
 export default {
   name: 'ProductAttribute',
-  props: ['product', 'attribute', 'emptyPlaceholder'],
+  props: {
+    product: {
+      type: Object,
+      required: true
+    },
+    attribute: {
+      type: null,
+      required: true
+    },
+    emptyPlaceholder: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       label: '',

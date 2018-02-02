@@ -14,7 +14,12 @@
 <script>
   export default {
     name: 'TileLink',
-    props: ['tile']
+    props: {
+      tile: {
+        type: Object,
+        required: true
+      }
+    }
   }
 </script>
 

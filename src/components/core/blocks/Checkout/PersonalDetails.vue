@@ -9,7 +9,12 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'PersonalDetails',
-  props: ['isActive'],
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    }
+  },
   data () {
     return {
       isFilled: false,

@@ -28,15 +28,17 @@ export default {
   },
   props: {
     id: {
+      type: [String, Number],
       required: true
     },
     categoryLinks: {
       type: Array,
-      required: false
+      required: true
     },
     myAccountLinks: {
       type: Array,
-      required: false
+      required: false,
+      default: () => {}
     }
   },
   computed: {

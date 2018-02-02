@@ -8,7 +8,13 @@
 <script>
   export default {
     name: 'CompareIcon',
-    props: ['product'],
+    props: {
+      product: {
+        type: Object,
+        required: false,
+        default: () => {}
+      }
+    },
     computed: {
       hasCompare () {
         return this.$store.state.compare.compare

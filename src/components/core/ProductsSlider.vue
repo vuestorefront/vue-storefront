@@ -10,7 +10,7 @@
     props: {
       title: {
         type: String,
-        required: false
+        default: ''
       },
       products: {
         type: Array,
@@ -18,7 +18,7 @@
       },
       config: {
         type: Object,
-        required: false
+        required: true
       }
     }
   }

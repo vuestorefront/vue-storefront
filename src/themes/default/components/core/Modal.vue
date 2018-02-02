@@ -32,7 +32,8 @@ export default {
   components: { staticContent },
   props: {
     staticData: {
-      type: String
+      type: String,
+      default: ""
     },
     width: {
       type: Number,

@@ -11,7 +11,12 @@ import Countries from 'src/resource/countries.json'
 
 export default {
   name: 'Payment',
-  props: ['isActive'],
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    }
+  },
   data () {
     return {
       isFilled: false,

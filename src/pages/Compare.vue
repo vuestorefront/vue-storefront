@@ -18,7 +18,12 @@
 
   export default {
     name: 'Compare',
-    props: ['title'],
+    props: {
+      title: {
+        type: String,
+        required: true
+      }
+    },
     created () {
       this.$store.dispatch('compare/load')
       this.$store.dispatch('attribute/list', {

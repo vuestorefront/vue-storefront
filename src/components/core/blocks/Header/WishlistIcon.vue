@@ -11,7 +11,13 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'WishlistIcon',
-  props: ['product'],
+  props: {
+    product: {
+      type: Object,
+      required: false,
+      default: () => {}
+    }
+  },
   computed: {
     ...mapState({
       isOpen: state => state.ui.wishlist

@@ -11,7 +11,10 @@ import { mapState } from 'vuex'
 export default {
   name: 'SubBtn',
   props: {
-    id: [String, Number],
+    id: {
+      type: [String, Number],
+      required: true
+    },
     type: {
       type: String,
       default: 'next'

@@ -23,7 +23,13 @@ import { coreComponent } from 'lib/themes'
 import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
 
 export default {
-  props: ['instant'],
+  props: {
+    instant: {
+      type: Boolean,
+      required: false,
+      default: () => false
+    }
+  },
   mixins: [coreComponent('core/ProductTile')],
   directives: { imgPlaceholder },
   created () {

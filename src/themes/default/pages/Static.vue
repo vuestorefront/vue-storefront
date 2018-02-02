@@ -36,7 +36,16 @@ export default {
     Breadcrumbs,
     staticContent
   },
-  props: ['page', 'title'],
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    page: {
+      type: String,
+      required: true
+    }
+  },
   mixins: [Meta],
   meta () {
     return {

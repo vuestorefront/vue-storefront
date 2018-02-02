@@ -14,7 +14,12 @@ import { thumbnail } from 'src/lib/filters'
 
 export default {
   name: 'Inspirations',
-  props: ['product'],
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     thumbnail () {
       return thumbnail(this.product.image, 310, 300)

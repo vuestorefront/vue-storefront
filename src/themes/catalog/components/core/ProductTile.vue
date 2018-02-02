@@ -20,11 +20,14 @@ import { thumbnail } from 'src/lib/filters'
 export default {
   props: {
     product: {
-      require: true,
-      default: {}
+      type: Object,
+      required: true
     },
     // desktopHorizontalMode: Boolean, - will be available soon
-    mobileHorizontalMode: Boolean
+    mobileHorizontalMode: {
+      type: Boolean,
+      default: false
+    },
   },
   methods: {
     thumbnail () {

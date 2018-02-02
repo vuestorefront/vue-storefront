@@ -11,7 +11,16 @@ import { coreComponent } from 'lib/themes'
 import ProductTile from './ProductTile.vue'
 
 export default {
-  props: ['products', 'columns'],
+  props: {
+    products: {
+      type: null,
+      required: true
+    },
+    columns: {
+      type: [Number, String],
+      required: true
+    }
+  },
   components: {
     ProductTile
   },
