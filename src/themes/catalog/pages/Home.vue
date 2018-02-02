@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <div class="container mb45-md ">
-      
+
       <search class="animate"/>
       <div class="row mt70-md mt40 animate ">
         <div v-for="category in categories" :key="category.name" class="col-md-4 mb15 hide show-md">
@@ -46,12 +46,12 @@
         <h2 class="center-xs mt80-md mt50 mb50 animate col-xs-12">Magazine</h2>
         <div v-for="(magazine, index) in magazines" :key="magazine.title" class="col-md-6 px0 " :class="{ 'pr0-md pl8-md' : index % 2 == 0, 'pl0-md pr8-md' : index % 2 == 1 }">
           <router-link to="/">
-            <magazine-tile class="b-md" :class="{ 'b-right-none b-top' : index % 2 == 0 }" :title="magazine.title" :category="magazine.category" :bg-url="magazine.bgUrl" />            
+            <magazine-tile class="b-md" :class="{ 'b-right-none b-top' : index % 2 == 0 }" :title="magazine.title" :category="magazine.category" :bg-url="magazine.bgUrl" />
           </router-link>
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -136,6 +136,4 @@ export default {
   }
 }
 
-
 </style>
-

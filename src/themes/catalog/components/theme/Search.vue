@@ -22,7 +22,7 @@
         <router-link :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
           <product-tile :product="product" class="b bg-primary" :mobile-horizontal-mode="true"/>
         </router-link>
-      </div>  
+      </div>
     </div>
   </section>
 </template>

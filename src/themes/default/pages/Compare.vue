@@ -75,21 +75,21 @@
 </template>
 
 <script>
-  import { corePage } from 'lib/themes'
-  import Breadcrumbs from '../components/core/Breadcrumbs'
-  import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
-  import ProductTile from '../components/core/ProductTile'
-  import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
+import { corePage } from 'lib/themes'
+import Breadcrumbs from '../components/core/Breadcrumbs'
+import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
+import ProductTile from '../components/core/ProductTile'
+import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
 
-  export default {
-    components: {
-      Breadcrumbs,
-      ProductTile,
-      RemoveButton,
-      ProductAttribute
-    },
-    mixins: [corePage('Compare')]
-  }
+export default {
+  components: {
+    Breadcrumbs,
+    ProductTile,
+    RemoveButton,
+    ProductAttribute
+  },
+  mixins: [corePage('Compare')]
+}
 </script>
 
 <style lang="scss" scoped>

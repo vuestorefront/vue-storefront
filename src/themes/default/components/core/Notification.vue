@@ -80,4 +80,3 @@ $z-index-notification: map-get($z-index, notification);
   background: #333333;
 }
 </style>
-

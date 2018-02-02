@@ -1,12 +1,12 @@
 <template>
   <div class="sidebar">
-    <!-- 
-    Category sidebar with filters 
+    <!--
+    Category sidebar with filters
     props:
-    {{ filters }} - Object wtth filters. 
-                    You don't need to pass all types of filters. 
-                    If filtertype.length is 0 the filter won't be displayed 
-                    (e.g. if 'color' array is empty or doesn't exist at all the color filters won't be displayed). 
+    {{ filters }} - Object wtth filters.
+                    You don't need to pass all types of filters.
+                    If filtertype.length is 0 the filter won't be displayed
+                    (e.g. if 'color' array is empty or doesn't exist at all the color filters won't be displayed).
                     Please look at the example object:
                     {
                     "color": [

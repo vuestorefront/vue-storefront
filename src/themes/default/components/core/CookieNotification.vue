@@ -21,46 +21,46 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      detailsLinkText: {
-        type: String,
-        default: 'See details'
-      },
-      detailsLink: {
-        type: String,
-        default: '/privacy'
-      },
-      message: {
-        type: String,
-        default: 'We use cookies to give you the best shopping experience.'
-      }
+export default {
+  props: {
+    detailsLinkText: {
+      type: String,
+      default: 'See details'
     },
-    data () {
-      return {
-        isOpen: false
-      }
+    detailsLink: {
+      type: String,
+      default: '/privacy'
     },
-    methods: {
-      accept () {
-        this.setVisited()
-        this.isOpen = false
-      },
-      setVisited () {
-        this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
-      }
-    },
-    created () {
-      this.$store.dispatch('claims/check', {claimCode: 'cookiesAccepted'}).then((cookieClaim) => {
-        if (!cookieClaim) {
-          this.isOpen = true
-          this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: false})
-        } else {
-          this.isOpen = !cookieClaim.value
-        }
-      })
+    message: {
+      type: String,
+      default: 'We use cookies to give you the best shopping experience.'
     }
+  },
+  data () {
+    return {
+      isOpen: false
+    }
+  },
+  methods: {
+    accept () {
+      this.setVisited()
+      this.isOpen = false
+    },
+    setVisited () {
+      this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
+    }
+  },
+  created () {
+    this.$store.dispatch('claims/check', {claimCode: 'cookiesAccepted'}).then((cookieClaim) => {
+      if (!cookieClaim) {
+        this.isOpen = true
+        this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: false})
+      } else {
+        this.isOpen = !cookieClaim.value
+      }
+    })
   }
+}
 </script>
 
 <style lang="scss" scoped>

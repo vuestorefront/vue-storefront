@@ -156,102 +156,102 @@
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
-  import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { coreComponent } from 'lib/themes'
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
-  export default {
-    validations: {
-      currentUser: {
-        firstname: {
-          required,
-          minLength: minLength(3)
-        },
-        lastname: {
-          required
-        },
-        email: {
-          required,
-          email
-        }
-      },
-      oldPassword: {
-        required
-      },
-      password: {
-        required
-      },
-      rPassword: {
+export default {
+  validations: {
+    currentUser: {
+      firstname: {
         required,
-        sameAsPassword: sameAs('password')
+        minLength: minLength(3)
       },
-      userCompany: {
-        company: {
-          required
-        },
-        country: {
-          required
-        },
-        street: {
-          required
-        },
-        house: {
-          required
-        },
-        postcode: {
-          required,
-          minLength: minLength(5)
-        },
-        city: {
-          required
-        },
-        taxId: {
-          required,
-          minLength: minLength(3)
-        }
-      }
-    },
-    data () {
-      return {
-        passType: {
-          oldPass: 'password',
-          pass: 'password',
-          repeatPass: 'password'
-        },
-        iconName: {
-          oldPass: 'visibility',
-          pass: 'visibility',
-          repeatPass: 'visibility'
-        }
-      }
-    },
-    methods: {
-      checkValidation () {
-        if (this.changePassword && this.addCompany) {
-          return this.$v.$invalid
-        } else if (this.changePassword && !this.addCompany) {
-          return this.$v.currentUser.$invalid || this.$v.password.$invalid || this.$v.rPassword.$invalid
-        } else if (!this.changePassword && this.addCompany) {
-          return this.$v.currentUser.$invalid || this.$v.userCompany.$invalid
-        } else {
-          return this.$v.currentUser.$invalid
-        }
+      lastname: {
+        required
       },
-      togglePassType (name) {
-        if (this.passType[name] === 'password') {
-          this.passType[name] = 'text'
-          this.iconName[name] = 'visibility_off'
-        } else {
-          this.passType[name] = 'password'
-          this.iconName[name] = 'visibility'
-        }
+      email: {
+        required,
+        email
       }
     },
-    components: {
-      ButtonFull
+    oldPassword: {
+      required
     },
-    mixins: [coreComponent('core/blocks/MyAccount/MyProfile')]
-  }
+    password: {
+      required
+    },
+    rPassword: {
+      required,
+      sameAsPassword: sameAs('password')
+    },
+    userCompany: {
+      company: {
+        required
+      },
+      country: {
+        required
+      },
+      street: {
+        required
+      },
+      house: {
+        required
+      },
+      postcode: {
+        required,
+        minLength: minLength(5)
+      },
+      city: {
+        required
+      },
+      taxId: {
+        required,
+        minLength: minLength(3)
+      }
+    }
+  },
+  data () {
+    return {
+      passType: {
+        oldPass: 'password',
+        pass: 'password',
+        repeatPass: 'password'
+      },
+      iconName: {
+        oldPass: 'visibility',
+        pass: 'visibility',
+        repeatPass: 'visibility'
+      }
+    }
+  },
+  methods: {
+    checkValidation () {
+      if (this.changePassword && this.addCompany) {
+        return this.$v.$invalid
+      } else if (this.changePassword && !this.addCompany) {
+        return this.$v.currentUser.$invalid || this.$v.password.$invalid || this.$v.rPassword.$invalid
+      } else if (!this.changePassword && this.addCompany) {
+        return this.$v.currentUser.$invalid || this.$v.userCompany.$invalid
+      } else {
+        return this.$v.currentUser.$invalid
+      }
+    },
+    togglePassType (name) {
+      if (this.passType[name] === 'password') {
+        this.passType[name] = 'text'
+        this.iconName[name] = 'visibility_off'
+      } else {
+        this.passType[name] = 'password'
+        this.iconName[name] = 'visibility'
+      }
+    }
+  },
+  components: {
+    ButtonFull
+  },
+  mixins: [coreComponent('core/blocks/MyAccount/MyProfile')]
+}
 </script>
 
 <style lang="scss" scoped>

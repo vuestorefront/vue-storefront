@@ -9,8 +9,8 @@
       <div class="col-md-12">
         <h4>Your wishlist is empty.</h4>
         <div>
-          Don't hesitate and 
-          <router-link to="/">browse our catalog</router-link> 
+          Don't hesitate and
+          <router-link to="/">browse our catalog</router-link>
           to find something beatufiul for you!
         </div>
       </div>

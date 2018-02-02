@@ -45,7 +45,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     return filterQr
   }
   filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
-                      .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
+    .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
 
   const fsC = Object.assign({}, this.filterSet) // create a copy because it will be used asynchronously (take a look below)
   filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, offset: this.pagination.offset, pageSize: this.pagination.pageSize, filters: Object.keys(this.filters) }).then((res) => {
@@ -91,8 +91,6 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
         }
         recurCatFinderBuilder(sc)
       }
-
-      return
     }
     recurCatFinderBuilder(parentCategory)
   }

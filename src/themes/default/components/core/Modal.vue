@@ -33,7 +33,7 @@ export default {
   props: {
     staticData: {
       type: String,
-      default: ""
+      default: ''
     },
     width: {
       type: Number,
@@ -71,7 +71,7 @@ $z-index-modal: map-get($z-index, modal);
     pointer-events: none;
 }
 
-.modal-center {     
+.modal-center {
     display: table-cell;
     vertical-align: middle;
 }
@@ -90,7 +90,7 @@ $z-index-modal: map-get($z-index, modal);
       margin: 0;
     }
 }
-  
+
 .modal-header {
     position: relative;
 

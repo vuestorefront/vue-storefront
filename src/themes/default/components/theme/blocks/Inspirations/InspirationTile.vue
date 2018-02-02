@@ -5,7 +5,7 @@
         <img :src="thumbnail" class="product-thumbnail">
       </div>
     </router-link>
-        
+
   </div>
 </template>
 

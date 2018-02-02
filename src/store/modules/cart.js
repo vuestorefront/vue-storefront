@@ -78,7 +78,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
               product.qty = serverItem.qty
               product.server_cart_id = serverItem.quote_id
               rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
-  //              rootStore.dispatch('cart/updateItem', { product: product })
+                //              rootStore.dispatch('cart/updateItem', { product: product })
               })
             })
           }
@@ -211,7 +211,7 @@ const store = {
       context.commit(types.CART_SAVE)
     },
     serverPush (context) { // push current cart TO the server
-      return
+
     },
     serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
       if (config.cart.synchronize) {
@@ -227,7 +227,7 @@ const store = {
             force_client_state: forceClientState,
             callback_event: 'servercart-after-pulled'
           }, { root: true }).then(task => {
-            return
+
           })
         } else {
           console.log('Too short interval for refreshing the cart')
@@ -267,7 +267,7 @@ const store = {
           },
           callback_event: 'servercart-after-itemupdated'
         }, { root: true }).then(task => {
-          return
+
         })
       }
     },
@@ -289,7 +289,7 @@ const store = {
           silent: true,
           callback_event: 'servercart-after-itemdeleted'
         }, { root: true }).then(task => {
-          return
+
         })
       }
     },

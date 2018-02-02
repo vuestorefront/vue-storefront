@@ -27,7 +27,7 @@ export default {
     mobileHorizontalMode: {
       type: Boolean,
       default: false
-    },
+    }
   },
   methods: {
     thumbnail () {
@@ -66,4 +66,3 @@ export default {
 }
 
 </style>
-

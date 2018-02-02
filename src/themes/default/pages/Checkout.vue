@@ -181,7 +181,7 @@ $gray-secondary: map-get($colors, gray-secondary);
     display: table-cell;
     cursor: pointer;
     padding-left: 10px;
-    
+
     span {
       vertical-align: middle;
       font-size: 18px;

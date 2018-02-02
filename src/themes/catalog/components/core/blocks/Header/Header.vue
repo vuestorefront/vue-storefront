@@ -3,7 +3,7 @@
 
     <div class="col-sm-12 p15 c-secondary-lighter bg-secondary center-xs">
       <router-link to="/">Visit our stores</router-link>, choose one of 100+ stores in 52 countries all over the world!
-    </div>  
+    </div>
 
     <nav class="menu container">
       <div class="row middle-xs full-size">
@@ -19,7 +19,7 @@
         </div>
         <div class="col-xs-6 col-md-4 uppercase end-xs">
           <router-link to="/" class="px20 full-size magazine middle-xs semibold inline-flex-md hide">
-            <div class="material-icons inline-flex pr10">book</div>   
+            <div class="material-icons inline-flex pr10">book</div>
             <div class="inline-flex">Magazine</div>
           </router-link>
           <i @click="openWishlist" class="material-icons middle-xs px25 full-size inline-flex b-left-md">favorite_border</i>

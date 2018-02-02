@@ -26,7 +26,6 @@ export default { // TODO: move logic to parent component
         if (filterOption.id === this.id) {
           if (this.active) {
             this.active = false
-            return
           } else {
             this.active = true
           }

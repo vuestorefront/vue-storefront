@@ -29,21 +29,21 @@
 </template>
 
 <script>
-  import { corePage } from 'lib/themes'
-  import Breadcrumbs from '../components/core/Breadcrumbs'
-  import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
-  import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
-  import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
+import { corePage } from 'lib/themes'
+import Breadcrumbs from '../components/core/Breadcrumbs'
+import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
+import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
+import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 
-  export default {
-    components: {
-      Breadcrumbs,
-      MyProfile,
-      MyShippingDetails,
-      MyNewsletter
-    },
-    mixins: [corePage('MyAccount')]
-  }
+export default {
+  components: {
+    Breadcrumbs,
+    MyProfile,
+    MyShippingDetails,
+    MyNewsletter
+  },
+  mixins: [corePage('MyAccount')]
+}
 </script>
 
 <style lang="scss">

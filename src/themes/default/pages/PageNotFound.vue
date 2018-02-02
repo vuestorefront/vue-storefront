@@ -28,27 +28,27 @@
 </template>
 
 <script>
-  import { corePage } from 'lib/themes'
-  import ProductTile from '../components/core/ProductTile.vue'
+import { corePage } from 'lib/themes'
+import ProductTile from '../components/core/ProductTile.vue'
 
-  export default {
-    name: 'PageNotFound',
-    computed: {
-      ourBestsellersCollection () {
-        return this.$store.state.homepage.bestsellers
-      }
-    },
-    components: {
-      ProductTile
-    },
-    methods: {
-      toggleSearchpanel () {
-        this.$bus.$emit('focusSearchInput')
-        this.$store.commit('ui/setSearchpanel', true)
-      }
-    },
-    mixins: [corePage('PageNotFound')]
-  }
+export default {
+  name: 'PageNotFound',
+  computed: {
+    ourBestsellersCollection () {
+      return this.$store.state.homepage.bestsellers
+    }
+  },
+  components: {
+    ProductTile
+  },
+  methods: {
+    toggleSearchpanel () {
+      this.$bus.$emit('focusSearchInput')
+      this.$store.commit('ui/setSearchpanel', true)
+    }
+  },
+  mixins: [corePage('PageNotFound')]
+}
 </script>
 
 <style scoped>

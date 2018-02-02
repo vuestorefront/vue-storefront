@@ -10,4 +10,3 @@ export function registerExtensions (extensions, app, router, store, config) {
     }
   }
 }
-

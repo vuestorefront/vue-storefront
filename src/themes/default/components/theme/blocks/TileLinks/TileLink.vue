@@ -12,15 +12,15 @@
 </template>
 
 <script>
-  export default {
-    name: 'TileLink',
-    props: {
-      tile: {
-        type: Object,
-        required: true
-      }
+export default {
+  name: 'TileLink',
+  props: {
+    tile: {
+      type: Object,
+      required: true
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

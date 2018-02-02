@@ -51,10 +51,10 @@ function filterChanged (filterOption) { // slection of product variant on produc
     //   }
     // })
   })
-  .catch(err => console.error({
-    info: 'Dispatch product/configure in Product.vue',
-    err
-  }))
+    .catch(err => console.error({
+      info: 'Dispatch product/configure in Product.vue',
+      err
+    }))
 }
 
 /**

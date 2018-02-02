@@ -1,6 +1,6 @@
 <template>
-  <!-- 
-  Aggregator for multiple ProductTile components to be displayed in columns or other type of grid 
+  <!--
+  Aggregator for multiple ProductTile components to be displayed in columns or other type of grid
   props:
   "products" - array of products
   "columns" - # of columns to be displayed
@@ -32,4 +32,3 @@ export default {
   }
 }
 </script>
-

@@ -20,4 +20,3 @@ export default {
   mixins: [coreComponent('core/blocks/Microcart/Microcart')]
 }
 </script>
-

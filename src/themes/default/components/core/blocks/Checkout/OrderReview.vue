@@ -125,7 +125,7 @@ export default {
   .checkboxText {
     display: inline-block;
     cursor: pointer;
-    
+
     span {
       vertical-align: middle;
     }

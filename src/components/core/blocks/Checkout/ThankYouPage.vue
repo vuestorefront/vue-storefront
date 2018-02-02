@@ -3,9 +3,9 @@
     <h1>Thank you!</h1>
     <p>Thank you for placing an order. </p>
         <p v-if="isOnline">
-      Your order has been sent to the server and will be immediately processed 
+      Your order has been sent to the server and will be immediately processed
     </p>
-    <p v-else> 
+    <p v-else>
       Your order will be sent to the server as soon as you connect to the Internet and then confirmed regarding the stock quantities of selected items
     </p>
   </div>

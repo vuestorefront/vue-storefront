@@ -4,7 +4,7 @@
     <h1>Welcome to Vue Storefront theme starter!</h1>
     <p>In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack</p>
     <P>Here are some links that can help you with developing your own theme:</p>
-    <p>      
+    <p>
       <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md">Project structure</a> |
       <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md">Working with themes</a> |
       <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md">Working with components</a> |
@@ -13,7 +13,6 @@
   </div>
 </template>
 
-
 <script>
 export default {
   components: {
@@ -21,7 +20,6 @@ export default {
   }
 }
 </script>
-
 
 <style>
 

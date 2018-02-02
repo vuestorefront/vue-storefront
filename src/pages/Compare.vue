@@ -10,51 +10,50 @@
   </div>
 </template>
 
-
 <script>
-  import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-  import Meta from 'src/lib/meta'
+import Meta from 'src/lib/meta'
 
-  export default {
-    name: 'Compare',
-    props: {
-      title: {
-        type: String,
-        required: true
-      }
+export default {
+  name: 'Compare',
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
+  created () {
+    this.$store.dispatch('compare/load')
+    this.$store.dispatch('attribute/list', {
+      filterValues: [true],
+      filterField: 'is_user_defined'
+    })
+  },
+  methods: {
+    removeFromCompare (product) {
+      this.$store.dispatch('compare/removeItem', product)
+    }
+  },
+  computed: {
+    ...mapGetters({
+      attributesByCode: 'attribute/attributeListByCode',
+      attributesByUd: 'attribute/attributeListById'
+    }),
+    items () {
+      return this.$store.state.compare.itemsCompare
     },
-    created () {
-      this.$store.dispatch('compare/load')
-      this.$store.dispatch('attribute/list', {
-        filterValues: [true],
-        filterField: 'is_user_defined'
+    all_comparable_attributes () {
+      return Object.values(this.attributesByCode).filter(a => {
+        return parseInt(a.is_comparable)
       })
-    },
-    methods: {
-      removeFromCompare (product) {
-        this.$store.dispatch('compare/removeItem', product)
-      }
-    },
-    computed: {
-      ...mapGetters({
-        attributesByCode: 'attribute/attributeListByCode',
-        attributesByUd: 'attribute/attributeListById'
-      }),
-      items () {
-        return this.$store.state.compare.itemsCompare
-      },
-      all_comparable_attributes () {
-        return Object.values(this.attributesByCode).filter(a => {
-          return parseInt(a.is_comparable)
-        })
-      }
-    },
-    meta () {
-      return {
-        title: this.title
-      }
-    },
-    mixins: [Meta]
-  }
+    }
+  },
+  meta () {
+    return {
+      title: this.title
+    }
+  },
+  mixins: [Meta]
+}
 </script>

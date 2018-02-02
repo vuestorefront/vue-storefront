@@ -42,7 +42,7 @@ const actions = {
         resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: task.task_id }) // if not online, cannot check the source of true here
       })
 
-        /**
+      /**
          * "stock": {
               "min_sale_qty": 1,
               "qty_increments": 0,

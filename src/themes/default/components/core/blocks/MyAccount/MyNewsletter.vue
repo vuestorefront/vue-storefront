@@ -29,7 +29,7 @@
           <span class="fs16 c-darkgray">I want to receive a newsletter, and agree to its terms</span>
         </div>
       </div>
-      <div class="col-xs-12">  
+      <div class="col-xs-12">
         <h4>Preferences</h4>
       </div>
       <div class="col-xs-6 col-sm-6 col-md-3 preferences mb25">
@@ -82,15 +82,15 @@
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { coreComponent } from 'lib/themes'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
-  export default {
-    components: {
-      ButtonFull
-    },
-    mixins: [coreComponent('core/blocks/MyAccount/MyNewsletter')]
-  }
+export default {
+  components: {
+    ButtonFull
+  },
+  mixins: [coreComponent('core/blocks/MyAccount/MyNewsletter')]
+}
 </script>
 
 <style lang="scss" scoped>

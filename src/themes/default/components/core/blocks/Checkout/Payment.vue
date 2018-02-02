@@ -106,7 +106,7 @@
             <h4>Payment method</h4>
           </div>
           <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
-            <label class="radioStyled"> {{ method.name }} 
+            <label class="radioStyled"> {{ method.name }}
               <input type="radio" :value="method.code" name="payment-method" v-model="payment.paymentMethod">
               <span class="checkmark"/>
             </label>
@@ -129,7 +129,7 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
-          <div class="col-xs-12 h4">  
+          <div class="col-xs-12 h4">
             <p>
               {{ payment.firstName }} {{ payment.lastName }}
             </p>
@@ -154,7 +154,7 @@
               <h4>Payment method</h4>
             </div>
             <div class="col-md-6 mb15">
-              <label class="radioStyled"> {{ getPaymentMethod().name }} 
+              <label class="radioStyled"> {{ getPaymentMethod().name }}
                 <input type="radio" value="" checked disabled name="chosen-payment-method">
                 <span class="checkmark"/>
               </label>

@@ -11,7 +11,6 @@
   </div>
 </template>
 
-
 <script>
 import { coreComponent } from 'lib/themes'
 

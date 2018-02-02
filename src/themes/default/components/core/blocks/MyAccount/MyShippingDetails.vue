@@ -106,43 +106,43 @@
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
-  import { required, minLength } from 'vuelidate/lib/validators'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import Tooltip from 'theme/components/core/Tooltip.vue'
+import { coreComponent } from 'lib/themes'
+import { required, minLength } from 'vuelidate/lib/validators'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import Tooltip from 'theme/components/core/Tooltip.vue'
 
-  export default {
-    validations: {
-      shippingDetails: {
-        firstName: {
-          required,
-          minLength: minLength(3)
-        },
-        lastName: {
-          required
-        },
-        country: {
-          required
-        },
-        street: {
-          required
-        },
-        house: {
-          required
-        },
-        postcode: {
-          required,
-          minLength: minLength(5)
-        },
-        city: {
-          required
-        }
+export default {
+  validations: {
+    shippingDetails: {
+      firstName: {
+        required,
+        minLength: minLength(3)
+      },
+      lastName: {
+        required
+      },
+      country: {
+        required
+      },
+      street: {
+        required
+      },
+      house: {
+        required
+      },
+      postcode: {
+        required,
+        minLength: minLength(5)
+      },
+      city: {
+        required
       }
-    },
-    components: {
-      ButtonFull,
-      Tooltip
-    },
-    mixins: [coreComponent('core/blocks/MyAccount/MyShippingDetails')]
-  }
+    }
+  },
+  components: {
+    ButtonFull,
+    Tooltip
+  },
+  mixins: [coreComponent('core/blocks/MyAccount/MyShippingDetails')]
+}
 </script>

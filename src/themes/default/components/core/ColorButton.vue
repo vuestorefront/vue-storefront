@@ -28,7 +28,6 @@ export default {
           if (filterOption.id === this.id) {
             if (this.active) {
               this.active = false
-              return
             } else {
               this.active = true
             }

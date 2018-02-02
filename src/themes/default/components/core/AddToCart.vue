@@ -11,11 +11,11 @@
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
-  import focusClean from 'theme/components/theme/directives/focusClean'
+import { coreComponent } from 'lib/themes'
+import focusClean from 'theme/components/theme/directives/focusClean'
 
-  export default {
-    mixins: [coreComponent('core/AddToCart')],
-    directives: { focusClean }
-  }
+export default {
+  mixins: [coreComponent('core/AddToCart')],
+  directives: { focusClean }
+}
 </script>

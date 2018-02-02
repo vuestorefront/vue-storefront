@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <script>
 export default {
   components: {
@@ -13,6 +12,5 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" src="./css/main.scss">

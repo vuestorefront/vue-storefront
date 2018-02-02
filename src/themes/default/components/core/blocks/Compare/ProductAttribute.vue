@@ -3,9 +3,9 @@
 </template>
 
 <script>
-  import ProductAttribute from '../../ProductAttribute.vue'
+import ProductAttribute from '../../ProductAttribute.vue'
 
-  export default {
-    mixins: [ProductAttribute]
-  }
+export default {
+  mixins: [ProductAttribute]
+}
 </script>

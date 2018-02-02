@@ -1,7 +1,7 @@
 <template>
   <div>
     Core product row
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -26,4 +26,3 @@ export default {
   }
 }
 </script>
-

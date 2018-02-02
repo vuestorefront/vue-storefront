@@ -34,10 +34,10 @@
           </div>
           <div class="row mt30">
             <div class="col-xs-12">
-              <button 
+              <button
                 class="availibility-btn c-on-accent fs-large b-none py20 medium"
-                :class="{ 'bg-accent bg-accent-hover' : !availability.checked, 
-                          'bg-btn-positive' : availability.checked || availability.available, 
+                :class="{ 'bg-accent bg-accent-hover' : !availability.checked,
+                          'bg-btn-positive' : availability.checked || availability.available,
                           'bg-btn-positive' : availability.checked || !availability.available }"
                 @click="isAvailable()"> {{ availabilityLabel }}</button>
             </div>
@@ -71,7 +71,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import { corePage } from 'lib/themes'

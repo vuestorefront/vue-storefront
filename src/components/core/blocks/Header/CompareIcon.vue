@@ -6,19 +6,19 @@
 </template>
 
 <script>
-  export default {
-    name: 'CompareIcon',
-    props: {
-      product: {
-        type: Object,
-        required: false,
-        default: () => {}
-      }
-    },
-    computed: {
-      hasCompare () {
-        return this.$store.state.compare.compare
-      }
+export default {
+  name: 'CompareIcon',
+  props: {
+    product: {
+      type: Object,
+      required: false,
+      default: () => {}
+    }
+  },
+  computed: {
+    hasCompare () {
+      return this.$store.state.compare.compare
     }
   }
+}
 </script>
