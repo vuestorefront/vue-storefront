@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" @click="onClick" v-if="isVisible"/>
+  <div class="overlay" @click="close" v-if="isVisible" />
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
     }
   },
   methods: {
-    onClick () {
+    close () {
       this.$store.commit('ui/setOverlay', false)
     }
   },

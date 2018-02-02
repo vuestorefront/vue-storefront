@@ -7,8 +7,7 @@ Vue Storefront is and always will be in the open source. Anyone can use and supp
 The project is still in the proof of concept phase. **We are looking for Contributors and Designer willing to help us in the solution development.**
 
 ## Join the community on Slack
-If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com  
-You can request joining the slack channel by dropping us a line to: *contributors@vuestorefront.io*
+If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
 
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
@@ -27,6 +26,7 @@ The documentation is always THE HARDEST PART of each open source project! But we
 ### Vue Storefront core and themes
 * [Wotking with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
+* [Working with UI Store (interface state)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
 
 ### Data in Vue Storefront
 * [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)

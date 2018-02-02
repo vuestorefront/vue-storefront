@@ -39,6 +39,6 @@ Here’s how to submit a pull request:
 
 ### New core components
 
-1. Each new core component should be properly docummented (create docs file with PR). If the component should be accesible via mixin you should specify the public data and methods that will be available in the theme components using this mixin. Before creating the docs taka a look at other core components guideness and try to do something similar (see it [here](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/components)
+1. Each new core component should be properly docummented (create docs file with PR). If the component should be accesible via mixin you should specify the public data and methods that will be available in the theme components using this mixin. Before creating the docs taka a look at other core components guideness and try to do something similar (see it [here](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/components))
 2. Core components shouldn't provide any html/css. The exception is when the component's behavior depends on css (for example Modal component)
 3. Read [Working with components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md) guideness before creating new component.
