@@ -12,6 +12,7 @@ import { thumbnail } from 'src/lib/filters'
 import EventBus from 'src/event-bus'
 import { mapGetters } from 'vuex'
 import config from 'config'
+import { getNotifications } from 'src/lib/messages'
 
 /**
  * User selected specific color x size (or other attributes) variant
@@ -27,11 +28,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     EventBus.$emit('product-after-configure', { filterOption: filterOption, selectedVariant: selectedVariant, configuration: this.configuration })
 
     if (!selectedVariant) {
-      this.$bus.$emit('notification', {
-        type: 'warning',
-        message: 'No such configuration for the product. Please do choose another combination of attributes.',
-        action1: { label: 'OK', action: 'close' }
-      })
+      this.$bus.$emit('notification', getNotifications('Product').unavailableConfiguration)
       return
     }
 
@@ -152,7 +149,6 @@ export default {
     addToFavorite () {
       let self = this
       if (!self.favorite.isFavorite) {
-        console.log(self.originalProduct)
         this.$store.dispatch('wishlist/addItem', self.originalProduct).then(res => {
           self.favorite.icon = 'favorite'
           self.favorite.isFavorite = true

@@ -11,6 +11,7 @@ import Payment from 'core/components/blocks/Checkout/Payment.vue'
 import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
 import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
+import { getNotifications } from 'src/lib/messages'
 
 export default {
   name: 'Checkout',
@@ -36,16 +37,20 @@ export default {
         shipping: { $invalid: true },
         payment: { $invalid: true }
       },
-      userId: null
+      userId: null,
+      emptyCartNotification: getNotifications('Checkout').emptyCart,
+      outOfStockNotification: getNotifications('Checkout').outOfStock,
+      unavailableNotification: getNotifications('Checkout').unavailable,
+      stockCheckNotification: getNotifications('Checkout').stockCheck,
+      offlineNotification: getNotifications('Checkout').offline,
+      errorValidationNotification: getNotifications('Checkout').errorValidation,
+      warningMessageOutOfStock: getNotifications('Checkout').warningMessageOutOfStock
     }
   },
   beforeMount () {
+    let self = this
     if (this.$store.state.cart.cartItems.length === 0) {
-      this.$bus.$emit('notification', {
-        type: 'warning',
-        message: 'Shopping cart is empty. Please add some products before entering Checkout',
-        action1: { label: 'OK', action: 'close' }
-      })
+      this.$bus.$emit('notification', this.emptyCartNotification)
       this.$router.push('/')
     } else {
       this.stockCheckCompleted = false
@@ -70,12 +75,8 @@ export default {
               if (chp && chp.stock) {
                 if (!chp.stock.is_in_stock) {
                   this.stockCheckOK = false
-                  chp.warning_message = 'Out of stock!'
-                  this.$bus.$emit('notification', {
-                    type: 'error',
-                    message: chp.name + ' is out of the stock!',
-                    action1: { label: 'OK', action: 'close' }
-                  })
+                  chp.warning_message = self.warningMessageOutOfStock
+                  this.$bus.$emit('notification', self.outOfStock(chp.name))
                 }
               }
             }
@@ -159,18 +160,10 @@ export default {
         if (this.stockCheckCompleted) {
           if (!this.stockCheckOK) {
             isValid = false
-            this.$bus.$emit('notification', {
-              type: 'error',
-              message: 'Some of the ordered products are not available!',
-              action1: { label: 'OK', action: 'close' }
-            })
+            this.$bus.$emit('notification', this.unavailableNotification)
           }
         } else {
-          this.$bus.$emit('notification', {
-            type: 'warning',
-            message: 'Stock check in progress, please wait while available stock quantities are checked',
-            action1: { label: 'OK', action: 'close' }
-          })
+          this.$bus.$emit('notification', this.stockCheckNotification)
           isValid = false
         }
       }
@@ -178,13 +171,15 @@ export default {
     }
   },
   methods: {
+    outOfStock (name) {
+      let notification = this.outOfStockNotification
+      return Object.assign({}, notification, {
+        message: name + notification.message
+      })
+    },
     checkConnection (status) {
       if (!status.online) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: 'There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now.',
-          action1: { label: 'OK', action: 'close' }
-        })
+        this.$bus.$emit('notification', this.offlineNotification)
       }
     },
     activateSection (sectionToActivate) {
@@ -240,11 +235,7 @@ export default {
       if (this.isValid) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       } else {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: 'Please do correct validation errors',
-          action1: { label: 'OK', action: 'close' }
-        })
+        this.$bus.$emit('notification', this.errorValidationNotification)
       }
     },
     savePersonalDetails () {

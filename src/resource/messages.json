@@ -1,0 +1,56 @@
+{
+  "General": {
+    "notImplemented": {
+      "type": "warning",
+      "message": "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!",
+      "action1": { "label": "OK", "action": "close" }
+    }
+  },
+  "Category": {
+    "errorNotification": {
+      "type": "warning",
+      "message": "No products synchronized for this category. Please come back while online!",
+      "action1": { "label": "OK", "action": "close" }
+    }
+  },
+  "Checkout": {
+    "warningMessageOutOfStock": "Out of stock!",
+    "emptyCart": {
+      "type": "warning",
+      "message": "Shopping cart is empty. Please add some products before entering Checkout",
+      "action1": { "label": "OK", "action": "close" }
+    },
+    "outOfStock": {
+      "type": "error",
+      "message": " is out of the stock!",
+      "action1": { "label": "OK", "action": "close" }
+    },
+    "unavailable": {
+      "type": "error",
+      "message": "Some of the ordered products are not available!",
+      "action1": { "label": "OK", "action": "close" }
+    },
+    "stockCheck": {
+      "type": "warning",
+      "message": "Stock check in progress, please wait while available stock quantities are checked",
+      "action1": { "label": "OK", "action": "close" }
+    },
+    "offline": {
+      "type": "warning",
+      "message": "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now.",
+      "action1": { "label": "OK", "action": "close" }
+    },
+    "errorValidation": {
+      "type": "error",
+      "message": "Please do correct validation errors",
+      "action1": { "label": "OK", "action": "close" }
+    }
+  },
+  "Product": {
+    "unavailableConfiguration": {
+      "type": "warning",
+      "message": "No such configuration for the product. Please do choose another combination of attributes.",
+      "action1": { "label": "OK", "action": "close" }
+    }
+  }
+}
