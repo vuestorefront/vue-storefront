@@ -1,8 +1,8 @@
 <template>
   <div class="thank-you-page">
     <h1>Thank you!</h1>
-    <p>Thank you for placing an order. </p>
-        <p v-if="isOnline">
+    <p>Thank you for placing an order.</p>
+    <p v-if="isOnline">
       Your order has been sent to the server and will be immediately processed
     </p>
     <p v-else>
@@ -25,9 +25,9 @@ export default {
 <style scoped>
 /* TO-DO: It's temporary, style it normally and move to theme */
 .thank-you-page {
-    padding: 40px 20px;
+  padding: 40px 20px;
 }
 p {
-    font-size: 18px;
+  font-size: 18px;
 }
 </style>

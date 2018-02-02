@@ -1,9 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as localForage from 'localforage'
-
 import * as types from './mutation-types'
 import UniversalStorage from '../lib/storage'
+import order from './modules/order'
+import product from './modules/product'
+import category from './modules/category'
+import attribute from './modules/attribute'
+import cart from './modules/cart'
+import wishlist from './modules/wishlist'
+import compare from './modules/compare'
+import user from './modules/user'
+import payment from './modules/payment'
+import shipping from './modules/shipping'
+import meta from './modules/meta'
+import ui from './modules/ui-store'
+import checkout from './modules/checkout'
+import homepage from './modules/homepage'
+import stock from './modules/stock'
+import tax from './modules/tax'
+import social from './modules/social-tiles'
+import claims from './modules/claims'
+import sync from './modules/sync'
+import promoted from './modules/promoted-offers'
 
 Vue.prototype.$db = {
   ordersCollection: new UniversalStorage(localForage.createInstance({
@@ -73,27 +92,6 @@ Vue.prototype.$db = {
 }
 
 global.db = Vue.prototype.$db // localForage instance
-
-import order from './modules/order'
-import product from './modules/product'
-import category from './modules/category'
-import attribute from './modules/attribute'
-import cart from './modules/cart'
-import wishlist from './modules/wishlist'
-import compare from './modules/compare'
-import user from './modules/user'
-import payment from './modules/payment'
-import shipping from './modules/shipping'
-import meta from './modules/meta'
-import ui from './modules/ui-store'
-import checkout from './modules/checkout'
-import homepage from './modules/homepage'
-import stock from './modules/stock'
-import tax from './modules/tax'
-import social from './modules/social-tiles'
-import claims from './modules/claims'
-import sync from './modules/sync'
-import promoted from './modules/promoted-offers'
 
 Vue.use(Vuex)
 

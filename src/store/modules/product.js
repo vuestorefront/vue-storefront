@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import config from 'config'
-const bodybuilder = require('bodybuilder')
+import bodybuilder from 'bodybuilder'
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from 'src/store/modules/attribute'

@@ -1,6 +1,8 @@
 import { createApp } from './app'
 import config from 'config'
 import { execute } from 'src/api/task'
+import * as localForage from 'localforage'
+import EventBus from 'src/event-bus'
 
 require('./service-worker-registration') // register the service worker
 
@@ -39,7 +41,6 @@ router.onReady(() => {
   app.$mount('#app')
 })
 // TODO: Move the order queue here from service worker!
-import EventBus from 'src/event-bus'
 /*
  * serial executes Promises sequentially.
  * @param {funcs} An array of funcs that return promises.
@@ -52,7 +53,6 @@ const serial = funcs =>
   funcs.reduce((promise, func) =>
     promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
 
-import * as localForage from 'localforage'
 const orderMutex = {}
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')

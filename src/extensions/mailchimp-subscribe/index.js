@@ -1,8 +1,8 @@
-const EXTENSION_KEY = 'mailchimp-subscribe'
-
 import extensionStore from './store'
 import extensionRoutes from './router'
 import EventBus from 'src/event-bus'
+
+const EXTENSION_KEY = 'mailchimp-subscribe'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes

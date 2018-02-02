@@ -1,9 +1,9 @@
-let es = require('elasticsearch')
-
 import config from 'config'
 import _ from 'lodash'
 import { slugify } from '../lib/filters'
 import hash from 'object-hash'
+
+let es = require('elasticsearch')
 
 let client = new es.Client({
   host: config.elasticsearch.host,

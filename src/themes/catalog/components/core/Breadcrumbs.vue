@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-
 import { coreComponent } from 'lib/themes'
 
 export default {
