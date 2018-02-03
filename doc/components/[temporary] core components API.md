@@ -153,28 +153,38 @@ No data
 No methods
 
 ## ProductAttribute
-
+Shows attributes that a specific product has. Used on Product Page.
 ### Props
-
+`product` - reference to product that the attribute belongs to  
+`attribute` - attribute itself  
+`emptyPlaceholder` - a string that is shown if an attribute has no value
 ### Data
-
+`label` - name of an attribute
+`value` - attribute's value(-s)
 ### Methods
+No methods
+### Hooks
+#### beforeMount
+Extracts attribute's label and value(-s) from *product* and *attribute* properties.
 
 ## ProductLinks
-
+If product is grouped (which means it consists of several products) this component shows list of compound products. Used on Product page.
 ### Props
-
+`products` - array of compound products of a given product
 ### Data
-
+No data
 ### Methods
+No methods
 
 ## ProductListing
-
+Shows given array of products on a page in a given number of columns. Used on Category and Home pages, and also on Related block.
 ### Props
-
+`product` - array of products to show  
+`columns` - number of columns to display on a page. Each product is displayed with ProductTile component.
 ### Data
-
+No data
 ### Methods
+No methods
 
 ## ProductSlider
 
