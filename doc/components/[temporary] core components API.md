@@ -121,7 +121,7 @@ No methods
 ### Hooks
 #### Mounted
 Sets isOnline data property and defines two event listeners:  
-`'online'` - sets *isOnline* data property to true.
+`'online'` - sets *isOnline* data property to true.  
 `'offline'` - sets *isOnline* data property to false.
 
 ## Overlay
@@ -141,11 +141,11 @@ Removes *no-scroll* property from document.
 ## PriceButton
 Represents one of the options on Category page. Shows price range and allows uesr to choose one of the ranges.
 ### Props
-`content` - text that shows the price range
+`content` - text that shows the price range  
 `id` - unique identifier of the option  
 `code` - options' code, equals to 'price'  
-`from` - minimum value of the price range
-`to` - maximum value of the price range
+`from` - minimum value of the price range  
+`to` - maximum value of the price range  
 `context` - a name of an entity that the component belongs to (currently 'category')
 ### Data
 No data
