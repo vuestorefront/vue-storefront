@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 import EventBus from 'src/event-bus'
 import { htmlDecode } from '../../filters'
+import i18n from 'lib/i18n'
 
 const store = {
   namespaced: true,
@@ -53,7 +54,7 @@ const store = {
       commit(types.COMPARE_ADD_ITEM, {product})
       EventBus.$emit('notification', {
         type: 'success',
-        message: `Product ${htmlDecode(product.name)} has been added to the compare!`,
+        message: i18n.t('Product {productName} has been added to the compare!', { productName: htmlDecode(product.name) }),
         action1: {label: 'OK', action: 'close'}
       })
     },
@@ -61,7 +62,7 @@ const store = {
       commit(types.COMPARE_DEL_ITEM, {product})
       EventBus.$emit('notification', {
         type: 'success',
-        message: `Product ${htmlDecode(product.name)} has been removed from compare!`,
+        message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
         action1: {label: 'OK', action: 'close'}
       })
     }

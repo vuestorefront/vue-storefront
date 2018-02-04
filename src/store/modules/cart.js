@@ -3,6 +3,7 @@ import _ from 'lodash'
 import EventBus from 'src/event-bus'
 import config from 'config'
 import rootStore from '../'
+import i18n from 'lib/i18n'
 const CART_PULL_INTERVAL_MS = 5000
 const CART_CREATE_INTERVAL_MS = 1000
 
@@ -345,14 +346,14 @@ const store = {
           if (result.status === 'volatile') {
             EventBus.$emit('notification', {
               type: 'warning',
-              message: 'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.',
+              message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
               action1: { label: 'OK', action: 'close' }
             })
           }
           if (result.status === 'out_of_stock') {
             EventBus.$emit('notification', {
               type: 'error',
-              message: 'The product is out of stock and cannot be added to the cart!',
+              message: i18n.t('The product is out of stock and cannot be added to the cart!'),
               action1: { label: 'OK', action: 'close' }
             })
           }
@@ -368,7 +369,7 @@ const store = {
 
             EventBus.$emit('notification', {
               type: 'success',
-              message: 'Product has been added to the cart!',
+              message: i18n.t('Product has been added to the cart!'),
               action1: { label: 'OK', action: 'close' }
             })
           }

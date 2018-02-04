@@ -49,6 +49,7 @@
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email, sameAs } from 'vuelidate/lib/validators'
+import i18n from 'lib/i18n'
 
 export default {
   data () {
@@ -108,13 +109,13 @@ export default {
       if (this.$v.$invalid) {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please fix the validation errors',
+          message: i18n.t('Please fix the validation errors'),
           action1: { label: 'OK', action: 'close' }
         })
         return
       }
 
-      this.$bus.$emit('notification-progress-start', 'Registering the account ... ')
+      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
         console.log(result)
         this.$bus.$emit('notification-progress-stop')
@@ -127,7 +128,7 @@ export default {
         } else {
           this.$bus.$emit('notification', {
             type: 'success',
-            message: 'You are logged in!',
+            message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
           this.$store.commit('ui/setSignUp', false)

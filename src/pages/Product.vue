@@ -11,6 +11,7 @@ import AddToCart from '../components/core/AddToCart.vue'
 import EventBus from 'src/event-bus'
 import { mapGetters } from 'vuex'
 import config from 'config'
+import i18n from 'lib/i18n'
 
 /**
  * User selected specific color x size (or other attributes) variant
@@ -28,7 +29,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     if (!selectedVariant) {
       this.$bus.$emit('notification', {
         type: 'warning',
-        message: 'No such configuration for the product. Please do choose another combination of attributes.',
+        message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: 'OK', action: 'close' }
       })
       return
