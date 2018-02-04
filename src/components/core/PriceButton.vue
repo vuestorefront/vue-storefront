@@ -14,19 +14,19 @@ export default {
     },
     id: {
       type: null,
-      default: ''
+      required: true
     },
     code: {
       type: null,
-      default: ''
+      required: true
     },
     from: {
       type: null,
-      default: ''
+      required: true
     },
     to: {
       type: null,
-      default: ''
+      required: true
     },
     context: {
       type: null,

@@ -268,7 +268,8 @@ const store = {
           },
           callback_event: 'servercart-after-itemupdated'
         }, { root: true }).then(task => {
-
+          // eslint-disable-next-line no-useless-return
+          return
         })
       }
     },
@@ -290,7 +291,8 @@ const store = {
           silent: true,
           callback_event: 'servercart-after-itemdeleted'
         }, { root: true }).then(task => {
-
+          // eslint-disable-next-line no-useless-return
+          return
         })
       }
     },

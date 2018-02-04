@@ -116,12 +116,12 @@
                   type="button"
                 >
                   <i class="pr5 material-icons">compare</i>
-                    <template v-if="!compare.isCompare">
-                      {{ $t('Add to compare') }}
-                    </template>
-                    <template v-else>
-                      {{ $t('Remove from compare') }}
-                    </template>
+                  <template v-if="!compare.isCompare">
+                    {{ $t('Add to compare') }}
+                  </template>
+                  <template v-else>
+                    {{ $t('Remove from compare') }}
+                  </template>
                 </button>
               </div>
             </div>

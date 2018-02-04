@@ -295,18 +295,18 @@ const actions = {
             action1: { label: 'OK', action: 'close' }
           })
 
-        store.dispatch('user/login', {
-          username: context.state.current.email,
-          password: passwordData.newPassword
-        })
-      } else {
-        EventBus.$emit('notification', {
-          type: 'error',
-          message: i18n.t(resp.result),
-          action1: { label: 'OK', action: 'close' }
-        })
-      }
-    })
+          store.dispatch('user/login', {
+            username: context.state.current.email,
+            password: passwordData.newPassword
+          })
+        } else {
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: i18n.t(resp.result),
+            action1: { label: 'OK', action: 'close' }
+          })
+        }
+      })
   },
 
   /**
