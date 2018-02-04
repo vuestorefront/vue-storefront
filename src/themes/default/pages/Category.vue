@@ -1,37 +1,37 @@
 <template>
   <div id="category">
     <header class="bg-lightgray py35 pl20">
-      <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
-        <h1 class="category-title mb10"> {{ category.name }} </h1>
-      </div>
-      <div class="container">
-        <div class="row m0">
-          <button class="col-xs-5 mt25 p15 mobile-filters-button bg-black brdr-none c-white h5 weight-300" @click="openFilters">
-            Filters
-          </button>
+        <div class="container">
+            <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
+            <h1 class="category-title mb10"> {{ category.name }} </h1>
         </div>
-      </div>
+        <div class="container">
+          <div class="row m0">
+            <button class="col-xs-5 mt25 p15 mobile-filters-button bg-black brdr-none c-white h5 weight-300" @click="openFilters">
+              {{ $t('Filters') }}
+            </button>
+          </div>
+        </div>
     </header>
     <div class="container pb60">
-      <div class="row m0 pt15 center-md">
-        <div class="col-md-3 start-xs category-filters">
-          <sidebar :filters="filters"/>
+        <div class="row m0 pt15 center-md">
+            <div class="col-md-3 start-xs category-filters">
+                <sidebar :filters="filters"/>
+            </div>
+            <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
+                <div class="close-container">
+                    <i class="material-icons p15 close c-black" @click="closeFilters">close</i>
+                </div>
+                <sidebar class="mobile-filters-body" :filters="filters"/>
+            </div>
+            <p class="col-xs-12 hidden-md m0 px20 c-gray-secondary">{{ productsCounter }} items</p>
+            <div class="col-md-9 pt20 products-list px10">
+                <div v-if="isCategoryEmpty" class="hidden-xs">
+                    {{ $t('No products found!') }}
+                </div>
+                <product-listing columns="3" :products="products" />
+            </div>
         </div>
-        <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
-          <div class="close-container">
-            <i class="material-icons p15 close c-black" @click="closeFilters">close</i>
-          </div>
-          <sidebar class="mobile-filters-body" :filters="filters"/>
-        </div>
-        <p class="col-xs-12 hidden-md m0 px20 c-gray-secondary">{{ productsCounter }} items</p>
-        <div class="col-md-9 pt20 products-list px10">
-          <div v-if="isCategoryEmpty" class="hidden-xs">
-            No products found!
-          </div>
-          <product-listing columns="3" :products="products" />
-        </div>
-      </div>
     </div>
   </div>
 </template>

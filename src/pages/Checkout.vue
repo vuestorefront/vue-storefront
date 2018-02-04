@@ -11,6 +11,7 @@ import Payment from 'core/components/blocks/Checkout/Payment.vue'
 import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
 import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
+import i18n from 'lib/i18n'
 
 export default {
   name: 'Checkout',
@@ -43,7 +44,7 @@ export default {
     if (this.$store.state.cart.cartItems.length === 0) {
       this.$bus.$emit('notification', {
         type: 'warning',
-        message: 'Shopping cart is empty. Please add some products before entering Checkout',
+        message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
         action1: { label: 'OK', action: 'close' }
       })
       this.$router.push('/')
@@ -70,10 +71,10 @@ export default {
               if (chp && chp.stock) {
                 if (!chp.stock.is_in_stock) {
                   this.stockCheckOK = false
-                  chp.warning_message = 'Out of stock!'
+                  chp.warning_message = i18n.t('Out of stock!')
                   this.$bus.$emit('notification', {
                     type: 'error',
-                    message: chp.name + ' is out of the stock!',
+                    message: chp.name + i18n.t(' is out of the stock!'),
                     action1: { label: 'OK', action: 'close' }
                   })
                 }
@@ -161,14 +162,14 @@ export default {
             isValid = false
             this.$bus.$emit('notification', {
               type: 'error',
-              message: 'Some of the ordered products are not available!',
+              message: i18n.t('Some of the ordered products are not available!'),
               action1: { label: 'OK', action: 'close' }
             })
           }
         } else {
           this.$bus.$emit('notification', {
             type: 'warning',
-            message: 'Stock check in progress, please wait while available stock quantities are checked',
+            message: i18n.t('Stock check in progress, please wait while available stock quantities are checked'),
             action1: { label: 'OK', action: 'close' }
           })
           isValid = false
@@ -182,7 +183,7 @@ export default {
       if (!status.online) {
         this.$bus.$emit('notification', {
           type: 'warning',
-          message: 'There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now.',
+          message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now.'),
           action1: { label: 'OK', action: 'close' }
         })
       }
@@ -242,7 +243,7 @@ export default {
       } else {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please do correct validation errors',
+          message: i18n.t('Please do correct validation errors'),
           action1: { label: 'OK', action: 'close' }
         })
       }

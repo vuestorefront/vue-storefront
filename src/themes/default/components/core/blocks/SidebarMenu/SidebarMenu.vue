@@ -2,10 +2,10 @@
   <div class="sidebar-menu bg-lightgray" :class="{ active: isOpen }">
     <div class="row between-xs">
       <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-c-lightgray ">
+        <sub-btn type="back" v-if="submenu.depth" />
         <search-icon class="p15 icon hidden-md" />
         <wishlist-icon class="p15 icon hidden-md" />
         <account-icon class="p15 icon hidden-md" />
-        <sub-btn type="back" v-if="submenu.depth"/>
       </div>
       <div class="flex-end col-xs close bg-white align-right end-xs brdr-bottom brdr-c-lightgray" @click="closeMenu">
         <i class="material-icons p15">close</i>

@@ -14,6 +14,7 @@ import { registerExtensions } from './lib/extensions'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
+import i18n from 'lib/i18n'
 
 Vue.use(ConfigPlg)
 Vue.use(EventBus)
@@ -27,6 +28,7 @@ export function createApp () {
   const app = new Vue({
     router,
     store,
+    i18n,
     render: h => h(App)
   })
 

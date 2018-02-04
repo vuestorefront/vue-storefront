@@ -41,6 +41,7 @@ import { coreComponent } from 'lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email } from 'vuelidate/lib/validators'
+import i18n from 'lib/i18n'
 
 export default {
   data () {
@@ -78,7 +79,7 @@ export default {
       if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Reset password feature does not work while offline!',
+          message: i18n.t('Reset password feature does not work while offline!'),
           action1: { label: 'OK', action: 'close' }
         })
       } else {
@@ -89,13 +90,13 @@ export default {
       if (this.$v.$invalid) {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please fix the validation errors',
+          message: i18n.t('Please fix the validation errors'),
           action1: { label: 'OK', action: 'close' }
         })
         return
       }
 
-      this.$bus.$emit('notification-progress-start', 'Authorization in progress ...')
+      this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
       this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
         console.log(result)
         this.$bus.$emit('notification-progress-stop', {})
@@ -103,13 +104,13 @@ export default {
         if (result.code !== 200) {
           this.$bus.$emit('notification', {
             type: 'error',
-            message: result.result,
+            message: i18n.t(result.result),
             action1: { label: 'OK', action: 'close' }
           })
         } else {
           this.$bus.$emit('notification', {
             type: 'success',
-            message: 'You are logged in!',
+            message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
           this.$store.commit('ui/setSignUp', false)

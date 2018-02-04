@@ -7,7 +7,7 @@
     <section class="new-collection container px15">
       <div>
         <header class="col-md-12">
-          <h2 class="align-center c-black">Everything new</h2>
+          <h2 class="align-center c-black">{{ $t('Everything new') }}</h2>
         </header>
       </div>
       <div class="row center-xs">
@@ -20,7 +20,7 @@
     <section class="container pb60">
       <div class="row center-xs">
         <header class="col-md-12 pt40">
-          <h2 class="align-center c-black">Get inspired</h2>
+          <h2 class="align-center c-black">{{ $t('Get inspired') }}</h2>
         </header>
       </div>
       <tile-links />

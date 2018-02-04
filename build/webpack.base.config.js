@@ -9,6 +9,7 @@ const vueConfig = require('./vue-loader.config')
 const theme = require('../build/config.json').theme
 const themeComponents = '../src/themes/' + theme + '/components'
 const themePages = '../src/themes/' + theme + '/pages'
+const themeResources = '../src/themes/' + theme + '/resource'
 const themeCSS = '../src/themes/' + theme + '/css'
 const themeApp = '../src/themes/' + theme + '/App.vue'
 
@@ -30,14 +31,17 @@ module.exports = {
       'core/components': path.resolve(__dirname, '../src/components/core'),
       'components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../src/pages'),
+      'core/resource': path.resolve(__dirname, '../src/resource'),
 
       lib: path.resolve(__dirname, '../src/lib'),
 
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
+      'resources': path.resolve(__dirname, '../src/resource'),
 
       theme_pages: path.resolve(__dirname, themePages),
       theme_components: path.resolve(__dirname, themeComponents),
+      'theme/resource': path.resolve(__dirname, themeResources),
       'theme/components': path.resolve(__dirname, themeComponents),
       'theme/pages': path.resolve(__dirname, themePages),
       'theme/css': path.resolve(__dirname, themeCSS),

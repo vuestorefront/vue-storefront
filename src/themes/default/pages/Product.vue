@@ -82,7 +82,7 @@
                   >
                     <i class="pr5 material-icons">accessibility</i>
                     <span>
-                      Size guide
+                      {{ $t('Size guide') }}
                     </span>
                   </router-link>
                 </div>
@@ -106,7 +106,7 @@
                   type="button"
                 >
                   <i class="pr5 material-icons">{{ favorite.icon }}</i>
-                  Add to favorite
+                  {{ $t('Add to favorite') }}
                 </button>
               </div>
               <div class="hidden-xs col-md-7">
@@ -116,12 +116,12 @@
                   type="button"
                 >
                   <i class="pr5 material-icons">compare</i>
-                  <template v-if="!compare.isCompare">
-                    Add to compare
-                  </template>
-                  <template v-else>
-                    Remove from compare
-                  </template>
+                    <template v-if="!compare.isCompare">
+                      {{ $t('Add to compare') }}
+                    </template>
+                    <template v-else>
+                      {{ $t('Remove from compare') }}
+                    </template>
                 </button>
               </div>
             </div>
@@ -131,7 +131,7 @@
     </section>
     <section class="container pt50 pb20 px20 c-black details">
       <h2 class="h3 m0 mb10 sans-serif">
-        Product details
+        {{ $t('Product details') }}
       </h2>
       <div class="h4 details-wrapper" ref="details">
         <div class="row between-md m0">

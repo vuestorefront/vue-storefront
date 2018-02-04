@@ -3,7 +3,7 @@
     <div class="bg-lightgray py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="My Account" />
-        <h1>My Account</h1>
+        <h1>{{ $t('My Account') }}</h1>
       </div>
     </div>
 

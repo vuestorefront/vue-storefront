@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import i18n from 'lib/i18n'
 export default {
   name: 'OrderReview',
   props: {
@@ -30,7 +31,7 @@ export default {
       }
     },
     register () {
-      this.$bus.$emit('notification-progress-start', 'Registering the account ... ')
+      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store.dispatch('user/register', {
         email: this.$store.state.checkout.personalDetails.emailAddress,
         password: this.$store.state.checkout.personalDetails.password,
@@ -42,13 +43,13 @@ export default {
         if (result.code !== 200) {
           this.$bus.$emit('notification', {
             type: 'error',
-            message: result.result,
+            message: i18n.t(result.result),
             action1: { label: 'OK', action: 'close' }
           })
         } else {
           this.$bus.$emit('notification', {
             type: 'success',
-            message: 'You are logged in!',
+            message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
           this.$store.commit('ui/setSignUp', false)

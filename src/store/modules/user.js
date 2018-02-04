@@ -3,14 +3,14 @@ import config from 'config'
 import EventBus from 'src/event-bus'
 import { ValidationError } from 'lib/exceptions'
 import store from '../'
-
+import i18n from 'lib/i18n'
 const Ajv = require('ajv') // json validator
 
 EventBus.$on('user-after-update', (event) => {
   if (event.resultCode === 200) {
     EventBus.$emit('notification', {
       type: 'success',
-      message: 'Account data has successfully been updated',
+      message: i18n.t('Account data has successfully been updated'),
       action1: { label: 'OK', action: 'close' }
     })
     store.dispatch('user/refreshCurrentUser', event.result)
@@ -250,7 +250,7 @@ const actions = {
       console.error(validate.errors)
       EventBus.$emit('notification', {
         type: 'error',
-        message: 'Internal validation error. Please check if all required fileds are filled in. Please contact us on contributors@vuestorefront.io',
+        message: i18n.t('Internal validation error. Please check if all required fileds are filled in. Please contact us on contributors@vuestorefront.io'),
         action1: { label: 'OK', action: 'close' }
       })
       throw new ValidationError(validate.errors)
@@ -295,18 +295,18 @@ const actions = {
             action1: { label: 'OK', action: 'close' }
           })
 
-          store.dispatch('user/login', {
-            username: context.state.current.email,
-            password: passwordData.newPassword
-          })
-        } else {
-          EventBus.$emit('notification', {
-            type: 'error',
-            message: resp.result,
-            action1: { label: 'OK', action: 'close' }
-          })
-        }
-      })
+        store.dispatch('user/login', {
+          username: context.state.current.email,
+          password: passwordData.newPassword
+        })
+      } else {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: i18n.t(resp.result),
+          action1: { label: 'OK', action: 'close' }
+        })
+      }
+    })
   },
 
   /**
@@ -317,7 +317,7 @@ const actions = {
     context.dispatch('cart/serverTokenClear', {}, { root: true })
     EventBus.$emit('notification', {
       type: 'success',
-      message: 'You\'re logged out',
+      message: i18n.t('You\'re logged out'),
       action1: { label: 'OK', action: 'close' }
     })
   },
@@ -329,7 +329,7 @@ const actions = {
     context.commit(types.USER_UPDATE_PREFERENCES, newsletterPreferences)
     EventBus.$emit('notification', {
       type: 'success',
-      message: 'Newsletter preferences have successfully been updated',
+      message: i18n.t('Newsletter preferences have successfully been updated'),
       action1: { label: 'OK', action: 'close' }
     })
   }
