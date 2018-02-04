@@ -9,6 +9,10 @@ import { calculateProductTax } from 'src/lib/taxcalc'
 import _ from 'lodash'
 import rootStore from '../'
 
+/**
+ * Synchronize / override prices got from ElasticSearch with current one's from Magento2 or other platform backend
+ * @param {Array} products
+ */
 function doPlatformPricesSync (products) {
   return new Promise((resolve, reject) => {
     if (config.products.alwaysSyncPlatformPricesOver) {
@@ -22,6 +26,9 @@ function doPlatformPricesSync (products) {
       })
       if (!config.products.waitForPlatformSync) {
         console.log('Returning products, the prices yet to come from backend!')
+        for (let product of products) {
+          product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
+        }
         resolve(products)
       }
     } else {
