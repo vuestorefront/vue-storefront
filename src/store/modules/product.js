@@ -22,7 +22,7 @@ function calculateTaxes (products, store) {
           product = calculateProductTax(product, tcs.items, global.__TAX_COUNTRY__, global.__TAX_REGION__)
         }
         resolve(products)
-      })
+      }) // TODO: run Magento2 prices request here if configured so in the config
     }
   })
 }

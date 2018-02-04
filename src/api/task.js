@@ -1,5 +1,6 @@
 import { isNullOrUndefined } from 'util'
 import EventBus from 'src/event-bus'
+import i18n from 'lib/i18n'
 
 export function execute (task, currentToken = null, currentCartId = null) {
   const taskData = task
@@ -13,7 +14,7 @@ export function execute (task, currentToken = null, currentCartId = null) {
       if (contentType && contentType.includes('application/json')) {
         return response.json()
       } else {
-        const msg = 'Error with response - bad content-type!'
+        const msg = i18n.t('Error with response - bad content-type!')
         console.error(msg)
         reject(msg)
       }
@@ -23,7 +24,7 @@ export function execute (task, currentToken = null, currentCartId = null) {
           if (!taskData.silent) {
             EventBus.$emit('notification', {
               type: 'error',
-              message: jsonResponse.result,
+              message: i18n.t(jsonResponse.result),
               action1: { label: 'OK', action: 'close' }
             })
           }
@@ -41,7 +42,7 @@ export function execute (task, currentToken = null, currentCartId = null) {
 
         resolve(taskData)
       } else {
-        const msg = 'Unhandled error, wrong response format!'
+        const msg = i18n.t('Unhandled error, wrong response format!')
         console.error(msg)
         reject(msg)
       }

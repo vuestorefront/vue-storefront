@@ -24,6 +24,8 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { coreComponent } from 'lib/themes'
 import { required, email } from 'vuelidate/lib/validators'
 import EventBus from 'src/event-bus'
+import i18n from 'lib/i18n'
+
 export default {
   data () {
     return {
@@ -41,7 +43,7 @@ export default {
       if (this.$v.$invalid) {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please fix the validation errors',
+          message: i18n.t('Please fix the validation errors'),
           action1: { label: 'OK', action: 'close' }
         })
         return
@@ -52,7 +54,7 @@ export default {
 
       this.$bus.$emit('notification', {
         type: 'success',
-        message: 'You have been successfully subscribed to our newsletter!',
+        message: i18n.t('You have been successfully subscribed to our newsletter!'),
         action1: { label: 'OK', action: 'close' }
       })
       this.$store.commit('ui/setNewsletterPopup', false)

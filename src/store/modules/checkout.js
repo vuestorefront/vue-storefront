@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import EventBus from 'src/event-bus'
+import i18n from 'lib/i18n'
 
 const store = {
   namespaced: true,
@@ -94,7 +95,7 @@ const store = {
           console.error('Internal validation error; Order entity is not compliant with the schema', e.messages)
           EventBus.$emit('notification', {
             type: 'error',
-            message: 'Internal validation error. Please check if all required fileds are filled in. Please contact us on contributors@vuestorefront.io',
+            message: i18n.t('Internal validation error. Please check if all required fileds are filled in. Please contact us on contributors@vuestorefront.io'),
             action1: { label: 'OK', action: 'close' }
           })
         } else {
