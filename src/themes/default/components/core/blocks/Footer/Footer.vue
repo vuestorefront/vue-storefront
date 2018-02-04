@@ -96,12 +96,6 @@
             <li><router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link></li>
           </ul>
         </div>
-        <!-- <div class="col-xs-4 legal-entity-link">
-          <router-link class="c-lightgray-secondary underline" to="/legal" exact>Legal notice</router-link>
-        </div>
-        <div class="col-xs-4 privacy-policy-link">
-          <router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link>
-        </div> -->
       </div>
     </div>
   </footer>
