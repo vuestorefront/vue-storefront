@@ -7,6 +7,28 @@ import { optionLabel } from 'src/store/modules/attribute'
 import { breadCrumbRoutes } from 'src/lib/filters'
 import { calculateProductTax } from 'src/lib/taxcalc'
 import _ from 'lodash'
+import rootStore from '../'
+
+function doPlatformPricesSync (products) {
+  return new Promise((resolve, reject) => {
+    if (config.products.alwaysSyncPlatformPricesOver) {
+      const skus = products.map((p) => { return p.sku })
+      console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
+
+      rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
+        console.log(syncResult)
+        // TODO: update product prices here
+        resolve(products)
+      })
+      if (!config.products.waitForPlatformSync) {
+        console.log('Returning products, the prices yet to come from backend!')
+        resolve(products)
+      }
+    } else {
+      resolve(products)
+    }
+  })
+}
 
 /**
  * Calculate taxes for specific product collection
@@ -15,13 +37,17 @@ function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
     if (config.tax.calculateServerSide) {
       console.log('Taxes calculated server side, skipping')
-      resolve(products)
+      doPlatformPricesSync(products).then((products) => {
+        resolve(products)
+      })
     } else {
       store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
         for (let product of products) {
           product = calculateProductTax(product, tcs.items, global.__TAX_COUNTRY__, global.__TAX_REGION__)
         }
-        resolve(products)
+        doPlatformPricesSync(products).then((products) => {
+          resolve(products)
+        })
       }) // TODO: run Magento2 prices request here if configured so in the config
     }
   })
@@ -149,6 +175,22 @@ const actions = {
     context.state.breadcrumbs.name = product.name
 
     return Promise.all(subloaders)
+  },
+
+  /**
+   * Download Magento2 / other platform prices to put them over ElasticSearch prices
+   */
+  syncPlatformPricesOver (context, { skus }) {
+    context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')), // sync the cart
+      payload: {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors'
+      },
+      callback_event: 'prices-after-sync'
+    }, { root: true }).then(task => {
+      return task.result
+    })
   },
 
   /**

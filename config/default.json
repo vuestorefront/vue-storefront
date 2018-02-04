@@ -13,7 +13,9 @@
     },
     "products": {
       "preventConfigurableChildrenDirectAccess": true,
-      "alwaysSyncPlatformPricesOver": false
+      "alwaysSyncPlatformPricesOver": false,
+      "waitForPlatformSync": true,
+      "endpoint": "http://localhost:8080/api/product"
     },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"
