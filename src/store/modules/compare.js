@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import EventBus from 'src/event-bus'
-import { htmlDecode } from '../../lib/filters'
+import { htmlDecode } from '../../filters'
 
 const store = {
   namespaced: true,

@@ -4,7 +4,7 @@
       :to="{ name: product.type_id + '-product', params: { parentSku: product.sku, slug: product.slug }}"
     >
       <div class="product-image bg-lightgray">
-          <img v-bind:src="thumbnail" class="product-thumbnail"/>
+        <img v-bind:src="thumbnail" class="product-thumbnail"/>
       </div>
     </router-link>
   </div>

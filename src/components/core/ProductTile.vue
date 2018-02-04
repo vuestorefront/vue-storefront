@@ -2,13 +2,13 @@
   <div class="product-tile">
     Core Product Tile
     <!--
-        Product name and price with price filter
-        props;
-        "product" - product object width 'name', 'priceInclTax', 'image' properties
-        data to display:
-        {{ product.name }}
-        {{ product.priceInclTax | price }}
-        {{ product.image }}
+      Product name and price with price filter
+      props;
+      "product" - product object width 'name', 'priceInclTax', 'image' properties
+      data to display:
+      {{ product.name }}
+      {{ product.priceInclTax | price }}
+      {{ product.image }}
     -->
   </div>
 </template>

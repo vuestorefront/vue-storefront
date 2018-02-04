@@ -2,7 +2,7 @@ let es = require('elasticsearch')
 
 import config from 'config'
 import _ from 'lodash'
-import { slugify } from '../lib/filters'
+import { slugify } from '../helpers'
 import hash from 'object-hash'
 
 let client = new es.Client({

@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import App from 'theme/app'
 import store from './store'
@@ -11,8 +10,8 @@ import { sync } from 'vuex-router-sync'
 
 import { registerTheme } from './lib/themes'
 import { registerExtensions } from './lib/extensions'
-import thumbnailMixin from './lib/mixins/thumbnail'
-import * as filters from './lib/filters'
+import thumbnailMixin from './mixins/thumbnail'
+import * as filters from './filters'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
