@@ -1,4 +1,13 @@
 const _ = require('lodash')
+import coreMessages from 'core/resource/i18n.json'
+import themeMessages from 'theme/resource/i18n.json'
+
+/**
+ * Return messages load from both: core/resource/i18n and theme/resource/i18n
+ */
+export function translations () {
+  return _.merge(coreMessages, themeMessages)
+}
 
 export function corePage (path) {
   return require('core_pages/' + path + '.vue') // using webpack path alias  - core_pages = src/pages

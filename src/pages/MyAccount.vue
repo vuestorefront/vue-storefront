@@ -10,6 +10,7 @@
   import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
   import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
   import Meta from 'src/lib/meta'
+  import i18n from 'lib/i18n'
 
   export default {
     name: 'MyAccount',
@@ -95,7 +96,7 @@
         if (title === 'My loyalty card' || title === 'My product reviews' || title === 'My orders') {
           this.$bus.$emit('notification', {
             type: 'warning',
-            message: 'This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!',
+            message: i18n.t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
             action1: { label: 'OK', action: 'close' }
           })
         }

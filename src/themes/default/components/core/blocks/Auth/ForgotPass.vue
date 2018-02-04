@@ -39,6 +39,7 @@ import { coreComponent } from 'lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email } from 'vuelidate/lib/validators'
+import i18n from 'lib/i18n'
 
 export default {
   data () {
@@ -66,7 +67,7 @@ export default {
         return
       }
 
-      this.$bus.$emit('notification-progress-start', 'Reseting the password ... ')
+      this.$bus.$emit('notification-progress-start', i18n.t('Reseting the password ... '))
       this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
         this.$bus.$emit('notification-progress-stop')
         if (response.code === 200) {
@@ -74,7 +75,7 @@ export default {
         } else {
           this.$bus.$emit('notification', {
             type: 'error',
-            message: response.result || 'Error while sending reset password e-mail',
+            message: i18n.t(response.result) || i18n.t('Error while sending reset password e-mail'),
             action1: { label: 'OK', action: 'close' }
           })
         }

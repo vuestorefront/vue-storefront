@@ -19,17 +19,17 @@ export default {
       const notification = {
         subscribed: {
           type: 'success',
-          message: 'Newsletter succesfully subscribed. Thank you!',
+          message: i18n.t('Newsletter succesfully subscribed. Thank you!'),
           action1: { label: 'OK', action: 'close' }
         },
         alreadySubscribed: {
           type: 'error',
-          message: 'You have already subscibed our newsletter',
+          message: i18n.t('You have already subscibed our newsletter'),
           action1: { label: 'OK', action: 'close' }
         },
         wrongEmail: {
           type: 'error',
-          message: 'Email field is empty',
+          message: i18n.t('Email field is empty'),
           action1: { label: 'OK', action: 'close' }
         }
       }

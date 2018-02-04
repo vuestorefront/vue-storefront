@@ -15,6 +15,7 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { optionLabel } from 'src/store/modules/attribute'
 import EventBus from 'src/event-bus'
 import _ from 'lodash'
+import i18n from 'lib/i18n'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string
@@ -110,7 +111,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     if (!res || (res.noresults)) {
       EventBus.$emit('notification', {
         type: 'warning',
-        message: 'No products synchronized for this category. Please come back while online!',
+        message: i18n.t('No products synchronized for this category. Please come back while online!'),
         action1: { label: 'OK', action: 'close' }
       })
 
@@ -166,7 +167,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     console.info(err)
     EventBus.$emit('notification', {
       type: 'warning',
-      message: 'No products synchronized for this category. Please come back while online!',
+      message: i18n.t('No products synchronized for this category. Please come back while online!'),
       action1: { label: 'OK', action: 'close' }
     })
   })

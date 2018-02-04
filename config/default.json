@@ -12,7 +12,8 @@
       "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}"
     },
     "products": {
-      "preventConfigurableChildrenDirectAccess": true
+      "preventConfigurableChildrenDirectAccess": true,
+      "alwaysSyncPlatformPricesOver": false
     },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"
@@ -38,7 +39,9 @@
     },
     "i18n": {
       "defaultCountry": "US",
-      "defaultLanguage": "EN"
+      "defaultLanguage": "EN",
+      "availableLocale": ["en-US"],
+      "defaultLocale": "en-US"      
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
