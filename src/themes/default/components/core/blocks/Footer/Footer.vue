@@ -92,8 +92,24 @@
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="links">
-            <li><router-link class="c-lightgray-secondary mr10 underline" to="/legal" exact>Legal notice</router-link></li>
-            <li><router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link></li>
+            <li>
+              <router-link
+                class="c-lightgray-secondary mr10 underline"
+                to="/legal"
+                exact
+              >
+                Legal notice
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                class="c-lightgray-secondary underline"
+                to="/privacy"
+                exact
+              >
+                Privacy policy
+              </router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -143,31 +159,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/global_vars';
-$gray-secondary: map-get($colors, gray-secondary);
+  @import '~theme/css/global_vars';
+  $gray-secondary: map-get($colors, gray-secondary);
 
   .newsletter-content {
     align-items: center;
   }
+
   .icon {
     transition: 0.3s all;
   }
+
   .social-icon {
     display: inline-block;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    &:hover .icon,
-    &:focus .icon,
-    &:active .icon {
-      fill: $gray-secondary;
+    &:hover,
+    &:focus,
+    &:active {
+      .icon {
+        fill: $gray-secondary;
+      }
     }
   }
 
   .links {
     padding-left: 0;
     list-style-type: none;
-
     li {
       display: inline-flex;
     }
@@ -182,37 +201,39 @@ $gray-secondary: map-get($colors, gray-secondary);
   .underline {
     &:hover {
       color: $gray-secondary;
-
       &:after {
-         background-color: $gray-secondary;
-       }
-     }
+        background-color: $gray-secondary;
+      }
+    }
   }
 
   .legal-entity-link {
     text-align: center;
-
     @media (min-width: 768px) {
       display: none;
     }
   }
+
   .privacy-policy-link {
     text-align: right;
-
     @media (min-width: 768px) {
       display: none;
     }
   }
+
   @media (max-width: 595px) {
     .no-mobile {
       display: none;
     }
+
     .social {
       margin-top: 0;
     }
+
     .social-icon:first-of-type {
       margin-left: 0;
     }
+
     .footer-links {
       padding-bottom: 30px;
     }
