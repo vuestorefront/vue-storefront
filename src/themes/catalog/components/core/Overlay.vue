@@ -10,7 +10,6 @@ export default {
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setSignUp', false)
-      this.$store.commit('ui/setNewsletterPopup', false)
     }
   },
   mixins: [coreComponent('core/Overlay')]
