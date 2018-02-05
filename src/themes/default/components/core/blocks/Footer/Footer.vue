@@ -113,7 +113,7 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import i18n from 'lib/i18n'
+
 import Newsletter from './Newsletter.vue'
 
 export default {
@@ -134,15 +134,6 @@ export default {
       } else {
         this.isCheckout = false
       }
-    }
-  },
-  methods: {
-    newsletterClick () {
-      this.$bus.$emit('notification', {
-        type: 'success',
-        message: i18n.t('This feature is not implemented yet :( Newsletter is on our roadmap - issue #200!'),
-        action1: { label: 'OK', action: 'close' }
-      })
     }
   },
   components: {

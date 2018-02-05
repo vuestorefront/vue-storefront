@@ -12,7 +12,7 @@
       <main-footer />
       <notification />
       <sign-up v-if="signUpOpen" />
-      <newsletter-popup v-if="newsletterOpen"/>
+      <newsletter-popup/>
       <cookie-notification />
       <Offline-badge />
     </div>
@@ -42,7 +42,6 @@ import OfflineBadge from './components/core/OfflineBadge.vue'
 export default {
   computed: {
     ...mapState({
-      newsletterOpen: state => state.ui.newsletterPopup,
       signUpOpen: state => state.ui.signUp,
       overlayActive: state => state.ui.overlay
     })
