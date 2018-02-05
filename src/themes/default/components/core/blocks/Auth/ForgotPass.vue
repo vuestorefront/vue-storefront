@@ -8,7 +8,7 @@
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
             <p class="mb45">Enter your email to receive instructions on how to reset your password.</p>
-            <input ref="email" class="brdr-none py10 h4 weight-200" type="email" name="email" v-model="email" placeholder="E-mail address *">
+            <input ref="email" class="brdr-none py10 h4 weight-200" type="email" name="email" v-model="email" autocomplete="email" placeholder="E-mail address *">
             <p class="m0 c-red h6" v-if="!$v.email.required">Field is required.</p>
             <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
           </div>

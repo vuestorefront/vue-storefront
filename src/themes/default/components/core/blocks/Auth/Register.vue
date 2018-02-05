@@ -6,27 +6,27 @@
     <div class="py35 px65 bg-white c-gray">
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
-          <input type="email" name="email" ref="email" v-model="email" placeholder="E-mail address *">
+          <input type="email" name="email" ref="email" v-model="email" autocomplete="email" placeholder="E-mail address *">
           <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
           <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
         <div class="row mb35">
           <div class="col-xs-6">
-            <input type="text" name="fist-name" v-model="firstName" placeholder="First name *">
+            <input type="text" name="fist-name" v-model="firstName" autocomplete="given-name" placeholder="First name *">
             <span class="validation-error" v-if="!$v.firstName.required">Field is required.</span>
           </div>
           <div class="col-xs-6">
-            <input type="text" name="last-name" v-model="lastName" placeholder="Last name *">
+            <input type="text" name="last-name" v-model="lastName" autocomplete="family-name" placeholder="Last name *">
             <span class="validation-error" v-if="!$v.lastName.required">Field is required.</span>
           </div>
         </div>
         <div class="mb35 pass-container">
-          <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="Password *">
+          <input class="pr30" name="password" v-model="password" :type="passType.pass" autocomplete="new-password" placeholder="Password *">
           <i class="icon material-icons c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
           <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="mb35 pass-container">
-          <input class="pr30" name="password-confirm" v-model="rPassword" :type="passType.repeatPass" placeholder="Repeat password *">
+          <input class="pr30" name="password-confirm" v-model="rPassword" :type="passType.repeatPass" autocomplete="new-password" placeholder="Repeat password *">
           <i class="icon material-icons c-alto" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
           <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>

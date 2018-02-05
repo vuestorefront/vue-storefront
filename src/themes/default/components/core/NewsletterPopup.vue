@@ -5,7 +5,7 @@
       <form @submit.prevent="subscribe" novalidate>
         <div class="mb35">
           <p class="h4">Sign up to our newsletter and receive a coupon for 10% off!</p>
-          <input class="brdr-none py10 h4 weight-200" autofocus type="email" name="email" v-model="email" placeholder="E-mail address *">
+          <input class="brdr-none py10 h4 weight-200" autofocus type="email" name="email" v-model="email" autocomplete="email" placeholder="E-mail address *">
           <p class="m0 c-red h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
           <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="newsletter-subscribe-form">
-    <input v-model="email" type="email" class="m0 px25 inline-flex fs-medium" placeholder="E-mail address">
+    <input v-model="email" type="email" class="m0 px25 inline-flex fs-medium" autocomplete="email" placeholder="E-mail address">
     <button @click="subscribeNewsletter" class="m0 fs-medium inline-flex center-xs c-on-accent bg-accent bg-accent-hover pointer">Subscribe to magazine</button>
   </div>
 </template>
