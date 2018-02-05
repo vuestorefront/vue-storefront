@@ -42,6 +42,9 @@
       "Size guide": "Size guide",
       "Add to favorite": "Add to favorite",
       "Add to compare": "Add to compare",
-      "Product details": "Product details"
+      "Product details": "Product details",
+      "You're logged in as ": "You're logged in as ",
+      "My account": "My account",
+      "Logout": "Logout"
     }
-}  
+}

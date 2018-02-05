@@ -8,13 +8,19 @@
     <div class="dropdown">
       <i class="material-icons md-18">account_circle</i>
       <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
-        <p>You're logged in as {{ currentUser.firstname }}</p>
+        <p>
+          {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
+        </p>
         <hr>
         <div class="section-wrapper">
-          <router-link class="no-underline" :to="{ name: 'my-account' }">My account</router-link>
+          <router-link class="no-underline" :to="{ name: 'my-account' }">
+            {{ $t('My account') }}
+          </router-link>
         </div>
         <div class="section-wrapper">
-          <a href="#" class="no-underline" @click.stop="clickLogout">Logout</a>
+          <a href="#" class="no-underline" @click.stop="clickLogout">
+            {{ $t('Logout') }}
+          </a>
         </div>
       </div>
     </div>
