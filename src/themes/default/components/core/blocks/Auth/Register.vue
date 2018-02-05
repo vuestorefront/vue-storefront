@@ -6,39 +6,70 @@
     <div class="py35 px65 bg-white c-gray">
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
-          <input type="email" name="email" ref="email" v-model="email" placeholder="E-mail address *">
-          <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <input
+            class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            type="email"
+            name="email"
+            ref="email"
+            v-model="email"
+            placeholder="E-mail address *"
+          >
+          <span class="validation-error h6 c-red" v-if="!$v.email.required">Field is required.</span>
+          <span class="validation-error h6 c-red" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
         <div class="row mb35">
           <div class="col-xs-6">
-            <input type="text" name="fist-name" v-model="firstName" placeholder="First name *">
-            <span class="validation-error" v-if="!$v.firstName.required">Field is required.</span>
+            <input
+              class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+              type="text"
+              name="fist-name"
+              v-model="firstName"
+              placeholder="First name *"
+            >
+            <span class="validation-error h6 c-red" v-if="!$v.firstName.required">Field is required.</span>
           </div>
           <div class="col-xs-6">
-            <input type="text" name="last-name" v-model="lastName" placeholder="Last name *">
-            <span class="validation-error" v-if="!$v.lastName.required">Field is required.</span>
+            <input
+              class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+              type="text"
+              name="last-name"
+              v-model="lastName"
+              placeholder="Last name *"
+            >
+            <span class="validation-error h6 c-red" v-if="!$v.lastName.required">Field is required.</span>
           </div>
         </div>
-        <div class="mb35 pass-container">
-          <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="Password *">
-          <i class="icon material-icons c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-          <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
+        <div class="mb35 relative">
+          <input
+            class="py10 pr30 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            name="password"
+            v-model="password"
+            :type="passType.pass"
+            placeholder="Password *"
+          >
+          <i class="icon material-icons absolute c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
+          <span class="validation-error h6 c-red" v-if="!$v.password.required">Field is required.</span>
         </div>
-        <div class="mb35 pass-container">
-          <input class="pr30" name="password-confirm" v-model="rPassword" :type="passType.repeatPass" placeholder="Repeat password *">
-          <i class="icon material-icons c-alto" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
-          <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
+        <div class="mb35 relative">
+          <input
+            class="py10 pr30 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            name="password-confirm"
+            v-model="rPassword"
+            :type="passType.repeatPass"
+            placeholder="Repeat password *"
+          >
+          <i class="icon material-icons absolute c-alto" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
+          <span class="validation-error h6 c-red" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>
         <div class="mb35">
           <input type="checkbox" name="remember" v-model="conditions" id="remember">
           <label class="ml10" for="remember">I accept terms and conditions *</label>
-          <span class="validation-error" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
+          <span class="validation-error h6 c-red" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
         </div>
         <div class="mb20">
-          <button-full class="btn-full" text="Register an account" @click.native="register"/>
+          <button-full class="btn-full center-xs" text="Register an account" @click.native="register"/>
         </div>
-        <input type="submit">
+        <input class="hidden" type="submit">
         <div class="center-xs">
           <span>or <a href="#" @click.prevent="switchElem">login to your account</a></span>
         </div>
@@ -148,21 +179,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '../../../../css/text.scss';
-
   input[type=password], input[type=email], input[type=text] {
-    @extend body;
     box-sizing: border-box;
-    font-size: 18px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: none;
-    border-bottom: 1px solid #BDBDBD;
     width: 100%;
-  }
-
-  input[type=submit] {
-    visibility: hidden;
   }
 
   input::-webkit-input-placeholder {
@@ -182,21 +201,14 @@ export default {
   .btn-full {
     box-sizing: border-box;
     width: 100%;
-    justify-content: center;
-    text-align: center;
   }
-.validation-error {
+
+  .validation-error {
     display: block;
-    font-size: 12px;
-    color: #EB5757;
-  }
-  .pass-container {
-    position: relative;
   }
 
   .icon {
     cursor: pointer;
-    position: absolute;
     right: 0;
     top: 10px;
 
