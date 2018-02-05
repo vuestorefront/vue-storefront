@@ -14,7 +14,7 @@
           <router-link class="no-underline" :to="{ name: 'my-account' }">My account</router-link>
         </div>
         <div class="section-wrapper">
-          <a href="#" class="no-underline" @click="clickLogout">Logout</a>
+          <a href="#" class="no-underline" @click.stop="clickLogout">Logout</a>
         </div>
       </div>
     </div>
