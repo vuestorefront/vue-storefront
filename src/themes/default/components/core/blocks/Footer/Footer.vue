@@ -91,7 +91,7 @@
           United States (US)
         </div>
         <div class="col-xs col-sm-9 end-xs">
-          <ul class="links">
+          <ul class="pl0 links">
             <li>
               <router-link
                 class="c-lightgray-secondary mr10 underline"
@@ -185,7 +185,6 @@ export default {
   }
 
   .links {
-    padding-left: 0;
     list-style-type: none;
     li {
       display: inline-flex;
