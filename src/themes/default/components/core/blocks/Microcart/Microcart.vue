@@ -1,6 +1,6 @@
 <template>
   <div
-    class="microcart c-black"
+    class="microcart fixed c-black"
     :class="[items.length ? 'bg-lightgray' : 'bg-white', { active: isOpen }]"
   >
     <div class="row middle-xs bg-white top-sm">
@@ -111,7 +111,6 @@ export default {
   @import "../../../../css/transitions.scss";
 
   .microcart {
-    position: fixed;
     top: 0;
     right: 0;
     z-index: 3;
@@ -151,7 +150,7 @@ export default {
 
   .actions {
     @media (max-width: 767px) {
-      padding:  0 15px;
+      padding: 0 15px;
     }
     .link {
       @media (max-width: 767px) {
