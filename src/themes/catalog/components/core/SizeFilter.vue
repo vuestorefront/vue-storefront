@@ -1,7 +1,7 @@
 <template>
-    <button @click="switchFilter(id, from, to)" class="p0 b pointer" :class="{ 'c-primary active': active, 'c-secondary-lighter' : !active }">
-        {{ size }}
-    </button>
+  <button @click="switchFilter(id, from, to)" class="p0 b pointer" :class="{ 'c-primary active': active, 'c-secondary-lighter' : !active }">
+    {{ size }}
+  </button>
 </template>
 
 <script>
@@ -23,7 +23,6 @@ export default {
         if (filterOption.id === this.id) {
           if (this.active) {
             this.active = false
-            return
           } else {
             this.active = true
           }

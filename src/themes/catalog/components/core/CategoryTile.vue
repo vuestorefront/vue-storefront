@@ -1,6 +1,6 @@
 <template>
   <div class="category-tile center-xs middle-xs flex fs-large extrabold bg-accent bg-accent-hover c-on-accent">
-      {{ label }}
+    {{ label }}
   </div>
 </template>
 
@@ -8,8 +8,14 @@
 // not in Core
 export default {
   props: {
-    label: { type: String, required: true },
-    img: String
+    label: {
+      type: String,
+      required: true
+    },
+    img: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>

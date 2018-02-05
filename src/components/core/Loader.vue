@@ -2,19 +2,18 @@
 
   <div class="loader-container" v-if="isVisible">
 
-      <div class="loader-inner-container">
+    <div class="loader-inner-container">
 
-          <div class="spinner">
-              <div class="double-bounce1"></div>
-              <div class="double-bounce2"></div>
-          </div>
-
-          <div class="loader-message-container" v-if="message">
-              {{ message }}
-          </div>
-
+      <div class="spinner">
+        <div class="double-bounce1"/>
+        <div class="double-bounce2"/>
       </div>
 
+      <div class="loader-message-container" v-if="message">
+        {{ message }}
+      </div>
+
+    </div>
 
   </div>
 
@@ -24,7 +23,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'loader',
+  name: 'Loader',
   data () {
     return {
       message: null

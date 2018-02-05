@@ -2,7 +2,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'newsletter',
+  name: 'Newsletter',
   computed: {
     ...mapState({
       isOpen: state => state.ui.newsletterPopup

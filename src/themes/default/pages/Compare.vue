@@ -3,7 +3,7 @@
     <div class="bg-lightgray py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare"/>
-        <h2>{{ this.title }}</h2>
+        <h2>{{ title }}</h2>
       </div>
     </div>
 
@@ -18,48 +18,48 @@
               <div class="compare-wrapper">
                 <table>
                   <thead>
-                  <tr>
-                    <th></th>
-                    <td v-for='product in items' class="align-right">
-                      <span @click="removeFromCompare(product)">
-                        <remove-button/>
-                      </span>
-                    </td>
-                  </tr>
+                    <tr>
+                      <th/>
+                      <td v-for="(product, index) in items" :key="index" class="align-right">
+                        <span @click="removeFromCompare(product)">
+                          <remove-button/>
+                        </span>
+                      </td>
+                    </tr>
                   </thead>
                   <tbody class="brdr-bottom brdr-c-alto">
-                  <tr>
-                    <th></th>
-                    <td v-for="product in items" class="p5">
-                      <product-tile class="col-md-12 collection-product" :product="product"/>
-                    </td>
-                  </tr>
+                    <tr>
+                      <th/>
+                      <td v-for="(product, index) in items" :key="index" class="p5">
+                        <product-tile class="col-md-12 collection-product" :product="product"/>
+                      </td>
+                    </tr>
                   </tbody>
                   <tbody class="brdr-bottom brdr-c-alto">
-                  <tr>
-                    <th class="p15 align-left">SKU</th>
-                    <td v-for="product in items" class="p15">
-                      {{ product.sku }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th class="p15 align-left">Description</th>
-                    <td v-for="product in items" class="p15">
-                      <div v-html="product.description"></div>
-                    </td>
-                  </tr>
-                  <tr v-for="attr in all_comparable_attributes">
-                    <th class="p15 align-left">
-                      {{ attr.default_frontend_label }}
-                    </th>
-                    <td v-for="product in items" class="p15">
-                      <product-attribute v-bind:key="attr.attribute_code"
-                                         :product="product"
-                                         :attribute="attr"
-                                         emptyPlaceholder="N/A"
-                      />
-                    </td>
-                  </tr>
+                    <tr>
+                      <th class="p15 align-left">SKU</th>
+                      <td v-for="(product, index) in items" :key="index" class="p15">
+                        {{ product.sku }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="p15 align-left">Description</th>
+                      <td v-for="(product, index) in items" :key="index" class="p15">
+                        <div v-html="product.description"/>
+                      </td>
+                    </tr>
+                    <tr v-for="(attr, index) in all_comparable_attributes" :key="index">
+                      <th class="p15 align-left">
+                        {{ attr.default_frontend_label }}
+                      </th>
+                      <td v-for="(product, index) in items" :key="index" class="p15">
+                        <product-attribute :key="attr.attribute_code"
+                                           :product="product"
+                                           :attribute="attr"
+                                           empty-placeholder="N/A"
+                        />
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -75,22 +75,21 @@
 </template>
 
 <script>
-  import { corePage } from 'lib/themes'
+import { corePage } from 'lib/themes'
+import Breadcrumbs from '../components/core/Breadcrumbs'
+import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
+import ProductTile from '../components/core/ProductTile'
+import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
 
-  import Breadcrumbs from '../components/core/Breadcrumbs'
-  import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
-  import ProductTile from '../components/core/ProductTile'
-  import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
-
-  export default {
-    components: {
-      Breadcrumbs,
-      ProductTile,
-      RemoveButton,
-      ProductAttribute
-    },
-    mixins: [corePage('Compare')]
-  }
+export default {
+  components: {
+    Breadcrumbs,
+    ProductTile,
+    RemoveButton,
+    ProductAttribute
+  },
+  mixins: [corePage('Compare')]
+}
 </script>
 
 <style lang="scss" scoped>

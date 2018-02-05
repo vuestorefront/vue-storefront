@@ -11,18 +11,18 @@
         {{ productLink.product.priceInclTax | price }}
       </div>
 
-      <input type="number" min="1" v-model.number="productLink.product.qty"/>
+      <input type="number" min="1" v-model.number="productLink.product.qty">
     </li>
   </ul>
 </template>
 <script>
-  export default {
-    name: 'ProductLinks',
-    props: {
-      products: {
-        type: Array,
-        required: true
-      }
+export default {
+  name: 'ProductLinks',
+  props: {
+    products: {
+      type: Array,
+      required: true
     }
   }
+}
 </script>

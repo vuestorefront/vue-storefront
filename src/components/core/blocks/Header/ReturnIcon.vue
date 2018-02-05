@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'return-icon',
+  name: 'ReturnIcon',
   methods: {
     goBack () {
       this.$router.back()

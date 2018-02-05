@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="mb20">
-          <button-full class="btn-full p0" text="Log in to your account" @click.native="login"></button-full>
+          <button-full class="btn-full p0" text="Log in to your account" @click.native="login"/>
         </div>
         <input type="submit">
         <div class="center-xs">

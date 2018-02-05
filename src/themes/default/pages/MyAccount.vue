@@ -2,7 +2,7 @@
   <div id="my_account">
     <div class="bg-lightgray py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" activeRoute="My Account" />
+        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="My Account" />
         <h1>{{ $t('My Account') }}</h1>
       </div>
     </div>
@@ -12,14 +12,16 @@
         <div class="col-md-3 side-menu">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="page in navigation"><a :href="page.link" class="c-black" @click="notify(page.title)">{{ page.title }}</a></li>
+              <li class="mb10" v-for="(page, index) in navigation" :key="index">
+                <a :href="page.link" class="c-black" @click="notify(page.title)">{{ page.title }}</a>
+              </li>
             </ul>
           </nav>
         </div>
         <div class="col-md-9">
-          <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"></my-profile>
-          <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"></my-shipping-details>
-          <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"></my-newsletter>
+          <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"/>
+          <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"/>
+          <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"/>
         </div>
       </div>
     </div>
@@ -27,21 +29,21 @@
 </template>
 
 <script>
-  import { corePage } from 'lib/themes'
-  import Breadcrumbs from '../components/core/Breadcrumbs'
-  import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
-  import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
-  import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
+import { corePage } from 'lib/themes'
+import Breadcrumbs from '../components/core/Breadcrumbs'
+import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
+import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
+import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 
-  export default {
-    components: {
-      Breadcrumbs,
-      MyProfile,
-      MyShippingDetails,
-      MyNewsletter
-    },
-    mixins: [corePage('MyAccount')]
-  }
+export default {
+  components: {
+    Breadcrumbs,
+    MyProfile,
+    MyShippingDetails,
+    MyNewsletter
+  },
+  mixins: [corePage('MyAccount')]
+}
 </script>
 
 <style lang="scss">

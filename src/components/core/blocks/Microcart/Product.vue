@@ -8,8 +8,13 @@
 import AddToCart from 'src/components/core/AddToCart.vue'
 
 export default {
-  name: 'product',
-  props: ['product'],
+  name: 'Product',
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     thumbnail () {
       return this.getThumbnail(this.product.image, 150, 150)
@@ -20,4 +25,3 @@ export default {
   }
 }
 </script>
-

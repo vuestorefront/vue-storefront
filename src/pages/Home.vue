@@ -1,5 +1,5 @@
 <template>
-  <div id='hp'>
+  <div id="hp">
     Core Home
   </div>
 </template>

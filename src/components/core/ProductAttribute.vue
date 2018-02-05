@@ -4,8 +4,21 @@
   {{ value }} = attribute value
 */
 export default {
-  name: 'product-attribute',
-  props: ['product', 'attribute', 'emptyPlaceholder'],
+  name: 'ProductAttribute',
+  props: {
+    product: {
+      type: Object,
+      required: true
+    },
+    attribute: {
+      type: null,
+      required: true
+    },
+    emptyPlaceholder: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       label: '',

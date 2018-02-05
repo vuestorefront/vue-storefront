@@ -4,7 +4,7 @@
       :to="{ name: product.type_id + '-product', params: { parentSku: product.sku, slug: product.slug }}"
     >
       <div class="product-image bg-lightgray">
-        <img v-bind:src="thumbnail" class="product-thumbnail"/>
+        <img :src="thumbnail" class="product-thumbnail"/>
       </div>
     </router-link>
   </div>
@@ -12,8 +12,13 @@
 
 <script>
 export default {
-  name: 'inspirations',
-  props: ['product'],
+  name: 'Inspirations',
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     thumbnail () {
       return this.getThumbnail(this.product.image, 310, 300)

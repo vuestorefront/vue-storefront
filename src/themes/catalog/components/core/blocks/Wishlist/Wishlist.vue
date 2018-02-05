@@ -9,20 +9,20 @@
       <div class="col-md-12">
         <h4>Your wishlist is empty.</h4>
         <div>
-          Don't hesitate and 
-          <router-link to="/">browse our catalog</router-link> 
+          Don't hesitate and
+          <router-link to="/">browse our catalog</router-link>
           to find something beatufiul for you!
         </div>
       </div>
-   </div>
-   <div class="row pr50-md pl20 pr20 pl0-md">
-     <div class="col-md-12">
-      <h1 v-if="items.length">Wishlist</h1>
-      <div class="products">
+    </div>
+    <div class="row pr50-md pl20 pr20 pl0-md">
+      <div class="col-md-12">
+        <h1 v-if="items.length">Wishlist</h1>
+        <div class="products">
           <product v-for="product in items" :key="product.id" :product="product" />
+        </div>
       </div>
-     </div>
-   </div>
+    </div>
 
   </div>
 </template>
