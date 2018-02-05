@@ -13,7 +13,7 @@
           <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
         </div>
         <div class="mb35 center-xs">
-          <button-full class="btn-full p0 ripple" text="Subscribe" @click.native="subscribe"></button-full>
+          <button-full class="btn-full p0 ripple" text="Subscribe" @click.native="subscribe"/>
         </div>
       </form>
     </div>

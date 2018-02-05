@@ -1,5 +1,5 @@
 <template>
-  <div class='shipping'>
+  <div class="shipping">
     Core shipping
   </div>
 </template>
@@ -10,8 +10,13 @@ import ShippingMethods from 'src/resource/shipping_methods.json'
 import Countries from 'src/resource/countries.json'
 
 export default {
-  name: 'shipping',
-  props: ['isActive'],
+  name: 'Shipping',
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    }
+  },
   created () {
     this.$bus.$on('checkout.personalDetails', (receivedData) => {
       if (!this.isFilled) {

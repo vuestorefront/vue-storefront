@@ -1,26 +1,26 @@
 <template>
-    <transition name="fade-in-down">
-        <div class="modal"
-            v-if="isVisible"
-            ref="modal"
-            @click.self="close">
-            <div class="modal-wrapper">
-                <div class="modal-center">
-                    <div class="modal-container bg-white" ref="modal-content" :style="style">
-                        <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray" v-if="$slots.header">
-                            <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
-                            <slot name="header"></slot>
-                        </header>
-                        <div class="modal-content pt30 pb60 px65" v-if="$slots.content || static">
-                            <slot name="content"></slot>
-                            <static-content :file="static" v-if="static"/>
-                        </div>
-                        <slot/>
-                    </div>
-                </div>
+  <transition name="fade-in-down">
+    <div class="modal"
+         v-if="isVisible"
+         ref="modal"
+         @click.self="close">
+      <div class="modal-wrapper">
+        <div class="modal-center">
+          <div class="modal-container bg-white" ref="modal-content" :style="style">
+            <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray" v-if="$slots.header">
+              <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+              <slot name="header"/>
+            </header>
+            <div class="modal-content pt30 pb60 px65" v-if="$slots.content || staticData">
+              <slot name="content"/>
+              <static-content :file="staticData" v-if="staticData"/>
             </div>
+            <slot/>
+          </div>
         </div>
-    </transition>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -31,8 +31,9 @@ export default {
   mixins: [coreComponent('core/Modal')],
   components: { staticContent },
   props: {
-    static: {
-      type: String
+    staticData: {
+      type: String,
+      default: ''
     },
     width: {
       type: Number,
@@ -70,7 +71,7 @@ $z-index-modal: map-get($z-index, modal);
     pointer-events: none;
 }
 
-.modal-center {     
+.modal-center {
     display: table-cell;
     vertical-align: middle;
 }
@@ -89,7 +90,7 @@ $z-index-modal: map-get($z-index, modal);
       margin: 0;
     }
 }
-  
+
 .modal-header {
     position: relative;
 

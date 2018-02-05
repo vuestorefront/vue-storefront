@@ -17,8 +17,13 @@
 import { thumbnail } from 'src/lib/filters'
 
 export default {
-  name: 'product-tile',
-  props: ['product'],
+  name: 'ProductTile',
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     thumbnail () {
       // get first configurable child image

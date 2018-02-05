@@ -1,14 +1,14 @@
 <template>
-    <span @click="switchFilter(id, from, to)">
-        <button
-          class="relative brdr-c-gray brdr-1 bg-transparent mr10 price-button"
-          :class="{ active: active }"
-          :aria-label="'Price ' + content"
-        >
-          <div class="bg-transparent absolute square"></div>
-        </button>
-        <span>{{ content }}</span>
-    </span>
+  <span @click="switchFilter(id, from, to)">
+    <button
+      class="relative brdr-c-gray brdr-1 bg-transparent mr10 price-button"
+      :class="{ active: active }"
+      :aria-label="'Price ' + content"
+    >
+      <div class="bg-transparent absolute square"/>
+    </button>
+    <span>{{ content }}</span>
+  </span>
 </template>
 
 <script>
@@ -26,7 +26,6 @@ export default { // TODO: move logic to parent component
         if (filterOption.id === this.id) {
           if (this.active) {
             this.active = false
-            return
           } else {
             this.active = true
           }

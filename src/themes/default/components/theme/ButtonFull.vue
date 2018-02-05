@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'button-full',
+  name: 'ButtonFull',
   props: {
     text: {
       type: String,

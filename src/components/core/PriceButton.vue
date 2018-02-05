@@ -6,7 +6,32 @@
 
 <script>
 export default {
-  name: 'price-button',
-  props: ['content', 'id', 'code', 'from', 'to', 'context']
+  name: 'PriceButton',
+  props: {
+    content: {
+      type: null,
+      default: ''
+    },
+    id: {
+      type: null,
+      required: true
+    },
+    code: {
+      type: null,
+      required: true
+    },
+    from: {
+      type: null,
+      required: true
+    },
+    to: {
+      type: null,
+      required: true
+    },
+    context: {
+      type: null,
+      default: ''
+    }
+  }
 }
 </script>

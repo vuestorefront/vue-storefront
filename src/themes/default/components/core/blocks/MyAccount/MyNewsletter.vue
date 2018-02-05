@@ -23,19 +23,19 @@
       <div class="col-xs-12 col-md-12 mb15">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.generalAgreement" id="generalAgreement" :disabled="!isActive">
-          <label for="generalAgreement"></label>
+          <label for="generalAgreement"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.generalAgreement = !newsletterPreferences.generalAgreement : null">
           <span class="fs16 c-darkgray">I want to receive a newsletter, and agree to its terms</span>
         </div>
       </div>
-      <div class="col-xs-12">  
+      <div class="col-xs-12">
         <h4>Preferences</h4>
       </div>
       <div class="col-xs-6 col-sm-6 col-md-3 preferences mb25">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.men" id="men" :disabled="!isActive">
-          <label for="men"></label>
+          <label for="men"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.men = !newsletterPreferences.men : null">
           <span class="fs16 c-darkgray">Men</span>
@@ -44,17 +44,17 @@
       <div class="col-xs-6 col-sm-6 col-md-3 mb25">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.women" id="women" :disabled="!isActive">
-          <label for="women"></label>
+          <label for="women"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.women = !newsletterPreferences.women : null">
           <span class="fs16 c-darkgray">Women</span>
         </div>
       </div>
-      <div class="hidden-xs hidden-sm col-md-6"></div>
+      <div class="hidden-xs hidden-sm col-md-6"/>
       <div class="col-xs-6 col-sm-6 col-md-3 preferences mb25">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.kids" id="kids" :disabled="!isActive">
-          <label for="kids"></label>
+          <label for="kids"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.kids = !newsletterPreferences.kids : null">
           <span class="fs16 c-darkgray">Kids</span>
@@ -63,13 +63,13 @@
       <div class="col-xs-6 col-sm-6 col-md-3 mb25">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="newsletterPreferences.home" id="home" :disabled="!isActive">
-          <label for="home"></label>
+          <label for="home"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.home = !newsletterPreferences.home : null">
           <span class="fs16 c-darkgray">Home</span>
         </div>
       </div>
-      <div class="hidden-xs hidden-sm col-md-6"></div>
+      <div class="hidden-xs hidden-sm col-md-6"/>
       <div class="col-xs-12 col-sm-6 mt10 bottom-button" v-show="isActive">
         <button-full text="Update my preferences" @click.native="updateNewsletter" />
       </div>
@@ -82,15 +82,15 @@
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { coreComponent } from 'lib/themes'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
-  export default {
-    components: {
-      ButtonFull
-    },
-    mixins: [coreComponent('core/blocks/MyAccount/MyNewsletter')]
-  }
+export default {
+  components: {
+    ButtonFull
+  },
+  mixins: [coreComponent('core/blocks/MyAccount/MyNewsletter')]
+}
 </script>
 
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
   <div class="searchpanel" :class="{ active: isOpen }">
     <!-- Serach Results -->
     <ul>
-      <li v-for='product in products' v-bind:key="product.sku">
+      <li v-for="product in products" :key="product.sku">
         {{ product.name | htmlDecode }}
         {{ product.priceInclTax }}
         {{ product.qty }}
@@ -16,8 +16,7 @@ import { mapState } from 'vuex'
 const bodybuilder = require('bodybuilder')
 
 export default {
-  name: 'search-panel',
-  props: [''],
+  name: 'SearchPanel',
   data () {
     return {
       products: [],

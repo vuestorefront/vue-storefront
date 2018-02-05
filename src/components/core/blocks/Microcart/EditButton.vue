@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'edit-button'
+  name: 'EditButton'
 }
 </script>

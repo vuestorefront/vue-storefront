@@ -19,7 +19,7 @@
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="first-name" placeholder="First name" v-model.trim="shippingDetails.firstName">
         <span class="validation-error" v-if="!$v.shippingDetails.firstName.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.shippingDetails.firstName.minLength">Name must have at least {{$v.shippingDetails.firstName.$params.minLength.min}} letters.</span>
+        <span class="validation-error" v-if="!$v.shippingDetails.firstName.minLength">Name must have at least {{ $v.shippingDetails.firstName.$params.minLength.min }} letters.</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="shippingDetails.lastName">
@@ -28,7 +28,7 @@
       <div class="col-xs-12 col-md-12 mb25" v-if="hasBillingAddress()">
         <div class="checkboxStyled">
           <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress" @click="fillCompanyAddress">
-          <label for="useCompanyAddress"></label>
+          <label for="useCompanyAddress"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="fillCompanyAddress">
           <span class="fs16 c-darkgray">Use my company's address details</span>
@@ -52,19 +52,19 @@
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shippingDetails.postcode">
         <span class="validation-error" v-if="!$v.shippingDetails.postcode.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.shippingDetails.postcode.minLength">Zip-code must have at least {{$v.shippingDetails.postcode.$params.minLength.min}} letters.</span>
+        <span class="validation-error" v-if="!$v.shippingDetails.postcode.minLength">Zip-code must have at least {{ $v.shippingDetails.postcode.$params.minLength.min }} letters.</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
         <select name="countries" v-model="shippingDetails.country">
           <option value="" disabled selected hidden>Country</option>
-          <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
+          <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
         </select>
         <span class="validation-error" v-if="!$v.shippingDetails.country.required">Field is required</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="shippingDetails.phone">
       </div>
-      <div class="hidden-xs col-sm-6 mb25"></div>
+      <div class="hidden-xs col-sm-6 mb25"/>
       <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full text="Update my shipping details" @click.native="updateDetails" :class="{ 'button-disabled': $v.$invalid }" />
       </div>
@@ -80,7 +80,7 @@
         <div class="col-xs-12 col-md-12 mb25" v-if="useCompanyAddress">
           <div class="checkboxStyled">
             <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddressFilled" disabled>
-            <label for="useCompanyAddressFilled"></label>
+            <label for="useCompanyAddressFilled"/>
           </div>
           <div class="checkboxText ml15 lh25">
             <span class="fs16 c-darkgray">Use my company's address details</span>
@@ -106,43 +106,43 @@
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
-  import { required, minLength } from 'vuelidate/lib/validators'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import Tooltip from 'theme/components/core/Tooltip.vue'
+import { coreComponent } from 'lib/themes'
+import { required, minLength } from 'vuelidate/lib/validators'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import Tooltip from 'theme/components/core/Tooltip.vue'
 
-  export default {
-    validations: {
-      shippingDetails: {
-        firstName: {
-          required,
-          minLength: minLength(3)
-        },
-        lastName: {
-          required
-        },
-        country: {
-          required
-        },
-        street: {
-          required
-        },
-        house: {
-          required
-        },
-        postcode: {
-          required,
-          minLength: minLength(5)
-        },
-        city: {
-          required
-        }
+export default {
+  validations: {
+    shippingDetails: {
+      firstName: {
+        required,
+        minLength: minLength(3)
+      },
+      lastName: {
+        required
+      },
+      country: {
+        required
+      },
+      street: {
+        required
+      },
+      house: {
+        required
+      },
+      postcode: {
+        required,
+        minLength: minLength(5)
+      },
+      city: {
+        required
       }
-    },
-    components: {
-      ButtonFull,
-      Tooltip
-    },
-    mixins: [coreComponent('core/blocks/MyAccount/MyShippingDetails')]
-  }
+    }
+  },
+  components: {
+    ButtonFull,
+    Tooltip
+  },
+  mixins: [coreComponent('core/blocks/MyAccount/MyShippingDetails')]
+}
 </script>

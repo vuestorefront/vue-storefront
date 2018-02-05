@@ -1,6 +1,6 @@
 <template>
   <div id="custom">
-      This is example from custom moduleff
+    This is example from custom moduleff
   </div>
 </template>
 

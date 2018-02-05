@@ -26,7 +26,6 @@ export default {
 }
 </script>
 
-
 <style scoped>
   @media (max-width: 1023px) {
     .newsletter-button {

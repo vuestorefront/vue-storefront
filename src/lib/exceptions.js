@@ -1,5 +1,5 @@
 export class ValidationError {
-    /**
+  /**
      * ValidationError to be used with multiple validation errors return from Ajv or other validators
      * @param {Object} _validationMessages dictionary of validation errors
      */
@@ -19,4 +19,3 @@ export class ValidationError {
     return this._messages.join(', ')
   }
 }
-

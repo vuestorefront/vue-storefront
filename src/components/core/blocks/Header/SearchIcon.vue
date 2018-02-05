@@ -8,7 +8,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'search-icon',
+  name: 'SearchIcon',
   computed: {
     ...mapState({
       isOpen: state => state.ui.searchpanel

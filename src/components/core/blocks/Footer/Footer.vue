@@ -2,7 +2,7 @@
 import Newsletter from './Newsletter.vue'
 
 export default {
-  name: 'main-footer',
+  name: 'MainFooter',
   components: {
     Newsletter
   }
