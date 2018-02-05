@@ -9,6 +9,29 @@ import { calculateProductTax } from 'src/lib/taxcalc'
 import _ from 'lodash'
 import rootStore from '../'
 
+function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
+  product.sgn = backProduct.sgn // copy the signature for the modified price
+  product.priceInclTax = backProduct.price_info.final_price
+  product.originalPriceInclTax = backProduct.price_info.regular_price
+  product.specialPriceInclTax = backProduct.price_info.special_price
+
+  product.special_price = backProduct.extension_attributes.tax_adjustments.special_price
+  product.price = backProduct.extension_attributes.tax_adjustments.final_price
+  product.originalPrice = backProduct.extension_attributes.tax_adjustments.regular_price
+
+  product.priceTax = product.priceInclTax - product.price
+  product.specialPriceTax = product.specialPriceInclTax - product.special_price
+  product.originalPriceTax = product.originalPriceInclTax - product.originalPrice
+
+  if (product.priceInclTax >= product.originalPriceInclTax) {
+    product.specialPriceInclTax = 0
+    product.special_price = 0
+  } else {
+    product.special_price = 0 // the same price as original; it's not a promotion
+  }
+  console.log(product.sku, product, backProduct)
+  return product
+}
 /**
  * Synchronize / override prices got from ElasticSearch with current one's from Magento2 or other platform backend
  * @param {Array} products
@@ -16,18 +39,38 @@ import rootStore from '../'
 function doPlatformPricesSync (products) {
   return new Promise((resolve, reject) => {
     if (config.products.alwaysSyncPlatformPricesOver) {
-      const skus = products.map((p) => { return p.sku })
+      let skus = products.map((p) => { return p.sku })
+      const childSkus = _.flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
+      skus = _.union(skus, childSkus)
       console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
 
       rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
         console.log(syncResult)
-        // TODO: update product prices here
+        syncResult = syncResult.result.items
+
+        for (let product of products) {
+          const backProduct = syncResult.find((itm) => { return itm.id === product.id })
+          if (backProduct) {
+            product.price_is_current = true // in case we're syncing up the prices we should mark if we do have current or not
+            product.price_refreshed_at = new Date()
+            product = syncProductPrice(product, backProduct)
+
+            if (product.configurable_children) {
+              for (let configurableChild of product.configurable_children) {
+                const backProductChild = syncResult.find((itm) => { return itm.id === configurableChild.id })
+                configurableChild = syncProductPrice(configurableChild, backProductChild)
+              }
+            }
+            // TODO: shall we update local storage here for the main product?            
+          }
+        }
         resolve(products)
       })
       if (!config.products.waitForPlatformSync) {
         console.log('Returning products, the prices yet to come from backend!')
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
+          product.price_refreshed_at = null
         }
         resolve(products)
       }
