@@ -8,8 +8,13 @@
 import { thumbnail } from 'src/lib/filters'
 
 export default {
-  name: 'product',
-  props: ['product'],
+  name: 'Product',
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     thumbnail () {
       return thumbnail(this.product.image, 150, 150)

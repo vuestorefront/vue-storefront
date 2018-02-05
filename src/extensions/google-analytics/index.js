@@ -1,10 +1,10 @@
-const EXTENSION_KEY = 'google-analytics'
-
 import extensionStore from './store'
 import extensionRoutes from './router'
 import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 import EventBus from 'src/event-bus'
+
+const EXTENSION_KEY = 'google-analytics'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes)

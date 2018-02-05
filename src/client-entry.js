@@ -1,6 +1,8 @@
 import { createApp } from './app'
 import config from 'config'
 import { execute } from 'src/api/task'
+import * as localForage from 'localforage'
+import EventBus from 'src/event-bus'
 
 require('./service-worker-registration') // register the service worker
 
@@ -39,7 +41,6 @@ router.onReady(() => {
   app.$mount('#app')
 })
 // TODO: Move the order queue here from service worker!
-import EventBus from 'src/event-bus'
 /*
  * serial executes Promises sequentially.
  * @param {funcs} An array of funcs that return promises.
@@ -49,10 +50,9 @@ import EventBus from 'src/event-bus'
  *     .then(console.log.bind(console))
  */
 const serial = funcs =>
-funcs.reduce((promise, func) =>
+  funcs.reduce((promise, func) =>
     promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
 
-import * as localForage from 'localforage'
 const orderMutex = {}
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
@@ -82,19 +82,19 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)
           }).then((response) => {
-            if (response.status === 200) {
-              const contentType = response.headers.get('content-type')
-              if (contentType && contentType.includes('application/json')) {
-                return response.json()
-              } else {
-                orderMutex[id] = false
-                console.error('Error with response - bad content-type!')
-              }
+          if (response.status === 200) {
+            const contentType = response.headers.get('content-type')
+            if (contentType && contentType.includes('application/json')) {
+              return response.json()
             } else {
               orderMutex[id] = false
-              console.error('Bad response status: ' + response.status)
+              console.error('Error with response - bad content-type!')
             }
-          })
+          } else {
+            orderMutex[id] = false
+            console.error('Bad response status: ' + response.status)
+          }
+        })
           .then(function (jsonResponse) {
             if (jsonResponse && jsonResponse.code === 200) {
               console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)

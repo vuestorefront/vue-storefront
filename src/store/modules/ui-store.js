@@ -37,9 +37,6 @@ const mutations = {
   setAuthElem (state, action) {
     state.authElem = action
   },
-  setNewsletterPopup (state, action) {
-    state.newsletterPopup = action === true
-  },
   setWishlist (state, action) {
     state.wishlist = action === true
   },

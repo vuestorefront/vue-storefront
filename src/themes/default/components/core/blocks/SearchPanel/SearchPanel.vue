@@ -1,20 +1,20 @@
 <template>
-<div class="searchpanel bg-white c-black" :class="{ active: isOpen }">
+  <div class="searchpanel bg-white c-black" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 close c-black" @click="closeSearchpanel">close</i>
       </div>
     </div>
     <div class="col-md-12 end-xs">
-      <input ref="search" v-model="search" @input="makeSearch" class="form-control input-lg search-input" :placeholder="placeholder" type="text" />
+      <input ref="search" v-model="search" @input="makeSearch" class="form-control input-lg search-input" :placeholder="placeholder" type="text" >
     </div>
     <div class="col-md-12 product-listing row">
-      <product-tile @click.native="closeSearchpanel" :key="product.id" v-for='product in products' :product="product"></product-tile>
+      <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in products" :product="product"/>
       <transition name="fade">
         <div v-if="emptyResults" class="center-text no-results">No results were found.</div>
       </transition>
     </div>
-</div>
+  </div>
 </template>
 
 <script>

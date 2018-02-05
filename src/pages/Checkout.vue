@@ -1,5 +1,5 @@
 <template>
-  <div id='checkout'>
+  <div id="checkout">
     Core Checkout
   </div>
 </template>

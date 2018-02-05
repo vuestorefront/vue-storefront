@@ -1,7 +1,7 @@
 <template>
   <div>
-    <strong v-html="label + ': '"></strong>
-    <span v-html="value"></span>
+    <strong v-html="label + ': '"/>
+    <span v-html="value"/>
   </div>
 </template>
 

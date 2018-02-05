@@ -152,14 +152,14 @@ const actions = {
       },
       body: JSON.stringify({ username: username, password: password })
     }).then(resp => { return resp.json() })
-    .then((resp) => {
-      if (resp.code === 200) {
-        context.commit(types.USER_TOKEN_CHANGED, resp.result)
-        context.dispatch('me', { refresh: true, useCache: false }).then(result => {
-        })
-      }
-      return resp
-    })
+      .then((resp) => {
+        if (resp.code === 200) {
+          context.commit(types.USER_TOKEN_CHANGED, resp.result)
+          context.dispatch('me', { refresh: true, useCache: false }).then(result => {
+          })
+        }
+        return resp
+      })
   },
 
   /**
@@ -174,13 +174,13 @@ const actions = {
       },
       body: JSON.stringify({ customer: { email: email, firstname: firstname, lastname: lastname }, password: password })
     }).then(resp => { return resp.json() })
-    .then((resp) => {
-      if (resp.code === 200) {
-        context.dispatch('login', { username: email, password: password }).then(result => { // login user
-        })
-      }
-      return resp
-    })
+      .then((resp) => {
+        if (resp.code === 200) {
+          context.dispatch('login', { username: email, password: password }).then(result => { // login user
+          })
+        }
+        return resp
+      })
   },
   /**
    * Load current user profile
@@ -221,17 +221,17 @@ const actions = {
             'Content-Type': 'application/json'
           }
         }).then(resp => { return resp.json() })
-        .then((resp) => {
-          if (resp.code === 200) {
-            context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
+          .then((resp) => {
+            if (resp.code === 200) {
+              context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
 
-            EventBus.$emit('user-after-loggedin', resp.result)
-          }
-          if (!resolvedFromCache) {
-            resolve(resp.code === 200 ? resp : null)
-          }
-          return resp
-        })
+              EventBus.$emit('user-after-loggedin', resp.result)
+            }
+            if (!resolvedFromCache) {
+              resolve(resp.code === 200 ? resp : null)
+            }
+            return resp
+          })
       } else {
         if (!resolvedFromCache) {
           resolve(null)
@@ -287,26 +287,26 @@ const actions = {
         body: JSON.stringify(passwordData)
       }
     ).then(resp => { return resp.json() })
-    .then((resp) => {
-      if (resp.code === 200) {
-        EventBus.$emit('notification', {
-          type: 'success',
-          message: 'Password has successfully been changed',
-          action1: { label: 'OK', action: 'close' }
-        })
+      .then((resp) => {
+        if (resp.code === 200) {
+          EventBus.$emit('notification', {
+            type: 'success',
+            message: 'Password has successfully been changed',
+            action1: { label: 'OK', action: 'close' }
+          })
 
-        store.dispatch('user/login', {
-          username: context.state.current.email,
-          password: passwordData.newPassword
-        })
-      } else {
-        EventBus.$emit('notification', {
-          type: 'error',
-          message: i18n.t(resp.result),
-          action1: { label: 'OK', action: 'close' }
-        })
-      }
-    })
+          store.dispatch('user/login', {
+            username: context.state.current.email,
+            password: passwordData.newPassword
+          })
+        } else {
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: i18n.t(resp.result),
+            action1: { label: 'OK', action: 'close' }
+          })
+        }
+      })
   },
 
   /**

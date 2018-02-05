@@ -5,6 +5,6 @@
 </template>
 <script>
 export default {
-  name: 'forgot-pass'
+  name: 'ForgotPass'
 }
 </script>

@@ -1,18 +1,22 @@
 <template>
   <div class="validation-error">
-    <!-- 
+    <!--
         props:
         "message" - error message
         data to display:
-        {{ message }} 
+        {{ message }}
     -->
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'validation-error',
-    props: ['message']
+export default {
+  name: 'ValidationError',
+  props: {
+    message: {
+      type: String,
+      default: ''
+    }
   }
+}
 </script>
-

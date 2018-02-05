@@ -119,7 +119,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import i18n from 'lib/i18n'
 import Newsletter from './Newsletter.vue'
 
 export default {
@@ -142,15 +141,6 @@ export default {
       }
     }
   },
-  methods: {
-    newsletterClick () {
-      this.$bus.$emit('notification', {
-        type: 'success',
-        message: i18n.t('This feature is not implemented yet :( Newsletter is on our roadmap - issue #200!'),
-        action1: { label: 'OK', action: 'close' }
-      })
-    }
-  },
   components: {
     Newsletter
   },
@@ -161,10 +151,6 @@ export default {
 <style lang="scss" scoped>
   @import '~theme/css/global_vars';
   $gray-secondary: map-get($colors, gray-secondary);
-
-  .newsletter-content {
-    align-items: center;
-  }
 
   .icon {
     transition: 0.3s all;

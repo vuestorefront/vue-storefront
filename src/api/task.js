@@ -1,4 +1,3 @@
-import { isNullOrUndefined } from 'util'
 import EventBus from 'src/event-bus'
 import i18n from 'lib/i18n'
 
@@ -7,7 +6,7 @@ export function execute (task, currentToken = null, currentCartId = null) {
   const taskId = task.task_id
 
   console.log('Pushing out task ' + taskId)
-  const url = task.url.replace('{{token}}', isNullOrUndefined(currentToken) ? '' : currentToken).replace('{{cartId}}', isNullOrUndefined(currentCartId) ? '' : currentCartId)
+  const url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
   return new Promise((resolve, reject) => {
     fetch(url, task.payload).then((response) => {
       const contentType = response.headers.get('content-type')

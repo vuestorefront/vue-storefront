@@ -9,7 +9,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'account-icon',
+  name: 'AccountIcon',
   computed: {
     ...mapState({
       isOpenLogin: state => state.ui.signUp,

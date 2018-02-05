@@ -18,7 +18,7 @@
         <div v-if="productLink.product" class="py5">
           <p class="h6 c-gray m0">Quantity</p>
           <input type="number" class="product-qty h4 weight-300" min="1" autofocus
-                 v-model.number="productLink.product.qty"/>
+                 v-model.number="productLink.product.qty">
         </div>
       </div>
     </div>

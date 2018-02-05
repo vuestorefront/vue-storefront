@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'tooltip'
+  name: 'Tooltip'
 }
 </script>

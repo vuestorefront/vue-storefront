@@ -1,6 +1,6 @@
 <template>
   <div class="microcart-icon">
-      <!--
+    <!--
         methods:
         openMicrocart - opens microcart
         data to display:
@@ -13,7 +13,7 @@
 import { mapState, mapGetters } from 'vuex'
 
 export default {
-  name: 'microcart-icon',
+  name: 'MicrocartIcon',
   computed: {
     totalItems () {
       // return this.$store.getters.totals.quantity

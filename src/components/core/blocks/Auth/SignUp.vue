@@ -12,7 +12,7 @@ import Register from './Register.vue'
 import ForgotPass from './ForgotPass.vue'
 
 export default {
-  name: 'sign-up',
+  name: 'SignUp',
   components: {
     Login,
     Register,

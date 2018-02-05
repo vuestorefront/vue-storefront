@@ -1,6 +1,6 @@
 <template>
   <div class="row p25 between-xs">
-    <img class="blend" v-lazy="thumbnail" />
+    <img class="blend" v-lazy="thumbnail" >
     <div class="col-xs">
       <div class="row">
         <div class="col-xs-12 col-md-9 pb15">

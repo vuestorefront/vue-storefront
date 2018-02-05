@@ -10,7 +10,7 @@
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
 export default {
-  name: 'button-outline',
+  name: 'ButtonOutline',
   directives: { focusClean },
   props: {
     text: {

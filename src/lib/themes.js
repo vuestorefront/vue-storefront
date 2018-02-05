@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _ from 'lodash'
 import coreMessages from 'core/resource/i18n.json'
 import themeMessages from 'theme/resource/i18n.json'
 

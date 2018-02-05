@@ -15,13 +15,13 @@
           <div class="pb20 pt20 center-xs cool-stuff-collection">
             <no-ssr>
               <carousel v-bind="config" @pageChange="setMuted">
-                <slide 
-                  v-for='(product, index) in products' 
-                  :key='product.id'
+                <slide
+                  v-for="(product, index) in products"
+                  :key="product.id"
                 >
-                  <product-tile 
-                    class="collection-product" 
-                    :product="product" 
+                  <product-tile
+                    class="collection-product"
+                    :product="product"
                     :class="{'is-muted': (currentPage == index || index == currentPage + 5)}"
                   />
                 </slide>
@@ -35,30 +35,30 @@
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
-  import NoSSR from 'vue-no-ssr'
-  import { Carousel, Slide } from 'vue-carousel'
-  import ProductTile from 'theme/components/core/ProductTile.vue'
+import { coreComponent } from 'lib/themes'
+import NoSSR from 'vue-no-ssr'
+import { Carousel, Slide } from 'vue-carousel'
+import ProductTile from 'theme/components/core/ProductTile.vue'
 
-  export default {
-    data () {
-      return {
-        currentPage: 0
-      }
-    },
-    methods: {
-      setMuted (currentPage) {
-        this.currentPage = currentPage
-      }
-    },
-    mixins: [coreComponent('core/ProductsSlider')],
-    components: {
-      Slide,
-      Carousel,
-      ProductTile,
-      'no-ssr': NoSSR
+export default {
+  data () {
+    return {
+      currentPage: 0
     }
+  },
+  methods: {
+    setMuted (currentPage) {
+      this.currentPage = currentPage
+    }
+  },
+  mixins: [coreComponent('core/ProductsSlider')],
+  components: {
+    Slide,
+    Carousel,
+    ProductTile,
+    'no-ssr': NoSSR
   }
+}
 </script>
 
 <style lang="scss">

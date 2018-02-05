@@ -1,14 +1,14 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu p0" v-bind:style="styles">
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.slug" v-for="link in categoryLinks">
+    <ul v-if="categoryLinks" class="sidebar-submenu p0" :style="styles">
+      <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.slug" v-for="link in categoryLinks">
         <router-link class="px25 py20 c-black no-underline col-xs" :to="{ name: 'category', params: { id: link.id, slug: link.slug }}">{{ link.name }}</router-link>
-        <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"></sub-btn>
-        <sub-category :categoryLinks="link.children_data" :id="link.id" v-if="link.children_data.length"/>
+        <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"/>
+        <sub-category :category-links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
       </li>
     </ul>
-    <ul v-else-if="myAccountLinks" class="sidebar-submenu p0" v-bind:style="styles">
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.id" v-for="link in myAccountLinks">
+    <ul v-else-if="myAccountLinks" class="sidebar-submenu p0" :style="styles">
+      <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.id" v-for="link in myAccountLinks">
         <router-link class="px25 py20 c-black no-underline col-xs" :to="'/my-account#' + link.anchor">{{ link.name }}</router-link>
       </li>
       <li class="brdr-bottom brdr-c-lightgray bg-white flex">
@@ -22,21 +22,23 @@ import { mapState } from 'vuex'
 import SubBtn from './SubBtn.vue'
 
 export default {
-  name: 'sub-category',
+  name: 'SubCategory',
   components: {
     SubBtn
   },
   props: {
     id: {
+      type: [String, Number],
       required: true
     },
     categoryLinks: {
       type: Array,
-      required: false
+      required: true
     },
     myAccountLinks: {
       type: Array,
-      required: false
+      required: false,
+      default: () => {}
     }
   },
   computed: {

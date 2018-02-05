@@ -1,21 +1,21 @@
 <template>
   <section class="main-slider bg-darkgray c-white">
     <no-ssr>
-        <carousel :perPage='1' paginationActiveColor="transparent" paginationColor="#F2F2F2">
-            <slide v-for='slide in slides'>
-                <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
-                    <div class="row middle-xs center-xs">
-                        <div class="col-md-12 px10p">
-                            <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
-                            <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
-                            <div class="align-center">
-                                <button-outline class="button" :text="slide.button_text" color="light" />
-                            </div>
-                        </div>
-                    </div>
+      <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
+        <slide v-for="(slide, index) in slides" :key="index">
+          <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
+            <div class="row middle-xs center-xs">
+              <div class="col-md-12 px10p">
+                <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
+                <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
+                <div class="align-center">
+                  <button-outline class="button" :text="slide.button_text" color="light" />
                 </div>
-            </slide>
-        </carousel>
+              </div>
+            </div>
+          </div>
+        </slide>
+      </carousel>
     </no-ssr>
   </section>
 </template>
