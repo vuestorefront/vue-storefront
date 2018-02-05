@@ -78,8 +78,6 @@ export default {
 
 <style lang="scss" scoped>
   .summary-title {
-    margin-top: 20px !important;
-
     @media (max-width: 767px) {
       margin-left: 0;
     }

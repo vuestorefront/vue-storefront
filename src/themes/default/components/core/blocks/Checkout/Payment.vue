@@ -2,7 +2,12 @@
   <div class="payment pt20">
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
-        <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">3</div>
+        <div
+          class="number-circle lh35 c-white brdr-circle align-center weight-700"
+          :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }"
+        >
+          3
+        </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
@@ -26,7 +31,12 @@
         <div class="row" v-show="isActive">
           <div class="col-xs-12 col-sm-12 mb15">
             <div class="checkboxStyled">
-              <input type="checkbox" v-model="sendToShippingAddress" id="sendToShippingAddressCheckbox" @click="useShippingAddress">
+              <input
+                type="checkbox"
+                v-model="sendToShippingAddress"
+                id="sendToShippingAddressCheckbox"
+                @click="useShippingAddress"
+              >
               <label for="sendToShippingAddressCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useShippingAddress">
@@ -35,7 +45,12 @@
           </div>
           <div class="col-xs-12 col-sm-12 mb15" v-show="hasBillingData()">
             <div class="checkboxStyled">
-              <input type="checkbox" v-model="sendToBillingAddress" id="sendToBillingAddressCheckbox" @click="useBillingAddress">
+              <input
+                type="checkbox"
+                v-model="sendToBillingAddress"
+                id="sendToBillingAddressCheckbox"
+                @click="useBillingAddress"
+              >
               <label for="sendToBillingAddressCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useBillingAddress">
@@ -43,40 +58,130 @@
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="first-name" placeholder="First name" v-model.trim="payment.firstName" @blur="$v.payment.firstName.$touch()" autocomplete="given-name" >
-            <span class="validation-error" v-if="$v.payment.firstName.$error && !$v.payment.firstName.required">Field is required</span>
-            <span class="validation-error" v-if="!$v.payment.firstName.minLength">Name must have at least {{ $v.payment.firstName.$params.minLength.min }} letters.</span>
+            <input
+              type="text"
+              name="first-name"
+              placeholder="First name"
+              v-model.trim="payment.firstName"
+              @blur="$v.payment.firstName.$touch()"
+              autocomplete="given-name"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.payment.firstName.$error && !$v.payment.firstName.required"
+            >
+              Field is required
+            </span>
+            <span
+              class="validation-error"
+              v-if="!$v.payment.firstName.minLength"
+            >
+              Name must have at least {{ $v.payment.firstName.$params.minLength.min }} letters.
+            </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="last-name" placeholder="Last name" v-model.trim="payment.lastName" @blur="$v.payment.lastName.$touch()" autocomplete="family-name">
-            <span class="validation-error" v-if="$v.payment.lastName.$error && !$v.payment.lastName.required">Field is required</span>
+            <input
+              type="text"
+              name="last-name"
+              placeholder="Last name"
+              v-model.trim="payment.lastName"
+              @blur="$v.payment.lastName.$touch()"
+              autocomplete="family-name"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.payment.lastName.$error && !$v.payment.lastName.required"
+            >
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="street-address" placeholder="Street name" v-model.trim="payment.streetAddress" @blur="$v.payment.streetAddress.$touch()" autocomplete="payment address-line1">
-            <span class="validation-error" v-if="$v.payment.streetAddress.$error && !$v.payment.streetAddress.required">Field is required</span>
+            <input
+              type="text"
+              name="street-address"
+              placeholder="Street name"
+              v-model.trim="payment.streetAddress"
+              @blur="$v.payment.streetAddress.$touch()"
+              autocomplete="payment address-line1"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.payment.streetAddress.$error && !$v.payment.streetAddress.required"
+            >
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="payment.apartmentNumber" @blur="$v.payment.apartmentNumber.$touch()" autocomplete="address-line2">
-            <span class="validation-error" v-if="$v.payment.apartmentNumber.$error && !$v.payment.apartmentNumber.required">Field is required</span>
+            <input
+              type="text"
+              name="apartment-number"
+              placeholder="House/Apartment number"
+              v-model.trim="payment.apartmentNumber"
+              @blur="$v.payment.apartmentNumber.$touch()"
+              autocomplete="address-line2"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.payment.apartmentNumber.$error && !$v.payment.apartmentNumber.required"
+            >
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="city" placeholder="City" v-model.trim="payment.city" @blur="$v.payment.city.$touch()" autocomplete="address-level2">
-            <span class="validation-error" v-if="$v.payment.city.$error && !$v.payment.city.required">Field is required</span>
+            <input
+              type="text"
+              name="city"
+              placeholder="City"
+              v-model.trim="payment.city"
+              @blur="$v.payment.city.$touch()"
+              autocomplete="address-level2"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.payment.city.$error && !$v.payment.city.required"
+            >
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="state" placeholder="State / Province" v-model.trim="payment.state" autocomplete="address-level1">
+            <input
+              type="text"
+              name="state"
+              placeholder="State / Province"
+              v-model.trim="payment.state"
+              autocomplete="address-level1"
+            >
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="payment.zipCode" @blur="$v.payment.zipCode.$touch()" autocomplete="postal-code">
-            <span class="validation-error" v-if="$v.payment.zipCode.$error && !$v.payment.zipCode.required">Field is required</span>
-            <span class="validation-error" v-if="!$v.payment.zipCode.minLength">Zip-code must have at least {{ $v.payment.zipCode.$params.minLength.min }} letters.</span>
+            <input
+              type="text"
+              name="zip-code"
+              placeholder="Zip-code"
+              v-model.trim="payment.zipCode"
+              @blur="$v.payment.zipCode.$touch()"
+              autocomplete="postal-code"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.payment.zipCode.$error && !$v.payment.zipCode.required"
+            >
+              Field is required
+            </span>
+            <span
+              class="validation-error"
+              v-if="!$v.payment.zipCode.minLength"
+            >
+              Zip-code must have at least {{ $v.payment.zipCode.$params.minLength.min }} letters.
+            </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
             <select name="countries" v-model="payment.country" @change="$v.payment.country.$touch()" autocomplete="country">
               <option value="" disabled selected hidden>Country</option>
               <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
-            <span class="validation-error" v-if="$v.payment.country.$error && !$v.payment.country.required">Field is required</span>
+            <span class="validation-error" v-if="$v.payment.country.$error && !$v.payment.country.required">
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
             <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="payment.phoneNumber">
@@ -91,13 +196,40 @@
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
-            <input type="text" name="company-name" placeholder="Company name" v-model.trim="payment.company" @blur="$v.payment.company.$touch()" autocomplete="company-name">
-            <span class="validation-error" v-if="generateInvoice && $v.payment.company.$error && !$v.payment.company.required">Field is required</span>
+            <input
+              type="text"
+              name="company-name"
+              placeholder="Company name"
+              v-model.trim="payment.company"
+              @blur="$v.payment.company.$touch()"
+              autocomplete="company-name"
+            >
+            <span
+              class="validation-error"
+              v-if="generateInvoice && $v.payment.company.$error && !$v.payment.company.required">Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
-            <input type="text" name="tax-id" placeholder="Tax identification number" v-model.trim="payment.taxId" @blur="$v.payment.taxId.$touch()" autocomplete="tax-id">
-            <span class="validation-error" v-if="generateInvoice && $v.payment.taxId.$error && !$v.payment.taxId.required">Field is required</span>
-            <span class="validation-error" v-if="generateInvoice && !$v.payment.taxId.minLength">Tax identification number must have at least {{ $v.payment.taxId.$params.minLength.min }} letters.</span>
+            <input
+              type="text"
+              name="tax-id"
+              placeholder="Tax identification number"
+              v-model.trim="payment.taxId"
+              @blur="$v.payment.taxId.$touch()"
+              autocomplete="tax-id"
+            >
+            <span
+              class="validation-error"
+              v-if="generateInvoice && $v.payment.taxId.$error && !$v.payment.taxId.required"
+            >
+              Field is required
+            </span>
+            <span
+              class="validation-error"
+              v-if="generateInvoice && !$v.payment.taxId.minLength"
+            >
+              Tax identification number must have at least {{ $v.payment.taxId.$params.minLength.min }} letters.
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
             <label class="fs16">We will send you the invoice to given e-mail address</label>
