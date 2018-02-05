@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="inline-flex" @click="goBack">
+  <button type="button" class="inline-flex brdr-none" @click="goBack">
     <i class="material-icons md-18">keyboard_backspace</i>
   </button>
 </template>
@@ -11,9 +11,3 @@ export default {
   mixins: [coreComponent('core/blocks/Header/ReturnIcon')]
 }
 </script>
-
-<style scoped>
-  button {
-    border: none;
-  }
-</style>

@@ -5,7 +5,7 @@
     @mouseover="showDropdown"
     @mouseout="hideDropdown"
   >
-    <div class="dropdown">
+    <div class="dropdown relative">
       <i class="material-icons md-18">account_circle</i>
       <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
         <p>You're logged in as {{ currentUser.firstname }}</p>
@@ -61,8 +61,6 @@ export default {
   @import '~theme/css/global_vars';
 
   .dropdown {
-    position: relative;
-
     i {
       display: block;
     }

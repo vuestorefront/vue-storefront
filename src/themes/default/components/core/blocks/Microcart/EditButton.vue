@@ -1,5 +1,5 @@
 <template>
-  <button class="brdr-none bg-transparent p0 inline-flex c-gray-secondary">
+  <button class="middle-xs brdr-none bg-transparent p0 inline-flex c-gray-secondary">
     <span class="hidden-xs h6 weight-300">
       Edit
     </span>
@@ -14,9 +14,3 @@ export default {
   mixins: [coreComponent('core/blocks/Microcart/EditButton')]
 }
 </script>
-
-<style scoped>
-  button {
-    align-items: center;
-  }
-</style>

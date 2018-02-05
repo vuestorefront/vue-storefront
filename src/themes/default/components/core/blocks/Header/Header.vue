@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="brdr-bottom bg-white brdr-c-alto"
+      class="fixed brdr-bottom bg-white brdr-c-alto"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
@@ -173,7 +173,6 @@ export default {
 
 <style lang="scss" scoped>
   header {
-    position: fixed;
     height: 54px;
     top: -54px;
     width: 100%;
@@ -196,9 +195,6 @@ export default {
   }
   .is-visible {
     top: 0 !important;
-  }
-  .center-xs {
-    text-align: center;
   }
   @media (max-width: 767px) {
     .row.middle-xs {

@@ -39,66 +39,66 @@ export default {
 <style lang="scss">
 @import '~theme/css/global_vars';
 $white: map-get($colors, white);
-    .main-slider {
-        .VueCarousel-pagination {
-            position: absolute;
-            bottom: 15px;
-        }
-        .VueCarousel-dot--active .VueCarousel-dot-inner {
-            border: 2px solid $white;
-            margin-top: -2px;
-        }
-    }
+.main-slider {
+  .VueCarousel-pagination {
+    position: absolute;
+    bottom: 15px;
+  }
+  .VueCarousel-dot--active .VueCarousel-dot-inner {
+    border: 2px solid $white;
+    margin-top: -2px;
+  }
+}
 </style>
 <style scoped>
 h1 {
-    font-size: 72px;
+  font-size: 72px;
 }
 .main-slider {
-    width: 100%;
-    height: 640px;
+  width: 100%;
+  height: 640px;
 }
 .container {
-    width: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .row {
-    height: 640px;
+  height: 640px;
 }
 @media (max-width: 75em) {
-    .main-slider {
-        height: 400px;
-    }
-    .title {
-        font-size: 50px;
-    }
-    .subtitle {
-        font-size: 20px;
-    }
-    .row {
-        height: 400px;
-    }
+  .main-slider {
+    height: 400px;
+  }
+  .title {
+    font-size: 50px;
+  }
+  .subtitle {
+    font-size: 20px;
+  }
+  .row {
+    height: 400px;
+  }
 }
 @media (max-width: 64em) {
-    .main-slider {
-        height: 359px;
-    }
-    .container {
-        background-position: left;
-    }
-    .title {
-        font-size: 48px;
-    }
-    .subtitle {
-        font-size: 18px;
-    }
-    .button {
-        font-size: 16px;
-    }
-    .row {
-        height: 359px;
-    }
+  .main-slider {
+    height: 359px;
+  }
+  .container {
+    background-position: left;
+  }
+  .title {
+    font-size: 48px;
+  }
+  .subtitle {
+    font-size: 18px;
+  }
+  .button {
+    font-size: 16px;
+  }
+  .row {
+    height: 359px;
+  }
 }
 </style>
