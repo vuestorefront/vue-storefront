@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
 import { entityKeyName } from '../../lib/entities'
-import { slugify } from '../../lib/filters'
-import bodybuilder from 'bodybuilder'
+import { slugify } from '../../helpers'
+const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from '../../api/search'
 
 const state = {

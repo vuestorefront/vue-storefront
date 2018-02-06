@@ -7,7 +7,7 @@
 <script>
 import builder from 'bodybuilder'
 
-import { breadCrumbRoutes } from 'src/lib/filters'
+import { breadCrumbRoutes } from 'src/helpers'
 import Meta from 'src/lib/meta'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'

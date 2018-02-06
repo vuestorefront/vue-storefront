@@ -4,7 +4,7 @@ import bodybuilder from 'bodybuilder'
 import { quickSearchByQuery } from '../../api/search'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from 'src/store/modules/attribute'
-import { breadCrumbRoutes } from 'src/lib/filters'
+import { breadCrumbRoutes } from 'src/helpers'
 import { calculateProductTax } from 'src/lib/taxcalc'
 import _ from 'lodash'
 
