@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu absolute p0 bg-c-white" :style="styles">
+    <ul v-if="categoryLinks" class="sidebar-submenu absolute p0 bg-white" :style="styles">
       <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.slug" v-for="link in categoryLinks">
         <router-link
           class="px25 py20 c-black no-underline col-xs"
@@ -12,7 +12,7 @@
         <sub-category :category-links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
       </li>
     </ul>
-    <ul v-else-if="myAccountLinks" class="sidebar-submenu absolute p0 bg-c-white" :style="styles">
+    <ul v-else-if="myAccountLinks" class="sidebar-submenu absolute p0 bg-white" :style="styles">
       <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.id" v-for="link in myAccountLinks">
         <router-link class="px25 py20 c-black no-underline col-xs" :to="'/my-account#' + link.anchor">
           {{ link.name }}
