@@ -51,7 +51,7 @@
             autocomplete="new-password"
             placeholder="Password *"
           >
-          <i class="icon material-icons absolute c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
+          <i class="icon material-icons absolute c-alto pointer" @click="togglePassType('pass')">{{ iconName.pass }}</i>
           <span class="validation-error h6 c-red" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="mb35 relative">
@@ -63,7 +63,7 @@
             autocomplete="new-password"
             placeholder="Repeat password *"
           >
-          <i class="icon material-icons absolute c-alto" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
+          <i class="icon material-icons absolute c-alto pointer" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
           <span class="validation-error h6 c-red" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>
         <div class="mb35">
@@ -203,7 +203,6 @@ export default {
   }
 
   .icon {
-    cursor: pointer;
     right: 0;
     top: 10px;
 

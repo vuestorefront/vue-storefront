@@ -9,15 +9,15 @@
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!isProductPage">
-                <hamburger-icon class="p15 icon bg-lightgray" v-if="!isProductPage"/>
+                <hamburger-icon class="p15 icon bg-lightgray pointer" v-if="!isProductPage"/>
               </template>
               <template v-else>
-                <return-icon class="p15 icon bg-lightgray" v-if="isProductPage"/>
+                <return-icon class="p15 icon bg-lightgray pointer" v-if="isProductPage"/>
               </template>
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
-            <search-icon class="p15 icon" />
+            <search-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
@@ -25,15 +25,15 @@
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
-            <wishlist-icon class="p15 icon" />
+            <wishlist-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-2 end-xs">
             <div class="inline-flex">
-              <search-icon class="p15 icon hidden-xs" />
-              <wishlist-icon class="p15 icon hidden-xs" />
-              <compare-icon class="p15 icon hidden-xs" />
-              <microcart-icon class="p15 icon" />
-              <account-icon class="p15 icon hidden-xs" />
+              <search-icon class="p15 icon hidden-xs pointer" />
+              <wishlist-icon class="p15 icon hidden-xs pointer" />
+              <compare-icon class="p15 icon hidden-xs pointer" />
+              <microcart-icon class="p15 icon pointer" />
+              <account-icon class="p15 icon hidden-xs pointer" />
             </div>
           </div>
         </div>
@@ -183,7 +183,6 @@ export default {
   }
   .icon:hover {
     background-color: #F2F2F2;
-    cursor: pointer;
     opacity: 1;
   }
   .header-placeholder {

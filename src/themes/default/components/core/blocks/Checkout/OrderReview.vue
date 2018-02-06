@@ -30,11 +30,11 @@
               <div class="col-xs-11 col-sm-12 col-md-8 bg-lightgray p15 mb35 ml10">
                 <div class="checkboxStyled relative">
                   <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox">
-                  <label class="absolute brdr-gray bg-lightgray" for="acceptTermsCheckbox"/>
+                  <label class="absolute brdr-gray bg-lightgray pointer" for="acceptTermsCheckbox"/>
                 </div>
-                <div class="checkboxText ml15 lh25">
+                <div class="checkboxText ml15 lh25 pointer">
                   <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
-                    I agree to <span class="link" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span>
+                    I agree to <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span>
                   </span>
                 </div>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
@@ -90,7 +90,6 @@ export default {
 <style lang="scss" scoped>
 
   .link {
-    cursor: pointer;
     text-decoration: underline;
   }
 
@@ -103,7 +102,6 @@ export default {
       left: 0;
       width: 23px;
       height: 23px;
-      cursor: pointer;
 
       &:after {
         content: '';
@@ -127,7 +125,6 @@ export default {
 
   .checkboxText {
     display: inline-block;
-    cursor: pointer;
   }
 
   .cartsummary-wrapper {

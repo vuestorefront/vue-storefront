@@ -25,7 +25,7 @@
             v-model="password"
             placeholder="Password *"
           >
-          <i class="icon material-icons c-alto absolute" @click="togglePassType">{{ iconName }}</i>
+          <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
           <span class="validation-error h6 c-red" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="row">
@@ -159,7 +159,6 @@ export default {
   }
 
   .icon {
-    cursor: pointer;
     right: 0;
     top: 10px;
 

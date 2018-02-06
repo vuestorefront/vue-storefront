@@ -2,7 +2,7 @@
   <div class="wishlist fixed mw-100 bg-white c-black" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 close c-black" @click="closeWishlist">close</i>
+        <i class="material-icons p15 pointer c-black" @click="closeWishlist">close</i>
       </div>
     </div>
     <h2 v-if="items.length" class="c-black ml30">Wishlist</h2>
@@ -43,9 +43,6 @@ export default {
 
     &.active {
       transform: translateX(0)
-    }
-    .close {
-      cursor: pointer;
     }
   }
   i {

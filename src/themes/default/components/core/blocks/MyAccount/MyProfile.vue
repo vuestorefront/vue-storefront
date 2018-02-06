@@ -69,7 +69,7 @@
             :type="passType.oldPass"
             placeholder="Current password *"
           >
-          <div class="icon absolute c-lightgray-secondary">
+          <div class="icon absolute c-lightgray-secondary pointer">
             <i class="material-icons" @click="togglePassType('oldPass')">{{ iconName.oldPass }}</i>
           </div>
         </div>
@@ -87,7 +87,7 @@
             :type="passType.pass"
             placeholder="New password *"
           >
-          <div class="icon absolute c-lightgray-secondary">
+          <div class="icon absolute c-lightgray-secondary pointer">
             <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
           </div>
         </div>
@@ -104,7 +104,12 @@
             :type="passType.repeatPass"
             placeholder="Repeat new password *"
           >
-          <i class="icon absolute c-lightgray-secondary material-icons" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
+          <i
+            class="icon absolute c-lightgray-secondary material-icons pointer"
+            @click="togglePassType('repeatPass')"
+          >
+            {{ iconName.repeatPass }}
+          </i>
         </div>
         <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">
           Passwords must be identical.
@@ -322,7 +327,6 @@ export default {
     }
 
     .icon {
-      cursor: pointer;
       right: 0;
       top: 10px;
 

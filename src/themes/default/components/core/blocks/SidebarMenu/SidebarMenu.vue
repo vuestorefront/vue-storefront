@@ -8,7 +8,7 @@
         <account-icon class="p15 icon hidden-md" />
       </div>
       <div
-        class="flex-end col-xs inline-flex close bg-white align-right end-xs brdr-bottom brdr-c-lightgray"
+        class="flex-end col-xs inline-flex pointer bg-white align-right end-xs brdr-bottom brdr-c-lightgray"
         @click="closeMenu"
       >
         <i class="material-icons p15">close</i>
@@ -171,9 +171,6 @@ ul {
 
 }
 
-.close {
-  cursor: pointer;
-}
 </style>
 
 <style lang="scss">

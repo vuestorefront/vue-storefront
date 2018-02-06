@@ -106,7 +106,7 @@
                 @blur="$v.password.$touch()"
                 autocomplete="new-password"
               >
-              <div class="icon absolute c-lightgray-secondary">
+              <div class="icon absolute c-lightgray-secondary pointer">
                 <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
               </div>
             </div>
@@ -122,7 +122,7 @@
                 placeholder="Repeat password *"
                 autocomplete="new-password"
               >
-              <i class="icon absolute material-icons c-lightgray-secondary" @click="togglePassType('repeatPass')">
+              <i class="icon absolute material-icons c-lightgray-secondary pointer" @click="togglePassType('repeatPass')">
                 {{ iconName.repeatPass }}
               </i>
             </div>
@@ -268,7 +268,6 @@ export default {
     }
 
     .icon {
-      cursor: pointer;
       right: 0;
       top: 10px;
 

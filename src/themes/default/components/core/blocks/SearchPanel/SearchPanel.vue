@@ -2,7 +2,7 @@
   <div class="searchpanel fixed mw-100 bg-white c-black" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 close c-black" @click="closeSearchpanel">close</i>
+        <i class="material-icons p15 pointer c-black" @click="closeSearchpanel">close</i>
       </div>
     </div>
     <div class="col-md-12 end-xs">
@@ -84,10 +84,6 @@ export default {
     display: inline-block;
     width: calc(100% - 40px);
   }
-}
-
-.close {
-  cursor: pointer;
 }
 
 i {

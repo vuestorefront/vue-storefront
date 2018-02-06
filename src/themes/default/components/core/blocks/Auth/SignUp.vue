@@ -1,6 +1,6 @@
 <template>
   <div class="sign-up mb20 fixed bg-white h4">
-    <i class="material-icons p15 absolute close c-gray" @click="closeSignUp">close</i>
+    <i class="material-icons p15 absolute close pointer c-gray" @click="closeSignUp">close</i>
     <login v-if="activeElem === 'login'" />
     <register v-if="activeElem === 'register'" />
     <forgot-pass v-if="activeElem === 'forgot-pass'" />
@@ -49,6 +49,5 @@ export default {
   .close {
     right: 0;
     top: 0;
-    cursor: pointer;
   }
 </style>
