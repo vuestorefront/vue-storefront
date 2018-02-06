@@ -172,6 +172,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray: map-get($colors, lightgray);
+
   header {
     height: 54px;
     top: -54px;
@@ -182,7 +185,7 @@ export default {
     opacity: 0.6;
   }
   .icon:hover {
-    background-color: #F2F2F2;
+    background-color: $lightgray;
     opacity: 1;
   }
   .header-placeholder {

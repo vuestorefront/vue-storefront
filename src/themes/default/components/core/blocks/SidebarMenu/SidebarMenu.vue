@@ -170,10 +170,13 @@ ul {
 </style>
 
 <style lang="scss">
+@import '~theme/css/global_vars';
+$lightgray: map-get($colors, lightgray);
+
 .sidebar-menu {
   li {
     &:hover {
-      background-color: #F2F2F2;
+      background-color: $lightgray;
     }
   }
 

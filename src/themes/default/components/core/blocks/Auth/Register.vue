@@ -184,17 +184,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+  $gray: map-get($colors, gray);
+  $black: map-get($colors, black);
+
   input::-webkit-input-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
 
   input:-moz-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
 
   input:focus {
     outline: none;
-    border-color: black;
+    border-color: $black;
     transition: 0.3s all;
   }
 
@@ -203,7 +208,7 @@ export default {
     top: 10px;
 
     &:hover {
-      color: #8E8E8E;
+      color: $gray;
     }
   }
 

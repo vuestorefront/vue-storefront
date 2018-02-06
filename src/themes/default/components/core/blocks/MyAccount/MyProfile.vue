@@ -317,11 +317,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $black: map-get($colors, black);
+  $gray: map-get($colors, gray);
+
   .pass-container {
     input[type=password], input[type=text] {
       &:focus {
         outline: none;
-        border-color: black;
+        border-color: $black;
         transition: 0.3s all;
       }
     }
@@ -331,7 +335,7 @@ export default {
       top: 10px;
 
       &:hover {
-        color: #8E8E8E;
+        color: $gray;
       }
     }
   }

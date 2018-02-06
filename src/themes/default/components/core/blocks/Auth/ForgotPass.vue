@@ -108,6 +108,7 @@ export default {
 <style lang="scss" scoped>
   @import '~theme/css/global_vars';
   $lightgray-secondary: map-get($colors, lightgray-secondary);
+  $black: map-get($colors, black);
 
   input::-webkit-input-placeholder {
     color: $lightgray-secondary;
@@ -119,7 +120,7 @@ export default {
 
   input:focus {
     outline: none;
-    border-color: #000000;
+    border-color: $black;
     transition: 0.3s all;
   }
 
