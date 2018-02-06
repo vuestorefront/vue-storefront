@@ -18,7 +18,7 @@
     <div class="col-md-12 product-listing pl35 pt20 row">
       <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in products" :product="product"/>
       <transition name="fade">
-        <div v-if="emptyResults" class="no-results relative center-xs h4">No results were found.</div>
+        <div v-if="!emptyResults" class="no-results relative center-xs h4">No results were found.</div>
       </transition>
     </div>
   </div>
@@ -70,7 +70,7 @@ export default {
     transform: translateX(0)
   }
 
-  .product{
+  .product {
     width: 30%;
     padding: 10px;
   }
@@ -79,9 +79,8 @@ export default {
     width: calc(100% - 40px);
   }
 
-  .no-results{
+  .no-results {
     top: 80px;
-    display: inline-block;
     width: calc(100% - 40px);
   }
 }

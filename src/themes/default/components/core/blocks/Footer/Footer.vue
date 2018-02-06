@@ -157,7 +157,6 @@ export default {
   }
 
   .social-icon {
-    display: inline-block;
     width: 40px;
     height: 40px;
     &:hover,
