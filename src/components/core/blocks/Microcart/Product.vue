@@ -6,7 +6,6 @@
 
 <script>
 import AddToCart from 'src/components/core/AddToCart.vue'
-import { thumbnail } from 'src/lib/filters'
 
 export default {
   name: 'Product',
@@ -18,7 +17,7 @@ export default {
   },
   computed: {
     thumbnail () {
-      return thumbnail(this.product.image, 150, 150)
+      return this.getThumbnail(this.product.image, 150, 150)
     }
   },
   components: {

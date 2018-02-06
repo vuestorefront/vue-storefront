@@ -12,8 +12,8 @@ export default {
   name: 'SubBtn',
   props: {
     id: {
-      type: [String, Number],
-      required: true
+      type: null,
+      default: ''
     },
     type: {
       type: String,

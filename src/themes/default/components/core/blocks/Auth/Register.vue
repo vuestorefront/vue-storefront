@@ -12,6 +12,7 @@
             name="email"
             ref="email"
             v-model="email"
+            autocomplete="email"
             placeholder="E-mail address *"
           >
           <span class="validation-error h6 c-red" v-if="!$v.email.required">Field is required.</span>
@@ -24,6 +25,7 @@
               type="text"
               name="fist-name"
               v-model="firstName"
+              autocomplete="given-name"
               placeholder="First name *"
             >
             <span class="validation-error h6 c-red" v-if="!$v.firstName.required">Field is required.</span>
@@ -34,6 +36,7 @@
               type="text"
               name="last-name"
               v-model="lastName"
+              autocomplete="family-name"
               placeholder="Last name *"
             >
             <span class="validation-error h6 c-red" v-if="!$v.lastName.required">Field is required.</span>
@@ -45,6 +48,7 @@
             name="password"
             v-model="password"
             :type="passType.pass"
+            autocomplete="new-password"
             placeholder="Password *"
           >
           <i class="icon material-icons absolute c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
@@ -56,6 +60,7 @@
             name="password-confirm"
             v-model="rPassword"
             :type="passType.repeatPass"
+            autocomplete="new-password"
             placeholder="Repeat password *"
           >
           <i class="icon material-icons absolute c-alto" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>

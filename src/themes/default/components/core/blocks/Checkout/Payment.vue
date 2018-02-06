@@ -184,7 +184,7 @@
             </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="payment.phoneNumber">
+            <input type="text" name="phone-number" autocomplete="tel" placeholder="Phone Number" v-model.trim="payment.phoneNumber">
           </div>
           <div class="col-xs-12 col-sm-12 mb15">
             <div class="checkboxStyled">
