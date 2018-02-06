@@ -1,22 +1,22 @@
 <template>
   <div>
     <div class="brdr-bottom brdr-c-lightgray-secondary pb60">
-      <h3 class="c-black ml30 mt50 summary-title">Order Summary</h3>
+      <h3 class="c-darkgray ml30 mt50 summary-title">Order Summary</h3>
       <product v-for="product in items" :key="product.id" :product="product" />
-      <div v-if="items.length" class="checkout bg-lightgray pt10 serif c-black">
+      <div v-if="items.length" class="checkout bg-lightgray pt10 serif c-darkgray">
         <div class="row pt15 pb20 pl30 pr55 ">
-          <div class="col-xs c-black">
+          <div class="col-xs c-darkgray">
             Shipping ({{ shipping.name }})
           </div>
-          <div class="col-xs align-right c-black h4">
+          <div class="col-xs align-right c-darkgray h4">
             {{ shipping.costInclTax | price }}
           </div>
         </div>
         <div class="row pt15 pb20 pl30 pr55 ">
-          <div class="col-xs c-black">
+          <div class="col-xs c-darkgray">
             Payment ({{ payment.name }})
           </div>
-          <div class="col-xs align-right c-black" v-if="payment.costInclTax > 0">
+          <div class="col-xs align-right c-darkgray" v-if="payment.costInclTax > 0">
             {{ payment.costInclTax | price }}
           </div>
         </div>

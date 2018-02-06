@@ -65,7 +65,7 @@
               </div>
             </div>
             <template v-else>
-              <h4 class="c-black ml30">You have no items to compare.</h4>
+              <h4 class="c-darkgray ml30">You have no items to compare.</h4>
             </template>
           </div>
         </div>

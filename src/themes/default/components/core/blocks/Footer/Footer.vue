@@ -6,7 +6,7 @@
         <div class="row center-xs">
           <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">
             <div>
-              <h3 class="c-black weight-400">Departments</h3>
+              <h3 class="c-darkgray weight-400">Departments</h3>
               <div class="mt15">
                 <router-link class="c-gray-secondary" to="/c/women-20" exact>Women fashion</router-link>
               </div>
@@ -21,7 +21,7 @@
               </div>
             </div>
             <div>
-              <h3 class="c-black weight-400">Orders</h3>
+              <h3 class="c-darkgray weight-400">Orders</h3>
               <div class="mt15">
                 <router-link class="c-gray-secondary" to="/order-tracking" exact>Track my order</router-link>
               </div>
@@ -36,7 +36,7 @@
               </div>
             </div>
             <div>
-              <h3 class="c-black weight-400">Help</h3>
+              <h3 class="c-darkgray weight-400">Help</h3>
               <div class="mt15">
                 <router-link class="c-gray-secondary" to="/customer-service" exact>Customer service</router-link>
               </div>
@@ -48,7 +48,7 @@
               </div>
             </div>
             <div>
-              <h3 class="c-black weight-400">About us</h3>
+              <h3 class="c-darkgray weight-400">About us</h3>
               <div class="mt15">
                 <router-link class="c-gray-secondary" to="/about-us" exact>About us</router-link>
               </div>

@@ -1,12 +1,12 @@
 <template>
-  <div class="wishlist fixed mw-100 bg-white c-black" :class="{ active: isOpen }">
+  <div class="wishlist fixed mw-100 bg-white c-darkgray" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 pointer c-black" @click="closeWishlist">close</i>
+        <i class="material-icons p15 pointer c-darkgray" @click="closeWishlist">close</i>
       </div>
     </div>
-    <h2 v-if="items.length" class="c-black ml30">Wishlist</h2>
-    <h4 v-if="!items.length" class="c-black ml30">Your wishlist is empty.</h4>
+    <h2 v-if="items.length" class="c-darkgray ml30">Wishlist</h2>
+    <h4 v-if="!items.length" class="c-darkgray ml30">Your wishlist is empty.</h4>
     <div v-if="!items.length" class="ml30">
       Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for you!
     </div>

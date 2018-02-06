@@ -1,7 +1,7 @@
 <template>
   <div class="button-outline uppercase px40 py15" tabindex="0" :class="{
     light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-    dark : color === 'dark', 'brdr-black' : color === 'dark', 'c-gray-secondary' : color === 'dark'
+    dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'c-gray-secondary' : color === 'dark'
   }">
     {{ text }}
   </div>

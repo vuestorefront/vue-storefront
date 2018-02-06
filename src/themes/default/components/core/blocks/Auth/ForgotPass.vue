@@ -106,12 +106,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+
   input::-webkit-input-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
 
   input:-moz-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
 
   input:focus {

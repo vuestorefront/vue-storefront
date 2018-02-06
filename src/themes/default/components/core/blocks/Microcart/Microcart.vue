@@ -1,27 +1,27 @@
 <template>
   <div
-    class="microcart mw-100 fixed c-black"
+    class="microcart mw-100 fixed c-darkgray"
     :class="[items.length ? 'bg-lightgray' : 'bg-white', { active: isOpen }]"
   >
     <div class="row middle-xs bg-white top-sm">
       <div class="col-xs-10">
         <h2
           v-if="items.length"
-          class="c-black mt60 mb35 ml40 heading"
+          class="c-darkgray mt60 mb35 ml40 heading"
         >
           Shopping cart
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
         <button type="button" class="p0 brdr-none bg-transparent">
-          <i class="material-icons p15 close c-black" @click="closeMicrocart">
+          <i class="material-icons p15 close c-darkgray" @click="closeMicrocart">
             close
           </i>
         </button>
       </div>
     </div>
 
-    <h4 v-if="!items.length" class="c-black ml30">
+    <h4 v-if="!items.length" class="c-darkgray ml30">
       Your shopping cart is empty.
     </h4>
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
@@ -30,7 +30,7 @@
     <ul v-if="items.length" class="bg-white m0 px40 pb40 products">
       <product v-for="product in items" :key="product.sku" :product="product" />
     </ul>
-    <div v-if="items.length" class="summary px40 c-black serif">
+    <div v-if="items.length" class="summary px40 c-darkgray serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         Shopping summary
       </h3>
@@ -80,7 +80,7 @@
       </div>
       <div class="col-xs-12 first-xs col-sm end-sm">
         <router-link
-          class="no-underline inline-flex h4 checkout-button bg-black link checkout"
+          class="no-underline inline-flex h4 checkout-button bg-darkgray link checkout"
           :to="{ name: 'checkout' }"
         >
           <span

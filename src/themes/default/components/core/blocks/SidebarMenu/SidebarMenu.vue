@@ -18,7 +18,7 @@
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li @click="closeMenu" class="brdr-bottom brdr-c-lightgray bg-white">
-            <router-link class="block px25 py20 c-black no-underline" to="/" exact>Home</router-link>
+            <router-link class="block px25 py20 c-darkgray no-underline" to="/" exact>Home</router-link>
           </li>
           <li
             class="brdr-bottom brdr-c-lightgray bg-white flex"
@@ -28,7 +28,7 @@
             v-if="category.product_count > 0 || category.children_data.length > 0"
           >
             <router-link
-              class="px25 py20 c-black no-underline col-xs"
+              class="px25 py20 c-darkgray no-underline col-xs"
               :to="{ name: 'category', params: { id: category.id, slug: category.slug }}"
             >
               {{ category.name }}
@@ -37,27 +37,27 @@
             <sub-category :category-links="category.children_data" :id="category.id"/>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/magazine" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/magazine" exact>
               Magazine
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/sale" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/sale" exact>
               Sale
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-black no-underline" to="/order-tracking" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/order-tracking" exact>
               Track my order
             </router-link>
           </li>
           <li @click="closeMenu" class="brdr-bottom brdr-c-alto flex">
-            <router-link v-if="currentUser" class="block px25 py20 c-black no-underline col-xs" to="/my-account" exact>
+            <router-link v-if="currentUser" class="block px25 py20 c-darkgray no-underline col-xs" to="/my-account" exact>
               My account
             </router-link>
             <sub-btn v-if="currentUser" class="flex-end center-self"/>
             <sub-category v-if="currentUser" :my-account-links="myAccountLinks" :id="'foo'"/>
-            <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 c-black no-underline">My account</a>
+            <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 c-darkgray no-underline">My account</a>
           </li>
         </ul>
       </div>

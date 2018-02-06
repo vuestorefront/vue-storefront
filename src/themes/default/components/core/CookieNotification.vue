@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div class="cookie bg-black c-lightgray-secondary" v-if="isOpen">
+    <div class="cookie bg-darkgray c-lightgray-secondary" v-if="isOpen">
       <div class="container">
         <div class="row between-xs middle-xs px15">
           <div class="col-xs-10 start-xs">
