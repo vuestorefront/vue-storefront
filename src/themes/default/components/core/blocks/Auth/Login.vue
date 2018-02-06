@@ -6,12 +6,12 @@
     <div class="py35 px65 bg-white c-gray">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
-          <input type="email" name="email" ref="email" v-model="email" placeholder="E-mail address *">
+          <input type="email" name="email" ref="email" v-model="email" autocomplete="email" placeholder="E-mail address *">
           <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
           <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
         <div class="mb35 pass-container">
-          <input :type="passType" name="password" v-model="password" placeholder="Password *">
+          <input :type="passType" name="password" v-model="password" autocomplete="current-password" placeholder="Password *">
           <i class="icon material-icons c-alto" @click="togglePassType">{{ iconName }}</i>
           <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
         </div>

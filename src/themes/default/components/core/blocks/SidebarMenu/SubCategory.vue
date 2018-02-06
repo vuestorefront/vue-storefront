@@ -32,8 +32,9 @@ export default {
       required: true
     },
     categoryLinks: {
-      type: Array,
-      required: true
+      type: null,
+      required: false,
+      default: () => []
     },
     myAccountLinks: {
       type: Array,
