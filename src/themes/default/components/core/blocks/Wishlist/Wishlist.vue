@@ -1,5 +1,5 @@
 <template>
-  <div class="wishlist bg-white c-black" :class="{ active: isOpen }">
+  <div class="wishlist fixed bg-white c-black" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 close c-black" @click="closeWishlist">close</i>
@@ -7,7 +7,9 @@
     </div>
     <h2 v-if="items.length" class="c-black ml30">Wishlist</h2>
     <h4 v-if="!items.length" class="c-black ml30">Your wishlist is empty.</h4>
-    <div v-if="!items.length" class="ml30">Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for you!</div>
+    <div v-if="!items.length" class="ml30">
+      Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for you!
+    </div>
     <ul class="products">
       <product @click.native="closeWishlist" v-for="product in items" :key="product.id" :product="product" />
     </ul>
@@ -34,7 +36,6 @@ export default {
     top: 0;
     right: 0;
     max-width: 100%;
-    position: fixed;
     z-index: 3;
     transform: translateX(100%);
     transition: transform 300ms $motion-main;
