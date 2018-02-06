@@ -7,7 +7,7 @@
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
-            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
             type="email"
             name="email"
             ref="email"
@@ -19,7 +19,7 @@
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
             :type="passType"
             name="password"
             v-model="password"

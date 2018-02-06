@@ -7,7 +7,7 @@
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
           <input
-            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
             type="email"
             name="email"
             ref="email"
@@ -21,7 +21,7 @@
         <div class="row mb35">
           <div class="col-xs-6">
             <input
-              class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+              class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
               type="text"
               name="fist-name"
               v-model="firstName"
@@ -32,7 +32,7 @@
           </div>
           <div class="col-xs-6">
             <input
-              class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+              class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
               type="text"
               name="last-name"
               v-model="lastName"
@@ -44,7 +44,7 @@
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
             name="password"
             v-model="password"
             :type="passType.pass"
@@ -56,7 +56,7 @@
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
             name="password-confirm"
             v-model="rPassword"
             :type="passType.repeatPass"
