@@ -93,40 +93,6 @@ export default {
     text-decoration: underline;
   }
 
-  .checkboxStyled {
-    width: 23px;
-    display: inline-block;
-
-    label {
-      top: 0;
-      left: 0;
-      width: 23px;
-      height: 23px;
-
-      &:after {
-        content: '';
-        position: absolute;
-        width: 11px;
-        height: 5px;
-        background: transparent;
-        top: 6px;
-        left: 5px;
-        border: 3px solid #F2F2F2;
-        border-top: none;
-        border-right: none;
-        transform: rotate(-45deg);
-      }
-    }
-
-    input[type=checkbox]:checked + label {
-      background: #8E8E8E;
-    }
-  }
-
-  .checkboxText {
-    display: inline-block;
-  }
-
   .cartsummary-wrapper {
     @media (min-width: 767px) {
       display: none;
