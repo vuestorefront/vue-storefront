@@ -1,6 +1,6 @@
 <template>
   <div
-    class="microcart fixed c-black"
+    class="microcart mw-100 fixed c-black"
     :class="[items.length ? 'bg-lightgray' : 'bg-white', { active: isOpen }]"
   >
     <div class="row middle-xs bg-white top-sm">
@@ -117,7 +117,6 @@ export default {
     height: 100%;
     width: 800px;
     min-width: 320px;
-    max-width: 100%;
     transform: translateX(100%);
     transition: transform 300ms $motion-main;
     overflow-y: auto;
@@ -160,10 +159,6 @@ export default {
         &.checkout {
           margin-top: 55px;
           padding: 0;
-        }
-        div {
-          width: 100%;
-          text-align: center;
         }
       }
     }

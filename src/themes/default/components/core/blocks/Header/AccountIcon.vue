@@ -12,12 +12,12 @@
           {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
         </p>
         <hr>
-        <div class="section-wrapper">
+        <div class="section-wrapper w-100">
           <router-link class="no-underline" :to="{ name: 'my-account' }">
             {{ $t('My account') }}
           </router-link>
         </div>
-        <div class="section-wrapper">
+        <div class="section-wrapper w-100">
           <a href="#" class="no-underline" @click.stop="clickLogout">
             {{ $t('Logout') }}
           </a>
@@ -85,7 +85,6 @@ export default {
 
       .section-wrapper {
         display: table;
-        width: 100%;
 
         .no-underline {
           display: table-cell;

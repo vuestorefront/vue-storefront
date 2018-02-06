@@ -1,9 +1,9 @@
 <template>
-  <section class="main-slider bg-darkgray c-white">
+  <section class="main-slider w-100 bg-darkgray c-white">
     <no-ssr>
       <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
         <slide v-for="(slide, index) in slides" :key="index">
-          <div class="container" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
+          <div class="container w-100" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
             <div class="row middle-xs center-xs">
               <div class="col-md-12 px10p">
                 <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
@@ -55,11 +55,9 @@ h1 {
   font-size: 72px;
 }
 .main-slider {
-  width: 100%;
   height: 640px;
 }
 .container {
-  width: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu fixed bg-lightgray" :class="{ active: isOpen }">
+  <div class="sidebar-menu fixed mw-100 bg-lightgray" :class="{ active: isOpen }">
     <div class="row between-xs">
       <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-c-lightgray">
         <sub-btn type="back" v-if="submenu.depth" />
@@ -149,7 +149,6 @@ ul {
 .sidebar-menu {
   height: 100vh;
   width: 350px;
-  max-width: 100%;
   top: 0;
   left: 0;
   overflow: hidden;

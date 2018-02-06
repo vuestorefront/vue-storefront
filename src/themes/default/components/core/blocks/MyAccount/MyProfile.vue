@@ -63,7 +63,7 @@
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container relative mr35">
           <input
-            class="pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
             name="old-password"
             v-model="oldPassword"
             :type="passType.oldPass"
@@ -81,7 +81,7 @@
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container relative mr35">
           <input
-            class="pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
             name="password"
             v-model="password"
             :type="passType.pass"
@@ -98,7 +98,7 @@
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container relative mr35">
           <input
-            class="pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
             name="password-confirm"
             v-model="rPassword"
             :type="passType.repeatPass"
@@ -314,8 +314,6 @@ export default {
 <style lang="scss" scoped>
   .pass-container {
     input[type=password], input[type=text] {
-      width: 100%;
-
       &:focus {
         outline: none;
         border-color: black;

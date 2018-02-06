@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="fixed brdr-bottom bg-white brdr-c-alto"
+      class="fixed w-100 brdr-bottom bg-white brdr-c-alto"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
@@ -175,7 +175,6 @@ export default {
   header {
     height: 54px;
     top: -54px;
-    width: 100%;
     z-index: 2;
     transition: top 0.2s ease-in-out;
   }

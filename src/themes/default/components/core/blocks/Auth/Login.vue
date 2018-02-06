@@ -7,7 +7,7 @@
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
-            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
             type="email"
             name="email"
             ref="email"
@@ -19,7 +19,7 @@
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
             :type="passType"
             name="password"
             v-model="password"
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="mb20">
-          <button-full class="btn-full border-box p0 center-xs" text="Log in to your account" @click.native="login"/>
+          <button-full class="w-100 border-box p0 center-xs" text="Log in to your account" @click.native="login"/>
         </div>
         <input class="hidden" type="submit">
         <div class="center-xs">
@@ -144,10 +144,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  input[type=password], input[type=email] {
-    width: 100%;
-  }
-
   input::-webkit-input-placeholder {
     color: #BDBDBD;
   }
@@ -160,10 +156,6 @@ export default {
     outline: none;
     border-color: black;
     transition: 0.3s all;
-  }
-
-  .btn-full {
-    width: 100%;
   }
 
   .icon {

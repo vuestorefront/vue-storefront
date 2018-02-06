@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu absolute p0 bg-white" :style="styles">
+    <ul v-if="categoryLinks" class="sidebar-submenu absolute w-100 p0 bg-white" :style="styles">
       <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.slug" v-for="link in categoryLinks">
         <router-link
           class="px25 py20 c-black no-underline col-xs"
@@ -72,7 +72,6 @@ export default {
     left: 0;
     top: 0;
     min-height: 100%;
-    width: 100%;
     transform: translateX(-100%);
   }
 </style>

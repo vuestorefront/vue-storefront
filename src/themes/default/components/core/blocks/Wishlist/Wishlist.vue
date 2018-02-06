@@ -1,5 +1,5 @@
 <template>
-  <div class="wishlist fixed bg-white c-black" :class="{ active: isOpen }">
+  <div class="wishlist fixed mw-100 bg-white c-black" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 close c-black" @click="closeWishlist">close</i>
@@ -35,7 +35,6 @@ export default {
     width: 800px;
     top: 0;
     right: 0;
-    max-width: 100%;
     z-index: 3;
     transform: translateX(100%);
     transition: transform 300ms $motion-main;
