@@ -10,7 +10,7 @@
             <p class="mb45">Enter your email to receive instructions on how to reset your password.</p>
             <input
               ref="email"
-              class="brdr-none brdr-bottom brdr-c-lightgray-secondary py10 h4 weight-200 roboto"
+              class="brdr-none brdr-bottom brdr-c-lightgray-secondary border-box py10 h4 weight-200 roboto"
               type="email"
               name="email"
               v-model="email"
@@ -107,7 +107,6 @@ export default {
 
 <style lang="scss" scoped>
   input[type=email] {
-    box-sizing: border-box;
     width: 100%;
   }
 

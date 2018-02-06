@@ -7,7 +7,7 @@
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
-            class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
             type="email"
             name="email"
             ref="email"
@@ -19,7 +19,7 @@
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
             :type="passType"
             name="password"
             v-model="password"
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="mb20">
-          <button-full class="btn-full p0 center-xs" text="Log in to your account" @click.native="login"/>
+          <button-full class="btn-full border-box p0 center-xs" text="Log in to your account" @click.native="login"/>
         </div>
         <input class="hidden" type="submit">
         <div class="center-xs">
@@ -145,7 +145,6 @@ export default {
 
 <style lang="scss" scoped>
   input[type=password], input[type=email] {
-    box-sizing: border-box;
     width: 100%;
   }
 
@@ -164,7 +163,6 @@ export default {
   }
 
   .btn-full {
-    box-sizing: border-box;
     width: 100%;
   }
 

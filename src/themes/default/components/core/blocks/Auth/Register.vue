@@ -7,7 +7,7 @@
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
           <input
-            class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
             type="email"
             name="email"
             ref="email"
@@ -21,7 +21,7 @@
         <div class="row mb35">
           <div class="col-xs-6">
             <input
-              class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+              class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
               type="text"
               name="fist-name"
               v-model="firstName"
@@ -32,7 +32,7 @@
           </div>
           <div class="col-xs-6">
             <input
-              class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+              class="py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
               type="text"
               name="last-name"
               v-model="lastName"
@@ -44,7 +44,7 @@
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 pr30 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
             name="password"
             v-model="password"
             :type="passType.pass"
@@ -56,7 +56,7 @@
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 pr30 brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
+            class="py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 roboto"
             name="password-confirm"
             v-model="rPassword"
             :type="passType.repeatPass"
@@ -72,7 +72,7 @@
           <span class="validation-error h6 c-red" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
         </div>
         <div class="mb20">
-          <button-full class="btn-full center-xs" text="Register an account" @click.native="register"/>
+          <button-full class="btn-full border-box center-xs" text="Register an account" @click.native="register"/>
         </div>
         <input class="hidden" type="submit">
         <div class="center-xs">
@@ -185,7 +185,6 @@ export default {
 </script>
 <style lang="scss" scoped>
   input[type=password], input[type=email], input[type=text] {
-    box-sizing: border-box;
     width: 100%;
   }
 
@@ -204,7 +203,6 @@ export default {
   }
 
   .btn-full {
-    box-sizing: border-box;
     width: 100%;
   }
 
