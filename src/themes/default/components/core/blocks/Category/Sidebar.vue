@@ -31,7 +31,7 @@
       <price-button
         context="category"
         :attribute_code="price"
-        class="price-select mb10"
+        class="price-select mb10 block"
         code="price"
         v-for="(price, index) in filters.price"
         :key="index"
@@ -61,9 +61,3 @@ export default {
   mixins: [coreComponent('core/blocks/Category/Sidebar')]
 }
 </script>
-
-<style scoped>
-.price-select {
-  display: block;
-}
-</style>

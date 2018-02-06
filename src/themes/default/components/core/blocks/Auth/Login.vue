@@ -14,8 +14,8 @@
             v-model="email"
             placeholder="E-mail address *"
           >
-          <span class="validation-error h6 c-red" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error h6 c-red" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.required">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
         <div class="mb35 relative">
           <input
@@ -26,7 +26,7 @@
             placeholder="Password *"
           >
           <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error h6 c-red" v-if="!$v.password.required">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="row">
           <div class="col-xs-6 mb35">
@@ -165,9 +165,5 @@ export default {
     &:hover {
       color: #8E8E8E;
     }
-  }
-
-  .validation-error {
-    display: block;
   }
 </style>

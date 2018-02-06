@@ -6,7 +6,7 @@
     @mouseout="hideDropdown"
   >
     <div class="dropdown relative">
-      <i class="material-icons md-18">account_circle</i>
+      <i class="material-icons md-18 block">account_circle</i>
       <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
         <p>
           {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
@@ -67,10 +67,6 @@ export default {
   @import '~theme/css/global_vars';
 
   .dropdown {
-    i {
-      display: block;
-    }
-
     .dropdown-content {
       display: none;
       position: absolute;
