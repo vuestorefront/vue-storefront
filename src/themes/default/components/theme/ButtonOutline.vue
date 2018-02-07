@@ -35,6 +35,9 @@ $gray-secondary: map-get($colors, gray-secondary);
 $white: map-get($colors, white);
 $black: map-get($colors, black);
 
+.button-outline {
+  border: 2px solid;
+}
 .dark {
   font-weight: 200;
   border: 1px solid $gray-secondary;

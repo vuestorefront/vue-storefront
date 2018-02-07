@@ -33,7 +33,3 @@ export default {
   mixins: [Meta]
 }
 </script>
-
-<style scoped>
-
-</style>
