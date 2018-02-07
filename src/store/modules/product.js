@@ -75,7 +75,7 @@ function doPlatformPricesSync (products) {
 
       let skus = products.map((p) => { return p.sku })
 
-      if (products.length === 1) {  // single product - download child data
+      if (products.length === 1) { // single product - download child data
         const childSkus = _.flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
         skus = _.union(skus, childSkus)
       }

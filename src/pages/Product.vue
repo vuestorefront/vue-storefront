@@ -190,10 +190,10 @@ export default {
       if (product.sku === this.product.sku) {
       // join selected variant object to the store
         this.$store.dispatch('product/setCurrent', product)
-        .catch(err => console.error({
-          info: 'Dispatch product/setCurrent in Product.vue',
-          err
-        }))
+          .catch(err => console.error({
+            info: 'Dispatch product/setCurrent in Product.vue',
+            err
+          }))
       }
     })
     this.$bus.$on('filter-changed-product', filterChanged.bind(this))
