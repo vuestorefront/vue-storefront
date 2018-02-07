@@ -15,7 +15,7 @@
       "preventConfigurableChildrenDirectAccess": true,
       "alwaysSyncPlatformPricesOver": false,
       "clearPricesBeforePlatformSync": false,
-      "waitForPlatformSync": true,
+      "waitForPlatformSync": false,
       "endpoint": "http://localhost:8080/api/product"
     },
     "orders": {
