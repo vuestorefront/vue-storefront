@@ -1,5 +1,5 @@
 <template>
-  <div class='order-review'>
+  <div class="order-review">
     Core order review
   </div>
 </template>
@@ -7,8 +7,13 @@
 <script>
 import i18n from 'lib/i18n'
 export default {
-  name: 'order-review',
-  props: ['isActive'],
+  name: 'OrderReview',
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    }
+  },
   data () {
     return {
       isFilled: false,

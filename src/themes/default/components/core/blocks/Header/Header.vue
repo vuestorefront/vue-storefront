@@ -55,8 +55,7 @@
         </div>
       </div>
     </header>
-    <div class="header-placeholder">
-    </div>
+    <div class="header-placeholder"/>
   </div>
 </template>
 

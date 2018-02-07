@@ -6,5 +6,4 @@ const routes = [
 
 export default function (app, router, store) {
   router.addRoutes(routes)
-  return
 }

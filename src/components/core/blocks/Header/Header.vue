@@ -1,15 +1,15 @@
 <template>
   <header>
-      Core Header
-      <!-- Components that can be included by default from mixin -->
-      <logo />
-      <search-icon />
-      <microcart-icon />
-      <hamburger-icon />
-      <return-icon />
-      <wishlist-icon />
-      <compare-icon />
-      <account-icon />
+    Core Header
+    <!-- Components that can be included by default from mixin -->
+    <logo />
+    <search-icon />
+    <microcart-icon />
+    <hamburger-icon />
+    <return-icon />
+    <wishlist-icon />
+    <compare-icon />
+    <account-icon />
   </header>
 </template>
 
@@ -25,7 +25,7 @@ import WishlistIcon from './WishlistIcon.vue'
 import CompareIcon from './CompareIcon.vue'
 
 export default {
-  name: 'main-header',
+  name: 'MainHeader',
   components: {
     AccountIcon,
     Logo,

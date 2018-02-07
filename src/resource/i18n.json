@@ -44,6 +44,9 @@
       "Add to compare": "Add to compare",
       "Product details": "Product details",
       "Filters": "Filters",
-      "Product price is unknown, product cannot be added to the cart!": "Product price is unknown, product cannot be added to the cart!"
+      "Product price is unknown, product cannot be added to the cart!": "Product price is unknown, product cannot be added to the cart!",
+      "You're logged in as ": "You're logged in as ",
+      "My account": "My account",
+      "Logout": "Logout"
     }
 }  

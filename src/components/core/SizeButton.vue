@@ -15,7 +15,28 @@
 
 <script>
 export default {
-  name: 'size-button',
-  props: ['label', 'id', 'code', 'context']
+  name: 'SizeButton',
+  props: {
+    label: {
+      type: null,
+      required: false,
+      default: () => false
+    },
+    id: {
+      type: null,
+      required: false,
+      default: () => false
+    },
+    code: {
+      type: null,
+      required: false,
+      default: () => false
+    },
+    context: {
+      type: null,
+      required: false,
+      default: () => false
+    }
+  }
 }
 </script>

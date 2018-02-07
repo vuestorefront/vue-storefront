@@ -4,7 +4,7 @@
     <overlay />
     <wishlist />
     <main-header />
-    <router-view />    
+    <router-view />
     <main-footer />
   </div>
 </template>
@@ -29,4 +29,3 @@ export default {
 </script>
 
 <style lang="scss" src="./css/main.scss">
-

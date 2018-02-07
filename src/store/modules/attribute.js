@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-const bodybuilder = require('bodybuilder')
+import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { quickSearchByQuery } from '../../api/search'
 

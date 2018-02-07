@@ -3,7 +3,7 @@
     Core Wishlist
     <!-- Items in wishlist -->
     <ul>
-      <li v-for='product in items'>
+      <li v-for="(product, index) in items" :key="index">
         {{ product.name | htmlDecode }}
         {{ product.priceInclTax }}
       </li>
@@ -16,7 +16,13 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Wishlist',
-  props: ['product'],
+  props: {
+    product: {
+      type: Object,
+      required: false,
+      default: () => {}
+    }
+  },
   created () {
     this.$store.dispatch('wishlist/load') // Load wishlist from the indexedDb
   },

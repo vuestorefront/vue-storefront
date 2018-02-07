@@ -1,31 +1,31 @@
 <template>
   <div id="home">
-  <main-slider />
+    <main-slider />
 
-  <promoted-offers></promoted-offers>
+    <promoted-offers/>
 
-  <section class="new-collection container px15">
-    <div>
-      <header class="col-md-12">
-        <h2 class="align-center c-black">{{ $t('Everything new') }}</h2>
-      </header>
-    </div>
-    <div class="row center-xs">
-      <product-listing columns="4" :products="everythingNewCollection" />
-    </div>
-  </section>
+    <section class="new-collection container px15">
+      <div>
+        <header class="col-md-12">
+          <h2 class="align-center c-black">{{ $t('Everything new') }}</h2>
+        </header>
+      </div>
+      <div class="row center-xs">
+        <product-listing columns="4" :products="everythingNewCollection" />
+      </div>
+    </section>
 
-  <collection title="New Luma Yoga Collection" coverImage="/assets/collection.jpg" category="Women"></collection>
+    <collection title="New Luma Yoga Collection" cover-image="/assets/collection.jpg" category="Women"/>
 
-  <section class="container pb60">
-    <div class="row center-xs">
-      <header class="col-md-12 pt40">
-        <h2 class="align-center c-black">{{ $t('Get inspired') }}</h2>
-      </header>
-    </div>
-    <tile-links />
-  </section>
-  <Onboard/>
+    <section class="container pb60">
+      <div class="row center-xs">
+        <header class="col-md-12 pt40">
+          <h2 class="align-center c-black">{{ $t('Get inspired') }}</h2>
+        </header>
+      </div>
+      <tile-links />
+    </section>
+    <Onboard/>
   </div>
 </template>
 

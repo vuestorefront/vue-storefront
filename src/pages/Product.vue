@@ -1,5 +1,5 @@
 <template>
-  <div id='product'>
+  <div id="product">
     Core Product
   </div>
 </template>
@@ -8,7 +8,6 @@
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
-import { thumbnail } from 'src/lib/filters'
 import EventBus from 'src/event-bus'
 import { mapGetters } from 'vuex'
 import config from 'config'
@@ -52,10 +51,10 @@ function filterChanged (filterOption) { // slection of product variant on produc
     //   }
     // })
   })
-  .catch(err => console.error({
-    info: 'Dispatch product/configure in Product.vue',
-    err
-  }))
+    .catch(err => console.error({
+      info: 'Dispatch product/configure in Product.vue',
+      err
+    }))
 }
 
 /**
@@ -215,9 +214,9 @@ export default {
     }),
     imgObj () {
       return {
-        src: thumbnail(this.product.image, 570, 569),
-        error: thumbnail(this.product.image, 310, 300),
-        loading: thumbnail(this.product.image, 310, 300)
+        src: this.getThumbnail(this.product.image, 570, 569),
+        error: this.getThumbnail(this.product.image, 310, 300),
+        loading: this.getThumbnail(this.product.image, 310, 300)
       }
     },
     all_custom_attributes () {

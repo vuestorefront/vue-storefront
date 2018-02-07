@@ -13,7 +13,10 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `config` - Config plugin allowing easier access to config file (will be moved in the near future)
   * `event-bus` - Global event bus for the project (available via `$this.$bus` - docs under construction)
   * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Alalytics) (docs under construction)
+  * `filters` - Global Vue filters for the project
+  * `helpers` - Global methods for the project
   * `lib` - Core libraries allowing functionalities like theme support, extensions or filters (this one will be moved to other place soon)
+  * `mixins` - Global mixins for the project
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
   * `pages` - Vue Storefront core pages (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `resource` - Data mocks used to develop new features

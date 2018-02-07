@@ -11,7 +11,7 @@
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
             <div class="uppercase c-gray-secondary">
-              sku: {{ product.sku}}
+              sku: {{ product.sku }}
             </div>
             <h1 class="mb20 mt0 c-black product-name">
               {{ product.name | htmlDecode }}
@@ -116,12 +116,12 @@
                   type="button"
                 >
                   <i class="pr5 material-icons">compare</i>
-                    <template v-if="!compare.isCompare">
-                     {{ $t('Add to compare') }}
-                    </template>
-                    <template v-else>
-                      {{ $t('Remove from compare') }}
-                    </template>
+                  <template v-if="!compare.isCompare">
+                    {{ $t('Add to compare') }}
+                  </template>
+                  <template v-else>
+                    {{ $t('Remove from compare') }}
+                  </template>
                 </button>
               </div>
             </div>
@@ -139,7 +139,7 @@
             <div
               class="lh30 c-gray-secondary"
               v-html="product.description"
-            ></div>
+            />
           </div>
           <div class="col-md-6">
             <ul class="attributes p0 pt10 m0">
@@ -148,14 +148,14 @@
                 v-for="attr in all_custom_attributes"
                 :product="product"
                 :attribute="attr"
-                emptyPlaceholder="N/A"
-              ></product-attribute>
+                empty-placeholder="N/A"
+              />
             </ul>
           </div>
           <div
             class="details-overlay"
             @click="showDetails"
-          ></div>
+          />
         </div>
       </div>
     </section>

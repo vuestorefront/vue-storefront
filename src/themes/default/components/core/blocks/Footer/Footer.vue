@@ -86,21 +86,31 @@
       </div>
     </div>
     <div class="container">
-      <div class="row middle-xs px15">
-        <div class="col-xs-4 col-sm-3 c-lightgray-secondary">
+      <div class="row middle-xs px15 bottom-links">
+        <div class="col-xs-5 col-sm-3 c-lightgray-secondary">
           United States (US)
         </div>
-        <div class="hidden-xs col-sm-9 end-xs">
-          <ul class="links">
-            <li><router-link class="c-lightgray-secondary mr15 underline" to="/legal" exact>Legal notice</router-link></li>
-            <li><router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link></li>
+        <div class="col-xs col-sm-9 end-xs">
+          <ul class="pl0 links">
+            <li>
+              <router-link
+                class="c-lightgray-secondary mr10 underline"
+                to="/legal"
+                exact
+              >
+                Legal notice
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                class="c-lightgray-secondary underline"
+                to="/privacy"
+                exact
+              >
+                Privacy policy
+              </router-link>
+            </li>
           </ul>
-        </div>
-        <div class="col-xs-4 legal-entity-link">
-          <router-link class="c-lightgray-secondary underline" to="/legal" exact>Legal notice</router-link>
-        </div>
-        <div class="col-xs-4 privacy-policy-link">
-          <router-link class="c-lightgray-secondary underline" to="/privacy" exact>Privacy policy</router-link>
         </div>
       </div>
     </div>
@@ -109,7 +119,6 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
-import i18n from 'lib/i18n'
 import Newsletter from './Newsletter.vue'
 
 export default {
@@ -132,15 +141,6 @@ export default {
       }
     }
   },
-  methods: {
-    newsletterClick () {
-      this.$bus.$emit('notification', {
-        type: 'success',
-        message: i18n.t('This feature is not implemented yet :( Newsletter is on our roadmap - issue #200!'),
-        action1: { label: 'OK', action: 'close' }
-      })
-    }
-  },
   components: {
     Newsletter
   },
@@ -149,69 +149,76 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/global_vars';
-$gray-secondary: map-get($colors, gray-secondary);
+  @import '~theme/css/global_vars';
+  $gray-secondary: map-get($colors, gray-secondary);
 
-  .newsletter-content {
-    align-items: center;
-  }
   .icon {
     transition: 0.3s all;
   }
+
   .social-icon {
     display: inline-block;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    &:hover .icon,
-    &:focus .icon,
-    &:active .icon {
-      fill: $gray-secondary;
+    &:hover,
+    &:focus,
+    &:active {
+      .icon {
+        fill: $gray-secondary;
+      }
     }
   }
 
   .links {
     list-style-type: none;
-
     li {
       display: inline-flex;
+    }
+  }
+
+  .bottom-links {
+    @media (max-width: 767px) {
+      padding: 0;
     }
   }
 
   .underline {
     &:hover {
       color: $gray-secondary;
-
       &:after {
-         background-color: $gray-secondary;
-       }
-     }
+        background-color: $gray-secondary;
+      }
+    }
   }
 
   .legal-entity-link {
     text-align: center;
-
     @media (min-width: 768px) {
       display: none;
     }
   }
+
   .privacy-policy-link {
     text-align: right;
-
     @media (min-width: 768px) {
       display: none;
     }
   }
+
   @media (max-width: 595px) {
     .no-mobile {
       display: none;
     }
+
     .social {
       margin-top: 0;
     }
+
     .social-icon:first-of-type {
       margin-left: 0;
     }
+
     .footer-links {
       padding-bottom: 30px;
     }

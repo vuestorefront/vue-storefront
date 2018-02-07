@@ -1,8 +1,8 @@
 <template>
   <div class="modal"
-    v-if="isVisible"
-    ref="modal"
-    @click.self="close">
+       v-if="isVisible"
+       ref="modal"
+       @click.self="close">
     <slot name="close"><button @click="close"> X </button></slot>
     <slot/>
   </div>
@@ -11,7 +11,7 @@
 <script>
 import { mapMutations } from 'vuex'
 export default {
-  name: 'modal',
+  name: 'Modal',
   data () {
     return {
       isVisible: false
