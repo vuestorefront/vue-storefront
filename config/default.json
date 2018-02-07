@@ -14,6 +14,7 @@
     "products": {
       "preventConfigurableChildrenDirectAccess": true,
       "alwaysSyncPlatformPricesOver": false,
+      "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": true,
       "endpoint": "http://localhost:8080/api/product"
     },
@@ -43,7 +44,8 @@
       "defaultCountry": "US",
       "defaultLanguage": "EN",
       "availableLocale": ["en-US"],
-      "defaultLocale": "en-US"      
+      "defaultLocale": "en-US",
+      "currencyCode": "USD"
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"

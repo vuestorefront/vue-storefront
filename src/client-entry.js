@@ -5,6 +5,7 @@ import { execute } from 'src/api/task'
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
+global.isSSR = false
 
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
