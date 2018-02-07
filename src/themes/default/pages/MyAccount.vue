@@ -51,24 +51,28 @@ export default {
   @import '~theme/css/global_vars';
   $lightgray: map-get($colors, lightgray);
   $gray-secondary: map-get($colors, gray-secondary);
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+  $black: map-get($colors, black);
+  $white: map-get($colors, white);
+  $red: map-get($colors, red);
 
   #my_account {
     input[type=text], input[type=email], input[type=tel], select {
       @extend .h4;
       padding: 10px 0;
       border: none;
-      border-bottom: 1px solid #BDBDBD;
+      border-bottom: 1px solid $lightgray-secondary;
       width: calc(100% - 35px);
     }
     input::-webkit-input-placeholder {
-      color: #BDBDBD;
+      color: $lightgray-secondary;
     }
     input:-moz-placeholder {
-      color: #BDBDBD;
+      color: $lightgray-secondary;
     }
     input:focus, select:focus {
       outline: none;
-      border-color: black;
+      border-color: $black;
       transition: 0.3s all;
     }
     select {
@@ -85,7 +89,7 @@ export default {
       pointer-events: none;
     }
     .validation-error{
-      color: red;
+      color: $red;
       display: block;
     }
     .number-circle {
@@ -118,7 +122,7 @@ export default {
         height: 23px;
         top: 0;
         left: 0;
-        background: #FFF;
+        background: $white;
         border:1px solid $gray-secondary;
 
         &:after {
@@ -129,7 +133,7 @@ export default {
           background: transparent;
           top: 6px;
           left: 5px;
-          border: 3px solid #FFF;
+          border: 3px solid $white;
           border-top: none;
           border-right: none;
           transform: rotate(-45deg);
@@ -174,7 +178,7 @@ export default {
           left: 0;
           width: 100%;
           height: 1px;
-          background-color: #BDBDBD;
+          background-color: $lightgray-secondary;
         }
 
         a:hover::after,
