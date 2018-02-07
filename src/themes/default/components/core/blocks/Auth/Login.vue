@@ -6,14 +6,27 @@
     <div class="py35 px65 bg-white c-gray">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
-          <input type="email" name="email" ref="email" v-model="email" autocomplete="email" placeholder="E-mail address *">
-          <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <input
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            type="email"
+            name="email"
+            ref="email"
+            v-model="email"
+            placeholder="E-mail address *"
+          >
+          <span class="validation-error block h6 c-red" v-if="!$v.email.required">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.email">Please provide valid e-mail address.</span>
         </div>
-        <div class="mb35 pass-container">
-          <input :type="passType" name="password" v-model="password" autocomplete="current-password" placeholder="Password *">
-          <i class="icon material-icons c-alto" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
+        <div class="mb35 relative">
+          <input
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            :type="passType"
+            name="password"
+            v-model="password"
+            placeholder="Password *"
+          >
+          <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
+          <span class="validation-error block h6 c-red" v-if="!$v.password.required">Field is required.</span>
         </div>
         <div class="row">
           <div class="col-xs-6 mb35">
@@ -25,9 +38,9 @@
           </div>
         </div>
         <div class="mb20">
-          <button-full class="btn-full p0" text="Log in to your account" @click.native="login"/>
+          <button-full class="w-100 border-box p0 center-xs" text="Log in to your account" @click.native="login"/>
         </div>
-        <input type="submit">
+        <input class="hidden" type="submit">
         <div class="center-xs">
           <span>or <a href="#" @click.prevent="switchElem">register an account</a></span>
         </div>
@@ -131,62 +144,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../../../css/text.scss';
-
-  input[type=password], input[type=email], input[type=text] {
-    @extend body;
-    box-sizing: border-box;
-    font-size: 18px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: none;
-    border-bottom: 1px solid #BDBDBD;
-    width: 100%;
-  }
-
-  input[type=submit] {
-    visibility: hidden;
-  }
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+  $gray: map-get($colors, gray);
+  $black: map-get($colors, black);
 
   input::-webkit-input-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
 
   input:-moz-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
 
   input:focus {
     outline: none;
-    border-color: black;
+    border-color: $black;
     transition: 0.3s all;
   }
 
-  .btn-full {
-    box-sizing: border-box;
-    width: 100%;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .pass-container {
-    position: relative;
-  }
-
   .icon {
-    cursor: pointer;
-    position: absolute;
     right: 0;
     top: 10px;
 
     &:hover {
-      color: #8E8E8E;
+      color: $gray;
     }
-  }
-
-  .validation-error {
-    display: block;
-    font-size: 12px;
-    color: #EB5757;
   }
 </style>

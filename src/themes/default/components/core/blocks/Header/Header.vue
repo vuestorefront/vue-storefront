@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="brdr-bottom bg-white brdr-c-alto"
+      class="fixed w-100 brdr-bottom bg-white brdr-c-alto"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
@@ -9,15 +9,15 @@
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!isProductPage">
-                <hamburger-icon class="p15 icon bg-lightgray" v-if="!isProductPage"/>
+                <hamburger-icon class="p15 icon bg-lightgray pointer" v-if="!isProductPage"/>
               </template>
               <template v-else>
-                <return-icon class="p15 icon bg-lightgray" v-if="isProductPage"/>
+                <return-icon class="p15 icon bg-lightgray pointer" v-if="isProductPage"/>
               </template>
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
-            <search-icon class="p15 icon" />
+            <search-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
@@ -25,15 +25,15 @@
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
-            <wishlist-icon class="p15 icon" />
+            <wishlist-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-2 end-xs">
             <div class="inline-flex">
-              <search-icon class="p15 icon hidden-xs" />
-              <wishlist-icon class="p15 icon hidden-xs" />
-              <compare-icon class="p15 icon hidden-xs" />
-              <microcart-icon class="p15 icon" />
-              <account-icon class="p15 icon hidden-xs" />
+              <search-icon class="p15 icon hidden-xs pointer" />
+              <wishlist-icon class="p15 icon hidden-xs pointer" />
+              <compare-icon class="p15 icon hidden-xs pointer" />
+              <microcart-icon class="p15 icon pointer" />
+              <account-icon class="p15 icon hidden-xs pointer" />
             </div>
           </div>
         </div>
@@ -172,11 +172,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray: map-get($colors, lightgray);
+
   header {
-    position: fixed;
     height: 54px;
     top: -54px;
-    width: 100%;
     z-index: 2;
     transition: top 0.2s ease-in-out;
   }
@@ -184,8 +185,7 @@ export default {
     opacity: 0.6;
   }
   .icon:hover {
-    background-color: #F2F2F2;
-    cursor: pointer;
+    background-color: $lightgray;
     opacity: 1;
   }
   .header-placeholder {
@@ -196,9 +196,6 @@ export default {
   }
   .is-visible {
     top: 0 !important;
-  }
-  .center-xs {
-    text-align: center;
   }
   @media (max-width: 767px) {
     .row.middle-xs {

@@ -7,7 +7,7 @@
       </div>
       <div class="container">
         <div class="row m0">
-          <button class="col-xs-5 mt25 p15 mobile-filters-button bg-black brdr-none c-white h5 weight-300" @click="openFilters">
+          <button class="col-xs-5 mt25 p15 mobile-filters-button bg-darkgray brdr-none c-white h5 weight-300" @click="openFilters">
             {{ $t('Filters') }}
           </button>
         </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
           <div class="close-container">
-            <i class="material-icons p15 close c-black" @click="closeFilters">close</i>
+            <i class="material-icons p15 close c-darkgray" @click="closeFilters">close</i>
           </div>
           <sidebar class="mobile-filters-body" :filters="filters"/>
         </div>

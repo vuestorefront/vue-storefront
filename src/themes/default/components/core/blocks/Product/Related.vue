@@ -6,7 +6,7 @@
     >
       <div>
         <header class="col-md-12">
-          <h2 class="align-center c-black">
+          <h2 class="align-center c-darkgray">
             Erin Recommends
           </h2>
         </header>
@@ -21,7 +21,7 @@
     >
       <div>
         <header class="col-md-12">
-          <h2 class="align-center c-black">
+          <h2 class="align-center c-darkgray">
             Similar products
           </h2>
         </header>

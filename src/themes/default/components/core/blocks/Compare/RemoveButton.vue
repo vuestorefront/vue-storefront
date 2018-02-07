@@ -11,9 +11,3 @@ export default {
   mixins: [coreComponent('core/blocks/Compare/RemoveButton')]
 }
 </script>
-
-<style scoped>
-  button:hover {
-    cursor: pointer;
-  }
-</style>

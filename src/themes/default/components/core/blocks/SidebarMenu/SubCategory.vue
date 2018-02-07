@@ -1,18 +1,25 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu p0" :style="styles">
+    <ul v-if="categoryLinks" class="sidebar-submenu absolute w-100 p0 bg-white" :style="styles">
       <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.slug" v-for="link in categoryLinks">
-        <router-link class="px25 py20 c-black no-underline col-xs" :to="{ name: 'category', params: { id: link.id, slug: link.slug }}">{{ link.name }}</router-link>
+        <router-link
+          class="px25 py20 c-darkgray no-underline col-xs"
+          :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
+        >
+          {{ link.name }}
+        </router-link>
         <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"/>
         <sub-category :category-links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
       </li>
     </ul>
-    <ul v-else-if="myAccountLinks" class="sidebar-submenu p0" :style="styles">
+    <ul v-else-if="myAccountLinks" class="sidebar-submenu absolute p0 bg-white" :style="styles">
       <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.id" v-for="link in myAccountLinks">
-        <router-link class="px25 py20 c-black no-underline col-xs" :to="'/my-account#' + link.anchor">{{ link.name }}</router-link>
+        <router-link class="px25 py20 c-darkgray no-underline col-xs" :to="'/my-account#' + link.anchor">
+          {{ link.name }}
+        </router-link>
       </li>
       <li class="brdr-bottom brdr-c-lightgray bg-white flex">
-        <a href="#" class="px25 py20 c-black no-underline col-xs" @click="logout">Logout</a>
+        <a href="#" class="px25 py20 c-darkgray no-underline col-xs" @click="logout">Logout</a>
       </li>
     </ul>
   </div>
@@ -62,12 +69,9 @@ export default {
 </script>
 <style scoped>
   .sidebar-submenu {
-    position: absolute;
     left: 0;
     top: 0;
     min-height: 100%;
-    width: 100%;
     transform: translateX(-100%);
-    background: #fff;
   }
 </style>

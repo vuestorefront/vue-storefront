@@ -13,7 +13,7 @@
             <div class="uppercase c-gray-secondary">
               sku: {{ product.sku }}
             </div>
-            <h1 class="mb20 mt0 c-black product-name">
+            <h1 class="mb20 mt0 c-darkgray product-name">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb30 price" v-if="product.type_id !== 'grouped'">
@@ -95,7 +95,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                class="col-xs-12 col-sm-4 col-md-6 h4 bg-black c-white py20 brdr-none"
+                class="col-xs-12 col-sm-4 col-md-6 h4 bg-darkgray c-white py20 brdr-none"
               />
             </div>
             <div class="row pt45 add-to-buttons">
@@ -129,7 +129,7 @@
         </section>
       </div>
     </section>
-    <section class="container pt50 pb20 px20 c-black details">
+    <section class="container pt50 pb20 px20 c-darkgray details">
       <h2 class="h3 m0 mb10 sans-serif">
         {{ $t('Product details') }}
       </h2>

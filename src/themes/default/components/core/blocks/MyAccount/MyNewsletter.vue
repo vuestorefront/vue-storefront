@@ -22,10 +22,18 @@
       </div>
       <div class="col-xs-12 col-md-12 mb15">
         <div class="checkboxStyled">
-          <input type="checkbox" v-model="newsletterPreferences.generalAgreement" id="generalAgreement" :disabled="!isActive">
+          <input
+            type="checkbox"
+            v-model="newsletterPreferences.generalAgreement"
+            id="generalAgreement"
+            :disabled="!isActive"
+          >
           <label for="generalAgreement"/>
         </div>
-        <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.generalAgreement = !newsletterPreferences.generalAgreement : null">
+        <div
+          class="checkboxText ml15 lh25"
+          @click="isActive ? newsletterPreferences.generalAgreement = !newsletterPreferences.generalAgreement : null"
+        >
           <span class="fs16 c-darkgray">I want to receive a newsletter, and agree to its terms</span>
         </div>
       </div>
@@ -37,7 +45,10 @@
           <input type="checkbox" v-model="newsletterPreferences.men" id="men" :disabled="!isActive">
           <label for="men"/>
         </div>
-        <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.men = !newsletterPreferences.men : null">
+        <div
+          class="checkboxText ml15 lh25"
+          @click="isActive ? newsletterPreferences.men = !newsletterPreferences.men : null"
+        >
           <span class="fs16 c-darkgray">Men</span>
         </div>
       </div>
@@ -46,7 +57,10 @@
           <input type="checkbox" v-model="newsletterPreferences.women" id="women" :disabled="!isActive">
           <label for="women"/>
         </div>
-        <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.women = !newsletterPreferences.women : null">
+        <div
+          class="checkboxText ml15 lh25"
+          @click="isActive ? newsletterPreferences.women = !newsletterPreferences.women : null"
+        >
           <span class="fs16 c-darkgray">Women</span>
         </div>
       </div>
@@ -56,7 +70,10 @@
           <input type="checkbox" v-model="newsletterPreferences.kids" id="kids" :disabled="!isActive">
           <label for="kids"/>
         </div>
-        <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.kids = !newsletterPreferences.kids : null">
+        <div
+          class="checkboxText ml15 lh25"
+          @click="isActive ? newsletterPreferences.kids = !newsletterPreferences.kids : null"
+        >
           <span class="fs16 c-darkgray">Kids</span>
         </div>
       </div>
@@ -65,7 +82,10 @@
           <input type="checkbox" v-model="newsletterPreferences.home" id="home" :disabled="!isActive">
           <label for="home"/>
         </div>
-        <div class="checkboxText ml15 lh25" @click="isActive ? newsletterPreferences.home = !newsletterPreferences.home : null">
+        <div
+          class="checkboxText ml15 lh25"
+          @click="isActive ? newsletterPreferences.home = !newsletterPreferences.home : null"
+        >
           <span class="fs16 c-darkgray">Home</span>
         </div>
       </div>
@@ -77,7 +97,6 @@
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
       </div>
     </div>
-
   </div>
 </template>
 
