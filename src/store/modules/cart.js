@@ -342,6 +342,14 @@ const store = {
       }
 
       for (let product of productsToAdd) {
+        if (product.priceInclTax <= 0) {
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
+            action1: { label: 'OK', action: 'close' }
+          })
+          continue
+        }
         const record = state.cartItems.find(p => p.sku === product.sku)
         dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
           product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result

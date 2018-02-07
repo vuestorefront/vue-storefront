@@ -51,22 +51,30 @@ const actions = {
       storeName: 'carts'
     })
     return new Promise((resolve, reject) => {
-      usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
-        if (err) {
-          console.error(err)
-        }
-        cartsCollection.getItem('current-cart-token', (err, currentCartId) => {
+      if (global.isSSR) {
+        taskExecute(task, null, null).then((result) => {
+          resolve(result)
+        }).catch(err => {
+          reject(err)
+        })
+      } else {
+        usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
           if (err) {
             console.error(err)
           }
+          cartsCollection.getItem('current-cart-token', (err, currentCartId) => {
+            if (err) {
+              console.error(err)
+            }
 
-          taskExecute(task, currentToken, currentCartId).then((result) => {
-            resolve(result)
-          }).catch(err => {
-            reject(err)
+            taskExecute(task, currentToken, currentCartId).then((result) => {
+              resolve(result)
+            }).catch(err => {
+              reject(err)
+            })
           })
         })
-      })
+      }
     })
   }
 }

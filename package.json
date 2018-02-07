@@ -53,6 +53,7 @@
     "localforage": "^1.5.0",
     "lru-cache": "^4.0.1",
     "mkdirp": "^0.5.1",
+    "node-fetch": "^2.0.0",
     "npm": "^5.6.0",
     "object-hash": "^1.2.0",
     "print-message": "^2.1.0",

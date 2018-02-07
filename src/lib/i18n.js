@@ -7,7 +7,6 @@ Vue.use(VueI18n)
 
 // TODO: divide the translations to separate json files: https://github.com/kazupon/vue-i18n/blob/dev/examples/ssr/hn2/src/i18n/index.js
 const messages = translations() // load theme and core messages
-console.log(messages)
 const i18n = new VueI18n({
   locale: config.i18n.defaultLocale, // set locale
   fallbackLocale: 'en-US',

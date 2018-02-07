@@ -7,6 +7,118 @@ import { optionLabel } from 'src/store/modules/attribute'
 import { breadCrumbRoutes } from 'src/helpers'
 import { calculateProductTax } from 'src/lib/taxcalc'
 import _ from 'lodash'
+import rootStore from '../'
+import EventBus from 'src/event-bus'
+
+function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
+  product.sgn = backProduct.sgn // copy the signature for the modified price
+  product.priceInclTax = backProduct.price_info.final_price
+  product.originalPriceInclTax = backProduct.price_info.regular_price
+  product.specialPriceInclTax = backProduct.price_info.special_price
+
+  product.special_price = backProduct.price_info.extension_attributes.tax_adjustments.special_price
+  product.price = backProduct.price_info.extension_attributes.tax_adjustments.final_price
+  product.originalPrice = backProduct.price_info.extension_attributes.tax_adjustments.regular_price
+
+  product.priceTax = product.priceInclTax - product.price
+  product.specialPriceTax = product.specialPriceInclTax - product.special_price
+  product.originalPriceTax = product.originalPriceInclTax - product.originalPrice
+
+  if (product.priceInclTax >= product.originalPriceInclTax) {
+    product.specialPriceInclTax = 0
+    product.special_price = 0
+  } else {
+    product.special_price = 0 // the same price as original; it's not a promotion
+  }
+  EventBus.$emit('product-after-priceupdate', product)
+  // console.log(product.sku, product, backProduct)
+  return product
+}
+/**
+ * Synchronize / override prices got from ElasticSearch with current one's from Magento2 or other platform backend
+ * @param {Array} products
+ */
+function doPlatformPricesSync (products) {
+  return new Promise((resolve, reject) => {
+    if (config.products.alwaysSyncPlatformPricesOver) {
+      if (config.products.clearPricesBeforePlatformSync) {
+        for (let product of products) { // clear out the prices as we need to sync them with Magento
+          product.priceInclTax = null
+          product.originalPriceInclTax = null
+          product.specialPriceInclTax = null
+
+          product.special_price = null
+          product.price = null
+          product.originalPrice = null
+
+          product.priceTax = null
+          product.specialPriceTax = null
+          product.originalPriceTax = null
+
+          if (product.configurable_children) {
+            for (let sc of product.configurable_children) {
+              sc.priceInclTax = null
+              sc.originalPriceInclTax = null
+              sc.specialPriceInclTax = null
+
+              sc.special_price = null
+              sc.price = null
+              sc.originalPrice = null
+
+              sc.priceTax = null
+              sc.specialPriceTax = null
+              sc.originalPriceTax = null
+            }
+          }
+        }
+      }
+
+      let skus = products.map((p) => { return p.sku })
+
+      if (products.length === 1) {  // single product - download child data
+        const childSkus = _.flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
+        skus = _.union(skus, childSkus)
+      }
+      console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
+
+      rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
+        if (syncResult) {
+          syncResult = syncResult.items
+
+          for (let product of products) {
+            const backProduct = syncResult.find((itm) => { return itm.id === product.id })
+            if (backProduct) {
+              product.price_is_current = true // in case we're syncing up the prices we should mark if we do have current or not
+              product.price_refreshed_at = new Date()
+              product = syncProductPrice(product, backProduct)
+
+              if (product.configurable_children) {
+                for (let configurableChild of product.configurable_children) {
+                  const backProductChild = syncResult.find((itm) => { return itm.id === configurableChild.id })
+                  if (backProductChild) {
+                    configurableChild = syncProductPrice(configurableChild, backProductChild)
+                  }
+                }
+              }
+              // TODO: shall we update local storage here for the main product?
+            }
+          }
+        }
+        resolve(products)
+      })
+      if (!config.products.waitForPlatformSync && !global.isSSR) {
+        console.log('Returning products, the prices yet to come from backend!')
+        for (let product of products) {
+          product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
+          product.price_refreshed_at = null
+        }
+        resolve(products)
+      }
+    } else {
+      resolve(products)
+    }
+  })
+}
 
 /**
  * Calculate taxes for specific product collection
@@ -15,13 +127,17 @@ function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
     if (config.tax.calculateServerSide) {
       console.log('Taxes calculated server side, skipping')
-      resolve(products)
+      doPlatformPricesSync(products).then((products) => {
+        resolve(products)
+      })
     } else {
       store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
         for (let product of products) {
           product = calculateProductTax(product, tcs.items, global.__TAX_COUNTRY__, global.__TAX_REGION__)
         }
-        resolve(products)
+        doPlatformPricesSync(products).then((products) => {
+          resolve(products)
+        })
       }) // TODO: run Magento2 prices request here if configured so in the config
     }
   })
@@ -149,6 +265,26 @@ const actions = {
     context.state.breadcrumbs.name = product.name
 
     return Promise.all(subloaders)
+  },
+
+  doPlatformPricesSync (context, { products }) {
+    return doPlatformPricesSync(products)
+  },
+
+  /**
+   * Download Magento2 / other platform prices to put them over ElasticSearch prices
+   */
+  syncPlatformPricesOver (context, { skus }) {
+    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + config.i18n.currencyCode), // sync the cart
+      payload: {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors'
+      },
+      callback_event: 'prices-after-sync'
+    }, { root: true }).then(task => {
+      return task.result
+    })
   },
 
   /**
@@ -321,9 +457,20 @@ const actions = {
         }
         if (res !== null) {
           console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-          resolve(setupProduct(res))
+
+          const cachedProduct = setupProduct(res)
+          if (config.products.alwaysSyncPlatformPricesOver) {
+            doPlatformPricesSync([cachedProduct]).then((products) => {
+              resolve(products[0])
+            })
+            if (!config.products.waitForPlatformSync) {
+              resolve(cachedProduct)
+            }
+          } else {
+            resolve(cachedProduct)
+          }
         } else {
-          context.dispatch('list', {
+          context.dispatch('list', { // product list syncs the platform price on it's own
             query: bodybuilder()
               .query('match', key, options[key])
               .build(),

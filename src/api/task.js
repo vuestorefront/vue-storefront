@@ -1,5 +1,6 @@
 import EventBus from 'src/event-bus'
 import i18n from 'lib/i18n'
+import fetch from 'node-fetch'
 
 export function execute (task, currentToken = null, currentCartId = null) {
   const taskData = task
