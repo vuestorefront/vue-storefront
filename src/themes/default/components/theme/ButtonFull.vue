@@ -1,5 +1,9 @@
 <template>
-  <div class="button-full px55 py20 center-xs ripple" tabindex="0" v-focus-clean="{class: 'no-outline'}">
+  <div
+    class="button-full inline-flex px55 py20 center-xs ripple pointer weight-400 h4 bg-black c-white"
+    tabindex="0"
+    v-focus-clean="{class: 'no-outline'}"
+  >
     {{ text }}
   </div>
 </template>
@@ -17,16 +21,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button-full {
-    font-size: 16px;
-    display: inline-flex;
-    cursor: pointer;
-    font-weight: 400;
-    background: black;
-    color: white;
-}
-.button-full:hover {
-    background: #333333;
-}
+@import '~theme/css/global_vars';
+$darkgray: map-get($colors, darkgray);
 
+.button-full:hover {
+  background: $darkgray;
+}
 </style>

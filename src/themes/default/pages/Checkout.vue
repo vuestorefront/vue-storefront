@@ -55,14 +55,19 @@ export default {
 @import '../css/text.scss';
 @import '~theme/css/global_vars';
 $lightgray: map-get($colors, lightgray);
+$lightgray-secondary: map-get($colors, lightgray-secondary);
 $gray-secondary: map-get($colors, gray-secondary);
+$red: map-get($colors, red);
+$white: map-get($colors, white);
+$gray: map-get($colors, gray);
+$black: map-get($colors, black);
 
 #checkout {
   input[type=text], input[type=email], input[type=tel], select {
     @extend .h4;
     padding: 10px 0;
     border: none;
-    border-bottom: 1px solid #BDBDBD;
+    border-bottom: 1px solid $lightgray-secondary;
     width: calc(100% - 35px);
 
     @media (max-width: 767px) {
@@ -70,14 +75,14 @@ $gray-secondary: map-get($colors, gray-secondary);
     }
   }
   input::-webkit-input-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
   input:-moz-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
   input:focus, select:focus {
     outline: none;
-    border-color: black;
+    border-color: $black;
     transition: 0.3s all;
   }
   select {
@@ -94,7 +99,7 @@ $gray-secondary: map-get($colors, gray-secondary);
     pointer-events: none;
   }
   .validation-error{
-    color: red;
+    color: $red;
     display: block;
   }
   .number-circle {
@@ -154,8 +159,8 @@ $gray-secondary: map-get($colors, gray-secondary);
       height: 23px;
       top: 0;
       left: 0;
-      background: #FFF;
-      border:1px solid $gray-secondary;
+      background: $white;
+      border: 1px solid $gray-secondary;
 
       &:after {
         content: '';
@@ -165,7 +170,7 @@ $gray-secondary: map-get($colors, gray-secondary);
         background: transparent;
         top: 6px;
         left: 5px;
-        border: 3px solid #FFF;
+        border: 3px solid $white;
         border-top: none;
         border-right: none;
         transform: rotate(-45deg);

@@ -1,20 +1,20 @@
 <template>
   <div id="app">
     <overlay v-if="overlayActive"/>
-    <loader />
-    <div id="viewport p55">
-      <microcart />
-      <search-panel />
-      <wishlist />
-      <sidebar-menu />
-      <main-header />
+    <loader/>
+    <div id="viewport" class="w-100 relative">
+      <microcart/>
+      <search-panel/>
+      <wishlist/>
+      <sidebar-menu/>
+      <main-header/>
       <router-view/>
-      <main-footer />
-      <notification />
-      <sign-up v-if="signUpOpen" />
+      <main-footer/>
+      <notification/>
+      <sign-up v-if="signUpOpen"/>
       <newsletter-popup/>
-      <cookie-notification />
-      <Offline-badge />
+      <cookie-notification/>
+      <offline-badge/>
     </div>
   </div>
 </template>
@@ -82,7 +82,10 @@ export default {
 <style src="./css/visibility.scss" lang="scss"></style>
 <style src="./css/utilities.scss" lang="scss"></style>
 
-<style>
+<style lang="scss">
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+
   html,
   body {
     margin: 0;
@@ -103,7 +106,7 @@ export default {
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: #BDBDBD;
+    background-color: $lightgray-secondary;
   }
 
   .no-underline:hover:after {
@@ -121,8 +124,6 @@ export default {
   }
 
   #viewport {
-    width: 100%;
-    position: relative;
     overflow-x: hidden;
   }
 

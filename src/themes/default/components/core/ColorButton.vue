@@ -1,12 +1,12 @@
 <template>
   <button
-    class="mr10 mb5 bg-transparent brdr-1 brdr-circle brdr-c-transparent relative color"
+    class="mr10 mb5 bg-transparent brdr-1 brdr-circle brdr-c-transparent relative inline-flex pointer color"
     @click="switchFilter(id, label)"
     :class="{ active: active }"
     :aria-label="'Select color ' + label"
   >
     <div
-      class="brdr-circle brdr-1 brdr-c-alto absolute color-inside"
+      class="absolute brdr-circle brdr-1 brdr-c-alto block color-inside"
       :style="colorFrom(label)"
     />
   </button>
@@ -63,8 +63,6 @@ export default {
   .color {
     width: 40px;
     height: 40px;
-    display: inline-flex;
-    cursor: pointer;
 
     &:hover,
     &:focus {
@@ -79,7 +77,6 @@ export default {
   .color-inside {
     width: 34px;
     height: 34px;
-    display: block;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%)

@@ -59,6 +59,7 @@
     "scrollreveal": "^3.3.6",
     "serialize-javascript": "^1.3.0",
     "serve-favicon": "^2.3.0",
+    "shelljs": "^0.8.1",
     "update": "^0.7.4",
     "url-parse": "^1.2.0",
     "vue": "^2.5.2",

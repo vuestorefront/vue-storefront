@@ -18,7 +18,3 @@ export default {
   mixins: [coreComponent('core/Breadcrumbs')]
 }
 </script>
-
-<style scoped>
-
-</style>

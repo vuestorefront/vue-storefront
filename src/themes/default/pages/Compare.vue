@@ -16,7 +16,7 @@
                 <a href="javascript:window.print()" title="Print This Page">Print This Page</a>
               </div>
               <div class="compare-wrapper">
-                <table>
+                <table class="w-100 mw-100">
                   <thead>
                     <tr>
                       <th/>
@@ -53,10 +53,11 @@
                         {{ attr.default_frontend_label }}
                       </th>
                       <td v-for="(product, index) in items" :key="index" class="p15">
-                        <product-attribute :key="attr.attribute_code"
-                                           :product="product"
-                                           :attribute="attr"
-                                           empty-placeholder="N/A"
+                        <product-attribute
+                          :key="attr.attribute_code"
+                          :product="product"
+                          :attribute="attr"
+                          empty-placeholder="N/A"
                         />
                       </td>
                     </tr>
@@ -94,7 +95,6 @@ export default {
 
 <style lang="scss" scoped>
   @import '~theme/css/global_vars';
-
   $alto: map-get($colors, alto);
 
   .compare-wrapper {
@@ -103,10 +103,8 @@ export default {
 
   table {
     table-layout: fixed;
-    width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-    max-width: 100%;
   }
 
   th {

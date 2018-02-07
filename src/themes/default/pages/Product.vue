@@ -6,7 +6,7 @@
         <section class="row py35 m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <transition name="fade" appear>
-              <img class="product-image" v-lazy="imgObj" ref="image">
+              <img class="product-image inline-flex mw-100" v-lazy="imgObj" ref="image">
             </transition>
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
@@ -21,10 +21,10 @@
                 class="h3 c-gray-secondary"
                 v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
               >
-                <span class="price-special">
+                <span class="c-red">
                   {{ product.priceInclTax | price }}
                 </span>&nbsp;
-                <span class="price-original">
+                <span class="price-original h4">
                   {{ product.originalPriceInclTax | price }}
                 </span>
               </div>
@@ -78,7 +78,10 @@
                   <router-link
                     to="/size-guide"
                     v-if="option.label == 'Size'"
-                    class="p0 ml30 no-underline action size-guide"
+                    class="
+                      p0 ml30 inline-flex middle-xs weight-700 uppercase
+                      no-underline action size-guide pointer c-lightgray-secondary
+                    "
                   >
                     <i class="pr5 material-icons">accessibility</i>
                     <span>
@@ -102,7 +105,10 @@
               <div class="col-xs-12 col-sm-5">
                 <button
                   @click="addToFavorite"
-                  class="p0 bg-transparent brdr-none action"
+                  class="
+                    p0 inline-flex middle-xs bg-transparent brdr-none
+                    action weight-700 h5 uppercase pointer c-lightgray-secondary
+                  "
                   type="button"
                 >
                   <i class="pr5 material-icons">{{ favorite.icon }}</i>
@@ -112,7 +118,10 @@
               <div class="hidden-xs col-md-7">
                 <button
                   @click="addToCompare"
-                  class="p0 bg-transparent brdr-none action"
+                  class="
+                    p0 inline-flex middle-xs bg-transparent brdr-none
+                    action weight-700 h5 uppercase pointer c-lightgray-secondary
+                  "
                   type="button"
                 >
                   <i class="pr5 material-icons">compare</i>
@@ -201,6 +210,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray: map-get($colors, lightgray);
+  $gray-secondary: map-get($colors, gray-secondary);
+  $black: map-get($colors, black);
+  $emperor: map-get($colors, emperor);
+  $white: map-get($colors, white);
+  $red: map-get($colors, red);
+
   .data-wrapper {
     @media (max-width: 767px) {
       padding: 0;
@@ -209,7 +226,7 @@ export default {
 
   .data {
     @media (max-width: 767px) {
-      border-bottom: 1px solid #F2F2F2;
+      border-bottom: 1px solid $lightgray;
     }
   }
 
@@ -217,7 +234,7 @@ export default {
     @media (max-width: 1023px) {
       margin-bottom: 20px;
       padding: 20px 0 30px 0;
-      background-color: #F2F2F2;
+      background-color: $lightgray;
     }
   }
 
@@ -230,7 +247,7 @@ export default {
 
   .price {
     @media (max-width: 767px) {
-      color: #4F4F4F;
+      color: $emperor;
     }
   }
 
@@ -263,7 +280,7 @@ export default {
   .product-top-section {
     @media (max-width: 767px) {
       padding: 0;
-      background-color: #FFF;
+      background-color: $white;
     }
   }
 
@@ -299,38 +316,21 @@ export default {
       width: 100%;
       margin: 0;
       cursor: pointer;
-      background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+      background: linear-gradient(rgba($white, 0), rgba($white, 1));
       &.hidden {
         display: none;
       }
     }
   }
 
-  .link-header {
-    font-weight: bold;
-  }
-
   .price-original {
     text-decoration: line-through;
-    font-size: smaller;
-  }
-
-  .price-special {
-    color: #FF0000;
   }
 
   .action {
-    display: inline-flex;
-    align-items: center;
-    font-weight: 700;
-    font-size: 14px;
-    text-transform: uppercase;
-    color: #BDBDBD;
-    cursor: pointer;
-  }
-
-  .action:hover {
-    color: #828282;
+    &:hover {
+      color: $gray-secondary;
+    }
   }
 
   .attributes {
@@ -348,9 +348,7 @@ export default {
   }
 
   .product-image {
-    display: inline-flex;
     mix-blend-mode: multiply;
-    max-width: 100%;
     width: 460px;
   }
 </style>

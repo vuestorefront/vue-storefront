@@ -13,12 +13,12 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link :to="page.link" class="c-darkgray">{{ page.title }}</router-link>
+                <router-link :to="page.link" class="c-darkgray relative">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
         </div>
-        <div class="static-content col-sm-9">
+        <div class="static-content h4 lh35 col-sm-9">
           <static-content :file="$props.page"/>
         </div>
       </div>
@@ -76,14 +76,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+
   .static-menu {
     ul {
       list-style: none;
-    }
-
-    a {
-      position: relative;
     }
 
     a::after {
@@ -93,7 +92,7 @@ export default {
       left: 0;
       width: 100%;
       height: 1px;
-      background-color: #BDBDBD;
+      background-color: $lightgray-secondary;
     }
 
     a:hover::after,
@@ -103,9 +102,6 @@ export default {
   }
 
   .static-content {
-    font-size: 1.2em;
-    line-height: 2.1em;
-
     *:first-of-type {
       margin-top: 0;
     }

@@ -1,11 +1,24 @@
 <template>
-  <div class="notifications">
+  <div class="notifications fixed">
     <transition-group name="fade-in-down">
-      <div class="notification c-white" v-for="(notification, index) in notifications" :key="index" :class="{ info : notification.type == 'info', success: notification.type == 'success', error: notification.type == 'error', warning: notification.type == 'warning'} ">
-        <div class="message">
+      <div
+        class="notification mt30 border-box c-white"
+        v-for="(notification, index) in notifications"
+        :key="index"
+        :class="{
+          info : notification.type == 'info',
+          success: notification.type == 'success',
+          error: notification.type == 'error',
+          warning: notification.type == 'warning'
+        }"
+      >
+        <div class="message p20">
           {{ notification.message }}
         </div>
-        <div class="actions uppercase" @click="action(notification.action1.action, index)">
+        <div
+          class="actions py10 px20 pointer weight-400 uppercase"
+          @click="action(notification.action1.action, index)"
+        >
           {{ notification.action1.label }}
         </div>
       </div>
@@ -21,12 +34,16 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~theme/css/global_vars';
 $z-index-notification: map-get($z-index, notification);
+$red: map-get($colors, red);
+$la-palma: map-get($colors, la-palma);
+$russet: map-get($colors, russet);
+$darkgray: map-get($colors, darkgray);
+$black: map-get($colors, black);
 
 .notifications {
-  position: fixed;
   top: 100px;
   right: 5%;
   width: 320px;
@@ -46,37 +63,25 @@ $z-index-notification: map-get($z-index, notification);
   }
 }
 .notification {
-  box-sizing: border-box;
-  box-shadow: 0px 0px 35px -5px rgba(0,0,0,.7);
+  box-shadow: 0px 0px 35px -5px rgba($black, .7);
 
-  & + &  {
-    margin-top: 30px;
+  &:first-child  {
+    margin-top: 0;
   }
-
 }
-.notification > .message {
-  padding: 20px;
+.actions {
+  background: rgba($black, .2);
 }
-.notification > .actions {
-  padding: 10px 20px;
-  font-weight: bolder;
-  background: rgba(0,0,0,.2);
-  cursor: pointer;
+.success {
+  background: $la-palma;
 }
-
-.notification.success {
-  background: #308C14;
-
+.error {
+  background: $red;
 }
-.notification.error {
-  background: #E63030;
-
+.warning {
+  background: $russet;
 }
-.notification.warning {
-  background: #775555;
-}
-
-.notification.info {
-  background: #333333;
+.info {
+  background: $darkgray;
 }
 </style>

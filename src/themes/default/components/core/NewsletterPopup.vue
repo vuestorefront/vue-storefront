@@ -5,12 +5,20 @@
       <form @submit.prevent="subscribe" novalidate>
         <div class="mb35">
           <p class="h4">Sign up to our newsletter and receive a coupon for 10% off!</p>
-          <input class="brdr-none py10 h4 weight-200" autofocus type="email" name="email" v-model="email" autocomplete="email" placeholder="E-mail address *">
+          <input
+            class="border-box w-100 brdr-none brdr-bottom brdr-c-lightgray-secondary py10 h4 weight-200"
+            autofocus
+            type="email"
+            name="email"
+            v-model="email"
+            autocomplete="email"
+            placeholder="E-mail address *"
+          >
           <p class="m0 c-red h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
           <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
         </div>
         <div class="mb35 center-xs">
-          <button-full class="btn-full p0 ripple" text="Subscribe" @click.native="$v.email.$touch(); subscribe()"/>
+          <button-full class="block p0 ripple" text="Subscribe" @click.native="$v.email.$touch(); subscribe()"/>
         </div>
       </form>
     </div>
@@ -65,27 +73,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
-  input[type=email] {
-    box-sizing: border-box;
-    border-bottom: 1px solid #BDBDBD;
-    width: 100%;
-    font-family: 'Roboto', sans-serif;
-  }
+  @import '~theme/css/global_vars';
+  $lightgray-secondary: map-get($colors, lightgray-secondary);
+  $black: map-get($colors, black);
 
   input::-webkit-input-placeholder,
   input::-moz-placeholder {
-    color: #BDBDBD;
+    color: $lightgray-secondary;
   }
 
   input:focus {
     outline: none;
-    border-color: #000000;
+    border-color: $black;
     transition: 0.3s all;
   }
-
-  .btn-full {
-    display: block;
-  }
-
 </style>
