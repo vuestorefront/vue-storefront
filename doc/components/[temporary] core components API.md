@@ -187,41 +187,52 @@ No data
 No methods
 
 ## ProductSlider
-
+Shows product tiles slider. Used in Collection component in *default* theme. 
 ### Props
-
+`title` - a title of a slider  
+`products` - an array of products to show in a slider  
+`config` - and object that defines configuration of a slider, like number of tiles to show on a page, pagination and looping.
 ### Data
-
+No data
 ### Methods
+No methods
 
 ## ProductTile
-
+Shows a product in a compact way when several products are shown on one page. Used in many places, such as Home page, Search panel, 404 page and so on.
 ### Props
-
+`product` - a specific product  
+`thumbnail` - a computed property that represents a smaller image for the product to show in this component. *The size of an image is hard-coded in this property, it might be better to keep dimensions in a config file.*
 ### Data
-
+No data
 ### Methods
+No methods
 
 ## SizeButton
-
+Represents one of the options of a product, namely product's size. Used on Category and Product pages.
 ### Props
-
+`label` - a string that represents the size  
+`id` - unique identifier of the size  
+`code` - a code name of an option, which is 'size'  
+`context` - a name of an entity that the component belongs to (currently one of 'category' or 'product')
 ### Data
-
+No data
 ### Methods
+No methods
 
 ## Tooltip
-
+Shows an informational icon and hint when focused on that icon. Used on My Account and Checkout pages.
 ### Props
-
+No props
 ### Data
-
+No data
 ### Methods
+No methods
 
 ## ValidationError
-
+This was supposed to show a validation error message, but is not used anywhere. *Has to be deleted*
 ### Props
-
+`message` - a text that explains the error
 ### Data
-
+No data
 ### Methods
+No methods

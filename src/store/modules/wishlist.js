@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import EventBus from 'src/event-bus'
-import { htmlDecode } from '../../lib/filters'
+import { htmlDecode } from '../../filters'
 import i18n from 'lib/i18n'
 
 const store = {

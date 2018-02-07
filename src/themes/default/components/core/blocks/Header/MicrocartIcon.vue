@@ -1,7 +1,7 @@
 <template>
   <div class="microcart-icon inline-flex" @click="openMicrocart">
     <i class="material-icons md-18">shopping_cart</i>
-    <span class="minicart-count flex brdr-circle h6 lh16 weight-700 c-white bg-lightgray-secondary" v-cloak v-if="totals.quantity">{{totals.quantity}}</span>
+    <span class="minicart-count flex brdr-circle h6 lh16 weight-700 c-white bg-lightgray-secondary" v-cloak v-if="totals.quantity">{{ totals.quantity }}</span>
   </div>
 </template>
 

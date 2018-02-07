@@ -1,4 +1,4 @@
-import { htmlDecode } from '../lib/filters'
+import { htmlDecode } from './../filters'
 
 function getMeta (vm) {
   const { meta } = vm.$options

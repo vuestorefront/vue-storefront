@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="row pl20 pr20" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row mb15 mt20" v-show="isActive">
           <div class="col-xs-12">
@@ -25,7 +25,7 @@
               <div class="col-xs-11 col-sm-12 col-md-8 bg-lightgray p15 mb35 ml10">
                 <div class="checkboxStyled">
                   <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox">
-                  <label for="acceptTermsCheckbox"></label>
+                  <label for="acceptTermsCheckbox"/>
                 </div>
                 <div class="checkboxText ml15 lh25">
                   <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">I agree to <span class="link" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span></span>
@@ -38,11 +38,11 @@
       </div>
     </div>
     <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"></div>
+      <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 bottom-button">
-            <button-full text="Place the order" @click.native="placeOrder"  :class="{ 'ripple': true, 'button-disabled' : $v.orderReview.$invalid}"/>
+            <button-full text="Place the order" @click.native="placeOrder" :class="{ 'ripple': true, 'button-disabled' : $v.orderReview.$invalid}"/>
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@ export default {
   .checkboxText {
     display: inline-block;
     cursor: pointer;
-    
+
     span {
       vertical-align: middle;
     }

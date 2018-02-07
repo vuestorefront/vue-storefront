@@ -2,29 +2,32 @@
   <div class="product-tile">
     Core Product Tile
     <!--
-        Product name and price with price filter
-        props;
-        "product" - product object width 'name', 'priceInclTax', 'image' properties
-        data to display:
-        {{ product.name }}
-        {{ product.priceInclTax | price }}
-        {{ product.image }}
+      Product name and price with price filter
+      props;
+      "product" - product object width 'name', 'priceInclTax', 'image' properties
+      data to display:
+      {{ product.name }}
+      {{ product.priceInclTax | price }}
+      {{ product.image }}
     -->
   </div>
 </template>
 
 <script>
-import { thumbnail } from 'src/lib/filters'
-
 export default {
-  name: 'product-tile',
-  props: ['product'],
+  name: 'ProductTile',
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     thumbnail () {
       // get first configurable child image
       // NOTE: might not work when product has no children
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, image is going to be 'red'
-      return thumbnail(this.product.image, 310, 300)
+      return this.getThumbnail(this.product.image, 310, 300)
     }
   }
 }

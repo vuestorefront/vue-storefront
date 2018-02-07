@@ -11,7 +11,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'hamburger-icon',
+  name: 'HamburgerIcon',
   computed: mapState({
     isOpen: state => state.ui.sidebar
   }),

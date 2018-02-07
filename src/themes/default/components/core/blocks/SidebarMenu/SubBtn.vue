@@ -2,16 +2,19 @@
   <span @click.stop="next()" v-if="type === 'next'">
     <i class="material-icons p15">keyboard_arrow_right</i>
   </span>
-  <span @click.stop="back()" v-else="type === 'back'">
+  <span @click.stop="back()" v-else>
     <i class="material-icons p15">keyboard_arrow_left</i>
   </span>
 </template>
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: 'sub-btn',
+  name: 'SubBtn',
   props: {
-    id: [String, Number],
+    id: {
+      type: null,
+      default: ''
+    },
     type: {
       type: String,
       default: 'next'

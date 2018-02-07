@@ -1,11 +1,11 @@
 <template>
   <div class="row py30 b-bottom">
     <div class="image flex col-xs-5 col-md-2 middle-xs">
-      <img v-lazy="thumbnail" />
+      <img v-lazy="thumbnail" >
     </div>
     <div class="col-md-10 col-xs-7 pl40 pb15 pt15 middle-xs">
       <div class="fs-medium row extrabold">
-        {{ product.name | htmlDecode}}
+        {{ product.name | htmlDecode }}
       </div>
       <div class="row mt10 fs-medium">
         <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>

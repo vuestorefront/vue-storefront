@@ -1,7 +1,7 @@
 <template>
-    <div @click="switchFilter(id, from, to)" class="color-filter b b-circle inline-flex middle-xs center-xs pointer" :class="{ active : active }">
-        <div class="b b-circle" :style="'background-color:' + color"></div>
-    </div>
+  <div @click="switchFilter(id, from, to)" class="color-filter b b-circle inline-flex middle-xs center-xs pointer" :class="{ active : active }">
+    <div class="b b-circle" :style="'background-color:' + color"/>
+  </div>
 </template>
 
 <script>
@@ -23,7 +23,6 @@ export default {
         if (filterOption.id === this.id) {
           if (this.active) {
             this.active = false
-            return
           } else {
             this.active = true
           }

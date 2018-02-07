@@ -3,7 +3,7 @@
     <li class="row py10">
       <div>
         <div class="bg-lightgray image">
-          <img v-lazy="thumbnail" alt="" />
+          <img v-lazy="thumbnail" alt="" >
         </div>
       </div>
       <div class="col-xs flex pl35 py15 details">

@@ -8,12 +8,12 @@
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
             <p class="mb45">Enter your email to receive instructions on how to reset your password.</p>
-            <input ref="email" class="brdr-none py10 h4 weight-200" type="email" name="email" v-model="email" placeholder="E-mail address *">
+            <input ref="email" class="brdr-none py10 h4 weight-200" type="email" name="email" v-model="email" autocomplete="email" placeholder="E-mail address *">
             <p class="m0 c-red h6" v-if="!$v.email.required">Field is required.</p>
             <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
           </div>
           <div class="mb35">
-            <button-full class="btn-full p0 center-xs" text="Reset password" @click.native="sendEmail"></button-full>
+            <button-full class="btn-full p0 center-xs" text="Reset password" @click.native="sendEmail"/>
           </div>
           <div class="center-xs">
             <span>or <a href="#" @click.prevent="switchElem">return to log in</a></span>
@@ -26,7 +26,7 @@
             <p class="mb45">We've sent password reset instructions to your email. Check your inbox and follow the link.</p>
           </div>
           <div class="mb35">
-            <button-full class="btn-full p0 center-xs" text="Back to login" @click.native="switchElem"></button-full>
+            <button-full class="btn-full p0 center-xs" text="Back to login" @click.native="switchElem"/>
           </div>
         </form>
       </template>
