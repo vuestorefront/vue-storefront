@@ -347,6 +347,7 @@ class Storefront extends Abstract {
 
         config.elasticsearch.host = `${backendPath}/api/catalog`
         config.orders.endpoint = `${backendPath}/api/order`
+        config.products.endpoint = `${backendPath}/api/product`
         config.users.endpoint = `${backendPath}/api/user`
         config.stock.endpoint = `${backendPath}/api/stock`
         config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`

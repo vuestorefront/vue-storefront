@@ -182,9 +182,20 @@ export default {
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-product')
+    this.$bus.$off('product-after-priceupdate')
   },
   beforeMount () {
     stateCheck.bind(this)()
+    this.$bus.$on('product-after-priceupdate', (product) => {
+      if (product.sku === this.product.sku) {
+      // join selected variant object to the store
+        this.$store.dispatch('product/setCurrent', product)
+        .catch(err => console.error({
+          info: 'Dispatch product/setCurrent in Product.vue',
+          err
+        }))
+      }
+    })
     this.$bus.$on('filter-changed-product', filterChanged.bind(this))
   },
   computed: {

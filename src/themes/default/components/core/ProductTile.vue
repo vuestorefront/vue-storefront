@@ -19,20 +19,19 @@
           </transition>
         </div>
         <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>
-
         <span
           class="price-original mr5 lh30 c-gray-secondary"
-          v-if="product.special_price"
+          v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
         >
           {{ product.originalPriceInclTax | price }}
         </span>
         <span
           class="price-special lh30 c-darkgray weight-700"
-          v-if="product.special_price"
+          v-if="product.special_price && parseFloat(product.special_price) > 0"
         >
           {{ product.priceInclTax | price }}
         </span>
-        <span class="lh30 c-gray-secondary" v-if="!product.special_price">
+        <span class="lh30 c-gray-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
           {{ product.priceInclTax | price }}
         </span>
       </router-link>
@@ -55,11 +54,18 @@ export default {
   mixins: [coreComponent('core/ProductTile')],
   directives: { imgPlaceholder },
   created () {
+    this.$bus.$on('product-after-priceupdate', (product) => {
+      if (product.sku === this.product.sku) {
+        Object.assign(this.product, product)
+      }
+    })
     this.$bus.$on('product-after-configured', (config) => {
       this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, selectDefaultVariant: false }).then((selectedVariant) => {
         if (selectedVariant) {
           this.product.parentSku = this.product.sku
           Object.assign(this.product, selectedVariant)
+          this.$store.dispatch('product/doPlatformPricesSync', { products: [this.product] }, { root: true }).then((syncResult) => { // TODO: queue all these tasks to one
+          })
         }
       })
     })
