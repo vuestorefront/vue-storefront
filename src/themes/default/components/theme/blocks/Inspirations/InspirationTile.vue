@@ -1,5 +1,5 @@
 <template>
-  <div class="inspiration-tile">
+  <div class="inspiration-tile w-100">
     <router-link
       :to="{ name: product.type_id + '-product', params: { parentSku: product.sku, slug: product.slug }}"
     >
@@ -29,7 +29,6 @@ export default {
 
 <style scoped>
   .inspiration-tile {
-    width: 100%;
     height: 350px;
   }
 
