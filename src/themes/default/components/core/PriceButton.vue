@@ -1,11 +1,11 @@
 <template>
   <span @click="switchFilter(id, from, to)">
     <button
-      class="relative brdr-c-gray brdr-1 bg-transparent mr10 price-button"
+      class="relative brdr-c-gray brdr-1 bg-transparent mr10 pointer price-button"
       :class="{ active: active }"
       :aria-label="'Price ' + content"
     >
-      <div class="bg-transparent absolute square"/>
+      <div class="bg-transparent absolute block square"/>
     </button>
     <span>{{ content }}</span>
   </span>
@@ -53,7 +53,6 @@ export default { // TODO: move logic to parent component
   .price-button {
     width: 20px;
     height: 20px;
-    cursor: pointer;
 
     &:hover,
     &:focus {
@@ -72,7 +71,6 @@ export default { // TODO: move logic to parent component
   .square {
     width: 80%;
     height: 80%;
-    display: block;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);

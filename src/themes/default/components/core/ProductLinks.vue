@@ -17,13 +17,19 @@
 
         <div v-if="productLink.product" class="py5">
           <p class="h6 c-gray m0">Quantity</p>
-          <input type="number" class="product-qty h4 weight-300" min="1" autofocus
-                 v-model.number="productLink.product.qty">
+          <input
+            type="number"
+            class="product-qty py10 brdr-c-lightgray-secondary bg-c-transparent h4 weight-300"
+            min="1"
+            autofocus
+            v-model.number="productLink.product.qty"
+          >
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import { coreComponent } from 'lib/themes'
 export default {
@@ -31,12 +37,11 @@ export default {
   mixins: [coreComponent('core/ProductLinks')]
 }
 </script>
+
 <style scoped>
 .product-qty {
-  background: transparent;
-  border: 1px solid #BDBDBD;
+  border-style: solid;
   border-width: 0 0 1px 0;
   width: 90px;
-  padding: 7px 0;
 }
 </style>
