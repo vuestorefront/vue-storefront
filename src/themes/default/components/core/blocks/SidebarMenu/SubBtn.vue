@@ -1,9 +1,9 @@
 <template>
   <span @click.stop="next()" v-if="type === 'next'">
-    <i class="material-icons p15">keyboard_arrow_right</i>
+    <i class="material-icons p15 pointer">keyboard_arrow_right</i>
   </span>
   <span @click.stop="back()" v-else>
-    <i class="material-icons p15">keyboard_arrow_left</i>
+    <i class="material-icons p15 pointer">keyboard_arrow_left</i>
   </span>
 </template>
 <script>
@@ -40,8 +40,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .material-icons {
-    cursor: pointer;
-  }
-</style>

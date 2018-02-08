@@ -2,11 +2,11 @@
   <transition name="fade" appear>
     <li class="row py10">
       <div>
-        <div class="bg-lightgray image">
-          <img v-lazy="thumbnail" alt="" >
+        <div class="ml10 bg-lightgray">
+          <img class="image" v-lazy="thumbnail" alt="" >
         </div>
       </div>
-      <div class="col-xs flex pl35 py15 details">
+      <div class="col-xs flex pl35 py15 start-xs between-sm details">
         <div>
           <div class="serif h4 name">
             {{ product.name | htmlDecode }}
@@ -14,10 +14,10 @@
           <div class="h6 c-gray pt5 sku">
             {{ product.sku }}
           </div>
-          <div class="h6 pt5 error" v-if="product.warning_message">
+          <div class="h6 pt5 c-red" v-if="product.warning_message">
             {{ product.warning_message }}
           </div>
-          <div class="h6 pt5 info" v-if="product.info_message">
+          <div class="h6 pt5 c-ocean-green" v-if="product.info_message">
             {{ product.info_message }}
           </div>
         </div>
@@ -39,12 +39,12 @@
           </span>
         </div>
       </div>
-      <div class="flex pb15 pt15 align-right actions">
+      <div class="flex py15 mr10 align-right start-xs between-sm actions">
         <div>
-          <span class="h4 serif price-special" v-if="product.special_price">
+          <span class="h4 serif c-red price-special" v-if="product.special_price">
             {{ product.priceInclTax | price }}&nbsp;
           </span>
-          <span class="serif price-original" v-if="product.special_price">
+          <span class="h6 serif price-original" v-if="product.special_price">
             {{ product.originalPriceInclTax | price }}
           </span>
           <span class="h4 serif price-regular" v-if="!product.special_price">
@@ -110,19 +110,14 @@ export default {
 
 <style lang="scss" scoped>
   .image {
-    margin-left: .5rem;
-    img {
-      mix-blend-mode: multiply;
-      vertical-align: top;
-    }
+    mix-blend-mode: multiply;
+    vertical-align: top;
   }
 
   .details {
     flex-direction: column;
-    justify-content: space-between;
     @media (max-width: 767px) {
-      justify-content: flex-start;
-      padding:  0 10px 0 20px;
+      padding: 0 10px 0 20px;
     }
   }
 
@@ -146,30 +141,18 @@ export default {
 
   .actions {
     flex-direction: column;
-    justify-content: space-between;
-    margin-right: 0.5rem;
     @media (max-width: 767px) {
-      justify-content: flex-start;
       padding: 0;
       font-size: 12px;
     }
     .links {
-       @media (max-width: 767px) {
-         margin-top: 20px;
-       }
+      @media (max-width: 767px) {
+        margin-top: 20px;
+      }
     }
   }
 
-  .error {
-    color: #ff0000;
-  }
-
-  .info {
-    color: #008000;
-  }
-
   .price-special {
-    color: #ff0000;
     @media (max-width: 767px) {
       font-size: 14px;
     }
@@ -177,7 +160,6 @@ export default {
 
   .price-original {
     text-decoration: line-through;
-    font-size: 12px;
   }
 
   .price-regular {

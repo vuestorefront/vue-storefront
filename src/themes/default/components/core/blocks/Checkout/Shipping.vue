@@ -2,7 +2,12 @@
   <div class="shipping pt20">
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
-        <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">2</div>
+        <div
+          class="number-circle lh35 c-white brdr-circle align-center weight-700"
+          :class="{ 'bg-darkgray' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }"
+        >
+          2
+        </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
@@ -34,40 +39,124 @@
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="first-name" placeholder="First name" v-model.trim="shipping.firstName" @blur="$v.shipping.firstName.$touch()" autocomplete="given-name" >
-            <span class="validation-error" v-if="$v.shipping.firstName.$error && !$v.shipping.firstName.required">Field is required</span>
-            <span class="validation-error" v-if="!$v.shipping.firstName.minLength">Name must have at least {{ $v.shipping.firstName.$params.minLength.min }} letters.</span>
+            <input
+              type="text"
+              name="first-name"
+              placeholder="First name"
+              v-model.trim="shipping.firstName"
+              @blur="$v.shipping.firstName.$touch()"
+              autocomplete="given-name"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.shipping.firstName.$error && !$v.shipping.firstName.required"
+            >
+              Field is required
+            </span>
+            <span
+              class="validation-error"
+              v-if="!$v.shipping.firstName.minLength"
+            >
+              Name must have at least {{ $v.shipping.firstName.$params.minLength.min }} letters.
+            </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="last-name" placeholder="Last name" v-model.trim="shipping.lastName" @blur="$v.shipping.lastName.$touch()" autocomplete="family-name">
-            <span class="validation-error" v-if="$v.shipping.lastName.$error && !$v.shipping.lastName.required">Field is required</span>
+            <input
+              type="text"
+              name="last-name"
+              placeholder="Last name"
+              v-model.trim="shipping.lastName"
+              @blur="$v.shipping.lastName.$touch()"
+              autocomplete="family-name"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.shipping.lastName.$error && !$v.shipping.lastName.required"
+            >
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="street-address" placeholder="Street name" v-model.trim="shipping.streetAddress" @blur="$v.shipping.streetAddress.$touch()" autocomplete="shipping address-line1">
-            <span class="validation-error" v-if="$v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required">Field is required</span>
+            <input
+              type="text"
+              name="street-address"
+              placeholder="Street name"
+              v-model.trim="shipping.streetAddress"
+              @blur="$v.shipping.streetAddress.$touch()"
+              autocomplete="shipping address-line1"
+            >
+            <span class="validation-error" v-if="$v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required">
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shipping.apartmentNumber" @blur="$v.shipping.apartmentNumber.$touch()" autocomplete="address-line2">
-            <span class="validation-error" v-if="$v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required">Field is required</span>
+            <input
+              type="text"
+              name="apartment-number"
+              placeholder="House/Apartment number"
+              v-model.trim="shipping.apartmentNumber"
+              @blur="$v.shipping.apartmentNumber.$touch()"
+              autocomplete="address-line2"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required"
+            >
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="city" placeholder="City" v-model.trim="shipping.city" @blur="$v.shipping.city.$touch()" autocomplete="address-level2">
-            <span class="validation-error" v-if="$v.shipping.city.$error && !$v.shipping.city.required">Field is required</span>
+            <input
+              type="text"
+              name="city"
+              placeholder="City"
+              v-model.trim="shipping.city"
+              @blur="$v.shipping.city.$touch()"
+              autocomplete="address-level2"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.shipping.city.$error && !$v.shipping.city.required">Field is required</span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="state" placeholder="State / Province" v-model.trim="shipping.state" autocomplete="address-level1">
+            <input
+              type="text"
+              name="state"
+              placeholder="State / Province"
+              v-model.trim="shipping.state"
+              autocomplete="address-level1"
+            >
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shipping.zipCode" @blur="$v.shipping.zipCode.$touch()" autocomplete="postal-code">
-            <span class="validation-error" v-if="$v.shipping.zipCode.$error && !$v.shipping.zipCode.required">Field is required</span>
-            <span class="validation-error" v-if="!$v.shipping.zipCode.minLength">Zip-code must have at least {{ $v.shipping.zipCode.$params.minLength.min }} letters.</span>
+            <input
+              type="text"
+              name="zip-code"
+              placeholder="Zip-code"
+              v-model.trim="shipping.zipCode"
+              @blur="$v.shipping.zipCode.$touch()"
+              autocomplete="postal-code"
+            >
+            <span
+              class="validation-error"
+              v-if="$v.shipping.zipCode.$error && !$v.shipping.zipCode.required"
+            >
+              Field is required
+            </span>
+            <span
+              class="validation-error"
+              v-if="!$v.shipping.zipCode.minLength"
+            >
+              Zip-code must have at least {{ $v.shipping.zipCode.$params.minLength.min }} letters.
+            </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
             <select name="countries" v-model="shipping.country" @change="$v.shipping.country.$touch()" autocomplete="country">
               <option value="" disabled selected hidden>Country</option>
               <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
-            <span class="validation-error" v-if="$v.shipping.country.$error && !$v.shipping.country.required">Field is required</span>
+            <span class="validation-error" v-if="$v.shipping.country.$error && !$v.shipping.country.required">
+              Field is required
+            </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
             <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="shipping.phoneNumber">
@@ -77,11 +166,19 @@
           </div>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
             <label class="radioStyled"> {{ method.name }} | {{ method.cost | price }}
-              <input type="radio" :value="method.code" name="shipping-method" v-model="shipping.shippingMethod" @change="$v.shipping.shippingMethod.$touch()">
+              <input
+                type="radio"
+                :value="method.code"
+                name="shipping-method"
+                v-model="shipping.shippingMethod"
+                @change="$v.shipping.shippingMethod.$touch()"
+              >
               <span class="checkmark"/>
             </label>
           </div>
-          <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">Field is required</span>
+          <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">
+            Field is required
+          </span>
         </div>
       </div>
     </div>
@@ -90,7 +187,11 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 my30 bottom-button">
-            <button-full @click.native="sendDataToCheckout" text="Continue to payment" :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"/>
+            <button-full
+              @click.native="sendDataToCheckout"
+              text="Continue to payment"
+              :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
+            />
           </div>
         </div>
       </div>

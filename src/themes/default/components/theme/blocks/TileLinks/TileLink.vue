@@ -2,10 +2,10 @@
   <div class="tile-link">
     <a :href="tile.account_link">
       <div
-        class="tile-image bg-lightgray"
+        class="tile-image w-100 bg-lightgray"
         v-lazy:background-image="tile.background_image"
       >
-        <div class="overlay flex bg-white h4">@{{ tile.account_name }}</div>
+        <div class="overlay w-100 flex center-xs middle-xs bg-white h4">@{{ tile.account_name }}</div>
       </div>
     </a>
   </div>
@@ -35,7 +35,6 @@ export default {
   }
 
   .tile-image {
-    width: 100%;
     height: 100%;
     background-position: center;
     background-size: cover;
@@ -43,10 +42,7 @@ export default {
   }
 
   .overlay {
-    width: 100%;
     height: 100%;
-    align-items: center;
-    justify-content: center;
     opacity: 0;
     transition: 0.3s all $motion-main;
     &:hover,

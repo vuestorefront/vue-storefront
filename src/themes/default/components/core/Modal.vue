@@ -53,56 +53,56 @@ export default {
 $z-index-modal: map-get($z-index, modal);
 
 .modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: auto;
-    z-index: $z-index-modal;
-    text-align: inherit;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  z-index: $z-index-modal;
+  text-align: inherit;
 }
 
 .modal-wrapper {
-    display: table;
-    height: 100%;
-    width: 100%;
-    table-layout: fixed;
-    pointer-events: none;
+  display: table;
+  height: 100%;
+  width: 100%;
+  table-layout: fixed;
+  pointer-events: none;
 }
 
 .modal-center {
-    display: table-cell;
-    vertical-align: middle;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .modal-container {
-    width: 945px;
-    margin: 0 auto;
-    max-width: 100%;
-    max-height: 100%;
-    z-index: $z-index-modal+1;
-    pointer-events: auto;
+  width: 945px;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 100%;
+  z-index: $z-index-modal+1;
+  pointer-events: auto;
 
-    @media (max-width: 600px) {
-      min-height: 100%;
-      min-width: 100%;
-      margin: 0;
-    }
+  @media (max-width: 600px) {
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0;
+  }
 }
 
 .modal-header {
-    position: relative;
+  position: relative;
 
-    > * {
-        margin: 0;
-    }
+  > * {
+      margin: 0;
+  }
 }
 
 .modal-close {
-    position: absolute;
-    cursor: pointer;
-    right: 0;
-    top: 0;
+  position: absolute;
+  cursor: pointer;
+  right: 0;
+  top: 0;
 }
 </style>

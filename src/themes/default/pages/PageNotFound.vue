@@ -9,8 +9,17 @@
       <div class="container">
         <div class="lh16 h5 weight-400">
           <p>Unfortunately we can't find the page you are looking for.</p>
-          <p>If you need an assistance you can drop us a line on <router-link to="/" class="c-gray-secondary no-underline">a chat</router-link> or write to us through <router-link to="/contact" class="c-gray-secondary no-underline">a contact page</router-link>.</p>
-          <p>You can also use <a href="#" class="c-gray-secondary no-underline" @click="toggleSearchpanel">search</a> to find product you were looking for.</p>
+          <p>
+            If you need an assistance you can drop us a line on
+            <router-link to="/" class="c-gray-secondary no-underline">a chat</router-link>
+            or write to us through
+            <router-link to="/contact" class="c-gray-secondary no-underline">a contact page</router-link>.
+          </p>
+          <p>
+            You can also use
+            <a href="#" class="c-gray-secondary no-underline" @click="toggleSearchpanel">search</a>
+            to find product you were looking for.
+          </p>
         </div>
         <section class="container">
           <header class="col-md-12 pt40">

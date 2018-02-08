@@ -1,6 +1,6 @@
 <template>
-  <div class="sign-up mb20">
-    <i class="material-icons p15 close c-gray" @click="closeSignUp">close</i>
+  <div class="sign-up mb20 fixed bg-white h4">
+    <i class="material-icons p15 absolute close pointer c-gray" @click="closeSignUp">close</i>
     <login v-if="activeElem === 'login'" />
     <register v-if="activeElem === 'register'" />
     <forgot-pass v-if="activeElem === 'forgot-pass'" />
@@ -30,15 +30,12 @@ export default {
 </script>
 <style lang="scss" scoped>
   .sign-up {
-    position: fixed;
-    width: 555px;
-    min-height: 555px;
-    background-color: white;
     top: 100px;
     left: 50%;
+    width: 555px;
+    min-height: 555px;
     transform: translateX(-50%);
     z-index: 3;
-    font-size: 18px;
     overflow: auto;
 
     @media (max-width: 600px), (orientation: landscape) and (max-width: 820px) {
@@ -50,9 +47,7 @@ export default {
     }
   }
   .close {
-    position: absolute;
     right: 0;
     top: 0;
-    cursor: pointer;
   }
 </style>

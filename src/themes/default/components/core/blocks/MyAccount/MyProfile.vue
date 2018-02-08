@@ -17,16 +17,37 @@
     <!-- My profile body (edit mode) -->
     <div class="row" v-show="isActive">
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-        <input type="text" name="first-name" placeholder="First name" v-model.trim="currentUser.firstname" @input="$v.currentUser.firstname.$touch()">
-        <span class="validation-error" v-if="!$v.currentUser.firstname.required">Field is required</span><span class="validation-error" v-if="!$v.currentUser.firstname.minLength">Name must have at least {{ $v.currentUser.firstname.$params.minLength.min }} letters.</span>
+        <input
+          type="text"
+          name="first-name"
+          placeholder="First name"
+          v-model.trim="currentUser.firstname"
+          @input="$v.currentUser.firstname.$touch()"
+        >
+        <span
+          class="validation-error"
+          v-if="!$v.currentUser.firstname.required"
+        >
+          Field is required
+        </span>
+        <span class="validation-error" v-if="!$v.currentUser.firstname.minLength">
+          Name must have at least {{ $v.currentUser.firstname.$params.minLength.min }} letters.
+        </span>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="currentUser.lastname">
-        <span class="validation-error" v-if="!$v.currentUser.lastname.required">Field is required</span>
+        <span class="validation-error" v-if="!$v.currentUser.lastname.required">
+          Field is required
+        </span>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
         <input type="email" name="email-address" placeholder="Email address" v-model="currentUser.email">
-        <span class="validation-error" v-if="!$v.currentUser.email.required">Field is required</span><span class="validation-error" v-if="!$v.currentUser.email.email">Please provide valid e-mail address.</span>
+        <span class="validation-error" v-if="!$v.currentUser.email.required">
+          Field is required
+        </span>
+        <span class="validation-error" v-if="!$v.currentUser.email.email">
+          Please provide valid e-mail address.
+        </span>
       </div>
       <div class="col-xs-12 col-md-12 mb15">
         <div class="checkboxStyled">
@@ -34,34 +55,65 @@
           <label for="changePassword"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="changePassword = !changePassword">
-          <span class="fs16 c-darkgray">Change my password</span>
+          <span class="fs16 c-darkgray">
+            Change my password
+          </span>
         </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
-        <div class="pass-container">
-          <input class="pr30" name="old-password" v-model="oldPassword" :type="passType.oldPass" placeholder="Current password *">
-          <div class="icon">
+        <div class="pass-container relative mr35">
+          <input
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            name="old-password"
+            v-model="oldPassword"
+            :type="passType.oldPass"
+            placeholder="Current password *"
+          >
+          <div class="icon absolute c-lightgray-secondary pointer">
             <i class="material-icons" @click="togglePassType('oldPass')">{{ iconName.oldPass }}</i>
           </div>
         </div>
-        <span class="validation-error" v-if="!$v.oldPassword.required">Field is required.</span>
+        <span class="validation-error" v-if="!$v.oldPassword.required">
+          Field is required.
+        </span>
       </div>
       <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" v-if="changePassword"/>
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
-        <div class="pass-container">
-          <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="New password *">
-          <div class="icon">
+        <div class="pass-container relative mr35">
+          <input
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            name="password"
+            v-model="password"
+            :type="passType.pass"
+            placeholder="New password *"
+          >
+          <div class="icon absolute c-lightgray-secondary pointer">
             <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
           </div>
         </div>
-        <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
+        <span class="validation-error" v-if="!$v.password.required">
+          Field is required.
+        </span>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
-        <div class="pass-container">
-          <input class="pr30" name="password-confirm" v-model="rPassword" :type="passType.repeatPass" placeholder="Repeat new password *">
-          <i class="icon material-icons" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
+        <div class="pass-container relative mr35">
+          <input
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            name="password-confirm"
+            v-model="rPassword"
+            :type="passType.repeatPass"
+            placeholder="Repeat new password *"
+          >
+          <i
+            class="icon absolute c-lightgray-secondary material-icons pointer"
+            @click="togglePassType('repeatPass')"
+          >
+            {{ iconName.repeatPass }}
+          </i>
         </div>
-        <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
+        <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">
+          Passwords must be identical.
+        </span>
       </div>
       <!-- Company information -->
       <div class="col-xs-12 col-md-12 mb25 mt10">
@@ -70,7 +122,9 @@
           <label for="addCompany"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="addCompany = !addCompany">
-          <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
+          <span class="fs16 c-darkgray">
+            I have a company and want to receive an invoice for every order
+          </span>
         </div>
       </div>
 
@@ -96,7 +150,9 @@
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="userCompany.postcode">
         <span class="validation-error" v-if="!$v.userCompany.postcode.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">Zip-code must have at least {{ $v.userCompany.postcode.$params.minLength.min }} letters.</span>
+        <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">
+          Zip-code must have at least {{ $v.userCompany.postcode.$params.minLength.min }} letters.
+        </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <select name="countries" v-model="userCompany.country">
@@ -108,12 +164,18 @@
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input type="text" name="taxId" placeholder="Tax ID" v-model.trim="userCompany.taxId">
         <span class="validation-error" v-if="!$v.userCompany.taxId.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">Tax ID must have at least {{ $v.userCompany.taxId.$params.minLength.min }} letters.</span>
+        <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">
+          Tax ID must have at least {{ $v.userCompany.taxId.$params.minLength.min }} letters.
+        </span>
       </div>
       <div class="hidden-xs col-sm-6 mb25" v-show="addCompany"/>
 
       <div class="col-xs-12 col-sm-6 bottom-button">
-        <button-full text="Update my profile" @click.native="updateProfile" :class="{ 'button-disabled': checkValidation() }" />
+        <button-full
+          text="Update my profile"
+          @click.native="updateProfile"
+          :class="{ 'button-disabled': checkValidation() }"
+        />
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
@@ -255,36 +317,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '~theme/css/global_vars';
+  $black: map-get($colors, black);
+  $gray: map-get($colors, gray);
 
   .pass-container {
-    position: relative;
-    margin-right: 35px;
-
     input[type=password], input[type=text] {
-      box-sizing: border-box;
-      font-size: 18px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      width: 100% !important;
-      border: 0;
-      border-bottom: 1px solid #BDBDBD;
-
       &:focus {
         outline: none;
-        border-color: black;
+        border-color: $black;
         transition: 0.3s all;
       }
     }
 
     .icon {
-      cursor: pointer;
-      position: absolute;
       right: 0;
       top: 10px;
-      color: #BDBDBD;
 
       &:hover {
-        color: #8E8E8E;
+        color: $gray;
       }
     }
   }
@@ -295,5 +346,4 @@ export default {
       margin-top: 15px;
     }
   }
-
 </style>

@@ -1,8 +1,12 @@
 <template>
-  <div class="button-outline uppercase px40 py15" tabindex="0" :class="{
-    light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-    dark : color === 'dark', 'brdr-black' : color === 'dark', 'c-gray-secondary' : color === 'dark'
-  }">
+  <div
+    class="button-outline inline-flex uppercase brdr-2 px40 py15 pointer weight-400 h4"
+    tabindex="0"
+    :class="{
+      light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
+      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'c-gray-secondary' : color === 'dark'
+    }"
+  >
     {{ text }}
   </div>
 </template>
@@ -28,26 +32,24 @@ export default {
 <style lang="scss" scoped>
 @import '~theme/css/global_vars';
 $gray-secondary: map-get($colors, gray-secondary);
+$white: map-get($colors, white);
+$black: map-get($colors, black);
 
 .button-outline {
-    font-size: 16px;
-    border: 2px solid;
-    display: inline-flex;
-    cursor: pointer;
-    font-weight: 400;
+  border: 2px solid;
 }
-.button-outline.dark {
-    font-weight: 200;
-    border: 1px solid $gray-secondary;
+.dark {
+  font-weight: 200;
+  border: 1px solid $gray-secondary;
 }
 .light:hover {
-    color: #000;
-    background: white;
-    border-color: white;
+  color: $black;
+  background: $white;
+  border-color: $white;
 }
 .dark:hover {
-    color: white;
-    background: #000;
-    border-color: black;
+  color: $white;
+  background: $black;
+  border-color: $black;
 }
 </style>

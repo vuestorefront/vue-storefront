@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div class="cookie bg-black c-lightgray-secondary" v-if="isOpen">
+    <div class="cookie fixed w-100 bg-darkgray c-lightgray-secondary" v-if="isOpen">
       <div class="container">
         <div class="row between-xs middle-xs px15">
           <div class="col-xs-10 start-xs">
@@ -12,7 +12,7 @@
             </router-link>
           </div>
           <div class="col-xs-2 end-xs">
-            <i class="material-icons icon p15 close" @click="accept">close</i>
+            <i class="material-icons icon p15 pointer" @click="accept">close</i>
           </div>
         </div>
       </div>
@@ -70,14 +70,11 @@ export default {
   $black: map-get($colors, black);
 
   .cookie {
-    position: fixed;
     z-index: 2;
-    width: 100%;
     bottom: 0;
   }
 
   .icon:hover {
-    cursor: pointer;
     color: $black;
     background-color: $gray;
   }

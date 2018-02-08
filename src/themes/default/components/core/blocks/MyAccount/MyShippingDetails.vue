@@ -19,7 +19,9 @@
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="first-name" placeholder="First name" v-model.trim="shippingDetails.firstName">
         <span class="validation-error" v-if="!$v.shippingDetails.firstName.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.shippingDetails.firstName.minLength">Name must have at least {{ $v.shippingDetails.firstName.$params.minLength.min }} letters.</span>
+        <span class="validation-error" v-if="!$v.shippingDetails.firstName.minLength">
+          Name must have at least {{ $v.shippingDetails.firstName.$params.minLength.min }} letters.
+        </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="last-name" placeholder="Last name" v-model.trim="shippingDetails.lastName">
@@ -52,7 +54,9 @@
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shippingDetails.postcode">
         <span class="validation-error" v-if="!$v.shippingDetails.postcode.required">Field is required</span>
-        <span class="validation-error" v-if="!$v.shippingDetails.postcode.minLength">Zip-code must have at least {{ $v.shippingDetails.postcode.$params.minLength.min }} letters.</span>
+        <span class="validation-error" v-if="!$v.shippingDetails.postcode.minLength">
+          Zip-code must have at least {{ $v.shippingDetails.postcode.$params.minLength.min }} letters.
+        </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
         <select name="countries" v-model="shippingDetails.country">

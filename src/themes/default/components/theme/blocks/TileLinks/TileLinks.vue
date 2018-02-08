@@ -1,7 +1,11 @@
 <template>
   <div class="tile-links">
     <div class="row center-xs">
-      <div class="tile-container middle-xs center-xs row col-md-4 p15" v-for="(tile, index) in social_tiles" :key="index">
+      <div
+        class="tile-container middle-xs center-xs row col-md-4 p15"
+        v-for="(tile, index) in social_tiles"
+        :key="index"
+      >
         <tile-link :tile="tile" />
       </div>
     </div>

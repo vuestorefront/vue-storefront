@@ -6,8 +6,12 @@
   display: flex;
 }
 
+.block {
+  display: block;
+}
+
 .center-self {
- align-self: center;
+  align-self: center;
 }
 
 .relative {
@@ -20,4 +24,16 @@
 
 .fixed {
   position: fixed;
+}
+
+.border-box {
+  box-sizing: border-box;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mw-100 {
+  max-width: 100%
 }

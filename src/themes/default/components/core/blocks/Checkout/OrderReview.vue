@@ -2,7 +2,12 @@
   <div class="order-review pt20">
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
-        <div class="number-circle lh35 c-white brdr-circle align-center weight-700" :class="{ 'bg-black' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }">4</div>
+        <div
+          class="number-circle lh35 c-white brdr-circle align-center weight-700"
+          :class="{ 'bg-darkgray' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }"
+        >
+          4
+        </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row">
@@ -23,12 +28,14 @@
                 <cart-summary />
               </div>
               <div class="col-xs-11 col-sm-12 col-md-8 bg-lightgray p15 mb35 ml10">
-                <div class="checkboxStyled">
+                <div class="checkboxStyled relative">
                   <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox">
-                  <label for="acceptTermsCheckbox"/>
+                  <label class="absolute brdr-gray bg-lightgray pointer" for="acceptTermsCheckbox"/>
                 </div>
-                <div class="checkboxText ml15 lh25">
-                  <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">I agree to <span class="link" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span></span>
+                <div class="checkboxText ml15 lh25 pointer">
+                  <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
+                    I agree to <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span>
+                  </span>
                 </div>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
               </div>
@@ -83,52 +90,7 @@ export default {
 <style lang="scss" scoped>
 
   .link {
-    cursor: pointer;
     text-decoration: underline;
-  }
-
-  .checkboxStyled {
-    width: 23px;
-    position: relative;
-    display: inline-block;
-
-    label {
-      cursor: pointer;
-      position: absolute;
-      width: 23px;
-      height: 23px;
-      top: 0;
-      left: 0;
-      background: #F2F2F2;
-      border:1px solid #8E8E8E;
-
-      &:after {
-        content: '';
-        position: absolute;
-        width: 11px;
-        height: 5px;
-        background: transparent;
-        top: 6px;
-        left: 5px;
-        border: 3px solid #F2F2F2;
-        border-top: none;
-        border-right: none;
-        transform: rotate(-45deg);
-      }
-    }
-
-    input[type=checkbox]:checked + label {
-      background: #8E8E8E;
-    }
-  }
-
-  .checkboxText {
-    display: inline-block;
-    cursor: pointer;
-
-    span {
-      vertical-align: middle;
-    }
   }
 
   .cartsummary-wrapper {

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row center-xs">
         <header class="col-md-12 pb15">
-          <h2 class="align-center c-black">
+          <h2 class="align-center c-darkgray">
             {{ title }}
           </h2>
         </header>
@@ -62,6 +62,9 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '~theme/css/global_vars';
+  $lightgray: map-get($colors, lightgray);
+
   .collection-slider {
     overflow: hidden;
   }
@@ -79,7 +82,7 @@ export default {
 
   .product {
     &.collection-product {
-      background-color: #f2f2f2;
+      background-color: $lightgray;
       padding: 15px;
     }
 
@@ -90,14 +93,16 @@ export default {
     }
   }
 
-  .collection-product .product-image {
-    mix-blend-mode: darken;
-    height: auto;
-
-    img {
-      max-width: 100%;
-      max-height: 100%;
+  .collection-product {
+    .product-image {
+      mix-blend-mode: darken;
       height: auto;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        height: auto;
+      }
     }
   }
 </style>

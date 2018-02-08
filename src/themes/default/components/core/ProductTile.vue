@@ -1,18 +1,39 @@
 <template>
   <div class="product align-center p15">
     <div @click.capture="preventClicks">
-      <router-link class="no-underline" :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
+      <router-link
+        class="no-underline"
+        :to="{
+          name: product.type_id + '-product',
+          params: {
+            parentSku: product.parentSku ? product.parentSku : product.sku,
+            slug: product.slug,
+            childSku: product.sku
+          }
+        }"
+      >
         <div class="product-image bg-lightgray">
           <transition name="fade" appear>
-            <img v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder">
-            <img v-if="!instant" v-lazy="thumbnailObj" :key="thumbnail">
+            <img class="mw-100" v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder">
+            <img class="mw-100" v-if="!instant" v-lazy="thumbnailObj" :key="thumbnail">
           </transition>
         </div>
         <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>
-
-        <span class="price-original mr5 lh30 c-gray-secondary" v-if="product.special_price && parseFloat(product.originalPriceInclTax)>0">{{ product.originalPriceInclTax | price }}</span>
-        <span class="price-special lh30 c-darkgray weight-700" v-if="product.special_price && parseFloat(product.special_price)>0">{{ product.priceInclTax | price }}</span>
-        <span class="lh30 c-gray-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0" >{{ product.priceInclTax | price }}</span>
+        <span
+          class="price-original mr5 lh30 c-gray-secondary"
+          v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
+        >
+          {{ product.originalPriceInclTax | price }}
+        </span>
+        <span
+          class="price-special lh30 c-darkgray weight-700"
+          v-if="product.special_price && parseFloat(product.special_price) > 0"
+        >
+          {{ product.priceInclTax | price }}
+        </span>
+        <span class="lh30 c-gray-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
+          {{ product.priceInclTax | price }}
+        </span>
       </router-link>
     </div>
   </div>
@@ -76,6 +97,8 @@ export default {
 
 <style lang="scss" scoped>
 @import '~src/themes/default/css/transitions';
+@import '~theme/css/global_vars';
+$lightgray: map-get($colors, lightgray);
 
 .product {
   @media (max-width: 700px) {
@@ -85,20 +108,6 @@ export default {
 .price-original {
   text-decoration: line-through;
 }
-.product-image > img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  opacity: 0.8;
-  transition: 0.3s all $motion-main;
-  mix-blend-mode: multiply;
-}
-.product-image:hover > img {
-  transform: scale(1.1);
-  opacity: 1;
-  transition: 0.3s all $motion-main;
-}
 .product-image {
   width: 100%;
   mix-blend-mode: multiply;
@@ -106,7 +115,21 @@ export default {
   transition: 0.3s all $motion-main;
 
   &:hover {
-    background-color: #FBFBFB;
+    background-color: rgba($lightgray, .3);
+
+    > img {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+  }
+
+  > img {
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    opacity: 0.8;
+    transition: 0.3s all $motion-main;
+    mix-blend-mode: multiply;
   }
 }
 </style>

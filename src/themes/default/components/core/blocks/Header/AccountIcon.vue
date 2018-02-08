@@ -5,19 +5,19 @@
     @mouseover="showDropdown"
     @mouseout="hideDropdown"
   >
-    <div class="dropdown">
-      <i class="material-icons md-18">account_circle</i>
+    <div class="dropdown relative">
+      <i class="material-icons md-18 block">account_circle</i>
       <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
         <p>
           {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
         </p>
         <hr>
-        <div class="section-wrapper">
+        <div class="section-wrapper w-100">
           <router-link class="no-underline" :to="{ name: 'my-account' }">
             {{ $t('My account') }}
           </router-link>
         </div>
-        <div class="section-wrapper">
+        <div class="section-wrapper w-100">
           <a href="#" class="no-underline" @click.stop="clickLogout">
             {{ $t('Logout') }}
           </a>
@@ -67,12 +67,6 @@ export default {
   @import '~theme/css/global_vars';
 
   .dropdown {
-    position: relative;
-
-    i {
-      display: block;
-    }
-
     .dropdown-content {
       display: none;
       position: absolute;
@@ -87,7 +81,6 @@ export default {
 
       .section-wrapper {
         display: table;
-        width: 100%;
 
         .no-underline {
           display: table-cell;
