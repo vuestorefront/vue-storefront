@@ -67,5 +67,5 @@ First of all: <strong>override core components only when you're adding features 
 # Related topics
 
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
-* [Creating themes in Vue Storefront -Part 1 ('Using Vue Storefront core in your theme' section](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)
+* [Creating themes in Vue Storefront -Part 1 ('Using Vue Storefront core in your theme' section)](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)
 
