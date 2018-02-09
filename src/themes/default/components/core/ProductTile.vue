@@ -96,8 +96,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~src/themes/default/css/transitions';
-@import '~theme/css/global_vars';
+@import '~theme/css/animations/transitions';
+@import '~theme/css/base/global_vars';
 $lightgray: map-get($colors, lightgray);
 
 .product {

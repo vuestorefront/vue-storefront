@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~src/themes/default/css/transitions';
+  @import '~theme/css/animations/transitions';
 
   .tile-link {
     width: 322px;

@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../css/transitions.scss";
+@import "~theme/css/animations/transitions";
   .wishlist {
     height: 100vh;
     width: 800px;

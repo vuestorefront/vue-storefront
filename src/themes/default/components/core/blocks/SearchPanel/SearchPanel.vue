@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../css/transitions.scss";
+@import "~theme/css/animations/transitions";
 
 .searchpanel {
   height: 100vh;
