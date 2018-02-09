@@ -1,5 +1,3 @@
-@import 'global_vars';
-
 @mixin color {
   @each $color, $colorcode in $colors {
     .bg-#{$color} {
