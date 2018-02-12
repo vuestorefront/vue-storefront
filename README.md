@@ -84,10 +84,59 @@ Vue Storefront is platform agnostic which mean - it can be connected to virtuall
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
 
 ## Contributing
-If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via vuestorefront@divante.co.
+If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via contributors@vuestorefront.io.
 
-## Workshops and support
+If you have discovered a 🐜 or have a feature suggestion, feel free to create an issue on Github.
+
+## Workshops
 If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](https://products.divante.co/vuestorefront/)
+
+## Support us!
+**Vue Storefront is and always will be Open Source, released under MIT Licence.**
+Most of the core team members, VS contributors and contributors in the ecosystem do this open source work in their free time. If you use Vue Storefront for a serious task, and you'd like us to invest more time on it, you can donate the project! You can support us in various ways:
+- **Contribute** - this how the Core Team is supporting the project!
+- **Evangelize** - tweet about us, take some speaking slot at tech conference etc.
+- **Sponsor** - if you're doing seroius business on VS maybe You would like to donate the project and put your logo in here?
+
+This is how we will the donations:
+
+- Allow the core team to work on VS
+- Thank contributors if they invested a large amount of time in contributing
+- Support projects in the ecosystem that are of great value for users
+- Infrastructure cost
+- Fees for money handling
+
+**If you like to support us please just let us know: contributors@vuestorefront.io** 
+
+## Partners
+Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies.
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top">
+        <img width="150" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png">
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">    
+        <img width="150" alt="Wagento" align="left" src="https://www.wagento.com/media/wysiwyg/logo-stacked-color-tagline_4x.png">
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">        
+        <img width="150" alt="Summa Solutions" align="left" src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg">
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">        
+        <img width="150" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg">
+      </td>
+    </tr>
+  </tbody>
+Partners are encourage to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partner by dedicated contact channels, workshops and by **sharing the leads** from merchants interested in implementations.
+
+If you like to become our Partner just let us know via contributors@vuestorefront.io.
 
 ## The screenshots
 
