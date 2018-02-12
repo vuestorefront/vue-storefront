@@ -114,17 +114,21 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top">
-        <img width="150" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png">
+      <td align="center" valign="middle">
+        <a href="https://divante.co/static/img/logo.svg"><img height="50" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png"></a>
       </td>
-      <td align="center" valign="top">    
-        <img width="150" alt="Wagento" align="left" src="https://www.wagento.com/media/wysiwyg/logo-stacked-color-tagline_4x.png">
+
+<td align="center" valign="middle">
+        <a href="https://snow.dog"><img height="50" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png"></a>
       </td>
-      <td align="center" valign="top">        
-        <img width="150" alt="Summa Solutions" align="left" src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg">
+      <td align="center" valign="middle">    
+        <a href="https://www.wagento.com"><img height="50" alt="Wagento" align="left" src="https://www.wagento.com/media/wysiwyg/logo-stacked-color-tagline_4x.png"></a>
       </td>
-      <td align="center" valign="top">        
-        <img width="150" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg">
+      <td align="center" valign="middle">        
+        <a href="http://www.summasolutions.net"><img height="50" alt="Summa Solutions" align="left" src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="http://www.acidgreen.com.au/"><img height="50" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"></a>
       </td>
     </tr>
   </tbody>
