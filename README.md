@@ -93,6 +93,7 @@ If you like our project and would like to learn more on how to create Progressiv
 
 ## Support us!
 **Vue Storefront is and always will be Open Source, released under MIT Licence.**
+
 Most of the core team members, VS contributors and contributors in the ecosystem do this open source work in their free time. If you use Vue Storefront for a serious task, and you'd like us to invest more time on it, you can donate the project! You can support us in various ways:
 - **Contribute** - this how the Core Team is supporting the project!
 - **Evangelize** - tweet about us, take some speaking slot at tech conference etc.
@@ -115,14 +116,14 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://divante.co/static/img/logo.svg"><img height="50" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png"></a>
+        <a href="https://divante.co/"><img height="50" alt="Snow.dog" align="left" src="https://divante.co/static/img/logo.svg"></a>
       </td>
 
 <td align="center" valign="middle">
         <a href="https://snow.dog"><img height="50" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png"></a>
       </td>
       <td align="center" valign="middle">    
-        <a href="https://www.wagento.com"><img height="50" alt="Wagento" align="left" src="https://www.wagento.com/media/wysiwyg/logo-stacked-color-tagline_4x.png"></a>
+        <a href="https://www.wagento.com"><img height="50" alt="Wagento" align="left" src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"></a>
       </td>
       <td align="center" valign="middle">        
         <a href="http://www.summasolutions.net"><img height="50" alt="Summa Solutions" align="left" src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg"></a>
