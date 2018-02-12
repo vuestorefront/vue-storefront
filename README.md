@@ -117,23 +117,18 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="top">
         <img width="150" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png">
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">    
         <img width="150" alt="Wagento" align="left" src="https://www.wagento.com/media/wysiwyg/logo-stacked-color-tagline_4x.png">
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">        
         <img width="150" alt="Summa Solutions" align="left" src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg">
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">        
         <img width="150" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg">
       </td>
     </tr>
   </tbody>
+ </table>
 Partners are encourage to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partner by dedicated contact channels, workshops and by **sharing the leads** from merchants interested in implementations.
 
 If you like to become our Partner just let us know via contributors@vuestorefront.io.
