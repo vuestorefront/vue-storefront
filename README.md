@@ -134,7 +134,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
     </tr>
   </tbody>
  </table>
-Partners are encourage to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partner by dedicated contact channels, workshops and by **sharing the leads** from merchants interested in implementations.
+Partners are encourage to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partner by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
 If you like to become our Partner just let us know via contributors@vuestorefront.io.
 
