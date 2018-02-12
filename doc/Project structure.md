@@ -10,8 +10,7 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `api`
   * `assets` - Assets used in project like images, svg's etc. (in the near future assets will be theme-specific)
   * `components` Vue Storefront core components (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
-  * `config` - Config plugin allowing easier access to config file (will be moved in the near future)
-  * `event-bus` - Global event bus for the project (available via `$this.$bus` - docs under construction)
+  * `plugins` - Core plugins (see: [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20plugins.md))
   * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Alalytics) (docs under construction)
   * `filters` - Global Vue filters for the project
   * `helpers` - Global methods for the project
