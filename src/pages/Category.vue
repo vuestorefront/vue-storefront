@@ -13,7 +13,7 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import { optionLabel } from 'src/store/modules/attribute'
-import EventBus from 'src/event-bus'
+import EventBus from 'src/plugins/event-bus'
 import _ from 'lodash'
 import i18n from 'lib/i18n'
 

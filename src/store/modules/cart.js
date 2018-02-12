@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import _ from 'lodash'
-import EventBus from 'src/event-bus'
+import EventBus from 'src/plugins/event-bus'
 import config from 'config'
 import rootStore from '../'
 import i18n from 'lib/i18n'
