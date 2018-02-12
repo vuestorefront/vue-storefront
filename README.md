@@ -6,6 +6,23 @@ Sign up for a demo at https://vuestorefront.io/ (Vue Storefront integrated with 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is still in the proof of concept phase. **We are looking for Contributors and Designer willing to help us in the solution development.**
 
+## See it in action
+
+Try out our open demo and if you like it contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://demo.vuestorefront.io"><img height="50" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true">authorization: demo / !@#demo</a>
+      </td>
+
+<td align="center" valign="middle">
+        <a href="https://demo-catalog.vuestorefront.io"><img height="50" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true">authorization: demo / !@#demo</a>
+      </td>
+    </tr>
+  </tbody>
+ </table>
+
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
 
