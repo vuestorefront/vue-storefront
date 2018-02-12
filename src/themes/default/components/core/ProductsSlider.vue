@@ -23,6 +23,7 @@
                     class="collection-product"
                     :product="product"
                     :class="{'is-muted': (currentPage == index || index == currentPage + 5)}"
+                    :labels-active="false"
                   />
                 </slide>
               </carousel>

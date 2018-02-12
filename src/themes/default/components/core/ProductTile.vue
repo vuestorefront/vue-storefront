@@ -12,7 +12,10 @@
           }
         }"
       >
-        <div class="product-image bg-lightgray">
+        <div
+          class="product-image relative bg-lightgray"
+          :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+        >
           <transition name="fade" appear>
             <img class="mw-100" v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder">
             <img class="mw-100" v-if="!instant" v-lazy="thumbnailObj" :key="thumbnail">
@@ -49,6 +52,11 @@ export default {
       type: Boolean,
       required: false,
       default: () => false
+    },
+    labelsActive: {
+      type: Boolean,
+      requred: false,
+      default: true
     }
   },
   mixins: [coreComponent('core/ProductTile')],
@@ -82,6 +90,12 @@ export default {
         src: this.thumbnail,
         loading: this.placeholder
       }
+    },
+    isOnSale () {
+      return this.product.sale === '1' ? 'sale' : ''
+    },
+    isNew () {
+      return this.product.new === '1' ? 'new' : ''
     }
   },
   methods: {
@@ -99,15 +113,36 @@ export default {
 @import '~theme/css/animations/transitions';
 @import '~theme/css/base/global_vars';
 $lightgray: map-get($colors, lightgray);
+$alto: map-get($colors, alto);
+$white: map-get($colors, white);
 
 .product {
   @media (max-width: 700px) {
     padding: 0;
   }
 }
+
 .price-original {
   text-decoration: line-through;
 }
+
+%label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: $alto;
+  transition: 0.3s all $motion-main;
+  text-transform: uppercase;
+  color: $white;
+  font-size: 12px;
+  font-weight: 400;
+}
+
 .product-image {
   width: 100%;
   mix-blend-mode: multiply;
@@ -121,6 +156,11 @@ $lightgray: map-get($colors, lightgray);
       transform: scale(1.1);
       opacity: 1;
     }
+
+    &.sale::after,
+    &.new::after {
+      opacity: 0.8;
+    }
   }
 
   > img {
@@ -130,6 +170,20 @@ $lightgray: map-get($colors, lightgray);
     opacity: 0.8;
     transition: 0.3s all $motion-main;
     mix-blend-mode: multiply;
+  }
+
+  &.sale {
+    &::after {
+      @extend %label;
+      content: 'Sale';
+    }
+  }
+
+  &.new {
+    &::after {
+      @extend %label;
+      content: 'New';
+    }
   }
 }
 </style>

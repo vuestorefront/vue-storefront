@@ -1,6 +1,11 @@
 <template>
-  <div class="product-listing row m0 start-xs">
-    <div v-for="(product, key) in products" :key="product.id" class="col-xs-6 pb10" :class="'col-md-' + (12/columns)%10">
+  <div class="product-listing row m0 center-xs start-md">
+    <div
+      v-for="(product, key) in products"
+      :key="product.id"
+      class="pb10 col-sm-6"
+      :class="['col-md-' + (12/columns)%10, wide(product.sale)]"
+    >
       <product-tile :product="product" :instant="key < 6 ? true : false" />
     </div>
   </div>
@@ -24,6 +29,11 @@ export default {
   components: {
     ProductTile
   },
-  mixins: [coreComponent('core/ProductListing')]
+  mixins: [coreComponent('core/ProductListing')],
+  methods: {
+    wide (isOnSale) {
+      return isOnSale === '1' ? 'col-xs-12' : 'col-xs-6'
+    }
+  }
 }
 </script>
