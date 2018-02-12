@@ -13,11 +13,11 @@ Try out our open demo and if you like it contact us on [Slack](https://join.slac
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://demo.vuestorefront.io"><img height="50" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true">authorization: demo / !@#demo</a>
+        <a href="https://demo.vuestorefront.io"><img height="100" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"><br/>authorization: demo / !@#demo</a>
       </td>
 
 <td align="center" valign="middle">
-        <a href="https://demo-catalog.vuestorefront.io"><img height="50" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true">authorization: demo / !@#demo</a>
+        <a href="https://demo-catalog.vuestorefront.io"><img height="100" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true"><br/>authorization: demo / !@#demo</a>
       </td>
     </tr>
   </tbody>
