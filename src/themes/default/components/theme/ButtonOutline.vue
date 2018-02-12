@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/global_vars';
+@import '~theme/css/base/global_vars';
 $gray-secondary: map-get($colors, gray-secondary);
 $white: map-get($colors, white);
 $black: map-get($colors, black);

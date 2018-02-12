@@ -48,7 +48,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '~theme/css/global_vars';
+@import '~theme/css/base/global_vars';
 $z-index-notification: map-get($z-index, notification);
 
 .modal-onboard {

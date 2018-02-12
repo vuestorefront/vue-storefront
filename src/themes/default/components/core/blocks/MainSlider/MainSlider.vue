@@ -37,7 +37,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '~theme/css/global_vars';
+@import '~theme/css/base/global_vars';
 $white: map-get($colors, white);
 .main-slider {
   .VueCarousel-pagination {

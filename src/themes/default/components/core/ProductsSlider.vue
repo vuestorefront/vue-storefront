@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $lightgray: map-get($colors, lightgray);
 
   .collection-slider {
