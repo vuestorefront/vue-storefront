@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">Register</h1>
+      <h1 class="my0">
+        {{ $t('Register') }}
+      </h1>
     </div>
     <div class="py35 px65 bg-white c-gray">
       <form @submit.prevent="register" novalidate>
@@ -69,14 +71,21 @@
         <div class="mb35">
           <input type="checkbox" name="remember" v-model="conditions" id="remember">
           <label class="ml10" for="remember">I accept terms and conditions *</label>
-          <span class="validation-error block h6 c-red" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.conditions.required">
+            {{ $t('You must accept the terms and conditions.') }}
+          </span>
         </div>
         <div class="mb20">
           <button-full class="w-100 border-box center-xs" text="Register an account" @click.native="register"/>
         </div>
         <input class="hidden" type="submit">
         <div class="center-xs">
-          <span>or <a href="#" @click.prevent="switchElem">login to your account</a></span>
+          <span>
+            {{ $t('or') }}
+            <a href="#" @click.prevent="switchElem">
+              {{ $t('login to your account') }}
+            </a>
+          </span>
         </div>
       </form>
     </div>

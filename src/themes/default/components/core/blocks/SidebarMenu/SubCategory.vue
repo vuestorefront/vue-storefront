@@ -19,7 +19,9 @@
         </router-link>
       </li>
       <li class="brdr-bottom brdr-c-lightgray bg-white flex">
-        <a href="#" class="px25 py20 c-darkgray no-underline col-xs" @click="logout">Logout</a>
+        <a href="#" class="px25 py20 c-darkgray no-underline col-xs" @click="logout">
+          {{ $t('Logout') }}
+        </a>
       </li>
     </ul>
   </div>

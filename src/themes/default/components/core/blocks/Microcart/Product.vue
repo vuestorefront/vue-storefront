@@ -23,7 +23,7 @@
         </div>
         <div class="h5 pt5 c-darkgray lh25 qty">
           <span>
-            Qty
+            {{ $t('Qty') }}
           </span>
           <span class="weight-700" :class="{ hidden: isEditing }">
             {{ product.qty }}

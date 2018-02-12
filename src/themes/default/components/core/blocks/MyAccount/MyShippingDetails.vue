@@ -3,12 +3,16 @@
     <!-- My shipping details header -->
     <div class="row mb15">
       <div class="col-xs-12 col-md-6" :class="{ 'c-darkgray' : !isActive }">
-        <h3 class="m0 mb5">My shipping details</h3>
+        <h3 class="m0 mb5">
+          {{ $t('My shipping details') }}
+        </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
         <div class="lh30 flex end-md" v-if="!isActive && editMode">
           <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
-            <span class="pr5">Edit your shipping details</span>
+            <span class="pr5">
+              {{ $t('Edit your shipping details') }}
+            </span>
             <i class="material-icons c-lightgray-secondary">edit</i>
           </a>
         </div>
@@ -60,7 +64,9 @@
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
         <select name="countries" v-model="shippingDetails.country">
-          <option value="" disabled selected hidden>Country</option>
+          <option value="" disabled selected hidden>
+            {{ $t('Country') }}
+          </option>
           <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
         </select>
         <span class="validation-error" v-if="!$v.shippingDetails.country.required">Field is required</span>
@@ -70,10 +76,16 @@
       </div>
       <div class="hidden-xs col-sm-6 mb25"/>
       <div class="col-xs-12 col-sm-6 bottom-button">
-        <button-full text="Update my shipping details" @click.native="updateDetails" :class="{ 'button-disabled': $v.$invalid }" />
+        <button-full
+          :text="$t('Update my shipping details')"
+          @click.native="updateDetails"
+          :class="{ 'button-disabled': $v.$invalid }"
+        />
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
-        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
+        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">
+          {{ $t('Cancel') }}
+        </a>
       </div>
     </div>
 

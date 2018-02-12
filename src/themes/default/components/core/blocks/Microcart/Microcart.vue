@@ -9,7 +9,7 @@
           v-if="items.length"
           class="c-darkgray mt60 mb35 ml40 heading"
         >
-          Shopping cart
+          {{ $t('Shopping cart') }}
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
@@ -22,21 +22,25 @@
     </div>
 
     <h4 v-if="!items.length" class="c-darkgray ml30">
-      Your shopping cart is empty.
+      {{ $t('Your shopping cart is empty.') }}
     </h4>
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
-      Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for You!
+      {{ $t("Don't hesitate and") }}
+      <router-link to="/">
+        {{ $t('browse our catalog') }}
+      </router-link>
+      {{ $t('to find something beautiful for You!') }}
     </div>
     <ul v-if="items.length" class="bg-white m0 px40 pb40 products">
       <product v-for="product in items" :key="product.sku" :product="product" />
     </ul>
     <div v-if="items.length" class="summary px40 c-darkgray serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
-        Shopping summary
+        {{ $t('Shopping summary') }}
       </h3>
       <div class="row py20">
         <div class="col-xs">
-          Subtotal inc. tax
+          {{ $t('Subtotal inc. tax') }}
         </div>
         <div class="col-xs align-right">
           {{ subtotalInclTax | price }}
@@ -44,7 +48,7 @@
       </div>
       <div class="row py20">
         <div class="col-xs">
-          Shipping ({{ shipping.name }})
+          {{ $t('Shipping') }} ({{ shipping.name }})
         </div>
         <div class="col-xs align-right">
           {{ shipping.costInclTax | price }}
@@ -52,7 +56,7 @@
       </div>
       <div class="row py20">
         <div class="col-xs">
-          Payment ({{ payment.name }})
+          {{ $t('Payment') }} ({{ payment.name }})
         </div>
         <div class="col-xs align-right" v-if="payment.cost > 0">
           {{ payment.costInclTax | price }}
@@ -60,7 +64,7 @@
       </div>
       <div class="row pt30 pb20 weight-700 middle-xs">
         <div class="col-xs h4 total-price-label">
-          Total inc. tax
+          {{ $t('Total inc. tax') }}
         </div>
         <div class="col-xs align-right h2 total-price-value">
           {{ totalInclTax | price }}
@@ -74,7 +78,7 @@
       <div class="col-xs-12 col-sm first-sm">
         <router-link to="/" class="no-underline c-gray-secondary link">
           <span @click="closeMicrocart">
-            Return to shopping
+            {{ $t('Return to shopping') }}
           </span>
         </router-link>
       </div>
@@ -87,7 +91,7 @@
             class="c-white py20 px70"
             @click="closeMicrocart"
           >
-            Go to checkout
+            {{ $t('Go to checkout') }}
           </span>
         </router-link>
       </div>

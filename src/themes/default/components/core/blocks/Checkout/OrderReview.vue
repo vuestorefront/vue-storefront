@@ -12,7 +12,9 @@
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-md-12" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 class="m0">Review order</h3>
+            <h3 class="m0">
+              {{ $t('Review order') }}
+            </h3>
           </div>
         </div>
       </div>
@@ -22,7 +24,9 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row mb15 mt20" v-show="isActive">
           <div class="col-xs-12">
-            <p class="h4">Please check if all data are correct</p>
+            <p class="h4">
+              {{ $t('Please check if all data are correct') }}
+            </p>
             <div class="row">
               <div class="cartsummary-wrapper">
                 <cart-summary />
@@ -34,7 +38,10 @@
                 </div>
                 <div class="checkboxText ml15 lh25 pointer">
                   <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
-                    I agree to <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</span>
+                    {{ $t('I agree to') }}
+                    <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">
+                      {{ $t('Terms and conditions') }}
+                    </span>
                   </span>
                 </div>
                 <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
@@ -49,14 +56,20 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 bottom-button">
-            <button-full text="Place the order" @click.native="placeOrder" :class="{ 'ripple': true, 'button-disabled' : $v.orderReview.$invalid}"/>
+            <button-full
+              text="Place the order"
+              @click.native="placeOrder"
+              :class="{ 'ripple': true, 'button-disabled' : $v.orderReview.$invalid}"
+            />
           </div>
         </div>
       </div>
     </div>
 
     <modal name="modal-terms" static="terms">
-      <p slot="header">Terms and conditions</p>
+      <p slot="header">
+        {{ $t('Terms and conditions') }}
+      </p>
     </modal>
   </div>
 </template>

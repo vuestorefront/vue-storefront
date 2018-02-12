@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="brdr-bottom brdr-c-lightgray-secondary pb60">
-      <h3 class="c-darkgray ml30 mt50 summary-title">Order Summary</h3>
-      <product v-for="product in items" :key="product.id" :product="product" />
+      <h3 class="c-darkgray ml30 mt50 summary-title">
+        {{ $t('Order Summary') }}
+      </h3>
+      <product v-for="product in items" :key="product.id" :product="product"/>
       <div v-if="items.length" class="checkout bg-lightgray pt10 serif c-darkgray">
         <div class="row pt15 pb20 pl30 pr55 ">
           <div class="col-xs c-darkgray">
-            Shipping ({{ shipping.name }})
+            {{ $t('Shipping') }} ({{ shipping.name }})
           </div>
           <div class="col-xs align-right c-darkgray h4">
             {{ shipping.costInclTax | price }}
@@ -14,7 +16,7 @@
         </div>
         <div class="row pt15 pb20 pl30 pr55 ">
           <div class="col-xs c-darkgray">
-            Payment ({{ payment.name }})
+            {{ $t('Payment') }} ({{ payment.name }})
           </div>
           <div class="col-xs align-right c-darkgray" v-if="payment.costInclTax > 0">
             {{ payment.costInclTax | price }}
@@ -30,7 +32,7 @@
       </div> -->
         <div class="row pt20 pb20 pl30 pr55 weight-400 h3">
           <div class="col-xs">
-            Order summary
+            {{ $t('Order Summary') }}
           </div>
           <div class="col-xs align-right">
             {{ totalInclTax | price }}
@@ -54,7 +56,7 @@
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>
       <h4 class="h3 mb0">
-        Returns
+        {{ $t('Returns') }}
       </h4>
       <p class="c-lightgray-secondary lh20">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
