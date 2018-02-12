@@ -13,8 +13,8 @@
         }"
       >
         <div
-          class="product-image bg-lightgray"
-          :class="[{ sale: isOnSale }, { new: isNew }]"
+          class="product-image relative bg-lightgray"
+          :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
         >
           <transition name="fade" appear>
             <img class="mw-100" v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder">
@@ -52,6 +52,11 @@ export default {
       type: Boolean,
       required: false,
       default: () => false
+    },
+    labelsActive: {
+      type: Boolean,
+      requred: false,
+      default: true
     }
   },
   mixins: [coreComponent('core/ProductTile')],
