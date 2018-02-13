@@ -140,7 +140,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../css/transitions.scss";
+@import "~theme/css/animations/transitions";
 
 ul {
   list-style-type: none;
@@ -170,7 +170,7 @@ ul {
 </style>
 
 <style lang="scss">
-@import '~theme/css/global_vars';
+@import '~theme/css/base/global_vars';
 $lightgray: map-get($colors, lightgray);
 
 .sidebar-menu {

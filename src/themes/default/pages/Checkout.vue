@@ -52,8 +52,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../css/text.scss';
-@import '~theme/css/global_vars';
+@import '~theme/css/base/text';
+@import '~theme/css/base/global_vars';
 $lightgray: map-get($colors, lightgray);
 $lightgray-secondary: map-get($colors, lightgray-secondary);
 $gray-secondary: map-get($colors, gray-secondary);

@@ -46,7 +46,7 @@ export default { // TODO: move logic to parent component
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $lightgray-secondary: map-get($colors, lightgray-secondary);
   $darkgray: map-get($colors, darkgray);
 

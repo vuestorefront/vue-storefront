@@ -5,7 +5,6 @@
 // .px10p - example class for % padding
 
 // Pixels
-
 $padding-px: 0 5 10 12 15 20 25 45 50;
 $padding-x-px: 10 15 20 25 40 55 65 70;
 $padding-y-px: 5 10 15 20 25 30 35 50;
@@ -15,11 +14,9 @@ $padding-left-px: 0 20 30 35 40 70;
 $padding-right-px: 0 5 15 20 30 55 70;
 
 // Percents
-
 $padding-x-p: 10;
 
 // Generators
-
 @mixin padding {
   @each $i in $padding-px {
     .p#{$i} {

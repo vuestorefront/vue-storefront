@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../../../css/transitions.scss";
+  @import "~theme/css/animations/transitions";
 
   .microcart {
     top: 0;

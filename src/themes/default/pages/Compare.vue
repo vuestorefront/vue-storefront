@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $alto: map-get($colors, alto);
 
   .compare-wrapper {
