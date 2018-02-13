@@ -1,6 +1,6 @@
 <template>
-  <div v-show="!isOnline" class="offline-badge fixed p10 c-white center-xs">
-    You are offline, some of the functionalities are limited
+  <div>
+    Core OfflineBadge
   </div>
 </template>
 
@@ -26,12 +26,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.offline-badge {
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    background: #e63030;
-}
-</style>
