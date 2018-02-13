@@ -14,8 +14,21 @@
       >
         <div class="product-image bg-lightgray">
           <transition name="fade" appear>
-            <img class="mw-100" v-if="instant" :src="thumbnail" :key="thumbnail" v-img-placeholder="placeholder">
-            <img class="mw-100" v-if="!instant" v-lazy="thumbnailObj" :key="thumbnail">
+            <img
+              class="mw-100"
+              v-if="instant"
+              :src="thumbnail"
+              :key="thumbnail"
+              v-img-placeholder="placeholder"
+              :alt="product.name"
+            >
+            <img
+              class="mw-100"
+              v-if="!instant"
+              v-lazy="thumbnailObj"
+              :key="thumbnail"
+              :alt="product.name"
+            >
           </transition>
         </div>
         <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>
