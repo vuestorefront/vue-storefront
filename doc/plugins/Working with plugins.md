@@ -4,7 +4,7 @@ Plugins usually add global-level functionality to Vue. In Vue Storefront there a
 
 ## Core plugins
 
-Core plugins are located in `src/components` folder. There are two core plugins:
+Core plugins are located in `src/plugins` folder. There are two core plugins:
 
 * Config - it allows global access to config file (available via `$this.$config`),
 * Event Bus - it allows global event bus for the project (available via `$this.$bus`).
