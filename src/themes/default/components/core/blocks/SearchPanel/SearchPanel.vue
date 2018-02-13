@@ -6,8 +6,10 @@
       </div>
     </div>
     <div class="col-md-12 end-xs">
+      <label for="search" class="visually-hidden">Search</label>
       <input
         ref="search"
+        id="search"
         v-model="search"
         @input="makeSearch"
         class="mr20 py10 brdr-none brdr-bottom brdr-c-lightgray-secondary no-outline h4"
