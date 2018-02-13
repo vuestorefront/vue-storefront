@@ -13,6 +13,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import i18n from 'lib/i18n'
 const bodybuilder = require('bodybuilder')
 
 export default {
@@ -21,7 +22,7 @@ export default {
     return {
       products: [],
       search: '',
-      placeholder: 'Type what you are looking for...'
+      placeholder: i18n.t('Type what you are looking for...')
     }
   },
   components: {

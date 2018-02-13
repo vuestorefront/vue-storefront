@@ -6,7 +6,7 @@
     @click="addToCart(product)"
     v-focus-clean="{ class: 'no-outline' }"
   >
-    Add to cart
+    {{ $t('Add to cart') }}
   </button>
 </template>
 
