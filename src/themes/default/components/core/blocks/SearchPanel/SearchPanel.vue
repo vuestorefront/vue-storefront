@@ -11,14 +11,16 @@
         v-model="search"
         @input="makeSearch"
         class="mr20 py10 brdr-none brdr-bottom brdr-c-lightgray-secondary no-outline h4"
-        :placeholder="placeholder"
+        :placeholder="$t('Type what you are looking for...')"
         type="text"
       >
     </div>
     <div class="col-md-12 product-listing pl35 pt20 row">
       <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in products" :product="product"/>
       <transition name="fade">
-        <div v-if="emptyResults" class="no-results relative center-xs h4">No results were found.</div>
+        <div v-if="emptyResults" class="no-results relative center-xs h4">
+          {{ $t('No results were found.') }}
+        </div>
       </transition>
     </div>
   </div>
@@ -32,8 +34,7 @@ export default {
   data () {
     return {
       emptyResults: false,
-      search: '',
-      placeholder: 'Type what you are looking for...'
+      search: ''
     }
   },
   components: {

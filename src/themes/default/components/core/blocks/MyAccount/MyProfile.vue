@@ -3,12 +3,16 @@
     <!-- My profile header -->
     <div class="row mb15">
       <div class="col-xs-12 col-md-6" :class="{ 'c-darkgray' : !isActive }">
-        <h3 class="m0 mb5">My profile</h3>
+        <h3 class="m0 mb5">
+          {{ $t('My profile') }}
+        </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
         <div class="lh30 flex end-md" v-if="!isActive && editMode">
           <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
-            <span class="pr5">Edit your profile</span>
+            <span class="pr5">
+              {{ $t('Edit your profile') }}
+            </span>
             <i class="material-icons c-lightgray-secondary">edit</i>
           </a>
         </div>
@@ -172,13 +176,15 @@
 
       <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full
-          text="Update my profile"
+          :text="$t('Update my profile')"
           @click.native="updateProfile"
           :class="{ 'button-disabled': checkValidation() }"
         />
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
-        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
+        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">
+          {{ $t('Cancel') }}
+        </a>
       </div>
     </div>
 

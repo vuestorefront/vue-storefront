@@ -13,7 +13,9 @@
           <div class="col-xs-12">
             <div v-if="items.length">
               <div class="py10 align-right">
-                <a href="javascript:window.print()" title="Print This Page">Print This Page</a>
+                <a href="javascript:window.print()" title="Print This Page">
+                  {{ $t('Print This Page') }}
+                </a>
               </div>
               <div class="compare-wrapper">
                 <table class="w-100 mw-100">
@@ -66,7 +68,9 @@
               </div>
             </div>
             <template v-else>
-              <h4 class="c-darkgray ml30">You have no items to compare.</h4>
+              <h4 class="c-darkgray ml30">
+                {{ $t('You have no items to compare.') }}
+              </h4>
             </template>
           </div>
         </div>

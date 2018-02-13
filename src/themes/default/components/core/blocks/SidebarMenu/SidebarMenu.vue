@@ -18,7 +18,9 @@
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li @click="closeMenu" class="brdr-bottom brdr-c-lightgray bg-white">
-            <router-link class="block px25 py20 c-darkgray no-underline" to="/" exact>Home</router-link>
+            <router-link class="block px25 py20 c-darkgray no-underline" to="/" exact>
+              {{ $t('Home') }}
+            </router-link>
           </li>
           <li
             class="brdr-bottom brdr-c-lightgray bg-white flex"
@@ -38,26 +40,28 @@
           </li>
           <li @click="closeMenu">
             <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/magazine" exact>
-              Magazine
+              {{ $t('Magazine') }}
             </router-link>
           </li>
           <li @click="closeMenu">
             <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/sale" exact>
-              Sale
+              {{ $t('Sale') }}
             </router-link>
           </li>
           <li @click="closeMenu">
             <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/order-tracking" exact>
-              Track my order
+              {{ $t('Track my order') }}
             </router-link>
           </li>
           <li @click="closeMenu" class="brdr-bottom brdr-c-alto flex">
             <router-link v-if="currentUser" class="block px25 py20 c-darkgray no-underline col-xs" to="/my-account" exact>
-              My account
+              {{ $t('My account') }}
             </router-link>
             <sub-btn v-if="currentUser" class="flex-end center-self"/>
             <sub-category v-if="currentUser" :my-account-links="myAccountLinks" :id="'foo'"/>
-            <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 c-darkgray no-underline">My account</a>
+            <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 c-darkgray no-underline">
+              {{ $t('My account') }}
+            </a>
           </li>
         </ul>
       </div>
@@ -74,6 +78,7 @@ import WishlistIcon from '../Header/WishlistIcon.vue'
 import CompareIcon from '../Header/CompareIcon.vue'
 import SubBtn from './SubBtn.vue'
 import SubCategory from './SubCategory.vue'
+import i18n from 'lib/i18n'
 
 export default {
   mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')],
@@ -90,32 +95,32 @@ export default {
       myAccountLinks: [
         {
           id: 1,
-          name: 'My profile',
+          name: i18n.t('My profile'),
           anchor: 'profile'
         },
         {
           id: 2,
-          name: 'My shipping details',
+          name: i18n.t('My shipping details'),
           anchor: 'shipping_details'
         },
         {
           id: 3,
-          name: 'My newsletter',
+          name: i18n.t('My newsletter'),
           anchor: 'newsletter'
         },
         {
           id: 4,
-          name: 'My orders',
+          name: i18n.t('My orders'),
           anchor: ''
         },
         {
           id: 5,
-          name: 'My loyalty card',
+          name: i18n.t('My loyalty card'),
           anchor: ''
         },
         {
           id: 6,
-          name: 'My product reviews',
+          name: i18n.t('My product reviews'),
           anchor: ''
         }
       ]

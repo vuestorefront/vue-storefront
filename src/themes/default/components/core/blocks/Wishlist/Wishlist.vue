@@ -5,10 +5,18 @@
         <i class="material-icons p15 pointer c-darkgray" @click="closeWishlist">close</i>
       </div>
     </div>
-    <h2 v-if="items.length" class="c-darkgray ml30">Wishlist</h2>
-    <h4 v-if="!items.length" class="c-darkgray ml30">Your wishlist is empty.</h4>
+    <h2 v-if="items.length" class="c-darkgray ml30">
+      {{ $t('Wishlist') }}
+    </h2>
+    <h4 v-if="!items.length" class="c-darkgray ml30">
+      {{ $t('Your wishlist is empty.') }}
+    </h4>
     <div v-if="!items.length" class="ml30">
-      Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for you!
+      {{ $t("Don't hesitate and") }}
+      <router-link to="/">
+        {{ $t('browse our catalog') }}
+      </router-link>
+      {{ $t('to find something beautiful for You!') }}
     </div>
     <ul class="products">
       <product @click.native="closeWishlist" v-for="product in items" :key="product.id" :product="product" />

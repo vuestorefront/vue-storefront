@@ -6,7 +6,7 @@
     "
     :class="{ active: active }"
     @click="switchFilter(id, label)"
-    :aria-label="'Select size ' + label"
+    :aria-label="$t('Select size ') + label"
   >
     {{ label }}
   </button>
