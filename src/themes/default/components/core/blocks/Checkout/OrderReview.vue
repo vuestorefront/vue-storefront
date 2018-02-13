@@ -101,7 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
   .link {
     text-decoration: underline;
   }

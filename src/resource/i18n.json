@@ -69,6 +69,7 @@
       "Size": "Size",
       "Price": "Price",
       "Order Summary": "Order Summary",
+      "Safety": "Safety",
       "Shipping": "Shipping",
       "Payment": "Payment",
       "Returns": "Returns",
@@ -155,6 +156,8 @@
       "Home Page": "Home Page",
       "Newsletter": "Newsletter",
       "Sign up to our newsletter and receive a coupon for 10% off!": "Sign up to our newsletter and receive a coupon for 10% off!",
-      "Quantity": "Quantity"
+      "Quantity": "Quantity",
+      "Price ": "Price ",
+      "Select size ": "Select size "
     }
 }

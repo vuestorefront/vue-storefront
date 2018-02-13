@@ -42,14 +42,14 @@
     </div>
     <div class="py50 px25">
       <h4 class="h3 m0">
-        Safety
+        {{ $t('Safety') }}
       </h4>
       <p class="c-lightgray-secondary lh20">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>
       <h4 class="h3 mb0">
-        Shipping
+        {{ $t('Shipping') }}
       </h4>
       <p class="c-lightgray-secondary lh20">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.

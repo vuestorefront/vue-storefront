@@ -114,7 +114,9 @@
         </p>
         <div class="mb25">
           <span class="pr15">{{ shippingDetails.phone }}</span>
-          <tooltip v-show="shippingDetails.phone">Phone number may be needed by carrier</tooltip>
+          <tooltip v-show="shippingDetails.phone">
+            {{ $t('Phone number may be needed by carrier') }}
+          </tooltip>
         </div>
       </div>
     </div>
