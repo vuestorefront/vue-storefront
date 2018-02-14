@@ -13,8 +13,8 @@
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 brdr-none bg-transparent">
-          <i class="material-icons p15 close c-darkgray" @click="closeMicrocart">
+        <button type="button" class="p0 brdr-none bg-transparent close" @click="closeMicrocart">
+          <i class="material-icons p15 c-darkgray">
             close
           </i>
         </button>
@@ -130,18 +130,22 @@ export default {
     }
   }
 
+  .close {
+    i {
+      opacity: 0.6;
+    }
+    &:hover,
+    &:focus {
+      i {
+        opacity: 1;
+      }
+    }
+  }
+
   .heading {
     @media (max-width: 767px) {
       margin: 12px 0 12px 15px;
       font-size: 24px;
-    }
-
-    i {
-      opacity: 0.6;
-      &:hover,
-      &:focus {
-        opacity: 1;
-      }
     }
   }
 
