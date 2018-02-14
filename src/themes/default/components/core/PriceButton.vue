@@ -3,7 +3,7 @@
     <button
       class="relative brdr-c-gray brdr-1 bg-transparent mr10 pointer price-button"
       :class="{ active: active }"
-      :aria-label="'Price ' + content"
+      :aria-label="$t('Price ') + content"
     >
       <div class="bg-transparent absolute block square"/>
     </button>

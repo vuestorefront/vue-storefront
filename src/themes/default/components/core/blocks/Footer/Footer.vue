@@ -1,59 +1,93 @@
 <template>
   <footer :class="{ 'brdr-top-1 brdr-c-alto' : isCheckout }">
-    <newsletter class=" flex brdr-bottom brdr-c-alto" v-if="!isCheckout" />
+    <newsletter class=" flex brdr-bottom brdr-c-alto" v-if="!isCheckout"/>
     <div class="footer-links flex pt30 pb60 px40 bg-lightgray" v-if="!isCheckout">
       <div class="container">
         <div class="row center-xs">
           <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">
             <div>
-              <h3 class="c-darkgray weight-400">Departments</h3>
+              <h3 class="c-darkgray weight-400">
+                {{ $t('Departments') }}
+              </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/c/women-20" exact>Women fashion</router-link>
+                <router-link class="c-gray-secondary" to="/c/women-20" exact>
+                  {{ $t('Women fashion') }}
+                </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/c/men-11" exact>Men's fashion</router-link>
+                <router-link class="c-gray-secondary" to="/c/men-11" exact>
+                  {{ $t("Men's fashion") }}
+                </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/" exact>Kidswear</router-link>
+                <router-link class="c-gray-secondary" to="/" exact>
+                  {{ $t('Kidswear') }}
+                </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/" exact>Home</router-link>
-              </div>
-            </div>
-            <div>
-              <h3 class="c-darkgray weight-400">Orders</h3>
-              <div class="mt15">
-                <router-link class="c-gray-secondary" to="/order-tracking" exact>Track my order</router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="c-gray-secondary" to="/my-account" exact>My account</router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="c-gray-secondary" to="/delivery" exact>Delivery</router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="c-gray-secondary" to="/returns" exact>Return policy</router-link>
+                <router-link class="c-gray-secondary" to="/" exact>
+                  {{ $t('Home') }}
+                </router-link>
               </div>
             </div>
             <div>
-              <h3 class="c-darkgray weight-400">Help</h3>
+              <h3 class="c-darkgray weight-400">
+                {{ $t('Orders') }}
+              </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/customer-service" exact>Customer service</router-link>
+                <router-link class="c-gray-secondary" to="/order-tracking" exact>
+                  {{ $t('Track my order') }}
+                </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/size-guide" exact>Size guide</router-link>
+                <router-link class="c-gray-secondary" to="/my-account" exact>
+                  {{ $t('My account') }}
+                </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/contact" exact>Contact us</router-link>
+                <router-link class="c-gray-secondary" to="/delivery" exact>
+                  {{ $t('Delivery') }}
+                </router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/returns" exact>
+                  {{ $t('Return policy') }}
+                </router-link>
               </div>
             </div>
             <div>
-              <h3 class="c-darkgray weight-400">About us</h3>
+              <h3 class="c-darkgray weight-400">
+                Help
+              </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/about-us" exact>About us</router-link>
+                <router-link class="c-gray-secondary" to="/customer-service" exact>
+                  {{ $t('Customer service') }}
+                </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/store-locator" exact>Store locator</router-link>
+                <router-link class="c-gray-secondary" to="/size-guide" exact>
+                  {{ $t('Size guide') }}
+                </router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/contact" exact>
+                  {{ $t('Contact us') }}
+                </router-link>
+              </div>
+            </div>
+            <div>
+              <h3 class="c-darkgray weight-400">
+                {{ $t('About us') }}
+              </h3>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/about-us" exact>
+                  {{ $t('About us') }}
+                </router-link>
+              </div>
+              <div class="mt15">
+                <router-link class="c-gray-secondary" to="/store-locator" exact>
+                  {{ $t('Store locator') }}
+                </router-link>
               </div>
             </div>
           </div>
@@ -88,7 +122,7 @@
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
         <div class="col-xs-5 col-sm-3 c-lightgray-secondary">
-          United States (US)
+          {{ $t('United States (US)') }}
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links">
@@ -98,7 +132,7 @@
                 to="/legal"
                 exact
               >
-                Legal notice
+                {{ $t('Legal notice') }}
               </router-link>
             </li>
             <li class="inline-flex">
@@ -107,7 +141,7 @@
                 to="/privacy"
                 exact
               >
-                Privacy policy
+                {{ $t('Privacy policy') }}
               </router-link>
             </li>
           </ul>

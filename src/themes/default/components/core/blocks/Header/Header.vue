@@ -40,7 +40,9 @@
         <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
-              <router-link to="/" class="c-lightgray-secondary links">Return to shopping</router-link>
+              <router-link to="/" class="c-lightgray-secondary links">
+                {{ $t('Return to shopping') }}
+              </router-link>
             </div>
           </div>
           <div class="col-xs-2 col-md-6 center-xs">
@@ -48,8 +50,12 @@
           </div>
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
-              <a v-if="!currentUser" href="#" @click="gotoAccount" class="c-lightgray-secondary links">Login to your account</a>
-              <span v-else>You are logged in as {{ currentUser.firstname }}</span>
+              <a v-if="!currentUser" href="#" @click="gotoAccount" class="c-lightgray-secondary links">
+                {{ $t('Login to your account') }}
+              </a>
+              <span v-else>
+                {{ $t('You are logged in as') }} {{ currentUser.firstname }}
+              </span>
             </div>
           </div>
         </div>

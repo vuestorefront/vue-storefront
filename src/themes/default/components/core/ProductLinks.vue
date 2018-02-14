@@ -16,7 +16,9 @@
         </div>
 
         <div v-if="productLink.product" class="py5">
-          <p class="h6 c-gray m0">Quantity</p>
+          <p class="h6 c-gray m0">
+            {{ $t('Quantity') }}
+          </p>
           <input
             type="number"
             class="product-qty py10 brdr-c-lightgray-secondary bg-transparent h4 weight-300"

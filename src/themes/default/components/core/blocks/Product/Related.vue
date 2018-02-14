@@ -7,7 +7,7 @@
       <div>
         <header class="col-md-12">
           <h2 class="align-center c-darkgray">
-            Erin Recommends
+            {{ $t('Erin Recommends') }}
           </h2>
         </header>
       </div>
@@ -22,7 +22,7 @@
       <div>
         <header class="col-md-12">
           <h2 class="align-center c-darkgray">
-            Similar products
+            {{ $t('Similar products') }}
           </h2>
         </header>
       </div>

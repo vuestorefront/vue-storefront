@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">Log in</h1>
+      <h1 class="my0">
+        {{ $t('Log in') }}
+      </h1>
     </div>
     <div class="py35 px65 bg-white c-gray">
       <form @submit.prevent="login" novalidate>
@@ -31,18 +33,31 @@
         <div class="row">
           <div class="col-xs-6 mb35">
             <input class="m5" type="checkbox" name="remember" id="remember">
-            <label for="remember">Remember me</label>
+            <label for="remember">
+              {{ $t('Remember me') }}
+            </label>
           </div>
           <div class="col-xs-6 mb35 align-right">
-            <a href="#" @click.prevent="remindPassword">Forgot the password?</a>
+            <a href="#" @click.prevent="remindPassword">
+              {{ $t('Forgot the password?') }}
+            </a>
           </div>
         </div>
         <div class="mb20">
-          <button-full class="w-100 border-box p0 center-xs" text="Log in to your account" @click.native="login"/>
+          <button-full
+            class="w-100 border-box p0 center-xs"
+            :text="$t('Log in to your account')"
+            @click.native="login"
+          />
         </div>
         <input class="hidden" type="submit">
         <div class="center-xs">
-          <span>or <a href="#" @click.prevent="switchElem">register an account</a></span>
+          <span>
+            or
+            <a href="#" @click.prevent="switchElem">
+              {{ $t('register an account') }}
+            </a>
+          </span>
         </div>
       </form>
     </div>
