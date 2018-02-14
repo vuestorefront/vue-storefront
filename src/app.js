@@ -2,13 +2,11 @@ import Vue from 'vue'
 import App from 'theme/app'
 import store from './store'
 import router from './router'
-import { EventBusPlugin as EventBus } from './event-bus'
-import { ConfigPlugin as ConfigPlg } from 'src/config'
 import config from 'config'
 
 import { sync } from 'vuex-router-sync'
 
-import { registerTheme } from './lib/themes'
+import { registerTheme, plugins } from './lib/themes'
 import { registerExtensions } from './lib/extensions'
 import thumbnailMixin from './mixins/thumbnail'
 import * as filters from './filters'
@@ -17,8 +15,11 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import i18n from 'lib/i18n'
 
-Vue.use(ConfigPlg)
-Vue.use(EventBus)
+const pluginsObject = plugins()
+Object.keys(pluginsObject).forEach(function (key) {
+  Vue.use(pluginsObject[key])
+})
+
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
   attempt: 2

@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import config from 'config'
-import EventBus from 'src/event-bus'
+import EventBus from 'src/plugins/event-bus'
 import { ValidationError } from 'lib/exceptions'
 import store from '../'
 import i18n from 'lib/i18n'
