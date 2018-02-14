@@ -8,7 +8,7 @@
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import Meta from 'src/lib/meta'
 import AddToCart from '../components/core/AddToCart.vue'
-import EventBus from 'src/event-bus'
+import EventBus from 'src/plugins/event-bus'
 import { mapGetters } from 'vuex'
 import config from 'config'
 import i18n from 'lib/i18n'
