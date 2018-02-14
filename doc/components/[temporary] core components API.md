@@ -313,3 +313,20 @@ Defines several event listeners to communicate with child components. For exampl
 Checks if cart is not empty. If it is, then a notification is fired. Otherwise, sets promises that will check availability of the products from the cart and if they are all in stock.
 #### destroyed
 Removes all event listeners that were previously defined in *created* hook.
+
+## Compare
+
+### Props
+`title` - title of the Compare page
+### Data
+`attributesByCode` - a computed property that returns the list of all product attributes by their code.  
+`attributesByUd` - a computed property that return the list of all product attributes by their Id. *This prop is not used anywhere.*  
+`items` - returns the list of products that were chosen for comparison from Vuex store.  
+`all_comparable_attributes` - returns the subset of attributes from *attributesByCode* prop that have *is_comparable* property set to true.
+### Methods
+`removeFromCompare (product)` - removes a given product from the compare list by dispatching *'compare/removeItem'* action.  
+**Parameters**  
+*product* - a specific product to be removed.
+### Hooks
+#### created
+Dispatches *'compare/load'* action that loads list of products to compare from localStorage into Vuex store. Also dispatches *'attribute/list'* action that loads all product attributes that have *is_user_defined* property set to true into Vuex store.
