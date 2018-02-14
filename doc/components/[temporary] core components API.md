@@ -236,3 +236,80 @@ This was supposed to show a validation error message, but is not used anywhere. 
 No data
 ### Methods
 No methods
+
+# Core pages
+
+## Category
+
+### Props
+No props
+### Data
+`pagination` - an object that defines two settings:  
+    1. *number* of product items to load per page, currently set to 50;  
+    2. *offset* that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere.
+`filterSet` - a set of filters that user has defined on Category page.  
+`products` - computed property that return a list of product items of current category from the Vuex store.  
+`isCategoryEmpty` - computed property that return true if product list of current category is empty.  
+`category` - computed property that return current category from the Vuex store.  
+`aggregations` - computed property *that is not used*.  
+`filters` - a set of all available filters for current category from the Vuex store.  
+`breadcrumbs` - breadcrumbs for current category from the Vuex store.
+### Methods
+`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  
+**Parameters**  
+*{ store, route }* - an object consisting of the Vuex store and global router references.  
+
+`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  
+**Parameters**  
+*{ store, route }* - an object consisting of the Vuex store and global router references.
+### Hooks
+#### asyncData
+Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is list of all categories, category attributes and list of products for each category.
+#### beforeMount
+*'filter-changed-category'* event listener is initialized. *Although this event is not triggered anywhere.*
+#### beforeDestroy
+*'filter-changed-category'* event listener is removed.
+
+## Checkout
+
+### Props
+No props
+### Data
+`stockCheckCompleted` - a boolean prop that shows if all products in cart (if any) have been checked for availability (whether they are in stock or not).  
+`stockCheckOK` - a boolean prop that shows if all products in cart are in stock.  
+`orderPlaced` - a boolean prop that is set to true after *'order-after-placed'* event has been triggered, defining a placement of order.  
+`activeSection` - an object that consists of 4 boolean props: *personalDetails*, *shipping*, *payment* and *orderReview*, - that define which section of Checkout page is currently active. At any point of time only one section can be active.  
+`order` - an order object, that consists of all necessary order information that will be sent to the backend to place it.  
+`personalDetails` - an object that contains personal details part of the Checkout page.  
+`shipping` - an object that contains shipping details part of the Checkout page.  
+`payment` - an object that contains payment details part of the Checkout page.  
+`orderReview` - *this prop is not used*  
+`cartSummary` - this prop is supposed to be filled after *'checkout.cartSummary'* event has been triggered. *But this event is not triggered anywhere, therefore this prop currently has no usage.*  
+`validationResults` - an object that keeps validation result of 3 child components: Personal Details, Shipping Details and Payment Details. *Currently all the validation happens within those 3 child components and there's no need to store the result in a parent component. I think is prop is redundant.*  
+`userId` - this new user ID is returned by child OrderReview component if a user registers a new account at checkout. It is then sent to the backend to bind an order to the user.  
+`isValid` - this boolean computed property defines if an order can be placed. If there's any validation error within any child component or *stockCheckOK* prop is not true, this returns false and an order won't be placed.  
+### Methods
+`checkConnection (status)` - checks if there's an active internet connection. If not, fires a notification.  
+**Parameters**  
+*status* - a boolean parameter that defines if there's an active internet connection.  
+
+`activateSection (sectionToActivate)` - sets *sectionToActivate* named section in *activeSection* prop object to true and all others to false.  
+**Parameters**  
+*sectionToActivate* - a name of a section that needs to be activated.  
+
+`prepareOrder ()` - returns an order object that will be sent to the backend.  
+
+`placeOrder ()` - if *isValid* prop is true dispatches *'checkout/placeOrder'* action which will place the order, otherwise fires a notification about existence of validation errors.  
+
+`savePersonalDetails ()` - dispatches *'checkout/savePersonalDetails'* action which will save checkout personal details information (from *personalDetails* prop) to the Vuex store.  
+
+`saveShippingDetails ()` - dispatches *'checkout/saveShippingDetails'* action which will save checkout shipping details information (from *shipping* prop) to the Vuex store.  
+
+`savePaymentDetails ()` - dispatches *'checkout/savePaymentDetails'* action which will save checkout payment details information (from *payment* prop) to the Vuex store.
+### Hooks
+#### created
+Defines several event listeners to communicate with child components. For example, *'checkout.personalDetails'* event listener to receive personal details information from PersonalDetails child component and activate next section of the Checkout page (which is shipping details).
+#### beforeMount
+Checks if cart is not empty. If it is, then a notification is fired. Otherwise, sets promises that will check availability of the products from the cart and if they are all in stock.
+#### destroyed
+Removes all event listeners that were previously defined in *created* hook.

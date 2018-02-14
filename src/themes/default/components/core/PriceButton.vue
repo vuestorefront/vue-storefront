@@ -3,7 +3,7 @@
     <button
       class="relative brdr-c-gray brdr-1 bg-transparent mr10 pointer price-button"
       :class="{ active: active }"
-      :aria-label="'Price ' + content"
+      :aria-label="$t('Price ') + content"
     >
       <div class="bg-transparent absolute block square"/>
     </button>
@@ -46,7 +46,7 @@ export default { // TODO: move logic to parent component
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $lightgray-secondary: map-get($colors, lightgray-secondary);
   $darkgray: map-get($colors, darkgray);
 

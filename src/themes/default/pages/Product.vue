@@ -210,7 +210,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $lightgray: map-get($colors, lightgray);
   $gray-secondary: map-get($colors, gray-secondary);
   $black: map-get($colors, black);

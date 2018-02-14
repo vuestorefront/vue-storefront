@@ -21,11 +21,12 @@
 </template>
 
 <script>
+import i18n from 'lib/i18n'
 export default {
   props: {
     detailsLinkText: {
       type: String,
-      default: 'See details'
+      default: i18n.t('See details')
     },
     detailsLink: {
       type: String,
@@ -33,7 +34,7 @@ export default {
     },
     message: {
       type: String,
-      default: 'We use cookies to give you the best shopping experience.'
+      default: i18n.t('We use cookies to give you the best shopping experience.')
     }
   },
   data () {
@@ -64,7 +65,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
 
   $gray: map-get($colors, gray);
   $black: map-get($colors, black);

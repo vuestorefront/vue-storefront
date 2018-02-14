@@ -12,12 +12,16 @@
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 class="m0 mb5">Payment</h3>
+            <h3 class="m0 mb5">
+              {{ $t('Payment') }}
+            </h3>
           </div>
           <div class="col-xs-12 col-md-6 pr30">
             <div class="lh30 flex end-md" v-if="isFilled && !isActive">
               <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
-                <span class="pr5">Edit payment</span>
+                <span class="pr5">
+                  {{ $t('Edit payment') }}
+                </span>
                 <i class="material-icons c-lightgray-secondary">edit</i>
               </a>
             </div>
@@ -232,10 +236,14 @@
             </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
-            <label class="fs16">We will send you the invoice to given e-mail address</label>
+            <label class="fs16">
+              {{ $t('We will send you the invoice to given e-mail address') }}
+            </label>
           </div>
           <div class="col-xs-12">
-            <h4>Payment method</h4>
+            <h4>
+              {{ $t('Payment method') }}
+            </h4>
           </div>
           <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
             <label class="radioStyled"> {{ method.name }}
@@ -252,7 +260,11 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 my30 bottom-button">
-            <button-full @click.native="sendDataToCheckout" text="Go review the order" :class="{ 'ripple': true, 'button-disabled' : $v.payment.$invalid}"/>
+            <button-full
+              @click.native="sendDataToCheckout"
+              :text="$t('Go review the order')"
+              :class="{ 'ripple': true, 'button-disabled' : $v.payment.$invalid }"
+            />
           </div>
         </div>
       </div>
@@ -277,7 +289,7 @@
             </p>
             <div v-show="payment.phoneNumber">
               <span class="pr15">{{ payment.phoneNumber }}</span>
-              <tooltip>Phone number may be needed by carrier</tooltip>
+              <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
             </div>
             <p v-show="generateInvoice">
               {{ payment.company }} {{ payment.taxId }}
