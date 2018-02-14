@@ -30,6 +30,7 @@
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import Meta from 'src/lib/meta'
 import staticContent from 'theme/components/theme/StaticContent'
+import i18n from 'lib/i18n'
 
 export default {
   components: {
@@ -55,13 +56,13 @@ export default {
   data () {
     return {
       navigation: [
-        { title: 'About us', link: '/about-us' },
-        { title: 'Customer service', link: '/customer-service' },
-        { title: 'Store locator', link: '/store-locator' },
-        { title: 'Delivery', link: '/delivery' },
-        { title: 'Return policy', link: '/returns' },
-        { title: 'Privacy policy', link: '/privacy' },
-        { title: 'Contact us', link: '/contact' }
+        { title: i18n.t('About us'), link: '/about-us' },
+        { title: i18n.t('Customer service'), link: '/customer-service' },
+        { title: i18n.t('Store locator'), link: '/store-locator' },
+        { title: i18n.t('Delivery'), link: '/delivery' },
+        { title: i18n.t('Return policy'), link: '/returns' },
+        { title: i18n.t('Privacy policy'), link: '/privacy' },
+        { title: i18n.t('Contact us'), link: '/contact' }
       ]
     }
   },
@@ -77,7 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $lightgray-secondary: map-get($colors, lightgray-secondary);
 
   .static-menu {

@@ -12,12 +12,16 @@
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 class="m0 mb5">Personal Details</h3>
+            <h3 class="m0 mb5">
+              {{ $t('Personal Details') }}
+            </h3>
           </div>
           <div class="col-xs-12 col-md-6 pr30">
             <div class="lh30 flex end-md" v-if="isFilled && !isActive">
               <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
-                <span class="pr5">Edit personal details</span>
+                <span class="pr5">
+                  {{ $t('Edit personal details') }}
+                </span>
                 <i class="material-icons c-lightgray-secondary">edit</i>
               </a>
             </div>
@@ -150,12 +154,17 @@
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 my30 pl20 button-container bottom-button">
             <button-full
               @click.native="sendDataToCheckout"
-              text="Continue to shipping"
+              :text="$t('Continue to shipping')"
               :class="{ 'ripple': true, 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
             />
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
-            <p class="h4 c-darkgray">or <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 c-darkgray">login to your account</a></p>
+            <p class="h4 c-darkgray">
+              {{ $t('or') }}
+              <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 c-darkgray">
+                {{ $t('login to your account') }}
+              </a>
+            </p>
           </div>
         </div>
       </div>
@@ -170,7 +179,7 @@
             </p>
             <div>
               <span class="pr15">{{ personalDetails.emailAddress }}</span>
-              <tooltip>We will send you details regarding the order</tooltip>
+              <tooltip>{{ $t('We will send you details regarding the order') }}</tooltip>
             </div>
             <div v-if="createAccount && !currentUser" class="mt25">
               <div class="checkboxStyled">
@@ -180,7 +189,9 @@
               <div class="checkboxText ml15 lh25">
                 <span class="fs16 c-darkgray">Create a new account</span>
               </div>
-              <p class="h5 c-lightgray-secondary">The new account will be created with the purchase. You will receive details on e-mail.</p>
+              <p class="h5 c-lightgray-secondary">
+                {{ $t('The new account will be created with the purchase. You will receive details on e-mail.') }}
+              </p>
             </div>
           </div>
         </div>
@@ -258,7 +269,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $black: map-get($colors, black);
   $gray: map-get($colors, gray);
 

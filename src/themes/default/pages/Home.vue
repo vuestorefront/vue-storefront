@@ -15,7 +15,7 @@
       </div>
     </section>
 
-    <collection title="New Luma Yoga Collection" cover-image="/assets/collection.jpg" category="Women"/>
+    <collection :title="$t('New Luma Yoga Collection')" cover-image="/assets/collection.jpg" category="Women"/>
 
     <section class="container pb60">
       <div class="row center-xs">

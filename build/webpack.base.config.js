@@ -9,6 +9,7 @@ const vueConfig = require('./vue-loader.config')
 const theme = require('../build/config.json').theme
 const themeComponents = '../src/themes/' + theme + '/components'
 const themePages = '../src/themes/' + theme + '/pages'
+const themePlugins = '../src/themes/' + theme + '/plugins'
 const themeResources = '../src/themes/' + theme + '/resource'
 const themeCSS = '../src/themes/' + theme + '/css'
 const themeApp = '../src/themes/' + theme + '/App.vue'
@@ -32,6 +33,7 @@ module.exports = {
       'components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../src/pages'),
       'core/resource': path.resolve(__dirname, '../src/resource'),
+      'core/plugins': path.resolve(__dirname, '../src/plugins'),
 
       lib: path.resolve(__dirname, '../src/lib'),
 
@@ -44,9 +46,9 @@ module.exports = {
       'theme/resource': path.resolve(__dirname, themeResources),
       'theme/components': path.resolve(__dirname, themeComponents),
       'theme/pages': path.resolve(__dirname, themePages),
+      'theme/plugins': path.resolve(__dirname, themePlugins),
       'theme/css': path.resolve(__dirname, themeCSS),
       'theme/app': path.resolve(__dirname, themeApp)
-      
     }
   },
 
@@ -81,8 +83,7 @@ module.exports = {
       },
       {
         test: /\.s[a|c]ss$/,
-        loader: 'style!css!sass',
-        
+        loader: 'style!css!sass'
       },
       {
         test: /\.md$/,

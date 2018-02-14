@@ -1,7 +1,7 @@
 <template>
   <button class="brdr-none bg-transparent p0 middle-xs inline-flex c-gray-secondary">
     <span class="hidden-xs h6 weight-300">
-      Remove
+      {{ $t('Remove') }}
     </span>
     <i class="material-icons h4 p5 pr0">remove_shopping_cart</i>
   </button>

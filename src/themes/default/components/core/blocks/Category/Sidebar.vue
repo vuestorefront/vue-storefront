@@ -1,8 +1,12 @@
 <template>
   <div class="sidebar">
-    <h4>Filter</h4>
+    <h4>
+      {{ $t('Filter') }}
+    </h4>
     <div v-if="filters.color.length">
-      <h5>Color</h5>
+      <h5>
+        {{ $t('Color') }}
+      </h5>
       <color-button
         context="category"
         :attribute_code="color"
@@ -14,7 +18,9 @@
       />
     </div>
     <div v-if="filters.size.length">
-      <h5>Size</h5>
+      <h5>
+        {{ $t('Size') }}
+      </h5>
       <size-button
         context="category"
         :attribute_code="size"
@@ -27,7 +33,9 @@
       />
     </div>
     <div v-if="filters.price.length">
-      <h5>Price</h5>
+      <h5>
+        {{ $t('Price') }}
+      </h5>
       <price-button
         context="category"
         :attribute_code="price"

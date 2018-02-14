@@ -1,13 +1,17 @@
 <template>
   <div>
     <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">Reset password</h1>
+      <h1 class="my0">
+        {{ $t('Reset password') }}
+      </h1>
     </div>
     <div class="py35 px65 bg-white c-gray-secondary lh25">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
-            <p class="mb45">Enter your email to receive instructions on how to reset your password.</p>
+            <p class="mb45">
+              {{ $t('Enter your email to receive instructions on how to reset your password.') }}
+            </p>
             <input
               ref="email"
               class="brdr-none brdr-bottom brdr-c-lightgray-secondary border-box py10 w-100 h4 weight-200 sans-serif"
@@ -20,20 +24,27 @@
             <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
           </div>
           <div class="mb35">
-            <button-full class="btn-full p0 center-xs" text="Reset password" @click.native="sendEmail"/>
+            <button-full class="btn-full p0 center-xs" :text="$t('Reset password')" @click.native="sendEmail"/>
           </div>
           <div class="center-xs">
-            <span>or <a href="#" @click.prevent="switchElem">return to log in</a></span>
+            <span>
+              {{ $t('or') }}
+              <a href="#" @click.prevent="switchElem">
+                {{ $t('return to log in') }}
+              </a>
+            </span>
           </div>
         </form>
       </template>
       <template v-if="passwordSent">
         <form class="py20">
           <div class="py30 mb35">
-            <p class="mb45">We've sent password reset instructions to your email. Check your inbox and follow the link.</p>
+            <p class="mb45">
+              {{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}
+            </p>
           </div>
           <div class="mb35">
-            <button-full class="btn-full p0 center-xs" text="Back to login" @click.native="switchElem"/>
+            <button-full class="btn-full p0 center-xs" :text="$t('Back to login')" @click.native="switchElem"/>
           </div>
         </form>
       </template>
@@ -106,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $lightgray-secondary: map-get($colors, lightgray-secondary);
   $black: map-get($colors, black);
 

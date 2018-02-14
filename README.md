@@ -1,10 +1,36 @@
 # Vue Storefront - PWA for eCommerce
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, [Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront),  Prestashop or Shopware) through the API.
 
-Sign up for a demo at https://vuestorefront.io/ (Vue Storefront integrated with Magento2).
-
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
-The project is still in the proof of concept phase. **We are looking for Contributors and Designer willing to help us in the solution development.**
+The project is in the **production ready** phase. 
+
+**We are looking for Contributors and Designer willing to help us in the solution development.**
+
+## See it in action
+
+Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://demo.vuestorefront.io"><img height="100" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"></a>
+      </td>
+
+<td align="center" valign="middle">
+        <a href="https://demo-catalog.vuestorefront.io"><img height="100" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true"></a>
+      </td>
+    </tr>
+    <tr>
+  <td>authorization: demo / !@#demo</td>
+  <td>authorization: demo / !@#demo</td>
+    </tr>
+  </tbody>
+ </table>
+ 
+ [![See how it works!](doc/media/vs-video.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
+ 
+- [Read on how to integrate it with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2), [Read how to create Vue Storefront theme](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593),
+- [Read the interviews with authors of first production deployments](https://medium.com/@piotrkarwatka/vue-storefront-on-production-interview-with-gogetgold-com-developers-71e4b48ef996)
 
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
@@ -84,10 +110,59 @@ Vue Storefront is platform agnostic which mean - it can be connected to virtuall
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
 
 ## Contributing
-If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via vuestorefront@divante.co.
+If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via contributors@vuestorefront.io.
 
-## Workshops and support
+If you have discovered a 🐜 or have a feature suggestion, feel free to create an issue on Github.
+
+## Workshops
 If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](https://products.divante.co/vuestorefront/)
+
+## Support us!
+**Vue Storefront is and always will be Open Source, released under MIT Licence.**
+
+Most of the core team members, VS contributors and contributors in the ecosystem do this open source work in their free time. If you use Vue Storefront for a serious task, and you'd like us to invest more time on it, you can donate the project! You can support us in various ways:
+- **Contribute** - this how the Core Team is supporting the project!
+- **Evangelize** - tweet about us, take some speaking slot at tech conference etc.
+- **Sponsor** - if you're doing seroius business on VS maybe You would like to donate the project and put your logo in here?
+
+This is how we will the donations:
+
+- Allow the core team to work on VS
+- Thank contributors if they invested a large amount of time in contributing
+- Support projects in the ecosystem that are of great value for users
+- Infrastructure cost
+- Fees for money handling
+
+**If you like to support us please just let us know: contributors@vuestorefront.io** 
+
+## Partners
+Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies.
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://divante.co/"><img height="50" alt="Snow.dog" align="left" src="https://divante.co/static/img/logo.svg"></a>
+      </td>
+
+<td align="center" valign="middle">
+        <a href="https://snow.dog"><img height="50" alt="Snow.dog" align="left" src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png"></a>
+      </td>
+      <td align="center" valign="middle">    
+        <a href="https://www.wagento.com"><img height="50" alt="Wagento" align="left" src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="http://www.summasolutions.net"><img height="50" alt="Summa Solutions" align="left" src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="http://www.acidgreen.com.au/"><img height="50" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"></a>
+      </td>
+    </tr>
+  </tbody>
+ </table>
+Partners are encourage to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partner by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
+
+If you like to become our Partner just let us know via contributors@vuestorefront.io.
 
 ## The screenshots
 

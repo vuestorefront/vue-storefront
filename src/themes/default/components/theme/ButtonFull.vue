@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/global_vars';
+@import '~theme/css/base/global_vars';
 $darkgray: map-get($colors, darkgray);
 
 .button-full:hover {

@@ -26,8 +26,10 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
 
         if (product.configurable_children) {
           for (let configurableChild of product.configurable_children) {
-            for (let opt of configurableChild.custom_attributes) {
-              configurableChild[opt.attribute_code] = opt.value
+            if (configurableChild.custom_attributes) {
+              for (let opt of configurableChild.custom_attributes) {
+                configurableChild[opt.attribute_code] = opt.value
+              }
             }
             configurableChild.price = parseFloat(configurableChild.price)
             configurableChild.priceInclTax = (configurableChild.price + configurableChild.price * (parseFloat(rate.rate) / 100))

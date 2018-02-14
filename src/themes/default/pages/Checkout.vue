@@ -4,7 +4,9 @@
       <div class="row" v-show="!orderPlaced">
         <div class="col-sm-7 col-xs-12 pb70">
           <div class="checkout-title py5 px20">
-            <h1>Checkout</h1>
+            <h1>
+              {{ $t('Checkout') }}
+            </h1>
           </div>
           <personal-details class="line relative" :is-active="activeSection.personalDetails"/>
           <shipping class="line relative" :is-active="activeSection.shipping"/>
@@ -52,8 +54,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../css/text.scss';
-@import '~theme/css/global_vars';
+@import '~theme/css/base/text';
+@import '~theme/css/base/global_vars';
 $lightgray: map-get($colors, lightgray);
 $lightgray-secondary: map-get($colors, lightgray-secondary);
 $gray-secondary: map-get($colors, gray-secondary);

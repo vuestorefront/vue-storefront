@@ -6,7 +6,7 @@
     "
     :class="{ active: active }"
     @click="switchFilter(id, label)"
-    :aria-label="'Select size ' + label"
+    :aria-label="$t('Select size ') + label"
   >
     {{ label }}
   </button>
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $gray-secondary: map-get($colors, gray-secondary);
   $alto: map-get($colors, alto);
 

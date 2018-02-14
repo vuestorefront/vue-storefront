@@ -3,12 +3,16 @@
     <!-- My newsletter header -->
     <div class="row mb15">
       <div class="col-xs-12 col-md-6" :class="{ 'c-darkgray' : !isActive }">
-        <h3 class="m0 mb5">My newsletter</h3>
+        <h3 class="m0 mb5">
+          {{ $t('My newsletter') }}
+        </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
         <div class="lh30 flex end-md" v-if="!isActive && editMode">
           <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
-            <span class="pr5">Edit newsletter preferences</span>
+            <span class="pr5">
+              {{ $t('Edit newsletter preferences') }}
+            </span>
             <i class="material-icons c-lightgray-secondary">edit</i>
           </a>
         </div>
@@ -18,7 +22,9 @@
     <!-- My newsletter body (both modes) -->
     <div class="row">
       <div class="col-xs-12">
-        <h4>General agreement</h4>
+        <h4>
+          {{ $t('General agreement') }}
+        </h4>
       </div>
       <div class="col-xs-12 col-md-12 mb15">
         <div class="checkboxStyled">
@@ -38,7 +44,9 @@
         </div>
       </div>
       <div class="col-xs-12">
-        <h4>Preferences</h4>
+        <h4>
+          {{ $t('Preferences') }}
+        </h4>
       </div>
       <div class="col-xs-6 col-sm-6 col-md-3 preferences mb25">
         <div class="checkboxStyled">
@@ -91,10 +99,12 @@
       </div>
       <div class="hidden-xs hidden-sm col-md-6"/>
       <div class="col-xs-12 col-sm-6 mt10 bottom-button" v-show="isActive">
-        <button-full text="Update my preferences" @click.native="updateNewsletter" />
+        <button-full :text="$t('Update my preferences')" @click.native="updateNewsletter" />
       </div>
       <div class="col-xs-12 col-sm-6 mt25 bottom-button" v-show="isActive">
-        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">Cancel</a>
+        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">
+          {{ $t('Cancel') }}
+        </a>
       </div>
     </div>
   </div>

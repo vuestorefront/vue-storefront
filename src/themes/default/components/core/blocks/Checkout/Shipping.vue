@@ -12,12 +12,16 @@
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
-            <h3 class="m0 mb5">Shipping</h3>
+            <h3 class="m0 mb5">
+              {{ $t('Shipping') }}
+            </h3>
           </div>
           <div class="col-xs-12 col-md-6 pr30">
             <div class="lh30 flex end-md" v-if="isFilled && !isActive">
               <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
-                <span class="pr5">Edit shipping</span>
+                <span class="pr5">
+                  {{ $t('Edit shipping') }}
+                </span>
                 <i class="material-icons c-lightgray-secondary">edit</i>
               </a>
             </div>
@@ -35,7 +39,9 @@
               <label for="shipToMyAddressCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useMyAddress">
-              <span class="fs16 c-darkgray">Ship to my default address</span>
+              <span class="fs16 c-darkgray">
+                {{ $t('Ship to my default address') }}
+              </span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
@@ -162,7 +168,9 @@
             <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="shipping.phoneNumber">
           </div>
           <div class="col-xs-12">
-            <h4>Shipping method</h4>
+            <h4>
+              {{ $t('Shipping method') }}
+            </h4>
           </div>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
             <label class="radioStyled"> {{ method.name }} | {{ method.cost | price }}
@@ -189,7 +197,7 @@
           <div class="col-xs-12 my30 bottom-button">
             <button-full
               @click.native="sendDataToCheckout"
-              text="Continue to payment"
+              :text="$t('Continue to payment')"
               :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
             />
           </div>
@@ -216,10 +224,12 @@
             </p>
             <div v-show="shipping.phoneNumber">
               <span class="pr15">{{ shipping.phoneNumber }}</span>
-              <tooltip>Phone number may be needed by carrier</tooltip>
+              <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
             </div>
             <div class="col-xs-12">
-              <h4>Shipping method</h4>
+              <h4>
+                {{ $t('Shipping method') }}
+              </h4>
             </div>
             <div class="col-md-6 mb15">
               <!-- <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label> -->

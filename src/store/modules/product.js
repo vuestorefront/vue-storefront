@@ -8,7 +8,7 @@ import { breadCrumbRoutes } from 'src/helpers'
 import { calculateProductTax } from 'src/lib/taxcalc'
 import _ from 'lodash'
 import rootStore from '../'
-import EventBus from 'src/event-bus'
+import EventBus from 'src/plugins/event-bus'
 
 function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price

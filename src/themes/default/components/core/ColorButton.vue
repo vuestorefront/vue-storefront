@@ -3,7 +3,7 @@
     class="mr10 mb5 bg-transparent brdr-1 brdr-circle brdr-c-transparent relative inline-flex pointer color"
     @click="switchFilter(id, label)"
     :class="{ active: active }"
-    :aria-label="'Select color ' + label"
+    :aria-label="$t('Select color ') + label"
   >
     <div
       class="absolute brdr-circle brdr-1 brdr-c-alto block color-inside"
@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/global_vars';
+  @import '~theme/css/base/global_vars';
   $lightgray-secondary: map-get($colors, lightgray-secondary);
   $emperor: map-get($colors, emperor);
 
