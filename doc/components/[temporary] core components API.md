@@ -264,11 +264,11 @@ No props
 *{ store, route }* - an object consisting of the Vuex store and global router references.
 ### Hooks
 #### asyncData
-Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is list of all categories, category attributes and list of products for each category.
+Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is a list of all categories, category attributes and list of products for each category.
 #### beforeMount
-*'filter-changed-category'* event listener is initialized. *Although this event is not triggered anywhere.*
+**'filter-changed-category'** event listener is initialized. *Although this event is not triggered anywhere.*
 #### beforeDestroy
-*'filter-changed-category'* event listener is removed.
+**'filter-changed-category'** event listener is removed.
 
 ## Checkout
 
@@ -277,7 +277,7 @@ No props
 ### Data
 `stockCheckCompleted` - a boolean prop that shows if all products in cart (if any) have been checked for availability (whether they are in stock or not).  
 `stockCheckOK` - a boolean prop that shows if all products in cart are in stock.  
-`orderPlaced` - a boolean prop that is set to true after *'order-after-placed'* event has been triggered, defining a placement of order.  
+`orderPlaced` - a boolean prop that is set to true after *'order-after-placed'* event has been triggered, defining a successful placement of an order.  
 `activeSection` - an object that consists of 4 boolean props: *personalDetails*, *shipping*, *payment* and *orderReview*, - that define which section of Checkout page is currently active. At any point of time only one section can be active.  
 `order` - an order object, that consists of all necessary order information that will be sent to the backend to place it.  
 `personalDetails` - an object that contains personal details part of the Checkout page.  
@@ -308,7 +308,15 @@ No props
 `savePaymentDetails ()` - dispatches *'checkout/savePaymentDetails'* action which will save checkout payment details information (from *payment* prop) to the Vuex store.
 ### Hooks
 #### created
-Defines several event listeners to communicate with child components. For example, *'checkout.personalDetails'* event listener to receive personal details information from PersonalDetails child component and activate next section of the Checkout page (which is shipping details).
+Defines several event listeners to communicate with child components.  
+**'network.status'** event listener receives internet connection status and calls *checkConnection* method.  
+*'checkout.personalDetails'* event listener receives personal details information from PersonalDetails child component and activates next section of the Checkout page (which is shipping details).  
+**'checkout.shipping'** event listener receives shipping details information from Shipping child component and activates next section of the Checkout page (which is payment details).  
+**'checkout.payment'** event listener receives payment details information from Payment child component and activates next section of the Checkout page (which is order review).  
+**'checkout.cartSummary'** - *this event listener is not called anywhere.*  
+**'checkout.placeOrder'** event listener is called by OrderReview child component. It has optional *userId* parameter that is passed to it in case user registers a new account at the checkout. With or without *userId* this event listener calls *placeOrder* method.  
+**'checkout.edit'** event listener activates a section of Checkout page, name of which is passed to it in a parameter.  
+**'order-after-placed'** event listener sets *orderPlaced* prop to true.
 #### beforeMount
 Checks if cart is not empty. If it is, then a notification is fired. Otherwise, sets promises that will check availability of the products from the cart and if they are all in stock.
 #### destroyed
@@ -330,3 +338,53 @@ Removes all event listeners that were previously defined in *created* hook.
 ### Hooks
 #### created
 Dispatches *'compare/load'* action that loads list of products to compare from localStorage into Vuex store. Also dispatches *'attribute/list'* action that loads all product attributes that have *is_user_defined* property set to true into Vuex store.
+
+## Home
+*In core page there's almost no functionality, everything is in theme component, which definetely needs be replaced to core.*
+### Props
+No props
+### Data
+No data
+### Methods
+No methods
+### Hooks
+#### beforeMount
+Clears Vuex store entries that define current category by dispatching *'category/reset'* action. If app is launching in demo mode, onboarding info modal pops up.
+
+## MyAccount
+
+### Props
+No props
+### Data
+`navigation` - an object that contains names of sections of MyAccount page and anchor links to them.  
+`activeSection` - an object that defines which section of MyAccount page is currently active.  
+`editMode` - a boolean prop that is propagated to its child components, it defines that any section can be switched to edit mode. When user presses *Edit* on any section, this prop becomes false so that other sections can not be edited at the same time before finishing editing the current section.  
+### Methods
+`activateSection (sectionToActivate)` - this method is called whenever user presses *Edit* button on any section of MyAccount page. It sets corresponding key of *activeSection* prop to true.  
+**Parameters**  
+*sectionToActivate* - an optional parameter that defines which section needs be activated. If parameter is not passed then all sections will be deactivated.  
+
+`notify (title)` - this is a temporary method that notifies user if he presses on a link of a section that is not yet implemented.  
+### Hooks
+#### created
+Defines several event listeners to communicate with child components.  
+**'myAccount.activateSection'** event listener activates a specific section. It's called from every child component.  
+**'myAccount.updateUser'** event listener receives filled out data from child components and dispatches *'user/update'* action to update user profile. It's called from PersonalDetails and ShippingDetails child components.  
+**'myAccount.changePassword'** event listener receives updated authentication data from PersonalDetails child component and dispatches *'user/changePassword'* action.  
+**'myAccount.updatePreferences'** event listener receives user's updated newsletter subscription preferences from MyNewsletter child component and updates them by dispatching *'user/updatePreferences'* action.
+#### mounted
+Checks if there's a user token in localStorage. If not, redirects user to Home page.
+#### destroyed
+Removes all event listeners that were previously defined in *created* hook.
+
+## PageNotFound
+404 page
+### Props
+No props
+### Data
+No data
+### Methods
+No methods
+### Hooks
+#### asyncData
+Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for PageNotFound page is a list of 8 random products that are called Bestsellers.
