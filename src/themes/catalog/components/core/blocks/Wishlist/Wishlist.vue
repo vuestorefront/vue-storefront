@@ -5,7 +5,7 @@
         <i class="material-icons p15 pointer" @click="closeWishlist">close</i>
       </div>
     </div>
-    <div class="row" v-if="!items.length">
+    <div class="row pr50-md pl20 pr20 pl0-md" v-if="!items.length">
       <div class="col-md-12">
         <h4>Your wishlist is empty.</h4>
         <div>
