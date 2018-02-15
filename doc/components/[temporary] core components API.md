@@ -132,11 +132,6 @@ This component is used to shadow parts of the screen that are left after opening
 No data
 ### Methods
 `close` - calls UI-store mutation 'ui/setOverlay' and sets its *overlay* property to *false*.
-### Hooks
-#### beforeCreate
-Adds *no-scroll* property to document, making shadowed parts of the screen unscrollable.
-#### destroyed
-Removes *no-scroll* property from document.
 
 ## PriceButton
 Represents one of the options on Category page. Shows price range and allows uesr to choose one of the ranges.
