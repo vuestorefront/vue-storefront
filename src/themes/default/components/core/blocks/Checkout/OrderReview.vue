@@ -57,10 +57,11 @@
         <div class="row">
           <div class="col-xs-12 bottom-button">
             <button-full
-              :text="$t('Place the order')"
               @click.native="placeOrder"
-              :class="{ 'ripple': true, 'button-disabled' : $v.orderReview.$invalid }"
-            />
+              :class="{ 'button-disabled' : $v.orderReview.$invalid }"
+            >
+              {{ $t('Place the order') }}
+            </button-full>
           </div>
         </div>
       </div>

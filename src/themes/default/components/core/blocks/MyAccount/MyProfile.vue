@@ -176,10 +176,11 @@
 
       <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full
-          :text="$t('Update my profile')"
           @click.native="updateProfile"
           :class="{ 'button-disabled': checkValidation() }"
-        />
+        >
+          {{ $t('Update my profile') }}
+        </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">

@@ -1,6 +1,6 @@
 <template>
   <button
-    class="button-full block brdr-none w-100 px55 py20 ripple weight-400 h4 bg-black c-white"
+    class="button-full block brdr-none w-100 px55 py20 bg-black ripple weight-400 h4 c-white"
     :type="type"
     v-focus-clean="{class: 'no-outline'}"
   >

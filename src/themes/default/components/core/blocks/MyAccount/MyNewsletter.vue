@@ -99,7 +99,9 @@
       </div>
       <div class="hidden-xs hidden-sm col-md-6"/>
       <div class="col-xs-12 col-sm-6 mt10 bottom-button" v-show="isActive">
-        <button-full :text="$t('Update my preferences')" @click.native="updateNewsletter" />
+        <button-full @click.native="updateNewsletter">
+          {{ $t('Update my preferences') }}
+        </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 mt25 bottom-button" v-show="isActive">
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">

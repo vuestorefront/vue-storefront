@@ -154,9 +154,10 @@
           <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 my30 pl20 button-container bottom-button">
             <button-full
               @click.native="sendDataToCheckout"
-              :text="$t('Continue to shipping')"
-              :class="{ 'ripple': true, 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
-            />
+              :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
+            >
+              {{ $t('Continue to shipping') }}
+            </button-full>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
             <p class="h4 c-darkgray">

@@ -197,9 +197,10 @@
           <div class="col-xs-12 my30 bottom-button">
             <button-full
               @click.native="sendDataToCheckout"
-              :text="$t('Continue to payment')"
               :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
-            />
+            >
+              {{ $t('Continue to payment') }}
+            </button-full>
           </div>
         </div>
       </div>
