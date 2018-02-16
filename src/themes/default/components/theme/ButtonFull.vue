@@ -1,20 +1,23 @@
 <template>
-  <div
-    class="button-full inline-flex px55 py20 center-xs ripple pointer weight-400 h4 bg-black c-white"
-    tabindex="0"
+  <button
+    class="button-full block brdr-none w-100 px55 py20 ripple weight-400 h4 bg-black c-white"
+    :type="type"
     v-focus-clean="{class: 'no-outline'}"
   >
-    {{ text }}
-  </div>
+    <slot>
+      Button
+    </slot>
+  </button>
 </template>
 
 <script>
 export default {
   name: 'ButtonFull',
   props: {
-    text: {
+    type: {
       type: String,
-      required: true
+      required: false,
+      default: 'button'
     }
   }
 }
@@ -24,7 +27,10 @@ export default {
 @import '~theme/css/base/global_vars';
 $darkgray: map-get($colors, darkgray);
 
-.button-full:hover {
-  background: $darkgray;
+.button-full {
+  &:hover,
+  &:focus {
+    background-color: $darkgray;
+  }
 }
 </style>
