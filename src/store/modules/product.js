@@ -353,7 +353,11 @@ const actions = {
           for (let ov of option.values) {
             let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
             if (_.trim(lb) !== '') {
-              context.state.current_options[option.label.toLowerCase()].push({
+              let optionKey = option.label.toLowerCase()
+              if (!context.state.current_options[optionKey]) {
+                context.state.current_options[optionKey] = []
+              }
+              context.state.current_options[optionKey].push({
                 label: lb,
                 id: ov.value_index
               })
