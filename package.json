@@ -68,6 +68,8 @@
     "vue-no-ssr": "^0.2.0",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.2",
+    "vue2-google-maps": "^0.8.4",
+    "vue2-slugify": "0.0.1",
     "vuelidate": "^0.6.1",
     "vuex": "^3.0.0",
     "vuex-router-sync": "^5.0.0"

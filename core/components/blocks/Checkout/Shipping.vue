@@ -24,6 +24,10 @@ export default {
         this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
       }
     })
+    this.$bus.$on('checkout.setShipping', (receivedData) => {
+      this.shipping = receivedData
+      this.isFilled = true
+    })
   },
   data () {
     return {
