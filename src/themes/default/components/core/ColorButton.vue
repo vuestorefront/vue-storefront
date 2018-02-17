@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     colorFrom (label) {
-      if (label.indexOf(',') >= 0) {
+      if (label && label.toString().indexOf(',') >= 0) {
         return 'background: linear-gradient(' + label + ')'
       } else {
         return 'background-color: ' + label
