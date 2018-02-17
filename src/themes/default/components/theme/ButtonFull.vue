@@ -1,6 +1,6 @@
 <template>
   <button
-    class="button-full block brdr-none w-100 px55 py20 bg-black ripple weight-400 h4 c-white"
+    class="button-full block brdr-none w-100 px10 py20 bg-darkgray ripple weight-400 h4 c-white"
     :type="type"
     v-focus-clean="{class: 'no-outline'}"
   >
@@ -25,12 +25,12 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
-$darkgray: map-get($colors, darkgray);
+$emperor: map-get($colors, emperor);
 
 .button-full {
   &:hover,
   &:focus {
-    background-color: $darkgray;
+    background-color: $emperor;
   }
 }
 </style>
