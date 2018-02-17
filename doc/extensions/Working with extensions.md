@@ -4,4 +4,4 @@
 
 ## Extensions list (docs for it under construction)
 * Mailchimp Integration
-* Google Analytics
+* Google Analytics Integration
