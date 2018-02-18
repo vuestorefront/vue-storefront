@@ -21,7 +21,14 @@ export default {
       active: false
     }
   },
+  beforeDestroy () {
+    this.$bus.$off('filter-reset')
+    this.$bus.$off('filter-changed-' + this.context)
+  },
   beforeMount () {
+    this.$bus.$on('filter-reset', (filterOption) => {
+      this.active = false
+    })
     this.$bus.$on('filter-changed-' + this.context, (filterOption) => {
       if (filterOption.attribute_code === this.code) {
         if (filterOption.id === this.id) {

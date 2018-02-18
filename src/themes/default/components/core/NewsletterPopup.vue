@@ -23,10 +23,11 @@
         </div>
         <div class="mb35 center-xs">
           <button-full
-            class="block p0 ripple"
-            :text="$t('Subscribe')"
-            @click.native="$v.email.$touch(); subscribe()"
-          />
+            type="submit"
+            @click.native="$v.email.$touch"
+          >
+            {{ $t('Subscribe') }}
+          </button-full>
         </div>
       </form>
     </div>

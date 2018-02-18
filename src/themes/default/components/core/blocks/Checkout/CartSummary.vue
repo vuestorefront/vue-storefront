@@ -6,36 +6,22 @@
       </h3>
       <product v-for="product in items" :key="product.id" :product="product"/>
       <div v-if="items.length" class="checkout bg-lightgray pt10 serif c-darkgray">
-        <div class="row pt15 pb20 pl30 pr55 ">
+
+        <div v-for="(segment, index) in totals" :key="index" class="row pt15 pb20 pl30 pr55 " v-if="segment.code !== 'grand_total'">
           <div class="col-xs c-darkgray">
-            {{ $t('Shipping') }} ({{ shipping.name }})
+            {{ segment.title }}
           </div>
           <div class="col-xs align-right c-darkgray h4">
-            {{ shipping.costInclTax | price }}
+            {{ segment.value | price }}
           </div>
         </div>
-        <div class="row pt15 pb20 pl30 pr55 ">
-          <div class="col-xs c-darkgray">
-            {{ $t('Payment') }} ({{ payment.name }})
-          </div>
-          <div class="col-xs align-right c-darkgray" v-if="payment.costInclTax > 0">
-            {{ payment.costInclTax | price }}
-          </div>
-        </div>
-        <!--             <div class="row pt20 pb20 pl30 pr55">
-    <div class="col-xs">
-          Taxes
-        </div>
-        <div class="col-xs align-right">
-          {{ 10 | price }}
-        </div>
-      </div> -->
-        <div class="row pt20 pb20 pl30 pr55 weight-400 h3">
+
+        <div class="row pt20 pb20 pl30 pr55 weight-400 h3" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
           <div class="col-xs">
-            {{ $t('Order Summary') }}
+            {{ segment.title }}
           </div>
           <div class="col-xs align-right">
-            {{ totalInclTax | price }}
+            {{ segment.value | price }}
           </div>
         </div>
       </div>

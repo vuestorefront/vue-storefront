@@ -38,36 +38,21 @@
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         {{ $t('Shopping summary') }}
       </h3>
-      <div class="row py20">
+      <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
         <div class="col-xs">
-          {{ $t('Subtotal inc. tax') }}
+          {{ segment.title }}
         </div>
         <div class="col-xs align-right">
-          {{ subtotalInclTax | price }}
+          {{ segment.value | price }}
         </div>
       </div>
-      <div class="row py20">
-        <div class="col-xs">
-          {{ $t('Shipping') }} ({{ shipping.name }})
-        </div>
-        <div class="col-xs align-right">
-          {{ shipping.costInclTax | price }}
-        </div>
-      </div>
-      <div class="row py20">
-        <div class="col-xs">
-          {{ $t('Payment') }} ({{ payment.name }})
-        </div>
-        <div class="col-xs align-right" v-if="payment.cost > 0">
-          {{ payment.costInclTax | price }}
-        </div>
-      </div>
-      <div class="row pt30 pb20 weight-700 middle-xs">
+
+      <div class="row pt30 pb20 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
         <div class="col-xs h4 total-price-label">
-          {{ $t('Total inc. tax') }}
+          {{ segment.title }}
         </div>
         <div class="col-xs align-right h2 total-price-value">
-          {{ totalInclTax | price }}
+          {{ segment.value | price }}
         </div>
       </div>
     </div>
@@ -82,18 +67,13 @@
           </span>
         </router-link>
       </div>
-      <div class="col-xs-12 first-xs col-sm end-sm">
-        <router-link
-          class="no-underline inline-flex h4 checkout-button bg-darkgray link checkout"
-          :to="{ name: 'checkout' }"
+      <div class="col-xs-12 first-xs col-sm-4 end-sm">
+        <button-full
+          :link="{ name: 'checkout' }"
+          @click.native="closeMicrocart"
         >
-          <span
-            class="c-white py20 px70"
-            @click="closeMicrocart"
-          >
-            {{ $t('Go to checkout') }}
-          </span>
-        </router-link>
+          {{ $t('Go to checkout') }}
+        </button-full>
       </div>
     </div>
   </div>
@@ -102,10 +82,12 @@
 <script>
 import { coreComponent } from 'lib/themes'
 import Product from './Product'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   components: {
-    Product
+    Product,
+    ButtonFull
   },
   mixins: [coreComponent('core/blocks/Microcart/Microcart')]
 }

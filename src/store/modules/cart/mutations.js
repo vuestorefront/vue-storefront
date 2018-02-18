@@ -34,9 +34,10 @@ export default {
     }
   },
   [types.CART_UPD_ITEM_PROPS] (state, { product }) {
-    let record = state.cartItems.find(p => p.sku === product.sku)
+    let record = state.cartItems.find(p => (p.sku === product.sku || p.server_item_id === product.server_item_id))
     if (record) {
       record = Object.assign(record, product)
+      EventBus.$emit('cart-after-itemchanged', { item: record })
     }
     state.cartSavedAt = new Date()
   },
@@ -56,5 +57,10 @@ export default {
   },
   [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
     state.cartServerToken = token
+  },
+  [types.CART_UPD_TOTALS] (state, { itemsAfterTotals, totals, platformTotalSegments }) {
+    state.itemsAfterPlatformTotals = itemsAfterTotals
+    state.platformTotals = totals
+    state.platformTotalSegments = platformTotalSegments
   }
 }

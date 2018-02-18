@@ -45,6 +45,27 @@ export default {
       }
     }
   },
+  serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
+    if (config.cart.synchronize_totals) {
+      if ((new Date() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
+        context.state.cartServerPullAt = new Date()
+        context.dispatch('sync/execute', { url: config.cart.totals_endpoint, // sync the cart
+          payload: {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          silent: true,
+          force_client_state: forceClientState,
+          callback_event: 'servercart-after-totals'
+        }, { root: true }).then(task => {
+
+        })
+      } else {
+        console.log('Too short interval for refreshing the cart totals')
+      }
+    }
+  },
   serverCreate (context, { guestCart = false }) {
     if (config.cart.synchronize) {
       if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
@@ -79,6 +100,9 @@ export default {
         callback_event: 'servercart-after-itemupdated'
       }, { root: true }).then(task => {
         // eslint-disable-next-line no-useless-return
+        if (config.cart.synchronize_totals) {
+          context.dispatch('cart/serverTotals', {}, { root: true })
+        }
         return
       })
     }
@@ -102,6 +126,9 @@ export default {
         callback_event: 'servercart-after-itemdeleted'
       }, { root: true }).then(task => {
         // eslint-disable-next-line no-useless-return
+        if (config.cart.synchronize_totals) {
+          context.dispatch('cart/serverTotals', {}, { root: true })
+        }
         return
       })
     }

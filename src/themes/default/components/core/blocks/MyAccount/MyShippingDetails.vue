@@ -77,10 +77,11 @@
       <div class="hidden-xs col-sm-6 mb25"/>
       <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full
-          :text="$t('Update my shipping details')"
           @click.native="updateDetails"
           :class="{ 'button-disabled': $v.$invalid }"
-        />
+        >
+          {{ $t('Update my shipping details') }}
+        </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
         <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">

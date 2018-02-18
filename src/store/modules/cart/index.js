@@ -26,6 +26,21 @@ EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
   rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
 })
 
+EventBus.$on('servercart-after-totals', (event) => { // example stock check callback
+  if (event.resultCode === 200) {
+    console.log('Overriding server totals', event.result)
+    let itemsAfterTotal = {}
+    let platformTotalSegments = event.result.total_segments
+    for (let item of event.result.items) {
+      itemsAfterTotal[item.item_id] = item
+      rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item } }, { root: true }) // update the server_id reference
+    }
+    rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: event.result, platformTotalSegments: platformTotalSegments })
+  } else {
+    console.error(event.result)
+  }
+})
+
 EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
   if (event.resultCode === 200) {
     const serverItems = event.result
@@ -46,7 +61,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         rootStore.dispatch('cart/serverUpdateItem', {
           sku: clientItem.sku,
           qty: clientItem.qty,
-          item_id: serverItem.server_item_id,
+          item_id: serverItem.item_id,
           quoteId: serverItem.quote_id
         }, { root: true })
       } else {
@@ -77,7 +92,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
               product.qty = serverItem.qty
               product.server_cart_id = serverItem.quote_id
               rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
-                // rootStore.dispatch('cart/updateItem', { product: product })
+                //              rootStore.dispatch('cart/updateItem', { product: product })
               })
             })
           }
@@ -111,8 +126,12 @@ EventBus.$on('servercart-after-itemdeleted', (event) => {
 export default {
   namespaced: true,
   state: {
+    itemsAfterPlatformTotals: {},
+    platformTotals: null,
+    platformTotalSegments: null,
     cartIsLoaded: false,
     cartServerPullAt: 0,
+    cartServerTotalsAt: 0,
     cartServerCreatedAt: 0,
     cartSavedAt: new Date(),
     bypassToAnon: false,

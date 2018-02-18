@@ -23,10 +23,15 @@
           </div>
         </div>
         <div class="col-xs-12 col-md-3 serif">
-          <div>
-            <span class="h4 c-red" v-if="product.special_price">{{ product.priceInclTax | price }} </span>
-            <span class="price-original h5" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax | price }}</span>
+          <div v-if="!product.totals">
+            <span class="h4 c-red" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
+            <span class="price-original h5" v-if="product.special_price" >{{ product.originalPriceInclTax * product.qty | price }}</span>
+            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
+          </div>
+          <div v-if="product.totals">
+            <span class="h4 c-red" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }} </span>
+            <span class="price-original h5" v-if="product.totals.discount_amount" >{{ product.totals.row_total_incl_tax | price }}</span>
+            <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
           </div>
         </div>
       </div>
