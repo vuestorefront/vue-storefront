@@ -24,7 +24,9 @@
             <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
           </div>
           <div class="mb35">
-            <button-full class="btn-full p0 center-xs" :text="$t('Reset password')" @click.native="sendEmail"/>
+            <button-full type="submit">
+              {{ $t('Reset password') }}
+            </button-full>
           </div>
           <div class="center-xs">
             <span>
@@ -44,7 +46,9 @@
             </p>
           </div>
           <div class="mb35">
-            <button-full class="btn-full p0 center-xs" :text="$t('Back to login')" @click.native="switchElem"/>
+            <button-full type="submit">
+              {{ $t('Back to login') }}
+            </button-full>
           </div>
         </form>
       </template>
@@ -133,9 +137,5 @@ export default {
     outline: none;
     border-color: $black;
     transition: 0.3s all;
-  }
-
-  .btn-full {
-    display: block;
   }
 </style>

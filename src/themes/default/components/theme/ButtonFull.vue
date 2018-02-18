@@ -1,20 +1,31 @@
 <template>
-  <div
-    class="button-full inline-flex px55 py20 center-xs ripple pointer weight-400 h4 bg-black c-white"
-    tabindex="0"
-    v-focus-clean="{class: 'no-outline'}"
+  <component
+    :is="link ? 'router-link' : 'button'"
+    :type="!link ? type : false"
+    :to="link"
+    class="no-outline button-full block brdr-none w-100 px10 py20 bg-darkgray ripple weight-400 h4 c-white"
+    :class="{ 'no-underline pointer align-center border-box': link }"
+    v-focus-clean="{ class: 'no-outline' }"
   >
-    {{ text }}
-  </div>
+    <slot>
+      Button
+    </slot>
+  </component>
 </template>
 
 <script>
 export default {
   name: 'ButtonFull',
   props: {
-    text: {
+    type: {
       type: String,
-      required: true
+      required: false,
+      default: 'button'
+    },
+    link: {
+      type: Object,
+      required: false,
+      default: null
     }
   }
 }
@@ -22,9 +33,12 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
-$darkgray: map-get($colors, darkgray);
+$emperor: map-get($colors, emperor);
 
-.button-full:hover {
-  background: $darkgray;
+.button-full {
+  &:hover,
+  &:focus {
+    background-color: $emperor;
+  }
 }
 </style>

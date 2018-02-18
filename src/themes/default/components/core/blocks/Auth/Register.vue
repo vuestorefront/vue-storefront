@@ -76,9 +76,10 @@
           </span>
         </div>
         <div class="mb20">
-          <button-full class="w-100 border-box center-xs" :text="$t('Register an account')" @click.native="register"/>
+          <button-full type="submit">
+            {{ $t('Register an account') }}
+          </button-full>
         </div>
-        <input class="hidden" type="submit">
         <div class="center-xs">
           <span>
             {{ $t('or') }}

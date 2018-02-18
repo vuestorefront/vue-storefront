@@ -82,18 +82,13 @@
           </span>
         </router-link>
       </div>
-      <div class="col-xs-12 first-xs col-sm end-sm">
-        <router-link
-          class="no-underline inline-flex h4 checkout-button bg-darkgray link checkout"
-          :to="{ name: 'checkout' }"
+      <div class="col-xs-12 first-xs col-sm-4 end-sm">
+        <button-full
+          :link="{ name: 'checkout' }"
+          @click.native="closeMicrocart"
         >
-          <span
-            class="c-white py20 px70"
-            @click="closeMicrocart"
-          >
-            {{ $t('Go to checkout') }}
-          </span>
-        </router-link>
+          {{ $t('Go to checkout') }}
+        </button-full>
       </div>
     </div>
   </div>
@@ -102,10 +97,12 @@
 <script>
 import { coreComponent } from 'lib/themes'
 import Product from './Product'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   components: {
-    Product
+    Product,
+    ButtonFull
   },
   mixins: [coreComponent('core/blocks/Microcart/Microcart')]
 }

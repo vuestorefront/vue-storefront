@@ -9,7 +9,9 @@
                 <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
                 <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
                 <div class="align-center">
-                  <button-outline class="button" :text="slide.button_text" :link="slide.link" color="light" />
+                  <button-outline :link="slide.link" color="light">
+                    {{ slide.button_text }}
+                  </button-outline>
                 </div>
               </div>
             </div>
