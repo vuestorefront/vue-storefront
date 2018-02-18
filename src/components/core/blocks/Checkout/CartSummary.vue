@@ -14,9 +14,15 @@
 
 <script>
 import { coreComponent } from 'lib/themes'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CartSummary',
-  mixins: [coreComponent('core/blocks/Microcart/Microcart')]
+  mixins: [coreComponent('core/blocks/Microcart/Microcart')],
+  computed: {
+    ...mapGetters({
+      totals: 'cart/totals'
+    })
+  }
 }
 </script>
