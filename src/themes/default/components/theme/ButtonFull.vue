@@ -1,10 +1,10 @@
 <template>
   <component
-    :is="tag"
-    :type="tag === 'button' ? type : false"
+    :is="link ? 'router-link' : 'button'"
+    :type="!link ? type : false"
     :to="link"
     class="no-outline button-full block brdr-none w-100 px10 py20 bg-darkgray ripple weight-400 h4 c-white"
-    :class="{ 'no-underline pointer align-center border-box': tag != 'button' }"
+    :class="{ 'no-underline pointer align-center border-box': link }"
     v-focus-clean="{ class: 'no-outline' }"
   >
     <slot>
@@ -17,11 +17,6 @@
 export default {
   name: 'ButtonFull',
   props: {
-    tag: {
-      type: String,
-      required: false,
-      default: 'button'
-    },
     type: {
       type: String,
       required: false,

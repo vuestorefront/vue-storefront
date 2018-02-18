@@ -1,25 +1,17 @@
 <template>
-  <router-link
-    v-if="link"
+  <component
+    :is="link ? 'router-link' : 'button'"
     :to="link"
-    class="button-outline inline-flex uppercase weight-400 h4 px40 py15 no-underline"
+    class="button-outline no-outline px40 py15 bg-transparent uppercase h4 no-underline"
     :class="{
       light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'c-gray-secondary' : color === 'dark'
+      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'c-gray-secondary' : color === 'dark',
     }"
   >
-    <slot>Button</slot>
-  </router-link>
-  <button
-    v-else
-    class="button-outline px40 py15 bg-transparent uppercase h4"
-    :class="{
-      light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'c-gray-secondary' : color === 'dark'
-    }"
-  >
-    <slot>Button</slot>
-  </button>
+    <slot>
+      Button
+    </slot>
+  </component>
 </template>
 
 <script>

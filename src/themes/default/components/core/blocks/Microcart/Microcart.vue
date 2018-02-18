@@ -84,7 +84,6 @@
       </div>
       <div class="col-xs-12 first-xs col-sm-4 end-sm">
         <button-full
-          tag="router-link"
           :link="{ name: 'checkout' }"
           @click.native="closeMicrocart"
         >
