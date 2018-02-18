@@ -44,13 +44,10 @@
           </div>
         </div>
         <div class="mb20">
-          <button-full
-            class="w-100 border-box p0 center-xs"
-            :text="$t('Log in to your account')"
-            @click.native="login"
-          />
+          <button-full type="submit">
+            {{ $t('Log in to your account') }}
+          </button-full>
         </div>
-        <input class="hidden" type="submit">
         <div class="center-xs">
           <span>
             or

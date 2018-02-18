@@ -1,5 +1,5 @@
 import config from 'config'
-import EventBus from 'src/event-bus'
+import EventBus from 'src/plugins/event-bus'
 import store from '../'
 
 EventBus.$on('stock-after-check', (event) => { // example stock check callback

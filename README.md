@@ -50,7 +50,7 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [Common problems](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
 
 ### Vue Storefront core and themes
-* [Wotking with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
+* [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 * [Working with UI Store (interface state)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
 * [Working with translations](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md)
@@ -69,7 +69,7 @@ Tutorial series on creating themes for Vue Storefront:
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [How to connect 3rd party platform to Vue Storefront?](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6)
 
-### 'Default theme' contriribution rules
+### 'Default theme' contribution rules
 * [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/default/Working%20with%20stylesheets.md)
 
 ## The business challenges
@@ -79,10 +79,10 @@ Vue Storefront was created to solve a set of key business challenges from the wo
 * The off-line shopping capabilities;
 * The smooth shopping experience close to the user experience from the native mobile applications;
 * The all-in-one front-end for desktop and mobile screens with no necessity for maintaining 3 or more applications for different touchpoints (web browser, Android, iOS etc.).
-* Rapid development wothout architecture limitations.
+* Rapid development without architecture limitations.
 
 ## The technology
-Vue Storefront was build as a all-in-one front-end for eCommerce. For providing the best performance we decided to use Vue.js as a front-end library, Node.js + Express (and maybe GraphQL support) as a server-API, Elastic Search as a database of products and full PWA/off-line support.
+Vue Storefront was built as an all-in-one front-end for eCommerce. For providing the best performance we decided to use Vue.js as a front-end library, Node.js + Express (and maybe GraphQL support) as a server-API, Elastic Search as a database of products and full PWA/off-line support.
 Here you can read more about the proof of concept for [Vue Storefront connected with Magento2](https://www.linkedin.com/pulse/magento2-nosql-database-pwa-support-piotr-karwatka).
 
 Besides a big improvement for the shopping experience, we also want to create a great code base for every developer who needs to work on a front-end application for the eCommerce.
@@ -104,7 +104,7 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## Other platforms
-Vue Storefront is platform agnostic which mean - it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/pimcore2vuestorefront) to give you an idea how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
+Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/pimcore2vuestorefront) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
 ## The license
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
@@ -121,11 +121,11 @@ If you like our project and would like to learn more on how to create Progressiv
 **Vue Storefront is and always will be Open Source, released under MIT Licence.**
 
 Most of the core team members, VS contributors and contributors in the ecosystem do this open source work in their free time. If you use Vue Storefront for a serious task, and you'd like us to invest more time on it, you can donate the project! You can support us in various ways:
-- **Contribute** - this how the Core Team is supporting the project!
+- **Contribute** - this is how the Core Team is supporting the project!
 - **Evangelize** - tweet about us, take some speaking slot at tech conference etc.
-- **Sponsor** - if you're doing seroius business on VS maybe You would like to donate the project and put your logo in here?
+- **Sponsor** - if you're doing serious business on VS maybe You would like to donate the project and put your logo in here?
 
-This is how we will the donations:
+This is how we will use the donations:
 
 - Allow the core team to work on VS
 - Thank contributors if they invested a large amount of time in contributing
@@ -133,7 +133,7 @@ This is how we will the donations:
 - Infrastructure cost
 - Fees for money handling
 
-**If you like to support us please just let us know: contributors@vuestorefront.io** 
+**If you would like to support us please just let us know: contributors@vuestorefront.io** 
 
 ## Partners
 Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies.
@@ -160,7 +160,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
     </tr>
   </tbody>
  </table>
-Partners are encourage to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partner by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
+Partners are encouraged to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
 If you like to become our Partner just let us know via contributors@vuestorefront.io.
 

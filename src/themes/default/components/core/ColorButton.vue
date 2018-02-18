@@ -21,8 +21,15 @@ export default {
       active: false
     }
   },
+  beforeDestroy () {
+    this.$bus.$off('filter-reset')
+    this.$bus.$off('filter-changed-' + this.context)
+  },
   beforeMount () {
     if (this.$route.name !== 'product') {
+      this.$bus.$on('filter-reset', (filterOption) => {
+        this.active = false
+      })
       this.$bus.$on('filter-changed-' + this.context, (filterOption) => {
         if (filterOption.attribute_code === this.code) {
           if (filterOption.id === this.id) {
@@ -41,7 +48,7 @@ export default {
   },
   methods: {
     colorFrom (label) {
-      if (label.indexOf(',') >= 0) {
+      if (label && label.toString().indexOf(',') >= 0) {
         return 'background: linear-gradient(' + label + ')'
       } else {
         return 'background-color: ' + label

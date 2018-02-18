@@ -23,10 +23,11 @@
         </div>
         <div class="mb35 center-xs">
           <button-full
-            class="block p0 ripple"
-            :text="$t('Subscribe')"
-            @click.native="$v.email.$touch(); subscribe()"
-          />
+            type="submit"
+            @click.native="$v.email.$touch"
+          >
+            {{ $t('Subscribe') }}
+          </button-full>
         </div>
       </form>
     </div>
@@ -36,7 +37,6 @@
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'
 import { required, email } from 'vuelidate/lib/validators'
-import EventBus from 'src/event-bus'
 import i18n from 'lib/i18n'
 
 export default {
@@ -63,7 +63,7 @@ export default {
       }
 
       // todo: add user email to newsletter list
-      EventBus.$emit('newsletter-after-subscribe', { email: this.email })
+      this.$bus.$emit('newsletter-after-subscribe', { email: this.email })
 
       this.$bus.$emit('notification', {
         type: 'success',

@@ -2,7 +2,7 @@ import * as types from '../mutation-types'
 import * as entities from 'lib/entities'
 import { execute as taskExecute } from 'src/api/task'
 import config from 'config'
-import EventBus from 'src/event-bus'
+import EventBus from 'src/plugins/event-bus'
 import * as localForage from 'localforage'
 
 function _prepareTask (task) {

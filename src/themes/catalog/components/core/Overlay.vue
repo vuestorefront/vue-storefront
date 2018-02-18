@@ -1,7 +1,17 @@
+<template>
+  <div class="overlay full-width" @click="close" v-if="isVisible" />
+</template>
+
 <script>
 import { coreComponent } from 'lib/themes'
 
 export default {
+  beforeCreate () {
+    document.documentElement.classList.add('no-scroll')
+  },
+  destroyed () {
+    document.documentElement.classList.remove('no-scroll')
+  },
   methods: {
     close () {
       this.$store.commit('ui/setOverlay', false)
@@ -15,3 +25,14 @@ export default {
   mixins: [coreComponent('core/Overlay')]
 }
 </script>
+
+<style lang="scss" scoped>
+.overlay {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 3;
+}
+</style>
