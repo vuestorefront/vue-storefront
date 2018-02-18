@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Microcart',
@@ -40,23 +40,14 @@ export default {
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },
   computed: {
+    ...mapGetters({
+      totals: 'cart/totals'
+    }),
     shipping () {
       return this.$store.state.cart.shipping
     },
     payment () {
       return this.$store.state.cart.payment
-    },
-    subtotal () {
-      return this.$store.getters['cart/totals'].subtotal
-    },
-    subtotalInclTax () {
-      return this.$store.getters['cart/totals'].subtotalInclTax
-    },
-    total () {
-      return this.subtotal + this.shipping.cost + this.payment.cost
-    },
-    totalInclTax () {
-      return this.subtotalInclTax + this.shipping.costInclTax + this.payment.costInclTax
     },
     items () {
       return this.$store.state.cart.cartItems

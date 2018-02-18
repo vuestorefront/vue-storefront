@@ -7,6 +7,7 @@ export const CART_LOAD_CART = SN_CART + '/LOAD'
 export const CART_UPD_SHIPPING = SN_CART + '/SHIPPING'
 export const CART_SAVE = SN_CART + '/SAVE'
 export const CART_UPD_ITEM_PROPS = SN_CART + '/UPD_PROPS'
+export const CART_UPD_TOTALS = SN_CART + '/UPD_TOTALS'
 export const CART_LOAD_CART_SERVER_TOKEN = SN_CART + '/SRV_TOKEN'
 
 export const SN_WISHLIST = 'wishlist'

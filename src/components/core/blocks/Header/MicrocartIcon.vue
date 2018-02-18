@@ -23,7 +23,8 @@ export default {
       isOpen: state => state.ui.microcart
     }),
     ...mapGetters({
-      totals: 'cart/totals'
+      totals: 'cart/totals',
+      totalQuantity: 'cart/totalQuantity'
     })
   },
   methods: {

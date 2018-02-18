@@ -6,6 +6,7 @@ import rootStore from '../'
 import i18n from 'lib/i18n'
 const CART_PULL_INTERVAL_MS = 5000
 const CART_CREATE_INTERVAL_MS = 1000
+const CART_TOTALS_INTERVAL_MS = 5000
 
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
@@ -28,6 +29,21 @@ EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
   rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
 })
 
+EventBus.$on('servercart-after-totals', (event) => { // example stock check callback
+  if (event.resultCode === 200) {
+    console.log('Overriding server totals', event.result)
+    let itemsAfterTotal = {}
+    let platformTotalSegments = event.result.total_segments
+    for (let item of event.result.items) {
+      itemsAfterTotal[item.item_id] = item
+      rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item } }, { root: true }) // update the server_id reference
+    }
+    rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: event.result, platformTotalSegments: platformTotalSegments })
+  } else {
+    console.error(event.result)
+  }
+})
+
 EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
   if (event.resultCode === 200) {
     const serverItems = event.result
@@ -48,7 +64,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         rootStore.dispatch('cart/serverUpdateItem', {
           sku: clientItem.sku,
           qty: clientItem.qty,
-          item_id: serverItem.server_item_id,
+          item_id: serverItem.item_id,
           quoteId: serverItem.quote_id
         }, { root: true })
       } else {
@@ -113,8 +129,12 @@ EventBus.$on('servercart-after-itemdeleted', (event) => {
 const store = {
   namespaced: true,
   state: {
+    itemsAfterPlatformTotals: {},
+    platformTotals: null,
+    platformTotalSegments: null,
     cartIsLoaded: false,
     cartServerPullAt: 0,
+    cartServerTotalsAt: 0,
     cartServerCreatedAt: 0,
     cartSavedAt: new Date(),
     bypassToAnon: false,
@@ -155,9 +175,10 @@ const store = {
       }
     },
     [types.CART_UPD_ITEM_PROPS] (state, { product }) {
-      let record = state.cartItems.find(p => p.sku === product.sku)
+      let record = state.cartItems.find(p => (p.sku === product.sku || p.server_item_id === product.server_item_id))
       if (record) {
         record = Object.assign(record, product)
+        EventBus.$emit('cart-after-itemchanged', { item: record })
       }
       state.cartSavedAt = new Date()
     },
@@ -177,24 +198,52 @@ const store = {
     },
     [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
       state.cartServerToken = token
+    },
+    [types.CART_UPD_TOTALS] (state, { itemsAfterTotals, totals, platformTotalSegments }) {
+      state.itemsAfterPlatformTotals = itemsAfterTotals
+      state.platformTotals = totals
+      state.platformTotalSegments = platformTotalSegments
     }
   },
   getters: {
     totals (state) {
-      return {
-        subtotal: _.sumBy(state.cartItems, (p) => {
-          return p.qty * p.price
-        }),
-        subtotalInclTax: _.sumBy(state.cartItems, (p) => {
-          return p.qty * p.priceInclTax
-        }),
-        subtotalTax: _.sumBy(state.cartItems, (p) => {
-          return p.qty * p.tax
-        }),
-        quantity: _.sumBy(state.cartItems, (p) => {
-          return p.qty
-        })
+      if (state.platformTotalSegments) {
+        return state.platformTotalSegments
+      } else {
+        let shipping = state.shipping
+        let payment = state.payment
+        return [
+          {
+            code: 'subtotalInclTax',
+            title: i18n.t('Subtotal incl. tax'),
+            value: _.sumBy(state.cartItems, (p) => {
+              return p.qty * p.priceInclTax
+            })
+          },
+          {
+            code: 'payment',
+            title: i18n.t(payment.name),
+            value: payment.costInclTax
+          },
+          {
+            code: 'shipping',
+            title: i18n.t(shipping.name),
+            value: shipping.costInclTax
+          },
+          {
+            code: 'grand_total',
+            title: i18n.t('Grand total'),
+            value: _.sumBy(state.cartItems, (p) => {
+              return p.qty * p.priceInclTax + shipping.costInclTax + payment.costInclTax
+            })
+          }
+        ]
       }
+    },
+    totalQuantity (state) {
+      return _.sumBy(state.cartItems, (p) => {
+        return p.qty
+      })
     }
   },
   actions: {
@@ -235,6 +284,27 @@ const store = {
         }
       }
     },
+    serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
+      if (config.cart.synchronize_totals) {
+        if ((new Date() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
+          context.state.cartServerPullAt = new Date()
+          context.dispatch('sync/execute', { url: config.cart.totals_endpoint, // sync the cart
+            payload: {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors'
+            },
+            silent: true,
+            force_client_state: forceClientState,
+            callback_event: 'servercart-after-totals'
+          }, { root: true }).then(task => {
+
+          })
+        } else {
+          console.log('Too short interval for refreshing the cart totals')
+        }
+      }
+    },
     serverCreate (context, { guestCart = false }) {
       if (config.cart.synchronize) {
         if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
@@ -269,6 +339,9 @@ const store = {
           callback_event: 'servercart-after-itemupdated'
         }, { root: true }).then(task => {
           // eslint-disable-next-line no-useless-return
+          if (config.cart.synchronize_totals) {
+            context.dispatch('cart/serverTotals', {}, { root: true })
+          }
           return
         })
       }
@@ -292,6 +365,9 @@ const store = {
           callback_event: 'servercart-after-itemdeleted'
         }, { root: true }).then(task => {
           // eslint-disable-next-line no-useless-return
+          if (config.cart.synchronize_totals) {
+            context.dispatch('cart/serverTotals', {}, { root: true })
+          }
           return
         })
       }
