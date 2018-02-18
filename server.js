@@ -41,8 +41,11 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 }, options))
 
+const theme = require('./build/config.json').theme
+
 app.use('/dist', serve('./dist', true))
 app.use('/assets', serve(path.resolve(__dirname, 'src/assets'), true))
+app.use('/assets', serve(path.resolve(__dirname, 'src/themes/' + theme + '/assets'), true))
 app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')))
 app.use('/service-worker.js', serve('./dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}

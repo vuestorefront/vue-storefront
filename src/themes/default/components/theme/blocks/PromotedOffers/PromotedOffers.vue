@@ -4,7 +4,7 @@
       <div class="offer-container col-xs-12 col-sm-6 px15">
         <router-link :to="banners.mainBanner.link">
           <div
-            class="offer border-box p5 flex center-xs middle-xs c-white"
+            class="offer border-box p5 flex center-xs middle-xs c-white bg-darkgray"
             v-lazy:background-image="banners.mainBanner.image"
           >
             <p class="subtitle m0 serif h3 uppercase">
@@ -25,7 +25,7 @@
         >
           <router-link :to="banner.link">
             <div
-              class="offer offer-small border-box p5 flex center-xs middle-xs c-white"
+              class="offer offer-small border-box p5 flex center-xs middle-xs c-white bg-darkgray"
               v-lazy:background-image="banner.image"
             >
               <p class="subtitle m0 serif h3 uppercase">{{ banner.subtitle }}</p>

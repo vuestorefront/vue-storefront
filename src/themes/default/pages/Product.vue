@@ -98,7 +98,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                class="col-xs-12 col-sm-4 col-md-6 h4 bg-darkgray c-white py20 brdr-none"
+                class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
             <div class="row pt45 add-to-buttons">

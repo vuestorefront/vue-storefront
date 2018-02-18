@@ -202,6 +202,8 @@ export default {
         route = self.$route
       }
       let slug = route.params.slug
+      this.filterSet = {} // reset selected filters
+      this.$bus.$emit('filter-reset')
 
       store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
         store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)

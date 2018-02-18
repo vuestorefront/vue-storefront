@@ -11,6 +11,11 @@
         "sizes": "48x48"
       },
       {
+        "src": "/assets/launcher-icon-72x72.png",
+        "type": "image/png",
+        "sizes": "72x72"
+      },
+      {
         "src": "/assets/launcher-icon-2x.png",
         "type": "image/png",
         "sizes": "96x96"
