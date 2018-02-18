@@ -24,7 +24,7 @@ export default {
         this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
       }
     })
-    this.$bus.$on('checkout.setShipping', (receivedData) => {
+    this.$bus.$on('checkout-after-shippingset', (receivedData) => {
       this.shipping = receivedData
       this.isFilled = true
     })

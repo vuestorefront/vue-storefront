@@ -3,7 +3,9 @@
     <input type="text" v-model="searchZipcode" :placeholder="$t('Zipcode')">
     <button @click="getDroppoints">{{ $t('Update') }}</button>
 
-    <span v-if="loading">loading</span>
+    {{ error }}
+
+    <span v-show="loading">Loading</span>
     <gmap-map class="map-container" :center="center" :zoom="12" :options="{streetViewControl:false, fullscreenControl: false}">
       <gmap-marker
         :key="index"
@@ -11,6 +13,7 @@
         :position="m.position"
         :animation="selected.id === m.id? 1:0"
         :clickable="true"
+        :icon="m.icon"
         @click="selectDroppoint(m)" />
     </gmap-map>
 
@@ -124,33 +127,36 @@ export default {
       this.setShipping()
     },
     setShipping () {
-      this.$bus.$emit('checkout.setShipping', this.shipping)
+      this.$bus.$emit('checkout-after-shippingset', this.shipping)
     },
     setDroppoints (droppoints = []) {
       this.droppoints = droppoints
       this.center = droppoints[0].position
     },
     getDroppoints () {
-      this.loading = true
-
       if (this.searchZipcode) {
+        this.loading = true
+        this.error = null
+        let endpoint = this.$config.droppointShipping[this.shippingMethod].endpoint
+
         this.$store.dispatch('droppoint-shipping/fetch', {
-          url: this.$config.glsparcelshop.endpoint + '/zipcode/' + this.searchZipcode,
+          url: endpoint + '/zipcode/' + this.searchZipcode,
           payload: {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
             mode: 'cors'
           },
           callback_event: 'droppoint-map-update'
-        }, {root: true}).then(task => {
-        })
+        }, {root: true})
       }
     }
   },
   mounted () {
     if (this.shipping) {
-      this.searchZipcode = this.shipping.zipCode
-      this.getDroppoints()
+      if (this.shipping.zipCode) {
+        this.searchZipcode = this.shipping.zipCode
+        this.getDroppoints()
+      }
 
       if (
         (typeof this.shipping.droppoint === 'object') &&
@@ -166,6 +172,7 @@ export default {
       if (event.result.droppoints) {
         this.setDroppoints(event.result.droppoints)
         this.extraFields = event.result.extraFields
+        this.shipping.extraFields = {}
       } else {
         this.error = event.result.error
       }
