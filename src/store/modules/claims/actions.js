@@ -1,10 +1,4 @@
-const state = {
-}
-
-const getters = {
-}
-
-const actions = {
+export default {
   set (context, { claimCode, value, description }) {
     const claimCollection = global.db.claimsCollection
     claimCollection.setItem(claimCode, {
@@ -30,15 +24,4 @@ const actions = {
       console.error(reason) // it doesn't work on SSR
     })
   }
-}
-
-const mutations = {
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
 }
