@@ -32,9 +32,17 @@ This components represents a button that is used for visualizing different optio
 `code` - a name of an option that the component is being used to represent (currently 'color').  
 `context` - a name of an entity that the component belongs to (currently one of 'category' or 'product').
 ### Data
-No data
+`active` - boolean prop that defines if button is pressed and is active.  
 ### Methods
-No methods
+`switchFilter (id, label)` - triggers *'filter-changed-<context>'* event, where context is a value of *context* prop.  
+**Parameters**  
+*id* - same as *id* prop.  
+*label* - same as *label* prop.
+### Hooks
+#### beforeMount
+If current route's name is not 'product' defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of ColorButton component was passed to it as a parameter.
+#### beforeDestroy
+Removes event listeners defined in *beforeMount* hook.
 
 ## Loader
 This component is used for visualizing loading process, when something is happening in the background. It is currently used when account is being registered, password is being reset and user is logging in. 
@@ -143,9 +151,17 @@ Represents one of the options on Category page. Shows price range and allows ues
 `to` - maximum value of the price range  
 `context` - a name of an entity that the component belongs to (currently 'category')
 ### Data
-No data
+`active` - boolean prop that defines if button is pressed and is active.  
 ### Methods
-No methods
+`switchFilter (id, label)` - triggers *'filter-changed-<context>'* event, where context is a value of *context* prop.  
+**Parameters**  
+*id* - same as *id* prop.  
+*label* - same as *label* prop.
+### Hooks
+#### beforeMount
+Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of PriceButton component was passed to it as a parameter.
+#### beforeDestroy
+Removes event listeners defined in *beforeMount* hook.
 
 ## ProductAttribute
 Shows attributes that a specific product has. Used on Product Page.
@@ -210,9 +226,17 @@ Represents one of the options of a product, namely product's size. Used on Categ
 `code` - a code name of an option, which is 'size'  
 `context` - a name of an entity that the component belongs to (currently one of 'category' or 'product')
 ### Data
-No data
+`active` - boolean prop that defines if button is pressed and is active.  
 ### Methods
-No methods
+`switchFilter (id, label)` - triggers *'filter-changed-<context>'* event, where context is a value of *context* prop.  
+**Parameters**  
+*id* - same as *id* prop.  
+*label* - same as *label* prop.
+### Hooks
+#### beforeMount
+Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of SizeButton component was passed to it as a parameter.
+#### beforeDestroy
+Removes event listeners defined in *beforeMount* hook.
 
 ## Tooltip
 Shows an informational icon and hint when focused on that icon. Used on My Account and Checkout pages.
