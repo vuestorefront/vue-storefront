@@ -54,6 +54,7 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 * [Working with UI Store (interface state)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
 * [Working with translations](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md)
+* [[TEMPORARY] Core components and pages docs](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/%5Btemporary%5D%20core%20components%20API.md)
 
 Tutorial series on creating themes for Vue Storefront:
 * [Creating themes in Vue Storefront (part 1 — understanding Vue Storefront core)](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)
