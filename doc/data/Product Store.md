@@ -10,7 +10,7 @@
 
 ## Actions 
 
-// List all actions with short descriptions and data format examples that they are putting into state, also refer which one are stored in local forage (in other words are offline ready) 
+// List all actions with short descriptions and data format examples that they are putting into state, also refer which one are stored in local forage (in other words are offline ready) and events they are emitting when data is fetched (they should)
 
 
 ## Getters 
