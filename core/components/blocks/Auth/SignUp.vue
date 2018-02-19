@@ -17,14 +17,6 @@ export default {
     Login,
     Register,
     ForgotPass
-  },
-  mounted () {
-    this.$store.commit('ui/setSignUp', true)
-  },
-  methods: {
-    closeSignUp () {
-      this.$store.commit('ui/setSignUp', false)
-    }
   }
 }
 </script>

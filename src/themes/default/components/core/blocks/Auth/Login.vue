@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">
-        {{ $t('Log in') }}
-      </h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
+      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+      {{ $t('Log in') }}
+    </header>
+    <div class="modal-content pt30 pb60 px65">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
@@ -91,6 +90,9 @@ export default {
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'register')
     },
+    close () {
+      this.$bus.$emit('modal.hide', 'modal-signup')
+    },
     togglePassType (name) {
       if (this.passType === 'password') {
         this.passType = 'text'
@@ -139,7 +141,7 @@ export default {
             message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
-          this.$store.commit('ui/setSignUp', false)
+          this.close()
         }
       }).catch(err => {
         console.error(err)
