@@ -1,42 +1,9 @@
-import * as types from '../mutation-types'
-import { ValidationError } from 'lib/exceptions'
+import * as types from 'src/store/mutation-types'
 import * as entities from 'lib/entities'
 import EventBus from 'src/plugins/event-bus'
 import config from 'config'
-const Ajv = require('ajv') // json validator
 
-// initial state
-const state = {
-  checkoutQueue: [] // queue of orders to be sent to the server
-}
-
-const getters = {
-}
-
-// actions
-const actions = {
-
-  /**
-   * Place order - send it to service worker queue
-   * @param {Object} commit method
-   * @param {Object} order order data to be send
-   */
-  placeOrder ({ commit }, order) {
-    const ajv = new Ajv()
-    const validate = ajv.compile(require('../../models/order_schema.json'))
-
-    if (!validate(order)) { // schema validation of upcoming order
-      throw new ValidationError(validate.errors)
-    } else {
-      commit(types.ORDER_PLACE_ORDER, order)
-      EventBus.$emit('order-after-placed', { order: order })
-      return true
-    }
-  }
-}
-
-// mutations
-const mutations = {
+export default {
   /**
    * Add order to sync. queue
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
@@ -64,12 +31,4 @@ const mutations = {
     state.checkoutQueue = queue
     console.info('Order queue loaded, queue size is: ' + state.checkoutQueue.length)
   }
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
 }
