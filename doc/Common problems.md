@@ -1,9 +1,9 @@
 # Introduction
 
-Below you can find solutions for most common problems encountered in Vue Storefront.
+Below you can find solutions for most common problems and advises for typical config changes required by Vue Storefront.
 If you solved any new issues by yourself please let us know on [slack](http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
 
-# Issues
+# Question
 
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
