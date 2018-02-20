@@ -16,23 +16,7 @@
       </div>
     </section>
 
-    <section class="my30 container flex center-xs">
-      <div class="col-xs-12 px15">
-        <router-link :to="banners.productBanner.link">
-          <div
-            class="offer border-box p5 flex center-xs middle-xs c-white bg-darkgray"
-            v-lazy:background-image="banners.productBanner.image"
-          >
-            <p class="subtitle m0 serif h3 uppercase">
-              {{ banners.productBanner.subtitle }}
-            </p>
-            <h2 class="title m0 h1">
-              {{ banners.productBanner.title }}
-            </h2>
-          </div>
-        </router-link>
-      </div>
-    </section>
+    <promoted-offers single-banner />
 
     <section
       v-if="related.by_category && related.by_category.length > 0"
@@ -55,7 +39,7 @@
 <script>
 import builder from 'bodybuilder'
 import ProductListing from '../../ProductListing.vue'
-import { mapGetters } from 'vuex'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers.vue'
 
 export default {
   beforeMount () {
@@ -85,7 +69,8 @@ export default {
     })
   },
   components: {
-    ProductListing
+    ProductListing,
+    PromotedOffers
   },
   computed: {
     product () {
@@ -93,39 +78,7 @@ export default {
     },
     related () {
       return this.$store.state.product.related
-    },
-    ...mapGetters({
-      banners: 'promoted/getPromotedOffers'
-    })
+    }
   }
 }
 </script>
-<style lang="scss" scoped>
-  .offer {
-    height: 330px;
-    flex-direction: column;
-    background-position: 50% 20%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.9;
-    transition: 0.3s all;
-
-    &:hover {
-      opacity: 1;
-    }
-
-    @media (max-width: 767px) {
-      height: 330px;
-    }
-  }
-  .title {
-    @media (max-width: 767px) {
-      font-size: 36px;
-    }
-  }
-  .subtitle {
-    @media (max-width: 767px) {
-      font-size: 18px;
-    }
-  }
-</style>
