@@ -2,7 +2,7 @@
   <div class="sidebar-menu fixed mw-100 bg-lightgray" :class="{ active: isOpen }">
     <div class="row between-xs">
       <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-c-lightgray">
-        <sub-btn type="back" v-if="submenu.depth" />
+        <sub-btn type="back" v-if="submenu.depth" class="flex-end w-50 center-self bg-transparent brdr-none" />
         <search-icon class="p15 icon hidden-md" />
         <wishlist-icon class="p15 icon hidden-md" />
         <account-icon class="p15 icon hidden-md" />
@@ -35,7 +35,7 @@
             >
               {{ category.name }}
             </router-link>
-            <sub-btn class="flex-end center-self" :id="category.id"/>
+            <sub-btn class="flex-end w-50 center-self bg-transparent brdr-none" :id="category.id"/>
             <sub-category :category-links="category.children_data" :id="category.id"/>
           </li>
           <li @click="closeMenu">
@@ -53,11 +53,11 @@
               {{ $t('Track my order') }}
             </router-link>
           </li>
-          <li @click="closeMenu" class="brdr-bottom brdr-c-alto flex">
+          <li @click="closeMenu" >
             <router-link v-if="currentUser" class="block px25 py20 c-darkgray no-underline col-xs" to="/my-account" exact>
               {{ $t('My account') }}
             </router-link>
-            <sub-btn v-if="currentUser" class="flex-end center-self"/>
+            <sub-btn v-if="currentUser" class="flex-end w-50 center-self bg-transparent brdr-none"/>
             <sub-category v-if="currentUser" :my-account-links="myAccountLinks" :id="'foo'"/>
             <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 c-darkgray no-underline">
               {{ $t('My account') }}

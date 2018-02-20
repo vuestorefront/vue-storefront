@@ -8,7 +8,7 @@
         >
           {{ link.name }}
         </router-link>
-        <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"/>
+        <sub-btn class="flex-end w-50 center-self bg-transparent brdr-none" :id="link.id" v-if="link.children_data.length"/>
         <sub-category :category-links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
       </li>
     </ul>
