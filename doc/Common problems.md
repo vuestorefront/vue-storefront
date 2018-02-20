@@ -39,3 +39,13 @@ to:
 
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
 This change means that each time product list will be displayed, VS will get the fresh prices directly from magento without the need to re-index ElasticSearch.
+
+### <a name="no-products"></a>No products found! after node --harmony cli.js fullreindex
+
+Take a look at the discussion at [#644](https://github.com/DivanteLtd/vue-storefront/issues/644)
+Long story short -> you need to run the following command within the `mage2nosql` project:
+
+```bash
+node cli.js products --partitions=1
+```
+
