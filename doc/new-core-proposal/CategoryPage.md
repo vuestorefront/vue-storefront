@@ -5,7 +5,7 @@ No props
 ### Data
 `pagination` - an object that defines two settings:  
     1. *number* of product items to load per page, currently set to 50;  
-    2. *offset* that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere.
+    2. <span style="color: red*>offset* that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere.</span>
 `filterSet` - a set of filters that user has defined on Category page.  
 `products` - computed property that return a list of product items of current category from the Vuex store.  
 `isCategoryEmpty` - computed property that return true if product list of current category is empty.  
