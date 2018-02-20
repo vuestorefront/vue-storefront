@@ -37,7 +37,7 @@ No props
 `fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  //  make it available to call in async data from methods, we should move asyncData, fetchData and filterData bodies to one method fetchData() 
 
 **Parameters**  
-<s><b> *{ store, route }* - an object consisting of the Vuex store and global router references.  </b></s>
+ *{ store, route }* - an object consisting of the Vuex store and global router references.  
 
 `validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  // should use `fetchDefaultData`
 
