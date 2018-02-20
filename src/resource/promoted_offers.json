@@ -18,5 +18,11 @@
       "image": "/assets/ig/ig05.jpg",
       "link": "c/gear-3"
     }
-  ]
+  ],
+  "productBanner": {
+    "title": "Eco-friendly",
+    "subtitle": "Sales",
+    "image": "/assets/ig/ig05.jpg",
+    "link": "/c/gear-3"
+  }
 }
