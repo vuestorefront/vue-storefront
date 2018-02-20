@@ -10,18 +10,24 @@ No props
 `pagination` - an object that defines two settings:
 1. <s>`number` of product items to load per page, currently set to 50 </s> change name to 'perPage`
 2. <s>`offset` that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere. // change to currentPage and implement it on API and frontend </s> change name to `current`
-4. <b> `enabled` boolean - enables/disables paging. When it's disabled it lazy loads other products on scroll </b>
+4. <b> `enabled` - enables/disables paging. When it's disabled it lazy loads other products on scroll </b>
 
-<s> `filterSet` - a set of filters that user has defined on Category page.  </s>
+<s> `filterSet` - a set of filters that user has defined on Category page.  </s> moved to filters/chosen
+
 `products` - computed property that return a list of product items of current category from the Vuex store.  
 `isCategoryEmpty` - computed property that return true if product list of current category is empty.  
-`category` - computed property that return current category from the Vuex store.  // need to specify
-'categoryName' - category name
-'categoryId' - category ID
-`aggregations` - computed property *that is not used*.  
-`filters` - //modified
+`category` - computed property that return current category from the Vuex store. 
+
+<b> `categoryName` - category name </b>
+
+<b> `categoryId` - category ID </b>
+
+<b><s> `aggregations` - computed property *that is not used*.  </s></b>
+
+<s>`filters` - category filters </s> changed to aggregator and moved to filters/available
 1. `available` - a set of all available filters for current category from the Vuex store.  
 2. `chosen` -  a set of filters that user has defined on Category page.  
+
 `breadcrumbs` - breadcrumbs for the current category from the Vuex store.
 `productsCounter` - how many products are in the category
 ### Methods
@@ -41,8 +47,8 @@ No props
 #### asyncData
 Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is a list of all categories, category attributes and list of products for each category.
 
-// delete both beforeMount and beforeDestroy 
+
 #### beforeMount
-**'filter-changed-category'** event listener is initialized. *Although this event is not triggered anywhere.*
+<s><b> **'filter-changed-category'** event listener is initialized. *Although this event is not triggered anywhere.* </s></b>
 #### beforeDestroy
-**'filter-changed-category'** event listener is removed.
+<s><b> **'filter-changed-category'** event listener is removed. </s></b>
