@@ -7,7 +7,8 @@
 ### Props
 No props
 ### Data
-`fetchDefaultData` - I think in every page that fetches data we should add this property set to true by default
+<b> `fetchDefaultData` -  in every page that fetches data we should add this property set to true by default so user can choose if he want to dispatch default actions or choose his own </b>
+
 `pagination` - an object that defines two settings:
 1. <s>`number` of product items to load per page, currently set to 50 </s> change name to 'perPage`
 2. <s>`offset` that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere. // change to currentPage and implement it on API and frontend </s> change name to `current`
