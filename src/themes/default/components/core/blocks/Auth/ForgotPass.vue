@@ -5,7 +5,7 @@
       {{ $t('Reset password') }}
     </header>
 
-    <div class="modal-content pt30 pb60 px65">
+    <div class="modal-content pt30 pb60 px65 c-gray-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">

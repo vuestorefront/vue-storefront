@@ -5,7 +5,7 @@
       {{ $t('Register') }}
     </header>
 
-    <div class="modal-content pt30 pb60 px65">
+    <div class="modal-content pt30 pb60 px65 c-gray-secondary">
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
           <input

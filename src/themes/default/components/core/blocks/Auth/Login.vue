@@ -4,7 +4,7 @@
       <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
       {{ $t('Log in') }}
     </header>
-    <div class="modal-content pt30 pb60 px65">
+    <div class="modal-content pt30 pb60 px65  c-gray-secondary">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
