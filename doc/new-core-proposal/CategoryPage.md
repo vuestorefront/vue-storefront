@@ -3,11 +3,12 @@
 ### Props
 No props
 ### Data
-`pagination` - an object that defines two settings:  //modified
-1. *number* of product items to load per page, currently set to 50;  
-2. "offset* that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere. // change to currentPage and implement it on API and frontend
-3. "paging" boolean - enables/disables paging. When it's disabled it lazy loads other products
-`filterSet` - a set of filters that user has defined on Category page.  
+`pagination` - an object that defines two settings:
+1. <s>`number` of product items to load per page, currently set to 50 </s> change name to 'perPage`
+2.<s> "offset` that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere. // change to currentPage and implement it on API and frontend </s> change name to `current`
+4. <span style="color: green:"> "enabled" boolean - enables/disables paging. When it's disabled it lazy loads other products on scroll </span>
+
+<s> `filterSet` - a set of filters that user has defined on Category page.  </s>
 `products` - computed property that return a list of product items of current category from the Vuex store.  
 `isCategoryEmpty` - computed property that return true if product list of current category is empty.  
 `category` - computed property that return current category from the Vuex store.  // need to specify
@@ -15,8 +16,8 @@ No props
 'categoryId' - category ID
 `aggregations` - computed property *that is not used*.  
 `filters` - //modified
-1. available - a set of all available filters for current category from the Vuex store.  
-2. chosen -  a set of filters that user has defined on Category page.  
+1. `available` - a set of all available filters for current category from the Vuex store.  
+2. `chosen` -  a set of filters that user has defined on Category page.  
 `breadcrumbs` - breadcrumbs for the current category from the Vuex store.
 `productsCounter` - how many products are in the category
 ### Methods
