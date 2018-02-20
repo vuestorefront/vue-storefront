@@ -15,7 +15,7 @@ After following the Tutorial on [how to connect to Magento2](https://medium.com/
 
 However there is an option to get the prices dynamicaly. To do so you must change the config inside `conf/local.json` from the default (`conf/default.json`):
 
-```
+```json
 "products": {
       "preventConfigurableChildrenDirectAccess": true,
       "alwaysSyncPlatformPricesOver": false,
@@ -27,7 +27,7 @@ However there is an option to get the prices dynamicaly. To do so you must chang
     
 to:
 
-```
+```json
 "products": {
       "preventConfigurableChildrenDirectAccess": true,
       "alwaysSyncPlatformPricesOver": true,
@@ -36,5 +36,6 @@ to:
       "endpoint": "http://localhost:8080/api/product"
     },
 ```
+
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
 This change means that each time product list will be displayed, VS will get the fresh prices directly from magento without the need to re-index ElasticSearch.
