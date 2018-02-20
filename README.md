@@ -159,6 +159,14 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         <a href="http://www.acidgreen.com.au/"><img height="50" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"></a>
       </td>
     </tr>
+    <tr>
+      <td align="center" valign="middle">        
+        <a href="http://macopedia.com/pl"><img height="50" alt="Macopedia" align="left" src="doc/media/logo_light-kopia.png"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="http://www.develodesign.co.uk/"><img height="50" alt="Macopedia" align="left" src="doc/media/develo_logo.png"></a>
+      </td>
+    </tr>
   </tbody>
  </table>
 Partners are encouraged to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
