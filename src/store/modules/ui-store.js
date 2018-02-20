@@ -6,7 +6,6 @@ const state = {
   newsletterPopup: false,
   overlay: false,
   loader: false,
-  signUp: false,
   authElem: 'login',
   checkoutMode: false,
   openMyAccount: false
@@ -27,12 +26,6 @@ const mutations = {
   },
   setSearchpanel (state, action) {
     state.searchpanel = action === true
-  },
-  setSignUp (state, action) {
-    state.signUp = action === true
-    if (action === false) {
-      state.authElem = 'login'
-    }
   },
   setAuthElem (state, action) {
     state.authElem = action

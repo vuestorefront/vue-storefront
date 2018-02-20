@@ -52,7 +52,7 @@ export default {
             message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
-          this.$store.commit('ui/setSignUp', false)
+          this.$bus.$emit('modal.hide', 'modal-signup')
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
         }
       }).catch(err => {
