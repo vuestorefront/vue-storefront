@@ -1,7 +1,7 @@
 <template>
-  <div class="wishlist-icon inline-flex" @click="toggleWishlistPanel">
+  <button class="wishlist-icon inline-flex bg-transparent brdr-none" @click="toggleWishlistPanel">
     <i class="material-icons md-18">favorite_border</i>
-  </div>
+  </button>
 </template>
 
 <script>

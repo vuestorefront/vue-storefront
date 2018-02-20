@@ -1,6 +1,6 @@
 <template>
-  <div
-    class="account-icon inline-flex"
+  <button
+    class="account-icon bg-transparent brdr-none inline-flex"
     @click="openMyAccount(); gotoAccount();"
     @mouseover="showDropdown"
     @mouseout="hideDropdown"
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </button>
 </template>
 
 <script>

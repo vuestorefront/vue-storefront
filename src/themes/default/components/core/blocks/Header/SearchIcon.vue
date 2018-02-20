@@ -1,7 +1,7 @@
 <template>
-  <div class="search-icon inline-flex" @click="toggleSearchpanel">
+  <button class="search-icon bg-transparent brdr-none inline-flex" @click="toggleSearchpanel">
     <i class="material-icons md-18">search</i>
-  </div>
+  </button>
 </template>
 
 <script>
