@@ -1,10 +1,10 @@
 <template>
-  <span @click.stop="next()" v-if="type === 'next'">
+  <button @click.stop="next()" v-if="type === 'next'">
     <i class="material-icons p15 pointer">keyboard_arrow_right</i>
-  </span>
-  <span @click.stop="back()" v-else>
+  </button>
+  <button @click.stop="back()" v-else>
     <i class="material-icons p15 pointer">keyboard_arrow_left</i>
-  </span>
+  </button>
 </template>
 <script>
 import { mapState } from 'vuex'
