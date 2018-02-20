@@ -72,12 +72,13 @@
             v-model="oldPassword"
             :type="passType.oldPass"
             placeholder="Current password *"
+            @input="$v.oldPassword.$touch()"
           >
           <div class="icon absolute c-lightgray-secondary pointer">
             <i class="material-icons" @click="togglePassType('oldPass')">{{ iconName.oldPass }}</i>
           </div>
         </div>
-        <span class="validation-error" v-if="!$v.oldPassword.required">
+        <span class="validation-error" v-if="!$v.oldPassword.required && $v.oldPassword.$error">
           Field is required.
         </span>
       </div>
@@ -90,12 +91,13 @@
             v-model="password"
             :type="passType.pass"
             placeholder="New password *"
+            @input="$v.password.$touch()"
           >
           <div class="icon absolute c-lightgray-secondary pointer">
             <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
           </div>
         </div>
-        <span class="validation-error" v-if="!$v.password.required">
+        <span class="validation-error" v-if="!$v.password.required && $v.password.$error">
           Field is required.
         </span>
       </div>
@@ -133,41 +135,89 @@
       </div>
 
       <div class="col-xs-12 col-sm-12 mb25" v-show="addCompany">
-        <input type="text" name="company-name" placeholder="Company name" v-model.trim="userCompany.company">
-        <span class="validation-error" v-if="!$v.userCompany.company.required">Field is required</span>
+        <input
+          type="text"
+          name="company-name"
+          placeholder="Company name *"
+          v-model.trim="userCompany.company"
+          @input="$v.userCompany.company.$touch()"
+        >
+        <span class="validation-error" v-if="!$v.userCompany.company.required && $v.userCompany.company.$error">
+          Field is required
+        </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
-        <input type="text" name="street-address" placeholder="Street name" v-model.trim="userCompany.street">
-        <span class="validation-error" v-if="!$v.userCompany.street.required">Field is required</span>
+        <input
+          type="text"
+          name="street-address"
+          placeholder="Street name *"
+          v-model.trim="userCompany.street"
+          @input="$v.userCompany.street.$touch()"
+        >
+        <span class="validation-error" v-if="!$v.userCompany.street.required && $v.userCompany.street.$error">
+          Field is required
+        </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
-        <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="userCompany.house">
-        <span class="validation-error" v-if="!$v.userCompany.house.required">Field is required</span>
+        <input
+          type="text"
+          name="apartment-number"
+          placeholder="House/Apartment number *"
+          v-model.trim="userCompany.house"
+          @input="$v.userCompany.house.$touch()"
+        >
+        <span class="validation-error" v-if="!$v.userCompany.house.required && $v.userCompany.house.$error">
+          Field is required
+        </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
-        <input type="text" name="city" placeholder="City" v-model.trim="userCompany.city">
-        <span class="validation-error" v-if="!$v.userCompany.city.required">Field is required</span>
+        <input
+          type="text"
+          name="city"
+          placeholder="City *"
+          v-model.trim="userCompany.city"
+          @input="$v.userCompany.city.$touch()"
+        >
+        <span class="validation-error" v-if="!$v.userCompany.city.required && $v.userCompany.city.$error">
+          Field is required
+        </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input type="text" name="state" placeholder="State / Province" v-model.trim="userCompany.region">
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
-        <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="userCompany.postcode">
-        <span class="validation-error" v-if="!$v.userCompany.postcode.required">Field is required</span>
+        <input
+          type="text"
+          name="zip-code"
+          placeholder="Zip-code *"
+          v-model.trim="userCompany.postcode"
+          @input="$v.userCompany.postcode.$touch()"
+        >
+        <span class="validation-error" v-if="!$v.userCompany.postcode.required && $v.userCompany.postcode.$error">Field is required</span>
         <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">
           Zip-code must have at least {{ $v.userCompany.postcode.$params.minLength.min }} letters.
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
-        <select name="countries" v-model="userCompany.country">
-          <option value="" disabled selected hidden>Country</option>
+        <select
+          name="countries"
+          v-model="userCompany.country"
+          :class="{'c-lightgray-secondary' : userCompany.country.length === 0}"
+        >
+          <option value="" disabled selected hidden>Country *</option>
           <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
         </select>
-        <span class="validation-error" v-if="!$v.userCompany.country.required">Field is required</span>
+        <span class="validation-error" v-if="!$v.userCompany.country.required && $v.userCompany.country.$error">Field is required</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
-        <input type="text" name="taxId" placeholder="Tax ID" v-model.trim="userCompany.taxId">
-        <span class="validation-error" v-if="!$v.userCompany.taxId.required">Field is required</span>
+        <input
+          type="text"
+          name="taxId"
+          placeholder="Tax ID *"
+          v-model.trim="userCompany.taxId"
+          @input="$v.userCompany.taxId.$touch()"
+        >
+        <span class="validation-error" v-if="!$v.userCompany.taxId.required && $v.userCompany.taxId.$error">Field is required</span>
         <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">
           Tax ID must have at least {{ $v.userCompany.taxId.$params.minLength.min }} letters.
         </span>

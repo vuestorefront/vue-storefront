@@ -33,7 +33,7 @@
               </div>
               <div class="col-xs-11 col-sm-12 col-md-8 bg-lightgray p15 mb35 ml10">
                 <div class="checkboxStyled relative">
-                  <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox">
+                  <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox" @blur="$v.orderReview.terms.$touch()">
                   <label class="absolute brdr-gray bg-lightgray pointer" for="acceptTermsCheckbox"/>
                 </div>
                 <div class="checkboxText ml15 lh25 pointer">
@@ -44,7 +44,12 @@
                     </span>
                   </span>
                 </div>
-                <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
+                <span
+                  class="validation-error"
+                  v-if="!$v.orderReview.terms.required && $v.orderReview.terms.$error"
+                >
+                  Field is required
+                </span>
               </div>
             </div>
           </div>
