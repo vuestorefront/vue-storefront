@@ -7,6 +7,7 @@
 ### Props
 No props
 ### Data
+`fetchDefaultData` - I think in every page that fetches data we should add this property set to true by default
 `pagination` - an object that defines two settings:
 1. <s>`number` of product items to load per page, currently set to 50 </s> change name to 'perPage`
 2. <s>`offset` that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere. // change to currentPage and implement it on API and frontend </s> change name to `current`
@@ -29,23 +30,28 @@ No props
 2. `chosen` -  a set of filters that user has defined on Category page.  
 
 `breadcrumbs` - breadcrumbs for the current category from the Vuex store.
-`productsCounter` - how many products are in the category
+
+<b>`productsCounter` - how many products are in the category</b>
 ### Methods
-`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  //  make it available to call in async data from methods
+`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  //  make it available to call in async data from methods, we should move asyncData, fetchData and filterData bodies to one method fetchData() 
+
 **Parameters**  
-*{ store, route }* - an object consisting of the Vuex store and global router references.  
+<s><b> *{ store, route }* - an object consisting of the Vuex store and global router references.  </b></s>
 
-`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  
+`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  // should use `fetchDefaultData`
 
 
 
-// we should move asyncData and fetchData and filterData() bodies to one method fetchData() and delete the params since they are available through this
+
+
+
 
 **Parameters**  
 *{ store, route }* - an object consisting of the Vuex store and global router references.
 ### Hooks
 #### asyncData
 Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is a list of all categories, category attributes and list of products for each category.
+// should use `fetchDefaultData`
 
 
 #### beforeMount
