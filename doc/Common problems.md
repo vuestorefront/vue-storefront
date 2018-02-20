@@ -49,3 +49,21 @@ Long story short -> you need to run the following command within the `mage2nosql
 node cli.js products --partitions=1
 ```
 
+### <a name="sync-carts"></a>How to sync the products cart with Magento to get the Cart Promo Rules up and runnig
+
+To display the proper prices and totals after Magento calculates all the discounts and taxes you need to modify the `conf/local.json` config (for a reference take a look at `conf/default.json`) by putting there a additional section:
+
+```json
+  "cart": {
+    "synchronize": true,
+    "synchronize_totals": true,
+    "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
+    "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
+    "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
+    "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
+    "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}"
+  },  
+```
+
+To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
+After this change you need to restart the `npm run dev` or `npm run` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
