@@ -20,10 +20,6 @@ Try out our open demo and if you like it **first give us some star on Github ★
         <a href="https://demo-catalog.vuestorefront.io"><img height="100" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true"></a>
       </td>
     </tr>
-    <tr>
-  <td>authorization: demo / !@#demo</td>
-  <td>authorization: demo / !@#demo</td>
-    </tr>
   </tbody>
  </table>
  
