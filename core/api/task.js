@@ -1,4 +1,4 @@
-import EventBus from 'src/plugins/event-bus'
+import EventBus from '../../src/plugins/event-bus'
 import i18n from 'lib/i18n'
 import fetch from 'node-fetch'
 
