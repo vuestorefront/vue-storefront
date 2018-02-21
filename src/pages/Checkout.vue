@@ -87,37 +87,37 @@ export default {
   },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
-    this.$bus.$on('network.status', (status) => { this.checkConnection(status) })
+    this.$bus.$on('network-before-checkStatus', (status) => { this.checkConnection(status) })
     // TO-DO: Use one event with name as apram
-    this.$bus.$on('checkout.personalDetails', (receivedData, validationResult) => {
+    this.$bus.$on('checkout-after-personalDetails', (receivedData, validationResult) => {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
       this.activateSection('shipping')
       this.savePersonalDetails()
     })
-    this.$bus.$on('checkout.shipping', (receivedData, validationResult) => {
+    this.$bus.$on('checkout-after-shippingDetails', (receivedData, validationResult) => {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
       global.__TAX_COUNTRY__ = this.shipping.country
       this.activateSection('payment')
       this.saveShippingDetails()
     })
-    this.$bus.$on('checkout.payment', (receivedData, validationResult) => {
+    this.$bus.$on('checkout-after-paymentDetails', (receivedData, validationResult) => {
       this.payment = receivedData
       this.validationResults.payment = validationResult
       this.activateSection('orderReview')
       this.savePaymentDetails()
     })
-    this.$bus.$on('checkout.cartSummary', (receivedData) => {
+    this.$bus.$on('checkout-after-cartSummary', (receivedData) => {
       this.cartSummary = receivedData
     })
-    this.$bus.$on('checkout.placeOrder', (userId) => {
+    this.$bus.$on('checkout-before-placeOrder', (userId) => {
       if (userId) {
         this.userId = userId.toString()
       }
       this.placeOrder()
     })
-    this.$bus.$on('checkout.edit', (section) => {
+    this.$bus.$on('checkout-before-edit', (section) => {
       this.activateSection(section)
     })
     this.$bus.$on('order-after-placed', (order) => {
@@ -126,13 +126,13 @@ export default {
     })
   },
   destroyed () {
-    this.$bus.$off('network.status')
-    this.$bus.$off('checkout.personalDetails')
-    this.$bus.$off('checkout.shipping')
-    this.$bus.$off('checkout.payment')
-    this.$bus.$off('checkout.cartSummary')
-    this.$bus.$off('checkout.placeOrder')
-    this.$bus.$off('checkout.edit')
+    this.$bus.$off('network-before-checkStatus')
+    this.$bus.$off('checkout-after-personalDetails')
+    this.$bus.$off('checkout-after-shippingDetails')
+    this.$bus.$off('checkout-after-paymentDetails')
+    this.$bus.$off('checkout-after-cartSummary')
+    this.$bus.$off('checkout-before-placeOrder')
+    this.$bus.$off('checkout-before-edit')
     this.$bus.$off('order-after-placed')
   },
   computed: {
