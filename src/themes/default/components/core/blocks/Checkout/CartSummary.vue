@@ -60,7 +60,7 @@ export default {
   components: {
     Product
   },
-  mixins: [coreComponent('core/blocks/Checkout/CartSummary')]
+  mixins: [coreComponent('blocks/Checkout/CartSummary')]
 }
 </script>
 

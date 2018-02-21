@@ -86,7 +86,7 @@ export default {
       required
     }
   },
-  mixins: [coreComponent('core/blocks/Auth/Login')],
+  mixins: [coreComponent('blocks/Auth/Login')],
   methods: {
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'register')

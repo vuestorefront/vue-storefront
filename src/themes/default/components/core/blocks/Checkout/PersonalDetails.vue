@@ -265,7 +265,7 @@ export default {
     Tooltip,
     Modal
   },
-  mixins: [coreComponent('core/blocks/Checkout/PersonalDetails')]
+  mixins: [coreComponent('blocks/Checkout/PersonalDetails')]
 }
 </script>
 

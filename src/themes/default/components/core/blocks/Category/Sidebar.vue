@@ -66,6 +66,6 @@ export default {
     SizeButton,
     PriceButton
   },
-  mixins: [coreComponent('core/blocks/Category/Sidebar')]
+  mixins: [coreComponent('blocks/Category/Sidebar')]
 }
 </script>

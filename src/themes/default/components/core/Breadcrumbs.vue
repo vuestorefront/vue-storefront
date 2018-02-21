@@ -15,6 +15,6 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/Breadcrumbs')]
+  mixins: [coreComponent('Breadcrumbs')]
 }
 </script>

@@ -25,7 +25,7 @@ export default {
     Register,
     ForgotPass
   },
-  mixins: [coreComponent('core/blocks/Auth/SignUp')]
+  mixins: [coreComponent('blocks/Auth/SignUp')]
 }
 </script>
 <style lang="scss" scoped>

@@ -173,7 +173,7 @@ export default {
     ReturnIcon,
     Logo
   },
-  mixins: [coreComponent('core/blocks/Header/Header')]
+  mixins: [coreComponent('blocks/Header/Header')]
 }
 </script>
 

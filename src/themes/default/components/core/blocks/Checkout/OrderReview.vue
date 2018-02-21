@@ -102,7 +102,7 @@ export default {
     CartSummary,
     Modal
   },
-  mixins: [coreComponent('core/blocks/Checkout/OrderReview')]
+  mixins: [coreComponent('blocks/Checkout/OrderReview')]
 }
 </script>
 

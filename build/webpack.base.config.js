@@ -26,7 +26,7 @@ module.exports = {
     alias: {
       config: path.resolve(__dirname, '../build/config.json'),
       core_pages: path.resolve(__dirname, '../src/pages'),
-      core_components: path.resolve(__dirname, '../src/components'),
+      core_components: path.resolve(__dirname, '../core/components'),
       core_stores: path.resolve(__dirname, '../src/store'),
       core_themes: path.resolve(__dirname, '../src/themes/' + theme),
       'core/components': path.resolve(__dirname, '../core/components'),

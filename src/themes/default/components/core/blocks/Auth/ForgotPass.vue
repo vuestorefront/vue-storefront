@@ -114,7 +114,7 @@ export default {
   mounted () {
     this.$refs.email.focus()
   },
-  mixins: [coreComponent('core/blocks/Auth/ForgotPass')],
+  mixins: [coreComponent('blocks/Auth/ForgotPass')],
   components: {
     ButtonFull
   }

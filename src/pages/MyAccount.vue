@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import Breadcrumbs from '../components/core/Breadcrumbs'
-import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
-import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
-import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
+import Breadcrumbs from 'core/components/Breadcrumbs'
+import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
+import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
+import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
 import Meta from 'src/lib/meta'
 import i18n from 'lib/i18n'
 

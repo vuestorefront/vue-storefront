@@ -25,7 +25,7 @@ export default {
       }
     }
   },
-  mixins: [coreComponent('core/ColorButton')]
+  mixins: [coreComponent('ColorButton')]
 }
 </script>
 

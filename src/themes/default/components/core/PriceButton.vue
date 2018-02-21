@@ -15,7 +15,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default { // TODO: move logic to parent component
-  mixins: [coreComponent('core/PriceButton')]
+  mixins: [coreComponent('PriceButton')]
 }
 </script>
 

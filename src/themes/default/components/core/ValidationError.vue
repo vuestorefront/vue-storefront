@@ -9,6 +9,6 @@ import { coreComponent } from 'lib/themes'
 
 export default {
   name: 'ValidationError',
-  mixins: [coreComponent('core/ValidationError')]
+  mixins: [coreComponent('ValidationError')]
 }
 </script>
