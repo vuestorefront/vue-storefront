@@ -3,7 +3,7 @@
     <overlay v-if="overlayActive"/>
     <loader/>
     <div id="viewport" class="w-100 relative">
-      <!-- <microcart/> -->
+      <microcart/>
       <search-panel/>
       <wishlist/>
       <sidebar-menu/>
@@ -26,7 +26,7 @@ import MainHeader from './components/core/blocks/Header/Header.vue'
 import MainFooter from './components/core/blocks/Footer/Footer.vue'
 
 import Wishlist from './components/core/blocks/Wishlist/Wishlist.vue'
-// import Microcart from './components/core/blocks/Microcart/Microcart.vue'
+import Microcart from './components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from './components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from './components/core/blocks/SearchPanel/SearchPanel.vue'
 
@@ -52,7 +52,7 @@ export default {
   components: {
     MainHeader,
     MainFooter,
-    // Microcart,
+    Microcart,
     Wishlist,
     SearchPanel,
     SidebarMenu,
