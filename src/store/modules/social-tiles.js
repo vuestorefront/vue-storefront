@@ -1,4 +1,4 @@
-import igFeed from '../../resource/ig_feed.json'
+import igFeed from 'core/resource/ig_feed.json'
 
 // Initial state
 

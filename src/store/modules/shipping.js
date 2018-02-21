@@ -1,5 +1,5 @@
 
-import shippingtMethods from '../../resource/shipping_methods.json'
+import shippingtMethods from 'core/resource/shipping_methods.json'
 
 const state = {
   methods: shippingtMethods

@@ -24,24 +24,23 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.vue'],
     alias: {
+      // Main aliases
       config: path.resolve(__dirname, '../build/config.json'),
+      lib: path.resolve(__dirname, '../src/lib'),
+      'src': path.resolve(__dirname, '../src'),
+      'assets': path.resolve(__dirname, '../src/assets'),
+      // Core aliases
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../core/components'),
       core_stores: path.resolve(__dirname, '../src/store'),
       core_themes: path.resolve(__dirname, '../src/themes/' + theme),
       'core/components': path.resolve(__dirname, '../core/components'),
-      'core/resource': path.resolve(__dirname, '../core/resource'),
       'components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../src/pages'),
-      'core/resource': path.resolve(__dirname, '../src/resource'),
+      'core/resource': path.resolve(__dirname, '../core/resource'),
       'core/plugins': path.resolve(__dirname, '../src/plugins'),
-
-      lib: path.resolve(__dirname, '../src/lib'),
-
-      'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/assets'),
-      'resources': path.resolve(__dirname, '../src/resource'),
-
+      'core/api': path.resolve(__dirname, '../core/api'),
+      // Theme aliases
       theme_pages: path.resolve(__dirname, themePages),
       theme_components: path.resolve(__dirname, themeComponents),
       'theme/resource': path.resolve(__dirname, themeResources),
@@ -52,7 +51,6 @@ module.exports = {
       'theme/app': path.resolve(__dirname, themeApp)
     }
   },
-
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',
