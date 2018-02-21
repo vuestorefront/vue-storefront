@@ -32,7 +32,7 @@ Custom extensions usually do use Events for hooking in some additional actions. 
 
 The naming convention for the events is: `after-<module>-<action>` for example `after-product-saved`; ofcourse there can be `before-product-saved` event as well :)
 
-If you want to provide some components for the users please think of them as a mixins (you can add default HTML markup) so they can be styled and modified in themes.
+If you want to provide some components for the themes please think of them as a mixins (you can add default HTML markup) so they can be styled and modified in themes.
 
 ## How to install the extension
 The enabled extensions must be declared within `config/local.json` file. Please take a look at the [default config](https://github.com/DivanteLtd/vue-storefront/blob/master/config/default.json) for a reference.
