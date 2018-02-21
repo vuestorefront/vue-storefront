@@ -145,7 +145,6 @@ function calculateTaxes (products, store) {
 
 const state = {
   breadcrumbs: {routes: []},
-  configured: null, // configured product with variant selected
   current: null, // shown product
   current_options: {color: [], size: []},
   current_configuration: {},
@@ -200,6 +199,7 @@ function configureProductAsync (context, { product, configuration, selectDefault
     if (selectDefaultVariant) {
       context.dispatch('setCurrent', selectedVariant)
     }
+    EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     return selectedVariant
   } else {
     return product
@@ -392,7 +392,7 @@ const actions = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {} }) {
     return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
@@ -414,6 +414,7 @@ const actions = {
         if (updateState) {
           context.commit(types.CATALOG_UPD_PRODUCTS, resp)
         }
+        EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
     }).catch(function (err) {
@@ -465,12 +466,15 @@ const actions = {
           const cachedProduct = setupProduct(res)
           if (config.products.alwaysSyncPlatformPricesOver) {
             doPlatformPricesSync([cachedProduct]).then((products) => {
+              EventBus.$emit('product-after-single', { key: key, options: options, product: products[0] })
               resolve(products[0])
             })
             if (!config.products.waitForPlatformSync) {
+              EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
           } else {
+            EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })
             resolve(cachedProduct)
           }
         } else {
@@ -481,6 +485,7 @@ const actions = {
             prefetchGroupProducts: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
+              EventBus.$emit('product-after-single', { key: key, options: options, product: res.items[0] })
               resolve(setupProduct(res.items[0]))
             } else {
               reject(Error('Product query returned empty result'))
@@ -534,6 +539,7 @@ const actions = {
 const mutations = {
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {
     state.related[key] = items
+    EventBus.$emit('product-after-related', { key: key, items: items })
   },
   [types.CATALOG_UPD_PRODUCTS] (state, products) {
     state.list = products // extract fields from ES _source
@@ -543,15 +549,18 @@ const mutations = {
   },
   [types.CATALOG_SET_PRODUCT_ORIGINAL] (state, product) {
     state.original = product
+    EventBus.$emit('product-after-original', { original: product })
   },
   [types.CATALOG_SET_PRODUCT_PARENT] (state, product) {
     state.parent = product
+    EventBus.$emit('product-after-parent', { parent: product })
   },
   [types.CATALOG_RESET_PRODUCT] (state, productOriginal) {
     state.current = productOriginal || {}
     state.current_configuration = {}
     state.parent = null
     state.current_options = {color: [], size: []}
+    EventBus.$emit('product-after-reset', { })
   }
 }
 
