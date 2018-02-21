@@ -20,6 +20,10 @@ Try out our open demo and if you like it **first give us some star on Github ★
         <a href="https://demo-catalog.vuestorefront.io"><img height="100" alt="Snow.dog" align="left" src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true"></a>
       </td>
     </tr>
+    <tr>
+     <td>Default theme<br/>demo.vue-storefront.io</td>
+    <td>B2B theme<br/>demo-catalog.vue-storefront.io</td>
+    </tr>
   </tbody>
  </table>
  
