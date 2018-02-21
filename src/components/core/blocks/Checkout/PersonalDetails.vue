@@ -38,12 +38,12 @@ export default {
       } else {
         this.personalDetails.createAccount = false
       }
-      this.$bus.$emit('checkout.personalDetails', this.personalDetails, this.$v)
+      this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        this.$bus.$emit('checkout.edit', 'personalDetails')
+        this.$bus.$emit('checkout-before-edit', 'personalDetails')
         this.isFilled = false
       }
     },

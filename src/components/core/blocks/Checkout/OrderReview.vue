@@ -27,7 +27,7 @@ export default {
       if (this.$store.state.checkout.personalDetails.createAccount) {
         this.register()
       } else {
-        this.$bus.$emit('checkout.placeOrder')
+        this.$bus.$emit('checkout-before-placeOrder')
       }
     },
     register () {
@@ -53,7 +53,7 @@ export default {
             action1: { label: 'OK', action: 'close' }
           })
           this.$store.commit('ui/setSignUp', false)
-          this.$bus.$emit('checkout.placeOrder', result.result.id)
+          this.$bus.$emit('checkout-before-placeOrder', result.result.id)
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')

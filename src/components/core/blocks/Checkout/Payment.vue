@@ -44,12 +44,12 @@ export default {
   },
   methods: {
     sendDataToCheckout () {
-      this.$bus.$emit('checkout.payment', this.payment, this.$v)
+      this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        this.$bus.$emit('checkout.edit', 'payment')
+        this.$bus.$emit('checkout-before-edit', 'payment')
         this.isFilled = false
       }
     },
