@@ -26,6 +26,20 @@ Inside of this function you can introduce your functionality and also extend app
 
 `config` parameter that a default function receives refers to a *local.json* file in root /config folder. You can define all your extension settings in that configuration file and access them through this parameter. 
 
+Custom extensions usually do use Events for hooking in some additional actions. If you don't find event that's suitable for your action please don't hesitate to contribute a PR to the core adding this particular event.
+
+The naming convention for the events is: `after-<module>-<action>` for example `after-product-saved`; ofcourse there can be `before-product-saved` event as well :)
+
+## How to install the extension
+The enabled extensions must be declared within `config/local.json` file. Please take a look at the [default config](https://github.com/DivanteLtd/vue-storefront/blob/master/config/default.json) for a reference.
+
+You should just add your extension name to:
+
+```json
+    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
+```
+
 ## Extensions list (docs for it under construction)
 * Mailchimp Integration
 * Google Analytics Integration
+* [Example of custom extension](https://github.com/DivanteLtd/vue-storefront/tree/master/src/extensions/custom_extension) - can be used as a boilerplate
