@@ -400,6 +400,6 @@ export default {
     ButtonFull,
     Tooltip
   },
-  mixins: [coreComponent('core/blocks/Checkout/Payment')]
+  mixins: [coreComponent('blocks/Checkout/Payment')]
 }
 </script>

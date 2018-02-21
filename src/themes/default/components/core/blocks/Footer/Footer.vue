@@ -194,7 +194,7 @@ export default {
   components: {
     Newsletter
   },
-  mixins: [coreComponent('core/blocks/Footer/Footer')]
+  mixins: [coreComponent('blocks/Footer/Footer')]
 }
 </script>
 

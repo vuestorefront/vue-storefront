@@ -120,7 +120,7 @@ export default {
   components: {
     ButtonFull
   },
-  mixins: [coreComponent('core/blocks/MyAccount/MyNewsletter')]
+  mixins: [coreComponent('blocks/MyAccount/MyNewsletter')]
 }
 </script>
 

@@ -115,7 +115,7 @@ export default {
     EditButton,
     RemoveButton
   },
-  mixins: [coreComponent('core/blocks/Microcart/Product')]
+  mixins: [coreComponent('blocks/Microcart/Product')]
 }
 </script>
 

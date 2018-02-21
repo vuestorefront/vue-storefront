@@ -32,7 +32,7 @@ export default {
   components: {
     Product
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Wishlist')]
+  mixins: [coreComponent('blocks/Wishlist/Wishlist')]
 }
 </script>
 

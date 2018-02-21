@@ -295,6 +295,6 @@ export default {
     ButtonFull,
     Tooltip
   },
-  mixins: [coreComponent('core/blocks/Checkout/Shipping')]
+  mixins: [coreComponent('blocks/Checkout/Shipping')]
 }
 </script>

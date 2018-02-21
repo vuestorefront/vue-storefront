@@ -11,7 +11,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/OfflineBadge')]
+  mixins: [coreComponent('OfflineBadge')]
 }
 </script>
 

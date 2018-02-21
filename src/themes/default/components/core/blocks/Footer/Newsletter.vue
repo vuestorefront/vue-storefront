@@ -29,7 +29,7 @@ export default {
   components: {
     ButtonOutline
   },
-  mixins: [coreComponent('core/blocks/Footer/Newsletter')]
+  mixins: [coreComponent('blocks/Footer/Newsletter')]
 }
 </script>
 

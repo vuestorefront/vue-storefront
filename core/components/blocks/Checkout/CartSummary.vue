@@ -13,12 +13,12 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import Microcart from '../Microcart/Microcart'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'CartSummary',
-  mixins: [coreComponent('core/blocks/Microcart/Microcart')],
+  mixins: [Microcart],
   computed: {
     ...mapGetters({
       totals: 'cart/totals'

@@ -23,6 +23,6 @@ export default {
       required: true
     }
   },
-  mixins: [coreComponent('core/Logo')]
+  mixins: [coreComponent('Logo')]
 }
 </script>

@@ -11,6 +11,6 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Microcart/RemoveButton')]
+  mixins: [coreComponent('blocks/Microcart/RemoveButton')]
 }
 </script>

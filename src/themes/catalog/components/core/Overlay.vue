@@ -22,7 +22,7 @@ export default {
       this.$store.commit('ui/setSignUp', false)
     }
   },
-  mixins: [coreComponent('core/Overlay')]
+  mixins: [coreComponent('Overlay')]
 }
 </script>
 

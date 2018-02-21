@@ -15,7 +15,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Header/MicrocartIcon')]
+  mixins: [coreComponent('blocks/Header/MicrocartIcon')]
 }
 </script>
 

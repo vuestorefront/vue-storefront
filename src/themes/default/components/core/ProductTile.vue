@@ -72,7 +72,7 @@ export default {
       default: true
     }
   },
-  mixins: [coreComponent('core/ProductTile')],
+  mixins: [coreComponent('ProductTile')],
   directives: { imgPlaceholder },
   created () {
     this.$bus.$on('product-after-priceupdate', (product) => {

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AddToCart from 'src/components/core/AddToCart.vue'
+import AddToCart from 'core/components/AddToCart.vue'
 
 export default {
   name: 'Product',

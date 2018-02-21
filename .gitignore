@@ -10,3 +10,4 @@ package-lock.json
 var
 build/config.json
 theme.js
+desktop.ini

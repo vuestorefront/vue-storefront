@@ -6,8 +6,8 @@
 
 <script>
 import Meta from 'src/lib/meta'
-import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
-import ProductTile from '../components/core/ProductTile.vue'
+import MainSlider from 'core/components/blocks/MainSlider/MainSlider.vue'
+import ProductTile from 'core/components/ProductTile.vue'
 
 export default {
   name: 'Home',

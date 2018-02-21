@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import Breadcrumbs from 'core/components/Breadcrumbs.vue'
 import Meta from 'src/lib/meta'
-import AddToCart from '../components/core/AddToCart.vue'
+import AddToCart from 'core/components/AddToCart.vue'
 import EventBus from 'src/plugins/event-bus'
 import { mapGetters } from 'vuex'
 import config from 'config'

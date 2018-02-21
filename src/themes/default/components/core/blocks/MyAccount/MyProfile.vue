@@ -369,7 +369,7 @@ export default {
   components: {
     ButtonFull
   },
-  mixins: [coreComponent('core/blocks/MyAccount/MyProfile')]
+  mixins: [coreComponent('blocks/MyAccount/MyProfile')]
 }
 </script>
 
