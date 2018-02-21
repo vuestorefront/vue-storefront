@@ -17,13 +17,13 @@ describe('Modal.vue', () => {
   }).$mount()
 
   describe('When you open the modal', () => {
-    vm.$bus.$emit('modal.toggle', 'my-modal')
+    vm.$bus.$emit('modal-toggle', 'my-modal')
 
     it('should be visible and hidden after toggle again', (done) => {
       Vue.nextTick(() => {
         expect(vm.$el.querySelectorAll('.test-modal').length.should.equal(1))
 
-        vm.$bus.$emit('modal.toggle', 'my-modal')
+        vm.$bus.$emit('modal-toggle', 'my-modal')
 
         Vue.nextTick().then(() => {
           expect(vm.$el.querySelectorAll('.test-modal').length.should.equal(0))

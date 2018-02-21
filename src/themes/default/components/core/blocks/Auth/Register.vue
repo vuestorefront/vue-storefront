@@ -140,7 +140,7 @@ export default {
   },
   methods: {
     close () {
-      this.$bus.$emit('modal.hide', 'modal-signup')
+      this.$bus.$emit('modal-hide', 'modal-signup')
     },
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'login')

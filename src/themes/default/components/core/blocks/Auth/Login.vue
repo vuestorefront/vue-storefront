@@ -91,7 +91,7 @@ export default {
       this.$store.commit('ui/setAuthElem', 'register')
     },
     close () {
-      this.$bus.$emit('modal.hide', 'modal-signup')
+      this.$bus.$emit('modal-hide', 'modal-signup')
     },
     togglePassType (name) {
       if (this.passType === 'password') {

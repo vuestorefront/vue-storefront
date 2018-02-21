@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     close () {
-      this.$bus.$emit('modal.hide', 'modal-signup')
+      this.$bus.$emit('modal-hide', 'modal-signup')
     },
     sendEmail () {
       // todo: send email with reset password instructions

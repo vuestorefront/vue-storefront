@@ -139,7 +139,7 @@
             </div>
             <div class="checkboxText ml15 lh25" @click="acceptConditions = !acceptConditions">
               <span class="fs16 c-darkgray">
-                I accept <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</a> *
+                I accept <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">terms and conditions</a> *
               </span>
             </div>
             <span class="validation-error" v-if="!$v.acceptConditions.required && $v.acceptConditions.$error">You must accept the terms and conditions.</span>

@@ -18,7 +18,7 @@ export default {
   methods: {
     gotoAccount () {
       if (!this.currentUser) {
-        this.$bus.$emit('modal.show', 'modal-signup')
+        this.$bus.$emit('modal-show', 'modal-signup')
       }
     },
     logout () {

@@ -9,7 +9,7 @@
         </div>
         <div class="newsletter-button col-md-3 col-xs-12 end-md">
           <button-outline
-            @click.native="$bus.$emit('modal.show', 'modal-newsletter')"
+            @click.native="$bus.$emit('modal-show', 'modal-newsletter')"
             color="dark"
           >
             {{ $t('Subscribe') }}

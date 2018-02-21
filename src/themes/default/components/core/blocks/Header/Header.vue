@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     gotoAccount () {
-      this.$bus.$emit('modal.toggle', 'modal-signup')
+      this.$bus.$emit('modal-toggle', 'modal-signup')
     }
   },
   components: {

@@ -48,7 +48,7 @@ export default {
       }
     },
     gotoAccount () {
-      this.$bus.$emit('modal.show', 'modal-signup')
+      this.$bus.$emit('modal-show', 'modal-signup')
     }
   },
   created () {

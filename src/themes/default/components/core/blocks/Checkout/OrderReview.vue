@@ -39,7 +39,7 @@
                 <div class="checkboxText ml15 lh25 pointer">
                   <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
                     {{ $t('I agree to') }}
-                    <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">
+                    <span class="link pointer" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">
                       {{ $t('Terms and conditions') }}
                     </span>
                   </span>
