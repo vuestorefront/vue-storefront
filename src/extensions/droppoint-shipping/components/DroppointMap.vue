@@ -18,7 +18,7 @@
     </gmap-map>
 
     <input type="text" v-model="shipping.phoneNumber" :placeholder="$t('Phone Number')"
-           @change="$v.shipping.phoneNumber.$touch(); setShipping"
+           @keyup="$v.shipping.phoneNumber.$touch(); setShipping()"
     >
     <span
       class="validation-error"
@@ -29,7 +29,15 @@
 
     <span :key="index" v-for="(field, index) in extraFields">
       {{ field.title }}
-      <input type="text" v-model="shipping.extraFields[index]" @change="setShipping">
+      <input type="text" v-model="shipping.extraFields[index]" @keyup="$v.shipping.extraFields[index].$touch(); setShipping()">
+
+      <span
+        class="validation-error"
+        v-if="$v.shipping.extraFields[index].$error && !$v.shipping.extraFields[index].required"
+      >
+        Field is required
+      </span>
+
     </span>
 
     <span :key="index" v-for="(m, index) in droppoints" @click="selectDroppoint(m)" >
@@ -75,7 +83,7 @@ export default {
     }
   },
   props: {
-    'shipping-method': {
+    shippingMethod: {
       type: String,
       required: true
     },
@@ -85,13 +93,25 @@ export default {
       required: false
     }
   },
-  validations: {
-    shipping: {
-      phoneNumber: {
-        required,
-        minLength: minLength(7)
+  validations () {
+    let val = {
+      shipping: {
+        phoneNumber: {
+          required,
+          minLength: minLength(8)
+        }
       }
     }
+    if (this.extraFields) {
+      val.shipping.extraFields = {}
+      for (const [key, value] of Object.entries(this.extraFields)) {
+        val.shipping.extraFields[key] = {}
+        if (value.required) {
+          val.shipping.extraFields[key] = {required}
+        }
+      }
+    }
+    return val
   },
   methods: {
     selectDroppoint (m) {
@@ -120,13 +140,17 @@ export default {
         shippingMethod: this.shippingMethod,
         extraFields: extraFields
       }
-
       this.shipping.extraFields.droppoint = JSON.stringify(m)
 
       this.$v.$touch()
       this.setShipping()
     },
-    setShipping () {
+    setShipping (invalidate = false) {
+      if (this.$v.$invalid || invalidate) {
+        this.shipping.country = null
+      } else {
+        this.shipping.country = this.selected.country
+      }
       this.$bus.$emit('checkout-after-shippingset', this.shipping)
     },
     setDroppoints (droppoints = []) {
@@ -134,6 +158,7 @@ export default {
       this.center = droppoints[0].position
     },
     getDroppoints () {
+      this.droppoints = []
       if (this.searchZipcode) {
         this.loading = true
         this.error = null
@@ -148,6 +173,15 @@ export default {
           },
           callback_event: 'droppoint-map-update'
         }, {root: true})
+      }
+    }
+  },
+  watch: {
+    shippingMethod (val, oldVal) {
+      if (val !== oldVal) {
+        this.getDroppoints()
+        this.selected = {}
+        this.setShipping(true)
       }
     }
   },
@@ -171,12 +205,21 @@ export default {
       this.loading = false
       if (event.result.droppoints) {
         this.setDroppoints(event.result.droppoints)
+
+        if (event.result.center) {
+          this.center = event.result.center.position
+        }
+
         this.extraFields = event.result.extraFields
         this.shipping.extraFields = {}
       } else {
         this.error = event.result.error
       }
+      this.setShipping()
     })
+  },
+  destroyed () {
+    this.$bus.$off('droppoint-map-update')
   }
 }
 </script>
