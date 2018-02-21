@@ -8,6 +8,6 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Header/ReturnIcon')]
+  mixins: [coreComponent('blocks/Header/ReturnIcon')]
 }
 </script>

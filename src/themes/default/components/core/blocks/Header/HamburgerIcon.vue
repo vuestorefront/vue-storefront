@@ -8,6 +8,6 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Header/HamburgerIcon')]
+  mixins: [coreComponent('blocks/Header/HamburgerIcon')]
 }
 </script>

@@ -29,7 +29,7 @@ export default {
   components: {
     ProductTile
   },
-  mixins: [coreComponent('core/ProductListing')],
+  mixins: [coreComponent('ProductListing')],
   methods: {
     wide (isOnSale) {
       return isOnSale === '1' ? 'col-xs-12' : 'col-xs-6'

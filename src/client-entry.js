@@ -1,6 +1,6 @@
 import { createApp } from './app'
 import config from 'config'
-import { execute } from 'src/api/task'
+import { execute } from 'core/api/task'
 import * as localForage from 'localforage'
 import EventBus from 'src/plugins/event-bus'
 

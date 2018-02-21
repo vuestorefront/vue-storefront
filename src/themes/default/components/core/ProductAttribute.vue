@@ -40,6 +40,6 @@ export default {
       this.value = results.join(', ')
     }
   },
-  mixins: [coreComponent('core/ProductAttribute')]
+  mixins: [coreComponent('ProductAttribute')]
 }
 </script>

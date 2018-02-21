@@ -162,6 +162,6 @@ export default {
     ButtonFull,
     Tooltip
   },
-  mixins: [coreComponent('core/blocks/MyAccount/MyShippingDetails')]
+  mixins: [coreComponent('blocks/MyAccount/MyShippingDetails')]
 }
 </script>

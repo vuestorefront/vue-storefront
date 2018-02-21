@@ -81,7 +81,7 @@ import SubCategory from './SubCategory.vue'
 import i18n from 'lib/i18n'
 
 export default {
-  mixins: [coreComponent('core/blocks/SidebarMenu/SidebarMenu')],
+  mixins: [coreComponent('blocks/SidebarMenu/SidebarMenu')],
   components: {
     AccountIcon,
     WishlistIcon,

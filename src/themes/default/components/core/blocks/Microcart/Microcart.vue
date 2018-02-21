@@ -89,7 +89,7 @@ export default {
     Product,
     ButtonFull
   },
-  mixins: [coreComponent('core/blocks/Microcart/Microcart')]
+  mixins: [coreComponent('blocks/Microcart/Microcart')]
 }
 </script>
 

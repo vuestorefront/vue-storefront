@@ -6,8 +6,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import ShippingMethods from 'src/resource/shipping_methods.json'
-import Countries from 'src/resource/countries.json'
+import ShippingMethods from 'core/resource/shipping_methods.json'
+import Countries from 'core/resource/countries.json'
 
 export default {
   name: 'Shipping',

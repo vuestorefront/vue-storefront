@@ -9,6 +9,6 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Wishlist/RemoveButton')]
+  mixins: [coreComponent('blocks/Wishlist/RemoveButton')]
 }
 </script>

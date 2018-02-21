@@ -52,7 +52,7 @@ export default {
       this.currentPage = currentPage
     }
   },
-  mixins: [coreComponent('core/ProductsSlider')],
+  mixins: [coreComponent('ProductsSlider')],
   components: {
     Slide,
     Carousel,

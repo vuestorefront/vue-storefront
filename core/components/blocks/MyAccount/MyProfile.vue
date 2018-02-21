@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Countries from 'src/resource/countries.json'
+import Countries from 'core/resource/countries.json'
 
 export default {
   name: 'MyProfile',

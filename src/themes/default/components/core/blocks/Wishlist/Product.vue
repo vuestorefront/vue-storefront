@@ -48,7 +48,7 @@ export default {
   components: {
     RemoveButton
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Product')]
+  mixins: [coreComponent('blocks/Wishlist/Product')]
 }
 </script>
 

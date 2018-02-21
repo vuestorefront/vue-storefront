@@ -43,7 +43,7 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Checkout/Product')]
+  mixins: [coreComponent('blocks/Checkout/Product')]
 }
 </script>
 

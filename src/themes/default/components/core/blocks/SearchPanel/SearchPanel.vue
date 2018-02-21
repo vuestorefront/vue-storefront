@@ -53,7 +53,7 @@ export default {
       }
     })
   },
-  mixins: [coreComponent('core/blocks/SearchPanel/SearchPanel')]
+  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
 }
 </script>
 

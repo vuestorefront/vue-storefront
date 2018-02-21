@@ -59,7 +59,7 @@ export default {
       }
     }
   },
-  mixins: [coreComponent('core/blocks/Header/AccountIcon')]
+  mixins: [coreComponent('blocks/Header/AccountIcon')]
 }
 </script>
 

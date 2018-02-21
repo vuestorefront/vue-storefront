@@ -1,5 +1,5 @@
 
-import paymentMethods from '../../resource/payment_methods.json'
+import paymentMethods from 'core/resource/payment_methods.json'
 
 const state = {
   methods: paymentMethods

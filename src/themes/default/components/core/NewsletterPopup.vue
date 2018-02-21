@@ -19,7 +19,7 @@
             placeholder="E-mail address *"
           >
           <p class="m0 c-red h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
-          <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+          <p class="m0 c-red h6" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</p>
         </div>
         <div class="mb35 center-xs">
           <button-full

@@ -6,8 +6,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import PaymentMethods from 'src/resource/payment_methods.json'
-import Countries from 'src/resource/countries.json'
+import PaymentMethods from 'core/resource/payment_methods.json'
+import Countries from 'core/resource/countries.json'
 
 export default {
   name: 'Payment',

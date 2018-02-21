@@ -19,6 +19,6 @@
 import { coreComponent } from 'lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Checkout/ThankYouPage')]
+  mixins: [coreComponent('blocks/Checkout/ThankYouPage')]
 }
 </script>
