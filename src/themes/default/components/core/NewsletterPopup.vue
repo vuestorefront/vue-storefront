@@ -71,7 +71,7 @@ export default {
         action1: { label: 'OK', action: 'close' }
       })
 
-      this.$bus.$emit('modal.hide', 'modal-newsletter')
+      this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },
   components: {

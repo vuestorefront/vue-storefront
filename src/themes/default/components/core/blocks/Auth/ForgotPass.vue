@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">
-        {{ $t('Reset password') }}
-      </h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray-secondary lh25">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
+      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+      {{ $t('Reset password') }}
+    </header>
+
+    <div class="modal-content pt30 pb60 px65 c-gray-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
@@ -77,6 +77,9 @@ export default {
     }
   },
   methods: {
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
     sendEmail () {
       // todo: send email with reset password instructions
 

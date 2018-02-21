@@ -48,7 +48,7 @@ export default {
       }
     },
     gotoAccount () {
-      this.$store.commit('ui/setSignUp', true)
+      this.$bus.$emit('modal-show', 'modal-signup')
     }
   },
   created () {

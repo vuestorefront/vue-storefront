@@ -137,7 +137,7 @@ export default {
   },
   methods: {
     login () {
-      this.$store.commit('ui/setSignUp', true)
+      this.$bus.$emit('modal-show', 'modal-signup')
       this.$store.commit('ui/setOpenMyAccount', true)
     }
   }

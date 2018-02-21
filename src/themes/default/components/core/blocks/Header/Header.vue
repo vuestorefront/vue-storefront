@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     gotoAccount () {
-      this.$store.commit('ui/setSignUp', !this.isOpenLogin)
+      this.$bus.$emit('modal-toggle', 'modal-signup')
     }
   },
   components: {

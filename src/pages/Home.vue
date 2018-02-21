@@ -20,7 +20,7 @@ export default {
     if (global.__DEMO_MODE__) {
       this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' }).then((onboardingClaim) => {
         if (!onboardingClaim) { // show onboarding info
-          this.$bus.$emit('modal.toggle', 'modal-onboard')
+          this.$bus.$emit('modal-toggle', 'modal-onboard')
           this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
         }
       })

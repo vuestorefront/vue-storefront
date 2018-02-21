@@ -27,9 +27,10 @@ export default {
 @import '~theme/css/base/global_vars';
 $black: map-get($colors, black);
 $ocean-green: map-get($colors, ocean-green);
+$z-index-loader: map-get($z-index, loader);
 
 .loader-container {
-  z-index: 10;
+  z-index: $z-index-loader;
   top: 0;
   left: 0;
   bottom: 0;

@@ -29,15 +29,15 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('modal.toggle', (name, state, params) => {
+    this.$bus.$on('modal-toggle', (name, state, params) => {
       if (name === this.name) {
         state = typeof state === 'undefined' ? !this.isVisible : state
         this.toggle(state)
       }
     })
 
-    this.$bus.$on('modal.show', (name, state, params) => name === this.name ? this.toggle(true) : false)
-    this.$bus.$on('modal.hide', (name, state, params) => name === this.name ? this.toggle(false) : false)
+    this.$bus.$on('modal-show', (name, state, params) => name === this.name ? this.toggle(true) : false)
+    this.$bus.$on('modal-hide', (name, state, params) => name === this.name ? this.toggle(false) : false)
   },
   methods: {
     ...mapMutations('ui', [
