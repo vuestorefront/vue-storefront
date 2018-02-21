@@ -12,14 +12,8 @@ import Register from './Register.vue'
 import ForgotPass from './ForgotPass.vue'
 
 import { coreComponent } from 'lib/themes'
-import { mapState } from 'vuex'
 
 export default {
-  computed: {
-    ...mapState({
-      activeElem: state => state.ui.authElem
-    })
-  },
   components: {
     Modal,
     Login,
@@ -29,3 +23,8 @@ export default {
   mixins: [coreComponent('blocks/Auth/SignUp')]
 }
 </script>
+<style scoped>
+  .modal {
+    font-size: 18px;
+  }
+</style>
