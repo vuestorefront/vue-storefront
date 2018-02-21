@@ -21,8 +21,8 @@ Try out our open demo and if you like it **first give us some star on Github ★
       </td>
     </tr>
     <tr>
-     <td>Default theme<br/>demo.vue-storefront.io</td>
-    <td>B2B theme (beta)<br/>demo-catalog.vue-storefront.io</td>
+     <td>Default theme<br/>demo.vuestorefront.io</td>
+    <td>B2B theme (beta)<br/>demo-catalog.vuestorefront.io</td>
     </tr>
   </tbody>
  </table>
