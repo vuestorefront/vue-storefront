@@ -17,8 +17,8 @@
             autocomplete="email"
             placeholder="E-mail address *"
           >
-          <span class="validation-error block h6 c-red" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error block h6 c-red" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
         </div>
         <div class="row mb35">
           <div class="col-xs-6">
@@ -30,7 +30,7 @@
               autocomplete="given-name"
               placeholder="First name *"
             >
-            <span class="validation-error block h6 c-red" v-if="!$v.firstName.required">Field is required.</span>
+            <span class="validation-error block h6 c-red" v-if="!$v.firstName.required && $v.firstName.$error">Field is required.</span>
           </div>
           <div class="col-xs-6">
             <input
@@ -41,7 +41,7 @@
               autocomplete="family-name"
               placeholder="Last name *"
             >
-            <span class="validation-error block h6 c-red" v-if="!$v.lastName.required">Field is required.</span>
+            <span class="validation-error block h6 c-red" v-if="!$v.lastName.required && $v.lastName.$error">Field is required.</span>
           </div>
         </div>
         <div class="mb35 relative">
@@ -54,7 +54,7 @@
             placeholder="Password *"
           >
           <i class="icon material-icons absolute c-alto pointer" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.password.required">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
         </div>
         <div class="mb35 relative">
           <input
@@ -69,9 +69,9 @@
           <span class="validation-error block h6 c-red" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>
         <div class="mb35">
-          <input type="checkbox" name="remember" v-model="conditions" id="remember">
+          <input type="checkbox" name="remember" v-model="conditions" id="remember" @change="$v.conditions.$touch()" @blur="$v.conditions.$reset()">
           <label class="ml10" for="remember">I accept terms and conditions *</label>
-          <span class="validation-error block h6 c-red" v-if="!$v.conditions.required">
+          <span class="validation-error block h6 c-red" v-if="!$v.conditions.required && $v.conditions.$error">
             {{ $t('You must accept the terms and conditions.') }}
           </span>
         </div>
@@ -153,6 +153,7 @@ export default {
     },
     register () {
       if (this.$v.$invalid) {
+        this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
