@@ -20,8 +20,8 @@
               v-model="email"
               placeholder="E-mail address *"
             >
-            <p class="m0 c-red h6" v-if="!$v.email.required">Field is required.</p>
-            <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+            <p class="m0 c-red h6" v-if="!$v.email.required && $v.email.$error">Field is required.</p>
+            <p class="m0 c-red h6" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</p>
           </div>
           <div class="mb35">
             <button-full type="submit">
@@ -81,6 +81,7 @@ export default {
       // todo: send email with reset password instructions
 
       if (this.$v.$invalid) {
+        this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
           message: 'Please fix the validation errors',

@@ -21,8 +21,8 @@ Try out our open demo and if you like it **first give us some star on Github ★
       </td>
     </tr>
     <tr>
-  <td>authorization: demo / !@#demo</td>
-  <td>authorization: demo / !@#demo</td>
+     <td>Default theme<br/>demo.vuestorefront.io</td>
+    <td>B2B theme (beta)<br/>demo-catalog.vuestorefront.io</td>
     </tr>
   </tbody>
  </table>
@@ -47,7 +47,7 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md)
 * [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
-* [Common problems](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
+* [Common problems / FAQ](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
@@ -157,6 +157,14 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       </td>
       <td align="center" valign="middle">        
         <a href="http://www.acidgreen.com.au/"><img height="50" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"></a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle">        
+        <a href="http://macopedia.com/pl"><img height="50" alt="Macopedia" align="left" src="doc/media/logo_light-kopia.png"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="http://www.develodesign.co.uk/"><img height="50" alt="Macopedia" align="left" src="doc/media/develo_logo.png"></a>
       </td>
     </tr>
   </tbody>
