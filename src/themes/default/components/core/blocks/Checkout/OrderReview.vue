@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <modal name="modal-terms" static="terms">
+    <modal name="modal-terms" static-data="terms">
       <p slot="header">
         {{ $t('Terms and conditions') }}
       </p>
