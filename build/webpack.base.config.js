@@ -35,7 +35,8 @@ module.exports = {
       'core/pages': path.resolve(__dirname, '../src/pages'),
       'core/resource': path.resolve(__dirname, '../src/resource'),
       'core/plugins': path.resolve(__dirname, '../src/plugins'),
-
+      'core/api': path.resolve(__dirname, '../core/api'),
+      
       lib: path.resolve(__dirname, '../src/lib'),
 
       'src': path.resolve(__dirname, '../src'),
