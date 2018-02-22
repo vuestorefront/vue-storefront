@@ -7,13 +7,13 @@
 <script>
 import builder from 'bodybuilder'
 
-import { breadCrumbRoutes } from 'src/helpers'
-import Meta from 'src/lib/meta'
+import { breadCrumbRoutes } from 'core/helpers'
+import Meta from 'core/lib/meta'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import { optionLabel } from 'src/store/modules/attribute'
-import EventBus from 'src/plugins/event-bus'
+import { optionLabel } from 'core/store/modules/attribute'
+import EventBus from 'core/plugins/event-bus'
 import _ from 'lodash'
 import i18n from 'lib/i18n'
 

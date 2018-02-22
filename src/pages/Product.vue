@@ -6,12 +6,12 @@
 
 <script>
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import Meta from 'src/lib/meta'
+import Meta from 'core/lib/meta'
 import AddToCart from 'core/components/AddToCart.vue'
-import EventBus from 'src/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
 import { mapGetters } from 'vuex'
 import config from 'config'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 /**
  * User selected specific color x size (or other attributes) variant

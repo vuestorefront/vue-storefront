@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import EventBus from 'src/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
 import i18n from 'lib/i18n'
 
 const store = {

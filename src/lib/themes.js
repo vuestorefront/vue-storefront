@@ -23,11 +23,11 @@ export function corePage (path) {
 }
 
 export function coreComponent (path) {
-  return require('core_components/' + path + '.vue') // using webpack path alias  - core_pages = src/components
+  return require('core_components/' + path + '.vue') // using webpack path alias  - core_components = core/components
 }
 
 export function coreStore (path) {
-  return require('core_stores/' + path + '.js') // using webpack path alias  - core_stores = src/stores
+  return require('core/store/' + path + '.js') // using webpack path alias  - core/stores = core/stores
 }
 
 export function extendStore (coreStore, extendStore) {

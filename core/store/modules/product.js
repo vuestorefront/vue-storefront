@@ -2,13 +2,13 @@ import * as types from '../mutation-types'
 import config from 'config'
 import bodybuilder from 'bodybuilder'
 import { quickSearchByQuery } from 'core/api/search'
-import { entityKeyName } from '../../lib/entities'
-import { optionLabel } from 'src/store/modules/attribute'
-import { breadCrumbRoutes } from 'src/helpers'
-import { calculateProductTax } from 'src/lib/taxcalc'
+import { entityKeyName } from 'core/lib/entities'
+import { optionLabel } from 'core/store/modules/attribute'
+import { breadCrumbRoutes } from 'core/helpers'
+import { calculateProductTax } from 'core/lib/taxcalc'
 import _ from 'lodash'
 import rootStore from '../'
-import EventBus from 'src/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
 
 function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price

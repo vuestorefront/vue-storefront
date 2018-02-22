@@ -1,9 +1,9 @@
 import * as types from '../mutation-types'
 import config from 'config'
-import EventBus from 'src/plugins/event-bus'
-import { ValidationError } from 'lib/exceptions'
+import EventBus from 'core/plugins/event-bus'
+import { ValidationError } from 'core/lib/exceptions'
 import store from '../'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 const Ajv = require('ajv') // json validator
 
 EventBus.$on('user-after-update', (event) => {
@@ -244,7 +244,7 @@ const actions = {
    */
   update (context, userData) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('../../models/userProfile.schema.json'))
+    const validate = ajv.compile(require('core/models/userProfile.schema.json'))
 
     if (!validate(userData)) { // schema validation of user profile data
       console.error(validate.errors)

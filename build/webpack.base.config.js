@@ -29,10 +29,11 @@ module.exports = {
       lib: path.resolve(__dirname, '../src/lib'),
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
+      'core/router': path.resolve(__dirname, '../core/router'),
+      'core/store': path.resolve(__dirname, '../core/store'),
       // Core aliases
       core_pages: path.resolve(__dirname, '../src/pages'),
       core_components: path.resolve(__dirname, '../core/components'),
-      core_stores: path.resolve(__dirname, '../src/store'),
       core_themes: path.resolve(__dirname, '../src/themes/' + theme),
       'core/components': path.resolve(__dirname, '../core/components'),
       'components': path.resolve(__dirname, '../src/components'),
@@ -40,6 +41,10 @@ module.exports = {
       'core/resource': path.resolve(__dirname, '../core/resource'),
       'core/plugins': path.resolve(__dirname, '../src/plugins'),
       'core/api': path.resolve(__dirname, '../core/api'),
+      'core/lib': path.resolve(__dirname, '../src/lib'),
+      'core/helpers': path.resolve(__dirname, '../src/helpers'),
+      'core/filters': path.resolve(__dirname, '../src/filters'),
+      'core/models': path.resolve(__dirname, '../src/models'),
       // Theme aliases
       theme_pages: path.resolve(__dirname, themePages),
       theme_components: path.resolve(__dirname, themeComponents),

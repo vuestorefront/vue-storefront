@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
-import { entityKeyName } from '../../lib/entities'
-import { slugify } from '../../helpers'
+import { entityKeyName } from 'core/lib/entities'
+import { slugify } from 'core/helpers'
 const bodybuilder = require('bodybuilder')
 import { quickSearchByQuery } from 'core/api/search'
 
