@@ -21,7 +21,7 @@ if (isProd) {
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
-  require('./build/dev-server')(app, (bundle, template) => {
+  require('./core/build/dev-server')(app, (bundle, template) => {
     renderer = createRenderer(bundle, template)
   })
 }

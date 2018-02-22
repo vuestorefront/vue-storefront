@@ -9,5 +9,6 @@ config/local.json
 package-lock.json
 var
 build/config.json
+core/build/config.json
 theme.js
 desktop.ini
