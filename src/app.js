@@ -6,14 +6,14 @@ import config from 'config'
 
 import { sync } from 'vuex-router-sync'
 
-import { registerTheme, plugins } from './lib/themes'
-import { registerExtensions } from './lib/extensions'
+import { registerTheme, plugins } from 'core/lib/themes'
+import { registerExtensions } from 'core/lib/extensions'
 import thumbnailMixin from './mixins/thumbnail'
-import * as filters from './filters'
+import * as filters from 'core/filters'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 const pluginsObject = plugins()
 Object.keys(pluginsObject).forEach(function (key) {

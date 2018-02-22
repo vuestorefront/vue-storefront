@@ -43,7 +43,7 @@ module.exports = {
       'core/api': path.resolve(__dirname, '../core/api'),
       'core/lib': path.resolve(__dirname, '../src/lib'),
       'core/helpers': path.resolve(__dirname, '../src/helpers'),
-      'core/filters': path.resolve(__dirname, '../src/filters'),
+      'core/filters': path.resolve(__dirname, '../core/filters'),
       'core/models': path.resolve(__dirname, '../src/models'),
       // Theme aliases
       theme_pages: path.resolve(__dirname, themePages),
