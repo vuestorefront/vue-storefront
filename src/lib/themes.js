@@ -19,11 +19,11 @@ export function plugins () {
 }
 
 export function corePage (path) {
-  return require('core_pages/' + path + '.vue') // using webpack path alias  - core_pages = src/pages
+  return require('core/pages/' + path + '.vue') // using webpack path alias  - core/pages = core/pages
 }
 
 export function coreComponent (path) {
-  return require('core_components/' + path + '.vue') // using webpack path alias  - core_components = core/components
+  return require('core/components/' + path + '.vue') // using webpack path alias  - core/omponents = core/components
 }
 
 export function coreStore (path) {
@@ -35,7 +35,7 @@ export function extendStore (coreStore, extendStore) {
 }
 
 export function registerTheme (themeName, app, routes, store) {
-  let themeEntryPoint = require('core_themes/index.js')
+  let themeEntryPoint = require('themes/index.js')
   if (themeEntryPoint != null && themeEntryPoint.hasOwnProperty('default')) {
     themeEntryPoint.default(app, routes, store) // register theme
   } else {
