@@ -8,7 +8,7 @@ import { sync } from 'vuex-router-sync'
 
 import { registerTheme, plugins } from 'core/lib/themes'
 import { registerExtensions } from 'core/lib/extensions'
-import thumbnailMixin from './mixins/thumbnail'
+import thumbnailMixin from 'core/mixins/thumbnail'
 import * as filters from 'core/filters'
 
 import VueLazyload from 'vue-lazyload'
