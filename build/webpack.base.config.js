@@ -35,7 +35,7 @@ module.exports = {
       core_themes: path.resolve(__dirname, '../src/themes/' + theme),
       'core/components': path.resolve(__dirname, '../core/components'),
       'components': path.resolve(__dirname, '../src/components'),
-      'core/pages': path.resolve(__dirname, '../src/pages'),
+      'core/pages': path.resolve(__dirname, '../core/pages'),
       'core/resource': path.resolve(__dirname, '../core/resource'),
       'core/plugins': path.resolve(__dirname, '../core/plugins'),
       'core/api': path.resolve(__dirname, '../core/api'),
