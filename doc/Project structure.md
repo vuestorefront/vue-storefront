@@ -13,6 +13,7 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `helpers` - Global methods for the project
   * `mixins` - Global mixins for the project
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
+  * `pages` - Vue Storefront core pages (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `plugins` - Core plugins (see: [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20plugins.md))
   * `resource` - Data mocks used to develop new features
   * `router` - Core Vue Router instance - just basic setup
@@ -21,5 +22,4 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json
   * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (docs under construction)
   * `lib` - Core libraries allowing functionalities like theme support, extensions or filters (this one will be moved to other place soon)
-  * `pages` - Vue Storefront core pages (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md))
