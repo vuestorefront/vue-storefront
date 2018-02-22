@@ -9,8 +9,8 @@ import Breadcrumbs from 'core/components/Breadcrumbs'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
-import Meta from 'src/lib/meta'
-import i18n from 'lib/i18n'
+import Meta from 'core/lib/meta'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'MyAccount',

@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import { quickSearchByQuery } from 'core/api/search'
-import { entityKeyName } from '../../lib/entities'
+import { entityKeyName } from 'core/lib/entities'
 import builder from 'bodybuilder'
 
 const state = {

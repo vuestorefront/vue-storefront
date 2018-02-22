@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Meta from 'src/lib/meta'
+import Meta from 'core/lib/meta'
 import MainSlider from 'core/components/blocks/MainSlider/MainSlider.vue'
 import ProductTile from 'core/components/ProductTile.vue'
 
