@@ -29,10 +29,8 @@ module.exports = {
       lib: path.resolve(__dirname, '../src/lib'),
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
+      'themes': path.resolve(__dirname, '../src/themes/' + theme),
       // Core aliases
-      core_pages: path.resolve(__dirname, '../src/pages'),
-      core_components: path.resolve(__dirname, '../core/components'),
-      core_themes: path.resolve(__dirname, '../src/themes/' + theme),
       'core/components': path.resolve(__dirname, '../core/components'),
       'components': path.resolve(__dirname, '../src/components'),
       'core/pages': path.resolve(__dirname, '../core/pages'),
