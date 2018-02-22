@@ -10,24 +10,74 @@ You can access localForage repositories thru `Vue.$db` or `global.db` objects an
 
 Details on localForage API: http://localforage.github.io/localForage/ 
 
-We basicaly have following data stores accesible in the browser (`/src/store/index.js`):
+We basicaly have following data stores accesible in the browser (`/core/store/index.js`):
 
 ```js
 Vue.prototype.$db = {
-  ordersCollection: localForage.createInstance({
+  ordersCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders'
-  }),
+  })),
 
-  categoriesCollection: localForage.createInstance({
+  categoriesCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'categories'
-  }),
+  })),
 
-  cartsCollection: localForage.createInstance({
+  attributesCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'attributes'
+  })),
+
+  cartsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'carts'
-  })
+  })),
+
+  elasticCacheCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'elasticCache'
+  })),
+
+  productsCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'products'
+  })),
+
+  claimsCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'claims'
+  })),
+
+  wishlistCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'wishlist'
+  })),
+
+  compareCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'compare'
+  })),
+
+  usersCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'user'
+  })),
+
+  syncTaskCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'syncTasks'
+  })),
+
+  checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'checkoutFieldValues'
+  })),
+
+  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'newsletterPreferences'
+  }))
 }
 
 global.db = Vue.prototype.$db // localForage instance
