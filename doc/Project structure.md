@@ -9,17 +9,17 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
 * `core` - Vue Storefront core (don't update on your project if you want to receive core updates) - now we are moving most from `src` to `core`
   * `api`
   * `components` Vue Storefront core components (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
+  * `filters` - Global Vue filters for the project
+  * `helpers` - Global methods for the project
   * `resource` - Data mocks used to develop new features
-* `src` - Main project folder containing Vue Storefront core and themes.
+  * `router` - Core Vue Router instance - just basic setup
+  * `store` - Core Vuex stores (see: [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md))
+* `src` - Main project folder containing Vue Storefront core and themes. Now we are moving core to `/core` dir.
   * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json
   * `plugins` - Core plugins (see: [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20plugins.md))
   * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (docs under construction)
-  * `filters` - Global Vue filters for the project
-  * `helpers` - Global methods for the project
   * `lib` - Core libraries allowing functionalities like theme support, extensions or filters (this one will be moved to other place soon)
   * `mixins` - Global mixins for the project
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
   * `pages` - Vue Storefront core pages (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
-  * `router` - Core Vue Router instance - just basic setup
-  * `store` - Core Vuex stores (see: [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md))
   * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md))
