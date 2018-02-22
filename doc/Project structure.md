@@ -20,6 +20,6 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `store` - Core Vuex stores (see: [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md))
 * `src` - Main project folder containing Vue Storefront core and themes. Now we are moving core to `/core` dir.
   * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json
-  * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (docs under construction)
+  * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
   * `lib` - Core libraries allowing functionalities like theme support, extensions or filters (this one will be moved to other place soon)
   * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md))
