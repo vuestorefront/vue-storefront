@@ -1,2 +1,2 @@
-build/*.js
+core/build/*.js
 src/service-worker-ext.js

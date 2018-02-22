@@ -22,7 +22,7 @@ if (isProd) {
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
-  require(resolve('build/dev-server'))(app, (bundle, template) => {
+	require(resolve('./core/build/dev-server'))(app, (bundle, template) => {
     renderer = createRenderer(bundle, template)
   })
 }
@@ -42,7 +42,7 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 }, options))
 
-const theme = require(resolve('build/config.json')).theme
+const theme = require(resolve('./core/build/config.json')).theme
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve('src/assets', true))

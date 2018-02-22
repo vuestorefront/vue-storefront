@@ -2,12 +2,12 @@
 
 Below you can find the Vue Storefront project structure. We are using [vue-cli](https://github.com/vuejs/vue-cli) with [webpack template](https://github.com/vuejs-templates/webpack) as out base.
 
-* `build/` -  It contains `config.json` generated from files in `/config` folder and webpack build,. Its made from vue-cli webpack tempate ([see docs](http://vuejs-templates.github.io/webpack/structure.html)).
 * `config/` - Config files for vue storefront. They're used to define backend addreses, current theme etc.
   * `default.json` - Default config tempalte which should never be changed. If you want to make some changes in config create `local.json` file in the same folder, copy the content and make changes here. Default `config.json` will be overwritten by `local.json` for your setup.
 * `doc` - Project documentation
 * `core` - Vue Storefront core (don't update on your project if you want to receive core updates) - now we are moving most from `src` to `core`
   * `api`
+  * `build/` -  It contains `config.json` generated from files in `/config` folder and webpack build,. Its made from vue-cli webpack tempate ([see docs](http://vuejs-templates.github.io/webpack/structure.html)).
   * `components` Vue Storefront core components (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `filters` - Global Vue filters for the project
   * `helpers` - Global methods for the project
