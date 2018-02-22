@@ -2,7 +2,7 @@ import { createApp } from './app'
 import config from 'config'
 import { execute } from 'core/api/task'
 import * as localForage from 'localforage'
-import EventBus from 'src/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
 
 require('./service-worker-registration') // register the service worker
 
