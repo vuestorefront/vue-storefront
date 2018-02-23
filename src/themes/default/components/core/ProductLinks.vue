@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 export default {
   name: 'ProductLinks',
   mixins: [coreComponent('ProductLinks')]

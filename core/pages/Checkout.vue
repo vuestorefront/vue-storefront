@@ -11,7 +11,7 @@ import Payment from 'core/components/blocks/Checkout/Payment.vue'
 import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
 import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Checkout',

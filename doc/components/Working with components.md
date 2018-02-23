@@ -16,7 +16,7 @@ To inherit from core component:
 
 2. <strong>Import coreComponent module.</strong>
 ```javascript
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 ```
 3. <strong>Add core components mixin to your newly created theme component</strong>.
 ```javascript
@@ -32,7 +32,7 @@ From now you can access and override all methods, data and components from core 
 
 Inheritance in pages works exactly like in other components. The only difference is that insted of importing `coreComponent` you shoould import `corePage`:
 ```javascript
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 
 export default {
   ...

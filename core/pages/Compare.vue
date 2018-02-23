@@ -13,7 +13,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import Meta from 'src/lib/meta'
+import Meta from 'core/lib/meta'
 
 export default {
   name: 'Compare',

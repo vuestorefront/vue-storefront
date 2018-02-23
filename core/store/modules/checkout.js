@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import EventBus from 'core/plugins/event-bus'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 const store = {
   namespaced: true,

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 import builder from 'bodybuilder'
 
 // Base components overwrite
