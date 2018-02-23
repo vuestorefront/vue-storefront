@@ -7,7 +7,7 @@ const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const path = require('path')
 
 const theme = require('../build/config.json').theme
-const themeRoot = '../src/themes/' + theme + '/'
+const themeRoot = '../../src/themes/' + theme + '/'
 
 const config = merge(base, {
   resolve: {
