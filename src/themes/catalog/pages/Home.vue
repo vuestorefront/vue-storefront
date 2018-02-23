@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import Meta from 'src/lib/meta'
+import Meta from 'core/lib/meta'
 import builder from 'bodybuilder'
 import Search from 'theme/components/theme/Search'
 import CategoryTile from 'theme/components/core/CategoryTile'
