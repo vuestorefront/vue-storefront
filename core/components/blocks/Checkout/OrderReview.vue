@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 export default {
   name: 'OrderReview',
   props: {

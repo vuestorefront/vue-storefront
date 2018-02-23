@@ -24,7 +24,7 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import { Carousel, Slide } from 'vue-carousel'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
 

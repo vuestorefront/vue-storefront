@@ -1,4 +1,4 @@
-import { translations } from 'lib/themes'
+import { translations } from 'core/lib/themes'
 import VueI18n from 'vue-i18n'
 import config from 'config'
 import Vue from 'vue'

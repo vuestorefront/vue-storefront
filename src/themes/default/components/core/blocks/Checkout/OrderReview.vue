@@ -82,7 +82,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'

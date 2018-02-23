@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
@@ -52,7 +52,7 @@ export default {
   components: {
     ProductTile
   },
-  mixins: [coreComponent('core/blocks/SearchPanel/SearchPanel')]
+  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
 }
 </script>
 

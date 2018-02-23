@@ -5,8 +5,8 @@ const fs = require('fs')
 fs.writeFileSync(path.resolve(__dirname, './config.json'), JSON.stringify(config))
 
 const vueConfig = require('./vue-loader.config')
-
 const theme = require('./config.json').theme
+
 const themeComponents = '../../src/themes/' + theme + '/components'
 const themePages = '../../src/themes/' + theme + '/pages'
 const themePlugins = '../../src/themes/' + theme + '/plugins'
@@ -26,7 +26,7 @@ module.exports = {
     alias: {
       // Main aliases
       config: path.resolve(__dirname, './config.json'),
-      lib: path.resolve(__dirname, '../../src/lib'),
+      lib: path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
       'src': path.resolve(__dirname, '../../src'),
       'assets': path.resolve(__dirname, '../../src/assets'),
       'themes': path.resolve(__dirname, '../../src/themes/' + theme),
@@ -37,13 +37,14 @@ module.exports = {
       'core/resource': path.resolve(__dirname, '../resource'),
       'core/plugins': path.resolve(__dirname, '../plugins'),
       'core/api': path.resolve(__dirname, '../api'),
-      'core/lib': path.resolve(__dirname, '../../src/lib'),
+      'core/lib': path.resolve(__dirname, '../lib'),
       'core/helpers': path.resolve(__dirname, '../helpers'),
       'core/filters': path.resolve(__dirname, '../filters'),
       'core/models': path.resolve(__dirname, '../models'),
       'core/router': path.resolve(__dirname, '../router'),
       'core/store': path.resolve(__dirname, '../store'),
       'core/mixins': path.resolve(__dirname, '../mixins'),
+      'core/assets': path.resolve(__dirname, '../assets'),
       // Theme aliases
       'theme/resource': path.resolve(__dirname, themeResources),
       'theme/components': path.resolve(__dirname, themeComponents),

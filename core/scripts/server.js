@@ -45,9 +45,19 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
 const theme = require(resolve('./core/build/config.json')).theme
 
 app.use('/dist', serve('./dist', true))
+app.use('/assets', serve('./core/assets', true))
+app.use('/assets', serve('./src/themes/' + theme + '/assets', true))
+app.use(favicon(resolve('./core/assets/logo.png')))
+
+<<<<<<< HEAD:core/scripts/server.js
 app.use('/assets', serve('./src/assets', true))
 app.use('/assets', serve('./src/themes/' + theme + '/assets', true))
 app.use(favicon(resolve('./src/assets/logo.png')))
+=======
+app.use('/assets', serve(path.resolve(__dirname, 'core/assets'), true))
+app.use('/assets', serve(path.resolve(__dirname, 'src/themes/' + theme + '/assets'), true))
+app.use(favicon(path.resolve(__dirname, 'core/assets/logo.png')))
+>>>>>>> master:server.js
 app.use('/service-worker.js', serve('./dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))

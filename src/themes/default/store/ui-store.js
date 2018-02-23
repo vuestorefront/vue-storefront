@@ -1,4 +1,4 @@
-import { coreStore, extendStore } from 'lib/themes'
+import { coreStore, extendStore } from 'core/lib/themes'
 
 const state = {
   submenu: {

@@ -319,7 +319,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 

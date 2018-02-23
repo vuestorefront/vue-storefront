@@ -3,7 +3,7 @@ import _ from 'lodash'
 import EventBus from 'core/plugins/event-bus'
 import config from 'config'
 import rootStore from '../'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 const CART_PULL_INTERVAL_MS = 5000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 5000
