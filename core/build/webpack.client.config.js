@@ -110,7 +110,7 @@ if (process.env.NODE_ENV === 'production') {
 const configSW = merge({}, base); // this is basicaly a work-around to compile the service workers extensions as they are not included nowhere but in service worker only
 
 configSW.entry =  {
-  'service-worker-ext': themeRoot + 'service-worker-ext.js',
+  'service-worker-ext': 'src/themes/' + theme + '/service-worker-ext.js',
 }
 configSW.output =  {
   path: path.resolve(__dirname, '../../dist'),
