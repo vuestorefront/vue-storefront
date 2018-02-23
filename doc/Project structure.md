@@ -11,6 +11,7 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `components` Vue Storefront core components (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `filters` - Global Vue filters for the project
   * `helpers` - Global methods for the project
+  * `lib` - Core libraries allowing functionalities like theme support, extensions or filters 
   * `mixins` - Global mixins for the project
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
   * `pages` - Vue Storefront core pages (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
@@ -21,5 +22,7 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
 * `src` - Main project folder containing Vue Storefront core and themes. Now we are moving core to `/core` dir.
   * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json
   * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
-  * `lib` - Core libraries allowing functionalities like theme support, extensions or filters (this one will be moved to other place soon)
   * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md))
+   * `default` - Default VS theme always with newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
+   * `theme-starter` - boilerplate for developing VS theme fromscratch. It includes multilanguage support ([vue-i18n](https://github.com/kazupon/vue-i18n), theme-specific plugins support, SCSS compilation and routing.
+   * `catalog` - VS catalog theme - currently in alpha
