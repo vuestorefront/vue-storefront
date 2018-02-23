@@ -6,7 +6,8 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `default.json` - Default config tempalte which should never be changed. If you want to make some changes in config create `local.json` file in the same folder, copy the content and make changes here. Default `config.json` will be overwritten by `local.json` for your setup.
 * `doc` - Project documentation
 * `core` - Vue Storefront core (don't update on your project if you want to receive core updates) - now we are moving most from `src` to `core`
-  * `api`
+  * `api` - Will be merged to `/lib`
+  * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json, eventually will be removed and moved to themes
   * `build/` -  It contains `config.json` generated from files in `/config` folder and webpack build,. Its made from vue-cli webpack tempate ([see docs](http://vuejs-templates.github.io/webpack/structure.html)).
   * `components` Vue Storefront core components (see: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `filters` - Global Vue filters for the project
@@ -20,9 +21,8 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `router` - Core Vue Router instance - just basic setup
   * `store` - Core Vuex stores (see: [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md))
 * `src` - Main project folder containing Vue Storefront core and themes. Now we are moving core to `/core` dir.
- * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json
- * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
- * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)).
+  * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
+  * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)).
    - `default` - Default VS theme always with newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
    - `theme-starter` - boilerplate for developing VS theme fromscratch. It includes multilanguage support ([vue-i18n](https://github.com/kazupon/vue-i18n), theme-specific plugins support, SCSS compilation and routing.
    - `catalog` - VS catalog theme - currently in alpha
