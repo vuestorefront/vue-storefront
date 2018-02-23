@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
 import config from 'config'
 import bodybuilder from 'bodybuilder'
-import { quickSearchByQuery } from 'core/api/search'
+import { quickSearchByQuery } from 'core/lib/search'
 import { entityKeyName } from 'core/lib/entities'
 import { optionLabel } from 'core/store/modules/attribute'
 import { breadCrumbRoutes } from 'core/helpers'

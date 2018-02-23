@@ -1,6 +1,8 @@
 'use strict'
 
 /*
+Service worker extensions for theme STARTER
+
 Add your own Service worker code here - for example using sw-toolbox library:
 
 toolbox.router.get("/", toolbox.cacheFirst, {});

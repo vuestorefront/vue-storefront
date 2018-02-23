@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import * as entities from 'core/lib/entities'
-import { execute as taskExecute } from 'core/api/task'
+import { execute as taskExecute } from 'core/lib/task'
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
 import * as localForage from 'localforage'
