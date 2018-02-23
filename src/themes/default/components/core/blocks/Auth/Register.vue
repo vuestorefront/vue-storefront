@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">
-        {{ $t('Register') }}
-      </h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
+      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+      {{ $t('Register') }}
+    </header>
+
+    <div class="modal-content pt30 pb60 px65 c-gray-secondary">
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
           <input
@@ -95,7 +95,7 @@
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email, sameAs } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -139,6 +139,9 @@ export default {
     }
   },
   methods: {
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'login')
     },
@@ -178,7 +181,7 @@ export default {
             message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
-          this.$store.commit('ui/setSignUp', false)
+          this.close()
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')

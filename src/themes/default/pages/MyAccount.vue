@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'

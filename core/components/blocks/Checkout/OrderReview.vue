@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 export default {
   name: 'OrderReview',
   props: {
@@ -27,7 +27,7 @@ export default {
       if (this.$store.state.checkout.personalDetails.createAccount) {
         this.register()
       } else {
-        this.$bus.$emit('checkout.placeOrder')
+        this.$bus.$emit('checkout-before-placeOrder')
       }
     },
     register () {
@@ -52,8 +52,8 @@ export default {
             message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
-          this.$store.commit('ui/setSignUp', false)
-          this.$bus.$emit('checkout.placeOrder', result.result.id)
+          this.$bus.$emit('modal-hide', 'modal-signup')
+          this.$bus.$emit('checkout-before-placeOrder', result.result.id)
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')

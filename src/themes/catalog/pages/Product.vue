@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import ProductAttribute from 'theme/components/core/blocks/Product/ProductAttribute'

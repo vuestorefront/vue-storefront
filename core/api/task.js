@@ -1,5 +1,5 @@
-import EventBus from '../../src/plugins/event-bus'
-import i18n from 'lib/i18n'
+import EventBus from 'core/plugins/event-bus'
+import i18n from 'core/lib/i18n'
 import fetch from 'node-fetch'
 
 export function execute (task, currentToken = null, currentCartId = null) {

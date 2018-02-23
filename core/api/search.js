@@ -1,6 +1,6 @@
 import config from 'config'
 import _ from 'lodash'
-import { slugify } from '../../src/helpers'
+import { slugify } from 'core/helpers'
 import hash from 'object-hash'
 
 let es = require('elasticsearch')

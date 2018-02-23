@@ -2,7 +2,7 @@ import { createApp } from './app'
 import config from 'config'
 import { execute } from 'core/api/task'
 import * as localForage from 'localforage'
-import EventBus from 'src/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
 
 require('./service-worker-registration') // register the service worker
 
@@ -204,7 +204,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
  * Process order queue when we're back onlin
  */
 function checkiIsOnline () {
-  EventBus.$emit('network.status', { online: navigator.onLine })
+  EventBus.$emit('network-before-checkStatus', { online: navigator.onLine })
   console.log('Are we online: ' + navigator.onLine)
 
   if (typeof navigator !== 'undefined' && navigator.onLine) {

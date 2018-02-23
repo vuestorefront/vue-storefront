@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import { mapState } from 'vuex'
 
 import Logo from '../../Logo.vue'
@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     gotoAccount () {
-      this.$store.commit('ui/setSignUp', !this.isOpenLogin)
+      this.$bus.$emit('modal-toggle', 'modal-signup')
     }
   },
   components: {

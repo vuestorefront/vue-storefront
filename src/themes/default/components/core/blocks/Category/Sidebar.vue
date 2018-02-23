@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import ColorButton from '../../ColorButton.vue'
 import SizeButton from '../../SizeButton.vue'

@@ -18,7 +18,7 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('checkout.personalDetails', (receivedData) => {
+    this.$bus.$on('checkout-after-personalDetails', (receivedData) => {
       if (!this.isFilled) {
         this.$store.dispatch('checkout/updatePropValue', ['firstName', receivedData.firstName])
         this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
@@ -51,12 +51,12 @@ export default {
   },
   methods: {
     sendDataToCheckout () {
-      this.$bus.$emit('checkout.shipping', this.shipping, this.$v)
+      this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        this.$bus.$emit('checkout.edit', 'shipping')
+        this.$bus.$emit('checkout-before-edit', 'shipping')
         this.isFilled = false
       }
     },

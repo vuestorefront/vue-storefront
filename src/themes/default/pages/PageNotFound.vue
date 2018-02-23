@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {

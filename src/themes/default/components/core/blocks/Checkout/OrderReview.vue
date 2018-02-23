@@ -39,7 +39,7 @@
                 <div class="checkboxText ml15 lh25 pointer">
                   <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
                     {{ $t('I agree to') }}
-                    <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">
+                    <span class="link pointer" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">
                       {{ $t('Terms and conditions') }}
                     </span>
                   </span>
@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <modal name="modal-terms" static="terms">
+    <modal name="modal-terms" static-data="terms">
       <p slot="header">
         {{ $t('Terms and conditions') }}
       </p>
@@ -82,7 +82,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
