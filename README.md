@@ -35,6 +35,10 @@ Try out our open demo and if you like it **first give us some star on Github ★
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
 
+## Roadmap
+We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
+[See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones)
+
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
 
