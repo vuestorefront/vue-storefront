@@ -23,9 +23,8 @@
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./core/scripts/server",
-    "installer": "node installer",
-    "all": "node all",
-    "fixconfigs": "node fixconfigs.js",
+    "installer": "node ./core/scripts/installer",
+    "all": "node ./core/scripts/all",
     "dev": "node ./core/scripts/server",
     "dev:inspect": "node --inspect ./core/scripts/server",
     "build:client": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.client.config.js --progress --hide-modules",
