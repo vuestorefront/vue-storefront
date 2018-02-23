@@ -35,7 +35,7 @@ export default {
       this.$store.dispatch('wishlist/removeItem', this.product)
     }
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Product')]
+  mixins: [coreComponent('blocks/Wishlist/Product')]
 }
 </script>
 
