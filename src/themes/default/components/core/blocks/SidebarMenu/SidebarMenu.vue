@@ -71,14 +71,14 @@
 
 <script>
 import { mapState } from 'vuex'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import AccountIcon from '../Header/AccountIcon.vue'
 import SearchIcon from '../Header/SearchIcon.vue'
 import WishlistIcon from '../Header/WishlistIcon.vue'
 import CompareIcon from '../Header/CompareIcon.vue'
 import SubBtn from './SubBtn.vue'
 import SubCategory from './SubCategory.vue'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   mixins: [coreComponent('blocks/SidebarMenu/SidebarMenu')],

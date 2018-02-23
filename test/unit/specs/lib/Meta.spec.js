@@ -8,7 +8,7 @@ import Static from 'src/themes/default/pages/Static.vue'
 Vue.use(Vuex)
 Vue.use(VueRouter)
 
-describe('lib/meta.js', () => {
+describe('core/lib/meta.js', () => {
   it('Test meta tags passed by meta component object', (done) => {
     new Vue({
       template: '<div></div>',

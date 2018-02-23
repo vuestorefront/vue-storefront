@@ -15,7 +15,7 @@ import Breadcrumbs from 'core/components/Breadcrumbs.vue'
 import { optionLabel } from 'core/store/modules/attribute'
 import EventBus from 'core/plugins/event-bus'
 import _ from 'lodash'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 function filterChanged (filterOption) { // slection of product variant on product page
   if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string

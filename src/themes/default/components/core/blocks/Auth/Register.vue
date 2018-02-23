@@ -95,7 +95,7 @@
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email, sameAs } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
