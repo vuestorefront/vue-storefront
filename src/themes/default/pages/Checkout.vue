@@ -35,7 +35,7 @@ import Payment from 'theme/components/core/blocks/Checkout/Payment.vue'
 import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage.vue'
-import Meta from 'src/lib/meta'
+import Meta from 'core/lib/meta'
 
 export default {
   meta () {

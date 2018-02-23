@@ -26,7 +26,7 @@ module.exports = {
     alias: {
       // Main aliases
       config: path.resolve(__dirname, './config.json'),
-      lib: path.resolve(__dirname, '../../src/lib'),
+      lib: path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
       'src': path.resolve(__dirname, '../../src'),
       'assets': path.resolve(__dirname, '../../src/assets'),
       'themes': path.resolve(__dirname, '../../src/themes/' + theme),

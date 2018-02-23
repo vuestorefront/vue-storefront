@@ -28,7 +28,7 @@
 
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs'
-import Meta from 'src/lib/meta'
+import Meta from 'core/lib/meta'
 import staticContent from 'theme/components/theme/StaticContent'
 import i18n from 'core/lib/i18n'
 

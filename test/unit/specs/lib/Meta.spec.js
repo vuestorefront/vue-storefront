@@ -2,7 +2,7 @@ import Vue from 'vue/dist/vue.common.js'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex/dist/vuex.js'
 import store from 'src/store'
-import Meta from 'src/lib/meta'
+import Meta from 'core/lib/meta'
 import Static from 'src/themes/default/pages/Static.vue'
 
 Vue.use(Vuex)

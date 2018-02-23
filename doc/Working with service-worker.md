@@ -21,7 +21,7 @@ After changing anything to `service-worker-ext.js`, despite you're in `npm run d
 
 # Communication with the app
 
-Application can speak to service worker using the event buss - and only doing so. Please take a look at `/src/lib/sw.js` where we have following method:
+Application can speak to service worker using the event buss - and only doing so. Please take a look at `/core/lib/sw.js` where we have following method:
 
 ```js
 export function postMessage (payload) {
@@ -34,7 +34,7 @@ export function postMessage (payload) {
 }
 ```
 
-It allows you to send data to service worker. For example, when the order is placed (`/src/store/modules/checkout`):
+It allows you to send data to service worker. For example, when the order is placed (`/core/store/modules/checkout`):
 
 ```js
   /**
