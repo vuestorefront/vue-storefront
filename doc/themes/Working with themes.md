@@ -16,6 +16,12 @@ To create your own theme just copy the `theme-starter` folder (it contains all f
 
 Only official themes tested and accepted by the community should be in a `master` branch. Please develop your own themes on separate branches and keep them updated wih `master` to be sure it works with the newest core.
 
+## Official Vue Storefront themes included with the template:
+
+   - `default` - Default VS theme always with newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
+   - `theme-starter` - boilerplate for developing VS theme fromscratch. It includes multilanguage support ([vue-i18n](https://github.com/kazupon/vue-i18n), theme-specific plugins support, SCSS compilation and routing.
+   - `catalog` - VS catalog theme - currently in alpha
+
 # Related
 
 * [Working with components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
