@@ -175,7 +175,7 @@ const store = {
       }
     },
     [types.CART_UPD_ITEM_PROPS] (state, { product }) {
-      let record = state.cartItems.find(p => (p.sku === product.sku || p.server_item_id === product.server_item_id))
+      let record = state.cartItems.find(p => (p.sku === product.sku || (p.server_item_id && p.server_item_id === product.server_item_id)))
       if (record) {
         record = Object.assign(record, product)
         EventBus.$emit('cart-after-itemchanged', { item: record })

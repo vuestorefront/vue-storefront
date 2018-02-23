@@ -65,7 +65,7 @@ class Manager extends installer.Manager {
    */
   static isBackendInstalledLocally () {
     if (typeof installer.Abstract.wasLocalBackendInstalled === 'undefined') {
-      let config = jsonFile.readFileSync(installer.TARGET_CONFIG_FILE)
+      let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE)
 
       installer.Abstract.wasLocalBackendInstalled = Boolean(config.install.is_local_backend)
     }
@@ -80,7 +80,7 @@ class Manager extends installer.Manager {
    */
   static getBackendDirectory () {
     if (typeof installer.Abstract.backendDir === 'undefined') {
-      let config = jsonFile.readFileSync(installer.TARGET_CONFIG_FILE)
+      let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE)
 
       installer.Abstract.backendDir = config.install.backend_dir
     }

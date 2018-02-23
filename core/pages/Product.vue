@@ -19,13 +19,13 @@ import i18n from 'core/lib/i18n'
 function filterChanged (filterOption) { // slection of product variant on product page
   EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
 
+  console.log(filterOption)
+
   this.configuration[filterOption.attribute_code] = filterOption
   this.$store.dispatch('product/configure', {
     product: this.product,
     configuration: this.configuration
   }).then((selectedVariant) => {
-    EventBus.$emit('product-after-configure', { filterOption: filterOption, selectedVariant: selectedVariant, configuration: this.configuration })
-
     if (!selectedVariant) {
       this.$bus.$emit('notification', {
         type: 'warning',
@@ -147,6 +147,7 @@ export default {
       loadData({ store: this.$store, route: this.$route }).then((res) => {
         inst.loading = false
         stateCheck.bind(this)()
+        this.$bus.$on('filter-changed-product', filterChanged.bind(this))
       })
     },
     addToFavorite () {
