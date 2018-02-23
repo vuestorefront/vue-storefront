@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { quickSearchByQuery } from 'core/lib/api/search'
+import { quickSearchByQuery } from 'core/lib/search'
 import { entityKeyName } from 'core/lib/entities'
 import builder from 'bodybuilder'
 
