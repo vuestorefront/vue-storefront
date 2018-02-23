@@ -44,6 +44,7 @@ module.exports = {
       'core/router': path.resolve(__dirname, '../router'),
       'core/store': path.resolve(__dirname, '../store'),
       'core/mixins': path.resolve(__dirname, '../mixins'),
+      'core/assets': path.resolve(__dirname, '../assets'),
       // Theme aliases
       'theme/resource': path.resolve(__dirname, themeResources),
       'theme/components': path.resolve(__dirname, themeComponents),
