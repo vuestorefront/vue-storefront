@@ -20,9 +20,9 @@ Below you can find the Vue Storefront project structure. We are using [vue-cli](
   * `router` - Core Vue Router instance - just basic setup
   * `store` - Core Vuex stores (see: [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md))
 * `src` - Main project folder containing Vue Storefront core and themes. Now we are moving core to `/core` dir.
-  * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json
-  * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
-  * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md))
-   * `default` - Default VS theme always with newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
-   * `theme-starter` - boilerplate for developing VS theme fromscratch. It includes multilanguage support ([vue-i18n](https://github.com/kazupon/vue-i18n), theme-specific plugins support, SCSS compilation and routing.
-   * `catalog` - VS catalog theme - currently in alpha
+ * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json
+ * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
+ * `themes` - Vue Storefront core themes. You can change the active theme in `config/` folder. (see: [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)).
+   - `default` - Default VS theme always with newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
+   - `theme-starter` - boilerplate for developing VS theme fromscratch. It includes multilanguage support ([vue-i18n](https://github.com/kazupon/vue-i18n), theme-specific plugins support, SCSS compilation and routing.
+   - `catalog` - VS catalog theme - currently in alpha
