@@ -2,7 +2,7 @@
 
 Product Store is designed to handle all actions related the product data. Loading the list of products or single product as well as configuring the configurable products and managing the products attachments.
 
-This module works pretty tightly with Elastic Search and operates on the [Product data format](../ElasticSearch data formats,md)
+This module works pretty tightly with Elastic Search and operates on the [Product data format](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
 
 ## State
 
