@@ -11,4 +11,11 @@
   }
 }
 
-@include color;
+@include color; // @todo remove after refactore
+
+// Generate colors selectors .cl-{#name-of-color}
+@include color-selectors(map_merge($colors, $colors-basic), 'cl', 'color');
+
+// Generate background-color selectors .bg-{#name-of-color}
+@include color-selectors($colors-background, 'bg', 'background-color');
+@include color-selectors($colors, 'bg-cl', 'background-color');

@@ -1,0 +1,56 @@
+// Colors
+// ======
+// @LandonSchropp's approach of naming color variables.
+// - http://davidwalsh.name/sass-color-variables-dont-suck
+// - http://www.color-blindness.com/color-name-hue/
+
+// General colors palette
+$colors: (
+  transparent: transparent,
+  black: #000,
+  white: #fff,
+  white-smoke: #f2f2f2, // lightgray @todo remove these comments after refactore
+  gainsboro: #e0e0e0, // alto
+  silver: #bdbdbd, // lightgray-secondary
+  gray: #828282, // gray-secondary
+  suva-gray: #8e8e8e, // gray
+  matterhorn: #4f4f4f, // emperor
+  night-rider: #333, // darkgray
+  burnt-sienna: #eb5757, // red
+  buccaneer: #755, // russet
+  forest-green: #308c14, // la-palma
+  puerto-rico: #4dba87 // ocean-green
+);
+
+// Theme generic colors
+// Key: name of color
+// Value: color value or map with default, hover, focus color values
+$colors-basic: (
+  primary: (
+    default: map-get($colors, matterhorn),
+    hover: map-get($colors, night-rider)
+  ),
+  secondary: (
+    default: map-get($colors, gray),
+    hover: map-get($colors, matterhorn),
+  ),
+  accent: (
+    default: map-get($colors, night-rider),
+    hover: map-get($colors, black),
+  ),
+  error: map-get($colors, burnt-sienna),
+  success: map-get($colors, puerto-rico)
+);
+
+// Theme generic background colors
+$colors-background: (
+  primary: (
+    default: map-get($colors, white),
+    hover: map-get($colors, silver)
+  ),
+  secondary: (
+    default: map-get($colors, white-smoke),
+    hover: map-get($colors, gainsboro)
+  )
+);
+
