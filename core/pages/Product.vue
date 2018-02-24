@@ -101,8 +101,12 @@ function loadData ({ store, route }) {
     store.dispatch('product/reset').then(() => {
       fetchData(store, route).then((subpromises) => {
         Promise.all(subpromises).then(subresults => {
-          EventBus.$emit('product-after-load', { store: store, route: route })
-          return resolve()
+          EventBus.$emitFilter('product-after-load', { store: store, route: route }).then((results) => {
+            return resolve()
+          }).catch((err) => {
+            console.error(err)
+            return resolve()
+          })
         }).catch(errs => {
           console.error(errs)
           return resolve()

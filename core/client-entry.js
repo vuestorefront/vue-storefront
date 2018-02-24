@@ -4,7 +4,7 @@ import { execute } from 'core/lib/task'
 import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
 
-require('core/service-worker-registration') // register the service worker
+require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
 global.isSSR = false

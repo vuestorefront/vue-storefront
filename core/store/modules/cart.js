@@ -151,32 +151,40 @@ const store = {
     [types.CART_ADD_ITEM] (state, { product }) {
       const record = state.cartItems.find(p => p.sku === product.sku)
       if (!record) {
-        state.cartItems.push({
+        let item = {
           ...product,
           qty: product.qty ? product.qty : 1
-        })
+        }
+        EventBus.$emit('cart-before-add', { product: item })
+        state.cartItems.push(item)
       } else {
         record.qty += (product.qty ? product.qty : 1)
       }
     },
     [types.CART_SAVE] (state) {
+      EventBus.$emit('cart-before-save', { items: state.cartItems })
       state.cartSavedAt = new Date()
     },
     [types.CART_DEL_ITEM] (state, { product }) {
+      EventBus.$emit('cart-before-delete', { items: state.cartItems })
       state.cartItems = state.cartItems.filter(p => p.sku !== product.sku)
+      EventBus.$emit('cart-after-delete', { items: state.cartItems })
       state.cartSavedAt = new Date()
     },
     [types.CART_UPD_ITEM] (state, { product, qty }) {
       const record = state.cartItems.find(p => p.sku === product.sku)
 
       if (record) {
+        EventBus.$emit('cart-before-update', { product: record })
         record.qty = qty
+        EventBus.$emit('cart-after-update', { product: record })
         state.cartSavedAt = new Date()
       }
     },
     [types.CART_UPD_ITEM_PROPS] (state, { product }) {
       let record = state.cartItems.find(p => (p.sku === product.sku || (p.server_item_id && p.server_item_id === product.server_item_id)))
       if (record) {
+        EventBus.$emit('cart-before-itemchanged', { item: record })
         record = Object.assign(record, product)
         EventBus.$emit('cart-after-itemchanged', { item: record })
       }
@@ -203,6 +211,7 @@ const store = {
       state.itemsAfterPlatformTotals = itemsAfterTotals
       state.platformTotals = totals
       state.platformTotalSegments = platformTotalSegments
+      EventBus.$emit('cart-after-updatetotals', { platformTotals: totals, platformTotalSegments: platformTotalSegments })
     }
   },
   getters: {
