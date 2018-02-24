@@ -466,15 +466,15 @@ const actions = {
           const cachedProduct = setupProduct(res)
           if (config.products.alwaysSyncPlatformPricesOver) {
             doPlatformPricesSync([cachedProduct]).then((products) => {
-              EventBus.$emit('product-after-single', { key: key, options: options, product: products[0] })
+              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
               resolve(products[0])
             })
             if (!config.products.waitForPlatformSync) {
-              EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })
+              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
           } else {
-            EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })
+            EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
             resolve(cachedProduct)
           }
         } else {
@@ -485,7 +485,7 @@ const actions = {
             prefetchGroupProducts: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
-              EventBus.$emit('product-after-single', { key: key, options: options, product: res.items[0] })
+              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
               resolve(setupProduct(res.items[0]))
             } else {
               reject(Error('Product query returned empty result'))

@@ -213,6 +213,7 @@ export default {
           self.$router.push('/')
         } else {
           self.fetchData({store: store, route: route})
+          EventBus.$emitFilter('category-after-load', { store: store, route: route })
         }
       })
     }
@@ -233,7 +234,13 @@ export default {
             filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, ofset: 0, pageSize: 50, filters: defaultFilters }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
-                return resolve()
+
+                EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
+                  return resolve()
+                }).catch((err) => {
+                  console.error(err)
+                  return resolve()
+                })
               })
             })
           }).catch(err => {
