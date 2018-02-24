@@ -5,8 +5,8 @@ All data processing and remote requests should be managed by Vuex data stores. C
 One can modify the existing store actions by responding to events. The events are specified in the docs below and can be easily found in the [core module](https://github.com/DivanteLtd/vue-storefront/tree/master/core) - where `EventBus.$emit` has been used mostly in Vuex Actions.
 
 ## Vuex modules
- * [Product](Product Store.md)
- * [Category](Category Store.md)
+ * [Product](Product%20Store.md)
+ * [Category](Category%20Store.md)
  * ...
  
  ## Related
