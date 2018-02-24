@@ -23,10 +23,12 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
 EventBus.$on('user-before-logout', () => {
   rootStore.dispatch('cart/clear', {}, { root: true })
   rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
+  rootStore.dispatch('cart/getPaymentMethods')
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
   rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
+  rootStore.dispatch('cart/getPaymentMethods')
 })
 
 EventBus.$on('servercart-after-totals', (event) => { // example stock check callback
@@ -140,7 +142,7 @@ const store = {
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: { cost: 0, code: '' },
-    payment: { cost: 0, code: '' },
+    payment: [],
     cartItems: [] // TODO: check if it's properly namespaced
   },
   mutations: {
@@ -203,6 +205,9 @@ const store = {
       state.itemsAfterPlatformTotals = itemsAfterTotals
       state.platformTotals = totals
       state.platformTotalSegments = platformTotalSegments
+    },
+    [types.CART_UPD_PAYMENT] (state, { paymentMethods }) {
+      state.payment = paymentMethods
     }
   },
   getters: {
@@ -211,7 +216,7 @@ const store = {
         return state.platformTotalSegments
       } else {
         let shipping = state.shipping
-        let payment = state.payment
+        let payment = state.payment[0]
         return [
           {
             code: 'subtotalInclTax',
@@ -223,7 +228,7 @@ const store = {
           {
             code: 'payment',
             title: i18n.t(payment.name),
-            value: payment.costInclTax
+            value: null
           },
           {
             code: 'shipping',
@@ -234,7 +239,7 @@ const store = {
             code: 'grand_total',
             title: i18n.t('Grand total'),
             value: _.sumBy(state.cartItems, (p) => {
-              return p.qty * p.priceInclTax + shipping.costInclTax + payment.costInclTax
+              return p.qty * p.priceInclTax + shipping.costInclTax
             })
           }
         ]
@@ -488,6 +493,25 @@ const store = {
     },
     changeShippingMethod ({ commit }, { shippingMethod, shippingCost }) {
       commit(types.CART_UPD_SHIPPING, { shippingMethod, shippingCost })
+    },
+    getPaymentMethods (context) {
+      if (config.cart.synchronize_totals) {
+        context.dispatch('sync/execute', { url: config.cart.paymentmethods_endpoint, // sync the cart
+          payload: {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          }
+        }, { root: true }).then(paymentMethods => {
+          // eslint-disable-next-line no-useless-return
+          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+          console.log(paymentMethods)
+          // context.commit(types.CART_UPD_PAYMENT, paymentMethods)
+          return
+        }).catch(e => {
+          console.log('прогон в холостую', e)
+        })
+      }
     }
   }
 }

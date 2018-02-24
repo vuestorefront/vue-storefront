@@ -66,7 +66,6 @@ const actions = {
             if (err) {
               console.error(err)
             }
-
             taskExecute(task, currentToken, currentCartId).then((result) => {
               resolve(result)
             }).catch(err => {

@@ -11,7 +11,7 @@
           <div class="col-xs c-darkgray">
             {{ segment.title }}
           </div>
-          <div class="col-xs align-right c-darkgray h4">
+          <div v-if="segment.value" class="col-xs align-right c-darkgray h4">
             {{ segment.value | price }}
           </div>
         </div>
