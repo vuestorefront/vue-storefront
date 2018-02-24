@@ -68,7 +68,7 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### Data in Vue Storefront
 * [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
-* [Working with Vuex](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/Working%20with%Vuex.md)
+* [Working with Vuex](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/Working%20with%20Vuex.md)
 * [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
 
 ### Integrations
