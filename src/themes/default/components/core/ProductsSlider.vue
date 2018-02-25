@@ -37,8 +37,8 @@
 
 <script>
 import { coreComponent } from 'core/lib/themes'
-import NoSSR from 'vue-no-ssr'
-import { Carousel, Slide } from 'vue-carousel'
+import NoSSR from 'theme/node_modules/vue-no-ssr'
+import { Carousel, Slide } from 'theme/node_modules/vue-carousel'
 import ProductTile from 'theme/components/core/ProductTile.vue'
 
 export default {

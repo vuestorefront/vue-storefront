@@ -13,6 +13,7 @@ const themePlugins = '../../src/themes/' + theme + '/plugins'
 const themeResources = '../../src/themes/' + theme + '/resource'
 const themeCSS = '../../src/themes/' + theme + '/css'
 const themeApp = '../../src/themes/' + theme + '/App.vue'
+const themeNodeModules = '../../src/themes/' + theme + '/node_modules'
 
 module.exports = {
   devtool: '#source-map',
@@ -52,7 +53,8 @@ module.exports = {
       'theme/pages': path.resolve(__dirname, themePages),
       'theme/plugins': path.resolve(__dirname, themePlugins),
       'theme/css': path.resolve(__dirname, themeCSS),
-      'theme/app': path.resolve(__dirname, themeApp)
+      'theme/app': path.resolve(__dirname, themeApp),
+      'theme/node_modules': path.resolve(__dirname, themeNodeModules)
     }
   },
   output: {
