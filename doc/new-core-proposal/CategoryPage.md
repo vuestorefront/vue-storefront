@@ -7,7 +7,6 @@
 ### Props
 No props
 ### Data
-<b> `fetchDefaultData` -  in every page that fetches data we should add this property set to true by default so user can choose if he want to dispatch default actions or choose his own </b>
 
 `pagination` - an object that defines two settings:
 1. <s>`number` of product items to load per page, currently set to 50 </s> change name to 'perPage`
@@ -34,16 +33,12 @@ No props
 
 <b>`productsCounter` - how many products are in the category</b>
 ### Methods
-`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  //  make it available to call in async data from methods, we should move asyncData, fetchData and filterData bodies to one method fetchData() 
+`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  //  make it optional, should be outside of the component scope
 
 **Parameters**  
  *{ store, route }* - an object consisting of the Vuex store and global router references.  
 
-`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  // should use `fetchDefaultData`
-
-
-
-
+`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  
 
 
 
@@ -52,7 +47,7 @@ No props
 ### Hooks
 #### asyncData
 Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is a list of all categories, category attributes and list of products for each category.
-// should use `fetchDefaultData`
+
 
 
 #### beforeMount
