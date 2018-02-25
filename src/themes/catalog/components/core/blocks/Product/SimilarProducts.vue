@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import builder from 'bodybuilder'
+import builder from 'theme/node_modules/bodybuilder'
 import ProductTile from 'theme/components/core/ProductTile.vue'
 
 export default {

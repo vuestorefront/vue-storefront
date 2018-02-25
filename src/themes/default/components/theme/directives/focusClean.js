@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'theme/node_modules/vue'
 
 export default Vue.directive('focus-clean', {
   inserted: function (el, binding) {

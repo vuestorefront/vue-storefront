@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'theme/node_modules/vue'
 
 export default Vue.directive('img-placeholder', {
   bind: function (el, binding) {

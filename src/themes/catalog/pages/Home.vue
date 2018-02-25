@@ -57,7 +57,7 @@
 
 <script>
 import Meta from 'core/lib/meta'
-import builder from 'bodybuilder'
+import builder from 'theme/node_modules/bodybuilder'
 import Search from 'theme/components/theme/Search'
 import CategoryTile from 'theme/components/core/CategoryTile'
 import ProductTile from 'theme/components/core/ProductTile'

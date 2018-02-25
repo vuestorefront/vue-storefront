@@ -7,7 +7,7 @@
   </span>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'theme/node_modules/vuex'
 export default {
   name: 'SubBtn',
   props: {

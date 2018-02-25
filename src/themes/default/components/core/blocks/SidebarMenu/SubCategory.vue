@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'theme/node_modules/vuex'
 import SubBtn from './SubBtn.vue'
 
 export default {
