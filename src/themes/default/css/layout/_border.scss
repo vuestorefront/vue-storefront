@@ -21,16 +21,12 @@ $border-radius: (
       border-bottom-style: solid;
     }
   }
-  @each $color, $colorcode in $colors {
-    .brdr-c-#{$color} {
-      border-color: #{$colorcode};
-    }
-  }
   @each $name, $value in $border-radius {
     .brdr-#{$name} {
       border-radius: #{$value};
     }
   }
+  @include color-selectors(map_merge($_colors, $colors-basic), 'brdr-cl', 'border-color');
 }
 
 .brdr-none {

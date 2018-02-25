@@ -5,7 +5,7 @@
 // - http://www.color-blindness.com/color-name-hue/
 
 // General colors palette
-$colors: (
+$_colors: ( // @todo change $_colors to $color after refactore
   transparent: transparent,
   black: #000,
   white: #fff,
@@ -22,6 +22,8 @@ $colors: (
   puerto-rico: #4dba87 // ocean-green
 );
 
+$colors: $_colors; // @todo remove if after refactore
+
 // Theme generic colors
 // Key: name of color
 // Value: color value or map with default, hover, focus color values
@@ -34,6 +36,16 @@ $colors-basic: (
     default: map-get($colors, gray),
     hover: map-get($colors, matterhorn),
   ),
+  bg-primary: (
+    default: map-get($colors, white),
+    hover: map-get($colors, silver)
+  ),
+  bg-secondary: (
+    default: map-get($colors, white-smoke),
+    hover: map-get($colors, gainsboro)
+  ),
+  brdr-primary: map-get($colors, silver),
+  brdr-secondary: map-get($colors, gainsboro),
   accent: (
     default: map-get($colors, night-rider),
     hover: map-get($colors, black),
@@ -41,16 +53,3 @@ $colors-basic: (
   error: map-get($colors, burnt-sienna),
   success: map-get($colors, puerto-rico)
 );
-
-// Theme generic background colors
-$colors-background: (
-  primary: (
-    default: map-get($colors, white),
-    hover: map-get($colors, silver)
-  ),
-  secondary: (
-    default: map-get($colors, white-smoke),
-    hover: map-get($colors, gainsboro)
-  )
-);
-
