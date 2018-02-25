@@ -14,7 +14,7 @@
             </p>
             <input
               ref="email"
-              class="brdr-none brdr-bottom brdr-c-lightgray-secondary border-box py10 w-100 h4 weight-200 sans-serif"
+              class="brdr-none brdr-bottom brdr-cl-brdr-primary border-box py10 w-100 h4 weight-200 sans-serif"
               type="email"
               name="email"
               v-model="email"

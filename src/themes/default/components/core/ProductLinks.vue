@@ -21,7 +21,7 @@
           </p>
           <input
             type="number"
-            class="product-qty py10 brdr-c-lightgray-secondary bg-transparent h4 weight-300"
+            class="product-qty py10 brdr-cl-brdr-primary bg-transparent h4 weight-300"
             min="1"
             autofocus
             v-model.number="productLink.product.qty"

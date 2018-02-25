@@ -1,14 +1,14 @@
 <template>
   <div class="sidebar-menu fixed mw-100 bg-lightgray" :class="{ active: isOpen }">
     <div class="row between-xs">
-      <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-c-lightgray">
+      <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-cl-bg-secondary">
         <sub-btn type="back" v-if="submenu.depth" />
         <search-icon class="p15 icon hidden-md" />
         <wishlist-icon class="p15 icon hidden-md" />
         <account-icon class="p15 icon hidden-md" />
       </div>
       <div
-        class="flex-end col-xs inline-flex pointer bg-white align-right end-xs brdr-bottom brdr-c-lightgray"
+        class="flex-end col-xs inline-flex pointer bg-white align-right end-xs brdr-bottom brdr-cl-bg-secondary"
         @click="closeMenu"
       >
         <i class="material-icons p15">close</i>
@@ -17,13 +17,13 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" class="brdr-bottom brdr-c-lightgray bg-white">
+          <li @click="closeMenu" class="brdr-bottom brdr-cl-bg-secondary bg-white">
             <router-link class="block px25 py20 c-darkgray no-underline" to="/" exact>
               {{ $t('Home') }}
             </router-link>
           </li>
           <li
-            class="brdr-bottom brdr-c-lightgray bg-white flex"
+            class="brdr-bottom brdr-cl-bg-secondary bg-white flex"
             :key="category.slug"
             @click="closeMenu"
             v-for="category in categories"
@@ -39,21 +39,21 @@
             <sub-category :category-links="category.children_data" :id="category.id"/>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/magazine" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-brdr-secondary c-darkgray no-underline" to="/magazine" exact>
               {{ $t('Magazine') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/sale" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-brdr-secondary c-darkgray no-underline" to="/sale" exact>
               {{ $t('Sale') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-c-alto c-darkgray no-underline" to="/order-tracking" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-brdr-secondary c-darkgray no-underline" to="/order-tracking" exact>
               {{ $t('Track my order') }}
             </router-link>
           </li>
-          <li @click="closeMenu" class="brdr-bottom brdr-c-alto flex">
+          <li @click="closeMenu" class="brdr-bottom brdr-cl-brdr-secondary flex">
             <router-link v-if="currentUser" class="block px25 py20 c-darkgray no-underline col-xs" to="/my-account" exact>
               {{ $t('My account') }}
             </router-link>

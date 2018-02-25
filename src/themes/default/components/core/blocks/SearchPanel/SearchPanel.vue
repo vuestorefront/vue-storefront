@@ -14,7 +14,7 @@
         id="search"
         v-model="search"
         @input="makeSearch"
-        class="mr20 py10 brdr-none brdr-bottom brdr-c-lightgray-secondary no-outline h4"
+        class="mr20 py10 brdr-none brdr-bottom brdr-cl-brdr-primary no-outline h4"
         :placeholder="$t('Type what you are looking for...')"
         type="text"
       >

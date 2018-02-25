@@ -10,7 +10,7 @@
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
           </p>
           <input
-            class="border-box w-100 brdr-none brdr-bottom brdr-c-lightgray-secondary py10 h4 weight-200"
+            class="border-box w-100 brdr-none brdr-bottom brdr-cl-brdr-primary py10 h4 weight-200"
             autofocus
             type="email"
             name="email"
