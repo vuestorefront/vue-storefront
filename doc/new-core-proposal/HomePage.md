@@ -3,8 +3,8 @@
 ### Props
 No props
 ### Data
-* 'latestProducts' - list of 20 latest products
-* 'rootCategories` - list of root categories
+* `latestProducts` - list of 20 latest products
+* `rootCategories` - list of root categories that are not empty
 ### Methods
 
 fetchData ({ store, route }) - should handle fetching data from `data`, should be outside of the component scope and optional 
