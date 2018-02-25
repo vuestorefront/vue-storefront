@@ -47,7 +47,7 @@ No props
 ### Hooks
 #### asyncData
 Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is a list of all categories, category attributes and list of products for each category.
-// should use `fetchDefaultData`
+
 
 
 #### beforeMount
