@@ -59,10 +59,15 @@ First of all: <strong>override core components only when you're adding features 
 3. Put only theme-agnostic businnes logic in core components.
 
 
+# Core components/pages docs (still working on it)
+## Pages docs
+* [Home](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/HomePage.md)
+* [Category](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/CategoryPage.md)
+* ...
 
-# Core components documentation (still working on it)
-
+## Components docS
 * [Modal](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/modal.md) - `Modal.vue`
+* ...
 
 # Related 
 
