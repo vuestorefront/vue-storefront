@@ -33,7 +33,7 @@ No props
 
 <b>`productsCounter` - how many products are in the category</b>
 ### Methods
-`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  //  make it optional
+`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  //  make it optional, should be outside of the component scope
 
 **Parameters**  
  *{ store, route }* - an object consisting of the Vuex store and global router references.  
