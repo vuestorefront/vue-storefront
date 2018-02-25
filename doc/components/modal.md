@@ -12,9 +12,9 @@ Simple modal component. Visibility of modal container is based on internal state
 
 #### Available events: 
 ```html
-<button @click="$bus.$emit('modal.toggle', 'modal-example')">Example</button>
-<button @click="$bus.$emit('modal.show', 'modal-example')">Example</button>
-<button @click="$bus.$emit('modal.hide', 'modal-example')">Example</button>
+<button @click="$bus.$emit('modal-toggle', 'modal-example')">Example</button>
+<button @click="$bus.$emit('modal-show', 'modal-example')">Example</button>
+<button @click="$bus.$emit('modal-hide', 'modal-example')">Example</button>
 ```
 
 ## Available props

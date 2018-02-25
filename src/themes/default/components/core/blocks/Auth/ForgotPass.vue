@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">
-        {{ $t('Reset password') }}
-      </h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray-secondary lh25">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
+      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+      {{ $t('Reset password') }}
+    </header>
+
+    <div class="modal-content pt30 pb60 px65 c-gray-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
@@ -20,8 +20,8 @@
               v-model="email"
               placeholder="E-mail address *"
             >
-            <p class="m0 c-red h6" v-if="!$v.email.required">Field is required.</p>
-            <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+            <p class="m0 c-red h6" v-if="!$v.email.required && $v.email.$error">Field is required.</p>
+            <p class="m0 c-red h6" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</p>
           </div>
           <div class="mb35">
             <button-full type="submit">
@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -77,10 +77,14 @@ export default {
     }
   },
   methods: {
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
     sendEmail () {
       // todo: send email with reset password instructions
 
       if (this.$v.$invalid) {
+        this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
           message: 'Please fix the validation errors',
@@ -113,7 +117,7 @@ export default {
   mounted () {
     this.$refs.email.focus()
   },
-  mixins: [coreComponent('core/blocks/Auth/ForgotPass')],
+  mixins: [coreComponent('blocks/Auth/ForgotPass')],
   components: {
     ButtonFull
   }

@@ -38,7 +38,7 @@
               class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
               type="text"
               name="first-name"
-              placeholder="First name"
+              placeholder="First name *"
               v-model.trim="personalDetails.firstName"
               @blur="$v.personalDetails.firstName.$touch()"
               autocomplete="given-name"
@@ -58,7 +58,7 @@
               class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
               type="text"
               name="last-name"
-              placeholder="Last name"
+              placeholder="Last name *"
               v-model.trim="personalDetails.lastName"
               @blur="$v.personalDetails.lastName.$touch()"
               autocomplete="family-name"
@@ -75,7 +75,7 @@
               class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
               type="email"
               name="email-address"
-              placeholder="Email address"
+              placeholder="Email address *"
               v-model="personalDetails.emailAddress"
               @blur="$v.personalDetails.emailAddress.$touch()"
               autocomplete="email"
@@ -86,7 +86,7 @@
             >
               Field is required
             </span>
-            <span class="validation-error" v-if="!$v.personalDetails.emailAddress.email">
+            <span class="validation-error" v-if="!$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error">
               Please provide valid e-mail address.
             </span>
           </div>
@@ -134,15 +134,15 @@
           </div>
           <div class="col-xs-12 col-md-12 mb15" v-show="createAccount && !currentUser">
             <div class="checkboxStyled">
-              <input type="checkbox" name="remember" v-model="acceptConditions" id="acceptConditions">
+              <input type="checkbox" name="remember" v-model="acceptConditions" id="acceptConditions" @blur="$v.acceptConditions.$touch()">
               <label for="acceptConditions"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="acceptConditions = !acceptConditions">
               <span class="fs16 c-darkgray">
-                I accept <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">terms and conditions</a> *
+                I accept <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">terms and conditions</a> *
               </span>
             </div>
-            <span class="validation-error" v-if="!$v.acceptConditions.required">You must accept the terms and conditions.</span>
+            <span class="validation-error" v-if="!$v.acceptConditions.required && $v.acceptConditions.$error">You must accept the terms and conditions.</span>
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
@@ -265,7 +265,7 @@ export default {
     Tooltip,
     Modal
   },
-  mixins: [coreComponent('core/blocks/Checkout/PersonalDetails')]
+  mixins: [coreComponent('blocks/Checkout/PersonalDetails')]
 }
 </script>
 

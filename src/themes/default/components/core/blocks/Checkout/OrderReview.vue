@@ -33,18 +33,23 @@
               </div>
               <div class="col-xs-11 col-sm-12 col-md-8 bg-lightgray p15 mb35 ml10">
                 <div class="checkboxStyled relative">
-                  <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox">
+                  <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox" @blur="$v.orderReview.terms.$touch()">
                   <label class="absolute brdr-gray bg-lightgray pointer" for="acceptTermsCheckbox"/>
                 </div>
                 <div class="checkboxText ml15 lh25 pointer">
                   <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
                     {{ $t('I agree to') }}
-                    <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">
+                    <span class="link pointer" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">
                       {{ $t('Terms and conditions') }}
                     </span>
                   </span>
                 </div>
-                <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
+                <span
+                  class="validation-error"
+                  v-if="!$v.orderReview.terms.required && $v.orderReview.terms.$error"
+                >
+                  Field is required
+                </span>
               </div>
             </div>
           </div>
@@ -67,7 +72,7 @@
       </div>
     </div>
 
-    <modal name="modal-terms" static="terms">
+    <modal name="modal-terms" static-data="terms">
       <p slot="header">
         {{ $t('Terms and conditions') }}
       </p>
@@ -77,7 +82,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
@@ -97,7 +102,7 @@ export default {
     CartSummary,
     Modal
   },
-  mixins: [coreComponent('core/blocks/Checkout/OrderReview')]
+  mixins: [coreComponent('blocks/Checkout/OrderReview')]
 }
 </script>
 

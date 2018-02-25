@@ -113,14 +113,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   components: {
     ButtonFull
   },
-  mixins: [coreComponent('core/blocks/MyAccount/MyNewsletter')]
+  mixins: [coreComponent('blocks/MyAccount/MyNewsletter')]
 }
 </script>
 

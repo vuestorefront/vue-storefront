@@ -21,8 +21,8 @@ Try out our open demo and if you like it **first give us some star on Github ★
       </td>
     </tr>
     <tr>
-  <td>authorization: demo / !@#demo</td>
-  <td>authorization: demo / !@#demo</td>
+     <td>Default theme<br/>demo.vuestorefront.io</td>
+    <td>B2B theme (beta)<br/>demo-catalog.vuestorefront.io</td>
     </tr>
   </tbody>
  </table>
@@ -34,6 +34,10 @@ Try out our open demo and if you like it **first give us some star on Github ★
 
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
+
+## Roadmap
+We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
+[See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones)
 
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
@@ -47,21 +51,25 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md)
 * [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
-* [Common problems](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
+* [Common problems / FAQ](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 * [Working with UI Store (interface state)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
 * [Working with translations](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md)
+* [[TEMPORARY] Core components and pages docs](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/%5Btemporary%5D%20core%20components%20API.md)
 
 Tutorial series on creating themes for Vue Storefront:
 * [Creating themes in Vue Storefront (part 1 — understanding Vue Storefront core)](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)
 
+### Extending Vue Storefront
+* [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
+
 ### Data in Vue Storefront
 * [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
+* [Working with Vuex](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/Working%20with%20Vuex.md)
 * [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
-* [Data formats specification](https://github.com/magento-engcom/es-indexer/wiki)
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
@@ -156,6 +164,14 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       </td>
       <td align="center" valign="middle">        
         <a href="http://www.acidgreen.com.au/"><img height="50" alt="Acid Green" align="left" src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"></a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle">        
+        <a href="http://macopedia.com/pl"><img height="50" alt="Macopedia" align="left" src="doc/media/logo_light-kopia.png"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="http://www.develodesign.co.uk/"><img height="50" alt="Macopedia" align="left" src="doc/media/develo_logo.png"></a>
       </td>
     </tr>
   </tbody>

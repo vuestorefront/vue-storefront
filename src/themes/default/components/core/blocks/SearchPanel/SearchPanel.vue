@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ProductTile from '../../ProductTile.vue'
 
 export default {
@@ -53,7 +53,7 @@ export default {
       }
     })
   },
-  mixins: [coreComponent('core/blocks/SearchPanel/SearchPanel')]
+  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
 }
 </script>
 

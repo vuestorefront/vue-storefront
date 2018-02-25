@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import staticContent from 'theme/components/theme/StaticContent'
 
 export default {
-  mixins: [coreComponent('core/Modal')],
+  mixins: [coreComponent('Modal')],
   components: { staticContent },
   props: {
     staticData: {

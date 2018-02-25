@@ -48,7 +48,7 @@
             <input
               type="text"
               name="first-name"
-              placeholder="First name"
+              placeholder="First name *"
               v-model.trim="shipping.firstName"
               @blur="$v.shipping.firstName.$touch()"
               autocomplete="given-name"
@@ -70,7 +70,7 @@
             <input
               type="text"
               name="last-name"
-              placeholder="Last name"
+              placeholder="Last name *"
               v-model.trim="shipping.lastName"
               @blur="$v.shipping.lastName.$touch()"
               autocomplete="family-name"
@@ -86,7 +86,7 @@
             <input
               type="text"
               name="street-address"
-              placeholder="Street name"
+              placeholder="Street name *"
               v-model.trim="shipping.streetAddress"
               @blur="$v.shipping.streetAddress.$touch()"
               autocomplete="shipping address-line1"
@@ -99,7 +99,7 @@
             <input
               type="text"
               name="apartment-number"
-              placeholder="House/Apartment number"
+              placeholder="House/Apartment number *"
               v-model.trim="shipping.apartmentNumber"
               @blur="$v.shipping.apartmentNumber.$touch()"
               autocomplete="address-line2"
@@ -115,7 +115,7 @@
             <input
               type="text"
               name="city"
-              placeholder="City"
+              placeholder="City *"
               v-model.trim="shipping.city"
               @blur="$v.shipping.city.$touch()"
               autocomplete="address-level2"
@@ -137,7 +137,7 @@
             <input
               type="text"
               name="zip-code"
-              placeholder="Zip-code"
+              placeholder="Zip-code *"
               v-model.trim="shipping.zipCode"
               @blur="$v.shipping.zipCode.$touch()"
               autocomplete="postal-code"
@@ -156,8 +156,14 @@
             </span>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
-            <select name="countries" v-model="shipping.country" @change="$v.shipping.country.$touch()" autocomplete="country">
-              <option value="" disabled selected hidden>Country</option>
+            <select
+              name="countries"
+              :class="{'c-lightgray-secondary' : shipping.country.length === 0}"
+              v-model="shipping.country"
+              @change="$v.shipping.country.$touch()"
+              autocomplete="country"
+            >
+              <option value="" disabled selected hidden>Country *</option>
               <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
             <span class="validation-error" v-if="$v.shipping.country.$error && !$v.shipping.country.required">
@@ -247,7 +253,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
@@ -289,6 +295,6 @@ export default {
     ButtonFull,
     Tooltip
   },
-  mixins: [coreComponent('core/blocks/Checkout/Shipping')]
+  mixins: [coreComponent('blocks/Checkout/Shipping')]
 }
 </script>

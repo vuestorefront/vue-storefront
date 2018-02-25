@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">
-        {{ $t('Log in') }}
-      </h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
+      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+      {{ $t('Log in') }}
+    </header>
+    <div class="modal-content pt30 pb60 px65  c-gray-secondary">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
@@ -16,8 +15,8 @@
             v-model="email"
             placeholder="E-mail address *"
           >
-          <span class="validation-error block h6 c-red" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error block h6 c-red" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
         </div>
         <div class="mb35 relative">
           <input
@@ -28,7 +27,7 @@
             placeholder="Password *"
           >
           <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.password.required">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
         </div>
         <div class="row">
           <div class="col-xs-6 mb35">
@@ -62,11 +61,11 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -86,10 +85,13 @@ export default {
       required
     }
   },
-  mixins: [coreComponent('core/blocks/Auth/Login')],
+  mixins: [coreComponent('blocks/Auth/Login')],
   methods: {
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'register')
+    },
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
     },
     togglePassType (name) {
       if (this.passType === 'password') {
@@ -113,6 +115,7 @@ export default {
     },
     login () {
       if (this.$v.$invalid) {
+        this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
@@ -138,7 +141,7 @@ export default {
             message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
-          this.$store.commit('ui/setSignUp', false)
+          this.close()
         }
       }).catch(err => {
         console.error(err)

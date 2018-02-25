@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     close () {
-      this.$bus.$emit('modal.hide', 'modal-onboard')
+      this.$bus.$emit('modal-hide', 'modal-onboard')
     }
   }
 }

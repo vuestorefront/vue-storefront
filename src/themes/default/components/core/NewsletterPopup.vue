@@ -19,7 +19,7 @@
             placeholder="E-mail address *"
           >
           <p class="m0 c-red h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
-          <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+          <p class="m0 c-red h6" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</p>
         </div>
         <div class="mb35 center-xs">
           <button-full
@@ -37,7 +37,7 @@
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -71,7 +71,7 @@ export default {
         action1: { label: 'OK', action: 'close' }
       })
 
-      this.$bus.$emit('modal.hide', 'modal-newsletter')
+      this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },
   components: {

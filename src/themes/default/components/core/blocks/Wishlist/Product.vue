@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import RemoveButton from './RemoveButton'
 
 export default {
@@ -48,7 +48,7 @@ export default {
   components: {
     RemoveButton
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Product')]
+  mixins: [coreComponent('blocks/Wishlist/Product')]
 }
 </script>
 

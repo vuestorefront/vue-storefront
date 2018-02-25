@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Header/MicrocartIcon')]
+  mixins: [coreComponent('blocks/Header/MicrocartIcon')]
 }
 </script>
 
