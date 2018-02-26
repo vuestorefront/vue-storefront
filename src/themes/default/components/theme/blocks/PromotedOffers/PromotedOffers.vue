@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'theme/node_modules/vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'PromotedOffers',
   props: {

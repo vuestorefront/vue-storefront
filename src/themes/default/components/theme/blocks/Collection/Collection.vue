@@ -6,7 +6,7 @@
   />
 </template>
 <script>
-import builder from 'theme/node_modules/bodybuilder'
+import builder from 'bodybuilder'
 import ProductsSlider from 'theme/components/core/ProductsSlider.vue'
 
 export default {

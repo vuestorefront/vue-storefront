@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapState } from 'theme/node_modules/vuex'
+import { mapState } from 'vuex'
 import { coreComponent } from 'core/lib/themes'
 import AccountIcon from '../Header/AccountIcon.vue'
 import SearchIcon from '../Header/SearchIcon.vue'

@@ -22,7 +22,10 @@ module.exports = {
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    modules: [
+    	'node_modules',
+    	path.resolve(__dirname, themeNodeModules)
+    ],
     extensions: ['.js', '.vue'],
     alias: {
       // Main aliases
@@ -53,8 +56,7 @@ module.exports = {
       'theme/pages': path.resolve(__dirname, themePages),
       'theme/plugins': path.resolve(__dirname, themePlugins),
       'theme/css': path.resolve(__dirname, themeCSS),
-      'theme/app': path.resolve(__dirname, themeApp),
-      'theme/node_modules': path.resolve(__dirname, themeNodeModules)
+      'theme/app': path.resolve(__dirname, themeApp)
     }
   },
   output: {

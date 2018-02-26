@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import builder from 'theme/node_modules/bodybuilder'
+import builder from 'bodybuilder'
 
 import InspirationTile from './InspirationTile.vue'
 export default {

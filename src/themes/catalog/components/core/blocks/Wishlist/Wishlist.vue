@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'theme/node_modules/vuex'
+import { mapState, mapActions } from 'vuex'
 
 import Product from './Product'
 

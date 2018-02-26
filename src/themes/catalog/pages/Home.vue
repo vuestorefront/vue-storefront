@@ -57,13 +57,13 @@
 
 <script>
 import Meta from 'core/lib/meta'
-import builder from 'theme/node_modules/bodybuilder'
+import builder from 'bodybuilder'
 import Search from 'theme/components/theme/Search'
 import CategoryTile from 'theme/components/core/CategoryTile'
 import ProductTile from 'theme/components/core/ProductTile'
 import MagazineTile from 'theme/components/theme/MagazineTile'
-import Nossr from 'theme/node_modules/vue-no-ssr'
-import { Carousel, Slide } from 'theme/node_modules/vue-carousel'
+import Nossr from 'vue-no-ssr'
+import { Carousel, Slide } from 'vue-carousel'
 
 export default {
   meta: {

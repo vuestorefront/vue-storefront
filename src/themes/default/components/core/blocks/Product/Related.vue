@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import builder from 'theme/node_modules/bodybuilder'
+import builder from 'bodybuilder'
 import ProductListing from '../../ProductListing.vue'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers.vue'
 

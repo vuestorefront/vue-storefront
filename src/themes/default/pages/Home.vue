@@ -31,7 +31,7 @@
 
 <script>
 import { corePage } from 'core/lib/themes'
-import builder from 'theme/node_modules/bodybuilder'
+import builder from 'bodybuilder'
 
 // Base components overwrite
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'

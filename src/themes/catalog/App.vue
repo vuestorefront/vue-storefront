@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapState } from 'theme/node_modules/vuex'
+import { mapState } from 'vuex'
 
 import MainHeader from 'theme/components/core/blocks/Header/Header'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer'

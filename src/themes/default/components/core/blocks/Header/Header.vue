@@ -67,7 +67,7 @@
 
 <script>
 import { coreComponent } from 'core/lib/themes'
-import { mapState } from 'theme/node_modules/vuex'
+import { mapState } from 'vuex'
 
 import Logo from '../../Logo.vue'
 

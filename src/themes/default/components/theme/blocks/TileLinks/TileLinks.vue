@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'theme/node_modules/vuex'
+import { mapGetters } from 'vuex'
 
 import TileLink from './TileLink.vue'
 export default {
