@@ -1,10 +1,10 @@
 <template>
   <div>
     <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
-      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
       {{ $t('Log in') }}
     </header>
-    <div class="modal-content pt30 pb60 px65  c-gray-secondary">
+    <div class="modal-content pt30 pb60 px65  cl-secondary">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
@@ -15,8 +15,8 @@
             v-model="email"
             :placeholder="$t('E-mail address *')"
           >
-          <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</span>
-          <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</span>
         </div>
         <div class="mb35 relative">
           <input
@@ -26,8 +26,8 @@
             v-model="password"
             :placeholder="$t('Password *')"
           >
-          <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
+          <i class="icon material-icons cl-brdr-secondary absolute pointer" @click="togglePassType">{{ iconName }}</i>
+          <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
         </div>
         <div class="row">
           <div class="col-xs-6 mb35">

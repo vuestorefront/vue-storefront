@@ -10,18 +10,18 @@
             </transition>
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
-            <div class="uppercase c-gray-secondary">
+            <div class="uppercase cl-secondary">
               sku: {{ product.sku }}
             </div>
-            <h1 class="mb20 mt0 c-darkgray product-name">
+            <h1 class="mb20 mt0 cl-accent product-name">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb30 price" v-if="product.type_id !== 'grouped'">
               <div
-                class="h3 c-gray-secondary"
+                class="h3 cl-secondary"
                 v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
               >
-                <span class="c-red">
+                <span class="cl-error">
                   {{ product.priceInclTax | price }}
                 </span>&nbsp;
                 <span class="price-original h4">
@@ -29,14 +29,14 @@
                 </span>
               </div>
               <div
-                class="h3 c-gray"
+                class="h3 cl-bg-tertiary"
                 v-if="!product.special_price && product.priceInclTax"
               >
                 {{ product.priceInclTax | price }}
               </div>
             </div>
             <div
-              class="c-emperor variants"
+              class="cl-primary variants"
               v-if="product.type_id =='configurable' && !loading"
             >
               <div
@@ -80,7 +80,7 @@
                     v-if="option.label == 'Size'"
                     class="
                       p0 ml30 inline-flex middle-xs weight-700 uppercase
-                      no-underline action size-guide pointer c-lightgray-secondary
+                      no-underline action size-guide pointer cl-tertiary
                     "
                   >
                     <i class="pr5 material-icons">accessibility</i>
@@ -107,7 +107,7 @@
                   @click="addToFavorite"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action weight-700 h5 uppercase pointer c-lightgray-secondary
+                    action weight-700 h5 uppercase pointer cl-tertiary
                   "
                   type="button"
                 >
@@ -125,7 +125,7 @@
                   @click="addToCompare"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action weight-700 h5 uppercase pointer c-lightgray-secondary
+                    action weight-700 h5 uppercase pointer cl-tertiary
                   "
                   type="button"
                 >
@@ -143,7 +143,7 @@
         </section>
       </div>
     </section>
-    <section class="container pt50 pb20 px20 c-darkgray details">
+    <section class="container pt50 pb20 px20 cl-accent details">
       <h2 class="h3 m0 mb10 sans-serif">
         {{ $t('Product details') }}
       </h2>
@@ -151,7 +151,7 @@
         <div class="row between-md m0">
           <div class="col-md-5">
             <div
-              class="lh30 c-gray-secondary"
+              class="lh30 cl-secondary"
               v-html="product.description"
             />
           </div>

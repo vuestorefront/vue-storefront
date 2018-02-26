@@ -68,7 +68,7 @@
               </div>
             </div>
             <template v-else>
-              <h4 class="c-darkgray ml30">
+              <h4 class="cl-accent ml30">
                 {{ $t('You have no items to compare.') }}
               </h4>
             </template>

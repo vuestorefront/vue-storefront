@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row center-xs">
         <header class="col-md-12 pb15">
-          <h2 class="align-center c-darkgray">
+          <h2 class="align-center cl-accent">
             {{ title }}
           </h2>
         </header>

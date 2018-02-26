@@ -2,18 +2,18 @@
   <div class="my-shipping-details mb35">
     <!-- My shipping details header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-md-6" :class="{ 'c-darkgray' : !isActive }">
+      <div class="col-xs-12 col-md-6" :class="{ 'cl-accent' : !isActive }">
         <h3 class="m0 mb5">
           {{ $t('My shipping details') }}
         </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
         <div class="lh30 flex end-md" v-if="!isActive && editMode">
-          <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
+          <a href="#" class="cl-tertiary flex" @click.prevent="edit">
             <span class="pr5">
               {{ $t('Edit your shipping details') }}
             </span>
-            <i class="material-icons c-lightgray-secondary">edit</i>
+            <i class="material-icons cl-tertiary">edit</i>
           </a>
         </div>
       </div>
@@ -37,7 +37,7 @@
           <label for="useCompanyAddress"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="fillCompanyAddress">
-          <span class="fs16 c-darkgray">{{ $t("Use my company's address details") }}</span>
+          <span class="fs16 cl-accent">{{ $t("Use my company's address details") }}</span>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
@@ -84,7 +84,7 @@
         </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
-        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">
+        <a href="#" @click="exitSection" class="link no-underline fs16 cl-accent">
           {{ $t('Cancel') }}
         </a>
       </div>
@@ -100,7 +100,7 @@
             <label for="useCompanyAddressFilled"/>
           </div>
           <div class="checkboxText ml15 lh25">
-            <span class="fs16 c-darkgray">Use my company's address details</span>
+            <span class="fs16 cl-accent">Use my company's address details</span>
           </div>
         </div>
         <p class="mb25">{{ shippingDetails.company }}</p>

@@ -3,7 +3,7 @@
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
         <div
-          class="number-circle lh35 c-white brdr-circle align-center weight-700"
+          class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           4
@@ -11,7 +11,7 @@
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-md-12" :class="{ 'c-gray' : !isFilled && !isActive }">
+          <div class="col-md-12" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0">
               {{ $t('Review order') }}
             </h3>
@@ -37,7 +37,7 @@
                   <label class="absolute brdr-gray bg-cl-secondary pointer" for="acceptTermsCheckbox"/>
                 </div>
                 <div class="checkboxText ml15 lh25 pointer">
-                  <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
+                  <span class="fs16 cl-accent" @click="orderReview.terms = !orderReview.terms">
                     {{ $t('I agree to') }}
                     <span class="link pointer" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">
                       {{ $t('Terms and conditions') }}

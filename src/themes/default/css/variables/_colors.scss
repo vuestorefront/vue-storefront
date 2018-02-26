@@ -40,6 +40,7 @@ $colors-theme: (
     default: map-get($colors, night-rider),
     hover: map-get($colors, black),
   ),
+  tertiary: map-get($colors, silver),
   error: map-get($colors, burnt-sienna),
   success: map-get($colors, puerto-rico)
 );

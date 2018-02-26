@@ -34,20 +34,20 @@
             >
           </transition>
         </div>
-        <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>
+        <p class="mb0 cl-accent">{{ product.name | htmlDecode }}</p>
         <span
-          class="price-original mr5 lh30 c-gray-secondary"
+          class="price-original mr5 lh30 cl-secondary"
           v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
         >
           {{ product.originalPriceInclTax | price }}
         </span>
         <span
-          class="price-special lh30 c-darkgray weight-700"
+          class="price-special lh30 cl-accent weight-700"
           v-if="product.special_price && parseFloat(product.special_price) > 0"
         >
           {{ product.priceInclTax | price }}
         </span>
-        <span class="lh30 c-gray-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
+        <span class="lh30 cl-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
           {{ product.priceInclTax | price }}
         </span>
       </router-link>

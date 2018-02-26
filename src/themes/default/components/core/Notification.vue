@@ -2,7 +2,7 @@
   <div class="notifications fixed">
     <transition-group name="fade-in-down">
       <div
-        class="notification mt30 border-box c-white"
+        class="notification mt30 border-box cl-white"
         v-for="(notification, index) in notifications"
         :key="index"
         :class="{

@@ -18,7 +18,7 @@
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li @click="closeMenu" class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary">
-            <router-link class="block px25 py20 c-darkgray no-underline" to="/" exact>
+            <router-link class="block px25 py20 cl-accent no-underline" to="/" exact>
               {{ $t('Home') }}
             </router-link>
           </li>
@@ -30,7 +30,7 @@
             v-if="category.product_count > 0 || category.children_data.length > 0"
           >
             <router-link
-              class="px25 py20 c-darkgray no-underline col-xs"
+              class="px25 py20 cl-accent no-underline col-xs"
               :to="{ name: 'category', params: { id: category.id, slug: category.slug }}"
             >
               {{ category.name }}
@@ -39,27 +39,27 @@
             <sub-category :category-links="category.children_data" :id="category.id"/>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary c-darkgray no-underline" to="/magazine" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline" to="/magazine" exact>
               {{ $t('Magazine') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary c-darkgray no-underline" to="/sale" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline" to="/sale" exact>
               {{ $t('Sale') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary c-darkgray no-underline" to="/order-tracking" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline" to="/order-tracking" exact>
               {{ $t('Track my order') }}
             </router-link>
           </li>
           <li @click="closeMenu" class="brdr-bottom brdr-cl-secondary flex">
-            <router-link v-if="currentUser" class="block px25 py20 c-darkgray no-underline col-xs" to="/my-account" exact>
+            <router-link v-if="currentUser" class="block px25 py20 cl-accent no-underline col-xs" to="/my-account" exact>
               {{ $t('My account') }}
             </router-link>
             <sub-btn v-if="currentUser" class="flex-end center-self"/>
             <sub-category v-if="currentUser" :my-account-links="myAccountLinks" :id="'foo'"/>
-            <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 c-darkgray no-underline">
+            <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 cl-accent no-underline">
               {{ $t('My account') }}
             </a>
           </li>

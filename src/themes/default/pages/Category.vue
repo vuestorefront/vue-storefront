@@ -8,7 +8,7 @@
       <div class="container">
         <div class="row m0">
           <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none c-white h5 weight-300 sans-serif"
+            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 weight-300 sans-serif"
             @click="openFilters"
           >
             {{ $t('Filters') }}
@@ -23,11 +23,11 @@
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
           <div class="close-container absolute w-100">
-            <i class="material-icons p15 close c-darkgray" @click="closeFilters">close</i>
+            <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
           <sidebar class="mobile-filters-body" :filters="filters.available"/>
         </div>
-        <p class="col-xs-12 hidden-md m0 px20 c-gray-secondary">{{ productsCounter }} items</p>
+        <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsCounter }} items</p>
         <div class="col-md-9 pt20 px10 border-box products-list">
           <div v-if="isCategoryEmpty" class="hidden-xs">
             {{ $t('No products found!') }}

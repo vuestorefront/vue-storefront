@@ -1,7 +1,7 @@
 <template>
   <span class="tooltip relative">
-    <i class="material-icons icon c-darkgray">info</i>
-    <div class="text absolute p25 h5 bg-cl-th-accent c-white">
+    <i class="material-icons icon cl-accent">info</i>
+    <div class="text absolute p25 h5 bg-cl-th-accent cl-white">
       <slot />
     </div>
   </span>

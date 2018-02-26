@@ -4,8 +4,8 @@
     :to="link"
     class="button-outline no-outline px40 py15 bg-cl-transparent uppercase h4 no-underline"
     :class="{
-      light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'c-gray-secondary' : color === 'dark',
+      light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
+      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'cl-secondary' : color === 'dark',
     }"
   >
     <slot>

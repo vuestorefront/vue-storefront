@@ -6,86 +6,86 @@
         <div class="row center-xs">
           <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">
             <div>
-              <h3 class="c-darkgray weight-400">
+              <h3 class="cl-accent weight-400">
                 {{ $t('Departments') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/c/women-20" exact>
+                <router-link class="cl-secondary" to="/c/women-20" exact>
                   {{ $t('Women fashion') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/c/men-11" exact>
+                <router-link class="cl-secondary" to="/c/men-11" exact>
                   {{ $t("Men's fashion") }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/" exact>
+                <router-link class="cl-secondary" to="/" exact>
                   {{ $t('Kidswear') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/" exact>
+                <router-link class="cl-secondary" to="/" exact>
                   {{ $t('Home') }}
                 </router-link>
               </div>
             </div>
             <div>
-              <h3 class="c-darkgray weight-400">
+              <h3 class="cl-accent weight-400">
                 {{ $t('Orders') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/order-tracking" exact>
+                <router-link class="cl-secondary" to="/order-tracking" exact>
                   {{ $t('Track my order') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/my-account" exact>
+                <router-link class="cl-secondary" to="/my-account" exact>
                   {{ $t('My account') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/delivery" exact>
+                <router-link class="cl-secondary" to="/delivery" exact>
                   {{ $t('Delivery') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/returns" exact>
+                <router-link class="cl-secondary" to="/returns" exact>
                   {{ $t('Return policy') }}
                 </router-link>
               </div>
             </div>
             <div>
-              <h3 class="c-darkgray weight-400">
+              <h3 class="cl-accent weight-400">
                 {{ $t('Help') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/customer-service" exact>
+                <router-link class="cl-secondary" to="/customer-service" exact>
                   {{ $t('Customer service') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/size-guide" exact>
+                <router-link class="cl-secondary" to="/size-guide" exact>
                   {{ $t('Size guide') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/contact" exact>
+                <router-link class="cl-secondary" to="/contact" exact>
                   {{ $t('Contact us') }}
                 </router-link>
               </div>
             </div>
             <div>
-              <h3 class="c-darkgray weight-400">
+              <h3 class="cl-accent weight-400">
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/about-us" exact>
+                <router-link class="cl-secondary" to="/about-us" exact>
                   {{ $t('About us') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/store-locator" exact>
+                <router-link class="cl-secondary" to="/store-locator" exact>
                   {{ $t('Store locator') }}
                 </router-link>
               </div>
@@ -137,14 +137,14 @@
     </div>
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
-        <div class="col-xs-5 col-sm-3 c-lightgray-secondary">
+        <div class="col-xs-5 col-sm-3 cl-tertiary">
           {{ $t('United States (US)') }}
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links">
             <li class="inline-flex">
               <router-link
-                class="c-lightgray-secondary mr10 underline"
+                class="cl-tertiary mr10 underline"
                 to="/legal"
                 exact
               >
@@ -153,7 +153,7 @@
             </li>
             <li class="inline-flex">
               <router-link
-                class="c-lightgray-secondary underline"
+                class="cl-tertiary underline"
                 to="/privacy"
                 exact
               >

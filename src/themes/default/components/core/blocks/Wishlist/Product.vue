@@ -11,7 +11,7 @@
         }">
           {{ product.name | htmlDecode }}
         </router-link>
-        <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
+        <div class="h6 cl-bg-secondary pt5">{{ product.sku }}</div>
       </div>
     </div>
     <div class="col-xs flex py15 align-right">
@@ -24,7 +24,7 @@
         </span>
       </div>
       <div>
-        <div class="mt5"><span @click="removeItem"><remove-button class="c-darkgray" /></span></div>
+        <div class="mt5"><span @click="removeItem"><remove-button class="cl-accent" /></span></div>
       </div>
     </div>
   </li>

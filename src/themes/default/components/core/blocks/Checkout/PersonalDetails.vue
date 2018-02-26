@@ -3,7 +3,7 @@
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
         <div
-          class="number-circle lh35 c-white brdr-circle align-center weight-700"
+          class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           1
@@ -11,18 +11,18 @@
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
-          <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
+          <div class="col-xs-12 col-md-6" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0 mb5">
               {{ $t('Personal Details') }}
             </h3>
           </div>
           <div class="col-xs-12 col-md-6 pr30">
             <div class="lh30 flex end-md" v-if="isFilled && !isActive">
-              <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
+              <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
                   {{ $t('Edit personal details') }}
                 </span>
-                <i class="material-icons c-lightgray-secondary">edit</i>
+                <i class="material-icons cl-tertiary">edit</i>
               </a>
             </div>
           </div>
@@ -96,7 +96,7 @@
               <label for="createAccountCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="createAccount = !createAccount">
-              <span v-if="!isFilled" class="fs16 c-darkgray">{{ $t('I want to create an account') }}</span>
+              <span v-if="!isFilled" class="fs16 cl-accent">{{ $t('I want to create an account') }}</span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 mb25 mt10" v-show="createAccount && !currentUser">
@@ -110,7 +110,7 @@
                 @blur="$v.password.$touch()"
                 autocomplete="new-password"
               >
-              <div class="icon absolute c-lightgray-secondary pointer">
+              <div class="icon absolute cl-tertiary pointer">
                 <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
               </div>
             </div>
@@ -126,7 +126,7 @@
                 :placeholder="$t('Repeat password *')"
                 autocomplete="new-password"
               >
-              <i class="icon absolute material-icons c-lightgray-secondary pointer" @click="togglePassType('repeatPass')">
+              <i class="icon absolute material-icons cl-tertiary pointer" @click="togglePassType('repeatPass')">
                 {{ iconName.repeatPass }}
               </i>
             </div>
@@ -138,8 +138,8 @@
               <label for="acceptConditions"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="acceptConditions = !acceptConditions">
-              <span class="fs16 c-darkgray">
-                {{ $t('I accept ') }}<a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">{{ $t('terms and conditions') }}</a> *
+              <span class="fs16 cl-accent">
+                {{ $t('I accept ') }} <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">terms and conditions</a> *
               </span>
             </div>
             <span class="validation-error" v-if="!$v.acceptConditions.required && $v.acceptConditions.$error">{{ $t('You must accept the terms and conditions.') }}</span>
@@ -160,9 +160,9 @@
             </button-full>
           </div>
           <div class="col-xs-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
-            <p class="h4 c-darkgray">
+            <p class="h4 cl-accent">
               {{ $t('or') }}
-              <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 c-darkgray">
+              <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 cl-accent">
                 {{ $t('login to your account') }}
               </a>
             </p>
@@ -188,9 +188,9 @@
                 <label for="createAccountCheckbox2"/>
               </div>
               <div class="checkboxText ml15 lh25">
-                <span class="fs16 c-darkgray">Create a new account</span>
+                <span class="fs16 cl-accent">Create a new account</span>
               </div>
-              <p class="h5 c-lightgray-secondary">
+              <p class="h5 cl-tertiary">
                 {{ $t('The new account will be created with the purchase. You will receive details on e-mail.') }}
               </p>
             </div>

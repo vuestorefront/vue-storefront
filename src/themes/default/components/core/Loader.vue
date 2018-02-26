@@ -6,7 +6,7 @@
         <div class="double-bounce2 absolute w-100 brdr-circle bg-cl-th-success"/>
       </div>
       <div
-        class="loader-message-container mt15 py5 px15 align-center h6 c-white"
+        class="loader-message-container mt15 py5 px15 align-center h6 cl-white"
         v-if="message"
       >
         {{ message }}

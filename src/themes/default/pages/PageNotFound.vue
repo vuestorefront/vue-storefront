@@ -15,17 +15,17 @@
           </p>
           <p>
             {{ $t('If you need an assistance you can drop us a line on') }}
-            <router-link to="/" class="c-gray-secondary no-underline">
+            <router-link to="/" class="cl-secondary no-underline">
               {{ $t('a chat') }}
             </router-link>
             {{ $t('or write to us through') }}
-            <router-link to="/contact" class="c-gray-secondary no-underline">
+            <router-link to="/contact" class="cl-secondary no-underline">
               {{ $t('a contact page') }}
             </router-link>.
           </p>
           <p>
             {{ $t('You can also use') }}
-            <a href="#" class="c-gray-secondary no-underline" @click="toggleSearchpanel">
+            <a href="#" class="cl-secondary no-underline" @click="toggleSearchpanel">
               {{ $t('search') }}
             </a>
             {{ $t('to find product you were looking for.') }}

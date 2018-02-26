@@ -13,7 +13,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="(page, index) in navigation" :key="index">
-                <a :href="page.link" class="c-darkgray" @click="notify(page.title)">{{ page.title }}</a>
+                <a :href="page.link" class="cl-accent" @click="notify(page.title)">{{ page.title }}</a>
               </li>
             </ul>
           </nav>

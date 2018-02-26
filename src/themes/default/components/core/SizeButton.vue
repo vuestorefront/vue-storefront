@@ -2,7 +2,7 @@
   <button
     class="
       p0 bg-cl-primary brdr-1 brdr-cl-primary
-      brdr-square h5 c-lightgray-secondary size-button
+      brdr-square h5 cl-tertiary size-button
     "
     :class="{ active: active }"
     @click="switchFilter(id, label)"

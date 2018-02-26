@@ -3,7 +3,7 @@
     <div class="container">
       <div class="newsletter-content m0 row middle-xs start-md">
         <div class="col-md-9 col-xs-12">
-          <h3 class="h3 c-darkgray weight-400 m0">
+          <h3 class="h3 cl-accent weight-400 m0">
             {{ $t('Subscribe to the newsletter and receive a coupon for 10% off') }}
           </h3>
         </div>
