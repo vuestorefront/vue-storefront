@@ -1,6 +1,4 @@
-# Core Category Page
-
-## Category
+## Core Category Page
 
 ### Props
 No props
