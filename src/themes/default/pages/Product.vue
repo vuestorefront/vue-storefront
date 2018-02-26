@@ -6,7 +6,7 @@
         <section class="row py35 m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <transition name="fade" appear>
-              <img class="product-image inline-flex mw-100" v-lazy="imgObj" ref="image">
+              <img class="product-image inline-flex mw-100" v-lazy="image" ref="image">
             </transition>
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
@@ -154,7 +154,7 @@
             <ul class="attributes p0 pt10 m0">
               <product-attribute
                 :key="attr.attribute_code"
-                v-for="attr in all_custom_attributes"
+                v-for="attr in customAttributes"
                 :product="product"
                 :attribute="attr"
                 empty-placeholder="N/A"

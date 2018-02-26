@@ -217,14 +217,20 @@ export default {
       wishlistCheck: 'wishlist/check',
       compareCheck: 'compare/check'
     }),
-    imgObj () {
+    productName () {
+      return this.product ? this.product.name : ''
+    },
+    productId () {
+      return this.product ? this.product.id : ''
+    },
+    image () {
       return {
         src: this.getThumbnail(this.product.image, 570, 569),
         error: this.getThumbnail(this.product.image, 310, 300),
         loading: this.getThumbnail(this.product.image, 310, 300)
       }
     },
-    all_custom_attributes () {
+    customAttributes () {
       let inst = this
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
