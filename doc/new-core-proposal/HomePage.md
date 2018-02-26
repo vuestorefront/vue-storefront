@@ -3,9 +3,12 @@
 ### Props
 No props
 ### Data
-No data
+* `latestProducts` - list of 20 latest products
+* `rootCategories` - list of root categories that are not empty
 ### Methods
-No methods
+
+fetchData ({ store, route }) - should handle fetching data from `data`, should be outside of the component scope and optional 
+
 ### Hooks
 #### beforeMount
-Clears Vuex store entries that define current category by dispatching *'category/reset'* action. If app is launching in demo mode, onboarding info modal pops up.
+Clears Vuex store entries that define current category by dispatching *'category/reset'* action. If app is launching in demo mode, onboarding info modal pops up. // demo stuff should be only in default theme

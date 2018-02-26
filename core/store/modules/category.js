@@ -2,7 +2,8 @@ import * as types from '../mutation-types'
 import { entityKeyName } from 'core/lib/entities'
 import { slugify } from 'core/helpers'
 const bodybuilder = require('bodybuilder')
-import { quickSearchByQuery } from 'core/api/search'
+import { quickSearchByQuery } from 'core/lib/search'
+import EventBus from 'core/plugins/event-bus'
 
 const state = {
   list: [],
@@ -27,13 +28,14 @@ const actions = {
   reset (context) {
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, [])
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY, {})
+    EventBus.$emit('category-after-reset', { })
   },
   /**
    * Load categories within specified parent
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0 }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc' }) {
     const commit = context.commit
     let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
@@ -48,8 +50,9 @@ const actions = {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: 'position:asc', size: size, start: start }).then(function (resp) {
+    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start }).then(function (resp) {
       commit(types.CATEGORY_UPD_CATEGORIES, resp)
+      EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
       return resp
     }).catch(function (err) {
       console.error(err)
@@ -89,6 +92,7 @@ const actions = {
               dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
                 if (!sc) {
                   commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
+                  EventBus.$emit('category-after-single', { category: mainCategory })
                   return resolve(mainCategory)
                 }
                 currentPath.unshift(sc)
@@ -102,6 +106,7 @@ const actions = {
               })
             } else {
               commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
+              EventBus.$emit('category-after-single', { category: mainCategory })
               resolve(mainCategory)
             }
           }
@@ -109,6 +114,7 @@ const actions = {
             recurCatFinder(mainCategory) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
           }
         } else {
+          EventBus.$emit('category-after-single', { category: mainCategory })
           resolve(mainCategory)
         }
       }
@@ -137,6 +143,7 @@ const mutations = {
 
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
     state.current = category
+    EventBus.$emit('category-after-current', { category: category })
   },
   [types.CATEGORY_UPD_CURRENT_CATEGORY_PATH] (state, path) {
     state.current_path = path // TODO: store to cache

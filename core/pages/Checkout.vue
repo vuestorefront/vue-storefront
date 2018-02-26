@@ -242,7 +242,8 @@ export default {
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingMethod,
-          payment_method_code: this.payment.paymentMethod
+          payment_method_code: this.payment.paymentMethod,
+          shippingExtraFields: this.shipping.extraFields
         }
       }
       return this.order

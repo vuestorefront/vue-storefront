@@ -17,7 +17,7 @@ const themeApp = '../../src/themes/' + theme + '/App.vue'
 module.exports = {
   devtool: '#source-map',
   entry: {
-    app: './src/client-entry.js',
+    app: './core/client-entry.js',
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
   },
   resolve: {
@@ -28,6 +28,7 @@ module.exports = {
       config: path.resolve(__dirname, './config.json'),
       lib: path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
       'src': path.resolve(__dirname, '../../src'),
+      'core': path.resolve(__dirname, '../'),
       'assets': path.resolve(__dirname, '../../src/assets'),
       'themes': path.resolve(__dirname, '../../src/themes/' + theme),
       // Core aliases
