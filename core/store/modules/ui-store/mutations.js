@@ -1,17 +1,4 @@
-const state = {
-  sidebar: false,
-  microcart: false,
-  wishlist: false,
-  searchpanel: false,
-  newsletterPopup: false,
-  overlay: false,
-  loader: false,
-  authElem: 'login',
-  checkoutMode: false,
-  openMyAccount: false
-}
-
-const mutations = {
+export default {
   setOverlay (state, action) {
     state.overlay = action === true
   },
@@ -36,10 +23,4 @@ const mutations = {
   setOpenMyAccount (state, action) {
     state.openMyAccount = action === true
   }
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations
 }
