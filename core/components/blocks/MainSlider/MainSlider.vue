@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import sliderData from 'core/resource/slider.json'
+import sliderData from 'theme/resource/slider.json'
 
 export default {
   name: 'MainSlider',

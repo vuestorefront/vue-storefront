@@ -1,4 +1,4 @@
-import promotedOffers from 'core/resource/promoted_offers.json'
+import promotedOffers from 'theme/resource/promoted_offers.json'
 
 // Initial state
 
