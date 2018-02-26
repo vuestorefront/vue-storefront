@@ -192,5 +192,11 @@ $lightgray: map-get($colors, lightgray);
       opacity: 1;
     }
   }
+
+  button {
+    &:hover i{
+      opacity: 1;
+    }
+  }
 }
 </style>
