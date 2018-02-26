@@ -8,6 +8,7 @@
 import builder from 'bodybuilder'
 
 import { breadCrumbRoutes } from 'core/helpers'
+import config from 'config'
 import Meta from 'core/lib/meta'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
@@ -224,7 +225,7 @@ export default {
 
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      const defaultFilters = ['color', 'size', 'price']
+      const defaultFilters = config.products.defaultFilters
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories

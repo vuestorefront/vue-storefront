@@ -18,7 +18,8 @@
       "alwaysSyncPlatformPricesOver": false,
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
-      "endpoint": "http://localhost:8080/api/product"
+      "endpoint": "http://localhost:8080/api/product",
+      "defaultFilters": ["color", "size", "price"]
     },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"
