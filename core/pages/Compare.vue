@@ -38,7 +38,7 @@ export default {
   computed: {
     ...mapGetters({
       attributesByCode: 'attribute/attributeListByCode',
-      attributesByUd: 'attribute/attributeListById'
+      attributesById: 'attribute/attributeListById'
     }),
     items () {
       return this.$store.state.compare.itemsCompare

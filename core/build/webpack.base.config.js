@@ -13,6 +13,7 @@ const themePlugins = '../../src/themes/' + theme + '/plugins'
 const themeResources = '../../src/themes/' + theme + '/resource'
 const themeCSS = '../../src/themes/' + theme + '/css'
 const themeApp = '../../src/themes/' + theme + '/App.vue'
+const themeNodeModules = '../../src/themes/' + theme + '/node_modules'
 
 module.exports = {
   devtool: '#source-map',
@@ -21,7 +22,10 @@ module.exports = {
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    modules: [
+    	'node_modules',
+    	path.resolve(__dirname, themeNodeModules)
+    ],
     extensions: ['.js', '.vue'],
     alias: {
       // Main aliases

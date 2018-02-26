@@ -37,7 +37,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
       }), // TODO: add scoring information
       total: resp.hits.total,
       start: start,
-      pageSize: size,
+      perPage: size,
       aggregations: resp.aggregations
     }
   } else {
@@ -95,7 +95,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
             items: [],
             total: 0,
             start: 0,
-            pageSize: 0,
+            perPage: 0,
             aggregations: {},
             offline: true,
             cache: true,
