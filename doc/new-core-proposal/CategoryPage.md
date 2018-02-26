@@ -13,7 +13,7 @@ No props
 2. <s>`offset` that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere. // change to currentPage and implement it on API and frontend </s> change name to `current`
 4. <b> `enabled` - enables/disables paging. When it's disabled it lazy loads other products on scroll </b>
 
-<s> `filterSet` - a set of filters that user has defined on Category page.  </s> moved to filters/chosen
+<s> `filters.chosen` - a set of filters that user has defined on Category page.  </s> moved to filters/chosen
 
 `products` - computed property that return a list of product items of current category from the Vuex store.  
 `isCategoryEmpty` - computed property that return true if product list of current category is empty.  

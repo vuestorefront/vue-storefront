@@ -48,6 +48,16 @@ export default {
     // Load personal and shipping details for Checkout page from IndexedDB
     this.$store.dispatch('checkout/load')
   },
+  beforeMount () {
+    if (global.__DEMO_MODE__) {
+      this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' }).then((onboardingClaim) => {
+        if (!onboardingClaim) { // show onboarding info
+          this.$bus.$emit('modal-toggle', 'modal-onboard')
+          this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
+        }
+      })
+    }
+  },
   computed: {
     categories () {
       return this.$store.state.category.list

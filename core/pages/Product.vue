@@ -209,7 +209,7 @@ export default {
       originalProduct: 'product/productOriginal',
       parentProduct: 'product/productParent',
       attributesByCode: 'attribute/attributeListByCode',
-      attributesByUd: 'attribute/attributeListById',
+      attributesById: 'attribute/attributeListById',
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',

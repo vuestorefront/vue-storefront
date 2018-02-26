@@ -260,34 +260,7 @@ No methods
 
 ## Category
 
-### Props
-No props
-### Data
-`pagination` - an object that defines two settings:  
-    1. *number* of product items to load per page, currently set to 50;  
-    2. *offset* that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere.
-`filterSet` - a set of filters that user has defined on Category page.  
-`products` - computed property that return a list of product items of current category from the Vuex store.  
-`isCategoryEmpty` - computed property that return true if product list of current category is empty.  
-`category` - computed property that return current category from the Vuex store.  
-`aggregations` - computed property *that is not used*.  
-`filters` - a set of all available filters for current category from the Vuex store.  
-`breadcrumbs` - breadcrumbs for the current category from the Vuex store.
-### Methods
-`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  
-**Parameters**  
-*{ store, route }* - an object consisting of the Vuex store and global router references.  
-
-`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  
-**Parameters**  
-*{ store, route }* - an object consisting of the Vuex store and global router references.
-### Hooks
-#### asyncData
-Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is a list of all categories, category attributes and list of products for each category.
-#### beforeMount
-**'filter-changed-category'** event listener is initialized. *Although this event is not triggered anywhere.*
-#### beforeDestroy
-**'filter-changed-category'** event listener is removed.
+Category page has been refactored (1.0RC) to the new core proposal and the [docs has been moved here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/CategoryPage.md).
 
 ## Checkout
 
@@ -347,7 +320,7 @@ Removes all event listeners that were previously defined in *created* hook.
 `title` - title of the Compare page
 ### Data
 `attributesByCode` - a computed property that returns the list of all product attributes by their code. Gets its value from *'attribute/attributeListByCode'* Vuex store getter.  
-`attributesByUd` - a computed property that return the list of all product attributes by their Id. Gets its value from *'attribute/attributeListById'* Vuex store getter. *This prop is not used anywhere.*  
+`attributesById` - a computed property that return the list of all product attributes by their Id. Gets its value from *'attribute/attributeListById'* Vuex store getter. *This prop is not used anywhere.*  
 `items` - returns the list of products that were chosen for comparison from Vuex store.  
 `all_comparable_attributes` - returns the subset of attributes from *attributesByCode* prop that have *is_comparable* property set to true.
 ### Methods
@@ -421,7 +394,7 @@ No props
 `originalProduct` - a computed property that represents current product in its initial state. Gets its value from *'product/productOriginal'* Vuex store getter.  
 `parentProduct` - a computed property that represents current product's parent product, if any. Gets its value from *'product/productParent'* Vuex store getter.  
 `attributesByCode` - a computed property that returns the list of all product attributes by their code. Gets its value from *'attribute/attributeListByCode'* Vuex store getter.  
-`attributesByUd` - a computed property that return the list of all product attributes by their Id. Gets its value from *'attribute/attributeListById'* Vuex store getter. *This prop is not used anywhere.*  
+`attributesById` - a computed property that return the list of all product attributes by their Id. Gets its value from *'attribute/attributeListById'* Vuex store getter. *This prop is not used anywhere.*  
 `breadcrumbs` - a computed property that represents breadcrumbs for the current product. Gets its value from *'product/breadcrumbs'* Vuex store getter.  
 `configuration` - a computed property that represents an object that shows which attributes (like size and color) are chosen on the product. Gets its value from *'product/currentConfiguration'* Vuex store getter.  
 `options` - a computed property that represents an object that shows what attributes (like size and color) with what values are available on the product. Gets its value from *'product/currentOptions'* Vuex store getter.  
