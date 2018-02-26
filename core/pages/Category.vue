@@ -49,7 +49,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
 
   const fsC = Object.assign({}, this.filterSet) // create a copy because it will be used asynchronously (take a look below)
-  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, offset: this.pagination.offset, pageSize: this.pagination.pageSize, filters: Object.keys(this.filters) }).then((res) => {
+  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: Object.keys(this.filters) }).then((res) => {
     EventBus.$emit('product-after-configured', { configuration: fsC })
   }) // because already aggregated
 }
@@ -99,11 +99,11 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
   return searchProductQuery
 }
 
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, offset = 0, pageSize = 50 }) {
+function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50 }) {
   return store.dispatch('product/list', {
     query: searchProductQuery.build(),
-    start: offset,
-    size: pageSize
+    start: current,
+    size: perPage
   }).then(function (res) {
     let subloaders = []
     if (!res || (res.noresults)) {
@@ -190,7 +190,7 @@ export default {
           filterValues: Object.keys(self.filters)// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
-      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, ofset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) })
+      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: Object.keys(self.filters) })
     },
 
     validateRoute ({store, route}) {
@@ -231,7 +231,7 @@ export default {
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
             store.dispatch('meta/set', { title: store.state.category.current.name })
-            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, ofset: 0, pageSize: 50, filters: defaultFilters }).then((subloaders) => {
+            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
 
@@ -282,8 +282,8 @@ export default {
   data () {
     return {
       pagination: {
-        pageSize: 50,
-        offset: 0
+        perPage: 50,
+        current: 0
       },
       filterSet: {} // filter set selected by user
     }
