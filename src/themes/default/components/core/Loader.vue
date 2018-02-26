@@ -2,8 +2,8 @@
   <div class="loader-container fixed" v-if="isVisible">
     <div class="loader-inner-container fixed">
       <div class="spinner relative">
-        <div class="double-bounce1 absolute w-100 brdr-circle bg-ocean-green"/>
-        <div class="double-bounce2 absolute w-100 brdr-circle bg-ocean-green"/>
+        <div class="double-bounce1 absolute w-100 brdr-circle bg-cl-th-success"/>
+        <div class="double-bounce2 absolute w-100 brdr-circle bg-cl-th-success"/>
       </div>
       <div
         class="loader-message-container mt15 py5 px15 align-center h6 c-white"

@@ -4,7 +4,7 @@
       <div class="col-xs-1 col-sm-2 col-md-1">
         <div
           class="number-circle lh35 c-white brdr-circle align-center weight-700"
-          :class="{ 'bg-darkgray' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }"
+          :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           4
         </div>
@@ -31,10 +31,10 @@
               <div class="cartsummary-wrapper">
                 <cart-summary />
               </div>
-              <div class="col-xs-11 col-sm-12 col-md-8 bg-lightgray p15 mb35 ml10">
+              <div class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10">
                 <div class="checkboxStyled relative">
                   <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox" @blur="$v.orderReview.terms.$touch()">
-                  <label class="absolute brdr-gray bg-lightgray pointer" for="acceptTermsCheckbox"/>
+                  <label class="absolute brdr-gray bg-cl-secondary pointer" for="acceptTermsCheckbox"/>
                 </div>
                 <div class="checkboxText ml15 lh25 pointer">
                   <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">

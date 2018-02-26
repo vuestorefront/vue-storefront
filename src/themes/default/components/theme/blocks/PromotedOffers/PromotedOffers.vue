@@ -8,7 +8,7 @@
       >
         <router-link :to="banner.link">
           <div
-            class="offer border-box p5 flex center-xs middle-xs c-white bg-darkgray"
+            class="offer border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
             v-lazy:background-image="banner.image"
           >
             <p class="subtitle m0 serif h3 uppercase">
@@ -29,7 +29,7 @@
         >
           <router-link :to="banner.link">
             <div
-              class="offer offer-small border-box p5 flex center-xs middle-xs c-white bg-darkgray"
+              class="offer offer-small border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
               v-lazy:background-image="banner.image"
             >
               <p class="subtitle m0 serif h3 uppercase">{{ banner.subtitle }}</p>
@@ -48,7 +48,7 @@
     >
       <router-link :to="banner.link">
         <div
-          class="offer offer-product border-box p5 flex center-xs middle-xs c-white bg-darkgray"
+          class="offer offer-product border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
           v-lazy:background-image="banner.image"
         >
           <p class="subtitle m0 serif h3 uppercase">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
       <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
       {{ $t('Reset password') }}
     </header>

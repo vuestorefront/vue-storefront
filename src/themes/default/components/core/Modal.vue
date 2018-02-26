@@ -6,8 +6,8 @@
          @click.self="close">
       <div class="modal-wrapper">
         <div class="modal-center">
-          <div class="modal-container bg-white" ref="modal-content" :style="style">
-            <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray" v-if="$slots.header">
+          <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
+            <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
               <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
               <slot name="header"/>
             </header>

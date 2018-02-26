@@ -1,7 +1,7 @@
 <template>
   <button
     class="
-      p0 bg-white brdr-1 brdr-cl-primary
+      p0 bg-cl-primary brdr-1 brdr-cl-primary
       brdr-square h5 c-lightgray-secondary size-button
     "
     :class="{ active: active }"

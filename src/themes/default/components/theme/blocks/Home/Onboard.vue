@@ -25,7 +25,7 @@
             </strong>
           </p>
           <p>
-            <button type="button" class="show-demo mt35 ripple brdr-none bg-ocean-green pointer c-white h4" @click="close">
+            <button type="button" class="show-demo mt35 ripple brdr-none bg-cl-th-success pointer c-white h4" @click="close">
               Show me the demo
             </button>
           </p>

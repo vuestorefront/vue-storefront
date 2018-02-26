@@ -1,6 +1,6 @@
 <template>
   <div id="product">
-    <section class="bg-lightgray py30 px20 product-top-section">
+    <section class="bg-cl-secondary py30 px20 product-top-section">
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
         <section class="row py35 m0 data-wrapper">
@@ -106,7 +106,7 @@
                 <button
                   @click="addToFavorite"
                   class="
-                    p0 inline-flex middle-xs bg-transparent brdr-none
+                    p0 inline-flex middle-xs bg-cl-th-transparent brdr-none
                     action weight-700 h5 uppercase pointer c-lightgray-secondary
                   "
                   type="button"
@@ -124,7 +124,7 @@
                 <button
                   @click="addToCompare"
                   class="
-                    p0 inline-flex middle-xs bg-transparent brdr-none
+                    p0 inline-flex middle-xs bg-cl-th-transparent brdr-none
                     action weight-700 h5 uppercase pointer c-lightgray-secondary
                   "
                   type="button"

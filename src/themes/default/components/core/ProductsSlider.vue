@@ -9,7 +9,7 @@
         </header>
       </div>
     </div>
-    <div class="bg-lightgray collection-slider">
+    <div class="bg-cl-secondary collection-slider">
       <div class="row">
         <div class="col-md-12">
           <div class="pb20 pt20 center-xs cool-stuff-collection">

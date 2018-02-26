@@ -1,5 +1,5 @@
 <template>
-  <div class="newsletter py25 px40 bg-lightgray">
+  <div class="newsletter py25 px40 bg-cl-secondary">
     <div class="container">
       <div class="newsletter-content m0 row middle-xs start-md">
         <div class="col-md-9 col-xs-12">

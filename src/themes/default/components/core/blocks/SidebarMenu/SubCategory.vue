@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu absolute w-100 p0 bg-white" :style="styles">
-      <li class="brdr-bottom brdr-cl-bg-secondary bg-white flex" :key="link.slug" v-for="link in categoryLinks">
+    <ul v-if="categoryLinks" class="sidebar-submenu absolute w-100 p0 bg-cl-primary" :style="styles">
+      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex" :key="link.slug" v-for="link in categoryLinks">
         <router-link
           class="px25 py20 c-darkgray no-underline col-xs"
           :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
@@ -12,13 +12,13 @@
         <sub-category :category-links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
       </li>
     </ul>
-    <ul v-else-if="myAccountLinks" class="sidebar-submenu absolute p0 bg-white" :style="styles">
-      <li class="brdr-bottom brdr-cl-bg-secondary bg-white flex" :key="link.id" v-for="link in myAccountLinks">
+    <ul v-else-if="myAccountLinks" class="sidebar-submenu absolute p0 bg-cl-primary" :style="styles">
+      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex" :key="link.id" v-for="link in myAccountLinks">
         <router-link class="px25 py20 c-darkgray no-underline col-xs" :to="'/my-account#' + link.anchor">
           {{ link.name }}
         </router-link>
       </li>
-      <li class="brdr-bottom brdr-cl-bg-secondary bg-white flex">
+      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex">
         <a href="#" class="px25 py20 c-darkgray no-underline col-xs" @click="logout">
           {{ $t('Logout') }}
         </a>

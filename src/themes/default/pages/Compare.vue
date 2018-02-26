@@ -1,6 +1,6 @@
 <template>
   <div class="compare">
-    <div class="bg-lightgray py35 pl20">
+    <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare"/>
         <h2>{{ title }}</h2>

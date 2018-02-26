@@ -1,5 +1,5 @@
 <template>
-  <section class="main-slider w-100 bg-darkgray c-white">
+  <section class="main-slider w-100 bg-cl-th-accent c-white">
     <no-ssr>
       <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
         <slide v-for="(slide, index) in slides" :key="index">

@@ -2,7 +2,7 @@
   <transition name="fade" appear>
     <li class="row py10">
       <div>
-        <div class="ml10 bg-lightgray">
+        <div class="ml10 bg-cl-secondary">
           <img class="image" v-lazy="thumbnail" alt="" >
         </div>
       </div>

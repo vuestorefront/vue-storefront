@@ -1,5 +1,5 @@
 <template>
-  <button class="brdr-none bg-transparent">
+  <button class="brdr-none bg-cl-th-transparent">
     <i class="material-icons h4">close</i>
   </button>
 </template>

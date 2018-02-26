@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="fixed w-100 brdr-bottom bg-white brdr-cl-secondary"
+      class="fixed w-100 brdr-bottom bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
@@ -9,10 +9,10 @@
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!isProductPage">
-                <hamburger-icon class="p15 icon bg-lightgray pointer" v-if="!isProductPage"/>
+                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!isProductPage"/>
               </template>
               <template v-else>
-                <return-icon class="p15 icon bg-lightgray pointer" v-if="isProductPage"/>
+                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="isProductPage"/>
               </template>
             </div>
           </div>

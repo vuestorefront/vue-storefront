@@ -1,6 +1,6 @@
 <template>
   <div id="category">
-    <header class="bg-lightgray py35 pl20">
+    <header class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <h1 class="category-title mb10"> {{ category.name }} </h1>
@@ -8,7 +8,7 @@
       <div class="container">
         <div class="row m0">
           <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-darkgray brdr-none c-white h5 weight-300 sans-serif"
+            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none c-white h5 weight-300 sans-serif"
             @click="openFilters"
           >
             {{ $t('Filters') }}

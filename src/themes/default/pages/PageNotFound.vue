@@ -1,13 +1,13 @@
 <template>
   <div id="page_not_found">
-    <section class="bg-lightgray py35 px20">
+    <section class="bg-cl-secondary py35 px20">
       <div class="container">
         <h2>
           {{ $t("We can't find the page") }}
         </h2>
       </div>
     </section>
-    <section class="bg-white py35 px20">
+    <section class="bg-cl-primary py35 px20">
       <div class="container">
         <div class="lh16 h5 weight-400">
           <p>

@@ -1,7 +1,7 @@
 <template>
   <div
     v-show="!isOnline"
-    class="offline-badge fixed w-100 p10 bg-red c-white center-xs"
+    class="offline-badge fixed w-100 p10 bg-cl-th-error c-white center-xs"
   >
     {{ $t('You are offline, some of the functionalities are limited') }}
   </div>

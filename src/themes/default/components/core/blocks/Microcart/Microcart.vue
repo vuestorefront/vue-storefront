@@ -1,9 +1,9 @@
 <template>
   <div
     class="microcart mw-100 fixed c-darkgray"
-    :class="[items.length ? 'bg-lightgray' : 'bg-white', { active: isOpen }]"
+    :class="[items.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: isOpen }]"
   >
-    <div class="row middle-xs bg-white top-sm">
+    <div class="row middle-xs bg-cl-primary top-sm">
       <div class="col-xs-10">
         <h2
           v-if="items.length"
@@ -13,7 +13,7 @@
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 brdr-none bg-transparent close" @click="closeMicrocart">
+        <button type="button" class="p0 brdr-none bg-cl-th-transparent close" @click="closeMicrocart">
           <i class="material-icons p15 c-darkgray">
             close
           </i>
@@ -31,7 +31,7 @@
       </router-link>
       {{ $t('to find something beautiful for You!') }}
     </div>
-    <ul v-if="items.length" class="bg-white m0 px40 pb40 products">
+    <ul v-if="items.length" class="bg-cl-primary m0 px40 pb40 products">
       <product v-for="product in items" :key="product.sku" :product="product" />
     </ul>
     <div v-if="items.length" class="summary px40 c-darkgray serif">

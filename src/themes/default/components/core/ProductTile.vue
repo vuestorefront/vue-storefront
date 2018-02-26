@@ -13,7 +13,7 @@
         }"
       >
         <div
-          class="product-image relative bg-lightgray"
+          class="product-image relative bg-cl-secondary"
           :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
         >
           <transition name="fade" appear>

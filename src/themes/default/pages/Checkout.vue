@@ -13,7 +13,7 @@
           <payment class="line relative" :is-active="activeSection.payment"/>
           <order-review class="line relative" :is-active="activeSection.orderReview"/>
         </div>
-        <div class="hidden-xs col-sm-5 bg-lightgray">
+        <div class="hidden-xs col-sm-5 bg-cl-secondary">
           <cart-summary />
         </div>
       </div>

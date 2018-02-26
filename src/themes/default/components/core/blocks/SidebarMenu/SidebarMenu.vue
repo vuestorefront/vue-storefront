@@ -1,14 +1,14 @@
 <template>
-  <div class="sidebar-menu fixed mw-100 bg-lightgray" :class="{ active: isOpen }">
+  <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: isOpen }">
     <div class="row between-xs">
-      <div @click="closeMenu" class="flex-start px10 bg-white brdr-bottom brdr-cl-bg-secondary">
+      <div @click="closeMenu" class="flex-start px10 bg-cl-primary brdr-bottom brdr-cl-bg-secondary">
         <sub-btn type="back" v-if="submenu.depth" />
         <search-icon class="p15 icon hidden-md" />
         <wishlist-icon class="p15 icon hidden-md" />
         <account-icon class="p15 icon hidden-md" />
       </div>
       <div
-        class="flex-end col-xs inline-flex pointer bg-white align-right end-xs brdr-bottom brdr-cl-bg-secondary"
+        class="flex-end col-xs inline-flex pointer bg-cl-primary align-right end-xs brdr-bottom brdr-cl-bg-secondary"
         @click="closeMenu"
       >
         <i class="material-icons p15">close</i>
@@ -17,13 +17,13 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" class="brdr-bottom brdr-cl-bg-secondary bg-white">
+          <li @click="closeMenu" class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary">
             <router-link class="block px25 py20 c-darkgray no-underline" to="/" exact>
               {{ $t('Home') }}
             </router-link>
           </li>
           <li
-            class="brdr-bottom brdr-cl-bg-secondary bg-white flex"
+            class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
             :key="category.slug"
             @click="closeMenu"
             v-for="category in categories"
