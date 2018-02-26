@@ -1,29 +1,9 @@
-import * as types from '../mutation-types'
-import * as entities from 'core/lib/entities'
+import * as types from '../../mutation-types'
 import { execute as taskExecute } from 'core/lib/task'
-import config from 'config'
-import EventBus from 'core/plugins/event-bus'
+import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
 
-function _prepareTask (task) {
-  const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
-  task.task_id = taskId.toString()
-  task.transmited = false
-  task.created_at = new Date()
-  task.updated_at = new Date()
-  return task
-}
-
-// initial state
-const state = {
-}
-
-const getters = {
-}
-
-// actions
-const actions = {
-
+export default {
   /**
    * Queue synchronization task
    * {
@@ -77,30 +57,4 @@ const actions = {
       }
     })
   }
-}
-
-// mutations
-const mutations = {
-  /**
-   * Add task to sync. queue
-   * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
-   */
-  [types.SYNC_ADD_TASK] (state, task) {
-    const tasksCollection = global.db.syncTaskCollection
-    task = _prepareTask(task)
-    tasksCollection.setItem(task.task_id.toString(), task).catch((reason) => {
-      console.error(reason) // it doesn't work on SSR
-    }).then((resp) => {
-      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-      console.info('Synchronization task added url = ' + task.url + ' taskId = ' + task.task_id)
-    }) // populate cache
-  }
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
 }
