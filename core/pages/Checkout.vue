@@ -29,7 +29,7 @@ export default {
       order: {},
       personalDetails: {},
       shipping: {},
-      payment: { paymentMethod: 'cashondelivery' },
+      payment: {},
       orderReview: {},
       cartSummary: {},
       validationResults: {
@@ -84,6 +84,7 @@ export default {
         }
       }
     }
+    this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
   },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
@@ -124,6 +125,14 @@ export default {
       this.orderPlaced = true
       console.log(this.order)
     })
+    this.$bus.$on('checkout-before-shippingMethods', (country) => {
+      this.$store.dispatch('cart/getShippingMethods', {
+        country_id: country
+      })
+    })
+    this.$bus.$on('checkout-after-shippingMethodChanged', (payload) => {
+      this.$store.dispatch('cart/refreshTotals', payload)
+    })
   },
   destroyed () {
     this.$bus.$off('network-before-checkStatus')
@@ -134,6 +143,8 @@ export default {
     this.$bus.$off('checkout-before-placeOrder')
     this.$bus.$off('checkout-before-edit')
     this.$bus.$off('order-after-placed')
+    this.$bus.$off('checkout-before-shippingMethods')
+    this.$bus.$off('checkout-after-shippingMethodChanged')
   },
   computed: {
     isValid () {

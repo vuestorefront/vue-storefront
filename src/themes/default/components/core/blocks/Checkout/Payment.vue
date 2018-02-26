@@ -252,8 +252,14 @@
             </h4>
           </div>
           <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
-            <label class="radioStyled"> {{ method.name }}
-              <input type="radio" :value="method.code" name="payment-method" v-model="payment.paymentMethod">
+            <label class="radioStyled"> {{ method.title }}
+              <input
+                type="radio"
+                :value="method.code"
+                name="payment-method"
+                v-model="payment.paymentMethod"
+                @change="$v.payment.paymentMethod.$touch()"
+              >
               <span class="checkmark"/>
             </label>
           </div>
@@ -305,7 +311,7 @@
               <h4>Payment method</h4>
             </div>
             <div class="col-md-6 mb15">
-              <label class="radioStyled"> {{ getPaymentMethod().name }}
+              <label class="radioStyled"> {{ getPaymentMethod().title }}
                 <input type="radio" value="" checked disabled name="chosen-payment-method">
                 <span class="checkmark"/>
               </label>

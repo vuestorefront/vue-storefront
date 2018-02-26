@@ -160,7 +160,7 @@
               name="countries"
               :class="{'c-lightgray-secondary' : shipping.country.length === 0}"
               v-model="shipping.country"
-              @change="$v.shipping.country.$touch()"
+              @change="$v.shipping.country.$touch(); changeCountry();"
               autocomplete="country"
             >
               <option value="" disabled selected hidden>Country *</option>
@@ -179,10 +179,10 @@
             </h4>
           </div>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
-            <label class="radioStyled"> {{ method.name }} | {{ method.cost | price }}
+            <label class="radioStyled"> {{ method.method_title }} | {{ method.amount | price }}
               <input
                 type="radio"
-                :value="method.code"
+                :value="method.method_code"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
                 @change="$v.shipping.shippingMethod.$touch()"
@@ -239,8 +239,7 @@
               </h4>
             </div>
             <div class="col-md-6 mb15">
-              <!-- <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label> -->
-              <label class="radioStyled"> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }}
+              <label class="radioStyled"> {{ getShippingMethod().method_title }} | {{ getShippingMethod().amount | price }}
                 <input type="radio" value="" checked disabled name="chosen-shipping-method">
                 <span class="checkmark"/>
               </label>

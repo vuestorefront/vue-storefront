@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 import EventBus from 'core/plugins/event-bus'
 import i18n from 'core/lib/i18n'
+import rootStore from '../'
 
 const store = {
   namespaced: true,
@@ -23,7 +24,7 @@ const store = {
       state: '',
       zipCode: '',
       phoneNumber: '',
-      shippingMethod: 'flatrate'
+      shippingMethod: ''
     },
     paymentDetails: {
       firstName: '',
@@ -37,7 +38,7 @@ const store = {
       zipCode: '',
       phoneNumber: '',
       taxId: '',
-      paymentMethod: 'cashondelivery'
+      paymentMethod: ''
     }
   },
   mutations: {
@@ -123,6 +124,9 @@ const store = {
         if (err) throw new Error(err)
         if (details) {
           commit(types.CHECKOUT_LOAD_SHIPPING_DETAILS, details)
+          rootStore.dispatch('cart/getShippingMethods', {
+            country_id: details.country
+          })
         }
       })
       global.db.checkoutFieldsCollection.getItem('payment-details', (err, details) => {

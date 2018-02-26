@@ -21,6 +21,7 @@ EventBus.$on('session-after-started', (event) => { // example stock check callba
   console.log('Loading user profile')
   store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {
   })
+  store.dispatch('cart/getPaymentMethods')
 })
 
 // After order has been placed fill in missing address information in user's profile

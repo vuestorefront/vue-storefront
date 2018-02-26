@@ -42,7 +42,7 @@
         <div class="col-xs">
           {{ segment.title }}
         </div>
-        <div v-if="segment.value" class="col-xs align-right">
+        <div v-if="segment.value != null" class="col-xs align-right">
           {{ segment.value | price }}
         </div>
       </div>

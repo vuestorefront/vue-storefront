@@ -6,7 +6,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import PaymentMethods from 'core/resource/payment_methods.json'
 import Countries from 'core/resource/countries.json'
 
 export default {
@@ -20,7 +19,7 @@ export default {
   data () {
     return {
       isFilled: false,
-      paymentMethods: PaymentMethods,
+      paymentMethods: this.$store.state.cart.payment instanceof Array ? this.$store.state.cart.payment : [this.$store.state.cart.payment],
       countries: Countries,
       payment: this.$store.state.checkout.paymentDetails,
       generateInvoice: false,
@@ -80,7 +79,7 @@ export default {
                 apartmentNumber: addresses[i].street[1],
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
-                paymentMethod: 'cashondelivery'
+                paymentMethod: this.paymentMethods[0].code
               }
               this.generateInvoice = true
               this.sendToBillingAddress = true
@@ -102,7 +101,7 @@ export default {
           postcode: '',
           phoneNumber: '',
           taxId: '',
-          paymentMethod: 'cashondelivery'
+          paymentMethod: this.paymentMethods[0].code
         }
       }
     },
@@ -120,7 +119,7 @@ export default {
           apartmentNumber: shippingDetails.apartmentNumber,
           zipCode: shippingDetails.zipCode,
           phoneNumber: shippingDetails.phoneNumber,
-          paymentMethod: 'cashondelivery'
+          paymentMethod: this.paymentMethods[0].code
         }
         this.sendToBillingAddress = false
         this.generateInvoice = false
@@ -147,7 +146,7 @@ export default {
               apartmentNumber: addresses[i].street[1],
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
-              paymentMethod: 'cashondelivery'
+              paymentMethod: this.paymentMethods[0].code
             }
             this.generateInvoice = true
           }
@@ -174,10 +173,10 @@ export default {
       return ''
     },
     getPaymentMethod () {
-      for (let i = 0; i < PaymentMethods.length; i++) {
-        if (PaymentMethods[i].code === this.payment.paymentMethod) {
+      for (let i = 0; i < this.paymentMethods.length; i++) {
+        if (this.paymentMethods[i].code === this.payment.paymentMethod) {
           return {
-            name: PaymentMethods[i].name
+            title: this.paymentMethods[i].title
           }
         }
       }

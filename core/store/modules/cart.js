@@ -14,6 +14,7 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     console.log(`Server cart token after created = ${cartToken}`)
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', { forceClientState: false }, { root: true })
+    rootStore.dispatch('cart/getPaymentMethods')
   } else {
     rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
     console.error(event.result)
@@ -23,12 +24,13 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
 EventBus.$on('user-before-logout', () => {
   rootStore.dispatch('cart/clear', {}, { root: true })
   rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
-  rootStore.dispatch('cart/getPaymentMethods')
+  rootStore.dispatch('cart/getShippingMethods', {
+    country_id: rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+  })
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
   rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
-  rootStore.dispatch('cart/getPaymentMethods')
 })
 
 EventBus.$on('servercart-after-totals', (event) => { // example stock check callback
@@ -42,6 +44,7 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
     }
     rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: event.result, platformTotalSegments: platformTotalSegments })
   } else {
+    console.log('are we coming here?')
     console.error(event.result)
   }
 })
@@ -141,7 +144,7 @@ const store = {
     cartSavedAt: new Date(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
-    shipping: { cost: 0, code: '' },
+    shipping: [],
     payment: [],
     cartItems: [] // TODO: check if it's properly namespaced
   },
@@ -184,9 +187,8 @@ const store = {
       }
       state.cartSavedAt = new Date()
     },
-    [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
-      state.shipping.cost = shippingCost
-      state.shipping.code = shippingMethod
+    [types.CART_UPD_SHIPPING] (state, shippingMethods) {
+      state.shipping = shippingMethods
       state.cartSavedAt = new Date()
     },
     [types.CART_LOAD_CART] (state, storedItems) {
@@ -206,8 +208,9 @@ const store = {
       state.platformTotals = totals
       state.platformTotalSegments = platformTotalSegments
     },
-    [types.CART_UPD_PAYMENT] (state, { paymentMethods }) {
+    [types.CART_UPD_PAYMENT] (state, paymentMethods) {
       state.payment = paymentMethods
+      state.cartSavedAt = new Date()
     }
   },
   getters: {
@@ -215,34 +218,38 @@ const store = {
       if (state.platformTotalSegments) {
         return state.platformTotalSegments
       } else {
-        let shipping = state.shipping
-        let payment = state.payment[0]
-        return [
-          {
-            code: 'subtotalInclTax',
-            title: i18n.t('Subtotal incl. tax'),
-            value: _.sumBy(state.cartItems, (p) => {
-              return p.qty * p.priceInclTax
-            })
-          },
-          {
-            code: 'payment',
-            title: i18n.t(payment.name),
-            value: null
-          },
-          {
-            code: 'shipping',
-            title: i18n.t(shipping.name),
-            value: shipping.costInclTax
-          },
-          {
-            code: 'grand_total',
-            title: i18n.t('Grand total'),
-            value: _.sumBy(state.cartItems, (p) => {
-              return p.qty * p.priceInclTax + shipping.costInclTax
-            })
-          }
-        ]
+        let shipping = state.shipping instanceof Array ? state.shipping[0] : state.shipping
+        let payment = state.payment instanceof Array ? state.payment[0] : state.payment
+        if (shipping && payment) {
+          return [
+            {
+              code: 'subtotalInclTax',
+              title: i18n.t('Subtotal incl. tax'),
+              value: _.sumBy(state.cartItems, (p) => {
+                return p.qty * p.priceInclTax
+              })
+            },
+            {
+              code: 'payment',
+              title: i18n.t(payment.title),
+              value: null
+            },
+            {
+              code: 'shipping',
+              title: i18n.t(shipping.method_title),
+              value: shipping.price_incl_tax
+            },
+            {
+              code: 'grand_total',
+              title: i18n.t('Grand total'),
+              value: _.sumBy(state.cartItems, (p) => {
+                return p.qty * p.priceInclTax + shipping.price_incl_tax
+              })
+            }
+          ]
+        } else {
+          return []
+        }
       }
     },
     totalQuantity (state) {
@@ -383,7 +390,7 @@ const store = {
       const rootState = context.rootState
       const state = context.state
 
-      if (!state.shipping.code) {
+      if (!state.shipping.method_code) {
         state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el }) // TODO: use commit() instead of modifying the state in actions
       }
       if (!state.payment.code) {
@@ -491,25 +498,79 @@ const store = {
     updateItem ({ commit }, { product }) {
       commit(types.CART_UPD_ITEM_PROPS, { product })
     },
-    changeShippingMethod ({ commit }, { shippingMethod, shippingCost }) {
-      commit(types.CART_UPD_SHIPPING, { shippingMethod, shippingCost })
-    },
     getPaymentMethods (context) {
       if (config.cart.synchronize_totals) {
-        context.dispatch('sync/execute', { url: config.cart.paymentmethods_endpoint, // sync the cart
+        context.dispatch('sync/execute', { url: config.cart.paymentmethods_endpoint,
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors'
           }
-        }, { root: true }).then(paymentMethods => {
-          // eslint-disable-next-line no-useless-return
-          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-          console.log(paymentMethods)
-          // context.commit(types.CART_UPD_PAYMENT, paymentMethods)
-          return
+        }, { root: true }).then(task => {
+          context.commit(types.CART_UPD_PAYMENT, task.result)
         }).catch(e => {
-          console.log('прогон в холостую', e)
+          console.error(e)
+        })
+      }
+    },
+    getShippingMethods (context, address) {
+      if (config.cart.synchronize_totals) {
+        context.dispatch('sync/execute', { url: config.cart.shippingmethods_endpoint,
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            body: JSON.stringify({
+              address: address
+            })
+          }
+        }, { root: true }).then(task => {
+          context.commit(types.CART_UPD_SHIPPING, task.result)
+        }).catch(e => {
+          console.error(e)
+        })
+      }
+    },
+    refreshTotals (context, methodsData) {
+      if (config.cart.synchronize_totals) {
+        context.dispatch('sync/execute', { url: config.cart.shippinginfo_endpoint,
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            body: JSON.stringify({
+              addressInformation: {
+                shipping_address: {
+                  country_id: methodsData.country
+                },
+                shipping_method_code: methodsData.method_code,
+                shipping_carrier_code: methodsData.carrier_code
+              }
+            })
+          }
+        }, { root: true }).then(task => {
+          console.log('successfully called shiiping-information')
+          context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
+            payload: {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors',
+              body: JSON.stringify({
+                methods: {
+                  paymentMethod: {
+                    method: methodsData.payment_method
+                  },
+                  shippingCarrierCode: methodsData.carrier_code,
+                  shippingMethodCode: methodsData.method_code
+                }
+              })
+            },
+            callback_event: 'servercart-after-totals'
+          }, { root: true }).then(task => {}).catch(e => {
+            console.error(e)
+          })
+        }).catch(e => {
+          console.error(e)
         })
       }
     }

@@ -1,6 +1,6 @@
 [
     {
-        "name": "Cash on delivery",
+        "title": "Cash on delivery",
         "code": "cashondelivery",
         "cost": 0, 
         "costInclTax": 0,
