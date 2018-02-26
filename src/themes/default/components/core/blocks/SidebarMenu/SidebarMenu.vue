@@ -194,6 +194,7 @@ $lightgray: map-get($colors, lightgray);
   }
 
   button {
+    padding: 0;
     &:hover i{
       opacity: 1;
     }
