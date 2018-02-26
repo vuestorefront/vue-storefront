@@ -1,7 +1,7 @@
 <template>
   <span @click="switchFilter(id, from, to)">
     <button
-      class="relative brdr-cl-th-suva-gray brdr-1 bg-cl-transparent mr10 pointer price-button"
+      class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-button"
       :class="{ active: active }"
       :aria-label="$t('Price ') + content"
     >

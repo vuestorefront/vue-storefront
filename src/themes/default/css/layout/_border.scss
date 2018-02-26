@@ -26,8 +26,8 @@ $border-radius: (
       border-radius: #{$value};
     }
   }
-  @include color-selectors($colors-border, 'brdr-cl', 'border-color');
-  @include color-selectors(map_merge($_colors, $colors-theme), 'brdr-cl-th', 'border-color');
+  @include color-selectors(map_merge($_colors, $colors-border), 'brdr-cl', 'border-color');
+  @include color-selectors($colors-theme, 'brdr-cl-th', 'border-color');
   @include color-selectors($colors-background, 'brdr-cl-bg', 'border-color');
 }
 
