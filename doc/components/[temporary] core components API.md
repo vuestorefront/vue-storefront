@@ -332,16 +332,8 @@ Removes all event listeners that were previously defined in *created* hook.
 Dispatches *'compare/load'* action that loads list of products to compare from localStorage into Vuex store. Also dispatches *'attribute/list'* action that loads all product attributes that have *is_user_defined* property set to true into Vuex store.
 
 ## Home
-*In core page there's almost no functionality, everything is in theme component, which definetely needs be replaced to core.*
-### Props
-No props
-### Data
-No data
-### Methods
-No methods
-### Hooks
-#### beforeMount
-Clears Vuex store entries that define current category by dispatching *'category/reset'* action. If app is launching in demo mode, onboarding info modal pops up.
+
+Home page has been refactored to the new core proposal (1.0RC) and the [docs has been moved](core/HomePage.md).
 
 ## MyAccount
 
