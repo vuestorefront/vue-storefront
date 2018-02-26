@@ -106,7 +106,7 @@
                 <button
                   @click="addToFavorite"
                   class="
-                    p0 inline-flex middle-xs bg-cl-th-transparent brdr-none
+                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action weight-700 h5 uppercase pointer c-lightgray-secondary
                   "
                   type="button"
@@ -124,7 +124,7 @@
                 <button
                   @click="addToCompare"
                   class="
-                    p0 inline-flex middle-xs bg-cl-th-transparent brdr-none
+                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action weight-700 h5 uppercase pointer c-lightgray-secondary
                   "
                   type="button"

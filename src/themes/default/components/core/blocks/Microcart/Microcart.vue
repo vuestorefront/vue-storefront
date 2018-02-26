@@ -13,7 +13,7 @@
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 brdr-none bg-cl-th-transparent close" @click="closeMicrocart">
+        <button type="button" class="p0 brdr-none bg-cl-transparent close" @click="closeMicrocart">
           <i class="material-icons p15 c-darkgray">
             close
           </i>

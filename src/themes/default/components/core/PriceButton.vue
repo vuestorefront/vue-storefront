@@ -1,11 +1,11 @@
 <template>
   <span @click="switchFilter(id, from, to)">
     <button
-      class="relative brdr-cl-th-suva-gray brdr-1 bg-cl-th-transparent mr10 pointer price-button"
+      class="relative brdr-cl-th-suva-gray brdr-1 bg-cl-transparent mr10 pointer price-button"
       :class="{ active: active }"
       :aria-label="$t('Price ') + content"
     >
-      <div class="bg-cl-th-transparent absolute block square"/>
+      <div class="bg-cl-transparent absolute block square"/>
     </button>
     <span>{{ content }}</span>
   </span>

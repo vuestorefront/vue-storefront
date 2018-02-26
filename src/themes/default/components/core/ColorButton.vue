@@ -1,6 +1,6 @@
 <template>
   <button
-    class="mr10 mb5 bg-cl-th-transparent brdr-1 brdr-circle brdr-cl-th-transparent relative inline-flex pointer color"
+    class="mr10 mb5 bg-cl-transparent brdr-1 brdr-circle brdr-cl-th-transparent relative inline-flex pointer color"
     @click="switchFilter(id, label)"
     :class="{ active: active }"
     :aria-label="$t('Select color ') + label"
