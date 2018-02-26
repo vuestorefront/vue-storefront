@@ -125,7 +125,7 @@ function stateCheck () {
     this.$router.push({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
   }
 
-  if (this.wishlistCheck.isOnWishlist(this.originalProduct)) {
+  if (this.wishlistCheck.isOnWishlist(this.product)) {
     this.favorite.icon = 'favorite'
     this.favorite.isFavorite = true
   } else {
@@ -157,13 +157,12 @@ export default {
     addToFavorite () {
       let self = this
       if (!self.favorite.isFavorite) {
-        console.log(self.originalProduct)
-        this.$store.dispatch('wishlist/addItem', self.originalProduct).then(res => {
+        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
           self.favorite.icon = 'favorite'
           self.favorite.isFavorite = true
         })
       } else {
-        this.$store.dispatch('wishlist/removeItem', self.originalProduct).then(res => {
+        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
           self.favorite.icon = 'favorite_border'
           self.favorite.isFavorite = false
         })

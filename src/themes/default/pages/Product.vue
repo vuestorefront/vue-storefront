@@ -112,7 +112,12 @@
                   type="button"
                 >
                   <i class="pr5 material-icons">{{ favorite.icon }}</i>
-                  {{ $t('Add to favorite') }}
+                  <template v-if="!favorite.isFavorite">
+                    {{ $t('Add to favorite') }}
+                  </template>
+                  <template v-else>
+                    {{ $t('Remove') }}
+                  </template>
                 </button>
               </div>
               <div class="hidden-xs col-md-7">

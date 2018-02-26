@@ -20,7 +20,7 @@
       "Product {productName} has been added to the compare!": "Product {productName} has been added to the compare!",
       "Product {productName} has been removed from compare!": "Product {productName} has been removed from compare!",
       "Product {productName} has been added to wishlist!": "Product {productName} has been added to wishlist!",
-      "Product {productName} has been removed from wishlit!": "Product {productName} has been added to wishlist!",
+      "Product {productName} has been removed from wishlit!": "Product {productName} has been removed from wishlist!",
       "Account data has successfully been updated": "Account data has successfully been updated",
       "You are logged out": "You are logged out",
       "Remove from compare": "Remove from compare",
@@ -187,6 +187,7 @@
       "Subtotal incl. tax": "Subtotal incl. tax",
       "Cash on delivery": "Cash on delivery",
       "DPD Courier": "DPD Courier",
-      "Grand total": "Grand total"
+      "Grand total": "Grand total",
+      "Remove": "Remove"
     }
 }
