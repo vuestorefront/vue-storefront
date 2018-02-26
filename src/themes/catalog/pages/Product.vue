@@ -8,7 +8,7 @@
       </div>
       <div class="row">
         <div class="animate col-xs-12 col-md-7 pr20-md">
-          <img class="full-width b" v-lazy="imgObj" ref="image">
+          <img class="full-width b" v-lazy="image" ref="image">
         </div>
         <div class="animate col-xs-12 col-md-5">
           <div class="row">
@@ -28,8 +28,8 @@
               <h4>{{ variant.label }}</h4>
             </div>
             <div class="col-xs-12">
-              <color-filter v-for="(color, i) in options.color" :key="i" :color="color.label" :id="color.id" class="mr5" :active="color.id == configuration.color.id" v-if="variant.label == 'Color'" />
-              <size-filter v-for="(size, i) in options.size" :key="i" :size="size.label" :id="size.id" class="mr15" :active="size.id == configuration.size.id" v-if="variant.label == 'Size'" />
+              <color-filter v-for="(color, i) in options.color" :key="i" :color="color.label" :id="color.id" class="mr5" :initial-active="color.id == configuration.color.id" v-if="variant.label == 'Color'" />
+              <size-filter v-for="(size, i) in options.size" :key="i" :size="size.label" :id="size.id" class="mr15" :initial-active="size.id == configuration.size.id" v-if="variant.label == 'Size'" />
             </div>
           </div>
           <div class="row mt30">
@@ -57,7 +57,7 @@
             </div>
             <div v-if="ui.aboutProduct" v-html="product.description" class="col-md-12 mt10"/>
             <div v-if="ui.qualities" class="col-md-12 mt20">
-              <product-attribute :key="attr.attribute_code" v-for="attr in all_custom_attributes" :product="product" :attribute="attr" empty-placeholder="N/A"/>
+              <product-attribute :key="attr.attribute_code" v-for="attr in customAttributes" :product="product" :attribute="attr" empty-placeholder="N/A"/>
             </div>
           </div>
         </div>
