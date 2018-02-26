@@ -5,9 +5,9 @@ No props
 
 ### Data
 
-`pagination` - an object that defines two settings:
-- `perPagr` of product items to load per page, currently set to 50
-- `offset` that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere.
+- `pagination` - an object that defines two settings:
+  - `perPagr` of product items to load per page, currently set to 50
+  - `offset` that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere.
 - `enabled` - enables/disables paging. When it's disabled it lazy loads other products on scroll
 - `filters.available`, `filters.chosen` - a set of filters that user has defined on Category page - here we have available filters and chosen filter values 
 - `products` - computed property that return a list of product items of current category from the Vuex store.  
