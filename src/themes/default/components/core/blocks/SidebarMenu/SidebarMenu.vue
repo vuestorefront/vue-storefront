@@ -39,21 +39,21 @@
             <sub-category :category-links="category.children_data" :id="category.id"/>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-brdr-secondary c-darkgray no-underline" to="/magazine" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary c-darkgray no-underline" to="/magazine" exact>
               {{ $t('Magazine') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-brdr-secondary c-darkgray no-underline" to="/sale" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary c-darkgray no-underline" to="/sale" exact>
               {{ $t('Sale') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-brdr-secondary c-darkgray no-underline" to="/order-tracking" exact>
+            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary c-darkgray no-underline" to="/order-tracking" exact>
               {{ $t('Track my order') }}
             </router-link>
           </li>
-          <li @click="closeMenu" class="brdr-bottom brdr-cl-brdr-secondary flex">
+          <li @click="closeMenu" class="brdr-bottom brdr-cl-secondary flex">
             <router-link v-if="currentUser" class="block px25 py20 c-darkgray no-underline col-xs" to="/my-account" exact>
               {{ $t('My account') }}
             </router-link>

@@ -29,7 +29,7 @@
                       </td>
                     </tr>
                   </thead>
-                  <tbody class="brdr-bottom brdr-cl-brdr-secondary">
+                  <tbody class="brdr-bottom brdr-cl-secondary">
                     <tr>
                       <th/>
                       <td v-for="(product, index) in items" :key="index" class="p5">
@@ -37,7 +37,7 @@
                       </td>
                     </tr>
                   </tbody>
-                  <tbody class="brdr-bottom brdr-cl-brdr-secondary">
+                  <tbody class="brdr-bottom brdr-cl-secondary">
                     <tr>
                       <th class="p15 align-left">SKU</th>
                       <td v-for="(product, index) in items" :key="index" class="p15">

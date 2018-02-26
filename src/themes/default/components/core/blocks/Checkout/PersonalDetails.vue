@@ -35,7 +35,7 @@
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
             <input
-              class="py10 brdr-none brdr-bottom brdr-cl-brdr-primary h4"
+              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
               type="text"
               name="first-name"
               :placeholder="$t('First name *')"
@@ -55,7 +55,7 @@
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
             <input
-              class="py10 brdr-none brdr-bottom brdr-cl-brdr-primary h4"
+              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
               type="text"
               name="last-name"
               :placeholder="$t('Last name *')"
@@ -72,7 +72,7 @@
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
             <input
-              class="py10 brdr-none brdr-bottom brdr-cl-brdr-primary h4"
+              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
               type="email"
               name="email-address"
               :placeholder="$t('Email address *')"
@@ -102,7 +102,7 @@
           <div class="col-xs-12 col-sm-12 mb25 mt10" v-show="createAccount && !currentUser">
             <div class="pass-container relative mr35">
               <input
-                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-brdr-primary h4"
+                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4"
                 name="password"
                 v-model="password"
                 :type="passType.pass"
@@ -119,7 +119,7 @@
           <div class="col-xs-12 col-sm-12 mb25" v-show="createAccount && !currentUser">
             <div class="pass-container relative mr35">
               <input
-                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-brdr-primary h4"
+                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4"
                 name="password-confirm"
                 v-model="rPassword"
                 :type="passType.repeatPass"
