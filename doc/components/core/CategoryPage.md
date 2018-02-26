@@ -19,15 +19,11 @@ No props
 - `productsCounter` - how many products are in the category.
 
 ### Methods
-`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.
+- `fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.
+  - `{ store, route }` - an object consisting of the Vuex store and global router references.  
 
-**Parameters**  
-`{ store, route }` - an object consisting of the Vuex store and global router references.  
-
-`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches `'category/single'` action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  
-
-**Parameters**  
-`{ store, route }` - an object consisting of the Vuex store and global router references.
+- `validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches `'category/single'` action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  
+  - `{ store, route }` - an object consisting of the Vuex store and global router references.
 
 ### Events
 
