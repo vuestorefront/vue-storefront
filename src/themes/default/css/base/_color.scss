@@ -11,10 +11,12 @@
   }
 }
 
-@include color; // @todo remove after refactore
+//@include color; // @todo remove after refactore
 
 // Generate colors selectors .cl-{#name-of-color}
-@include color-selectors(map_merge($_colors, $colors-basic), 'cl', 'color');
+@include color-selectors(map_merge($_colors, $colors-theme), 'cl', 'color');
+@include color-selectors($colors-background, 'cl-bg', 'color');
 
 // Generate background-color selectors .bg-{#name-of-color}
-@include color-selectors(map_merge($_colors, $colors-basic), 'bg', 'background-color');
+@include color-selectors($colors-background, 'bg-cl', 'background-color');
+@include color-selectors(map_merge($_colors, $colors-theme), 'bg-cl-th', 'background-color');
