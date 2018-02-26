@@ -8,7 +8,7 @@ import EventBus from 'core/plugins/event-bus'
 const state = {
   list: [],
   current: {},
-  filters: { color: [], size: [], price: [] },
+  filters: { available: { color: [], size: [], price: [] }, chosen: {} },
   breadcrumbs: {routes: []},
   current_path: [] // list of categories from root to current
 }

@@ -17,7 +17,7 @@
           <div class="h6 pt5 c-red" v-if="product.warning_message">
             {{ product.warning_message }}
           </div>
-          <div class="h6 pt5 c-ocean-green" v-if="product.info_message">
+          <div class="h6 pt5 c-ocean-green" v-if="product.info_message && !product.warning_message">
             {{ product.info_message }}
           </div>
         </div>
