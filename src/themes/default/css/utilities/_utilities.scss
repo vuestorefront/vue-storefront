@@ -14,7 +14,7 @@ a:not(.no-underline):hover:after {
   left: 0;
   width: 100%;
   height: 1px;
-  background-color: map-get($colors, lightgray-secondary);
+  background-color: color(primary, $colors-border)
 }
 
 .no-underline:hover:after {

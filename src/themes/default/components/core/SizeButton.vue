@@ -21,9 +21,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $gray-secondary: map-get($colors, gray-secondary);
-  $alto: map-get($colors, alto);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-active: color(secondary);
+  $color-disabled: color(secondary, $colors-border);
 
   .size-button {
     width: 40px;
@@ -35,14 +36,14 @@ export default {
     }
 
     &.active {
-      border-color: $gray-secondary;
+      border-color: $color-active;
       border-width: 2px;
-      color: $gray-secondary;
+      color: $color-active;
     }
 
     &:disabled {
-      border-color: $alto;
-      color: $alto;
+      border-color: $color-disabled;
+      color: $color-disabled;
       cursor: not-allowed;
 
       &:hover,

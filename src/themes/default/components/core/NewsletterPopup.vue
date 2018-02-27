@@ -81,18 +81,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $black: map-get($colors, black);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
 
   input::-webkit-input-placeholder,
   input::-moz-placeholder {
-    color: $lightgray-secondary;
+    color: color(tertiary);
   }
 
   input:focus {
     outline: none;
-    border-color: $black;
+    border-color: color(black);
     transition: 0.3s all;
   }
 </style>
