@@ -6,6 +6,7 @@ The project is in the **production ready** phase.
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
+See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakowski/vue-storefront-basics)
 ## See it in action
 
 Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
