@@ -106,7 +106,7 @@
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^2.0.2",
     "mocha": "^3.0.2",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.7.2",
     "phantomjs-prebuilt": "^2.1.10",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.6",
