@@ -3,6 +3,8 @@ import coreMessages from 'core/resource/i18n.json'
 import themeMessages from 'theme/resource/i18n.json'
 import * as corePlugins from 'core/plugins'
 import * as themePlugins from 'theme/plugins'
+import * as coreMixins from 'core/mixins'
+import * as themeMixins from 'theme/mixins'
 
 /**
  * Return messages load from both: core/resource/i18n and theme/resource/i18n
@@ -16,6 +18,13 @@ export function translations () {
  */
 export function plugins () {
   return _.merge(corePlugins, themePlugins)
+}
+
+/**
+ * Return mixins load from both: core/mixins and theme/mixins
+ */
+export function mixins () {
+  return _.merge(coreMixins, themeMixins)
 }
 
 export function corePage (path) {

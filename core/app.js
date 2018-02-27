@@ -6,9 +6,8 @@ import config from 'config'
 
 import { sync } from 'vuex-router-sync'
 
-import { registerTheme, plugins } from 'core/lib/themes'
+import { registerTheme, plugins, mixins } from 'core/lib/themes'
 import { registerExtensions } from 'core/lib/extensions'
-import thumbnailMixin from 'core/mixins/thumbnail'
 import * as filters from 'core/filters'
 
 import VueLazyload from 'vue-lazyload'
@@ -25,8 +24,10 @@ Vue.use(VueLazyload, {
   attempt: 2
 })
 
-// Mixin for handling thumbnail
-Vue.mixin(thumbnailMixin)
+const mixinsObject = mixins()
+Object.keys(mixinsObject).forEach(function (key) {
+  Vue.mixin(mixinsObject[key])
+})
 
 // Register global filters
 Object.keys(filters).forEach(key => {

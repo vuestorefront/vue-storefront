@@ -1,6 +1,6 @@
 import config from 'config'
 
-export default {
+export const thumbnail = {
   methods: {
     /**
      * Return thumbnail url for specific base url
