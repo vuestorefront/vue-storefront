@@ -188,11 +188,13 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
+import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
   asyncData ({ store, route }) {
     // this is for SSR purposes to prefetch data
   },
+  directives: { focusClean },
   methods: {
     showDetails (event) {
       const details = this.$refs.details
