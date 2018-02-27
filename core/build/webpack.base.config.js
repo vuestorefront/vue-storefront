@@ -10,6 +10,7 @@ const theme = require('./config.json').theme
 const themeComponents = '../../src/themes/' + theme + '/components'
 const themePages = '../../src/themes/' + theme + '/pages'
 const themePlugins = '../../src/themes/' + theme + '/plugins'
+const themeFilters = '../../src/themes/' + theme + '/filters'
 const themeMixins = '../../src/themes/' + theme + '/mixins'
 const themeResources = '../../src/themes/' + theme + '/resource'
 const themeCSS = '../../src/themes/' + theme + '/css'
@@ -56,6 +57,7 @@ module.exports = {
       'theme/components': path.resolve(__dirname, themeComponents),
       'theme/pages': path.resolve(__dirname, themePages),
       'theme/plugins': path.resolve(__dirname, themePlugins),
+      'theme/filters': path.resolve(__dirname, themeFilters),
       'theme/mixins': path.resolve(__dirname, themeMixins),
       'theme/css': path.resolve(__dirname, themeCSS),
       'theme/app': path.resolve(__dirname, themeApp)

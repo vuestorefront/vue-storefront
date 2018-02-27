@@ -5,6 +5,8 @@ import * as corePlugins from 'core/plugins'
 import * as themePlugins from 'theme/plugins'
 import * as coreMixins from 'core/mixins'
 import * as themeMixins from 'theme/mixins'
+import * as coreFilters from 'core/filters'
+import * as themeFilters from 'theme/filters'
 
 /**
  * Return messages load from both: core/resource/i18n and theme/resource/i18n
@@ -25,6 +27,13 @@ export function plugins () {
  */
 export function mixins () {
   return _.merge(coreMixins, themeMixins)
+}
+
+/**
+ * Return filters load from both: core/filters and theme/filters
+ */
+export function filters () {
+  return _.merge(themeFilters, coreFilters)
 }
 
 export function corePage (path) {
