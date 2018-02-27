@@ -27,7 +27,7 @@ export function coreComponent (path) {
 }
 
 export function coreStore (path) {
-  return require('core/store/' + path + '.js') // using webpack path alias  - core/stores = core/stores
+  return require('core/store/' + path + '/index.js') // using webpack path alias  - core/stores = core/stores
 }
 
 export function extendStore (coreStore, extendStore) {

@@ -14,8 +14,10 @@
 </template>
 
 <script>
+import focusClean from 'theme/components/theme/directives/focusClean'
 export default {
   name: 'ButtonFull',
+  directives: { focusClean },
   props: {
     type: {
       type: String,

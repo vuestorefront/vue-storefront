@@ -11,7 +11,32 @@
 </template>
 
 <script>
-import sliderData from 'theme/resource/slider.json'
+const sliderData = {
+  'slides': [
+    {
+      'title': 'Luma Yoga',
+      'subtitle': 'New collection',
+      'button_text': 'Shop now',
+      'image': '/assets/slide_01.jpg',
+      'link': '/c/women-20'
+    },
+    {
+      'title': 'Luma Fitness',
+      'subtitle': 'Collection',
+      'button_text': 'Shop now',
+      'image': '/assets/slide_02.jpg',
+      'link': '/c/men-11'
+    },
+    {
+      'title': 'Luma Fitness',
+      'subtitle': "What's new",
+      'button_text': 'Shop now',
+      'image': '/assets/slide_03.jpg',
+      'link': '/c/training-9'
+    }
+  ],
+  'total': '3'
+}
 
 export default {
   name: 'MainSlider',
