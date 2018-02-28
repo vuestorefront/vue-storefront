@@ -27,8 +27,11 @@ if (coreMessages) {
   csvDirectories.forEach(function (directory) {
     fs.readdirSync(directory).forEach(file => {
       let fullFileName = directory + '/' + file
-      if (path.extname(fullFileName).equals('csv')) {
-        let baseName = path.posix.basename(file)
+      let extName = path.extname(fullFileName)
+      let baseName = path.posix.basename(file)
+      console.log(fullFileName)
+      console.log(extName)
+      if (extName === '.csv') {
         console.log(baseName)
         let fileContent = fs.readFileSync(fullFileName)
         coreMessages[baseName] = convertToObject(JSON.parse(fileContent))
@@ -36,7 +39,7 @@ if (coreMessages) {
     })
   })
   console.log(coreMessages)
-  throw new Error('test')
+  // throw new Error('test')
 
   return coreMessages
 }
