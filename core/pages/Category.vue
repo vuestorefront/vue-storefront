@@ -25,7 +25,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     this.filters.chosen[filterOption.attribute_code] = filterOption
   }
 
-  let filterQr = baseFilterQuery(Object.keys(this.filters), this.$store.state.category.current)
+  let filterQr = baseFilterQuery(config.products.defaultFilters, this.$store.state.category.current)
 
   let attrFilterBuilder = (filterQr, attrPostfix = '') => {
     for (let code of Object.keys(this.filters.chosen)) {
@@ -50,7 +50,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
 
   const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: Object.keys(this.filters) }).then((res) => {
+  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters }).then((res) => {
     EventBus.$emit('product-after-configured', { configuration: fsC })
   }) // because already aggregated
 }
@@ -183,15 +183,15 @@ export default {
   methods: {
     fetchData ({ store, route }) {
       let self = this
-      let searchProductQuery = baseFilterQuery(Object.keys(self.filters), store.state.category.current)
+      let searchProductQuery = baseFilterQuery(config.products.defaultFilters, store.state.category.current)
 
       if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
         this.$bus.$emit('current-category-changed', store.state.category.current_path)
         store.dispatch('attribute/list', { // load filter attributes for this specific category
-          filterValues: Object.keys(self.filters.available)// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+          filterValues: config.products.defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
-      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: Object.keys(self.filters) })
+      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
     },
 
     validateRoute ({store, route}) {
