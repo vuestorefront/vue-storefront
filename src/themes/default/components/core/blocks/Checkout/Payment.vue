@@ -186,7 +186,7 @@
               @change="$v.payment.country.$touch()"
               autocomplete="country"
             >
-              <option value="" disabled selected hidden>Country</option>
+              <option value="" disabled selected hidden>{{ $t('Country') }}</option>
               <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
             <span class="validation-error" v-if="$v.payment.country.$error && !$v.payment.country.required">
@@ -216,7 +216,7 @@
             >
             <span
               class="validation-error"
-              v-if="generateInvoice && $v.payment.company.$error && !$v.payment.company.required">Field is required
+              v-if="generateInvoice && $v.payment.company.$error && !$v.payment.company.required">{{ $t('Field is required') }}
             </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
@@ -263,7 +263,7 @@
               <span class="checkmark"/>
             </label>
           </div>
-          <span class="validation-error" v-if="!$v.payment.paymentMethod.required">Field is required</span>
+          <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
         </div>
       </div>
     </div>
@@ -308,7 +308,7 @@
               {{ payment.company }} {{ payment.taxId }}
             </p>
             <div class="col-xs-12">
-              <h4>Payment method</h4>
+              <h4>{{ $t('Payment method') }}</h4>
             </div>
             <div class="col-md-6 mb15">
               <label class="radioStyled"> {{ getPaymentMethod().title }}
