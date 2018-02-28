@@ -98,29 +98,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $alto: map-get($colors, alto);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$border-secondary: color(secondary, $colors-border);
 
-  .compare-wrapper {
-    overflow-x: auto;
+.compare-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  border-right: 1px solid $border-secondary;
+}
+
+td,
+th {
+  width: 180px;
+
+  &:last-child {
+    border-right: 1px solid $border-secondary;
   }
-
-  table {
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-
-  th {
-    border-right: 1px solid $alto;
-  }
-
-  td,
-  th {
-    width: 180px;
-
-    &:last-child {
-      border-right: 1px solid $alto;
-    }
-  }
+}
 </style>

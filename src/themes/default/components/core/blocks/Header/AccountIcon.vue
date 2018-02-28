@@ -64,40 +64,44 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
+@import '~theme/css/base/global_vars';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-white: color(white);
+$bg-secondary: color(secondary, $colors-background);
 
-  .dropdown {
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: -15px;
-      margin-top: 15px;
-      padding: 0px 10px 10px 10px;
-      text-align: center;
-      background-color: map-get($colors, white);
-      min-width: 120px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 0;
+.dropdown {
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: -15px;
+    margin-top: 15px;
+    padding: 0px 10px 10px 10px;
+    text-align: center;
+    background-color: $color-white;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 0;
 
-      .section-wrapper {
-        display: table;
+    .section-wrapper {
+      display: table;
 
-        .no-underline {
-          display: table-cell;
-          vertical-align: middle;
-          height: 30px;
+      .no-underline {
+        display: table-cell;
+        vertical-align: middle;
+        height: 30px;
 
-          &:hover {
-            background: map-get($colors, lightgray);
-          }
-        }
-      }
-
-      @media (min-width: 768px) {
-        &:hover, &.show-dropdown {
-          display: block;
+        &:hover {
+          background: $bg-secondary;
         }
       }
     }
+
+    @media (min-width: 768px) {
+      &:hover, &.show-dropdown {
+        display: block;
+      }
+    }
   }
+}
 </style>

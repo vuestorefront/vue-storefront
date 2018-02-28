@@ -63,47 +63,48 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~theme/css/base/global_vars';
-  $lightgray: map-get($colors, lightgray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-product-bg: color(secondary, $colors-background);
 
-  .collection-slider {
-    overflow: hidden;
+.collection-slider {
+  overflow: hidden;
+}
+
+.cool-stuff-collection {
+  @media (min-width: 1024px) {
+    margin: 0 -130px;
   }
 
-  .cool-stuff-collection {
+  @media (max-width: 767px) {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+
+.product {
+  &.collection-product {
+    background-color: $color-product-bg;
+    padding: 15px;
+  }
+
+  &.is-muted {
     @media (min-width: 1024px) {
-      margin: 0 -130px;
-    }
-
-    @media (max-width: 767px) {
-      padding-top: 15px;
-      padding-bottom: 15px;
+      opacity: 0.5;
     }
   }
+}
 
-  .product {
-    &.collection-product {
-      background-color: $lightgray;
-      padding: 15px;
-    }
+.collection-product {
+  .product-image {
+    mix-blend-mode: darken;
+    height: auto;
 
-    &.is-muted {
-      @media (min-width: 1024px) {
-        opacity: 0.5;
-      }
-    }
-  }
-
-  .collection-product {
-    .product-image {
-      mix-blend-mode: darken;
+    img {
+      max-width: 100%;
+      max-height: 100%;
       height: auto;
-
-      img {
-        max-width: 100%;
-        max-height: 100%;
-        height: auto;
-      }
     }
   }
+}
 </style>

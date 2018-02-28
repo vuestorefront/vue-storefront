@@ -16,8 +16,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/base/global_vars';
-$darkgray: map-get($colors, darkgray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-border: color(accent);
 
 .tooltip {
   cursor: default;
@@ -47,7 +48,7 @@ $darkgray: map-get($colors, darkgray);
     height: 0;
     position: absolute;
     border: 10px solid transparent;
-    border-top: 10px solid $darkgray;
+    border-top: 10px solid $color-border;
     left: 50%;
     transform: translateX(-50%);
     bottom: -20px;

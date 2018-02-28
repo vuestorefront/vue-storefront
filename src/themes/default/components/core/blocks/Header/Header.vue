@@ -178,47 +178,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray: map-get($colors, lightgray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-icon-hover: color(secondary, $colors-background);
 
-  header {
-    height: 54px;
-    top: -54px;
-    z-index: 2;
-    transition: top 0.2s ease-in-out;
-  }
-  .icon {
-    opacity: 0.6;
-  }
-  .icon:hover {
-    background-color: $lightgray;
-    opacity: 1;
-  }
-  .header-placeholder {
-    height: 54px;
-  }
-  .links {
-    text-decoration: underline;
-  }
-  .is-visible {
-    top: 0 !important;
-  }
-  @media (max-width: 767px) {
-    .row.middle-xs {
-      margin: 0 -15px;
+header {
+  height: 54px;
+  top: -54px;
+  z-index: 2;
+  transition: top 0.2s ease-in-out;
+}
+.icon {
+  opacity: 0.6;
+}
+.icon:hover {
+  background-color: $color-icon-hover;
+  opacity: 1;
+}
+.header-placeholder {
+  height: 54px;
+}
+.links {
+  text-decoration: underline;
+}
+.is-visible {
+  top: 0 !important;
+}
+@media (max-width: 767px) {
+  .row.middle-xs {
+    margin: 0 -15px;
 
-      &.py5 {
-        margin: 0;
-      }
-    }
-    .col-xs-2:first-of-type {
-        padding-left: 0;
-    }
-    .col-xs-2:last-of-type {
-        padding-right: 0;
-    }
-    a, span {
-      font-size: 12px;
+    &.py5 {
+      margin: 0;
     }
   }
+  .col-xs-2:first-of-type {
+      padding-left: 0;
+  }
+  .col-xs-2:last-of-type {
+      padding-right: 0;
+  }
+  a, span {
+    font-size: 12px;
+  }
+}
 </style>

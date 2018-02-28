@@ -65,18 +65,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-icon: color(black);
+$bg-icon: color(suva-gray);
 
-  $gray: map-get($colors, gray);
-  $black: map-get($colors, black);
+.cookie {
+  z-index: 2;
+  bottom: 0;
+}
 
-  .cookie {
-    z-index: 2;
-    bottom: 0;
-  }
-
-  .icon:hover {
-    color: $black;
-    background-color: $gray;
-  }
+.icon:hover {
+  color: $color-icon;
+  background-color: $bg-icon;
+}
 </style>

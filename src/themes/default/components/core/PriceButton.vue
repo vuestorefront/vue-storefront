@@ -20,9 +20,10 @@ export default { // TODO: move logic to parent component
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $darkgray: map-get($colors, darkgray);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-event: color(tertiary);
+  $color-active: color(accent);
 
   .price-button {
     width: 20px;
@@ -31,13 +32,13 @@ export default { // TODO: move logic to parent component
     &:hover,
     &:focus {
       .square {
-        background-color: $lightgray-secondary;
+        background-color: $color-event;
       }
     }
 
     &.active {
       .square {
-        background-color: $darkgray;
+        background-color: $color-active;
       }
     }
   }

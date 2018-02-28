@@ -199,71 +199,72 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $gray-secondary: map-get($colors, gray-secondary);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-secondary: color(secondary);
 
-  .icon {
-    transition: 0.3s all;
-  }
+.icon {
+  transition: 0.3s all;
+}
 
-  .social-icon {
-    width: 40px;
-    height: 40px;
-    &:hover,
-    &:focus,
-    &:active {
-      .icon {
-        fill: $gray-secondary;
-      }
+.social-icon {
+  width: 40px;
+  height: 40px;
+  &:hover,
+  &:focus,
+  &:active {
+    .icon {
+      fill: $color-secondary;
     }
   }
-  .links {
-    list-style-type: none;
-  }
+}
+.links {
+  list-style-type: none;
+}
 
-  .bottom-links {
-    @media (max-width: 767px) {
-      padding: 0;
-    }
+.bottom-links {
+  @media (max-width: 767px) {
+    padding: 0;
   }
+}
 
-  .underline {
-    &:hover {
-      color: $gray-secondary;
-      &:after {
-        background-color: $gray-secondary;
-      }
-    }
-  }
-  .legal-entity-link {
-    text-align: center;
-    @media (min-width: 768px) {
-      display: none;
+.underline {
+  &:hover {
+    color: $color-secondary;
+    &:after {
+      background-color: $color-secondary;
     }
   }
+}
+.legal-entity-link {
+  text-align: center;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
 
-  .privacy-policy-link {
-    text-align: right;
-    @media (min-width: 768px) {
-      display: none;
-    }
+.privacy-policy-link {
+  text-align: right;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+@media (max-width: 595px) {
+  .no-mobile {
+    display: none;
   }
 
-  @media (max-width: 595px) {
-    .no-mobile {
-      display: none;
-    }
-
-    .social {
-      margin-top: 0;
-    }
-
-    .social-icon:first-of-type {
-      margin-left: 0;
-    }
-
-    .footer-links {
-      padding-bottom: 30px;
-    }
+  .social {
+    margin-top: 0;
   }
+
+  .social-icon:first-of-type {
+    margin-left: 0;
+  }
+
+  .footer-links {
+    padding-bottom: 30px;
+  }
+}
 </style>

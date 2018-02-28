@@ -217,145 +217,145 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray: map-get($colors, lightgray);
-  $gray-secondary: map-get($colors, gray-secondary);
-  $black: map-get($colors, black);
-  $emperor: map-get($colors, emperor);
-  $white: map-get($colors, white);
-  $red: map-get($colors, red);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-primary: color(primary);
+$color-tertiary: color(tertiary);
+$color-secondary: color(secondary);
+$color-white: color(white);
+$bg-secondary: color(secondary, $colors-background);
 
-  .data-wrapper {
+.data-wrapper {
+  @media (max-width: 767px) {
+    padding: 0;
+  }
+}
+
+.data {
+  @media (max-width: 767px) {
+    border-bottom: 1px solid $bg-secondary;
+  }
+}
+
+.image {
+  @media (max-width: 1023px) {
+    margin-bottom: 20px;
+    padding: 20px 0 30px 0;
+    background-color: $bg-secondary;
+  }
+}
+
+.product-name {
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 36px;
+  }
+}
+
+.price {
+  @media (max-width: 767px) {
+    color: $color-primary;
+  }
+}
+
+.variants-label {
+  @media (max-width: 767px) {
+    font-size: 14px;
+  }
+}
+
+.variants-wrapper {
+  @media (max-width: 767px) {
+    padding-bottom: 30px;
+  }
+
+ .sizes {
     @media (max-width: 767px) {
-      padding: 0;
+      width: 60%;
     }
   }
 
-  .data {
+  .size-guide {
+    height: 40px;
     @media (max-width: 767px) {
-      border-bottom: 1px solid $lightgray;
+      width: 40%;
+      margin-left: 0;
     }
   }
+}
 
-  .image {
-    @media (max-width: 1023px) {
-      margin-bottom: 20px;
-      padding: 20px 0 30px 0;
-      background-color: $lightgray;
+.product-top-section {
+  @media (max-width: 767px) {
+    padding: 0;
+    background-color: $color-white;
+  }
+}
+
+.add-to-buttons {
+  @media (max-width: 767px) {
+    padding-top: 30px;
+    margin-bottom: 40px;
+  }
+}
+
+.details {
+  @media (max-width: 767px) {
+    padding: 50px 15px 15px;
+  }
+}
+
+.details-wrapper {
+  @media (max-width: 767px) {
+    position: relative;
+    max-height: 140px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+}
+
+.details-overlay {
+  @media (max-width: 767px) {
+    position: absolute;
+    height: 75%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+    background: linear-gradient(rgba($color-white, 0), rgba($color-white, 1));
+    &.hidden {
+      display: none;
     }
   }
+}
 
-  .product-name {
-    @media (max-width: 767px) {
-      margin-top: 10px;
-      font-size: 36px;
-    }
+.price-original {
+  text-decoration: line-through;
+}
+
+.action {
+  &:hover {
+    color: $color-secondary;
   }
+}
 
-  .price {
-    @media (max-width: 767px) {
-      color: $emperor;
-    }
-  }
+.attributes {
+  list-style-type: none;
+}
 
-  .variants-label {
-    @media (max-width: 767px) {
-      font-size: 14px;
-    }
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
 
-  .variants-wrapper {
-    @media (max-width: 767px) {
-      padding-bottom: 30px;
-    }
+.fade-enter,
+.fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
-   .sizes {
-      @media (max-width: 767px) {
-        width: 60%;
-      }
-    }
-
-    .size-guide {
-      height: 40px;
-      @media (max-width: 767px) {
-        width: 40%;
-        margin-left: 0;
-      }
-    }
-  }
-
-  .product-top-section {
-    @media (max-width: 767px) {
-      padding: 0;
-      background-color: $white;
-    }
-  }
-
-  .add-to-buttons {
-    @media (max-width: 767px) {
-      padding-top: 30px;
-      margin-bottom: 40px;
-    }
-  }
-
-  .details {
-    @media (max-width: 767px) {
-      padding: 50px 15px 15px;
-    }
-  }
-
-  .details-wrapper {
-    @media (max-width: 767px) {
-      position: relative;
-      max-height: 140px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      font-size: 14px;
-    }
-  }
-
-  .details-overlay {
-    @media (max-width: 767px) {
-      position: absolute;
-      height: 75%;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      margin: 0;
-      cursor: pointer;
-      background: linear-gradient(rgba($white, 0), rgba($white, 1));
-      &.hidden {
-        display: none;
-      }
-    }
-  }
-
-  .price-original {
-    text-decoration: line-through;
-  }
-
-  .action {
-    &:hover {
-      color: $gray-secondary;
-    }
-  }
-
-  .attributes {
-    list-style-type: none;
-  }
-
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s;
-  }
-
-  .fade-enter,
-  .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-  }
-
-  .product-image {
-    mix-blend-mode: multiply;
-    width: 460px;
-  }
+.product-image {
+  mix-blend-mode: multiply;
+  width: 460px;
+}
 </style>

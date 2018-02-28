@@ -25,8 +25,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
-$black: map-get($colors, black);
-$ocean-green: map-get($colors, ocean-green);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-container-bg: color(black);
+$color-message-bg: color(success);
 $z-index-loader: map-get($z-index, loader);
 
 .loader-container {
@@ -35,7 +37,7 @@ $z-index-loader: map-get($z-index, loader);
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba($black, 0.65);
+  background-color: rgba($color-container-bg, 0.65);
 }
 
 .loader-inner-container {
@@ -45,7 +47,7 @@ $z-index-loader: map-get($z-index, loader);
 }
 
 .loader-message-container {
-  background-color: rgba($ocean-green, 0.75);
+  background-color: rgba($color-message-bg, 0.75);
   border-radius: 50px;
   letter-spacing: 0.5px;
 }

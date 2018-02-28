@@ -270,43 +270,44 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $black: map-get($colors, black);
-  $gray: map-get($colors, gray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-hover: color(tertiary, $colors-background);
+$color-focus: color(black);
 
-  .pass-container {
-    input[type=password], input[type=text] {
-      &:focus {
-        outline: none;
-        border-color: $black;
-        transition: 0.3s all;
-      }
-    }
-
-    .icon {
-      right: 0;
-      top: 10px;
-
-      &:hover {
-        color: $gray;
-      }
+.pass-container {
+  input[type=password], input[type=text] {
+    &:focus {
+      outline: none;
+      border-color: $color-focus;
+      transition: 0.3s all;
     }
   }
 
-  .link {
-    text-decoration: underline;
-  }
+  .icon {
+    right: 0;
+    top: 10px;
 
-  .login-prompt {
-    @media (min-width: 1200px) {
-      margin-top: 30px;
+    &:hover {
+      color: $color-hover;
     }
   }
+}
 
-  .button-container {
-    @media (max-width: 1200px) {
-      margin-bottom: 10px;
-      margin-top: 15px;
-    }
+.link {
+  text-decoration: underline;
+}
+
+.login-prompt {
+  @media (min-width: 1200px) {
+    margin-top: 30px;
   }
+}
+
+.button-container {
+  @media (max-width: 1200px) {
+    margin-bottom: 10px;
+    margin-top: 15px;
+  }
+}
 </style>

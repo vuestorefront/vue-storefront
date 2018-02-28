@@ -34,17 +34,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $gray-secondary: map-get($colors, gray-secondary);
-  $white: map-get($colors, white);
-  $black: map-get($colors, black);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $dark-border: color(secondary);
+  $white: color(white);
+  $black: color(black);
 
   .button-outline {
     border: 2px solid;
   }
   .dark {
     font-weight: 200;
-    border: 1px solid $gray-secondary;
+    border: 1px solid $dark-border;
     &:hover,
     &:focus {
       color: $white;

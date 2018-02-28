@@ -125,21 +125,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $black: map-get($colors, black);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-placeholder: color(tertiary);
+$color-focus: color(black);
 
-  input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
-  }
+input::-webkit-input-placeholder {
+  color: $color-placeholder;
+}
 
-  input:-moz-placeholder {
-    color: $lightgray-secondary;
-  }
+input:-moz-placeholder {
+  color: $color-placeholder;
+}
 
-  input:focus {
-    outline: none;
-    border-color: $black;
-    transition: 0.3s all;
-  }
+input:focus {
+  outline: none;
+  border-color: $color-focus;
+  transition: 0.3s all;
+}
 </style>

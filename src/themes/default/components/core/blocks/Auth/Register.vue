@@ -198,32 +198,32 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $gray: map-get($colors, gray);
-  $black: map-get($colors, black);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-placeholder: color(tertiary);
+$color-hover: color(tertiary, $colors-background);
+$color-focus: color(black);
 
-  input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
+input::-webkit-input-placeholder {
+  color: $color-placeholder;
+}
+
+input:-moz-placeholder {
+  color: $color-placeholder;
+}
+
+input:focus {
+  outline: none;
+  border-color: $color-focus;
+  transition: 0.3s all;
+}
+
+.icon {
+  right: 0;
+  top: 10px;
+
+  &:hover {
+    color: $color-hover;
   }
-
-  input:-moz-placeholder {
-    color: $lightgray-secondary;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: $black;
-    transition: 0.3s all;
-  }
-
-  .icon {
-    right: 0;
-    top: 10px;
-
-    &:hover {
-      color: $gray;
-    }
-  }
-
+}
 </style>

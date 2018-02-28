@@ -175,13 +175,14 @@ ul {
 </style>
 
 <style lang="scss">
-@import '~theme/css/base/global_vars';
-$lightgray: map-get($colors, lightgray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$bg-secondary: color(secondary, $colors-background);
 
 .sidebar-menu {
   li {
     &:hover {
-      background-color: $lightgray;
+      background-color: $bg-secondary;
     }
   }
 
