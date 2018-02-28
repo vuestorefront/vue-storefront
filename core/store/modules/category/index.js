@@ -7,7 +7,7 @@ export default {
   state: {
     list: [],
     current: {},
-    filters: { available: { color: [], size: [], price: [] }, chosen: {} },
+    filters: { available: {}, chosen: {} },
     breadcrumbs: {routes: []},
     current_path: [] // list of categories from root to current
   },

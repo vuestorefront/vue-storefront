@@ -11,7 +11,6 @@ export default function (app, router, store, config) {
     console.log('custom-event')
   })
 
-  console.log(EventBus)
   EventBus.$on('product-after-single', (payload) => {
     // payload.product.name = "" // this is an example on how can you modify the data
     return payload

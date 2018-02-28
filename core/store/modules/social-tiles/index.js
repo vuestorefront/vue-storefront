@@ -1,10 +1,13 @@
 import getters from './getters'
-import igFeed from 'core/resource/ig_feed.json'
+import actions from './actions'
+import mutations from './mutations'
 
 export default {
   namespaced: true,
   state: {
-    tiles: igFeed
+    tiles: []
   },
-  getters
+  getters,
+  actions,
+  mutations
 }

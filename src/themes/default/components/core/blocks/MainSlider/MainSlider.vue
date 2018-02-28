@@ -27,8 +27,12 @@ import NoSSR from 'vue-no-ssr'
 import { coreComponent } from 'core/lib/themes'
 import { Carousel, Slide } from 'vue-carousel'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
+import sliderData from 'theme/resource/slider.json'
 
 export default {
+  created () {
+    this.updateSliderData(sliderData)
+  },
   components: {
     ButtonOutline,
     Carousel,
