@@ -13,10 +13,10 @@
             name="email"
             ref="email"
             v-model="email"
-            placeholder="E-mail address *"
+            :placeholder="$t('E-mail address *')"
           >
-          <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
-          <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</span>
         </div>
         <div class="mb35 relative">
           <input
@@ -24,10 +24,10 @@
             :type="passType"
             name="password"
             v-model="password"
-            placeholder="Password *"
+            :placeholder="$t('Password *')"
           >
           <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
+          <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
         </div>
         <div class="row">
           <div class="col-xs-6 mb35">
