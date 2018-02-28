@@ -48,10 +48,11 @@ export default {
     this.$bus.$off('filter-changed-' + this.context)
   },
   beforeMount () {
-    this.$bus.$on('filter-reset', (filterOption) => {
-      this.active = false
-    })
-    this.$bus.$on('filter-changed-' + this.context, (filterOption) => {
+    this.$bus.$on('filter-reset', this.filterReset)
+    this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
+  },
+  methods: {
+    filterChanged (filterOption) {
       if (filterOption.attribute_code === this.code) {
         if (filterOption.id === this.id) {
           if (this.active) {
@@ -64,9 +65,10 @@ export default {
         }
         // filterOption.id === this.id ? this.active = true : this.active = false
       }
-    })
-  },
-  methods: {
+    },
+    filterReset (filterOption) {
+      this.active = false
+    },
     switchFilter (id, label) {
       this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
     }

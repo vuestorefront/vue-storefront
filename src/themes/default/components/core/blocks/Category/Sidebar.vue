@@ -49,7 +49,20 @@
         :content="price.label"
         :label="price.label"
       />
+    </div> <!-- add the custom controls to other available filters set in config.products.defaultFilters; must be numeric field in ES
+    <div v-if="filters.erin_recommends && filters.erin_recommends.length">
+      <h5>
+        {{ $t('Erin recommends') }}
+      </h5>
+      <div
+        class="size-select mr10 mb10"
+        v-for="(er, index) in filters.erin_recommends"
+        :key="index"
+        :id="er.id"
+        :label="er.label"
+      >{{ er.label }}</div>
     </div>
+    -->
   </div>
 </template>
 
