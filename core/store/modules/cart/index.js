@@ -1,4 +1,4 @@
-import config from 'config'
+// import config from 'config'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
@@ -12,11 +12,6 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     console.log(`Server cart token after created = ${cartToken}`)
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', { forceClientState: false }, { root: true })
-    rootStore.dispatch('cart/getPaymentMethods')
-    let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-    rootStore.dispatch('cart/getShippingMethods', {
-      country_id: country
-    })
   } else {
     rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
     console.error(event.result)

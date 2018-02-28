@@ -36,7 +36,11 @@ export default {
           force_client_state: forceClientState,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
-
+          rootStore.dispatch('cart/getPaymentMethods')
+          let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+          rootStore.dispatch('cart/getShippingMethods', {
+            country_id: country
+          })
         })
       } else {
         console.log('Too short interval for refreshing the cart')
@@ -154,10 +158,6 @@ export default {
             commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
             console.log('Existing cart token = ' + token)
             context.dispatch('serverPull', { forceClientState: false })
-            let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-            context.dispatch('getShippingMethods', {
-              country_id: country
-            })
           } else {
             console.log('Creating server cart ...')
             context.dispatch('serverCreate', { guestCart: false })
@@ -276,8 +276,10 @@ export default {
           })
         }
       }, { root: true }).then(task => {
-        context.commit(types.CART_UPD_SHIPPING, task.result)
-        context.dispatch('refreshTotals')
+        if (task.result.length > 0) {
+          context.commit(types.CART_UPD_SHIPPING, task.result)
+          context.dispatch('refreshTotals')
+        }
       }).catch(e => {
         console.error(e)
       })

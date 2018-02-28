@@ -185,7 +185,7 @@
                 :value="method.method_code"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
-                @change="$v.shipping.shippingMethod.$touch()"
+                @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
               >
               <span class="checkmark"/>
             </label>

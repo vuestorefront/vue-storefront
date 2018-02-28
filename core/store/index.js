@@ -114,52 +114,52 @@ const mutations = {
 
 const plugins = [
   store => {
-    store.subscribe((mutation, store) => {
+    store.subscribe((mutation, state) => {
       if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
-        global.db.cartsCollection.setItem('current-cart', store.cart.cartItems).catch((reason) => {
+        global.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
-        global.db.cartsCollection.setItem('current-cart-token', store.cart.cartServerToken).catch((reason) => {
+        global.db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
           console.error(reason)
         })
       }
       if (mutation.type.indexOf(types.SN_WISHLIST) === 0) { // check if this mutation is wishlist related
-        global.db.wishlistCollection.setItem('current-wishlist', store.wishlist.itemsWishlist).catch((reason) => {
+        global.db.wishlistCollection.setItem('current-wishlist', state.wishlist.itemsWishlist).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
       if (mutation.type.indexOf(types.SN_COMPARE) === 0) { // check if this mutation is compare related
-        global.db.compareCollection.setItem('current-compare', store.compare.itemsCompare).catch((reason) => {
+        global.db.compareCollection.setItem('current-compare', state.compare.itemsCompare).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
       if (mutation.type.indexOf(types.USER_INFO_LOADED) >= 0) { // check if this mutation is user related
-        global.db.usersCollection.setItem('current-user', store.user.current).catch((reason) => {
+        global.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
       if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is user related
-        global.db.usersCollection.setItem('current-token', store.user.token).catch((reason) => {
+        global.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
       if (mutation.type.indexOf(types.SN_CHECKOUT) === 0) {
         if (mutation.type.indexOf(types.CHECKOUT_SAVE_PERSONAL_DETAILS) > 0) {
-          global.db.checkoutFieldsCollection.setItem('personal-details', store.checkout.personalDetails).catch((reason) => {
+          global.db.checkoutFieldsCollection.setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_SHIPPING_DETAILS) > 0) {
-          global.db.checkoutFieldsCollection.setItem('shipping-details', store.checkout.shippingDetails).catch((reason) => {
+          global.db.checkoutFieldsCollection.setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_PAYMENT_DETAILS) > 0) {
-          global.db.checkoutFieldsCollection.setItem('payment-details', store.checkout.paymentDetails).catch((reason) => {
+          global.db.checkoutFieldsCollection.setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
       }
       if (mutation.type.indexOf(types.USER_UPDATE_PREFERENCES) >= 0) {
-        global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', store.user.newsletter).catch((reason) => {
+        global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
           console.error(reason)
         })
       }

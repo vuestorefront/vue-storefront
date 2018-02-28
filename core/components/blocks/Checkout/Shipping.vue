@@ -54,10 +54,6 @@ export default {
       shippingMethods: 'cart/shippingMethods'
     })
   },
-  watch: {
-    'shipping.shippingMethod': 'changeShippingMethod',
-    'shippingMethods': 'changeShippingMethod'
-  },
   mounted () {
     if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
       this.shipping.shippingMethod = this.shippingMethods[0].method_code
