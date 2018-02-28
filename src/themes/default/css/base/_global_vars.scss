@@ -1,24 +1,3 @@
-// Add new colors to the BOTTOM of the list, it's very important!
-// @todo remove after refactore
-$colors: (
-  white: #FFFFFF,
-  black: #000000,
-  sgray: #8E8E8E,
-  lightgray: #F2F2F2,
-  darkgray: #333333,
-  alto: #E0E0E0,
-  emperor: #4F4F4F,
-  transparent: transparent,
-  gray-secondary: #828282,
-  lightgray-secondary: #BDBDBD,
-  red: #EB5757,
-  ocean-green: #4DBA87,
-  la-palma: #308C14,
-  russet: #775555
-);
-
-//@to-do make it more customizable - change colors to match their usage not color name so other people can customize it when creatign own theme
-
 // @todo move to separate file
 $z-index: (
   modal: 10,
