@@ -6,6 +6,7 @@
 
 <script>
 import builder from 'bodybuilder'
+import EventBus from 'core/plugins/event-bus'
 
 export default {
   name: 'PageNotFound',
@@ -21,7 +22,12 @@ export default {
         }).then(function (res) {
           if (res) {
             store.state.homepage.bestsellers = res.items
-            return resolve()
+            EventBus.$emitFilter('pagenotfound-after-load', { store: store, route: route }).then((results) => {
+              return resolve()
+            }).catch((err) => {
+              console.error(err)
+              return resolve()
+            })
           }
         })
       })

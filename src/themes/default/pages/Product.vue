@@ -6,7 +6,7 @@
         <section class="row py35 m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <transition name="fade" appear>
-              <img class="product-image inline-flex mw-100" v-lazy="imgObj" ref="image">
+              <img class="product-image inline-flex mw-100" v-lazy="image" ref="image">
             </transition>
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
@@ -112,7 +112,12 @@
                   type="button"
                 >
                   <i class="pr5 material-icons">{{ favorite.icon }}</i>
-                  {{ $t('Add to favorite') }}
+                  <template v-if="!favorite.isFavorite">
+                    {{ $t('Add to favorite') }}
+                  </template>
+                  <template v-else>
+                    {{ $t('Remove') }}
+                  </template>
                 </button>
               </div>
               <div class="hidden-xs col-md-7">
@@ -154,7 +159,7 @@
             <ul class="attributes p0 pt10 m0">
               <product-attribute
                 :key="attr.attribute_code"
-                v-for="attr in all_custom_attributes"
+                v-for="attr in customAttributes"
                 :product="product"
                 :attribute="attr"
                 empty-placeholder="N/A"
@@ -183,11 +188,13 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
+import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
   asyncData ({ store, route }) {
     // this is for SSR purposes to prefetch data
   },
+  directives: { focusClean },
   methods: {
     showDetails (event) {
       const details = this.$refs.details

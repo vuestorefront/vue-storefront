@@ -8,27 +8,28 @@
 import builder from 'bodybuilder'
 
 import { breadCrumbRoutes } from 'core/helpers'
+import config from 'config'
 import Meta from 'core/lib/meta'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import { optionLabel } from 'core/store/modules/attribute'
+import { optionLabel } from 'core/store/modules/attribute/helpers'
 import EventBus from 'core/plugins/event-bus'
 import _ from 'lodash'
 import i18n from 'core/lib/i18n'
 
 function filterChanged (filterOption) { // slection of product variant on product page
-  if (this.filterSet[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filterSet[filterOption.attribute_code].id)) || filterOption.id === this.filterSet[filterOption.attribute_code].id)) { // for price filter it's a string
-    delete this.filterSet[filterOption.attribute_code]
+  if (this.filters.chosen[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+    delete this.filters.chosen[filterOption.attribute_code]
   } else {
-    this.filterSet[filterOption.attribute_code] = filterOption
+    this.filters.chosen[filterOption.attribute_code] = filterOption
   }
 
-  let filterQr = baseFilterQuery(Object.keys(this.filters), this.$store.state.category.current)
+  let filterQr = baseFilterQuery(config.products.defaultFilters, this.$store.state.category.current)
 
   let attrFilterBuilder = (filterQr, attrPostfix = '') => {
-    for (let code of Object.keys(this.filterSet)) {
-      const filter = this.filterSet[code]
+    for (let code of Object.keys(this.filters.chosen)) {
+      const filter = this.filters.chosen[code]
 
       if (filter.attribute_code !== 'price') {
         filterQr = filterQr.andFilter('match', filter.attribute_code + attrPostfix, filter.id)
@@ -48,8 +49,8 @@ function filterChanged (filterOption) { // slection of product variant on produc
   filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
 
-  const fsC = Object.assign({}, this.filterSet) // create a copy because it will be used asynchronously (take a look below)
-  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, offset: this.pagination.offset, pageSize: this.pagination.pageSize, filters: Object.keys(this.filters) }).then((res) => {
+  const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters }).then((res) => {
     EventBus.$emit('product-after-configured', { configuration: fsC })
   }) // because already aggregated
 }
@@ -99,11 +100,11 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
   return searchProductQuery
 }
 
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, offset = 0, pageSize = 50 }) {
+function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50 }) {
   return store.dispatch('product/list', {
     query: searchProductQuery.build(),
-    start: offset,
-    size: pageSize
+    start: current,
+    size: perPage
   }).then(function (res) {
     let subloaders = []
     if (!res || (res.noresults)) {
@@ -118,7 +119,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     } else {
       if (populateAggregations === true) { // populate filter aggregates
         for (let attrToFilter of filters) { // fill out the filter options
-          store.state.category.filters[attrToFilter] = []
+          store.state.category.filters.available[attrToFilter] = []
 
           let uniqueFilterValues = new Set()
           if (attrToFilter !== 'price') {
@@ -136,7 +137,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
             for (let key of uniqueFilterValues.values()) {
               const label = optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: key })
               if (_.trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
-                store.state.category.filters[attrToFilter].push({
+                store.state.category.filters.available[attrToFilter].push({
                   id: key,
                   label: label
                 })
@@ -147,7 +148,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
               let index = 0
               let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
               for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
-                store.state.category.filters[attrToFilter].push({
+                store.state.category.filters.available[attrToFilter].push({
                   id: option.key,
                   from: option.from,
                   to: option.to,
@@ -182,15 +183,15 @@ export default {
   methods: {
     fetchData ({ store, route }) {
       let self = this
-      let searchProductQuery = baseFilterQuery(Object.keys(self.filters), store.state.category.current)
+      let searchProductQuery = baseFilterQuery(config.products.defaultFilters, store.state.category.current)
 
       if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
         this.$bus.$emit('current-category-changed', store.state.category.current_path)
         store.dispatch('attribute/list', { // load filter attributes for this specific category
-          filterValues: Object.keys(self.filters)// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+          filterValues: config.products.defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         })
       }
-      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, ofset: self.pagination.offset, pageSize: self.pagination.pageSize, filters: Object.keys(self.filters) })
+      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
     },
 
     validateRoute ({store, route}) {
@@ -202,7 +203,7 @@ export default {
         route = self.$route
       }
       let slug = route.params.slug
-      this.filterSet = {} // reset selected filters
+      this.filters.chosen = {} // reset selected filters
       this.$bus.$emit('filter-reset')
 
       store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
@@ -224,14 +225,14 @@ export default {
 
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      const defaultFilters = ['color', 'size', 'price']
+      const defaultFilters = config.products.defaultFilters
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
             store.dispatch('meta/set', { title: store.state.category.current.name })
-            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, ofset: 0, pageSize: 50, filters: defaultFilters }).then((subloaders) => {
+            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
 
@@ -261,14 +262,20 @@ export default {
     products () {
       return this.$store.state.product.list.items
     },
+    productsCounter () {
+      return this.$store.state.product.list.items.length
+    },
     isCategoryEmpty () {
       return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)
     },
     category () {
       return this.$store.state.category.current
     },
-    aggregations () {
-      return this.$store.state.product.list.aggregations
+    categoryName () {
+      return this.$store.state.category.current ? this.$store.state.category.current.name : ''
+    },
+    categoryId () {
+      return this.$store.state.category.current ? this.$store.state.category.current.id : ''
     },
     filters () {
       return this.$store.state.category.filters
@@ -282,10 +289,10 @@ export default {
   data () {
     return {
       pagination: {
-        pageSize: 50,
-        offset: 0
-      },
-      filterSet: {} // filter set selected by user
+        perPage: 50,
+        current: 0,
+        enabled: false
+      }
     }
   },
   components: {

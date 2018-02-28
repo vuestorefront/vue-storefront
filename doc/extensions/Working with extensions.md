@@ -46,4 +46,8 @@ You should just add your extension name to:
 ## Extensions list (docs for it under construction)
 * Mailchimp Integration
 * Google Analytics Integration
+* [Droppoint shipping](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/droppoint-shipping.md)
 * [Example of custom extension](https://github.com/DivanteLtd/vue-storefront/tree/master/src/extensions/custom_extension) - can be used as a boilerplate
+
+# Related
+* [Extending Vue Storefront API](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md)

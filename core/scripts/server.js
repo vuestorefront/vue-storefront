@@ -6,6 +6,7 @@ const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 
 const isProd = process.env.NODE_ENV === 'production'
+process.noDeprecation = true
 
 const app = express()
 
@@ -62,7 +63,7 @@ app.get('*', (req, res) => {
   }
 
   if (!renderer) {
-    return res.end('waiting for compilation... refresh in a moment.')
+    return res.end('Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!')
   }
 
   const s = Date.now()
@@ -87,5 +88,5 @@ app.get('*', (req, res) => {
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`)
+  console.log(`Vue Storefront Server started at http://localhost:${port}`)
 })

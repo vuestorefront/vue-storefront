@@ -63,6 +63,7 @@ First of all: <strong>override core components only when you're adding features 
 ## Pages 
 * [Home](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/HomePage.md) - [`Home.vue`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Home.vue)
 * [Category](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/CategoryPage.md) - [`Category.vue`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Category.vue)
+* [Product](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/ProductPage.md) - [`Product.vue`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Product.vue)
 * ...
 
 ## Components

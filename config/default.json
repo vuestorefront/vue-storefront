@@ -18,7 +18,8 @@
       "alwaysSyncPlatformPricesOver": false,
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
-      "endpoint": "http://localhost:8080/api/product"
+      "endpoint": "http://localhost:8080/api/product",
+      "defaultFilters": ["color", "size", "price", "erin_recommends"]
     },
     "orders": {
       "endpoint": "http://localhost:8080/api/order"
@@ -30,7 +31,8 @@
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
-      "baseUrl": "https://demo.vuestorefront.io/img/"
+      "baseUrl": "https://demo.vuestorefront.io/img/",
+      "productPlaceholder": "/assets/placeholder.jpg"
     },
     "install": {
       "is_local_backend": true,
