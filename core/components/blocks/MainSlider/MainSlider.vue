@@ -12,30 +12,8 @@
 
 <script>
 const sliderData = {
-  'slides': [
-    {
-      'title': 'Luma Yoga',
-      'subtitle': 'New collection',
-      'button_text': 'Shop now',
-      'image': '/assets/slide_01.jpg',
-      'link': '/c/women-20'
-    },
-    {
-      'title': 'Luma Fitness',
-      'subtitle': 'Collection',
-      'button_text': 'Shop now',
-      'image': '/assets/slide_02.jpg',
-      'link': '/c/men-11'
-    },
-    {
-      'title': 'Luma Fitness',
-      'subtitle': "What's new",
-      'button_text': 'Shop now',
-      'image': '/assets/slide_03.jpg',
-      'link': '/c/training-9'
-    }
-  ],
-  'total': '3'
+  'slides': [],
+  'total': '1'
 }
 
 export default {
@@ -45,6 +23,12 @@ export default {
       currentSlide: 1,
       slides: sliderData.slides,
       totalSlides: sliderData.total
+    }
+  },
+  methods: {
+    updateSliderData (data) {
+      this.slides = data.slides
+      this.totalSlides = data.total
     }
   },
   mounted () {
