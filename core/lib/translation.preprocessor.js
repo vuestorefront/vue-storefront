@@ -11,36 +11,31 @@ function convertToObject (array) {
 
 module.exports = function (options) {
   const csvDirectories = options.csvDirectories
-
-  /*
-console.warn('Start Message Array:')
-console.warn(coreMessages)
-console.warn('Stop Message Array:')
-if (coreMessages) {
-  throw new Error('test')
-}
-*/
   const coreMessages = {}
   const fs = require('fs')
   const path = require('path')
+  const dsvFormat = require('d3-dsv').dsvFormat
+  const dsv = dsvFormat(',')
 
   csvDirectories.forEach(function (directory) {
     fs.readdirSync(directory).forEach(file => {
       let fullFileName = directory + '/' + file
       let extName = path.extname(fullFileName)
       let baseName = path.posix.basename(file)
-      console.log(fullFileName)
-      console.log(extName)
+      // console.log(fullFileName)
+      // console.log(extName)
       if (extName === '.csv') {
-        console.log(baseName)
-        let fileContent = fs.readFileSync(fullFileName)
-        coreMessages[baseName] = convertToObject(JSON.parse(fileContent))
+        // console.log(baseName)
+        let fileContent = fs.readFileSync(fullFileName, 'utf8')
+        coreMessages[baseName] = convertToObject(dsv.parseRows(fileContent))
       }
     })
   })
-  console.log(coreMessages)
+  // console.log(coreMessages)
   // throw new Error('test')
 
-  return coreMessages
+  return {
+    code: JSON.stringify(coreMessages)
+  }
 }
 
