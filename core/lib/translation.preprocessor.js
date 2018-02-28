@@ -9,7 +9,7 @@ function convertToObject (array) {
   return obj
 }
 
-module.exports = function () {
+module.exports = function (csvDirectories) {
   /*
 console.warn('Start Message Array:')
 console.warn(coreMessages)
@@ -18,6 +18,16 @@ if (coreMessages) {
   throw new Error('test')
 }
 */
+  csvDirectories.forEach(csvDirectories){
+    const testFolder = './tests/'
+    const fs = require('fs')
+
+    fs.readdirSync(testFolder).forEach(file => {
+      console.log(file);
+    })
+  }
+
+
 
   const coreMessages = {
     'en-US':
