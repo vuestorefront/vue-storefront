@@ -33,8 +33,8 @@
     "all": "node ./core/scripts/all",
     "dev": "node ./core/scripts/server",
     "dev:inspect": "node --inspect ./core/scripts/server",
-    "build:client": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.client.config.js --progress --hide-modules",
-    "build:server": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.server.config.js --progress --hide-modules",
+    "build:client": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.prod.client.config.js --progress --hide-modules",
+    "build:server": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.prod.server.config.js --progress --hide-modules",
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "unit": "karma start ./test/unit/karma.conf.js --single-run"
   },
