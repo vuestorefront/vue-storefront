@@ -61,6 +61,7 @@
         <div class="checkboxText ml15 lh25" @click="changePassword = !changePassword">
           <span class="fs16 cl-accent">
             {{ $t('Change my password') }}
+          </span>
         </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
