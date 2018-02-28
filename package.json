@@ -23,6 +23,7 @@
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
     "preinstall": "node ./core/scripts/preinstall.js",
+    "postinstall": "node ./core/scripts/postinstall.js",
     "start": "cross-env NODE_ENV=production node ./core/scripts/server",
     "installer": "node ./core/scripts/installer",
     "all": "node ./core/scripts/all",
