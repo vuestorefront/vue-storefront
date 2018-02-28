@@ -44,7 +44,7 @@ The following events are published from `category` store:
 
 ## Actions 
 
-The product store provides following public actions:
+The cart store provides following public actions:
 
 ### `list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc' })`
 This is the key method to load the category list. It returns the `Promise` that contains the product list object. This method should be used everywhere you need to get products data. 

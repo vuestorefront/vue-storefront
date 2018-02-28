@@ -22,9 +22,6 @@ export default {
   save (context) {
     context.commit(types.CART_SAVE)
   },
-  serverPush (context) { // push current cart TO the server
-
-  },
   serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
     if (config.cart.synchronize) {
       if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS) {
