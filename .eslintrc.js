@@ -19,6 +19,7 @@ module.exports = {
     */
     'vue/max-attributes-per-line': 0,
     'vue/order-in-components': 0,
+    'vue/attributes-order': 0,
     // less restricted v-for -> v-if rules
     'vue/no-confusing-v-for-v-if': 0,
     // allow paren-less arrow functions

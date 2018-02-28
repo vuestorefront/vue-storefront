@@ -15,7 +15,7 @@
             ref="email"
             v-model="email"
             autocomplete="email"
-            placeholder="E-mail address *"
+            :placeholder="$t('E-mail address *')"
           >
           <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
           <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
@@ -28,7 +28,7 @@
               name="fist-name"
               v-model="firstName"
               autocomplete="given-name"
-              placeholder="First name *"
+              :placeholder="$t('First name *')"
             >
             <span class="validation-error block h6 c-red" v-if="!$v.firstName.required && $v.firstName.$error">Field is required.</span>
           </div>
@@ -39,7 +39,7 @@
               name="last-name"
               v-model="lastName"
               autocomplete="family-name"
-              placeholder="Last name *"
+              :placeholder="$t('Last name *')"
             >
             <span class="validation-error block h6 c-red" v-if="!$v.lastName.required && $v.lastName.$error">Field is required.</span>
           </div>
@@ -51,7 +51,7 @@
             v-model="password"
             :type="passType.pass"
             autocomplete="new-password"
-            placeholder="Password *"
+            :placeholder="$t('Password *')"
           >
           <i class="icon material-icons absolute c-alto pointer" @click="togglePassType('pass')">{{ iconName.pass }}</i>
           <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
@@ -63,7 +63,7 @@
             v-model="rPassword"
             :type="passType.repeatPass"
             autocomplete="new-password"
-            placeholder="Repeat password *"
+            :placeholder="$t('Repeat password *')"
           >
           <i class="icon material-icons absolute c-alto pointer" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
           <span class="validation-error block h6 c-red" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>

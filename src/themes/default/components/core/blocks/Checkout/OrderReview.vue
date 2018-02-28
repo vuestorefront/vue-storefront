@@ -48,7 +48,7 @@
                   class="validation-error"
                   v-if="!$v.orderReview.terms.required && $v.orderReview.terms.$error"
                 >
-                  Field is required
+                  {{ $t('Field is required') }}
                 </span>
               </div>
             </div>

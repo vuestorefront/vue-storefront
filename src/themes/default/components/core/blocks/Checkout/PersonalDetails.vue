@@ -38,7 +38,7 @@
               class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
               type="text"
               name="first-name"
-              placeholder="First name *"
+              :placeholder="$t('First name *')"
               v-model.trim="personalDetails.firstName"
               @blur="$v.personalDetails.firstName.$touch()"
               autocomplete="given-name"
@@ -47,10 +47,10 @@
               class="validation-error"
               v-if="$v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required"
             >
-              Field is required
+              {{ $t('Field is required') }}
             </span>
             <span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">
-              Name must have at least {{ $v.personalDetails.firstName.$params.minLength.min }} letters.
+              {{ $t('Name must have at least 3 letters.') }}
             </span>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 mb25">
@@ -58,7 +58,7 @@
               class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
               type="text"
               name="last-name"
-              placeholder="Last name *"
+              :placeholder="$t('Last name *')"
               v-model.trim="personalDetails.lastName"
               @blur="$v.personalDetails.lastName.$touch()"
               autocomplete="family-name"
@@ -67,7 +67,7 @@
               class="validation-error"
               v-if="$v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required"
             >
-              Field is required
+              {{ $t('Field is required') }}
             </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25">
@@ -75,7 +75,7 @@
               class="py10 brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
               type="email"
               name="email-address"
-              placeholder="Email address *"
+              :placeholder="$t('Email address *')"
               v-model="personalDetails.emailAddress"
               @blur="$v.personalDetails.emailAddress.$touch()"
               autocomplete="email"
@@ -84,10 +84,10 @@
               class="validation-error"
               v-if="$v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required"
             >
-              Field is required
+              {{ $t('Field is required') }}
             </span>
             <span class="validation-error" v-if="!$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error">
-              Please provide valid e-mail address.
+              {{ $t('Please provide valid e-mail address.') }}
             </span>
           </div>
           <div class="col-xs-12 col-sm-12 mb15" v-show="!currentUser">
@@ -96,7 +96,7 @@
               <label for="createAccountCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="createAccount = !createAccount">
-              <span v-if="!isFilled" class="fs16 c-darkgray">I want to create an account</span>
+              <span v-if="!isFilled" class="fs16 c-darkgray">{{ $t('I want to create an account') }}</span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 mb25 mt10" v-show="createAccount && !currentUser">
@@ -106,7 +106,7 @@
                 name="password"
                 v-model="password"
                 :type="passType.pass"
-                placeholder="Password *"
+                :placeholder="$t('Password *')"
                 @blur="$v.password.$touch()"
                 autocomplete="new-password"
               >
@@ -114,7 +114,7 @@
                 <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
               </div>
             </div>
-            <span class="validation-error" v-if="$v.password.$error && !$v.password.required">Field is required.</span>
+            <span class="validation-error" v-if="$v.password.$error && !$v.password.required">{{ $t('Field is required.') }}</span>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="createAccount && !currentUser">
             <div class="pass-container relative mr35">
@@ -123,14 +123,14 @@
                 name="password-confirm"
                 v-model="rPassword"
                 :type="passType.repeatPass"
-                placeholder="Repeat password *"
+                :placeholder="$t('Repeat password *')"
                 autocomplete="new-password"
               >
               <i class="icon absolute material-icons c-lightgray-secondary pointer" @click="togglePassType('repeatPass')">
                 {{ iconName.repeatPass }}
               </i>
             </div>
-            <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
+            <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">{{ $t('Passwords must be identical.') }}</span>
           </div>
           <div class="col-xs-12 col-md-12 mb15" v-show="createAccount && !currentUser">
             <div class="checkboxStyled">
@@ -139,10 +139,10 @@
             </div>
             <div class="checkboxText ml15 lh25" @click="acceptConditions = !acceptConditions">
               <span class="fs16 c-darkgray">
-                I accept <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">terms and conditions</a> *
+                {{ $t('I accept ') }}<a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">{{ $t('terms and conditions') }}</a> *
               </span>
             </div>
-            <span class="validation-error" v-if="!$v.acceptConditions.required && $v.acceptConditions.$error">You must accept the terms and conditions.</span>
+            <span class="validation-error" v-if="!$v.acceptConditions.required && $v.acceptConditions.$error">{{ $t('You must accept the terms and conditions.') }}</span>
           </div>
         </div>
       </div>
