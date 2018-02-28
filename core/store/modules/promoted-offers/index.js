@@ -1,10 +1,17 @@
 import getters from './getters'
-import promotedOffers from 'core/resource/promoted_offers.json'
+import actions from './actions'
+import mutations from './mutations'
 
 export default {
   namespaced: true,
   state: {
-    banners: promotedOffers
+    banners: {
+      'mainBanners': [],
+      'smallBanners': [],
+      'productBanners': []
+    }
   },
-  getters
+  getters,
+  actions,
+  mutations
 }

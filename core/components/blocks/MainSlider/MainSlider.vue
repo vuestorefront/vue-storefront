@@ -11,7 +11,10 @@
 </template>
 
 <script>
-import sliderData from 'core/resource/slider.json'
+const sliderData = {
+  'slides': [],
+  'total': '1'
+}
 
 export default {
   name: 'MainSlider',
@@ -20,6 +23,12 @@ export default {
       currentSlide: 1,
       slides: sliderData.slides,
       totalSlides: sliderData.total
+    }
+  },
+  methods: {
+    updateSliderData (data) {
+      this.slides = data.slides
+      this.totalSlides = data.total
     }
   },
   mounted () {
