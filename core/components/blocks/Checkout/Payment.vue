@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
 
 export default {
@@ -19,7 +19,6 @@ export default {
   data () {
     return {
       isFilled: false,
-      paymentMethods: this.$store.state.cart.payment instanceof Array ? this.$store.state.cart.payment : [this.$store.state.cart.payment],
       countries: Countries,
       payment: this.$store.state.checkout.paymentDetails,
       generateInvoice: false,
@@ -30,7 +29,15 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.user.current
+    }),
+    ...mapGetters({
+      paymentMethods: 'cart/paymentMethods'
     })
+  },
+  created () {
+    if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
+      this.payment.paymentMethod = this.paymentMethods[0].code
+    }
   },
   mounted () {
     if (this.payment.firstName.length === 0) {
@@ -183,6 +190,13 @@ export default {
       return {
         name: ''
       }
+    },
+    notInMethods (method) {
+      let availableMethods = this.paymentMethods
+      if (availableMethods.find(item => item.code === method)) {
+        return false
+      }
+      return true
     }
   }
 }

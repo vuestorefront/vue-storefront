@@ -15,6 +15,10 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', { forceClientState: false }, { root: true })
     rootStore.dispatch('cart/getPaymentMethods')
+    let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+    rootStore.dispatch('cart/getShippingMethods', {
+      country_id: country
+    })
   } else {
     rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
     console.error(event.result)
@@ -24,9 +28,6 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
 EventBus.$on('user-before-logout', () => {
   rootStore.dispatch('cart/clear', {}, { root: true })
   rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
-  rootStore.dispatch('cart/getShippingMethods', {
-    country_id: rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-  })
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
@@ -44,7 +45,6 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
     }
     rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: event.result, platformTotalSegments: platformTotalSegments })
   } else {
-    console.log('are we coming here?')
     console.error(event.result)
   }
 })
@@ -265,6 +265,20 @@ const store = {
       return _.sumBy(state.cartItems, (p) => {
         return p.qty
       })
+    },
+    shippingMethods (state) {
+      if (state.shipping instanceof Array) {
+        return state.shipping
+      } else {
+        return [state.shipping]
+      }
+    },
+    paymentMethods (state) {
+      if (state.payment instanceof Array) {
+        return state.payment
+      } else {
+        return [state.payment]
+      }
     }
   },
   actions: {
@@ -361,7 +375,7 @@ const store = {
         }, { root: true }).then(task => {
           // eslint-disable-next-line no-useless-return
           if (config.cart.synchronize_totals) {
-            context.dispatch('cart/serverTotals', {}, { root: true })
+            context.dispatch('refreshTotals')
           }
           return
         })
@@ -387,7 +401,7 @@ const store = {
         }, { root: true }).then(task => {
           // eslint-disable-next-line no-useless-return
           if (config.cart.synchronize_totals) {
-            context.dispatch('cart/serverTotals', {}, { root: true })
+            context.dispatch('refreshTotals')
           }
           return
         })
@@ -416,6 +430,10 @@ const store = {
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               console.log('Existing cart token = ' + token)
               context.dispatch('serverPull', { forceClientState: false })
+              let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+              context.dispatch('getShippingMethods', {
+                country_id: country
+              })
             } else {
               console.log('Creating server cart ...')
               context.dispatch('serverCreate', { guestCart: false })
@@ -535,6 +553,7 @@ const store = {
           }
         }, { root: true }).then(task => {
           context.commit(types.CART_UPD_SHIPPING, task.result)
+          context.dispatch('refreshTotals')
         }).catch(e => {
           console.error(e)
         })
@@ -542,45 +561,59 @@ const store = {
     },
     refreshTotals (context, methodsData) {
       if (config.cart.synchronize_totals) {
-        context.dispatch('sync/execute', { url: config.cart.shippinginfo_endpoint,
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors',
-            body: JSON.stringify({
-              addressInformation: {
-                shipping_address: {
-                  country_id: methodsData.country
-                },
-                shipping_method_code: methodsData.method_code,
-                shipping_carrier_code: methodsData.carrier_code
-              }
-            })
+        if (!methodsData) {
+          let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+          let shipping = context.getters.shippingMethods[0]
+          let payment = context.getters.paymentMethods[0]
+          methodsData = {
+            country: country,
+            method_code: shipping ? shipping.method_code : null,
+            carrier_code: shipping ? shipping.carrier_code : null,
+            payment_method: payment.code
           }
-        }, { root: true }).then(task => {
-          console.log('successfully called shiiping-information')
-          context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
+        }
+        if (methodsData.country && methodsData.carrier_code) {
+          context.dispatch('sync/execute', { url: config.cart.shippinginfo_endpoint,
             payload: {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               mode: 'cors',
               body: JSON.stringify({
-                methods: {
-                  paymentMethod: {
-                    method: methodsData.payment_method
+                addressInformation: {
+                  shipping_address: {
+                    country_id: methodsData.country
                   },
-                  shippingCarrierCode: methodsData.carrier_code,
-                  shippingMethodCode: methodsData.method_code
+                  shipping_method_code: methodsData.method_code,
+                  shipping_carrier_code: methodsData.carrier_code
                 }
               })
-            },
-            callback_event: 'servercart-after-totals'
-          }, { root: true }).then(task => {}).catch(e => {
+            }
+          }, { root: true }).then(task => {
+            context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
+              payload: {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors',
+                body: JSON.stringify({
+                  methods: {
+                    paymentMethod: {
+                      method: methodsData.payment_method
+                    },
+                    shippingCarrierCode: methodsData.carrier_code,
+                    shippingMethodCode: methodsData.method_code
+                  }
+                })
+              },
+              callback_event: 'servercart-after-totals'
+            }, { root: true }).then(task => {}).catch(e => {
+              console.error(e)
+            })
+          }).catch(e => {
             console.error(e)
           })
-        }).catch(e => {
-          console.error(e)
-        })
+        } else {
+          context.dispatch('cart/serverTotals', {}, { root: true })
+        }
       }
     }
   }

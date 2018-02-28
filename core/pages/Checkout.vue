@@ -84,7 +84,10 @@ export default {
         }
       }
     }
-    this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
+    if (this.$store.state.checkout.shippingDetails.country) {
+      this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
+    }
+    this.$store.dispatch('cart/getPaymentMethods')
   },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
