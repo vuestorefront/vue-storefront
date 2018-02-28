@@ -9,7 +9,9 @@ function convertToObject (array) {
   return obj
 }
 
-module.exports = function (csvDirectories) {
+module.exports = function (options) {
+  const csvDirectories = options.csvDirectories
+
   /*
 console.warn('Start Message Array:')
 console.warn(coreMessages)
@@ -18,23 +20,24 @@ if (coreMessages) {
   throw new Error('test')
 }
 */
-  csvDirectories.forEach(csvDirectories){
-    const testFolder = './tests/'
-    const fs = require('fs')
+  const coreMessages = {}
+  const fs = require('fs')
+  const path = require('path')
 
-    fs.readdirSync(testFolder).forEach(file => {
-      console.log(file);
+  csvDirectories.forEach(function (directory) {
+    fs.readdirSync(directory).forEach(file => {
+      let fullFileName = directory + '/' + file
+      if (path.extname(fullFileName).equals('csv')) {
+        let baseName = path.posix.basename(file)
+        console.log(baseName)
+        let fileContent = fs.readFileSync(fullFileName)
+        coreMessages[baseName] = convertToObject(JSON.parse(fileContent))
+      }
     })
-  }
+  })
+  console.log(coreMessages)
+  throw new Error('test')
 
-
-
-  const coreMessages = {
-    'en-US':
-      convertToObject(require('dsv-loader?rows!core/resource/i18n/en-US.csv')),
-    'de-DE':
-      convertToObject(require('dsv-loader?rows!core/resource/i18n/de-DE.csv'))
-  }
   return coreMessages
 }
 
