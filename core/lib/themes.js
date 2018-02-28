@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import themeMessages from 'theme/resource/i18n.json'
+import messages from 'core/lib/translation.preprocessor'
 import * as corePlugins from 'core/plugins'
 import * as themePlugins from 'theme/plugins'
 import * as coreMixins from 'core/mixins'
@@ -8,37 +8,10 @@ import * as coreFilters from 'core/filters'
 import * as themeFilters from 'theme/filters'
 
 /**
- *  Converts an Array to an Object
- */
-function convertToObject (array) {
-  const obj = {}
-  array.forEach((element, index, array) => {
-    obj[element[0]] = element[1]
-  })
-  return obj
-}
-
-/**
  * Return messages load from both: core/resource/i18n and theme/resource/i18n
  */
 export function translations () {
-  const coreMessages = {
-    'en-US':
-      convertToObject(require('dsv-loader?rows!core/resource/i18n/en-US.csv')),
-    'de-DE':
-      convertToObject(require('dsv-loader?rows!core/resource/i18n/de-DE.csv'))
-  }
-
-  /*
-  console.warn('Start Message Array:')
-  console.warn(coreMessages)
-  console.warn('Stop Message Array:')
-  if (coreMessages) {
-    throw new Error('test')
-  }
-  */
-
-  return _.merge(coreMessages, themeMessages)
+  return messages
 }
 
 /**

@@ -4,8 +4,8 @@
   "description": "A Vue.js, PWA eCommerce frontend",
   "engineStrict": true,
   "engines": {
-      "node": "8.x"
-  },  
+    "node": "8.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DivanteLtd/vue-storefront"
@@ -65,6 +65,7 @@
     "serve-favicon": "^2.3.0",
     "shelljs": "^0.8.1",
     "url-parse": "^1.2.0",
+    "val-loader": "^1.1.0",
     "vue": "^2.5.2",
     "vue-analytics": "^5.8.0",
     "vue-i18n": "^7.4.2",

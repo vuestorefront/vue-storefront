@@ -102,6 +102,14 @@ module.exports = {
         options: {
           wrapper: 'div'
         }
+      },
+      {
+        test: path.resolve(__dirname, '../lib/translation.preprocessor.js'),
+        use: [
+          {
+            loader: 'val-loader'
+          }
+        ]
       }
     ]
   }
