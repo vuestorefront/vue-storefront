@@ -6,31 +6,31 @@ import config from 'config'
 
 import { sync } from 'vuex-router-sync'
 
-import { registerTheme, plugins } from 'core/lib/themes'
+import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
 import { registerExtensions } from 'core/lib/extensions'
-import thumbnailMixin from 'core/mixins/thumbnail'
-import * as filters from 'core/filters'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import i18n from 'core/lib/i18n'
-
-const pluginsObject = plugins()
-Object.keys(pluginsObject).forEach(function (key) {
-  Vue.use(pluginsObject[key])
-})
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
   attempt: 2
 })
 
-// Mixin for handling thumbnail
-Vue.mixin(thumbnailMixin)
+const pluginsObject = plugins()
+Object.keys(pluginsObject).forEach(function (key) {
+  Vue.use(pluginsObject[key])
+})
 
-// Register global filters
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
+const mixinsObject = mixins()
+Object.keys(mixinsObject).forEach(function (key) {
+  Vue.mixin(mixinsObject[key])
+})
+
+const filtersObject = filters()
+Object.keys(filtersObject).forEach(key => {
+  Vue.filter(key, filtersObject[key])
 })
 
 export function createApp () {
