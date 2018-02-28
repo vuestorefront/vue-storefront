@@ -3,7 +3,7 @@
     <router-link
       :to="{ name: product.type_id + '-product', params: { parentSku: product.sku, slug: product.slug }}"
     >
-      <div class="product-image bg-lightgray">
+      <div class="product-image bg-cl-secondary">
         <img :src="thumbnail" class="product-thumbnail"/>
       </div>
     </router-link>

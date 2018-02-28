@@ -1,11 +1,11 @@
 <template>
   <div>
-    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
-      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
       {{ $t('Reset password') }}
     </header>
 
-    <div class="modal-content pt30 pb60 px65 c-gray-secondary">
+    <div class="modal-content pt30 pb60 px65 cl-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
@@ -14,14 +14,14 @@
             </p>
             <input
               ref="email"
-              class="brdr-none brdr-bottom brdr-c-lightgray-secondary border-box py10 w-100 h4 weight-200 sans-serif"
+              class="brdr-none brdr-bottom brdr-cl-primary border-box py10 w-100 h4 weight-200 sans-serif"
               type="email"
               name="email"
               v-model="email"
               placeholder="E-mail address *"
             >
-            <p class="m0 c-red h6" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</p>
-            <p class="m0 c-red h6" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</p>
+            <p class="m0 cl-error h6" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</p>
+            <p class="m0 cl-error h6" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</p>
           </div>
           <div class="mb35">
             <button-full type="submit">
@@ -125,21 +125,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $black: map-get($colors, black);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-placeholder: color(tertiary);
+$color-focus: color(black);
 
-  input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
-  }
+input::-webkit-input-placeholder {
+  color: $color-placeholder;
+}
 
-  input:-moz-placeholder {
-    color: $lightgray-secondary;
-  }
+input:-moz-placeholder {
+  color: $color-placeholder;
+}
 
-  input:focus {
-    outline: none;
-    border-color: $black;
-    transition: 0.3s all;
-  }
+input:focus {
+  outline: none;
+  border-color: $color-focus;
+  transition: 0.3s all;
+}
 </style>

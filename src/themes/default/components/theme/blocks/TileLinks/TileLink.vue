@@ -2,10 +2,10 @@
   <div class="tile-link">
     <a :href="tile.account_link">
       <div
-        class="tile-image w-100 bg-lightgray"
+        class="tile-image w-100 bg-cl-secondary"
         v-lazy:background-image="tile.background_image"
       >
-        <div class="overlay w-100 flex center-xs middle-xs bg-white h4">@{{ tile.account_name }}</div>
+        <div class="overlay w-100 flex center-xs middle-xs bg-cl-primary h4">@{{ tile.account_name }}</div>
       </div>
     </a>
   </div>
