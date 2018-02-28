@@ -1,13 +1,13 @@
 <template>
   <transition name="fade" appear>
-    <div class="cookie fixed w-100 bg-darkgray c-lightgray-secondary" v-if="isOpen">
+    <div class="cookie fixed w-100 bg-cl-th-accent cl-tertiary" v-if="isOpen">
       <div class="container">
         <div class="row between-xs middle-xs px15">
           <div class="col-xs-10 start-xs">
             <span class="pr5">
               {{ message }}
             </span>
-            <router-link :to="detailsLink" :title="detailsLinkText" class="c-gray">
+            <router-link :to="detailsLink" :title="detailsLinkText" class="cl-bg-tertiary">
               {{ detailsLinkText }}
             </router-link>
           </div>
@@ -65,18 +65,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-icon: color(black);
+$bg-icon: color(suva-gray);
 
-  $gray: map-get($colors, gray);
-  $black: map-get($colors, black);
+.cookie {
+  z-index: 2;
+  bottom: 0;
+}
 
-  .cookie {
-    z-index: 2;
-    bottom: 0;
-  }
-
-  .icon:hover {
-    color: $black;
-    background-color: $gray;
-  }
+.icon:hover {
+  color: $color-icon;
+  background-color: $bg-icon;
+}
 </style>

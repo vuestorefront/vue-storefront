@@ -1,27 +1,27 @@
 <template>
   <div
-    class="microcart mw-100 fixed c-darkgray"
-    :class="[items.length ? 'bg-lightgray' : 'bg-white', { active: isOpen }]"
+    class="microcart mw-100 fixed cl-accent"
+    :class="[items.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: isOpen }]"
   >
-    <div class="row middle-xs bg-white top-sm">
+    <div class="row middle-xs bg-cl-primary top-sm">
       <div class="col-xs-10">
         <h2
           v-if="items.length"
-          class="c-darkgray mt60 mb35 ml40 heading"
+          class="cl-accent mt60 mb35 ml40 heading"
         >
           {{ $t('Shopping cart') }}
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 brdr-none bg-transparent close" @click="closeMicrocart">
-          <i class="material-icons p15 c-darkgray">
+        <button type="button" class="p0 brdr-none bg-cl-transparent close" @click="closeMicrocart">
+          <i class="material-icons p15 cl-accent">
             close
           </i>
         </button>
       </div>
     </div>
 
-    <h4 v-if="!items.length" class="c-darkgray ml30">
+    <h4 v-if="!items.length" class="cl-accent ml30">
       {{ $t('Your shopping cart is empty.') }}
     </h4>
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
@@ -31,10 +31,10 @@
       </router-link>
       {{ $t('to find something beautiful for You!') }}
     </div>
-    <ul v-if="items.length" class="bg-white m0 px40 pb40 products">
+    <ul v-if="items.length" class="bg-cl-primary m0 px40 pb40 products">
       <product v-for="product in items" :key="product.sku" :product="product" />
     </ul>
-    <div v-if="items.length" class="summary px40 c-darkgray serif">
+    <div v-if="items.length" class="summary px40 cl-accent serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         {{ $t('Shopping summary') }}
       </h3>
@@ -61,7 +61,7 @@
       v-if="items.length && !isCheckoutMode"
     >
       <div class="col-xs-12 col-sm first-sm">
-        <router-link to="/" class="no-underline c-gray-secondary link">
+        <router-link to="/" class="no-underline cl-secondary link">
           <span @click="closeMicrocart">
             {{ $t('Return to shopping') }}
           </span>

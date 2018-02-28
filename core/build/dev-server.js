@@ -1,8 +1,17 @@
 const path = require('path')
 const webpack = require('webpack')
 const MFS = require('memory-fs')
-let clientConfig = require('./webpack.client.config')
-let serverConfig = require('./webpack.server.config')
+
+let baseClientConfig = require('./webpack.client.config')
+let baseServerConfig = require('./webpack.server.config')
+
+const theme = require('../build/config.json').theme
+const themeRoot = '../../src/themes/' + theme + '/'
+
+let extendedConfig = require(path.join(themeRoot, 'webpack.config.js'))
+
+let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true })
+let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true })
 
 module.exports = function setupDevServer (app, cb) {
   let bundle
@@ -14,8 +23,8 @@ module.exports = function setupDevServer (app, cb) {
   {
     for(let cc of clientConfig)
     if(cc.hasOwnProperty('entry') && cc.entry.hasOwnProperty('app'))
-      { 
-        clientConfig = cc; 
+      {
+        clientConfig = cc;
         break;
       }
     }

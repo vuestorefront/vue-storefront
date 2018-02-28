@@ -1,12 +1,12 @@
 <template>
   <button
-    class="mr10 mb5 bg-transparent brdr-1 brdr-circle brdr-c-transparent relative inline-flex pointer color"
+    class="mr10 mb5 bg-cl-transparent brdr-1 brdr-circle brdr-cl-transparent :brdr-cl-bg-primary relative inline-flex pointer color"
     @click="switchFilter(id, label)"
     :class="{ active: active }"
     :aria-label="$t('Select color ') + label"
   >
     <div
-      class="absolute brdr-circle brdr-1 brdr-c-alto block color-inside"
+      class="absolute brdr-circle brdr-1 brdr-cl-secondary block color-inside"
       :style="colorFrom(label)"
     />
   </button>
@@ -30,21 +30,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $emperor: map-get($colors, emperor);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-active: color(primary);
 
   .color {
     width: 40px;
     height: 40px;
 
-    &:hover,
-    &:focus {
-      border-color: $lightgray-secondary;
-    }
-
     &.active {
-      border-color: $emperor;
+      border-color: $color-active;
     }
   }
 

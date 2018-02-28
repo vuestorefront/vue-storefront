@@ -1,5 +1,5 @@
 <template>
-  <div class="validation-error c-red h6">
+  <div class="validation-error cl-error h6">
     DONT USE THERE WILL BE CHANGES IN API
   </div>
 </template>

@@ -1,13 +1,13 @@
 <template>
   <div id="page_not_found">
-    <section class="bg-lightgray py35 px20">
+    <section class="bg-cl-secondary py35 px20">
       <div class="container">
         <h2>
           {{ $t("We can't find the page") }}
         </h2>
       </div>
     </section>
-    <section class="bg-white py35 px20">
+    <section class="bg-cl-primary py35 px20">
       <div class="container">
         <div class="lh16 h5 weight-400">
           <p>
@@ -15,17 +15,17 @@
           </p>
           <p>
             {{ $t('If you need an assistance you can drop us a line on') }}
-            <router-link to="/" class="c-gray-secondary no-underline">
+            <router-link to="/" class="cl-secondary no-underline">
               {{ $t('a chat') }}
             </router-link>
             {{ $t('or write to us through') }}
-            <router-link to="/contact" class="c-gray-secondary no-underline">
+            <router-link to="/contact" class="cl-secondary no-underline">
               {{ $t('a contact page') }}
             </router-link>.
           </p>
           <p>
             {{ $t('You can also use') }}
-            <a href="#" class="c-gray-secondary no-underline" @click="toggleSearchpanel">
+            <a href="#" class="cl-secondary no-underline" @click="toggleSearchpanel">
               {{ $t('search') }}
             </a>
             {{ $t('to find product you were looking for.') }}

@@ -1,5 +1,5 @@
 <template>
-  <li class="py10 c-gray-secondary">
+  <li class="py10 cl-secondary">
     <span>{{ label|htmlDecode }} </span>
     <span class="weight-700">{{ value|htmlDecode }}</span>
   </li>

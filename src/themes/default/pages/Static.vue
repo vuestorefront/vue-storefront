@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-lightgray py35 pl20">
+    <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
         <h2>{{ $props.title }}</h2>
@@ -13,7 +13,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link :to="page.link" class="c-darkgray relative">{{ page.title }}</router-link>
+                <router-link :to="page.link" class="cl-accent relative">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
@@ -78,33 +78,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$border-primary: color(primary, $colors-border);
 
-  .static-menu {
-    ul {
-      list-style: none;
-    }
-
-    a::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: $lightgray-secondary;
-    }
-
-    a:hover::after,
-    .router-link-active::after {
-      opacity: 0;
-    }
+.static-menu {
+  ul {
+    list-style: none;
   }
 
-  .static-content {
-    *:first-of-type {
-      margin-top: 0;
-    }
+  a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: $border-primary;
   }
+
+  a:hover::after,
+  .router-link-active::after {
+    opacity: 0;
+  }
+}
+
+.static-content {
+  *:first-of-type {
+    margin-top: 0;
+  }
+}
 </style>

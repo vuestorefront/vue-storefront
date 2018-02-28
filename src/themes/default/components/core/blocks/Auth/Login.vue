@@ -1,33 +1,33 @@
 <template>
   <div>
-    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
-      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
       {{ $t('Log in') }}
     </header>
-    <div class="modal-content pt30 pb60 px65  c-gray-secondary">
+    <div class="modal-content pt30 pb60 px65  cl-secondary">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
-            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
             type="email"
             name="email"
             ref="email"
             v-model="email"
             :placeholder="$t('E-mail address *')"
           >
-          <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</span>
-          <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</span>
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
             :type="passType"
             name="password"
             v-model="password"
             :placeholder="$t('Password *')"
           >
-          <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
+          <i class="icon material-icons cl-brdr-secondary absolute pointer" @click="togglePassType">{{ iconName }}</i>
+          <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
         </div>
         <div class="row">
           <div class="col-xs-6 mb35">
@@ -159,22 +159,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $gray: map-get($colors, gray);
-  $black: map-get($colors, black);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-placeholder: color(tertiary);
+  $color-icon: color(tertiary, $colors-background);
+  $color-focus: color(black);
 
   input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
+    color: $color-placeholder;
   }
 
   input:-moz-placeholder {
-    color: $lightgray-secondary;
+    color: $color-placeholder;
   }
 
   input:focus {
     outline: none;
-    border-color: $black;
+    border-color: $color-focus;
     transition: 0.3s all;
   }
 
@@ -183,7 +184,7 @@ export default {
     top: 10px;
 
     &:hover {
-      color: $gray;
+      color: $color-icon;
     }
   }
 </style>

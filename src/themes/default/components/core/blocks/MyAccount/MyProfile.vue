@@ -2,18 +2,18 @@
   <div class="my-profile mb35">
     <!-- My profile header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-md-6" :class="{ 'c-darkgray' : !isActive }">
+      <div class="col-xs-12 col-md-6" :class="{ 'cl-accent' : !isActive }">
         <h3 class="m0 mb5">
           {{ $t('My profile') }}
         </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
         <div class="lh30 flex end-md" v-if="!isActive && editMode">
-          <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
+          <a href="#" class="cl-tertiary flex" @click.prevent="edit">
             <span class="pr5">
               {{ $t('Edit your profile') }}
             </span>
-            <i class="material-icons c-lightgray-secondary">edit</i>
+            <i class="material-icons cl-tertiary">edit</i>
           </a>
         </div>
       </div>
@@ -59,7 +59,7 @@
           <label for="changePassword"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="changePassword = !changePassword">
-          <span class="fs16 c-darkgray">
+          <span class="fs16 cl-accent">
             {{ $t('Change my password') }}
           </span>
         </div>
@@ -67,14 +67,14 @@
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container relative mr35">
           <input
-            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4"
             name="old-password"
             v-model="oldPassword"
             :type="passType.oldPass"
             :placeholder="$t('Current password *')"
             @input="$v.oldPassword.$touch()"
           >
-          <div class="icon absolute c-lightgray-secondary pointer">
+          <div class="icon absolute cl-tertiary pointer">
             <i class="material-icons" @click="togglePassType('oldPass')">{{ iconName.oldPass }}</i>
           </div>
         </div>
@@ -86,14 +86,14 @@
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container relative mr35">
           <input
-            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4"
             name="password"
             v-model="password"
             :type="passType.pass"
             :placeholder="$t('New password *')"
             @input="$v.password.$touch()"
           >
-          <div class="icon absolute c-lightgray-secondary pointer">
+          <div class="icon absolute cl-tertiary pointer">
             <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
           </div>
         </div>
@@ -104,14 +104,14 @@
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container relative mr35">
           <input
-            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4"
+            class="w-100 pr30 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4"
             name="password-confirm"
             v-model="rPassword"
             :type="passType.repeatPass"
             :placeholder="$t('Repeat new password *')"
           >
           <i
-            class="icon absolute c-lightgray-secondary material-icons pointer"
+            class="icon absolute cl-tertiary material-icons pointer"
             @click="togglePassType('repeatPass')"
           >
             {{ iconName.repeatPass }}
@@ -128,7 +128,7 @@
           <label for="addCompany"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="addCompany = !addCompany">
-          <span class="fs16 c-darkgray">
+          <span class="fs16 cl-accent">
             {{ $t('I have a company and want to receive an invoice for every order') }}
           </span>
         </div>
@@ -202,7 +202,7 @@
         <select
           name="countries"
           v-model="userCompany.country"
-          :class="{'c-lightgray-secondary' : userCompany.country.length === 0}"
+          :class="{'cl-tertiary' : userCompany.country.length === 0}"
         >
           <option value="" disabled selected hidden>Country *</option>
           <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
@@ -233,7 +233,7 @@
         </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
-        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">
+        <a href="#" @click="exitSection" class="link no-underline fs16 cl-accent">
           {{ $t('Cancel') }}
         </a>
       </div>
@@ -252,7 +252,7 @@
             <label for="addCompanyFilled"/>
           </div>
           <div class="checkboxText ml15 lh25">
-            <span class="fs16 c-darkgray">{{ $t('I have a company and want to receive an invoice for every order') }}</span>
+            <span class="fs16 cl-accent">{{ $t('I have a company and want to receive an invoice for every order') }}</span>
           </div>
         </div>
         <p class="mb25" v-show="addCompany">{{ userCompany.company }}</p>
@@ -374,33 +374,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $black: map-get($colors, black);
-  $gray: map-get($colors, gray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-hover: color(tertiary, $colors-background);
+$color-focus: color(black);
 
-  .pass-container {
-    input[type=password], input[type=text] {
-      &:focus {
-        outline: none;
-        border-color: $black;
-        transition: 0.3s all;
-      }
-    }
-
-    .icon {
-      right: 0;
-      top: 10px;
-
-      &:hover {
-        color: $gray;
-      }
+.pass-container {
+  input[type=password], input[type=text] {
+    &:focus {
+      outline: none;
+      border-color: $color-focus;
+      transition: 0.3s all;
     }
   }
 
-  .button-container {
-    @media (max-width: 1200px) {
-      margin-bottom: 10px;
-      margin-top: 15px;
+  .icon {
+    right: 0;
+    top: 10px;
+
+    &:hover {
+      color: $color-hover;
     }
   }
+}
+
+.button-container {
+  @media (max-width: 1200px) {
+    margin-bottom: 10px;
+    margin-top: 15px;
+  }
+}
 </style>
