@@ -106,7 +106,6 @@
     "mocha": "^3.0.2",
     "node-sass": "^4.7.2",
     "phantomjs-prebuilt": "^2.1.10",
-    "raw-loader": "^0.5.1",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.6",
     "sinon": "^1.17.5",
