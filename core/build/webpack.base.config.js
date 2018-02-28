@@ -21,6 +21,9 @@ module.exports = {
     app: './core/client-entry.js',
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
   },
+  resolveLoader: {
+    modules: ['node_modules', path.resolve(__dirname, themeNodeModules)],
+  },
   resolve: {
     modules: [
     	'node_modules',
