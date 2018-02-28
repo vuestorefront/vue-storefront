@@ -24,7 +24,7 @@
         <input
           type="text"
           name="first-name"
-          placeholder="First name"
+          :placeholder="$t('First name')"
           v-model.trim="currentUser.firstname"
           @input="$v.currentUser.firstname.$touch()"
         >
@@ -32,25 +32,25 @@
           class="validation-error"
           v-if="!$v.currentUser.firstname.required"
         >
-          Field is required
+          {{ $t('Field is required') }}
         </span>
         <span class="validation-error" v-if="!$v.currentUser.firstname.minLength">
-          Name must have at least {{ $v.currentUser.firstname.$params.minLength.min }} letters.
+          {{ $t('Name must have at least 3 letters.') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-        <input type="text" name="last-name" placeholder="Last name" v-model.trim="currentUser.lastname">
+        <input type="text" name="last-name" :placeholder="$t('Last name')" v-model.trim="currentUser.lastname">
         <span class="validation-error" v-if="!$v.currentUser.lastname.required">
-          Field is required
+          {{ $t('Field is required') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-        <input type="email" name="email-address" placeholder="Email address" v-model="currentUser.email">
+        <input type="email" name="email-address" :placeholder="$t('Email address')" v-model="currentUser.email">
         <span class="validation-error" v-if="!$v.currentUser.email.required">
-          Field is required
+          {{ $t('Field is required') }}
         </span>
         <span class="validation-error" v-if="!$v.currentUser.email.email">
-          Please provide valid e-mail address.
+          {{ $t('Please provide valid e-mail address.') }}
         </span>
       </div>
       <div class="col-xs-12 col-md-12 mb15">
@@ -60,7 +60,7 @@
         </div>
         <div class="checkboxText ml15 lh25" @click="changePassword = !changePassword">
           <span class="fs16 c-darkgray">
-            Change my password
+            {{ $t('Change my password') }}
           </span>
         </div>
       </div>
@@ -71,7 +71,7 @@
             name="old-password"
             v-model="oldPassword"
             :type="passType.oldPass"
-            placeholder="Current password *"
+            :placeholder="$t('Current password *')"
             @input="$v.oldPassword.$touch()"
           >
           <div class="icon absolute c-lightgray-secondary pointer">
@@ -79,7 +79,7 @@
           </div>
         </div>
         <span class="validation-error" v-if="!$v.oldPassword.required && $v.oldPassword.$error">
-          Field is required.
+          {{ $t('Field is required.') }}
         </span>
       </div>
       <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" v-if="changePassword"/>
@@ -90,7 +90,7 @@
             name="password"
             v-model="password"
             :type="passType.pass"
-            placeholder="New password *"
+            :placeholder="$t('New password *')"
             @input="$v.password.$touch()"
           >
           <div class="icon absolute c-lightgray-secondary pointer">
@@ -98,7 +98,7 @@
           </div>
         </div>
         <span class="validation-error" v-if="!$v.password.required && $v.password.$error">
-          Field is required.
+          {{ $t('Field is required.') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
@@ -108,7 +108,7 @@
             name="password-confirm"
             v-model="rPassword"
             :type="passType.repeatPass"
-            placeholder="Repeat new password *"
+            :placeholder="$t('Repeat new password *')"
           >
           <i
             class="icon absolute c-lightgray-secondary material-icons pointer"
@@ -118,7 +118,7 @@
           </i>
         </div>
         <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">
-          Passwords must be identical.
+          {{ $t('Passwords must be identical.') }}
         </span>
       </div>
       <!-- Company information -->
@@ -129,7 +129,7 @@
         </div>
         <div class="checkboxText ml15 lh25" @click="addCompany = !addCompany">
           <span class="fs16 c-darkgray">
-            I have a company and want to receive an invoice for every order
+            {{ $t('I have a company and want to receive an invoice for every order') }}
           </span>
         </div>
       </div>
@@ -138,48 +138,48 @@
         <input
           type="text"
           name="company-name"
-          placeholder="Company name *"
+          :placeholder="$t('Company name *')"
           v-model.trim="userCompany.company"
           @input="$v.userCompany.company.$touch()"
         >
         <span class="validation-error" v-if="!$v.userCompany.company.required && $v.userCompany.company.$error">
-          Field is required
+          {{ $t('Field is required') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input
           type="text"
           name="street-address"
-          placeholder="Street name *"
+          :placeholder="$t('Street name *')"
           v-model.trim="userCompany.street"
           @input="$v.userCompany.street.$touch()"
         >
         <span class="validation-error" v-if="!$v.userCompany.street.required && $v.userCompany.street.$error">
-          Field is required
+          {{ $t('Field is required') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input
           type="text"
           name="apartment-number"
-          placeholder="House/Apartment number *"
+          :placeholder="$t('House/Apartment number *')"
           v-model.trim="userCompany.house"
           @input="$v.userCompany.house.$touch()"
         >
         <span class="validation-error" v-if="!$v.userCompany.house.required && $v.userCompany.house.$error">
-          Field is required
+          {{ $t('Field is required') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input
           type="text"
           name="city"
-          placeholder="City *"
+          :placeholder="$t('City *')"
           v-model.trim="userCompany.city"
           @input="$v.userCompany.city.$touch()"
         >
         <span class="validation-error" v-if="!$v.userCompany.city.required && $v.userCompany.city.$error">
-          Field is required
+          {{ $t('Field is required') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
@@ -189,13 +189,13 @@
         <input
           type="text"
           name="zip-code"
-          placeholder="Zip-code *"
+          :placeholder="$t('Zip-code *')"
           v-model.trim="userCompany.postcode"
           @input="$v.userCompany.postcode.$touch()"
         >
-        <span class="validation-error" v-if="!$v.userCompany.postcode.required && $v.userCompany.postcode.$error">Field is required</span>
+        <span class="validation-error" v-if="!$v.userCompany.postcode.required && $v.userCompany.postcode.$error">{{ $t('Field is required') }}</span>
         <span class="validation-error" v-if="!$v.userCompany.postcode.minLength">
-          Zip-code must have at least {{ $v.userCompany.postcode.$params.minLength.min }} letters.
+          {{ $t('Zip-code must have at least 3 letters.') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
@@ -207,19 +207,19 @@
           <option value="" disabled selected hidden>Country *</option>
           <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
         </select>
-        <span class="validation-error" v-if="!$v.userCompany.country.required && $v.userCompany.country.$error">Field is required</span>
+        <span class="validation-error" v-if="!$v.userCompany.country.required && $v.userCompany.country.$error">{{ $t('Field is required') }}</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25" v-show="addCompany">
         <input
           type="text"
           name="taxId"
-          placeholder="Tax ID *"
+          :placeholder="$t('Tax ID *')"
           v-model.trim="userCompany.taxId"
           @input="$v.userCompany.taxId.$touch()"
         >
-        <span class="validation-error" v-if="!$v.userCompany.taxId.required && $v.userCompany.taxId.$error">Field is required</span>
+        <span class="validation-error" v-if="!$v.userCompany.taxId.required && $v.userCompany.taxId.$error">{{ $t('Field is required') }}</span>
         <span class="validation-error" v-if="!$v.userCompany.taxId.minLength">
-          Tax ID must have at least {{ $v.userCompany.taxId.$params.minLength.min }} letters.
+          {{ $t('Tax ID must have at least 3 letters.') }}
         </span>
       </div>
       <div class="hidden-xs col-sm-6 mb25" v-show="addCompany"/>
@@ -252,7 +252,7 @@
             <label for="addCompanyFilled"/>
           </div>
           <div class="checkboxText ml15 lh25">
-            <span class="fs16 c-darkgray">I have a company and want to receive an invoice for every order</span>
+            <span class="fs16 c-darkgray">{{ $t('I have a company and want to receive an invoice for every order') }}</span>
           </div>
         </div>
         <p class="mb25" v-show="addCompany">{{ userCompany.company }}</p>
@@ -319,7 +319,7 @@ export default {
       },
       postcode: {
         required,
-        minLength: minLength(5)
+        minLength: minLength(3)
       },
       city: {
         required

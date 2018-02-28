@@ -46,7 +46,7 @@
             <div class="col-xs-12 col-md-4">
               <div @click="addToWishlist" class="c-secondary-lighter c-icon-hover pointer flex start-xs middle-xs uppercase fs-medium-small hover-transition">
                 <span class="material-icons">favorite_border</span>
-                <span class="pl10">Save product</span>
+                <span class="pl10">{{ $t('Save product') }}</span>
               </div>
             </div>
           </div>

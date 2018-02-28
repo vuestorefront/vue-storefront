@@ -11,7 +11,7 @@
   "dependencies": {
     "bodybuilder": "^2.2.7",
     "vue": "^2.5.13",
-    "vue-carousel": "^0.6.7",
+    "vue-carousel": "^0.6.8",
     "vue-no-ssr": "^0.2.2",
     "vuelidate": "^0.6.1",
     "vuex": "^3.0.1"

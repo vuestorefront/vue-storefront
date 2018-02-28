@@ -24,7 +24,7 @@
       class="validation-error"
       v-if="$v.shipping.phoneNumber.$error && !$v.shipping.phoneNumber.required"
     >
-      Field is required
+      {{ $t('Field is required') }}
     </span>
 
     <span :key="index" v-for="(field, index) in extraFields">
@@ -35,7 +35,7 @@
         class="validation-error"
         v-if="$v.shipping.extraFields[index].$error && !$v.shipping.extraFields[index].required"
       >
-        Field is required
+        {{ $t('Field is required') }}
       </span>
 
     </span>
