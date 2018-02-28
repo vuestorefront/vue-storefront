@@ -11,10 +11,12 @@ import * as themeFilters from 'theme/filters'
  * Return messages load from both: core/resource/i18n and theme/resource/i18n
  */
 export function translations () {
+  /*
   console.log(messages)
   if (messages) {
     throw new Error('test')
   }
+  */
   return messages
 }
 
