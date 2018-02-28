@@ -1,11 +1,11 @@
 <template>
   <span @click="switchFilter(id, from, to)">
     <button
-      class="relative brdr-c-gray brdr-1 bg-transparent mr10 pointer price-button"
+      class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-button"
       :class="{ active: active }"
       :aria-label="$t('Price ') + content"
     >
-      <div class="bg-transparent absolute block square"/>
+      <div class="bg-cl-transparent absolute block square"/>
     </button>
     <span>{{ content }}</span>
   </span>
@@ -20,9 +20,10 @@ export default { // TODO: move logic to parent component
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $darkgray: map-get($colors, darkgray);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-event: color(tertiary);
+  $color-active: color(accent);
 
   .price-button {
     width: 20px;
@@ -31,13 +32,13 @@ export default { // TODO: move logic to parent component
     &:hover,
     &:focus {
       .square {
-        background-color: $lightgray-secondary;
+        background-color: $color-event;
       }
     }
 
     &.active {
       .square {
-        background-color: $darkgray;
+        background-color: $color-active;
       }
     }
   }

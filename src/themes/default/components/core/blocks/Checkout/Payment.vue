@@ -3,26 +3,26 @@
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
         <div
-          class="number-circle lh35 c-white brdr-circle align-center weight-700"
-          :class="{ 'bg-darkgray' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }"
+          class="number-circle lh35 cl-white brdr-circle align-center weight-700"
+          :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           3
         </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
-          <div class="col-xs-12 col-md-6" :class="{ 'c-gray' : !isFilled && !isActive }">
+          <div class="col-xs-12 col-md-6" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0 mb5">
               {{ $t('Payment') }}
             </h3>
           </div>
           <div class="col-xs-12 col-md-6 pr30">
             <div class="lh30 flex end-md" v-if="isFilled && !isActive">
-              <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
+              <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
                   {{ $t('Edit payment') }}
                 </span>
-                <i class="material-icons c-lightgray-secondary">edit</i>
+                <i class="material-icons cl-tertiary">edit</i>
               </a>
             </div>
           </div>
@@ -44,7 +44,7 @@
               <label for="sendToShippingAddressCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useShippingAddress">
-              <span class="fs16 c-darkgray"> {{ $t('Copy address data from shipping') }}</span>
+              <span class="fs16 cl-accent">{{ $t('Copy address data from shipping') }}</span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 mb15" v-show="hasBillingData()">
@@ -58,7 +58,7 @@
               <label for="sendToBillingAddressCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useBillingAddress">
-              <span class="fs16 c-darkgray"> {{ $t('Use my billing data') }}</span>
+              <span class="fs16 cl-accent">{{ $t('Use my billing data') }}</span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 mb25">
@@ -181,7 +181,7 @@
           <div class="col-xs-12 col-sm-6 mb25">
             <select
               name="countries"
-              :class="{'c-lightgray-secondary' : payment.country.length === 0}"
+              :class="{'cl-tertiary' : payment.country.length === 0}"
               v-model="payment.country"
               @change="$v.payment.country.$touch()"
               autocomplete="country"
@@ -202,7 +202,7 @@
               <label for="generateInvoiceCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useGenerateInvoice">
-              <span class="fs16 c-darkgray"> {{ $t('I want to generate an invoice for the company') }}</span>
+              <span class="fs16 cl-accent">{{ $t('I want to generate an invoice for the company') }}</span>
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">

@@ -1,6 +1,6 @@
 <template>
   <div id="product">
-    <section class="bg-lightgray py30 px20 product-top-section">
+    <section class="bg-cl-secondary py30 px20 product-top-section">
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
         <section class="row py35 m0 data-wrapper">
@@ -10,18 +10,18 @@
             </transition>
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
-            <div class="uppercase c-gray-secondary">
+            <div class="uppercase cl-secondary">
               sku: {{ product.sku }}
             </div>
-            <h1 class="mb20 mt0 c-darkgray product-name">
+            <h1 class="mb20 mt0 cl-accent product-name">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb30 price" v-if="product.type_id !== 'grouped'">
               <div
-                class="h3 c-gray-secondary"
+                class="h3 cl-secondary"
                 v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
               >
-                <span class="c-red">
+                <span class="cl-error">
                   {{ product.priceInclTax | price }}
                 </span>&nbsp;
                 <span class="price-original h4">
@@ -29,14 +29,14 @@
                 </span>
               </div>
               <div
-                class="h3 c-gray"
+                class="h3 cl-bg-tertiary"
                 v-if="!product.special_price && product.priceInclTax"
               >
                 {{ product.priceInclTax | price }}
               </div>
             </div>
             <div
-              class="c-emperor variants"
+              class="cl-primary variants"
               v-if="product.type_id =='configurable' && !loading"
             >
               <div
@@ -80,7 +80,7 @@
                     v-if="option.label == 'Size'"
                     class="
                       p0 ml30 inline-flex middle-xs weight-700 uppercase
-                      no-underline action size-guide pointer c-lightgray-secondary
+                      no-underline action size-guide pointer cl-tertiary
                     "
                   >
                     <i class="pr5 material-icons">accessibility</i>
@@ -106,8 +106,8 @@
                 <button
                   @click="addToFavorite"
                   class="
-                    p0 inline-flex middle-xs bg-transparent brdr-none
-                    action weight-700 h5 uppercase pointer c-lightgray-secondary
+                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
+                    action weight-700 h5 uppercase pointer cl-tertiary
                   "
                   type="button"
                 >
@@ -124,8 +124,8 @@
                 <button
                   @click="addToCompare"
                   class="
-                    p0 inline-flex middle-xs bg-transparent brdr-none
-                    action weight-700 h5 uppercase pointer c-lightgray-secondary
+                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
+                    action weight-700 h5 uppercase pointer cl-tertiary
                   "
                   type="button"
                 >
@@ -143,7 +143,7 @@
         </section>
       </div>
     </section>
-    <section class="container pt50 pb20 px20 c-darkgray details">
+    <section class="container pt50 pb20 px20 cl-accent details">
       <h2 class="h3 m0 mb10 sans-serif">
         {{ $t('Product details') }}
       </h2>
@@ -151,7 +151,7 @@
         <div class="row between-md m0">
           <div class="col-md-5">
             <div
-              class="lh30 c-gray-secondary"
+              class="lh30 cl-secondary"
               v-html="product.description"
             />
           </div>
@@ -217,145 +217,145 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray: map-get($colors, lightgray);
-  $gray-secondary: map-get($colors, gray-secondary);
-  $black: map-get($colors, black);
-  $emperor: map-get($colors, emperor);
-  $white: map-get($colors, white);
-  $red: map-get($colors, red);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-primary: color(primary);
+$color-tertiary: color(tertiary);
+$color-secondary: color(secondary);
+$color-white: color(white);
+$bg-secondary: color(secondary, $colors-background);
 
-  .data-wrapper {
+.data-wrapper {
+  @media (max-width: 767px) {
+    padding: 0;
+  }
+}
+
+.data {
+  @media (max-width: 767px) {
+    border-bottom: 1px solid $bg-secondary;
+  }
+}
+
+.image {
+  @media (max-width: 1023px) {
+    margin-bottom: 20px;
+    padding: 20px 0 30px 0;
+    background-color: $bg-secondary;
+  }
+}
+
+.product-name {
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 36px;
+  }
+}
+
+.price {
+  @media (max-width: 767px) {
+    color: $color-primary;
+  }
+}
+
+.variants-label {
+  @media (max-width: 767px) {
+    font-size: 14px;
+  }
+}
+
+.variants-wrapper {
+  @media (max-width: 767px) {
+    padding-bottom: 30px;
+  }
+
+ .sizes {
     @media (max-width: 767px) {
-      padding: 0;
+      width: 60%;
     }
   }
 
-  .data {
+  .size-guide {
+    height: 40px;
     @media (max-width: 767px) {
-      border-bottom: 1px solid $lightgray;
+      width: 40%;
+      margin-left: 0;
     }
   }
+}
 
-  .image {
-    @media (max-width: 1023px) {
-      margin-bottom: 20px;
-      padding: 20px 0 30px 0;
-      background-color: $lightgray;
+.product-top-section {
+  @media (max-width: 767px) {
+    padding: 0;
+    background-color: $color-white;
+  }
+}
+
+.add-to-buttons {
+  @media (max-width: 767px) {
+    padding-top: 30px;
+    margin-bottom: 40px;
+  }
+}
+
+.details {
+  @media (max-width: 767px) {
+    padding: 50px 15px 15px;
+  }
+}
+
+.details-wrapper {
+  @media (max-width: 767px) {
+    position: relative;
+    max-height: 140px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+}
+
+.details-overlay {
+  @media (max-width: 767px) {
+    position: absolute;
+    height: 75%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+    background: linear-gradient(rgba($color-white, 0), rgba($color-white, 1));
+    &.hidden {
+      display: none;
     }
   }
+}
 
-  .product-name {
-    @media (max-width: 767px) {
-      margin-top: 10px;
-      font-size: 36px;
-    }
+.price-original {
+  text-decoration: line-through;
+}
+
+.action {
+  &:hover {
+    color: $color-secondary;
   }
+}
 
-  .price {
-    @media (max-width: 767px) {
-      color: $emperor;
-    }
-  }
+.attributes {
+  list-style-type: none;
+}
 
-  .variants-label {
-    @media (max-width: 767px) {
-      font-size: 14px;
-    }
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
 
-  .variants-wrapper {
-    @media (max-width: 767px) {
-      padding-bottom: 30px;
-    }
+.fade-enter,
+.fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
-   .sizes {
-      @media (max-width: 767px) {
-        width: 60%;
-      }
-    }
-
-    .size-guide {
-      height: 40px;
-      @media (max-width: 767px) {
-        width: 40%;
-        margin-left: 0;
-      }
-    }
-  }
-
-  .product-top-section {
-    @media (max-width: 767px) {
-      padding: 0;
-      background-color: $white;
-    }
-  }
-
-  .add-to-buttons {
-    @media (max-width: 767px) {
-      padding-top: 30px;
-      margin-bottom: 40px;
-    }
-  }
-
-  .details {
-    @media (max-width: 767px) {
-      padding: 50px 15px 15px;
-    }
-  }
-
-  .details-wrapper {
-    @media (max-width: 767px) {
-      position: relative;
-      max-height: 140px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      font-size: 14px;
-    }
-  }
-
-  .details-overlay {
-    @media (max-width: 767px) {
-      position: absolute;
-      height: 75%;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      margin: 0;
-      cursor: pointer;
-      background: linear-gradient(rgba($white, 0), rgba($white, 1));
-      &.hidden {
-        display: none;
-      }
-    }
-  }
-
-  .price-original {
-    text-decoration: line-through;
-  }
-
-  .action {
-    &:hover {
-      color: $gray-secondary;
-    }
-  }
-
-  .attributes {
-    list-style-type: none;
-  }
-
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s;
-  }
-
-  .fade-enter,
-  .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-  }
-
-  .product-image {
-    mix-blend-mode: multiply;
-    width: 460px;
-  }
+.product-image {
+  mix-blend-mode: multiply;
+  width: 460px;
+}
 </style>

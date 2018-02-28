@@ -1,15 +1,15 @@
 <template>
   <div>
-    <header class="modal-header py25 px65 h1 serif weight-700 bg-lightgray">
-      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
       {{ $t('Register') }}
     </header>
 
-    <div class="modal-content pt30 pb60 px65 c-gray-secondary">
+    <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
           <input
-            class="w-100 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
             type="email"
             name="email"
             ref="email"
@@ -17,61 +17,61 @@
             autocomplete="email"
             :placeholder="$t('E-mail address *')"
           >
-          <span class="validation-error block h6 c-red" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
-          <span class="validation-error block h6 c-red" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
         </div>
         <div class="row mb35">
           <div class="col-xs-6">
             <input
-              class="w-100 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+              class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
               type="text"
               name="fist-name"
               v-model="firstName"
               autocomplete="given-name"
               :placeholder="$t('First name *')"
             >
-            <span class="validation-error block h6 c-red" v-if="!$v.firstName.required && $v.firstName.$error">Field is required.</span>
+            <span class="validation-error block h6 cl-error" v-if="!$v.firstName.required && $v.firstName.$error">Field is required.</span>
           </div>
           <div class="col-xs-6">
             <input
-              class="w-100 py10 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+              class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
               type="text"
               name="last-name"
               v-model="lastName"
               autocomplete="family-name"
               :placeholder="$t('Last name *')"
             >
-            <span class="validation-error block h6 c-red" v-if="!$v.lastName.required && $v.lastName.$error">Field is required.</span>
+            <span class="validation-error block h6 cl-error" v-if="!$v.lastName.required && $v.lastName.$error">Field is required.</span>
           </div>
         </div>
         <div class="mb35 relative">
           <input
-            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
             name="password"
             v-model="password"
             :type="passType.pass"
             autocomplete="new-password"
             :placeholder="$t('Password *')"
           >
-          <i class="icon material-icons absolute c-alto pointer" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
+          <i class="icon material-icons absolute cl-brdr-secondary pointer" @click="togglePassType('pass')">{{ iconName.pass }}</i>
+          <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
         </div>
         <div class="mb35 relative">
           <input
-            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
             name="password-confirm"
             v-model="rPassword"
             :type="passType.repeatPass"
             autocomplete="new-password"
             :placeholder="$t('Repeat password *')"
           >
-          <i class="icon material-icons absolute c-alto pointer" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
+          <i class="icon material-icons absolute cl-brdr-secondary pointer" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
+          <span class="validation-error block h6 cl-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>
         <div class="mb35">
           <input type="checkbox" name="remember" v-model="conditions" id="remember" @change="$v.conditions.$touch()" @blur="$v.conditions.$reset()">
           <label class="ml10" for="remember">I accept terms and conditions *</label>
-          <span class="validation-error block h6 c-red" v-if="!$v.conditions.required && $v.conditions.$error">
+          <span class="validation-error block h6 cl-error" v-if="!$v.conditions.required && $v.conditions.$error">
             {{ $t('You must accept the terms and conditions.') }}
           </span>
         </div>
@@ -198,32 +198,32 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $gray: map-get($colors, gray);
-  $black: map-get($colors, black);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-placeholder: color(tertiary);
+$color-hover: color(tertiary, $colors-background);
+$color-focus: color(black);
 
-  input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
+input::-webkit-input-placeholder {
+  color: $color-placeholder;
+}
+
+input:-moz-placeholder {
+  color: $color-placeholder;
+}
+
+input:focus {
+  outline: none;
+  border-color: $color-focus;
+  transition: 0.3s all;
+}
+
+.icon {
+  right: 0;
+  top: 10px;
+
+  &:hover {
+    color: $color-hover;
   }
-
-  input:-moz-placeholder {
-    color: $lightgray-secondary;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: $black;
-    transition: 0.3s all;
-  }
-
-  .icon {
-    right: 0;
-    top: 10px;
-
-    &:hover {
-      color: $gray;
-    }
-  }
-
+}
 </style>

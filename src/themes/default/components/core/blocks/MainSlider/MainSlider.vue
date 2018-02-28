@@ -1,5 +1,5 @@
 <template>
-  <section class="main-slider w-100 bg-darkgray c-white">
+  <section class="main-slider w-100 bg-cl-th-accent cl-white">
     <no-ssr>
       <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
         <slide v-for="(slide, index) in slides" :key="index">
@@ -43,15 +43,16 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '~theme/css/base/global_vars';
-$white: map-get($colors, white);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-white: color(white);
 .main-slider {
   .VueCarousel-pagination {
     position: absolute;
     bottom: 15px;
   }
   .VueCarousel-dot--active .VueCarousel-dot-inner {
-    border: 2px solid $white;
+    border: 2px solid $color-white;
     margin-top: -2px;
   }
 }
