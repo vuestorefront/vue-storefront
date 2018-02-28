@@ -21,7 +21,7 @@ module.exports = function (options) {
     fs.readdirSync(directory).forEach(file => {
       let fullFileName = directory + '/' + file
       let extName = path.extname(fullFileName)
-      let baseName = path.posix.basename(file)
+      let baseName = path.posix.basename(file, extName)
       // console.log(fullFileName)
       // console.log(extName)
       if (extName === '.csv') {
