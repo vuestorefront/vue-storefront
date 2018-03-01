@@ -4,9 +4,9 @@ import rootStore from '../../'
 import EventBus from 'core/plugins/event-bus'
 import i18n from 'core/lib/i18n'
 
-const CART_PULL_INTERVAL_MS = 5000
+const CART_PULL_INTERVAL_MS = 200
 const CART_CREATE_INTERVAL_MS = 1000
-const CART_TOTALS_INTERVAL_MS = 5000
+const CART_TOTALS_INTERVAL_MS = 200
 
 export default {
   serverTokenClear (context) {
