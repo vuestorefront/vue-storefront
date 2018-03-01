@@ -34,7 +34,7 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
     let platformTotalSegments = event.result.total_segments
     for (let item of event.result.items) {
       itemsAfterTotal[item.item_id] = item
-      rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item } }, { root: true }) // update the server_id reference
+      rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }, { root: true }) // update the server_id reference
     }
     rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: event.result, platformTotalSegments: platformTotalSegments })
   } else {
@@ -58,7 +58,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
           qty: clientItem.qty
         }, { root: true })
       } else if (serverItem.qty !== clientItem.qty) {
-        console.log('Wrog qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
+        console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
         rootStore.dispatch('cart/serverUpdateItem', {
           sku: clientItem.sku,
           qty: clientItem.qty,
@@ -111,12 +111,25 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
     rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
       if (cartItem) {
         console.log('Updating server id to ', event.result.sku, event.result.item_id)
-        rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: event.result.sku, server_cart_id: event.result.quote_id } }, { root: true }) // update the server_id reference
+        rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: event.result.sku, server_cart_id: event.result.quote_id, prev_qty: cartItem.qty } }, { root: true }) // update the server_id reference
         EventBus.$emit('cart-after-itemchanged', { item: cartItem })
       }
     })
   } else {
+    // THIS check is done above in the servercart-after-totals where we override the qty field with totals
+    // const originalCartItem = JSON.parse(event.payload.body).cartItem
     // for example the result can be = We don't have enough <SKU>
+    // rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
+    // if (cartItem) {
+    //     console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
+    //     if (cartItem.prev_qty > 0) {
+    //       rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
+    //       EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+    //     } else {
+    //       rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
+    //     }
+    //   }
+    // })
   }
 })
 
