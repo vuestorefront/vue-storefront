@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     edit () {
-      this.$bus.$emit('myAccount.activateSection', 'newsletter')
+      this.$bus.$emit('myAccount-before-activateSection', 'newsletter')
     },
     objectsEqual (a, b) {
       const aProps = Object.keys(a)
@@ -87,7 +87,7 @@ export default {
       this.exitSection(null, updatedNewsletter)
     },
     exitSection (event, updatedNewsletter) {
-      this.$bus.$emit('myAccount.updatePreferences', updatedNewsletter)
+      this.$bus.$emit('myAccount-before-updatePreferences', updatedNewsletter)
       if (!updatedNewsletter) {
         this.newsletterPreferences = this.getNewsletter()
       }

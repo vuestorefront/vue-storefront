@@ -4,8 +4,8 @@
   "description": "A Vue.js, PWA eCommerce frontend",
   "engineStrict": true,
   "engines": {
-      "node": "8.x"
-  },  
+    "node": "8.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DivanteLtd/vue-storefront"
