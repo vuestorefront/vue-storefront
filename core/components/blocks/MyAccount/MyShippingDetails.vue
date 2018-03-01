@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     edit () {
-      this.$bus.$emit('myAccount.activateSection', 'shipping')
+      this.$bus.$emit('myAccount-before-activateSection', 'shipping')
     },
     objectsEqual (a, b) {
       const aProps = Object.keys(a)
@@ -119,7 +119,7 @@ export default {
       this.exitSection(null, updatedShippingDetails)
     },
     exitSection (event, updatedShippingDetails) {
-      this.$bus.$emit('myAccount.updateUser', updatedShippingDetails)
+      this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
       if (!updatedShippingDetails) {
         this.shippingDetails = this.getShippingDetails()
         this.useCompanyAddress = false

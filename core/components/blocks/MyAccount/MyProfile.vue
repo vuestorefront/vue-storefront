@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     edit () {
-      this.$bus.$emit('myAccount.activateSection', 'profile')
+      this.$bus.$emit('myAccount-before-activateSection', 'profile')
     },
     objectsEqual (a, b) {
       const aProps = Object.keys(a)
@@ -143,7 +143,7 @@ export default {
         }
       }
       if (this.password) {
-        this.$bus.$emit('myAccount.changePassword', {
+        this.$bus.$emit('myAccount-before-changePassword', {
           currentPassword: this.oldPassword,
           newPassword: this.password
         })
@@ -151,7 +151,7 @@ export default {
       this.exitSection(null, updatedProfile)
     },
     exitSection (event, updatedProfile) {
-      this.$bus.$emit('myAccount.updateUser', updatedProfile)
+      this.$bus.$emit('myAccount-before-updateUser', updatedProfile)
       if (!updatedProfile) {
         this.currentUser = this.$store.state.user.current
         this.userCompany = this.getUserCompany()
