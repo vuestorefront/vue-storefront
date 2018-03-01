@@ -1,0 +1,9 @@
+"customMessage","You can define or override translation messages here."
+"welcomeMessage", "Welcome to Vue Storefront theme starter!",
+"In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack", "In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack",
+"Here are some links that can help you with developing your own theme", "Here are some links that can help you with developing your own theme",
+"Project structure", "Project structure",
+"Working with themes", "Working with themes",
+"Working with components", "Working with components",
+"Working with data", "Working with data",
+"Vue Storefront Logo", "Vue Storefront Logo"

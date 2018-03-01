@@ -29,30 +29,25 @@ For all helper methods and directives along with available parameters please do 
 
 ## Working with translations
 
-Translations are provided in `resource/i18n.json` file and can be extended / overriden in `theme/resource/i18n.json` accordingly.
+Translations are provided in `resource/i18n/en-US.csv` file and can be extended / overriden in `theme/resource/i18n/en-US.csv` accordingly.
 
-Here's an example of `i18n.json` for `en-US` locale:
+Here's an example of `en-US.csv` for `en-US` locale:
 
-```json
-{
-  "en-US": {
-      "coreMessage": "Here is the core message",
-      "customMessage": "Here is the core message. that can be overwritten in the theme",
-      "Registering the account ...": "Registering the account ...",
-      "No products synchronized for this category. Please come back while online!": "No products synchronized for this category. Please come back while online!",
-      "Shopping cart is empty. Please add some products before entering Checkout": "Shopping cart is empty. Please add some products before entering Checkout",
-      "Out of stock!": "Out of stock!",
-  }
-}
+```csv
+"customMessage","You can define or override translation messages here."
+"welcomeMessage", "Welcome to Vue Storefront theme starter!",
+"In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack", "In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack",
+"Here are some links that can help you with developing your own theme", "Here are some links that can help you with developing your own theme",
+"Project structure", "Project structure",
+"Working with themes", "Working with themes",
+"Working with components", "Working with components",
+"Working with data", "Working with data",
+"Vue Storefront Logo", "Vue Storefront Logo"
 ```
-when you create the `i18n.json` file within your `theme/resource` folder and override some messages like:
+when you create the `en-US.csv` file within your `theme/resource/i18n/` folder and override some messages like:
 
-```json
-{
-    "en-US": {
-      "customMessage": "You can define or override translation messages here."
-    }
-}  
+```csv
+"customMessage","You can define or override translation messages here."
 ```
 
 ... you may expect that `$t('customMessage)` will return `You can define or override translation messages here.` instead of `Here is the core message. that can be overwritten in the theme`. As simple as that! :)
