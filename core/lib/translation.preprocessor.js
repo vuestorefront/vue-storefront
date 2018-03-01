@@ -2,7 +2,7 @@
  *  Converts an Array to an Object
  */
 function convertToObject (array) {
-  const obj = {}
+  const obj = []
   array.forEach((element, index, array) => {
     obj[element[0]] = element[1]
   })
@@ -19,21 +19,16 @@ module.exports = function (options) {
 
   csvDirectories.forEach(function (directory) {
     fs.readdirSync(directory).forEach(file => {
-      let fullFileName = directory + '/' + file
+      let fullFileName = path.join(directory, file)
       let extName = path.extname(fullFileName)
       let baseName = path.posix.basename(file, extName)
-      // console.log(fullFileName)
-      // console.log(extName)
       if (extName === '.csv') {
-        // console.log(baseName)
         let fileContent = fs.readFileSync(fullFileName, 'utf8')
-        coreMessages[baseName] = convertToObject(dsv.parseRows(fileContent))
+        console.log('Processing translation file: ' + fullFileName + ' => ' + baseName)
+        coreMessages[baseName] = Object.assign(coreMessages[baseName] ? coreMessages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
       }
     })
   })
-  // console.log(coreMessages)
-  // throw new Error('test')
-
   return {
     code: JSON.stringify(coreMessages)
   }
