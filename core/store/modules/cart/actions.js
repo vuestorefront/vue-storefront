@@ -37,7 +37,7 @@ export default {
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
           rootStore.dispatch('cart/getPaymentMethods')
-          let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+          let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
           rootStore.dispatch('cart/getShippingMethods', {
             country_id: country
           })
@@ -250,7 +250,7 @@ export default {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
   getPaymentMethods (context) {
-    if (config.cart.synchronize_totals) {
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       context.dispatch('sync/execute', { url: config.cart.paymentmethods_endpoint,
         payload: {
           method: 'GET',
@@ -265,7 +265,7 @@ export default {
     }
   },
   getShippingMethods (context, address) {
-    if (config.cart.synchronize_totals) {
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       context.dispatch('sync/execute', { url: config.cart.shippingmethods_endpoint,
         payload: {
           method: 'POST',
@@ -286,9 +286,9 @@ export default {
     }
   },
   refreshTotals (context, methodsData) {
-    if (config.cart.synchronize_totals) {
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
-        let country = rootStore.state.checkout.shippingDetails ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
         let shipping = context.getters.shippingMethods[0]
         let payment = context.getters.paymentMethods[0]
         methodsData = {
