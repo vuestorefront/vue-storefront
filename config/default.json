@@ -64,5 +64,5 @@
     "analytics": {
       "id": false
     },
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
+    "registeredExtensions": ["extenson-example", "mailchimp-subscribe", "google-analytics"]
  }
