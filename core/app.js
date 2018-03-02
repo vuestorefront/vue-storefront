@@ -3,7 +3,7 @@ import App from 'theme/app'
 import store from 'core/store'
 import router from 'core/router'
 import config from 'config'
-
+import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
@@ -12,6 +12,8 @@ import { registerExtensions } from 'core/lib/extensions'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import i18n from 'core/lib/i18n'
+
+appExtend(Vue)
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
