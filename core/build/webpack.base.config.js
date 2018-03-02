@@ -73,11 +73,11 @@ module.exports = {
   },
   module: {
     rules: [{
-        enforce: 'pre',
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/
-      },
+      enforce: 'pre',
+      test: /\.(js|vue)$/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/
+    },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -105,6 +105,22 @@ module.exports = {
         options: {
           wrapper: 'div'
         }
+      },
+      {
+        test: path.resolve(__dirname, '../lib/translation.preprocessor.js'),
+        use: [
+          { loader: 'json-loader' },
+          {
+            loader: 'val-loader',
+            options: {
+              csvDirectories: [
+                path.resolve(__dirname, '../resource/i18n/'),
+                path.resolve(__dirname, themeResources + '/i18n/')
+
+              ]
+            }
+          }
+        ]
       }
     ]
   }

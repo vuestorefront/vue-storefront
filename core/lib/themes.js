@@ -1,6 +1,5 @@
 import _ from 'lodash'
-import coreMessages from 'core/resource/i18n.json'
-import themeMessages from 'theme/resource/i18n.json'
+import messages from 'core/lib/translation.preprocessor'
 import * as corePlugins from 'core/plugins'
 import * as themePlugins from 'theme/plugins'
 import * as coreMixins from 'core/mixins'
@@ -12,7 +11,7 @@ import * as themeFilters from 'theme/filters'
  * Return messages load from both: core/resource/i18n and theme/resource/i18n
  */
 export function translations () {
-  return _.merge(coreMessages, themeMessages)
+  return messages
 }
 
 /**

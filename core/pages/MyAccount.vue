@@ -38,20 +38,20 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('myAccount.activateSection', (sectionName) => {
+    this.$bus.$on('myAccount-before-activateSection', (sectionName) => {
       this.activateSection(sectionName)
     })
-    this.$bus.$on('myAccount.updateUser', (updatedData) => {
+    this.$bus.$on('myAccount-before-updateUser', (updatedData) => {
       if (updatedData) {
         this.$store.dispatch('user/update', { customer: updatedData })
       }
       this.editMode = true
       this.activateSection()
     })
-    this.$bus.$on('myAccount.changePassword', (passwordData) => {
+    this.$bus.$on('myAccount-before-changePassword', (passwordData) => {
       this.$store.dispatch('user/changePassword', passwordData)
     })
-    this.$bus.$on('myAccount.updatePreferences', (updatedData) => {
+    this.$bus.$on('myAccount-before-updatePreferences', (updatedData) => {
       if (updatedData) {
         if (updatedData.action === 'subscribe') {
           this.$bus.$emit('newsletter-after-subscribe', { email: updatedData.email })
@@ -66,10 +66,10 @@ export default {
     })
   },
   destroyed () {
-    this.$bus.$off('myAccount.activateSection')
-    this.$bus.$off('myAccount.updateUser')
-    this.$bus.$off('myAccount.changePassword')
-    this.$bus.$off('myAccount.updatePreferences')
+    this.$bus.$off('myAccount-before-activateSection')
+    this.$bus.$off('myAccount-before-updateUser')
+    this.$bus.$off('myAccount-before-changePassword')
+    this.$bus.$off('myAccount-before-updatePreferences')
   },
   mounted () {
     const usersCollection = global.db.usersCollection
