@@ -55,9 +55,6 @@ export default {
     ...mapState({
       isOpen: state => state.ui.microcart
     })
-  },
-  mounted () {
-    this.$store.dispatch('cart/refreshTotals')
   }
 }
 </script>
