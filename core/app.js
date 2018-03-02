@@ -13,8 +13,6 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import i18n from 'core/lib/i18n'
 
-appExtend(Vue)
-
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {
   attempt: 2
@@ -34,6 +32,8 @@ const filtersObject = filters()
 Object.keys(filtersObject).forEach(key => {
   Vue.filter(key, filtersObject[key])
 })
+
+appExtend(Vue)
 
 export function createApp () {
   sync(store, router)
