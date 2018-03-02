@@ -40,7 +40,7 @@ The enabled extensions must be declared within `config/local.json` file. Please 
 You should just add your extension name to:
 
 ```json
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
+    "registeredExtensions": ["extension-example", "mailchimp-subscribe", "google-analytics"]
 ```
 
 ## Extensions list (docs for it under construction)

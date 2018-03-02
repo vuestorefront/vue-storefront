@@ -1,7 +1,7 @@
 import extensionStore from './store'
 import extensionRoutes from './router'
 import EventBus from 'core/plugins/event-bus'
-const EXTENSION_KEY = 'custom_extension'
+const EXTENSION_KEY = 'extension-example'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
