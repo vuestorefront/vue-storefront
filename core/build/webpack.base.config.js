@@ -7,6 +7,7 @@ fs.writeFileSync(path.resolve(__dirname, './config.json'), JSON.stringify(config
 const vueConfig = require('./vue-loader.config')
 const theme = require('./config.json').theme
 
+const themeRoot = '../../src/themes/' + theme
 const themeComponents = '../../src/themes/' + theme + '/components'
 const themePages = '../../src/themes/' + theme + '/pages'
 const themePlugins = '../../src/themes/' + theme + '/plugins'
@@ -56,6 +57,7 @@ module.exports = {
       'core/mixins': path.resolve(__dirname, '../mixins'),
       'core/assets': path.resolve(__dirname, '../assets'),
       // Theme aliases
+      'theme': path.resolve(__dirname, themeRoot),
       'theme/resource': path.resolve(__dirname, themeResources),
       'theme/components': path.resolve(__dirname, themeComponents),
       'theme/pages': path.resolve(__dirname, themePages),
