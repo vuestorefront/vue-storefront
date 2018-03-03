@@ -14,7 +14,7 @@ export {
   ConfigPlugin
 }
 ````
-and then registered in 'core/app.js
+and then registered in `core/app.js`
 ````js
 Object.keys(pluginsObject).forEach(function (key) {
   Vue.use(pluginsObject[key])
