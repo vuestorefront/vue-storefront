@@ -40,7 +40,6 @@ export const ATTRIBUTE_UPD_ATTRIBUTES = SN_ATTRIBUTE + '/UPD_ATTRIBUTES'
 export const SN_ORDER = 'order'
 export const ORDER_PLACE_ORDER = SN_ORDER + '/PLACE_ORDER'
 export const ORDER_PROCESS_QUEUE = SN_ORDER + '/PROCESS_QUEUE'
-export const ORDER_LOAD_QUEUE = SN_ORDER + '/LOAD_QUEUE'
 
 export const SN_CHECKOUT = 'checkout'
 export const CHECKOUT_PLACE_ORDER = SN_CHECKOUT + '/PLACE_ORDER'

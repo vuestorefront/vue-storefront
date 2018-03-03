@@ -3,7 +3,7 @@ import App from 'theme/app'
 import store from 'core/store'
 import router from 'core/router'
 import config from 'config'
-
+import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
@@ -32,6 +32,8 @@ const filtersObject = filters()
 Object.keys(filtersObject).forEach(key => {
   Vue.filter(key, filtersObject[key])
 })
+
+appExtend(Vue)
 
 export function createApp () {
   sync(store, router)

@@ -34,8 +34,8 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-sm-12 mb15" v-show="currentUser && hasShippingDetails()">
-            <div class="checkboxStyled">
-              <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox" @click="useMyAddress">
+            <div class="checkboxStyled" @click.prevent="useMyAddress">
+              <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox">
               <label for="shipToMyAddressCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useMyAddress">
