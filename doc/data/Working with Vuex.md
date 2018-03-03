@@ -9,6 +9,10 @@ One can modify the existing store actions by responding to events. The events ar
 ## Vuex modules
  * [Product](Product%20Store.md)
  * [Category](Category%20Store.md)
+ * [Cart](Cart%20Store.md)
+ * [Checkout](Checkout%20Store.md)
+ * [Meta](Meta%20Store.md)
+ * [Order](Order%20Store.md)
  * ...
  
  ## Related

@@ -85,8 +85,13 @@ This method loads the cart items from `localForage` browser state management.
 This action is used for search the particular item in the shopping cart (by SKU)
 
 ### `addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false })`
+This action is used to add the `productToAdd` to the cart, if `config.cart.synchronize` is set to true the next action subsequently called will be `serverPull` to synchronize the cart. The event `cart-before-add` is called whenever new product lands in the shopping cart. The option `forceServerSilence` is used to bypass the server synchronization and it's used for example then the item is added during the ... sync process to avoid circullar synchronization cycles.
 
+### `removeItem ({ commit, dispatch }, product)`
+As you may imagine :) This action simply removes the product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
 
+### `updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false })`
+This method is called whenever user changes the qunatity of product in the cart (called from `Microcart.vue`). The parameter `qty` is the new quantity of product and by using `forceServerSilence` you may controll if the server cart synchronization is being executed or not.
 
 ## Getters 
 
