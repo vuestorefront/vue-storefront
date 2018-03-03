@@ -22,13 +22,5 @@ export default {
       EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
       console.info('Order placed, orderId = ' + orderId)
     }) // populate cache
-  },
-  /**
-   * Add order to sync. queue
-   * @param {Object} queue
-   */
-  [types.ORDER_LOAD_QUEUE] (state, queue) {
-    state.checkoutQueue = queue
-    console.info('Order queue loaded, queue size is: ' + state.checkoutQueue.length)
   }
 }
