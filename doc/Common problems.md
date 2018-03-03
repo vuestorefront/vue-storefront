@@ -3,13 +3,18 @@
 Below you can find solutions for most common problems and advises for typical config changes required by Vue Storefront.
 If you solved any new issues by yourself please let us know on [slack](http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
 
-# Question
+# Questions
 
+* <a href="#product-not-displayed-illegal_argument_exception">Product not displayed (illegal_argument_exception)</a>
+* <a hrerf="#product-name-changed-to-sku-when-adding-to-cart--on-product-page">Product name changed to SKU when adding to cart / on product page</a>
+* <a hrerf="#how-to-get-dynamic-prices-to-work-catalog-rules">How to get dynamic prices to work (catalog rules)</a>
+* <a hrerf="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
+* <a hrerf="#how-to-sync-the-products-cart-with-magento-to-get-the-cart-promo-rules-up-and-runnig">How to sync the products cart with Magento to get the Cart Promo Rules up and runnig</a>
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
 See discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137)
 
-## <a name="variant-names-problem"></a>Product name changed to SKU when adding to cart / on product page
+### <a name="variant-names-problem"></a>Product name changed to SKU when adding to cart / on product page
 
 By default, when the user selects any specific product variant on the Product.vue page for `configurable` products - the title, picture, price and other attributes are changed to corresponding `simple` one (within `product.configurable_children`). If in the Magento panel, the product names of the variants are set to SKU or anything else - then the correct behavior is that the product name change to it when selects variant.
 
