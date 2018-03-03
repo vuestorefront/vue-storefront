@@ -9,6 +9,26 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 
 See discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137)
 
+## <a name="variant-names-problem"></a>Product name changed to SKU when adding to cart / on product page
+
+By default, when the user selects any specific product variant on the Product.vue page for `configurable` products - the title, picture, price and other attributes are changed to corresponding `simple` one (within `product.configurable_children`). If in the Magento panel, the product names of the variants are set to SKU or anything else - then the correct behavior is that the product name change to it when selects variant.
+
+To correct this behavior You can:
+- modify the core - https://github.com/DivanteLtd/vue-storefront/blob/6a5a569a7e96703b865f841dabbe3c6a1020b3ab/core/store/modules/product/actions.js#L311 - to filter out the `name` attribute from `Object.assign` which is responsible for copying the attributes from variant -> current product,
+- modify `mage2vuestorefront` importer to correct the `configurable_children` product names -> https://github.com/DivanteLtd/mage2vuestorefront/blob/ca0c4723530b148cfdfb99784168af529e39d599/src/adapters/magento/product.js#L167
+- or just use bound to the `EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })` event and modify the `product.configurable_children` properties:
+
+```js
+
+              if (product.configurable_children) {
+                for (let configurableChild of product.configurable_children) {
+                    configurableChild.name = product.name
+                  }
+                }
+              }
+```
+
+
 ### <a name="dynamic-pricing"></a>How to get dynamic prices to work (catalog rules)
 
 After following the Tutorial on [how to connect to Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2) the pricess are updated just after manually runing [mage2vuestorefront cli command](https://github.com/DivanteLtd/mage2vuestorefront).
