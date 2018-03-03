@@ -57,7 +57,6 @@ module.exports = {
       'core/mixins': path.resolve(__dirname, '../mixins'),
       'core/assets': path.resolve(__dirname, '../assets'),
       // Theme aliases
-      'theme': path.resolve(__dirname, themeRoot),
       'theme/resource': path.resolve(__dirname, themeResources),
       'theme/components': path.resolve(__dirname, themeComponents),
       'theme/pages': path.resolve(__dirname, themePages),
@@ -65,7 +64,8 @@ module.exports = {
       'theme/filters': path.resolve(__dirname, themeFilters),
       'theme/mixins': path.resolve(__dirname, themeMixins),
       'theme/css': path.resolve(__dirname, themeCSS),
-      'theme/app': path.resolve(__dirname, themeApp)
+      'theme/app': path.resolve(__dirname, themeApp),
+      'theme': path.resolve(__dirname, themeRoot)
     }
   },
   output: {
