@@ -22,7 +22,7 @@ Object.keys(pluginsObject).forEach(function (key) {
 ````
 
 Currently there are two core plugins:
-* <b>config</b> This plugin is esponsible for easy access to your storefront config. It can be accessed via 'this.$config' alias
+* <b>config</b> - This plugin is responsible for easy access to your storefront config. It can be accessed via 'this.$config' alias
 * <b>event-bus</b> - Global Event Bus that can be used in any place of the application via 'this.$bus' alias. It also provides some functionalities for intercepting and modifying core events.
 
 ## Theme plugins
