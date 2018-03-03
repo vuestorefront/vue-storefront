@@ -15,7 +15,7 @@ Below you can find the Vue Storefront project structure with explainations and c
   * `mixins` - Global mixins for the project. You can add your own mixins in `{themeroot}/mixins`
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
   * `pages` - Vue Storefront core pages (related: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
-  * `plugins` - Core plugins (related: [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20plugins.md))
+  * `plugins` - Core plugins (related: [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md))
   * `resource` - Data mocks used to develop new features
   * `router` - Core Vue Router setup. The definition of routes happens in `{themeroot}/index.js`
   * `scripts` - Core npm scripts like app installer, extension installer etc
