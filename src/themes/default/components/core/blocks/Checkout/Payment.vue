@@ -256,7 +256,7 @@
                 :value="method.code"
                 name="payment-method"
                 v-model="payment.paymentMethod"
-                @change="$v.payment.paymentMethod.$touch()"
+                @change="$v.payment.paymentMethod.$touch(); changePaymentMethod();"
               >
               <span class="checkmark"/>
             </label>
