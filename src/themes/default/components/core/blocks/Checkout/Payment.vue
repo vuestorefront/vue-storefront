@@ -34,12 +34,11 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row" v-show="isActive">
           <div class="col-xs-12 col-sm-12 mb15">
-            <div class="checkboxStyled">
+            <div class="checkboxStyled" @click.prevent="useShippingAddress">
               <input
                 type="checkbox"
                 v-model="sendToShippingAddress"
                 id="sendToShippingAddressCheckbox"
-                @click="useShippingAddress"
               >
               <label for="sendToShippingAddressCheckbox"/>
             </div>
@@ -48,12 +47,11 @@
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 mb15" v-show="hasBillingData()">
-            <div class="checkboxStyled">
+            <div class="checkboxStyled" @click.prevent="useBillingAddress">
               <input
                 type="checkbox"
                 v-model="sendToBillingAddress"
                 id="sendToBillingAddressCheckbox"
-                @click="useBillingAddress"
               >
               <label for="sendToBillingAddressCheckbox"/>
             </div>
@@ -197,8 +195,8 @@
             <input type="text" name="phone-number" autocomplete="tel" placeholder="Phone Number" v-model.trim="payment.phoneNumber">
           </div>
           <div class="col-xs-12 col-sm-12 mb15">
-            <div class="checkboxStyled">
-              <input type="checkbox" v-model="generateInvoice" id="generateInvoiceCheckbox" @click="useGenerateInvoice">
+            <div class="checkboxStyled" @click.prevent="useGenerateInvoice">
+              <input type="checkbox" v-model="generateInvoice" id="generateInvoiceCheckbox">
               <label for="generateInvoiceCheckbox"/>
             </div>
             <div class="checkboxText ml15 lh25" @click="useGenerateInvoice">

@@ -32,8 +32,8 @@
         <span class="validation-error" v-if="!$v.shippingDetails.lastName.required">Field is required</span>
       </div>
       <div class="col-xs-12 col-md-12 mb25" v-if="hasBillingAddress()">
-        <div class="checkboxStyled">
-          <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress" @click="fillCompanyAddress">
+        <div class="checkboxStyled" @click.prevent="fillCompanyAddress">
+          <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress">
           <label for="useCompanyAddress"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="fillCompanyAddress">
