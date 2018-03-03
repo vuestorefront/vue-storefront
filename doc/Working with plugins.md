@@ -41,4 +41,4 @@ export {
 }
  ````
  
- If you want to make custom plugin for your theme create a directory for it in 'src/{theme}/plugins' (eg. `src/{theme}/plugins/custom_plugin`) and import it in `src/{theme}/plugins/index.js` like a 3rd party plugin in example above.
+ If you want to make custom plugin for your theme create a directory for it in 'src/{theme}/plugins' (eg. `src/{theme}/plugins/custom_plugin`) and register it in `src/{theme}/plugins/index.js` like a 3rd party plugin in example above.
