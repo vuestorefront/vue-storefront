@@ -4,6 +4,7 @@ Below you can find the Vue Storefront project structure with explainations and c
 
 * `config/` - Config files for vue storefront. They're used to define backend addreses, current theme etc.
   * `default.json` - Default config tempalte which should never be changed. If you want to make some changes in config create `local.json` file in the same folder, copy the content and make changes here. Default `config.json` will be overwritten by `local.json` for your setup.
+  * `local.json` (optional) - your custom Vue Storefrotn config
 * `doc` - Project documentation
 * `core` - Vue Storefront core <b>(don't modify this directory on your project if you want to receive core updates)</b>
   * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json, eventually will be removed and moved to themes. You can place your theme-specific assets in `{themeroot}/assets`
