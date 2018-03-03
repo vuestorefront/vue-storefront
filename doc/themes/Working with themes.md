@@ -38,7 +38,7 @@ Below you can find list of files that are essential for your theme to work:
 ## Official Vue Storefront themes included with the template:
 
    - `default` - Default VS theme always with newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
-   - `theme-starter` - boilerplate for developing VS theme fromscratch. It includes multilanguage support ([vue-i18n](https://github.com/kazupon/vue-i18n), theme-specific plugins support, SCSS compilation and routing.
+   - `theme-starter` - boilerplate for developing VS themes. If you want to create new theme copy and rename this folder.
    - `catalog` - VS catalog theme - currently in alpha
 
 # Related
