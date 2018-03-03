@@ -1,7 +1,7 @@
 # Working with plugins
 ## Introduction
 In Vue Storefront there are two types of plugins:
-* <b>Core plugins</b> - placed in `core/plugins` available out of the box with any theme. You shouldn't modify this plugins as they are part of upgradable core.
+* <b>Core plugins</b> - placed in `core/plugins` available for any theme and extension. You shouldn't modify this plugins as they are part of upgradable core.
 * <b>Theme plugins</b> - placed in `src/{theme}/plugins` available only for specific theme
 
 Each of this plugins works and is registered like a normal Vue.js plugin. You can read about them [here](https://vuejs.org/v2/guide/plugins.html)
