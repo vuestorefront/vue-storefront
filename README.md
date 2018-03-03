@@ -49,7 +49,7 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [How to install and integrate with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2)
 
 ### Basics
-* [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md)
+* [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md)v- good for introduction
 * [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
 * [Common problems / FAQ](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
