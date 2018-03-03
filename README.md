@@ -60,12 +60,13 @@ The documentation is always THE HARDEST PART of each open source project! But we
 * [Working with translations](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md)
 * [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * [Working with Webpack](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md)
+* [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md)
 * [[TEMPORARY] Core components and pages docs](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/%5Btemporary%5D%20core%20components%20API.md)
 
 Tutorial series on creating themes for Vue Storefront:
 * [Creating themes in Vue Storefront (part 1 — understanding Vue Storefront core)](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)
 
-### Extending Vue Storefront
+### WOrking with Vue Storefront Extensions
 * [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
 * [Adding custom Server API methods](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md)
 
