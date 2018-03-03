@@ -57,3 +57,6 @@ It allows you to send data to service worker. For example, when the order is pla
   },
 
 ```
+# Extending core Service Worker
+
+In your themes root dir find `service-worker-ext.js` file. EVerything that you place in this file will be added to project's Service Worker.
