@@ -1,5 +1,6 @@
 <template>
   <div id="home">
+    <!-- $t() is for translations, you can read more here: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md -->
     <img src="assets/logo.svg" :alt="$t('Vue Storefront Logo')">
     <section>
       <h1>{{ $t('Welcome to Vue Storefront theme starter') }}</h1>
@@ -31,7 +32,6 @@ export default {
 </script>
 
 <style scoped>
-
 #home {
   text-align: center;
   font-family: Arial;
