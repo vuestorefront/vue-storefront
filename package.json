@@ -72,6 +72,7 @@
     "vue-i18n": "^7.4.2",
     "vue-lazyload": "^1.1.4",
     "vue-markdown-loader": "^2.2.1",
+    "vue-meta": "^1.4.3",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.2",
     "vue2-google-maps": "^0.8.4",
