@@ -35,7 +35,7 @@ export default {
 #home {
   text-align: center;
   font-family: Arial;
-  margin: 0 auto;
+  margin: 20px auto;
   max-width: 650px;
 }
 
