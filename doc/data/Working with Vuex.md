@@ -13,7 +13,10 @@ One can modify the existing store actions by responding to events. The events ar
  * [Checkout](Checkout%20Store.md)
  * [Meta](Meta%20Store.md)
  * [Order](Order%20Store.md)
- * ...
+ * [Stock](Stock%20Store.md)
+ * [Sync](Sync%20Store.md)
+ * [User](User%20Store.md)
+ * [Attribute](Attribute%20Store.md)
  
  ## Related
 
