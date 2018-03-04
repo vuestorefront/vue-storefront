@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import Meta from 'core/lib/meta'
 import builder from 'bodybuilder'
 import Search from 'theme/components/theme/Search'
 import CategoryTile from 'theme/components/core/CategoryTile'
@@ -66,9 +65,6 @@ import Nossr from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 
 export default {
-  meta: {
-    title: 'Home Page'
-  },
   data () {
     return {
       newProducts: [],
@@ -121,8 +117,7 @@ export default {
     Carousel,
     Slide,
     Nossr
-  },
-  mixins: [Meta]
+  }
 }
 </script>
 

@@ -6,14 +6,13 @@
 
 <script>
 import EventBus from 'core/plugins/event-bus'
-import Meta from 'core/lib/meta'
 import MainSlider from 'core/components/blocks/MainSlider/MainSlider.vue'
 import ProductTile from 'core/components/ProductTile.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
-  meta: {
+  metaInfo: {
     title: 'Home Page'
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
@@ -38,7 +37,6 @@ export default {
   components: {
     ProductTile,
     MainSlider
-  },
-  mixins: [Meta]
+  }
 }
 </script>

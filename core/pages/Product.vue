@@ -6,7 +6,6 @@
 
 <script>
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import Meta from 'core/lib/meta'
 import AddToCart from 'core/components/AddToCart.vue'
 import EventBus from 'core/plugins/event-bus'
 import { mapGetters } from 'vuex'
@@ -141,6 +140,9 @@ function stateCheck () {
 
 export default {
   name: 'Product',
+  metaInfo: {
+    title: this.product.name
+  },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return loadData({ store: store, route: route })
   },
@@ -248,15 +250,9 @@ export default {
       }
     }
   },
-  meta () {
-    return {
-      title: this.product.name
-    }
-  },
   components: {
     Breadcrumbs,
     AddToCart
-  },
-  mixins: [Meta]
+  }
 }
 </script>

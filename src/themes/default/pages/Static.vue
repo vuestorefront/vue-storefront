@@ -28,11 +28,13 @@
 
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs'
-import Meta from 'core/lib/meta'
 import staticContent from 'theme/components/theme/StaticContent'
 import i18n from 'core/lib/i18n'
 
 export default {
+  metaInfo: {
+    title: this.$props.title
+  },
   components: {
     Breadcrumbs,
     staticContent
@@ -45,12 +47,6 @@ export default {
     page: {
       type: String,
       required: true
-    }
-  },
-  mixins: [Meta],
-  meta () {
-    return {
-      title: this.$props.title
     }
   },
   data () {

@@ -9,15 +9,12 @@ import Breadcrumbs from 'core/components/Breadcrumbs'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
-import Meta from 'core/lib/meta'
 import i18n from 'core/lib/i18n'
 
 export default {
   name: 'MyAccount',
-  meta () {
-    return {
-      title: 'My Account'
-    }
+  metaInfo: {
+    title: 'My Account'
   },
   data () {
     return {
@@ -107,7 +104,6 @@ export default {
     MyProfile,
     MyShippingDetails,
     MyNewsletter
-  },
-  mixins: [Meta]
+  }
 }
 </script>

@@ -9,7 +9,6 @@ import builder from 'bodybuilder'
 
 import { breadCrumbRoutes } from 'core/helpers'
 import config from 'config'
-import Meta from 'core/lib/meta'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
@@ -174,11 +173,8 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
 
 export default {
   name: 'Category',
-  mixins: [Meta],
-  meta () {
-    return {
-      title: this.$store.state.category.current.name
-    }
+  metaInfo: {
+    title: this.$store.state.category.current.name
   },
   methods: {
     fetchData ({ store, route }) {

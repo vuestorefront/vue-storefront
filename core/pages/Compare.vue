@@ -13,10 +13,11 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import Meta from 'core/lib/meta'
-
 export default {
   name: 'Compare',
+  metaInfo: {
+    title: this.title
+  },
   props: {
     title: {
       type: String,
@@ -48,12 +49,6 @@ export default {
         return parseInt(a.is_comparable)
       })
     }
-  },
-  meta () {
-    return {
-      title: this.title
-    }
-  },
-  mixins: [Meta]
+  }
 }
 </script>
