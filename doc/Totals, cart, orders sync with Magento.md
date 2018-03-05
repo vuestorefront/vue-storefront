@@ -69,3 +69,23 @@ Please chceck the [`conf/default.json`](https://github.com/DivanteLtd/vue-storef
 ## Prices sync
 
 The last missing block is the catalog prices sync. This can be very easily enabled using the feature called Dynamic Prices. Please check [Dynamic Prices howto](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md) to switch this feature on.
+
+## Order sync
+
+One of the cool features of Vue Storefront is queued order sync. This means whenever user makes and order in the application we store the order in the local browser cache (indexedDb instance) and send it to the server as fast as the Internet connection is available.
+
+![Orders are stored localy before they're send to the server](media/orders-collection.png)
+
+On the server side the `vue-storefront-api` is the first line which the Order is crossing on it's way back to Magento2.
+No matter if the shopping cart was synchronized (as described above) or not the order will be converted to Magento2 object.
+
+The server API stores the order in the queue where it's processed by the [`order_2_magento`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) worker process. We do support multiple types of orders: for guest users and logged in, with already synchronized carts or not etc. 
+
+This process doesn't require much additional configuration:
+
+1. You must have the Magento2 API access configures in the `config/local.json` file of `vue-storefront-api`
+2. You must have the "Orders" section marked On within the "Permissions" section of Magento Integration ([see the previous tutorial for the reference on how to set it up](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2)).
+3. After the configuration step You just run `npm run o2m` inside your `vue-storefront-api` directory.
+
+![This is the output of o2m after successfull setup](media/o2m-output.png)
+
