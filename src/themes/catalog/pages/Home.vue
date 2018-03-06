@@ -66,8 +66,16 @@ import { Carousel, Slide } from 'vue-carousel'
 import i18n from 'core/lib/i18n'
 
 export default {
-  metaInfo: {
-    title: i18n.t('Home Page')
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('Home Page'),
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
+    }
   },
   data () {
     return {

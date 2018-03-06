@@ -11,8 +11,16 @@ import i18n from 'core/lib/i18n'
 
 export default {
   name: 'PageNotFound',
-  metaInfo: {
-    title: i18n.t('404 Page Not Found')
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('404 Page Not Found'),
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
+    }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {

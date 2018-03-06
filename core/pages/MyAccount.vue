@@ -13,8 +13,16 @@ import i18n from 'core/lib/i18n'
 
 export default {
   name: 'MyAccount',
-  metaInfo: {
-    title: i18n.t('My Account')
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('My Account'),
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
+    }
   },
   data () {
     return {

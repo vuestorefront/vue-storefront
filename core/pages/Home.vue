@@ -13,8 +13,16 @@ import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Home',
-  metaInfo: {
-    title: i18n.t('Home Page')
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('Home Page'),
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
+    }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {

@@ -15,8 +15,16 @@ import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Checkout',
-  metaInfo: {
-    title: i18n.t('Checkout')
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('Checkout'),
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
+    }
   },
   data () {
     return {

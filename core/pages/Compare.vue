@@ -16,8 +16,16 @@ import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Compare',
-  metaInfo: {
-    title: i18n.t('Compare Products')
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
+    }
   },
   props: {
     title: {

@@ -140,7 +140,13 @@ export default {
   name: 'Product',
   metaInfo () {
     return {
-      title: this.productName
+      title: this.$route.meta.title || this.$props.title || this.productName,
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
