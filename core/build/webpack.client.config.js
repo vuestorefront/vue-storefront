@@ -69,7 +69,7 @@ if (process.env.NODE_ENV === 'production') {
         handler: "fastest"
       },{
         urlPattern: "/api/*", 
-        handler: "cacheFirst"
+        handler: "networkFirst"
       },{
         urlPattern: "/assets/logo.svg",
         handler: "cacheFirst"
@@ -92,7 +92,7 @@ if (process.env.NODE_ENV === 'production') {
           origin: 'http://localhost:8080',
           debug: true
         },
-        handler: "cacheFirst"        
+        handler: "networkFirst"        
       },{
         urlPattern:'/api/*', /** cache products catalog */
         method: "post",
@@ -100,7 +100,7 @@ if (process.env.NODE_ENV === 'production') {
           origin: 'https://demo.vuestorefront.io/',
           debug: true
         },
-        handler: "cacheFirst"        
+        handler: "networkFirst"        
       }],
       "importScripts": ['/service-worker-ext.js'] /* custom logic */
     })
