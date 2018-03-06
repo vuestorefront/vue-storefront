@@ -63,8 +63,12 @@ import ProductTile from 'theme/components/core/ProductTile'
 import MagazineTile from 'theme/components/theme/MagazineTile'
 import Nossr from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
+import i18n from 'core/lib/i18n'
 
 export default {
+  metaInfo: {
+    title: i18n.t('Home Page')
+  },
   data () {
     return {
       newProducts: [],

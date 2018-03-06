@@ -34,7 +34,13 @@ import i18n from 'core/lib/i18n'
 export default {
   metaInfo () {
     return {
-      title: this.$props.title
+      title: this.$route.meta.title || this.$props.title,
+      meta: [
+        {
+          vmid: 'description',
+          description: this.$route.meta.description
+        }
+      ]
     }
   },
   components: {
