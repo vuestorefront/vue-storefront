@@ -16,7 +16,7 @@ After changing anything to `service-worker-ext.js`, despite you're in `npm run d
 `npm run build`
 
 2. Reload Service worker in Dev Tools (in Chrome - just click "Unregister" and reload the page, new SW will be installed).
-![How to work with service-workers in Chrome](chrome-dev-console.png)
+[How to work with service-workers in Chrome](chrome-dev-console.png)
 
 
 # Communication with the app
@@ -57,3 +57,4 @@ It allows you to send data to service worker. For example, when the order is pla
   },
 
 ```
+
