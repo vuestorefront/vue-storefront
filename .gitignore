@@ -11,3 +11,6 @@ build/config.json
 core/build/config.json
 theme.js
 desktop.ini
+src/themes/catalog/resource/i18n.json
+src/themes/default/resource/i18n.json
+src/themes/theme-starter/resource/.i18n.json.icloud
