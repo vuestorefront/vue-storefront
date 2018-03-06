@@ -13,7 +13,7 @@ export default {
   name: 'PageNotFound',
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.$props.title || i18n.t('404 Page Not Found'),
+      title: this.$route.meta.title || i18n.t('404 Page Not Found'),
       meta: [
         {
           vmid: 'description',

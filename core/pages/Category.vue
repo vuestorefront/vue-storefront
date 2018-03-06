@@ -175,7 +175,7 @@ export default {
   name: 'Category',
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.$props.title || this.categoryName,
+      title: this.$route.meta.title || this.categoryName,
       meta: [
         {
           vmid: 'description',

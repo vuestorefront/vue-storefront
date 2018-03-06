@@ -15,7 +15,7 @@ export default {
   name: 'MyAccount',
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.$props.title || i18n.t('My Account'),
+      title: this.$route.meta.title || i18n.t('My Account'),
       meta: [
         {
           vmid: 'description',

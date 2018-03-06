@@ -140,7 +140,7 @@ export default {
   name: 'Product',
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.$props.title || this.productName,
+      title: this.$route.meta.title || this.productName,
       meta: [
         {
           vmid: 'description',

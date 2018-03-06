@@ -17,7 +17,7 @@ export default {
   name: 'Checkout',
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.$props.title || i18n.t('Checkout'),
+      title: this.$route.meta.title || i18n.t('Checkout'),
       meta: [
         {
           vmid: 'description',
