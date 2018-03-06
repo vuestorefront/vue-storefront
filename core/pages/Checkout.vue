@@ -15,6 +15,9 @@ import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Checkout',
+  metaInfo: {
+    title: i18n.t('Checkout')
+  },
   data () {
     return {
       stockCheckCompleted: false,

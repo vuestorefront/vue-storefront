@@ -14,7 +14,7 @@ import i18n from 'core/lib/i18n'
 export default {
   name: 'MyAccount',
   metaInfo: {
-    title: 'My Account'
+    title: i18n.t('My Account')
   },
   data () {
     return {

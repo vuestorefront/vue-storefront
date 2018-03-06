@@ -31,7 +31,6 @@ export default {
           name: context.rootState.category.current.name
         }) // current category at the end
       }
-      context.dispatch('meta/set', { title: product.name }, { root: true })
       context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
     }
     // TODO: Fix it when product is enterd from outside the category page

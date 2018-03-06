@@ -9,11 +9,12 @@ import EventBus from 'core/plugins/event-bus'
 import MainSlider from 'core/components/blocks/MainSlider/MainSlider.vue'
 import ProductTile from 'core/components/ProductTile.vue'
 import { mapGetters } from 'vuex'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Home',
   metaInfo: {
-    title: 'Home Page'
+    title: i18n.t('Home Page')
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {

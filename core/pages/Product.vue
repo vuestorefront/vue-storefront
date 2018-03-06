@@ -18,8 +18,6 @@ import i18n from 'core/lib/i18n'
 function filterChanged (filterOption) { // slection of product variant on product page
   EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
 
-  console.log(filterOption)
-
   this.configuration[filterOption.attribute_code] = filterOption
   this.$store.dispatch('product/configure', {
     product: this.product,
@@ -140,8 +138,10 @@ function stateCheck () {
 
 export default {
   name: 'Product',
-  metaInfo: {
-    title: this.product.name
+  metaInfo () {
+    return {
+      title: this.productName
+    }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return loadData({ store: store, route: route })

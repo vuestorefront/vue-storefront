@@ -173,8 +173,10 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
 
 export default {
   name: 'Category',
-  metaInfo: {
-    title: this.$store.state.category.current.name
+  metaInfo () {
+    return {
+      title: this.categoryName
+    }
   },
   methods: {
     fetchData ({ store, route }) {
@@ -189,7 +191,6 @@ export default {
       }
       return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
     },
-
     validateRoute ({store, route}) {
       let self = this
       if (store == null) {
@@ -204,7 +205,6 @@ export default {
 
       store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
         store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
-        self.setMeta()
 
         if (!self.category) {
           self.$router.push('/')
@@ -218,7 +218,6 @@ export default {
   watch: {
     '$route': 'validateRoute'
   },
-
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       const defaultFilters = config.products.defaultFilters
@@ -227,7 +226,6 @@ export default {
           filterValues: defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            store.dispatch('meta/set', { title: store.state.category.current.name })
             filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
@@ -281,7 +279,6 @@ export default {
     }
 
   },
-
   data () {
     return {
       pagination: {

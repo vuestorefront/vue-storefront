@@ -55,7 +55,7 @@
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
-    "theme": "default",
+    "theme": "default",   
     "analytics": {
       "id": false
     },

@@ -12,11 +12,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Compare',
   metaInfo: {
-    title: this.title
+    title: i18n.t('Compare Products')
   },
   props: {
     title: {

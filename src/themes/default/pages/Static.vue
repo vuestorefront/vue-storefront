@@ -32,8 +32,10 @@ import staticContent from 'theme/components/theme/StaticContent'
 import i18n from 'core/lib/i18n'
 
 export default {
-  metaInfo: {
-    title: this.$props.title
+  metaInfo () {
+    return {
+      title: this.$props.title
+    }
   },
   components: {
     Breadcrumbs,
@@ -60,14 +62,6 @@ export default {
         { title: i18n.t('Privacy policy'), link: '/privacy' },
         { title: i18n.t('Contact us'), link: '/contact' }
       ]
-    }
-  },
-  watch: {
-    '$route': 'validateRoute'
-  },
-  methods: {
-    validateRoute () {
-      this.setMeta()
     }
   }
 }
