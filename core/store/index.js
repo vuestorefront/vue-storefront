@@ -13,7 +13,6 @@ import compare from './modules/compare'
 import user from './modules/user'
 import payment from './modules/payment'
 import shipping from './modules/shipping'
-import meta from './modules/meta'
 import ui from './modules/ui-store'
 import checkout from './modules/checkout'
 import homepage from './modules/homepage'
@@ -179,7 +178,6 @@ export default new Vuex.Store({
     user,
     payment,
     shipping,
-    meta,
     ui,
     homepage,
     social,

@@ -39,6 +39,8 @@ import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
 import OfflineBadge from './components/core/OfflineBadge.vue'
 
+import Head from 'theme/resource/head'
+
 export default {
   computed: {
     ...mapState({
@@ -48,6 +50,7 @@ export default {
   mounted () {
     this.$store.dispatch('user/startSession')
   },
+  metaInfo: Head,
   components: {
     MainHeader,
     MainFooter,

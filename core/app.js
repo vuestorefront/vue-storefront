@@ -11,12 +11,12 @@ import { registerExtensions } from 'core/lib/extensions'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
+import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 
 Vue.use(Vuelidate)
-Vue.use(VueLazyload, {
-  attempt: 2
-})
+Vue.use(VueLazyload, {attempt: 2})
+Vue.use(Meta)
 
 const pluginsObject = plugins()
 Object.keys(pluginsObject).forEach(function (key) {
