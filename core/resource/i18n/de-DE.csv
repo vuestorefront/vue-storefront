@@ -240,3 +240,8 @@
 "Erin recommends","Erin empfiehlt"
 "Compare Products","Compare Products"
 "404 Page Not Found","404 Page Not Found"
+"Error with response - bad content-type!","Fehler in der Antwort vom Server - Falscher content-type!"
+"Unhandled error, wrong response format!","Unbehandelter Fehler. Die Antwort vom Server ist falsch formatiert!"
+"Cash On Delivery","Zahlung bei Lieferung"
+"Fixed","Fixed"
+"The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.","Die echten Zahlungsmethoden werden bald implementiert. Bitte wirf freundlicherweise einen Blick auf https://github.com/DivanteLtd/vue-storefront/issues für unsere Roadmap."
