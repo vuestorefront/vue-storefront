@@ -3,12 +3,7 @@
   <head>
   	{{{ meta.inject().title.text() }}}
   	{{{ meta.inject().meta.text() }}}
-    <link rel="apple-touch-startup-image" href="/assets/launcher-icon-2x.png">
-    <link rel="apple-touch-icon" href="/assets/launcher-icon-1x.png">
-    <link rel="stylesheet" href="https://unpkg.com/flexboxgrid2@7.1.0/flexboxgrid2.css">
-    <link rel="manifest" href="/assets/manifest.json">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,600,700,800" rel="stylesheet">
+  	{{{ meta.inject().link.text() }}}
     <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>

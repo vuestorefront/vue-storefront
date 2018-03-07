@@ -18,12 +18,7 @@ export default {
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Checkout'),
-      meta: [
-        {
-          vmid: 'description',
-          description: this.$route.meta.description
-        }
-      ]
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
     }
   },
   data () {

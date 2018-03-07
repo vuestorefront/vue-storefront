@@ -35,12 +35,7 @@ export default {
   metaInfo () {
     return {
       title: this.$route.meta.title || this.$props.title,
-      meta: [
-        {
-          vmid: 'description',
-          description: this.$route.meta.description
-        }
-      ]
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
     }
   },
   components: {
