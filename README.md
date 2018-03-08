@@ -80,6 +80,7 @@ Tutorial series on creating themes for Vue Storefront:
 ### Working with Vue Storefront Extensions
 * [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
 * [Adding custom Server API methods](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md)
+* [Extending UI from extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Extending%20UI%20from%20extensions.md)
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
