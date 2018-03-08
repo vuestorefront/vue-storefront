@@ -3,8 +3,9 @@ import * as types from '../../mutation-types'
 import rootStore from '../../'
 import EventBus from 'core/plugins/event-bus'
 import i18n from 'core/lib/i18n'
+import hash from 'object-hash'
 
-const CART_PULL_INTERVAL_MS = 200
+const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
 
@@ -24,8 +25,10 @@ export default {
   },
   serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
     if (config.cart.synchronize) {
-      if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS) {
+      const newItemsHash = hash({ items: context.state.cartItems, token: context.state.cartServerToken })
+      if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = new Date()
+        context.state.cartItemsHash = newItemsHash
         context.dispatch('sync/execute', { url: config.cart.pull_endpoint, // sync the cart
           payload: {
             method: 'GET',
@@ -39,7 +42,7 @@ export default {
 
         })
       } else {
-        console.log('Too short interval for refreshing the cart')
+        console.log('Too short interval for refreshing the cart or items not changed', newItemsHash, context.state.cartItemsHash)
       }
     }
   },

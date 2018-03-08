@@ -14,6 +14,7 @@ import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
 import { optionLabel } from 'core/store/modules/attribute/helpers'
 import EventBus from 'core/plugins/event-bus'
+import Composite from 'core/mixins/composite'
 import _ from 'lodash'
 import i18n from 'core/lib/i18n'
 
@@ -179,6 +180,7 @@ export default {
       meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
     }
   },
+  mixins: [Composite],
   methods: {
     fetchData ({ store, route }) {
       let self = this
