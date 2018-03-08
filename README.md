@@ -185,6 +185,15 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">        
         <a href="http://www.develodesign.co.uk/"><img height="50" alt="Macopedia" align="left" src="doc/media/develo_logo.png"></a>
       </td>
+      <td align="center" valign="middle">        
+        <a href="https://magenest.com/"><img height="50" alt="Magenest" align="left" src="https://user-images.githubusercontent.com/18116406/37145068-3326bdf8-22c0-11e8-9bc1-0b9b2377129f.png"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="https://www.ecommbits.com/en/"><img height="50" alt="ECOMMBITS" align="left" src="https://user-images.githubusercontent.com/18116406/37145348-ea9c8ba2-22c0-11e8-9a91-d1a1da9af782.png"></a>
+      </td>
+      <td align="center" valign="middle">        
+        <a href="https://www.optiweb.com/"><img height="50" alt="Optiweb" align="left" src="https://user-images.githubusercontent.com/18116406/37145626-9d48077c-22c1-11e8-82fd-dda1268d05e9.png"></a>
+      </td>
     </tr>
   </tbody>
  </table>
