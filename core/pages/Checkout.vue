@@ -137,6 +137,8 @@ export default {
     this.$bus.$on('checkout-before-shippingMethods', (country) => {
       this.$store.dispatch('cart/getShippingMethods', {
         country_id: country
+      }).then(() => {
+        this.$store.dispatch('cart/refreshTotals')
       })
     })
     this.$bus.$on('checkout-after-shippingMethodChanged', (payload) => {

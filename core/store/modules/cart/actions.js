@@ -37,10 +37,12 @@ export default {
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
           rootStore.dispatch('cart/getPaymentMethods')
-          let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-          rootStore.dispatch('cart/getShippingMethods', {
-            country_id: country
-          })
+          if (context.state.cartItems.length > 0) {
+            let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+            rootStore.dispatch('cart/getShippingMethods', {
+              country_id: country
+            })
+          }
         })
       } else {
         console.log('Too short interval for refreshing the cart')
@@ -128,7 +130,7 @@ export default {
         callback_event: 'servercart-after-itemdeleted'
       }, { root: true }).then(task => {
         // eslint-disable-next-line no-useless-return
-        if (config.cart.synchronize_totals) {
+        if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
           context.dispatch('refreshTotals')
         }
         return
@@ -278,7 +280,6 @@ export default {
       }, { root: true }).then(task => {
         if (task.result.length > 0) {
           context.commit(types.CART_UPD_SHIPPING, task.result)
-          context.dispatch('refreshTotals')
         }
       }).catch(e => {
         console.error(e)
