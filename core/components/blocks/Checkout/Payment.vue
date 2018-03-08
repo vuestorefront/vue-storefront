@@ -6,7 +6,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import PaymentMethods from 'core/resource/payment_methods.json'
 import Countries from 'core/resource/countries.json'
 
 export default {
@@ -20,7 +19,7 @@ export default {
   data () {
     return {
       isFilled: false,
-      paymentMethods: PaymentMethods,
+      paymentMethods: this.$store.state.payment.methods,
       countries: Countries,
       payment: this.$store.state.checkout.paymentDetails,
       generateInvoice: false,
@@ -33,6 +32,11 @@ export default {
       currentUser: state => state.user.current
     })
   },
+  watch: {
+    'payment.paymentMethod': function (code) {
+      this.onPaymentMethodChanged(code)
+    }
+  },
   mounted () {
     if (this.payment.firstName.length === 0) {
       this.initializeBillingAddress()
@@ -41,6 +45,7 @@ export default {
         this.generateInvoice = true
       }
     }
+    this.onPaymentMethodChanged(this.payment.paymentMethod)
   },
   methods: {
     sendDataToCheckout () {
@@ -174,16 +179,25 @@ export default {
       return ''
     },
     getPaymentMethod () {
-      for (let i = 0; i < PaymentMethods.length; i++) {
-        if (PaymentMethods[i].code === this.payment.paymentMethod) {
+      for (let i = 0; i < this.paymentMethods.length; i++) {
+        if (this.paymentMethods[i].code === this.payment.paymentMethod) {
           return {
-            name: PaymentMethods[i].name
+            name: this.paymentMethods[i].name
           }
         }
       }
       return {
         name: ''
       }
+    },
+    onPaymentMethodChanged (code) {
+      // reset the additional payment method component container if exists.
+      if (document.getElementById('checkout-order-review-additional-container')) {
+        document.getElementById('checkout-order-review-additional-container').innerHTML = '<div id="checkout-order-review-additional">&nbsp;</div>' // reset
+      }
+
+      // Let anyone listening know that we've changed payment method, usually a payment extension.
+      this.$bus.$emit('checkout-payment-method-changed', code)
     }
   }
 }

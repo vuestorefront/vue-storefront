@@ -123,6 +123,9 @@ export default {
       if (userId) {
         this.userId = userId.toString()
       }
+    })
+    this.$bus.$on('checkout-do-placeOrder', (additionalPayload) => {
+      this.payment.paymentMethodAdditional = additionalPayload
       this.placeOrder()
     })
     this.$bus.$on('checkout-before-edit', (section) => {
@@ -240,6 +243,7 @@ export default {
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingMethod,
           payment_method_code: this.payment.paymentMethod,
+          payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
         }
       }
