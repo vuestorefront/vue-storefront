@@ -8,6 +8,7 @@
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
 import AddToCart from 'core/components/AddToCart.vue'
 import EventBus from 'core/plugins/event-bus'
+import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import config from 'config'
 import i18n from 'core/lib/i18n'
@@ -147,6 +148,7 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return loadData({ store: store, route: route })
   },
+  mixins: [Composite],
   methods: {
     validateRoute () {
       let inst = this

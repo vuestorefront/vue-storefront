@@ -8,9 +8,11 @@
 import builder from 'bodybuilder'
 import EventBus from 'core/plugins/event-bus'
 import i18n from 'core/lib/i18n'
+import Composite from 'core/mixins/composite'
 
 export default {
   name: 'PageNotFound',
+  mixins: [Composite],
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('404 Page Not Found'),

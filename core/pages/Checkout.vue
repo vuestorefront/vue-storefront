@@ -11,10 +11,12 @@ import Payment from 'core/components/blocks/Checkout/Payment.vue'
 import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
 import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
+import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Checkout',
+  mixins: [Composite],
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Checkout'),

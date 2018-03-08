@@ -1,5 +1,5 @@
 <template>
-  <div class="py40 px20">
+  <div class="py40 px20" id="thank-you-content">
     <h1>
       {{ $t('Thank you!') }}
     </h1>
@@ -12,13 +12,15 @@
     <p v-else class="h4">
       {{ $t('Your order will be sent to the server as soon as you connect to the Internet and then confirmed regarding the stock quantities of selected items') }}
     </p>
+    <div id="thank-you-extensions"/>
   </div>
 </template>
 
 <script>
 import { coreComponent } from 'core/lib/themes'
+import Composite from 'core/mixins/composite'
 
 export default {
-  mixins: [coreComponent('blocks/Checkout/ThankYouPage')]
+  mixins: [coreComponent('blocks/Checkout/ThankYouPage'), Composite]
 }
 </script>
