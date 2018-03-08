@@ -9,14 +9,14 @@ import Breadcrumbs from 'core/components/Breadcrumbs'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
-import Meta from 'core/lib/meta'
 import i18n from 'core/lib/i18n'
 
 export default {
   name: 'MyAccount',
-  meta () {
+  metaInfo () {
     return {
-      title: 'My Account'
+      title: this.$route.meta.title || i18n.t('My Account'),
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
     }
   },
   data () {
@@ -107,7 +107,6 @@ export default {
     MyProfile,
     MyShippingDetails,
     MyNewsletter
-  },
-  mixins: [Meta]
+  }
 }
 </script>

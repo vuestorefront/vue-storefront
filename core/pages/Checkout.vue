@@ -15,6 +15,12 @@ import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Checkout',
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('Checkout'),
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
+  },
   data () {
     return {
       stockCheckCompleted: false,

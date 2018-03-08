@@ -6,7 +6,6 @@
 
 <script>
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import Meta from 'core/lib/meta'
 import AddToCart from 'core/components/AddToCart.vue'
 import EventBus from 'core/plugins/event-bus'
 import { mapGetters } from 'vuex'
@@ -18,8 +17,6 @@ import i18n from 'core/lib/i18n'
  */
 function filterChanged (filterOption) { // slection of product variant on product page
   EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
-
-  console.log(filterOption)
 
   this.configuration[filterOption.attribute_code] = filterOption
   this.$store.dispatch('product/configure', {
@@ -141,6 +138,12 @@ function stateCheck () {
 
 export default {
   name: 'Product',
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.productName,
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
+  },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return loadData({ store: store, route: route })
   },
@@ -248,15 +251,9 @@ export default {
       }
     }
   },
-  meta () {
-    return {
-      title: this.product.name
-    }
-  },
   components: {
     Breadcrumbs,
     AddToCart
-  },
-  mixins: [Meta]
+  }
 }
 </script>

@@ -28,11 +28,16 @@
 
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs'
-import Meta from 'core/lib/meta'
 import staticContent from 'theme/components/theme/StaticContent'
 import i18n from 'core/lib/i18n'
 
 export default {
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title,
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
+  },
   components: {
     Breadcrumbs,
     staticContent
@@ -47,12 +52,6 @@ export default {
       required: true
     }
   },
-  mixins: [Meta],
-  meta () {
-    return {
-      title: this.$props.title
-    }
-  },
   data () {
     return {
       navigation: [
@@ -64,14 +63,6 @@ export default {
         { title: i18n.t('Privacy policy'), link: '/privacy' },
         { title: i18n.t('Contact us'), link: '/contact' }
       ]
-    }
-  },
-  watch: {
-    '$route': 'validateRoute'
-  },
-  methods: {
-    validateRoute () {
-      this.setMeta()
     }
   }
 }

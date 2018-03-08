@@ -6,15 +6,18 @@
 
 <script>
 import EventBus from 'core/plugins/event-bus'
-import Meta from 'core/lib/meta'
 import MainSlider from 'core/components/blocks/MainSlider/MainSlider.vue'
 import ProductTile from 'core/components/ProductTile.vue'
 import { mapGetters } from 'vuex'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Home',
-  meta: {
-    title: 'Home Page'
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('Home Page'),
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
@@ -38,7 +41,6 @@ export default {
   components: {
     ProductTile,
     MainSlider
-  },
-  mixins: [Meta]
+  }
 }
 </script>

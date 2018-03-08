@@ -12,11 +12,16 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
-import Meta from 'core/lib/meta'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Compare',
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
+  },
   props: {
     title: {
       type: String,
@@ -48,12 +53,6 @@ export default {
         return parseInt(a.is_comparable)
       })
     }
-  },
-  meta () {
-    return {
-      title: this.title
-    }
-  },
-  mixins: [Meta]
+  }
 }
 </script>

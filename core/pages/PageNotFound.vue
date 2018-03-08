@@ -7,9 +7,16 @@
 <script>
 import builder from 'bodybuilder'
 import EventBus from 'core/plugins/event-bus'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'PageNotFound',
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('404 Page Not Found'),
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
+  },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
