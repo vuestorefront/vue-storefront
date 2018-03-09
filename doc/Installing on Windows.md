@@ -1,6 +1,6 @@
 # Introduction
 
-Vue storefront is based on open source technologies which SHOULD (in theory ;)) works perfectly well on most of the leading operating systems. However, we're developing the project using MacOS and Linux machines.
+Vue storefront is based on open source technologies which SHOULD (in theory ;)) work perfectly well on most of the leading operating systems. However, we're developing the project using MacOS and Linux machines.
 
 ## Prerequsites 
 1. Please download [Docker for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows) and install it on your machine. [More Information](https://blog.jayway.com/2017/04/19/running-docker-on-bash-on-windows/)
