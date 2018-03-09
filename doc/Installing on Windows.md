@@ -16,7 +16,7 @@ Vue storefront is based on open source technologies which SHOULD (in theory ;)) 
 4. Install dependencies: `npm install`
 5. Run Docker containers required by vue-storefront-api: `docker-compose up`. This can take a while ...
 6. Restore products database `npm run restore` and run latest migrations `npm run migrate`
-7. Copy `src/config.example.json` to default config file `src/config.json`
+7. Copy `config/default.json` to `config/local.json`
 8. Run API using `npm run dev` 
 
 
@@ -46,4 +46,4 @@ export default {
 (we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config)
 
 ```
-6. Run API using `npm run dev` 
+6. Run Vue Storefront Server using `npm run dev` 
