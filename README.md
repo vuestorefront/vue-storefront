@@ -1,4 +1,5 @@
 # Vue Storefront - PWA for eCommerce
+<img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed">
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, [Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront),  Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
