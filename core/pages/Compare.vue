@@ -12,6 +12,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
 export default {
@@ -28,6 +29,7 @@ export default {
       required: true
     }
   },
+  mixins: [Composite],
   created () {
     this.$store.dispatch('compare/load')
     this.$store.dispatch('attribute/list', {

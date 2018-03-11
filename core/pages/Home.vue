@@ -10,6 +10,7 @@ import MainSlider from 'core/components/blocks/MainSlider/MainSlider.vue'
 import ProductTile from 'core/components/ProductTile.vue'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
+import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Home',
@@ -41,6 +42,7 @@ export default {
   components: {
     ProductTile,
     MainSlider
-  }
+  },
+  mixins: [Composite]
 }
 </script>

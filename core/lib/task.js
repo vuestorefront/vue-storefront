@@ -1,6 +1,6 @@
 import EventBus from 'core/plugins/event-bus'
 import i18n from 'core/lib/i18n'
-import fetch from 'node-fetch'
+import fetch from 'isomorphic-fetch'
 
 export function execute (task, currentToken = null, currentCartId = null) {
   const taskData = task

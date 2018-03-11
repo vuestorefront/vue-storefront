@@ -153,6 +153,7 @@ export default {
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: [],
     payment: [],
+    cartItemsHash: '',
     cartItems: [] // TODO: check if it's properly namespaced
   },
   getters,

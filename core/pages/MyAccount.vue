@@ -9,10 +9,12 @@ import Breadcrumbs from 'core/components/Breadcrumbs'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
+import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
 export default {
   name: 'MyAccount',
+  mixins: [Composite],
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('My Account'),
