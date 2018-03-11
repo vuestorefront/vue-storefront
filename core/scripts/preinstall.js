@@ -1,9 +1,9 @@
 const path = require('path')
 const fs = require('fs')
-const child_process = require('child_process')
+const childProcess = require('child_process')
 
 const root = process.cwd()
-npm_install_recursive(root)
+npmInstallRecursive(root)
 
 // Since this script is intended to be run as a "preinstall" command,
 // it will do `npm install` automatically inside the root folder in the end.
@@ -12,8 +12,8 @@ console.log(`Performing "npm install" inside root folder`)
 console.log('===================================================================')
 
 // Recurses into a folder
-function npm_install_recursive (folder) {
-  const has_package_json = fs.existsSync(path.join(folder, 'package.json'))
+function npmInstallRecursive (folder) {
+  const hasPackageJson = fs.existsSync(path.join(folder, 'package.json'))
 
   // If there is `package.json` in this folder then perform `npm install`.
   //
@@ -21,23 +21,23 @@ function npm_install_recursive (folder) {
   // skip the root folder, because it will be `npm install`ed in the end.
   // Hence the `folder !== root` condition.
   //
-  if (has_package_json && folder !== root) {
+  if (hasPackageJson && folder !== root) {
     console.log('===================================================================')
     console.log(`Performing "npm install" inside ${folder === root ? 'root folder' : './' + path.relative(root, folder)}`)
     console.log('===================================================================')
 
-    npm_install(folder)
+    npmInstall(folder)
   }
 
   // Recurse into subfolders
   for (let subfolder of subfolders(folder)) {
-    npm_install_recursive(subfolder)
+    npmInstallRecursive(subfolder)
   }
 }
 
 // Performs `npm install`
-function npm_install (where) {
-  child_process.execSync('npm install', { cwd: where, env: process.env, stdio: 'inherit' })
+function npmInstall (where) {
+  childProcess.execSync('npm install', { cwd: where, env: process.env, stdio: 'inherit' })
 }
 
 // Lists subfolders in a folder
