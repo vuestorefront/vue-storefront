@@ -8,13 +8,6 @@ cache:
   directories:
     - "node_modules"
 
-stages:
-  - lint
-  - unit
-
-jobs:
-  include:
-    - stage: lint
-      script: npm run lint
-    - stage: unit
-      script: npm run unit
+script:
+  - npm run lint
+  - npm run unit
