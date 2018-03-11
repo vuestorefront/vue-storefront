@@ -2,4 +2,19 @@ language: node_js
 node_js:
   - "6"
   - "7"
-script: npm run unit --single-run
+  - "8"
+
+cache:
+  directories:
+    - "node_modules"
+
+stages:
+  - lint
+  - unit
+
+jobs:
+  include:
+    - stage: lint
+      script: npm run lint
+    - stage: unit
+      script: npm run unit
