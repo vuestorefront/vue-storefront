@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import ShippingMethods from 'core/resource/shipping_methods.json'
+import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
 
 export default {
@@ -32,7 +31,6 @@ export default {
   data () {
     return {
       isFilled: false,
-      shippingMethods: ShippingMethods,
       countries: Countries,
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
@@ -51,7 +49,15 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.user.current
+    }),
+    ...mapGetters({
+      shippingMethods: 'cart/shippingMethods'
     })
+  },
+  mounted () {
+    if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
+      this.shipping.shippingMethod = this.shippingMethods[0].method_code
+    }
   },
   methods: {
     sendDataToCheckout () {
@@ -99,17 +105,17 @@ export default {
       }
     },
     getShippingMethod () {
-      for (let i = 0; i < ShippingMethods.length; i++) {
-        if (ShippingMethods[i].code === this.shipping.shippingMethod) {
+      for (let i = 0; i < this.shippingMethods.length; i++) {
+        if (this.shippingMethods[i].method_code === this.shipping.shippingMethod) {
           return {
-            name: ShippingMethods[i].name,
-            cost: ShippingMethods[i].cost
+            method_title: this.shippingMethods[i].method_title,
+            amount: this.shippingMethods[i].amount
           }
         }
       }
       return {
-        name: '',
-        cost: ''
+        method_title: '',
+        amount: ''
       }
     },
     getCountryName () {
@@ -119,6 +125,32 @@ export default {
         }
       }
       return ''
+    },
+    changeCountry () {
+      this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
+    },
+    getCurrentShippingMethod () {
+      let shippingCode = this.shipping.shippingMethod
+      let currentMethod = this.shippingMethods.find(item => item.method_code === shippingCode)
+      return currentMethod
+    },
+    changeShippingMethod () {
+      let currentShippingMethod = this.getCurrentShippingMethod()
+      if (currentShippingMethod) {
+        this.$bus.$emit('checkout-after-shippingMethodChanged', {
+          country: this.shipping.country,
+          method_code: currentShippingMethod.method_code,
+          carrier_code: currentShippingMethod.carrier_code,
+          payment_method: this.$store.state.payment.methods[0].code
+        })
+      }
+    },
+    notInMethods (method) {
+      let availableMethods = this.shippingMethods
+      if (availableMethods.find(item => item.method_code === method)) {
+        return false
+      }
+      return true
     }
   }
 }

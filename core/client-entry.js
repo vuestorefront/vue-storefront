@@ -117,7 +117,10 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 
     // execute them serially
     serial(fetchQueue)
-      .then((res) => console.info('Processing orders queue has finished'))
+      .then((res) => {
+        console.info('Processing orders queue has finished')
+        // store.dispatch('cart/serverPull', { forceClientState: false })
+      })
   }).catch((err) => {
     // This code runs if there were any errors
     console.log(err)
@@ -210,7 +213,8 @@ function checkiIsOnline () {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
     EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-    store.dispatch('cart/serverPull', { forceClientState: false })
+    // store.dispatch('cart/serverPull', { forceClientState: false })
+    store.dispatch('cart/load')
   }
 }
 

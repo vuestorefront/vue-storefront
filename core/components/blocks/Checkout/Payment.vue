@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import PaymentMethods from 'core/resource/payment_methods.json'
+import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Payment',
@@ -20,7 +20,6 @@ export default {
   data () {
     return {
       isFilled: false,
-      paymentMethods: PaymentMethods,
       countries: Countries,
       payment: this.$store.state.checkout.paymentDetails,
       generateInvoice: false,
@@ -31,7 +30,15 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.user.current
+    }),
+    ...mapGetters({
+      paymentMethods: 'cart/paymentMethods'
     })
+  },
+  created () {
+    if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
+      this.payment.paymentMethod = this.paymentMethods[0].code
+    }
   },
   mounted () {
     if (this.payment.firstName.length === 0) {
@@ -80,7 +87,7 @@ export default {
                 apartmentNumber: addresses[i].street[1],
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
-                paymentMethod: 'cashondelivery'
+                paymentMethod: this.paymentMethods[0].code
               }
               this.generateInvoice = true
               this.sendToBillingAddress = true
@@ -102,7 +109,7 @@ export default {
           postcode: '',
           phoneNumber: '',
           taxId: '',
-          paymentMethod: 'cashondelivery'
+          paymentMethod: this.paymentMethods[0].code
         }
       }
     },
@@ -120,7 +127,7 @@ export default {
           apartmentNumber: shippingDetails.apartmentNumber,
           zipCode: shippingDetails.zipCode,
           phoneNumber: shippingDetails.phoneNumber,
-          paymentMethod: 'cashondelivery'
+          paymentMethod: this.paymentMethods[0].code
         }
         this.sendToBillingAddress = false
         this.generateInvoice = false
@@ -147,7 +154,7 @@ export default {
               apartmentNumber: addresses[i].street[1],
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
-              paymentMethod: 'cashondelivery'
+              paymentMethod: this.paymentMethods[0].code
             }
             this.generateInvoice = true
           }
@@ -174,15 +181,31 @@ export default {
       return ''
     },
     getPaymentMethod () {
-      for (let i = 0; i < PaymentMethods.length; i++) {
-        if (PaymentMethods[i].code === this.payment.paymentMethod) {
+      for (let i = 0; i < this.paymentMethods.length; i++) {
+        if (this.paymentMethods[i].code === this.payment.paymentMethod) {
           return {
-            name: PaymentMethods[i].name
+            title: this.paymentMethods[i].title
           }
         }
       }
       return {
         name: ''
+      }
+    },
+    notInMethods (method) {
+      let availableMethods = this.paymentMethods
+      if (availableMethods.find(item => item.code === method)) {
+        return false
+      }
+      return true
+    },
+    changePaymentMethod () {
+      if (this.payment.paymentMethod !== 'cashondelivery') {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.'),
+          action1: { label: 'OK', action: 'close' }
+        })
       }
     }
   }

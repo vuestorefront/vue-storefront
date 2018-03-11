@@ -1,9 +1,9 @@
 [
     {
-        "name": "DPD Courier",
-        "code": "flatrate",
-        "cost": 4, 
-        "costInclTax": 5,
+        "method_title": "DPD Courier",
+        "method_code": "flatrate",
+        "amount": 4, 
+        "price_incl_tax": 5,
         "default": true,
         "offline": true
     }

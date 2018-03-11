@@ -49,9 +49,8 @@ export default {
     }
     state.cartSavedAt = new Date()
   },
-  [types.CART_UPD_SHIPPING] (state, { shippingMethod, shippingCost }) {
-    state.shipping.cost = shippingCost
-    state.shipping.code = shippingMethod
+  [types.CART_UPD_SHIPPING] (state, shippingMethods) {
+    state.shipping = shippingMethods
     state.cartSavedAt = new Date()
   },
   [types.CART_LOAD_CART] (state, storedItems) {
@@ -71,5 +70,9 @@ export default {
     state.platformTotals = totals
     state.platformTotalSegments = platformTotalSegments
     EventBus.$emit('cart-after-updatetotals', { platformTotals: totals, platformTotalSegments: platformTotalSegments })
+  },
+  [types.CART_UPD_PAYMENT] (state, paymentMethods) {
+    state.payment = paymentMethods
+    state.cartSavedAt = new Date()
   }
 }
