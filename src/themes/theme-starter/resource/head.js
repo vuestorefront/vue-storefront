@@ -13,6 +13,7 @@ export default {
     { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }
   ],
   link: [
+    { rel: 'icon', href: '/assets/logo.png' },
     { rel: 'apple-touch-startup-image', href: '/assets/launcher-icon-2x.png' },
     { rel: 'apple-touch-icon', href: '/assets/launcher-icon-1x.png' },
     { rel: 'manifest', href: '/assets/manifest.json' }
