@@ -345,5 +345,49 @@ export default {
         context.dispatch('cart/serverTotals', {}, { root: true })
       }
     }
+  },
+  manipulateCouponCode (context, code) {
+    let endpointUrl
+    let body
+
+    if (code) {
+      endpointUrl = config.coupon.apply_endpoint
+      body = JSON.stringify({
+        code: code
+      })
+    } else {
+      endpointUrl = config.coupon.delete_endpoint
+      body = {}
+    }
+
+    context.dispatch('sync/execute', { url: endpointUrl,
+      payload: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        body: body
+      },
+      callback_event: 'servercart-after-totals'
+    }, { root: true }).then(task => {
+      if (code) {
+        context.dispatch('coupon/addCode')
+      } else {
+        context.dispatch('coupon/deleteCode')
+      }
+      return
+    })
+  },
+  getCouponCodes (context) {
+    context.dispatch('sync/execute', { url: config.coupon.get_endpoint,
+      payload: {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors'
+      },
+      silent: true,
+      callback_event: 'servercart-after-totals'
+    }, { root: true }).then(task => {
+      rootStore.dispatch('coupon/getCodes')
+    })
   }
 }
