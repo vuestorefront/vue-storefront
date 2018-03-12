@@ -1,20 +1,47 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu absolute w-100 p0 bg-cl-primary" :style="styles">
-      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex" :key="link.slug" v-for="link in categoryLinks">
+    <ul
+      v-if="categoryLinks"
+      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
+      :style="styles"
+    >
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        :key="link.slug"
+        v-for="link in categoryLinks"
+      >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
           :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
         >
           {{ link.name }}
         </router-link>
-        <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"/>
-        <sub-category :category-links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
+        <sub-btn
+          class="w-50 bg-cl-transparent brdr-none align-right"
+          :id="link.id"
+          v-if="link.children_data.length"
+        />
+        <sub-category
+          :category-links="link.children_data"
+          :id="link.id"
+          v-if="link.children_data.length"
+        />
       </li>
     </ul>
-    <ul v-else-if="myAccountLinks" class="sidebar-submenu absolute p0 bg-cl-primary" :style="styles">
-      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex" :key="link.id" v-for="link in myAccountLinks">
-        <router-link class="px25 py20 cl-accent no-underline col-xs" :to="'/my-account#' + link.anchor">
+    <ul
+      v-else-if="myAccountLinks"
+      class="sidebar-submenu absolute p0 bg-cl-primary"
+      :style="styles"
+    >
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        :key="link.id"
+        v-for="link in myAccountLinks"
+      >
+        <router-link
+          class="px25 py20 cl-accent no-underline col-xs"
+          :to="'/my-account#' + link.anchor"
+        >
           {{ link.name }}
         </router-link>
       </li>

@@ -1,7 +1,12 @@
 <template>
-  <div class="search-icon inline-flex" @click="toggleSearchpanel">
-    <i class="material-icons md-18">search</i>
-  </div>
+  <button
+    type="button"
+    :aria-label="$t('Open search panel')"
+    class="bg-cl-transparent brdr-none inline-flex"
+    @click="toggleSearchpanel"
+  >
+    <i class="material-icons">search</i>
+  </button>
 </template>
 
 <script>
