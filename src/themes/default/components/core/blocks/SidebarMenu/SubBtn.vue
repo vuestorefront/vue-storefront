@@ -6,7 +6,7 @@
     @click.stop="next()"
     :aria-label="$t('Show subcategories')"
   >
-    <i class="material-icons pointer">keyboard_arrow_right</i>
+    <i class="material-icons">keyboard_arrow_right</i>
   </button>
   <button
     class="inline-flex p15"
@@ -15,7 +15,7 @@
     @click.stop="back()"
     :aria-label="$t('Back')"
   >
-    <i class="material-icons pointer">keyboard_arrow_left</i>
+    <i class="material-icons">keyboard_arrow_left</i>
   </button>
 </template>
 <script>
@@ -53,15 +53,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  i {
-    opacity: 0.6;
-  }
   button {
+    opacity: 0.6;
+
     &:hover,
     &:focus {
-      i {
-        opacity: 1
-      }
+      opacity: 1;
     }
   }
 </style>

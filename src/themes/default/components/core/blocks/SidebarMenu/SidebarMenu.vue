@@ -7,11 +7,15 @@
         <wishlist-icon class="p15 icon hidden-md" />
         <account-icon class="p15 icon hidden-md" />
       </div>
-      <div
-        class="flex-end col-xs inline-flex pointer bg-cl-primary align-right end-xs brdr-bottom brdr-cl-bg-secondary"
-        @click="closeMenu"
-      >
-        <i class="material-icons p15">close</i>
+      <div class="col-xs bg-cl-primary">
+        <button
+          type="button"
+          :aria-label="$t('Close')"
+          class="w-100 inline-flex end-xs bg-cl-transparent brdr-none brdr-bottom brdr-cl-bg-secondary"
+          @click="closeMenu"
+        >
+          <i class="material-icons p15">close</i>
+        </button>
       </div>
     </div>
     <div class="row">
@@ -97,7 +101,7 @@
               v-if="!currentUser"
               href="#"
               @click="login"
-              class="block px25 py20 cl-accent no-underline"
+              class="block w-100 px25 py20 cl-accent no-underline"
             >
               {{ $t('My account') }}
             </a>
@@ -216,6 +220,15 @@ ul {
     &:hover,
     &:focus {
       background-color: $bg-secondary;
+    }
+  }
+
+  button {
+    opacity: 0.6;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
     }
   }
 }
