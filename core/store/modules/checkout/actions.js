@@ -21,7 +21,7 @@ export default {
         console.error('Internal validation error; Order entity is not compliant with the schema', e.messages)
         EventBus.$emit('notification', {
           type: 'error',
-          message: i18n.t('Internal validation error. Please check if all required fileds are filled in. Please contact us on contributors@vuestorefront.io'),
+          message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
           action1: { label: 'OK', action: 'close' }
         })
       } else {

@@ -207,7 +207,7 @@ export default {
       if (!status.online) {
         this.$bus.$emit('notification', {
           type: 'warning',
-          message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now.'),
+          message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
           action1: { label: 'OK', action: 'close' }
         })
       }
