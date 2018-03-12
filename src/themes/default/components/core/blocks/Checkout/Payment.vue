@@ -33,32 +33,23 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row" v-show="isActive">
-          <div class="col-xs-12 col-sm-12 mb15">
-            <div class="checkboxStyled" @click.prevent="useShippingAddress">
-              <input
-                type="checkbox"
-                v-model="sendToShippingAddress"
-                id="sendToShippingAddressCheckbox"
-              >
-              <label for="sendToShippingAddressCheckbox"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="useShippingAddress">
-              <span class="fs16 cl-accent">{{ $t('Copy address data from shipping') }}</span>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb15" v-show="hasBillingData()">
-            <div class="checkboxStyled" @click.prevent="useBillingAddress">
-              <input
-                type="checkbox"
-                v-model="sendToBillingAddress"
-                id="sendToBillingAddressCheckbox"
-              >
-              <label for="sendToBillingAddressCheckbox"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="useBillingAddress">
-              <span class="fs16 cl-accent">{{ $t('Use my billing data') }}</span>
-            </div>
-          </div>
+          <base-checkbox
+            class="col-xs-12 mb15"
+            id="sendToShippingAddressCheckbox"
+            v-model="sendToShippingAddress"
+            @click="useShippingAddress"
+          >
+            {{ $t('Copy address data from shipping') }}
+          </base-checkbox>
+          <base-checkbox
+            v-show="hasBillingData()"
+            class="col-xs-12 mb15"
+            id="sendToBillingAddressCheckbox"
+            v-model="sendToBillingAddress"
+            @click="useBillingAddress"
+          >
+            {{ $t('Use my billing data') }}
+          </base-checkbox>
           <div class="col-xs-12 col-sm-6 mb25">
             <input
               type="text"
@@ -194,15 +185,14 @@
           <div class="col-xs-12 col-sm-12 mb25">
             <input type="text" name="phone-number" autocomplete="tel" placeholder="Phone Number" v-model.trim="payment.phoneNumber">
           </div>
-          <div class="col-xs-12 col-sm-12 mb15">
-            <div class="checkboxStyled" @click.prevent="useGenerateInvoice">
-              <input type="checkbox" v-model="generateInvoice" id="generateInvoiceCheckbox">
-              <label for="generateInvoiceCheckbox"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="useGenerateInvoice">
-              <span class="fs16 cl-accent">{{ $t('I want to generate an invoice for the company') }}</span>
-            </div>
-          </div>
+          <base-checkbox
+            class="col-xs-12 mb15"
+            id="generateInvoiceCheckbox"
+            v-model="generateInvoice"
+            @click="useGenerateInvoice"
+          >
+            {{ $t('I want to generate an invoice for the company') }}
+          </base-checkbox>
           <div class="col-xs-12 col-sm-12 mb25" v-show="generateInvoice">
             <input
               type="text"
@@ -326,6 +316,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
+import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
 
 export default {
   validations () {
@@ -402,7 +393,8 @@ export default {
   },
   components: {
     ButtonFull,
-    Tooltip
+    Tooltip,
+    BaseCheckbox
   },
   mixins: [coreComponent('blocks/Checkout/Payment')]
 }

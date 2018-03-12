@@ -33,17 +33,15 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-xs-12 col-sm-12 mb15" v-show="currentUser && hasShippingDetails()">
-            <div class="checkboxStyled" @click.prevent="useMyAddress">
-              <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox">
-              <label for="shipToMyAddressCheckbox"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="useMyAddress">
-              <span class="fs16 cl-accent">
-                {{ $t('Ship to my default address') }}
-              </span>
-            </div>
-          </div>
+          <base-checkbox
+            v-show="currentUser && hasShippingDetails()"
+            class="col-xs-12 col-sm-6 mb25"
+            id="shipToMyAddressCheckbox"
+            @click="useMyAddress"
+            v-model="shipToMyAddress"
+          >
+            {{ $t('Ship to my default address') }}
+          </base-checkbox>
           <div class="col-xs-12 col-sm-6 mb25">
             <input
               type="text"
@@ -255,6 +253,7 @@
 import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
+import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-contextified-validators
@@ -292,7 +291,8 @@ export default {
   },
   components: {
     ButtonFull,
-    Tooltip
+    Tooltip,
+    BaseCheckbox
   },
   mixins: [coreComponent('blocks/Checkout/Shipping')]
 }

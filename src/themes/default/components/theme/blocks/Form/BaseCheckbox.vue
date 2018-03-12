@@ -5,7 +5,6 @@
         type="checkbox"
         :id="id"
         :checked="value"
-        :name="name"
         @blur="$emit('blur')"
         :disabled="disabled"
       >
@@ -35,11 +34,6 @@ export default {
     value: {
       type: Boolean,
       required: true
-    },
-    name: {
-      type: String,
-      required: false,
-      default: ''
     },
     validationIf: {
       type: Boolean,

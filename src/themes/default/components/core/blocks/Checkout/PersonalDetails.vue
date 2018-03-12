@@ -90,15 +90,15 @@
               {{ $t('Please provide valid e-mail address.') }}
             </span>
           </div>
-          <div class="col-xs-12 col-sm-12 mb15" v-show="!currentUser">
-            <div class="checkboxStyled">
-              <input type="checkbox" v-model="createAccount" id="createAccountCheckbox">
-              <label for="createAccountCheckbox"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="createAccount = !createAccount">
-              <span v-if="!isFilled" class="fs16 cl-accent">{{ $t('I want to create an account') }}</span>
-            </div>
-          </div>
+          <base-checkbox
+            v-show="!currentUser"
+            class="col-xs-12 mb15"
+            id="createAccountCheckbox"
+            @click="createAccount = !createAccount"
+            v-model="createAccount"
+          >
+            {{ $t('I want to create an account') }}
+          </base-checkbox>
           <div class="col-xs-12 col-sm-12 mb25 mt10" v-show="createAccount && !currentUser">
             <div class="pass-container relative mr35">
               <input
@@ -132,18 +132,24 @@
             </div>
             <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">{{ $t('Passwords must be identical.') }}</span>
           </div>
-          <div class="col-xs-12 col-md-12 mb15" v-show="createAccount && !currentUser">
-            <div class="checkboxStyled">
-              <input type="checkbox" name="remember" v-model="acceptConditions" id="acceptConditions" @blur="$v.acceptConditions.$touch()">
-              <label for="acceptConditions"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="acceptConditions = !acceptConditions">
-              <span class="fs16 cl-accent">
-                {{ $t('I accept ') }} <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">terms and conditions</a> *
-              </span>
-            </div>
-            <span class="validation-error" v-if="!$v.acceptConditions.required && $v.acceptConditions.$error">{{ $t('You must accept the terms and conditions.') }}</span>
-          </div>
+          <base-checkbox
+            v-show="createAccount && !currentUser"
+            class="col-xs-12 mb15"
+            id="acceptConditions"
+            @click="acceptConditions = !acceptConditions"
+            @blur="$v.acceptConditions.$touch()"
+            v-model="acceptConditions"
+            :validation-if="!$v.acceptConditions.required && $v.acceptConditions.$error"
+            :validation-text="$t('You must accept the terms and conditions.')"
+          >
+            {{ $t('I accept ') }}
+            <span
+              class="link pointer"
+              @click.stop="$bus.$emit('modal-toggle', 'modal-terms')"
+            >
+              {{ $t('terms and conditions') }}
+            </span>*
+          </base-checkbox>
         </div>
       </div>
     </div>
@@ -182,18 +188,19 @@
               <span class="pr15">{{ personalDetails.emailAddress }}</span>
               <tooltip>{{ $t('We will send you details regarding the order') }}</tooltip>
             </div>
-            <div v-if="createAccount && !currentUser" class="mt25">
-              <div class="checkboxStyled">
-                <input type="checkbox" v-model="createAccount" id="createAccountCheckbox2" disabled>
-                <label for="createAccountCheckbox2"/>
-              </div>
-              <div class="checkboxText ml15 lh25">
-                <span class="fs16 cl-accent">Create a new account</span>
-              </div>
+            <template v-if="createAccount && !currentUser">
+              <base-checkbox
+                class="mt25"
+                id="createAccountCheckboxInfo"
+                v-model="createAccount"
+                disabled
+              >
+                {{ $t('Create a new account') }}
+              </base-checkbox>
               <p class="h5 cl-tertiary">
                 {{ $t('The new account will be created with the purchase. You will receive details on e-mail.') }}
               </p>
-            </div>
+            </template>
           </div>
         </div>
       </div>
@@ -207,6 +214,7 @@ import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import Modal from 'theme/components/core/Modal.vue'
+import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-basic-usage
@@ -263,7 +271,8 @@ export default {
   components: {
     ButtonFull,
     Tooltip,
-    Modal
+    Modal,
+    BaseCheckbox
   },
   mixins: [coreComponent('blocks/Checkout/PersonalDetails')]
 }

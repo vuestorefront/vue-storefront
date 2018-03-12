@@ -146,52 +146,6 @@ input:-moz-placeholder {
     }
   }
 
-  .checkboxStyled {
-    width: 23px;
-    position: relative;
-    display: table-cell;
-
-    label {
-      cursor: pointer;
-      position: absolute;
-      width: 23px;
-      height: 23px;
-      top: 0;
-      left: 0;
-      background: $color-white;
-      border: 1px solid $color-secondary;
-
-      &:after {
-        content: '';
-        position: absolute;
-        width: 11px;
-        height: 5px;
-        background: transparent;
-        top: 6px;
-        left: 5px;
-        border: 3px solid $color-white;
-        border-top: none;
-        border-right: none;
-        transform: rotate(-45deg);
-      }
-    }
-
-    input[type=checkbox]:checked + label {
-      background: $color-secondary;
-    }
-  }
-
-  .checkboxText {
-    display: table-cell;
-    cursor: pointer;
-    padding-left: 10px;
-
-    span {
-      vertical-align: middle;
-      font-size: 18px;
-    }
-  }
-
   .container {
     height: 100%;
   }
