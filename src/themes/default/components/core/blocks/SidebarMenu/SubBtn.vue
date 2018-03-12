@@ -1,8 +1,18 @@
 <template>
-  <button @click.stop="next()" v-if="type === 'next'">
+  <button
+    v-if="type === 'next'"
+    type="button"
+    @click.stop="next()"
+    aria-label="Show subcategories"
+  >
     <i class="material-icons p15 pointer">keyboard_arrow_right</i>
   </button>
-  <button @click.stop="back()" v-else>
+  <button
+    v-else
+    type="button"
+    @click.stop="back()"
+    aria-label="Back"
+  >
     <i class="material-icons p15 pointer">keyboard_arrow_left</i>
   </button>
 </template>

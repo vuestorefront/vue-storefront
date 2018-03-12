@@ -1,5 +1,9 @@
 <template>
-  <button class="wishlist-icon inline-flex bg-transparent brdr-none" @click="toggleWishlistPanel">
+  <button
+    type="button"
+    class="wishlist-icon inline-flex bg-cl-transparent brdr-none"
+    @click="toggleWishlistPanel"
+  >
     <i class="material-icons md-18">favorite_border</i>
   </button>
 </template>

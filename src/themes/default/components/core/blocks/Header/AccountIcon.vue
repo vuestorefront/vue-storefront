@@ -1,13 +1,17 @@
 <template>
   <button
-    class="account-icon bg-transparent brdr-none inline-flex"
+    type="button"
+    class="account-icon bg-cl-transparent brdr-none inline-flex"
     @click="openMyAccount(); gotoAccount();"
     @mouseover="showDropdown"
     @mouseout="hideDropdown"
   >
     <div class="dropdown relative">
       <i class="material-icons md-18 block">account_circle</i>
-      <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
+      <div
+        v-if="currentUser"
+        :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'"
+      >
         <p>
           {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
         </p>

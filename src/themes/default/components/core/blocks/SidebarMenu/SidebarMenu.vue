@@ -2,7 +2,7 @@
   <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: isOpen }">
     <div class="row between-xs">
       <div @click="closeMenu" class="flex-start px10 bg-cl-primary brdr-bottom brdr-cl-bg-secondary">
-        <sub-btn type="back" v-if="submenu.depth" class="bg-transparent brdr-none" />
+        <sub-btn type="back" v-if="submenu.depth" class="bg-cl-transparent brdr-none" />
         <search-icon class="p15 icon hidden-md" />
         <wishlist-icon class="p15 icon hidden-md" />
         <account-icon class="p15 icon hidden-md" />
@@ -35,7 +35,7 @@
             >
               {{ category.name }}
             </router-link>
-            <sub-btn class="w-50 bg-transparent brdr-none align-right" :id="category.id"/>
+            <sub-btn class="w-50 bg-cl-transparent brdr-none align-right" :id="category.id"/>
             <sub-category :category-links="category.children_data" :id="category.id"/>
           </li>
           <li @click="closeMenu">
@@ -57,7 +57,7 @@
             <router-link v-if="currentUser" class="block px25 py20 cl-accent no-underline col-xs" to="/my-account" exact>
               {{ $t('My account') }}
             </router-link>
-            <sub-btn v-if="currentUser" class="w-50 bg-transparent brdr-none align-right"/>
+            <sub-btn v-if="currentUser" class="w-50 bg-cl-transparent brdr-none align-right"/>
             <sub-category v-if="currentUser" :my-account-links="myAccountLinks" :id="'foo'"/>
             <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 cl-accent no-underline">
               {{ $t('My account') }}
@@ -181,7 +181,8 @@ $bg-secondary: color(secondary, $colors-background);
 
 .sidebar-menu {
   li {
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $bg-secondary;
     }
   }
@@ -189,15 +190,19 @@ $bg-secondary: color(secondary, $colors-background);
   i {
     opacity: 0.6;
 
-    &:hover{
+    &:hover,
+    &:focus {
       opacity: 1;
     }
   }
 
   button {
     padding: 0;
-    &:hover i{
-      opacity: 1;
+    &:hover,
+    &:focus {
+      i {
+        opacity: 1;
+      }
     }
   }
 }
