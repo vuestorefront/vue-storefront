@@ -3,7 +3,7 @@
     <newsletter class=" flex brdr-bottom brdr-cl-secondary" v-if="!isCheckout"/>
     <div class="footer-links flex pt30 pb60 px40 bg-cl-secondary" v-if="!isCheckout">
       <div class="container">
-        <div class="row center-xs">
+        <div class="row m0 center-xs between-md">
           <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">
             <div>
               <h3 class="cl-accent weight-400">
@@ -91,9 +91,9 @@
               </div>
             </div>
           </div>
-          <div class="row social col-lg-5 col-md-4 mt30 center-xs end-xs">
+          <div class="row social mt30">
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.facebook.com/"
               :aria-label="$t('Go to Facebook')"
             >
@@ -102,7 +102,7 @@
               </svg>
             </a>
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.instagram.com"
               :aria-label="$t('Go to Instagram')"
             >
@@ -113,7 +113,7 @@
               </svg>
             </a>
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.pinterest.com"
               :aria-label="$t('Go to Pinterest')"
             >
@@ -122,7 +122,7 @@
               </svg>
             </a>
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.youtube.com"
               :aria-label="$t('Go to Youtube')"
             >
