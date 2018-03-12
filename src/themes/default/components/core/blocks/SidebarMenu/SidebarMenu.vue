@@ -37,19 +37,24 @@
             v-for="category in categories"
             v-if="category.product_count > 0 || category.children_data.length > 0"
           >
+            <sub-btn
+              class="bg-cl-transparent brdr-none"
+              :id="category.id"
+              :name="category.name"
+              v-if="category.children_data.length > 0"
+            />
             <router-link
+              v-else
               class="px25 py20 cl-accent no-underline col-xs"
               :to="{ name: 'category', params: { id: category.id, slug: category.slug }}"
             >
               {{ category.name }}
             </router-link>
-            <sub-btn
-              class="w-50 bg-cl-transparent brdr-none align-right"
-              :id="category.id"
-            />
+
             <sub-category
               :category-links="category.children_data"
               :id="category.id"
+              :parent-slug="category.slug"
             />
           </li>
           <li @click="closeMenu">
@@ -224,8 +229,6 @@ ul {
   }
 
   button {
-    opacity: 0.6;
-
     &:hover,
     &:focus {
       opacity: 1;
