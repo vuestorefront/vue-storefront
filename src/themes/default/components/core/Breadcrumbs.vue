@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs h5 c-darkgray hidden-xs">
+  <div class="breadcrumbs h5 cl-accent hidden-xs">
     <span v-for="link in routes" :key="link.route_link">
       <router-link :to="link.route_link">
         {{ link.name | htmlDecode }}
@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/Breadcrumbs')]
+  mixins: [coreComponent('Breadcrumbs')]
 }
 </script>

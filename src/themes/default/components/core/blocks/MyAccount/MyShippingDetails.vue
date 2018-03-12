@@ -2,18 +2,18 @@
   <div class="my-shipping-details mb35">
     <!-- My shipping details header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-md-6" :class="{ 'c-darkgray' : !isActive }">
+      <div class="col-xs-12 col-md-6" :class="{ 'cl-accent' : !isActive }">
         <h3 class="m0 mb5">
           {{ $t('My shipping details') }}
         </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
         <div class="lh30 flex end-md" v-if="!isActive && editMode">
-          <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
+          <a href="#" class="cl-tertiary flex" @click.prevent="edit">
             <span class="pr5">
               {{ $t('Edit your shipping details') }}
             </span>
-            <i class="material-icons c-lightgray-secondary">edit</i>
+            <i class="material-icons cl-tertiary">edit</i>
           </a>
         </div>
       </div>
@@ -21,45 +21,45 @@
     <!-- My shipping details body (edit mode) -->
     <div class="row" v-show="isActive">
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="first-name" placeholder="First name" v-model.trim="shippingDetails.firstName">
+        <input type="text" name="first-name" :placeholder="$t('First name')" v-model.trim="shippingDetails.firstName">
         <span class="validation-error" v-if="!$v.shippingDetails.firstName.required">Field is required</span>
         <span class="validation-error" v-if="!$v.shippingDetails.firstName.minLength">
-          Name must have at least {{ $v.shippingDetails.firstName.$params.minLength.min }} letters.
+          {{ $t('Name must have at least 3 letters.') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="last-name" placeholder="Last name" v-model.trim="shippingDetails.lastName">
+        <input type="text" name="last-name" :placeholder="$t('Last name')" v-model.trim="shippingDetails.lastName">
         <span class="validation-error" v-if="!$v.shippingDetails.lastName.required">Field is required</span>
       </div>
       <div class="col-xs-12 col-md-12 mb25" v-if="hasBillingAddress()">
-        <div class="checkboxStyled">
-          <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress" @click="fillCompanyAddress">
+        <div class="checkboxStyled" @click.prevent="fillCompanyAddress">
+          <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress">
           <label for="useCompanyAddress"/>
         </div>
         <div class="checkboxText ml15 lh25" @click="fillCompanyAddress">
-          <span class="fs16 c-darkgray">Use my company's address details</span>
+          <span class="fs16 cl-accent">{{ $t("Use my company's address details") }}</span>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="street-address" placeholder="Street name" v-model.trim="shippingDetails.street">
-        <span class="validation-error" v-if="!$v.shippingDetails.street.required">Field is required</span>
+        <input type="text" name="street-address" :placeholder="$t('Street name')" v-model.trim="shippingDetails.street">
+        <span class="validation-error" v-if="!$v.shippingDetails.street.required">{{ $t('Field is required') }}</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="apartment-number" placeholder="House/Apartment number" v-model.trim="shippingDetails.house">
-        <span class="validation-error" v-if="!$v.shippingDetails.house.required">Field is required</span>
+        <input type="text" name="apartment-number" :placeholder="$t('House/Apartment number')" v-model.trim="shippingDetails.house">
+        <span class="validation-error" v-if="!$v.shippingDetails.house.required">{{ $t('Field is required') }}</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="city" placeholder="City" v-model.trim="shippingDetails.city">
-        <span class="validation-error" v-if="!$v.shippingDetails.city.required">Field is required</span>
+        <input type="text" name="city" :placeholder="$t('City')" v-model.trim="shippingDetails.city">
+        <span class="validation-error" v-if="!$v.shippingDetails.city.required">{{ $t('Field is required') }}</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="state" placeholder="State / Province" v-model.trim="shippingDetails.region">
+        <input type="text" name="state" :placeholder="$t('State / Province')" v-model.trim="shippingDetails.region">
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="zip-code" placeholder="Zip-code" v-model.trim="shippingDetails.postcode">
-        <span class="validation-error" v-if="!$v.shippingDetails.postcode.required">Field is required</span>
+        <input type="text" name="zip-code" :placeholder="$t('Zip-code')" v-model.trim="shippingDetails.postcode">
+        <span class="validation-error" v-if="!$v.shippingDetails.postcode.required">{{ $t('Field is required') }}</span>
         <span class="validation-error" v-if="!$v.shippingDetails.postcode.minLength">
-          Zip-code must have at least {{ $v.shippingDetails.postcode.$params.minLength.min }} letters.
+          {{ $t('Zip-code must have at least 3 letters.') }}
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
@@ -69,21 +69,22 @@
           </option>
           <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
         </select>
-        <span class="validation-error" v-if="!$v.shippingDetails.country.required">Field is required</span>
+        <span class="validation-error" v-if="!$v.shippingDetails.country.required">{{ $t('Field is required') }}</span>
       </div>
       <div class="col-xs-12 col-sm-6 mb25">
-        <input type="text" name="phone-number" placeholder="Phone Number" v-model.trim="shippingDetails.phone">
+        <input type="text" name="phone-number" :placeholder="$t('Phone Number')" v-model.trim="shippingDetails.phone">
       </div>
       <div class="hidden-xs col-sm-6 mb25"/>
       <div class="col-xs-12 col-sm-6 bottom-button">
         <button-full
-          :text="$t('Update my shipping details')"
           @click.native="updateDetails"
           :class="{ 'button-disabled': $v.$invalid }"
-        />
+        >
+          {{ $t('Update my shipping details') }}
+        </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
-        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">
+        <a href="#" @click="exitSection" class="link no-underline fs16 cl-accent">
           {{ $t('Cancel') }}
         </a>
       </div>
@@ -99,7 +100,7 @@
             <label for="useCompanyAddressFilled"/>
           </div>
           <div class="checkboxText ml15 lh25">
-            <span class="fs16 c-darkgray">Use my company's address details</span>
+            <span class="fs16 cl-accent">Use my company's address details</span>
           </div>
         </div>
         <p class="mb25">{{ shippingDetails.company }}</p>
@@ -124,7 +125,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import { required, minLength } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
@@ -161,6 +162,6 @@ export default {
     ButtonFull,
     Tooltip
   },
-  mixins: [coreComponent('core/blocks/MyAccount/MyShippingDetails')]
+  mixins: [coreComponent('blocks/MyAccount/MyShippingDetails')]
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <button class="brdr-none bg-transparent p0 middle-xs inline-flex c-gray-secondary">
+  <button class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary">
     <span class="hidden-xs h6 weight-300">
       {{ $t('Remove') }}
     </span>
@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Microcart/RemoveButton')]
+  mixins: [coreComponent('blocks/Microcart/RemoveButton')]
 }
 </script>

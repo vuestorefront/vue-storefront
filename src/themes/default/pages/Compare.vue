@@ -1,6 +1,6 @@
 <template>
   <div class="compare">
-    <div class="bg-lightgray py35 pl20">
+    <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare"/>
         <h2>{{ title }}</h2>
@@ -29,7 +29,7 @@
                       </td>
                     </tr>
                   </thead>
-                  <tbody class="brdr-bottom brdr-c-alto">
+                  <tbody class="brdr-bottom brdr-cl-secondary">
                     <tr>
                       <th/>
                       <td v-for="(product, index) in items" :key="index" class="p5">
@@ -37,7 +37,7 @@
                       </td>
                     </tr>
                   </tbody>
-                  <tbody class="brdr-bottom brdr-c-alto">
+                  <tbody class="brdr-bottom brdr-cl-secondary">
                     <tr>
                       <th class="p15 align-left">SKU</th>
                       <td v-for="(product, index) in items" :key="index" class="p15">
@@ -68,7 +68,7 @@
               </div>
             </div>
             <template v-else>
-              <h4 class="c-darkgray ml30">
+              <h4 class="cl-accent ml30">
                 {{ $t('You have no items to compare.') }}
               </h4>
             </template>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
 import ProductTile from '../components/core/ProductTile'
@@ -98,29 +98,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $alto: map-get($colors, alto);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$border-secondary: color(secondary, $colors-border);
 
-  .compare-wrapper {
-    overflow-x: auto;
+.compare-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  border-right: 1px solid $border-secondary;
+}
+
+td,
+th {
+  width: 180px;
+
+  &:last-child {
+    border-right: 1px solid $border-secondary;
   }
-
-  table {
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-
-  th {
-    border-right: 1px solid $alto;
-  }
-
-  td,
-  th {
-    width: 180px;
-
-    &:last-child {
-      border-right: 1px solid $alto;
-    }
-  }
+}
 </style>

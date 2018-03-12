@@ -2,18 +2,18 @@
   <div class="my-newsletter mb35">
     <!-- My newsletter header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-md-6" :class="{ 'c-darkgray' : !isActive }">
+      <div class="col-xs-12 col-md-6" :class="{ 'cl-accent' : !isActive }">
         <h3 class="m0 mb5">
           {{ $t('My newsletter') }}
         </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
         <div class="lh30 flex end-md" v-if="!isActive && editMode">
-          <a href="#" class="c-lightgray-secondary flex" @click.prevent="edit">
+          <a href="#" class="cl-tertiary flex" @click.prevent="edit">
             <span class="pr5">
               {{ $t('Edit newsletter preferences') }}
             </span>
-            <i class="material-icons c-lightgray-secondary">edit</i>
+            <i class="material-icons cl-tertiary">edit</i>
           </a>
         </div>
       </div>
@@ -40,7 +40,7 @@
           class="checkboxText ml15 lh25"
           @click="isActive ? newsletterPreferences.generalAgreement = !newsletterPreferences.generalAgreement : null"
         >
-          <span class="fs16 c-darkgray">I want to receive a newsletter, and agree to its terms</span>
+          <span class="fs16 cl-accent">I want to receive a newsletter, and agree to its terms</span>
         </div>
       </div>
       <div class="col-xs-12">
@@ -57,7 +57,7 @@
           class="checkboxText ml15 lh25"
           @click="isActive ? newsletterPreferences.men = !newsletterPreferences.men : null"
         >
-          <span class="fs16 c-darkgray">Men</span>
+          <span class="fs16 cl-accent">Men</span>
         </div>
       </div>
       <div class="col-xs-6 col-sm-6 col-md-3 mb25">
@@ -69,7 +69,7 @@
           class="checkboxText ml15 lh25"
           @click="isActive ? newsletterPreferences.women = !newsletterPreferences.women : null"
         >
-          <span class="fs16 c-darkgray">Women</span>
+          <span class="fs16 cl-accent">Women</span>
         </div>
       </div>
       <div class="hidden-xs hidden-sm col-md-6"/>
@@ -82,7 +82,7 @@
           class="checkboxText ml15 lh25"
           @click="isActive ? newsletterPreferences.kids = !newsletterPreferences.kids : null"
         >
-          <span class="fs16 c-darkgray">Kids</span>
+          <span class="fs16 cl-accent">Kids</span>
         </div>
       </div>
       <div class="col-xs-6 col-sm-6 col-md-3 mb25">
@@ -94,15 +94,17 @@
           class="checkboxText ml15 lh25"
           @click="isActive ? newsletterPreferences.home = !newsletterPreferences.home : null"
         >
-          <span class="fs16 c-darkgray">Home</span>
+          <span class="fs16 cl-accent">Home</span>
         </div>
       </div>
       <div class="hidden-xs hidden-sm col-md-6"/>
       <div class="col-xs-12 col-sm-6 mt10 bottom-button" v-show="isActive">
-        <button-full :text="$t('Update my preferences')" @click.native="updateNewsletter" />
+        <button-full @click.native="updateNewsletter">
+          {{ $t('Update my preferences') }}
+        </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 mt25 bottom-button" v-show="isActive">
-        <a href="#" @click="exitSection" class="link no-underline fs16 c-darkgray">
+        <a href="#" @click="exitSection" class="link no-underline fs16 cl-accent">
           {{ $t('Cancel') }}
         </a>
       </div>
@@ -111,14 +113,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   components: {
     ButtonFull
   },
-  mixins: [coreComponent('core/blocks/MyAccount/MyNewsletter')]
+  mixins: [coreComponent('blocks/MyAccount/MyNewsletter')]
 }
 </script>
 

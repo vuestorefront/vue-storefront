@@ -10,24 +10,74 @@ You can access localForage repositories thru `Vue.$db` or `global.db` objects an
 
 Details on localForage API: http://localforage.github.io/localForage/ 
 
-We basicaly have following data stores accesible in the browser (`/src/store/index.js`):
+We basicaly have following data stores accesible in the browser (`/core/store/index.js`):
 
 ```js
 Vue.prototype.$db = {
-  ordersCollection: localForage.createInstance({
+  ordersCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders'
-  }),
+  })),
 
-  categoriesCollection: localForage.createInstance({
+  categoriesCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'categories'
-  }),
+  })),
 
-  cartsCollection: localForage.createInstance({
+  attributesCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'attributes'
+  })),
+
+  cartsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'carts'
-  })
+  })),
+
+  elasticCacheCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'elasticCache'
+  })),
+
+  productsCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'products'
+  })),
+
+  claimsCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'claims'
+  })),
+
+  wishlistCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'wishlist'
+  })),
+
+  compareCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'compare'
+  })),
+
+  usersCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'user'
+  })),
+
+  syncTaskCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'syncTasks'
+  })),
+
+  checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'checkoutFieldValues'
+  })),
+
+  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'newsletterPreferences'
+  }))
 }
 
 global.db = Vue.prototype.$db // localForage instance
@@ -39,9 +89,9 @@ Here you have example on how to the Vuex store should be constructed. Please not
 
 ```js
 import * as types from '../mutation-types'
-import { ValidationError } from 'lib/exceptions'
-import * as entities from 'lib/entities'
-import * as sw from 'lib/sw'
+import { ValidationError } from 'core/lib/exceptions'
+import * as entities from 'core/lib/entities'
+import * as sw from 'core/lib/sw'
 import config from '../../config'
 const Ajv = require('ajv') // json validator
 
@@ -63,7 +113,7 @@ const actions = {
    */
   placeOrder ({ commit }, order) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('../../models/order_schema.json'))
+    const validate = ajv.compile(require('core/models/order.schema.json'))
 
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
@@ -117,14 +167,14 @@ export default {
 
 Data formats for vue-storefront and vue-storefront-api are the same JSON files. There is Ajv validator (https://github.com/epoberezkin/ajv) used for validation.
 
-The convention is, that schemas are stored under `/src/models` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/src/models/order_schema.json).
+The convention is, that schemas are stored under `/src/models` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json).
 
 Validation of objects is rather straight forward:
 
 ```js
     const Ajv = require('ajv') // json validator
     const ajv = new Ajv()
-    const validate = ajv.compile(require('../../models/order_schema.json'))
+    const validate = ajv.compile(require('core/models/order.schema.json'))
 
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
@@ -145,7 +195,7 @@ Validation errors format:
 `Orders` repository stores all orders transmitted and *to be transmitted* (aka. order queue) used by service worker.
 ![Orders data format as seen on Developers Tools](media/orders-localstorage.png)
 
-Here you have a validation schema for order: https://github.com/DivanteLtd/vue-storefront/blob/master/src/models/order_schema.json
+Here you have a validation schema for order: https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json
 
 ```json
 {

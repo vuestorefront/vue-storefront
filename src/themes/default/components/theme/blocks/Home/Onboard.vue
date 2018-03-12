@@ -1,10 +1,10 @@
 <template>
   <modal name="modal-onboard" class="modal-onboard">
     <div class="content relative flex middle-xs">
-      <i slot="close" class="modal-close material-icons p15 c-gray" @click="close">close</i>
+      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
       <img src="/assets/logo.svg" alt="Vuestore" class="logo">
 
-      <div class="copy align-center c-gray-secondary weight-200">
+      <div class="copy align-center cl-secondary weight-200">
         <p class="h1">Welcome to Vue Storefront!</p>
         <div class="h4">
           <p>
@@ -19,13 +19,13 @@
           <p>
             <strong>
               If you want to use the solution or join our passionate PWA community - feel free to contact us via
-              <a href="mailto:contributors@vuestorefront.io" class="c-ocean-green"> e-mail</a>
+              <a href="mailto:contributors@vuestorefront.io" class="cl-success"> e-mail</a>
               or
-              <a href="https://vuestorefront.slack.com/" class="c-ocean-green"> Slack</a>.
+              <a href="https://vuestorefront.slack.com/" class="cl-success"> Slack</a>.
             </strong>
           </p>
           <p>
-            <button type="button" class="show-demo mt35 ripple brdr-none bg-ocean-green pointer c-white h4" @click="close">
+            <button type="button" class="show-demo mt35 ripple brdr-none bg-cl-th-success pointer cl-white h4" @click="close">
               Show me the demo
             </button>
           </p>
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     close () {
-      this.$bus.$emit('modal.hide', 'modal-onboard')
+      this.$bus.$emit('modal-hide', 'modal-onboard')
     }
   }
 }

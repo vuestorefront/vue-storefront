@@ -2,7 +2,7 @@
   <transition name="fade" appear>
     <li class="row py10">
       <div>
-        <div class="ml10 bg-lightgray">
+        <div class="ml10 bg-cl-secondary">
           <img class="image" v-lazy="thumbnail" alt="" >
         </div>
       </div>
@@ -11,17 +11,17 @@
           <div class="serif h4 name">
             {{ product.name | htmlDecode }}
           </div>
-          <div class="h6 c-gray pt5 sku">
+          <div class="h6 cl-bg-tertiary pt5 sku">
             {{ product.sku }}
           </div>
-          <div class="h6 pt5 c-red" v-if="product.warning_message">
+          <div class="h6 pt5 cl-error" v-if="product.warning_message">
             {{ product.warning_message }}
           </div>
-          <div class="h6 pt5 c-ocean-green" v-if="product.info_message">
+          <div class="h6 pt5 cl-success" v-if="product.info_message && !product.warning_message">
             {{ product.info_message }}
           </div>
         </div>
-        <div class="h5 pt5 c-darkgray lh25 qty">
+        <div class="h5 pt5 cl-accent lh25 qty">
           <span>
             {{ $t('Qty') }}
           </span>
@@ -40,15 +40,26 @@
         </div>
       </div>
       <div class="flex py15 mr10 align-right start-xs between-sm actions">
-        <div>
-          <span class="h4 serif c-red price-special" v-if="product.special_price">
-            {{ product.priceInclTax | price }}&nbsp;
+        <div v-if="!product.totals">
+          <span class="h4 serif cl-error price-special" v-if="product.special_price">
+            {{ product.priceInclTax * product.qty | price }}&nbsp;
           </span>
           <span class="h6 serif price-original" v-if="product.special_price">
-            {{ product.originalPriceInclTax | price }}
+            {{ product.originalPriceInclTax * product.qty | price }}
           </span>
           <span class="h4 serif price-regular" v-if="!product.special_price">
-            {{ product.priceInclTax | price }}
+            {{ product.priceInclTax * product.qty | price }}
+          </span>
+        </div>
+        <div v-if="product.totals">
+          <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
+            {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
+          </span>
+          <span class="h6 serif price-original" v-if="product.totals.discount_amount">
+            {{ product.totals.row_total_incl_tax | price }}
+          </span>
+          <span class="h4 serif price-regular" v-if="!product.totals.discount_amount">
+            {{ product.totals.row_total_incl_tax | price }}
           </span>
         </div>
         <div class="links">
@@ -65,7 +76,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
@@ -104,7 +115,7 @@ export default {
     EditButton,
     RemoveButton
   },
-  mixins: [coreComponent('core/blocks/Microcart/Product')]
+  mixins: [coreComponent('blocks/Microcart/Product')]
 }
 </script>
 

@@ -32,9 +32,17 @@ This components represents a button that is used for visualizing different optio
 `code` - a name of an option that the component is being used to represent (currently 'color').  
 `context` - a name of an entity that the component belongs to (currently one of 'category' or 'product').
 ### Data
-No data
+`active` - boolean prop that defines if button is pressed and is active.  
 ### Methods
-No methods
+`switchFilter (id, label)` - triggers *'filter-changed-<context>'* event, where context is a value of *context* prop.  
+**Parameters**  
+*id* - same as *id* prop.  
+*label* - same as *label* prop.
+### Hooks
+#### beforeMount
+If current route's name is not 'product' defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of ColorButton component was passed to it as a parameter.
+#### beforeDestroy
+Removes event listeners defined in *beforeMount* hook.
 
 ## Loader
 This component is used for visualizing loading process, when something is happening in the background. It is currently used when account is being registered, password is being reset and user is logging in. 
@@ -143,9 +151,17 @@ Represents one of the options on Category page. Shows price range and allows ues
 `to` - maximum value of the price range  
 `context` - a name of an entity that the component belongs to (currently 'category')
 ### Data
-No data
+`active` - boolean prop that defines if button is pressed and is active.  
 ### Methods
-No methods
+`switchFilter (id, label)` - triggers *'filter-changed-<context>'* event, where context is a value of *context* prop.  
+**Parameters**  
+*id* - same as *id* prop.  
+*label* - same as *label* prop.
+### Hooks
+#### beforeMount
+Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of PriceButton component was passed to it as a parameter.
+#### beforeDestroy
+Removes event listeners defined in *beforeMount* hook.
 
 ## ProductAttribute
 Shows attributes that a specific product has. Used on Product Page.
@@ -210,9 +226,17 @@ Represents one of the options of a product, namely product's size. Used on Categ
 `code` - a code name of an option, which is 'size'  
 `context` - a name of an entity that the component belongs to (currently one of 'category' or 'product')
 ### Data
-No data
+`active` - boolean prop that defines if button is pressed and is active.  
 ### Methods
-No methods
+`switchFilter (id, label)` - triggers *'filter-changed-<context>'* event, where context is a value of *context* prop.  
+**Parameters**  
+*id* - same as *id* prop.  
+*label* - same as *label* prop.
+### Hooks
+#### beforeMount
+Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of SizeButton component was passed to it as a parameter.
+#### beforeDestroy
+Removes event listeners defined in *beforeMount* hook.
 
 ## Tooltip
 Shows an informational icon and hint when focused on that icon. Used on My Account and Checkout pages.
@@ -236,34 +260,7 @@ No methods
 
 ## Category
 
-### Props
-No props
-### Data
-`pagination` - an object that defines two settings:  
-    1. *number* of product items to load per page, currently set to 50;  
-    2. *offset* that probably defines which page has been last loaded, currently set to 0 and doesn't change anywhere.
-`filterSet` - a set of filters that user has defined on Category page.  
-`products` - computed property that return a list of product items of current category from the Vuex store.  
-`isCategoryEmpty` - computed property that return true if product list of current category is empty.  
-`category` - computed property that return current category from the Vuex store.  
-`aggregations` - computed property *that is not used*.  
-`filters` - a set of all available filters for current category from the Vuex store.  
-`breadcrumbs` - breadcrumbs for current category from the Vuex store.
-### Methods
-`fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.  
-**Parameters**  
-*{ store, route }* - an object consisting of the Vuex store and global router references.  
-
-`validateRoute ({ store, route })` - this method is called whenever the global *$route* object changes its value. It dispatches *'category/single'* action to load current category object and then calls *fetchData* method to load a list of products that relate to this category.  
-**Parameters**  
-*{ store, route }* - an object consisting of the Vuex store and global router references.
-### Hooks
-#### asyncData
-Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for Category page is a list of all categories, category attributes and list of products for each category.
-#### beforeMount
-**'filter-changed-category'** event listener is initialized. *Although this event is not triggered anywhere.*
-#### beforeDestroy
-**'filter-changed-category'** event listener is removed.
+Category page has been refactored (1.0RC) to the new core proposal and the [docs has been moved here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/CategoryPage.md).
 
 ## Checkout
 
@@ -322,8 +319,8 @@ Removes all event listeners that were previously defined in *created* hook.
 ### Props
 `title` - title of the Compare page
 ### Data
-`attributesByCode` - a computed property that returns the list of all product attributes by their code.  
-`attributesByUd` - a computed property that return the list of all product attributes by their Id. *This prop is not used anywhere.*  
+`attributesByCode` - a computed property that returns the list of all product attributes by their code. Gets its value from *'attribute/attributeListByCode'* Vuex store getter.  
+`attributesById` - a computed property that return the list of all product attributes by their Id. Gets its value from *'attribute/attributeListById'* Vuex store getter. *This prop is not used anywhere.*  
 `items` - returns the list of products that were chosen for comparison from Vuex store.  
 `all_comparable_attributes` - returns the subset of attributes from *attributesByCode* prop that have *is_comparable* property set to true.
 ### Methods
@@ -335,16 +332,8 @@ Removes all event listeners that were previously defined in *created* hook.
 Dispatches *'compare/load'* action that loads list of products to compare from localStorage into Vuex store. Also dispatches *'attribute/list'* action that loads all product attributes that have *is_user_defined* property set to true into Vuex store.
 
 ## Home
-*In core page there's almost no functionality, everything is in theme component, which definetely needs be replaced to core.*
-### Props
-No props
-### Data
-No data
-### Methods
-No methods
-### Hooks
-#### beforeMount
-Clears Vuex store entries that define current category by dispatching *'category/reset'* action. If app is launching in demo mode, onboarding info modal pops up.
+
+Home page has been refactored to the new core proposal (1.0RC) and the [docs has been moved](core/HomePage.md).
 
 ## MyAccount
 
@@ -383,3 +372,7 @@ No methods
 ### Hooks
 #### asyncData
 Since the app is using SSR, this method prefetches and resolves the asyncronous data before rendering happens and saves it to Vuex store. Asyncronous data for PageNotFound page is a list of 8 random products that are called Bestsellers.
+
+## Product
+
+Product page has been refactored to the new core proposal (1.0RC) and the [docs has been moved](core/ProductPage.md).

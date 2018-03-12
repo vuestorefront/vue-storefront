@@ -1,14 +1,14 @@
 <template>
-  <button class="brdr-none bg-transparent">
+  <button class="brdr-none bg-cl-transparent">
     {{ $t('Remove') }}
     <i class="material-icons h6">remove_shopping_cart</i>
   </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Wishlist/RemoveButton')]
+  mixins: [coreComponent('blocks/Wishlist/RemoveButton')]
 }
 </script>

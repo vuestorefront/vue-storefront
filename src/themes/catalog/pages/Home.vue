@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import Meta from 'src/lib/meta'
 import builder from 'bodybuilder'
 import Search from 'theme/components/theme/Search'
 import CategoryTile from 'theme/components/core/CategoryTile'
@@ -64,10 +63,14 @@ import ProductTile from 'theme/components/core/ProductTile'
 import MagazineTile from 'theme/components/theme/MagazineTile'
 import Nossr from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
+import i18n from 'core/lib/i18n'
 
 export default {
-  meta: {
-    title: 'Home Page'
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('Home Page'),
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
   },
   data () {
     return {
@@ -121,8 +124,7 @@ export default {
     Carousel,
     Slide,
     Nossr
-  },
-  mixins: [Meta]
+  }
 }
 </script>
 

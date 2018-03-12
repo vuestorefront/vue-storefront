@@ -10,23 +10,24 @@
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
           </p>
           <input
-            class="border-box w-100 brdr-none brdr-bottom brdr-c-lightgray-secondary py10 h4 weight-200"
+            class="border-box w-100 brdr-none brdr-bottom brdr-cl-primary py10 h4 weight-200"
             autofocus
             type="email"
             name="email"
             v-model="email"
             autocomplete="email"
-            placeholder="E-mail address *"
+            :placeholder="$t('E-mail address *')"
           >
-          <p class="m0 c-red h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
-          <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+          <p class="m0 cl-error h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
+          <p class="m0 cl-error h6" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</p>
         </div>
         <div class="mb35 center-xs">
           <button-full
-            class="block p0 ripple"
-            :text="$t('Subscribe')"
-            @click.native="$v.email.$touch(); subscribe()"
-          />
+            type="submit"
+            @click.native="$v.email.$touch"
+          >
+            {{ $t('Subscribe') }}
+          </button-full>
         </div>
       </form>
     </div>
@@ -36,7 +37,7 @@
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -70,7 +71,7 @@ export default {
         action1: { label: 'OK', action: 'close' }
       })
 
-      this.$bus.$emit('modal.hide', 'modal-newsletter')
+      this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },
   components: {
@@ -80,18 +81,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $black: map-get($colors, black);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
 
   input::-webkit-input-placeholder,
   input::-moz-placeholder {
-    color: $lightgray-secondary;
+    color: color(tertiary);
   }
 
   input:focus {
     outline: none;
-    border-color: $black;
+    border-color: color(black);
     transition: 0.3s all;
   }
 </style>

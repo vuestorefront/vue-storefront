@@ -1,18 +1,19 @@
 <template>
-  <div class="newsletter py25 px40 bg-lightgray">
+  <div class="newsletter py25 px40 bg-cl-secondary">
     <div class="container">
       <div class="newsletter-content m0 row middle-xs start-md">
         <div class="col-md-9 col-xs-12">
-          <h3 class="h3 c-darkgray weight-400 m0">
+          <h3 class="h3 cl-accent weight-400 m0">
             {{ $t('Subscribe to the newsletter and receive a coupon for 10% off') }}
           </h3>
         </div>
         <div class="newsletter-button col-md-3 col-xs-12 end-md">
           <button-outline
-            :text="$t('Subscribe')"
-            @click.native="$bus.$emit('modal.show', 'modal-newsletter')"
+            @click.native="$bus.$emit('modal-show', 'modal-newsletter')"
             color="dark"
-          />
+          >
+            {{ $t('Subscribe') }}
+          </button-outline>
         </div>
       </div>
     </div>
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
 
@@ -28,7 +29,7 @@ export default {
   components: {
     ButtonOutline
   },
-  mixins: [coreComponent('core/blocks/Footer/Newsletter')]
+  mixins: [coreComponent('blocks/Footer/Newsletter')]
 }
 </script>
 

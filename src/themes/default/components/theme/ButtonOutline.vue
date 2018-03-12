@@ -1,26 +1,17 @@
 <template>
-  <div
-    class="button-outline inline-flex uppercase brdr-2 pointer weight-400 h4"
-    tabindex="0"
+  <component
+    :is="link ? 'router-link' : 'button'"
+    :to="link"
+    class="button-outline no-outline px40 py15 bg-cl-transparent uppercase h4 no-underline"
     :class="{
-      light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'c-gray-secondary' : color === 'dark'
+      light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
+      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'cl-secondary' : color === 'dark',
     }"
   >
-    <router-link
-      v-if="link"
-      :to="link"
-      class="px40 py15 no-underline"
-    >
-      {{ text }}
-    </router-link>
-    <span
-      v-else
-      class="px40 py15"
-    >
-      {{ text }}
-    </span>
-  </div>
+    <slot>
+      Button
+    </slot>
+  </component>
 </template>
 
 <script>
@@ -29,10 +20,6 @@ export default {
   name: 'ButtonOutline',
   directives: { focusClean },
   props: {
-    text: {
-      type: String,
-      required: true
-    },
     color: {
       type: String,
       required: true
@@ -47,26 +34,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $gray-secondary: map-get($colors, gray-secondary);
-  $white: map-get($colors, white);
-  $black: map-get($colors, black);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $dark-border: color(secondary);
+  $white: color(white);
+  $black: color(black);
 
   .button-outline {
     border: 2px solid;
   }
   .dark {
     font-weight: 200;
-    border: 1px solid $gray-secondary;
+    border: 1px solid $dark-border;
+    &:hover,
+    &:focus {
+      color: $white;
+      background: $black;
+      border-color: $black;
+    }
   }
-  .light:hover {
-    color: $black;
-    background: $white;
-    border-color: $white;
-  }
-  .dark:hover {
-    color: $white;
-    background: $black;
-    border-color: $black;
+  .light {
+    &:hover,
+    &:focus {
+      color: $black;
+      background: $white;
+      border-color: $white;
+    }
   }
 </style>

@@ -19,12 +19,15 @@ import Notification from 'theme/components/core/Notification'
 import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist'
 import Overlay from 'theme/components/core/Overlay'
 
+import Head from 'theme/resource/head'
+
 export default {
   computed: {
     ...mapState({
       overlayActive: state => state.ui.overlay
     })
   },
+  metaInfo: Head,
   components: {
     MainHeader,
     MainFooter,

@@ -1,14 +1,14 @@
 <template>
-  <div class="wishlist fixed mw-100 bg-white c-darkgray" :class="{ active: isOpen }">
+  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 pointer c-darkgray" @click="closeWishlist">close</i>
+        <i class="material-icons p15 pointer cl-accent" @click="closeWishlist">close</i>
       </div>
     </div>
-    <h2 v-if="items.length" class="c-darkgray ml30">
+    <h2 v-if="items.length" class="cl-accent ml30">
       {{ $t('Wishlist') }}
     </h2>
-    <h4 v-if="!items.length" class="c-darkgray ml30">
+    <h4 v-if="!items.length" class="cl-accent ml30">
       {{ $t('Your wishlist is empty.') }}
     </h4>
     <div v-if="!items.length" class="ml30">
@@ -25,14 +25,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import Product from './Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Wishlist')]
+  mixins: [coreComponent('blocks/Wishlist/Wishlist')]
 }
 </script>
 

@@ -1,34 +1,33 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">
-        {{ $t('Log in') }}
-      </h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
+      {{ $t('Log in') }}
+    </header>
+    <div class="modal-content pt30 pb60 px65  cl-secondary">
       <form @submit.prevent="login" novalidate>
         <div class="mb35">
           <input
-            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
             type="email"
             name="email"
             ref="email"
             v-model="email"
-            placeholder="E-mail address *"
+            :placeholder="$t('E-mail address *')"
           >
-          <span class="validation-error block h6 c-red" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error block h6 c-red" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</span>
         </div>
         <div class="mb35 relative">
           <input
-            class="py10 w-100 border-box brdr-none brdr-bottom brdr-c-lightgray-secondary h4 weight-200 sans-serif"
+            class="py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
             :type="passType"
             name="password"
             v-model="password"
-            placeholder="Password *"
+            :placeholder="$t('Password *')"
           >
-          <i class="icon material-icons c-alto absolute pointer" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error block h6 c-red" v-if="!$v.password.required">Field is required.</span>
+          <i class="icon material-icons cl-brdr-secondary absolute pointer" @click="togglePassType">{{ iconName }}</i>
+          <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
         </div>
         <div class="row">
           <div class="col-xs-6 mb35">
@@ -44,13 +43,10 @@
           </div>
         </div>
         <div class="mb20">
-          <button-full
-            class="w-100 border-box p0 center-xs"
-            :text="$t('Log in to your account')"
-            @click.native="login"
-          />
+          <button-full type="submit">
+            {{ $t('Log in to your account') }}
+          </button-full>
         </div>
-        <input class="hidden" type="submit">
         <div class="center-xs">
           <span>
             or
@@ -65,11 +61,11 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -89,10 +85,13 @@ export default {
       required
     }
   },
-  mixins: [coreComponent('core/blocks/Auth/Login')],
+  mixins: [coreComponent('blocks/Auth/Login')],
   methods: {
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'register')
+    },
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
     },
     togglePassType (name) {
       if (this.passType === 'password') {
@@ -116,6 +115,7 @@ export default {
     },
     login () {
       if (this.$v.$invalid) {
+        this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
@@ -141,7 +141,7 @@ export default {
             message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
-          this.$store.commit('ui/setSignUp', false)
+          this.close()
         }
       }).catch(err => {
         console.error(err)
@@ -159,22 +159,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $gray: map-get($colors, gray);
-  $black: map-get($colors, black);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-placeholder: color(tertiary);
+  $color-icon: color(tertiary, $colors-background);
+  $color-focus: color(black);
 
   input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
+    color: $color-placeholder;
   }
 
   input:-moz-placeholder {
-    color: $lightgray-secondary;
+    color: $color-placeholder;
   }
 
   input:focus {
     outline: none;
-    border-color: $black;
+    border-color: $color-focus;
     transition: 0.3s all;
   }
 
@@ -183,7 +184,7 @@ export default {
     top: 10px;
 
     &:hover {
-      color: $gray;
+      color: $color-icon;
     }
   }
 </style>

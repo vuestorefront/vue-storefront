@@ -1,27 +1,27 @@
 <template>
   <div
-    class="microcart mw-100 fixed c-darkgray"
-    :class="[items.length ? 'bg-lightgray' : 'bg-white', { active: isOpen }]"
+    class="microcart mw-100 fixed cl-accent"
+    :class="[items.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: isOpen }]"
   >
-    <div class="row middle-xs bg-white top-sm">
+    <div class="row middle-xs bg-cl-primary top-sm">
       <div class="col-xs-10">
         <h2
           v-if="items.length"
-          class="c-darkgray mt60 mb35 ml40 heading"
+          class="cl-accent mt60 mb35 ml40 heading"
         >
           {{ $t('Shopping cart') }}
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 brdr-none bg-transparent close" @click="closeMicrocart">
-          <i class="material-icons p15 c-darkgray">
+        <button type="button" class="p0 brdr-none bg-cl-transparent close" @click="closeMicrocart">
+          <i class="material-icons p15 cl-accent">
             close
           </i>
         </button>
       </div>
     </div>
 
-    <h4 v-if="!items.length" class="c-darkgray ml30">
+    <h4 v-if="!items.length" class="cl-accent ml30">
       {{ $t('Your shopping cart is empty.') }}
     </h4>
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
@@ -31,43 +31,28 @@
       </router-link>
       {{ $t('to find something beautiful for You!') }}
     </div>
-    <ul v-if="items.length" class="bg-white m0 px40 pb40 products">
+    <ul v-if="items.length" class="bg-cl-primary m0 px40 pb40 products">
       <product v-for="product in items" :key="product.sku" :product="product" />
     </ul>
-    <div v-if="items.length" class="summary px40 c-darkgray serif">
+    <div v-if="items.length" class="summary px40 cl-accent serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         {{ $t('Shopping summary') }}
       </h3>
-      <div class="row py20">
+      <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
         <div class="col-xs">
-          {{ $t('Subtotal inc. tax') }}
+          {{ segment.title }}
         </div>
-        <div class="col-xs align-right">
-          {{ subtotalInclTax | price }}
+        <div v-if="segment.value != null" class="col-xs align-right">
+          {{ segment.value | price }}
         </div>
       </div>
-      <div class="row py20">
-        <div class="col-xs">
-          {{ $t('Shipping') }} ({{ shipping.name }})
-        </div>
-        <div class="col-xs align-right">
-          {{ shipping.costInclTax | price }}
-        </div>
-      </div>
-      <div class="row py20">
-        <div class="col-xs">
-          {{ $t('Payment') }} ({{ payment.name }})
-        </div>
-        <div class="col-xs align-right" v-if="payment.cost > 0">
-          {{ payment.costInclTax | price }}
-        </div>
-      </div>
-      <div class="row pt30 pb20 weight-700 middle-xs">
+
+      <div class="row pt30 pb20 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
         <div class="col-xs h4 total-price-label">
-          {{ $t('Total inc. tax') }}
+          {{ segment.title }}
         </div>
         <div class="col-xs align-right h2 total-price-value">
-          {{ totalInclTax | price }}
+          {{ segment.value | price }}
         </div>
       </div>
     </div>
@@ -76,38 +61,35 @@
       v-if="items.length && !isCheckoutMode"
     >
       <div class="col-xs-12 col-sm first-sm">
-        <router-link to="/" class="no-underline c-gray-secondary link">
+        <router-link to="/" class="no-underline cl-secondary link">
           <span @click="closeMicrocart">
             {{ $t('Return to shopping') }}
           </span>
         </router-link>
       </div>
-      <div class="col-xs-12 first-xs col-sm end-sm">
-        <router-link
-          class="no-underline inline-flex h4 checkout-button bg-darkgray link checkout"
-          :to="{ name: 'checkout' }"
+      <div class="col-xs-12 first-xs col-sm-4 end-sm">
+        <button-full
+          :link="{ name: 'checkout' }"
+          @click.native="closeMicrocart"
         >
-          <span
-            class="c-white py20 px70"
-            @click="closeMicrocart"
-          >
-            {{ $t('Go to checkout') }}
-          </span>
-        </router-link>
+          {{ $t('Go to checkout') }}
+        </button-full>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import Product from './Product'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   components: {
-    Product
+    Product,
+    ButtonFull
   },
-  mixins: [coreComponent('core/blocks/Microcart/Microcart')]
+  mixins: [coreComponent('blocks/Microcart/Microcart')]
 }
 </script>
 

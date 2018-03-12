@@ -1,5 +1,5 @@
 <template>
-  <button class="middle-xs brdr-none bg-transparent p0 inline-flex c-gray-secondary">
+  <button class="middle-xs brdr-none bg-cl-transparent p0 inline-flex cl-secondary">
     <span class="hidden-xs h6 weight-300">
       {{ $t('Edit') }}
     </span>
@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Microcart/EditButton')]
+  mixins: [coreComponent('blocks/Microcart/EditButton')]
 }
 </script>

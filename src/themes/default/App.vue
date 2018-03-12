@@ -11,7 +11,7 @@
       <router-view/>
       <main-footer/>
       <notification/>
-      <sign-up v-if="signUpOpen"/>
+      <sign-up/>
       <newsletter-popup/>
       <cookie-notification/>
       <offline-badge/>
@@ -39,16 +39,18 @@ import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
 import OfflineBadge from './components/core/OfflineBadge.vue'
 
+import Head from 'theme/resource/head'
+
 export default {
   computed: {
     ...mapState({
-      signUpOpen: state => state.ui.signUp,
       overlayActive: state => state.ui.overlay
     })
   },
   mounted () {
     this.$store.dispatch('user/startSession')
   },
+  metaInfo: Head,
   components: {
     MainHeader,
     MainFooter,

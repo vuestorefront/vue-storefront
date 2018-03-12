@@ -1,17 +1,21 @@
 <template>
-  <section class="offers container my30">
+  <section v-if="!singleBanner" class="offers container my30">
     <div class="row m0">
-      <div class="offer-container col-xs-12 col-sm-6 px15">
-        <router-link :to="banners.mainBanner.link">
+      <div
+        class="offer-container col-xs-12 col-sm-6 px15"
+        v-for="(banner, index) in banners.mainBanners"
+        :key="index"
+      >
+        <router-link :to="banner.link">
           <div
-            class="offer border-box p5 flex center-xs middle-xs c-white bg-darkgray"
-            v-lazy:background-image="banners.mainBanner.image"
+            class="offer border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
+            v-lazy:background-image="banner.image"
           >
             <p class="subtitle m0 serif h3 uppercase">
-              {{ banners.mainBanner.subtitle }}
+              {{ banner.subtitle }}
             </p>
             <h2 class="title m0 h1">
-              {{ banners.mainBanner.title }}
+              {{ banner.title }}
             </h2>
           </div>
         </router-link>
@@ -25,7 +29,7 @@
         >
           <router-link :to="banner.link">
             <div
-              class="offer offer-small border-box p5 flex center-xs middle-xs c-white bg-darkgray"
+              class="offer offer-small border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
               v-lazy:background-image="banner.image"
             >
               <p class="subtitle m0 serif h3 uppercase">{{ banner.subtitle }}</p>
@@ -36,15 +40,53 @@
       </div>
     </div>
   </section>
+  <section v-else class="container my30">
+    <div
+      class="col-xs-12 px15"
+      v-for="(banner, index) in banners.productBanners"
+      :key="index"
+    >
+      <router-link :to="banner.link">
+        <div
+          class="offer offer-product border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
+          v-lazy:background-image="banner.image"
+        >
+          <p class="subtitle m0 serif h3 uppercase">
+            {{ banner.subtitle }}
+          </p>
+          <h2 class="title m0 h1">
+            {{ banner.title }}
+          </h2>
+        </div>
+      </router-link>
+    </div>
+  </section>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import promotedOffers from 'theme/resource/promoted_offers.json'
+
 export default {
   name: 'PromotedOffers',
+  created () {
+    this.updatePromotedOffers(promotedOffers)
+  },
+  props: {
+    singleBanner: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   computed: {
     ...mapGetters({
       banners: 'promoted/getPromotedOffers'
+    })
+  },
+  methods: {
+    ...mapActions({
+      updatePromotedOffers: 'promoted/updatePromotedOffers'
     })
   }
 }
@@ -87,6 +129,14 @@ export default {
 
     @media (max-width: 767px) {
       height: 200px;
+    }
+  }
+  .offer-product {
+    height: 330px;
+    background-position: 50% 20%;
+
+    @media (max-width: 767px) {
+      height: 330px;
     }
   }
   .title {

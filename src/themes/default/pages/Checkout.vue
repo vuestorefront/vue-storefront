@@ -12,8 +12,9 @@
           <shipping class="line relative" :is-active="activeSection.shipping"/>
           <payment class="line relative" :is-active="activeSection.payment"/>
           <order-review class="line relative" :is-active="activeSection.orderReview"/>
+          <div id="custom-steps"/>
         </div>
-        <div class="hidden-xs col-sm-5 bg-lightgray">
+        <div class="hidden-xs col-sm-5 bg-cl-secondary">
           <cart-summary />
         </div>
       </div>
@@ -27,7 +28,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails.vue'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
@@ -35,14 +36,8 @@ import Payment from 'theme/components/core/blocks/Checkout/Payment.vue'
 import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage.vue'
-import Meta from 'src/lib/meta'
 
 export default {
-  meta () {
-    return {
-      title: 'Checkout'
-    }
-  },
   components: {
     PersonalDetails,
     Shipping,
@@ -51,27 +46,27 @@ export default {
     CartSummary,
     ThankYouPage
   },
-  mixins: [corePage('Checkout'), Meta]
+  mixins: [corePage('Checkout')]
 }
 </script>
 
 <style lang="scss">
 @import '~theme/css/base/text';
-@import '~theme/css/base/global_vars';
-$lightgray: map-get($colors, lightgray);
-$lightgray-secondary: map-get($colors, lightgray-secondary);
-$gray-secondary: map-get($colors, gray-secondary);
-$red: map-get($colors, red);
-$white: map-get($colors, white);
-$gray: map-get($colors, gray);
-$black: map-get($colors, black);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$bg-secondary: color(secondary, $colors-background);
+$color-tertiary: color(tertiary);
+$color-secondary: color(secondary);
+$color-error: color(error);
+$color-white: color(white);
+$color-black: color(black);
 
 #checkout {
   input[type=text], input[type=email], input[type=tel], select {
     @extend .h4;
     padding: 10px 0;
     border: none;
-    border-bottom: 1px solid $lightgray-secondary;
+    border-bottom: 1px solid $color-tertiary;
     width: calc(100% - 35px);
 
     @media (max-width: 767px) {
@@ -79,14 +74,14 @@ $black: map-get($colors, black);
     }
   }
   input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
+    color: $color-tertiary;
   }
-  input:-moz-placeholder {
-    color: $lightgray-secondary;
+input:-moz-placeholder {
+    color: $color-tertiary;
   }
   input:focus, select:focus {
     outline: none;
-    border-color: $black;
+    border-color: $color-black;
     transition: 0.3s all;
   }
   select {
@@ -103,7 +98,7 @@ $black: map-get($colors, black);
     pointer-events: none;
   }
   .validation-error{
-    color: $red;
+    color: $color-error;
     display: block;
   }
   .number-circle {
@@ -132,7 +127,7 @@ $black: map-get($colors, black);
       z-index: -1;
       width: 1px;
       height: 100%;
-      background-color: $lightgray;
+      background-color: $bg-secondary;
 
       @media (max-width: 768px) {
         display: none;
@@ -142,7 +137,7 @@ $black: map-get($colors, black);
 
   .checkout-title {
     @media (max-width: 767px) {
-      background-color: $lightgray;
+      background-color: $bg-secondary;
       margin-bottom: 25px;
 
       h1 {
@@ -163,8 +158,8 @@ $black: map-get($colors, black);
       height: 23px;
       top: 0;
       left: 0;
-      background: $white;
-      border: 1px solid $gray-secondary;
+      background: $color-white;
+      border: 1px solid $color-secondary;
 
       &:after {
         content: '';
@@ -174,7 +169,7 @@ $black: map-get($colors, black);
         background: transparent;
         top: 6px;
         left: 5px;
-        border: 3px solid $white;
+        border: 3px solid $color-white;
         border-top: none;
         border-right: none;
         transform: rotate(-45deg);
@@ -182,7 +177,7 @@ $black: map-get($colors, black);
     }
 
     input[type=checkbox]:checked + label {
-      background: $gray-secondary;
+      background: $color-secondary;
     }
   }
 
@@ -239,7 +234,7 @@ $black: map-get($colors, black);
       height: 25px;
       width: 25px;
       border-radius: 50%;
-      border: 1px solid $lightgray;
+      border: 1px solid $bg-secondary;
 
       &:after {
         content: "";
@@ -250,7 +245,7 @@ $black: map-get($colors, black);
         width: 19px;
         height: 19px;
         border-radius: 50%;
-        background: $gray-secondary;
+        background: $color-secondary;
       }
     }
 

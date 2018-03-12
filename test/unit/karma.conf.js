@@ -1,4 +1,4 @@
-const baseConfig = require('../../build/webpack.base.config')
+const baseConfig = require('../../core/build/webpack.base.config')
 const webpack = require('webpack')
 const webpackConfig = Object.assign({}, baseConfig, {
   devtool: '#inline-source-map',

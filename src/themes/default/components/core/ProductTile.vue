@@ -13,7 +13,7 @@
         }"
       >
         <div
-          class="product-image relative bg-lightgray"
+          class="product-image relative bg-cl-secondary"
           :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
         >
           <transition name="fade" appear>
@@ -34,20 +34,20 @@
             >
           </transition>
         </div>
-        <p class="mb0 c-darkgray">{{ product.name | htmlDecode }}</p>
+        <p class="mb0 cl-accent">{{ product.name | htmlDecode }}</p>
         <span
-          class="price-original mr5 lh30 c-gray-secondary"
+          class="price-original mr5 lh30 cl-secondary"
           v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
         >
           {{ product.originalPriceInclTax | price }}
         </span>
         <span
-          class="price-special lh30 c-darkgray weight-700"
+          class="price-special lh30 cl-accent weight-700"
           v-if="product.special_price && parseFloat(product.special_price) > 0"
         >
           {{ product.priceInclTax | price }}
         </span>
-        <span class="lh30 c-gray-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
+        <span class="lh30 cl-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
           {{ product.priceInclTax | price }}
         </span>
       </router-link>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
 
 export default {
@@ -72,7 +72,7 @@ export default {
       default: true
     }
   },
-  mixins: [coreComponent('core/ProductTile')],
+  mixins: [coreComponent('ProductTile')],
   directives: { imgPlaceholder },
   created () {
     this.$bus.$on('product-after-priceupdate', (product) => {
@@ -124,10 +124,12 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/animations/transitions';
-@import '~theme/css/base/global_vars';
-$lightgray: map-get($colors, lightgray);
-$alto: map-get($colors, alto);
-$white: map-get($colors, white);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+
+$bg-secondary: color(secondary, $colors-background);
+$border-secondary: color(secondary, $colors-border);
+$color-white: color(white);
 
 .product {
   @media (max-width: 700px) {
@@ -148,10 +150,10 @@ $white: map-get($colors, white);
   align-items: center;
   width: 40px;
   height: 40px;
-  background-color: $alto;
+  background-color: $border-secondary;
   transition: 0.3s all $motion-main;
   text-transform: uppercase;
-  color: $white;
+  color: $color-white;
   font-size: 12px;
   font-weight: 400;
 }
@@ -163,7 +165,7 @@ $white: map-get($colors, white);
   transition: 0.3s all $motion-main;
 
   &:hover {
-    background-color: rgba($lightgray, .3);
+    background-color: rgba($bg-secondary, .3);
 
     > img {
       transform: scale(1.1);

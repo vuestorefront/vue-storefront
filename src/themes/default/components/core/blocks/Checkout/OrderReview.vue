@@ -3,15 +3,15 @@
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
         <div
-          class="number-circle lh35 c-white brdr-circle align-center weight-700"
-          :class="{ 'bg-darkgray' : isActive || isFilled, 'bg-gray' : !isFilled && !isActive }"
+          class="number-circle lh35 cl-white brdr-circle align-center weight-700"
+          :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           4
         </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-md-12" :class="{ 'c-gray' : !isFilled && !isActive }">
+          <div class="col-md-12" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0">
               {{ $t('Review order') }}
             </h3>
@@ -31,20 +31,25 @@
               <div class="cartsummary-wrapper">
                 <cart-summary />
               </div>
-              <div class="col-xs-11 col-sm-12 col-md-8 bg-lightgray p15 mb35 ml10">
+              <div class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10">
                 <div class="checkboxStyled relative">
-                  <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox">
-                  <label class="absolute brdr-gray bg-lightgray pointer" for="acceptTermsCheckbox"/>
+                  <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox" @blur="$v.orderReview.terms.$touch()">
+                  <label class="absolute brdr-gray bg-cl-secondary pointer" for="acceptTermsCheckbox"/>
                 </div>
                 <div class="checkboxText ml15 lh25 pointer">
-                  <span class="fs16 c-darkgray" @click="orderReview.terms = !orderReview.terms">
+                  <span class="fs16 cl-accent" @click="orderReview.terms = !orderReview.terms">
                     {{ $t('I agree to') }}
-                    <span class="link pointer" @click.stop="$bus.$emit('modal.toggle', 'modal-terms')">
+                    <span class="link pointer" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">
                       {{ $t('Terms and conditions') }}
                     </span>
                   </span>
                 </div>
-                <span class="validation-error" v-if="!$v.orderReview.terms.required">Field is required</span>
+                <span
+                  class="validation-error"
+                  v-if="!$v.orderReview.terms.required && $v.orderReview.terms.$error"
+                >
+                  {{ $t('Field is required') }}
+                </span>
               </div>
             </div>
           </div>
@@ -55,18 +60,19 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-xs-12 bottom-button">
+          <div class="col-xs-12 col-md-8 px20">
             <button-full
-              :text="$t('Place the order')"
               @click.native="placeOrder"
-              :class="{ 'ripple': true, 'button-disabled' : $v.orderReview.$invalid }"
-            />
+              :class="{ 'button-disabled' : $v.orderReview.$invalid }"
+            >
+              {{ $t('Place the order') }}
+            </button-full>
           </div>
         </div>
       </div>
     </div>
 
-    <modal name="modal-terms" static="terms">
+    <modal name="modal-terms" static-data="terms">
       <p slot="header">
         {{ $t('Terms and conditions') }}
       </p>
@@ -76,7 +82,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
@@ -96,7 +102,7 @@ export default {
     CartSummary,
     Modal
   },
-  mixins: [coreComponent('core/blocks/Checkout/OrderReview')]
+  mixins: [coreComponent('blocks/Checkout/OrderReview')]
 }
 </script>
 
