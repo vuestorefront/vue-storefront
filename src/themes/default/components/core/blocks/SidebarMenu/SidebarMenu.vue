@@ -18,7 +18,11 @@
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li @click="closeMenu" class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary">
-            <router-link class="block px25 py20 cl-accent no-underline" to="/" exact>
+            <router-link
+              class="block px25 py20 cl-accent no-underline"
+              to="/"
+              exact
+            >
               {{ $t('Home') }}
             </router-link>
           </li>
@@ -35,31 +39,66 @@
             >
               {{ category.name }}
             </router-link>
-            <sub-btn class="w-50 bg-cl-transparent brdr-none align-right" :id="category.id"/>
-            <sub-category :category-links="category.children_data" :id="category.id"/>
+            <sub-btn
+              class="w-50 bg-cl-transparent brdr-none align-right"
+              :id="category.id"
+            />
+            <sub-category
+              :category-links="category.children_data"
+              :id="category.id"
+            />
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline" to="/magazine" exact>
+            <router-link
+              class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline"
+              to="/magazine"
+              exact
+            >
               {{ $t('Magazine') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline" to="/sale" exact>
+            <router-link
+              class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline"
+              to="/sale"
+              exact
+            >
               {{ $t('Sale') }}
             </router-link>
           </li>
           <li @click="closeMenu">
-            <router-link class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline" to="/order-tracking" exact>
+            <router-link
+              class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline"
+              to="/order-tracking"
+              exact
+            >
               {{ $t('Track my order') }}
             </router-link>
           </li>
           <li @click="closeMenu" class="brdr-bottom brdr-cl-secondary flex">
-            <router-link v-if="currentUser" class="block px25 py20 cl-accent no-underline col-xs" to="/my-account" exact>
+            <router-link
+              v-if="currentUser"
+              class="block px25 py20 cl-accent no-underline col-xs"
+              to="/my-account"
+              exact
+            >
               {{ $t('My account') }}
             </router-link>
-            <sub-btn v-if="currentUser" class="w-50 bg-cl-transparent brdr-none align-right"/>
-            <sub-category v-if="currentUser" :my-account-links="myAccountLinks" :id="'foo'"/>
-            <a v-if="!currentUser" href="#" @click="login" class="block px25 py20 cl-accent no-underline">
+            <sub-btn
+              v-if="currentUser"
+              class="w-50 bg-cl-transparent brdr-none align-right"
+            />
+            <sub-category
+              v-if="currentUser"
+              :my-account-links="myAccountLinks"
+              :id="'foo'"
+            />
+            <a
+              v-if="!currentUser"
+              href="#"
+              @click="login"
+              class="block px25 py20 cl-accent no-underline"
+            >
               {{ $t('My account') }}
             </a>
           </li>
@@ -146,6 +185,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/animations/transitions";
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$bg-secondary: color(secondary, $colors-background);
 
 ul {
   list-style-type: none;
@@ -170,39 +212,10 @@ ul {
     transition: transform $duration-main $motion-main;
   }
 
-}
-
-</style>
-
-<style lang="scss">
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$bg-secondary: color(secondary, $colors-background);
-
-.sidebar-menu {
   li {
     &:hover,
     &:focus {
       background-color: $bg-secondary;
-    }
-  }
-
-  i {
-    opacity: 0.6;
-
-    &:hover,
-    &:focus {
-      opacity: 1;
-    }
-  }
-
-  button {
-    padding: 0;
-    &:hover,
-    &:focus {
-      i {
-        opacity: 1;
-      }
     }
   }
 }

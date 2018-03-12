@@ -5,7 +5,7 @@
     @click="openSidebarMenu"
     :aria-label="$t('Open menu')"
   >
-    <i class="material-icons md-18">dehaze</i>
+    <i class="material-icons">dehaze</i>
   </button>
 </template>
 

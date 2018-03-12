@@ -5,7 +5,7 @@
     class="bg-cl-transparent brdr-none inline-flex"
     @click="toggleSearchpanel"
   >
-    <i class="material-icons md-18">search</i>
+    <i class="material-icons">search</i>
   </button>
 </template>
 

@@ -1,19 +1,21 @@
 <template>
   <button
+    class="inline-flex end-xs p15"
     v-if="type === 'next'"
     type="button"
     @click.stop="next()"
     :aria-label="$t('Show subcategories')"
   >
-    <i class="material-icons p15 pointer">keyboard_arrow_right</i>
+    <i class="material-icons pointer">keyboard_arrow_right</i>
   </button>
   <button
+    class="inline-flex p15"
     v-else
     type="button"
     @click.stop="back()"
     :aria-label="$t('Back')"
   >
-    <i class="material-icons p15 pointer">keyboard_arrow_left</i>
+    <i class="material-icons pointer">keyboard_arrow_left</i>
   </button>
 </template>
 <script>
@@ -50,3 +52,16 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  i {
+    opacity: 0.6;
+  }
+  button {
+    &:hover,
+    &:focus {
+      i {
+        opacity: 1
+      }
+    }
+  }
+</style>

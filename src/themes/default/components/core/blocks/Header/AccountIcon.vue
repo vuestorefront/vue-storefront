@@ -8,7 +8,7 @@
     :aria-label="$t('Open my account')"
   >
     <div class="dropdown relative">
-      <i class="material-icons md-18 block">account_circle</i>
+      <i class="material-icons block">account_circle</i>
       <div
         v-if="currentUser"
         :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'"

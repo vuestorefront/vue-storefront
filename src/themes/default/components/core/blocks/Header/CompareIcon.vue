@@ -1,6 +1,6 @@
 <template>
   <router-link to="/compare" class="compare-icon no-underline inline-flex" v-if="hasCompare">
-    <i class="material-icons md-18">compare</i>
+    <i class="material-icons">compare</i>
   </router-link>
 </template>
 
