@@ -3,6 +3,7 @@
     type="button"
     class="relative bg-cl-transparent brdr-none inline-flex"
     @click="openMicrocart"
+    :aria-label="$t('Open microcart')"
   >
     <i class="material-icons md-18">shopping_cart</i>
     <span

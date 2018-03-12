@@ -1,8 +1,9 @@
 <template>
   <button
     type="button"
-    class="wishlist-icon inline-flex bg-cl-transparent brdr-none"
+    class="inline-flex bg-cl-transparent brdr-none"
     @click="toggleWishlistPanel"
+    :aria-label="$t('Open wishlist')"
   >
     <i class="material-icons md-18">favorite_border</i>
   </button>

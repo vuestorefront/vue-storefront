@@ -3,7 +3,7 @@
     v-if="type === 'next'"
     type="button"
     @click.stop="next()"
-    aria-label="Show subcategories"
+    :aria-label="$t('Show subcategories')"
   >
     <i class="material-icons p15 pointer">keyboard_arrow_right</i>
   </button>
@@ -11,7 +11,7 @@
     v-else
     type="button"
     @click.stop="back()"
-    aria-label="Back"
+    :aria-label="$t('Back')"
   >
     <i class="material-icons p15 pointer">keyboard_arrow_left</i>
   </button>

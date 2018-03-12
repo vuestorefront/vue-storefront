@@ -1,10 +1,11 @@
 <template>
   <button
     type="button"
-    class="account-icon bg-cl-transparent brdr-none inline-flex"
+    class="bg-cl-transparent brdr-none inline-flex"
     @click="openMyAccount(); gotoAccount();"
     @mouseover="showDropdown"
     @mouseout="hideDropdown"
+    :aria-label="$t('Open my account')"
   >
     <div class="dropdown relative">
       <i class="material-icons md-18 block">account_circle</i>
