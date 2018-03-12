@@ -1,10 +1,15 @@
 <template>
   <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckout }">
     <newsletter class=" flex brdr-bottom brdr-cl-secondary" v-if="!isCheckout"/>
-    <div class="footer-links flex pt30 pb60 px40 bg-cl-secondary" v-if="!isCheckout">
+    <div
+      class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
+      v-if="!isCheckout"
+    >
       <div class="container">
         <div class="row m0 center-xs between-md">
-          <div class="row m0 col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">
+          <div
+            class="row m0 col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile"
+          >
             <div class="start-md">
               <h3 class="cl-accent weight-400">
                 {{ $t('Departments') }}
