@@ -27,7 +27,7 @@ export default {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, image is going to be 'red'
       let thumbnail = this.product.image
       if (this.product.hasOwnProperty('configurable_children') &&
-        this.product.configurable_children.length
+        this.product.configurable_children.length && !this.product.is_configured
       ) {
         thumbnail = this.product.configurable_children[0].thumbnail
       }
