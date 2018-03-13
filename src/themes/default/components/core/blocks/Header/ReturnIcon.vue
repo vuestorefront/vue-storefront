@@ -1,6 +1,6 @@
 <template>
   <button type="button" class="inline-flex brdr-none" @click="goBack">
-    <i class="material-icons md-18">keyboard_backspace</i>
+    <i class="material-icons">keyboard_backspace</i>
   </button>
 </template>
 

@@ -65,7 +65,6 @@
     "object-hash": "^1.2.0",
     "print-message": "^2.1.0",
     "scrollreveal": "^3.3.6",
-    "serve-favicon": "^2.3.0",
     "shelljs": "^0.8.1",
     "url-parse": "^1.2.0",
     "val-loader": "^1.1.0",

@@ -1,13 +1,18 @@
 <template>
-  <div
-    class="account-icon inline-flex"
+  <button
+    type="button"
+    class="bg-cl-transparent brdr-none inline-flex"
     @click="openMyAccount(); gotoAccount();"
     @mouseover="showDropdown"
     @mouseout="hideDropdown"
+    :aria-label="$t('Open my account')"
   >
     <div class="dropdown relative">
-      <i class="material-icons md-18 block">account_circle</i>
-      <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
+      <i class="material-icons block">account_circle</i>
+      <div
+        v-if="currentUser"
+        :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'"
+      >
         <p>
           {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
         </p>
@@ -24,7 +29,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </button>
 </template>
 
 <script>
