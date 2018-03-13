@@ -169,6 +169,8 @@ export function configureProductAsync (context, { product, configuration, select
       }
     }
 
+    product.is_configured = true
+
     // use chosen variant
     if (selectDefaultVariant) {
       context.dispatch('setCurrent', selectedVariant)
