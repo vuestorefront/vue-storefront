@@ -26,7 +26,9 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"]
     },
     "orders": {
-      "endpoint": "http://localhost:8080/api/order"
+      "endpoint": "http://localhost:8080/api/order",
+      "payment_methods_mapping": {
+      }
     },
     "users": {
       "endpoint": "http://localhost:8080/api/user"
@@ -63,5 +65,5 @@
     "analytics": {
       "id": false
     },
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
+    "registeredExtensions": ["payment-cash-on-delivery", "custom_extension", "mailchimp-subscribe", "google-analytics"]
  }
