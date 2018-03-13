@@ -128,9 +128,6 @@ export default {
       if (userId) {
         this.userId = userId.toString()
       }
-      if (this.payment.paymentMethod !== 'cashondelivery') {
-        this.placeOrder()
-      }
     })
     this.$bus.$on('checkout-do-placeOrder', (additionalPayload) => {
       this.payment.paymentMethodAdditional = additionalPayload

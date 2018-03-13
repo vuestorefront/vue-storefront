@@ -264,13 +264,16 @@ export default {
         }
       }, { root: true }).then(task => {
         let backendMethods = task.result
-        let paymentMethods = rootStore.state.payment.methods
+        let paymentMethods = JSON.parse(JSON.stringify(rootStore.state.payment.methods))
+        let uniqueBackendMethods = []
         for (let i = 0; i < backendMethods.length; i++) {
           if (!paymentMethods.find(item => item.code === backendMethods[i].code)) {
             paymentMethods.push(backendMethods[i])
+            uniqueBackendMethods.push(backendMethods[i])
           }
         }
         context.commit(types.CART_UPD_PAYMENT, paymentMethods)
+        rootStore.commit('setBackendPaymentMethods', uniqueBackendMethods)
       }).catch(e => {
         console.error(e)
       })
