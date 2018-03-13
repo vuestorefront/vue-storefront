@@ -31,15 +31,15 @@
         <input type="text" name="last-name" :placeholder="$t('Last name')" v-model.trim="shippingDetails.lastName">
         <span class="validation-error" v-if="!$v.shippingDetails.lastName.required">Field is required</span>
       </div>
-      <div class="col-xs-12 col-md-12 mb25" v-if="hasBillingAddress()">
-        <div class="checkboxStyled" @click.prevent="fillCompanyAddress">
-          <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddress">
-          <label for="useCompanyAddress"/>
-        </div>
-        <div class="checkboxText ml15 lh25" @click="fillCompanyAddress">
-          <span class="fs16 cl-accent">{{ $t("Use my company's address details") }}</span>
-        </div>
-      </div>
+      <base-checkbox
+        v-if="hasBillingAddress()"
+        class="col-xs-12 mb25"
+        id="addCompanyFilled"
+        v-model="useCompanyAddress"
+        @click="fillCompanyAddress"
+      >
+        {{ $t("Use my company's address details") }}
+      </base-checkbox>
       <div class="col-xs-12 col-sm-6 mb25">
         <input type="text" name="street-address" :placeholder="$t('Street name')" v-model.trim="shippingDetails.street">
         <span class="validation-error" v-if="!$v.shippingDetails.street.required">{{ $t('Field is required') }}</span>
@@ -94,15 +94,15 @@
     <div class="row fs16 mb35" v-if="!isActive">
       <div class="col-xs-12 h4">
         <p>{{ shippingDetails.firstName }} {{ shippingDetails.lastName }}</p>
-        <div class="col-xs-12 col-md-12 mb25" v-if="useCompanyAddress">
-          <div class="checkboxStyled">
-            <input type="checkbox" v-model="useCompanyAddress" id="useCompanyAddressFilled" disabled>
-            <label for="useCompanyAddressFilled"/>
-          </div>
-          <div class="checkboxText ml15 lh25">
-            <span class="fs16 cl-accent">Use my company's address details</span>
-          </div>
-        </div>
+        <base-checkbox
+          v-if="useCompanyAddress"
+          class="col-xs-12 mb25"
+          id="useCompanyAddressFilled"
+          v-model="useCompanyAddress"
+          disabled
+        >
+          {{ $t("Use my company's address details") }}
+        </base-checkbox>
         <p class="mb25">{{ shippingDetails.company }}</p>
         <p class="mb25">
           {{ shippingDetails.street }}
@@ -129,6 +129,7 @@ import { coreComponent } from 'core/lib/themes'
 import { required, minLength } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
+import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
 
 export default {
   validations: {
@@ -160,7 +161,8 @@ export default {
   },
   components: {
     ButtonFull,
-    Tooltip
+    Tooltip,
+    BaseCheckbox
   },
   mixins: [coreComponent('blocks/MyAccount/MyShippingDetails')]
 }

@@ -68,13 +68,18 @@
           <i class="icon material-icons absolute cl-brdr-secondary pointer" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
           <span class="validation-error block h6 cl-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>
-        <div class="mb35">
-          <input type="checkbox" name="remember" v-model="conditions" id="remember" @change="$v.conditions.$touch()" @blur="$v.conditions.$reset()">
-          <label class="ml10" for="remember">I accept terms and conditions *</label>
-          <span class="validation-error block h6 cl-error" v-if="!$v.conditions.required && $v.conditions.$error">
-            {{ $t('You must accept the terms and conditions.') }}
-          </span>
-        </div>
+        <base-checkbox
+          class="mb35"
+          id="terms"
+          v-model="conditions"
+          @click="conditions = !conditions"
+          @blur="$v.conditions.$reset()"
+          @change="$v.conditions.$touch()"
+          :validation-if="!$v.conditions.required && $v.conditions.$error"
+          :validation-text="$t('You must accept the terms and conditions.')"
+        >
+          {{ $t('I accept terms and conditions') }} *
+        </base-checkbox>
         <div class="mb20">
           <button-full type="submit">
             {{ $t('Register an account') }}
@@ -94,6 +99,7 @@
 </template>
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
 import { required, email, sameAs } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
@@ -114,6 +120,7 @@ export default {
       password: '',
       rPassword: '',
       conditions: ''
+
     }
   },
   validations: {
@@ -193,7 +200,8 @@ export default {
     this.$refs.email.focus()
   },
   components: {
-    ButtonFull
+    ButtonFull,
+    BaseCheckbox
   }
 }
 </script>

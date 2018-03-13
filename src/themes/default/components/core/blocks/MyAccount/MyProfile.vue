@@ -53,17 +53,14 @@
           {{ $t('Please provide valid e-mail address.') }}
         </span>
       </div>
-      <div class="col-xs-12 col-md-12 mb15">
-        <div class="checkboxStyled">
-          <input type="checkbox" v-model="changePassword" id="changePassword">
-          <label for="changePassword"/>
-        </div>
-        <div class="checkboxText ml15 lh25" @click="changePassword = !changePassword">
-          <span class="fs16 cl-accent">
-            {{ $t('Change my password') }}
-          </span>
-        </div>
-      </div>
+      <base-checkbox
+        class="col-xs-12 mb15"
+        id="changePassword"
+        v-model="changePassword"
+        @click="changePassword = !changePassword"
+      >
+        {{ $t('Change my password') }}
+      </base-checkbox>
       <div class="col-xs-12 col-sm-12 col-md-6 mb15 mt10" v-if="changePassword">
         <div class="pass-container relative mr35">
           <input
@@ -122,18 +119,14 @@
         </span>
       </div>
       <!-- Company information -->
-      <div class="col-xs-12 col-md-12 mb25 mt10">
-        <div class="checkboxStyled">
-          <input type="checkbox" v-model="addCompany" id="addCompany">
-          <label for="addCompany"/>
-        </div>
-        <div class="checkboxText ml15 lh25" @click="addCompany = !addCompany">
-          <span class="fs16 cl-accent">
-            {{ $t('I have a company and want to receive an invoice for every order') }}
-          </span>
-        </div>
-      </div>
-
+      <base-checkbox
+        class="col-xs-12 mb15 mt10"
+        id="addCompany"
+        v-model="addCompany"
+        @click="addCompany = !addCompany"
+      >
+        {{ $t('I have a company and want to receive an invoice for every order') }}
+      </base-checkbox>
       <div class="col-xs-12 col-sm-12 mb25" v-show="addCompany">
         <input
           type="text"
@@ -246,15 +239,15 @@
         <p>
           <span class="pr15">{{ currentUser.email }}</span>
         </p>
-        <div class="mb25" v-show="addCompany">
-          <div class="checkboxStyled">
-            <input type="checkbox" v-model="addCompany" id="addCompanyFilled" disabled>
-            <label for="addCompanyFilled"/>
-          </div>
-          <div class="checkboxText ml15 lh25">
-            <span class="fs16 cl-accent">{{ $t('I have a company and want to receive an invoice for every order') }}</span>
-          </div>
-        </div>
+        <base-checkbox
+          v-show="addCompany"
+          class="mb25"
+          id="addCompanyFilled"
+          v-model="addCompany"
+          disabled
+        >
+          {{ $t('I have a company and want to receive an invoice for every order') }}
+        </base-checkbox>
         <p class="mb25" v-show="addCompany">{{ userCompany.company }}</p>
         <p class="mb25" v-show="addCompany">
           {{ userCompany.street }}
@@ -278,6 +271,7 @@
 import { coreComponent } from 'core/lib/themes'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
 
 export default {
   validations: {
@@ -367,7 +361,8 @@ export default {
     }
   },
   components: {
-    ButtonFull
+    ButtonFull,
+    BaseCheckbox
   },
   mixins: [coreComponent('blocks/MyAccount/MyProfile')]
 }

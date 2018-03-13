@@ -30,12 +30,14 @@
           <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
         </div>
         <div class="row">
-          <div class="col-xs-6 mb35">
-            <input class="m5" type="checkbox" name="remember" id="remember">
-            <label for="remember">
-              {{ $t('Remember me') }}
-            </label>
-          </div>
+          <base-checkbox
+            class="col-xs-6 mb35"
+            id="remember"
+            v-model="remember"
+            @click="remember = !remember"
+          >
+            {{ $t('Remember me') }}
+          </base-checkbox>
           <div class="col-xs-6 mb35 align-right">
             <a href="#" @click.prevent="remindPassword">
               {{ $t('Forgot the password?') }}
@@ -64,6 +66,7 @@
 import { coreComponent } from 'core/lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
 import { required, email } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
@@ -72,6 +75,7 @@ export default {
     return {
       passType: 'password',
       iconName: 'visibility',
+      remember: false,
       email: '',
       password: ''
     }
@@ -153,7 +157,8 @@ export default {
     this.$refs.email.focus()
   },
   components: {
-    ButtonFull
+    ButtonFull,
+    BaseCheckbox
   }
 }
 </script>

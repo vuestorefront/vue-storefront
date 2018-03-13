@@ -6,17 +6,18 @@
         :id="id"
         :checked="value"
         @blur="$emit('blur')"
+        @change="$emit('change')"
         :disabled="disabled"
       >
       <label :for="id" @click="$emit('click')"/>
     </div>
     <div class="checkboxText ml15 lh25" @click="$emit('click')">
-      <span class="fs16 cl-accent">
+      <span class="cl-accent">
         <slot/>
       </span>
     </div>
     <span
-      class="validation-error"
+      class="block cl-error h6"
       v-if="validationIf"
     >
       {{ validationText }}
