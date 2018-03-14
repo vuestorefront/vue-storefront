@@ -161,15 +161,21 @@ export default {
         let selectedVariant = context.state.current
         for (let option of product.configurable_options) {
           let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+          let selectedOption = null
           if (selectedVariant.custom_attributes) {
-            let selectedOption = selectedVariant.custom_attributes.find((a) => {
+            selectedOption = selectedVariant.custom_attributes.find((a) => {
               return (a.attribute_code === attr.attribute_code)
             })
-            context.state.current_configuration[attr.attribute_code] = {
+          } else {
+            selectedOption = {
               attribute_code: attr.attribute_code,
-              id: selectedOption.value,
-              label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+              value: selectedVariant[attr.attribute_code]
             }
+          }
+          context.state.current_configuration[attr.attribute_code] = {
+            attribute_code: attr.attribute_code,
+            id: selectedOption.value,
+            label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
           }
         }
       }).catch(err => {
