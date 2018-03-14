@@ -1,28 +1,44 @@
 <template>
-  <div class="account-icon inline-flex" @click="openMyAccount">
-    <div class="dropdown" @mouseover="hoverIcon">
-      <i class="material-icons md-18" @click="gotoAccount">account_circle</i>
-      <div v-if="currentUser" :class="showDropdown ? 'dropdown-content show-dropdown' : 'dropdown-content'">
-        <p>You're logged in as {{ currentUser.firstname }}</p>
+  <button
+    type="button"
+    class="bg-cl-transparent brdr-none inline-flex"
+    @click="openMyAccount(); gotoAccount();"
+    @mouseover="showDropdown"
+    @mouseout="hideDropdown"
+    :aria-label="$t('Open my account')"
+  >
+    <div class="dropdown relative">
+      <i class="material-icons block">account_circle</i>
+      <div
+        v-if="currentUser"
+        :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'"
+      >
+        <p>
+          {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
+        </p>
         <hr>
-        <div class="section-wrapper">
-          <router-link class="no-underline" :to="{ name: 'my-account' }" @click="hideDropdown">My account</router-link>
+        <div class="section-wrapper w-100">
+          <router-link class="no-underline" :to="{ name: 'my-account' }">
+            {{ $t('My account') }}
+          </router-link>
         </div>
-        <div class="section-wrapper">
-          <a href="#" class="no-underline" @click="clickLogout">Logout</a>
+        <div class="section-wrapper w-100">
+          <a href="#" class="no-underline" @click.stop="clickLogout">
+            {{ $t('Logout') }}
+          </a>
         </div>
       </div>
     </div>
-  </div>
+  </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
   data () {
     return {
-      showDropdown: false,
+      dropdownOpen: false,
       screenWidth: null
     }
   },
@@ -30,20 +46,17 @@ export default {
     this.screenWidth = window.innerWidth
   },
   methods: {
-    hoverIcon () {
+    showDropdown () {
       if (this.currentUser) {
-        this.showDropdown = true
-        setTimeout(() => {
-          this.showDropdown = false
-        }, 3000)
+        this.dropdownOpen = true
       }
+    },
+    hideDropdown () {
+      this.dropdownOpen = false
     },
     clickLogout () {
       this.logout()
       this.hideDropdown()
-    },
-    hideDropdown () {
-      this.showDropdown = false
     },
     openMyAccount () {
       if (this.screenWidth <= 768 && this.currentUser) {
@@ -51,52 +64,49 @@ export default {
       }
     }
   },
-  mixins: [coreComponent('core/blocks/Header/AccountIcon')]
+  mixins: [coreComponent('blocks/Header/AccountIcon')]
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '../../../../css/global_vars.scss';
+@import '~theme/css/base/global_vars';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-white: color(white);
+$bg-secondary: color(secondary, $colors-background);
 
-  .dropdown {
-    position: relative;
+.dropdown {
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: -15px;
+    margin-top: 15px;
+    padding: 0px 10px 10px 10px;
+    text-align: center;
+    background-color: $color-white;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 0;
 
-    i {
-      display: block;
-    }
+    .section-wrapper {
+      display: table;
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: -15px;
-      margin-top: 15px;
-      padding: 0px 10px 10px 10px;
-      text-align: center;
-      background-color: map-get($colors, white);
-      min-width: 120px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 0;
+      .no-underline {
+        display: table-cell;
+        vertical-align: middle;
+        height: 30px;
 
-      .section-wrapper {
-        display: table;
-        width: 100%;
-
-        .no-underline {
-          display: table-cell;
-          vertical-align: middle;
-          height: 30px;
-
-          &:hover {
-            background: map-get($colors, lightgray);
-          }
-        }
-      }
-
-      @media (min-width: 768px) {
-        &:hover, &.show-dropdown {
-          display: block;
+        &:hover {
+          background: $bg-secondary;
         }
       }
     }
-  }    
+
+    @media (min-width: 768px) {
+      &:hover, &.show-dropdown {
+        display: block;
+      }
+    }
+  }
+}
 </style>

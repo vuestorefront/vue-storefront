@@ -1,17 +1,20 @@
 <template>
-  <li class="row pr55 pt20 pb20">
+  <li class="row pr55 py20">
     <div>
-      <img v-lazy="thumbnail" />
+      <img v-lazy="thumbnail" >
     </div>
-    <div class="col-xs flex pl40 pb15 pt15">
+    <div class="col-xs between-xs flex pl40 py15">
       <div>
-        <router-link :to="{ name: product.type_id + '-product', params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }}">
-          {{ product.name | htmlDecode}}
+        <router-link :to="{
+          name: product.type_id + '-product',
+          params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
+        }">
+          {{ product.name | htmlDecode }}
         </router-link>
-        <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
+        <div class="h6 cl-bg-secondary pt5">{{ product.sku }}</div>
       </div>
     </div>
-    <div class="col-xs flex pb15 pt15 align-right">
+    <div class="col-xs flex py15 align-right">
       <div>
         <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
         <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
@@ -21,14 +24,14 @@
         </span>
       </div>
       <div>
-        <div class="mt5"><span @click="removeItem"><remove-button class="c-darkgray" /></span></div>
+        <div class="mt5"><span @click="removeItem"><remove-button class="cl-accent" /></span></div>
       </div>
     </div>
   </li>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import RemoveButton from './RemoveButton'
 
 export default {
@@ -45,17 +48,13 @@ export default {
   components: {
     RemoveButton
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Product')]
+  mixins: [coreComponent('blocks/Wishlist/Product')]
 }
 </script>
 
 <style scoped>
 .col-xs {
   flex-direction: column;
-  justify-content: space-between;
-}
-.hidden {
-  display: none;
 }
 input {
   width: 30px;

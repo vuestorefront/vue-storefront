@@ -1,7 +1,7 @@
 <template>
   <div class="inspirations">
     <div class="row">
-      <div class="col-md-4 p15" v-for="product in products">
+      <div class="col-md-4 p15" v-for="(product, index) in products" :key="index">
         <inspiration-tile :product="product" />
       </div>
     </div>
@@ -13,7 +13,7 @@ import builder from 'bodybuilder'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
-  name: 'inspirations',
+  name: 'Inspirations',
 
   beforeMount () {
     let self = this
@@ -40,6 +40,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

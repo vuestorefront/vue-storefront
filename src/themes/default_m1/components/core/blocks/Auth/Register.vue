@@ -1,46 +1,92 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">Register</h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
+      {{ $t('Register') }}
+    </header>
+
+    <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="register" novalidate>
         <div class="mb35">
-          <input type="email" name="email" ref="email" v-model="email" placeholder="E-mail address *">
-          <span class="validation-error" v-if="!$v.email.required">Field is required.</span>
-          <span class="validation-error" v-if="!$v.email.email">Please provide valid e-mail address.</span>
+          <input
+            class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
+            type="email"
+            name="email"
+            ref="email"
+            v-model="email"
+            autocomplete="email"
+            :placeholder="$t('E-mail address *')"
+          >
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
         </div>
         <div class="row mb35">
           <div class="col-xs-6">
-            <input type="text" name="fist-name" v-model="firstName" placeholder="First name *">
-            <span class="validation-error" v-if="!$v.firstName.required">Field is required.</span>
+            <input
+              class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
+              type="text"
+              name="fist-name"
+              v-model="firstName"
+              autocomplete="given-name"
+              :placeholder="$t('First name *')"
+            >
+            <span class="validation-error block h6 cl-error" v-if="!$v.firstName.required && $v.firstName.$error">Field is required.</span>
           </div>
           <div class="col-xs-6">
-            <input type="text" name="last-name" v-model="lastName" placeholder="Last name *">
-            <span class="validation-error" v-if="!$v.lastName.required">Field is required.</span>
+            <input
+              class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
+              type="text"
+              name="last-name"
+              v-model="lastName"
+              autocomplete="family-name"
+              :placeholder="$t('Last name *')"
+            >
+            <span class="validation-error block h6 cl-error" v-if="!$v.lastName.required && $v.lastName.$error">Field is required.</span>
           </div>
         </div>
-        <div class="mb35 pass-container">
-          <input class="pr30" name="password" v-model="password" :type="passType.pass" placeholder="Password *">
-          <i class="icon material-icons c-alto" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-            <span class="validation-error" v-if="!$v.password.required">Field is required.</span>
+        <div class="mb35 relative">
+          <input
+            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
+            name="password"
+            v-model="password"
+            :type="passType.pass"
+            autocomplete="new-password"
+            :placeholder="$t('Password *')"
+          >
+          <i class="icon material-icons absolute cl-brdr-secondary pointer" @click="togglePassType('pass')">{{ iconName.pass }}</i>
+          <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
         </div>
-        <div class="mb35 pass-container">
-          <input class="pr30" name="password-confirm" v-model="rPassword" :type="passType.repeatPass" placeholder="Repeat password *">
-          <i class="icon material-icons c-alto" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
-          <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
+        <div class="mb35 relative">
+          <input
+            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
+            name="password-confirm"
+            v-model="rPassword"
+            :type="passType.repeatPass"
+            autocomplete="new-password"
+            :placeholder="$t('Repeat password *')"
+          >
+          <i class="icon material-icons absolute cl-brdr-secondary pointer" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
+          <span class="validation-error block h6 cl-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
         </div>
         <div class="mb35">
-          <input type="checkbox" name="remember" v-model="conditions" id="remember">
+          <input type="checkbox" name="remember" v-model="conditions" id="remember" @change="$v.conditions.$touch()" @blur="$v.conditions.$reset()">
           <label class="ml10" for="remember">I accept terms and conditions *</label>
-          <span class="validation-error" v-if="!$v.conditions.required">You must accept the terms and conditions.</span>
+          <span class="validation-error block h6 cl-error" v-if="!$v.conditions.required && $v.conditions.$error">
+            {{ $t('You must accept the terms and conditions.') }}
+          </span>
         </div>
         <div class="mb20">
-          <button-full class="btn-full" text="Register an account" @click.native="register"></button-full>
+          <button-full type="submit">
+            {{ $t('Register an account') }}
+          </button-full>
         </div>
-        <input type="submit">
         <div class="center-xs">
-          <span>or <a href="#" @click.prevent="switchElem">login to your account</a></span>
+          <span>
+            {{ $t('or') }}
+            <a href="#" @click.prevent="switchElem">
+              {{ $t('login to your account') }}
+            </a>
+          </span>
         </div>
       </form>
     </div>
@@ -49,6 +95,7 @@
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { required, email, sameAs } from 'vuelidate/lib/validators'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -92,6 +139,9 @@ export default {
     }
   },
   methods: {
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'login')
     },
@@ -106,15 +156,16 @@ export default {
     },
     register () {
       if (this.$v.$invalid) {
+        this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please fix the validation errors',
+          message: i18n.t('Please fix the validation errors'),
           action1: { label: 'OK', action: 'close' }
         })
         return
       }
 
-      this.$bus.$emit('notification-progress-start', 'Registering the account ... ')
+      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
         console.log(result)
         this.$bus.$emit('notification-progress-stop')
@@ -127,10 +178,10 @@ export default {
         } else {
           this.$bus.$emit('notification', {
             type: 'success',
-            message: 'You are logged in!',
+            message: i18n.t('You are logged in!'),
             action1: { label: 'OK', action: 'close' }
           })
-          this.$store.commit('ui/setSignUp', false)
+          this.close()
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')
@@ -147,63 +198,32 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '../../../../css/text.scss';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-placeholder: color(tertiary);
+$color-hover: color(tertiary, $colors-background);
+$color-focus: color(black);
 
-  input[type=password], input[type=email], input[type=text] {
-    @extend body;
-    box-sizing: border-box;
-    font-size: 18px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: none;
-    border-bottom: 1px solid #BDBDBD;
-    width: 100%;
+input::-webkit-input-placeholder {
+  color: $color-placeholder;
+}
+
+input:-moz-placeholder {
+  color: $color-placeholder;
+}
+
+input:focus {
+  outline: none;
+  border-color: $color-focus;
+  transition: 0.3s all;
+}
+
+.icon {
+  right: 0;
+  top: 10px;
+
+  &:hover {
+    color: $color-hover;
   }
-
-  input[type=submit] {
-    visibility: hidden;
-  }
-
-  input::-webkit-input-placeholder {
-    color: #BDBDBD;
-  }
-
-  input:-moz-placeholder {
-    color: #BDBDBD;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: black;
-    transition: 0.3s all;
-  }
-
-  .btn-full {
-    box-sizing: border-box;
-    width: 100%;
-    justify-content: center;
-    text-align: center;
-  }
-.validation-error {
-    display: block;
-    font-size: 12px;
-    color: #EB5757;
-  }
-  .pass-container {
-    position: relative;
-  }
-
-  .icon {
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 10px;
-
-    &:hover {
-      color: #8E8E8E;
-    }
-  }
-
-
+}
 </style>
-

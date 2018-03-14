@@ -1,13 +1,23 @@
 <template>
-  <div class="wishlist bg-white c-black" :class="{ active: isOpen }">
+  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 close c-black" @click="closeWishlist">close</i>
+        <i class="material-icons p15 pointer cl-accent" @click="closeWishlist">close</i>
       </div>
     </div>
-    <h2 v-if="items.length" class="c-black ml30">Wishlist</h2>
-    <h4 v-if="!items.length" class="c-black ml30">Your wishlist is empty.</h4>
-    <div v-if="!items.length" class="ml30">Don't hesitate and <router-link to="/">browse our catalog</router-link> to find something beatufiul for you!</div>
+    <h2 v-if="items.length" class="cl-accent ml30">
+      {{ $t('Wishlist') }}
+    </h2>
+    <h4 v-if="!items.length" class="cl-accent ml30">
+      {{ $t('Your wishlist is empty.') }}
+    </h4>
+    <div v-if="!items.length" class="ml30">
+      {{ $t("Don't hesitate and") }}
+      <router-link to="/">
+        {{ $t('browse our catalog') }}
+      </router-link>
+      {{ $t('to find something beautiful for You!') }}
+    </div>
     <ul class="products">
       <product @click.native="closeWishlist" v-for="product in items" :key="product.id" :product="product" />
     </ul>
@@ -15,26 +25,24 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import Product from './Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Wishlist')]
+  mixins: [coreComponent('blocks/Wishlist/Wishlist')]
 }
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../css/transitions.scss";
+@import "~theme/css/animations/transitions";
   .wishlist {
     height: 100vh;
     width: 800px;
     top: 0;
     right: 0;
-    max-width: 100%;
-    position: fixed;
     z-index: 3;
     transform: translateX(100%);
     transition: transform 300ms $motion-main;
@@ -43,9 +51,6 @@ export default {
 
     &.active {
       transform: translateX(0)
-    }
-    .close {
-      cursor: pointer;
     }
   }
   i {

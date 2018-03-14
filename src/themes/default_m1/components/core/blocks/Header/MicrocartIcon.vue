@@ -1,30 +1,35 @@
 <template>
-  <div class="microcart-icon inline-flex" @click="openMicrocart">
-    <i class="material-icons md-18">shopping_cart</i>
-    <span class="minicart-count flex brdr-circle h6 lh16 weight-700 c-white bg-lightgray-secondary" v-cloak v-if="totals.quantity">{{totals.quantity}}</span>
-  </div>
+  <button
+    type="button"
+    class="relative bg-cl-transparent brdr-none inline-flex"
+    @click="openMicrocart"
+    :aria-label="$t('Open microcart')"
+  >
+    <i class="material-icons">shopping_cart</i>
+    <span
+      class="minicart-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver"
+      v-cloak
+      v-if="totalQuantity"
+    >
+      {{ totalQuantity }}
+    </span>
+  </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Header/MicrocartIcon')]
+  mixins: [coreComponent('blocks/Header/MicrocartIcon')]
 }
 </script>
 
 <style scoped>
-  .microcart-icon {
-    position: relative;
-  }
-
   .minicart-count {
-    position: absolute;
-    top: 10px;
-    right: 5px;
-    width: 16px;
-    height: 16px;
-    justify-content: center;
-    align-items: center;
+    top: 7px;
+    left: 50%;
+    min-width: 16px;
+    min-height: 16px;
+    border-radius: 10px;
   }
 </style>

@@ -1,20 +1,41 @@
 <template>
-  <span @click.stop="next()" v-if="type === 'next'">
-    <i class="material-icons p15">keyboard_arrow_right</i>
-  </span>
-  <span @click.stop="back()" v-else="type === 'back'">
-    <i class="material-icons p15">keyboard_arrow_left</i>
-  </span>
+  <button
+    class="inline-flex between-xs w-100 px25 py20 serif cl-accent fs-medium"
+    v-if="type === 'next'"
+    type="button"
+    @click.stop="next()"
+    :aria-label="$t('Show subcategories')"
+  >
+    {{ name }}
+    <i class="material-icons">keyboard_arrow_right</i>
+  </button>
+  <button
+    class="inline-flex p15 between-xs w-100"
+    v-else
+    type="button"
+    @click.stop="back()"
+    :aria-label="$t('Back')"
+  >
+    {{ name }}
+    <i class="material-icons">keyboard_arrow_left</i>
+  </button>
 </template>
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: 'sub-btn',
+  name: 'SubBtn',
   props: {
-    id: [String, Number],
+    id: {
+      type: null,
+      default: ''
+    },
     type: {
       type: String,
       default: 'next'
+    },
+    name: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -37,8 +58,15 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .material-icons {
-    cursor: pointer;
+<style lang="scss" scoped>
+  button {
+    .material-icons {
+      opacity: 0.6;
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
   }
 </style>

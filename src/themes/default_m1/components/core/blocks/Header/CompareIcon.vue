@@ -1,13 +1,13 @@
 <template>
   <router-link to="/compare" class="compare-icon no-underline inline-flex" v-if="hasCompare">
-    <i class="material-icons md-18">compare</i>
+    <i class="material-icons">compare</i>
   </router-link>
 </template>
 
 <script>
-  import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
-  export default {
-    mixins: [coreComponent('core/blocks/Header/CompareIcon')]
-  }
+export default {
+  mixins: [coreComponent('blocks/Header/CompareIcon')]
+}
 </script>

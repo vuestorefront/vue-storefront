@@ -1,18 +1,68 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu p0" v-bind:style="styles">
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.slug" v-for="link in categoryLinks">
-        <router-link class="px25 py20 c-black no-underline col-xs" :to="{ name: 'category', params: { id: link.id, slug: link.slug }}">{{ link.name }}</router-link>
-        <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"></sub-btn>
-        <sub-category :categoryLinks="link.children_data" :id="link.id" v-if="link.children_data.length"/>
+    <ul
+      v-if="categoryLinks"
+      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
+      :style="styles"
+    >
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        v-if="parentSlug"
+      >
+        <router-link
+          class="px25 py20 cl-accent no-underline col-xs"
+          :to="{ name: 'category', params: { id: id, slug: parentSlug }}"
+        >
+          {{ $t('View all') }}
+        </router-link>
+      </li>
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        :key="link.slug"
+        v-for="link in categoryLinks"
+      >
+        <sub-btn
+          class="bg-cl-transparent brdr-none"
+          :id="link.id"
+          :name="link.name"
+          v-if="link.children_data.length"
+        />
+        <router-link
+          v-else
+          class="px25 py20 cl-accent no-underline col-xs"
+          :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
+        >
+          {{ link.name }}
+        </router-link>
+        <sub-category
+          :category-links="link.children_data"
+          :id="link.id"
+          v-if="link.children_data.length"
+          :parent-slug="link.slug"
+        />
       </li>
     </ul>
-    <ul v-else-if="myAccountLinks" class="sidebar-submenu p0" v-bind:style="styles">
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex" v-bind:key="link.id" v-for="link in myAccountLinks">
-        <router-link class="px25 py20 c-black no-underline col-xs" :to="'/my-account#' + link.anchor">{{ link.name }}</router-link>
+    <ul
+      v-else-if="myAccountLinks"
+      class="sidebar-submenu absolute p0 bg-cl-primary"
+      :style="styles"
+    >
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        :key="link.id"
+        v-for="link in myAccountLinks"
+      >
+        <router-link
+          class="px25 py20 cl-accent no-underline col-xs"
+          :to="'/my-account#' + link.anchor"
+        >
+          {{ link.name }}
+        </router-link>
       </li>
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex">
-        <a href="#" class="px25 py20 c-black no-underline col-xs" @click="logout">Logout</a>
+      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex">
+        <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click="logout">
+          {{ $t('Logout') }}
+        </a>
       </li>
     </ul>
   </div>
@@ -22,21 +72,29 @@ import { mapState } from 'vuex'
 import SubBtn from './SubBtn.vue'
 
 export default {
-  name: 'sub-category',
+  name: 'SubCategory',
   components: {
     SubBtn
   },
   props: {
     id: {
+      type: [String, Number],
       required: true
     },
     categoryLinks: {
-      type: Array,
-      required: false
+      type: null,
+      required: false,
+      default: () => []
+    },
+    parentSlug: {
+      type: String,
+      required: false,
+      default: ''
     },
     myAccountLinks: {
       type: Array,
-      required: false
+      required: false,
+      default: () => {}
     }
   },
   computed: {
@@ -59,12 +117,9 @@ export default {
 </script>
 <style scoped>
   .sidebar-submenu {
-    position: absolute;
     left: 0;
     top: 0;
     min-height: 100%;
-    width: 100%;
     transform: translateX(-100%);
-    background: #fff;
   }
 </style>

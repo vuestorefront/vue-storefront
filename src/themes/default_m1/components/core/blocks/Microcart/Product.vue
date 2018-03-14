@@ -2,28 +2,28 @@
   <transition name="fade" appear>
     <li class="row py10">
       <div>
-        <div class="bg-lightgray image">
-          <img v-lazy="thumbnail" alt="" />
+        <div class="ml10 bg-cl-secondary">
+          <img class="image" v-lazy="thumbnail" alt="" >
         </div>
       </div>
-      <div class="col-xs flex pl35 py15 details">
+      <div class="col-xs flex pl35 py15 start-xs between-sm details">
         <div>
           <div class="serif h4 name">
             {{ product.name | htmlDecode }}
           </div>
-          <div class="h6 c-gray pt5 sku">
+          <div class="h6 cl-bg-tertiary pt5 sku">
             {{ product.sku }}
           </div>
-          <div class="h6 pt5 error" v-if="product.warning_message">
+          <div class="h6 pt5 cl-error" v-if="product.warning_message">
             {{ product.warning_message }}
           </div>
-          <div class="h6 pt5 info" v-if="product.info_message">
+          <div class="h6 pt5 cl-success" v-if="product.info_message && !product.warning_message">
             {{ product.info_message }}
           </div>
         </div>
-        <div class="h5 pt5 c-darkgray lh25 qty">
+        <div class="h5 pt5 cl-accent lh25 qty">
           <span>
-            Qty
+            {{ $t('Qty') }}
           </span>
           <span class="weight-700" :class="{ hidden: isEditing }">
             {{ product.qty }}
@@ -39,16 +39,27 @@
           </span>
         </div>
       </div>
-      <div class="flex pb15 pt15 align-right actions">
-        <div>
-          <span class="h4 serif price-special" v-if="product.special_price">
-            {{ product.priceInclTax | price }}&nbsp;
+      <div class="flex py15 mr10 align-right start-xs between-sm actions">
+        <div v-if="!product.totals">
+          <span class="h4 serif cl-error price-special" v-if="product.special_price">
+            {{ product.priceInclTax * product.qty | price }}&nbsp;
           </span>
-          <span class="serif price-original" v-if="product.special_price">
-            {{ product.originalPriceInclTax | price }}
+          <span class="h6 serif price-original" v-if="product.special_price">
+            {{ product.originalPriceInclTax * product.qty | price }}
           </span>
           <span class="h4 serif price-regular" v-if="!product.special_price">
-            {{ product.priceInclTax | price }}
+            {{ product.priceInclTax * product.qty | price }}
+          </span>
+        </div>
+        <div v-if="product.totals">
+          <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
+            {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
+          </span>
+          <span class="h6 serif price-original" v-if="product.totals.discount_amount">
+            {{ product.totals.row_total_incl_tax | price }}
+          </span>
+          <span class="h4 serif price-regular" v-if="!product.totals.discount_amount">
+            {{ product.totals.row_total_incl_tax | price }}
           </span>
         </div>
         <div class="links">
@@ -65,7 +76,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
@@ -104,25 +115,20 @@ export default {
     EditButton,
     RemoveButton
   },
-  mixins: [coreComponent('core/blocks/Microcart/Product')]
+  mixins: [coreComponent('blocks/Microcart/Product')]
 }
 </script>
 
 <style lang="scss" scoped>
   .image {
-    margin-left: .5rem;
-    img {
-      mix-blend-mode: multiply;
-      vertical-align: top;
-    }
+    mix-blend-mode: multiply;
+    vertical-align: top;
   }
 
   .details {
     flex-direction: column;
-    justify-content: space-between;
     @media (max-width: 767px) {
-      justify-content: flex-start;
-      padding:  0 10px 0 20px;
+      padding: 0 10px 0 20px;
     }
   }
 
@@ -146,30 +152,18 @@ export default {
 
   .actions {
     flex-direction: column;
-    justify-content: space-between;
-    margin-right: 0.5rem;
     @media (max-width: 767px) {
-      justify-content: flex-start;
       padding: 0;
       font-size: 12px;
     }
     .links {
-       @media (max-width: 767px) {
-         margin-top: 20px;
-       }
+      @media (max-width: 767px) {
+        margin-top: 20px;
+      }
     }
   }
 
-  .error {
-    color: #ff0000;
-  }
-
-  .info {
-    color: #008000;
-  }
-
   .price-special {
-    color: #ff0000;
     @media (max-width: 767px) {
       font-size: 14px;
     }
@@ -177,7 +171,6 @@ export default {
 
   .price-original {
     text-decoration: line-through;
-    font-size: 12px;
   }
 
   .price-regular {

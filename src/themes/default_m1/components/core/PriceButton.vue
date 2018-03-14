@@ -1,68 +1,53 @@
 <template>
-    <span @click="switchFilter(id, from, to)">
-        <button class="brdr-c-gray brdr-1 bg-transparent mr10" :class="{ active: active }">
-            <div class="bg-transparent"></div>
-        </button> 
-        <span>{{ content }}</span>
-    </span>
+  <span @click="switchFilter(id, from, to)">
+    <button
+      class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-button"
+      :class="{ active: active }"
+      :aria-label="$t('Price ') + content"
+    >
+      <div class="bg-cl-transparent absolute block square"/>
+    </button>
+    <span>{{ content }}</span>
+  </span>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default { // TODO: move logic to parent component
-  data () {
-    return {
-      active: false
-    }
-  },
-  beforeMount () {
-    this.$bus.$on('filter-changed-' + this.context, (filterOption) => {
-      if (filterOption.attribute_code === this.code) {
-        if (filterOption.id === this.id) {
-          if (this.active) {
-            this.active = false
-            return
-          } else {
-            this.active = true
-          }
-        } else {
-          this.active = false
-        }
-        // filterOption.id === this.id ? this.active = true : this.active = false
-      }
-    })
-  },
-  methods: {
-    switchFilter (id, from, to) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
-    }
-  },
-  mixins: [coreComponent('core/PriceButton')]
+  mixins: [coreComponent('PriceButton')]
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-event: color(tertiary);
+  $color-active: color(accent);
 
-    button {
-        width: 20px;
-        height: 20px;
-        position: relative;
-        cursor: pointer;
+  .price-button {
+    width: 20px;
+    height: 20px;
+
+    &:hover,
+    &:focus {
+      .square {
+        background-color: $color-event;
+      }
     }
 
-    button > div {
-        width: 80%;
-        height: 80%;
-        display: block;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
+    &.active {
+      .square {
+        background-color: $color-active;
+      }
     }
+  }
 
-    button.active > div {
-        background-color: black;
-    }
-
+  .square {
+    width: 80%;
+    height: 80%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  }
 </style>

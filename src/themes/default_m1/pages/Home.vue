@@ -1,36 +1,36 @@
 <template>
   <div id="home">
-  <main-slider />
+    <main-slider />
 
-  <promoted-offers></promoted-offers>
+    <promoted-offers/>
 
-  <section class="new-collection container px15">
-    <div>
-      <header class="col-md-12">
-        <h2 class="align-center c-black">Everything new</h2>
-      </header>
-    </div>
-    <div class="row center-xs">
-      <product-listing columns="4" :products="everythingNewCollection" />
-    </div>
-  </section>
+    <section class="new-collection container px15">
+      <div>
+        <header class="col-md-12">
+          <h2 class="align-center cl-accent">{{ $t('Everything new') }}</h2>
+        </header>
+      </div>
+      <div class="row center-xs">
+        <product-listing columns="4" :products="everythingNewCollection" />
+      </div>
+    </section>
 
-  <collection title="New Luma Yoga Collection" coverImage="/assets/collection.jpg" category="Women"></collection>
+    <collection :title="$t('New Luma Yoga Collection')" cover-image="/assets/collection.jpg" category="Women"/>
 
-  <section class="container pb60">
-    <div class="row center-xs">
-      <header class="col-md-12 pt40">
-        <h2 class="align-center c-black">Get inspired</h2>
-      </header>
-    </div>
-    <tile-links />
-  </section>
-  <Onboard/>
+    <section class="container pb60">
+      <div class="row center-xs">
+        <header class="col-md-12 pt40">
+          <h2 class="align-center cl-accent">{{ $t('Get inspired') }}</h2>
+        </header>
+      </div>
+      <tile-links />
+    </section>
+    <Onboard/>
   </div>
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 import builder from 'bodybuilder'
 
 // Base components overwrite
@@ -47,6 +47,16 @@ export default {
   created () {
     // Load personal and shipping details for Checkout page from IndexedDB
     this.$store.dispatch('checkout/load')
+  },
+  beforeMount () {
+    if (global.__DEMO_MODE__) {
+      this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' }).then((onboardingClaim) => {
+        if (!onboardingClaim) { // show onboarding info
+          this.$bus.$emit('modal-toggle', 'modal-onboard')
+          this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
+        }
+      })
+    }
   },
   computed: {
     categories () {

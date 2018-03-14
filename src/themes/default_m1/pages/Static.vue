@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="bg-lightgray py35 pl20">
+    <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
-        <h2>{{ this.$props.title }}</h2>
+        <h2>{{ $props.title }}</h2>
       </div>
     </div>
 
@@ -12,11 +12,13 @@
         <div class="col-sm-3">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="page in navigation"><router-link :to="page.link" class="c-black">{{page.title}}</router-link></li>
+              <li class="mb10" v-for="page in navigation" :key="page.id">
+                <router-link :to="page.link" class="cl-accent relative">{{ page.title }}</router-link>
+              </li>
             </ul>
           </nav>
         </div>
-        <div class="static-content col-sm-9">
+        <div class="static-content h4 lh35 col-sm-9">
           <static-content :file="$props.page"/>
         </div>
       </div>
@@ -26,77 +28,75 @@
 
 <script>
 import Breadcrumbs from '../components/core/Breadcrumbs'
-import Meta from 'src/lib/meta'
 import staticContent from 'theme/components/theme/StaticContent'
+import i18n from 'core/lib/i18n'
 
 export default {
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title,
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
+  },
   components: {
     Breadcrumbs,
     staticContent
   },
-  props: ['page', 'title'],
-  mixins: [Meta],
-  meta () {
-    return {
-      title: this.$props.title
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    page: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
       navigation: [
-        { title: 'About us', link: '/about-us' },
-        { title: 'Customer service', link: '/customer-service' },
-        { title: 'Store locator', link: '/store-locator' },
-        { title: 'Delivery', link: '/delivery' },
-        { title: 'Return policy', link: '/returns' },
-        { title: 'Privacy policy', link: '/privacy' },
-        { title: 'Contact us', link: '/contact' }
+        { title: i18n.t('About us'), link: '/about-us' },
+        { title: i18n.t('Customer service'), link: '/customer-service' },
+        { title: i18n.t('Store locator'), link: '/store-locator' },
+        { title: i18n.t('Delivery'), link: '/delivery' },
+        { title: i18n.t('Return policy'), link: '/returns' },
+        { title: i18n.t('Privacy policy'), link: '/privacy' },
+        { title: i18n.t('Contact us'), link: '/contact' }
       ]
-    }
-  },
-  watch: {
-    '$route': 'validateRoute'
-  },
-  methods: {
-    validateRoute () {
-      this.setMeta()
     }
   }
 }
 </script>
 
-<style lang="scss">
-  .static-menu {
-    ul {
-      list-style: none;
-    }
+<style lang="scss" scoped>
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$border-primary: color(primary, $colors-border);
 
-    a {
-      position: relative;
-    }
-
-    a::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: #BDBDBD;
-    }
-
-    a:hover::after,
-    .router-link-active::after {
-      opacity: 0;
-    }
+.static-menu {
+  ul {
+    list-style: none;
   }
 
-  .static-content {
-    font-size: 1.2em;
-    line-height: 2.1em;
-
-    *:first-of-type {
-      margin-top: 0;
-    }
+  a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: $border-primary;
   }
+
+  a:hover::after,
+  .router-link-active::after {
+    opacity: 0;
+  }
+}
+
+.static-content {
+  *:first-of-type {
+    margin-top: 0;
+  }
+}
 </style>

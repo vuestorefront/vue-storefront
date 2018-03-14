@@ -1,64 +1,55 @@
 <template>
-    <button class="p0 bg-white c-gray brdr-1 brdr-gray" :class="{ active: active }" @click="switchFilter(id, label)">
-        {{ label }}
-    </button>
+  <button
+    class="
+      p0 bg-cl-primary brdr-1 brdr-cl-primary
+      brdr-square h5 cl-tertiary size-button
+    "
+    :class="{ active: active }"
+    @click="switchFilter(id, label)"
+    :aria-label="$t('Select size ') + label"
+  >
+    {{ label }}
+  </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  data () {
-    return {
-      active: false
-    }
-  },
-  beforeMount () {
-    this.$bus.$on('filter-changed-' + this.context, (filterOption) => {
-      if (filterOption.attribute_code === this.code) {
-        if (filterOption.id === this.id) {
-          if (this.active) {
-            this.active = false
-            return
-          } else {
-            this.active = true
-          }
-        } else {
-          this.active = false
-        }
-        // filterOption.id === this.id ? this.active = true : this.active = false
-      }
-    })
-  },
-  methods: {
-    switchFilter (id, label) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
-    }
-  },
-  mixins: [coreComponent('core/SizeButton')]
+  mixins: [coreComponent('SizeButton')]
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-active: color(secondary);
+  $color-disabled: color(secondary, $colors-border);
 
-    button {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      border-radius: 0;
-      border-color: #BDBDBD;
-      font-size: 14px;
-      color: #BDBDBD;
-    }
-    button.active {
-      border-color: #828282;
+  .size-button {
+    width: 40px;
+    height: 40px;
+
+    &:hover,
+    &:focus {
       border-width: 2px;
-      color: #828282;
-    }
-    button:disabled {
-      border-color: #E0E0E0;
-      color: #E0E0E0;
-      cursor: not-allowed;
     }
 
+    &.active {
+      border-color: $color-active;
+      border-width: 2px;
+      color: $color-active;
+    }
+
+    &:disabled {
+      border-color: $color-disabled;
+      color: $color-disabled;
+      cursor: not-allowed;
+
+      &:hover,
+      &:after {
+        border-width: 1px;
+      }
+    }
+  }
 </style>

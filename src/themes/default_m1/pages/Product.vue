@@ -1,42 +1,42 @@
 <template>
   <div id="product">
-    <section class="bg-lightgray py30 px20 product-top-section">
+    <section class="bg-cl-secondary py30 px20 product-top-section">
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
         <section class="row py35 m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <transition name="fade" appear>
-              <img class="product-image" v-lazy="imgObj" ref="image">
+              <img class="product-image inline-flex mw-100" v-lazy="image" ref="image">
             </transition>
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
-            <div class="uppercase c-gray-secondary">
-              sku: {{ product.sku}}
+            <div class="uppercase cl-secondary">
+              sku: {{ product.sku }}
             </div>
-            <h1 class="mb20 mt0 c-black product-name">
+            <h1 class="mb20 mt0 cl-accent product-name">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb30 price" v-if="product.type_id !== 'grouped'">
               <div
-                class="h3 c-gray-secondary"
+                class="h3 cl-secondary"
                 v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
               >
-                <span class="price-special">
+                <span class="cl-error">
                   {{ product.priceInclTax | price }}
                 </span>&nbsp;
-                <span class="price-original">
+                <span class="price-original h4">
                   {{ product.originalPriceInclTax | price }}
                 </span>
               </div>
               <div
-                class="h3 c-gray"
+                class="h3 cl-bg-tertiary"
                 v-if="!product.special_price && product.priceInclTax"
               >
                 {{ product.priceInclTax | price }}
               </div>
             </div>
             <div
-              class="c-emperor variants"
+              class="cl-primary variants"
               v-if="product.type_id =='configurable' && !loading"
             >
               <div
@@ -59,7 +59,6 @@
                       :label="c.label"
                       context="product"
                       code="color"
-                      class="mr10"
                       :class="{ active: c.id == configuration.color.id }"
                     />
                   </div>
@@ -79,11 +78,14 @@
                   <router-link
                     to="/size-guide"
                     v-if="option.label == 'Size'"
-                    class="p0 ml30 no-underline action size-guide"
+                    class="
+                      p0 ml30 inline-flex middle-xs weight-700 uppercase
+                      no-underline action size-guide pointer cl-tertiary
+                    "
                   >
                     <i class="pr5 material-icons">accessibility</i>
                     <span>
-                      Size guide
+                      {{ $t('Size guide') }}
                     </span>
                   </router-link>
                 </div>
@@ -96,33 +98,44 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                class="col-xs-12 col-sm-4 col-md-6 h4 bg-black c-white py20 brdr-none"
+                class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
             <div class="row pt45 add-to-buttons">
               <div class="col-xs-12 col-sm-5">
                 <button
                   @click="addToFavorite"
-                  class="p0 bg-transparent brdr-none action"
+                  class="
+                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
+                    action weight-700 h5 uppercase pointer cl-tertiary
+                  "
                   type="button"
                 >
                   <i class="pr5 material-icons">{{ favorite.icon }}</i>
-                  Add to favorite
+                  <template v-if="!favorite.isFavorite">
+                    {{ $t('Add to favorite') }}
+                  </template>
+                  <template v-else>
+                    {{ $t('Remove') }}
+                  </template>
                 </button>
               </div>
               <div class="hidden-xs col-md-7">
                 <button
                   @click="addToCompare"
-                  class="p0 bg-transparent brdr-none action"
+                  class="
+                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
+                    action weight-700 h5 uppercase pointer cl-tertiary
+                  "
                   type="button"
                 >
                   <i class="pr5 material-icons">compare</i>
-                    <template v-if="!compare.isCompare">
-                      Add to compare
-                    </template>
-                    <template v-else>
-                      Remove from compare
-                    </template>
+                  <template v-if="!compare.isCompare">
+                    {{ $t('Add to compare') }}
+                  </template>
+                  <template v-else>
+                    {{ $t('Remove from compare') }}
+                  </template>
                 </button>
               </div>
             </div>
@@ -130,33 +143,33 @@
         </section>
       </div>
     </section>
-    <section class="container pt50 pb20 px20 c-black details">
+    <section class="container pt50 pb20 px20 cl-accent details">
       <h2 class="h3 m0 mb10 sans-serif">
-        Product details
+        {{ $t('Product details') }}
       </h2>
       <div class="h4 details-wrapper" ref="details">
         <div class="row between-md m0">
           <div class="col-md-5">
             <div
-              class="lh30 c-gray-secondary"
+              class="lh30 cl-secondary"
               v-html="product.description"
-            ></div>
+            />
           </div>
           <div class="col-md-6">
             <ul class="attributes p0 pt10 m0">
               <product-attribute
                 :key="attr.attribute_code"
-                v-for="attr in all_custom_attributes"
+                v-for="attr in customAttributes"
                 :product="product"
                 :attribute="attr"
-                emptyPlaceholder="N/A"
-              ></product-attribute>
+                empty-placeholder="N/A"
+              />
             </ul>
           </div>
           <div
             class="details-overlay"
             @click="showDetails"
-          ></div>
+          />
         </div>
       </div>
     </section>
@@ -165,7 +178,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
@@ -175,11 +188,13 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
+import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
   asyncData ({ store, route }) {
     // this is for SSR purposes to prefetch data
   },
+  directives: { focusClean },
   methods: {
     showDetails (event) {
       const details = this.$refs.details
@@ -202,156 +217,145 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .data-wrapper {
-    @media (max-width: 767px) {
-      padding: 0;
-    }
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-primary: color(primary);
+$color-tertiary: color(tertiary);
+$color-secondary: color(secondary);
+$color-white: color(white);
+$bg-secondary: color(secondary, $colors-background);
+
+.data-wrapper {
+  @media (max-width: 767px) {
+    padding: 0;
   }
+}
 
-  .data {
-    @media (max-width: 767px) {
-      border-bottom: 1px solid #F2F2F2;
-    }
+.data {
+  @media (max-width: 767px) {
+    border-bottom: 1px solid $bg-secondary;
   }
+}
 
-  .image {
-    @media (max-width: 1023px) {
-      margin-bottom: 20px;
-      padding: 20px 0 30px 0;
-      background-color: #F2F2F2;
-    }
+.image {
+  @media (max-width: 1023px) {
+    margin-bottom: 20px;
+    padding: 20px 0 30px 0;
+    background-color: $bg-secondary;
   }
+}
 
-  .product-name {
-    @media (max-width: 767px) {
-      margin-top: 10px;
-      font-size: 36px;
-    }
+.product-name {
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 36px;
   }
+}
 
-  .price {
-    @media (max-width: 767px) {
-      color: #4F4F4F;
-    }
+.price {
+  @media (max-width: 767px) {
+    color: $color-primary;
   }
+}
 
-  .variants-label {
-    @media (max-width: 767px) {
-      font-size: 14px;
-    }
-  }
-
-  .variants-wrapper {
-    @media (max-width: 767px) {
-      padding-bottom: 30px;
-    }
-
-   .sizes {
-      @media (max-width: 767px) {
-        width: 60%;
-      }
-    }
-
-    .size-guide {
-      height: 40px;
-      @media (max-width: 767px) {
-        width: 40%;
-        margin-left: 0;
-      }
-    }
-  }
-
-  .product-top-section {
-    @media (max-width: 767px) {
-      padding: 0;
-      background-color: #FFF;
-    }
-  }
-
-  .add-to-buttons {
-    @media (max-width: 767px) {
-      padding-top: 30px;
-      margin-bottom: 40px;
-    }
-  }
-
-  .details {
-    @media (max-width: 767px) {
-      padding: 50px 15px 15px;
-    }
-  }
-
-  .details-wrapper {
-    @media (max-width: 767px) {
-      position: relative;
-      max-height: 140px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      font-size: 14px;
-    }
-  }
-
-  .details-overlay {
-    @media (max-width: 767px) {
-      position: absolute;
-      height: 75%;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      margin: 0;
-      cursor: pointer;
-      background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-      &.hidden {
-        display: none;
-      }
-    }
-  }
-
-  .link-header {
-    font-weight: bold;
-  }
-
-  .price-original {
-    text-decoration: line-through;
-    font-size: smaller;
-  }
-
-  .price-special {
-    color: #FF0000;
-  }
-
-  .action {
-    display: inline-flex;
-    align-items: center;
-    font-weight: 700;
+.variants-label {
+  @media (max-width: 767px) {
     font-size: 14px;
-    text-transform: uppercase;
-    color: #BDBDBD;
+  }
+}
+
+.variants-wrapper {
+  @media (max-width: 767px) {
+    padding-bottom: 30px;
+  }
+
+ .sizes {
+    @media (max-width: 767px) {
+      width: 60%;
+    }
+  }
+
+  .size-guide {
+    height: 40px;
+    @media (max-width: 767px) {
+      width: 40%;
+      margin-left: 0;
+    }
+  }
+}
+
+.product-top-section {
+  @media (max-width: 767px) {
+    padding: 0;
+    background-color: $color-white;
+  }
+}
+
+.add-to-buttons {
+  @media (max-width: 767px) {
+    padding-top: 30px;
+    margin-bottom: 40px;
+  }
+}
+
+.details {
+  @media (max-width: 767px) {
+    padding: 50px 15px 15px;
+  }
+}
+
+.details-wrapper {
+  @media (max-width: 767px) {
+    position: relative;
+    max-height: 140px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+}
+
+.details-overlay {
+  @media (max-width: 767px) {
+    position: absolute;
+    height: 75%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
     cursor: pointer;
+    background: linear-gradient(rgba($color-white, 0), rgba($color-white, 1));
+    &.hidden {
+      display: none;
+    }
   }
+}
 
-  .action:hover {
-    color: #828282;
-  }
+.price-original {
+  text-decoration: line-through;
+}
 
-  .attributes {
-    list-style-type: none;
+.action {
+  &:hover {
+    color: $color-secondary;
   }
+}
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s;
-  }
+.attributes {
+  list-style-type: none;
+}
 
-  .fade-enter,
-  .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
 
-  .product-image {
-    display: inline-flex;
-    mix-blend-mode: multiply;
-    max-width: 100%;
-    width: 460px;
-  }
+.fade-enter,
+.fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.product-image {
+  mix-blend-mode: multiply;
+  width: 460px;
+}
 </style>

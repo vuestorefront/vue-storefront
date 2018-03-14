@@ -1,22 +1,16 @@
 <template>
-  <button class="brdr-none bg-transparent p0 inline-flex c-gray-secondary">
+  <button class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary">
     <span class="hidden-xs h6 weight-300">
-      Remove
+      {{ $t('Remove') }}
     </span>
     <i class="material-icons h4 p5 pr0">remove_shopping_cart</i>
   </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Microcart/RemoveButton')]
+  mixins: [coreComponent('blocks/Microcart/RemoveButton')]
 }
 </script>
-
-<style scoped>
-  button {
-    align-items: center;
-  }
-</style>

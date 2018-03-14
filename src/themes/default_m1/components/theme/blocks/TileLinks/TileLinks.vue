@@ -1,7 +1,11 @@
 <template>
   <div class="tile-links">
     <div class="row center-xs">
-      <div class="tile-container middle-xs center-xs row col-md-4 p15" v-for="tile in social_tiles">
+      <div
+        class="tile-container middle-xs center-xs row col-md-4 p15"
+        v-for="(tile, index) in social_tiles"
+        :key="index"
+      >
         <tile-link :tile="tile" />
       </div>
     </div>
@@ -9,14 +13,23 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import { mapGetters, mapActions } from 'vuex'
+import socialData from 'theme/resource/ig_feed.json'
 import TileLink from './TileLink.vue'
+
 export default {
-  name: 'tile-links',
+  name: 'TileLinks',
+  created () {
+    this.updateSocialTiles(socialData)
+  },
   computed: {
     ...mapGetters({
       social_tiles: 'social/getSocialTiles'
+    })
+  },
+  methods: {
+    ...mapActions({
+      updateSocialTiles: 'social/updateSocialTiles'
     })
   },
   components: {

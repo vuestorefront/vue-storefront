@@ -1,53 +1,64 @@
 <template>
-  <div class="button-outline uppercase px40 py15" tabindex="0" :class="{
-    light : color === 'light', 'brdr-white' : color === 'light', 'c-white' : color === 'light',
-    dark : color === 'dark', 'brdr-black' : color === 'dark', 'c-gray-secondary' : color === 'dark'
-  }">
-    {{ text }}
-  </div>
+  <component
+    :is="link ? 'router-link' : 'button'"
+    :to="link"
+    class="button-outline no-outline px40 py15 bg-cl-transparent uppercase h4 no-underline"
+    :class="{
+      light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
+      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'cl-secondary' : color === 'dark',
+    }"
+  >
+    <slot>
+      Button
+    </slot>
+  </component>
 </template>
 
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
 export default {
-  name: 'button-outline',
+  name: 'ButtonOutline',
   directives: { focusClean },
   props: {
-    text: {
-      type: String,
-      required: true
-    },
     color: {
       type: String,
       required: true
+    },
+    link: {
+      type: String,
+      default: null,
+      required: false
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/global_vars';
-$gray-secondary: map-get($colors, gray-secondary);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $dark-border: color(secondary);
+  $white: color(white);
+  $black: color(black);
 
-.button-outline {
-    font-size: 16px;
+  .button-outline {
     border: 2px solid;
-    display: inline-flex;
-    cursor: pointer;
-    font-weight: 400;
-}
-.button-outline.dark {
+  }
+  .dark {
     font-weight: 200;
-    border: 1px solid $gray-secondary;
-}
-.light:hover {
-    color: #000;
-    background: white;
-    border-color: white;
-}
-.dark:hover {
-    color: white;
-    background: #000;
-    border-color: black;
-}
+    border: 1px solid $dark-border;
+    &:hover,
+    &:focus {
+      color: $white;
+      background: $black;
+      border-color: $black;
+    }
+  }
+  .light {
+    &:hover,
+    &:focus {
+      color: $black;
+      background: $white;
+      border-color: $white;
+    }
+  }
 </style>

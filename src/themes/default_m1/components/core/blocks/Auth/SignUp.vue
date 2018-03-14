@@ -1,56 +1,30 @@
 <template>
-  <div class="sign-up mb20">
-    <i class="material-icons p15 close c-gray" @click="closeSignUp">close</i>
+  <modal name="modal-signup" :width="555">
     <login v-if="activeElem === 'login'" />
     <register v-if="activeElem === 'register'" />
     <forgot-pass v-if="activeElem === 'forgot-pass'" />
-  </div>
+  </modal>
 </template>
 <script>
+import Modal from 'theme/components/core/Modal'
 import Login from './Login.vue'
 import Register from './Register.vue'
 import ForgotPass from './ForgotPass.vue'
 
-import { coreComponent } from 'lib/themes'
-import { mapState } from 'vuex'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  computed: {
-    ...mapState({
-      activeElem: state => state.ui.authElem
-    })
-  },
   components: {
+    Modal,
     Login,
     Register,
     ForgotPass
   },
-  mixins: [coreComponent('core/blocks/Auth/SignUp')]
+  mixins: [coreComponent('blocks/Auth/SignUp')]
 }
 </script>
-<style lang="scss" scoped>
-  .sign-up {
-    position: absolute;
-    width: 555px;
-    min-height: 555px;
-    background-color: white;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
+<style scoped>
+  .modal {
     font-size: 18px;
-
-    @media (max-width: 600px) {
-      top: 0;
-      margin: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
-  .close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    cursor: pointer;
   }
 </style>

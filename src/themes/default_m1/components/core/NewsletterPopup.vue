@@ -1,29 +1,44 @@
 <template>
-  <div class="newsletter mb20 bg-white">
-    <i class="material-icons close p15 c-gray" @click="closeNewsletter">close</i>
-    <div class="py35 px55 bg-lightgray">
-      <h1 class="my0">Newsletter</h1>
-    </div>
-    <div class="py35 px55 bg-white c-gray">
+  <modal name="modal-newsletter" :width="450">
+    <p slot="header">
+      {{ $t('Newsletter') }}
+    </p>
+    <div slot="content">
       <form @submit.prevent="subscribe" novalidate>
         <div class="mb35">
-          <p class="h4">Sign up to our newsletter and receive a coupon for 10% off!</p>
-          <input class="brdr-none py10 h4 weight-200" ref="email" type="email" name="email" v-model="email" placeholder="E-mail address *">
-          <p class="m0 c-red h6" v-if="!$v.email.required">Field is required.</p>
-          <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+          <p class="h4">
+            {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
+          </p>
+          <input
+            class="border-box w-100 brdr-none brdr-bottom brdr-cl-primary py10 h4 weight-200"
+            autofocus
+            type="email"
+            name="email"
+            v-model="email"
+            autocomplete="email"
+            :placeholder="$t('E-mail address *')"
+          >
+          <p class="m0 cl-error h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
+          <p class="m0 cl-error h6" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</p>
         </div>
         <div class="mb35 center-xs">
-          <button-full class="btn-full p0 ripple" text="Subscribe" @click.native="subscribe"></button-full>
+          <button-full
+            type="submit"
+            @click.native="$v.email.$touch"
+          >
+            {{ $t('Subscribe') }}
+          </button-full>
         </div>
       </form>
     </div>
-  </div>
+  </modal>
 </template>
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { coreComponent } from 'lib/themes'
+import Modal from 'theme/components/core/Modal'
 import { required, email } from 'vuelidate/lib/validators'
-import EventBus from 'src/event-bus'
+import i18n from 'core/lib/i18n'
+
 export default {
   data () {
     return {
@@ -41,79 +56,42 @@ export default {
       if (this.$v.$invalid) {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please fix the validation errors',
+          message: i18n.t('Please fix the validation errors'),
           action1: { label: 'OK', action: 'close' }
         })
         return
       }
 
       // todo: add user email to newsletter list
-      EventBus.$emit('newsletter-after-subscribe', { email: this.email })
+      this.$bus.$emit('newsletter-after-subscribe', { email: this.email })
 
       this.$bus.$emit('notification', {
         type: 'success',
-        message: 'You have been successfully subscribed to our newsletter!',
+        message: i18n.t('You have been successfully subscribed to our newsletter!'),
         action1: { label: 'OK', action: 'close' }
       })
-      this.$store.commit('ui/setNewsletterPopup', false)
+
+      this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },
-  mounted () {
-    this.$refs.email.focus()
-  },
   components: {
-    ButtonFull
-  },
-  mixins: [coreComponent('core/NewsletterPopup')]
+    ButtonFull,
+    Modal
+  }
 }
 </script>
 <style lang="scss" scoped>
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
 
-  input[type=email] {
-    box-sizing: border-box;
-    border-bottom: 1px solid #BDBDBD;
-    width: 100%;
-    font-family: 'Roboto', sans-serif;
-  }
-
-  input::-webkit-input-placeholder {
-    color: #BDBDBD;
-  }
-
-  input:-moz-placeholder {
-    color: #BDBDBD;
+  input::-webkit-input-placeholder,
+  input::-moz-placeholder {
+    color: color(tertiary);
   }
 
   input:focus {
     outline: none;
-    border-color: #000000;
+    border-color: color(black);
     transition: 0.3s all;
   }
-
-  .newsletter {
-    position: absolute;
-    width: 450px;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-
-    @media (max-width: 600px) {
-      top: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    cursor: pointer;
-  }
-
-  .btn-full {
-    display: block;
-  }
-
 </style>

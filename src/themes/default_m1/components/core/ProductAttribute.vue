@@ -1,12 +1,12 @@
 <template>
-    <li class="py10 c-gray-secondary">
-      <span>{{label|htmlDecode}} </span>
-      <span class="weight-700">{{value|htmlDecode}}</span>
-    </li>
+  <li class="py10 cl-secondary">
+    <span>{{ label|htmlDecode }} </span>
+    <span class="weight-700">{{ value|htmlDecode }}</span>
+  </li>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
   data () {
@@ -40,6 +40,6 @@ export default {
       this.value = results.join(', ')
     }
   },
-  mixins: [coreComponent('core/ProductAttribute')]
+  mixins: [coreComponent('ProductAttribute')]
 }
 </script>

@@ -1,20 +1,20 @@
 <template>
-  <div id="app" :class="{ 'no-scroll': noScroll }">
+  <div id="app">
     <overlay v-if="overlayActive"/>
-    <loader />
-    <div id="viewport p55">
-      <microcart />
-      <search-panel />
-      <wishlist />
-      <sidebar-menu />
-      <main-header />
-      <router-view></router-view>
-      <main-footer />
-      <notification />
-      <sign-up v-if="signUpOpen" />
-      <newsletter-popup v-if="newsletterOpen"/>
-      <cookie-notification />
-      <Offline-badge />
+    <loader/>
+    <div id="viewport" class="w-100 relative">
+      <microcart/>
+      <search-panel/>
+      <wishlist/>
+      <sidebar-menu/>
+      <main-header/>
+      <router-view/>
+      <main-footer/>
+      <notification/>
+      <sign-up/>
+      <newsletter-popup/>
+      <cookie-notification/>
+      <offline-badge/>
     </div>
   </div>
 </template>
@@ -39,18 +39,18 @@ import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
 import OfflineBadge from './components/core/OfflineBadge.vue'
 
+import Head from 'theme/resource/head'
+
 export default {
   computed: {
     ...mapState({
-      noScroll: state => state.ui.overlay,
-      newsletterOpen: state => state.ui.newsletterPopup,
-      signUpOpen: state => state.ui.signUp,
       overlayActive: state => state.ui.overlay
     })
   },
   mounted () {
     this.$store.dispatch('user/startSession')
   },
+  metaInfo: Head,
   components: {
     MainHeader,
     MainFooter,
@@ -70,67 +70,4 @@ export default {
 }
 </script>
 
-<!-- CSS DOCS: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20stylesheets%20(CSS).md -->
-<style src="./css/flexbox-grid.css"></style>
-<style src="./css/color.scss" lang="scss"></style>
-<style src="./css/margin.scss" lang="scss"></style>
-<style src="./css/transitions.scss" lang="scss"></style>
-<style src="./css/animations.scss" lang="scss"></style>
-<style src="./css/buttons.scss" lang="scss"></style>
-<style src="./css/padding.scss" lang="scss"></style>
-<style src="./css/text.scss" lang="scss"></style>
-<style src="./css/border.scss" lang="scss"></style>
-<style src="./css/positioning.scss" lang="scss"></style>
-<style src="./css/visibility.scss" lang="scss"></style>
-<style src="./css/utilities.scss" lang="scss"></style>
-
-<style>
-  html,
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  a {
-    color: inherit;
-    position: relative;
-    text-decoration: none;
-  }
-
-  a.underline:after,
-  a:not(.no-underline):hover:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #BDBDBD;
-  }
-
-  .no-underline:hover:after {
-    height: 0;
-  }
-
-  @media (hover: none) {
-    a:not(.no-underline):after {
-      display: none;
-    }
-  }
-
-  #app {
-    overflow-x: hidden;
-  }
-
-  #app.no-scroll {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  #viewport {
-    width: 100%;
-    position: relative;
-    overflow-x: hidden;
-  }
-</style>
+<style lang="scss" src="./css/main.scss">

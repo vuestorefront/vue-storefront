@@ -1,4 +1,4 @@
-import { coreStore, extendStore } from 'lib/themes'
+import { coreStore, extendStore } from 'core/lib/themes'
 
 const state = {
   submenu: {
@@ -35,14 +35,6 @@ const mutations = {
   },
   setWishlist (state, action) {
     state.wishlist = action === true
-    state.overlay = action === true
-  },
-  setSignUp (state, action) {
-    state.signUp = action === true
-    state.overlay = action === true
-  },
-  setNewsletterPopup (state, action) {
-    state.newsletterPopup = action === true
     state.overlay = action === true
   }
 }
