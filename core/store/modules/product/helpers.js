@@ -146,11 +146,13 @@ export function configureProductAsync (context, { product, configuration, select
     // handle custom_attributes for easier comparing in the future
     product.configurable_children.forEach((child) => {
       let customAttributesAsObject = {}
-      child.custom_attributes.forEach((attr) => {
-        customAttributesAsObject[attr.attribute_code] = attr.value
-      })
-      // add values from custom_attributes in a different form
-      Object.assign(child, customAttributesAsObject)
+      if (child.custom_attributes) {
+        child.custom_attributes.forEach((attr) => {
+          customAttributesAsObject[attr.attribute_code] = attr.value
+        })
+        // add values from custom_attributes in a different form
+        Object.assign(child, customAttributesAsObject)
+      }
     })
     // find selected variant
     let selectedVariant = product.configurable_children.find((configurableChild) => {
