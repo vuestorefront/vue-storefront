@@ -32,6 +32,7 @@
       "endpoint": "http://localhost:8080/api/user"
     },
     "stock": {
+      "synchronize": true,
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
