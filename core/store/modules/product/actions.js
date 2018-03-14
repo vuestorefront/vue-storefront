@@ -147,7 +147,7 @@ export default {
           for (let ov of option.values) {
             let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
             if (_.trim(lb) !== '') {
-              let optionKey = option.label.toLowerCase()
+              let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
               if (!context.state.current_options[optionKey]) {
                 context.state.current_options[optionKey] = []
               }
@@ -172,11 +172,13 @@ export default {
               value: selectedVariant[attr.attribute_code]
             }
           }
-          context.state.current_configuration[attr.attribute_code] = {
+          const confVal = {
             attribute_code: attr.attribute_code,
             id: selectedOption.value,
             label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
           }
+          context.state.current_configuration[attr.attribute_code] = confVal
+          context.state.current_configuration[attr.frontend_label.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
         }
       }).catch(err => {
         console.error(err)

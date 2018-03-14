@@ -47,7 +47,7 @@
                 <div class="variants-label">
                   {{ option.label }}
                   <span class="weight-700">
-                    {{ configuration[option.label.toLowerCase()].label }}
+                    {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
                   </span>
                 </div>
                 <div class="row top-xs m0 pt15 pb40 variants-wrapper">
@@ -72,6 +72,19 @@
                       code="size"
                       class="mr10 mb10"
                       :class="{ active: s.id == configuration.size.id }"
+                      v-focus-clean
+                    />
+                  </div>
+                  <div class="sizes" v-if="option.label == 'Shoe size'">
+                    <size-button
+                      v-for="(s, i) in options['shoe_size']"
+                      :key="i"
+                      :id="s.id"
+                      :label="s.label"
+                      context="product"
+                      code="shoe_size"
+                      class="mr10 mb10"
+                      :class="{ active: s.id == configuration['shoe_size'].id }"
                       v-focus-clean
                     />
                   </div>
