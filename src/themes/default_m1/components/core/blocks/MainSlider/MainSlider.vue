@@ -6,9 +6,7 @@
           <div class="container w-100" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
             <div class="row middle-xs center-xs">
               <div class="col-md-12 px10p">
-                <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
-                <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
-                <div class="align-center">
+                <div class="align-center mt30">
                   <button-outline :link="slide.link" color="light">
                     {{ slide.button_text }}
                   </button-outline>

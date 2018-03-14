@@ -1,9 +1,6 @@
 <template>
   <div id="home">
     <main-slider />
-
-    <promoted-offers/>
-
     <section class="new-collection container px15">
       <div>
         <header class="col-md-12">
