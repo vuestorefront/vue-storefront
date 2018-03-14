@@ -1,0 +1,22 @@
+// Add new colors to the BOTTOM of the list, it's very important!
+$colors: (
+    white: white,
+    black: #333,
+    gray: #8E8E8E,
+    lightgray: #F2F2F2,
+    darkgray: #333333,
+    alto: #E0E0E0,
+    emperor: #4F4F4F,
+    transparent: transparent,
+    gray-secondary: #828282,
+    lightgray-secondary: #BDBDBD,
+    red: #EB5757,
+    ocean-green: #4DBA87
+);
+
+//@to-do make it more customizable - change colors to match their usage not color name so other people can customize it when creatign own theme
+
+$z-index: (
+    modal: 10,
+    notification: 1000
+)
