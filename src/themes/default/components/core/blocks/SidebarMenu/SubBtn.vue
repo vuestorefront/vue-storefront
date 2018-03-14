@@ -1,20 +1,22 @@
 <template>
   <button
-    class="inline-flex end-xs p15"
+    class="inline-flex between-xs w-100 px25 py20 serif cl-accent fs-medium"
     v-if="type === 'next'"
     type="button"
     @click.stop="next()"
     :aria-label="$t('Show subcategories')"
   >
+    {{ name }}
     <i class="material-icons">keyboard_arrow_right</i>
   </button>
   <button
-    class="inline-flex p15"
+    class="inline-flex p15 between-xs w-100"
     v-else
     type="button"
     @click.stop="back()"
     :aria-label="$t('Back')"
   >
+    {{ name }}
     <i class="material-icons">keyboard_arrow_left</i>
   </button>
 </template>
@@ -30,6 +32,10 @@ export default {
     type: {
       type: String,
       default: 'next'
+    },
+    name: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -54,7 +60,9 @@ export default {
 </script>
 <style lang="scss" scoped>
   button {
-    opacity: 0.6;
+    .material-icons {
+      opacity: 0.6;
+    }
 
     &:hover,
     &:focus {

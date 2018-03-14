@@ -167,7 +167,7 @@ export default {
       console.error(validate.errors)
       EventBus.$emit('notification', {
         type: 'error',
-        message: i18n.t('Internal validation error. Please check if all required fileds are filled in. Please contact us on contributors@vuestorefront.io'),
+        message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
         action1: { label: 'OK', action: 'close' }
       })
       throw new ValidationError(validate.errors)

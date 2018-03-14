@@ -21,12 +21,12 @@ export default {
       const notification = {
         subscribed: {
           type: 'success',
-          message: i18n.t('Newsletter succesfully subscribed. Thank you!'),
+          message: i18n.t('Newsletter successfully subscribed. Thank you!'),
           action1: { label: 'OK', action: 'close' }
         },
         alreadySubscribed: {
           type: 'error',
-          message: i18n.t('You have already subscibed our newsletter'),
+          message: i18n.t('You have already subscribed our newsletter'),
           action1: { label: 'OK', action: 'close' }
         },
         wrongEmail: {

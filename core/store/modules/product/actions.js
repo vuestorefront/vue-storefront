@@ -192,6 +192,16 @@ export default {
         // handle cache
         const cache = global.db.elasticCacheCollection
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
+          if (prod.configurable_children) {
+            for (let configurableChild of prod.configurable_children) {
+              if (configurableChild.custom_attributes) {
+                for (let opt of configurableChild.custom_attributes) {
+                  configurableChild[opt.attribute_code] = opt.value
+                }
+              }
+            }
+          }
+
           if (!prod[cacheByKey]) {
             cacheByKey = 'id'
           }
