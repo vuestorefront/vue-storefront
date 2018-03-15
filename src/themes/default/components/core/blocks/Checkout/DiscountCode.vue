@@ -7,9 +7,10 @@
         type="text"
         name="discount-code"
         :placeholder="$t('Discount code')"
+        v-model="code"
       >
 
-      <button @click="addDiscoutnCode(code)" class="">
+      <button @click="addDiscoutnCode()">
         {{ $t('Apply discount code') }}
       </button>
     </div>
@@ -23,9 +24,14 @@ import Discounts from './Discounts'
 export default {
   name: 'DiscountCode',
   mixins: [coreComponent('blocks/Checkout/CartSummary')],
+  data: function () {
+    return {
+      code: ''
+    }
+  },
   methods: {
-    addDiscoutnCode (code) {
-      this.$store.dispatch('cart/apply-coupon', { couponCode: code })
+    addDiscoutnCode () {
+      this.$store.dispatch('cart/manipulateCouponCode', { couponCode: this.code })
     }
   },
   components: {

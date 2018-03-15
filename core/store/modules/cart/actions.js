@@ -351,12 +351,12 @@ export default {
     let body
 
     if (code) {
-      endpointUrl = config.coupon.apply_endpoint
+      endpointUrl = config.cart.apply_endpoint
       body = JSON.stringify({
         code: code
       })
     } else {
-      endpointUrl = config.coupon.delete_endpoint
+      endpointUrl = config.cart.delete_endpoint
       body = {}
     }
 
@@ -366,28 +366,21 @@ export default {
         headers: { 'Content-Type': 'application/json' },
         mode: 'cors',
         body: body
-      },
-      callback_event: 'servercart-after-totals'
-    }, { root: true }).then(task => {
-      if (code) {
-        context.dispatch('coupon/addCode')
-      } else {
-        context.dispatch('coupon/deleteCode')
       }
-      return
+    }, { root: true }).catch(e => {
+      console.error(e)
     })
   },
   getCouponCodes (context) {
-    context.dispatch('sync/execute', { url: config.coupon.get_endpoint,
+    context.dispatch('sync/execute', { url: config.cart.get_endpoint,
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         mode: 'cors'
       },
-      silent: true,
-      callback_event: 'servercart-after-totals'
-    }, { root: true }).then(task => {
-      rootStore.dispatch('coupon/getCodes')
+      silent: true
+    }, { root: true }).catch(e => {
+      console.error(e)
     })
   }
 }

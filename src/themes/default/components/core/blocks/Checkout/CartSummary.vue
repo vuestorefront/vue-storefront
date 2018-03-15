@@ -5,6 +5,9 @@
         {{ $t('Order Summary') }}
       </h3>
       <product v-for="product in items" :key="product.id" :product="product"/>
+
+      <discount-code />
+
       <div v-if="items.length" class="checkout bg-cl-secondary pt10 serif cl-accent">
 
         <div v-for="(segment, index) in totals" :key="index" class="row pt15 pb20 pl30 pr55 " v-if="segment.code !== 'grand_total'">
@@ -55,9 +58,11 @@
 <script>
 import { coreComponent } from 'core/lib/themes'
 import Product from './Product'
+import DiscountCode from './DiscountCode'
 
 export default {
   components: {
+    DiscountCode,
     Product
   },
   mixins: [coreComponent('blocks/Checkout/CartSummary')]
