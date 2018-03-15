@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
-const favicon = require('serve-favicon')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 
@@ -23,7 +22,7 @@ if (isProd) {
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
-	require(resolve('core/build/dev-server'))(app, (bundle, template) => {
+  require(resolve('core/build/dev-server'))(app, (bundle, template) => {
     renderer = createRenderer(bundle, template)
   })
 }
@@ -48,7 +47,6 @@ const theme = require(resolve('core/build/config.json')).theme
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve('core/assets', true))
 app.use('/assets', serve('src/themes/' + theme + '/assets', true))
-app.use(favicon(resolve('core/assets/logo.png')))
 app.use('/service-worker.js', serve('dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))

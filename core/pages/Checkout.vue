@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails.vue'
-import Shipping from 'core/components/blocks/Checkout/Shipping.vue'
-import Payment from 'core/components/blocks/Checkout/Payment.vue'
-import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
-import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
-import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
-import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
+import config from 'config'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
+import Shipping from 'core/components/blocks/Checkout/Shipping'
+import Payment from 'core/components/blocks/Checkout/Payment'
+import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
+import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage'
+import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Checkout',
@@ -37,7 +38,7 @@ export default {
       order: {},
       personalDetails: {},
       shipping: {},
-      payment: { paymentMethod: 'cashondelivery' },
+      payment: {},
       orderReview: {},
       cartSummary: {},
       validationResults: {
@@ -92,6 +93,10 @@ export default {
         }
       }
     }
+    if (this.$store.state.checkout.shippingDetails.country) {
+      this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
+    }
+    this.$store.dispatch('cart/getPaymentMethods')
   },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
@@ -135,6 +140,16 @@ export default {
       this.orderPlaced = true
       console.log(this.order)
     })
+    this.$bus.$on('checkout-before-shippingMethods', (country) => {
+      this.$store.dispatch('cart/getShippingMethods', {
+        country_id: country
+      }).then(() => {
+        this.$store.dispatch('cart/refreshTotals')
+      })
+    })
+    this.$bus.$on('checkout-after-shippingMethodChanged', (payload) => {
+      this.$store.dispatch('cart/refreshTotals', payload)
+    })
   },
   destroyed () {
     this.$bus.$off('network-before-checkStatus')
@@ -145,6 +160,8 @@ export default {
     this.$bus.$off('checkout-before-placeOrder')
     this.$bus.$off('checkout-before-edit')
     this.$bus.$off('order-after-placed')
+    this.$bus.$off('checkout-before-shippingMethods')
+    this.$bus.$off('checkout-after-shippingMethodChanged')
   },
   computed: {
     isValid () {
@@ -205,6 +222,14 @@ export default {
       }
       this.activeSection[sectionToActivate] = true
     },
+    // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
+    getPaymentMethod () {
+      let paymentMethod = this.payment.paymentMethod
+      if (config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = config.orders.payment_methods_mapping[paymentMethod]
+      }
+      return paymentMethod
+    },
     prepareOrder () {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : (this.userId ? this.userId : ''),
@@ -242,7 +267,7 @@ export default {
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingMethod,
-          payment_method_code: this.payment.paymentMethod,
+          payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
         }

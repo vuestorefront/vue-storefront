@@ -22,7 +22,7 @@ export default {
       state: '',
       zipCode: '',
       phoneNumber: '',
-      shippingMethod: 'flatrate'
+      shippingMethod: ''
     },
     paymentDetails: {
       firstName: '',
@@ -36,7 +36,7 @@ export default {
       zipCode: '',
       phoneNumber: '',
       taxId: '',
-      paymentMethod: 'cashondelivery',
+      paymentMethod: '',
       paymentMethodAdditional: {}
     }
   },

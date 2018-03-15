@@ -1,3 +1,4 @@
+// import config from 'config'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
@@ -150,8 +151,8 @@ export default {
     cartSavedAt: new Date(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
-    shipping: { cost: 0, code: '' },
-    payment: { cost: 0, code: '' },
+    shipping: [],
+    payment: [],
     cartItemsHash: '',
     cartItems: [] // TODO: check if it's properly namespaced
   },

@@ -1,10 +1,8 @@
 import extensionStore from './store'
 import extensionRoutes from './router'
-import InfoComponent from './components/info'
 import EventBus from '../../../core/plugins/event-bus'
-import Vue from 'vue'
 
-const EXTENSION_KEY = 'payment-cash-on-delivery'
+const EXTENSION_KEY = 'payment-backend-methods'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
@@ -14,31 +12,14 @@ export default function (app, router, store, config) {
     console.log(EXTENSION_KEY + ' extension initialised')
   })
 
-  // Add this payment method to the config.
-  let paymentMethodConfig = {
-    'title': 'Cash on delivery',
-    'code': 'cashondelivery',
-    'cost': 0,
-    'costInclTax': 0,
-    'default': true,
-    'offline': true
-  }
-
-  app.$store.state.payment.methods.push(paymentMethodConfig)
-
   // Mount the info component when required.
   EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
-    if (paymentMethodCode === 'cashondelivery') {
+    if (app.$store.state['payment-backend-methods'].methods.find(item => item.code === paymentMethodCode)) {
       // Register the handler for what happens when they click the place order button.
       EventBus.$on('checkout-before-placeOrder', placeOrder)
-
-      // Dynamically inject a component into the order review section (optional)
-      const Component = Vue.extend(InfoComponent)
-      const componentInstance = (new Component())
-      componentInstance.$mount('#checkout-order-review-additional')
     } else {
       // unregister the extensions placeorder handler
-      EventBus.$off('checkout-before-placeOrder', placeOrder)
+      EventBus.$off('checkout-before-placeOrder')
     }
   })
 

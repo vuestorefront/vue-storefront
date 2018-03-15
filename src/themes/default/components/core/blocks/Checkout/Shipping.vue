@@ -160,10 +160,10 @@
               name="countries"
               :class="{'cl-tertiary' : shipping.country.length === 0}"
               v-model="shipping.country"
-              @change="$v.shipping.country.$touch()"
+              @change="$v.shipping.country.$touch(); changeCountry();"
               autocomplete="country"
             >
-              <option value="" disabled selected hidden>Country *</option>
+              <option value="" disabled selected hidden>{{ $t('Country') }} *</option>
               <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
             <span class="validation-error" v-if="$v.shipping.country.$error && !$v.shipping.country.required">
@@ -179,13 +179,13 @@
             </h4>
           </div>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
-            <label class="radioStyled"> {{ method.name }} | {{ method.cost | price }}
+            <label class="radioStyled"> {{ method.method_title }} | {{ method.amount | price }}
               <input
                 type="radio"
-                :value="method.code"
+                :value="method.method_code"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
-                @change="$v.shipping.shippingMethod.$touch()"
+                @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
               >
               <span class="checkmark"/>
             </label>
@@ -239,8 +239,7 @@
               </h4>
             </div>
             <div class="col-md-6 mb15">
-              <!-- <label><input type="radio" name="chosen-shipping-method" value="" checked disabled> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }} </label> -->
-              <label class="radioStyled"> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }}
+              <label class="radioStyled"> {{ getShippingMethod().method_title }} | {{ getShippingMethod().amount | price }}
                 <input type="radio" value="" checked disabled name="chosen-shipping-method">
                 <span class="checkmark"/>
               </label>

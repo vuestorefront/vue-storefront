@@ -1,7 +1,12 @@
 <template>
-  <div class="hamburger-icon inline-flex" @click="openSidebarMenu">
-    <i class="material-icons md-18">dehaze</i>
-  </div>
+  <button
+    type="button"
+    class="bg-cl-transparent brdr-none inline-flex"
+    @click="openSidebarMenu"
+    :aria-label="$t('Open menu')"
+  >
+    <i class="material-icons">dehaze</i>
+  </button>
 </template>
 
 <script>

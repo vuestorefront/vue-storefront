@@ -190,10 +190,11 @@ header {
 }
 .icon {
   opacity: 0.6;
-}
-.icon:hover {
-  background-color: $color-icon-hover;
-  opacity: 1;
+  &:hover,
+  &:focus {
+    background-color: $color-icon-hover;
+    opacity: 1;
+  }
 }
 .header-placeholder {
   height: 54px;

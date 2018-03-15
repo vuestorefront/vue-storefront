@@ -24,10 +24,14 @@ export default {
   },
   computed: {
     thumbnail () {
-      // get first configurable child image
-      // NOTE: might not work when product has no children
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, image is going to be 'red'
-      return this.getThumbnail(this.product.image, 310, 300)
+      let thumbnail = this.product.image
+      if (this.product.hasOwnProperty('configurable_children') &&
+        this.product.configurable_children.length
+      ) {
+        thumbnail = this.product.configurable_children[0].thumbnail
+      }
+      return this.getThumbnail(thumbnail, 310, 300)
     }
   }
 }

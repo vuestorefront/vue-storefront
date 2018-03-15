@@ -5,8 +5,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Payment',
@@ -19,7 +20,6 @@ export default {
   data () {
     return {
       isFilled: false,
-      paymentMethods: this.$store.state.payment.methods,
       countries: Countries,
       payment: this.$store.state.checkout.paymentDetails,
       generateInvoice: false,
@@ -30,11 +30,14 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.user.current
+    }),
+    ...mapGetters({
+      paymentMethods: 'cart/paymentMethods'
     })
   },
-  watch: {
-    'payment.paymentMethod': function (code) {
-      this.onPaymentMethodChanged(code)
+  created () {
+    if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
+      this.payment.paymentMethod = this.paymentMethods[0].code
     }
   },
   mounted () {
@@ -45,7 +48,7 @@ export default {
         this.generateInvoice = true
       }
     }
-    this.onPaymentMethodChanged(this.payment.paymentMethod)
+    this.changePaymentMethod()
   },
   methods: {
     sendDataToCheckout () {
@@ -85,7 +88,7 @@ export default {
                 apartmentNumber: addresses[i].street[1],
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
-                paymentMethod: 'cashondelivery'
+                paymentMethod: this.paymentMethods[0].code
               }
               this.generateInvoice = true
               this.sendToBillingAddress = true
@@ -107,7 +110,7 @@ export default {
           postcode: '',
           phoneNumber: '',
           taxId: '',
-          paymentMethod: 'cashondelivery'
+          paymentMethod: this.paymentMethods[0].code
         }
       }
     },
@@ -125,7 +128,7 @@ export default {
           apartmentNumber: shippingDetails.apartmentNumber,
           zipCode: shippingDetails.zipCode,
           phoneNumber: shippingDetails.phoneNumber,
-          paymentMethod: 'cashondelivery'
+          paymentMethod: this.paymentMethods[0].code
         }
         this.sendToBillingAddress = false
         this.generateInvoice = false
@@ -152,7 +155,7 @@ export default {
               apartmentNumber: addresses[i].street[1],
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
-              paymentMethod: 'cashondelivery'
+              paymentMethod: this.paymentMethods[0].code
             }
             this.generateInvoice = true
           }
@@ -182,7 +185,7 @@ export default {
       for (let i = 0; i < this.paymentMethods.length; i++) {
         if (this.paymentMethods[i].code === this.payment.paymentMethod) {
           return {
-            name: this.paymentMethods[i].name
+            title: this.paymentMethods[i].title
           }
         }
       }
@@ -190,14 +193,28 @@ export default {
         name: ''
       }
     },
-    onPaymentMethodChanged (code) {
+    notInMethods (method) {
+      let availableMethods = this.paymentMethods
+      if (availableMethods.find(item => item.code === method)) {
+        return false
+      }
+      return true
+    },
+    changePaymentMethod () {
+      if (this.payment.paymentMethod !== 'cashondelivery') {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.'),
+          action1: { label: 'OK', action: 'close' }
+        })
+      }
       // reset the additional payment method component container if exists.
       if (document.getElementById('checkout-order-review-additional-container')) {
         document.getElementById('checkout-order-review-additional-container').innerHTML = '<div id="checkout-order-review-additional">&nbsp;</div>' // reset
       }
 
       // Let anyone listening know that we've changed payment method, usually a payment extension.
-      this.$bus.$emit('checkout-payment-method-changed', code)
+      this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
     }
   }
 }
