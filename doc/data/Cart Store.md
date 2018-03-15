@@ -16,8 +16,8 @@ Cart Store is designed to handle all actions related the shopping cart.
     cartSavedAt: new Date(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
-    shipping: { cost: 0, code: '' },
-    payment: { cost: 0, code: '' },
+    shipping: [],
+    payment: [],
     cartItems: [] // TODO: check if it's properly namespaced
   },
 ```
@@ -92,6 +92,15 @@ As you may imagine :) This action simply removes the product from the shopping c
 
 ### `updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false })`
 This method is called whenever user changes the qunatity of product in the cart (called from `Microcart.vue`). The parameter `qty` is the new quantity of product and by using `forceServerSilence` you may controll if the server cart synchronization is being executed or not.
+
+### `getPaymentMethods (context)`
+Gets a list of payment methods from the backend and saves them to `cart.payment` store state. 
+
+### `getShippingMethods (context, address)`
+Gets a list of shipping methods from the backed and saves them to `cart.shipping` store state. Country ID is passed to this method in a mandatory `address` parameter.
+
+### `refreshTotals (context, methodsData)`
+This method sends request to the backend to collect cart totals. It calls different backend endpoints depending on if payment and shipping methods information is available or not.
 
 ## Getters 
 
