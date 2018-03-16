@@ -19,7 +19,10 @@ Try out our open demo and if you like it **first give us some star on Github ★
       <td align="center" valign="middle">
         B2B theme (beta)
       </td align="center" valign="middle">
-    </tr>
+      <td align="center" valign="middle">
+        Magento 1.9
+      </td align="center" valign="middle">
+</tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
@@ -60,6 +63,11 @@ Try out our open demo and if you like it **first give us some star on Github ★
           demo-catalog.vuestorefront.io
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento1.vuestorefront.io">
+          demo-magento1.vuestorefront.io
+        </a>
+      </td>      
     </tr>
   </tbody>
 </table>
