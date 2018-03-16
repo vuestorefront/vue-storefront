@@ -7,7 +7,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
-import i18n from 'core/lib/i18n'
+// import i18n from 'core/lib/i18n'
 
 export default {
   name: 'Payment',
@@ -201,13 +201,6 @@ export default {
       return true
     },
     changePaymentMethod () {
-      if (this.payment.paymentMethod !== 'cashondelivery') {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.'),
-          action1: { label: 'OK', action: 'close' }
-        })
-      }
       // reset the additional payment method component container if exists.
       if (document.getElementById('checkout-order-review-additional-container')) {
         document.getElementById('checkout-order-review-additional-container').innerHTML = '<div id="checkout-order-review-additional">&nbsp;</div>' // reset

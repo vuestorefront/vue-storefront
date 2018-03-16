@@ -19,7 +19,7 @@ export default function (app, router, store, config) {
       EventBus.$on('checkout-before-placeOrder', placeOrder)
     } else {
       // unregister the extensions placeorder handler
-      EventBus.$off('checkout-before-placeOrder')
+      EventBus.$off('checkout-before-placeOrder', placeOrder)
     }
   })
 

@@ -67,9 +67,11 @@
     "analytics": {
       "id": false
     },
-    "registeredExtensions": [
+    "requiredExtensions": [
       "payment-cash-on-delivery",
-      "payment-backend-methods",
+      "payment-backend-methods"
+    ],    
+    "registeredExtensions": [
       "custom_extension",
       "mailchimp-subscribe",
       "google-analytics"

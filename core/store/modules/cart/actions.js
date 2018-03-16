@@ -264,7 +264,7 @@ export default {
         }
       }, { root: true }).then(task => {
         let backendMethods = task.result
-        let paymentMethods = Object.assign({}, rootStore.state.payment.methods)
+        let paymentMethods = rootStore.state.payment.methods.slice(0) // copy
         let uniqueBackendMethods = []
         for (let i = 0; i < backendMethods.length; i++) {
           if (!paymentMethods.find(item => item.code === backendMethods[i].code)) {
