@@ -75,7 +75,7 @@ export default {
           }))
         }
       }
-      Promise.all(checkPromises).then((function(checkedProducts){
+      Promise.all(checkPromises).then(function (checkedProducts) {
         this.stockCheckCompleted = true
         this.stockCheckOK = true
         for (let chp of checkedProducts) {
@@ -91,7 +91,7 @@ export default {
             }
           }
         }
-      }).bind(this))
+      }.bind(this))
     }
     if (this.$store.state.checkout.shippingDetails.country) {
       this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
@@ -158,7 +158,7 @@ export default {
     this.$bus.$off('checkout-after-paymentDetails')
     this.$bus.$off('checkout-after-cartSummary')
     this.$bus.$off('checkout-before-placeOrder')
-    this.$bus.$off('checkout-do-placeOrder');
+    this.$bus.$off('checkout-do-placeOrder')
     this.$bus.$off('checkout-before-edit')
     this.$bus.$off('order-after-placed')
     this.$bus.$off('checkout-before-shippingMethods')
@@ -167,7 +167,7 @@ export default {
   computed: {
   },
   methods: {
-    checkStocks() {
+    checkStocks () {
       let isValid = true
       for (let child of this.$children) {
         if (child.hasOwnProperty('$v')) {
@@ -206,7 +206,7 @@ export default {
           isValid = false
         }
       }
-      return isValid          
+      return isValid
     },
     checkConnection (status) {
       if (!status.online) {
