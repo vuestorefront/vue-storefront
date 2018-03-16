@@ -48,7 +48,8 @@ export default [
   require('src/extensions/google-analytics/index.js').default,
 
   require('vue-storefront-stripe/index.js').default
-]```
+]
+```
 
 ## Creating a Payment Extension
 
