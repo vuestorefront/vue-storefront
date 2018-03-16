@@ -33,6 +33,7 @@
     },
     "stock": {
       "synchronize": true,
+      "allowOutOfStockInCart": true, 
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
