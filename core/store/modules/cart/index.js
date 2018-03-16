@@ -5,6 +5,7 @@ import mutations from './mutations'
 import EventBus from 'core/plugins/event-bus'
 import rootStore from '../../'
 import * as types from '../../mutation-types'
+import i18n from 'core/lib/i18n'
 
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
@@ -117,20 +118,22 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
       }
     })
   } else {
-    // THIS check is done above in the servercart-after-totals where we override the qty field with totals
-    // const originalCartItem = JSON.parse(event.payload.body).cartItem
-    // for example the result can be = We don't have enough <SKU>
-    // rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
-    // if (cartItem) {
-    //     console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
-    //     if (cartItem.prev_qty > 0) {
-    //       rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
-    //       EventBus.$emit('cart-after-itemchanged', { item: cartItem })
-    //     } else {
-    //       rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
-    //     }
-    //   }
-    // })
+    if (event.result.indexOf(i18n.t('avail'))) { // product is not available
+      const originalCartItem = JSON.parse(event.payload.body).cartItem
+      console.log('Removing product from the cart', originalCartItem)
+      rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
+      /** rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
+        if (cartItem) {
+          console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
+          if (cartItem.prev_qty > 0) {
+            rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
+            EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+          } else {
+            rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
+          }
+        }
+      }) */
+    }
   }
 })
 

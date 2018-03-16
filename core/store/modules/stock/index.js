@@ -1,12 +1,19 @@
 import actions from './actions'
 import store from '../../'
 import EventBus from 'core/plugins/event-bus'
+import * as types from '../../mutation-types'
+import config from 'config'
 
 EventBus.$on('stock-after-check', (event) => { // example stock check callback
   store.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
     if (cartItem) {
       if (!event.result.is_in_stock) {
-        store.dispatch('cart/updateItem', { product: { warning_message: 'Out of the stock!', sku: event.product_sku, is_in_stock: false } })
+        if (!config.stock.allowOutOfStockInCart) {
+          console.log('Removing product from the cart', event.product_sku)
+          store.commit('cart/' + types.CART_DEL_ITEM, { product: { sku: event.product_sku } }, {root: true})
+        } else {
+          store.dispatch('cart/updateItem', { product: { warning_message: 'Out of the stock!', sku: event.product_sku, is_in_stock: false } })
+        }
       } else {
         store.dispatch('cart/updateItem', { product: { info_message: 'In stock!', sku: event.product_sku, is_in_stock: true } })
       }
