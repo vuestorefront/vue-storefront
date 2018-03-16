@@ -61,7 +61,7 @@ app.get('*', (req, res) => {
   }
 
   if (!renderer) {
-    return res.end('Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!')
+    return res.end('Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks! <meta http-equiv="refresh" content="10">')
   }
 
   const s = Date.now()
