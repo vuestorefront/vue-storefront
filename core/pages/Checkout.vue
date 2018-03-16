@@ -59,8 +59,8 @@ export default {
       this.$router.push('/')
     } else {
       this.stockCheckCompleted = false
+      const checkPromises = []
       for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
-        const checkPromises = []
         if (product.onlineStockCheckid) {
           checkPromises.push(new Promise((resolve, reject) => {
             global.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
@@ -73,25 +73,25 @@ export default {
               }
             })
           }))
-          Promise.all(checkPromises).then(checkedProducts => {
-            this.stockCheckCompleted = true
-            this.stockCheckOK = true
-            for (let chp of checkedProducts) {
-              if (chp && chp.stock) {
-                if (!chp.stock.is_in_stock) {
-                  this.stockCheckOK = false
-                  chp.warning_message = i18n.t('Out of stock!')
-                  this.$bus.$emit('notification', {
-                    type: 'error',
-                    message: chp.name + i18n.t(' is out of the stock!'),
-                    action1: { label: 'OK', action: 'close' }
-                  })
-                }
-              }
-            }
-          })
         }
       }
+      Promise.all(checkPromises).then((function(checkedProducts){
+        this.stockCheckCompleted = true
+        this.stockCheckOK = true
+        for (let chp of checkedProducts) {
+          if (chp && chp.stock) {
+            if (!chp.stock.is_in_stock) {
+              this.stockCheckOK = false
+              chp.warning_message = i18n.t('Out of stock!')
+              this.$bus.$emit('notification', {
+                type: 'error',
+                message: chp.name + i18n.t(' is out of the stock!'),
+                action1: { label: 'OK', action: 'close' }
+              })
+            }
+          }
+        }
+      }).bind(this))
     }
     if (this.$store.state.checkout.shippingDetails.country) {
       this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
@@ -158,13 +158,16 @@ export default {
     this.$bus.$off('checkout-after-paymentDetails')
     this.$bus.$off('checkout-after-cartSummary')
     this.$bus.$off('checkout-before-placeOrder')
+    this.$bus.$off('checkout-do-placeOrder');
     this.$bus.$off('checkout-before-edit')
     this.$bus.$off('order-after-placed')
     this.$bus.$off('checkout-before-shippingMethods')
     this.$bus.$off('checkout-after-shippingMethodChanged')
   },
   computed: {
-    isValid () {
+  },
+  methods: {
+    checkStocks() {
       let isValid = true
       for (let child of this.$children) {
         if (child.hasOwnProperty('$v')) {
@@ -203,10 +206,8 @@ export default {
           isValid = false
         }
       }
-      return isValid
-    }
-  },
-  methods: {
+      return isValid          
+    },
     checkConnection (status) {
       if (!status.online) {
         this.$bus.$emit('notification', {
@@ -276,12 +277,12 @@ export default {
     },
     placeOrder () {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
-      if (this.isValid) {
+      if (this.checkStocks()) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       } else {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: i18n.t('Please do correct validation errors'),
+          message: i18n.t('Some of the ordered products are not available!'),
           action1: { label: 'OK', action: 'close' }
         })
       }
