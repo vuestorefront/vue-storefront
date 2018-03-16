@@ -11,7 +11,7 @@
           <div class="col-xs cl-accent">
             {{ segment.title }}
           </div>
-          <div class="col-xs align-right cl-accent h4">
+          <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">
             {{ segment.value | price }}
           </div>
         </div>

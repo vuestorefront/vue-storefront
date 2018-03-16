@@ -20,7 +20,7 @@ export default {
           {
             code: 'payment',
             title: i18n.t(payment.title),
-            value: null
+            value: payment.costInclTax
           },
           {
             code: 'shipping',
