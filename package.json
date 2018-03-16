@@ -76,6 +76,7 @@
     "vue-meta": "^1.4.3",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.2",
+    "vue-storefront-stripe": "^1.0.71",
     "vue2-google-maps": "^0.8.4",
     "vue2-slugify": "0.0.1",
     "vuelidate": "^0.6.2",

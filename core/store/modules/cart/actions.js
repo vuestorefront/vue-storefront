@@ -261,7 +261,8 @@ export default {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
-        }
+        },
+        silent: true
       }, { root: true }).then(task => {
         let backendMethods = task.result
         let paymentMethods = rootStore.state.payment.methods.slice(0) // copy
@@ -289,7 +290,8 @@ export default {
           body: JSON.stringify({
             address: address
           })
-        }
+        },
+        silent: true
       }, { root: true }).then(task => {
         if (task.result.length > 0) {
           context.commit(types.CART_UPD_SHIPPING, task.result)

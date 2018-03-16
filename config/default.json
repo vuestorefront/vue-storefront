@@ -66,14 +66,5 @@
     "theme": "default",
     "analytics": {
       "id": false
-    },
-    "requiredExtensions": [
-      "payment-cash-on-delivery",
-      "payment-backend-methods"
-    ],    
-    "registeredExtensions": [
-      "custom_extension",
-      "mailchimp-subscribe",
-      "google-analytics"
-    ]
+    }
  }
