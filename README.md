@@ -14,13 +14,13 @@ Try out our open demo and if you like it **first give us some star on Github ★
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        Default theme
+        Magento 2.0 - Default theme
       </td>
       <td align="center" valign="middle">
         B2B theme (beta)
       </td align="center" valign="middle">
       <td align="center" valign="middle">
-        Magento 1.9
+        Magento 1.9 - Default theme
       </td align="center" valign="middle">
 </tr>
     <tr>
