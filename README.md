@@ -39,7 +39,16 @@ Try out our open demo and if you like it **first give us some star on Github ★
           >
         </a>
       </td>
-    </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento1.vuestorefront.io">
+          <img
+            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-m1.png?raw=true"
+            alt="Magento 1.9 demo"
+            height="100"
+          >
+        </a>
+      </td>
+  </tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
@@ -113,6 +122,7 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
+* [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)
