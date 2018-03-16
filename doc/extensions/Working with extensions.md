@@ -35,13 +35,20 @@ The naming convention for the events is: `after-<module>-<action>` for example `
 If you want to provide some components for the themes please think of them as a mixins (you can add default HTML markup) so they can be styled and modified in themes.
 
 ## How to install the extension
-The enabled extensions must be declared within `config/local.json` file. Please take a look at the [default config](https://github.com/DivanteLtd/vue-storefront/blob/master/config/default.json) for a reference.
+The enabled extensions must be declared within `src/extensions/index.js` file. 
 
-You should just add your extension name to:
+You should just instantionate your extension adding it to the list:
 
-```json
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
-```
+```js
+export default [
+  require('src/extensions/custom_extension/index.js').default,
+  require('src/extensions/payment-cash-on-delivery/index.js').default,
+  require('src/extensions/payment-backend-methods/index.js').default,
+  require('src/extensions/mailchimp-subscribe/index.js').default,
+  require('src/extensions/google-analytics/index.js').default,
+
+  require('vue-storefront-stripe/index.js').default
+]```
 
 ## Creating a Payment Extension
 
