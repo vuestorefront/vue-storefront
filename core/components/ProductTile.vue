@@ -29,7 +29,7 @@ export default {
       if (this.product.hasOwnProperty('configurable_children') &&
         this.product.configurable_children.length && !this.product.is_configured
       ) {
-        thumbnail = this.product.configurable_children[0].thumbnail
+        thumbnail = this.product.configurable_children[0].image
       }
       return this.getThumbnail(thumbnail, 310, 300)
     }
