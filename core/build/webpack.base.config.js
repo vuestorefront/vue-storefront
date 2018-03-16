@@ -1,11 +1,16 @@
 const path = require('path')
 const config = require('config')
 const fs = require('fs')
+const _ = require('lodash')
 
 fs.writeFileSync(path.resolve(__dirname, './config.json'), JSON.stringify(config))
 
 const vueConfig = require('./vue-loader.config')
-const theme = require('./config.json').theme
+const appConfig = require('./config.json')
+
+const theme = appConfig.theme
+const extensionsRoot = '../../src/extensions'
+const nodeModules = '../../node_modules'
 
 const themeRoot = '../../src/themes/' + theme
 const themeComponents = '../../src/themes/' + theme + '/components'
@@ -25,11 +30,12 @@ module.exports = {
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
   },
   resolveLoader: {
-    modules: ['node_modules', path.resolve(__dirname, themeNodeModules)],
+    modules: ['node_modules', path.resolve(__dirname, extensionsRoot), path.resolve(__dirname, themeNodeModules)],
   },
   resolve: {
     modules: [
       'node_modules',
+      path.resolve(__dirname, extensionsRoot),
       path.resolve(__dirname, themeNodeModules)
     ],
     extensions: ['.js', '.vue'],

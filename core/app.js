@@ -6,6 +6,7 @@ import config from 'config'
 import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
 import _ from 'lodash'
+import extensionEntryPoints from 'src/extensions'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
 import { registerExtensions } from 'core/lib/extensions'
@@ -45,7 +46,7 @@ export function createApp () {
     render: h => h(App)
   })
 
-  registerExtensions(_.union(config.registeredExtensions, config.requiredExtensions) || [], app, router, store, config) // TODO: use config or ENV variables
+  registerExtensions(_.union(extensionEntryPoints, config.requiredExtensions) || [], app, router, store, config) // TODO: use config or ENV variables
   registerTheme(config.theme, app, router, store)
 
   app.$emit('application-after-init', app)
