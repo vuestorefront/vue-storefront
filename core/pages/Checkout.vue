@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails.vue'
-import Shipping from 'core/components/blocks/Checkout/Shipping.vue'
-import Payment from 'core/components/blocks/Checkout/Payment.vue'
-import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
-import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
-import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
-import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
+import config from 'config'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
+import Shipping from 'core/components/blocks/Checkout/Shipping'
+import Payment from 'core/components/blocks/Checkout/Payment'
+import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
+import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage'
+import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Checkout',
@@ -127,6 +128,9 @@ export default {
       if (userId) {
         this.userId = userId.toString()
       }
+    })
+    this.$bus.$on('checkout-do-placeOrder', (additionalPayload) => {
+      this.payment.paymentMethodAdditional = additionalPayload
       this.placeOrder()
     })
     this.$bus.$on('checkout-before-edit', (section) => {
@@ -218,6 +222,14 @@ export default {
       }
       this.activeSection[sectionToActivate] = true
     },
+    // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
+    getPaymentMethod () {
+      let paymentMethod = this.payment.paymentMethod
+      if (config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = config.orders.payment_methods_mapping[paymentMethod]
+      }
+      return paymentMethod
+    },
     prepareOrder () {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : (this.userId ? this.userId : ''),
@@ -255,7 +267,8 @@ export default {
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingMethod,
-          payment_method_code: this.payment.paymentMethod,
+          payment_method_code: this.getPaymentMethod(),
+          payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
         }
       }

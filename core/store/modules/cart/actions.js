@@ -263,7 +263,17 @@ export default {
           mode: 'cors'
         }
       }, { root: true }).then(task => {
-        context.commit(types.CART_UPD_PAYMENT, task.result)
+        let backendMethods = task.result
+        let paymentMethods = Object.assign({}, rootStore.state.payment.methods)
+        let uniqueBackendMethods = []
+        for (let i = 0; i < backendMethods.length; i++) {
+          if (!paymentMethods.find(item => item.code === backendMethods[i].code)) {
+            paymentMethods.push(backendMethods[i])
+            uniqueBackendMethods.push(backendMethods[i])
+          }
+        }
+        context.commit(types.CART_UPD_PAYMENT, paymentMethods)
+        rootStore.commit('setBackendPaymentMethods', uniqueBackendMethods)
       }).catch(e => {
         console.error(e)
       })
