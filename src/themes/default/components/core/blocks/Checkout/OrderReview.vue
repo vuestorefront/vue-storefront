@@ -22,7 +22,10 @@
     <div class="row pl20 pr20" v-show="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
-        <div class="row mb15 mt20" v-show="isActive">
+        <div id="checkout-order-review-additional-container">
+          <div id="checkout-order-review-additional">&nbsp;</div>
+        </div>
+        <div class="row mb15 mt20">
           <div class="col-xs-12">
             <p class="h4">
               {{ $t('Please check if all data are correct') }}
@@ -80,6 +83,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import { coreComponent } from 'core/lib/themes'
+import Composite from 'core/mixins/composite'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
@@ -101,7 +105,7 @@ export default {
     Modal,
     BaseCheckbox
   },
-  mixins: [coreComponent('blocks/Checkout/OrderReview')]
+  mixins: [coreComponent('blocks/Checkout/OrderReview'), Composite]
 }
 </script>
 

@@ -118,7 +118,8 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         resolve(res)
       }
     }).catch(function (err) {
-      reject(err)
+      // reject(err)
+      console.error(err)
     })
   })
 }

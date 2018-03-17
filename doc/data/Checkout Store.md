@@ -24,7 +24,7 @@ Checkout Store is designed to handle all actions related the checkout operations
       state: '',
       zipCode: '',
       phoneNumber: '',
-      shippingMethod: 'flatrate'
+      shippingMethod: ''
     },
     paymentDetails: {
       firstName: '',
@@ -38,7 +38,7 @@ Checkout Store is designed to handle all actions related the checkout operations
       zipCode: '',
       phoneNumber: '',
       taxId: '',
-      paymentMethod: 'cashondelivery'
+      paymentMethod: ''
     }
   }
 ```

@@ -147,7 +147,7 @@ export default {
           for (let ov of option.values) {
             let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
             if (_.trim(lb) !== '') {
-              let optionKey = option.label.toLowerCase()
+              let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
               if (!context.state.current_options[optionKey]) {
                 context.state.current_options[optionKey] = []
               }
@@ -161,16 +161,25 @@ export default {
         let selectedVariant = context.state.current
         for (let option of product.configurable_options) {
           let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+          let selectedOption = null
           if (selectedVariant.custom_attributes) {
-            let selectedOption = selectedVariant.custom_attributes.find((a) => {
+            selectedOption = selectedVariant.custom_attributes.find((a) => {
               return (a.attribute_code === attr.attribute_code)
             })
-            context.state.current_configuration[attr.attribute_code] = {
+          } else {
+            selectedOption = {
               attribute_code: attr.attribute_code,
-              id: selectedOption.value,
-              label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+              value: selectedVariant[attr.attribute_code]
             }
           }
+          const confVal = {
+            attribute_code: attr.attribute_code,
+            id: selectedOption.value,
+            label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+          }
+          context.state.current_configuration[attr.attribute_code] = confVal
+          const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+          context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
         }
       }).catch(err => {
         console.error(err)
@@ -192,6 +201,16 @@ export default {
         // handle cache
         const cache = global.db.elasticCacheCollection
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
+          if (prod.configurable_children) {
+            for (let configurableChild of prod.configurable_children) {
+              if (configurableChild.custom_attributes) {
+                for (let opt of configurableChild.custom_attributes) {
+                  configurableChild[opt.attribute_code] = opt.value
+                }
+              }
+            }
+          }
+
           if (!prod[cacheByKey]) {
             cacheByKey = 'id'
           }
