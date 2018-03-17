@@ -51,6 +51,11 @@ export default {
       email
     }
   },
+  mounted () {
+    if (this.$store.state.user.current) {
+      this.email = this.$store.state.user.current.email
+    }
+  },
   methods: {
     subscribe () {
       if (this.$v.$invalid) {

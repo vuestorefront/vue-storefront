@@ -258,7 +258,8 @@ Here you have a validation schema for order: https://github.com/DivanteLtd/vue-s
     },
     "shipping_method_code": "flatrate",
     "shipping_carrier_code": "flatrate",
-    "payment_method_code": "cashondelivery"
+    "payment_method_code": "cashondelivery",
+    "payment_method_additional": {} // Payment Method Payload (eg, stripe token)
   }
 }
 ```

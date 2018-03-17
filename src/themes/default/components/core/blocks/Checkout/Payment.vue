@@ -250,7 +250,7 @@
             </h4>
           </div>
           <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6 mb15">
-            <label class="radioStyled"> {{ method.title }}
+            <label class="radioStyled"> {{ method.title ? method.title : method.name }}
               <input
                 type="radio"
                 :value="method.code"

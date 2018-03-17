@@ -1,4 +1,11 @@
 {
-  "presets": [["env", { "modules": false }], "stage-2"],
+  "presets": [
+    [
+      "env", {
+        "modules": false
+      }
+    ],
+    "stage-2"
+  ],
   "ignore": ["node_modules/*"]
 }
