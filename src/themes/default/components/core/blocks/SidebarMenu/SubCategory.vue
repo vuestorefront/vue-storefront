@@ -7,24 +7,38 @@
     >
       <li
         class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        v-if="parentSlug"
+      >
+        <router-link
+          class="px25 py20 cl-accent no-underline col-xs"
+          :to="{ name: 'category', params: { id: id, slug: parentSlug }}"
+        >
+          {{ $t('View all') }}
+        </router-link>
+      </li>
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
         :key="link.slug"
         v-for="link in categoryLinks"
       >
+        <sub-btn
+          class="bg-cl-transparent brdr-none"
+          :id="link.id"
+          :name="link.name"
+          v-if="link.children_data.length"
+        />
         <router-link
+          v-else
           class="px25 py20 cl-accent no-underline col-xs"
           :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
         >
           {{ link.name }}
         </router-link>
-        <sub-btn
-          class="w-50 bg-cl-transparent brdr-none align-right"
-          :id="link.id"
-          v-if="link.children_data.length"
-        />
         <sub-category
           :category-links="link.children_data"
           :id="link.id"
           v-if="link.children_data.length"
+          :parent-slug="link.slug"
         />
       </li>
     </ul>
@@ -71,6 +85,11 @@ export default {
       type: null,
       required: false,
       default: () => []
+    },
+    parentSlug: {
+      type: String,
+      required: false,
+      default: ''
     },
     myAccountLinks: {
       type: Array,

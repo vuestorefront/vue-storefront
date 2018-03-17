@@ -146,11 +146,13 @@ export function configureProductAsync (context, { product, configuration, select
     // handle custom_attributes for easier comparing in the future
     product.configurable_children.forEach((child) => {
       let customAttributesAsObject = {}
-      child.custom_attributes.forEach((attr) => {
-        customAttributesAsObject[attr.attribute_code] = attr.value
-      })
-      // add values from custom_attributes in a different form
-      Object.assign(child, customAttributesAsObject)
+      if (child.custom_attributes) {
+        child.custom_attributes.forEach((attr) => {
+          customAttributesAsObject[attr.attribute_code] = attr.value
+        })
+        // add values from custom_attributes in a different form
+        Object.assign(child, customAttributesAsObject)
+      }
     })
     // find selected variant
     let selectedVariant = product.configurable_children.find((configurableChild) => {
@@ -158,7 +160,7 @@ export function configureProductAsync (context, { product, configuration, select
         return configurableChild.sku === configuration.sku // by sku or first one
       } else {
         return Object.keys(configuration).every((configProperty) => {
-          return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+          return _.toString(configurableChild[configProperty]) === _.toString(configuration[configProperty].id)
         })
       }
     }) || product.configurable_children[0]
@@ -168,6 +170,8 @@ export function configureProductAsync (context, { product, configuration, select
         selectedVariant.image = product.image
       }
     }
+
+    product.is_configured = true
 
     // use chosen variant
     if (selectDefaultVariant) {

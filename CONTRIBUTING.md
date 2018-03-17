@@ -9,6 +9,16 @@ Before you type an issue please check:
 
 Main readme - https://github.com/DivanteLtd/vue-storefront/blob/master/README.md
 
+# Branches
+
+You should fork the project or create branch for new features.
+The main branches used by the core team are:
+
+- master - where we store the stable release of the app (that can be deployed to our demo instances),
+- develop - the most recent version of the app - kind of "nightly" build.
+
+Please use "develop" for development purposes as the "master" can be merged just as the new release is coming out (about once a month)!
+
 ## Issue reporting guidelines:
 
 Always define type of issue:

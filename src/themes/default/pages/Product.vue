@@ -47,7 +47,7 @@
                 <div class="variants-label">
                   {{ option.label }}
                   <span class="weight-700">
-                    {{ configuration[option.label.toLowerCase()].label }}
+                    {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
                   </span>
                 </div>
                 <div class="row top-xs m0 pt15 pb40 variants-wrapper">

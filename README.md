@@ -1,9 +1,10 @@
-# Vue Storefront - PWA for eCommerce
-<img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed">
-Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, [Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront),  Prestashop or Shopware) through the API.
+# Vue Storefront - PWA for eCommerce <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
+Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/pimcore2vuestorefront">Pimcore</a>,  Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
+
+**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take alook at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
@@ -15,12 +16,15 @@ Try out our open demo and if you like it **first give us some star on Github ★
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        Default theme
+        Magento 2.0 - Default theme
       </td>
       <td align="center" valign="middle">
         B2B theme (beta)
       </td align="center" valign="middle">
-    </tr>
+      <td align="center" valign="middle">
+        Magento 1.9 - Default theme
+      </td align="center" valign="middle">
+</tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
@@ -40,7 +44,16 @@ Try out our open demo and if you like it **first give us some star on Github ★
           >
         </a>
       </td>
-    </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento1.vuestorefront.io">
+          <img
+            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-m1.png?raw=true"
+            alt="Magento 1.9 demo"
+            height="100"
+          >
+        </a>
+      </td>
+  </tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
@@ -52,6 +65,11 @@ Try out our open demo and if you like it **first give us some star on Github ★
           demo-catalog.vuestorefront.io
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento1.vuestorefront.io">
+          demo-magento1.vuestorefront.io
+        </a>
+      </td>      
     </tr>
   </tbody>
 </table>
@@ -74,6 +92,8 @@ We are planning 1-2 milestones ahead. Our milestones are based on requirements f
 
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
+
+You can find some tutorials and explainations on our [YouTube channel](https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg)
 
 ### Installation
 * [Installing on Linux/MacOS](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md)
@@ -112,6 +132,7 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
+* [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)

@@ -36,7 +36,8 @@ export default {
       zipCode: '',
       phoneNumber: '',
       taxId: '',
-      paymentMethod: ''
+      paymentMethod: '',
+      paymentMethodAdditional: {}
     }
   },
   actions,

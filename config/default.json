@@ -29,12 +29,16 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"]
     },
     "orders": {
-      "endpoint": "http://localhost:8080/api/order"
+      "endpoint": "http://localhost:8080/api/order",
+      "payment_methods_mapping": {
+      }
     },
     "users": {
       "endpoint": "http://localhost:8080/api/user"
     },
     "stock": {
+      "synchronize": true,
+      "allowOutOfStockInCart": true, 
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
@@ -54,7 +58,7 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$"
@@ -65,6 +69,5 @@
     "theme": "default",
     "analytics": {
       "id": false
-    },
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
+    }
  }
