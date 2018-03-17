@@ -31,14 +31,14 @@
         </div>
         <div class="row">
           <base-checkbox
-            class="col-xs-6 mb35"
+            class="col-xs-7 col-sm-6 mb35"
             id="remember"
             v-model="remember"
             @click="remember = !remember"
           >
             {{ $t('Remember me') }}
           </base-checkbox>
-          <div class="col-xs-6 mb35 flex end-xs middle-xs">
+          <div class="col-xs-5 col-sm-6 mb35 flex end-xs middle-xs">
             <a href="#" @click.prevent="remindPassword">
               {{ $t('Forgot the password?') }}
             </a>
