@@ -1,27 +1,28 @@
 const path = require('path')
 const config = require('config')
 const fs = require('fs')
-const _ = require('lodash')
 
-fs.writeFileSync(path.resolve(__dirname, './config.json'), JSON.stringify(config))
+fs.writeFileSync(
+  path.resolve(__dirname, './config.json'),
+  JSON.stringify(config)
+)
 
 const vueConfig = require('./vue-loader.config')
 const appConfig = require('./config.json')
 
 const theme = appConfig.theme
 const extensionsRoot = '../../src/extensions'
-const nodeModules = '../../node_modules'
 
 const themeRoot = '../../src/themes/' + theme
-const themeComponents = '../../src/themes/' + theme + '/components'
-const themePages = '../../src/themes/' + theme + '/pages'
-const themePlugins = '../../src/themes/' + theme + '/plugins'
-const themeFilters = '../../src/themes/' + theme + '/filters'
-const themeMixins = '../../src/themes/' + theme + '/mixins'
-const themeResources = '../../src/themes/' + theme + '/resource'
-const themeCSS = '../../src/themes/' + theme + '/css'
-const themeApp = '../../src/themes/' + theme + '/App.vue'
-const themeNodeModules = '../../src/themes/' + theme + '/node_modules'
+const themeComponents = themeRoot + '/components'
+const themePages = themeRoot + '/pages'
+const themePlugins = themeRoot + '/plugins'
+const themeFilters = themeRoot + '/filters'
+const themeMixins = themeRoot + '/mixins'
+const themeResources = themeRoot + '/resource'
+const themeCSS = themeRoot + '/css'
+const themeApp = themeRoot + '/App.vue'
+const themeNodeModules = themeRoot + '/node_modules'
 
 module.exports = {
   devtool: '#source-map',
@@ -30,7 +31,11 @@ module.exports = {
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
   },
   resolveLoader: {
-    modules: ['node_modules', path.resolve(__dirname, extensionsRoot), path.resolve(__dirname, themeNodeModules)],
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, extensionsRoot),
+      path.resolve(__dirname, themeNodeModules)
+    ],
   },
   resolve: {
     modules: [
@@ -124,7 +129,6 @@ module.exports = {
               csvDirectories: [
                 path.resolve(__dirname, '../resource/i18n/'),
                 path.resolve(__dirname, themeResources + '/i18n/')
-
               ]
             }
           }
