@@ -1,20 +1,22 @@
 <template>
   <div>
-    <div class="checkboxStyled">
+    <div class="relative">
       <input
+        class="checkbox-field"
         type="checkbox"
         :id="id"
         :checked="value"
+        @click="$emit('click')"
         @blur="$emit('blur')"
         @change="$emit('change')"
         :disabled="disabled"
       >
-      <label :for="id" @click="$emit('click')"/>
-    </div>
-    <div class="checkboxText ml15 lh25" @click="$emit('click')">
-      <span class="cl-accent">
+      <label
+        class="pl35 lh30 h4 pointer"
+        :for="id"
+      >
         <slot/>
-      </span>
+      </label>
     </div>
     <span
       class="block cl-error h6"
@@ -24,6 +26,7 @@
     </span>
   </div>
 </template>
+
 <script>
 export default {
   name: 'BaseCheckbox',
@@ -61,49 +64,42 @@ export default {
   $color-secondary: color(secondary);
   $color-white: color(white);
 
-  .checkboxStyled {
-    width: 23px;
-    position: relative;
-    display: table-cell;
-
-    label {
-      cursor: pointer;
+  .checkbox-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    &:before {
+      content: '';
       position: absolute;
-      width: 23px;
-      height: 23px;
       top: 0;
       left: 0;
-      background: $color-white;
+      width: 22px;
+      height: 22px;
+      background-color: $color-white;
       border: 1px solid $color-secondary;
-
+      cursor: pointer;
+    }
+    &:after {
+      background-color: transparent;
+    }
+    &:checked {
+      &:before {
+        background-color: $color-secondary;
+      }
       &:after {
         content: '';
         position: absolute;
-        width: 11px;
-        height: 5px;
-        background: transparent;
         top: 6px;
         left: 5px;
+        width: 11px;
+        height: 5px;
         border: 3px solid $color-white;
         border-top: none;
         border-right: none;
+        background-color: $color-secondary;
         transform: rotate(-45deg);
+        cursor: pointer;
       }
-    }
-
-    input[type=checkbox]:checked + label {
-      background: $color-secondary;
-    }
-  }
-
-  .checkboxText {
-    display: table-cell;
-    cursor: pointer;
-    padding-left: 10px;
-
-    span {
-      vertical-align: middle;
-      font-size: 18px;
     }
   }
 </style>

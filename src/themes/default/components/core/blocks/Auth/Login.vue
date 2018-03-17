@@ -38,7 +38,7 @@
           >
             {{ $t('Remember me') }}
           </base-checkbox>
-          <div class="col-xs-6 mb35 align-right">
+          <div class="col-xs-6 mb35 flex end-xs middle-xs">
             <a href="#" @click.prevent="remindPassword">
               {{ $t('Forgot the password?') }}
             </a>
