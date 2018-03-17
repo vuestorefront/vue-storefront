@@ -95,7 +95,7 @@
 <script>
 import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
 
 export default {
   components: {

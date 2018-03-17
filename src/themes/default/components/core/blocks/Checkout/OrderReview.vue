@@ -88,7 +88,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
 import Modal from 'theme/components/core/Modal.vue'
-import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
 
 export default {
   validations: {

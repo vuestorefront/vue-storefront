@@ -28,33 +28,9 @@
 </template>
 
 <script>
+import { coreComponent } from 'core/lib/themes'
 export default {
-  name: 'BaseCheckbox',
-  props: {
-    id: {
-      type: String,
-      required: true
-    },
-    value: {
-      type: Boolean,
-      required: true
-    },
-    validationIf: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    validationText: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
-  }
+  mixins: [coreComponent('blocks/Form/BaseCheckbox')]
 }
 </script>
 

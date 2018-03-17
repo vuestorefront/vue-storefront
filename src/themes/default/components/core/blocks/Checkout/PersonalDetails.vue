@@ -214,7 +214,7 @@ import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import Modal from 'theme/components/core/Modal.vue'
-import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-basic-usage

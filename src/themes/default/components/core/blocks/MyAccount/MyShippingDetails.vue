@@ -129,7 +129,7 @@ import { coreComponent } from 'core/lib/themes'
 import { required, minLength } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
-import BaseCheckbox from 'theme/components/theme/blocks/Form/BaseCheckbox.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
 
 export default {
   validations: {
