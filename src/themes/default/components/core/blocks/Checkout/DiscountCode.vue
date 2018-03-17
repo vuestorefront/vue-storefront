@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     addDiscoutnCode () {
-      this.$store.dispatch('cart/manipulateCouponCode', { couponCode: this.code })
+      this.$store.dispatch('cart/manipulateCouponCode', this.code)
     }
   },
   components: {

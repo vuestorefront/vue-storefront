@@ -346,41 +346,39 @@ export default {
       }
     }
   },
-  manipulateCouponCode (context, code) {
-    let endpointUrl
-    let body
-
-    if (code) {
-      endpointUrl = config.cart.apply_endpoint
-      body = JSON.stringify({
-        code: code
+  manipulateCouponCode (context, discountCode) {
+    if (config.cart.synchronize_totals) {
+      context.dispatch('sync/execute', { url: config.cart.applycoupon_endpoint,
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          body: JSON.stringify({
+            code: discountCode
+          })
+        }
+      }, { root: true }).then(task => {
+        if (config.cart.synchronize_totals) {
+          context.dispatch('refreshTotals')
+        }
+        return
+      }).catch(e => {
+        console.error(e)
       })
-    } else {
-      endpointUrl = config.cart.delete_endpoint
-      body = {}
     }
-
-    context.dispatch('sync/execute', { url: endpointUrl,
-      payload: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'cors',
-        body: body
-      }
-    }, { root: true }).catch(e => {
-      console.error(e)
-    })
   },
   getCouponCodes (context) {
-    context.dispatch('sync/execute', { url: config.cart.get_endpoint,
-      payload: {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'cors'
-      },
-      silent: true
-    }, { root: true }).catch(e => {
-      console.error(e)
-    })
+    if (config.cart.synchronize_totals) {
+      context.dispatch('sync/execute', { url: config.cart.coupon_endpoint,
+        payload: {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        silent: true
+      }, { root: true }).then(task => {}).catch(e => {
+        console.error(e)
+      })
+    }
   }
 }
