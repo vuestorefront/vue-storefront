@@ -246,5 +246,63 @@ export default {
       message: i18n.t('Newsletter preferences have successfully been updated'),
       action1: { label: 'OK', action: 'close' }
     })
+  },
+  /**
+   * Load user's orders history
+   */
+  getOrdersHistory (context, { refresh = true, useCache = true }) {
+    return new Promise((resolve, reject) => {
+      if (!context.state.token) {
+        console.log('No User token, user unathorized')
+        return resolve(null)
+      }
+      const cache = global.db.ordersHistoryCollection
+      let resolvedFromCache = false
+
+      if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
+        cache.getItem('orders-history', (err, res) => {
+          if (err) {
+            console.error(err)
+            return
+          }
+
+          if (res) {
+            context.commit(types.USER_ORDERS_HISTORY_LOADED, res)
+            EventBus.$emit('user-after-loggedin', res)
+
+            resolve(res)
+            resolvedFromCache = true
+            console.log('Current user served from cache')
+          }
+        })
+      }
+
+      if (refresh) {
+        console.log(config.users.endpoint + '/order-history?token=' + context.state.token)
+        return fetch(config.users.endpoint + '/order-history?token=' + context.state.token, { method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          }
+        }).then(resp => { return resp.json() })
+          .then((resp) => {
+            if (resp.code === 200) {
+              console.log(resp.result)
+              context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
+
+              EventBus.$emit('user-after-loggedin', resp.result)
+            }
+            if (!resolvedFromCache) {
+              resolve(resp.code === 200 ? resp : null)
+            }
+            return resp
+          })
+      } else {
+        if (!resolvedFromCache) {
+          resolve(null)
+        }
+      }
+    })
   }
 }

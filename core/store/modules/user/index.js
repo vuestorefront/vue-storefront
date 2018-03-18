@@ -18,8 +18,8 @@ EventBus.$on('user-after-update', (event) => {
 
 EventBus.$on('session-after-started', (event) => { // example stock check callback
   console.log('Loading user profile')
-  store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {
-  })
+  store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {})
+  store.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
 })
 
 // After order has been placed fill in missing address information in user's profile
@@ -74,7 +74,8 @@ export default {
     token: '',
     current: null,
     session_started: new Date(),
-    newsletter: null
+    newsletter: null,
+    orders_history: null
   },
   getters,
   actions,

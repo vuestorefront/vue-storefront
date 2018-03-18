@@ -87,6 +87,11 @@ Vue.prototype.$db = {
   newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'newsletterPreferences'
+  })),
+
+  ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'ordersHistory'
   }))
 }
 
@@ -134,6 +139,11 @@ const plugins = [
       }
       if (mutation.type.indexOf(types.USER_INFO_LOADED) >= 0) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
+        }) // populate cache
+      }
+      if (mutation.type.indexOf(types.USER_ORDERS_HISTORY_LOADED) >= 0) { // check if this mutation is user related
+        global.db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
