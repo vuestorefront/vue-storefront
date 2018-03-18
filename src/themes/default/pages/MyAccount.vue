@@ -22,6 +22,7 @@
           <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"/>
           <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"/>
           <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"/>
+          <my-orders id="orders" :is-active="activeSection.orders" :edit-mode="editMode"/>
         </div>
       </div>
     </div>
@@ -34,13 +35,15 @@ import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
+import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 
 export default {
   components: {
     Breadcrumbs,
     MyProfile,
     MyShippingDetails,
-    MyNewsletter
+    MyNewsletter,
+    MyOrders
   },
   mixins: [corePage('MyAccount')]
 }

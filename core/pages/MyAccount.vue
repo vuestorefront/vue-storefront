@@ -9,6 +9,7 @@ import Breadcrumbs from 'core/components/Breadcrumbs'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
+import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
 import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
@@ -27,14 +28,15 @@ export default {
         { title: 'My profile', link: '#profile' },
         { title: 'My shipping details', link: '#shipping_details' },
         { title: 'My newsletter', link: '#newsletter' },
-        { title: 'My orders', link: '#' },
+        { title: 'My orders', link: '#orders' },
         { title: 'My loyalty card', link: '#' },
         { title: 'My product reviews', link: '#' }
       ],
       activeSection: {
         profile: false,
         shipping: false,
-        newsletter: false
+        newsletter: false,
+        orders: false
       },
       editMode: true
     }
@@ -95,7 +97,7 @@ export default {
       }
     },
     notify (title) {
-      if (title === 'My loyalty card' || title === 'My product reviews' || title === 'My orders') {
+      if (title === 'My loyalty card' || title === 'My product reviews') {
         this.$bus.$emit('notification', {
           type: 'warning',
           message: i18n.t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
@@ -108,7 +110,8 @@ export default {
     Breadcrumbs,
     MyProfile,
     MyShippingDetails,
-    MyNewsletter
+    MyNewsletter,
+    MyOrders
   }
 }
 </script>
