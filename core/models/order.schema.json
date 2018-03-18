@@ -78,7 +78,8 @@
                 },
                 "shipping_method_code": { "type": "string",  "pattern": "[a-zA-Z]+" },
                 "shipping_carrier_code": { "type": "string",  "pattern": "[a-zA-Z]+" },
-                "payment_method_code": { "type": "string",  "pattern": "[a-zA-Z]+" }
+                "payment_method_code": { "type": "string",  "pattern": "[a-zA-Z]+" },
+                "payment_method_additional": {}
             }
         }
     }
