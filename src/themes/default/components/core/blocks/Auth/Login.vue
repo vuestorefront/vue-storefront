@@ -1,34 +1,46 @@
 <template>
   <div>
     <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
-      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
+      <i
+        slot="close"
+        class="modal-close material-icons p15 cl-bg-tertiary"
+        @click="close"
+      >
+        close
+      </i>
       {{ $t('Log in') }}
     </header>
-    <div class="modal-content pt30 pb60 px65  cl-secondary">
+    <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>
-        <div class="mb35">
-          <input
-            class="py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
-            type="email"
-            name="email"
-            ref="email"
-            v-model="email"
-            :placeholder="$t('E-mail address *')"
-          >
-          <span class="validation-error block h6 cl-error" v-if="!$v.email.required && $v.email.$error">{{ $t('Field is required.') }}</span>
-          <span class="validation-error block h6 cl-error" v-if="!$v.email.email && $v.email.$error">{{ $t('Please provide valid e-mail address.') }}</span>
-        </div>
-        <div class="mb35 relative">
-          <input
-            class="py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
-            :type="passType"
-            name="password"
-            v-model="password"
-            :placeholder="$t('Password *')"
-          >
-          <i class="icon material-icons cl-brdr-secondary absolute pointer" @click="togglePassType">{{ iconName }}</i>
-          <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">{{ $t('Field is required.') }}</span>
-        </div>
+        <base-input
+          class="mb35"
+          type="email"
+          name="email"
+          focus
+          v-model="email"
+          :placeholder="$t('E-mail address *')"
+          :validations="[
+            {
+              condition: !$v.email.required && $v.email.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !$v.email.email && $v.email.$error,
+              text: $t('Please provide valid e-mail address.')
+            }
+          ]"
+        />
+        <base-input
+          class="mb35"
+          type="password"
+          name="password"
+          v-model="password"
+          :placeholder="$t('Password *')"
+          :validation="{
+            condition: !$v.password.required && $v.password.$error,
+            text: $t('Field is required.')
+          }"
+        />
         <div class="row">
           <base-checkbox
             class="col-xs-7 col-sm-6 mb35"
@@ -44,18 +56,14 @@
             </a>
           </div>
         </div>
-        <div class="mb20">
-          <button-full type="submit">
-            {{ $t('Log in to your account') }}
-          </button-full>
-        </div>
+        <button-full class="mb20" type="submit">
+          {{ $t('Log in to your account') }}
+        </button-full>
         <div class="center-xs">
-          <span>
-            or
-            <a href="#" @click.prevent="switchElem">
-              {{ $t('register an account') }}
-            </a>
-          </span>
+          {{ $t('or') }}
+          <a href="#" @click.prevent="switchElem">
+            {{ $t('register an account') }}
+          </a>
         </div>
       </form>
     </div>
@@ -67,14 +75,13 @@ import { coreComponent } from 'core/lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
 export default {
   data () {
     return {
-      passType: 'password',
-      iconName: 'visibility',
       remember: false,
       email: '',
       password: ''
@@ -96,15 +103,6 @@ export default {
     },
     close () {
       this.$bus.$emit('modal-hide', 'modal-signup')
-    },
-    togglePassType (name) {
-      if (this.passType === 'password') {
-        this.passType = 'text'
-        this.iconName = 'visibility_off'
-      } else {
-        this.passType = 'password'
-        this.iconName = 'visibility'
-      }
     },
     remindPassword () {
       if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
@@ -153,43 +151,10 @@ export default {
       })
     }
   },
-  mounted () {
-    this.$refs.email.focus()
-  },
   components: {
     ButtonFull,
-    BaseCheckbox
+    BaseCheckbox,
+    BaseInput
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  $color-placeholder: color(tertiary);
-  $color-icon: color(tertiary, $colors-background);
-  $color-focus: color(black);
-
-  input::-webkit-input-placeholder {
-    color: $color-placeholder;
-  }
-
-  input:-moz-placeholder {
-    color: $color-placeholder;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: $color-focus;
-    transition: 0.3s all;
-  }
-
-  .icon {
-    right: 0;
-    top: 10px;
-
-    &:hover {
-      color: $color-icon;
-    }
-  }
-</style>

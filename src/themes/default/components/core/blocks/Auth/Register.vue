@@ -1,73 +1,93 @@
 <template>
   <div>
     <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
-      <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
+      <i
+        slot="close"
+        class="modal-close material-icons p15 cl-bg-tertiary"
+        @click="close"
+      >
+        close
+      </i>
       {{ $t('Register') }}
     </header>
 
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="register" novalidate>
-        <div class="mb35">
-          <input
-            class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
-            type="email"
-            name="email"
-            ref="email"
-            v-model="email"
-            autocomplete="email"
-            :placeholder="$t('E-mail address *')"
-          >
-          <span class="validation-error block h6 cl-error" v-if="!$v.email.required && $v.email.$error">Field is required.</span>
-          <span class="validation-error block h6 cl-error" v-if="!$v.email.email && $v.email.$error">Please provide valid e-mail address.</span>
-        </div>
+        <base-input
+          class="mb35"
+          type="email"
+          name="email"
+          autocomplete="email"
+          v-model="email"
+          focus
+          :placeholder="$t('E-mail address *')"
+          :validations="[
+            {
+              condition: !$v.email.required && $v.email.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !$v.email.email && $v.email.$error,
+              text: $t('Please provide valid e-mail address.')
+            }
+          ]"
+        />
         <div class="row mb35">
-          <div class="col-xs-6">
-            <input
-              class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
-              type="text"
-              name="fist-name"
-              v-model="firstName"
-              autocomplete="given-name"
-              :placeholder="$t('First name *')"
-            >
-            <span class="validation-error block h6 cl-error" v-if="!$v.firstName.required && $v.firstName.$error">Field is required.</span>
-          </div>
-          <div class="col-xs-6">
-            <input
-              class="w-100 py10 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
-              type="text"
-              name="last-name"
-              v-model="lastName"
-              autocomplete="family-name"
-              :placeholder="$t('Last name *')"
-            >
-            <span class="validation-error block h6 cl-error" v-if="!$v.lastName.required && $v.lastName.$error">Field is required.</span>
-          </div>
+          <base-input
+            class="col-xs-6"
+            type="text"
+            name="fist-name"
+            autocomplete="given-name"
+            v-model="firstName"
+            :placeholder="$t('First name *')"
+            :validation="{
+              condition: !$v.firstName.required && $v.firstName.$error,
+              text: $t('Field is required.')
+            }"
+          />
+          <base-input
+            class="col-xs-6"
+            type="text"
+            name="last-name"
+            autocomplete="last-name"
+            v-model="lastName"
+            :placeholder="$t('Last name *')"
+            :validation="{
+              condition: !$v.lastName.required && $v.lastName.$error,
+              text: $t('Field is required.')
+            }"
+          />
         </div>
-        <div class="mb35 relative">
-          <input
-            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
-            name="password"
-            v-model="password"
-            :type="passType.pass"
-            autocomplete="new-password"
-            :placeholder="$t('Password *')"
-          >
-          <i class="icon material-icons absolute cl-brdr-secondary pointer" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-          <span class="validation-error block h6 cl-error" v-if="!$v.password.required && $v.password.$error">Field is required.</span>
-        </div>
-        <div class="mb35 relative">
-          <input
-            class="w-100 py10 pr30 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
-            name="password-confirm"
-            v-model="rPassword"
-            :type="passType.repeatPass"
-            autocomplete="new-password"
-            :placeholder="$t('Repeat password *')"
-          >
-          <i class="icon material-icons absolute cl-brdr-secondary pointer" @click="togglePassType('repeatPass')">{{ iconName.repeatPass }}</i>
-          <span class="validation-error block h6 cl-error" v-if="!$v.rPassword.sameAsPassword">Passwords must be identical.</span>
-        </div>
+        <base-input
+          class="mb35"
+          type="password"
+          name="password"
+          autocomplete="new-password"
+          v-model="password"
+          :placeholder="$t('Password *')"
+          :validation="{
+            condition: !$v.password.required && $v.password.$error,
+            text: $t('Field is required.')
+          }"
+        />
+        <base-input
+          class="mb35"
+          type="password"
+          name="password-confirm"
+          autocomplete="new-password"
+          v-model="rPassword"
+          :placeholder="$t('Repeat password *')"
+          :validations="[
+            {
+              condition: !$v.rPassword.required && $v.rPassword.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !$v.rPassword.sameAsPassword,
+              text: $t('Passwords must be identical.')
+            }
+          ]"
+        />
         <base-checkbox
           class="mb35"
           id="terms"
@@ -75,16 +95,16 @@
           @click="conditions = !conditions"
           @blur="$v.conditions.$reset()"
           @change="$v.conditions.$touch()"
-          :validation-if="!$v.conditions.required && $v.conditions.$error"
-          :validation-text="$t('You must accept the terms and conditions.')"
+          :validation="{
+            condition: !$v.conditions.required && $v.conditions.$error,
+            text: $t('You must accept the terms and conditions.')
+          }"
         >
           {{ $t('I accept terms and conditions') }} *
         </base-checkbox>
-        <div class="mb20">
-          <button-full type="submit">
-            {{ $t('Register an account') }}
-          </button-full>
-        </div>
+        <button-full class="mb20" type="submit">
+          {{ $t('Register an account') }}
+        </button-full>
         <div class="center-xs">
           <span>
             {{ $t('or') }}
@@ -100,27 +120,19 @@
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import BaseInput from '../Form/BaseInput.vue'
 import { required, email, sameAs } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
 export default {
   data () {
     return {
-      passType: {
-        pass: 'password',
-        repeatPass: 'password'
-      },
-      iconName: {
-        pass: 'visibility',
-        repeatPass: 'visibility'
-      },
       email: '',
       firstName: '',
       lastName: '',
       password: '',
       rPassword: '',
-      conditions: ''
-
+      conditions: false
     }
   },
   validations: {
@@ -151,15 +163,6 @@ export default {
     },
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'login')
-    },
-    togglePassType (name) {
-      if (this.passType[name] === 'password') {
-        this.passType[name] = 'text'
-        this.iconName[name] = 'visibility_off'
-      } else {
-        this.passType[name] = 'password'
-        this.iconName[name] = 'visibility'
-      }
     },
     register () {
       if (this.$v.$invalid) {
@@ -196,42 +199,10 @@ export default {
       })
     }
   },
-  mounted () {
-    this.$refs.email.focus()
-  },
   components: {
     ButtonFull,
-    BaseCheckbox
+    BaseCheckbox,
+    BaseInput
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-placeholder: color(tertiary);
-$color-hover: color(tertiary, $colors-background);
-$color-focus: color(black);
-
-input::-webkit-input-placeholder {
-  color: $color-placeholder;
-}
-
-input:-moz-placeholder {
-  color: $color-placeholder;
-}
-
-input:focus {
-  outline: none;
-  border-color: $color-focus;
-  transition: 0.3s all;
-}
-
-.icon {
-  right: 0;
-  top: 10px;
-
-  &:hover {
-    color: $color-hover;
-  }
-}
-</style>
