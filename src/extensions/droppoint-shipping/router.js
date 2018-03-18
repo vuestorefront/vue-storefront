@@ -1,1 +1,2 @@
-module.exports = []
+export default [
+]

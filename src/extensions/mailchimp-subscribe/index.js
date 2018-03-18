@@ -1,10 +1,10 @@
-const extensionStore = require('./store')
-const extensionRoutes = require('./router')
-const EventBus = require('core/plugins/event-bus')
+import extensionStore from './store'
+import extensionRoutes from './router'
+import EventBus from 'core/plugins/event-bus'
 
 const EXTENSION_KEY = 'mailchimp-subscribe'
 
-module.exports = function (app, router, store, config) {
+export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
   store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
   console.log('Mailchimp extension registered')
