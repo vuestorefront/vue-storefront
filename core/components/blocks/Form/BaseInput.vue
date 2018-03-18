@@ -15,7 +15,8 @@ export default {
     },
     name: {
       type: String,
-      required: true
+      required: false,
+      default: ''
     },
     value: {
       type: String,

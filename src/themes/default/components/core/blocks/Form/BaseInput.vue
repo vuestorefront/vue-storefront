@@ -10,6 +10,7 @@
       :ref="focus ? name : false"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur')"
+      @keyup.enter="$emit('keyup.enter', $event.target.value)"
     >
     <i
       v-if="iconActive"

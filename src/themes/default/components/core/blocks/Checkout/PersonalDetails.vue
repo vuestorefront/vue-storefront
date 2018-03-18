@@ -17,7 +17,7 @@
             </h3>
           </div>
           <div class="col-xs-12 col-md-6 pr30">
-            <div class="lh30 flex end-md" v-if="isFilled && !isActive">
+            <div class="lh30 flex end-xl" v-if="isFilled && !isActive">
               <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
                   {{ $t('Edit personal details') }}
@@ -29,70 +29,67 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-show="isActive">
+    <div class="row pl20" v-if="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
-      <div class="col-xs-12 col-sm-9 col-md-11">
+      <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-            <input
-              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
-              type="text"
-              name="first-name"
-              :placeholder="$t('First name *')"
-              v-model.trim="personalDetails.firstName"
-              @blur="$v.personalDetails.firstName.$touch()"
-              autocomplete="given-name"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-            <span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">
-              {{ $t('Name must have at least 3 letters.') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-            <input
-              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
-              type="text"
-              name="last-name"
-              :placeholder="$t('Last name *')"
-              v-model.trim="personalDetails.lastName"
-              @blur="$v.personalDetails.lastName.$touch()"
-              autocomplete="family-name"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb25">
-            <input
-              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
-              type="email"
-              name="email-address"
-              :placeholder="$t('Email address *')"
-              v-model="personalDetails.emailAddress"
-              @blur="$v.personalDetails.emailAddress.$touch()"
-              autocomplete="email"
-              @keyup.enter="sendDataToCheckout"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-            <span class="validation-error" v-if="!$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error">
-              {{ $t('Please provide valid e-mail address.') }}
-            </span>
-          </div>
+          <base-input
+            class="col-xs-12 col-md-6 mb25"
+            type="text"
+            name="first-name"
+            :placeholder="$t('First name *')"
+            v-model.trim="personalDetails.firstName"
+            @blur="$v.personalDetails.firstName.$touch()"
+            autocomplete="given-name"
+            :validations="[
+              {
+                condition: $v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: !$v.personalDetails.firstName.minLength,
+                text: $t('Name must have at least 3 letters.')
+              }
+            ]"
+          />
+
+          <base-input
+            class="col-xs-12 col-md-6 mb25"
+            type="text"
+            name="last-name"
+            :placeholder="$t('Last name *')"
+            v-model.trim="personalDetails.lastName"
+            @blur="$v.personalDetails.lastName.$touch()"
+            autocomplete="family-name"
+            :validation="{
+              condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
+              text: $t('Field is required')
+            }"
+          />
+
+          <base-input
+            class="col-xs-12 mb25"
+            type="email"
+            name="email-address"
+            :placeholder="$t('Email address *')"
+            v-model="personalDetails.emailAddress"
+            @blur="$v.personalDetails.emailAddress.$touch()"
+            autocomplete="email"
+            @keyup.enter="sendDataToCheckout"
+            :validations="[
+              {
+                condition: $v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: !$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error,
+                text: $t('Please provide valid e-mail address.')
+              }
+            ]"
+          />
+
           <base-checkbox
-            v-show="!currentUser"
+            v-if="!currentUser"
             class="col-xs-12 mb15"
             id="createAccountCheckbox"
             @click="createAccount = !createAccount"
@@ -100,69 +97,78 @@
           >
             {{ $t('I want to create an account') }}
           </base-checkbox>
-          <div class="col-xs-12 col-sm-12 mb25 mt10" v-show="createAccount && !currentUser">
-            <div class="pass-container relative mr35">
-              <input
-                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4"
-                name="password"
-                v-model="password"
-                :type="passType.pass"
-                :placeholder="$t('Password *')"
-                @blur="$v.password.$touch()"
-                autocomplete="new-password"
-              >
-              <div class="icon absolute cl-tertiary pointer">
-                <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-              </div>
-            </div>
-            <span class="validation-error" v-if="$v.password.$error && !$v.password.required">{{ $t('Field is required.') }}</span>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb25" v-show="createAccount && !currentUser">
-            <div class="pass-container relative mr35">
-              <input
-                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4"
-                name="password-confirm"
-                v-model="rPassword"
-                :type="passType.repeatPass"
-                :placeholder="$t('Repeat password *')"
-                autocomplete="new-password"
-              >
-              <i class="icon absolute material-icons cl-tertiary pointer" @click="togglePassType('repeatPass')">
-                {{ iconName.repeatPass }}
-              </i>
-            </div>
-            <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">{{ $t('Passwords must be identical.') }}</span>
-          </div>
-          <base-checkbox
-            v-show="createAccount && !currentUser"
-            class="col-xs-12 mb15"
-            id="acceptConditions"
-            @click="acceptConditions = !acceptConditions"
-            @blur="$v.acceptConditions.$touch()"
-            v-model="acceptConditions"
-            :validation="{
-              condition: !$v.acceptConditions.required && $v.acceptConditions.$error,
-              text: $t('You must accept the terms and conditions.')
-            }"
-          >
-            {{ $t('I accept ') }}
-            <span
-              class="link pointer"
-              @click.stop="$bus.$emit('modal-toggle', 'modal-terms')"
+
+          <template v-if="createAccount && !currentUser">
+            <base-input
+              class="col-xs-12 mb25 mt10"
+              type="password"
+              name="password"
+              :placeholder="$t('Password *')"
+              v-model="password"
+              @blur="$v.password.$touch()"
+              autocomplete="new-password"
+              :validation="{
+                condition: $v.password.$error && !$v.password.required,
+                text: $t('Field is required.')
+              }"
+            />
+
+            <base-input
+              class="col-xs-12 mb25"
+              type="password"
+              name="password-confirm"
+              :placeholder="$t('Repeat password *')"
+              v-model="rPassword"
+              autocomplete="new-password"
+              :validations="[
+                {
+                  condition: $v.rPassword.$error && !$v.rPassword.required,
+                  text: $t('Field is required.')
+                },
+                {
+                  condition:!$v.rPassword.sameAsPassword,
+                  text: $t('Passwords must be identical.')
+                }
+              ]"
+            />
+
+            <base-checkbox
+              class="col-xs-12 mb15"
+              id="acceptConditions"
+              @click="acceptConditions = !acceptConditions"
+              @blur="$v.acceptConditions.$touch()"
+              v-model="acceptConditions"
+              :validation="{
+                condition: !$v.acceptConditions.required && $v.acceptConditions.$error,
+                text: $t('You must accept the terms and conditions.')
+              }"
             >
-              {{ $t('terms and conditions') }}
-            </span>*
-          </base-checkbox>
+              {{ $t('I accept ') }}
+              <span
+                class="link pointer"
+                @click.stop="$bus.$emit('modal-toggle', 'modal-terms')"
+              >
+                {{ $t('terms and conditions') }}
+              </span>*
+            </base-checkbox>
+          </template>
         </div>
       </div>
     </div>
     <div class="row" v-show="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
-      <div class="col-xs-12 col-sm-9 col-md-11">
+      <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
-          <div class="col-xs-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
+          <div
+            class="col-xs-12 col-lg-6 pl20 login-prompt bottom-button"
+            v-if="!currentUser"
+          >
             <p class="h4 cl-accent">
-              <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 cl-accent">
+              <a
+                href="#"
+                @click="gotoAccount"
+                class="link no-underline fs16 cl-accent"
+              >
                 {{ $t('login to your account') }}
               </a>
               {{ $t('or') }}
@@ -179,7 +185,7 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-show="!isActive && isFilled">
+    <div class="row pl20" v-if="!isActive && isFilled">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
@@ -218,6 +224,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import Modal from 'theme/components/core/Modal.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import BaseInput from '../Form/BaseInput.vue'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-basic-usage
@@ -248,64 +255,18 @@ export default {
       required
     }
   },
-  data () {
-    return {
-      passType: {
-        pass: 'password',
-        repeatPass: 'password'
-      },
-      iconName: {
-        pass: 'visibility',
-        repeatPass: 'visibility'
-      }
-    }
-  },
-  methods: {
-    togglePassType (name) {
-      if (this.passType[name] === 'password') {
-        this.passType[name] = 'text'
-        this.iconName[name] = 'visibility_off'
-      } else {
-        this.passType[name] = 'password'
-        this.iconName[name] = 'visibility'
-      }
-    }
-  },
   components: {
     ButtonFull,
     Tooltip,
     Modal,
-    BaseCheckbox
+    BaseCheckbox,
+    BaseInput
   },
   mixins: [coreComponent('blocks/Checkout/PersonalDetails')]
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-hover: color(tertiary, $colors-background);
-$color-focus: color(black);
-
-.pass-container {
-  input[type=password], input[type=text] {
-    &:focus {
-      outline: none;
-      border-color: $color-focus;
-      transition: 0.3s all;
-    }
-  }
-
-  .icon {
-    right: 0;
-    top: 10px;
-
-    &:hover {
-      color: $color-hover;
-    }
-  }
-}
-
 .link {
   text-decoration: underline;
 }
