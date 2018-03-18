@@ -10,15 +10,10 @@ export default {
       type: Boolean,
       required: true
     },
-    validationIf: {
-      type: Boolean,
+    validation: {
+      type: Object,
       required: false,
-      default: false
-    },
-    validationText: {
-      type: String,
-      required: false,
-      default: ''
+      default: () => {}
     },
     disabled: {
       type: Boolean,

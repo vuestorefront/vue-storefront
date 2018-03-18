@@ -7,6 +7,7 @@
       :placeholder="placeholder"
       :autocomplete="autocomplete"
       :value="value"
+      :ref="focus ? name : false"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur')"
     >
@@ -17,12 +18,21 @@
     >
       {{ icon }}
     </i>
-    <span
-      v-if="validationIf"
-      class="block cl-error h6"
-    >
-      {{ validationText }}
-    </span>
+    <template v-if="validation">
+      <span class="block cl-error h6" v-if="validation.condition">
+        {{ validation.text }}
+      </span>
+    </template>
+    <template v-else-if="validations">
+      <span
+        v-for="(validation, index) in validations"
+        :key="index"
+        v-if="validation.condition"
+        class="block cl-error h6"
+      >
+        {{ validation.text }}
+      </span>
+    </template>
   </div>
 
 </template>

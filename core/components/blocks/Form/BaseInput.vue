@@ -31,15 +31,20 @@ export default {
       required: false,
       default: ''
     },
-    validationIf: {
+    focus: {
       type: Boolean,
       required: false,
       default: false
     },
-    validationText: {
-      type: String,
+    validation: {
+      type: Object,
       required: false,
-      default: ''
+      default: () => {}
+    },
+    validations: {
+      type: Array,
+      required: false,
+      default: () => []
     }
   },
   methods: {
@@ -56,6 +61,11 @@ export default {
   created () {
     if (this.type === 'password') {
       this.iconActive = true
+    }
+  },
+  mounted () {
+    if (this.focus) {
+      this.$refs[this.name].focus()
     }
   }
 }

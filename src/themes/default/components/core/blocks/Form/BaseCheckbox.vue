@@ -18,12 +18,14 @@
         <slot/>
       </label>
     </div>
-    <span
-      class="block cl-error h6"
-      v-if="validationIf"
-    >
-      {{ validationText }}
-    </span>
+    <template v-if="validation">
+      <span
+        class="block cl-error h6"
+        v-if="validation.condition"
+      >
+        {{ validation.text }}
+      </span>
+    </template>
   </div>
 </template>
 

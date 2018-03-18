@@ -139,8 +139,10 @@
             @click="acceptConditions = !acceptConditions"
             @blur="$v.acceptConditions.$touch()"
             v-model="acceptConditions"
-            :validation-if="!$v.acceptConditions.required && $v.acceptConditions.$error"
-            :validation-text="$t('You must accept the terms and conditions.')"
+            :validation="{
+              condition: !$v.acceptConditions.required && $v.acceptConditions.$error,
+              text: $t('You must accept the terms and conditions.')
+            }"
           >
             {{ $t('I accept ') }}
             <span

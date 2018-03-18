@@ -40,8 +40,10 @@
                 @click="orderReview.terms = !orderReview.terms"
                 @blur="$v.orderReview.terms.$touch()"
                 v-model="orderReview.terms"
-                :validation-if="!$v.orderReview.terms.required && $v.orderReview.terms.$error"
-                :validation-text="$t('Field is required')"
+                :validation="{
+                  condition: !$v.orderReview.terms.required && $v.orderReview.terms.$error,
+                  text: $t('Field is required')
+                }"
               >
                 {{ $t('I agree to') }}
                 <span
