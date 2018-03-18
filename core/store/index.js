@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as localForage from 'localforage'
 import * as types from './mutation-types'
+import localForage from 'localforage'
 import UniversalStorage from 'core/lib/storage'
 import order from './modules/order'
 import product from './modules/product'
