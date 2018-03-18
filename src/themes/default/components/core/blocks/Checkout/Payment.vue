@@ -269,7 +269,7 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-xs-12 col-md-8 px20 my30">
+          <div class="col-xs-12 col-md-8 col-md-offset-4 px20 my30">
             <button-full
               @click.native="sendDataToCheckout"
               :class="{ 'button-disabled' : $v.payment.$invalid }"

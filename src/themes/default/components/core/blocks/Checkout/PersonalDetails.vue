@@ -154,10 +154,10 @@
         <div class="row">
           <div class="col-xs-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
             <p class="h4 cl-accent">
-              {{ $t('or') }}
               <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 cl-accent">
                 {{ $t('login to your account') }}
               </a>
+              {{ $t('or') }}
             </p>
           </div>
           <div class="col-xs-12 col-md-8 col-lg-6 my30 px20 button-container">
