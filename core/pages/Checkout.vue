@@ -146,6 +146,10 @@ export default {
     this.$bus.$on('checkout-after-shippingMethodChanged', (payload) => {
       this.$store.dispatch('cart/refreshTotals', payload)
     })
+    var urlStep = window.location.hash.replace('#', '')
+    if (this.activeSection[urlStep] && this.activeSection[urlStep] === false) {
+      this.activateSection(urlStep)
+    }
   },
   destroyed () {
     this.$bus.$off('network-before-checkStatus')
@@ -217,6 +221,7 @@ export default {
         this.activeSection[section] = false
       }
       this.activeSection[sectionToActivate] = true
+      window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
     },
     prepareOrder () {
       this.order = {
