@@ -61,7 +61,16 @@ app.get('*', (req, res) => {
   }
 
   if (!renderer) {
-    return res.end('Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!')
+    return res.end('<html lang="en">\n' +
+        '    <head>\n' +
+        '      <meta charset="utf-8">\n' +
+        '      <title>Loading</title>\n' +
+        '      <meta http-equiv="refresh" content="10">\n' +
+        '    </head>\n' +
+        '    <body>\n' +
+        '      Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!\n' +
+        '    </body>\n' +
+        '  </html>')
   }
 
   const s = Date.now()
