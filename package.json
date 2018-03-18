@@ -1,7 +1,7 @@
 {
   "name": "vue-storefront",
-  "version": "1.0.0RC",
   "description": "A Vue.js, PWA eCommerce frontend",
+  "private": true,
   "engineStrict": true,
   "engines": {
     "node": "8.x"
@@ -106,6 +106,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^2.0.13",
+    "lerna": "^2.9.0",
     "mocha": "^3.0.2",
     "node-sass": "^4.7.2",
     "phantomjs-prebuilt": "^2.1.10",
@@ -125,5 +126,9 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2",
     "webpack-merge": "^4.1.0"
-  }
+  },
+  "workspaces": [
+    "src/extensions/*",
+    "src/themes/*"
+  ]
 }
