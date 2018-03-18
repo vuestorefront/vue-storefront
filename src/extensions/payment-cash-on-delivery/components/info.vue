@@ -14,7 +14,7 @@
 </template>
 
 <script>
-export default {
+module.exports = {
   name: 'PaymentCashOnDelivery',
   data () {
     return {}

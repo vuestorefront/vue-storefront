@@ -1,5 +1,7 @@
-import PageExample from './pages/PageExample.vue'
+const PageExample = require('./pages/PageExample')
 
-export default [
-  { path: '/Custom', component: PageExample }
-]
+module.exports = [{
+  path: '/Custom',
+  component: PageExample
+}]
+

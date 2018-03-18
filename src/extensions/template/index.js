@@ -1,12 +1,12 @@
-import extensionStore from './store'
-import extensionRoutes from './router'
-import EventBus from 'core/plugins/event-bus'
-import ComponentExample from './components/ComponentExample.vue'
-import Vue from 'vue'
+const Vue = require('vue')
+const EventBus = require('core/plugins/event-bus')
+const extensionStore = require('./store')
+const extensionRoutes = require('./router')
+const ComponentExample = require('./components/ComponentExample.vue')
 
 const EXTENSION_KEY = 'custom_extension'
 
-export default function (app, router, store, config) {
+module.exports = function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
   store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
   // TODO: register module events here

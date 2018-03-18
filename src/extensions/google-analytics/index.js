@@ -1,12 +1,13 @@
-import extensionStore from './store'
-import extensionRoutes from './router'
-import Vue from 'vue'
-import VueAnalytics from 'vue-analytics'
-import EventBus from 'core/plugins/event-bus'
+const Vue = require('vue')
+const VueAnalytics = require('vue-analytics')
+const EventBus = require('core/plugins/event-bus')
+
+const extensionStore = require('./store')
+const extensionRoutes = require('./router')
 
 const EXTENSION_KEY = 'google-analytics'
 
-export default function (app, router, store, config) {
+module.exports = function (app, router, store, config) {
   router.addRoutes(extensionRoutes)
   store.registerModule(EXTENSION_KEY, extensionStore)
   console.log('Google Analytics extension registered')

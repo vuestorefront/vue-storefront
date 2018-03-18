@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { required, minLength } from 'vuelidate/lib/validators'
+const Vue = require('vue')
+const { required, minLength } =  require('vuelidate/lib/validators')
 
 // GoogleMaps cannot be included while in SSR
 if (process.browser) {
@@ -67,7 +67,7 @@ if (process.browser) {
   })
 }
 
-export default {
+module.exports = {
   name: 'DroppointMap',
   data () {
     return {
