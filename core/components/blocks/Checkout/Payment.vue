@@ -185,7 +185,7 @@ export default {
       for (let i = 0; i < this.paymentMethods.length; i++) {
         if (this.paymentMethods[i].code === this.payment.paymentMethod) {
           return {
-            title: this.paymentMethods[i].title
+            title: this.paymentMethods[i].title ? this.paymentMethods[i].title : this.paymentMethods[i].name
           }
         }
       }

@@ -79,6 +79,7 @@
               v-model="personalDetails.emailAddress"
               @blur="$v.personalDetails.emailAddress.$touch()"
               autocomplete="email"
+              @keyup.enter="sendDataToCheckout"
             >
             <span
               class="validation-error"
@@ -159,6 +160,14 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
+          <div class="col-xs-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
+            <p class="h4 cl-accent">
+              <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 cl-accent">
+                {{ $t('login to your account') }}
+              </a>
+              {{ $t('or') }}
+            </p>
+          </div>
           <div class="col-xs-12 col-md-8 col-lg-6 my30 px20 button-container">
             <button-full
               @click.native="sendDataToCheckout"
@@ -166,14 +175,6 @@
             >
               {{ $t('Continue to shipping') }}
             </button-full>
-          </div>
-          <div class="col-xs-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
-            <p class="h4 cl-accent">
-              {{ $t('or') }}
-              <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 cl-accent">
-                {{ $t('login to your account') }}
-              </a>
-            </p>
           </div>
         </div>
       </div>
