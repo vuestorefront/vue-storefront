@@ -51,42 +51,85 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~theme/css/base/text';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$bg-secondary: color(secondary, $colors-background);
-$color-tertiary: color(tertiary);
-$color-secondary: color(secondary);
-$color-error: color(error);
-$color-white: color(white);
-$color-black: color(black);
+  @import '~theme/css/base/text';
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $bg-secondary: color(secondary, $colors-background);
+  $color-tertiary: color(tertiary);
+  $color-secondary: color(secondary);
+  $color-error: color(error);
+  $color-white: color(white);
+  $color-black: color(black);
 
-#checkout {
-  select {
-    @extend .h4;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid $color-tertiary;
-    width: 100%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    background-color: transparent;
-  }
-  .button-disabled {
-    opacity: 0.3;
-    pointer-events: none;
-  }
-  .number-circle {
-    width: 35px;
-    height: 35px;
+  #checkout {
+    select {
+      @extend .h4;
+      padding: 10px 0;
+      border: none;
+      border-bottom: 1px solid $color-tertiary;
+      width: 100%;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+      background-color: transparent;
+    }
+    .number-circle {
+      width: 35px;
+      height: 35px;
 
-    @media (max-width: 768px) {
-      width: 25px;
-      height: 25px;
-      line-height: 25px;
+      @media (max-width: 768px) {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+      }
+    }
+    .radioStyled {
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 30px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        border: 1px solid $bg-secondary;
+
+        &:after {
+          content: "";
+          position: absolute;
+          display: none;
+          top: 3px;
+          left: 3px;
+          width: 19px;
+          height: 19px;
+          border-radius: 50%;
+          background: $color-secondary;
+        }
+      }
+
+      input:checked ~ .checkmark:after {
+        display: block;
+      }
     }
   }
+
   .line {
     &:after {
       content: '';
@@ -115,67 +158,4 @@ $color-black: color(black);
       }
     }
   }
-
-  .container {
-    height: 100%;
-  }
-
-  .bottom-button {
-    @media (max-width: 767px) {
-      text-align: center;
-      padding-left: 0px;
-      padding-right: 0px;
-    }
-
-    a {
-      font-size: 18px;
-    }
-  }
-
-  .radioStyled {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 30px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .checkmark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 25px;
-      width: 25px;
-      border-radius: 50%;
-      border: 1px solid $bg-secondary;
-
-      &:after {
-        content: "";
-        position: absolute;
-        display: none;
-        top: 3px;
-        left: 3px;
-        width: 19px;
-        height: 19px;
-        border-radius: 50%;
-        background: $color-secondary;
-      }
-    }
-
-    input:checked ~ .checkmark:after {
-      display: block;
-    }
-  }
-}
 </style>

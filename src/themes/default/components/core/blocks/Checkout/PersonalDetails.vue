@@ -158,29 +158,28 @@
     <div class="row" v-show="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-11 col-sm-9 col-md-10">
-        <div class="row">
-          <div
-            class="col-xs-12 col-lg-6 pl20 login-prompt bottom-button"
-            v-if="!currentUser"
-          >
-            <p class="h4 cl-accent">
-              <a
-                href="#"
-                @click="gotoAccount"
-                class="link no-underline fs16 cl-accent"
-              >
-                {{ $t('login to your account') }}
-              </a>
-              {{ $t('or') }}
-            </p>
-          </div>
-          <div class="col-xs-12 col-md-8 col-lg-6 my30 px20 button-container">
+        <div class="row my30">
+          <div class="col-xs-12 col-md-7 px20 button-container">
             <button-full
               @click.native="sendDataToCheckout"
               :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
             >
               {{ $t('Continue to shipping') }}
             </button-full>
+          </div>
+          <div
+            class="col-xs-12 col-md-5 center-xs end-md"
+            v-if="!currentUser"
+          >
+            <p class="h4 cl-accent">
+              {{ $t('or') }}
+              <span
+                class="link pointer"
+                @click.prevent="gotoAccount"
+              >
+                {{ $t('login to your account') }}
+              </span>
+            </p>
           </div>
         </div>
       </div>
@@ -274,13 +273,6 @@ export default {
 .login-prompt {
   @media (min-width: 1200px) {
     margin-top: 30px;
-  }
-}
-
-.button-container {
-  @media (max-width: 1200px) {
-    margin-bottom: 10px;
-    margin-top: 15px;
   }
 }
 </style>

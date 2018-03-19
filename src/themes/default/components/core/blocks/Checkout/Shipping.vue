@@ -35,7 +35,7 @@
         <div class="row">
           <base-checkbox
             v-if="currentUser && hasShippingDetails()"
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 mb25"
             id="shipToMyAddressCheckbox"
             @click="useMyAddress"
             v-model="shipToMyAddress"
