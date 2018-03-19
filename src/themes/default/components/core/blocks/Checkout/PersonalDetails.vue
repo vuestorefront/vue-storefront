@@ -11,13 +11,13 @@
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
-          <div class="col-xs-12 col-md-6" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+          <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0 mb5">
               {{ $t('Personal Details') }}
             </h3>
           </div>
-          <div class="col-xs-12 col-md-6 pr30">
-            <div class="lh30 flex end-xl" v-if="isFilled && !isActive">
+          <div class="col-xs-12 col-md-5 pr30">
+            <div class="lh30 flex end-lg" v-if="isFilled && !isActive">
               <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
                   {{ $t('Edit personal details') }}
@@ -146,9 +146,9 @@
               {{ $t('I accept ') }}
               <span
                 class="link pointer"
-                @click.stop="$bus.$emit('modal-toggle', 'modal-terms')"
+                @click.prevent="$bus.$emit('modal-toggle', 'modal-terms')"
               >
-                {{ $t('terms and conditions') }}
+                {{ $t('Terms and conditions') }}
               </span>*
             </base-checkbox>
           </template>

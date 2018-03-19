@@ -62,44 +62,20 @@ $color-white: color(white);
 $color-black: color(black);
 
 #checkout {
-  input[type=text], input[type=email], input[type=tel], select {
+  select {
     @extend .h4;
     padding: 10px 0;
     border: none;
     border-bottom: 1px solid $color-tertiary;
-    width: calc(100% - 35px);
-
-    @media (max-width: 767px) {
-      width: calc(100% - 20px);
-    }
-  }
-  input::-webkit-input-placeholder {
-    color: $color-tertiary;
-  }
-input:-moz-placeholder {
-    color: $color-tertiary;
-  }
-  input:focus, select:focus {
-    outline: none;
-    border-color: $color-black;
-    transition: 0.3s all;
-  }
-  select {
+    width: 100%;
     -moz-appearance: none;
     -webkit-appearance: none;
     border-radius: 0;
     background-color: transparent;
   }
-  h4 {
-    @extend .weight-200;
-  }
   .button-disabled {
     opacity: 0.3;
     pointer-events: none;
-  }
-  .validation-error{
-    color: $color-error;
-    display: block;
   }
   .number-circle {
     width: 35px;
@@ -109,12 +85,6 @@ input:-moz-placeholder {
       width: 25px;
       height: 25px;
       line-height: 25px;
-    }
-  }
-  h3 {
-    @media (max-width: 767px) {
-      font-size: 18px;
-      padding-left: 10px;
     }
   }
   .line {

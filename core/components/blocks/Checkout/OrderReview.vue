@@ -18,7 +18,7 @@ export default {
     return {
       isFilled: false,
       orderReview: {
-        terms: ''
+        terms: false
       }
     }
   },
