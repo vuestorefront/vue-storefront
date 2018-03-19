@@ -26,8 +26,6 @@
   },
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
-    "preinstall": "node ./core/scripts/preinstall.js",
-    "postinstall": "node ./core/scripts/postinstall.js",
     "start": "cross-env NODE_ENV=production node ./core/scripts/server",
     "installer": "node ./core/scripts/installer",
     "all": "node ./core/scripts/all",
@@ -48,6 +46,7 @@
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
     "d3-dsv": "^1.0.8",
+    "detect-installed": "^2.0.4",
     "elasticsearch": "^13.3.1",
     "empty-dir": "^0.2.1",
     "es6-promise": "^4.2.4",
