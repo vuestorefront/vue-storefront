@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/extension-droppoint-shipping",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.0",
   "description": "Droppoint shipping extension template for Vue Storefront",
   "license": "MIT",
   "main": "index.js",
