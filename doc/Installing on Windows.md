@@ -13,18 +13,18 @@ Vue storefront is based on open source technologies which SHOULD (in theory ;)) 
 1. Open your cmdline of choice with [Git](https://git-scm.com/download/win) access or use Github desktop
 2. Clone the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api) project: `git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api`
 3. Go to vue-storefront-api in dir: `cd vue-storefront-api`
-4. Install dependencies: `npm install`
+4. Install dependencies: `yarn install`
 5. Run Docker containers required by vue-storefront-api: `docker-compose up`. This can take a while ...
-6. Restore products database `npm run restore` and run latest migrations `npm run migrate`
+6. Restore products database `yarn run restore` and run latest migrations `yarn run migrate`
 7. Copy `config/default.json` to `config/local.json`
-8. Run API using `npm run dev` 
+8. Run API using `yarn run dev` 
 
 
 ## Installation of vue-storefront
 1. Open your cmdline of choice with [Git](https://git-scm.com/download/win) access or use Github desktop
 2. Clone the [vue-storefront](https://github.com/DivanteLtd/vue-storefront) project: `git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront`
 3. Go to vue-storefront in dir: `cd vue-storefront`
-4. Install dependencies: `npm install`
+4. Install dependencies: `yarn install`
 5. Copy `config/default.json` to `config/local.json`
 6. Images: because vue-storefront-api uses `imagemagick` and some nodejs cmdline bindings it can be dificult to run the image proxy on localhost/windows machine. Please point out the vue-storefront to image proxy provided by changing `config/local.json` images.baseUrl:
 

@@ -20,8 +20,8 @@ You need to use https://github.com/DivanteLtd/vue-storefront.
 ```
 git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
 cd vue-storefront
-npm install
-npm run installer
+yarn install
+yarn run installer
 ```
 
 After answering some questions precess would start automatically. Enjoy :)
@@ -36,7 +36,7 @@ It's the ultimate API backend for this application
 ```
 git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
 cd vue-storefront-api
-npm install
+yarn install
 docker-compose up
 ```
 To test out the application you'll need some test data. In vue-storefront-api/var/catalog.json you have data dump for ElasticSearch with default Magento2 products database. We're using for development purposes.
@@ -81,7 +81,7 @@ Now, it's the time to install the frontend itself:
 ```
 git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
 cd vue-storefront
-npm install
+yarn install
 ```
 
 You have to prepare the config:
