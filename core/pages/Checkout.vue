@@ -214,12 +214,12 @@ export default {
     activateHashSection () {
       if (typeof window !== 'undefined') {
         var urlStep = window.location.hash.replace('#', '')
-        if (this.activeSection.hasOwnProperty(urlStep) &&  this.activeSection[urlStep] === false) {
+        if (this.activeSection.hasOwnProperty(urlStep) && this.activeSection[urlStep] === false) {
           this.activateSection(urlStep)
         } else if (urlStep === '') {
           this.activateSection('personalDetails')
         }
-      }      
+      }
     },
     checkConnection (status) {
       if (!status.online) {
