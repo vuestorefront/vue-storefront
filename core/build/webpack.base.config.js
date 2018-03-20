@@ -34,14 +34,14 @@ module.exports = {
     modules: [
       'node_modules',
       path.resolve(__dirname, extensionsRoot),
-      path.resolve(__dirname, extensionsRoot)
+      path.resolve(__dirname, themesRoot)
     ],
   },
   resolve: {
     modules: [
       'node_modules',
       path.resolve(__dirname, extensionsRoot),
-      path.resolve(__dirname, extensionsRoot)
+      path.resolve(__dirname, themesRoot)
     ],
     extensions: ['.js', '.vue'],
     alias: {
