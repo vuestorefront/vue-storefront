@@ -1,7 +1,7 @@
 const path = require('path')
 const config = require('config')
 const fs = require('fs')
-
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -25,6 +25,9 @@ const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
 module.exports = {
+  plugins: [
+    new CaseSensitivePathsPlugin()
+  ],
   devtool: '#source-map',
   entry: {
     app: './core/client-entry.js',
