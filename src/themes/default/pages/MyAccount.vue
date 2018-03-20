@@ -12,17 +12,14 @@
         <div class="col-md-3 side-menu">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="(page, index) in navigation" :key="index">
-                <a :href="page.link" class="cl-accent" @click="notify(page.title)">{{ page.title }}</a>
+              <li class="mb10" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
+                <router-link :to="page.link" class="cl-accent">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
         </div>
         <div class="col-md-9">
-          <my-profile id="profile" :is-active="activeSection.profile" :edit-mode="editMode"/>
-          <my-shipping-details id="shipping_details" :is-active="activeSection.shipping" :edit-mode="editMode"/>
-          <my-newsletter id="newsletter" :is-active="activeSection.newsletter" :edit-mode="editMode"/>
-          <my-orders id="orders" :is-active="activeSection.orders" :edit-mode="editMode"/>
+          <component :is="this.$props.activeBlock" />
         </div>
       </div>
     </div>

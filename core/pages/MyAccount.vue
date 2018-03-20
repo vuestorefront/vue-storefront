@@ -22,35 +22,29 @@ export default {
       meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
     }
   },
+  props: {
+    activeBlock: {
+      type: String,
+      default: 'MyProfile'
+    }
+  },
   data () {
     return {
       navigation: [
-        { title: 'My profile', link: '#profile' },
-        { title: 'My shipping details', link: '#shipping_details' },
-        { title: 'My newsletter', link: '#newsletter' },
-        { title: 'My orders', link: '#orders' },
-        { title: 'My loyalty card', link: '#' },
-        { title: 'My product reviews', link: '#' }
-      ],
-      activeSection: {
-        profile: false,
-        shipping: false,
-        newsletter: false,
-        orders: false
-      },
-      editMode: true
+        { title: 'My profile', link: '/my-account' },
+        { title: 'My shipping details', link: '/my-account/shipping-details' },
+        { title: 'My newsletter', link: '/my-account/newsletter' },
+        { title: 'My orders', link: '/my-account/orders' },
+        { title: 'My loyalty card', link: '' },
+        { title: 'My product reviews', link: '' }
+      ]
     }
   },
   created () {
-    this.$bus.$on('myAccount-before-activateSection', (sectionName) => {
-      this.activateSection(sectionName)
-    })
     this.$bus.$on('myAccount-before-updateUser', (updatedData) => {
       if (updatedData) {
         this.$store.dispatch('user/update', { customer: updatedData })
       }
-      this.editMode = true
-      this.activateSection()
     })
     this.$bus.$on('myAccount-before-changePassword', (passwordData) => {
       this.$store.dispatch('user/changePassword', passwordData)
@@ -65,12 +59,9 @@ export default {
           this.$store.dispatch('user/updatePreferences', null)
         }
       }
-      this.editMode = true
-      this.activateSection()
     })
   },
   destroyed () {
-    this.$bus.$off('myAccount-before-activateSection')
     this.$bus.$off('myAccount-before-updateUser')
     this.$bus.$off('myAccount-before-changePassword')
     this.$bus.$off('myAccount-before-updatePreferences')
@@ -87,15 +78,6 @@ export default {
     })
   },
   methods: {
-    activateSection (sectionToActivate) {
-      for (let section in this.activeSection) {
-        this.activeSection[section] = false
-      }
-      if (sectionToActivate) {
-        this.activeSection[sectionToActivate] = true
-        this.editMode = false
-      }
-    },
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
         this.$bus.$emit('notification', {

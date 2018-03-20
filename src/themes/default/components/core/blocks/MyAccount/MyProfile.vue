@@ -2,13 +2,13 @@
   <div class="my-profile mb35">
     <!-- My profile header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-md-6" :class="{ 'cl-accent' : !isActive }">
+      <div class="col-xs-12 col-md-6" :class="{ 'cl-accent' : !isEdited }">
         <h3 class="m0 mb5">
           {{ $t('My profile') }}
         </h3>
       </div>
       <div class="col-xs-12 col-md-6 pr30">
-        <div class="lh30 flex end-md" v-if="!isActive && editMode">
+        <div class="lh30 flex end-md" v-if="!isEdited">
           <a href="#" class="cl-tertiary flex" @click.prevent="edit">
             <span class="pr5">
               {{ $t('Edit your profile') }}
@@ -19,7 +19,7 @@
       </div>
     </div>
     <!-- My profile body (edit mode) -->
-    <div class="row" v-show="isActive">
+    <div class="row" v-show="isEdited">
       <div class="col-xs-12 col-sm-12 col-md-6 mb25">
         <input
           type="text"
@@ -233,14 +233,14 @@
         </button-full>
       </div>
       <div class="col-xs-12 col-sm-6 pt15 bottom-button">
-        <a href="#" @click="exitSection" class="link no-underline fs16 cl-accent">
+        <a href="#" @click.prevent="exitSection" class="link no-underline fs16 cl-accent">
           {{ $t('Cancel') }}
         </a>
       </div>
     </div>
 
     <!-- The look when it's not in edit mode -->
-    <div class="row fs16 mb35" v-show="!isActive">
+    <div class="row fs16 mb35" v-show="!isEdited">
       <div class="col-xs-12 h4">
         <p>{{ currentUser.firstname }} {{ currentUser.lastname }}</p>
         <p>

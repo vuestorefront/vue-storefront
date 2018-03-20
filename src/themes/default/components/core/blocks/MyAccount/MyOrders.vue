@@ -2,7 +2,7 @@
   <div class="my-orders mb35">
     <!-- My orders header -->
     <div class="row mb15">
-      <div class="col-xs-12" :class="{ 'cl-accent' : !isActive }">
+      <div class="col-xs-12">
         <h3 class="m0 mb5">
           {{ $t('My orders') }}
         </h3>

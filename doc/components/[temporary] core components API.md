@@ -14,7 +14,7 @@ No data
 **Parameters:**  
 *product* - An instance of a product
 
-## Breadcrumbs
+## Breadcrumbsf
 This component represents a hierarchy of the current page in relation to the application's structure. It is used in Product, Category, My Account and Compare pages.
 ### Props
 `routes` - An array of route objects, each representing name and path to a parent page.  
@@ -340,14 +340,8 @@ Home page has been refactored to the new core proposal (1.0RC) and the [docs has
 ### Props
 No props
 ### Data
-`navigation` - an object that contains names of sections of MyAccount page and anchor links to them.  
-`activeSection` - an object that defines which section of MyAccount page is currently active.  
-`editMode` - a boolean prop that is propagated to its child components, it defines that any section can be switched to edit mode. When user presses *Edit* on any section, this prop becomes false so that other sections can not be edited at the same time before finishing editing the current section.  
+`navigation` - an object that contains names of sections of MyAccount page and anchor links to them.   
 ### Methods
-`activateSection (sectionToActivate)` - this method is called whenever user presses *Edit* button on any section of MyAccount page. It sets corresponding key of *activeSection* prop to true.  
-**Parameters**  
-*sectionToActivate* - an optional parameter that defines which section needs be activated. If parameter is not passed then all sections will be deactivated.  
-
 `notify (title)` - this is a temporary method that notifies user if he presses on a link of a section that is not yet implemented.  
 ### Hooks
 #### created

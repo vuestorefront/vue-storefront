@@ -9,16 +9,6 @@ import Countries from 'core/resource/countries.json'
 
 export default {
   name: 'MyProfile',
-  props: {
-    isActive: {
-      type: Boolean,
-      required: true
-    },
-    editMode: {
-      type: Boolean,
-      default: false
-    }
-  },
   data () {
     return {
       currentUser: Object.assign({}, this.$store.state.user.current),
@@ -37,7 +27,8 @@ export default {
       oldPassword: '',
       password: '',
       rPassword: '',
-      addCompany: false
+      addCompany: false,
+      isEdited: false
     }
   },
   created () {
@@ -60,7 +51,7 @@ export default {
   },
   methods: {
     edit () {
-      this.$bus.$emit('myAccount-before-activateSection', 'profile')
+      this.isEdited = true
     },
     objectsEqual (a, b) {
       const aProps = Object.keys(a)
@@ -163,6 +154,7 @@ export default {
           this.addCompany = false
         }
       }
+      this.isEdited = false
     },
     getUserCompany () {
       if (this.currentUser.hasOwnProperty('default_billing')) {
