@@ -24,13 +24,12 @@ To correct this behavior You can:
 - or just use bound to the `EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })` event and modify the `product.configurable_children` properties:
 
 ```js
-
-              if (product.configurable_children) {
-                for (let configurableChild of product.configurable_children) {
-                    configurableChild.name = product.name
-                  }
-                }
-              }
+  if (product.configurable_children) {
+    for (let configurableChild of product.configurable_children) {
+        configurableChild.name = product.name
+      }
+    }
+  }
 ```
 
 
@@ -41,25 +40,25 @@ After following the Tutorial on [how to connect to Magento2](https://medium.com/
 However there is an option to get the prices dynamicaly. To do so you must change the config inside `conf/local.json` from the default (`conf/default.json`):
 
 ```json
-"products": {
-      "preventConfigurableChildrenDirectAccess": true,
-      "alwaysSyncPlatformPricesOver": false,
-      "clearPricesBeforePlatformSync": false,
-      "waitForPlatformSync": false,
-      "endpoint": "http://localhost:8080/api/product"
-    },
-    ```
-    
+  "products": {
+    "preventConfigurableChildrenDirectAccess": true,
+    "alwaysSyncPlatformPricesOver": false,
+    "clearPricesBeforePlatformSync": false,
+    "waitForPlatformSync": false,
+    "endpoint": "http://localhost:8080/api/product"
+  },
+```
+
 to:
 
 ```json
-"products": {
-      "preventConfigurableChildrenDirectAccess": true,
-      "alwaysSyncPlatformPricesOver": true,
-      "clearPricesBeforePlatformSync": true,
-      "waitForPlatformSync": false,
-      "endpoint": "http://localhost:8080/api/product"
-    },
+  "products": {
+    "preventConfigurableChildrenDirectAccess": true,
+    "alwaysSyncPlatformPricesOver": true,
+    "clearPricesBeforePlatformSync": true,
+    "waitForPlatformSync": false,
+    "endpoint": "http://localhost:8080/api/product"
+  },
 ```
 
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
@@ -87,8 +86,8 @@ To display the proper prices and totals after Magento calculates all the discoun
     "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
     "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
     "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}"
-  },  
+  },
 ```
 
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
-After this change you need to restart the `npm run dev` or `npm run` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
+After this change you need to restart the `yarn dev` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
