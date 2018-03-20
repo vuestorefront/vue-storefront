@@ -28,7 +28,7 @@ Vue storefront is based on open source technologies which SHOULD (in theory ;)) 
 5. Copy `config/default.json` to `config/local.json`
 6. Images: because vue-storefront-api uses `imagemagick` and some nodejs cmdline bindings it can be dificult to run the image proxy on localhost/windows machine. Please point out the vue-storefront to image proxy provided by changing `config/local.json` images.baseUrl:
 
-```json
+```js
 export default {
   elasticsearch: {
     httpAuth: '',
@@ -43,7 +43,7 @@ export default {
     baseUrl: 'https://demo.vuestorefront.io/img/'
   }
 }
-(we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config)
+// we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config
 
 ```
 6. Run Vue Storefront Server using `npm run dev` 

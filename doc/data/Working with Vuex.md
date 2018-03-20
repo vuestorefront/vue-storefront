@@ -16,6 +16,7 @@ One can modify the existing store actions by responding to events. The events ar
  * [Sync](Sync%20Store.md)
  * [User](User%20Store.md)
  * [Attribute](Attribute%20Store.md)
+ * [UI Store](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
  
  ## Related
 
