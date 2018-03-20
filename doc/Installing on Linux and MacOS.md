@@ -12,8 +12,8 @@ If you're MacOS or Linux user now you're able to install with pretty nice CLI in
 
 ### Requirements
 1. Docker
-2. Node.js [Active LTS](https://github.com/nodejs/Release)
-3. [Yarn](https://yarnpkg.com/en/docs/install)
+2. Node.js [Active LTS](https://github.com/nodejs/Release) (>=8.0.0)
+3. [Yarn](https://yarnpkg.com/en/docs/install) (>=1.0.0)
 
 ### Installing
 You need to use https://github.com/DivanteLtd/vue-storefront.
