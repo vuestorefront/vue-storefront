@@ -160,7 +160,7 @@
               {{ $t('or') }}
             </p>
           </div>
-          <div class="col-xs-12 col-md-8 col-lg-6 my30 px20 button-container">
+          <div :class="{ 'col-xs-12': true, 'col-md-8': true, 'col-lg-6': !currentUser, 'col-lg-8': currentUser, 'my30': true, 'px20': true, 'button-container': true, 'col-md-offset-4': currentUser }">
             <button-full
               @click.native="sendDataToCheckout"
               :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"

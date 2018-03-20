@@ -150,10 +150,6 @@ export default {
     this.$bus.$on('checkout-after-shippingMethodChanged', (payload) => {
       this.$store.dispatch('cart/refreshTotals', payload)
     })
-    var urlStep = window.location.hash.replace('#', '')
-    if (this.activeSection[urlStep] && this.activeSection[urlStep] === false) {
-      this.activateSection(urlStep)
-    }
   },
   destroyed () {
     this.$bus.$off('network-before-checkStatus')
@@ -169,6 +165,9 @@ export default {
     this.$bus.$off('checkout-after-shippingMethodChanged')
   },
   computed: {
+  },
+  watch: {
+    '$route': 'activateHashSection'
   },
   methods: {
     checkStocks () {
@@ -212,6 +211,16 @@ export default {
       }
       return isValid
     },
+    activateHashSection () {
+      if (typeof window !== 'undefined') {
+        var urlStep = window.location.hash.replace('#', '')
+        if (this.activeSection.hasOwnProperty(urlStep) &&  this.activeSection[urlStep] === false) {
+          this.activateSection(urlStep)
+        } else if (urlStep === '') {
+          this.activateSection('personalDetails')
+        }
+      }      
+    },
     checkConnection (status) {
       if (!status.online) {
         this.$bus.$emit('notification', {
@@ -226,7 +235,7 @@ export default {
         this.activeSection[section] = false
       }
       this.activeSection[sectionToActivate] = true
-      window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
+      if (typeof window !== 'undefined') window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
     },
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
