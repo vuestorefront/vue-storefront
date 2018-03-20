@@ -2,7 +2,7 @@
   <div>
     <div class="relative">
       <input
-        class="checkbox-field"
+        class="checkbox-field no-outline"
         type="checkbox"
         :id="id"
         :checked="value"
@@ -41,6 +41,7 @@ export default {
   @import '~theme/css/helpers/functions/color';
   $color-secondary: color(secondary);
   $color-white: color(white);
+  $color-black: color(black);
 
   .checkbox-field {
     position: absolute;
@@ -77,6 +78,14 @@ export default {
         background-color: $color-secondary;
         transform: rotate(-45deg);
         cursor: pointer;
+      }
+    }
+    &:not(:checked) {
+      &:hover,
+      &:focus {
+        &:before {
+          border-color: $color-black;
+        }
       }
     }
   }

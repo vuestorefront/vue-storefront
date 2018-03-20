@@ -1,7 +1,11 @@
 <template>
   <div class="relative">
     <input
-      class="py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4 weight-200 sans-serif"
+      class="
+        py10 w-100 border-box brdr-none brdr-bottom
+        brdr-cl-primary h4 weight-200 sans-serif
+      "
+      :class="{pr30: type === 'password'}"
       :type="type === 'password' ? passType : type"
       :name="name"
       :placeholder="placeholder"
@@ -12,13 +16,18 @@
       @blur="$emit('blur')"
       @keyup.enter="$emit('keyup.enter', $event.target.value)"
     >
-    <i
+    <button
       v-if="iconActive"
-      class="icon material-icons absolute cl-brdr-secondary pointer"
+      type="button"
+      class="
+        icon material-icons absolute brdr-none no-outline
+        p0 bg-cl-transparent cl-brdr-secondary pointer
+      "
       @click="togglePassType()"
+      :aria-label="$t('Toggle password visibility')"
     >
       {{ icon }}
-    </i>
+    </button>
     <template v-if="validation">
       <span class="block cl-error h6" v-if="validation.condition">
         {{ validation.text }}
@@ -35,7 +44,6 @@
       </span>
     </template>
   </div>
-
 </template>
 
 <script>
@@ -68,9 +76,10 @@ export default {
   }
 
   .icon {
-    right: 0;
+    right: 6px;
     top: 10px;
-    &:hover {
+    &:hover,
+    &:focus {
       color: $color-hover;
     }
   }
