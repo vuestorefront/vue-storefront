@@ -2,10 +2,11 @@
   <div>
     <div class="relative">
       <input
-        class="checkbox-field no-outline"
+        class="m0 no-outline"
         type="checkbox"
         :id="id"
         :checked="value"
+        @keyup.enter="$emit('click')"
         @click="$emit('click')"
         @blur="$emit('blur')"
         @change="$emit('change')"
@@ -39,52 +40,63 @@ export default {
 <style lang="scss" scoped>
   @import '~theme/css/variables/colors';
   @import '~theme/css/helpers/functions/color';
-  $color-secondary: color(secondary);
+  $color-silver: color(silver);
+  $color-active: color(secondary);
   $color-white: color(white);
-  $color-black: color(black);
 
-  .checkbox-field {
-    position: absolute;
-    top: 0;
-    left: 0;
+  label {
     &:before {
       content: '';
       position: absolute;
-      top: 0;
+      top: 3px;
       left: 0;
       width: 22px;
       height: 22px;
       background-color: $color-white;
-      border: 1px solid $color-secondary;
+      border: 1px solid $color-silver;
       cursor: pointer;
     }
-    &:after {
-      background-color: transparent;
-    }
-    &:checked {
+  }
+
+  input {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    &:checked + label {
       &:before {
-        background-color: $color-secondary;
+        background-color: $color-silver;
+        border-color: $color-silver;
+        cursor: pointer;
       }
       &:after {
         content: '';
         position: absolute;
-        top: 6px;
+        top: 9px;
         left: 5px;
         width: 11px;
         height: 5px;
         border: 3px solid $color-white;
         border-top: none;
         border-right: none;
-        background-color: $color-secondary;
+        background-color: $color-silver;
         transform: rotate(-45deg);
-        cursor: pointer;
       }
     }
-    &:not(:checked) {
+    &:hover,
+    &:focus {
+      + label {
+        &:before {
+          border-color: $color-active;
+        }
+      }
+    }
+    &:disabled + label {
+      cursor: not-allowed;
       &:hover,
       &:focus {
         &:before {
-          border-color: $color-black;
+          border-color: $color-silver;
+          cursor: not-allowed;
         }
       }
     }
