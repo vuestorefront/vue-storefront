@@ -1,7 +1,8 @@
 # Vue Storefront - headless PWA for eCommerce 
 <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
-![GitHub license](https://img.shields.io/badge/stable%20branch-master-green.svg)
-![GitHub license](https://img.shields.io/badge/dev%20branch-develop-lightgrey.svg)
+![version](https://img.shields.io/badge/version-1,0%20RC-blue.svg) 
+![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
+![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/pimcore2vuestorefront">Pimcore</a>,  Prestashop or Shopware) through the API.
 
