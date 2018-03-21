@@ -13,14 +13,14 @@ export default {
       type: String,
       required: true
     },
+    value: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: false,
       default: ''
-    },
-    value: {
-      type: String,
-      required: true
     },
     placeholder: {
       type: String,

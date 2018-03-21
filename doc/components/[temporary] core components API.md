@@ -15,16 +15,34 @@ No data
 *product* - An instance of a product
 
 ## BaseCheckbox
-This component represents a checkbox with label.
+This component represents a checkbox with label and validation.
 ### Props
 `id` - id for checkbox input and label
-`validationIf` - vuelidate if statement
-`validationText` - validation error text
+`validation.condition` - vuelidate if statement
+`validation.text` - validation error text
 `disabled` - boolean prop to disable checkbox input
 ### Data
 No data
 ### Methods
 No methods
+
+## BaseInput
+This component represents an input with validation.
+### Props
+`type` - input type,
+`name` - input name
+`placeholder` - input placeholder
+`autocomplete` - input autocomplete
+`focus` - boolean prop that defines if this input is autofocused
+`validation.condition` - vuelidate if statement
+`validation.text` - validation error text
+`validations` - array of validation objects to apply multiple validations
+### Data
+`passType` - copy of password type for toggle password visibility
+`iconActive` - boolean prop that defines if visibility button is enabled
+`icon` - default material icon name for visibility button
+### Methods
+`togglePassType` - toggle password visibility and icon name
 
 ## Breadcrumbs
 This component represents a hierarchy of the current page in relation to the application's structure. It is used in Product, Category, My Account and Compare pages.
