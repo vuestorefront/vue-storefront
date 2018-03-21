@@ -107,6 +107,7 @@ export default {
           city: '',
           streetAddress: '',
           apartmentNumber: '',
+          postcode: '',
           zipCode: '',
           phoneNumber: '',
           taxId: '',
