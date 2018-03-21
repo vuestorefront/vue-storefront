@@ -21,6 +21,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 ## See it in action
 
 Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
+
 <table>
   <tbody>
     <tr>
@@ -40,8 +41,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"
             alt="B2C Theme demo"
-            height="100"
-          
+            height="100">
         </a>
       </td>
       <td align="center" valign="middle">
