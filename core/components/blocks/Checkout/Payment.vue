@@ -107,7 +107,7 @@ export default {
           city: '',
           streetAddress: '',
           apartmentNumber: '',
-          postcode: '',
+          zipCode: '',
           phoneNumber: '',
           taxId: '',
           paymentMethod: this.paymentMethods[0].code
