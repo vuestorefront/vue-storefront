@@ -1,4 +1,11 @@
-# Vue Storefront - headless PWA for eCommerce <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
+# Vue Storefront - headless PWA for eCommerce 
+<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
+![version](https://img.shields.io/badge/version-1.0%20RC-blue.svg) 
+![version](https://img.shields.io/badge/node-v8.x-blue.svg) 
+![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
+![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
+<a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
+
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/pimcore2vuestorefront">Pimcore</a>,  Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
@@ -14,6 +21,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 ## See it in action
 
 Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
+
 <table>
   <tbody>
     <tr>
@@ -33,8 +41,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"
             alt="B2C Theme demo"
-            height="100"
-          >
+            height="100">
         </a>
       </td>
       <td align="center" valign="middle">
