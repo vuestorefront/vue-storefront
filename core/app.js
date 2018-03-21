@@ -44,7 +44,7 @@ export function createApp () {
     i18n,
     render: h => h(App)
   })
-  
+
   registerExtensions(
     extensionEntryPoints,
     app,
