@@ -1,4 +1,4 @@
-export function registerExtensions (extensions, app, router, store, config) {
+export default function registerExtensions (extensions, app, router, store, config) {
   for (let extEntryPoint of extensions) {
     if (extEntryPoint !== null) {
       if (extEntryPoint.default) extEntryPoint = extEntryPoint.default

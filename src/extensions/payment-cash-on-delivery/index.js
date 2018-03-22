@@ -1,8 +1,9 @@
+import Vue from 'vue'
+import EventBus from 'core/plugins/event-bus'
+
 import extensionStore from './store'
 import extensionRoutes from './router'
 import InfoComponent from './components/info'
-import EventBus from '../../../core/plugins/event-bus'
-import Vue from 'vue'
 
 const EXTENSION_KEY = 'payment-cash-on-delivery'
 

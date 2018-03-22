@@ -1,6 +1,7 @@
 const path = require('path')
 const config = require('config')
 const fs = require('fs')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -10,10 +11,10 @@ fs.writeFileSync(
 const vueConfig = require('./vue-loader.config')
 const appConfig = require('./config.json')
 
-const theme = appConfig.theme
 const extensionsRoot = '../../src/extensions'
+const themesRoot = '../../src/themes'
 
-const themeRoot = '../../src/themes/' + theme
+const themeRoot = require('./theme-path')
 const themeComponents = themeRoot + '/components'
 const themePages = themeRoot + '/pages'
 const themePlugins = themeRoot + '/plugins'
@@ -22,9 +23,11 @@ const themeMixins = themeRoot + '/mixins'
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
-const themeNodeModules = themeRoot + '/node_modules'
 
 module.exports = {
+  plugins: [
+    new CaseSensitivePathsPlugin()
+  ],
   devtool: '#source-map',
   entry: {
     app: './core/client-entry.js',
@@ -34,49 +37,47 @@ module.exports = {
     modules: [
       'node_modules',
       path.resolve(__dirname, extensionsRoot),
-      path.resolve(__dirname, themeNodeModules)
+      path.resolve(__dirname, themesRoot)
     ],
   },
   resolve: {
     modules: [
       'node_modules',
       path.resolve(__dirname, extensionsRoot),
-      path.resolve(__dirname, themeNodeModules)
+      path.resolve(__dirname, themesRoot)
     ],
     extensions: ['.js', '.vue'],
     alias: {
       // Main aliases
-      config: path.resolve(__dirname, './config.json'),
-      lib: path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
-      'src': path.resolve(__dirname, '../../src'),
+      'config': path.resolve(__dirname, './config.json'),
       'core': path.resolve(__dirname, '../'),
-      'assets': path.resolve(__dirname, '../../src/assets'),
-      'themes': path.resolve(__dirname, '../../src/themes/' + theme),
+      'lib': path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
+      'src': path.resolve(__dirname, '../../src'),
       // Core aliases
-      'core/components': path.resolve(__dirname, '../components'),
       'components': path.resolve(__dirname, '../../src/components'),
-      'core/pages': path.resolve(__dirname, '../pages'),
-      'core/resource': path.resolve(__dirname, '../resource'),
-      'core/plugins': path.resolve(__dirname, '../plugins'),
       'core/api': path.resolve(__dirname, '../api'),
-      'core/lib': path.resolve(__dirname, '../lib'),
-      'core/helpers': path.resolve(__dirname, '../helpers'),
+      'core/assets': path.resolve(__dirname, '../assets'),
+      'core/components': path.resolve(__dirname, '../components'),
       'core/filters': path.resolve(__dirname, '../filters'),
+      'core/helpers': path.resolve(__dirname, '../helpers'),
+      'core/lib': path.resolve(__dirname, '../lib'),
+      'core/mixins': path.resolve(__dirname, '../mixins'),
       'core/models': path.resolve(__dirname, '../models'),
+      'core/pages': path.resolve(__dirname, '../pages'),
+      'core/plugins': path.resolve(__dirname, '../plugins'),
+      'core/resource': path.resolve(__dirname, '../resource'),
       'core/router': path.resolve(__dirname, '../router'),
       'core/store': path.resolve(__dirname, '../store'),
-      'core/mixins': path.resolve(__dirname, '../mixins'),
-      'core/assets': path.resolve(__dirname, '../assets'),
       // Theme aliases
-      'theme/resource': path.resolve(__dirname, themeResources),
-      'theme/components': path.resolve(__dirname, themeComponents),
-      'theme/pages': path.resolve(__dirname, themePages),
-      'theme/plugins': path.resolve(__dirname, themePlugins),
-      'theme/filters': path.resolve(__dirname, themeFilters),
-      'theme/mixins': path.resolve(__dirname, themeMixins),
-      'theme/css': path.resolve(__dirname, themeCSS),
-      'theme/app': path.resolve(__dirname, themeApp),
-      'theme': path.resolve(__dirname, themeRoot)
+      'theme': themeRoot,
+      'theme/app': themeApp,
+      'theme/components': themeComponents,
+      'theme/css': themeCSS,
+      'theme/filters': themeFilters,
+      'theme/mixins': themeMixins,
+      'theme/pages': themePages,
+      'theme/plugins': themePlugins,
+      'theme/resource': themeResources
     }
   },
   output: {

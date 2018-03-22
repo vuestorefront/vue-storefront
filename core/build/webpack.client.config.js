@@ -7,9 +7,6 @@ const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 
-const theme = require('../build/config.json').theme
-const themeRoot = '../../src/themes/' + theme + '/'
-
 const config = merge(base, {
   resolve: {
     alias: {
@@ -105,9 +102,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const configSW = merge({}, base); // this is basicaly a work-around to compile the service workers extensions as they are not included nowhere but in service worker only
+const themeRoot = require('./theme-path')
 
 configSW.entry =  {
-  'service-worker-ext': 'src/themes/' + theme + '/service-worker-ext.js',
+  'service-worker-ext': themeRoot + '/service-worker-ext.js',
 }
 configSW.output =  {
   path: path.resolve(__dirname, '../../dist'),

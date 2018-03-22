@@ -5,10 +5,8 @@ const MFS = require('memory-fs')
 let baseClientConfig = require('./webpack.client.config')
 let baseServerConfig = require('./webpack.server.config')
 
-const theme = require('../build/config.json').theme
-const themeRoot = '../../src/themes/' + theme + '/'
-
-let extendedConfig = require(path.join(themeRoot, 'webpack.config.js'))
+const themeRoot = require('./theme-path')
+const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 
 let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true })
 let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true })
