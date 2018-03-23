@@ -21,7 +21,7 @@ export function execute (task, currentToken = null, currentCartId = null) {
     }).then((jsonResponse) => {
       if (jsonResponse) {
         if (parseInt(jsonResponse.code) !== 200) {
-          if (!taskData.silent) {
+          if (!taskData.silent && (jsonResponse.result && jsonResponse.result.code !== 'ENOTFOUND')) {
             EventBus.$emit('notification', {
               type: 'error',
               message: i18n.t(jsonResponse.result),
