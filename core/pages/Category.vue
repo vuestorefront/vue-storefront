@@ -113,7 +113,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
         message: i18n.t('No products synchronized for this category. Please come back while online!'),
         action1: { label: 'OK', action: 'close' }
       })
-
+      store.dispatch('product/reset')
       store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
       // store.state.category.filters = { color: [], size: [], price: [] }
     } else {

@@ -6,7 +6,7 @@ import config from 'config'
 
 EventBus.$on('stock-after-check', (event) => { // example stock check callback
   store.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
-    if (cartItem) {
+    if (cartItem && event.result.code !== 'ENOTFOUND') {
       if (!event.result.is_in_stock) {
         if (!config.stock.allowOutOfStockInCart) {
           console.log('Removing product from the cart', event.product_sku)
