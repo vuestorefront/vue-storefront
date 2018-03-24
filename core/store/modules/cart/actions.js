@@ -357,5 +357,23 @@ export default {
         context.dispatch('cart/serverTotals', {}, { root: true })
       }
     }
+  },
+  removeCoupon (context) {
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+      context.dispatch('sync/execute', { url: config.cart.deletecoupon_endpoint,
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        silent: true
+      }, { root: true }).then(task => {
+        if (task.result) {
+          context.dispatch('refreshTotals')
+        }
+      }).catch(e => {
+        console.error(e)
+      })
+    }
   }
 }

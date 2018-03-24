@@ -29,6 +29,11 @@ export default {
       default: () => false
     }
   },
+  data () {
+    return {
+      addCouponPressed: false
+    }
+  },
   created () {
     this.$store.dispatch('cart/load') // load cart from the indexedDb
   },
@@ -36,6 +41,12 @@ export default {
     closeMicrocart () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
+    },
+    removeCoupon () {
+      this.$store.dispatch('cart/removeCoupon')
+    },
+    addDiscountCoupon () {
+      this.addCouponPressed = true
     },
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },
@@ -51,6 +62,9 @@ export default {
     },
     items () {
       return this.$store.state.cart.cartItems
+    },
+    coupon () {
+      return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
     },
     ...mapState({
       isOpen: state => state.ui.microcart
