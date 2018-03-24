@@ -8,6 +8,7 @@ import { optionLabel } from 'core/store/modules/attribute/helpers'
 import { quickSearchByQuery } from 'core/lib/search'
 import EventBus from 'core/plugins/event-bus'
 import _ from 'lodash'
+import { productThumbnailPath } from '../../../helpers'
 
 export default {
   /**
@@ -325,6 +326,11 @@ export default {
     if (productVariant && typeof productVariant === 'object') {
       // get original product
       const productOriginal = context.getters.productOriginal
+
+      if (!context.state.offlineImage) {
+        context.state.offlineImage = productThumbnailPath(productOriginal, true)
+        console.log('Image offline fallback set to ', context.state.offlineImage)
+      }
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)

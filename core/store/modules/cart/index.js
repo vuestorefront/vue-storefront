@@ -7,6 +7,8 @@ import rootStore from '../../'
 import * as types from '../../mutation-types'
 import i18n from 'core/lib/i18n'
 
+const MAX_BYPASS_COUNT = 10
+
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
   if (event.resultCode === 200) {
@@ -14,9 +16,12 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', { forceClientState: false }, { root: true })
   } else {
-    rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
-    console.error(event.result)
-    console.log('Bypassing with guest cart')
+    if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
+      console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
+      rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
+      rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
+      console.error(event.result)
+    }
   }
 })
 
@@ -157,6 +162,7 @@ export default {
     shipping: [],
     payment: [],
     cartItemsHash: '',
+    bypassCount: 0,
     cartItems: [] // TODO: check if it's properly namespaced
   },
   getters,

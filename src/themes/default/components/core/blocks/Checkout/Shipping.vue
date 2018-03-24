@@ -1,5 +1,5 @@
 <template>
-  <div class="shipping pt20">
+  <div class="pt20">
     <div class="row pl20">
       <div class="col-xs-1 col-sm-2 col-md-1">
         <div
@@ -11,13 +11,13 @@
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
-          <div class="col-xs-12 col-md-6" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+          <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0 mb5">
               {{ $t('Shipping') }}
             </h3>
           </div>
-          <div class="col-xs-12 col-md-6 pr30">
-            <div class="lh30 flex end-md" v-if="isFilled && !isActive">
+          <div class="col-xs-12 col-md-5 pr30">
+            <div class="lh30 flex end-lg" v-if="isFilled && !isActive">
               <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
                   {{ $t('Edit shipping') }}
@@ -29,132 +29,125 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-show="isActive">
+    <div class="row pl20" v-if="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
-      <div class="col-xs-12 col-sm-9 col-md-11">
+      <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
-          <div class="col-xs-12 col-sm-12 mb15" v-show="currentUser && hasShippingDetails()">
-            <div class="checkboxStyled" @click.prevent="useMyAddress">
-              <input type="checkbox" v-model="shipToMyAddress" id="shipToMyAddressCheckbox">
-              <label for="shipToMyAddressCheckbox"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="useMyAddress">
-              <span class="fs16 cl-accent">
-                {{ $t('Ship to my default address') }}
-              </span>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-6 mb25">
-            <input
-              type="text"
-              name="first-name"
-              :placeholder="$t('First name *')"
-              v-model.trim="shipping.firstName"
-              @blur="$v.shipping.firstName.$touch()"
-              autocomplete="given-name"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.shipping.firstName.$error && !$v.shipping.firstName.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-            <span
-              class="validation-error"
-              v-if="!$v.shipping.firstName.minLength"
-            >
-              {{ $t('Name must have at least 3 letters.') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-6 mb25">
-            <input
-              type="text"
-              name="last-name"
-              :placeholder="$t('Last name *')"
-              v-model.trim="shipping.lastName"
-              @blur="$v.shipping.lastName.$touch()"
-              autocomplete="family-name"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.shipping.lastName.$error && !$v.shipping.lastName.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb25">
-            <input
-              type="text"
-              name="street-address"
-              :placeholder="$t('Street name *')"
-              v-model.trim="shipping.streetAddress"
-              @blur="$v.shipping.streetAddress.$touch()"
-              autocomplete="shipping address-line1"
-            >
-            <span class="validation-error" v-if="$v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required">
-              {{ $t('Field is required') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb25">
-            <input
-              type="text"
-              name="apartment-number"
-              :placeholder="$t('House/Apartment number *')"
-              v-model.trim="shipping.apartmentNumber"
-              @blur="$v.shipping.apartmentNumber.$touch()"
-              autocomplete="address-line2"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-6 mb25">
-            <input
-              type="text"
-              name="city"
-              :placeholder="$t('City *')"
-              v-model.trim="shipping.city"
-              @blur="$v.shipping.city.$touch()"
-              autocomplete="address-level2"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.shipping.city.$error && !$v.shipping.city.required">{{ $t('Field is required') }}</span>
-          </div>
-          <div class="col-xs-12 col-sm-6 mb25">
-            <input
-              type="text"
-              name="state"
-              :placeholder="$t('State / Province')"
-              v-model.trim="shipping.state"
-              autocomplete="address-level1"
-            >
-          </div>
-          <div class="col-xs-12 col-sm-6 mb25">
-            <input
-              type="text"
-              name="zip-code"
-              :placeholder="$t('Zip-code *')"
-              v-model.trim="shipping.zipCode"
-              @blur="$v.shipping.zipCode.$touch()"
-              autocomplete="postal-code"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.shipping.zipCode.$error && !$v.shipping.zipCode.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-            <span
-              class="validation-error"
-              v-if="!$v.shipping.zipCode.minLength"
-            >
-              {{ $t('Zip-code must have at least 3 letters.') }}
-            </span>
-          </div>
+          <base-checkbox
+            v-if="currentUser && hasShippingDetails()"
+            class="col-xs-12 mb25"
+            id="shipToMyAddressCheckbox"
+            @click="useMyAddress"
+            v-model="shipToMyAddress"
+          >
+            {{ $t('Ship to my default address') }}
+          </base-checkbox>
+
+          <base-input
+            class="col-xs-12 col-sm-6 mb25"
+            type="text"
+            name="first-name"
+            :placeholder="$t('First name *')"
+            v-model.trim="shipping.firstName"
+            @blur="$v.shipping.firstName.$touch()"
+            autocomplete="given-name"
+            :validations="[
+              {
+                condition: $v.shipping.firstName.$error && !$v.shipping.firstName.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: !$v.shipping.firstName.minLength,
+                text: $t('Name must have at least 3 letters.')
+              }
+            ]"
+          />
+
+          <base-input
+            class="col-xs-12 col-sm-6 mb25"
+            type="text"
+            name="last-name"
+            :placeholder="$t('Last name *')"
+            v-model.trim="shipping.lastName"
+            @blur="$v.shipping.lastName.$touch()"
+            autocomplete="family-name"
+            :validation="{
+              condition: $v.shipping.lastName.$error && !$v.shipping.lastName.required,
+              text: $t('Field is required')
+            }"
+          />
+
+          <base-input
+            class="col-xs-12 mb25"
+            type="text"
+            name="street-address"
+            :placeholder="$t('Street name *')"
+            v-model.trim="shipping.streetAddress"
+            @blur="$v.shipping.streetAddress.$touch()"
+            autocomplete="address-line1"
+            :validation="{
+              condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
+              text: $t('Field is required')
+            }"
+          />
+
+          <base-input
+            class="col-xs-12 mb25"
+            type="text"
+            name="apartment-number"
+            :placeholder="$t('House/Apartment number *')"
+            v-model.trim="shipping.apartmentNumber"
+            @blur="$v.shipping.apartmentNumber.$touch()"
+            autocomplete="address-line2"
+            :validation="{
+              condition: $v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required,
+              text: $t('Field is required')
+            }"
+          />
+
+          <base-input
+            class="col-xs-12 col-sm-6 mb25"
+            type="text"
+            name="city"
+            :placeholder="$t('City *')"
+            v-model.trim="shipping.city"
+            @blur="$v.shipping.city.$touch()"
+            autocomplete="city"
+            :validation="{
+              condition: $v.shipping.city.$error && !$v.shipping.city.required,
+              text: $t('Field is required')
+            }"
+          />
+
+          <base-input
+            class="col-xs-12 col-sm-6 mb25"
+            type="text"
+            name="state"
+            :placeholder="$t('State / Province')"
+            v-model.trim="shipping.state"
+            autocomplete="state"
+          />
+
+          <base-input
+            class="col-xs-12 col-sm-6 mb25"
+            type="text"
+            name="zip-code"
+            :placeholder="$t('Zip-code *')"
+            v-model.trim="shipping.zipCode"
+            @blur="$v.shipping.zipCode.$touch()"
+            autocomplete="postal-code"
+            :validations="[
+              {
+                condition: $v.shipping.zipCode.$error && !$v.shipping.zipCode.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: !$v.shipping.zipCode.minLength,
+                text: $t('Name must have at least 3 letters.')
+              }
+            ]"
+          />
+
           <div class="col-xs-12 col-sm-6 mb25">
             <select
               name="countries"
@@ -170,15 +163,20 @@
               {{ $t('Field is required') }}
             </span>
           </div>
-          <div class="col-xs-12 col-sm-12 mb25">
-            <input type="text" name="phone-number" :placeholder="$t('Phone Number')" v-model.trim="shipping.phoneNumber">
-          </div>
-          <div class="col-xs-12">
-            <h4>
-              {{ $t('Shipping method') }}
-            </h4>
-          </div>
-          <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6 mb15">
+
+          <base-input
+            class="col-xs-12 mb25"
+            type="text"
+            name="phone-number"
+            :placeholder="$t('Phone Number')"
+            v-model.trim="shipping.phoneNumber"
+            autocomplete="phone-number"
+          />
+
+          <h4 class="col-xs-12">
+            {{ $t('Shipping method') }}
+          </h4>
+          <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6">
             <label class="radioStyled"> {{ method.method_title }} | {{ method.amount | price }}
               <input
                 type="radio"
@@ -196,11 +194,11 @@
         </div>
       </div>
     </div>
-    <div class="row" v-show="isActive">
+    <div class="row" v-if="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-xs-12 col-md-8 col-md-offset-4 my30 px20">
+          <div class="col-xs-12 col-md-8 my30 px20">
             <button-full
               @click.native="sendDataToCheckout"
               :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
@@ -211,7 +209,7 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-show="!isActive && isFilled">
+    <div class="row pl20" v-if="!isActive && isFilled">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
@@ -226,10 +224,10 @@
               {{ shipping.city }} {{ shipping.zipCode }}
             </p>
             <p>
-              <span v-show="shipping.state">{{ shipping.state }}, </span>
+              <span v-if="shipping.state">{{ shipping.state }}, </span>
               <span>{{ getCountryName() }}</span>
             </p>
-            <div v-show="shipping.phoneNumber">
+            <div v-if="shipping.phoneNumber">
               <span class="pr15">{{ shipping.phoneNumber }}</span>
               <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
             </div>
@@ -255,6 +253,8 @@
 import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import BaseInput from '../Form/BaseInput.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-contextified-validators
@@ -292,7 +292,9 @@ export default {
   },
   components: {
     ButtonFull,
-    Tooltip
+    Tooltip,
+    BaseCheckbox,
+    BaseInput
   },
   mixins: [coreComponent('blocks/Checkout/Shipping')]
 }

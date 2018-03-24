@@ -1,15 +1,14 @@
 import Vue from 'vue'
-import App from 'theme/app'
+import App from 'theme/App'
 import store from 'core/store'
 import router from 'core/router'
 import config from 'config'
 import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
-import _ from 'lodash'
-import extensionEntryPoints from 'src/extensions'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
-import { registerExtensions } from 'core/lib/extensions'
+import registerExtensions from 'core/lib/extensions'
+import extensionEntryPoints from 'src/extensions'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
@@ -46,7 +45,14 @@ export function createApp () {
     render: h => h(App)
   })
 
-  registerExtensions(_.union(extensionEntryPoints, config.requiredExtensions) || [], app, router, store, config) // TODO: use config or ENV variables
+  registerExtensions(
+    extensionEntryPoints,
+    app,
+    router,
+    store,
+    config
+  )
+
   registerTheme(config.theme, app, router, store)
 
   app.$emit('application-after-init', app)

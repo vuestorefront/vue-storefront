@@ -36,7 +36,7 @@
     },
     "stock": {
       "synchronize": true,
-      "allowOutOfStockInCart": true, 
+      "allowOutOfStockInCart": true,
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
@@ -64,7 +64,7 @@
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
-    "theme": "default",
+    "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
     }

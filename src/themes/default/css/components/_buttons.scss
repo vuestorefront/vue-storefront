@@ -34,6 +34,11 @@
   }
 }
 
+.button-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 button,
 .button {
   outline: none;

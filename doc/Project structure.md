@@ -8,18 +8,18 @@ Below you can find the Vue Storefront project structure with explainations and c
 * `doc` - Project documentation
 * `core` - Vue Storefront core <b>(don't modify this directory on your project if you want to receive core updates)</b>
   * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json, eventually will be removed and moved to themes. You can place your theme-specific assets in `{themeroot}/assets`
-  * `build/` -  It contains `config.json` generated from files in `/config` folder and webpack build,. Its made from vue-cli webpack tempate. You can extend core webpack build in '{themeroot}/webpack.config.js' (related: [Working with Webpack](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md)). 
+  * `build/` -  It contains `config.json` generated from files in `/config` folder and webpack build,. Its made from vue-cli webpack tempate. You can extend core webpack build in '{themeroot}/webpack.config.js' (related: [Working with Webpack](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md)).
   * `components` Vue Storefront core components (related: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `filters` - Global Vue filters for the project. You can add your own filters in `{themeroot}/filters`
   * `helpers` - Global methods for the project.
-  * `lib` - Core libraries allowing functionalities like theme support, extensions or filters 
+  * `lib` - Core libraries allowing functionalities like theme support, extensions or filters
   * `mixins` - Global mixins for the project. You can add your own mixins in `{themeroot}/mixins`
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
   * `pages` - Vue Storefront core pages (related: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `plugins` - Core plugins (related: [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md))
   * `resource` - Data mocks used to develop new features
   * `router` - Core Vue Router setup. The definition of routes happens in `{themeroot}/index.js`
-  * `scripts` - Core npm scripts like app installer, extension installer etc
+  * `scripts` - Core scripts like app installer, extension installer etc.
   * `store` - Core Vuex stores (related: [Working with Vuex](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/Working%20with%20Vuex.md), [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md))
 * `src` - Main project folder containing Vue Storefront core and themes. This is your app playground so you can modify this folder.
   * `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
