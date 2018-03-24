@@ -91,7 +91,13 @@ Try out our open demo and if you like it **first give us some star on Github ★
           demo-magento1.vuestorefront.io
         </a>
       </td>      
-    </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento-checkout.vuestorefront.io">
+          demo-magento-checkout.vuestorefront.io
+        </a>
+      </td>      
+
+</tr>
   </tbody>
 </table>
 
