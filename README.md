@@ -35,7 +35,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
         Magento 1.9 - Default theme
       </td align="center" valign="middle">
       <td align="center" valign="middle">
-        Magento 2.2 - External checkout ([more information](https://github.com/DivanteLtd/magento2-external-checkout))
+        Magento 2.2 - External checkout [more information](https://github.com/DivanteLtd/magento2-external-checkout)
       </td align="center" valign="middle">
 </tr>
     <tr>
