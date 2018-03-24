@@ -7,6 +7,7 @@ Vue Storefront Core provides basic eCommerce features. Everything else should be
 If you would like to extend your Vue Storefront instance with additional functionality you can certainly do that via adding your own extensions.  
 
 All extenstions are located in /src/extensions folder, each in its own directory.  
+
 If you want to make your own extension you should publish it as standalone npm package. The naming convention for Vue Storefront npm extensions is `vsf-{extension_name}` (see [example](https://www.npmjs.com/package/vsf-external-checkout?activeTab=readme) )
 
 In each extension folder there need to be an *index.js* file that serves as an entry point of your extension.  
