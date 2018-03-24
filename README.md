@@ -26,13 +26,16 @@ Try out our open demo and if you like it **first give us some star on Github ★
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        Magento 2.0 - Default theme
+        Magento 2.2 - Default theme
       </td>
       <td align="center" valign="middle">
         B2B theme (beta)
       </td align="center" valign="middle">
       <td align="center" valign="middle">
         Magento 1.9 - Default theme
+      </td align="center" valign="middle">
+      <td align="center" valign="middle">
+        Magento 2.2 - External checkout
       </td align="center" valign="middle">
 </tr>
     <tr>
@@ -62,7 +65,16 @@ Try out our open demo and if you like it **first give us some star on Github ★
           >
         </a>
       </td>
-  </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento-checkout.vuestorefront.io">
+          <img
+            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-magento-checkout.png"
+            alt="Magento 2 external checkout"
+            height="100"
+          >
+        </a>
+      </td>
+</tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
