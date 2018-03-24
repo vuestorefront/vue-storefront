@@ -35,7 +35,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
         Magento 1.9 - Default theme
       </td align="center" valign="middle">
       <td align="center" valign="middle">
-        Magento 2.2 - External checkout
+        Magento 2.2 - External checkout ([more information](https://github.com/DivanteLtd/magento2-external-checkout))
       </td align="center" valign="middle">
 </tr>
     <tr>
@@ -165,6 +165,7 @@ Tutorial series on creating themes for Vue Storefront:
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 * [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
+* [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)
