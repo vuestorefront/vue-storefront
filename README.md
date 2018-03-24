@@ -35,7 +35,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
         Magento 1.9 - Default theme
       </td align="center" valign="middle">
       <td align="center" valign="middle">
-        Magento 2.2 - External checkout <a href="https://github.com/DivanteLtd/magento2-external-checkout">see details</a>
+        Magento 2.2 - External checkout <a href="https://medium.com/@piotrkarwatka/vue-storefront-new-feature-magento2-checkout-fallback-option-af415843ac86">see details</a>
       </td align="center" valign="middle">
 </tr>
     <tr>
