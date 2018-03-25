@@ -329,7 +329,8 @@ export default {
                 shipping_carrier_code: methodsData.carrier_code
               }
             })
-          }
+          },
+          silent: true
         }, { root: true }).then(task => {
           context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
             payload: {
@@ -346,6 +347,7 @@ export default {
                 }
               })
             },
+            silent: true,
             callback_event: 'servercart-after-totals'
           }, { root: true }).then(task => {}).catch(e => {
             console.error(e)
