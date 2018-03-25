@@ -51,9 +51,12 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
 
 EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
   if (event.resultCode === 200) {
+    let updateRequired = false
+    let cartHasItems = false
     const serverItems = event.result
     const clientItems = rootStore.state.cart.cartItems
     for (const clientItem of clientItems) {
+      cartHasItems = true
       const serverItem = serverItems.find((itm) => {
         return itm.sku === clientItem.sku
       })
@@ -72,6 +75,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
           item_id: serverItem.item_id,
           quoteId: serverItem.quote_id
         }, { root: true })
+        updateRequired = true
       } else {
         console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
         console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id })
@@ -89,6 +93,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
 
           if (event.force_client_state) {
             console.log('Removing item', serverItem.sku, serverItem.item_id)
+            updateRequired = true
             rootStore.dispatch('cart/serverDeleteItem', {
               sku: serverItem.sku,
               item_id: serverItem.item_id,
@@ -106,6 +111,10 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
           }
         }
       }
+    }
+
+    if (!updateRequired && cartHasItems) {
+      rootStore.dispatch('cart/refreshTotals')
     }
   } else {
     console.error(event.result)
