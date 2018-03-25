@@ -8,6 +8,8 @@ If you would like to extend your Vue Storefront instance with additional functio
 
 All extenstions are located in /src/extensions folder, each in its own directory.  
 
+If you want to make your own extension you should publish it as standalone npm package. The naming convention for Vue Storefront npm extensions is `vsf-{extension_name}` (see [example](https://www.npmjs.com/package/vsf-external-checkout?activeTab=readme) )
+
 In each extension folder there need to be an *index.js* file that serves as an entry point of your extension.  
 
 *index.js* file needs to export a default function that receives 4 parameters - references to application instance, global router object, Vuex store and configuration file - like the following:
