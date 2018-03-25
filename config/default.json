@@ -5,8 +5,8 @@
       "index": "vue_storefront_catalog"
     },
     "cart": {
-      "synchronize": false,
-      "synchronize_totals": false,
+      "synchronize": true,
+      "synchronize_totals": true,
       "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
       "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
       "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
@@ -15,7 +15,10 @@
       "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
       "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
       "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}"
+      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "coupon_endpoint": "http://localhost:8080/api/cart/coupon?token={{token}}&cartId={{cartId}}"
     },
     "products": {
       "preventConfigurableChildrenDirectAccess": true,

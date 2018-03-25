@@ -357,5 +357,40 @@ export default {
         context.dispatch('cart/serverTotals', {}, { root: true })
       }
     }
+  },
+  manipulateCouponCode (context, discountCode) {
+    if (config.cart.synchronize_totals) {
+      context.dispatch('sync/execute', { url: config.cart.applycoupon_endpoint,
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          body: JSON.stringify({
+            code: discountCode
+          })
+        }
+      }, { root: true }).then(task => {
+        if (config.cart.synchronize_totals) {
+          context.dispatch('refreshTotals')
+        }
+        return
+      }).catch(e => {
+        console.error(e)
+      })
+    }
+  },
+  getCouponCodes (context) {
+    if (config.cart.synchronize_totals) {
+      context.dispatch('sync/execute', { url: config.cart.coupon_endpoint,
+        payload: {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        silent: true
+      }, { root: true }).then(task => {}).catch(e => {
+        console.error(e)
+      })
+    }
   }
 }
