@@ -32,16 +32,24 @@ export default {
   data () {
     return {
       addCouponPressed: false,
-      couponCode: ''
+      couponCode: '',
+      isOnline: true
     }
   },
   created () {
     this.$store.dispatch('cart/load') // load cart from the indexedDb
+    this.$bus.$on('network-before-checkStatus', (status) => {
+      this.isOnline = status.online
+    })
+  },
+  destroyed () {
+    this.$bus.$off('network-before-checkStatus')
   },
   methods: {
     closeMicrocart () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
+      this.addCouponPressed = false
     },
     removeCoupon () {
       this.$store.dispatch('cart/removeCoupon')
@@ -54,6 +62,11 @@ export default {
       this.$store.dispatch('cart/applyCoupon', this.couponCode)
       this.addCouponPressed = false
       this.couponCode = ''
+    },
+    enterCoupon (e) {
+      if (e.keyCode === 13) {
+        this.applyCoupon()
+      }
     },
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },

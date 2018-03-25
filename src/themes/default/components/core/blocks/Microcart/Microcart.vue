@@ -50,15 +50,15 @@
         <div v-if="segment.value != null" class="col-xs align-right">
           {{ segment.value | price }}
         </div>
-        <div v-if="segment.code === 'discount' && !addCouponPressed" class="col-xs-12 pt30">
+        <div v-if="isOnline && segment.code === 'discount' && !addCouponPressed" class="col-xs-12 pt30">
           <a class="cl-secondary link" href="#" @click="addDiscountCoupon">
             {{ $t('Add a discount code') }}
           </a>
         </div>
-        <div v-if="segment.code === 'discount' && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
+        <div v-if="isOnline && segment.code === 'discount' && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
-            <base-input type="text" v-model.trim="couponCode"/>
+            <base-input type="text" id="couponinput" v-model.trim="couponCode" @keyup="enterCoupon"/>
           </div>
           <button-outline color="dark" :disabled="!couponCode" @click.native="applyCoupon">{{ $t('Add discount code') }}</button-outline>
         </div>
