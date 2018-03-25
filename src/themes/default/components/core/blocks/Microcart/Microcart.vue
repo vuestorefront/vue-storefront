@@ -55,8 +55,12 @@
             {{ $t('Add a discount code') }}
           </a>
         </div>
-        <div v-if="segment.code === 'discount' && addCouponPressed" class="col-xs-12 pt30">
-          <button-outline color="dark">{{ $t('Add discount code') }}</button-outline>
+        <div v-if="segment.code === 'discount' && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
+          <div class="coupon-input">
+            <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
+            <base-input type="text" v-model.trim="couponCode"/>
+          </div>
+          <button-outline color="dark" :disabled="!couponCode" @click.native="applyCoupon">{{ $t('Add discount code') }}</button-outline>
         </div>
       </div>
 
@@ -97,12 +101,14 @@ import { coreComponent } from 'core/lib/themes'
 import Product from './Product'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 
 export default {
   components: {
     Product,
     ButtonFull,
-    ButtonOutline
+    ButtonOutline,
+    BaseInput
   },
   mixins: [coreComponent('blocks/Microcart/Microcart')]
 }
@@ -198,7 +204,17 @@ export default {
     vertical-align: middle;
   }
 
-  .button-outline {
-    text-transform: inherit;
+  .coupon-wrapper {
+    display: flex;
+
+    .button-outline {
+      text-transform: inherit;
+      width: 50%;
+    }
+
+    .coupon-input {
+      margin-right: 20px;
+      width: 100%;
+    }
   }
 </style>

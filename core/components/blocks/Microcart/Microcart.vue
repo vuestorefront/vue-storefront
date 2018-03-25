@@ -31,7 +31,8 @@ export default {
   },
   data () {
     return {
-      addCouponPressed: false
+      addCouponPressed: false,
+      couponCode: ''
     }
   },
   created () {
@@ -44,9 +45,15 @@ export default {
     },
     removeCoupon () {
       this.$store.dispatch('cart/removeCoupon')
+      this.addCouponPressed = false
     },
     addDiscountCoupon () {
       this.addCouponPressed = true
+    },
+    applyCoupon () {
+      this.$store.dispatch('cart/applyCoupon', this.couponCode)
+      this.addCouponPressed = false
+      this.couponCode = ''
     },
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },

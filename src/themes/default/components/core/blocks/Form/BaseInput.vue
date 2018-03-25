@@ -73,6 +73,7 @@ export default {
       outline: none;
       border-color: $color-black;
     }
+    background: inherit;
   }
 
   .icon {
