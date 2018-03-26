@@ -57,7 +57,7 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$"
