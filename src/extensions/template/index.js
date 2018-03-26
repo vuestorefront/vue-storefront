@@ -1,8 +1,9 @@
+import Vue from 'vue'
+import EventBus from 'core/plugins/event-bus'
+
 import extensionStore from './store'
 import extensionRoutes from './router'
-import EventBus from 'core/plugins/event-bus'
-import ExampleComponent from './components/ExampleComponent.vue'
-import Vue from 'vue'
+import ComponentExample from './components/ComponentExample.vue'
 
 const EXTENSION_KEY = 'custom_extension'
 
@@ -16,7 +17,7 @@ export default function (app, router, store, config) {
 
   EventBus.$on('thankyoupage-after-mounted', (parent) => {
     // This is example on how to extend exisintg page/component - if it's extendable via "Composite" mixin
-    const Component = Vue.extend(ExampleComponent)
+    const Component = Vue.extend(ComponentExample)
     const componentInstance = (new Component())
     componentInstance.$mount('#thank-you-extensions')
 

@@ -52,7 +52,7 @@ export function extendStore (coreStore, extendStore) {
 }
 
 export function registerTheme (themeName, app, routes, store) {
-  let themeEntryPoint = require('themes/index.js')
+  let themeEntryPoint = require('theme/index.js')
   if (themeEntryPoint != null && themeEntryPoint.hasOwnProperty('default')) {
     themeEntryPoint.default(app, routes, store) // register theme
   } else {

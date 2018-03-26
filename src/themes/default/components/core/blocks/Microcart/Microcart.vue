@@ -41,9 +41,26 @@
       <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
         <div class="col-xs">
           {{ segment.title }}
+          <button v-if="coupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="removeCoupon">
+            <i class="material-icons cl-accent">
+              close
+            </i>
+          </button>
         </div>
         <div v-if="segment.value != null" class="col-xs align-right">
           {{ segment.value | price }}
+        </div>
+        <div v-if="isOnline && segment.code === 'discount' && !addCouponPressed" class="col-xs-12 pt30">
+          <a class="cl-secondary link" href="#" @click="addDiscountCoupon">
+            {{ $t('Add a discount code') }}
+          </a>
+        </div>
+        <div v-if="isOnline && segment.code === 'discount' && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
+          <div class="coupon-input">
+            <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
+            <base-input type="text" id="couponinput" v-model.trim="couponCode" @keyup="enterCoupon"/>
+          </div>
+          <button-outline color="dark" :disabled="!couponCode" @click.native="applyCoupon">{{ $t('Add discount code') }}</button-outline>
         </div>
       </div>
 
@@ -82,12 +99,16 @@
 <script>
 import { coreComponent } from 'core/lib/themes'
 import Product from './Product'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 
 export default {
   components: {
     Product,
-    ButtonFull
+    ButtonFull,
+    ButtonOutline,
+    BaseInput
   },
   mixins: [coreComponent('blocks/Microcart/Microcart')]
 }
@@ -176,6 +197,24 @@ export default {
   .total-price-value {
     @media (max-width: 767px) {
       font-size: 24px;
+    }
+  }
+
+  .delete-button {
+    vertical-align: middle;
+  }
+
+  .coupon-wrapper {
+    display: flex;
+
+    .button-outline {
+      text-transform: inherit;
+      width: 50%;
+    }
+
+    .coupon-input {
+      margin-right: 20px;
+      width: 100%;
     }
   }
 </style>

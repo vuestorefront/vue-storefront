@@ -1,6 +1,7 @@
+import EventBus from 'core/plugins/event-bus'
+
 import extensionStore from './store'
 import extensionRoutes from './router'
-import EventBus from '../../../core/plugins/event-bus'
 
 const EXTENSION_KEY = 'payment-backend-methods'
 

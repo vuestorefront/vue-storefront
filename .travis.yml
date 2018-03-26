@@ -3,10 +3,11 @@ node_js:
   - "8"
 
 cache:
+  yarn: true
   directories:
-    - "node_modules"
+    - node_modules
 
 script:
-  - npm run lint
-  - npm run unit
-  - npm run build
+  - yarn lint
+  - yarn unit
+  - yarn build

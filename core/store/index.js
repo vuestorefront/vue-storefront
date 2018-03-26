@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as localForage from 'localforage'
 import * as types from './mutation-types'
+import localForage from 'localforage'
 import UniversalStorage from 'core/lib/storage'
 import order from './modules/order'
 import product from './modules/product'
@@ -22,6 +22,7 @@ import social from './modules/social-tiles'
 import claims from './modules/claims'
 import sync from './modules/sync'
 import promoted from './modules/promoted-offers'
+import themeModules from 'theme/store'
 
 Vue.prototype.$db = {
   ordersCollection: new UniversalStorage(localForage.createInstance({
@@ -196,7 +197,8 @@ export default new Vuex.Store({
     tax,
     claims,
     sync,
-    promoted
+    promoted,
+    ...themeModules
   },
   state,
   mutations,

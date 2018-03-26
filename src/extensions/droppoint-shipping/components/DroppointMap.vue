@@ -165,7 +165,7 @@ export default {
         let endpoint = this.$config.droppointShipping[this.shippingMethod].endpoint
 
         this.$store.dispatch('droppoint-shipping/fetch', {
-          url: endpoint + '/zipcode/' + this.searchZipcode,
+          url: endpoint + '/zipcode/' + encodeURIComponent(this.searchZipcode),
           payload: {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},

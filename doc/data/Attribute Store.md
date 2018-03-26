@@ -1,6 +1,6 @@
 # Attribute Vuex Store
 
-Attribute Store is designed to handle all actions related the attributes management
+Attribute Store is designed to handle all actions related to the attributes management
 
 ## State
 

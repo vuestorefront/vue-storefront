@@ -15,7 +15,9 @@
       "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
       "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
       "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}"
+      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
       "preventConfigurableChildrenDirectAccess": true,
@@ -35,7 +37,7 @@
     },
     "stock": {
       "synchronize": true,
-      "allowOutOfStockInCart": true, 
+      "allowOutOfStockInCart": true,
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
@@ -64,7 +66,7 @@
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
-    "theme": "default",
+    "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
     }

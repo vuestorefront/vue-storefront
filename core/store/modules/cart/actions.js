@@ -329,7 +329,8 @@ export default {
                 shipping_carrier_code: methodsData.carrier_code
               }
             })
-          }
+          },
+          silent: true
         }, { root: true }).then(task => {
           context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
             payload: {
@@ -346,6 +347,7 @@ export default {
                 }
               })
             },
+            silent: true,
             callback_event: 'servercart-after-totals'
           }, { root: true }).then(task => {}).catch(e => {
             console.error(e)
@@ -356,6 +358,48 @@ export default {
       } else {
         context.dispatch('cart/serverTotals', {}, { root: true })
       }
+    }
+  },
+  removeCoupon (context) {
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+      context.dispatch('sync/execute', { url: config.cart.deletecoupon_endpoint,
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        silent: true
+      }, { root: true }).then(task => {
+        if (task.result) {
+          context.dispatch('refreshTotals')
+        }
+      }).catch(e => {
+        console.error(e)
+      })
+    }
+  },
+  applyCoupon (context, couponCode) {
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+      context.dispatch('sync/execute', { url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        silent: true
+      }, { root: true }).then(task => {
+        if (task.result === true) {
+          context.dispatch('refreshTotals')
+        } else {
+          EventBus.$emit('notification', {
+            type: 'warning',
+            message: i18n.t('You\'ve entered an incorrect coupon code. Please try again.'),
+            action1: { label: 'OK', action: 'close' }
+          })
+        }
+      }).catch(e => {
+        console.error(e)
+      })
     }
   }
 }

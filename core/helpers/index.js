@@ -25,3 +25,12 @@ export function breadCrumbRoutes (categoryPath) {
 
   return tmpRts
 }
+export function productThumbnailPath (product, ignoreConfig = false) {
+  let thumbnail = product.image
+  if (product.hasOwnProperty('configurable_children') &&
+    product.configurable_children.length && (ignoreConfig || !product.is_configured)
+  ) {
+    thumbnail = product.configurable_children[0].image
+  }
+  return thumbnail
+}

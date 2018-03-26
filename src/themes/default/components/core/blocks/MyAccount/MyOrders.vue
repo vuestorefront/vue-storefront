@@ -1,5 +1,5 @@
 <template>
-  <div class="my-orders mb35">
+  <div class="mb35">
     <!-- My orders header -->
     <div class="row mb15">
       <div class="col-xs-12">

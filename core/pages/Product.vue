@@ -155,6 +155,7 @@ export default {
       inst.loading = true
       loadData({ store: this.$store, route: this.$route }).then((res) => {
         inst.loading = false
+        inst.defaultOfflineImage = inst.product.image
         stateCheck.bind(this)()
         this.$bus.$on('filter-changed-product', filterChanged.bind(this))
       })
