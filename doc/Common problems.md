@@ -6,7 +6,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 # Questions
 
 * <a href="#product-not-displayed-illegal_argument_exception">Product not displayed (illegal_argument_exception)</a>
-* <a href="git-strategy">What's the recommended way to use git on custom development</a>
+* <a href="#git-strategy">What's the recommended way to use git on custom development</a>
 * <a href="#product-name-changed-to-sku-when-adding-to-cart--on-product-page">Product name changed to SKU when adding to cart / on product page</a>
 * <a href="#how-to-get-dynamic-prices-to-work-catalog-rules">How to get dynamic prices to work (catalog rules)</a>
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
