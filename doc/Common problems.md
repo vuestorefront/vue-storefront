@@ -6,6 +6,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 # Questions
 
 * <a href="#product-not-displayed-illegal_argument_exception">Product not displayed (illegal_argument_exception)</a>
+* <a href="git-strategy">What's the recommended way to use git on custom development</a>
 * <a href="#product-name-changed-to-sku-when-adding-to-cart--on-product-page">Product name changed to SKU when adding to cart / on product page</a>
 * <a href="#how-to-get-dynamic-prices-to-work-catalog-rules">How to get dynamic prices to work (catalog rules)</a>
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
@@ -13,6 +14,10 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
 See discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137)
+
+### <a name="git-strategy"></a>What's the recommended way to use git on custom development
+One of the options is to do kind of fork - or just to get the whole repo to your Git service. 
+Then if you like to do some VS updates you probably need to just pull the changes from our origins. Another option will be available as soon as we manageto separate the core as a npm module
 
 ### <a name="variant-names-problem"></a>Product name changed to SKU when adding to cart / on product page
 
