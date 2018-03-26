@@ -21,6 +21,7 @@ const themePlugins = themeRoot + '/plugins'
 const themeFilters = themeRoot + '/filters'
 const themeMixins = themeRoot + '/mixins'
 const themeResources = themeRoot + '/resource'
+const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
@@ -77,7 +78,8 @@ module.exports = {
       'theme/mixins': themeMixins,
       'theme/pages': themePages,
       'theme/plugins': themePlugins,
-      'theme/resource': themeResources
+      'theme/resource': themeResources,
+      'theme/store': themeStores
     }
   },
   output: {

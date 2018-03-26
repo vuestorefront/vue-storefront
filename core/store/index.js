@@ -22,6 +22,7 @@ import social from './modules/social-tiles'
 import claims from './modules/claims'
 import sync from './modules/sync'
 import promoted from './modules/promoted-offers'
+import themeModules from 'theme/store'
 
 Vue.prototype.$db = {
   ordersCollection: new UniversalStorage(localForage.createInstance({
@@ -186,7 +187,8 @@ export default new Vuex.Store({
     tax,
     claims,
     sync,
-    promoted
+    promoted,
+    ...themeModules
   },
   state,
   mutations,
