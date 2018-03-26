@@ -1,0 +1,256 @@
+coreMessage,Here is the core message
+customMessage,Here is the core message. that can be overwritten in the theme
+Registering the account ...,Account registreren ...
+No products synchronized for this category. Please come back while online!,Er zijn geen producten gesynchroniseerd in deze categorie. Kom alstublieft terug terwijl u online bent.
+"Shopping cart is empty. Please add some products before entering Checkout",Uw winkelwagen is leeg. Voeg producten toe voordat u gaat afrekenen
+Out of stock!,Niet in voorraad!
+ is out of the stock!, is niet in voorraad!
+Some of the ordered products are not available!,Niet alle bestelde producten zijn beschikbaar!
+"Stock check in progress, please wait while available stock quantities are checked","Voorraadcontrole bezig. Een moment gedult alstublieft, we checken op dit moment de voorraden"
+There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.,"U heeft geen internetverbinding. U kunt nog steeds een bestelling plaatsen. We laten het weten als de door u bestelde producten niet op voorraad zijn, dit kunnen we momenteel niet controleren."
+Please do correct validation errors,Corrigeer alstublieft de validatiefouten
+No such configuration for the product. Please do choose another combination of attributes.,De gekozen productconfiguratie bestaat niet. Kies een andere combinatie.
+The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.,Het is niet duidelijk hoeveel producten er exact op voorraad zijn. Het product is toegevoegd aan de winkelwagen als reservering.
+This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!,"Helaas, deze feature is nog niet geimplementeerd. Kijk op https://github.com/DivanteLtd/vue-storefront/issues om de roadmap te zien."
+The product is out of stock and cannot be added to the cart!,Dit product is niet in voorraad en kan niet toegevoegd worden aan de winkelwagen!
+Product has been added to the cart!,Product is toegevoegd aan de winkelwagen!
+Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io,Interne validatie fout. Check of alle verplichte velden ingevuld zijn. Neem contact met ons op via contributors@vuestorefront.io.
+Product {productName} has been added to the compare!,Product {productName} is toegevoegd aan de vergelijking!
+Product {productName} has been removed from compare!,Product {productName} is verwijderd van de vergelijking!
+Product {productName} has been added to wishlist!,Product {productName} is toegevoegd aan de verlanglijst!
+Product {productName} has been removed from wishlit!,Product {productName} is verwijderd van de verlanglijst
+Account data has successfully been updated,Account gegevens succesvol geupdatet.
+You are logged out,U bent uitgelogd
+Remove from compare,Verwijder van de vergelijking
+Newsletter preferences have successfully been updated,Uw nieuwsbrief voorkeur is gewijzigd.
+"This feature has not been implemented yet. Please follow our <a class=""c-on-dark"" style=""text-decoration: underline"" href=""https://github.com/DivanteLtd/vue-storefront/issues"">Roadmap</a> for the details","Helaas, deze feature is nog niet geimplementeerd. Kijk op onze <a class=""c-on-dark"" style=""text-decoration: underline"" href=""https://github.com/DivanteLtd/vue-storefront/issues"">roadmap</a> voor de details."
+Newsletter successfully subscribed. Thank you!,U bent ingeschreven voor de nieuwsbrief. Bedankt!
+You have already subscribed our newsletter,U bent al ingeschreven voor de nieuwsbrief
+Email field is empty,Het email veld is leeg.
+Resetting the password ... ,Wachtwoord resetten ... 
+Error while sending reset password e-mail,Fout bij het verzenden van de wachtwoord reset email
+Reset password feature does not work while offline!,De reset wachtwoordfunctie werkt niet terwijl u offline bent!
+Authorization in progress ...,Bezig met autorizeren...
+You are logged in!,U bent ingelogd!
+This feature is not implemented yet :( Newsletter is on our roadmap - issue #200!,"Helaas, deze feature is nog niet geimplementeerd :( De nieuwsbrief functie staat op onze roadmap - issue #200!"
+Please fix the validation errors,Corrigeer de validatiefouten
+You have been successfully subscribed to our newsletter!,U bent succesvol ingeschreven voor onze nieuwsbrief!!
+Everything new,Nieuwe producten
+Get inspired,Krijg inspiratie
+Size guide,Maattabel
+Add to favorite,Voeg toe aan favorieten
+Add to compare,Voeg toe aan de vergelijking
+Product details,Productdetails
+Filters,Filters
+"Product price is unknown, product cannot be added to the cart!",Productprijs onbekend. Dit product kan niet worden toegevoegd aan de winkelwagen!
+You're logged in as ,U bent ingelogd als
+My account,Mijn account
+My Account,Mijn Account
+Logout,Log uit
+Enter your email to receive instructions on how to reset your password.,Voer uw e-mailadres in om instructies te ontvangen over het opnieuw instellen van uw wachtwoord.
+Reset password,Wachtwoord opnieuw instellen
+or,of
+return to log in,keer terug om in te loggen
+Back to login,Terug naar login
+We've sent password reset instructions to your email. Check your inbox and follow the link.,We hebben instructies voor het opnieuw instellen van het wachtwoord verzonden naar uw e-mailadres. Controleer uw inbox en volg de link.
+Log in,Log in
+Remember me,Herinner mij
+Forgot the password?,Wachtwoord vergeten?
+Log in to your account,Log in op uw account
+You must accept the terms and conditions.,U moet de voorwaarden accepteren.
+Register,Registreren
+register an account,registreer een account
+Register an account,Registreer een account
+login to your account,log in op uw account
+Filter,Filter
+Color,Kleur
+Size,Grootte
+Price,Prijs
+Order Summary,Besteloverzicht
+Safety,Veiligheid
+Shipping,Verzending
+Payment,Betaling
+Returns,Retouren
+Review order,Bestelling controleren
+Please check if all data are correct,Controleer of alle gegevens correct zijn
+I agree to,Ik ga akkoord met
+Terms and conditions,Algemene voorwaarden
+Place the order,Plaats bestelling
+Edit payment,Wijzig betaalmethode
+We will send you the invoice to given e-mail address,We zullen u de factuur sturen naar het opgegeven email-adres
+Payment method,Betaalmethode
+Go review the order,Controleer de order
+Phone number may be needed by carrier,Telefoonnummer kan nodig zijn voor vervoerder
+Personal Details,Persoonlijke gegevens
+Edit personal details,Wijzig persoonlijke gegevens
+Continue to shipping,Ga door naar verzending
+We will send you details regarding the order,We sturen u de details over de bestelling
+The new account will be created with the purchase. You will receive details on e-mail.,Het nieuwe account wordt aangemaakt tijdens de aankoop. U ontvangt de details per e-mail.
+Qty,Aantal
+Edit shipping,Wijzig verzending
+Ship to my default address,Verzend naar mijn standaard adres
+Shipping method,Verzendmethode
+Continue to payment,Ga door naar betaling
+Departments,Afdelingen
+Women fashion,Damesmode
+Men's fashion,Herenmode
+Kidswear,Kinderkleding
+Home,Home
+Orders,Bestellingen
+Track my order,Volg mijn bestelling
+Delivery,Levering
+Return policy,Retourvoorwaarden
+Customer service,Klantenservice
+Contact us,Neem contact met ons op
+About us,Over ons
+Store locator,Winkelzoeker
+United States (US),Verenigde Staten (VS)
+Legal notice,Juridische kennisgeving
+Privacy policy,Privacybeleid
+Subscribe to the newsletter and receive a coupon for 10% off,Abonneer u op de nieuwsbrief en ontvang een kortingsbon van 10% korting
+Subscribe,Abbonneer
+Return to shopping,Ga verder met winkelen
+Login to your account,Log in op jouw account
+You are logged in as,U bent ingelogd als
+Edit,Wijzig
+Shopping cart,Winkelwagen
+Your shopping cart is empty.,Uw winkelwagen is leeg.
+Don't hesitate and,Aarzel niet en
+browse our catalog,bekijk onze catalogus
+to find something beautiful for You!,om iets moois voor jou te vinden!
+Shopping summary,Winkelwagen samenvatting
+Subtotal inc. tax,Subtotaal incl. BTW
+Total inc. tax,Totaal incl. BTW
+Go to checkout,Ga naar afrekenen
+Remove,Verwijderen
+My newsletter,Mijn nieuwsbrief
+Edit newsletter preferences,Wijzig nieuwsbrief voorkeuren
+General agreement,Algemene overeenkomst
+Preferences,Voorkeuren
+Cancel,Annuleren
+Update my preferences,Update mijn voorkeuren
+My profile,Mijn profiel
+Edit your profile,Wijzig mijn profiel
+Update my profile,Update mijn profiel
+My shipping details,Mijn verzendgegevens
+Edit your shipping details,Wijzig mijn verzendgegevens
+Update my shipping details,Update mijn verzendgegevens
+Country,Land
+Erin Recommends,Erin beveelt aan
+Similar products,Vergelijkbare producten
+No results were found.,Geen resultaten gevonden.
+Type what you are looking for...,Waar bent u naar op zoek?
+Magazine,Magazine
+Sale,Aanbiedingen
+My orders,Mijn bestellingen
+My loyalty card,Mijn klantenkaart
+My product reviews,Mijn productreviews
+Wishlist,Verlanglijst
+Your wishlist is empty.,Uw verlanglijst is leeg
+Add to cart,In winkelwagen
+Select color ,Selecteer kleur
+See details,Bekijk details
+We use cookies to give you the best shopping experience.,Wij gebruiken cookies om u de beste winkelervaring te bieden.
+Home Page,Homepage
+Newsletter,Nieuwsbrief
+Sign up to our newsletter and receive a coupon for 10% off!,Meld u aan voor onze nieuwsbrief en ontvang 10% korting!
+Quantity,Aantal
+Price ,Prijs
+Select size ,Selecteer grootte
+Checkout,Afrekenen
+Print This Page,Print deze pagina
+You have no items to compare.,U heeft geen producten om te vergelijken
+New Luma Yoga Collection,De nieuwe Luma Yoga collectie
+We can't find the page,We kunnen de pagina niet vinden
+Unfortunately we can't find the page you are looking for.,Helaas kunnen we niet vinden waar u naar op zoek bent
+If you need an assistance you can drop us a line on,"Als u hulp nodig heeft, kunt u ons een bericht sturen via"
+a chat,de chat
+or write to us through,of
+a contact page,de contact pagina
+You can also use,U kunt ook de
+search,zoekfunctie
+to find product you were looking for.,gebruiken om een product te vinden.
+See our bestsellers,Bekijk onze bestsellers
+Thank you!,Bedankt!
+Thank you for placing an order.,Bedankt voor het plaatsen van een bestelling.
+Your order has been sent to the server and will be immediately processed,Uw bestelling is verzonden naar de server en wordt z.s.m. verwerkt
+Your order will be sent to the server as soon as you connect to the Internet and then confirmed regarding the stock quantities of selected items,Uw bestelling wordt naar de server verzonden zodra u weer internet heeft. Daarna checken we direct de voorraad van de door u bestelde producten
+"You are offline, some of the functionalities are limited","U bent momenteel offline, niet alle onderdelen van de shop zullen volledig werken"
+Search,Zoeken
+Help,Hulp
+Go to Facebook,Ga naar Facebook
+Go to Instagram,Ga naar Instagram
+Go to Pinterest,Ga naar Pinterest
+Go to Youtube,Ga naar Youtube
+Subtotal incl. tax,Subtotaal incl. BTW
+Cash on delivery,Rembours
+DPD Courier,Verzending door DPD
+Grand total,Eindtotaal
+I accept ,Ik accepteer
+terms and conditions,de algemene voorwaarden
+Use my billing data,Gebruik mijn factuuradres
+I want to generate an invoice for the company,Ik wil een zakelijke factuur genereren
+Field is required,Veld is verplicht
+Field is required.,Velden zijn verplicht.
+Name must have at least 3 letters.,Naam moet minimaal drie letters bevatten
+Zip-code must have at least 3 letters.,Postcode moet minimaal drie letters bevatten
+I want to create an account',Ik wil een account aanmaken'
+Copy address data from shipping,Kopieer adresgegevens van verzending
+Tax identification number must have at least 3 letters.,BTW nummer moet minimaal drie letters bevatten
+Please provide valid e-mail address.,Geef een geldig e-mailadres op.
+Use my company's address details,Gebruik mijn bedrijfsadres
+Passwords must be identical,Wachtwoord moet identiek zijn
+Tax ID must have at least 3 letters,BTW nummer moet minimaal drie letters bevatten
+Subscribe to magazine,Abonneer u op het tijdschrift
+E-mail address,Email adres
+Save product,Product opslaan
+Find the right sporting clothes for all situations,Vind de juiste sportkleding voor iedere situatie
+E-mail address *,Email adres *
+Password *,Wachtwoord *
+You did not sign in correctly or your account is temporarily disabled.,U bent niet correct ingelogd of uw account is tijdelijk uitgeschakeld.
+First name,Voornaam
+Last name,Achternaam
+Email address,E-mailadres
+Change my password,Wijzig mijn wachtwoord
+I have a company and want to receive an invoice for every order,Ik heb een bedrijf en ik wil voor iedere bestelling een factuur ontvangen
+Company name *,Bedrijfsnaam *
+Street name *,Straatnaam *
+House/Apartment number *,Huisnummer/Toevoeging *
+City *,Stad *
+Zip-code *,Postode *
+Tax ID *,BTW Nummer *
+State / Province,Provincie
+City,Stad
+Phone Number,Telefoonnummer
+House/Apartment number,Huisnummer/toevoeging
+Street name,Straatnaam
+Zip-code,Postcode
+Current password *,Huidige wachtwoord *
+New password *,Nieuw wachtwoord *
+Repeat new password *,Herhaal nieuw wachtwoord *
+Passwords must be identical.,Wachtwoord moet identiek zijn
+First name *,Voornaam *
+Last name *,Achternaam *
+Repeat password *,Wachtwoord herhalen *
+Email address *,E-mailadres *
+I want to create an account,Ik wil een account aanmaken
+Tax identification number *,BTW Nummer *
+You're logged out,Je bent uitgelogd
+No products found!,Geen producten gevonden
+Erin recommends,Erin beveelt aan
+Compare Products,Producten vergelijken
+404 Page Not Found,404 Pagina niet gevonden
+Error with response - bad content-type!,Error with response - bad content-type!
+"Unhandled error, wrong response format!","Unhandled error, wrong response format!"
+Cash On Delivery,Rembours
+Fixed,Fixed
+The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.,The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.
+Open my account,Open mijn account
+Open microcart,Open winkelwagen
+Open wishlist,Open verlanglijst
+Open search panel,Open zoekvenster
+Open menu,Open menu
+Show subcategories,Laat subcategorieën zien
+Back,Terug
+Close,Sluiten
+View all,Bekijk alle
