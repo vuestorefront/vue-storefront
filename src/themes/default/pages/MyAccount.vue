@@ -12,7 +12,7 @@
         <div class="col-md-3 side-menu">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
+              <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
                 <router-link :to="page.link" class="cl-accent">{{ page.title }}</router-link>
               </li>
             </ul>
@@ -170,22 +170,28 @@ $color-black: color(black);
 
       a {
         position: relative;
+
+        &:after {
+          display: block;
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background-color: $color-tertiary;
+        }
+
+        &:hover {
+
+          &:after {
+            opacity: 0;
+          }
+
+        }
+
       }
 
-      a::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: $color-tertiary;
-      }
-
-      a:hover::after,
-      .router-link-active::after {
-        opacity: 0;
-      }
     }
 
     .static-content {

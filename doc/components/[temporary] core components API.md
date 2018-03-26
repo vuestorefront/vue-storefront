@@ -338,7 +338,7 @@ Home page has been refactored to the new core proposal (1.0RC) and the [docs has
 ## MyAccount
 
 ### Props
-No props
+`activeBlock` - currently active block displayed in component (i.e. newsletter preferences, shipping data or orders history)
 ### Data
 `navigation` - an object that contains names of sections of MyAccount page and anchor links to them.   
 ### Methods
@@ -346,7 +346,6 @@ No props
 ### Hooks
 #### created
 Defines several event listeners to communicate with child components.  
-**'myAccount.activateSection'** event listener activates a specific section. It's called from every child component.  
 **'myAccount.updateUser'** event listener receives filled out data from child components and dispatches *'user/update'* action to update user profile. It's called from PersonalDetails and ShippingDetails child components.  
 **'myAccount.changePassword'** event listener receives updated authentication data from PersonalDetails child component and dispatches *'user/changePassword'* action.  
 **'myAccount.updatePreferences'** event listener receives user's updated newsletter subscription preferences from MyNewsletter child component and updates them by dispatching *'user/updatePreferences'* action.

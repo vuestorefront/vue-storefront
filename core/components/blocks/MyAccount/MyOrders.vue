@@ -14,10 +14,13 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('user-after-loggedin', () => {
+    this.$bus.$on('user-after-loaded-orders', () => {
       this.stateOrdersHistory = Object.assign({}, this.$store.state.user.orders_history)
       this.ordersHistory = this.getOrdersHistory()
     })
+  },
+  destroyed () {
+    this.$bus.$off('user-after-loaded-orders')
   },
   mounted () {
     this.ordersHistory = this.getOrdersHistory()

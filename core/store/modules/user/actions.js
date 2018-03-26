@@ -73,8 +73,8 @@ export default {
       .then((resp) => {
         if (resp.code === 200) {
           context.commit(types.USER_TOKEN_CHANGED, resp.result)
-          context.dispatch('me', { refresh: true, useCache: false }).then(result => {
-          })
+          context.dispatch('me', { refresh: true, useCache: false }).then(result => {})
+          context.dispatch('getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
         }
         return resp
       })
@@ -268,7 +268,7 @@ export default {
 
           if (res) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, res)
-            EventBus.$emit('user-after-loggedin', res)
+            EventBus.$emit('user-after-loaded-orders', res)
 
             resolve(res)
             resolvedFromCache = true
@@ -288,10 +288,9 @@ export default {
         }).then(resp => { return resp.json() })
           .then((resp) => {
             if (resp.code === 200) {
-              console.log(resp.result)
               context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
 
-              EventBus.$emit('user-after-loggedin', resp.result)
+              EventBus.$emit('user-after-loaded-orders', resp.result)
             }
             if (!resolvedFromCache) {
               resolve(resp.code === 200 ? resp : null)

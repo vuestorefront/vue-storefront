@@ -25,9 +25,9 @@
           <tbody>
             <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="order in ordersHistory" :key="order.entity_id">
               <td class="fs-medium lh25">{{ order.entity_id }}</td>
-              <td class="fs-medium lh25">{{ order.created_at }}</td>
+              <td class="fs-medium lh25">{{ order.created_at | date }}</td>
               <td class="fs-medium lh25">{{ order.customer_firstname }} {{ order.customer_lastname }}</td>
-              <td class="fs-medium lh25">{{ order.order_currency_code }} {{ order.grand_total }}</td>
+              <td class="fs-medium lh25">{{ order.grand_total | price }}</td>
               <td class="fs-medium lh25">{{ order.state }}</td>
               <td class="fs-medium lh25">{{ order.status }}</td>
               <td class="fs-medium lh25">
@@ -94,7 +94,7 @@ table {
     top: 30px;
     box-sizing: border-box;
     width: 150px;
-    z-index: 0;
+    z-index: 1;
 
     &:before {
       content: '';
