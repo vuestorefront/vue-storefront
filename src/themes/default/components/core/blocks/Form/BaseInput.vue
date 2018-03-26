@@ -15,6 +15,7 @@
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur')"
       @keyup.enter="$emit('keyup.enter', $event.target.value)"
+      @keyup="$emit('keyup', $event)"
     >
     <button
       v-if="iconActive"
@@ -73,6 +74,7 @@ export default {
       outline: none;
       border-color: $color-black;
     }
+    background: inherit;
   }
 
   .icon {

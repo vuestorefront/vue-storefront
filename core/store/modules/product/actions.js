@@ -73,7 +73,7 @@ export default {
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
   syncPlatformPricesOver (context, { skus }) {
-    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + config.i18n.currencyCode), // sync the cart
+    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + encodeURIComponent(config.i18n.currencyCode)), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
