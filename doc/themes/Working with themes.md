@@ -28,6 +28,9 @@ Below you can find list of files that are essential for your theme to work:
 * `pages` - your shop pages
 * `plugins` - theme-specific plugins (extends `core/plugins`, see [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md)
 * `resoource` - theme-specific resources (extends `core/resorce`)
+* `store` - theme-specific stores (extends `core/store`)
+  * `ui-store.js` - here you can extend core `ui-store`
+  * `index.js` -  here you can register theme-specific stores
 * `app-extend.js` - The code inside this file will be executed in app's entry file just after registering core plugins, filters and mixins. It takes app's Vue instance as a param so you can make use of it. (extends `core/app.js`)
 * `App.vue` - theme's entry component
 * `index.js` - theme's routes
