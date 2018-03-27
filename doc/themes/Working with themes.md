@@ -12,14 +12,14 @@ To use any of the themes located in `src/themes` just change the `theme` propert
 
 ## Creating your own themes
 
-To create your own theme just copy the `theme-starter` folder (it contains all files needed for new theme) located in `src/themes` and change it's name to your new theme's name. Now you can start development of your own theme for Vue Storefront! You can also copy `default` theme, rename it and adjust to your needs.
+To create your own theme just copy the `theme-starter` folder (it contains all files needed for a new theme) located in `src/themes` and change its name to your new theme's name. Now you can start development of your own theme for Vue Storefront! You can also copy `default` theme, rename it and adjust to your needs.
 
-Only official themes tested and accepted by the community should be in a `master` branch. Please develop your own themes on separate branches and keep them updated wih `master` to be sure it works with the newest core.
+Only official themes tested and accepted by the community should be in a `master` branch. Please develop your own themes on separate branches and keep them updated with `master` to be sure it works with the newest core.
 
 ## Important theme files
 
-Each theme is a separate Vue.js application with it's own dependencys which can make use of the core and even modify it.
-Below you can find list of files that are essential for your theme to work:
+Each theme is a separate Vue.js application with its own dependencies, which can make use of the core or even modify it.
+Below you can find the list of files that are essential for your theme to work:
 
 * `filters` - theme-specific filters (extends `core/filters`)
   * `index.js` - here you can register your theme-specific filters
@@ -34,7 +34,7 @@ Below you can find list of files that are essential for your theme to work:
 * `app-extend.js` - The code inside this file will be executed in app's entry file just after registering core plugins, filters and mixins. It takes app's Vue instance as a param so you can make use of it. (extends `core/app.js`)
 * `App.vue` - theme's entry component
 * `index.js` - theme's routes
-* `package.json` - theme-specific dependencys
+* `package.json` - theme-specific dependencies
 * `service-worker-ext.js` - you can extend core service worker here (see [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * `webpack.config.js` - you can extend core webpack build in this file (extends `core/build/`, see [Working with webpack](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md))
 
