@@ -62,7 +62,7 @@
                       :class="{ active: c.id == configuration.color.id }"
                     />
                   </div>
-                  <div class="sizes" v-if="option.label == 'Size'">
+                  <div class="sizes" v-else-if="option.label == 'Size'">
                     <size-selector
                       v-for="(s, i) in options.size"
                       :key="i"
@@ -72,6 +72,19 @@
                       code="size"
                       class="mr10 mb10"
                       :class="{ active: s.id == configuration.size.id }"
+                      v-focus-clean
+                    />
+                  </div>
+                  <div :class="option.attribute_code" v-else>
+                    <generic-selector
+                      v-for="(s, i) in options[option.attribute_code]"
+                      :key="i"
+                      :id="s.id"
+                      :label="s.label"
+                      context="product"
+                      :code="option.attribute_code"
+                      class="mr10 mb10"
+                      :class="{ active: s.id == configuration[option.attribute_code].id }"
                       v-focus-clean
                     />
                   </div>
@@ -182,6 +195,7 @@ import { corePage } from 'core/lib/themes'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
+import GenericSelector from 'core/components/GenericSelector.vue'
 import ColorSelector from '../components/core/ColorSelector.vue'
 import SizeSelector from '../components/core/SizeSelector.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
@@ -204,6 +218,7 @@ export default {
   },
   components: {
     AddToCart,
+    GenericSelector,
     ColorSelector,
     SizeSelector,
     Breadcrumbs,
