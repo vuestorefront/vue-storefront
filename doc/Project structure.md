@@ -2,7 +2,7 @@
 
 ## Using git for custom development
 
-One of the options is to do kind of fork - or just to get the whole repo to your Git service. Then if you like to do some VS updates you probably need to just pull the changes from our origins. Another option will be available as soon as we manageto separate the core as a npm module
+One of the options is to do kind of fork - or just to get the whole repo to your Git service. Then if you like to do some VS updates you probably need to just pull the changes from our origins. Another option will be available as soon as we manage to separate the core as a npm module
 
 ## Structure details
 
