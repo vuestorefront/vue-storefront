@@ -6,6 +6,8 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 # Questions
 
 * <a href="#product-not-displayed-illegal_argument_exception">Product not displayed (illegal_argument_exception)</a>
+* <a href="#custom-variants">How to add custom configurable attributes to Product page</a>
+* <a href="#git-strategy">What's the recommended way to use git on custom development</a>
 * <a href="#product-name-changed-to-sku-when-adding-to-cart--on-product-page">Product name changed to SKU when adding to cart / on product page</a>
 * <a href="#how-to-get-dynamic-prices-to-work-catalog-rules">How to get dynamic prices to work (catalog rules)</a>
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
@@ -20,6 +22,50 @@ In a case of
 
 See the discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137)
 Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
+
+### <a name="git-strategy"></a>What's the recommended way to use git on custom development
+One of the options is to do kind of fork - or just to get the whole repo to your Git service. 
+Then if you like to do some VS updates you probably need to just pull the changes from our origins. Another option will be available as soon as we manageto separate the core as a npm module
+
+
+### <a name="custom-variants"></a>How to add custom configurable attributes to Product page
+
+Where can we add filters and extra configurable options for the products? For example, i've just added an iPhone X as an example. And I want to add the storage as an option.
+
+![How to add additional custom attribute?](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/Apple_iPhone_X-Zwart-256GB_-_Vue_Storefront.png)
+
+To do so You need to modify the theme, changing the following snippet:
+
+```js
+           <div class="row top-xs m0 pt15 pb40 variants-wrapper">
+                  <div v-if="option.label == 'Color'">
+                    <color-button
+                      v-for="(c, i) in options.color"
+                      :key="i"
+                      :id="c.id"
+                      :label="c.label"
+                      context="product"
+                      code="color"
+                      :class="{ active: c.id == configuration.color.id }"
+                    />
+                  </div>
+                  <div class="sizes" v-if="option.label == 'Size'">
+                    <size-button
+                      v-for="(s, i) in options.size"
+                      :key="i"
+                      :id="s.id"
+                      :label="s.label"
+                      context="product"
+                      code="size"
+                      class="mr10 mb10"
+                      :class="{ active: s.id == configuration.size.id }"
+                      v-focus-clean
+                    />
+                  </div>
+```                  
+
+You must add UI controls for additional configurable attributes.
+
 
 ### <a name="variant-names-problem"></a>Product name changed to SKU when adding to cart / on product page
 

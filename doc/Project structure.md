@@ -1,5 +1,11 @@
 # Project structure
 
+## Using git for custom development
+
+One of the options is to do kind of fork - or just to get the whole repo to your Git service. Then if you like to do some VS updates you probably need to just pull the changes from our origins. Another option will be available as soon as we manage to separate the core as a npm module
+
+## Structure details
+
 Below you can find the Vue Storefront project structure with explainations and corresponding docs. This is a good place to start with the project.
 
 * `config/` - Config files for vue storefront. They're used to define backend addreses, current theme etc.
