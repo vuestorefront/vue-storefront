@@ -52,7 +52,7 @@
                 </div>
                 <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                   <div v-if="option.label == 'Color'">
-                    <color-button
+                    <color-selector
                       v-for="(c, i) in options.color"
                       :key="i"
                       :id="c.id"
@@ -63,7 +63,7 @@
                     />
                   </div>
                   <div class="sizes" v-if="option.label == 'Size'">
-                    <size-button
+                    <size-selector
                       v-for="(s, i) in options.size"
                       :key="i"
                       :id="s.id"
@@ -182,8 +182,8 @@ import { corePage } from 'core/lib/themes'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
-import ColorButton from '../components/core/ColorButton.vue'
-import SizeButton from '../components/core/SizeButton.vue'
+import ColorSelector from '../components/core/ColorSelector.vue'
+import SizeSelector from '../components/core/SizeSelector.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
@@ -204,8 +204,8 @@ export default {
   },
   components: {
     AddToCart,
-    ColorButton,
-    SizeButton,
+    ColorSelector,
+    SizeSelector,
     Breadcrumbs,
     ProductAttribute,
     ProductTile,

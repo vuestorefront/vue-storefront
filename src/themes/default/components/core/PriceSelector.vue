@@ -1,7 +1,7 @@
 <template>
   <span @click="switchFilter(id, from, to)">
     <button
-      class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-button"
+      class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-selector"
       :class="{ active: active }"
       :aria-label="$t('Price ') + content"
     >
@@ -15,7 +15,8 @@
 import { coreComponent } from 'core/lib/themes'
 
 export default { // TODO: move logic to parent component
-  mixins: [coreComponent('PriceButton')]
+  name: 'PriceSelector',
+  mixins: [coreComponent('PriceSelector')]
 }
 </script>
 
@@ -25,7 +26,7 @@ export default { // TODO: move logic to parent component
   $color-event: color(tertiary);
   $color-active: color(accent);
 
-  .price-button {
+  .price-selector {
     width: 20px;
     height: 20px;
 

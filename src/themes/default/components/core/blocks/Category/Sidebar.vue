@@ -7,7 +7,7 @@
       <h5>
         {{ $t('Color') }}
       </h5>
-      <color-button
+      <color-selector
         context="category"
         :attribute_code="color"
         code="color"
@@ -21,7 +21,7 @@
       <h5>
         {{ $t('Size') }}
       </h5>
-      <size-button
+      <size-selector
         context="category"
         :attribute_code="size"
         code="size"
@@ -36,7 +36,7 @@
       <h5>
         {{ $t('Price') }}
       </h5>
-      <price-button
+      <price-selector
         context="category"
         :attribute_code="price"
         class="price-select mb10 block"
@@ -69,15 +69,15 @@
 <script>
 import { coreComponent } from 'core/lib/themes'
 
-import ColorButton from '../../ColorButton.vue'
-import SizeButton from '../../SizeButton.vue'
-import PriceButton from '../../PriceButton.vue'
+import ColorSelector from '../../ColorSelector.vue'
+import SizeSelector from '../../SizeSelector.vue'
+import PriceSelector from '../../PriceSelector.vue'
 
 export default {
   components: {
-    ColorButton,
-    SizeButton,
-    PriceButton
+    ColorSelector,
+    SizeSelector,
+    PriceSelector
   },
   mixins: [coreComponent('blocks/Category/Sidebar')]
 }

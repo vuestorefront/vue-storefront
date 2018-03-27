@@ -1,36 +1,41 @@
 <template>
   <button>
-    Core price button
+    <!--
+        Filter button for category size
+        props:
+        "label" - text displayed at filter
+        "id" - filter ID
+        "code" - filter code
+        "context"
+        data to display:
+        {{ label }}
+      -->
   </button>
 </template>
 
 <script>
 export default {
-  name: 'PriceButton',
+  name: 'GenericSelector',
   props: {
-    content: {
+    label: {
       type: null,
-      default: ''
+      required: false,
+      default: () => false
     },
     id: {
       type: null,
-      required: true
+      required: false,
+      default: () => false
     },
     code: {
       type: null,
-      required: true
-    },
-    from: {
-      type: null,
-      required: true
-    },
-    to: {
-      type: null,
-      required: true
+      required: false,
+      default: () => false
     },
     context: {
       type: null,
-      default: ''
+      required: false,
+      default: () => false
     }
   },
   data () {
@@ -40,7 +45,7 @@ export default {
   },
   beforeDestroy () {
     this.$bus.$off('filter-reset', this.filterReset)
-    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
+    this.$bus.$off('filter-changed-' + this.context)
   },
   beforeMount () {
     this.$bus.$on('filter-reset', this.filterReset)
@@ -64,8 +69,8 @@ export default {
     filterReset (filterOption) {
       this.active = false
     },
-    switchFilter (id, from, to) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
+    switchFilter (id, label) {
+      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
     }
   }
 }
