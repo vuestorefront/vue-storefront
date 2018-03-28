@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import ColorButton from '../../ColorButton.vue'
-import SizeButton from '../../SizeButton.vue'
-import PriceButton from '../../PriceButton.vue'
+import ColorSelector from '../../ColorSelector.vue'
+import SizeSelector from '../../SizeSelector.vue'
+import PriceSelector from '../../PriceSelector.vue'
 
 export default {
   name: 'CategorySidebar',
@@ -38,9 +38,9 @@ export default {
     }
   },
   components: {
-    ColorButton,
-    SizeButton,
-    PriceButton
+    ColorSelector,
+    SizeSelector,
+    PriceSelector
   }
 }
 </script>

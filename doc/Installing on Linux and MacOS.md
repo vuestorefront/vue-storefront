@@ -11,7 +11,7 @@ Let's go:
 If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
 
 ### Requirements
-1. Docker (with 'docker-compose' installed)
+1. Docker (with ['docker-compose'](https://docs.docker.com/compose/install/) installed)
 2. Node.js [Active LTS](https://github.com/nodejs/Release) (>=8.0.0)
 3. [Yarn](https://yarnpkg.com/en/docs/install) (>=1.0.0)
 

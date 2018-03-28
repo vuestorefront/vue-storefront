@@ -26,13 +26,16 @@ Try out our open demo and if you like it **first give us some star on Github ★
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        Magento 2.0 - Default theme
+        Magento 2.2 - Default theme
       </td>
       <td align="center" valign="middle">
         B2B theme (beta)
       </td align="center" valign="middle">
       <td align="center" valign="middle">
         Magento 1.9 - Default theme
+      </td align="center" valign="middle">
+      <td align="center" valign="middle">
+        Magento 2.2 - External checkout <a href="https://medium.com/@piotrkarwatka/vue-storefront-new-feature-magento2-checkout-fallback-option-af415843ac86">see details</a>
       </td align="center" valign="middle">
 </tr>
     <tr>
@@ -62,7 +65,16 @@ Try out our open demo and if you like it **first give us some star on Github ★
           >
         </a>
       </td>
-  </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento-checkout.vuestorefront.io">
+          <img
+            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-magento-checkout.png"
+            alt="Magento 2 external checkout"
+            height="100"
+          >
+        </a>
+      </td>
+</tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
@@ -79,7 +91,13 @@ Try out our open demo and if you like it **first give us some star on Github ★
           demo-magento1.vuestorefront.io
         </a>
       </td>      
-    </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento-checkout.vuestorefront.io">
+          demo-magento-checkout.vuestorefront.io
+        </a>
+      </td>      
+
+</tr>
   </tbody>
 </table>
 
@@ -117,7 +135,7 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 ### Basics
 * [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
-* [Common problems / FAQ](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
+* [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
@@ -148,6 +166,7 @@ Tutorial series on creating themes for Vue Storefront:
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 * [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
+* [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)

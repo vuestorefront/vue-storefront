@@ -54,7 +54,7 @@ No data
 ### Methods
 No methods
 
-## ColorButton
+## ColorSelector
 This components represents a button that is used for visualizing different options, specifically product filters. It is used on category's Sidebar and Product pages.
 ### Props
 `label` - label that is shown on the component button.
@@ -70,7 +70,7 @@ This components represents a button that is used for visualizing different optio
 *label* - same as *label* prop.
 ### Hooks
 #### beforeMount
-If current route's name is not 'product' defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of ColorButton component was passed to it as a parameter.
+If current route's name is not 'product' defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of ColorSelector component was passed to it as a parameter.
 #### beforeDestroy
 Removes event listeners defined in *beforeMount* hook.
 
@@ -171,7 +171,7 @@ No data
 ### Methods
 `close` - calls UI-store mutation 'ui/setOverlay' and sets its *overlay* property to *false*.
 
-## PriceButton
+## PriceSelector
 Represents one of the options on Category page. Shows price range and allows uesr to choose one of the ranges.
 ### Props
 `content` - text that shows the price range
@@ -189,7 +189,7 @@ Represents one of the options on Category page. Shows price range and allows ues
 *label* - same as *label* prop.
 ### Hooks
 #### beforeMount
-Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of PriceButton component was passed to it as a parameter.
+Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of PriceSelector component was passed to it as a parameter.
 #### beforeDestroy
 Removes event listeners defined in *beforeMount* hook.
 
@@ -248,7 +248,7 @@ No data
 ### Methods
 No methods
 
-## SizeButton
+## SizeSelector
 Represents one of the options of a product, namely product's size. Used on Category and Product pages.
 ### Props
 `label` - a string that represents the size
@@ -264,7 +264,7 @@ Represents one of the options of a product, namely product's size. Used on Categ
 *label* - same as *label* prop.
 ### Hooks
 #### beforeMount
-Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of SizeButton component was passed to it as a parameter.
+Defines 2 event listeners. First one is *'filter-reset'* that sets *active* prop to false. Second is *'filter-changed-<context>'*, where context is a value of *context* prop. This event listener toggles the value of *active* prop depending on which instance of SizeSelector component was passed to it as a parameter.
 #### beforeDestroy
 Removes event listeners defined in *beforeMount* hook.
 

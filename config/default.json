@@ -57,7 +57,7 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",
@@ -69,5 +69,8 @@
     "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
-    }
+    },
+    "stripe": {
+      "api_key": "my_example_api_key"
+  }    
  }

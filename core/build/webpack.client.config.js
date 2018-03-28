@@ -66,19 +66,19 @@ if (process.env.NODE_ENV === 'production') {
         handler: "networkFirst"
       },{
         urlPattern: "/assets/logo.svg",
-        handler: "cacheFirst"
+        handler: "networkFirst"
       },{
         urlPattern: "/index.html",
-        handler: "cacheFirst"
+        handler: "fastest"
       },{
         urlPattern: "/assets/*",
-        handler: "cacheFirst"
+        handler: "networkFirst"
       },{
         urlPattern: "/assets/ig/(.*)",
-        handler: "cacheFirst"
+        handler: "networkFirst"
       },{
         urlPattern: "/dist/(.*)",
-        handler: "cacheFirst"
+        handler: "fastest"
       },{
         urlPattern:'/api/catalog/*', /** cache products catalog */
         method: "post",
