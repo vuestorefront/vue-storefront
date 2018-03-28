@@ -17,7 +17,6 @@ export default {
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
     } else {
-      console.log(store.getters['cart/totals'])
       EventBus.$emit('order-before-placed', { order: order })
       commit(types.ORDER_PLACE_ORDER, order)
       EventBus.$emit('order-after-placed', { order: order })
