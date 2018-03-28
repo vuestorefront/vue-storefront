@@ -38,6 +38,7 @@ import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
+import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 
 export default {
   components: {
@@ -45,7 +46,8 @@ export default {
     MyProfile,
     MyShippingDetails,
     MyNewsletter,
-    MyOrders
+    MyOrders,
+    MyOrder
   },
   mixins: [corePage('MyAccount')]
 }
@@ -79,6 +81,7 @@ $color-tertiary: color(tertiary);
   a {
     &:after {
       content: "";
+      display: block;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -88,7 +91,7 @@ $color-tertiary: color(tertiary);
     }
 
     &:hover,
-    .router-link-active {
+    &.router-link-exact-active {
       &:after {
         opacity: 0;
       }

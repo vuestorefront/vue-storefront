@@ -22,7 +22,7 @@ EventBus.$on('session-after-started', (event) => { // example stock check callba
   store.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
 })
 
-// After order has been placed fill in missing address information in user's profile
+// After order has been placed fill in missing address information in user's profile and update orders history
 EventBus.$on('order-after-placed', (order) => {
   if (store.getters['user/isLoggedIn']) {
     let currentUser = store.state.user.current
@@ -65,6 +65,7 @@ EventBus.$on('order-after-placed', (order) => {
 
       store.dispatch('user/update', { customer: customer })
     }
+    store.dispatch('user/getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
   }
 })
 

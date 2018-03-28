@@ -250,7 +250,7 @@ export default {
   /**
    * Load user's orders history
    */
-  getOrdersHistory (context, { refresh = true, useCache = true }) {
+  getOrdersHistory (context, { refresh = true, useCache = true, pushNewOrder = false }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
         console.log('No User token, user unathorized')

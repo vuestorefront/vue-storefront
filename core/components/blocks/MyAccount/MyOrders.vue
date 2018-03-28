@@ -32,6 +32,14 @@ export default {
       } else {
         return []
       }
+    },
+    remakeOrder (items) {
+      items.forEach(item => {
+        this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+          product.qty = item.qty_ordered
+          this.$store.dispatch('cart/addItem', { productToAdd: product }).then(() => {})
+        })
+      })
     }
   }
 }

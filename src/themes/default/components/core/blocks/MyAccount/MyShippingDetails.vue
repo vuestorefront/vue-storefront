@@ -8,7 +8,7 @@
         </h3>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <div class="lh30 flex end-md" v-if="!isEdited && editMode">
+        <div class="lh30 flex end-md" v-if="!isEdited">
           <a href="#" class="cl-tertiary flex" @click.prevent="edit">
             <span class="pr5">
               {{ $t('Edit your shipping details') }}

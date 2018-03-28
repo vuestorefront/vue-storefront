@@ -10,6 +10,7 @@ import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
 import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
+import MyOrder from 'core/components/blocks/MyAccount/MyOrder'
 import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
@@ -35,8 +36,8 @@ export default {
         { title: 'My shipping details', link: '/my-account/shipping-details' },
         { title: 'My newsletter', link: '/my-account/newsletter' },
         { title: 'My orders', link: '/my-account/orders' },
-        { title: 'My loyalty card', link: '' },
-        { title: 'My product reviews', link: '' }
+        { title: 'My loyalty card', link: '#' },
+        { title: 'My product reviews', link: '#' }
       ]
     }
   },
@@ -93,7 +94,8 @@ export default {
     MyProfile,
     MyShippingDetails,
     MyNewsletter,
-    MyOrders
+    MyOrders,
+    MyOrder
   }
 }
 </script>
