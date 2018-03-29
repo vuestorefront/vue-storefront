@@ -1,10 +1,10 @@
 {
   "mainBanners": [
 	  {
-	    "title": "Performance",
+	    "title": "Luma Performance",
 	    "subtitle": "Collection",
 	    "image": "/assets/slide_02.jpg",
-	    "link": "/c/home-and-decor-7"
+	    "link": "/c/women-20"
 	  }
   ],
   "smallBanners": [
@@ -12,21 +12,21 @@
       "title": "Erin Renny",
       "subtitle": "New",
       "image": "/assets/ig/ig03.jpg",
-      "link": "/c/women-4"
+      "link": "/c/men-11"
     },
     {
-      "title": "For Him",
+      "title": "Eco-friendly",
       "subtitle": "Sales",
       "image": "/assets/ig/ig05.jpg",
-      "link": "/c/men-5"
+      "link": "/c/gear-3"
     }
   ],
   "productBanners": [
 	  {
-	    "title": "Promoted offers",
+	    "title": "Eco-friendly",
 	    "subtitle": "Sales",
 	    "image": "/assets/ig/ig05.jpg",
-	    "link": "c/tees-knits-and-polos-16"
+	    "link": "/c/gear-3"
 	  }
   ]
 }

@@ -22,7 +22,10 @@
     <div class="row pl20 pr20" v-show="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
-        <div class="row mb15 mt20" v-show="isActive">
+        <div id="checkout-order-review-additional-container">
+          <div id="checkout-order-review-additional">&nbsp;</div>
+        </div>
+        <div class="row mb15 mt20">
           <div class="col-xs-12">
             <p class="h4">
               {{ $t('Please check if all data are correct') }}
@@ -31,26 +34,25 @@
               <div class="cartsummary-wrapper">
                 <cart-summary />
               </div>
-              <div class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10">
-                <div class="checkboxStyled relative">
-                  <input type="checkbox" v-model="orderReview.terms" id="acceptTermsCheckbox" @blur="$v.orderReview.terms.$touch()">
-                  <label class="absolute brdr-gray bg-cl-secondary pointer" for="acceptTermsCheckbox"/>
-                </div>
-                <div class="checkboxText ml15 lh25 pointer">
-                  <span class="fs16 cl-accent" @click="orderReview.terms = !orderReview.terms">
-                    {{ $t('I agree to') }}
-                    <span class="link pointer" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">
-                      {{ $t('Terms and conditions') }}
-                    </span>
-                  </span>
-                </div>
+              <base-checkbox
+                class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10"
+                id="acceptTermsCheckbox"
+                @click="orderReview.terms = !orderReview.terms"
+                @blur="$v.orderReview.terms.$touch()"
+                v-model="orderReview.terms"
+                :validation="{
+                  condition: !$v.orderReview.terms.required && $v.orderReview.terms.$error,
+                  text: $t('Field is required')
+                }"
+              >
+                {{ $t('I agree to') }}
                 <span
-                  class="validation-error"
-                  v-if="!$v.orderReview.terms.required && $v.orderReview.terms.$error"
+                  class="link pointer"
+                  @click.prevent="$bus.$emit('modal-toggle', 'modal-terms')"
                 >
-                  {{ $t('Field is required') }}
+                  {{ $t('Terms and conditions') }}
                 </span>
-              </div>
+              </base-checkbox>
             </div>
           </div>
         </div>
@@ -83,10 +85,12 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import { coreComponent } from 'core/lib/themes'
+import Composite from 'core/mixins/composite'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
 import Modal from 'theme/components/core/Modal.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
 
 export default {
   validations: {
@@ -100,9 +104,10 @@ export default {
     ButtonFull,
     ValidationError,
     CartSummary,
-    Modal
+    Modal,
+    BaseCheckbox
   },
-  mixins: [coreComponent('blocks/Checkout/OrderReview')]
+  mixins: [coreComponent('blocks/Checkout/OrderReview'), Composite]
 }
 </script>
 

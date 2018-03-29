@@ -8,6 +8,7 @@ import { optionLabel } from 'core/store/modules/attribute/helpers'
 import { quickSearchByQuery } from 'core/lib/search'
 import EventBus from 'core/plugins/event-bus'
 import _ from 'lodash'
+import { productThumbnailPath } from '../../../helpers'
 
 export default {
   /**
@@ -72,7 +73,7 @@ export default {
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
   syncPlatformPricesOver (context, { skus }) {
-    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + config.i18n.currencyCode), // sync the cart
+    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + encodeURIComponent(config.i18n.currencyCode)), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -178,7 +179,8 @@ export default {
             label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
           }
           context.state.current_configuration[attr.attribute_code] = confVal
-          context.state.current_configuration[attr.frontend_label.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+          const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+          context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
         }
       }).catch(err => {
         console.error(err)
@@ -324,6 +326,11 @@ export default {
     if (productVariant && typeof productVariant === 'object') {
       // get original product
       const productOriginal = context.getters.productOriginal
+
+      if (!context.state.offlineImage) {
+        context.state.offlineImage = productThumbnailPath(productOriginal, true)
+        console.log('Image offline fallback set to ', context.state.offlineImage)
+      }
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)

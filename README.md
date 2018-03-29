@@ -1,33 +1,50 @@
-# Vue Storefront - PWA for eCommerce <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
+# Vue Storefront - headless PWA for eCommerce 
+<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
+![version](https://img.shields.io/badge/version-1.0%20RC-blue.svg) 
+![version](https://img.shields.io/badge/node-v8.x-blue.svg) 
+![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
+![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
+<a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
+
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/pimcore2vuestorefront">Pimcore</a>,  Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
 
+**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take alook at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
+
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
 See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakowski/vue-storefront-basics)
+
+**Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that don't meet this requirements will not be merged**
 ## See it in action
 
 Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
+
 <table>
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        Default theme
+        Magento 2.2 - Default theme
       </td>
       <td align="center" valign="middle">
         B2B theme (beta)
       </td align="center" valign="middle">
-    </tr>
+      <td align="center" valign="middle">
+        Magento 1.9 - Default theme
+      </td align="center" valign="middle">
+      <td align="center" valign="middle">
+        Magento 2.2 - External checkout <a href="https://medium.com/@piotrkarwatka/vue-storefront-new-feature-magento2-checkout-fallback-option-af415843ac86">see details</a>
+      </td align="center" valign="middle">
+</tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"
             alt="B2C Theme demo"
-            height="100"
-          >
+            height="100">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -39,7 +56,25 @@ Try out our open demo and if you like it **first give us some star on Github ★
           >
         </a>
       </td>
-    </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento1.vuestorefront.io">
+          <img
+            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-m1.png?raw=true"
+            alt="Magento 1.9 demo"
+            height="100"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento-checkout.vuestorefront.io">
+          <img
+            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-magento-checkout.png"
+            alt="Magento 2 external checkout"
+            height="100"
+          >
+        </a>
+      </td>
+</tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
@@ -51,7 +86,18 @@ Try out our open demo and if you like it **first give us some star on Github ★
           demo-catalog.vuestorefront.io
         </a>
       </td>
-    </tr>
+      <td align="center" valign="middle">
+        <a href="https://demo-magento1.vuestorefront.io">
+          demo-magento1.vuestorefront.io
+        </a>
+      </td>      
+      <td align="center" valign="middle">
+        <a href="https://demo-magento-checkout.vuestorefront.io">
+          demo-magento-checkout.vuestorefront.io
+        </a>
+      </td>      
+
+</tr>
   </tbody>
 </table>
 
@@ -64,6 +110,11 @@ Try out our open demo and if you like it **first give us some star on Github ★
 - [Read on how to integrate it with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2), [Read how to create Vue Storefront theme](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593),
 - [Read the interviews with authors of first production deployments](https://medium.com/@piotrkarwatka/vue-storefront-on-production-interview-with-gogetgold-com-developers-71e4b48ef996)
 
+
+## Is it production ready?
+
+Yes! There are more than 10 implementations happening right now and one live shop.
+
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
 
@@ -74,6 +125,8 @@ We are planning 1-2 milestones ahead. Our milestones are based on requirements f
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
 
+You can find some tutorials and explainations on our [YouTube channel](https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg)
+
 ### Installation
 * [Installing on Linux/MacOS](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md)
 * [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
@@ -82,7 +135,7 @@ The documentation is always THE HARDEST PART of each open source project! But we
 ### Basics
 * [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
-* [Common problems / FAQ](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Common%20problems.md)
+* [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
@@ -103,6 +156,7 @@ Tutorial series on creating themes for Vue Storefront:
 * [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
 * [Data Migrations for ElasticSearch](https://github.com/DivanteLtd/vue-storefront-api/blob/master/doc/1.%20Data%20schema%20and%20migrations.md)
 * [ElasticSearch Queries](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/ElasticSearch%20Queries.md)
+* [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
 
 ### Working with Vue Storefront Extensions
 * [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
@@ -111,6 +165,8 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
+* [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
+* [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)

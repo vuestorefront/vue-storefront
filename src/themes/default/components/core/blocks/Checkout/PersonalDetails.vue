@@ -11,13 +11,13 @@
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
-          <div class="col-xs-12 col-md-6" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+          <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0 mb5">
               {{ $t('Personal Details') }}
             </h3>
           </div>
-          <div class="col-xs-12 col-md-6 pr30">
-            <div class="lh30 flex end-md" v-if="isFilled && !isActive">
+          <div class="col-xs-12 col-md-5 pr30">
+            <div class="lh30 flex end-lg" v-if="isFilled && !isActive">
               <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
                   {{ $t('Edit personal details') }}
@@ -29,129 +29,137 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-show="isActive">
+    <div class="row pl20" v-if="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
-      <div class="col-xs-12 col-sm-9 col-md-11">
+      <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-            <input
-              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
-              type="text"
-              name="first-name"
-              :placeholder="$t('First name *')"
-              v-model.trim="personalDetails.firstName"
-              @blur="$v.personalDetails.firstName.$touch()"
-              autocomplete="given-name"
+          <base-input
+            class="col-xs-12 col-md-6 mb25"
+            type="text"
+            name="first-name"
+            :placeholder="$t('First name *')"
+            v-model.trim="personalDetails.firstName"
+            @blur="$v.personalDetails.firstName.$touch()"
+            autocomplete="given-name"
+            :validations="[
+              {
+                condition: $v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: !$v.personalDetails.firstName.minLength,
+                text: $t('Name must have at least 3 letters.')
+              }
+            ]"
+          />
+
+          <base-input
+            class="col-xs-12 col-md-6 mb25"
+            type="text"
+            name="last-name"
+            :placeholder="$t('Last name *')"
+            v-model.trim="personalDetails.lastName"
+            @blur="$v.personalDetails.lastName.$touch()"
+            autocomplete="family-name"
+            :validation="{
+              condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
+              text: $t('Field is required')
+            }"
+          />
+
+          <base-input
+            class="col-xs-12 mb25"
+            type="email"
+            name="email-address"
+            :placeholder="$t('Email address *')"
+            v-model="personalDetails.emailAddress"
+            @blur="$v.personalDetails.emailAddress.$touch()"
+            autocomplete="email"
+            @keyup.enter="sendDataToCheckout"
+            :validations="[
+              {
+                condition: $v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: !$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error,
+                text: $t('Please provide valid e-mail address.')
+              }
+            ]"
+          />
+
+          <base-checkbox
+            v-if="!currentUser"
+            class="col-xs-12 mb15"
+            id="createAccountCheckbox"
+            @click="createAccount = !createAccount"
+            v-model="createAccount"
+          >
+            {{ $t('I want to create an account') }}
+          </base-checkbox>
+
+          <template v-if="createAccount && !currentUser">
+            <base-input
+              class="col-xs-12 mb25 mt10"
+              type="password"
+              name="password"
+              :placeholder="$t('Password *')"
+              v-model="password"
+              @blur="$v.password.$touch()"
+              autocomplete="new-password"
+              :validation="{
+                condition: $v.password.$error && !$v.password.required,
+                text: $t('Field is required.')
+              }"
+            />
+
+            <base-input
+              class="col-xs-12 mb25"
+              type="password"
+              name="password-confirm"
+              :placeholder="$t('Repeat password *')"
+              v-model="rPassword"
+              autocomplete="new-password"
+              :validations="[
+                {
+                  condition: $v.rPassword.$error && !$v.rPassword.required,
+                  text: $t('Field is required.')
+                },
+                {
+                  condition:!$v.rPassword.sameAsPassword,
+                  text: $t('Passwords must be identical.')
+                }
+              ]"
+            />
+
+            <base-checkbox
+              class="col-xs-12 mb15"
+              id="acceptConditions"
+              @click="acceptConditions = !acceptConditions"
+              @blur="$v.acceptConditions.$touch()"
+              v-model="acceptConditions"
+              :validation="{
+                condition: !$v.acceptConditions.required && $v.acceptConditions.$error,
+                text: $t('You must accept the terms and conditions.')
+              }"
             >
-            <span
-              class="validation-error"
-              v-if="$v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-            <span class="validation-error" v-if="!$v.personalDetails.firstName.minLength">
-              {{ $t('Name must have at least 3 letters.') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 mb25">
-            <input
-              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
-              type="text"
-              name="last-name"
-              :placeholder="$t('Last name *')"
-              v-model.trim="personalDetails.lastName"
-              @blur="$v.personalDetails.lastName.$touch()"
-              autocomplete="family-name"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb25">
-            <input
-              class="py10 brdr-none brdr-bottom brdr-cl-primary h4"
-              type="email"
-              name="email-address"
-              :placeholder="$t('Email address *')"
-              v-model="personalDetails.emailAddress"
-              @blur="$v.personalDetails.emailAddress.$touch()"
-              autocomplete="email"
-            >
-            <span
-              class="validation-error"
-              v-if="$v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required"
-            >
-              {{ $t('Field is required') }}
-            </span>
-            <span class="validation-error" v-if="!$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error">
-              {{ $t('Please provide valid e-mail address.') }}
-            </span>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb15" v-show="!currentUser">
-            <div class="checkboxStyled">
-              <input type="checkbox" v-model="createAccount" id="createAccountCheckbox">
-              <label for="createAccountCheckbox"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="createAccount = !createAccount">
-              <span v-if="!isFilled" class="fs16 cl-accent">{{ $t('I want to create an account') }}</span>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb25 mt10" v-show="createAccount && !currentUser">
-            <div class="pass-container relative mr35">
-              <input
-                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4"
-                name="password"
-                v-model="password"
-                :type="passType.pass"
-                :placeholder="$t('Password *')"
-                @blur="$v.password.$touch()"
-                autocomplete="new-password"
+              {{ $t('I accept ') }}
+              <span
+                class="link pointer"
+                @click.prevent="$bus.$emit('modal-toggle', 'modal-terms')"
               >
-              <div class="icon absolute cl-tertiary pointer">
-                <i class="material-icons" @click="togglePassType('pass')">{{ iconName.pass }}</i>
-              </div>
-            </div>
-            <span class="validation-error" v-if="$v.password.$error && !$v.password.required">{{ $t('Field is required.') }}</span>
-          </div>
-          <div class="col-xs-12 col-sm-12 mb25" v-show="createAccount && !currentUser">
-            <div class="pass-container relative mr35">
-              <input
-                class="pr30 py10 w-100 border-box brdr-none brdr-bottom brdr-cl-primary h4"
-                name="password-confirm"
-                v-model="rPassword"
-                :type="passType.repeatPass"
-                :placeholder="$t('Repeat password *')"
-                autocomplete="new-password"
-              >
-              <i class="icon absolute material-icons cl-tertiary pointer" @click="togglePassType('repeatPass')">
-                {{ iconName.repeatPass }}
-              </i>
-            </div>
-            <span class="validation-error" v-if="!$v.rPassword.sameAsPassword">{{ $t('Passwords must be identical.') }}</span>
-          </div>
-          <div class="col-xs-12 col-md-12 mb15" v-show="createAccount && !currentUser">
-            <div class="checkboxStyled">
-              <input type="checkbox" name="remember" v-model="acceptConditions" id="acceptConditions" @blur="$v.acceptConditions.$touch()">
-              <label for="acceptConditions"/>
-            </div>
-            <div class="checkboxText ml15 lh25" @click="acceptConditions = !acceptConditions">
-              <span class="fs16 cl-accent">
-                {{ $t('I accept ') }} <a class="no-underline link" href="#" @click.stop="$bus.$emit('modal-toggle', 'modal-terms')">terms and conditions</a> *
-              </span>
-            </div>
-            <span class="validation-error" v-if="!$v.acceptConditions.required && $v.acceptConditions.$error">{{ $t('You must accept the terms and conditions.') }}</span>
-          </div>
+                {{ $t('Terms and conditions') }}
+              </span>*
+            </base-checkbox>
+          </template>
         </div>
       </div>
     </div>
     <div class="row" v-show="isActive">
       <div class="hidden-xs col-sm-2 col-md-1"/>
-      <div class="col-xs-12 col-sm-9 col-md-11">
-        <div class="row">
-          <div class="col-xs-12 col-md-8 col-lg-6 my30 px20 button-container">
+      <div class="col-xs-11 col-sm-9 col-md-10">
+        <div class="row my30">
+          <div class="col-xs-12 col-md-7 px20 button-container">
             <button-full
               @click.native="sendDataToCheckout"
               :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
@@ -159,18 +167,24 @@
               {{ $t('Continue to shipping') }}
             </button-full>
           </div>
-          <div class="col-xs-12 col-md-12 col-lg-6 pl20 login-prompt bottom-button" v-show="!currentUser">
+          <div
+            class="col-xs-12 col-md-5 center-xs end-md"
+            v-if="!currentUser"
+          >
             <p class="h4 cl-accent">
               {{ $t('or') }}
-              <a v-if="true" href="#" @click="gotoAccount" class="link no-underline fs16 cl-accent">
+              <span
+                class="link pointer"
+                @click.prevent="gotoAccount"
+              >
                 {{ $t('login to your account') }}
-              </a>
+              </span>
             </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row pl20" v-show="!isActive && isFilled">
+    <div class="row pl20" v-if="!isActive && isFilled">
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
@@ -182,18 +196,19 @@
               <span class="pr15">{{ personalDetails.emailAddress }}</span>
               <tooltip>{{ $t('We will send you details regarding the order') }}</tooltip>
             </div>
-            <div v-if="createAccount && !currentUser" class="mt25">
-              <div class="checkboxStyled">
-                <input type="checkbox" v-model="createAccount" id="createAccountCheckbox2" disabled>
-                <label for="createAccountCheckbox2"/>
-              </div>
-              <div class="checkboxText ml15 lh25">
-                <span class="fs16 cl-accent">Create a new account</span>
-              </div>
+            <template v-if="createAccount && !currentUser">
+              <base-checkbox
+                class="mt25"
+                id="createAccountCheckboxInfo"
+                v-model="createAccount"
+                disabled
+              >
+                {{ $t('Create a new account') }}
+              </base-checkbox>
               <p class="h5 cl-tertiary">
                 {{ $t('The new account will be created with the purchase. You will receive details on e-mail.') }}
               </p>
-            </div>
+            </template>
           </div>
         </div>
       </div>
@@ -207,6 +222,8 @@ import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import Modal from 'theme/components/core/Modal.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import BaseInput from '../Form/BaseInput.vue'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
 // https://monterail.github.io/vuelidate/#sub-basic-usage
@@ -237,63 +254,18 @@ export default {
       required
     }
   },
-  data () {
-    return {
-      passType: {
-        pass: 'password',
-        repeatPass: 'password'
-      },
-      iconName: {
-        pass: 'visibility',
-        repeatPass: 'visibility'
-      }
-    }
-  },
-  methods: {
-    togglePassType (name) {
-      if (this.passType[name] === 'password') {
-        this.passType[name] = 'text'
-        this.iconName[name] = 'visibility_off'
-      } else {
-        this.passType[name] = 'password'
-        this.iconName[name] = 'visibility'
-      }
-    }
-  },
   components: {
     ButtonFull,
     Tooltip,
-    Modal
+    Modal,
+    BaseCheckbox,
+    BaseInput
   },
   mixins: [coreComponent('blocks/Checkout/PersonalDetails')]
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-hover: color(tertiary, $colors-background);
-$color-focus: color(black);
-
-.pass-container {
-  input[type=password], input[type=text] {
-    &:focus {
-      outline: none;
-      border-color: $color-focus;
-      transition: 0.3s all;
-    }
-  }
-
-  .icon {
-    right: 0;
-    top: 10px;
-
-    &:hover {
-      color: $color-hover;
-    }
-  }
-}
-
 .link {
   text-decoration: underline;
 }
@@ -301,13 +273,6 @@ $color-focus: color(black);
 .login-prompt {
   @media (min-width: 1200px) {
     margin-top: 30px;
-  }
-}
-
-.button-container {
-  @media (max-width: 1200px) {
-    margin-bottom: 10px;
-    margin-top: 15px;
   }
 }
 </style>

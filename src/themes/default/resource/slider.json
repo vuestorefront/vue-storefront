@@ -1,25 +1,25 @@
 {
   "slides": [
     {
-      "title": "",
-      "subtitle": "",
+      "title": "Luma Yoga",
+      "subtitle": "New collection",
       "button_text": "Shop now",
       "image": "/assets/slide_01.jpg",
-      "link": "/c/women-4"
+      "link": "/c/women-20"
     },
     {
-      "title": "",
-      "subtitle": "",
+      "title": "Luma Fitness",
+      "subtitle": "Collection",
       "button_text": "Shop now",
       "image": "/assets/slide_02.jpg",
-      "link": "/c/men-5"
+      "link": "/c/men-11"
     },
     {
-      "title": "",
-      "subtitle": "",
+      "title": "Luma Fitness",
+      "subtitle": "What's new",
       "button_text": "Shop now",
       "image": "/assets/slide_03.jpg",
-      "link": "/c/sale-8"
+      "link": "/c/training-9"
     }
   ],
   "total": "3"

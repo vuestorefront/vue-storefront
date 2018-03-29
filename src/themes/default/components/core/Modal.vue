@@ -97,6 +97,16 @@ $z-index-modal: map-get($z-index, modal);
   > * {
       margin: 0;
   }
+
+  @media (max-width: 600px) {
+    padding: 25px 15px;
+  }
+}
+
+.modal-content {
+  @media (max-width: 600px) {
+    padding: 30px 15px;
+  }
 }
 
 .modal-close {

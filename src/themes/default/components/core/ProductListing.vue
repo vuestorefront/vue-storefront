@@ -4,7 +4,7 @@
       v-for="(product, key) in products"
       :key="product.id"
       class="pb10 col-sm-6"
-      :class="['col-md-' + (12/columns)%10, wide(product.sale)]"
+      :class="['col-md-' + (12/columns)%10, wide(product.sale, key)]"
     >
       <product-tile :product="product" :instant="key < 6 ? true : false" />
     </div>
@@ -31,8 +31,9 @@ export default {
   },
   mixins: [coreComponent('ProductListing')],
   methods: {
-    wide (isOnSale) {
-      return isOnSale === '1' ? 'col-xs-12' : 'col-xs-6'
+    wide (isOnSale, index) {
+      // last image always shouldn't be big, we also need to count from last promoted to check if it will look ok
+      return isOnSale === '1' || index === this.products.length - 1 ? 'col-xs-12' : 'col-xs-6'
     }
   }
 }

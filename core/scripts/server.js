@@ -42,11 +42,11 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 }, options))
 
-const theme = require(resolve('core/build/config.json')).theme
+const themeRoot = require('../build/theme-path')
 
 app.use('/dist', serve('dist', true))
+app.use('/assets', serve(themeRoot + '/assets', true))
 app.use('/assets', serve('core/assets', true))
-app.use('/assets', serve('src/themes/' + theme + '/assets', true))
 app.use('/service-worker.js', serve('dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))
@@ -61,7 +61,16 @@ app.get('*', (req, res) => {
   }
 
   if (!renderer) {
-    return res.end('Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!')
+    return res.end('<html lang="en">\n' +
+        '    <head>\n' +
+        '      <meta charset="utf-8">\n' +
+        '      <title>Loading</title>\n' +
+        '      <meta http-equiv="refresh" content="10">\n' +
+        '    </head>\n' +
+        '    <body>\n' +
+        '      Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!\n' +
+        '    </body>\n' +
+        '  </html>')
   }
 
   const s = Date.now()

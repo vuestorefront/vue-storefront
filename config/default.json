@@ -15,7 +15,9 @@
       "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
       "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
       "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}"
+      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
       "preventConfigurableChildrenDirectAccess": true,
@@ -26,13 +28,16 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"]
     },
     "orders": {
-      "endpoint": "http://localhost:8080/api/order"
+      "endpoint": "http://localhost:8080/api/order",
+      "payment_methods_mapping": {
+      }
     },
     "users": {
       "endpoint": "http://localhost:8080/api/user"
     },
     "stock": {
       "synchronize": true,
+      "allowOutOfStockInCart": true,
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
@@ -52,17 +57,20 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
-      "currencySign": "$"
+      "currencySign": "$",
+      "dateFormat": "HH:mm D/M/YYYY"
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
-    "theme": "default",
+    "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
     },
-    "registeredExtensions": ["custom_extension", "mailchimp-subscribe", "google-analytics"]
+    "stripe": {
+      "api_key": "my_example_api_key"
+  }    
  }
