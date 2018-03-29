@@ -81,7 +81,8 @@
     "vue2-slugify": "0.0.1",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.0",
-    "vuex-router-sync": "^5.0.0"
+    "vuex-router-sync": "^5.0.0",
+    "rimraf": "^2.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
