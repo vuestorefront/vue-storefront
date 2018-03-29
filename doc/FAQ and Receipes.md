@@ -12,6 +12,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#how-to-get-dynamic-prices-to-work-catalog-rules">How to get dynamic prices to work (catalog rules)</a>
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
 * <a href="#how-to-sync-the-products-cart-with-magento-to-get-the-cart-promo-rules-up-and-runnig">How to sync the products cart with Magento to get the Cart Promo Rules up and runnig</a>
+* <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent an error "Can’t build storefront npm"</a>
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
 In a case of 
@@ -144,3 +145,14 @@ To display the proper prices and totals after Magento calculates all the discoun
 
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
 After this change you need to restart the `yarn dev` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
+
+### <a name="how-to-prevent-error-cant-build-storefront-npm"></a>How to prevent an error "Can’t build storefront npm"
+
+The error "Can’t build storefront npm" appears because npm can't automatically install required modules. To prevent this error, you should manually install those modules before running the installer. It's easy:
+```bash
+git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront && cd vue-storefront
+npm install
+npm install vue-carousel vue-no-ssr
+npm run build # check if no errors
+npm run installer
+```
