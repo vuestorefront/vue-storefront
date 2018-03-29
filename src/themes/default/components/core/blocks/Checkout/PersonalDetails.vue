@@ -36,6 +36,7 @@
           <base-input
             class="col-xs-12 col-md-6 mb25"
             type="text"
+            :autofocus="true"
             name="first-name"
             :placeholder="$t('First name *')"
             v-model.trim="personalDetails.firstName"
