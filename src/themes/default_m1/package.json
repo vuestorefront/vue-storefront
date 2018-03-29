@@ -1,0 +1,20 @@
+{
+  "name": "vue-storefront-default-theme",
+  "version": "1.0.0",
+  "description": "Default theme for Vue Storefront",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd ../../../ && node core/scripts/server"
+  },
+  "author": "pkarw <pkarwatka@divante.pl> and contributors",
+  "license": "MIT",
+  "dependencies": {
+    "bodybuilder": "^2.2.7",
+    "vue": "^2.5.13",
+    "vue-carousel": "^0.6.9",
+    "vue-no-ssr": "^0.2.2",
+    "vuelidate": "^0.6.1",
+    "vuex": "^3.0.1"
+  }
+}
