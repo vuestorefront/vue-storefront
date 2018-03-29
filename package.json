@@ -82,7 +82,9 @@
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.0",
     "vuex-router-sync": "^5.0.0",
-    "rimraf": "^2.6.0"
+    "rimraf": "^2.6.0",
+    "vue-carousel": "^0.6.9",
+    "vue-no-ssr": "^0.2.2"    
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
