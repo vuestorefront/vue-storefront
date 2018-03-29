@@ -10,6 +10,9 @@ export default {
   [types.USER_INFO_LOADED] (state, currentUser) {
     state.current = currentUser
   },
+  [types.USER_ORDERS_HISTORY_LOADED] (state, ordersHistory) {
+    state.orders_history = ordersHistory
+  },
   [types.USER_END_SESSION] (state) {
     state.token = ''
     state.current = null

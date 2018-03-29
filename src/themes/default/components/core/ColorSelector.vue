@@ -25,7 +25,7 @@ export default {
       }
     }
   },
-  mixins: [coreComponent('ColorButton')]
+  mixins: [coreComponent('GenericSelector')]
 }
 </script>
 

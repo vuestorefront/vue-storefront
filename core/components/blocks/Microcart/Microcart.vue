@@ -29,13 +29,44 @@ export default {
       default: () => false
     }
   },
+  data () {
+    return {
+      addCouponPressed: false,
+      couponCode: '',
+      isOnline: true
+    }
+  },
   created () {
     this.$store.dispatch('cart/load') // load cart from the indexedDb
+    this.$bus.$on('network-before-checkStatus', (status) => {
+      this.isOnline = status.online
+    })
+  },
+  destroyed () {
+    this.$bus.$off('network-before-checkStatus')
   },
   methods: {
     closeMicrocart () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
+      this.addCouponPressed = false
+    },
+    removeCoupon () {
+      this.$store.dispatch('cart/removeCoupon')
+      this.addCouponPressed = false
+    },
+    addDiscountCoupon () {
+      this.addCouponPressed = true
+    },
+    applyCoupon () {
+      this.$store.dispatch('cart/applyCoupon', this.couponCode)
+      this.addCouponPressed = false
+      this.couponCode = ''
+    },
+    enterCoupon (e) {
+      if (e.keyCode === 13) {
+        this.applyCoupon()
+      }
     },
     ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },
@@ -51,6 +82,9 @@ export default {
     },
     items () {
       return this.$store.state.cart.cartItems
+    },
+    coupon () {
+      return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
     },
     ...mapState({
       isOpen: state => state.ui.microcart

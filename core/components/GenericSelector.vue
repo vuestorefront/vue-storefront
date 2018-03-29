@@ -1,21 +1,16 @@
 <template>
-  <button>
-    <!--
-        Filter button for category size
-        props:
-        "label" - text displayed at filter
-        "id" - filter ID
-        "code" - filter code
-        "context"
-        data to display:
-        {{ label }}
-      -->
+  <button
+    :class="{'active': active, 'p0': true, 'bg-cl-primary': true, 'brdr-1': true, 'brdr-cl-primary': true, 'brdr-square': true, 'h5': true, 'cl-tertiary': true, 'generic-selector': true}"
+    @click="switchFilter(id, label)"
+    :aria-label="$t('Select ' + label)"
+  >
+    {{ label }}
   </button>
 </template>
 
 <script>
 export default {
-  name: 'SizeButton',
+  name: 'GenericSelector',
   props: {
     label: {
       type: null,
@@ -44,7 +39,7 @@ export default {
     }
   },
   beforeDestroy () {
-    this.$bus.$off('filter-reset')
+    this.$bus.$off('filter-reset', this.filterReset)
     this.$bus.$off('filter-changed-' + this.context)
   },
   beforeMount () {
@@ -75,3 +70,38 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-active: color(secondary);
+  $color-disabled: color(secondary, $colors-border);
+
+  .generic-selector {
+    height: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
+
+    &:hover,
+    &:focus {
+      border-width: 2px;
+    }
+
+    &.active {
+      border-color: $color-active;
+      border-width: 2px;
+      color: $color-active;
+    }
+
+    &:disabled {
+      border-color: $color-disabled;
+      color: $color-disabled;
+      cursor: not-allowed;
+
+      &:hover,
+      &:after {
+        border-width: 1px;
+      }
+    }
+  }
+</style>

@@ -15,7 +15,14 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent an error "Can’t build storefront npm"</a>
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
-See discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137)
+In a case of 
+
+```json
+{"root_cause":[{"type":"illegal_argument_exception","reason":"Fielddata is disabled on text fields by default. Set fielddata=true on [created_at] in order to load fielddata in memory by uninverting the inverted index. Note that this can however use significant memory. Alternatively use a keyword field instead."}],"type":"search_phase_execution_exception","reason":"all shards failed","phase":"query","grouped":true,"failed_shards":[{"shard":0,"index":"vue_storefront_catalog_1521776807","node":"xIOeZW2lTwaprGXh6YLyCA","reason":{"type":"illegal_argument_exception","reason":"Fielddata is disabled on text fields by default. Set fielddata=true on [created_at] in order to load fielddata in memory by uninverting the inverted index. Note that this can however use significant memory. Alternatively use a keyword field instead."}}]}
+```
+
+See the discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137)
+Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
 
 ### <a name="git-strategy"></a>What's the recommended way to use git on custom development
 One of the options is to do kind of fork - or just to get the whole repo to your Git service. 
@@ -71,13 +78,12 @@ To correct this behavior You can:
 - or just use bound to the `EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })` event and modify the `product.configurable_children` properties:
 
 ```js
-
-              if (product.configurable_children) {
-                for (let configurableChild of product.configurable_children) {
-                    configurableChild.name = product.name
-                  }
-                }
-              }
+  if (product.configurable_children) {
+    for (let configurableChild of product.configurable_children) {
+        configurableChild.name = product.name
+      }
+    }
+  }
 ```
 
 
@@ -88,25 +94,25 @@ After following the Tutorial on [how to connect to Magento2](https://medium.com/
 However there is an option to get the prices dynamicaly. To do so you must change the config inside `conf/local.json` from the default (`conf/default.json`):
 
 ```json
-"products": {
-      "preventConfigurableChildrenDirectAccess": true,
-      "alwaysSyncPlatformPricesOver": false,
-      "clearPricesBeforePlatformSync": false,
-      "waitForPlatformSync": false,
-      "endpoint": "http://localhost:8080/api/product"
-    },
-    ```
-    
+  "products": {
+    "preventConfigurableChildrenDirectAccess": true,
+    "alwaysSyncPlatformPricesOver": false,
+    "clearPricesBeforePlatformSync": false,
+    "waitForPlatformSync": false,
+    "endpoint": "http://localhost:8080/api/product"
+  },
+```
+
 to:
 
 ```json
-"products": {
-      "preventConfigurableChildrenDirectAccess": true,
-      "alwaysSyncPlatformPricesOver": true,
-      "clearPricesBeforePlatformSync": true,
-      "waitForPlatformSync": false,
-      "endpoint": "http://localhost:8080/api/product"
-    },
+  "products": {
+    "preventConfigurableChildrenDirectAccess": true,
+    "alwaysSyncPlatformPricesOver": true,
+    "clearPricesBeforePlatformSync": true,
+    "waitForPlatformSync": false,
+    "endpoint": "http://localhost:8080/api/product"
+  },
 ```
 
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
@@ -134,11 +140,11 @@ To display the proper prices and totals after Magento calculates all the discoun
     "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
     "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
     "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}"
-  },  
+  },
 ```
 
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
-After this change you need to restart the `npm run dev` or `npm run` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
+After this change you need to restart the `yarn dev` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
 
 ### <a name="how-to-prevent-error-cant-build-storefront-npm"></a>How to prevent an error "Can’t build storefront npm"
 

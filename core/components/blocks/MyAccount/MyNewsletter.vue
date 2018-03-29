@@ -7,16 +7,6 @@
 <script>
 export default {
   name: 'MyNewsletter',
-  props: {
-    isActive: {
-      type: Boolean,
-      required: true
-    },
-    editMode: {
-      type: Boolean,
-      default: false
-    }
-  },
   data () {
     return {
       newsletterPreferences: {
@@ -26,7 +16,8 @@ export default {
         kids: false,
         home: false
       },
-      stateNewsletter: Object.assign({}, this.$store.state.user.newsletter)
+      stateNewsletter: Object.assign({}, this.$store.state.user.newsletter),
+      isEdited: false
     }
   },
   created () {
@@ -43,7 +34,7 @@ export default {
   },
   methods: {
     edit () {
-      this.$bus.$emit('myAccount-before-activateSection', 'newsletter')
+      this.isEdited = true
     },
     objectsEqual (a, b) {
       const aProps = Object.keys(a)
@@ -91,6 +82,7 @@ export default {
       if (!updatedNewsletter) {
         this.newsletterPreferences = this.getNewsletter()
       }
+      this.isEdited = false
     },
     getNewsletter () {
       if (this.stateNewsletter) {

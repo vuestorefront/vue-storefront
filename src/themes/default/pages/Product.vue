@@ -47,12 +47,12 @@
                 <div class="variants-label">
                   {{ option.label }}
                   <span class="weight-700">
-                    {{ configuration[option.label.toLowerCase()].label }}
+                    {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
                   </span>
                 </div>
                 <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                   <div v-if="option.label == 'Color'">
-                    <color-button
+                    <color-selector
                       v-for="(c, i) in options.color"
                       :key="i"
                       :id="c.id"
@@ -62,8 +62,8 @@
                       :class="{ active: c.id == configuration.color.id }"
                     />
                   </div>
-                  <div class="sizes" v-if="option.label == 'Size'">
-                    <size-button
+                  <div class="sizes" v-else-if="option.label == 'Size'">
+                    <size-selector
                       v-for="(s, i) in options.size"
                       :key="i"
                       :id="s.id"
@@ -72,6 +72,19 @@
                       code="size"
                       class="mr10 mb10"
                       :class="{ active: s.id == configuration.size.id }"
+                      v-focus-clean
+                    />
+                  </div>
+                  <div :class="option.attribute_code" v-else>
+                    <generic-selector
+                      v-for="(s, i) in options[option.attribute_code]"
+                      :key="i"
+                      :id="s.id"
+                      :label="s.label"
+                      context="product"
+                      :code="option.attribute_code"
+                      class="mr10 mb10"
+                      :class="{ active: s.id == configuration[option.attribute_code].id }"
                       v-focus-clean
                     />
                   </div>
@@ -182,8 +195,9 @@ import { corePage } from 'core/lib/themes'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
-import ColorButton from '../components/core/ColorButton.vue'
-import SizeButton from '../components/core/SizeButton.vue'
+import GenericSelector from 'core/components/GenericSelector.vue'
+import ColorSelector from '../components/core/ColorSelector.vue'
+import SizeSelector from '../components/core/SizeSelector.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
@@ -204,8 +218,9 @@ export default {
   },
   components: {
     AddToCart,
-    ColorButton,
-    SizeButton,
+    GenericSelector,
+    ColorSelector,
+    SizeSelector,
     Breadcrumbs,
     ProductAttribute,
     ProductTile,
