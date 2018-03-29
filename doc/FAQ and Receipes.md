@@ -5,6 +5,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 
 # Questions
 
+* <a href="#problem-docker-installer">Problem starting docker while installing the vue-storefront</a>
 * <a href="#product-not-displayed-illegal_argument_exception">Product not displayed (illegal_argument_exception)</a>
 * <a href="#custom-variants">How to add custom configurable attributes to Product page</a>
 * <a href="#git-strategy">What's the recommended way to use git on custom development</a>
@@ -13,6 +14,24 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
 * <a href="#how-to-sync-the-products-cart-with-magento-to-get-the-cart-promo-rules-up-and-runnig">How to sync the products cart with Magento to get the Cart Promo Rules up and runnig</a>
 * <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent an error "Can’t build storefront npm"</a>
+
+
+### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
+
+In case You get the following error:
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│ ERROR                                                                      │
+│                                                                            │
+│ Can't start docker in background.                                          │
+│                                                                            │
+│ Please check log file for details: /tmp/vue-storefront/var/log/install.log │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+Please check:
+- if there is `docker-compose` command available, if not please do install it
+- please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 644)
+
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
 In a case of 
