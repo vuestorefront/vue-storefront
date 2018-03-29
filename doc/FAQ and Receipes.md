@@ -12,7 +12,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#how-to-get-dynamic-prices-to-work-catalog-rules">How to get dynamic prices to work (catalog rules)</a>
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
 * <a href="#how-to-sync-the-products-cart-with-magento-to-get-the-cart-promo-rules-up-and-runnig">How to sync the products cart with Magento to get the Cart Promo Rules up and runnig</a>
-* <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent error "Can’t build storefront npm"</a>
+* <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent an error "Can’t build storefront npm"</a>
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
 See discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137)
