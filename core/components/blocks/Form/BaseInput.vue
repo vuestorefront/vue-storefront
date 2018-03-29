@@ -37,6 +37,11 @@ export default {
       required: false,
       default: false
     },
+    autofocus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     validation: {
       type: Object,
       required: false,

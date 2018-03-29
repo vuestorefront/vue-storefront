@@ -3,7 +3,7 @@
     <input
       class="
         py10 w-100 border-box brdr-none brdr-bottom
-        brdr-cl-primary h4 weight-200 sans-serif
+        brdr-cl-primary h4 sans-serif
       "
       :class="{pr30: type === 'password'}"
       :type="type === 'password' ? passType : type"
@@ -11,6 +11,7 @@
       :placeholder="placeholder"
       :autocomplete="autocomplete"
       :value="value"
+      :autofocus="autofocus"
       :ref="focus ? name : false"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur')"
