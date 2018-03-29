@@ -5,6 +5,9 @@ import mutations from './mutations'
 import EventBus from 'core/plugins/event-bus'
 import rootStore from '../../'
 import * as types from '../../mutation-types'
+import i18n from 'core/lib/i18n'
+
+const MAX_BYPASS_COUNT = 10
 
 EventBus.$on('servercart-after-created', (event) => { // example stock check callback
   const cartToken = event.result
@@ -13,9 +16,12 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', { forceClientState: false }, { root: true })
   } else {
-    rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
-    console.error(event.result)
-    console.log('Bypassing with guest cart')
+    if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
+      console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
+      rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
+      rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
+      console.error(event.result)
+    }
   }
 })
 
@@ -45,9 +51,12 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
 
 EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
   if (event.resultCode === 200) {
+    let updateRequired = false
+    let cartHasItems = false
     const serverItems = event.result
     const clientItems = rootStore.state.cart.cartItems
     for (const clientItem of clientItems) {
+      cartHasItems = true
       const serverItem = serverItems.find((itm) => {
         return itm.sku === clientItem.sku
       })
@@ -66,6 +75,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
           item_id: serverItem.item_id,
           quoteId: serverItem.quote_id
         }, { root: true })
+        updateRequired = true
       } else {
         console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
         console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id })
@@ -83,6 +93,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
 
           if (event.force_client_state) {
             console.log('Removing item', serverItem.sku, serverItem.item_id)
+            updateRequired = true
             rootStore.dispatch('cart/serverDeleteItem', {
               sku: serverItem.sku,
               item_id: serverItem.item_id,
@@ -101,6 +112,10 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         }
       }
     }
+
+    if (!updateRequired && cartHasItems) {
+      rootStore.dispatch('cart/refreshTotals')
+    }
   } else {
     console.error(event.result)
   }
@@ -117,20 +132,22 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
       }
     })
   } else {
-    // THIS check is done above in the servercart-after-totals where we override the qty field with totals
-    // const originalCartItem = JSON.parse(event.payload.body).cartItem
-    // for example the result can be = We don't have enough <SKU>
-    // rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
-    // if (cartItem) {
-    //     console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
-    //     if (cartItem.prev_qty > 0) {
-    //       rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
-    //       EventBus.$emit('cart-after-itemchanged', { item: cartItem })
-    //     } else {
-    //       rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
-    //     }
-    //   }
-    // })
+    if (event.result.indexOf(i18n.t('avail'))) { // product is not available
+      const originalCartItem = JSON.parse(event.payload.body).cartItem
+      console.log('Removing product from the cart', originalCartItem)
+      rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
+      /** rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
+        if (cartItem) {
+          console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
+          if (cartItem.prev_qty > 0) {
+            rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
+            EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+          } else {
+            rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
+          }
+        }
+      }) */
+    }
   }
 })
 
@@ -154,6 +171,7 @@ export default {
     shipping: [],
     payment: [],
     cartItemsHash: '',
+    bypassCount: 0,
     cartItems: [] // TODO: check if it's properly namespaced
   },
   getters,

@@ -2,7 +2,7 @@
   <button
     class="
       p0 bg-cl-primary brdr-1 brdr-cl-primary
-      brdr-square h5 cl-tertiary size-button
+      brdr-square h5 cl-tertiary size-selector
     "
     :class="{ active: active }"
     @click="switchFilter(id, label)"
@@ -16,7 +16,8 @@
 import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('SizeButton')]
+  name: 'SizeSelector',
+  mixins: [coreComponent('GenericSelector')]
 }
 </script>
 
@@ -26,7 +27,7 @@ export default {
   $color-active: color(secondary);
   $color-disabled: color(secondary, $colors-border);
 
-  .size-button {
+  .size-selector {
     width: 40px;
     height: 40px;
 

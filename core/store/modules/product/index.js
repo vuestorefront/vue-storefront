@@ -12,7 +12,8 @@ export default {
     parent: null,
     list: [],
     original: null, // default, not configured product
-    related: {}
+    related: {},
+    offlineImage: null
   },
   getters,
   actions,

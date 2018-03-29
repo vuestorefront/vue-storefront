@@ -4,7 +4,6 @@ dist/
 npm-debug.log
 .vscode/
 .idea/
-yarn.lock
 config/local.json
 var
 build/config.json

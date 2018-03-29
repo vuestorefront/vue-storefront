@@ -11,7 +11,7 @@ Queue network sync method. This is very similar to standard browser's `fetch()` 
 
 Example usage:
 ```js
-context.dispatch('sync/queue', { url: config.stock.endpoint + '/check/' + product.sku,
+context.dispatch('sync/queue', { url: config.stock.endpoint + '/check/' + encodeURIComponent(product.sku),
   payload: {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },

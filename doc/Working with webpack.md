@@ -8,11 +8,11 @@ All build scripts used by core of the Vue Storefront are available in `core/buil
 
 Base config for client and server is set up in `webpack.base.config.js`. This configuration is then merged with specific client and server configs in `webpack.client.config.js` and `webpack.server.config.js`.
 
-For development mode (`npm run dev`) `dev-server.js` file is used to run previously mentioned config files (`webpack.client.config.js`, `webpack.server.config.js`) with custom config provided by the theme. We use `webpack-dev-middleware` and `webpack-hot-middleware` to make development of site as fast and easy as possible.
+For development mode (`yarn dev`) `dev-server.js` file is used to run previously mentioned config files (`webpack.client.config.js`, `webpack.server.config.js`) with custom config provided by the theme. We use `webpack-dev-middleware` and `webpack-hot-middleware` to make development of site as fast and easy as possible.
 
 In `vue-loader.config.js` whole configuration for `vue-loader` is stored. If there will be need to change styles processing for single file components you can set it up in this file (if you want to extend the Vue Storefront core).
 
-To build production version of Vue Storefront `webpack.prod.client.config.js` and `webpack.prod.server.config.js` are used by npm `build` script. In these files our base configuration is merged with theme specific extended config.
+To build production version of Vue Storefront `webpack.prod.client.config.js` and `webpack.prod.server.config.js` are used by `build` script. In these files our base configuration is merged with theme specific extended config.
 
 ## Extending core build in themes
 

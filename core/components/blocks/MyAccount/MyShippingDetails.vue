@@ -9,16 +9,6 @@ import Countries from 'core/resource/countries.json'
 
 export default {
   name: 'MyShippingDetails',
-  props: {
-    isActive: {
-      type: Boolean,
-      required: true
-    },
-    editMode: {
-      type: Boolean,
-      default: false
-    }
-  },
   data () {
     return {
       shippingDetails: {
@@ -34,7 +24,8 @@ export default {
       },
       countries: Countries,
       useCompanyAddress: false,
-      currentUser: Object.assign({}, this.$store.state.user.current)
+      currentUser: Object.assign({}, this.$store.state.user.current),
+      isEdited: false
     }
   },
   created () {
@@ -51,7 +42,7 @@ export default {
   },
   methods: {
     edit () {
-      this.$bus.$emit('myAccount-before-activateSection', 'shipping')
+      this.isEdited = true
     },
     objectsEqual (a, b) {
       const aProps = Object.keys(a)
@@ -124,6 +115,7 @@ export default {
         this.shippingDetails = this.getShippingDetails()
         this.useCompanyAddress = false
       }
+      this.isEdited = false
     },
     fillCompanyAddress () {
       this.useCompanyAddress = !this.useCompanyAddress

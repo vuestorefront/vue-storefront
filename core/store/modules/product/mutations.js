@@ -23,6 +23,7 @@ export default {
   [types.CATALOG_RESET_PRODUCT] (state, productOriginal) {
     state.current = productOriginal || {}
     state.current_configuration = {}
+    state.offlineImage = null
     state.parent = null
     state.current_options = {color: [], size: []}
     EventBus.$emit('product-after-reset', { })

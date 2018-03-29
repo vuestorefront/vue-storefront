@@ -19,7 +19,7 @@ import _ from 'lodash'
 import i18n from 'core/lib/i18n'
 
 function filterChanged (filterOption) { // slection of product variant on product page
-  if (this.filters.chosen[filterOption.attribute_code] && ((parseInt(filterOption.id) === (this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+  if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
     delete this.filters.chosen[filterOption.attribute_code]
   } else {
     this.filters.chosen[filterOption.attribute_code] = filterOption
@@ -113,7 +113,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
         message: i18n.t('No products synchronized for this category. Please come back while online!'),
         action1: { label: 'OK', action: 'close' }
       })
-
+      store.dispatch('product/reset')
       store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
       // store.state.category.filters = { color: [], size: [], price: [] }
     } else {
@@ -130,7 +130,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
               }
 
               for (let option of buckets) {
-                uniqueFilterValues.add(parseInt(option.key))
+                uniqueFilterValues.add(_.toString(option.key))
               }
             }
 

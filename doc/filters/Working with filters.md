@@ -9,6 +9,8 @@ Core filters are located in `core/filters` folder. There are two core filters:
 
 * price - it converts number to price string,
 * htmlDecode - it decodes any named and numerical character references in text.
+* date - it converts date string to format provided as an argument or defined in config file (if argument not provided)
+* capitalize - it capitalize first letter of provided text
 
 To add new core filter you have to create new file `core/filters/{filter-name}/index.js` and write there filter code. If you want to register it just add it to `core/filters/index.js`.
 

@@ -160,14 +160,15 @@ export function configureProductAsync (context, { product, configuration, select
         return configurableChild.sku === configuration.sku // by sku or first one
       } else {
         return Object.keys(configuration).every((configProperty) => {
-          return parseInt(configurableChild[configProperty]) === parseInt(configuration[configProperty].id)
+          return _.toString(configurableChild[configProperty]) === _.toString(configuration[configProperty].id)
         })
       }
     }) || product.configurable_children[0]
 
     if (typeof navigator !== 'undefined') {
-      if (selectedVariant && !navigator.onLine) { // this is fix for not preloaded images for offline
-        selectedVariant.image = product.image
+      if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
+        selectedVariant.image = context.state.offlineImage
+        console.log('Image offline fallback to ', context.state.offlineImage)
       }
     }
 

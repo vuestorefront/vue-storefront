@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails.vue'
-import Shipping from 'core/components/blocks/Checkout/Shipping.vue'
-import Payment from 'core/components/blocks/Checkout/Payment.vue'
-import OrderReview from 'core/components/blocks/Checkout/OrderReview.vue'
-import CartSummary from 'core/components/blocks/Checkout/CartSummary.vue'
-import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage.vue'
-import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
+import config from 'config'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
+import Shipping from 'core/components/blocks/Checkout/Shipping'
+import Payment from 'core/components/blocks/Checkout/Payment'
+import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
+import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage'
+import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Checkout',
@@ -58,8 +59,8 @@ export default {
       this.$router.push('/')
     } else {
       this.stockCheckCompleted = false
+      const checkPromises = []
       for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
-        const checkPromises = []
         if (product.onlineStockCheckid) {
           checkPromises.push(new Promise((resolve, reject) => {
             global.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
@@ -72,25 +73,25 @@ export default {
               }
             })
           }))
-          Promise.all(checkPromises).then(checkedProducts => {
-            this.stockCheckCompleted = true
-            this.stockCheckOK = true
-            for (let chp of checkedProducts) {
-              if (chp && chp.stock) {
-                if (!chp.stock.is_in_stock) {
-                  this.stockCheckOK = false
-                  chp.warning_message = i18n.t('Out of stock!')
-                  this.$bus.$emit('notification', {
-                    type: 'error',
-                    message: chp.name + i18n.t(' is out of the stock!'),
-                    action1: { label: 'OK', action: 'close' }
-                  })
-                }
-              }
-            }
-          })
         }
       }
+      Promise.all(checkPromises).then(function (checkedProducts) {
+        this.stockCheckCompleted = true
+        this.stockCheckOK = true
+        for (let chp of checkedProducts) {
+          if (chp && chp.stock) {
+            if (!chp.stock.is_in_stock) {
+              this.stockCheckOK = false
+              chp.warning_message = i18n.t('Out of stock!')
+              this.$bus.$emit('notification', {
+                type: 'error',
+                message: chp.name + i18n.t(' is out of the stock!'),
+                action1: { label: 'OK', action: 'close' }
+              })
+            }
+          }
+        }
+      }.bind(this))
     }
     if (this.$store.state.checkout.shippingDetails.country) {
       this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
@@ -127,6 +128,9 @@ export default {
       if (userId) {
         this.userId = userId.toString()
       }
+    })
+    this.$bus.$on('checkout-do-placeOrder', (additionalPayload) => {
+      this.payment.paymentMethodAdditional = additionalPayload
       this.placeOrder()
     })
     this.$bus.$on('checkout-before-edit', (section) => {
@@ -154,13 +158,19 @@ export default {
     this.$bus.$off('checkout-after-paymentDetails')
     this.$bus.$off('checkout-after-cartSummary')
     this.$bus.$off('checkout-before-placeOrder')
+    this.$bus.$off('checkout-do-placeOrder')
     this.$bus.$off('checkout-before-edit')
     this.$bus.$off('order-after-placed')
     this.$bus.$off('checkout-before-shippingMethods')
     this.$bus.$off('checkout-after-shippingMethodChanged')
   },
   computed: {
-    isValid () {
+  },
+  watch: {
+    '$route': 'activateHashSection'
+  },
+  methods: {
+    checkStocks () {
       let isValid = true
       for (let child of this.$children) {
         if (child.hasOwnProperty('$v')) {
@@ -200,9 +210,17 @@ export default {
         }
       }
       return isValid
-    }
-  },
-  methods: {
+    },
+    activateHashSection () {
+      if (typeof window !== 'undefined') {
+        var urlStep = window.location.hash.replace('#', '')
+        if (this.activeSection.hasOwnProperty(urlStep) && this.activeSection[urlStep] === false) {
+          this.activateSection(urlStep)
+        } else if (urlStep === '') {
+          this.activateSection('personalDetails')
+        }
+      }
+    },
     checkConnection (status) {
       if (!status.online) {
         this.$bus.$emit('notification', {
@@ -217,6 +235,15 @@ export default {
         this.activeSection[section] = false
       }
       this.activeSection[sectionToActivate] = true
+      if (typeof window !== 'undefined') window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
+    },
+    // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
+    getPaymentMethod () {
+      let paymentMethod = this.payment.paymentMethod
+      if (config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = config.orders.payment_methods_mapping[paymentMethod]
+      }
+      return paymentMethod
     },
     prepareOrder () {
       this.order = {
@@ -255,7 +282,8 @@ export default {
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingMethod,
-          payment_method_code: this.payment.paymentMethod,
+          payment_method_code: this.getPaymentMethod(),
+          payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
         }
       }
@@ -263,12 +291,12 @@ export default {
     },
     placeOrder () {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
-      if (this.isValid) {
+      if (this.checkStocks()) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       } else {
         this.$bus.$emit('notification', {
           type: 'error',
-          message: i18n.t('Please do correct validation errors'),
+          message: i18n.t('Some of the ordered products are not available!'),
           action1: { label: 'OK', action: 'close' }
         })
       }

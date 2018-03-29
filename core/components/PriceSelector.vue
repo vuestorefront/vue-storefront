@@ -1,24 +1,32 @@
 <template>
   <button>
-    Core color button
+    Core price button
   </button>
 </template>
 
 <script>
 export default {
-  name: 'ColorButton',
+  name: 'PriceSelector',
   props: {
-    label: {
+    content: {
       type: null,
       default: ''
     },
     id: {
       type: null,
-      default: ''
+      required: true
     },
     code: {
       type: null,
-      default: ''
+      required: true
+    },
+    from: {
+      type: null,
+      required: true
+    },
+    to: {
+      type: null,
+      required: true
     },
     context: {
       type: null,
@@ -34,11 +42,9 @@ export default {
     this.$bus.$off('filter-reset', this.filterReset)
     this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
-  mounted () {
-    if (this.$route.name !== 'product') {
-      this.$bus.$on('filter-reset', this.filterReset)
-      this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
-    }
+  beforeMount () {
+    this.$bus.$on('filter-reset', this.filterReset)
+    this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
   },
   methods: {
     filterChanged (filterOption) {
@@ -58,8 +64,8 @@ export default {
     filterReset (filterOption) {
       this.active = false
     },
-    switchFilter (id, label) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
+    switchFilter (id, from, to) {
+      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
     }
   }
 }

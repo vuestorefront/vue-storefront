@@ -1,3 +1,6 @@
+// You can extend core UI store here
+// The good practise is to keep all ui-related states in this file
+
 import { coreStore, extendStore } from 'core/lib/themes'
 
 const state = {

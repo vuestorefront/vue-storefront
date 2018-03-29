@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as localForage from 'localforage'
 import * as types from './mutation-types'
+import localForage from 'localforage'
 import UniversalStorage from 'core/lib/storage'
 import order from './modules/order'
 import product from './modules/product'
@@ -22,6 +22,7 @@ import social from './modules/social-tiles'
 import claims from './modules/claims'
 import sync from './modules/sync'
 import promoted from './modules/promoted-offers'
+import themeModules from 'theme/store'
 
 Vue.prototype.$db = {
   ordersCollection: new UniversalStorage(localForage.createInstance({
@@ -87,6 +88,11 @@ Vue.prototype.$db = {
   newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'newsletterPreferences'
+  })),
+
+  ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
+    name: 'shop',
+    storeName: 'ordersHistory'
   }))
 }
 
@@ -134,6 +140,11 @@ const plugins = [
       }
       if (mutation.type.indexOf(types.USER_INFO_LOADED) >= 0) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
+          console.error(reason) // it doesn't work on SSR
+        }) // populate cache
+      }
+      if (mutation.type.indexOf(types.USER_ORDERS_HISTORY_LOADED) >= 0) { // check if this mutation is user related
+        global.db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
@@ -186,7 +197,8 @@ export default new Vuex.Store({
     tax,
     claims,
     sync,
-    promoted
+    promoted,
+    ...themeModules
   },
   state,
   mutations,
