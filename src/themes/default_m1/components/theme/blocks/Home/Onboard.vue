@@ -14,7 +14,7 @@
             we want it to be a tool for the improvement of the shopping experience.
           </p>
           <p>
-            This demo is synchronized with Magento 1.9.
+            This demo is synchronized with Magento 2.2.0.
           </p>
           <p>
             <strong>
