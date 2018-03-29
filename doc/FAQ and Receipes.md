@@ -140,9 +140,9 @@ To display the proper prices and totals after Magento calculates all the discoun
 To make it work you need have Magento2 oauth keys konfigured in your `vue-storefront-api` - `conf/local.json`.
 After this change you need to restart the `npm run dev` or `npm run` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
 
-### <a name="how-to-prevent-error-cant-build-storefront-npm"></a>How to prevent error "Can’t build storefront npm"
+### <a name="how-to-prevent-error-cant-build-storefront-npm"></a>How to prevent an error "Can’t build storefront npm"
 
-You can faced the error sounds "Can’t build storefront npm". It appears because npm can not automatically install required modules. To prevent this error you should manually install those modules before running the installer. It's easy:
+The error "Can’t build storefront npm" appears because npm can't automatically install required modules. To prevent this error, you should manually install those modules before running the installer. It's easy:
 ```bash
 git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront && cd vue-storefront
 npm install
