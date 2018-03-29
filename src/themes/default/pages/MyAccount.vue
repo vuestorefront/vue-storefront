@@ -17,34 +17,14 @@
         <div class="col-md-3 hidden-xs hidden-sm block">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="(page, index) in navigation" :key="index">
-                <a
-                  :href="page.link"
-                  class="relative cl-accent"
-                  @click="notify(page.title)"
-                >
-                  {{ page.title }}
-                </a>
+              <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
+                <router-link :to="page.link" class="cl-accent">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
         </div>
         <div class="col-md-9">
-          <my-profile
-            id="profile"
-            :is-active="activeSection.profile"
-            :edit-mode="editMode"
-          />
-          <my-shipping-details
-            id="shipping_details"
-            :is-active="activeSection.shipping"
-            :edit-mode="editMode"
-          />
-          <my-newsletter
-            id="newsletter"
-            :is-active="activeSection.newsletter"
-            :edit-mode="editMode"
-          />
+          <component :is="this.$props.activeBlock" />
         </div>
       </div>
     </div>
@@ -57,13 +37,17 @@ import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
+import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
+import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 
 export default {
   components: {
     Breadcrumbs,
     MyProfile,
     MyShippingDetails,
-    MyNewsletter
+    MyNewsletter,
+    MyOrders,
+    MyOrder
   },
   mixins: [corePage('MyAccount')]
 }
@@ -97,6 +81,7 @@ $color-tertiary: color(tertiary);
   a {
     &:after {
       content: "";
+      display: block;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -106,7 +91,7 @@ $color-tertiary: color(tertiary);
     }
 
     &:hover,
-    .router-link-active {
+    &.router-link-exact-active {
       &:after {
         opacity: 0;
       }

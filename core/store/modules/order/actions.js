@@ -1,6 +1,7 @@
 import * as types from '../../mutation-types'
 import EventBus from 'core/plugins/event-bus'
 import { ValidationError } from 'core/lib/exceptions'
+import store from '../../'
 const Ajv = require('ajv') // json validator
 
 export default {

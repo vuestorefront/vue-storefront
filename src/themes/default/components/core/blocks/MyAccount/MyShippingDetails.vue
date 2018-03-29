@@ -2,13 +2,13 @@
   <div class="mb35">
     <!-- My shipping details header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent' : !isActive }">
+      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent' : !isEdited }">
         <h3 class="m0 mb5">
           {{ $t('My shipping details') }}
         </h3>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <div class="lh30 flex end-md" v-if="!isActive && editMode">
+        <div class="lh30 flex end-md" v-if="!isEdited">
           <a href="#" class="cl-tertiary flex" @click.prevent="edit">
             <span class="pr5">
               {{ $t('Edit your shipping details') }}
@@ -20,7 +20,7 @@
     </div>
 
     <!-- My shipping details body (edit mode) -->
-    <div class="row" v-if="isActive">
+    <div class="row" v-if="isEdited">
       <base-input
         class="col-xs-12 col-sm-6 mb25"
         type="text"

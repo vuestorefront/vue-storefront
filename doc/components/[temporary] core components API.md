@@ -368,21 +368,14 @@ Home page has been refactored to the new core proposal (1.0RC) and the [docs has
 ## MyAccount
 
 ### Props
-No props
+`activeBlock` - currently active block displayed in component (i.e. newsletter preferences, shipping data or orders history)
 ### Data
 `navigation` - an object that contains names of sections of MyAccount page and anchor links to them.
-`activeSection` - an object that defines which section of MyAccount page is currently active.
-`editMode` - a boolean prop that is propagated to its child components, it defines that any section can be switched to edit mode. When user presses *Edit* on any section, this prop becomes false so that other sections can not be edited at the same time before finishing editing the current section.
 ### Methods
-`activateSection (sectionToActivate)` - this method is called whenever user presses *Edit* button on any section of MyAccount page. It sets corresponding key of *activeSection* prop to true.
-**Parameters**
-*sectionToActivate* - an optional parameter that defines which section needs be activated. If parameter is not passed then all sections will be deactivated.
-
 `notify (title)` - this is a temporary method that notifies user if he presses on a link of a section that is not yet implemented.
 ### Hooks
 #### created
 Defines several event listeners to communicate with child components.
-**'myAccount.activateSection'** event listener activates a specific section. It's called from every child component.
 **'myAccount.updateUser'** event listener receives filled out data from child components and dispatches *'user/update'* action to update user profile. It's called from PersonalDetails and ShippingDetails child components.
 **'myAccount.changePassword'** event listener receives updated authentication data from PersonalDetails child component and dispatches *'user/changePassword'* action.
 **'myAccount.updatePreferences'** event listener receives user's updated newsletter subscription preferences from MyNewsletter child component and updates them by dispatching *'user/updatePreferences'* action.
