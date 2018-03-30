@@ -29,18 +29,19 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('user-after-loggedin', () => {
-      this.currentUser = Object.assign({}, this.$store.state.user.current)
-      this.shippingDetails = this.getShippingDetails()
-    })
+    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   destroyed () {
-    this.$bus.$off('user-after-loggedin')
+    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   },
   mounted () {
     this.shippingDetails = this.getShippingDetails()
   },
   methods: {
+    onLoggedIn () {
+      this.currentUser = Object.assign({}, this.$store.state.user.current)
+      this.shippingDetails = this.getShippingDetails()
+    },
     edit () {
       this.isEdited = true
     },

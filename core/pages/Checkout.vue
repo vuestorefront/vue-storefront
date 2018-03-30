@@ -100,69 +100,31 @@ export default {
   },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
-    this.$bus.$on('network-before-checkStatus', (status) => { this.checkConnection(status) })
+    this.$bus.$on('network-before-checkStatus', this.onNetworkStatusCheck)
     // TO-DO: Use one event with name as apram
-    this.$bus.$on('checkout-after-personalDetails', (receivedData, validationResult) => {
-      this.personalDetails = receivedData
-      this.validationResults.personalDetails = validationResult
-      this.activateSection('shipping')
-      this.savePersonalDetails()
-    })
-    this.$bus.$on('checkout-after-shippingDetails', (receivedData, validationResult) => {
-      this.shipping = receivedData
-      this.validationResults.shipping = validationResult
-      global.__TAX_COUNTRY__ = this.shipping.country
-      this.activateSection('payment')
-      this.saveShippingDetails()
-    })
-    this.$bus.$on('checkout-after-paymentDetails', (receivedData, validationResult) => {
-      this.payment = receivedData
-      this.validationResults.payment = validationResult
-      this.activateSection('orderReview')
-      this.savePaymentDetails()
-    })
-    this.$bus.$on('checkout-after-cartSummary', (receivedData) => {
-      this.cartSummary = receivedData
-    })
-    this.$bus.$on('checkout-before-placeOrder', (userId) => {
-      if (userId) {
-        this.userId = userId.toString()
-      }
-    })
-    this.$bus.$on('checkout-do-placeOrder', (additionalPayload) => {
-      this.payment.paymentMethodAdditional = additionalPayload
-      this.placeOrder()
-    })
-    this.$bus.$on('checkout-before-edit', (section) => {
-      this.activateSection(section)
-    })
-    this.$bus.$on('order-after-placed', (order) => {
-      this.orderPlaced = true
-      console.log(this.order)
-    })
-    this.$bus.$on('checkout-before-shippingMethods', (country) => {
-      this.$store.dispatch('cart/getShippingMethods', {
-        country_id: country
-      }).then(() => {
-        this.$store.dispatch('cart/refreshTotals')
-      })
-    })
-    this.$bus.$on('checkout-after-shippingMethodChanged', (payload) => {
-      this.$store.dispatch('cart/refreshTotals', payload)
-    })
+    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
+    this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
+    this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
+    this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
+    this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
+    this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
+    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
   },
   destroyed () {
-    this.$bus.$off('network-before-checkStatus')
-    this.$bus.$off('checkout-after-personalDetails')
-    this.$bus.$off('checkout-after-shippingDetails')
-    this.$bus.$off('checkout-after-paymentDetails')
-    this.$bus.$off('checkout-after-cartSummary')
-    this.$bus.$off('checkout-before-placeOrder')
-    this.$bus.$off('checkout-do-placeOrder')
-    this.$bus.$off('checkout-before-edit')
-    this.$bus.$off('order-after-placed')
-    this.$bus.$off('checkout-before-shippingMethods')
-    this.$bus.$off('checkout-after-shippingMethodChanged')
+    this.$bus.$off('network-before-checkStatus', this.onNetworkStatusCheck)
+    this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
+    this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
+    this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
+    this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
+    this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
+    this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
+    this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
   },
   computed: {
   },
@@ -170,6 +132,57 @@ export default {
     '$route': 'activateHashSection'
   },
   methods: {
+    onAfterShippingMethodChanged (payload) {
+      this.$store.dispatch('cart/refreshTotals', payload)
+    },
+    onBeforeShippingMethods (country) {
+      this.$store.dispatch('cart/getShippingMethods', {
+        country_id: country
+      }).then(() => {
+        this.$store.dispatch('cart/refreshTotals')
+      })
+    },
+    onAfterPlaceOrder (order) {
+      this.orderPlaced = true
+      console.log(this.order)
+    },
+    onBeforeEdit (section) {
+      this.activateSection(section)
+    },
+    onBeforePlaceOrder (userId) {
+      if (userId) {
+        this.userId = userId.toString()
+      }
+    },
+    onAfterCartSummary (receivedData) {
+      this.cartSummary = receivedData
+    },
+    onDoPlaceOrder (additionalPayload) {
+      this.payment.paymentMethodAdditional = additionalPayload
+      this.placeOrder()
+    },
+    onAfterPaymentDetails (receivedData, validationResult) {
+      this.payment = receivedData
+      this.validationResults.payment = validationResult
+      this.activateSection('orderReview')
+      this.savePaymentDetails()
+    },
+    onAfterShippingDetails (receivedData, validationResult) {
+      this.shipping = receivedData
+      this.validationResults.shipping = validationResult
+      global.__TAX_COUNTRY__ = this.shipping.country
+      this.activateSection('payment')
+      this.saveShippingDetails()
+    },
+    onAfterPersonalDetails (receivedData, validationResult) {
+      this.personalDetails = receivedData
+      this.validationResults.personalDetails = validationResult
+      this.activateSection('shipping')
+      this.savePersonalDetails()
+    },
+    onNetworkStatusCheck (status) {
+      this.checkConnection(status)
+    },
     checkStocks () {
       let isValid = true
       for (let child of this.$children) {

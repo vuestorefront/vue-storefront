@@ -31,6 +31,13 @@ export default {
     })
   },
   methods: {
+    onLoggedIn (receivedData) {
+      this.personalDetails = {
+        firstName: receivedData.firstname,
+        lastName: receivedData.lastname,
+        emailAddress: receivedData.email
+      }
+    },
     sendDataToCheckout () {
       if (this.createAccount) {
         this.personalDetails.password = this.password
@@ -52,16 +59,10 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('user-after-loggedin', (receivedData) => {
-      this.personalDetails = {
-        firstName: receivedData.firstname,
-        lastName: receivedData.lastname,
-        emailAddress: receivedData.email
-      }
-    })
+    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   destroyed () {
-    this.$bus.$off('user-after-loggedin')
+    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   }
 }
 </script>

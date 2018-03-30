@@ -14,18 +14,19 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('user-after-loaded-orders', () => {
-      this.stateOrdersHistory = Object.assign({}, this.$store.state.user.orders_history)
-      this.ordersHistory = this.getOrdersHistory()
-    })
+    this.$bus.$on('user-after-loaded-orders', this.onOrdersLoaded)
   },
   destroyed () {
-    this.$bus.$off('user-after-loaded-orders')
+    this.$bus.$off('user-after-loaded-orders', this.onOrdersLoaded)
   },
   mounted () {
     this.ordersHistory = this.getOrdersHistory()
   },
   methods: {
+    onOrdersLoaded () {
+      this.stateOrdersHistory = Object.assign({}, this.$store.state.user.orders_history)
+      this.ordersHistory = this.getOrdersHistory()
+    },
     getOrdersHistory () {
       if (this.stateOrdersHistory) {
         return this.stateOrdersHistory.items
