@@ -15,6 +15,7 @@ $colors: (
   gray: #828282,
   suva-gray: #8e8e8e,
   matterhorn: #4f4f4f,
+  night-rider: #333,
   burnt-sienna: #eb5757,
   buccaneer: #755,
   forest-green: #308c14,
@@ -27,7 +28,7 @@ $colors: (
 $colors-theme: (
   primary: (
     default: map-get($colors, matterhorn),
-    hover: map-get($colors, matterhorn)
+    hover: map-get($colors, night-rider)
   ),
   secondary: (
     default: map-get($colors, gray),
