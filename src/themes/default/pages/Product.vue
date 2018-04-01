@@ -1,13 +1,13 @@
 <template>
   <div id="product">
-    <section class="bg-cl-secondary py30 px20 product-top-section">
+    <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
-        <section class="row py35 m0 data-wrapper">
+        <section class="row m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <product-gallery :gallery="gallery" />
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
+            <breadcrumbs class="py30" :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
             <div class="uppercase cl-secondary">
               sku: {{ product.sku }}
             </div>

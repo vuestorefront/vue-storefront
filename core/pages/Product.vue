@@ -233,15 +233,15 @@ export default {
     gallery () {
       return [
         {
-          'path': this.getThumbnail(this.product.image, 570, 569),
+          'path': this.getThumbnail(this.product.image, 600, 744),
           'type': 'main'
         },
         {
-          'path': this.getThumbnail(this.product.small_image, 570, 569),
+          'path': this.getThumbnail(this.product.small_image, 600, 744),
           'type': 'small'
         },
         {
-          'path': this.getThumbnail(this.product.thumbnail, 570, 569),
+          'path': this.getThumbnail(this.product.thumbnail, 600, 744),
           'type': 'thumbnail'
         }
       ]
