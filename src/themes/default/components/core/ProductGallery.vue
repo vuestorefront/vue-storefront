@@ -18,8 +18,8 @@
           <no-ssr>
             <carousel
               :per-page="1"
-              mouse-drag="false"
-              navigation-enabled="true"
+              :mouse-drag="false"
+              :navigation-enabled="true"
               pagination-active-color="transparent"
               pagination-color="#828282"
               navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
@@ -47,9 +47,13 @@
 
 <script>
 import { coreComponent } from 'core/lib/themes'
+import NoSSR from 'vue-no-ssr'
 
 export default {
-  mixins: [coreComponent('ProductGallery')]
+  mixins: [coreComponent('ProductGallery')],
+  components: {
+    'no-ssr': NoSSR
+  }
 }
 </script>
 
