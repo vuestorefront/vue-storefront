@@ -176,7 +176,7 @@ const plugins = [
   }
 ]
 
-export default new Vuex.Store({
+export default new Vuex.Store({ // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?
   modules: {
     order,
     product,

@@ -279,15 +279,15 @@ export default {
           const cachedProduct = setupProduct(res)
           if (config.products.alwaysSyncPlatformPricesOver) {
             doPlatformPricesSync([cachedProduct]).then((products) => {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
               resolve(products[0])
             })
             if (!config.products.waitForPlatformSync) {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
           } else {
-            EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+            if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
             resolve(cachedProduct)
           }
         } else {
@@ -298,7 +298,7 @@ export default {
             prefetchGroupProducts: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
               resolve(setupProduct(res.items[0]))
             } else {
               reject(Error('Product query returned empty result'))
