@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '../../lib/event-bus'
 
 export default {
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {

@@ -1,7 +1,7 @@
 import * as types from '../../mutation-types'
 import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from '../../lib/entities'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '../../lib/event-bus'
 const bodybuilder = require('bodybuilder')
 
 export default {

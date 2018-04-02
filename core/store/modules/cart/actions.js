@@ -1,8 +1,8 @@
 import config from 'config'
 import * as types from '../../mutation-types'
 import rootStore from '../../'
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
 import hash from 'object-hash'
 
 const CART_PULL_INTERVAL_MS = 2000
