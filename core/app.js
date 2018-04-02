@@ -5,6 +5,7 @@ import router from 'core/router'
 import config from 'config'
 import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
+import themeModules from 'theme/store'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
 import registerExtensions from 'core/lib/extensions'
@@ -14,6 +15,13 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
+
+if (themeModules) {
+  for (const moduleName of Object.keys(themeModules)) {
+    console.log('Registering custom, theme Vuex store as module', moduleName)
+    store.registerModule(moduleName, themeModules[moduleName])
+  }
+}
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
