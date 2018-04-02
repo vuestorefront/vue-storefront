@@ -38,14 +38,15 @@ export default {
   },
   created () {
     this.$store.dispatch('cart/load') // load cart from the indexedDb
-    this.$bus.$on('network-before-checkStatus', (status) => {
-      this.isOnline = status.online
-    })
+    this.$bus.$on('network-before-checkStatus', this.onNetworkStatusChanged)
   },
   destroyed () {
-    this.$bus.$off('network-before-checkStatus')
+    this.$bus.$off('network-before-checkStatus', this.onNetworkStatusChanged)
   },
   methods: {
+    onNetworkStatusChanged (status) {
+      this.isOnline = status.online
+    },
     closeMicrocart () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)

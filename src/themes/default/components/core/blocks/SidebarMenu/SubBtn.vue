@@ -10,7 +10,7 @@
     <i class="material-icons">keyboard_arrow_right</i>
   </button>
   <button
-    class="inline-flex p15 between-xs w-100"
+    class="inline-flex p15 between-xs"
     v-else
     type="button"
     @click.stop="back()"

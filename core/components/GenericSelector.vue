@@ -40,7 +40,7 @@ export default {
   },
   beforeDestroy () {
     this.$bus.$off('filter-reset', this.filterReset)
-    this.$bus.$off('filter-changed-' + this.context)
+    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
   beforeMount () {
     this.$bus.$on('filter-reset', this.filterReset)
