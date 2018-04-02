@@ -256,7 +256,6 @@ $bg-secondary: color(secondary, $colors-background);
   @media (max-width: 1023px) {
     margin-bottom: 20px;
     padding: 20px 0 30px 0;
-    background-color: $bg-secondary;
   }
 }
 

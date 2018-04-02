@@ -1,6 +1,6 @@
 <template>
   <div class="media-gallery relative" :class="{ 'open fixed bg-cl-primary': isZoomOpen }">
-    <div :class="{ 'container product-zoom py30': isZoomOpen }">
+    <div :class="{ 'container product-zoom py40': isZoomOpen }">
       <div :class="{ row: isZoomOpen }">
         <i v-if="isZoomOpen" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
         <div class="col-md-2 thumbnails p0"
