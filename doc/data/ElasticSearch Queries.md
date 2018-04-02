@@ -6,7 +6,7 @@ To properly access ElasticSearch data You should implement specific Vuex action.
 
 
 ```js
-import { quickSearchByQuery } from 'core/lib/search'
+import { quickSearchByQuery } from '../../lib/search'
 
   /**
    * Load categories within specified parent

@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { quickSearchByQuery } from 'core/lib/search'
+import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from 'core/lib/entities'
 import EventBus from 'core/plugins/event-bus'
 const bodybuilder = require('bodybuilder')

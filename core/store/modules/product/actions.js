@@ -5,7 +5,7 @@ import { configureProductAsync, doPlatformPricesSync, calculateTaxes } from './h
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from 'core/lib/entities'
 import { optionLabel } from 'core/store/modules/attribute/helpers'
-import { quickSearchByQuery } from 'core/lib/search'
+import { quickSearchByQuery } from '../../lib/search'
 import EventBus from 'core/plugins/event-bus'
 import _ from 'lodash'
 import { productThumbnailPath } from '../../../helpers'
