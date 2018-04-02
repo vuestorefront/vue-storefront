@@ -1,6 +1,6 @@
 import * as types from '../../mutation-types'
 import { slugify } from 'core/helpers'
-import { entityKeyName } from 'core/lib/entities'
+import { entityKeyName } from '../../lib/entities'
 import EventBus from 'core/plugins/event-bus'
 
 export default {

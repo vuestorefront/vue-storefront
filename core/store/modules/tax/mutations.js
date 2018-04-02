@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { entityKeyName } from 'core/lib/entities'
+import { entityKeyName } from '../../lib/entities'
 
 export default {
   [types.TAX_UPDATE_RULES] (state, taxClasses) {

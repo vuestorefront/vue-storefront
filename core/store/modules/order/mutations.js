@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import * as entities from 'core/lib/entities'
+import * as entities from '../../lib/entities'
 import EventBus from 'core/plugins/event-bus'
 import config from 'config'
 

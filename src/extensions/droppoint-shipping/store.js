@@ -1,5 +1,5 @@
 import { execute as taskExecute } from 'core/lib/task'
-import * as entities from 'core/lib/entities'
+import * as entities from 'core/store/lib/entities'
 
 const state = {
 }
