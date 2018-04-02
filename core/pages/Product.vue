@@ -7,6 +7,7 @@
 <script>
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
 import AddToCart from 'core/components/AddToCart.vue'
+import ProductGallery from 'core/components/ProductGallery.vue'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
@@ -228,12 +229,22 @@ export default {
     productId () {
       return this.product ? this.product.id : ''
     },
-    image () {
-      return {
-        src: this.getThumbnail(this.product.image, 570, 569),
-        error: this.getThumbnail(this.product.image, 310, 300),
-        loading: this.getThumbnail(this.product.image, 310, 300)
-      }
+    // TODO: This work should be done by vue-storefront-api and should expose the whole gallery
+    gallery () {
+      return [
+        {
+          'path': this.getThumbnail(this.product.image, 600, 744),
+          'type': 'main'
+        },
+        {
+          'path': this.getThumbnail(this.product.small_image, 600, 744),
+          'type': 'small'
+        },
+        {
+          'path': this.getThumbnail(this.product.thumbnail, 600, 744),
+          'type': 'thumbnail'
+        }
+      ]
     },
     customAttributes () {
       let inst = this
@@ -256,7 +267,8 @@ export default {
   },
   components: {
     Breadcrumbs,
-    AddToCart
+    AddToCart,
+    ProductGallery
   }
 }
 </script>
