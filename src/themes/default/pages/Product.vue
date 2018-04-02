@@ -3,10 +3,10 @@
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
         <section class="row m0 data-wrapper">
-          <div class="col-xs-12 col-md-7 center-xs middle-xs image">
+          <div class="col-xs-12 col-md-6 px15 center-xs middle-xs image">
             <product-gallery :gallery="gallery" />
           </div>
-          <div class="col-md-5 col-xs-12 px15 data">
+          <div class="col-md-6 col-xs-12 px20 data">
             <breadcrumbs class="py30" :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
             <div class="uppercase cl-secondary">
               sku: {{ product.sku }}

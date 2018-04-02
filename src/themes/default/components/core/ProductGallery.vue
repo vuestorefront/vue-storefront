@@ -1,11 +1,12 @@
 <template>
-  <div class="media-gallery" :class="{ open: isZoomOpen }">
-    <div class="inner" :class="{ container: isZoomOpen }">
+  <div class="media-gallery relative" :class="{ 'open fixed bg-cl-primary': isZoomOpen }">
+    <div :class="{ 'container product-zoom py30': isZoomOpen }">
       <div :class="{ row: isZoomOpen }">
-        <i v-if="isZoomOpen" class="material-icons modal-close p15 cl-bg-tertiary" @click="toggleZoom">close</i>
-        <div class="col-xs-2 thumbnails"
+        <i v-if="isZoomOpen" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
+        <div class="col-md-2 thumbnails p0"
              v-if="isZoomOpen">
           <div
+            class="bg-cl-secondary"
             v-for="(images, key) in gallery"
             :key="key">
             <transition name="fade" appear>
@@ -13,27 +14,29 @@
             </transition>
           </div>
         </div>
-        <div :class="{ 'col-xs-10' : isZoomOpen}">
+        <div :class="{ 'col-md-10' : isZoomOpen}">
           <carousel
             :per-page="1"
             mouse-drag="false"
             navigation-enabled="true"
-            navigation-next-label="<i class='material-icons'>keyboard_arrow_right</i>"
-            navigation-prev-label="<i class='material-icons'>keyboard_arrow_left</i>"
+            pagination-active-color="transparent"
+            pagination-color="#828282"
+            navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
+            navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
             ref="carousel">
             <slide
               v-for="(images, key) in gallery"
               :key="key">
-              <transition name="fade" appear>
+              <div class="bg-cl-secondary">
                 <img
-                  class="product-image inline-flex pointer"
+                  class="product-image inline-flex pointer mw-100"
                   v-lazy="images.path"
                   ref="images.path"
                   @dblclick="toggleZoom">
-              </transition>
+              </div>
             </slide>
           </carousel>
-          <i v-if="isZoomOpen==false" class="zoom-in material-icons p15 cl-bg-tertiary" @click="toggleZoom">zoom_in</i>
+          <i v-if="isZoomOpen==false" class="zoom-in material-icons p15 cl-bg-tertiary pointer" @click="toggleZoom">zoom_in</i>
         </div>
       </div>
     </div>
@@ -50,25 +53,36 @@ export default {
 
 <style lang="scss" scoped>
 .media-gallery {
-  text-align: left;
-  position: relative;
+  text-align: center;
   &.open {
-    position: fixed;
-    text-align: center;
-    background-color: white;
     z-index: 3;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
   }
-  .zoom-in {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+}
+.product-zoom {
+  max-width: 750px;
+}
+.zoom-in {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+img {
+  opacity: 0.9;
+  mix-blend-mode: multiply;
+  &:hover {
+    opacity: 1;
   }
-  .thumbnails {
-    padding-right: 30px;
+}
+.thumbnails {
+  div {
+    margin: 0 20px 30px 0;
+  }
+  @media (max-width: 767px) {
+    display: none;
   }
 }
 </style>
@@ -80,13 +94,25 @@ export default {
   }
   .VueCarousel-navigation-button {
     margin: 0;
-    opacity: 0;
     transform: translateY(-50%) !important;
   }
+  .VueCarousel-navigation {
+    opacity: 0;
+  }
+
+  .VueCarousel-dot--active .VueCarousel-dot-inner {
+    border: 2px solid #828282;
+    margin-top: -2px;
+  }
   &:hover {
-    .VueCarousel-navigation-button {
+    .VueCarousel-navigation {
       opacity: .9;
+    }
+    .VueCarousel-navigation-button {
       transition: opacity 3s;
+      &:after {
+        background-color: transparent;
+      }
     }
   }
 }
