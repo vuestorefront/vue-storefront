@@ -231,20 +231,29 @@ export default {
     },
     // TODO: This work should be done by vue-storefront-api and should expose the whole gallery
     gallery () {
-      return [
-        {
-          'path': this.getThumbnail(this.product.image, 600, 744),
-          'type': 'main'
-        },
-        {
-          'path': this.getThumbnail(this.product.small_image, 600, 744),
-          'type': 'small'
-        },
-        {
-          'path': this.getThumbnail(this.product.thumbnail, 600, 744),
-          'type': 'thumbnail'
+      let images = []
+      if (this.product.media_gallery) {
+        for (let mediaItem of this.product.media_gallery) {
+          if (mediaItem.image) {
+            images.push({
+              'path': this.getThumbnail(mediaItem.image, 600, 744),
+              'type': 'main'
+            })
+          } // TODO: add support for the whole gallery
         }
-      ]
+      } else {
+        if (this.product.configurable_children) {
+          for (let confChild of this.product.configurable_children) {
+            if (confChild.image) {
+              images.push({
+                'path': this.getThumbnail(confChild.image, 600, 744),
+                'type': 'main'
+              })
+            } // TODO: add support for the whole gallery
+          }
+        }
+      }
+      return images
     },
     customAttributes () {
       let inst = this

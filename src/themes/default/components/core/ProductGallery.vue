@@ -15,27 +15,29 @@
           </div>
         </div>
         <div :class="{ 'col-md-10' : isZoomOpen}">
-          <carousel
-            :per-page="1"
-            mouse-drag="false"
-            navigation-enabled="true"
-            pagination-active-color="transparent"
-            pagination-color="#828282"
-            navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
-            navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
-            ref="carousel">
-            <slide
-              v-for="(images, key) in gallery"
-              :key="key">
-              <div class="bg-cl-secondary">
-                <img
-                  class="product-image inline-flex pointer mw-100"
-                  v-lazy="images.path"
-                  ref="images.path"
-                  @dblclick="toggleZoom">
-              </div>
-            </slide>
-          </carousel>
+          <no-ssr>
+            <carousel
+              :per-page="1"
+              :mouse-drag="false"
+              :navigation-enabled="true"
+              pagination-active-color="transparent"
+              pagination-color="#828282"
+              navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
+              navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
+              ref="carousel">
+              <slide
+                v-for="(images, key) in gallery"
+                :key="key">
+                <div class="bg-cl-secondary">
+                  <img
+                    class="product-image inline-flex pointer mw-100"
+                    v-lazy="images.path"
+                    ref="images.path"
+                    @dblclick="toggleZoom">
+                </div>
+              </slide>
+            </carousel>
+          </no-ssr>
           <i v-if="isZoomOpen==false" class="zoom-in material-icons p15 cl-bg-tertiary pointer" @click="toggleZoom">zoom_in</i>
         </div>
       </div>
@@ -45,9 +47,13 @@
 
 <script>
 import { coreComponent } from 'core/lib/themes'
+import NoSSR from 'vue-no-ssr'
 
 export default {
-  mixins: [coreComponent('ProductGallery')]
+  mixins: [coreComponent('ProductGallery')],
+  components: {
+    'no-ssr': NoSSR
+  }
 }
 </script>
 
