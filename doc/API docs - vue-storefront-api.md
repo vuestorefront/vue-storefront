@@ -2,20 +2,6 @@
 
 Vue Storefront is powered by vue-storefront-api data middleware. It's a REST service which unifies all the differences between eCommerce platforms under one, platform agnostic API. Please find more details about the project [on Github](http://github.com/DivanteLtd/vue-storefront-api).
 
-**TO DO - METHODS BE DOCUMENTED:**
-
-```
-GET /api/user/order-history
-POST /api/user/changePassword
-
-POST /api/cart/apply-coupon
-POST /api/cart/delete-coupon
-GET /api/cart/coupon
-
-GET /product/list
-GET /product/render-list
-```
-
 Read more on:
 
 - [3rd party platform integration with Vue Storefront](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6?source=user_profile---------18----------------)
@@ -193,6 +179,64 @@ curl 'https://demo.vuestorefront.io/api/cart/delete?token=xu8h02nd66yq0gaayj4x3k
 {
     "code":200,
     "result":true
+}
+```
+
+### POST [/api/cart/apply-coupon](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/cart.js#L63)
+
+This method is used to apply the discount code to the current server side quote.
+
+#### EXAMPLE CALL:
+
+```bash
+curl 'https://demo.vuestorefront.io/api/cart/apply-coupon?token=2q1w9oixh3bukxyj947tiordnehai4td&cartId=5effb906a97ebecd6ae96e3958d04edc&coupon=ARMANI' -X POST -H 'content-type: application/json' -H 'accept: */*' 
+```
+
+#### RESPONSE BODY:
+
+```json
+{
+    "code":200,
+    "result":true
+}
+```
+
+
+### POST [/api/cart/delete-coupon](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/cart.js#L82)
+
+This method is used to delete the discount code to the current server side quote.
+
+#### EXAMPLE CALL:
+
+```bash
+curl 'https://demo.vuestorefront.io/api/cart/delete-coupon?token=2q1w9oixh3bukxyj947tiordnehai4td&cartId=5effb906a97ebecd6ae96e3958d04edc' -X POST -H 'content-type: application/json' -H 'accept: */*' 
+```
+
+#### RESPONSE BODY:
+
+```json
+{
+    "code":200,
+    "result":true
+}
+```
+
+### GET [/api/cart/coupon](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/cart.js#L82)
+
+This method is used to get the currently applied coupon code
+
+#### EXAMPLE CALL:
+
+```bash
+curl 'https://demo.vuestorefront.io/api/cart/coupon?token=2q1w9oixh3bukxyj947tiordnehai4td&cartId=5effb906a97ebecd6ae96e3958d04edc' -H 'content-type: application/json' -H 'accept: */*' 
+```
+
+#### RESPONSE BODY:
+
+```json
+{
+    "code":200,
+    "result":"ARMANI"
 }
 ```
 
@@ -774,7 +818,297 @@ curl 'https://demo.vuestorefront.io/api/user/resetPassword' -H 'content-type: ap
 }
 ```
 
-### GET [/api/user/order-history]()
+
+### POST [/api/user/changePassword](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/user.js#L124)
+
+This method is used to change password for current user identified by `token` obtained from `api/user/login`
+
+#### GET PARAMS:
+
+`token` - user token returned from `POST /api/user/login`
+
+#### REQUEST BODY:
+
+```json
+{
+    "currentPassword":"OldPassword",
+    "newPassword":"NewPassword"
+}
+```
+
+
+#### RESPONSE BODY:
+
+```json
+{
+    "code":500,
+    "result":"The password doesn't match this account."
+}
+```
+
+### GET [/api/user/order-history](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/user.js#L91)
+
+Get the user order history from server side
+
+#### GET PARAMS:
+
+`token` - user token returned from `POST /api/user/login`
+
+#### RESPONSE BODY:
+
+```json
+{
+    "code": 200,
+    "result": {
+        "items": [
+            {
+                "applied_rule_ids": "1,5",
+                "base_currency_code": "USD",
+                "base_discount_amount": -3.3,
+                "base_grand_total": 28,
+                "base_discount_tax_compensation_amount": 0,
+                "base_shipping_amount": 5,
+                "base_shipping_discount_amount": 0,
+                "base_shipping_incl_tax": 5,
+                "base_shipping_tax_amount": 0,
+                "base_subtotal": 22,
+                "base_subtotal_incl_tax": 27.06,
+                "base_tax_amount": 4.3,
+                "base_total_due": 28,
+                "base_to_global_rate": 1,
+                "base_to_order_rate": 1,
+                "billing_address_id": 204,
+                "created_at": "2018-01-23 15:30:04",
+                "customer_email": "pkarwatka28@example.com",
+                "customer_group_id": 0,
+                "customer_is_guest": 1,
+                "customer_note_notify": 1,
+                "discount_amount": -3.3,
+                "email_sent": 1,
+                "entity_id": 102,
+                "global_currency_code": "USD",
+                "grand_total": 28,
+                "discount_tax_compensation_amount": 0,
+                "increment_id": "000000102",
+                "is_virtual": 0,
+                "order_currency_code": "USD",
+                "protect_code": "3984835d33abd2423b8a47efd0f74579",
+                "quote_id": 1112,
+                "shipping_amount": 5,
+                "shipping_description": "Flat Rate - Fixed",
+                "shipping_discount_amount": 0,
+                "shipping_discount_tax_compensation_amount": 0,
+                "shipping_incl_tax": 5,
+                "shipping_tax_amount": 0,
+                "state": "new",
+                "status": "pending",
+                "store_currency_code": "USD",
+                "store_id": 1,
+                "store_name": "Main Website\nMain Website Store\n",
+                "store_to_base_rate": 0,
+                "store_to_order_rate": 0,
+                "subtotal": 22,
+                "subtotal_incl_tax": 27.06,
+                "tax_amount": 4.3,
+                "total_due": 28,
+                "total_item_count": 1,
+                "total_qty_ordered": 1,
+                "updated_at": "2018-01-23 15:30:05",
+                "weight": 1,
+                "items": [
+                    {
+                        "amount_refunded": 0,
+                        "applied_rule_ids": "1,5",
+                        "base_amount_refunded": 0,
+                        "base_discount_amount": 3.3,
+                        "base_discount_invoiced": 0,
+                        "base_discount_tax_compensation_amount": 0,
+                        "base_original_price": 22,
+                        "base_price": 22,
+                        "base_price_incl_tax": 27.06,
+                        "base_row_invoiced": 0,
+                        "base_row_total": 22,
+                        "base_row_total_incl_tax": 27.06,
+                        "base_tax_amount": 4.3,
+                        "base_tax_invoiced": 0,
+                        "created_at": "2018-01-23 15:30:04",
+                        "discount_amount": 3.3,
+                        "discount_invoiced": 0,
+                        "discount_percent": 15,
+                        "free_shipping": 0,
+                        "discount_tax_compensation_amount": 0,
+                        "is_qty_decimal": 0,
+                        "is_virtual": 0,
+                        "item_id": 224,
+                        "name": "Radiant Tee-XS-Blue",
+                        "no_discount": 0,
+                        "order_id": 102,
+                        "original_price": 22,
+                        "price": 22,
+                        "price_incl_tax": 27.06,
+                        "product_id": 1546,
+                        "product_type": "simple",
+                        "qty_canceled": 0,
+                        "qty_invoiced": 0,
+                        "qty_ordered": 1,
+                        "qty_refunded": 0,
+                        "qty_shipped": 0,
+                        "quote_item_id": 675,
+                        "row_invoiced": 0,
+                        "row_total": 22,
+                        "row_total_incl_tax": 27.06,
+                        "row_weight": 1,
+                        "sku": "WS12-XS-Blue",
+                        "store_id": 1,
+                        "tax_amount": 4.3,
+                        "tax_invoiced": 0,
+                        "tax_percent": 23,
+                        "updated_at": "2018-01-23 15:30:04",
+                        "weight": 1
+                    }
+                ],
+                "billing_address": {
+                    "address_type": "billing",
+                    "city": "Some city2",
+                    "company": "Divante",
+                    "country_id": "PL",
+                    "email": "pkarwatka28@example.com",
+                    "entity_id": 204,
+                    "firstname": "Piotr",
+                    "lastname": "Karwatka",
+                    "parent_id": 102,
+                    "postcode": "50-203",
+                    "street": [
+                        "XYZ",
+                        "17"
+                    ],
+                    "telephone": null,
+                    "vat_id": "PL8951930748"
+                },
+                "payment": {
+                    "account_status": null,
+                    "additional_information": [
+                        "Cash On Delivery",
+                        ""
+                    ],
+                    "amount_ordered": 28,
+                    "base_amount_ordered": 28,
+                    "base_shipping_amount": 5,
+                    "cc_last4": null,
+                    "entity_id": 102,
+                    "method": "cashondelivery",
+                    "parent_id": 102,
+                    "shipping_amount": 5
+                },
+                "status_histories": [],
+                "extension_attributes": {
+                    "shipping_assignments": [
+                        {
+                            "shipping": {
+                                "address": {
+                                    "address_type": "shipping",
+                                    "city": "Some city",
+                                    "company": "NA",
+                                    "country_id": "PL",
+                                    "email": "pkarwatka28@example.com",
+                                    "entity_id": 203,
+                                    "firstname": "Piotr",
+                                    "lastname": "Karwatka",
+                                    "parent_id": 102,
+                                    "postcode": "51-169",
+                                    "street": [
+                                        "XYZ",
+                                        "13"
+                                    ],
+                                    "telephone": null
+                                },
+                                "method": "flatrate_flatrate",
+                                "total": {
+                                    "base_shipping_amount": 5,
+                                    "base_shipping_discount_amount": 0,
+                                    "base_shipping_incl_tax": 5,
+                                    "base_shipping_tax_amount": 0,
+                                    "shipping_amount": 5,
+                                    "shipping_discount_amount": 0,
+                                    "shipping_discount_tax_compensation_amount": 0,
+                                    "shipping_incl_tax": 5,
+                                    "shipping_tax_amount": 0
+                                }
+                            },
+                            "items": [
+                                {
+                                    "amount_refunded": 0,
+                                    "applied_rule_ids": "1,5",
+                                    "base_amount_refunded": 0,
+                                    "base_discount_amount": 3.3,
+                                    "base_discount_invoiced": 0,
+                                    "base_discount_tax_compensation_amount": 0,
+                                    "base_original_price": 22,
+                                    "base_price": 22,
+                                    "base_price_incl_tax": 27.06,
+                                    "base_row_invoiced": 0,
+                                    "base_row_total": 22,
+                                    "base_row_total_incl_tax": 27.06,
+                                    "base_tax_amount": 4.3,
+                                    "base_tax_invoiced": 0,
+                                    "created_at": "2018-01-23 15:30:04",
+                                    "discount_amount": 3.3,
+                                    "discount_invoiced": 0,
+                                    "discount_percent": 15,
+                                    "free_shipping": 0,
+                                    "discount_tax_compensation_amount": 0,
+                                    "is_qty_decimal": 0,
+                                    "is_virtual": 0,
+                                    "item_id": 224,
+                                    "name": "Radiant Tee-XS-Blue",
+                                    "no_discount": 0,
+                                    "order_id": 102,
+                                    "original_price": 22,
+                                    "price": 22,
+                                    "price_incl_tax": 27.06,
+                                    "product_id": 1546,
+                                    "product_type": "simple",
+                                    "qty_canceled": 0,
+                                    "qty_invoiced": 0,
+                                    "qty_ordered": 1,
+                                    "qty_refunded": 0,
+                                    "qty_shipped": 0,
+                                    "quote_item_id": 675,
+                                    "row_invoiced": 0,
+                                    "row_total": 22,
+                                    "row_total_incl_tax": 27.06,
+                                    "row_weight": 1,
+                                    "sku": "WS12-XS-Blue",
+                                    "store_id": 1,
+                                    "tax_amount": 4.3,
+                                    "tax_invoiced": 0,
+                                    "tax_percent": 23,
+                                    "updated_at": "2018-01-23 15:30:04",
+                                    "weight": 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "search_criteria": {
+            "filter_groups": [
+                {
+                    "filters": [
+                        {
+                            "field": "customer_email",
+                            "value": "pkarwatka28@example.com",
+                            "condition_type": "eq"
+                        }
+                    ]
+                }
+            ]
+        },
+        "total_count": 61
+    }
+}
+```
 
 ### GET [/api/user/me](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/user.js#L78)
 
@@ -1066,6 +1400,8 @@ In case of the JSON validation error, the validation errors will be returned ins
 
 ## Catalog module
 
+### [/api/catalog](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/catalog.js#L4)
+
 Catalog endpoints are a proxy to Elastic Search 5.x and can be used to search the store catalog (synchronized with Magento2 or other platform).
 
 #### GET PARAMETERS
@@ -1119,7 +1455,7 @@ Request body is a Elastic Search query. [Please read more on Elastic querying DS
 
 #### RESPONSE BODY:
 
-Elastic Search data format. Please read more on [data formats used in Vue Storefront]()https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md
+Elastic Search data format. Please read more on [data formats used in Vue Storefront](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
 
 ```json
 {
@@ -1537,6 +1873,293 @@ Elastic Search data format. Please read more on [data formats used in Vue Storef
           "tsk": 1512134647691,
           "sgn": "qU1O7BGcjcqZA_5KgJIaw4-HSUHcMyqgTy9jXy0THoE"
         }
+      }
+    ]
+  }
+}
+```
+
+### [/api/product/list](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/product.js#L22) and [/api/product/render-list](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/product.js#L39)
+
+Magento specific methods to return the product details for specifed SKUs.
+Methods are mostly used for data synchronization with Magento two and for some specific cases when overriding the platform prices inside Vue Storefront.
+
+#### GET PARAMS:
+`skus` - comma separated list of skus to get
+
+#### EXAMPLE CALL:
+
+```bash
+curl https://demo.vuestorefront.io/api/product/list?skus=WP07
+curl https://demo.vuestorefront.io/api/product/render-list?skus=WP07
+```
+
+#### RESPONSE BODY:
+
+For list:
+
+```json
+{
+  "code": 200,
+  "result": {
+    "items": [
+      {
+        "id": 1866,
+        "sku": "WP07",
+        "name": "Aeon Capri",
+        "attribute_set_id": 10,
+        "price": 0,
+        "status": 1,
+        "visibility": 4,
+        "type_id": "configurable",
+        "created_at": "2017-11-06 12:17:26",
+        "updated_at": "2017-11-06 12:17:26",
+        "product_links": [],
+        "tier_prices": [],
+        "custom_attributes": [
+          {
+            "attribute_code": "description",
+            "value": "<p>Reach for the stars and beyond in these Aeon Capri pant. With a soft, comfortable feel and moisture wicking fabric, these duo-tone leggings are easy to wear -- and wear attractively.</p>\n<p>&bull; Black capris with teal accents.<br />&bull; Thick, 3\" flattering waistband.<br />&bull; Media pocket on inner waistband.<br />&bull; Dry wick finish for ultimate comfort and dryness.</p>"
+          },
+          {
+            "attribute_code": "image",
+            "value": "/w/p/wp07-black_main.jpg"
+          },
+          {
+            "attribute_code": "small_image",
+            "value": "/w/p/wp07-black_main.jpg"
+          },
+          {
+            "attribute_code": "thumbnail",
+            "value": "/w/p/wp07-black_main.jpg"
+          },
+          {
+            "attribute_code": "category_ids",
+            "value": [
+              "27",
+              "32",
+              "35",
+              "2"
+            ]
+          },
+          {
+            "attribute_code": "options_container",
+            "value": "container2"
+          },
+          {
+            "attribute_code": "required_options",
+            "value": "0"
+          },
+          {
+            "attribute_code": "has_options",
+            "value": "1"
+          },
+          {
+            "attribute_code": "url_key",
+            "value": "aeon-capri"
+          },
+          {
+            "attribute_code": "msrp_display_actual_price_type",
+            "value": "0"
+          },
+          {
+            "attribute_code": "tax_class_id",
+            "value": "2"
+          },
+          {
+            "attribute_code": "material",
+            "value": "156,150,154"
+          },
+          {
+            "attribute_code": "eco_collection",
+            "value": "0"
+          },
+          {
+            "attribute_code": "performance_fabric",
+            "value": "1"
+          },
+          {
+            "attribute_code": "erin_recommends",
+            "value": "0"
+          },
+          {
+            "attribute_code": "new",
+            "value": "0"
+          },
+          {
+            "attribute_code": "sale",
+            "value": "0"
+          },
+          {
+            "attribute_code": "style_bottom",
+            "value": "107"
+          },
+          {
+            "attribute_code": "pattern",
+            "value": "195"
+          },
+          {
+            "attribute_code": "climate",
+            "value": "205,212,206"
+          }
+        ]
+      }
+    ],
+    "search_criteria": {
+      "filter_groups": [
+        {
+          "filters": [
+            {
+              "field": "sku",
+              "value": "WP07",
+              "condition_type": "in"
+            }
+          ]
+        }
+      ]
+    },
+    "total_count": 1
+  }
+}
+```
+
+For render-list:
+
+```json
+{
+  "code": 200,
+  "result": {
+    "items": [
+      {
+        "add_to_cart_button": {
+          "post_data": "{\"action\":\"http:\\/\\/demo-magento2.vuestorefront.io\\/checkout\\/cart\\/add\\/uenc\\/%25uenc%25\\/product\\/1866\\/\",\"data\":{\"product\":\"1866\",\"uenc\":\"%uenc%\"}}",
+          "url": "http://demo-magento2.vuestorefront.io/checkout/cart/add/uenc/%25uenc%25/product/1866/",
+          "required_options": true
+        },
+        "add_to_compare_button": {
+          "post_data": null,
+          "url": "{\"action\":\"http:\\/\\/demo-magento2.vuestorefront.io\\/catalog\\/product_compare\\/add\\/\",\"data\":{\"product\":\"1866\",\"uenc\":\"aHR0cDovL2RlbW8tbWFnZW50bzIudnVlc3RvcmVmcm9udC5pby9yZXN0L1YxL3Byb2R1Y3RzLXJlbmRlci1pbmZvP3NlYXJjaENyaXRlcmlhPSZzZWFyY2hDcml0ZXJpYVtmaWx0ZXJfZ3JvdXBzXVswXVtmaWx0ZXJzXVswXVtmaWVsZF09c2t1JnNlYXJjaENyaXRlcmlhW2ZpbHRlcl9ncm91cHNdWzBdW2ZpbHRlcnNdWzBdW3ZhbHVlXT1XUDA3JnNlYXJjaENyaXRlcmlhW2ZpbHRlcl9ncm91cHNdWzBdW2ZpbHRlcnNdWzBdW2NvbmRpdGlvbl90eXBlXT1pbiZzdG9yZUlkPTEmY3VycmVuY3lDb2RlPVVTRA,,\"}}",
+          "required_options": null
+        },
+        "price_info": {
+          "final_price": 59.04,
+          "max_price": 59.04,
+          "max_regular_price": 59.04,
+          "minimal_regular_price": 59.04,
+          "special_price": null,
+          "minimal_price": 59.04,
+          "regular_price": 48,
+          "formatted_prices": {
+            "final_price": "<span class=\"price\">$59.04</span>",
+            "max_price": "<span class=\"price\">$59.04</span>",
+            "minimal_price": "<span class=\"price\">$59.04</span>",
+            "max_regular_price": "<span class=\"price\">$59.04</span>",
+            "minimal_regular_price": null,
+            "special_price": null,
+            "regular_price": "<span class=\"price\">$48.00</span>"
+          },
+          "extension_attributes": {
+            "msrp": {
+              "msrp_price": "<span class=\"price\">$0.00</span>",
+              "is_applicable": "",
+              "is_shown_price_on_gesture": "1",
+              "msrp_message": "",
+              "explanation_message": "Our price is lower than the manufacturer&#039;s &quot;minimum advertised price.&quot; As a result, we cannot show you the price in catalog or the product page. <br><br> You have no obligation to purchase the product once you know the price. You can simply remove the item from your cart."
+            },
+            "tax_adjustments": {
+              "final_price": 47.999999,
+              "max_price": 47.999999,
+              "max_regular_price": 47.999999,
+              "minimal_regular_price": 47.999999,
+              "special_price": 47.999999,
+              "minimal_price": 47.999999,
+              "regular_price": 48,
+              "formatted_prices": {
+                "final_price": "<span class=\"price\">$48.00</span>",
+                "max_price": "<span class=\"price\">$48.00</span>",
+                "minimal_price": "<span class=\"price\">$48.00</span>",
+                "max_regular_price": "<span class=\"price\">$48.00</span>",
+                "minimal_regular_price": null,
+                "special_price": "<span class=\"price\">$48.00</span>",
+                "regular_price": "<span class=\"price\">$48.00</span>"
+              }
+            },
+            "weee_attributes": [],
+            "weee_adjustment": "<span class=\"price\">$59.04</span>"
+          }
+        },
+        "images": [
+          {
+            "url": "http://demo-magento2.vuestorefront.io/media/catalog/product/cache/f073062f50e48eb0f0998593e568d857/w/p/wp07-black_main.jpg",
+            "code": "recently_viewed_products_grid_content_widget",
+            "height": 300,
+            "width": 240,
+            "label": "Aeon Capri",
+            "resized_width": 240,
+            "resized_height": 300
+          },
+          {
+            "url": "http://demo-magento2.vuestorefront.io/media/catalog/product/cache/900f44f0120b35eff596cbeba48e1c0a/w/p/wp07-black_main.jpg",
+            "code": "recently_viewed_products_list_content_widget",
+            "height": 340,
+            "width": 270,
+            "label": "Aeon Capri",
+            "resized_width": 270,
+            "resized_height": 340
+          },
+          {
+            "url": "http://demo-magento2.vuestorefront.io/media/catalog/product/cache/15dc7e9ba1a6bafcd505d927c7fcfa03/w/p/wp07-black_main.jpg",
+            "code": "recently_viewed_products_images_names_widget",
+            "height": 90,
+            "width": 75,
+            "label": "Aeon Capri",
+            "resized_width": 75,
+            "resized_height": 90
+          },
+          {
+            "url": "http://demo-magento2.vuestorefront.io/media/catalog/product/cache/f073062f50e48eb0f0998593e568d857/w/p/wp07-black_main.jpg",
+            "code": "recently_compared_products_grid_content_widget",
+            "height": 300,
+            "width": 240,
+            "label": "Aeon Capri",
+            "resized_width": 240,
+            "resized_height": 300
+          },
+          {
+            "url": "http://demo-magento2.vuestorefront.io/media/catalog/product/cache/900f44f0120b35eff596cbeba48e1c0a/w/p/wp07-black_main.jpg",
+            "code": "recently_compared_products_list_content_widget",
+            "height": 340,
+            "width": 270,
+            "label": "Aeon Capri",
+            "resized_width": 270,
+            "resized_height": 340
+          },
+          {
+            "url": "http://demo-magento2.vuestorefront.io/media/catalog/product/cache/2b4546e5ba001f3aea4287545d649df0/w/p/wp07-black_main.jpg",
+            "code": "recently_compared_products_images_names_widget",
+            "height": 90,
+            "width": 75,
+            "label": "Aeon Capri",
+            "resized_width": 75,
+            "resized_height": 90
+          }
+        ],
+        "url": "http://demo-magento2.vuestorefront.io/aeon-capri.html",
+        "id": 1866,
+        "name": "Aeon Capri",
+        "type": "configurable",
+        "is_salable": "1",
+        "store_id": 1,
+        "currency_code": "USD",
+        "extension_attributes": {
+          "review_html": "<div class=\"product-reviews-summary short empty\">\n    <div class=\"reviews-actions\">\n        <a class=\"action add\" href=\"http://demo-magento2.vuestorefront.io/aeon-capri.html#review-form\">\n            Be the first to review this product        </a>\n    </div>\n</div>\n",
+          "wishlist_button": {
+            "post_data": null,
+            "url": "{\"action\":\"http:\\/\\/demo-magento2.vuestorefront.io\\/wishlist\\/index\\/add\\/\",\"data\":{\"product\":\"1866\",\"uenc\":\"aHR0cDovL2RlbW8tbWFnZW50bzIudnVlc3RvcmVmcm9udC5pby9yZXN0L1YxL3Byb2R1Y3RzLXJlbmRlci1pbmZvP3NlYXJjaENyaXRlcmlhPSZzZWFyY2hDcml0ZXJpYVtmaWx0ZXJfZ3JvdXBzXVswXVtmaWx0ZXJzXVswXVtmaWVsZF09c2t1JnNlYXJjaENyaXRlcmlhW2ZpbHRlcl9ncm91cHNdWzBdW2ZpbHRlcnNdWzBdW3ZhbHVlXT1XUDA3JnNlYXJjaENyaXRlcmlhW2ZpbHRlcl9ncm91cHNdWzBdW2ZpbHRlcnNdWzBdW2NvbmRpdGlvbl90eXBlXT1pbiZzdG9yZUlkPTEmY3VycmVuY3lDb2RlPVVTRA,,\"}}",
+            "required_options": null
+          }
+        },
+        "sgn": "bCt7e44sl1iZV8hzYGioKvSq0EdsAcF21FhpTG5t8l8"
       }
     ]
   }
