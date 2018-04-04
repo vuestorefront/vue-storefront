@@ -83,7 +83,10 @@ img {
     opacity: 1;
   }
 }
+
 .thumbnails {
+  max-height: 750px;
+  overflow-y: scroll;
   div {
     margin: 0 20px 30px 0;
   }

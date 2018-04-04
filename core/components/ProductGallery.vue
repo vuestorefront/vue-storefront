@@ -30,7 +30,14 @@ export default {
     },
     toggleZoom () {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
+    },
+    selectVariant (option) {
+      let index = this.gallery.findIndex(obj => parseInt(obj.variant) === option.id)
+      this.navigate(index)
     }
+  },
+  created () {
+    this.$bus.$on('filter-changed-product', this.selectVariant.bind(this))
   }
 }
 </script>

@@ -247,7 +247,8 @@ export default {
             if (confChild.image) {
               images.push({
                 'path': this.getThumbnail(confChild.image, 600, 744),
-                'type': 'main'
+                'type': 'main',
+                'variant': confChild.color
               })
             } // TODO: add support for the whole gallery
           }
