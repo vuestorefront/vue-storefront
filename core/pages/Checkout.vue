@@ -12,7 +12,6 @@ import Shipping from 'core/components/blocks/Checkout/Shipping'
 import Payment from 'core/components/blocks/Checkout/Payment'
 import OrderReview from 'core/components/blocks/Checkout/OrderReview'
 import CartSummary from 'core/components/blocks/Checkout/CartSummary'
-import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage'
 import Composite from 'core/mixins/composite'
 
 export default {
@@ -329,8 +328,7 @@ export default {
     Shipping,
     Payment,
     OrderReview,
-    CartSummary,
-    ThankYouPage
+    CartSummary
   }
 }
 </script>
