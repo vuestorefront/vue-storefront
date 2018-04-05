@@ -337,6 +337,17 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
     </tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.bitbull.it/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/38270766-b0bc4fc0-3784-11e8-9463-99d88950ca9a.png"
+            alt="Bitbull"
+            height="50"
+          >
+        </a>
+      </td>
+    </tr>
   </tbody>
 </table>
 
