@@ -5,9 +5,7 @@
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
         <section class="row py35 m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
-            <transition name="fade" appear>
-              <img class="product-image inline-flex mw-100" v-lazy="image" ref="image">
-            </transition>
+            <product-gallery :gallery="gallery" />
           </div>
           <div class="col-md-5 col-xs-12 px15 data">
             <div class="uppercase cl-secondary">
@@ -203,6 +201,7 @@ import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
+import ProductGallery from '../components/core/ProductGallery'
 
 export default {
   asyncData ({ store, route }) {
@@ -217,6 +216,7 @@ export default {
     }
   },
   components: {
+    ProductGallery,
     AddToCart,
     GenericSelector,
     ColorSelector,
@@ -256,7 +256,6 @@ $bg-secondary: color(secondary, $colors-background);
   @media (max-width: 1023px) {
     margin-bottom: 20px;
     padding: 20px 0 30px 0;
-    background-color: $bg-secondary;
   }
 }
 
