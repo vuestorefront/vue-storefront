@@ -113,7 +113,6 @@ export default {
   },
   methods: {
     preventClicks (e) {
-      this.clicks++
       if (this.clicks > 1) {
         e.preventDefault()
       }
