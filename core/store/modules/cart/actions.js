@@ -143,14 +143,15 @@ export default {
   load (context) {
     console.log('Loading cart ...')
     const commit = context.commit
-    const rootState = context.rootState
     const state = context.state
 
-    if (!state.shipping.code) {
-      state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el }) // TODO: use commit() instead of modifying the state in actions
+    if (!state.shipping.method_code) {
+      let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
+      commit(types.CART_UPD_SHIPPING, shippingMethod)
     }
     if (!state.payment.code) {
-      state.payment = rootState.payment.methods.find((el) => { if (el.default === true) return el })
+      let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
+      commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
     global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
       if (err) throw new Error(err)
@@ -265,7 +266,7 @@ export default {
         silent: true
       }, { root: true }).then(task => {
         let backendMethods = task.result
-        let paymentMethods = rootStore.state.payment.methods.slice(0) // copy
+        let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0) // copy
         let uniqueBackendMethods = []
         for (let i = 0; i < backendMethods.length; i++) {
           if (!paymentMethods.find(item => item.code === backendMethods[i].code)) {
@@ -305,8 +306,8 @@ export default {
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-        let shipping = context.getters.shippingMethods[0]
-        let payment = context.getters.paymentMethods[0]
+        let shipping = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
+        let payment = context.rootGetters['payment/paymentMethods'].find(item => item.default)
         methodsData = {
           country: country,
           method_code: shipping ? shipping.method_code : null,
