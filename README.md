@@ -95,8 +95,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
         <a href="https://demo-magento-checkout.vuestorefront.io">
           demo-magento-checkout.vuestorefront.io
         </a>
-      </td>      
-
+      </td>
 </tr>
   </tbody>
 </table>
@@ -343,6 +342,15 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/38270766-b0bc4fc0-3784-11e8-9463-99d88950ca9a.png"
             alt="Bitbull"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://magedirect.co/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/38415925-4a31e358-3993-11e8-9bee-b2b9af95d305.png"
+            alt="MageDirect"
             height="50"
           >
         </a>
