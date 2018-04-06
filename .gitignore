@@ -19,3 +19,5 @@ core/resource/.ig_feed.json.icloud
 core/resource/.order.json.icloud
 core/resource/.promoted_offers.json.icloud
 core/resource/.slider.json.icloud
+yarn-error.log
+package-lock.json
