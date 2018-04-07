@@ -120,15 +120,15 @@ const plugins = [
   store => {
     store.subscribe((mutation, state) => {
       let nameArray = mutation.type.split('/')
-      let firstSegment, lastSegment
+      let storeName, actionName
       if (nameArray.length) {
-        firstSegment = nameArray[0]
-        lastSegment = nameArray[nameArray.length - 1]
+        storeName = nameArray[0]
+        actionName = nameArray.slice(1).join('/')
       } else {
         console.error('Store mutation name is incorrectly formed')
       }
 
-      if (firstSegment === types.SN_CART) { // check if this mutation is cart related
+      if (storeName === types.SN_CART) { // check if this mutation is cart related
         global.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
@@ -136,47 +136,47 @@ const plugins = [
           console.error(reason)
         })
       }
-      if (firstSegment === types.SN_WISHLIST) { // check if this mutation is wishlist related
+      if (storeName === types.SN_WISHLIST) { // check if this mutation is wishlist related
         global.db.wishlistCollection.setItem('current-wishlist', state.wishlist.itemsWishlist).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (firstSegment === types.SN_COMPARE) { // check if this mutation is compare related
+      if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
         global.db.compareCollection.setItem('current-compare', state.compare.itemsCompare).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (lastSegment === types.USER_INFO_LOADED) { // check if this mutation is user related
+      if (actionName === types.USER_INFO_LOADED) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (lastSegment === types.USER_ORDERS_HISTORY_LOADED) { // check if this mutation is user related
+      if (actionName === types.USER_ORDERS_HISTORY_LOADED) { // check if this mutation is user related
         global.db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (lastSegment === types.USER_TOKEN_CHANGED) { // check if this mutation is user related
+      if (actionName === types.USER_TOKEN_CHANGED) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (firstSegment === types.SN_CHECKOUT) {
-        if (lastSegment === types.CHECKOUT_SAVE_PERSONAL_DETAILS) {
+      if (storeName === types.SN_CHECKOUT) {
+        if (actionName === types.CHECKOUT_SAVE_PERSONAL_DETAILS) {
           global.db.checkoutFieldsCollection.setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
-        } else if (lastSegment === types.CHECKOUT_SAVE_SHIPPING_DETAILS) {
+        } else if (actionName === types.CHECKOUT_SAVE_SHIPPING_DETAILS) {
           global.db.checkoutFieldsCollection.setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
-        } else if (lastSegment === types.CHECKOUT_SAVE_PAYMENT_DETAILS) {
+        } else if (actionName === types.CHECKOUT_SAVE_PAYMENT_DETAILS) {
           global.db.checkoutFieldsCollection.setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
       }
-      if (lastSegment === types.USER_UPDATE_PREFERENCES) {
+      if (actionName === types.USER_UPDATE_PREFERENCES) {
         global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
           console.error(reason)
         })
