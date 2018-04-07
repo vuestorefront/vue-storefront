@@ -241,7 +241,7 @@ export default {
           if (mediaItem.image) {
             images.push({
               'path': this.getThumbnail(mediaItem.image, 600, 744),
-              'type': 'main',
+              'type': 'main'
             })
           } // TODO: add support for the whole gallery
         }
@@ -252,7 +252,7 @@ export default {
               images.push({
                 'path': this.getThumbnail(confChild.image, 600, 744),
                 'type': 'main',
-                'variant': confChild.color
+                'options': confChild
               })
             } // TODO: add support for the whole gallery
           }

@@ -32,7 +32,7 @@ export default {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
     },
     selectVariant (option) {
-      let index = this.gallery.findIndex(obj => parseInt(obj.variant) === option.id)
+      let index = this.gallery.findIndex(obj => parseInt(obj.options[option.attribute_code]) === option.id)
       this.navigate(index)
     }
   },

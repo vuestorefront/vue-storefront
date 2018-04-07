@@ -7,7 +7,7 @@
              v-if="isZoomOpen">
           <div
             class="bg-cl-secondary"
-            v-for="(images, key) in gallery"
+            v-for="(images, key) in gallery.slice(0, 5)"
             :key="key">
             <transition name="fade" appear>
               <img v-lazy="images.path" class="mw-100 pointer" ref="images.path" @click="navigate(key)">
@@ -85,8 +85,6 @@ img {
 }
 
 .thumbnails {
-  max-height: 750px;
-  overflow-y: scroll;
   div {
     margin: 0 20px 30px 0;
   }
