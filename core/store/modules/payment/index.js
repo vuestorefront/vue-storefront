@@ -6,11 +6,17 @@ export default {
   mutations: {
     addMethod (state, paymentMethod) {
       state.methods.push(paymentMethod)
+    },
+    replaceMethods (state, paymentMethods) {
+      state.methods = paymentMethods
     }
   },
   actions: {
     addMethod ({commit}, paymentMethod) {
       commit('addMethod', paymentMethod)
+    },
+    replaceMethods ({commit}, paymentMethods) {
+      commit('replaceMethods', paymentMethods)
     }
   },
   getters: {

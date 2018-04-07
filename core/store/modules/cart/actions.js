@@ -266,15 +266,18 @@ export default {
         silent: true
       }, { root: true }).then(task => {
         let backendMethods = task.result
-        let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0) // copy
+        let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0).filter((itm) => {
+          return !(itm.is_server_method)
+        }) // copy
         let uniqueBackendMethods = []
         for (let i = 0; i < backendMethods.length; i++) {
           if (!paymentMethods.find(item => item.code === backendMethods[i].code)) {
+            backendMethods[i].is_server_method = true
             paymentMethods.push(backendMethods[i])
             uniqueBackendMethods.push(backendMethods[i])
           }
         }
-        context.commit(types.CART_UPD_PAYMENT, paymentMethods)
+        rootStore.dispatch('payment/replaceMethods', paymentMethods, { _root: true })
         rootStore.commit('setBackendPaymentMethods', uniqueBackendMethods)
       }).catch(e => {
         console.error(e)
