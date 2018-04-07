@@ -1,10 +1,11 @@
-import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import config from 'config'
-import store from '../../'
 const Ajv = require('ajv') // json validator
 import { ValidationError } from 'core/lib/exceptions'
 import i18n from '../../lib/i18n'
+
+import rootStore from '../../'
+const EventBus = rootStore.EventBus
 
 export default {
   startSession (context) {
@@ -211,7 +212,7 @@ export default {
             action1: { label: 'OK', action: 'close' }
           })
 
-          store.dispatch('user/login', {
+          rootStore.dispatch('user/login', {
             username: context.state.current.email,
             password: passwordData.newPassword
           })

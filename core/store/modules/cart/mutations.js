@@ -1,5 +1,6 @@
 import * as types from '../../mutation-types'
-import EventBus from '../../lib/event-bus'
+import rootStore from '../../'
+const EventBus = rootStore.EventBus
 import config from 'config'
 
 export default {

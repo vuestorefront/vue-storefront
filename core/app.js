@@ -16,6 +16,9 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 import VueOffline from 'vue-offline'
+import EventBus from 'core/plugins/event-bus'
+
+store.init(i18n, EventBus)
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {

@@ -1,5 +1,6 @@
 import * as types from '../../mutation-types'
-import EventBus from '../../lib/event-bus'
+import rootStore from '../../'
+const EventBus = rootStore.EventBus
 
 export default {
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {

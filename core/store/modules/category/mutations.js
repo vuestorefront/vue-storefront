@@ -1,7 +1,9 @@
 import * as types from '../../mutation-types'
 import { slugify } from '../../helpers'
 import { entityKeyName } from '../../lib/entities'
-import EventBus from '../../lib/event-bus'
+import rootStore from '../../'
+const EventBus = rootStore.EventBus
+const i18n = rootStore.i18n
 
 export default {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
