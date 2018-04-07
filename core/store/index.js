@@ -119,7 +119,16 @@ const mutations = {
 const plugins = [
   store => {
     store.subscribe((mutation, state) => {
-      if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
+      let nameArray = mutation.type.split('/')
+      let nameBegin, nameEnd
+      if (nameArray.length) {
+        nameBegin = nameArray[0]
+        nameEnd = nameArray[nameArray.length - 1]
+      } else {
+        console.error('Store mutation name is incorrectly formed')
+      }
+
+      if (nameBegin === types.SN_CART) { // check if this mutation is cart related
         global.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
@@ -127,47 +136,47 @@ const plugins = [
           console.error(reason)
         })
       }
-      if (mutation.type.indexOf(types.SN_WISHLIST) === 0) { // check if this mutation is wishlist related
+      if (nameBegin === types.SN_WISHLIST) { // check if this mutation is wishlist related
         global.db.wishlistCollection.setItem('current-wishlist', state.wishlist.itemsWishlist).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.SN_COMPARE) === 0) { // check if this mutation is compare related
+      if (nameBegin === types.SN_COMPARE) { // check if this mutation is compare related
         global.db.compareCollection.setItem('current-compare', state.compare.itemsCompare).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.USER_INFO_LOADED) >= 0) { // check if this mutation is user related
+      if (nameEnd === types.USER_INFO_LOADED) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (mutation.type.indexOf(types.USER_ORDERS_HISTORY_LOADED) >= 0) { // check if this mutation is user related
+      if (nameEnd === types.USER_ORDERS_HISTORY_LOADED) { // check if this mutation is user related
         global.db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is user related
+      if (nameEnd === types.USER_TOKEN_CHANGED) { // check if this mutation is user related
         global.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (mutation.type.indexOf(types.SN_CHECKOUT) === 0) {
-        if (mutation.type.indexOf(types.CHECKOUT_SAVE_PERSONAL_DETAILS) > 0) {
+      if (nameBegin === types.SN_CHECKOUT) {
+        if (nameEnd === types.CHECKOUT_SAVE_PERSONAL_DETAILS) {
           global.db.checkoutFieldsCollection.setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
-        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_SHIPPING_DETAILS) > 0) {
+        } else if (nameEnd === types.CHECKOUT_SAVE_SHIPPING_DETAILS) {
           global.db.checkoutFieldsCollection.setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
-        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_PAYMENT_DETAILS) > 0) {
+        } else if (nameEnd === types.CHECKOUT_SAVE_PAYMENT_DETAILS) {
           global.db.checkoutFieldsCollection.setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
       }
-      if (mutation.type.indexOf(types.USER_UPDATE_PREFERENCES) >= 0) {
+      if (nameEnd === types.USER_UPDATE_PREFERENCES) {
         global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
           console.error(reason)
         })

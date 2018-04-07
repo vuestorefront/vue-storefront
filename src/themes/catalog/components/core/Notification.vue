@@ -73,6 +73,6 @@ export default {
 }
 
 .notification.info {
-  background: #333333;
+  background: #4F4F4F;
 }
 </style>

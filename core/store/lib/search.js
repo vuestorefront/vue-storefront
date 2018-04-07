@@ -57,14 +57,14 @@ function _handleEsResult (resp, start = 0, size = 50) {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '' }) {
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', index = null }) {
   size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
     const esQuery = {
-      index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+      index: index || config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: entityType,
       body: query,
       size: size,
