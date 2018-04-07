@@ -44,19 +44,5 @@ export default {
     return _.sumBy(state.cartItems, (p) => {
       return p.qty
     })
-  },
-  shippingMethods (state) {
-    if (state.shipping instanceof Array) {
-      return state.shipping
-    } else {
-      return [state.shipping]
-    }
-  },
-  paymentMethods (state) {
-    if (state.payment instanceof Array) {
-      return state.payment
-    } else {
-      return [state.payment]
-    }
   }
 }
