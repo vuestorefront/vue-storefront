@@ -9,6 +9,15 @@
   </no-ssr>
 </template>
 
+<script>
+import NoSSR from 'vue-no-ssr'
+
+export default {
+  components: {
+    'no-ssr': NoSSR
+  }
+}
+</script>
 <style scoped>
 .offline-badge {
   bottom: 0;
