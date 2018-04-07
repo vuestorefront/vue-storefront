@@ -1,8 +1,9 @@
-import extensionStore from './store'
-import extensionRoutes from './router'
 import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
-import EventBus from 'src/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
+
+import extensionStore from './store'
+import extensionRoutes from './router'
 
 const EXTENSION_KEY = 'google-analytics'
 

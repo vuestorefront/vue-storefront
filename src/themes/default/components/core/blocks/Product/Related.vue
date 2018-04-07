@@ -6,7 +6,7 @@
     >
       <div>
         <header class="col-md-12">
-          <h2 class="align-center c-darkgray">
+          <h2 class="align-center cl-accent">
             {{ $t('Erin Recommends') }}
           </h2>
         </header>
@@ -15,13 +15,16 @@
         <product-listing columns="4" :products="related.by_erin" />
       </div>
     </section>
+
+    <promoted-offers single-banner />
+
     <section
       v-if="related.by_category && related.by_category.length > 0"
       class="new-collection container py30 px15"
     >
       <div>
         <header class="col-md-12">
-          <h2 class="align-center c-darkgray">
+          <h2 class="align-center cl-accent">
             {{ $t('Similar products') }}
           </h2>
         </header>
@@ -36,6 +39,7 @@
 <script>
 import builder from 'bodybuilder'
 import ProductListing from '../../ProductListing.vue'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers.vue'
 
 export default {
   beforeMount () {
@@ -65,7 +69,8 @@ export default {
     })
   },
   components: {
-    ProductListing
+    ProductListing,
+    PromotedOffers
   },
   computed: {
     product () {

@@ -1,13 +1,18 @@
 <template>
-  <div class="wishlist-icon inline-flex" @click="toggleWishlistPanel">
-    <i class="material-icons md-18">favorite_border</i>
-  </div>
+  <button
+    type="button"
+    class="inline-flex bg-cl-transparent brdr-none"
+    @click="toggleWishlistPanel"
+    :aria-label="$t('Open wishlist')"
+  >
+    <i class="material-icons">favorite_border</i>
+  </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Header/WishlistIcon')]
+  mixins: [coreComponent('blocks/Header/WishlistIcon')]
 }
 </script>

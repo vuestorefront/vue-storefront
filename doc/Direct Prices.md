@@ -26,7 +26,7 @@ To use this feature you should also modify `config/local.json` within your `vue-
 		"defaultRegion": "",
 		"calculateServerSide": true,
 		"alwaysSyncPlatformPricesOver": true
-	  },  
+	  },
 ```
 
 

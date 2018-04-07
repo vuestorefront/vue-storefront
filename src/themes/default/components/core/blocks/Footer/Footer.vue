@@ -1,99 +1,104 @@
 <template>
-  <footer :class="{ 'brdr-top-1 brdr-c-alto' : isCheckout }">
-    <newsletter class=" flex brdr-bottom brdr-c-alto" v-if="!isCheckout"/>
-    <div class="footer-links flex pt30 pb60 px40 bg-lightgray" v-if="!isCheckout">
+  <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckout }">
+    <newsletter class=" flex brdr-bottom brdr-cl-secondary" v-if="!isCheckout"/>
+    <div
+      class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
+      v-if="!isCheckout"
+    >
       <div class="container">
-        <div class="row center-xs">
-          <div class="row col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile">
-            <div>
-              <h3 class="c-darkgray weight-400">
+        <div class="row m0 center-xs between-md">
+          <div
+            class="row m0 col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile"
+          >
+            <div class="start-md">
+              <h3 class="cl-accent weight-400">
                 {{ $t('Departments') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/c/women-20" exact>
+                <router-link class="cl-secondary" to="/c/women-20" exact>
                   {{ $t('Women fashion') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/c/men-11" exact>
+                <router-link class="cl-secondary" to="/c/men-11" exact>
                   {{ $t("Men's fashion") }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/" exact>
+                <router-link class="cl-secondary" to="/" exact>
                   {{ $t('Kidswear') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/" exact>
+                <router-link class="cl-secondary" to="/" exact>
                   {{ $t('Home') }}
                 </router-link>
               </div>
             </div>
-            <div>
-              <h3 class="c-darkgray weight-400">
+            <div class="start-md">
+              <h3 class="cl-accent weight-400">
                 {{ $t('Orders') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/order-tracking" exact>
+                <router-link class="cl-secondary" to="/order-tracking" exact>
                   {{ $t('Track my order') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/my-account" exact>
+                <router-link class="cl-secondary" to="/my-account" exact>
                   {{ $t('My account') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/delivery" exact>
+                <router-link class="cl-secondary" to="/delivery" exact>
                   {{ $t('Delivery') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/returns" exact>
+                <router-link class="cl-secondary" to="/returns" exact>
                   {{ $t('Return policy') }}
                 </router-link>
               </div>
             </div>
-            <div>
-              <h3 class="c-darkgray weight-400">
+            <div class="start-md">
+              <h3 class="cl-accent weight-400">
                 {{ $t('Help') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/customer-service" exact>
+                <router-link class="cl-secondary" to="/customer-service" exact>
                   {{ $t('Customer service') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/size-guide" exact>
+                <router-link class="cl-secondary" to="/size-guide" exact>
                   {{ $t('Size guide') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/contact" exact>
+                <router-link class="cl-secondary" to="/contact" exact>
                   {{ $t('Contact us') }}
                 </router-link>
               </div>
             </div>
-            <div>
-              <h3 class="c-darkgray weight-400">
+            <div class="start-md">
+              <h3 class="cl-accent weight-400">
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/about-us" exact>
+                <router-link class="cl-secondary" to="/about-us" exact>
                   {{ $t('About us') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="c-gray-secondary" to="/store-locator" exact>
+                <router-link class="cl-secondary" to="/store-locator" exact>
                   {{ $t('Store locator') }}
                 </router-link>
               </div>
             </div>
           </div>
-          <div class="row social col-lg-5 col-md-4 mt30 center-xs end-xs">
+          <div class="row social mt30">
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.facebook.com/"
               :aria-label="$t('Go to Facebook')"
             >
@@ -102,7 +107,7 @@
               </svg>
             </a>
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.instagram.com"
               :aria-label="$t('Go to Instagram')"
             >
@@ -113,7 +118,7 @@
               </svg>
             </a>
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.pinterest.com"
               :aria-label="$t('Go to Pinterest')"
             >
@@ -122,7 +127,7 @@
               </svg>
             </a>
             <a
-              class="social-icon ml20 brdr-circle no-underline"
+              class="social-icon mx10 brdr-circle no-underline"
               href="https://www.youtube.com"
               :aria-label="$t('Go to Youtube')"
             >
@@ -137,14 +142,14 @@
     </div>
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
-        <div class="col-xs-5 col-sm-3 c-lightgray-secondary">
+        <div class="col-xs-5 col-sm-3 cl-tertiary">
           {{ $t('United States (US)') }}
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links">
             <li class="inline-flex">
               <router-link
-                class="c-lightgray-secondary mr10 underline"
+                class="cl-tertiary mr10 underline"
                 to="/legal"
                 exact
               >
@@ -153,7 +158,7 @@
             </li>
             <li class="inline-flex">
               <router-link
-                class="c-lightgray-secondary underline"
+                class="cl-tertiary underline"
                 to="/privacy"
                 exact
               >
@@ -168,7 +173,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import Newsletter from './Newsletter.vue'
 
 export default {
@@ -194,76 +199,73 @@ export default {
   components: {
     Newsletter
   },
-  mixins: [coreComponent('core/blocks/Footer/Footer')]
+  mixins: [coreComponent('blocks/Footer/Footer')]
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $gray-secondary: map-get($colors, gray-secondary);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-secondary: color(secondary);
 
-  .icon {
-    transition: 0.3s all;
-  }
+.icon {
+  transition: 0.3s all;
+}
 
-  .social-icon {
-    width: 40px;
-    height: 40px;
-    &:hover,
-    &:focus,
-    &:active {
-      .icon {
-        fill: $gray-secondary;
-      }
+.social-icon {
+  width: 40px;
+  height: 40px;
+  &:hover,
+  &:focus,
+  &:active {
+    .icon {
+      fill: $color-secondary;
     }
   }
-  .links {
-    list-style-type: none;
-  }
+}
+.links {
+  list-style-type: none;
+}
 
-  .bottom-links {
-    @media (max-width: 767px) {
-      padding: 0;
-    }
+.bottom-links {
+  @media (max-width: 767px) {
+    padding: 0;
   }
+}
 
-  .underline {
-    &:hover {
-      color: $gray-secondary;
-      &:after {
-        background-color: $gray-secondary;
-      }
-    }
-  }
-  .legal-entity-link {
-    text-align: center;
-    @media (min-width: 768px) {
-      display: none;
+.underline {
+  &:hover {
+    color: $color-secondary;
+    &:after {
+      background-color: $color-secondary;
     }
   }
+}
+.legal-entity-link {
+  text-align: center;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
 
-  .privacy-policy-link {
-    text-align: right;
-    @media (min-width: 768px) {
-      display: none;
-    }
+.privacy-policy-link {
+  text-align: right;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+@media (max-width: 595px) {
+  .no-mobile {
+    display: none;
   }
 
-  @media (max-width: 595px) {
-    .no-mobile {
-      display: none;
-    }
-
-    .social {
-      margin-top: 0;
-    }
-
-    .social-icon:first-of-type {
-      margin-left: 0;
-    }
-
-    .footer-links {
-      padding-bottom: 30px;
-    }
+  .social {
+    margin-top: 0;
   }
+
+  .footer-links {
+    padding-bottom: 30px;
+  }
+}
 </style>

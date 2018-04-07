@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="fixed w-100 brdr-bottom bg-white brdr-c-alto"
+      class="fixed w-100 brdr-bottom bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
@@ -9,10 +9,10 @@
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!isProductPage">
-                <hamburger-icon class="p15 icon bg-lightgray pointer" v-if="!isProductPage"/>
+                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!isProductPage"/>
               </template>
               <template v-else>
-                <return-icon class="p15 icon bg-lightgray pointer" v-if="isProductPage"/>
+                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="isProductPage"/>
               </template>
             </div>
           </div>
@@ -40,7 +40,7 @@
         <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
-              <router-link to="/" class="c-lightgray-secondary links">
+              <router-link to="/" class="cl-tertiary links">
                 {{ $t('Return to shopping') }}
               </router-link>
             </div>
@@ -50,7 +50,7 @@
           </div>
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
-              <a v-if="!currentUser" href="#" @click="gotoAccount" class="c-lightgray-secondary links">
+              <a v-if="!currentUser" href="#" @click="gotoAccount" class="cl-tertiary links">
                 {{ $t('Login to your account') }}
               </a>
               <span v-else>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import { mapState } from 'vuex'
 
 import Logo from '../../Logo.vue'
@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     gotoAccount () {
-      this.$store.commit('ui/setSignUp', !this.isOpenLogin)
+      this.$bus.$emit('modal-toggle', 'modal-signup')
     }
   },
   components: {
@@ -173,52 +173,54 @@ export default {
     ReturnIcon,
     Logo
   },
-  mixins: [coreComponent('core/blocks/Header/Header')]
+  mixins: [coreComponent('blocks/Header/Header')]
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray: map-get($colors, lightgray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-icon-hover: color(secondary, $colors-background);
 
-  header {
-    height: 54px;
-    top: -54px;
-    z-index: 2;
-    transition: top 0.2s ease-in-out;
-  }
-  .icon {
-    opacity: 0.6;
-  }
-  .icon:hover {
-    background-color: $lightgray;
+header {
+  height: 54px;
+  top: -54px;
+  z-index: 2;
+  transition: top 0.2s ease-in-out;
+}
+.icon {
+  opacity: 0.6;
+  &:hover,
+  &:focus {
+    background-color: $color-icon-hover;
     opacity: 1;
   }
-  .header-placeholder {
-    height: 54px;
-  }
-  .links {
-    text-decoration: underline;
-  }
-  .is-visible {
-    top: 0 !important;
-  }
-  @media (max-width: 767px) {
-    .row.middle-xs {
-      margin: 0 -15px;
+}
+.header-placeholder {
+  height: 54px;
+}
+.links {
+  text-decoration: underline;
+}
+.is-visible {
+  top: 0 !important;
+}
+@media (max-width: 767px) {
+  .row.middle-xs {
+    margin: 0 -15px;
 
-      &.py5 {
-        margin: 0;
-      }
-    }
-    .col-xs-2:first-of-type {
-        padding-left: 0;
-    }
-    .col-xs-2:last-of-type {
-        padding-right: 0;
-    }
-    a, span {
-      font-size: 12px;
+    &.py5 {
+      margin: 0;
     }
   }
+  .col-xs-2:first-of-type {
+      padding-left: 0;
+  }
+  .col-xs-2:last-of-type {
+      padding-right: 0;
+  }
+  a, span {
+    font-size: 12px;
+  }
+}
 </style>

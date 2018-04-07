@@ -2,12 +2,12 @@
   <section class="search c-on-dark middle-xs p0 pt40-md pt100-md">
     <div class="row center-xs pb20  hide flex-md">
       <div class="col-md-6">
-        <h1 class="c-on-dark extrabold">Find the right sporting clothes for all situations</h1>
+        <h1 class="c-on-dark extrabold">{{ $t('Find the right sporting clothes for all situations') }}</h1>
       </div>
     </div>
     <div class="row center-xs">
       <div class="search-box col-md-8 col-xs-12">
-        <input ref="search" v-model="search" @input="makeSearch" type="text" class="m0 px25 inline-flex fs-medium" placeholder="What are you looking for?">
+        <input ref="search" v-model="search" @input="makeSearch" type="text" class="m0 px25 inline-flex fs-medium" :placeholder="$t('What are you looking for?')">
       </div>
     </div>
     <div class="top-searches row center-xs py70-md py30 fs-medium hide show-md">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
@@ -52,7 +52,7 @@ export default {
   components: {
     ProductTile
   },
-  mixins: [coreComponent('core/blocks/SearchPanel/SearchPanel')]
+  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
 }
 </script>
 

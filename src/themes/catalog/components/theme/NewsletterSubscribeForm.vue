@@ -1,12 +1,12 @@
 <template>
   <div class="newsletter-subscribe-form">
-    <input v-model="email" type="email" class="m0 px25 inline-flex fs-medium" autocomplete="email" placeholder="E-mail address">
-    <button @click="subscribeNewsletter" class="m0 fs-medium inline-flex center-xs c-on-accent bg-accent bg-accent-hover pointer">Subscribe to magazine</button>
+    <input v-model="email" type="email" class="m0 px25 inline-flex fs-medium" autocomplete="email" :placeholder="$t('E-mail address')">
+    <button @click="subscribeNewsletter" class="m0 fs-medium inline-flex center-xs c-on-accent bg-accent bg-accent-hover pointer">{{ $t('Subscribe to magazine') }}</button>
   </div>
 </template>
 
 <script>
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -21,12 +21,12 @@ export default {
       const notification = {
         subscribed: {
           type: 'success',
-          message: i18n.t('Newsletter succesfully subscribed. Thank you!'),
+          message: i18n.t('Newsletter successfully subscribed. Thank you!'),
           action1: { label: 'OK', action: 'close' }
         },
         alreadySubscribed: {
           type: 'error',
-          message: i18n.t('You have already subscibed our newsletter'),
+          message: i18n.t('You have already subscribed our newsletter'),
           action1: { label: 'OK', action: 'close' }
         },
         wrongEmail: {

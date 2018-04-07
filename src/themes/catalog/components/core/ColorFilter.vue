@@ -8,11 +8,14 @@
 export default {
   props: {
     color: { type: String, required: true },
-    active: { type: Boolean, required: true },
-    id: { type: Number, required: true }
+    id: { type: Number, required: true },
+    from: { type: Number, required: false, default: 0 },
+    to: { type: Number, required: false, default: 0 },
+    initialActive: { type: Boolean, required: false, default: false }
   },
   data () {
     return {
+      active: this.initialActive,
       context: 'product',
       code: 'color'
     }

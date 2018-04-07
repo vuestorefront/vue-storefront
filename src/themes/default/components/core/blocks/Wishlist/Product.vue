@@ -11,7 +11,7 @@
         }">
           {{ product.name | htmlDecode }}
         </router-link>
-        <div class="h6 c-lightgray pt5">{{ product.sku }}</div>
+        <div class="h6 cl-bg-secondary pt5">{{ product.sku }}</div>
       </div>
     </div>
     <div class="col-xs flex py15 align-right">
@@ -24,14 +24,14 @@
         </span>
       </div>
       <div>
-        <div class="mt5"><span @click="removeItem"><remove-button class="c-darkgray" /></span></div>
+        <div class="mt5"><span @click="removeItem"><remove-button class="cl-accent" /></span></div>
       </div>
     </div>
   </li>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import RemoveButton from './RemoveButton'
 
 export default {
@@ -48,7 +48,7 @@ export default {
   components: {
     RemoveButton
   },
-  mixins: [coreComponent('core/blocks/Wishlist/Product')]
+  mixins: [coreComponent('blocks/Wishlist/Product')]
 }
 </script>
 

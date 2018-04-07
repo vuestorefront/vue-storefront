@@ -9,26 +9,32 @@
           <p class="h4">
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
           </p>
-          <input
-            class="border-box w-100 brdr-none brdr-bottom brdr-c-lightgray-secondary py10 h4 weight-200"
-            autofocus
+          <base-input
+            focus
             type="email"
             name="email"
             v-model="email"
             autocomplete="email"
-            placeholder="E-mail address *"
-          >
-          <p class="m0 c-red h6" v-if="$v.email.$error && !$v.email.required">Field is required.</p>
-          <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+            :placeholder="$t('E-mail address *')"
+            :validations="[
+              {
+                condition: $v.email.$error && !$v.email.required,
+                text: $t('Field is required.')
+              },
+              {
+                condition: !$v.email.email && $v.email.$error,
+                text: $t('Please provide valid e-mail address.')
+              }
+            ]"
+          />
         </div>
-        <div class="mb35 center-xs">
-          <button-full
-            type="submit"
-            @click.native="$v.email.$touch"
-          >
-            {{ $t('Subscribe') }}
-          </button-full>
-        </div>
+        <button-full
+          class="mb35"
+          type="submit"
+          @click.native="$v.email.$touch"
+        >
+          {{ $t('Subscribe') }}
+        </button-full>
       </form>
     </div>
   </modal>
@@ -36,8 +42,9 @@
 <script>
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -49,6 +56,11 @@ export default {
     email: {
       required,
       email
+    }
+  },
+  mounted () {
+    if (this.$store.state.user.current) {
+      this.email = this.$store.state.user.current.email
     }
   },
   methods: {
@@ -71,28 +83,13 @@ export default {
         action1: { label: 'OK', action: 'close' }
       })
 
-      this.$bus.$emit('modal.hide', 'modal-newsletter')
+      this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },
   components: {
     ButtonFull,
-    Modal
+    Modal,
+    BaseInput
   }
 }
 </script>
-<style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $black: map-get($colors, black);
-
-  input::-webkit-input-placeholder,
-  input::-moz-placeholder {
-    color: $lightgray-secondary;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: $black;
-    transition: 0.3s all;
-  }
-</style>

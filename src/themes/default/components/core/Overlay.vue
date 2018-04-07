@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
   beforeCreate () {
@@ -19,22 +19,22 @@ export default {
       this.$store.commit('ui/setWishlist', false)
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setSignUp', false)
     }
   },
-  mixins: [coreComponent('core/Overlay')]
+  mixins: [coreComponent('Overlay')]
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/base/global_vars';
-$black: map-get($colors, black);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-bg: color(black);
 
 .overlay {
   height: 100vh;
   top: 0;
   left: 0;
-  background-color: rgba($black, 0.4);
+  background-color: rgba($color-bg, 0.4);
   z-index: 3;
 }
 </style>

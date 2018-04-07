@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { corePage } from 'lib/themes'
+import { corePage } from 'core/lib/themes'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {

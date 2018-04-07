@@ -1,19 +1,13 @@
 <template>
-  <div
-    v-show="!isOnline"
-    class="offline-badge fixed w-100 p10 bg-red c-white center-xs"
-  >
-    {{ $t('You are offline, some of the functionalities are limited') }}
-  </div>
+  <no-ssr>
+    <div
+      v-offline
+      class="offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs"
+    >
+      {{ $t('You are offline, some of the functionalities are limited') }}
+    </div>
+  </no-ssr>
 </template>
-
-<script>
-import { coreComponent } from 'lib/themes'
-
-export default {
-  mixins: [coreComponent('core/OfflineBadge')]
-}
-</script>
 
 <style scoped>
 .offline-badge {

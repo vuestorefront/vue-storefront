@@ -1,14 +1,14 @@
 <template>
-  <div class="validation-error c-red h6">
+  <div class="validation-error cl-error h6">
     DONT USE THERE WILL BE CHANGES IN API
   </div>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
   name: 'ValidationError',
-  mixins: [coreComponent('core/ValidationError')]
+  mixins: [coreComponent('ValidationError')]
 }
 </script>

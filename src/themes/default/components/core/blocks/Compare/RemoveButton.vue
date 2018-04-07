@@ -1,13 +1,13 @@
 <template>
-  <button class="brdr-none bg-transparent">
+  <button class="brdr-none bg-cl-transparent">
     <i class="material-icons h4">close</i>
   </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/blocks/Compare/RemoveButton')]
+  mixins: [coreComponent('blocks/Compare/RemoveButton')]
 }
 </script>

@@ -13,14 +13,23 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import { mapGetters, mapActions } from 'vuex'
+import socialData from 'theme/resource/ig_feed.json'
 import TileLink from './TileLink.vue'
+
 export default {
   name: 'TileLinks',
+  created () {
+    this.updateSocialTiles(socialData)
+  },
   computed: {
     ...mapGetters({
       social_tiles: 'social/getSocialTiles'
+    })
+  },
+  methods: {
+    ...mapActions({
+      updateSocialTiles: 'social/updateSocialTiles'
     })
   },
   components: {

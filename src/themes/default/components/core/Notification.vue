@@ -2,7 +2,7 @@
   <div class="notifications fixed">
     <transition-group name="fade-in-down">
       <div
-        class="notification mt30 border-box c-white"
+        class="notification mt30 border-box cl-white"
         v-for="(notification, index) in notifications"
         :key="index"
         :class="{
@@ -27,21 +27,23 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/Notification')]
+  mixins: [coreComponent('Notification')]
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
 $z-index-notification: map-get($z-index, notification);
-$red: map-get($colors, red);
-$la-palma: map-get($colors, la-palma);
-$russet: map-get($colors, russet);
-$darkgray: map-get($colors, darkgray);
-$black: map-get($colors, black);
+$color-error: color(error);
+$color-success: color(success);
+$color-warning: color(warning);
+$color-info: color(accent);
+$color-action: color(black);
 
 .notifications {
   top: 100px;
@@ -63,25 +65,25 @@ $black: map-get($colors, black);
   }
 }
 .notification {
-  box-shadow: 0px 0px 35px -5px rgba($black, .7);
+  box-shadow: 0px 0px 35px -5px rgba($color-action, .7);
 
   &:first-child  {
     margin-top: 0;
   }
 }
 .actions {
-  background: rgba($black, .2);
+  background: rgba($color-action, .2);
 }
 .success {
-  background: $la-palma;
+  background: $color-success;
 }
 .error {
-  background: $red;
+  background: $color-error;
 }
 .warning {
-  background: $russet;
+  background: $color-warning;
 }
 .info {
-  background: $darkgray;
+  background: $color-info;
 }
 </style>

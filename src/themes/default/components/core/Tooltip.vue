@@ -1,23 +1,24 @@
 <template>
   <span class="tooltip relative">
-    <i class="material-icons icon c-darkgray">info</i>
-    <div class="text absolute p25 h5 bg-darkgray c-white">
+    <i class="material-icons icon cl-accent">info</i>
+    <div class="text absolute p25 h5 bg-cl-th-accent cl-white">
       <slot />
     </div>
   </span>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
-  mixins: [coreComponent('core/SizeButton')]
+  mixins: [coreComponent('SizeSelector')]
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/base/global_vars';
-$darkgray: map-get($colors, darkgray);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-border: color(accent);
 
 .tooltip {
   cursor: default;
@@ -47,7 +48,7 @@ $darkgray: map-get($colors, darkgray);
     height: 0;
     position: absolute;
     border: 10px solid transparent;
-    border-top: 10px solid $darkgray;
+    border-top: 10px solid $color-border;
     left: 50%;
     transform: translateX(-50%);
     bottom: -20px;

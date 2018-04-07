@@ -1,13 +1,18 @@
 <template>
-  <div
-    class="account-icon inline-flex"
+  <button
+    type="button"
+    class="bg-cl-transparent brdr-none inline-flex"
     @click="openMyAccount(); gotoAccount();"
     @mouseover="showDropdown"
     @mouseout="hideDropdown"
+    :aria-label="$t('Open my account')"
   >
     <div class="dropdown relative">
-      <i class="material-icons md-18 block">account_circle</i>
-      <div v-if="currentUser" :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'">
+      <i class="material-icons block">account_circle</i>
+      <div
+        v-if="currentUser"
+        :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'"
+      >
         <p>
           {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
         </p>
@@ -24,11 +29,11 @@
         </div>
       </div>
     </div>
-  </div>
+  </button>
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 export default {
   data () {
@@ -59,45 +64,49 @@ export default {
       }
     }
   },
-  mixins: [coreComponent('core/blocks/Header/AccountIcon')]
+  mixins: [coreComponent('blocks/Header/AccountIcon')]
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
+@import '~theme/css/base/global_vars';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-white: color(white);
+$bg-secondary: color(secondary, $colors-background);
 
-  .dropdown {
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: -15px;
-      margin-top: 15px;
-      padding: 0px 10px 10px 10px;
-      text-align: center;
-      background-color: map-get($colors, white);
-      min-width: 120px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 0;
+.dropdown {
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: -15px;
+    margin-top: 15px;
+    padding: 0px 10px 10px 10px;
+    text-align: center;
+    background-color: $color-white;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 0;
 
-      .section-wrapper {
-        display: table;
+    .section-wrapper {
+      display: table;
 
-        .no-underline {
-          display: table-cell;
-          vertical-align: middle;
-          height: 30px;
+      .no-underline {
+        display: table-cell;
+        vertical-align: middle;
+        height: 30px;
 
-          &:hover {
-            background: map-get($colors, lightgray);
-          }
-        }
-      }
-
-      @media (min-width: 768px) {
-        &:hover, &.show-dropdown {
-          display: block;
+        &:hover {
+          background: $bg-secondary;
         }
       }
     }
+
+    @media (min-width: 768px) {
+      &:hover, &.show-dropdown {
+        display: block;
+      }
+    }
   }
+}
 </style>

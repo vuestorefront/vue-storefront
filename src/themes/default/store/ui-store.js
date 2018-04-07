@@ -1,4 +1,7 @@
-import { coreStore, extendStore } from 'lib/themes'
+// You can extend core UI store here
+// The good practise is to keep all ui-related states in this file
+
+import { coreStore, extendStore } from 'core/lib/themes'
 
 const state = {
   submenu: {
@@ -35,10 +38,6 @@ const mutations = {
   },
   setWishlist (state, action) {
     state.wishlist = action === true
-    state.overlay = action === true
-  },
-  setSignUp (state, action) {
-    state.signUp = action === true
     state.overlay = action === true
   }
 }

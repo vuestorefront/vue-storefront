@@ -1,55 +1,60 @@
 <template>
   <div>
-    <div class="py35 px65 bg-lightgray">
-      <h1 class="my0">
-        {{ $t('Reset password') }}
-      </h1>
-    </div>
-    <div class="py35 px65 bg-white c-gray-secondary lh25">
+    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      <i
+        slot="close"
+        class="modal-close material-icons p15 cl-bg-tertiary"
+        @click="close"
+      >
+        close
+      </i>
+      {{ $t('Reset password') }}
+    </header>
+
+    <div class="modal-content pt30 pb60 px65 cl-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb35">
             <p class="mb45">
               {{ $t('Enter your email to receive instructions on how to reset your password.') }}
             </p>
-            <input
-              ref="email"
-              class="brdr-none brdr-bottom brdr-c-lightgray-secondary border-box py10 w-100 h4 weight-200 sans-serif"
+            <base-input
               type="email"
               name="email"
               v-model="email"
-              placeholder="E-mail address *"
-            >
-            <p class="m0 c-red h6" v-if="!$v.email.required">Field is required.</p>
-            <p class="m0 c-red h6" v-if="!$v.email.email">Please provide valid e-mail address.</p>
+              focus
+              :placeholder="$t('E-mail address *')"
+              :validations="[
+                {
+                  condition: !$v.email.required && $v.email.$error,
+                  text: $t('Field is required.')
+                },
+                {
+                  condition: !$v.email.email && $v.email.$error,
+                  text: $t('Please provide valid e-mail address.')
+                }
+              ]"
+            />
           </div>
-          <div class="mb35">
-            <button-full type="submit">
-              {{ $t('Reset password') }}
-            </button-full>
-          </div>
+          <button-full class="mb35" type="submit">
+            {{ $t('Reset password') }}
+          </button-full>
           <div class="center-xs">
-            <span>
-              {{ $t('or') }}
-              <a href="#" @click.prevent="switchElem">
-                {{ $t('return to log in') }}
-              </a>
-            </span>
+            {{ $t('or') }}
+            <a href="#" @click.prevent="switchElem">
+              {{ $t('return to log in') }}
+            </a>
           </div>
         </form>
       </template>
       <template v-if="passwordSent">
         <form class="py20">
-          <div class="py30 mb35">
-            <p class="mb45">
-              {{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}
-            </p>
-          </div>
-          <div class="mb35">
-            <button-full type="submit">
-              {{ $t('Back to login') }}
-            </button-full>
-          </div>
+          <p class="py30 mb80">
+            {{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}
+          </p>
+          <button-full class="mb35" type="submit">
+            {{ $t('Back to login') }}
+          </button-full>
         </form>
       </template>
     </div>
@@ -57,11 +62,12 @@
 </template>
 
 <script>
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
@@ -77,10 +83,14 @@ export default {
     }
   },
   methods: {
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
     sendEmail () {
       // todo: send email with reset password instructions
 
       if (this.$v.$invalid) {
+        this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
           message: 'Please fix the validation errors',
@@ -89,7 +99,7 @@ export default {
         return
       }
 
-      this.$bus.$emit('notification-progress-start', i18n.t('Reseting the password ... '))
+      this.$bus.$emit('notification-progress-start', i18n.t('Resetting the password ... '))
       this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
         this.$bus.$emit('notification-progress-stop')
         if (response.code === 200) {
@@ -110,32 +120,11 @@ export default {
       this.$store.commit('ui/setAuthElem', 'login')
     }
   },
-  mounted () {
-    this.$refs.email.focus()
-  },
-  mixins: [coreComponent('core/blocks/Auth/ForgotPass')],
+  mixins: [coreComponent('blocks/Auth/ForgotPass')],
   components: {
-    ButtonFull
+    ButtonFull,
+    BaseInput
   }
 }
 </script>
 
-<style lang="scss" scoped>
-  @import '~theme/css/base/global_vars';
-  $lightgray-secondary: map-get($colors, lightgray-secondary);
-  $black: map-get($colors, black);
-
-  input::-webkit-input-placeholder {
-    color: $lightgray-secondary;
-  }
-
-  input:-moz-placeholder {
-    color: $lightgray-secondary;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: $black;
-    transition: 0.3s all;
-  }
-</style>

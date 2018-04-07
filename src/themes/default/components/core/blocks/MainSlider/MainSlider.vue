@@ -1,5 +1,5 @@
 <template>
-  <section class="main-slider w-100 bg-darkgray c-white">
+  <section class="main-slider w-100 bg-cl-th-accent cl-white">
     <no-ssr>
       <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
         <slide v-for="(slide, index) in slides" :key="index">
@@ -24,30 +24,35 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-import { coreComponent } from 'lib/themes'
+import { coreComponent } from 'core/lib/themes'
 import { Carousel, Slide } from 'vue-carousel'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
+import sliderData from 'theme/resource/slider.json'
 
 export default {
+  created () {
+    this.updateSliderData(sliderData)
+  },
   components: {
     ButtonOutline,
     Carousel,
     Slide,
     'no-ssr': NoSSR
   },
-  mixins: [coreComponent('core/blocks/MainSlider/MainSlider')]
+  mixins: [coreComponent('blocks/MainSlider/MainSlider')]
 }
 </script>
 <style lang="scss">
-@import '~theme/css/base/global_vars';
-$white: map-get($colors, white);
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-white: color(white);
 .main-slider {
   .VueCarousel-pagination {
     position: absolute;
     bottom: 15px;
   }
   .VueCarousel-dot--active .VueCarousel-dot-inner {
-    border: 2px solid $white;
+    border: 2px solid $color-white;
     margin-top: -2px;
   }
 }

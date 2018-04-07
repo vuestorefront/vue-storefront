@@ -1,25 +1,66 @@
 <template>
   <div>
-    <ul v-if="categoryLinks" class="sidebar-submenu absolute w-100 p0 bg-white" :style="styles">
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.slug" v-for="link in categoryLinks">
+    <ul
+      v-if="categoryLinks"
+      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
+      :style="styles"
+    >
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        v-if="parentSlug"
+      >
         <router-link
-          class="px25 py20 c-darkgray no-underline col-xs"
+          class="px25 py20 cl-accent no-underline col-xs"
+          :to="{ name: 'category', params: { id: id, slug: parentSlug }}"
+        >
+          {{ $t('View all') }}
+        </router-link>
+      </li>
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        :key="link.slug"
+        v-for="link in categoryLinks"
+      >
+        <sub-btn
+          class="bg-cl-transparent brdr-none"
+          :id="link.id"
+          :name="link.name"
+          v-if="link.children_data.length"
+        />
+        <router-link
+          v-else
+          class="px25 py20 cl-accent no-underline col-xs"
           :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
         >
           {{ link.name }}
         </router-link>
-        <sub-btn class="flex-end center-self" :id="link.id" v-if="link.children_data.length"/>
-        <sub-category :category-links="link.children_data" :id="link.id" v-if="link.children_data.length"/>
+        <sub-category
+          :category-links="link.children_data"
+          :id="link.id"
+          v-if="link.children_data.length"
+          :parent-slug="link.slug"
+        />
       </li>
     </ul>
-    <ul v-else-if="myAccountLinks" class="sidebar-submenu absolute p0 bg-white" :style="styles">
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex" :key="link.id" v-for="link in myAccountLinks">
-        <router-link class="px25 py20 c-darkgray no-underline col-xs" :to="'/my-account#' + link.anchor">
+    <ul
+      v-else-if="myAccountLinks"
+      class="sidebar-submenu absolute p0 bg-cl-primary"
+      :style="styles"
+    >
+      <li
+        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        :key="link.id"
+        v-for="link in myAccountLinks"
+      >
+        <router-link
+          class="px25 py20 cl-accent no-underline col-xs"
+          :to="'/my-account#' + link.anchor"
+        >
           {{ link.name }}
         </router-link>
       </li>
-      <li class="brdr-bottom brdr-c-lightgray bg-white flex">
-        <a href="#" class="px25 py20 c-darkgray no-underline col-xs" @click="logout">
+      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex">
+        <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click="logout">
           {{ $t('Logout') }}
         </a>
       </li>
@@ -44,6 +85,11 @@ export default {
       type: null,
       required: false,
       default: () => []
+    },
+    parentSlug: {
+      type: String,
+      required: false,
+      default: ''
     },
     myAccountLinks: {
       type: Array,
