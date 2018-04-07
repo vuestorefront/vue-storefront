@@ -1,6 +1,6 @@
 import config from 'config'
 import rootStore from '../../'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '../../lib/event-bus'
 import { calculateProductTax } from 'core/lib/taxcalc'
 import _ from 'lodash'
 
