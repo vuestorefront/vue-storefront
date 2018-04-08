@@ -3,7 +3,7 @@
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
-      @click="openMyAccount(); gotoAccount();"
+      @click="goToAccount();"
       :aria-label="$t('Open my account')"
     >
       <i class="material-icons block">account_circle</i>
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="py5 brdr-top-1 brdr-cl-bg-secondary">
-        <a href="#" class="no-underline block py10 px15" @click.prevent="clickLogout">
+        <a href="#" class="no-underline block py10 px15" @click.prevent="logout">
           {{ $t('Logout') }}
         </a>
       </div>
@@ -29,17 +29,6 @@
 import { coreComponent } from 'core/lib/themes'
 
 export default {
-  methods: {
-    clickLogout () {
-      this.logout()
-      this.$router.push('/')
-    },
-    openMyAccount () {
-      if (this.currentUser) {
-        this.$router.push('/my-account')
-      }
-    }
-  },
   mixins: [coreComponent('blocks/Header/AccountIcon')]
 }
 </script>

@@ -29,13 +29,16 @@ export default {
     })
   },
   methods: {
-    gotoAccount () {
-      if (!this.currentUser) {
+    goToAccount () {
+      if (this.currentUser) {
+        this.$router.push('/my-account')
+      } else {
         this.$bus.$emit('modal-show', 'modal-signup')
       }
     },
     logout () {
       this.$bus.$emit('user-before-logout')
+      this.$router.push('/')
     },
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
