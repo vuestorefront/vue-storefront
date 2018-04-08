@@ -10,9 +10,11 @@
     </button>
     <div v-if="currentUser" class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400">
       <div class="py5">
-        <router-link class="no-underline block py10 px15" :to="{ name: 'my-account' }">
-          {{ $t('My account') }}
-        </router-link>
+        <div v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
+          <router-link class="no-underline block py10 px15" :to="page.link">
+            {{ page.title }}
+          </router-link>
+        </div>
       </div>
       <div class="py5 brdr-top-1 brdr-cl-bg-secondary">
         <a href="#" class="no-underline block py10 px15" @click.prevent="clickLogout">
