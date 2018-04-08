@@ -31,14 +31,7 @@ export default {
   },
   data () {
     return {
-      navigation: [
-        { title: 'My profile', link: '/my-account' },
-        { title: 'My shipping details', link: '/my-account/shipping-details' },
-        { title: 'My newsletter', link: '/my-account/newsletter' },
-        { title: 'My orders', link: '/my-account/orders' },
-        { title: 'My loyalty card', link: '#' },
-        { title: 'My product reviews', link: '#' }
-      ]
+      navigation: []
     }
   },
   created () {

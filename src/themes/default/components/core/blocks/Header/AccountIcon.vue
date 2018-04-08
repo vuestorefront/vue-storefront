@@ -27,8 +27,21 @@
 
 <script>
 import { coreComponent } from 'core/lib/themes'
+import i18n from 'core/lib/i18n'
 
 export default {
+  data () {
+    return {
+      navigation: [
+        { title: i18n.t('My profile'), link: '/my-account' },
+        { title: i18n.t('My shipping details'), link: '/my-account/shipping-details' },
+        { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
+        { title: i18n.t('My orders'), link: '/my-account/orders' },
+        { title: i18n.t('My loyalty card'), link: '#' },
+        { title: i18n.t('My product reviews'), link: '#' }
+      ]
+    }
+  },
   mixins: [coreComponent('blocks/Header/AccountIcon')]
 }
 </script>
