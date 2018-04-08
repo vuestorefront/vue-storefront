@@ -86,7 +86,7 @@ img {
 
 .thumbnails {
   div {
-    margin: 0 20px 30px 0;
+    margin: 0 20px 20px 0;
   }
   @media (max-width: 767px) {
     display: none;
@@ -107,7 +107,7 @@ img {
     opacity: 0;
   }
 
-  .VueCarousel-dot--active .VueCarousel-dot-inner {
+  .VueCarousel-dot--active button {
     border: 2px solid #828282;
     margin-top: -2px;
   }

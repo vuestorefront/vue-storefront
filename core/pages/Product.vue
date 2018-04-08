@@ -241,6 +241,7 @@ export default {
           if (mediaItem.image) {
             images.push({
               'path': this.getThumbnail(mediaItem.image, 600, 744),
+              // 'path': this.getThumbnail(this.product.image, 570, 569),
               'type': 'main'
             })
           } // TODO: add support for the whole gallery
