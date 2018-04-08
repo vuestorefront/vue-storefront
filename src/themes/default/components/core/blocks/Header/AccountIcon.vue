@@ -8,16 +8,13 @@
     >
       <i class="material-icons block">account_circle</i>
     </button>
-    <div
-      :class="dropdownOpen ? 'dropdown-content bg-cl-primary show-dropdown' : 'dropdown-content bg-cl-primary'"
-      v-if="currentUser"
-    >
-      <div class="py5 align-left sans-serif lh20 weight-400">
+    <div v-if="currentUser" class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400">
+      <div class="py5">
         <router-link class="no-underline block py10 px15" :to="{ name: 'my-account' }">
           {{ $t('My account') }}
         </router-link>
       </div>
-      <div class="py5 align-left sans-serif lh20 weight-400 brdr-top-1 brdr-cl-bg-secondary">
+      <div class="py5 brdr-top-1 brdr-cl-bg-secondary">
         <a href="#" class="no-underline block py10 px15" @click.prevent="clickLogout">
           {{ $t('Logout') }}
         </a>
