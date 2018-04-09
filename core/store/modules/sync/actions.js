@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { execute as taskExecute } from 'core/lib/task'
+import { execute as taskExecute } from '../../lib/task'
 import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
 

@@ -1,6 +1,6 @@
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
-import { htmlDecode } from 'core/filters'
+import { htmlDecode } from '../../lib/filters'
 import i18n from '../../lib/i18n'
 
 export default {

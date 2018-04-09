@@ -1,9 +1,23 @@
-import shippingtMethods from 'core/resource/shipping_methods.json'
-
 export default {
   namespaced: true,
   state: {
-    methods: shippingtMethods
+    methods: []
+  },
+  mutations: {
+    addMethod (state, shippingMethods) {
+      state.methods.push(shippingMethods)
+    },
+    replaceMethods (state, shippingMethods) {
+      state.methods = shippingMethods
+    }
+  },
+  actions: {
+    addMethod ({commit}, shippingMethod) {
+      commit('addMethod', shippingMethod)
+    },
+    replaceMethods ({commit}, shippingMethods) {
+      commit('replaceMethods', shippingMethods)
+    }
   },
   getters: {
     shippingMethods (state) {

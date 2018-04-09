@@ -19,6 +19,7 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 import VueOffline from 'vue-offline'
+import shippingtMethods from 'core/resource/shipping_methods.json'
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
@@ -78,12 +79,14 @@ export function createApp () {
     global.$VS.__DEMO_MODE__ = false
   }
 
-  global.$VS.__VERSION__ = '0.2.0'
+  global.$VS.__VERSION__ = '1.0.0-rc2s.0'
   global.$VS.__CONFIG__ = config
   global.$VS.__TAX_COUNTRY__ = config.tax.defaultCountry || 'PL'
   global.$VS.__TAX_REGION__ = config.tax.defaultRegion || ''
   global.$VS.__I18N_COUNTRY__ = config.i18n.defaultCountry || 'US'
   global.$VS.__I18N_LANG__ = config.i18n.defaultLanguage || 'EN'
+
+  store.state.shipping.methods = shippingtMethods
 
   return { app, router, store }
 }

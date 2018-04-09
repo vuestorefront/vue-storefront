@@ -89,7 +89,7 @@ Here you have example on how to the Vuex store should be constructed. Please not
 
 ```js
 import * as types from '../mutation-types'
-import { ValidationError } from 'core/lib/exceptions'
+import { ValidationError } from 'core/store/lib/exceptions'
 import * as entities from '../../lib/entities'
 import * as sw from 'core/lib/sw'
 import config from '../../config'
