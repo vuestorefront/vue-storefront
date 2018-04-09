@@ -213,19 +213,17 @@ let rootStore = new Vuex.Store({
   plugins
 })
 
-Object.assign(rootStore, {
-  i18n: {
-    t: function (key) {
-      return key
-    }
-  },
-  eventBus: new Vue(),
-  init: function (i18n, eventBus) { // TODO: init sub modules "context" with i18n + eventBus
-    this.i18n = i18n
-    this.eventBus = eventBus
-
-    global.$VS.i18n = i18n
-    global.$VS.eventBus = eventBus
+rootStore.i18n = {
+  t: function (key) {
+    return key
   }
-})
+}
+rootStore.eventBus = new Vue()
+rootStore.init = function (i18n, eventBus) { // TODO: init sub modules "context" with i18n + eventBus
+  this.i18n = i18n
+  this.eventBus = eventBus
+
+  global.$VS.i18n = i18n
+  global.$VS.eventBus = eventBus
+}
 export default rootStore
