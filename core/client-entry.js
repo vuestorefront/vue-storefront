@@ -1,13 +1,13 @@
 import { createApp } from './app'
 import config from 'config'
-import { execute } from 'core/lib/task'
+import { execute } from 'core/store/lib/task'
 import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
 
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
-global.isSSR = false
+global.$VS.isSSR = false
 
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
@@ -239,7 +239,7 @@ EventBus.$on('user-before-logout', () => {
     depth: 0
   })
 
-  const usersCollection = global.db.usersCollection
+  const usersCollection = global.$VS.db.usersCollection
   usersCollection.setItem('current-token', '')
 
   if (store.state.route.path === '/my-account') {

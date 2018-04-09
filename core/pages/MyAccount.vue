@@ -52,7 +52,7 @@ export default {
     this.$bus.$off('myAccount-before-updatePreferences', this.onBeforeUpdatePreferences)
   },
   mounted () {
-    const usersCollection = global.db.usersCollection
+    const usersCollection = global.$VS.db.usersCollection
     usersCollection.getItem('current-token', (err, token) => {
       if (err) {
         console.error(err)

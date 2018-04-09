@@ -153,11 +153,11 @@ export default {
       let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
       commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
-    global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
+    global.$VS.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
       if (err) throw new Error(err)
 
       if (config.cart.synchronize) {
-        global.db.cartsCollection.getItem('current-cart-token', (err, token) => {
+        global.$VS.db.cartsCollection.getItem('current-cart-token', (err, token) => {
           if (err) throw new Error(err)
           // TODO: if token is null create cart server side and store the token!
           if (token) { // previously set token
@@ -267,11 +267,11 @@ export default {
       }, { root: true }).then(task => {
         let backendMethods = task.result
         let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0).filter((itm) => {
-          return !(itm.is_server_method)
+          return (typeof itm !== 'object' || !itm.is_server_method)
         }) // copy
         let uniqueBackendMethods = []
         for (let i = 0; i < backendMethods.length; i++) {
-          if (!paymentMethods.find(item => item.code === backendMethods[i].code)) {
+          if (typeof backendMethods[i] === 'object' && !paymentMethods.find(item => item.code === backendMethods[i].code)) {
             backendMethods[i].is_server_method = true
             paymentMethods.push(backendMethods[i])
             uniqueBackendMethods.push(backendMethods[i])
@@ -298,7 +298,7 @@ export default {
         silent: true
       }, { root: true }).then(task => {
         if (task.result.length > 0) {
-          context.commit(types.CART_UPD_SHIPPING, task.result)
+          rootStore.dispatch('shipping/replaceMethods', task.result, { _root: true })
         }
       }).catch(e => {
         console.error(e)

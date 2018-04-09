@@ -23,7 +23,7 @@ export default {
         }
       }
       catSlugSetter(category)
-      const catCollection = global.db.categoriesCollection
+      const catCollection = global.$VS.db.categoriesCollection
       try {
         catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
           console.error(reason) // it doesn't work on SSR

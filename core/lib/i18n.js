@@ -13,5 +13,5 @@ const i18n = new VueI18n({
   messages // set locale messages
 })
 
-global.i18n = i18n
+global.$VS = Object.assign(global.$VS ? global.$VS : {}, { i18n: i18n })
 export default i18n
