@@ -74,5 +74,5 @@ class LocalForageCacheDriver {
 }
 
 // The actual localForage object that we expose as a module or via a
-// global. It's extended by pulling in one of our other libraries.
+// global.$VS. It's extended by pulling in one of our other libraries.
 export default LocalForageCacheDriver

@@ -153,11 +153,11 @@ export default {
       let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
       commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
-    global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
+    global.$VS.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
       if (err) throw new Error(err)
 
       if (config.cart.synchronize) {
-        global.db.cartsCollection.getItem('current-cart-token', (err, token) => {
+        global.$VS.db.cartsCollection.getItem('current-cart-token', (err, token) => {
           if (err) throw new Error(err)
           // TODO: if token is null create cart server side and store the token!
           if (token) { // previously set token

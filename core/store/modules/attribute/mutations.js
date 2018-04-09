@@ -16,7 +16,7 @@ export default {
       attrHashByCode[attr.attribute_code] = attr
       attrHashById[attr.attribute_id] = attr
 
-      const attrCollection = global.db.attributesCollection
+      const attrCollection = global.$VS.db.attributesCollection
       try {
         attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
           console.error(reason) // it doesn't work on SSR

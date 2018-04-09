@@ -31,7 +31,7 @@ export default {
       storeName: 'carts'
     })
     return new Promise((resolve, reject) => {
-      if (global.isSSR) {
+      if (global.$VS.isSSR) {
         taskExecute(task, null, null).then((result) => {
           resolve(result)
         }).catch(err => {

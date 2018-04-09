@@ -1,6 +1,6 @@
 import Vue from 'vue'
-
-if (!global.eventBus) {
-  global.eventBus = new Vue()
+let eventBus = global.$VS ? global.$VS.eventBus : null
+if (!eventBus) {
+  eventBus = new Vue()
 }
-export default global.eventBus
+export default eventBus

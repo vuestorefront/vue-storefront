@@ -72,6 +72,5 @@ const EventBusPlugin = {
     }
   }
 }
-
-global.eventBus = EventBus
+global.$VS = Object.assign(global.$VS ? global.$VS : {}, { eventBus: EventBus })
 export { EventBus as default, EventBusPlugin }

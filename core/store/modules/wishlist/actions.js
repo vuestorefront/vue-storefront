@@ -9,7 +9,7 @@ export default {
   },
   load (context) {
     const commit = context.commit
-    global.db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
+    global.$VS.db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
     })

@@ -9,7 +9,7 @@ import i18n from '../../lib/i18n'
 export default {
   startSession (context) {
     context.commit(types.USER_START_SESSION)
-    const cache = global.db.usersCollection
+    const cache = global.$VS.db.usersCollection
     cache.getItem('current-token', (err, res) => {
       if (err) {
         console.error(err)
@@ -22,7 +22,7 @@ export default {
       EventBus.$emit('session-after-started')
     })
 
-    const newsletterStorage = global.db.newsletterPreferencesCollection
+    const newsletterStorage = global.$VS.db.newsletterPreferencesCollection
     newsletterStorage.getItem('newsletter-preferences', (err, res) => {
       if (err) {
         console.error(err)
@@ -108,7 +108,7 @@ export default {
         console.log('No User token, user unathorized')
         return resolve(null)
       }
-      const cache = global.db.usersCollection
+      const cache = global.$VS.db.usersCollection
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
@@ -256,7 +256,7 @@ export default {
         console.log('No User token, user unathorized')
         return resolve(null)
       }
-      const cache = global.db.ordersHistoryCollection
+      const cache = global.$VS.db.ordersHistoryCollection
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
