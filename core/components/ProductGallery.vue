@@ -13,6 +13,10 @@ export default {
     gallery: {
       type: Array,
       required: true
+    },
+    configuration: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -28,25 +32,22 @@ export default {
     navigate (index) {
       this.$refs.carousel.goToPage(index)
     },
-    reset () {
-      this.navigate(0)
+    selectVariant () {
+      let options = []
+      Object.keys(this.configuration).forEach((e) => {
+        options.push(String(this.configuration[e].id))
+      })
+      let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(options))
+      this.navigate(index)
     },
     toggleZoom () {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
       this.navigate(this.$refs.carousel.currentPage)
-    },
-    selectVariant (option) {
-      for (let prop of this.gallery) {
-        if (prop.options) {
-          let index = this.gallery.findIndex(obj => parseInt(obj.options[option.attribute_code]) === option.id)
-          this.navigate(index)
-        }
-      }
     }
   },
   created () {
-    this.$bus.$on('filter-changed-product', this.selectVariant.bind(this))
-    this.$bus.$on('product-after-load', this.reset)
+    this.$bus.$on('filter-changed-product', this.selectVariant)
+    this.$bus.$on('product-after-load', this.selectVariant)
   }
 }
 </script>

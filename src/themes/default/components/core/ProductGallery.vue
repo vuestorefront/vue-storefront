@@ -106,10 +106,11 @@ img {
   .VueCarousel-navigation {
     opacity: 0;
   }
-
-  .VueCarousel-dot--active button {
+  .VueCarousel-dot {
+    padding: 8px !important;
+  }
+  .VueCarousel-dot button {
     border: 2px solid #828282;
-    margin-top: -2px;
   }
   &:hover {
     .VueCarousel-navigation {
