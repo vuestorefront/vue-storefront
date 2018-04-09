@@ -3,7 +3,7 @@ import EventBus from 'core/plugins/event-bus'
 
 import extensionStore from './store'
 import extensionRoutes from './router'
-import InfoComponent from './components/Info'
+import InfoComponent from './components/info'
 
 const EXTENSION_KEY = 'payment-cash-on-delivery'
 
