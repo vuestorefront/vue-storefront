@@ -1,9 +1,7 @@
 import * as types from '../../mutation-types'
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
 import { htmlDecode } from 'core/filters'
-
-import rootStore from '../../'
-const EventBus = rootStore.EventBus
-const i18n = rootStore.i18n
 
 export default {
   clear (context) {

@@ -6,11 +6,9 @@ import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from 'core/store/modules/attribute/helpers'
 import { quickSearchByQuery } from '../../lib/search'
+import EventBus from '../../lib/event-bus'
 import _ from 'lodash'
 import { productThumbnailPath } from '../../../helpers'
-
-import rootStore from '../../'
-const EventBus = rootStore.EventBus
 
 export default {
   /**

@@ -184,7 +184,8 @@ const plugins = [
     })
   }
 ]
-const rootStore = new Vuex.Store({ // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?
+
+export default new Vuex.Store({ // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?
   modules: {
     order,
     product,
@@ -210,17 +211,3 @@ const rootStore = new Vuex.Store({ // TODO: refactor it to return just the const
   mutations,
   plugins
 })
-
-Object.defineProperties(rootStore, {
-  i18n: {
-    t: function (key) {
-      return key
-    }
-  },
-  eventBus: new Vue(),
-  init: function (i18n, eventBus) {
-    this.i18n = i18n
-    this.eventBus = eventBus
-  }
-})
-export default rootStore

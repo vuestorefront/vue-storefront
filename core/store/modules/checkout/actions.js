@@ -1,7 +1,6 @@
 import * as types from '../../mutation-types'
-import rootStore from '../../'
-const EventBus = rootStore.EventBus
-const i18n = rootStore.i18n
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
 
 export default {
   /**

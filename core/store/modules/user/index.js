@@ -1,9 +1,9 @@
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import rootStore from '../../'
-const EventBus = rootStore.EventBus
-const i18n = rootStore.i18n
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
+import store from '../../'
 
 EventBus.$on('user-after-update', (event) => {
   if (event.resultCode === 200) {
@@ -12,20 +12,20 @@ EventBus.$on('user-after-update', (event) => {
       message: i18n.t('Account data has successfully been updated'),
       action1: { label: 'OK', action: 'close' }
     })
-    rootStore.dispatch('user/refreshCurrentUser', event.result)
+    store.dispatch('user/refreshCurrentUser', event.result)
   }
 })
 
 EventBus.$on('session-after-started', (event) => { // example stock check callback
   console.log('Loading user profile')
-  rootStore.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {})
-  rootStore.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
+  store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {})
+  store.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
 })
 
 // After order has been placed fill in missing address information in user's profile and update orders history
 EventBus.$on('order-after-placed', (order) => {
-  if (rootStore.getters['user/isLoggedIn']) {
-    let currentUser = rootStore.state.user.current
+  if (store.getters['user/isLoggedIn']) {
+    let currentUser = store.state.user.current
     let hasShippingAddress = currentUser.hasOwnProperty('default_shipping')
     let hasBillingAddress = currentUser.hasOwnProperty('default_billing')
     if (!(hasShippingAddress && hasBillingAddress)) {
@@ -63,9 +63,9 @@ EventBus.$on('order-after-placed', (order) => {
         }
       }
 
-      rootStore.dispatch('user/update', { customer: customer })
+      store.dispatch('user/update', { customer: customer })
     }
-    rootStore.dispatch('user/getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
+    store.dispatch('user/getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
   }
 })
 
