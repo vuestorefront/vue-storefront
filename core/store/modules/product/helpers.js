@@ -1,7 +1,7 @@
 import config from 'config'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
-import { calculateProductTax } from 'core/lib/taxcalc'
+import { calculateProductTax } from '../../lib/taxcalc'
 import _ from 'lodash'
 
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well

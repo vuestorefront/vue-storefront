@@ -2,9 +2,9 @@ import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import config from 'config'
 import store from '../../'
-const Ajv = require('ajv') // json validator
 import { ValidationError } from '../../lib/exceptions'
 import i18n from '../../lib/i18n'
+const Ajv = require('ajv') // json validator
 
 export default {
   startSession (context) {
@@ -161,7 +161,7 @@ export default {
    */
   update (context, userData) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('core/models/userProfile.schema.json'))
+    const validate = ajv.compile(require('./userProfile.schema.json'))
 
     if (!validate(userData)) { // schema validation of user profile data
       console.error(validate.errors)

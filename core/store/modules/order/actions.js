@@ -11,7 +11,7 @@ export default {
    */
   placeOrder ({ commit }, order) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('core/models/order.schema.json'))
+    const validate = ajv.compile(require('./order.schema.json'))
 
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
