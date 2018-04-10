@@ -1,12 +1,12 @@
 import * as types from '../../mutation-types'
-import EventBus from 'core/plugins/event-bus'
-import { htmlDecode } from 'core/filters'
-import i18n from 'core/lib/i18n'
+import EventBus from '../../lib/event-bus'
+import { htmlDecode } from '../../lib/filters'
+import i18n from '../../lib/i18n'
 
 export default {
   load (context) {
     const commit = context.commit
-    global.db.compareCollection.getItem('current-compare', (err, storedItems) => {
+    global.$VS.db.compareCollection.getItem('current-compare', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
     })

@@ -1,8 +1,8 @@
 import config from 'config'
 import * as types from '../../mutation-types'
 import rootStore from '../../'
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
 import hash from 'object-hash'
 
 const CART_PULL_INTERVAL_MS = 2000
@@ -143,20 +143,21 @@ export default {
   load (context) {
     console.log('Loading cart ...')
     const commit = context.commit
-    const rootState = context.rootState
     const state = context.state
 
-    if (!state.shipping.code) {
-      state.shipping = rootState.shipping.methods.find((el) => { if (el.default === true) return el }) // TODO: use commit() instead of modifying the state in actions
+    if (!state.shipping.method_code) {
+      let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
+      commit(types.CART_UPD_SHIPPING, shippingMethod)
     }
     if (!state.payment.code) {
-      state.payment = rootState.payment.methods.find((el) => { if (el.default === true) return el })
+      let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
+      commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
-    global.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
+    global.$VS.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
       if (err) throw new Error(err)
 
       if (config.cart.synchronize) {
-        global.db.cartsCollection.getItem('current-cart-token', (err, token) => {
+        global.$VS.db.cartsCollection.getItem('current-cart-token', (err, token) => {
           if (err) throw new Error(err)
           // TODO: if token is null create cart server side and store the token!
           if (token) { // previously set token
@@ -265,15 +266,18 @@ export default {
         silent: true
       }, { root: true }).then(task => {
         let backendMethods = task.result
-        let paymentMethods = rootStore.state.payment.methods.slice(0) // copy
+        let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0).filter((itm) => {
+          return (typeof itm !== 'object' || !itm.is_server_method)
+        }) // copy
         let uniqueBackendMethods = []
         for (let i = 0; i < backendMethods.length; i++) {
-          if (!paymentMethods.find(item => item.code === backendMethods[i].code)) {
+          if (typeof backendMethods[i] === 'object' && !paymentMethods.find(item => item.code === backendMethods[i].code)) {
+            backendMethods[i].is_server_method = true
             paymentMethods.push(backendMethods[i])
             uniqueBackendMethods.push(backendMethods[i])
           }
         }
-        context.commit(types.CART_UPD_PAYMENT, paymentMethods)
+        rootStore.dispatch('payment/replaceMethods', paymentMethods, { _root: true })
         rootStore.commit('setBackendPaymentMethods', uniqueBackendMethods)
       }).catch(e => {
         console.error(e)
@@ -294,7 +298,7 @@ export default {
         silent: true
       }, { root: true }).then(task => {
         if (task.result.length > 0) {
-          context.commit(types.CART_UPD_SHIPPING, task.result)
+          rootStore.dispatch('shipping/replaceMethods', task.result, { _root: true })
         }
       }).catch(e => {
         console.error(e)
@@ -305,8 +309,8 @@ export default {
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-        let shipping = context.getters.shippingMethods[0]
-        let payment = context.getters.paymentMethods[0]
+        let shipping = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
+        let payment = context.rootGetters['payment/paymentMethods'].find(item => item.default)
         methodsData = {
           country: country,
           method_code: shipping ? shipping.method_code : null,
