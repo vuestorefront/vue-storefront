@@ -131,10 +131,8 @@ table {
 
   }
 
-  @media (min-width: 768px) {
-    &:hover .dropdown-content {
-      display: block;
-    }
+  &:hover .dropdown-content {
+    display: block;
   }
 
 }
