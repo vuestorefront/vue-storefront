@@ -16,6 +16,7 @@ const themesRoot = '../../src/themes'
 
 const themeRoot = require('./theme-path')
 const themeComponents = themeRoot + '/components'
+const themeExtensions = themeRoot + '/extensions'
 const themePages = themeRoot + '/pages'
 const themePlugins = themeRoot + '/plugins'
 const themeFilters = themeRoot + '/filters'
@@ -79,7 +80,8 @@ module.exports = {
       'theme/pages': themePages,
       'theme/plugins': themePlugins,
       'theme/resource': themeResources,
-      'theme/store': themeStores
+      'theme/store': themeStores,
+      'theme/extensions': themeExtensions
     }
   },
   output: {

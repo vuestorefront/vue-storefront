@@ -99,7 +99,7 @@ export default {
             options: { sku: pl.linked_product_sku },
             setCurrentProduct: false,
             selectDefaultVariant: false
-          }).catch(err => { console.log('err'); console.error(err) }).then((asocProd) => {
+          }).catch(err => { console.error(err) }).then((asocProd) => {
             pl.product = asocProd
             pl.product.qty = 1
             product.price += pl.product.price
@@ -262,6 +262,9 @@ export default {
           }
           // check is prod has configurable children
           const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
+          if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
+            prod = _.omit(prod, ['configurable_children', 'configurable_options'])
+          }
           // set current product - configurable or not
           if (prod.type_id === 'configurable' && hasConfigurableChildren) {
             // set first available configuration
