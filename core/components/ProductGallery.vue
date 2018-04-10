@@ -52,7 +52,12 @@ export default {
   },
   created () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
-    this.$bus.$on('product-after-mounted', this.selectVariant)
+    this.$bus.$on('product-after-load', this.selectVariant)
+  },
+  mounted () {
+    setTimeout(() => {
+      this.selectVariant()
+    }, 0)
   }
 }
 </script>
