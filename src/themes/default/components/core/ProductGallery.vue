@@ -97,7 +97,10 @@ img {
 .media-gallery {
   .VueCarousel-pagination {
     position: absolute;
-    bottom: 0;
+    bottom: 15px;
+    @media (max-width: 767px) {
+      display: none;
+    }
   }
   .VueCarousel-navigation-button {
     margin: 0;

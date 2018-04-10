@@ -250,6 +250,7 @@ export default {
             images.push({
               'path': this.getThumbnail(confChild.image, 600, 744),
               'options': [confChild.color, confChild.size]
+              // 'options': confChild
             })
           }
         }

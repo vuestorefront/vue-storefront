@@ -21,7 +21,9 @@ export default {
   },
   data () {
     return {
-      isZoomOpen: false
+      isZoomOpen: false,
+      slideOptions: [],
+      currentOptions: this.getCurrentOptions()
     }
   },
   components: {
@@ -33,12 +35,16 @@ export default {
       this.$refs.carousel.goToPage(index)
     },
     selectVariant () {
+      this.currentOptions = this.getCurrentOptions()
+      let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.currentOptions))
+      this.navigate(index)
+    },
+    getCurrentOptions () {
       let options = []
       Object.keys(this.configuration).forEach((e) => {
         options.push(String(this.configuration[e].id))
       })
-      let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(options))
-      this.navigate(index)
+      return options
     },
     toggleZoom () {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
