@@ -19,10 +19,6 @@ The main branches used by the core team are:
 
 Please use "develop" for development purposes as the "master" can be merged just as the new release is coming out (about once a month)!
 
-# Coding Style
-
-You should create the code in regards to our [Coding Guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Coding%20Guidelines.md). This standard applies to Extensions, Plugins and Core modules as well.
-
 ## Issue reporting guidelines:
 
 Always define type of issue:
