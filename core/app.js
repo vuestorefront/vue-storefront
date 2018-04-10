@@ -1,5 +1,6 @@
 if (!global.$VS) global.$VS = {}
 
+import _ from 'lodash'
 import Vue from 'vue'
 import App from 'theme/App'
 import store from 'core/store'
@@ -13,6 +14,7 @@ import EventBus from 'core/plugins/event-bus'
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
 import registerExtensions from 'core/lib/extensions'
 import extensionEntryPoints from 'src/extensions'
+import themeExtensionEntryPoints from 'theme/extensions'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
@@ -62,7 +64,7 @@ export function createApp () {
   })
 
   registerExtensions(
-    extensionEntryPoints,
+    _.union(extensionEntryPoints, themeExtensionEntryPoints),
     app,
     router,
     store,
