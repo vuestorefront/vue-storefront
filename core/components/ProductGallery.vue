@@ -22,9 +22,9 @@ export default {
   data () {
     return {
       isZoomOpen: false,
-      singlePhoto: this.gallery.length === 1,
+      singlePhoto: false,
       slideOptions: [],
-      currentOptions: this.getCurrentOptions()
+      currentOptions: []
     }
   },
   components: {
@@ -33,10 +33,13 @@ export default {
   },
   methods: {
     navigate (index) {
-      this.$refs.carousel.goToPage(index)
+      if (this.$refs.carousel && index) {
+        this.$refs.carousel.goToPage(index)
+      }
     },
     selectVariant () {
       this.currentOptions = this.getCurrentOptions()
+      this.singlePhoto = this.gallery.length === 1
       let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.currentOptions))
       this.navigate(index)
     },
@@ -53,7 +56,6 @@ export default {
     }
   },
   created () {
-    console.log(this.gallery)
     this.$bus.$on('filter-changed-product', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
   }
