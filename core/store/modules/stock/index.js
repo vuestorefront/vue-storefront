@@ -1,6 +1,6 @@
 import actions from './actions'
 import store from '../../'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import config from 'config'
 

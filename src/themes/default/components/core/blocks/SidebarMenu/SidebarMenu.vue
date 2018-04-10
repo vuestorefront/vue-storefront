@@ -85,17 +85,10 @@
             </router-link>
           </li>
           <li @click="closeMenu" class="brdr-bottom brdr-cl-secondary flex">
-            <router-link
-              v-if="currentUser"
-              class="block px25 py20 cl-accent no-underline col-xs"
-              to="/my-account"
-              exact
-            >
-              {{ $t('My account') }}
-            </router-link>
             <sub-btn
               v-if="currentUser"
-              class="w-50 bg-cl-transparent brdr-none align-right"
+              :name="$t('My account')"
+              class="bg-cl-transparent brdr-none"
             />
             <sub-category
               v-if="currentUser"
@@ -105,7 +98,7 @@
             <a
               v-if="!currentUser"
               href="#"
-              @click="login"
+              @click.prevent="login"
               class="block w-100 px25 py20 cl-accent no-underline"
             >
               {{ $t('My account') }}
@@ -144,32 +137,32 @@ export default {
         {
           id: 1,
           name: i18n.t('My profile'),
-          anchor: 'profile'
+          url: '/my-account'
         },
         {
           id: 2,
           name: i18n.t('My shipping details'),
-          anchor: 'shipping_details'
+          url: '/my-account/shipping-details'
         },
         {
           id: 3,
           name: i18n.t('My newsletter'),
-          anchor: 'newsletter'
+          url: '/my-account/newsletter'
         },
         {
           id: 4,
           name: i18n.t('My orders'),
-          anchor: ''
+          url: '/my-account/orders'
         },
         {
           id: 5,
           name: i18n.t('My loyalty card'),
-          anchor: ''
+          url: '#'
         },
         {
           id: 6,
           name: i18n.t('My product reviews'),
-          anchor: ''
+          url: '#'
         }
       ]
     }

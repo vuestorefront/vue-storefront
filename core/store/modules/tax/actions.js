@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { quickSearchByQuery } from 'core/lib/search'
+import { quickSearchByQuery } from '../../lib/search'
 import builder from 'bodybuilder'
 
 export default {

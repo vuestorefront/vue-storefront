@@ -1,7 +1,7 @@
 import * as types from '../../mutation-types'
-import { quickSearchByQuery } from 'core/lib/search'
-import { entityKeyName } from 'core/lib/entities'
-import EventBus from 'core/plugins/event-bus'
+import { quickSearchByQuery } from '../../lib/search'
+import { entityKeyName } from '../../lib/entities'
+import EventBus from '../../lib/event-bus'
 const bodybuilder = require('bodybuilder')
 
 export default {
@@ -112,7 +112,7 @@ export default {
           reject(Error('Category query returned empty result ' + key + ' = ' + value))
         }
       } else {
-        const catCollection = global.db.categoriesCollection
+        const catCollection = global.$VS.db.categoriesCollection
         // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
         if (!catCollection.getItem(entityKeyName(key, value), setcat) && value !== 1) {
           reject(Error('Category query returned empty result ' + key + ' = ' + value))

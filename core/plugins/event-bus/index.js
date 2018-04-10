@@ -72,5 +72,5 @@ const EventBusPlugin = {
     }
   }
 }
-
+if (!global.$VS) { global.$VS = { eventBus: EventBus } } else { global.$VS.eventBus = EventBus }
 export { EventBus as default, EventBusPlugin }

@@ -1,6 +1,6 @@
 <template>
   <div class="product align-center p15">
-    <div @click.capture="preventClicks">
+    <div>
       <router-link
         class="no-underline"
         :to="{
@@ -109,13 +109,6 @@ export default {
     },
     isNew () {
       return this.product.new === '1' ? 'new' : ''
-    }
-  },
-  methods: {
-    preventClicks (e) {
-      if (this.clicks > 1) {
-        e.preventDefault()
-      }
     }
   }
 }

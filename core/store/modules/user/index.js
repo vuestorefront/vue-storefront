@@ -1,8 +1,8 @@
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
 import store from '../../'
 
 EventBus.$on('user-after-update', (event) => {

@@ -7,7 +7,7 @@
 <script>
 import builder from 'bodybuilder'
 
-import { breadCrumbRoutes } from 'core/helpers'
+import { breadCrumbRoutes } from 'core/store/helpers'
 import config from 'config'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
@@ -100,6 +100,7 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
   return searchProductQuery
 }
 
+// TODO: Refactor - move this function to the Vuex store
 function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50 }) {
   return store.dispatch('product/list', {
     query: searchProductQuery.build(),
@@ -226,6 +227,7 @@ export default {
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
+      console.log('Entering asyncData for Category root ' + new Date())
       const defaultFilters = config.products.defaultFilters
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category

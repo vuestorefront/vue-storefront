@@ -1,14 +1,13 @@
 import config from 'config'
 import * as types from '../../mutation-types'
-import { breadCrumbRoutes } from 'core/helpers'
+import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { configureProductAsync, doPlatformPricesSync, calculateTaxes } from './helpers'
 import bodybuilder from 'bodybuilder'
-import { entityKeyName } from 'core/lib/entities'
-import { optionLabel } from 'core/store/modules/attribute/helpers'
-import { quickSearchByQuery } from 'core/lib/search'
-import EventBus from 'core/plugins/event-bus'
+import { entityKeyName } from '../../lib/entities'
+import { optionLabel } from '../attribute/helpers'
+import { quickSearchByQuery } from '../../lib/search'
+import EventBus from '../../lib/event-bus'
 import _ from 'lodash'
-import { productThumbnailPath } from '../../../helpers'
 
 export default {
   /**
@@ -100,7 +99,7 @@ export default {
             options: { sku: pl.linked_product_sku },
             setCurrentProduct: false,
             selectDefaultVariant: false
-          }).catch(err => { console.log('err'); console.error(err) }).then((asocProd) => {
+          }).catch(err => { console.error(err) }).then((asocProd) => {
             pl.product = asocProd
             pl.product.qty = 1
             product.price += pl.product.price
@@ -200,7 +199,7 @@ export default {
     return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
-        const cache = global.db.elasticCacheCollection
+        const cache = global.$VS.db.elasticCacheCollection
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
           if (prod.configurable_children) {
             for (let configurableChild of prod.configurable_children) {
@@ -247,7 +246,7 @@ export default {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = global.db.elasticCacheCollection
+      const cache = global.$VS.db.elasticCacheCollection
       cache.getItem(cacheKey, (err, res) => {
         // report errors
         if (err) {
@@ -263,6 +262,9 @@ export default {
           }
           // check is prod has configurable children
           const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
+          if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
+            prod = _.omit(prod, ['configurable_children', 'configurable_options'])
+          }
           // set current product - configurable or not
           if (prod.type_id === 'configurable' && hasConfigurableChildren) {
             // set first available configuration
@@ -279,15 +281,15 @@ export default {
           const cachedProduct = setupProduct(res)
           if (config.products.alwaysSyncPlatformPricesOver) {
             doPlatformPricesSync([cachedProduct]).then((products) => {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
               resolve(products[0])
             })
             if (!config.products.waitForPlatformSync) {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
           } else {
-            EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+            if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
             resolve(cachedProduct)
           }
         } else {
@@ -298,7 +300,7 @@ export default {
             prefetchGroupProducts: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
               resolve(setupProduct(res.items[0]))
             } else {
               reject(Error('Product query returned empty result'))

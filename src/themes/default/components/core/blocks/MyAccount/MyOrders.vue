@@ -32,13 +32,13 @@
               <td class="fs-medium lh25 hide-on-xs">{{ $t('Purchase') }}</td>
               <td class="fs-medium lh25 hide-on-xs">{{ order.status | capitalize }}</td>
               <td class="fs-medium lh25">
-                <span class="more relative">
+                <span class="relative dropdown">
                   <i class="material-icons cl-secondary pointer">more_horiz</i>
-                  <div class="text absolute px20 py10 h5 bg-cl-primary">
-                    <router-link class="py5" :to="`/my-account/orders/${order.entity_id}`">
+                  <div class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400 fs-medium-small py5">
+                    <router-link class="no-underline block py10 px15" :to="`/my-account/orders/${order.entity_id}`">
                       {{ $t('View order') }}
                     </router-link>
-                    <a href="#" class="py5" @click.prevent="remakeOrder(order.items)">{{ $t('Remake order') }}</a>
+                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(order.items)">{{ $t('Remake order') }}</a>
                   </div>
                 </span>
               </td>
@@ -63,9 +63,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/base/global_vars';
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
-$color-hover: color(gainsboro);
+$color-icon-hover: color(secondary, $colors-background);
 
 table {
   border-collapse: collapse;
@@ -99,7 +100,7 @@ table {
 
 }
 
-.more {
+.dropdown {
   display: block;
   margin: -20px;
   padding: 20px;
@@ -109,29 +110,31 @@ table {
     padding: 10px;
   }
 
-  &:hover .text {
-    display: block;
-  }
-
-  .text {
+  .dropdown-content {
     display: none;
+    position: absolute;
     right: 0;
     top: 100%;
-    box-sizing: border-box;
-    width: 150px;
+    width: 160px;
     z-index: 1;
-    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
 
-    a {
-      display: block;
+  a {
+    opacity: .6;
 
-      &:hover {
-        color: $color-hover;
-      }
-
+    &:hover,
+    &:focus {
+      background-color: $color-icon-hover;
+      opacity: 1;
     }
 
   }
 
+  &:hover .dropdown-content {
+    display: block;
+  }
+
 }
+
 </style>

@@ -20,6 +20,7 @@
 import Composite from 'core/mixins/composite'
 
 export default {
+  name: 'ThankYouPage',
   mixins: [Composite]
 }
 </script>

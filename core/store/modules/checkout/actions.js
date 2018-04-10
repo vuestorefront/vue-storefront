@@ -1,6 +1,6 @@
 import * as types from '../../mutation-types'
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
 
 export default {
   /**
@@ -39,19 +39,19 @@ export default {
     commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
   },
   load ({ commit }) {
-    global.db.checkoutFieldsCollection.getItem('personal-details', (err, details) => {
+    global.$VS.db.checkoutFieldsCollection.getItem('personal-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_PERSONAL_DETAILS, details)
       }
     })
-    global.db.checkoutFieldsCollection.getItem('shipping-details', (err, details) => {
+    global.$VS.db.checkoutFieldsCollection.getItem('shipping-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_SHIPPING_DETAILS, details)
       }
     })
-    global.db.checkoutFieldsCollection.getItem('payment-details', (err, details) => {
+    global.$VS.db.checkoutFieldsCollection.getItem('payment-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, details)

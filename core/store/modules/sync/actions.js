@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { execute as taskExecute } from 'core/lib/task'
+import { execute as taskExecute } from '../../lib/task'
 import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
 
@@ -31,7 +31,7 @@ export default {
       storeName: 'carts'
     })
     return new Promise((resolve, reject) => {
-      if (global.isSSR) {
+      if (global.$VS.isSSR) {
         taskExecute(task, null, null).then((result) => {
           resolve(result)
         }).catch(err => {
