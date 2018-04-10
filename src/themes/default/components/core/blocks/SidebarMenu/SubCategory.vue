@@ -43,24 +43,25 @@
       </li>
     </ul>
     <ul
-      v-else-if="myAccountLinks"
-      class="sidebar-submenu absolute p0 bg-cl-primary"
+      v-if="myAccountLinks"
+      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
       :style="styles"
     >
       <li
         class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
         :key="link.id"
         v-for="link in myAccountLinks"
+        @click="notify(link.name)"
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="'/my-account#' + link.anchor"
+          :to="link.url"
         >
           {{ link.name }}
         </router-link>
       </li>
       <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex">
-        <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click="logout">
+        <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click.prevent="logout">
           {{ $t('Logout') }}
         </a>
       </li>
@@ -70,6 +71,7 @@
 <script>
 import { mapState } from 'vuex'
 import SubBtn from './SubBtn.vue'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'SubCategory',
@@ -84,7 +86,7 @@ export default {
     categoryLinks: {
       type: null,
       required: false,
-      default: () => []
+      default: false
     },
     parentSlug: {
       type: String,
@@ -92,9 +94,9 @@ export default {
       default: ''
     },
     myAccountLinks: {
-      type: Array,
+      type: null,
       required: false,
-      default: () => {}
+      default: false
     }
   },
   computed: {
@@ -111,6 +113,15 @@ export default {
   methods: {
     logout () {
       this.$bus.$emit('user-before-logout')
+    },
+    notify (title) {
+      if (title === 'My loyalty card' || title === 'My product reviews') {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
+          action1: { label: 'OK', action: 'close' }
+        })
+      }
     }
   }
 }
