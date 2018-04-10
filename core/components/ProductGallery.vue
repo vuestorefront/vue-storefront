@@ -21,10 +21,7 @@ export default {
   },
   data () {
     return {
-      isZoomOpen: false,
-      singlePhoto: false,
-      slideOptions: [],
-      currentOptions: []
+      isZoomOpen: false
     }
   },
   components: {
@@ -38,9 +35,7 @@ export default {
       }
     },
     selectVariant () {
-      this.currentOptions = this.getCurrentOptions()
-      this.singlePhoto = this.gallery.length === 1
-      let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.currentOptions))
+      let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.getCurrentOptions()))
       this.navigate(index)
     },
     getCurrentOptions () {
@@ -57,7 +52,7 @@ export default {
   },
   created () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
-    this.$bus.$on('product-after-load', this.selectVariant)
+    this.$bus.$on('product-after-mounted', this.selectVariant)
   }
 }
 </script>
