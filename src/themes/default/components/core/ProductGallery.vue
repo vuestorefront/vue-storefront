@@ -14,7 +14,12 @@
             </transition>
           </div>
         </div>
-        <div :class="{ 'col-md-10' : isZoomOpen}">
+        <div v-if="singlePhoto">
+          <transition name="fade" appear>
+            <img v-lazy="gallery[0].path" class="mw-100 pointer" ref="gallery[0].path">
+          </transition>
+        </div>
+        <div v-else :class="{ 'col-md-10' : isZoomOpen}">
           <no-ssr>
             <carousel
               :per-page="1"
@@ -38,7 +43,7 @@
               </slide>
             </carousel>
           </no-ssr>
-          <i v-if="isZoomOpen==false" class="zoom-in material-icons p15 cl-bg-tertiary pointer" @click="toggleZoom">zoom_in</i>
+          <i v-if="isZoomOpen === false" class="zoom-in material-icons p15 cl-bg-tertiary pointer" @click="toggleZoom">zoom_in</i>
         </div>
       </div>
     </div>

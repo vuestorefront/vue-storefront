@@ -22,6 +22,7 @@ export default {
   data () {
     return {
       isZoomOpen: false,
+      singlePhoto: this.gallery.length === 1,
       slideOptions: [],
       currentOptions: this.getCurrentOptions()
     }
@@ -52,6 +53,7 @@ export default {
     }
   },
   created () {
+    console.log(this.gallery)
     this.$bus.$on('filter-changed-product', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
   }
