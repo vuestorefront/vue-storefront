@@ -94,6 +94,7 @@ function fetchData (store, route) {
  */
 function loadData ({ store, route }) {
   return new Promise((resolve, reject) => {
+    console.log('Entering loadData for Product root ' + new Date())
     EventBus.$emit('product-before-load', { store: store, route: route })
 
     store.dispatch('product/reset').then(() => {
@@ -152,13 +153,17 @@ export default {
   methods: {
     validateRoute () {
       let inst = this
-      inst.loading = true
-      loadData({ store: this.$store, route: this.$route }).then((res) => {
-        inst.loading = false
-        inst.defaultOfflineImage = inst.product.image
-        stateCheck.bind(this)()
-        this.$bus.$on('filter-changed-product', filterChanged.bind(this))
-      })
+      if (!inst.loading) {
+        inst.loading = true
+        loadData({ store: this.$store, route: this.$route }).then((res) => {
+          inst.loading = false
+          inst.defaultOfflineImage = inst.product.image
+          stateCheck.bind(this)()
+          this.$bus.$on('filter-changed-product', filterChanged.bind(this))
+        })
+      } else {
+        console.error('Error with loading = true in Product.vue; Reload page')
+      }
     },
     addToFavorite () {
       let self = this

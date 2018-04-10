@@ -227,6 +227,7 @@ export default {
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
+      console.log('Entering asyncData for Category root ' + new Date())
       const defaultFilters = config.products.defaultFilters
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
