@@ -18,7 +18,7 @@
 "Product {productName} has been added to the compare!","商品 {productName} が比較に追加されました!"
 "Product {productName} has been removed from compare!","商品 {productName} が比較から削除されました!"
 "Product {productName} has been added to wishlist!","商品 {productName} が欲しいものリストに追加されました!"
-"Product {productName} has been removed from wishlit!","商品 {productName} が欲しいモノリストから削除されました!"
+"Product {productName} has been removed from wishlist!","商品 {productName} が欲しいモノリストから削除されました!"
 "Account data has successfully been updated","アカウント情報が更新されました"
 "You are logged out","ログアウトしました"
 "Remove from compare","比較から削除する"

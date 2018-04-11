@@ -26,7 +26,7 @@ export default {
     commit(types.WISH_DEL_ITEM, { product })
     EventBus.$emit('notification', {
       type: 'success',
-      message: i18n.t('Product {productName} has been removed from wishlit!', { productName: htmlDecode(product.name) }),
+      message: i18n.t('Product {productName} has been removed from wishlist!', { productName: htmlDecode(product.name) }),
       action1: { label: 'OK', action: 'close' }
     })
   }
