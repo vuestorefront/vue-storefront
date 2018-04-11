@@ -14,7 +14,10 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
 * <a href="#how-to-sync-the-products-cart-with-magento-to-get-the-cart-promo-rules-up-and-runnig">How to sync the products cart with Magento to get the Cart Promo Rules up and runnig</a>
 * <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent an error "Can’t build storefront npm"</a>
-
+* <a href="#legacy-software">Do you think it could be used with a legacy bespoke PHP eCommerce?</a>
+* <a href="#payment-gateways">Is there any documentation on integrating payment gateways?</a>
+* <a href="#i18n-support">Is there any internationalisation support?</a>
+* <a href="#caching-strategy">If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -175,3 +178,21 @@ npm install vue-carousel vue-no-ssr
 npm run build # check if no errors
 npm run installer
 ```
+
+### <a name="legacy-software"></a>Do you think it could be used with a legacy bespoke PHP eCommerce?
+
+Yes I believe it could. You should expose the API accordingly to our spec: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md and the second step is to create a data bridge to fill out the ElasticSearch with the current catalog data: https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6
+
+### <a name="payment-gateways"></a>Is there any documentation on integrating payment gateways?
+
+We're working on kind of boilerplate for payment modules. Right now please just take a look at a live example: https://github.com/develodesign/vue-storefront-stripe and try to follow the design patterns from there. The task where boilerplate + docs will show up is: https://github.com/DivanteLtd/vue-storefront/issues/923
+
+### <a name="i18n-support"></a>Is there any internationalisation support? 
+
+es, we already have 7 languages supported by default (EN, FR, ES, RU, JP, NL, DE) and the docs: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md
+The currency is set in the local.json configuration file and it's (along with the language) set per instance - so if You have few languages and countries supported You need to run (as for now) few separate instances
+
+### <a name="caching-strategy"></a>If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device
+
+Not necessarily. VS is caching the products from the categories browsed. This is default solution which can be changed by modifying 'core/store/lib/search.js'
+
