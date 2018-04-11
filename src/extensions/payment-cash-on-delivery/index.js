@@ -25,7 +25,7 @@ export default function (app, router, store, config) {
     'offline': true
   }
 
-  app.$store.state.payment.methods.push(paymentMethodConfig)
+  app.$store.dispatch('payment/addMethod', paymentMethodConfig)
 
   // Mount the info component when required.
   EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {

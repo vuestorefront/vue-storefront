@@ -31,14 +31,7 @@ export default {
   },
   data () {
     return {
-      navigation: [
-        { title: 'My profile', link: '/my-account' },
-        { title: 'My shipping details', link: '/my-account/shipping-details' },
-        { title: 'My newsletter', link: '/my-account/newsletter' },
-        { title: 'My orders', link: '/my-account/orders' },
-        { title: 'My loyalty card', link: '#' },
-        { title: 'My product reviews', link: '#' }
-      ]
+      navigation: []
     }
   },
   created () {
@@ -52,7 +45,7 @@ export default {
     this.$bus.$off('myAccount-before-updatePreferences', this.onBeforeUpdatePreferences)
   },
   mounted () {
-    const usersCollection = global.db.usersCollection
+    const usersCollection = global.$VS.db.usersCollection
     usersCollection.getItem('current-token', (err, token) => {
       if (err) {
         console.error(err)

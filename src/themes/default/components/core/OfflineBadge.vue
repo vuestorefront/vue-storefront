@@ -1,7 +1,7 @@
 <template>
   <no-ssr>
     <div
-      v-offline
+      v-show="OfflineOnly"
       class="offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs"
     >
       {{ $t('You are offline, some of the functionalities are limited') }}
@@ -9,6 +9,15 @@
   </no-ssr>
 </template>
 
+<script>
+import NoSSR from 'vue-no-ssr'
+
+export default {
+  components: {
+    'no-ssr': NoSSR
+  }
+}
+</script>
 <style scoped>
 .offline-badge {
   bottom: 0;

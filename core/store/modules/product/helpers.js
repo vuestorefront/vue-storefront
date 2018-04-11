@@ -1,7 +1,7 @@
 import config from 'config'
 import rootStore from '../../'
-import EventBus from 'core/plugins/event-bus'
-import { calculateProductTax } from 'core/lib/taxcalc'
+import EventBus from '../../lib/event-bus'
+import { calculateProductTax } from '../../lib/taxcalc'
 import _ from 'lodash'
 
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
@@ -100,7 +100,7 @@ export function doPlatformPricesSync (products) {
         }
         resolve(products)
       })
-      if (!config.products.waitForPlatformSync && !global.isSSR) {
+      if (!config.products.waitForPlatformSync && !global.$VS.isSSR) {
         console.log('Returning products, the prices yet to come from backend!')
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
@@ -127,7 +127,7 @@ export function calculateTaxes (products, store) {
     } else {
       store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
         for (let product of products) {
-          product = calculateProductTax(product, tcs.items, global.__TAX_COUNTRY__, global.__TAX_REGION__)
+          product = calculateProductTax(product, tcs.items, global.$VS.__TAX_COUNTRY__, global.$VS.__TAX_REGION__)
         }
         doPlatformPricesSync(products).then((products) => {
           resolve(products)

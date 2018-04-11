@@ -39,8 +39,21 @@ import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDet
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
+import i18n from 'core/lib/i18n'
 
 export default {
+  data () {
+    return {
+      navigation: [
+        { title: i18n.t('My profile'), link: '/my-account' },
+        { title: i18n.t('My shipping details'), link: '/my-account/shipping-details' },
+        { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
+        { title: i18n.t('My orders'), link: '/my-account/orders' },
+        { title: i18n.t('My loyalty card'), link: '#' },
+        { title: i18n.t('My product reviews'), link: '#' }
+      ]
+    }
+  },
   components: {
     Breadcrumbs,
     MyProfile,

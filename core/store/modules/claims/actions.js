@@ -1,6 +1,6 @@
 export default {
   set (context, { claimCode, value, description }) {
-    const claimCollection = global.db.claimsCollection
+    const claimCollection = global.$VS.db.claimsCollection
     claimCollection.setItem(claimCode, {
       code: claimCode,
       created_at: new Date(),
@@ -12,14 +12,14 @@ export default {
   },
 
   unset (context, { claimCode }) {
-    const claimCollection = global.db.claimsCollection
+    const claimCollection = global.$VS.db.claimsCollection
     claimCollection.removeItem(claimCode).catch((reason) => {
       console.error(reason) // it doesn't work on SSR
     })
   },
 
   check (context, { claimCode }) {
-    const claimCollection = global.db.claimsCollection
+    const claimCollection = global.$VS.db.claimsCollection
     return claimCollection.getItem(claimCode).catch((reason) => {
       console.error(reason) // it doesn't work on SSR
     })

@@ -1,3 +1,6 @@
+if (!global.$VS) global.$VS = {}
+
+import _ from 'lodash'
 import Vue from 'vue'
 import App from 'theme/App'
 import store from 'core/store'
@@ -5,16 +8,29 @@ import router from 'core/router'
 import config from 'config'
 import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
+import themeModules from 'theme/store'
+import EventBus from 'core/plugins/event-bus'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
 import registerExtensions from 'core/lib/extensions'
 import extensionEntryPoints from 'src/extensions'
+import themeExtensionEntryPoints from 'theme/extensions'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 import VueOffline from 'vue-offline'
+import shippingMethods from 'core/resource/shipping_methods.json'
+
+if (themeModules) {
+  for (const moduleName of Object.keys(themeModules)) {
+    console.log('Registering custom, theme Vuex store as module', moduleName)
+    store.registerModule(moduleName, themeModules[moduleName])
+  }
+}
+
+store.init(i18n, EventBus)
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
@@ -48,7 +64,7 @@ export function createApp () {
   })
 
   registerExtensions(
-    extensionEntryPoints,
+    _.union(extensionEntryPoints, themeExtensionEntryPoints),
     app,
     router,
     store,
@@ -60,17 +76,19 @@ export function createApp () {
   app.$emit('application-after-init', app)
 
   if (config.demomode === true) {
-    global.__DEMO_MODE__ = true
+    global.$VS.__DEMO_MODE__ = true
   } else {
-    global.__DEMO_MODE__ = false
+    global.$VS.__DEMO_MODE__ = false
   }
 
-  global.__VERSION__ = '0.2.0'
-  global.__CONFIG__ = config
-  global.__TAX_COUNTRY__ = config.tax.defaultCountry || 'PL'
-  global.__TAX_REGION__ = config.tax.defaultRegion || ''
-  global.__I18N_COUNTRY__ = config.i18n.defaultCountry || 'US'
-  global.__I18N_LANG__ = config.i18n.defaultLanguage || 'EN'
+  global.$VS.__VERSION__ = '1.0.0-rc2s.0'
+  global.$VS.__CONFIG__ = config
+  global.$VS.__TAX_COUNTRY__ = config.tax.defaultCountry || 'PL'
+  global.$VS.__TAX_REGION__ = config.tax.defaultRegion || ''
+  global.$VS.__I18N_COUNTRY__ = config.i18n.defaultCountry || 'US'
+  global.$VS.__I18N_LANG__ = config.i18n.defaultLanguage || 'EN'
+
+  store.state.shipping.methods = shippingMethods
 
   return { app, router, store }
 }

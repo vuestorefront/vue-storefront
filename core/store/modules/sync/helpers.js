@@ -1,4 +1,4 @@
-import * as entities from 'core/lib/entities'
+import * as entities from '../../lib/entities'
 
 export function _prepareTask (task) {
   const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough

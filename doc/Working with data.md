@@ -6,7 +6,7 @@ Vue storefront uses two primary data sources:
 
 ## Local data store
 
-You can access localForage repositories thru `Vue.$db` or `global.db` objects anywhere in the code BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories thru `Vue.$db` or `global.$VS.db` objects anywhere in the code BUT all data-related operations SHOULD be placed in Vuex stores.
 
 Details on localForage API: http://localforage.github.io/localForage/ 
 
@@ -80,7 +80,7 @@ Vue.prototype.$db = {
   }))
 }
 
-global.db = Vue.prototype.$db // localForage instance
+global.$VS.db = Vue.prototype.$db // localForage instance
 ```
 
 ## Example Vuex store
@@ -89,8 +89,8 @@ Here you have example on how to the Vuex store should be constructed. Please not
 
 ```js
 import * as types from '../mutation-types'
-import { ValidationError } from 'core/lib/exceptions'
-import * as entities from 'core/lib/entities'
+import { ValidationError } from 'core/store/lib/exceptions'
+import * as entities from '../../lib/entities'
 import * as sw from 'core/lib/sw'
 import config from '../../config'
 const Ajv = require('ajv') // json validator
@@ -129,7 +129,7 @@ const mutations = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.CHECKOUT_PLACE_ORDER] (state, order) {
-    const ordersCollection = global.db.ordersCollection
+    const ordersCollection = global.$VS.db.ordersCollection
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
     order.order_id = orderId.toString()
     order.transmited = false

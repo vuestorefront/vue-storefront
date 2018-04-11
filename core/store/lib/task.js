@@ -1,5 +1,5 @@
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
+import EventBus from './event-bus'
+import i18n from './i18n'
 import fetch from 'isomorphic-fetch'
 
 export function execute (task, currentToken = null, currentCartId = null) {

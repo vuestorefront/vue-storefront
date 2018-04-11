@@ -1,7 +1,7 @@
 import * as types from '../../mutation-types'
-import { slugify } from 'core/helpers'
-import { entityKeyName } from 'core/lib/entities'
-import EventBus from 'core/plugins/event-bus'
+import { slugify } from '../../helpers'
+import { entityKeyName } from '../../lib/entities'
+import EventBus from '../../lib/event-bus'
 
 export default {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
@@ -23,7 +23,7 @@ export default {
         }
       }
       catSlugSetter(category)
-      const catCollection = global.db.categoriesCollection
+      const catCollection = global.$VS.db.categoriesCollection
       try {
         catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
           console.error(reason) // it doesn't work on SSR

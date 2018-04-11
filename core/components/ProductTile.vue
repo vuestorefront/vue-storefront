@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { productThumbnailPath } from 'core/helpers'
+import { productThumbnailPath } from 'core/store/helpers'
 export default {
   name: 'ProductTile',
   props: {

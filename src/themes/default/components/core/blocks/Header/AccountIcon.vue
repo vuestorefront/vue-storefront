@@ -1,67 +1,45 @@
 <template>
-  <button
-    type="button"
-    class="bg-cl-transparent brdr-none inline-flex"
-    @click="openMyAccount(); gotoAccount();"
-    @mouseover="showDropdown"
-    @mouseout="hideDropdown"
-    :aria-label="$t('Open my account')"
-  >
-    <div class="dropdown relative">
+  <div class="inline-flex relative dropdown">
+    <button
+      type="button"
+      class="bg-cl-transparent brdr-none p0"
+      @click="goToAccount();"
+      :aria-label="$t('Open my account')"
+    >
       <i class="material-icons block">account_circle</i>
-      <div
-        v-if="currentUser"
-        :class="dropdownOpen ? 'dropdown-content show-dropdown' : 'dropdown-content'"
-      >
-        <p>
-          {{ $t("You're logged in as ") }} {{ currentUser.firstname }}
-        </p>
-        <hr>
-        <div class="section-wrapper w-100">
-          <router-link class="no-underline" :to="{ name: 'my-account' }">
-            {{ $t('My account') }}
+    </button>
+    <div v-if="currentUser" class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400">
+      <div class="py5">
+        <div v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
+          <router-link class="no-underline block py10 px15" :to="page.link">
+            {{ page.title }}
           </router-link>
         </div>
-        <div class="section-wrapper w-100">
-          <a href="#" class="no-underline" @click.stop="clickLogout">
-            {{ $t('Logout') }}
-          </a>
-        </div>
+      </div>
+      <div class="py5 brdr-top-1 brdr-cl-bg-secondary">
+        <a href="#" class="no-underline block py10 px15" @click.prevent="logout">
+          {{ $t('Logout') }}
+        </a>
       </div>
     </div>
-  </button>
+  </div>
 </template>
 
 <script>
 import { coreComponent } from 'core/lib/themes'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {
     return {
-      dropdownOpen: false,
-      screenWidth: null
-    }
-  },
-  mounted () {
-    this.screenWidth = window.innerWidth
-  },
-  methods: {
-    showDropdown () {
-      if (this.currentUser) {
-        this.dropdownOpen = true
-      }
-    },
-    hideDropdown () {
-      this.dropdownOpen = false
-    },
-    clickLogout () {
-      this.logout()
-      this.hideDropdown()
-    },
-    openMyAccount () {
-      if (this.screenWidth <= 768 && this.currentUser) {
-        this.$router.push('/my-account')
-      }
+      navigation: [
+        { title: i18n.t('My profile'), link: '/my-account' },
+        { title: i18n.t('My shipping details'), link: '/my-account/shipping-details' },
+        { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
+        { title: i18n.t('My orders'), link: '/my-account/orders' },
+        { title: i18n.t('My loyalty card'), link: '#' },
+        { title: i18n.t('My product reviews'), link: '#' }
+      ]
     }
   },
   mixins: [coreComponent('blocks/Header/AccountIcon')]
@@ -72,41 +50,36 @@ export default {
 @import '~theme/css/base/global_vars';
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
-$color-white: color(white);
-$bg-secondary: color(secondary, $colors-background);
+$color-icon-hover: color(secondary, $colors-background);
 
 .dropdown {
+
   .dropdown-content {
     display: none;
     position: absolute;
-    right: -15px;
-    margin-top: 15px;
-    padding: 0px 10px 10px 10px;
-    text-align: center;
-    background-color: $color-white;
-    min-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 0;
+    right: 0;
+    top: 100%;
+    width: 160px;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
 
-    .section-wrapper {
-      display: table;
+  a {
+    opacity: .6;
 
-      .no-underline {
-        display: table-cell;
-        vertical-align: middle;
-        height: 30px;
-
-        &:hover {
-          background: $bg-secondary;
-        }
-      }
+    &:hover,
+    &:focus {
+      background-color: $color-icon-hover;
+      opacity: 1;
     }
 
-    @media (min-width: 768px) {
-      &:hover, &.show-dropdown {
-        display: block;
-      }
+  }
+
+  @media (min-width: 768px) {
+    &:hover .dropdown-content {
+      display: block;
     }
   }
+
 }
 </style>

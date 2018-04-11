@@ -2,10 +2,10 @@
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '../../lib/event-bus'
 import rootStore from '../../'
 import * as types from '../../mutation-types'
-import i18n from 'core/lib/i18n'
+import i18n from '../../lib/i18n'
 
 const MAX_BYPASS_COUNT = 10
 

@@ -1,6 +1,6 @@
 import * as types from '../../mutation-types'
-import EventBus from 'core/plugins/event-bus'
-import { ValidationError } from 'core/lib/exceptions'
+import EventBus from '../../lib/event-bus'
+import { ValidationError } from '../../lib/exceptions'
 const Ajv = require('ajv') // json validator
 
 export default {
@@ -11,7 +11,7 @@ export default {
    */
   placeOrder ({ commit }, order) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('core/models/order.schema.json'))
+    const validate = ajv.compile(require('./order.schema.json'))
 
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)

@@ -62,7 +62,7 @@ export default {
       for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
         if (product.onlineStockCheckid) {
           checkPromises.push(new Promise((resolve, reject) => {
-            global.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
+            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
               if (err) {
                 console.error(err)
                 resolve(null)
@@ -118,7 +118,7 @@ export default {
     this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
     this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
     this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
+    this.$bus.$off('checkout-before-placeOrder') // this is intentional exception as the payment methods are dynamically binding to the before-placeOrder event
     this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
     this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
@@ -169,7 +169,7 @@ export default {
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
-      global.__TAX_COUNTRY__ = this.shipping.country
+      global.$VS.__TAX_COUNTRY__ = this.shipping.country
       this.activateSection('payment')
       this.saveShippingDetails()
     },

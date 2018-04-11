@@ -16,16 +16,25 @@ class LocalForageCacheDriver {
   getItem (key, callback) {
     const self = this
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
+    let isResolved = false
     const promise = this._localForageCollection.getItem(key).then(result => {
       if (isCallbackCallable) {
         callback(null, result)
       }
+      isResolved = true
       return result
     }).catch(err => {
       console.debug('UniversalStorage - probably in SSR mode: ' + err)
       if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+      isResolved = true
     })
 
+    setTimeout(function () {
+      if (!isResolved) { // this is cache time out check
+        console.error('Cache not responding within 2s')
+        if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+      }
+    }, 2000)
     return promise
   }
 
@@ -74,5 +83,5 @@ class LocalForageCacheDriver {
 }
 
 // The actual localForage object that we expose as a module or via a
-// global. It's extended by pulling in one of our other libraries.
+// global.$VS. It's extended by pulling in one of our other libraries.
 export default LocalForageCacheDriver
