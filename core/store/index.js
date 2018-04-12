@@ -224,17 +224,17 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
   if (config !== null) {
     console.debug('Vuex VS store - using external config')
     this.config = config
-    global.$VS.config = config
+    global.$VS.config = Object.assign(global.$VS.config, config)
   }
   if (i18n !== null) {
     console.debug('Vuex VS store - using external i18n')
     this.i18n = i18n
-    global.$VS.i18n = i18n
+    global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
   }
   if (eventBus !== null) {
     console.debug('Vuex VS store - using external event-bus')
     this.eventBus = eventBus
-    global.$VS.eventBus = eventBus
+    global.$VS.eventBus = Object.assign(global.$VS.eventBus, eventBus)
   }
 }
 export default rootStore
