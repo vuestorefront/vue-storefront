@@ -1,4 +1,4 @@
-import config from 'config'
+import config from '../lib/config'
 import _ from 'lodash'
 import { slugify } from '../helpers'
 import hash from 'object-hash'

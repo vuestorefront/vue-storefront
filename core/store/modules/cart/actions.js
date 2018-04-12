@@ -1,4 +1,4 @@
-import config from 'config'
+import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'

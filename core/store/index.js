@@ -219,11 +219,22 @@ rootStore.i18n = {
   }
 }
 rootStore.eventBus = new Vue()
-rootStore.init = function (i18n, eventBus) { // TODO: init sub modules "context" with i18n + eventBus
-  this.i18n = i18n
-  this.eventBus = eventBus
 
-  global.$VS.i18n = i18n
-  global.$VS.eventBus = eventBus
+rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init sub modules "context" with i18n + eventBus
+  if (config !== null) {
+    console.debug('Vuex VS store - using external config')
+    this.config = config
+    global.$VS.config = config
+  }
+  if (i18n !== null) {
+    console.debug('Vuex VS store - using external i18n')
+    this.i18n = i18n
+    global.$VS.i18n = i18n
+  }
+  if (eventBus !== null) {
+    console.debug('Vuex VS store - using external event-bus')
+    this.eventBus = eventBus
+    global.$VS.eventBus = eventBus
+  }
 }
 export default rootStore

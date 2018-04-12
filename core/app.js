@@ -30,7 +30,7 @@ if (themeModules) {
   }
 }
 
-store.init(i18n, EventBus)
+store.init(config, i18n, EventBus)
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
