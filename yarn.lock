@@ -8443,9 +8443,9 @@ vue-no-ssr@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-0.2.2.tgz#e1a0ef0ba39fc54972edd71a2ae11a7988312b19"
 
-vue-offline@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-1.0.5.tgz#b4e3ca2bc2705a67a9b0150812f9ca819e852b7a"
+vue-offline@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-1.0.7.tgz#a2ce87c92364458e9a90d45c6c400e9486515352"
 
 vue-router@^3.0.1:
   version "3.0.1"
