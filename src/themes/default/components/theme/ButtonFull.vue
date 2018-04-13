@@ -3,7 +3,7 @@
     :is="link ? 'router-link' : 'button'"
     :type="!link ? type : false"
     :to="link"
-    class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-th-accent :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium"
+    class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-th-accent :bg-cl-th-secondary ripple weight-400 h4 cl-white"
     :class="{ 'no-underline pointer align-center border-box': link }"
   >
     <slot>
@@ -31,9 +31,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .button-full {
-    min-width: 250px;
-  }
-</style>
