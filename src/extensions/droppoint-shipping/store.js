@@ -1,5 +1,5 @@
-import { execute as taskExecute } from 'core/store/lib/task'
-import * as entities from 'core/store/lib/entities'
+import { execute as taskExecute } from '@vue-storefront/store/lib/task'
+import * as entities from '@vue-storefront/store/lib/entities'
 
 const state = {
 }

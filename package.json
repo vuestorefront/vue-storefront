@@ -133,6 +133,7 @@
     "webpack-merge": "^4.1.0"
   },
   "workspaces": [
+    "core/store",
     "src/extensions/*",
     "src/themes/*"
   ]

@@ -3,7 +3,7 @@ if (!global.$VS) global.$VS = {}
 import _ from 'lodash'
 import Vue from 'vue'
 import App from 'theme/App'
-import store from 'core/store'
+import store from '@vue-storefront/store'
 import router from 'core/router'
 import config from 'config'
 import appExtend from 'theme/app-extend'
