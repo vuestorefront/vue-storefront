@@ -1,4 +1,4 @@
-import config from 'config'
+import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { configureProductAsync, doPlatformPricesSync, calculateTaxes } from './helpers'

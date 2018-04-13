@@ -1,7 +1,7 @@
 import * as types from '../../mutation-types'
 import { _prepareTask } from './helpers'
 import EventBus from '../../lib/event-bus'
-import config from 'config'
+import config from '../../lib/config'
 
 export default {
   /**

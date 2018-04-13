@@ -2,7 +2,7 @@ import actions from './actions'
 import store from '../../'
 import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
-import config from 'config'
+import config from '../../lib/config'
 
 EventBus.$on('stock-after-check', (event) => { // example stock check callback
   store.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
