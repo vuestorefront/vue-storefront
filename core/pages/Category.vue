@@ -7,12 +7,12 @@
 <script>
 import builder from 'bodybuilder'
 
-import { breadCrumbRoutes } from 'core/store/helpers'
+import { breadCrumbRoutes } from '@vue-storefront/store/helpers'
 import config from 'config'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import { optionLabel } from 'core/store/modules/attribute/helpers'
+import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import _ from 'lodash'

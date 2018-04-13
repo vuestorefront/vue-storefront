@@ -8,7 +8,7 @@
               <div class="col-md-12 px10p">
                 <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
                 <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
-                <div class="align-center">
+                <div class="align-center inline-flex">
                   <button-outline :link="slide.link" color="light">
                     {{ slide.button_text }}
                   </button-outline>
