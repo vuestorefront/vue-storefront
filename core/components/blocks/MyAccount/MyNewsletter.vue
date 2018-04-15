@@ -21,18 +21,19 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('user-after-loggedin', () => {
-      this.stateNewsletter = Object.assign({}, this.$store.state.user.newsletter)
-      this.newsletterPreferences = this.getNewsletter()
-    })
+    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   destroyed () {
-    this.$bus.$off('user-after-loggedin')
+    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   },
   mounted () {
     this.newsletterPreferences = this.getNewsletter()
   },
   methods: {
+    onLoggedIn () {
+      this.stateNewsletter = Object.assign({}, this.$store.state.user.newsletter)
+      this.newsletterPreferences = this.getNewsletter()
+    },
     edit () {
       this.isEdited = true
     },

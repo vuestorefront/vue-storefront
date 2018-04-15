@@ -32,16 +32,10 @@ export default {
     }
   },
   created () {
-    this.$bus.$on('user-after-loggedin', () => {
-      this.currentUser = Object.assign({}, this.$store.state.user.current)
-      this.userCompany = this.getUserCompany()
-      if (this.userCompany.company) {
-        this.addCompany = true
-      }
-    })
+    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   destroyed () {
-    this.$bus.$off('user-after-loggedin')
+    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   },
   mounted () {
     this.userCompany = this.getUserCompany()
@@ -50,6 +44,13 @@ export default {
     }
   },
   methods: {
+    onLoggedIn () {
+      this.currentUser = Object.assign({}, this.$store.state.user.current)
+      this.userCompany = this.getUserCompany()
+      if (this.userCompany.company) {
+        this.addCompany = true
+      }
+    },
     edit () {
       this.isEdited = true
     },

@@ -52,7 +52,7 @@
           context="category"
           :attribute_code="filter.attribute_code"
           class="price-select mb10 block"
-          code="price"
+          :code="filterIndex"
           v-for="(option, index) in filter"
           :key="index"
           :id="option.id"

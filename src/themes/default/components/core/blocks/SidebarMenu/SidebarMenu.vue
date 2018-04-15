@@ -213,6 +213,10 @@ ul {
   z-index: 3;
   transition: transform $duration-main $motion-main;
 
+  @media (max-width: 767px) {
+    width: 100vh;
+  }
+
   &.active {
     transform: translateX(0);
   }

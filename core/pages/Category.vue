@@ -182,6 +182,9 @@ export default {
   },
   mixins: [Composite],
   methods: {
+    onFilterChanged (filterData) {
+      (filterChanged.bind(this))(filterData)
+    },
     fetchData ({ store, route }) {
       let self = this
       let searchProductQuery = baseFilterQuery(config.products.defaultFilters, store.state.category.current)
@@ -250,10 +253,10 @@ export default {
     })
   },
   beforeMount () {
-    this.$bus.$on('filter-changed-category', filterChanged.bind(this))
+    this.$bus.$on('filter-changed-category', this.onFilterChanged)
   },
   beforeDestroy () {
-    this.$bus.$off('filter-changed-category')
+    this.$bus.$off('filter-changed-category', this.onFilterChanged)
   },
   computed: {
     products () {
