@@ -9,7 +9,7 @@ export default {
    * @param {Object} context
    * @param {Array} attrCodes attribute codes to load
    */
-  list (context, { filterValues = null, filterField = 'attribute_code', size = 150, start = 0, includeFields = config.ssr.optimize ? [ 'attribute_code', 'id', 'entity_type_id', 'options', 'default_value', 'is_user_defined', 'frontend_label', 'attribute_id' ] : null }) {
+  list (context, { filterValues = null, filterField = 'attribute_code', size = 150, start = 0, includeFields = config.ssr.optimize ? config.ssr.attribute.includeFields : null }) {
     const commit = context.commit
 
     let qrObj = bodybuilder()

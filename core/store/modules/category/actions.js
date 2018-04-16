@@ -20,7 +20,7 @@ export default {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.ssr.optimize ? [ 'children_data', 'id', 'children_count', 'sku', 'name', 'is_active', 'parent_id', 'level' ] : null }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.ssr.optimize ? config.ssr.category.includeFields : null }) {
     const commit = context.commit
     let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
