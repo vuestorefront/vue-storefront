@@ -4,6 +4,19 @@
       "host": "localhost:8080/api/catalog",
       "index": "vue_storefront_catalog"
     },
+    "ssr": {
+      "optimize": true,
+      "category": {
+        "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level" ]
+      },
+      "attribute": {
+        "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id" ]
+      },
+      "productList": {
+        "includeFields": [ "type_id", "sku", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new" ],
+        "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn", "tax_class_id" ]
+      }
+    },
     "cart": {
       "synchronize": false,
       "synchronize_totals": false,

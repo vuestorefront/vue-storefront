@@ -198,8 +198,8 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {} }) {
-    return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = [], includeFields = [] }) {
+    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
         const cache = global.$VS.db.elasticCacheCollection

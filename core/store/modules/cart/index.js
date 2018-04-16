@@ -67,6 +67,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
           sku: clientItem.sku,
           qty: clientItem.qty
         }, { root: true })
+        serverCartUpdateRequired = true
       } else if (serverItem.qty !== clientItem.qty) {
         console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
         rootStore.dispatch('cart/serverUpdateItem', {

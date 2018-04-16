@@ -71,7 +71,8 @@ function fetchData (store, route) {
 
       subloaders.push(store.dispatch('attribute/list', { // load attributes to be shown on the product details
         filterValues: [true],
-        filterField: 'is_user_defined'
+        filterField: 'is_user_defined',
+        includeFields: config.ssr.optimize ? config.ssr.attribute.includeFields : null
       }))
 
       subloaders.push(store.dispatch('product/setupVariants', { product: product }))
