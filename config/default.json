@@ -24,6 +24,7 @@
       "alwaysSyncPlatformPricesOver": false,
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
+      "setupVariantByAttributeCode": false,
       "endpoint": "http://localhost:8080/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"]
     },

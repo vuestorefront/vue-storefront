@@ -178,8 +178,11 @@ export default {
             label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
           }
           context.state.current_configuration[attr.attribute_code] = confVal
-          const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
-          context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+          // @deprecated fallback for VS <= 1.0RC
+          if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
+            const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+            context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+          }
         }
       }).catch(err => {
         console.error(err)
