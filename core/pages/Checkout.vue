@@ -139,7 +139,7 @@ export default {
         country_id: country
       }).then(() => {
         this.$store.dispatch('cart/refreshTotals')
-        this.$forceUpdate();
+        this.$forceUpdate()
       })
     },
     onAfterPlaceOrder (order) {
