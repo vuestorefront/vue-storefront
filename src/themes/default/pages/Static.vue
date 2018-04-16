@@ -3,7 +3,7 @@
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
-        <h2 class="static-title"> {{ $props.title }}</h2>
+        <h2 class="fs-big"> {{ $props.title }}</h2>
       </div>
     </div>
 
@@ -72,10 +72,6 @@ export default {
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $border-primary: color(primary, $colors-border);
-
-.static-title {
-  font-size: 36px;
-}
 
 .static-menu {
   ul {
