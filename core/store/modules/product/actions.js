@@ -179,7 +179,7 @@ export default {
           }
           context.state.current_configuration[attr.attribute_code] = confVal
           // @deprecated fallback for VS <= 1.0RC
-          if (!('setupVariantAttributesByCode' in config.products) || config.products.setupVariantAttributesByCode === false) {
+          if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
             const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
             context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
           }
