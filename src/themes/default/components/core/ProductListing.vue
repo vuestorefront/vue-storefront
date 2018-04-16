@@ -3,7 +3,7 @@
     <div
       v-for="(product, key) in products"
       :key="product.id"
-      class="pb10 col-sm-6"
+      class="p15 col-sm-6 relative"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, key)]"
     >
       <product-tile :product="product" :instant="key < 6 ? true : false" />
