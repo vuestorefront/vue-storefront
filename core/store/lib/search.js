@@ -63,7 +63,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', index = null }) {
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', index = null, excludeFields = null, includeFields = null }) {
   size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -77,6 +77,9 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       from: start,
       sort: sort
     }
+
+    if (excludeFields) esQuery._sourceExclude = excludeFields
+    if (includeFields) esQuery._sourceInclude = includeFields
     const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
     const cacheKey = hash(esQuery)
     let servedFromCache = false

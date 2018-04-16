@@ -3,6 +3,7 @@ import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 const bodybuilder = require('bodybuilder')
+import config from '../../lib/config'
 
 export default {
   /**
@@ -19,7 +20,7 @@ export default {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc' }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.ssr.optimize ? [ 'children_data', 'id', 'children_count', 'sku', 'name', 'is_active', 'parent_id', 'level' ] : null }) {
     const commit = context.commit
     let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
@@ -34,7 +35,7 @@ export default {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start }).then(function (resp) {
+    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
       commit(types.CATEGORY_UPD_CATEGORIES, resp)
       EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
       return resp
@@ -85,7 +86,7 @@ export default {
                 }
               }).catch(err => {
                 console.error(err)
-                commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath) // this is the case when category is not binded to the root tree - for example "Erin Recommends"
+                commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath) // this is the case when category is not binded to the root tree - for example 'Erin Recommends'
                 resolve(mainCategory)
               })
             } else {
