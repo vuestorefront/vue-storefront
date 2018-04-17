@@ -74,11 +74,11 @@ if (process.env.NODE_ENV === 'production') {
         urlPattern: "/img/(.*)",
         handler: "fastest"
       },{
-        urlPattern: "/api/*",
-        handler: "networkFirst"
-      },{
         urlPattern: "/api/catalog/*",
         handler: "fastest"
+      },{
+        urlPattern: "/api/*",
+        handler: "networkFirst"
       },{
         urlPattern: "/assets/logo.svg",
         handler: "networkFirst"
@@ -94,7 +94,7 @@ if (process.env.NODE_ENV === 'production') {
       },{
         urlPattern: "/dist/(.*)",
         handler: "fastest"
-      },
+      }],
       "importScripts": ['/service-worker-ext.js'] /* custom logic */
     })
   )
