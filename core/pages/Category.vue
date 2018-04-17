@@ -101,7 +101,7 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
 }
 
 // TODO: Refactor - move this function to the Vuex store
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = [], excludeFields = [] }) {
+function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null }) {
   return store.dispatch('product/list', {
     query: searchProductQuery.build(),
     start: current,
@@ -231,13 +231,13 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Category root ' + new Date())
       const defaultFilters = config.products.defaultFilters
-      store.dispatch('category/list', { includeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.category.includeFields : null }).then((categories) => {
+      store.dispatch('category/list', { includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-          includeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.attribute.includeFields : null
+          includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.attribute.includeFields : null
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.productList.includeFields : [], excludeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.productList.excludeFields : [] }).then((subloaders) => {
+            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : [], excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : [] }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
 

@@ -199,6 +199,16 @@ export default {
    * @return {Promise}
    */
   list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null }) {
+    let isCacheable = (includeFields === null && excludeFields === null)
+
+    if (config.entities.optimize) {
+      if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
+        excludeFields = config.entities.product.excludeFields
+      }
+      if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
+        includeFields = config.entities.product.includeFields
+      }
+    }
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
@@ -218,13 +228,13 @@ export default {
             cacheByKey = 'id'
           }
           const cacheKey = entityKeyName(cacheByKey, prod[cacheByKey])
-          if (includeFields === null && excludeFields === null) { // store cache only for full loads
+          if (isCacheable) { // store cache only for full loads
             cache.setItem(cacheKey, prod)
               .catch((err) => {
-                console.error('Cannot store cache for ' + cacheKey + ', ' + err)
+                console.error('Cannot store cache for ' + cacheKey, err)
               })
           } else {
-            console.log('Cache disabled because of SSR optimization')
+            console.debug('Cache disabled because of SSR optimization', prod[cacheByKey])
           }
           if (prod.type_id === 'grouped' && prefetchGroupProducts) {
             context.dispatch('setupAssociated', { product: prod })
