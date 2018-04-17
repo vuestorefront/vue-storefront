@@ -356,6 +356,15 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://www.getnoticed.nl/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/38860264-17ba9c8a-4230-11e8-9f8a-54320d5340be.png"
+            alt="Get.Noticed"
+            height="50"
+          >
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>
