@@ -17,8 +17,8 @@ export default {
     { rel: 'apple-touch-startup-image', href: '/assets/launcher-icon-2x.png' },
     { rel: 'apple-touch-icon', href: '/assets/launcher-icon-1x.png' },
     { rel: 'manifest', href: '/assets/manifest.json' },
-    { rel: 'stylesheet', href: 'https://unpkg.com/flexboxgrid2@7.1.0/flexboxgrid2.css' },
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,600,700,800' }
+    { rel: 'preload', href: 'https://unpkg.com/flexboxgrid2@7.1.0/flexboxgrid2.css', as: 'style', onload: 'this.rel="stylesheet"' },
+    { rel: 'preload', href: 'https://fonts.googleapis.com/icon?family=Material+Icons', as: 'style', onload: 'this.rel="stylesheet"' },
+    { rel: 'preload', href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,600,700,800', as: 'style', onload: 'this.rel="stylesheet"' }
   ]
 }
