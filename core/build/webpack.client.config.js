@@ -43,7 +43,8 @@ if (process.env.NODE_ENV === 'production') {
         'dist/**.*',
         'assets/**.*',
         'assets/ig/**.*',
-        'index.html'
+        'index.html',
+        '/'
       ],
       runtimeCaching: [
         {
@@ -61,6 +62,9 @@ if (process.env.NODE_ENV === 'production') {
         {
         urlPattern: "/pwa.html", /** cache the html stub  */
         handler: "fastest"
+      },{
+        urlPattern: "^/$", /** cache the html stub for homepage  */
+        handler: "fastest"
       },
       {
         urlPattern: "/p/*", /** cache the html stub  */
@@ -72,6 +76,9 @@ if (process.env.NODE_ENV === 'production') {
       },
       {
         urlPattern: "/img/(.*)",
+        handler: "fastest"
+      },{
+        urlPattern: "/api/catalog/*",
         handler: "fastest"
       },{
         urlPattern: "/api/*",
@@ -91,22 +98,6 @@ if (process.env.NODE_ENV === 'production') {
       },{
         urlPattern: "/dist/(.*)",
         handler: "fastest"
-      },{
-        urlPattern:'/api/catalog/*', /** cache products catalog */
-        method: "post",
-        options: {
-          origin: 'http://localhost:8080',
-          debug: true
-        },
-        handler: "networkFirst"
-      },{
-        urlPattern:'/api/*', /** cache products catalog */
-        method: "post",
-        options: {
-          origin: 'https://demo.vuestorefront.io/',
-          debug: true
-        },
-        handler: "networkFirst"
       }],
       "importScripts": ['/service-worker-ext.js'] /* custom logic */
     })
