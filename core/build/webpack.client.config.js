@@ -43,7 +43,8 @@ if (process.env.NODE_ENV === 'production') {
         'dist/**.*',
         'assets/**.*',
         'assets/ig/**.*',
-        'index.html'
+        'index.html',
+        '/'
       ],
       runtimeCaching: [
         {
@@ -60,6 +61,9 @@ if (process.env.NODE_ENV === 'production') {
         },                     
         {
         urlPattern: "/pwa.html", /** cache the html stub  */
+        handler: "fastest"
+      },{
+        urlPattern: "^/$", /** cache the html stub for homepage  */
         handler: "fastest"
       },
       {
