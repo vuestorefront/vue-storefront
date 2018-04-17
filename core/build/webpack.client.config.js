@@ -43,21 +43,22 @@ if (process.env.NODE_ENV === 'production') {
         'dist/**.*',
         'assets/**.*',
         'assets/ig/**.*',
-        'index.html',
-        'https://fonts.googleapis.com/icon?family=Material+Icons',
-        'https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,600,700,800',
-        'https://unpkg.com/flexboxgrid2@7.1.0/flexboxgrid2.css',
-        'https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,900',
-        'https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700',
-        'https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
-        'https://fonts.gstatic.com/s/playfairdisplay/v13/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xQ.woff2',
-        'https://fonts.gstatic.com/s/playfairdisplay/v13/nuFlD-vYSZviVYUb_rj3ij__anPXBYf9lW4e5j5hNKc.woff2',
-        'https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmSU5fBBc4AMP6lQ.woff2',
-        'https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2',
-        'https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmWUlfBBc4AMP6lQ.woff2'
+        'index.html'
       ],
       runtimeCaching: [
-       {
+        {
+          urlPattern: "^https://fonts\.googleapis\.com/", /** cache the html stub  */
+          handler: "cacheFirst"
+        },
+        {
+          urlPattern: "^https://fonts\.gstatic\.com/", /** cache the html stub  */
+          handler: "cacheFirst"
+        },
+        {
+          urlPattern: "^https://unpkg\.com/", /** cache the html stub  */
+          handler: "cacheFirst"
+        },                     
+        {
         urlPattern: "/pwa.html", /** cache the html stub  */
         handler: "fastest"
       },
