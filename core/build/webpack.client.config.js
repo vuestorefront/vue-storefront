@@ -77,6 +77,9 @@ if (process.env.NODE_ENV === 'production') {
         urlPattern: "/api/*",
         handler: "networkFirst"
       },{
+        urlPattern: "/api/catalog/*",
+        handler: "fastest"
+      },{
         urlPattern: "/assets/logo.svg",
         handler: "networkFirst"
       },{
@@ -91,23 +94,7 @@ if (process.env.NODE_ENV === 'production') {
       },{
         urlPattern: "/dist/(.*)",
         handler: "fastest"
-      },{
-        urlPattern:'/api/catalog/*', /** cache products catalog */
-        method: "post",
-        options: {
-          origin: 'http://localhost:8080',
-          debug: true
-        },
-        handler: "networkFirst"
-      },{
-        urlPattern:'/api/*', /** cache products catalog */
-        method: "post",
-        options: {
-          origin: 'https://demo.vuestorefront.io/',
-          debug: true
-        },
-        handler: "networkFirst"
-      }],
+      },
       "importScripts": ['/service-worker-ext.js'] /* custom logic */
     })
   )
