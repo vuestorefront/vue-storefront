@@ -47,6 +47,11 @@ export default {
 @import '~theme/css/helpers/functions/color';
 $color-white: color(white);
 .main-slider {
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
   .VueCarousel-pagination {
     position: absolute;
     bottom: 15px;
