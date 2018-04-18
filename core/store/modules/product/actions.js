@@ -200,6 +200,11 @@ export default {
    */
   list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null }) {
     let isCacheable = (includeFields === null && excludeFields === null)
+    if (isCacheable) {
+      console.log('Entity cache is enabled for productList')
+    } else {
+      console.log('Entity cache is disabled for productList')
+    }
 
     if (config.entities.optimize) {
       if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
@@ -233,8 +238,6 @@ export default {
               .catch((err) => {
                 console.error('Cannot store cache for ' + cacheKey, err)
               })
-          } else {
-            console.debug('Cache disabled because of SSR optimization', prod[cacheByKey])
           }
           if (prod.type_id === 'grouped' && prefetchGroupProducts) {
             context.dispatch('setupAssociated', { product: prod })

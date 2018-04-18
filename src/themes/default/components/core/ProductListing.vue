@@ -38,10 +38,10 @@ export default {
   mixins: [coreComponent('ProductListing')],
   methods: {
     wide (isOnSale, isNew, index) {
-      let deltaCondition = ((index - lastHero) % 2 === 0)
+      let deltaCondition = ((index) % 2 === 0)
       // last image always shouldn't be big, we also need to count from last promoted to check if it will look ok
-      let isHero = ((isOnSale === '1' || isNew === '1') && deltaCondition) || (index === this.products.length - 1 && deltaCondition)
-      if (isHero) lastHero = index + 1
+      let isHero = ((isOnSale === '1' || isNew === '1') && deltaCondition) || (((index - lastHero) % 2 === 0 || (index - lastHero) === 1) && index === this.products.length - 1)
+      if (isHero) lastHero = index
       return isHero ? 'col-xs-12' : 'col-xs-6'
     }
   }
