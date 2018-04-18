@@ -102,13 +102,29 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
 
 // TODO: Refactor - move this function to the Vuex store
 function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null }) {
-  return store.dispatch('product/list', {
-    query: searchProductQuery.build(),
+  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+    includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
+    excludeFields = config.entities.productList.excludeFields
+    console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
+  } else {
+    if (global.$VS.twoStageCachingDisabled) {
+      console.log('Two stage caching is disabled runtime because of no performance gain')
+    } else {
+      console.log('Two stage caching is disabled by the config')
+    }
+  }
+  let t0 = new Date().getTime()
+  let precachedQuery = searchProductQuery.build()
+  let productPromise = store.dispatch('product/list', {
+    query: precachedQuery,
     start: current,
     size: perPage,
     excludeFields: excludeFields,
     includeFields: includeFields
   }).then(function (res) {
+    let t1 = new Date().getTime()
+    global.$VS.twoStageCachingDelta1 = t1 - t0
+
     let subloaders = []
     if (!res || (res.noresults)) {
       EventBus.$emit('notification', {
@@ -173,6 +189,29 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
       action1: { label: 'OK', action: 'close' }
     })
   })
+
+  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
+    console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
+    store.dispatch('product/list', {
+      query: precachedQuery,
+      start: current,
+      size: perPage,
+      excludeFields: null,
+      includeFields: null
+    }).catch((err) => {
+      console.info("Problem with second stage caching - couldn't store the data")
+      console.info(err)
+    }).then((res) => {
+      let t2 = new Date().getTime()
+      global.$VS.twoStageCachingDelta2 = t2 - t0
+      console.log('Using two stage caching for performance optimization - Time comparison stage1 vs stage2', global.$VS.twoStageCachingDelta1, global.$VS.twoStageCachingDelta2)
+      if (global.$VS.twoStageCachingDelta1 > global.$VS.twoStageCachingDelta2) { // two stage caching is not making any good
+        global.$VS.twoStageCachingDisabled = true
+        console.log('Disabling two stage caching')
+      }
+    })
+  }
+  return productPromise
 }
 
 export default {
