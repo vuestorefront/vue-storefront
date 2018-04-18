@@ -20,7 +20,7 @@ export default {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.ssr.optimize ? config.ssr.category.includeFields : null }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null }) {
     const commit = context.commit
     let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
@@ -35,13 +35,21 @@ export default {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
-      commit(types.CATEGORY_UPD_CATEGORIES, resp)
-      EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
-      return resp
-    }).catch(function (err) {
-      console.error(err)
-    })
+    if (!context.state.list | context.state.list.length === 0) {
+      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+        commit(types.CATEGORY_UPD_CATEGORIES, resp)
+        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        return resp
+      }).catch(function (err) {
+        console.error(err)
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        let resp = { items: context.state.list, total: context.state.list.length }
+        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        resolve(resp)
+      })
+    }
   },
 
   /**

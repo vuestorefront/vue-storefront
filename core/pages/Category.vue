@@ -101,14 +101,30 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
 }
 
 // TODO: Refactor - move this function to the Vuex store
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = [], excludeFields = [] }) {
-  return store.dispatch('product/list', {
-    query: searchProductQuery.build(),
+function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null }) {
+  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+    includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
+    excludeFields = config.entities.productList.excludeFields
+    console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
+  } else {
+    if (global.$VS.twoStageCachingDisabled) {
+      console.log('Two stage caching is disabled runtime because of no performance gain')
+    } else {
+      console.log('Two stage caching is disabled by the config')
+    }
+  }
+  let t0 = new Date().getTime()
+  let precachedQuery = searchProductQuery.build()
+  let productPromise = store.dispatch('product/list', {
+    query: precachedQuery,
     start: current,
     size: perPage,
     excludeFields: excludeFields,
     includeFields: includeFields
   }).then(function (res) {
+    let t1 = new Date().getTime()
+    global.$VS.twoStageCachingDelta1 = t1 - t0
+
     let subloaders = []
     if (!res || (res.noresults)) {
       EventBus.$emit('notification', {
@@ -173,6 +189,29 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
       action1: { label: 'OK', action: 'close' }
     })
   })
+
+  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
+    console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
+    store.dispatch('product/list', {
+      query: precachedQuery,
+      start: current,
+      size: perPage,
+      excludeFields: null,
+      includeFields: null
+    }).catch((err) => {
+      console.info("Problem with second stage caching - couldn't store the data")
+      console.info(err)
+    }).then((res) => {
+      let t2 = new Date().getTime()
+      global.$VS.twoStageCachingDelta2 = t2 - t0
+      console.log('Using two stage caching for performance optimization - Time comparison stage1 vs stage2', global.$VS.twoStageCachingDelta1, global.$VS.twoStageCachingDelta2)
+      if (global.$VS.twoStageCachingDelta1 > global.$VS.twoStageCachingDelta2) { // two stage caching is not making any good
+        global.$VS.twoStageCachingDisabled = true
+        console.log('Disabling two stage caching')
+      }
+    })
+  }
+  return productPromise
 }
 
 export default {
@@ -231,13 +270,13 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Category root ' + new Date())
       const defaultFilters = config.products.defaultFilters
-      store.dispatch('category/list', { includeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.category.includeFields : null }).then((categories) => {
+      store.dispatch('category/list', { includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-          includeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.attribute.includeFields : null
+          includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.attribute.includeFields : null
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.productList.includeFields : [], excludeFields: config.ssr.optimize && global.$VS.isSSR ? config.ssr.productList.excludeFields : [] }).then((subloaders) => {
+            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null, excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
 
