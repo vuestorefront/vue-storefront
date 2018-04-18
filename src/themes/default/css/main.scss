@@ -1,3 +1,6 @@
+// Vendor
+@import 'vendor/flexboxgrid2';
+
 // Base
 @import 'variables/variables';
 @import 'helpers/mixins';
@@ -7,9 +10,6 @@
 @import 'base/global_vars';
 @import 'base/text';
 @import 'base/color';
-
-// Vendor
-@import 'vendor/flexboxgrid2';
 
 // Layout
 @import 'layout/layout';
