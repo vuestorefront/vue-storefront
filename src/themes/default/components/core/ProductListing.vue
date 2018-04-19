@@ -32,8 +32,9 @@ export default {
   mixins: [coreComponent('ProductListing')],
   methods: {
     wide (isOnSale, index) {
+      let isOddLength = this.products.length % 2
       // last image always shouldn't be big, we also need to count from last promoted to check if it will look ok
-      return isOnSale === '1' || index === this.products.length - 1 ? 'col-xs-12' : 'col-xs-6'
+      return (isOnSale === '1' && !isOddLength) || index === this.products.length - 1 ? 'col-xs-12' : 'col-xs-6'
     }
   }
 }
