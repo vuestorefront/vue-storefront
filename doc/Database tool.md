@@ -52,3 +52,6 @@ Please do change the ES schema by modifying:
 - [config/elastic.schema.taxrate.extension.json](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/elastic.schema.taxrate.extension.json)
 
 The format is compliant with ES DSL for schema modifications: https://www.elastic.co/blog/found-elasticsearch-mapping-introduction
+
+After the changes please do run the following indexing command:
+`npm run db rebuild`
