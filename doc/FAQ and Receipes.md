@@ -18,6 +18,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#payment-gateways">Is there any documentation on integrating payment gateways?</a>
 * <a href="#i18n-support">Is there any internationalisation support?</a>
 * <a href="#caching-strategy">If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device</a>
+* <a href="#how-to-modify-schema">How to add/remove/change field types in the ElasticSearch index</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -196,3 +197,6 @@ The currency is set in the local.json configuration file and it's (along with th
 
 Not necessarily. VS is caching the products from the categories browsed. This is default solution which can be changed by modifying 'core/store/lib/search.js'
 
+### <a name="how-to-modify-schema"></a>How to add/remove/change field types in the ElasticSearch schema
+
+It's done via Database Tool schema changes. Please follow the instructions from the <a href="https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Database%20tool.md#chaning-the-index-structure--adding-new-fields--chaning-the-types">Database Tool Manual</a>
