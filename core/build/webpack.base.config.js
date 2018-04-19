@@ -89,12 +89,13 @@ module.exports = {
     filename: '[name].[hash].js'
   },
   module: {
-    rules: [{
-      enforce: 'pre',
-      test: /\.(js|vue)$/,
-      loader: 'eslint-loader',
-      exclude: /node_modules/
-    },
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -137,6 +138,10 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
+        loader: 'url-loader?importLoaders=1&limit=10000'
       }
     ]
   }
