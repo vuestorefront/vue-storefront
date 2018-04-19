@@ -3,13 +3,8 @@
     <div
       v-for="(product, key) in products"
       :key="product.id"
-<<<<<<< HEAD
-      class="p15 col-sm-6 relative"
-      :class="['col-md-' + (12/columns)%10, wide(product.sale, key)]"
-=======
       class="pb10 col-sm-6"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
->>>>>>> develop
     >
       <product-tile :product="product" :instant="false" />
     </div>
@@ -42,19 +37,12 @@ export default {
   },
   mixins: [coreComponent('ProductListing')],
   methods: {
-<<<<<<< HEAD
-    wide (isOnSale, index) {
-      let isOddLength = this.products.length % 2
-      // last image always shouldn't be big, we also need to count from last promoted to check if it will look ok
-      return (isOnSale === '1' && !isOddLength) || index === this.products.length - 1 ? 'col-xs-12' : 'col-xs-6'
-=======
     wide (isOnSale, isNew, index) {
       let deltaCondition = ((index) % 2 === 0)
       // last image always shouldn't be big, we also need to count from last promoted to check if it will look ok
       let isHero = ((isOnSale === '1' || isNew === '1') && deltaCondition) || (((index - lastHero) % 2 === 0 || (index - lastHero) === 1) && index === this.products.length - 1)
       if (isHero) lastHero = index
       return isHero ? 'col-xs-12' : 'col-xs-6'
->>>>>>> develop
     }
   }
 }
