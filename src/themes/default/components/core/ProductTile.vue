@@ -1,5 +1,5 @@
 <template>
-  <div class="product align-center">
+  <div class="product align-center w-100">
     <div>
       <router-link
         class="no-underline"
