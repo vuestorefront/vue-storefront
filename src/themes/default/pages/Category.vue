@@ -82,6 +82,10 @@ export default {
     display: none;
   }
 
+  .category-title {
+    line-height: 65px;
+  }
+
   @media (max-width: 64em) {
     .products-list {
       max-width: 530px;
@@ -92,6 +96,7 @@ export default {
     .category-title {
       margin: 0;
       font-size: 36px;
+      line-height: 40px;
     }
 
     .products-list {
