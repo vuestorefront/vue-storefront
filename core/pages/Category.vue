@@ -104,7 +104,7 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
 function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null }) {
   if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
     includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
-    excludeFields = config.entities.productList.excludeFields
+    excludeFields = config.entities.productListWithChildren.excludeFields
     console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
   } else {
     if (global.$VS.twoStageCachingDisabled) {
