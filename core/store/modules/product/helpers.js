@@ -1,4 +1,4 @@
-import config from 'config'
+import config from '../../lib/config'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import { calculateProductTax } from '../../lib/taxcalc'

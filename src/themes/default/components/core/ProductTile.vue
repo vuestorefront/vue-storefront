@@ -28,7 +28,8 @@
             <img
               class="mw-100 block"
               v-if="!instant"
-              v-lazy="thumbnailObj"
+              :src="placeholder"
+              v-lazy="thumbnail"
               :key="thumbnail"
               :alt="product.name"
             >
@@ -98,12 +99,6 @@ export default {
     }
   },
   computed: {
-    thumbnailObj () {
-      return {
-        src: this.thumbnail,
-        loading: this.placeholder
-      }
-    },
     isOnSale () {
       return this.product.sale === '1' ? 'sale' : ''
     },
