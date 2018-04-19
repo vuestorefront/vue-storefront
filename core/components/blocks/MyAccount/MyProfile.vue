@@ -94,17 +94,17 @@ export default {
           }
           if (index >= 0) {
             if (this.addCompany) {
-              updatedProfile.addresses[index].firstname = this.currentUser.firstname
-              updatedProfile.addresses[index].lastname = this.currentUser.lastname
-              updatedProfile.addresses[index].company = this.userCompany.company
-              updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house]
-              updatedProfile.addresses[index].city = this.userCompany.city
+              updatedProfile.addresses[index].firstname = this.currentUser.firstname || ''
+              updatedProfile.addresses[index].lastname = this.currentUser.lastname || ''
+              updatedProfile.addresses[index].company = this.userCompany.company || ''
+              updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house] || ['', '']
+              updatedProfile.addresses[index].city = this.userCompany.city || ''
               updatedProfile.addresses[index].region = {
                 region: this.userCompany.region ? this.userCompany.region : null
               }
-              updatedProfile.addresses[index].country_id = this.userCompany.country
-              updatedProfile.addresses[index].postcode = this.userCompany.postcode
-              updatedProfile.addresses[index].vat_id = this.userCompany.taxId
+              updatedProfile.addresses[index].country_id = this.userCompany.country || ''
+              updatedProfile.addresses[index].postcode = this.userCompany.postcode || ''
+              updatedProfile.addresses[index].vat_id = this.userCompany.taxId || ''
             } else {
               updatedProfile.addresses.splice(index, 1)
               this.userCompany = {
@@ -167,14 +167,14 @@ export default {
         }
         if (index >= 0) {
           return {
-            company: this.currentUser.addresses[index].company,
-            street: this.currentUser.addresses[index].street[0],
-            house: this.currentUser.addresses[index].street[1],
-            city: this.currentUser.addresses[index].city,
+            company: this.currentUser.addresses[index].company || '',
+            street: this.currentUser.addresses[index].street[0] || '',
+            house: this.currentUser.addresses[index].street[1] || '',
+            city: this.currentUser.addresses[index].city || '',
             region: this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : '',
-            country: this.currentUser.addresses[index].country_id,
-            postcode: this.currentUser.addresses[index].postcode,
-            taxId: this.currentUser.addresses[index].vat_id
+            country: this.currentUser.addresses[index].country_id || '',
+            postcode: this.currentUser.addresses[index].postcode || '',
+            taxId: this.currentUser.addresses[index].vat_id || ''
           }
         }
       } else {
