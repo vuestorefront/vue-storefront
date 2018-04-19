@@ -1,17 +1,9 @@
-import config from 'config'
+import config from '../lib/config'
 import _ from 'lodash'
 import { slugify } from '../helpers'
 import hash from 'object-hash'
 
 let es = require('elasticsearch')
-
-let client = new es.Client({
-  host: config.elasticsearch.host,
-  httpAuth: config.elasticsearch.httpAuth,
-  log: 'debug',
-  apiVersion: '5.5',
-  requestTimeout: 5000
-})
 
 function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -19,6 +11,20 @@ function isOnline () {
   } else {
     return true // SSR
   }
+}
+
+function _getEsClientSingleton () {
+  if (!global.$VS.esClient) {
+    global.$VS.esClient = new es.Client({
+      host: config.elasticsearch.host,
+      httpAuth: config.elasticsearch.httpAuth,
+      log: 'debug',
+      apiVersion: '5.5',
+      requestTimeout: 5000
+    })
+  }
+
+  return global.$VS.esClient
 }
 /**
  * Helper function to handle ElasticSearch Results
@@ -57,7 +63,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', index = null }) {
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', index = null, excludeFields = null, includeFields = null }) {
   size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -71,6 +77,9 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       from: start,
       sort: sort
     }
+
+    if (excludeFields) esQuery._sourceExclude = excludeFields
+    if (includeFields) esQuery._sourceInclude = includeFields
     const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
     const cacheKey = hash(esQuery)
     let servedFromCache = false
@@ -107,6 +116,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
+    let client = _getEsClientSingleton()
     client.search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
@@ -137,6 +147,7 @@ export function quickSearchByText ({ queryText, start = 0, size = 50 }) {
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
+    let client = _getEsClientSingleton()
     client.search({
       index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: 'product',

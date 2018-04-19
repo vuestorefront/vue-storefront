@@ -3,7 +3,7 @@
     <no-ssr>
       <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
         <slide v-for="(slide, index) in slides" :key="index">
-          <div class="container w-100" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
+          <div class="container w-100" v-lazy:background-image="slide.image">
             <div class="row middle-xs center-xs">
               <div class="col-md-12 px10p">
                 <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
@@ -47,6 +47,11 @@ export default {
 @import '~theme/css/helpers/functions/color';
 $color-white: color(white);
 .main-slider {
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
   .VueCarousel-pagination {
     position: absolute;
     bottom: 15px;

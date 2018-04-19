@@ -43,12 +43,8 @@ export function coreComponent (path) {
   return require('core/components/' + path + '.vue') // using webpack path alias  - core/omponents = core/components
 }
 
-export function coreStore (path) {
-  return require('core/store/' + path + '/index.js') // using webpack path alias  - core/stores = core/stores
-}
-
 export function extendStore (coreStore, extendStore) {
-  return _.merge(coreStore.default, extendStore)
+  return _.merge(coreStore, extendStore)
 }
 
 export function registerTheme (themeName, app, routes, store) {

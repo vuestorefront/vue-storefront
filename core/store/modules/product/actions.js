@@ -1,4 +1,4 @@
-import config from 'config'
+import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { configureProductAsync, doPlatformPricesSync, calculateTaxes } from './helpers'
@@ -178,8 +178,11 @@ export default {
             label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
           }
           context.state.current_configuration[attr.attribute_code] = confVal
-          const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
-          context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+          // @deprecated fallback for VS <= 1.0RC
+          if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
+            const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+            context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+          }
         }
       }).catch(err => {
         console.error(err)
@@ -195,8 +198,23 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {} }) {
-    return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null }) {
+    let isCacheable = (includeFields === null && excludeFields === null)
+    if (isCacheable) {
+      console.log('Entity cache is enabled for productList')
+    } else {
+      console.log('Entity cache is disabled for productList')
+    }
+
+    if (config.entities.optimize) {
+      if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
+        excludeFields = config.entities.product.excludeFields
+      }
+      if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
+        includeFields = config.entities.product.includeFields
+      }
+    }
+    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
         const cache = global.$VS.db.elasticCacheCollection
@@ -215,10 +233,12 @@ export default {
             cacheByKey = 'id'
           }
           const cacheKey = entityKeyName(cacheByKey, prod[cacheByKey])
-          cache.setItem(cacheKey, prod)
-            .catch((err) => {
-              console.error('Cannot store cache for ' + cacheKey + ', ' + err)
-            })
+          if (isCacheable) { // store cache only for full loads
+            cache.setItem(cacheKey, prod)
+              .catch((err) => {
+                console.error('Cannot store cache for ' + cacheKey, err)
+              })
+          }
           if (prod.type_id === 'grouped' && prefetchGroupProducts) {
             context.dispatch('setupAssociated', { product: prod })
           }

@@ -2,7 +2,9 @@
   <div id="product">
     <section class="bg-cl-secondary py30 px20 product-top-section">
       <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
+        <div class="hidden-xs">
+          <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
+        </div>
         <section class="row py35 m0 data-wrapper">
           <div class="col-xs-12 col-md-7 center-xs middle-xs image">
             <transition name="fade" appear>
