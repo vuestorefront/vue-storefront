@@ -80,16 +80,6 @@ export default {
         Object.assign(this.product, product)
       }
     })
-    this.$bus.$on('product-after-configured', (config) => {
-      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, selectDefaultVariant: false }).then((selectedVariant) => {
-        if (selectedVariant) {
-          this.product.parentSku = this.product.sku
-          Object.assign(this.product, selectedVariant)
-          this.$store.dispatch('product/doPlatformPricesSync', { products: [this.product] }, { root: true }).then((syncResult) => { // TODO: queue all these tasks to one
-          })
-        }
-      })
-    })
   },
   data () {
     return {

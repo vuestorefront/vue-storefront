@@ -198,7 +198,7 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null, configuration = null }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.log('Entity cache is enabled for productList')
@@ -215,6 +215,13 @@ export default {
       }
     }
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
+      if (resp.items && resp.items.length && configuration) { // preconfigure products; eg: after filters
+        for (let product of resp.items) {
+          let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
+          product.parentSku = product.sku
+          Object.assign(product, selectedVariant)
+        }
+      }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
         const cache = global.$VS.db.elasticCacheCollection
