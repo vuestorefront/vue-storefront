@@ -94,8 +94,8 @@ app.get('*', (req, res) => {
     .pipe(res)
 })
 
-const port = process.env.PORT || config.port
-const host = config.host || 'localhost'
+const port = process.env.PORT || config.server.port
+const host = process.env.HOST || config.server.host
 app.listen(port, () => {
   console.log(`Vue Storefront Server started at http://${host}:${port}`)
 })
