@@ -197,7 +197,8 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
       start: current,
       size: perPage,
       excludeFields: null,
-      includeFields: null
+      includeFields: null,
+      updateState: false // not update the product listing - this request is only for caching
     }).catch((err) => {
       console.info("Problem with second stage caching - couldn't store the data")
       console.info(err)
