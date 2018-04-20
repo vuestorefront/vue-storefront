@@ -27,6 +27,11 @@ export default {
       switch (action) {
         case 'close':
           this.notifications.splice(id, 1)
+          break
+        case 'goToCheckout':
+          this.$router.push('/checkout')
+          this.notifications.splice(id, 1)
+          break
       }
     }
   }
