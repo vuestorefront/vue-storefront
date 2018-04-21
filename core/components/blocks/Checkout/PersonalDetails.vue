@@ -6,6 +6,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import i18n from 'core/lib/i18n'
 
 export default {
   name: 'PersonalDetails',
@@ -33,9 +34,19 @@ export default {
   methods: {
     sendDataToCheckout () {
       if (this.createAccount) {
+        if (this.$v.$invalid) {
+          this.$v.$touch()
+          this.validationError()
+          return
+        }
         this.personalDetails.password = this.password
         this.personalDetails.createAccount = true
       } else {
+        if (this.$v.personalDetails.$invalid) {
+          this.$v.personalDetails.$touch()
+          this.validationError()
+          return
+        }
         this.personalDetails.createAccount = false
       }
       this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
@@ -49,6 +60,13 @@ export default {
     },
     gotoAccount () {
       this.$bus.$emit('modal-show', 'modal-signup')
+    },
+    validationError () {
+      this.$bus.$emit('notification', {
+        type: 'error',
+        message: i18n.t('Please fix the validation errors'),
+        action1: { label: 'OK', action: 'close' }
+      })
     }
   },
   created () {

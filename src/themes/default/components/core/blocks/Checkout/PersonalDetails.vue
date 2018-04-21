@@ -154,7 +154,6 @@
           <div class="col-xs-12 col-md-8 col-lg-6 my30 px20 button-container">
             <button-full
               @click.native="sendDataToCheckout"
-              :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
             >
               {{ $t('Continue to shipping') }}
             </button-full>
