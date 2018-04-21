@@ -56,7 +56,13 @@
       }
     },
     "users": {
-      "endpoint": "http://localhost:8080/api/user"
+      "endpoint": "http://localhost:8080/api/user",
+      "history_endpoint": "http://localhost:8080/api/user/order-history",
+      "resetPassword_endpoint": "http://localhost:8080/api/user/resetPassword",
+      "changePassword_endpoint": "http://localhost:8080/api/user/changePassword",
+      "login_endpoint": "http://localhost:8080/api/user/login",
+      "create_endpoint": "http://localhost:8080/api/user/create",
+      "me_endpoint": "http://localhost:8080/api/user/me"
     },
     "stock": {
       "synchronize": true,

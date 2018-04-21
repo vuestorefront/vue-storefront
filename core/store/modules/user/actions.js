@@ -39,7 +39,7 @@ export default {
    */
   resetPassword (context, { email }) {
     console.log({ email: email })
-    return fetch(config.users.endpoint + '/resetPassword', {
+    return fetch(config.users.resetPassword_endpoint, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -62,7 +62,7 @@ export default {
    * Login user and return user profile and current token
    */
   login (context, { username, password }) {
-    return fetch(config.users.endpoint + '/login', { method: 'POST',
+    return fetch(config.users.login_endpoint, { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -83,7 +83,7 @@ export default {
    * Login user and return user profile and current token
    */
   register (context, { email, firstname, lastname, password }) {
-    return fetch(config.users.endpoint + '/create', { method: 'POST',
+    return fetch(config.users.create_endpoint, { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -130,8 +130,7 @@ export default {
       }
 
       if (refresh) {
-        console.log(config.users.endpoint + '/me?token=' + context.state.token)
-        return fetch(config.users.endpoint + '/me?token=' + context.state.token, { method: 'GET',
+        return fetch(config.users.me_endpoint + '?token=' + context.state.token, { method: 'GET',
           mode: 'cors',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -173,7 +172,7 @@ export default {
       throw new ValidationError(validate.errors)
     } else {
       return new Promise((resolve, reject) => {
-        context.dispatch('sync/queue', { url: config.users.endpoint + '/me?token={{token}}',
+        context.dispatch('sync/queue', { url: config.users.me_endpoint + '?token={{token}}',
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -195,7 +194,7 @@ export default {
    */
   changePassword (context, passwordData) {
     console.log(context)
-    return fetch(config.users.endpoint + '/changePassword?token=' + context.state.token,
+    return fetch(config.users.changePassword_endpoint + '?token=' + context.state.token,
       {
         method: 'POST',
         mode: 'cors',
@@ -278,8 +277,7 @@ export default {
       }
 
       if (refresh) {
-        console.log(config.users.endpoint + '/order-history?token=' + context.state.token)
-        return fetch(config.users.endpoint + '/order-history?token=' + context.state.token, { method: 'GET',
+        return fetch(config.users.history_endpoint + '?token=' + context.state.token, { method: 'GET',
           mode: 'cors',
           headers: {
             'Accept': 'application/json, text/plain, */*',
