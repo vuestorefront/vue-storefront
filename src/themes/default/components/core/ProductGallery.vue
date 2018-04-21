@@ -3,15 +3,16 @@
     <div :class="{ 'container product-zoom py40': isZoomOpen }">
       <div :class="{ row: isZoomOpen }">
         <i v-if="isZoomOpen" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
-        <div class="col-md-2 thumbnails p0"
-             v-if="isZoomOpen">
-          <div
-            class="bg-cl-secondary"
-            v-for="(images, key) in gallery.slice(0, 5)"
-            :key="key">
-            <transition name="fade" appear>
-              <img v-lazy="images.path" class="mw-100 pointer" ref="images.path" @click="navigate(key)">
-            </transition>
+        <div class="scroll col-md-2  p0" v-if="isZoomOpen">
+          <div class="thumbnails">
+            <div
+              class="bg-cl-secondary"
+              v-for="(images, key) in gallery"
+              :key="key">
+              <transition name="fade" appear>
+                <img v-lazy="images.path" class="mw-100 pointer" ref="images.path" @click="navigate(key)">
+              </transition>
+            </div>
           </div>
         </div>
         <div v-if="gallery.length === 1">
@@ -86,6 +87,17 @@ img {
   mix-blend-mode: multiply;
   &:hover {
     opacity: 1;
+  }
+}
+
+.scroll {
+  height: 747px;
+  overflow: auto;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
