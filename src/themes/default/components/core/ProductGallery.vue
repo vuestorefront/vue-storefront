@@ -16,9 +16,7 @@
           </div>
         </div>
         <div v-if="gallery.length === 1">
-          <transition name="fade" appear>
-            <img v-lazy="gallery[0].path" class="mw-100 pointer" ref="gallery[0].path">
-          </transition>
+          <img v-lazy="gallery[0].path" class="mw-100 pointer" ref="gallery[0].path">
         </div>
         <div v-else :class="{ 'col-md-10' : isZoomOpen}">
           <no-ssr>
