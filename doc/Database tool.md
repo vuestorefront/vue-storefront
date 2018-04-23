@@ -37,3 +37,21 @@ This tool will drop your current index and create new, empty one with all the me
 
 You can specify different (than this set in `config/local.json`) index name by running:
 `npm run db rebuild -- --indexName=custom_index_name`
+
+## Chaning the index structure / adding new fields / chaning the types
+
+If You like to extenend the ElasticSearch data structures or map some particular field types. For example after getting kind of this error:
+
+```
+[{"type":"illegal_argument_exception","reason":"Fielddata is disabled on text fields by default. Set fielddata=true on [created_at] in order to load fielddata in memory by uninverting the inverted index. Note that this can however use significant memory. Alternatively use a keyword field instead."}]
+```
+
+Please do change the ES schema by modifying: 
+- [config/elastic.schema.product.extension.json](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/elastic.schema.product.extension.json)
+- [config/elastic.schema.attribute.extension.json](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/elastic.schema.attribute.extension.json)
+- [config/elastic.schema.taxrate.extension.json](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/elastic.schema.taxrate.extension.json)
+
+The format is compliant with ES DSL for schema modifications: https://www.elastic.co/blog/found-elasticsearch-mapping-introduction
+
+After the changes please do run the following indexing command:
+`npm run db rebuild`

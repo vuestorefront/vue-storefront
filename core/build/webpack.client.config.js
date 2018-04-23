@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === 'production') {
         urlPattern: "/pwa.html", /** cache the html stub  */
         handler: "fastest"
       },{
-        urlPattern: "^/$", /** cache the html stub for homepage  */
+        urlPattern: "/", /** cache the html stub for homepage  */
         handler: "fastest"
       },
       {
@@ -91,10 +91,10 @@ if (process.env.NODE_ENV === 'production') {
         handler: "fastest"
       },{
         urlPattern: "/assets/*",
-        handler: "networkFirst"
+        handler: "fastest"
       },{
         urlPattern: "/assets/ig/(.*)",
-        handler: "networkFirst"
+        handler: "fastest"
       },{
         urlPattern: "/dist/(.*)",
         handler: "fastest"

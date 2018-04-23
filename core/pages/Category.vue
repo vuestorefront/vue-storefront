@@ -50,8 +50,7 @@ function filterChanged (filterOption) { // slection of product variant on produc
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
 
   const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters }).then((res) => {
-    EventBus.$emit('product-after-configured', { configuration: fsC })
+  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters, configuration: fsC }).then((res) => {
   }) // because already aggregated
 }
 
@@ -101,10 +100,10 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
 }
 
 // TODO: Refactor - move this function to the Vuex store
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null }) {
+function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null }) {
   if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
     includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
-    excludeFields = config.entities.productList.excludeFields
+    excludeFields = config.entities.productListWithChildren.excludeFields
     console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
   } else {
     if (global.$VS.twoStageCachingDisabled) {
@@ -120,7 +119,8 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     start: current,
     size: perPage,
     excludeFields: excludeFields,
-    includeFields: includeFields
+    includeFields: includeFields,
+    configuration: configuration
   }).then(function (res) {
     let t1 = new Date().getTime()
     global.$VS.twoStageCachingDelta1 = t1 - t0
@@ -197,7 +197,8 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
       start: current,
       size: perPage,
       excludeFields: null,
-      includeFields: null
+      includeFields: null,
+      updateState: false // not update the product listing - this request is only for caching
     }).catch((err) => {
       console.info("Problem with second stage caching - couldn't store the data")
       console.info(err)
