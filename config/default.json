@@ -62,7 +62,8 @@
       "changePassword_endpoint": "http://localhost:8080/api/user/changePassword",
       "login_endpoint": "http://localhost:8080/api/user/login",
       "create_endpoint": "http://localhost:8080/api/user/create",
-      "me_endpoint": "http://localhost:8080/api/user/me"
+      "me_endpoint": "http://localhost:8080/api/user/me",
+      "refresh_endpoint": "http://localhost:8080/api/user/refresh"
     },
     "stock": {
       "synchronize": true,

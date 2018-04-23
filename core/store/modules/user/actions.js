@@ -72,7 +72,7 @@ export default {
     }).then(resp => { return resp.json() })
       .then((resp) => {
         if (resp.code === 200) {
-          context.commit(types.USER_TOKEN_CHANGED, resp.result) // TODO: handle the "Refresh-token" header
+          context.commit(types.USER_TOKEN_CHANGED, resp.result, resp.meta) // TODO: handle the "Refresh-token" header
           context.dispatch('me', { refresh: true, useCache: false }).then(result => {})
           context.dispatch('getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
         }
@@ -99,6 +99,33 @@ export default {
         return resp
       })
   },
+
+  /**
+  * Invalidate user token
+  */
+  refresh (context) {
+    const usersCollection = global.$VS.db.usersCollection
+    usersCollection.getItem('current-refresh-token', (err, refreshToken) => {
+      if (err) {
+        console.error(err)
+      }
+      return fetch(config.users.refresh_endpoint, { method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ refreshToken: refreshToken })
+      }).then(resp => { return resp.json() })
+        .then((resp) => {
+          if (resp.code === 200) {
+            context.commit(types.USER_TOKEN_CHANGED, resp.result, resp.meta ? resp.meta : null) // TODO: handle the "Refresh-token" header
+          }
+          return resp
+        })
+    })
+  },
+
   /**
    * Load current user profile
    */
@@ -119,6 +146,7 @@ export default {
           }
 
           if (res) {
+            global.$VS.userTokenInvalidateLock = 0
             context.commit(types.USER_INFO_LOADED, res)
             EventBus.$emit('user-after-loggedin', res)
 

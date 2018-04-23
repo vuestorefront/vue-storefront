@@ -1,8 +1,11 @@
 import * as types from '../../mutation-types'
 
 export default {
-  [types.USER_TOKEN_CHANGED] (state, newToken) {
+  [types.USER_TOKEN_CHANGED] (state, newToken, meta = null) {
     state.token = newToken
+    if (meta && meta.refreshToken) {
+      state.refreshToken = meta.refreshToken // store the refresh token
+    }
   },
   [types.USER_START_SESSION] (state) {
     state.session_started = new Date()
