@@ -7,6 +7,7 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
+import config from 'config'
 export default {
   name: 'ProductGallery',
   props: {
@@ -35,8 +36,9 @@ export default {
       }
     },
     selectVariant () {
-      console.log(this.gallery)
-      let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.getCurrentOptions()))
+      let option = this.configuration[config.products.galleryVariantsGroupAttribute].id
+      // let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.getCurrentOptions()))
+      let index = this.gallery.findIndex(obj => Number(obj.id) === Number(option))
       this.navigate(index)
     },
     getCurrentOptions () {

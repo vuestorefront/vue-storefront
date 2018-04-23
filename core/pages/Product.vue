@@ -259,7 +259,7 @@ export default {
           if (grupedByAttribute[confChild][0].image) {
             images.push({
               'path': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
-               // 'options': [confChild[0].color, confChild[0].size]
+              'id': confChild
             })
           }
         })
