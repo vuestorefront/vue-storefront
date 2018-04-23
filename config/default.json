@@ -25,7 +25,8 @@
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
       "endpoint": "http://localhost:8080/api/product",
-      "defaultFilters": ["color", "size", "price", "erin_recommends"]
+      "defaultFilters": ["color", "size", "price", "erin_recommends"],
+      "galleryVariantsGroupAttribute": "color"
     },
     "orders": {
       "endpoint": "http://localhost:8080/api/order",

@@ -13,6 +13,7 @@ import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import config from 'config'
 import i18n from 'core/lib/i18n'
+import _ from 'lodash'
 
 /**
  * User selected specific color x size (or other attributes) variant
@@ -250,15 +251,18 @@ export default {
         }
       }
       if (this.product.configurable_children) {
-        for (let confChild of this.product.configurable_children) {
-          if (confChild.image) {
+        let groupBy = config.products.galleryVariantsGroupAttribute
+        let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
+          return child[groupBy]
+        })
+        Object.keys(grupedByAttribute).forEach((confChild) => {
+          if (grupedByAttribute[confChild][0].image) {
             images.push({
-              'path': this.getThumbnail(confChild.image, 600, 744),
-              'options': [confChild.color, confChild.size]
-              // 'options': confChild
+              'path': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+               // 'options': [confChild[0].color, confChild[0].size]
             })
           }
-        }
+        })
       }
       return images
     },

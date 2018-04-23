@@ -35,6 +35,7 @@ export default {
       }
     },
     selectVariant () {
+      console.log(this.gallery)
       let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.getCurrentOptions()))
       this.navigate(index)
     },
