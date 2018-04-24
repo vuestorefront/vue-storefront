@@ -263,6 +263,10 @@ export default {
             })
           }
         })
+      } else {
+        images.push({
+          'path': this.getThumbnail(this.product.image, 600, 744)
+        })
       }
       return images
     },

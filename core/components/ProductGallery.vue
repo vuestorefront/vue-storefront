@@ -31,22 +31,15 @@ export default {
   },
   methods: {
     navigate (index) {
-      if (this.$refs.carousel && index) {
+      if (this.$refs.carousel) {
         this.$refs.carousel.goToPage(index)
       }
     },
     selectVariant () {
+      console.log(this.gallery)
       let option = this.configuration[config.products.galleryVariantsGroupAttribute].id
-      // let index = this.gallery.findIndex(obj => JSON.stringify(obj.options) === JSON.stringify(this.getCurrentOptions()))
       let index = this.gallery.findIndex(obj => Number(obj.id) === Number(option))
       this.navigate(index)
-    },
-    getCurrentOptions () {
-      let options = []
-      Object.keys(this.configuration).forEach((e) => {
-        options.push(String(this.configuration[e].id))
-      })
-      return options
     },
     toggleZoom () {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
