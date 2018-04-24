@@ -161,9 +161,11 @@ const plugins = [
         global.$VS.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
-        global.$VS.db.usersCollection.setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
-          console.error(reason) // it doesn't work on SSR
-        }) // populate cache
+        if (state.user.refreshToken) {
+          global.$VS.db.usersCollection.setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
+        }
       }
       if (storeName === types.SN_CHECKOUT) {
         if (actionName === types.CHECKOUT_SAVE_PERSONAL_DETAILS) {

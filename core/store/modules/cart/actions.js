@@ -277,7 +277,7 @@ export default {
             uniqueBackendMethods.push(backendMethods[i])
           }
         }
-        rootStore.dispatch('payment/replaceMethods', paymentMethods, { _root: true })
+        rootStore.dispatch('payment/replaceMethods', paymentMethods, { root: true })
         rootStore.commit('setBackendPaymentMethods', uniqueBackendMethods)
       }).catch(e => {
         console.error(e)
@@ -298,7 +298,7 @@ export default {
         silent: true
       }, { root: true }).then(task => {
         if (task.result.length > 0) {
-          rootStore.dispatch('shipping/replaceMethods', task.result, { _root: true })
+          rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
         }
       }).catch(e => {
         console.error(e)
