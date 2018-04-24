@@ -1,6 +1,11 @@
 <template>
   <div class="media-gallery relative" :class="{ 'open fixed bg-cl-primary': isZoomOpen }">
-    <div :class="{ 'container product-zoom py40': isZoomOpen }">
+    <div v-show="OfflineOnly">
+      <transition name="fade" appear>
+        <img class="offline-image" v-lazy="offline" ref="offline">
+      </transition>
+    </div>
+    <div v-show="OnlineOnly" :class="{ 'container product-zoom py40': isZoomOpen }">
       <div :class="{ row: isZoomOpen }">
         <i v-if="isZoomOpen" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
         <div class="scroll col-md-2  p0" v-if="isZoomOpen">
@@ -73,6 +78,9 @@ export default {
     right: 0;
     bottom: 0;
   }
+}
+.offline-image {
+  width: 100%;
 }
 .product-zoom {
   max-width: 750px;

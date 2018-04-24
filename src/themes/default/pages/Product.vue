@@ -4,7 +4,7 @@
       <div class="container">
         <section class="row m0 data-wrapper">
           <div class="col-xs-12 col-md-6 px15 center-xs middle-xs image">
-            <product-gallery :gallery="gallery" :configuration="configuration"/>
+            <product-gallery :gallery="gallery" :offline="offlineImage" :configuration="configuration"/>
           </div>
           <div class="col-md-6 col-xs-12 px20 data">
             <breadcrumbs class="py30" :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>

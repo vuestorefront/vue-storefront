@@ -239,6 +239,13 @@ export default {
     productId () {
       return this.product ? this.product.id : ''
     },
+    offlineImage () {
+      return {
+        src: this.getThumbnail(this.product.image, 570, 569),
+        error: this.getThumbnail(this.product.image, 310, 300),
+        loading: this.getThumbnail(this.product.image, 310, 300)
+      }
+    },
     gallery () {
       let images = []
       if (this.product.media_gallery) {

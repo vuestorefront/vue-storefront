@@ -7,6 +7,7 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
+import VueOffline from 'vue-offline'
 import config from 'config'
 export default {
   name: 'ProductGallery',
@@ -18,6 +19,10 @@ export default {
     configuration: {
       type: Object,
       required: true
+    },
+    offline: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -27,7 +32,8 @@ export default {
   },
   components: {
     Slide,
-    Carousel
+    Carousel,
+    VueOffline
   },
   methods: {
     navigate (index) {
@@ -36,7 +42,6 @@ export default {
       }
     },
     selectVariant () {
-      console.log(this.gallery)
       let option = this.configuration[config.products.galleryVariantsGroupAttribute].id
       let index = this.gallery.findIndex(obj => Number(obj.id) === Number(option))
       this.navigate(index)
