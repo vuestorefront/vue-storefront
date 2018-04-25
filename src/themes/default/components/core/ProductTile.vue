@@ -25,7 +25,6 @@
                 :key="thumbnail"
                 v-img-placeholder="placeholder"
                 :alt="product.name"
-                width="310"
                 height="300"
               >
               <img
@@ -35,7 +34,6 @@
                 v-lazy="thumbnail"
                 :key="thumbnail"
                 :alt="product.name"
-                width="310"
                 height="300"
               >
             </transition>
@@ -168,9 +166,6 @@ $color-white: color(white);
 
   img {
     max-height: 100%;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    width: fill-available;
     height: auto;
     opacity: 0.8;
     transition: 0.3s all $motion-main;
