@@ -10,12 +10,12 @@
     },
     "entities": {
       "optimize": true,
-      "twoStageCaching": false,
+      "twoStageCaching": true,
       "category": {
         "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level" ]
       },
       "attribute": {
-        "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label" ]
+        "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible" ]
       },
       "productList": {
         "includeFields": [ "type_id", "sku", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new" ],
@@ -60,7 +60,15 @@
       }
     },
     "users": {
-      "endpoint": "http://localhost:8080/api/user"
+      "autoRefreshTokens": true,
+      "endpoint": "http://localhost:8080/api/user",
+      "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
+      "resetPassword_endpoint": "http://localhost:8080/api/user/resetPassword",
+      "changePassword_endpoint": "http://localhost:8080/api/user/changePassword?token={{token}}",
+      "login_endpoint": "http://localhost:8080/api/user/login",
+      "create_endpoint": "http://localhost:8080/api/user/create",
+      "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
+      "refresh_endpoint": "http://localhost:8080/api/user/refresh"
     },
     "stock": {
       "synchronize": true,

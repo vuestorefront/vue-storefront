@@ -234,7 +234,7 @@ EventBus.$on('user-after-loggedin', (receivedData) => {
 })
 
 EventBus.$on('user-before-logout', () => {
-  store.dispatch('user/logout')
+  store.dispatch('user/logout', { silent: false })
   store.commit('ui/setSubmenu', {
     depth: 0
   })

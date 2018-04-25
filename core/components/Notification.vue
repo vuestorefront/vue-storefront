@@ -24,6 +24,7 @@ export default {
   },
   methods: {
     action (action, id) {
+      this.$bus.$emit('cart-after-' + action, id)
       switch (action) {
         case 'close':
           this.notifications.splice(id, 1)
