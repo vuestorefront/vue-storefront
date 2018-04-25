@@ -40,7 +40,7 @@ export default {
     wide (isOnSale, isNew, index) {
       let deltaCondition = index > 0 && ((index - 1) - lastHero) % 2 === 0
       // last image always shouldn't be big, we also need to count from last promoted to check if it will look ok
-      let isHero = ((isOnSale === '1' || isNew === '1') && deltaCondition) || index === this.products.length - 1
+      let isHero = ((isOnSale === '1' || isNew === '1') && deltaCondition) || (index === this.products.length - 1 && (index - lastHero) % 2 !== 0)
       if (isHero) {
         lastHero = index
       }
