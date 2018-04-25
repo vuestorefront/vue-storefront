@@ -1,5 +1,5 @@
 <template>
-  <div class="product align-center p15">
+  <div class="product align-center w-100">
     <div>
       <router-link
         class="no-underline"
@@ -19,7 +19,7 @@
           <div>
             <transition name="fade" appear>
               <img
-                class="mw-100"
+                class="mw-100 block"
                 v-if="instant"
                 :src="thumbnail"
                 :key="thumbnail"
@@ -29,7 +29,7 @@
                 height="300"
               >
               <img
-                class="mw-100"
+                class="mw-100 block"
                 v-if="!instant"
                 :src="placeholder"
                 v-lazy="thumbnail"
@@ -168,7 +168,9 @@ $color-white: color(white);
 
   img {
     max-height: 100%;
-    width: auto;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
     height: auto;
     opacity: 0.8;
     transition: 0.3s all $motion-main;
