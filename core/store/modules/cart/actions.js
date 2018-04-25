@@ -225,7 +225,8 @@ export default {
           EventBus.$emit('notification', {
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: 'OK', action: 'close' },
+            action2: { label: 'Proceed to checkout', action: 'goToCheckout' }
           })
         }
       })

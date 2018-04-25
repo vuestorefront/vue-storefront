@@ -6,7 +6,7 @@
       class="pb10 col-sm-6"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
-      <product-tile :product="product" :instant="key < 6 ? true : false" />
+      <product-tile :product="product" :instant="false" />
     </div>
   </div>
 </template>

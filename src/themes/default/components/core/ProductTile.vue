@@ -16,23 +16,30 @@
           class="product-image relative bg-cl-secondary"
           :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
         >
-          <transition name="fade" appear>
-            <img
-              class="mw-100"
-              v-if="instant"
-              :src="thumbnail"
-              :key="thumbnail"
-              v-img-placeholder="placeholder"
-              :alt="product.name"
-            >
-            <img
-              class="mw-100"
-              v-if="!instant"
-              v-lazy="thumbnailObj"
-              :key="thumbnail"
-              :alt="product.name"
-            >
-          </transition>
+          <div>
+            <transition name="fade" appear>
+              <img
+                class="mw-100"
+                v-if="instant"
+                :src="thumbnail"
+                :key="thumbnail"
+                v-img-placeholder="placeholder"
+                :alt="product.name"
+                width="310"
+                height="300"
+              >
+              <img
+                class="mw-100"
+                v-if="!instant"
+                :src="placeholder"
+                v-lazy="thumbnail"
+                :key="thumbnail"
+                :alt="product.name"
+                width="310"
+                height="300"
+              >
+            </transition>
+          </div>
         </div>
         <p class="mb0 cl-accent">{{ product.name | htmlDecode }}</p>
         <span
@@ -88,12 +95,6 @@ export default {
     }
   },
   computed: {
-    thumbnailObj () {
-      return {
-        src: this.thumbnail,
-        loading: this.placeholder
-      }
-    },
     isOnSale () {
       return this.product.sale === '1' ? 'sale' : ''
     },
@@ -145,11 +146,16 @@ $color-white: color(white);
   mix-blend-mode: multiply;
   overflow: hidden;
   transition: 0.3s all $motion-main;
+  max-height: 300px;
+
+  > div {
+    padding-top: 118%;
+  }
 
   &:hover {
     background-color: rgba($bg-secondary, .3);
 
-    > img {
+    img {
       transform: scale(1.1);
       opacity: 1;
     }
@@ -160,13 +166,19 @@ $color-white: color(white);
     }
   }
 
-  > img {
+  img {
     max-height: 100%;
     width: auto;
     height: auto;
     opacity: 0.8;
     transition: 0.3s all $motion-main;
     mix-blend-mode: multiply;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
   }
 
   &.sale {

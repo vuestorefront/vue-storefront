@@ -1,4 +1,8 @@
 {
+    "server": {
+      "host": "localhost",
+      "port": 3000
+    },
     "elasticsearch": {
       "httpAuth": "",
       "host": "localhost:8080/api/catalog",
@@ -20,11 +24,11 @@
       "productListWithChildren": {
         "includeFields": [ "type_id", "sku", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size" ],
         "excludeFields": [ "description", "sgn", "tax_class_id" ]
-      },      
+      },
       "product": {
         "excludeFields": [ "updated_at", "created_at", "attribute_set_id", "status", "visibility", "tier_prices", "options_container", "url_key", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image"],
         "includeFields": null
-      }      
+      }
     },
     "cart": {
       "synchronize": false,
@@ -103,5 +107,5 @@
     },
     "stripe": {
       "api_key": "my_example_api_key"
-  }    
+  }
  }
