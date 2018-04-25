@@ -257,8 +257,8 @@ export default {
           }
         }
       }
-      if (this.product.configurable_children) {
-        let groupBy = config.products.galleryVariantsGroupAttribute
+      let groupBy = config.products.galleryVariantsGroupAttribute
+      if (this.product.configurable_children && this.product.configurable_children[0][groupBy]) {
         let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
           return child[groupBy]
         })
