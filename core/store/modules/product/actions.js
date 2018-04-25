@@ -330,7 +330,7 @@ export default {
               if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
               resolve(setupProduct(res.items[0]))
             } else {
-              reject(Error('Product query returned empty result'))
+              reject(new Error('Product query returned empty result'))
             }
           })
         }
