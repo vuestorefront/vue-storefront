@@ -42,8 +42,7 @@
                 <div class="bg-cl-secondary">
                   <img
                     class="product-image inline-flex pointer mw-100"
-                    v-lazy="images.path"
-                    ref="images.path"
+                    :src="images.path"
                     @dblclick="toggleZoom">
                 </div>
               </slide>
@@ -126,6 +125,9 @@ img {
     @media (max-width: 767px) {
       display: none;
     }
+  }
+  .VueCarousel-inner {
+    transition: transform 0s linear !important;
   }
   .VueCarousel-navigation-button {
     margin: 0;
