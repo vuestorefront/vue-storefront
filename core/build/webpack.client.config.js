@@ -7,8 +7,8 @@ const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 const fs = require('fs')
-const themeRoot = require('./theme-path')
-const themedIndex = path.join(themeRoot, 'index.template.html')
+const themeDirectory = require('./theme-path')
+const themedIndex = path.join(themeDirectory, 'index.template.html')
 
 const config = merge(base, {
   resolve: {
