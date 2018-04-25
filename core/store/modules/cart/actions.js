@@ -24,7 +24,7 @@ export default {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize) {
+    if (config.cart.synchronize && !global.$VS.isSSR) {
       const newItemsHash = hash({ items: context.state.cartItems, token: context.state.cartServerToken })
       if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = new Date()
@@ -53,7 +53,7 @@ export default {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize_totals) {
+    if (config.cart.synchronize_totals && !global.$VS.isSSR) {
       if ((new Date() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         context.state.cartServerPullAt = new Date()
         context.dispatch('sync/execute', { url: config.cart.totals_endpoint, // sync the cart
@@ -74,7 +74,7 @@ export default {
     }
   },
   serverCreate (context, { guestCart = false }) {
-    if (config.cart.synchronize) {
+    if (config.cart.synchronize && !global.$VS.isSSR) {
       if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
           payload: {
@@ -91,7 +91,7 @@ export default {
     }
   },
   serverUpdateItem (context, cartItem) {
-    if (config.cart.synchronize) {
+    if (config.cart.synchronize && !global.$VS.isSSR) {
       if (!cartItem.quoteId) {
         cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
       }
@@ -115,7 +115,7 @@ export default {
     }
   },
   serverDeleteItem (context, cartItem) {
-    if (config.cart.synchronize) {
+    if (config.cart.synchronize && !global.$VS.isSSR) {
       if (!cartItem.quoteId) {
         cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
       }
@@ -141,6 +141,7 @@ export default {
     }
   },
   load (context) {
+    if (global.$VS.isSSR) return
     console.log('Loading cart ...')
     const commit = context.commit
     const state = context.state
