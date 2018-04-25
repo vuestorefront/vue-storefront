@@ -6,6 +6,9 @@ const HTMLPlugin = require('html-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
+const fs = require('fs')
+const themeDirectory = require('./theme-path')
+const themedIndex = path.join(themeDirectory, 'index.template.html')
 
 const config = merge(base, {
   resolve: {
@@ -25,7 +28,7 @@ const config = merge(base, {
     }),
     // generate output HTML
     new HTMLPlugin({
-      template: 'src/index.template.html'
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
     })
   ]
 })
