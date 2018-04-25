@@ -198,7 +198,7 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null, configuration = null }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.log('Entity cache is enabled for productList')
@@ -252,7 +252,7 @@ export default {
         }
         // commit update products list mutation
         if (updateState) {
-          context.commit(types.CATALOG_UPD_PRODUCTS, resp)
+          context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
         }
         EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp

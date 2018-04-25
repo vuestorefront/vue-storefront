@@ -13,7 +13,8 @@ export default {
     list: [],
     original: null, // default, not configured product
     related: {},
-    offlineImage: null
+    offlineImage: null,
+    current_query: null
   },
   getters,
   actions,

@@ -18,13 +18,7 @@ import Composite from 'core/mixins/composite'
 import _ from 'lodash'
 import i18n from 'core/lib/i18n'
 
-function filterChanged (filterOption) { // slection of product variant on product page
-  if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-    delete this.filters.chosen[filterOption.attribute_code]
-  } else {
-    this.filters.chosen[filterOption.attribute_code] = filterOption
-  }
-
+function buildFilterQr () {
   let filterQr = baseFilterQuery(config.products.defaultFilters, this.$store.state.category.current)
 
   let attrFilterBuilder = (filterQr, attrPostfix = '') => {
@@ -48,6 +42,17 @@ function filterChanged (filterOption) { // slection of product variant on produc
   }
   filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
+  return filterQr
+}
+
+function filterChanged (filterOption) { // slection of product variant on product page
+  if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+    delete this.filters.chosen[filterOption.attribute_code]
+  } else {
+    this.filters.chosen[filterOption.attribute_code] = filterOption
+  }
+
+  let filterQr = buildFilterQr.bind(this)()
 
   const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
   filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters, configuration: fsC }).then((res) => {
@@ -100,7 +105,18 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
 }
 
 // TODO: Refactor - move this function to the Vuex store
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null }) {
+function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null, append = false }) {
+  store.state.product.current_query = {
+    populateAggregations,
+    filters,
+    current,
+    perPage,
+    includeFields,
+    excludeFields,
+    configuration,
+    append
+  }
+
   if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
     includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
     excludeFields = config.entities.productListWithChildren.excludeFields
@@ -120,7 +136,8 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     size: perPage,
     excludeFields: excludeFields,
     includeFields: includeFields,
-    configuration: configuration
+    configuration: configuration,
+    append: append
   }).then(function (res) {
     let t1 = new Date().getTime()
     global.$VS.twoStageCachingDelta1 = t1 - t0
@@ -132,7 +149,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
         message: i18n.t('No products synchronized for this category. Please come back while online!'),
         action1: { label: 'OK', action: 'close' }
       })
-      store.dispatch('product/reset')
+      if (!append) store.dispatch('product/reset')
       store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
       // store.state.category.filters = { color: [], size: [], price: [] }
     } else {
@@ -240,6 +257,10 @@ export default {
       }
       return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
     },
+    filterData (query) {
+      query.searchProductQuery = buildFilterQr.bind(this)()
+      return filterData(query)
+    },
     validateRoute ({store, route}) {
       let self = this
       if (store == null) {
@@ -309,6 +330,12 @@ export default {
     },
     productsCounter () {
       return this.$store.state.product.list.items.length
+    },
+    productsTotal () {
+      return this.$store.state.product.list.total
+    },
+    currentQuery () {
+      return this.$store.state.product.current_query
     },
     isCategoryEmpty () {
       return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)

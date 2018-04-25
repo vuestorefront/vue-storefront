@@ -53,15 +53,49 @@ export default {
   },
   data () {
     return {
+      bottom: false,
       mobileFilters: false
     }
   },
+  created () {
+    if (!global.$VS.isSSR) {
+      window.addEventListener('scroll', () => {
+        this.bottom = this.bottomVisible()
+      })
+    }
+  },
   methods: {
+    bottomVisible () {
+      const scrollY = window.scrollY
+      const visible = document.documentElement.clientHeight
+      const pageHeight = document.documentElement.scrollHeight
+      const bottomOfPage = visible + scrollY >= pageHeight
+      return bottomOfPage || pageHeight < visible
+    },
+    pullMoreProducts () {
+      let currentQuery = this.currentQuery
+      currentQuery.append = true
+      currentQuery.route = this.$route
+      currentQuery.store = this.$store
+      currentQuery.current = currentQuery.current + currentQuery.perPage
+      this.pagination.current = currentQuery.current
+      this.pagination.perPage = currentQuery.perPage
+      if (currentQuery.current <= this.productsTotal) {
+        this.filterData(currentQuery)
+      }
+    },
     openFilters () {
       this.mobileFilters = true
     },
     closeFilters () {
       this.mobileFilters = false
+    }
+  },
+  watch: {
+    bottom (bottom) {
+      if (bottom) {
+        this.pullMoreProducts()
+      }
     }
   },
   mixins: [corePage('Category')]

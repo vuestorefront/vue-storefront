@@ -10,7 +10,7 @@
     },
     "entities": {
       "optimize": true,
-      "twoStageCaching": false,
+      "twoStageCaching": true,
       "category": {
         "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level" ]
       },
