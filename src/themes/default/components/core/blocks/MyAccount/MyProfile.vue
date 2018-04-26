@@ -224,7 +224,7 @@
           <select
             name="countries"
             v-model="userCompany.country"
-            :class="{'cl-tertiary' : userCompany.country.length === 0}"
+            :class="{'cl-tertiary' : !userCompany.country || userCompany.country.length === 0}"
           >
             <option value="" disabled selected hidden>
               {{ $t('Country *') }}

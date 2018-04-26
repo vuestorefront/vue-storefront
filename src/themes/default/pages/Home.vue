@@ -32,6 +32,7 @@
 <script>
 import { corePage } from 'core/lib/themes'
 import builder from 'bodybuilder'
+import config from 'config'
 
 // Base components overwrite
 import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
@@ -72,13 +73,14 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
-      let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      store.dispatch('category/list', {}).then((categories) => {
+      let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/list', {
           query: newProductsQuery,
           size: 8,
-          sort: 'created_at:desc'
+          sort: 'created_at:desc',
+          includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
         }).then(function (res) {
           if (res) {
             store.state.homepage.new_collection = res.items
@@ -87,7 +89,8 @@ export default {
           store.dispatch('product/list', {
             query: coolBagsQuery,
             size: 4,
-            sort: 'created_at:desc'
+            sort: 'created_at:desc',
+            includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
           }).then(function (res) {
             if (res) {
               store.state.homepage.coolbags_collection = res.items

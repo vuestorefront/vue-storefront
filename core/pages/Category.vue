@@ -7,24 +7,18 @@
 <script>
 import builder from 'bodybuilder'
 
-import { breadCrumbRoutes } from 'core/store/helpers'
+import { breadCrumbRoutes } from '@vue-storefront/store/helpers'
 import config from 'config'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import { optionLabel } from 'core/store/modules/attribute/helpers'
+import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import _ from 'lodash'
 import i18n from 'core/lib/i18n'
 
-function filterChanged (filterOption) { // slection of product variant on product page
-  if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-    delete this.filters.chosen[filterOption.attribute_code]
-  } else {
-    this.filters.chosen[filterOption.attribute_code] = filterOption
-  }
-
+function buildFilterQr () {
   let filterQr = baseFilterQuery(config.products.defaultFilters, this.$store.state.category.current)
 
   let attrFilterBuilder = (filterQr, attrPostfix = '') => {
@@ -48,15 +42,25 @@ function filterChanged (filterOption) { // slection of product variant on produc
   }
   filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
+  return filterQr
+}
+
+function filterChanged (filterOption) { // slection of product variant on product page
+  if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+    delete this.filters.chosen[filterOption.attribute_code]
+  } else {
+    this.filters.chosen[filterOption.attribute_code] = filterOption
+  }
+
+  let filterQr = buildFilterQr.bind(this)()
 
   const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters }).then((res) => {
-    EventBus.$emit('product-after-configured', { configuration: fsC })
+  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters, configuration: fsC }).then((res) => {
   }) // because already aggregated
 }
 
 function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of color_options and size_options fields
-  let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */)
+  let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
 
   // add filters to query
   for (let attrToFilter of filters) {
@@ -101,12 +105,43 @@ function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of 
 }
 
 // TODO: Refactor - move this function to the Vuex store
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50 }) {
-  return store.dispatch('product/list', {
-    query: searchProductQuery.build(),
+function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null, append = false }) {
+  store.state.product.current_query = {
+    populateAggregations,
+    filters,
+    current,
+    perPage,
+    includeFields,
+    excludeFields,
+    configuration,
+    append
+  }
+
+  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+    includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
+    excludeFields = config.entities.productListWithChildren.excludeFields
+    console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
+  } else {
+    if (global.$VS.twoStageCachingDisabled) {
+      console.log('Two stage caching is disabled runtime because of no performance gain')
+    } else {
+      console.log('Two stage caching is disabled by the config')
+    }
+  }
+  let t0 = new Date().getTime()
+  let precachedQuery = searchProductQuery.build()
+  let productPromise = store.dispatch('product/list', {
+    query: precachedQuery,
     start: current,
-    size: perPage
+    size: perPage,
+    excludeFields: excludeFields,
+    includeFields: includeFields,
+    configuration: configuration,
+    append: append
   }).then(function (res) {
+    let t1 = new Date().getTime()
+    global.$VS.twoStageCachingDelta1 = t1 - t0
+
     let subloaders = []
     if (!res || (res.noresults)) {
       EventBus.$emit('notification', {
@@ -114,7 +149,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
         message: i18n.t('No products synchronized for this category. Please come back while online!'),
         action1: { label: 'OK', action: 'close' }
       })
-      store.dispatch('product/reset')
+      if (!append) store.dispatch('product/reset')
       store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
       // store.state.category.filters = { color: [], size: [], price: [] }
     } else {
@@ -171,6 +206,30 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
       action1: { label: 'OK', action: 'close' }
     })
   })
+
+  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
+    console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
+    store.dispatch('product/list', {
+      query: precachedQuery,
+      start: current,
+      size: perPage,
+      excludeFields: null,
+      includeFields: null,
+      updateState: false // not update the product listing - this request is only for caching
+    }).catch((err) => {
+      console.info("Problem with second stage caching - couldn't store the data")
+      console.info(err)
+    }).then((res) => {
+      let t2 = new Date().getTime()
+      global.$VS.twoStageCachingDelta2 = t2 - t0
+      console.log('Using two stage caching for performance optimization - Time comparison stage1 vs stage2', global.$VS.twoStageCachingDelta1, global.$VS.twoStageCachingDelta2)
+      if (global.$VS.twoStageCachingDelta1 > global.$VS.twoStageCachingDelta2) { // two stage caching is not making any good
+        global.$VS.twoStageCachingDisabled = true
+        console.log('Disabling two stage caching')
+      }
+    })
+  }
+  return productPromise
 }
 
 export default {
@@ -197,6 +256,10 @@ export default {
         })
       }
       return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
+    },
+    filterData (query) {
+      query.searchProductQuery = buildFilterQr.bind(this)()
+      return filterData(query)
     },
     validateRoute ({store, route}) {
       let self = this
@@ -229,12 +292,13 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Category root ' + new Date())
       const defaultFilters = config.products.defaultFilters
-      store.dispatch('category/list', {}).then((categories) => {
+      store.dispatch('category/list', { includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
-          filterValues: defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+          filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+          includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.attribute.includeFields : null
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters }).then((subloaders) => {
+            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null, excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
 
@@ -248,7 +312,7 @@ export default {
             })
           }).catch(err => {
             console.error(err)
-            return reject(Error(err))
+            reject(err)
           })
         })
       })
@@ -266,6 +330,12 @@ export default {
     },
     productsCounter () {
       return this.$store.state.product.list.items.length
+    },
+    productsTotal () {
+      return this.$store.state.product.list.total
+    },
+    currentQuery () {
+      return this.$store.state.product.current_query
     },
     isCategoryEmpty () {
       return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)

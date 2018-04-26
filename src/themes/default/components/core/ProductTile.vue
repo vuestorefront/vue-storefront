@@ -1,5 +1,5 @@
 <template>
-  <div class="product align-center p15">
+  <div class="product align-center w-100">
     <div>
       <router-link
         class="no-underline"
@@ -16,23 +16,28 @@
           class="product-image relative bg-cl-secondary"
           :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
         >
-          <transition name="fade" appear>
-            <img
-              class="mw-100"
-              v-if="instant"
-              :src="thumbnail"
-              :key="thumbnail"
-              v-img-placeholder="placeholder"
-              :alt="product.name"
-            >
-            <img
-              class="mw-100"
-              v-if="!instant"
-              v-lazy="thumbnailObj"
-              :key="thumbnail"
-              :alt="product.name"
-            >
-          </transition>
+          <div>
+            <transition name="fade" appear>
+              <img
+                class="mw-100 block"
+                v-if="instant"
+                :src="thumbnail"
+                :key="thumbnail"
+                v-img-placeholder="placeholder"
+                :alt="product.name"
+                height="300"
+              >
+              <img
+                class="mw-100 block"
+                v-if="!instant"
+                :src="placeholder"
+                v-lazy="thumbnail"
+                :key="thumbnail"
+                :alt="product.name"
+                height="300"
+              >
+            </transition>
+          </div>
         </div>
         <p class="mb0 cl-accent">{{ product.name | htmlDecode }}</p>
         <span
@@ -80,16 +85,6 @@ export default {
         Object.assign(this.product, product)
       }
     })
-    this.$bus.$on('product-after-configured', (config) => {
-      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, selectDefaultVariant: false }).then((selectedVariant) => {
-        if (selectedVariant) {
-          this.product.parentSku = this.product.sku
-          Object.assign(this.product, selectedVariant)
-          this.$store.dispatch('product/doPlatformPricesSync', { products: [this.product] }, { root: true }).then((syncResult) => { // TODO: queue all these tasks to one
-          })
-        }
-      })
-    })
   },
   data () {
     return {
@@ -98,12 +93,6 @@ export default {
     }
   },
   computed: {
-    thumbnailObj () {
-      return {
-        src: this.thumbnail,
-        loading: this.placeholder
-      }
-    },
     isOnSale () {
       return this.product.sale === '1' ? 'sale' : ''
     },
@@ -155,11 +144,16 @@ $color-white: color(white);
   mix-blend-mode: multiply;
   overflow: hidden;
   transition: 0.3s all $motion-main;
+  max-height: 300px;
+
+  > div {
+    padding-top: 118%;
+  }
 
   &:hover {
     background-color: rgba($bg-secondary, .3);
 
-    > img {
+    img {
       transform: scale(1.1);
       opacity: 1;
     }
@@ -170,13 +164,18 @@ $color-white: color(white);
     }
   }
 
-  > img {
+  img {
     max-height: 100%;
-    width: auto;
     height: auto;
     opacity: 0.8;
     transition: 0.3s all $motion-main;
     mix-blend-mode: multiply;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
   }
 
   &.sale {

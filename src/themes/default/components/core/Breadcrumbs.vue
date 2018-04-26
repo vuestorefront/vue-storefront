@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs h5 cl-accent hidden-xs">
+  <div class="breadcrumbs h5 cl-accent">
     <span v-for="link in routes" :key="link.route_link">
       <router-link :to="link.route_link">
         {{ link.name | htmlDecode }}

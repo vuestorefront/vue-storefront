@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue.common.js'
 import Vuex from 'vuex/dist/vuex.js'
-import store from 'core/store'
+import store from '@vue-storefront/store'
 import { EventBusPlugin as EventBus } from 'core/plugins/event-bus'
 import Modal from 'core/components/Modal.vue'
 

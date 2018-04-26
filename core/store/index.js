@@ -161,6 +161,11 @@ const plugins = [
         global.$VS.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+        if (state.user.refreshToken) {
+          global.$VS.db.usersCollection.setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
+        }
       }
       if (storeName === types.SN_CHECKOUT) {
         if (actionName === types.CHECKOUT_SAVE_PERSONAL_DETAILS) {
@@ -219,11 +224,22 @@ rootStore.i18n = {
   }
 }
 rootStore.eventBus = new Vue()
-rootStore.init = function (i18n, eventBus) { // TODO: init sub modules "context" with i18n + eventBus
-  this.i18n = i18n
-  this.eventBus = eventBus
 
-  global.$VS.i18n = i18n
-  global.$VS.eventBus = eventBus
+rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init sub modules "context" with i18n + eventBus
+  if (config !== null) {
+    console.debug('Vuex VS store - using external config')
+    this.config = config
+    global.$VS.config = Object.assign(global.$VS.config, config)
+  }
+  if (i18n !== null) {
+    console.debug('Vuex VS store - using external i18n')
+    this.i18n = i18n
+    global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
+  }
+  if (eventBus !== null) {
+    console.debug('Vuex VS store - using external event-bus')
+    this.eventBus = eventBus
+    global.$VS.eventBus = Object.assign(global.$VS.eventBus, eventBus)
+  }
 }
 export default rootStore

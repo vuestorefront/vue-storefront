@@ -3,6 +3,7 @@ import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 const bodybuilder = require('bodybuilder')
+import config from '../../lib/config'
 
 export default {
   /**
@@ -19,7 +20,7 @@ export default {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc' }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null }) {
     const commit = context.commit
     let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
@@ -34,13 +35,21 @@ export default {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start }).then(function (resp) {
-      commit(types.CATEGORY_UPD_CATEGORIES, resp)
-      EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
-      return resp
-    }).catch(function (err) {
-      console.error(err)
-    })
+    if (!context.state.list | context.state.list.length === 0) {
+      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+        commit(types.CATEGORY_UPD_CATEGORIES, resp)
+        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        return resp
+      }).catch(function (err) {
+        console.error(err)
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        let resp = { items: context.state.list, total: context.state.list.length }
+        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        resolve(resp)
+      })
+    }
   },
 
   /**
@@ -85,7 +94,7 @@ export default {
                 }
               }).catch(err => {
                 console.error(err)
-                commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath) // this is the case when category is not binded to the root tree - for example "Erin Recommends"
+                commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath) // this is the case when category is not binded to the root tree - for example 'Erin Recommends'
                 resolve(mainCategory)
               })
             } else {
@@ -109,13 +118,13 @@ export default {
         if (category || value === 1) {
           setcat(null, category)
         } else {
-          reject(Error('Category query returned empty result ' + key + ' = ' + value))
+          reject(new Error('Category query returned empty result ' + key + ' = ' + value))
         }
       } else {
         const catCollection = global.$VS.db.categoriesCollection
         // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
         if (!catCollection.getItem(entityKeyName(key, value), setcat) && value !== 1) {
-          reject(Error('Category query returned empty result ' + key + ' = ' + value))
+          reject(new Error('Category query returned empty result ' + key + ' = ' + value))
         }
       }
     })

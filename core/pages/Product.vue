@@ -71,7 +71,8 @@ function fetchData (store, route) {
 
       subloaders.push(store.dispatch('attribute/list', { // load attributes to be shown on the product details
         filterValues: [true],
-        filterField: 'is_user_defined'
+        filterField: 'is_user_defined',
+        includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
       }))
 
       subloaders.push(store.dispatch('product/setupVariants', { product: product }))
@@ -84,8 +85,6 @@ function fetchData (store, route) {
 
     }
     return subloaders
-  }).catch((err) => {
-    throw new Error(err)
   })
 }
 
@@ -112,7 +111,7 @@ function loadData ({ store, route }) {
         })
       }).catch(err => {
         console.error(err)
-        return reject(Error(err))
+        reject(err)
       })
     })
   })

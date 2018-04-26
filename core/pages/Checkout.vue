@@ -92,9 +92,9 @@ export default {
         }
       }.bind(this))
     }
-    if (this.$store.state.checkout.shippingDetails.country) {
-      this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
-    }
+    let country = this.$store.state.checkout.shippingDetails.country
+    if (!country) country = config.i18n.defaultCountry
+    this.$bus.$emit('checkout-before-shippingMethods', country)
     this.$store.dispatch('cart/getPaymentMethods')
   },
   created () {
@@ -139,6 +139,7 @@ export default {
         country_id: country
       }).then(() => {
         this.$store.dispatch('cart/refreshTotals')
+        this.$forceUpdate()
       })
     },
     onAfterPlaceOrder (order) {

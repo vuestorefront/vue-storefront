@@ -1,6 +1,6 @@
 import { createApp } from './app'
 import config from 'config'
-import { execute } from 'core/store/lib/task'
+import { execute } from '@vue-storefront/store/lib/task'
 import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
 
@@ -234,7 +234,7 @@ EventBus.$on('user-after-loggedin', (receivedData) => {
 })
 
 EventBus.$on('user-before-logout', () => {
-  store.dispatch('user/logout')
+  store.dispatch('user/logout', { silent: false })
   store.commit('ui/setSubmenu', {
     depth: 0
   })

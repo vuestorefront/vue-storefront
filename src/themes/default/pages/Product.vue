@@ -240,6 +240,12 @@ $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
 
+.breadcrumbs {
+  @media (max-width: 767px) {
+    margin: 15px 0;
+  }
+}
+
 .data-wrapper {
   @media (max-width: 767px) {
     padding: 0;

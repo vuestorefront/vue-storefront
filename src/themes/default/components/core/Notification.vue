@@ -15,11 +15,19 @@
         <div class="message p20">
           {{ notification.message }}
         </div>
-        <div
-          class="actions py10 px20 pointer weight-400 uppercase"
-          @click="action(notification.action1.action, index)"
-        >
-          {{ notification.action1.label }}
+        <div class="actions">
+          <div
+            class="py10 px20 pointer weight-400 uppercase"
+            @click="action(notification.action1.action, index)"
+          >
+            {{ notification.action1.label }}
+          </div>
+          <div
+            class="py10 px20 pointer weight-400 uppercase"
+            @click="action(notification.action2.action, index)"
+          >
+            {{ notification.action2.label }}
+          </div>
         </div>
       </div>
     </transition-group>
@@ -71,8 +79,10 @@ $color-action: color(black);
     margin-top: 0;
   }
 }
+
 .actions {
   background: rgba($color-action, .2);
+  display: flex;
 }
 .success {
   background: $color-success;

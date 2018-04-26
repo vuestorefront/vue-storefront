@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { productThumbnailPath } from 'core/store/helpers'
+import { productThumbnailPath } from '@vue-storefront/store/helpers'
 export default {
   name: 'ProductTile',
   props: {
