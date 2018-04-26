@@ -8,7 +8,7 @@
         <button
           type="button"
           :aria-label="$t('Close')"
-          class="w-100 inline-flex end-xs bg-cl-transparent brdr-none p0"
+          class="w-100 inline-flex end-xs bg-cl-transparent brdr-none p0 close-btn"
           @click="closeMenu"
         >
           <i class="material-icons p15">close</i>
@@ -35,7 +35,7 @@
             v-if="category.product_count > 0 || category.children_data.length > 0"
           >
             <sub-btn
-              class="bg-cl-transparent brdr-none"
+              class="bg-cl-transparent brdr-none fs-medium"
               :id="category.id"
               :name="category.name"
               v-if="category.children_data.length > 0"
@@ -85,7 +85,7 @@
             <sub-btn
               v-if="currentUser"
               :name="$t('My account')"
-              class="bg-cl-transparent brdr-none"
+              class="bg-cl-transparent brdr-none fs-medium-small"
             />
             <sub-category
               v-if="currentUser"
@@ -174,15 +174,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~theme/css/animations/transitions";
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $bg-secondary: color(secondary, $colors-background);
-
-ul {
-  list-style-type: none;
-}
+$color-gainsboro: color(gainsboro);
+$color-matterhorn: color(matterhorn);
+$color-mine-shaft: color(mine-shaft);
 
 .sidebar-menu {
   height: 100vh;
@@ -207,18 +206,43 @@ ul {
     transition: transform $duration-main $motion-main;
   }
 
+  ul {
+    list-style-type: none;
+  }
+
   li {
     &:hover,
     &:focus {
-      background-color: $bg-secondary;
+      background-color: $color-gainsboro;
+    }
+    &.bg-cl-primary {
+      &:hover,
+      &:focus {
+        background-color: $bg-secondary;
+      }
+    }
+    a {
+      color: $color-mine-shaft;
     }
   }
 
   button {
-    &:hover,
-    &:focus {
-      opacity: 1;
+    color: $color-mine-shaft;a {
+      color: $color-mine-shaft;
     }
   }
+
+  .close-btn {
+    i {
+      color: $color-gainsboro;
+    }
+    &:hover,
+    &:focus {
+      i {
+        color: $color-matterhorn;
+      }
+    }
+  }
+
 }
 </style>
