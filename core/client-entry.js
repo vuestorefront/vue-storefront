@@ -25,7 +25,7 @@ router.onReady(() => {
       return next()
     }
     Promise.all(activated.map(c => { // TODO: update me for mixins support
-      const components = c.mixins ? Array.from(c.mixins) : []
+      const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
       components.push(c)
       Promise.all(components.map(SubComponent => {
         if (SubComponent.asyncData) {

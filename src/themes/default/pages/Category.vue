@@ -44,6 +44,7 @@ import { corePage } from 'core/lib/themes'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import { buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 
 export default {
   components: {
@@ -81,7 +82,8 @@ export default {
       this.pagination.current = currentQuery.current
       this.pagination.perPage = currentQuery.perPage
       if (currentQuery.current <= this.productsTotal) {
-        this.filterData(currentQuery)
+        currentQuery.searchProductQuery = buildFilterProductsQuery(this.category, this.filters.chosen)
+        return this.$store.dispatch('category/products', currentQuery)
       }
     },
     openFilters () {

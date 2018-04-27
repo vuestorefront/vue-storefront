@@ -2,8 +2,12 @@ import * as types from '../../mutation-types'
 import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
-const bodybuilder = require('bodybuilder')
 import config from '../../lib/config'
+import rootStore from '../../'
+import bodybuilder from 'bodybuilder'
+import i18n from '../../lib/i18n'
+import _ from 'lodash'
+import { optionLabel } from '../attribute/helpers'
 
 export default {
   /**
@@ -128,5 +132,134 @@ export default {
         }
       }
     })
+  },
+  /**
+   * Filter category products
+   */
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null, append = false }) {
+    rootStore.state.product.current_query = {
+      populateAggregations,
+      filters,
+      current,
+      perPage,
+      includeFields,
+      excludeFields,
+      configuration,
+      append
+    }
+
+    if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+      includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
+      excludeFields = config.entities.productListWithChildren.excludeFields
+      console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
+    } else {
+      if (global.$VS.twoStageCachingDisabled) {
+        console.log('Two stage caching is disabled runtime because of no performance gain')
+      } else {
+        console.log('Two stage caching is disabled by the config')
+      }
+    }
+    let t0 = new Date().getTime()
+    let precachedQuery = searchProductQuery.build()
+    let productPromise = rootStore.dispatch('product/list', {
+      query: precachedQuery,
+      start: current,
+      size: perPage,
+      excludeFields: excludeFields,
+      includeFields: includeFields,
+      configuration: configuration,
+      append: append
+    }).then(function (res) {
+      let t1 = new Date().getTime()
+      global.$VS.twoStageCachingDelta1 = t1 - t0
+
+      let subloaders = []
+      if (!res || (res.noresults)) {
+        EventBus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('No products synchronized for this category. Please come back while online!'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        if (!append) rootStore.dispatch('product/reset')
+        rootStore.state.product.list = { items: [] } // no products to show TODO: refactor to rootStore.state.category.reset() and rootStore.state.product.reset()
+        // rootStore.state.category.filters = { color: [], size: [], price: [] }
+      } else {
+        if (populateAggregations === true) { // populate filter aggregates
+          for (let attrToFilter of filters) { // fill out the filter options
+            rootStore.state.category.filters.available[attrToFilter] = []
+
+            let uniqueFilterValues = new Set()
+            if (attrToFilter !== 'price') {
+              if (res.aggregations['agg_terms_' + attrToFilter]) {
+                let buckets = res.aggregations['agg_terms_' + attrToFilter].buckets
+                if (res.aggregations['agg_terms_' + attrToFilter + '_options']) {
+                  buckets = buckets.concat(res.aggregations['agg_terms_' + attrToFilter + '_options'].buckets)
+                }
+
+                for (let option of buckets) {
+                  uniqueFilterValues.add(_.toString(option.key))
+                }
+              }
+
+              for (let key of uniqueFilterValues.values()) {
+                const label = optionLabel(rootStore.state.attribute, { attributeKey: attrToFilter, optionId: key })
+                if (_.trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
+                  rootStore.state.category.filters.available[attrToFilter].push({
+                    id: key,
+                    label: label
+                  })
+                }
+              }
+            } else { // special case is range filter for prices
+              if (res.aggregations['agg_range_' + attrToFilter]) {
+                let index = 0
+                let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
+                for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
+                  rootStore.state.category.filters.available[attrToFilter].push({
+                    id: option.key,
+                    from: option.from,
+                    to: option.to,
+                    label: (index === 0 || (index === count - 1)) ? (option.to ? '< $' + option.to : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
+                  })
+                  index++
+                }
+              }
+            }
+          }
+        }
+      }
+      return subloaders
+    }).catch((err) => {
+      console.info(err)
+      EventBus.$emit('notification', {
+        type: 'warning',
+        message: i18n.t('No products synchronized for this category. Please come back while online!'),
+        action1: { label: i18n.t('OK'), action: 'close' }
+      })
+    })
+
+    if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
+      console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
+      rootStore.dispatch('product/list', {
+        query: precachedQuery,
+        start: current,
+        size: perPage,
+        excludeFields: null,
+        includeFields: null,
+        updateState: false // not update the product listing - this request is only for caching
+      }).catch((err) => {
+        console.info("Problem with second stage caching - couldn't store the data")
+        console.info(err)
+      }).then((res) => {
+        let t2 = new Date().getTime()
+        global.$VS.twoStageCachingDelta2 = t2 - t0
+        console.log('Using two stage caching for performance optimization - Time comparison stage1 vs stage2', global.$VS.twoStageCachingDelta1, global.$VS.twoStageCachingDelta2)
+        if (global.$VS.twoStageCachingDelta1 > global.$VS.twoStageCachingDelta2) { // two stage caching is not making any good
+          global.$VS.twoStageCachingDisabled = true
+          console.log('Disabling two stage caching')
+        }
+      })
+    }
+    return productPromise
   }
 }

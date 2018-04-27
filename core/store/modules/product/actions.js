@@ -8,6 +8,7 @@ import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
 import _ from 'lodash'
+import rootStore from '../../'
 
 export default {
   /**
@@ -379,5 +380,66 @@ export default {
    */
   related (context, { key = 'related-products', items }) {
     context.commit(types.CATALOG_UPD_RELATED, { key, items })
+  },
+
+  /**
+   * Load the product data
+   */
+  fetch (context, { parentSku, childSku = null }) {
+    // pass both id and sku to render a product
+    const productSingleOptions = {
+      sku: parentSku,
+      childSku: childSku
+    }
+    return context.dispatch('single', { options: productSingleOptions }).then((product) => {
+      let subloaders = []
+      if (product) {
+        subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+
+        subloaders.push(rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
+          filterValues: [true],
+          filterField: 'is_user_defined',
+          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+        }))
+
+        subloaders.push(context.dispatch('setupVariants', { product: product }))
+        subloaders.push(context.dispatch('setupAssociated', { product: product }))
+
+        if (config.products.preventConfigurableChildrenDirectAccess) {
+          subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
+        }
+      } else { // error or redirect
+
+      }
+      return subloaders
+    })
+  },
+  /**
+   * Load the product data - async version for asyncData()
+   */
+  fetchAsync (context, { parentSku, childSku = null, route = null }) {
+    return new Promise((resolve, reject) => {
+      console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
+      EventBus.$emit('product-before-load', { store: rootStore, route: route })
+      context.dispatch('reset').then(() => {
+        context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
+          Promise.all(subpromises).then(subresults => {
+            EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
+              return resolve()
+            }).catch((err) => {
+              console.error(err)
+              return resolve()
+            })
+          }).catch(errs => {
+            console.error(errs)
+            return resolve()
+          })
+        }).catch(err => {
+          console.error(err)
+          reject(err)
+        })
+      })
+    })
   }
+
 }
