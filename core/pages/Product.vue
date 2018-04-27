@@ -7,10 +7,13 @@
 <script>
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
 import AddToCart from 'core/components/AddToCart.vue'
+import ProductGallery from 'core/components/ProductGallery.vue'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
+import _ from 'lodash'
+import config from 'config'
 
 export default {
   name: 'Product',
@@ -149,12 +152,43 @@ export default {
     productId () {
       return this.product ? this.product.id : ''
     },
-    image () {
+    offlineImage () {
       return {
         src: this.getThumbnail(this.product.image, 570, 569),
         error: this.getThumbnail(this.product.image, 310, 300),
         loading: this.getThumbnail(this.product.image, 310, 300)
       }
+    },
+    gallery () {
+      let images = []
+      if (this.product.media_gallery) {
+        for (let mediaItem of this.product.media_gallery) {
+          if (mediaItem.image) {
+            images.push({
+              'path': this.getThumbnail(mediaItem.image, 600, 744)
+            })
+          }
+        }
+      }
+      let groupBy = config.products.galleryVariantsGroupAttribute
+      if (this.product.configurable_children && this.product.configurable_children[0][groupBy]) {
+        let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
+          return child[groupBy]
+        })
+        Object.keys(grupedByAttribute).forEach((confChild) => {
+          if (grupedByAttribute[confChild][0].image) {
+            images.push({
+              'path': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+              'id': confChild
+            })
+          }
+        })
+      } else {
+        images.push({
+          'path': this.getThumbnail(this.product.image, 600, 744)
+        })
+      }
+      return images
     },
     customAttributes () {
       let inst = this
@@ -177,7 +211,8 @@ export default {
   },
   components: {
     Breadcrumbs,
-    AddToCart
+    AddToCart,
+    ProductGallery
   }
 }
 </script>
