@@ -147,7 +147,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
       EventBus.$emit('notification', {
         type: 'warning',
         message: i18n.t('No products synchronized for this category. Please come back while online!'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
       if (!append) store.dispatch('product/reset')
       store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
@@ -203,7 +203,7 @@ function filterData ({ populateAggregations = false, filters = [], searchProduct
     EventBus.$emit('notification', {
       type: 'warning',
       message: i18n.t('No products synchronized for this category. Please come back while online!'),
-      action1: { label: 'OK', action: 'close' }
+      action1: { label: i18n.t('OK'), action: 'close' }
     })
   })
 

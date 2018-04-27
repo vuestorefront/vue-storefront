@@ -109,7 +109,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Reset password feature does not work while offline!'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       } else {
         this.$store.commit('ui/setAuthElem', 'forgot-pass')
@@ -121,7 +121,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
         return
       }
@@ -134,13 +134,13 @@ export default {
           this.$bus.$emit('notification', {
             type: 'error',
             message: i18n.t(result.result),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
         } else {
           this.$bus.$emit('notification', {
             type: 'success',
             message: i18n.t('You are logged in!'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
           this.close()
         }

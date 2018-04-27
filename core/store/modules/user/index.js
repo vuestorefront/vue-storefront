@@ -10,7 +10,7 @@ EventBus.$on('user-after-update', (event) => {
     EventBus.$emit('notification', {
       type: 'success',
       message: i18n.t('Account data has successfully been updated'),
-      action1: { label: 'OK', action: 'close' }
+      action1: { label: i18n.t('OK'), action: 'close' }
     })
     store.dispatch('user/refreshCurrentUser', event.result)
   }

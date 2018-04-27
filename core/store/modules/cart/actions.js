@@ -192,7 +192,7 @@ export default {
         EventBus.$emit('notification', {
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
         continue
       }
@@ -203,14 +203,14 @@ export default {
           EventBus.$emit('notification', {
             type: 'warning',
             message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
         }
         if (result.status === 'out_of_stock') {
           EventBus.$emit('notification', {
             type: 'error',
             message: i18n.t('The product is out of stock and cannot be added to the cart!'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
         }
         if (result.status === 'ok' || result.status === 'volatile') {
@@ -226,8 +226,8 @@ export default {
           EventBus.$emit('notification', {
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
-            action1: { label: 'OK', action: 'close' },
-            action2: { label: 'Proceed to checkout', action: 'goToCheckout' }
+            action1: { label: i18n.t('OK'), action: 'close' },
+            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
           })
         }
       })
@@ -380,7 +380,7 @@ export default {
           EventBus.$emit('notification', {
             type: 'warning',
             message: i18n.t('You\'ve entered an incorrect coupon code. Please try again.'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
         }
       }).catch(e => {

@@ -53,7 +53,7 @@ export default {
       this.$bus.$emit('notification', {
         type: 'success',
         message: i18n.t('This feature has not been implemented yet. Please follow our <a class="c-on-dark" style="text-decoration: underline" href="https://github.com/DivanteLtd/vue-storefront/issues">Roadmap</a> for the details'),
-        action1: { label: 'OK', action: 'close' },
+        action1: { label: i18n.t('OK'), action: 'close' },
         timeToLive: 20000
       })
     },

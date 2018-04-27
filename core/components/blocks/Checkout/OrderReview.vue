@@ -44,13 +44,13 @@ export default {
           this.$bus.$emit('notification', {
             type: 'error',
             message: i18n.t(result.result),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
         } else {
           this.$bus.$emit('notification', {
             type: 'success',
             message: i18n.t('You are logged in!'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
           this.$bus.$emit('modal-hide', 'modal-signup')
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
