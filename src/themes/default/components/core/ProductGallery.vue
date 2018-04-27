@@ -5,9 +5,9 @@
         <img class="offline-image" v-lazy="offline" ref="offline">
       </transition>
     </div>
+    <i v-if="isZoomOpen" v-show="OnlineOnly" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
     <div v-show="OnlineOnly" :class="{ 'container product-zoom py40': isZoomOpen }">
       <div :class="{ row: isZoomOpen }">
-        <i v-if="isZoomOpen" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
         <div class="scroll col-md-2  p0" v-if="isZoomOpen">
           <div class="thumbnails">
             <div
@@ -42,7 +42,8 @@
                 <div class="bg-cl-secondary">
                   <img
                     class="product-image inline-flex pointer mw-100"
-                    :src="images.path"
+                    v-lazy="images.path"
+                    ref="images.path"
                     @dblclick="toggleZoom">
                 </div>
               </slide>
@@ -76,10 +77,24 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
+    .product-zoom {
+      @media (max-width: 767px) {
+        position: absolute;
+        top: 50%;
+        transform: translate(0,-50%);
+        -webkit-transform: translate(0,-50%);
+        -moz-transform: translate(0,-50%);
+        -ms-transform: translate(0,-50%);
+        -o-transform: translate(0,-50%);
+      }
+    }
   }
 }
 .offline-image {
   width: 100%;
+}
+img[lazy="loading"] {
+
 }
 .product-zoom {
   max-width: 750px;
@@ -89,6 +104,11 @@ export default {
   bottom: 0;
   right: 0;
 }
+@keyframes rotate {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+
 img {
   opacity: 0.9;
   mix-blend-mode: multiply;
@@ -106,14 +126,14 @@ img {
   &::-webkit-scrollbar {
     display: none;
   }
+  @media (max-width: 767px) {
+    display: none;
+  }
 }
 
 .thumbnails {
   div {
     margin: 0 20px 20px 0;
-  }
-  @media (max-width: 767px) {
-    display: none;
   }
 }
 </style>
@@ -126,21 +146,24 @@ img {
       display: none;
     }
   }
-  .VueCarousel-inner {
-    transition: transform 0s linear !important;
-  }
   .VueCarousel-navigation-button {
     margin: 0;
     transform: translateY(-50%) !important;
   }
+  .VueCarousel-slide {
+    backface-visibility: unset;
+  }
   .VueCarousel-navigation {
     opacity: 0;
+    &--disabled {
+      opacity: 0.3;
+    }
   }
   .VueCarousel-dot {
     padding: 8px !important;
-  }
-  .VueCarousel-dot button {
-    border: 2px solid #828282;
+    button {
+      border: 2px solid #828282;
+    }
   }
   &:hover {
     .VueCarousel-navigation {
