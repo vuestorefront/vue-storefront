@@ -46,6 +46,7 @@ export default {
       let option = this.configuration[config.products.galleryVariantsGroupAttribute].id
       let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option))
       this.navigate(index)
+      this.$forceUpdate()
     },
     toggleZoom () {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
@@ -61,6 +62,7 @@ export default {
   mounted () {
     setTimeout(() => {
       this.selectVariant()
+      this.$forceUpdate()
     }, 0)
   }
 }
