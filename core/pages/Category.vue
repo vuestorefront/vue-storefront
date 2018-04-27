@@ -51,6 +51,7 @@ export default {
         if (!category) {
           self.$router.push('/')
         } else {
+          this.pagination.current = 0
           let searchProductQuery = baseFilterProductsQuery(store.state.category.current, config.products.defaultFilters)
           self.$bus.$emit('current-category-changed', store.state.category.current_path)
           self.$store.dispatch('category/products', { searchProductQuery: searchProductQuery, populateAggregations: true, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
