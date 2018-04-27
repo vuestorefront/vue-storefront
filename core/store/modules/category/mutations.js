@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { slugify } from '../../helpers'
+import { slugify, breadCrumbRoutes } from '../../helpers'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 
@@ -10,6 +10,7 @@ export default {
   },
   [types.CATEGORY_UPD_CURRENT_CATEGORY_PATH] (state, path) {
     state.current_path = path // TODO: store to cache
+    state.breadcrumbs.routes = breadCrumbRoutes(state.current_path)
   },
 
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {

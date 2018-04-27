@@ -5,233 +5,14 @@
 </template>
 
 <script>
-import builder from 'bodybuilder'
-
-import { breadCrumbRoutes } from '@vue-storefront/store/helpers'
 import config from 'config'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import _ from 'lodash'
-import i18n from 'core/lib/i18n'
-
-function buildFilterQr () {
-  let filterQr = baseFilterQuery(config.products.defaultFilters, this.$store.state.category.current)
-
-  let attrFilterBuilder = (filterQr, attrPostfix = '') => {
-    for (let code of Object.keys(this.filters.chosen)) {
-      const filter = this.filters.chosen[code]
-
-      if (filter.attribute_code !== 'price') {
-        filterQr = filterQr.andFilter('match', filter.attribute_code + attrPostfix, filter.id)
-      } else { // multi should be possible filter here?
-        const rangeqr = {}
-        if (filter.from) {
-          rangeqr['gte'] = filter.from
-        }
-        if (filter.to) {
-          rangeqr['lte'] = filter.to
-        }
-        filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
-      }
-    }
-    return filterQr
-  }
-  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
-    .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
-  return filterQr
-}
-
-function filterChanged (filterOption) { // slection of product variant on product page
-  this.pagination.current = 0
-  if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-    delete this.filters.chosen[filterOption.attribute_code]
-  } else {
-    this.filters.chosen[filterOption.attribute_code] = filterOption
-  }
-
-  let filterQr = buildFilterQr.bind(this)()
-
-  const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-  filterData({ populateAggregations: false, searchProductQuery: filterQr, store: this.$store, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters, configuration: fsC }).then((res) => {
-  }) // because already aggregated
-}
-
-function baseFilterQuery (filters, parentCategory) { // TODO add aggregation of color_options and size_options fields
-  let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
-
-  // add filters to query
-  for (let attrToFilter of filters) {
-    if (attrToFilter !== 'price') {
-      searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
-      searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter + '_options')
-    } else {
-      searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
-      searchProductQuery.aggregation('range', 'price', {
-        ranges: [
-          { from: 0, to: 50 },
-          { from: 50, to: 100 },
-          { from: 100, to: 150 },
-          { from: 150 }
-        ]
-      })
-    }
-  }
-
-  let childCats = [parentCategory.id]
-  if (parentCategory.children_data) {
-    let recurCatFinderBuilder = (category) => {
-      if (!category) {
-        return
-      }
-
-      if (!category.children_data) {
-        return
-      }
-
-      for (let sc of category.children_data) {
-        if (sc && sc.id) {
-          childCats.push(sc.id)
-        }
-        recurCatFinderBuilder(sc)
-      }
-    }
-    recurCatFinderBuilder(parentCategory)
-  }
-  searchProductQuery = searchProductQuery.filter('terms', 'category.category_id', childCats)
-  return searchProductQuery
-}
-
-// TODO: Refactor - move this function to the Vuex store
-function filterData ({ populateAggregations = false, filters = [], searchProductQuery, store, route, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null, append = false }) {
-  store.state.product.current_query = {
-    populateAggregations,
-    filters,
-    current,
-    perPage,
-    includeFields,
-    excludeFields,
-    configuration,
-    append
-  }
-
-  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
-    includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
-    excludeFields = config.entities.productListWithChildren.excludeFields
-    console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
-  } else {
-    if (global.$VS.twoStageCachingDisabled) {
-      console.log('Two stage caching is disabled runtime because of no performance gain')
-    } else {
-      console.log('Two stage caching is disabled by the config')
-    }
-  }
-  let t0 = new Date().getTime()
-  let precachedQuery = searchProductQuery.build()
-  let productPromise = store.dispatch('product/list', {
-    query: precachedQuery,
-    start: current,
-    size: perPage,
-    excludeFields: excludeFields,
-    includeFields: includeFields,
-    configuration: configuration,
-    append: append
-  }).then(function (res) {
-    let t1 = new Date().getTime()
-    global.$VS.twoStageCachingDelta1 = t1 - t0
-
-    let subloaders = []
-    if (!res || (res.noresults)) {
-      EventBus.$emit('notification', {
-        type: 'warning',
-        message: i18n.t('No products synchronized for this category. Please come back while online!'),
-        action1: { label: i18n.t('OK'), action: 'close' }
-      })
-      if (!append) store.dispatch('product/reset')
-      store.state.product.list = { items: [] } // no products to show TODO: refactor to store.state.category.reset() and store.state.product.reset()
-      // store.state.category.filters = { color: [], size: [], price: [] }
-    } else {
-      if (populateAggregations === true) { // populate filter aggregates
-        for (let attrToFilter of filters) { // fill out the filter options
-          store.state.category.filters.available[attrToFilter] = []
-
-          let uniqueFilterValues = new Set()
-          if (attrToFilter !== 'price') {
-            if (res.aggregations['agg_terms_' + attrToFilter]) {
-              let buckets = res.aggregations['agg_terms_' + attrToFilter].buckets
-              if (res.aggregations['agg_terms_' + attrToFilter + '_options']) {
-                buckets = buckets.concat(res.aggregations['agg_terms_' + attrToFilter + '_options'].buckets)
-              }
-
-              for (let option of buckets) {
-                uniqueFilterValues.add(_.toString(option.key))
-              }
-            }
-
-            for (let key of uniqueFilterValues.values()) {
-              const label = optionLabel(store.state.attribute, { attributeKey: attrToFilter, optionId: key })
-              if (_.trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
-                store.state.category.filters.available[attrToFilter].push({
-                  id: key,
-                  label: label
-                })
-              }
-            }
-          } else { // special case is range filter for prices
-            if (res.aggregations['agg_range_' + attrToFilter]) {
-              let index = 0
-              let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
-              for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
-                store.state.category.filters.available[attrToFilter].push({
-                  id: option.key,
-                  from: option.from,
-                  to: option.to,
-                  label: (index === 0 || (index === count - 1)) ? (option.to ? '< $' + option.to : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
-                })
-                index++
-              }
-            }
-          }
-        }
-      }
-    }
-    return subloaders
-  }).catch((err) => {
-    console.info(err)
-    EventBus.$emit('notification', {
-      type: 'warning',
-      message: i18n.t('No products synchronized for this category. Please come back while online!'),
-      action1: { label: i18n.t('OK'), action: 'close' }
-    })
-  })
-
-  if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
-    console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
-    store.dispatch('product/list', {
-      query: precachedQuery,
-      start: current,
-      size: perPage,
-      excludeFields: null,
-      includeFields: null,
-      updateState: false // not update the product listing - this request is only for caching
-    }).catch((err) => {
-      console.info("Problem with second stage caching - couldn't store the data")
-      console.info(err)
-    }).then((res) => {
-      let t2 = new Date().getTime()
-      global.$VS.twoStageCachingDelta2 = t2 - t0
-      console.log('Using two stage caching for performance optimization - Time comparison stage1 vs stage2', global.$VS.twoStageCachingDelta1, global.$VS.twoStageCachingDelta2)
-      if (global.$VS.twoStageCachingDelta1 > global.$VS.twoStageCachingDelta2) { // two stage caching is not making any good
-        global.$VS.twoStageCachingDisabled = true
-        console.log('Disabling two stage caching')
-      }
-    })
-  }
-  return productPromise
-}
 
 export default {
   name: 'Category',
@@ -243,44 +24,36 @@ export default {
   },
   mixins: [Composite],
   methods: {
-    onFilterChanged (filterData) {
-      (filterChanged.bind(this))(filterData)
-    },
-    fetchData ({ store, route }) {
-      let self = this
-      let searchProductQuery = baseFilterQuery(config.products.defaultFilters, store.state.category.current)
+    onFilterChanged (filterOption) {
+      this.pagination.current = 0
+      if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+        delete this.filters.chosen[filterOption.attribute_code]
+      } else {
+        this.filters.chosen[filterOption.attribute_code] = filterOption
+      }
 
-      if (self.category) { // fill breadcrumb data - TODO: extract it to a helper to be used on product page
-        this.$bus.$emit('current-category-changed', store.state.category.current_path)
-        store.dispatch('attribute/list', { // load filter attributes for this specific category
-          filterValues: config.products.defaultFilters// TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        })
-      }
-      return filterData({ searchProductQuery: searchProductQuery, populateAggregations: true, store: store, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
+      let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
+
+      const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+      this.$store.dispatch('category/products', { populateAggregations: false, searchProductQuery: filterQr, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters, configuration: fsC }).then((res) => {
+      }) // because already aggregated
     },
-    filterData (query) {
-      query.searchProductQuery = buildFilterQr.bind(this)()
-      return filterData(query)
-    },
-    validateRoute ({store, route}) {
+    validateRoute () {
       let self = this
-      if (store == null) {
-        store = self.$store
-      }
-      if (route == null) {
-        route = self.$route
-      }
+      let store = self.$store
+      let route = self.$route
+
       let slug = route.params.slug
       this.filters.chosen = {} // reset selected filters
       this.$bus.$emit('filter-reset')
 
       store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
-        store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
-
-        if (!self.category) {
+        if (!category) {
           self.$router.push('/')
         } else {
-          self.fetchData({store: store, route: route})
+          let searchProductQuery = baseFilterProductsQuery(store.state.category.current, config.products.defaultFilters)
+          self.$bus.$emit('current-category-changed', store.state.category.current_path)
+          self.$store.dispatch('category/products', { searchProductQuery: searchProductQuery, populateAggregations: true, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
           EventBus.$emitFilter('category-after-load', { store: store, route: route })
         }
       })
@@ -299,10 +72,8 @@ export default {
           includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.attribute.includeFields : null
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            filterData({ searchProductQuery: baseFilterQuery(defaultFilters, parentCategory), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null, excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null }).then((subloaders) => {
+            store.dispatch('category/products', { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null, excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null }).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
-                store.state.category.breadcrumbs.routes = breadCrumbRoutes(store.state.category.current_path)
-
                 EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
                   return resolve()
                 }).catch((err) => {
