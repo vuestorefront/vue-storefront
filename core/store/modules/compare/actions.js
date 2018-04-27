@@ -16,7 +16,7 @@ export default {
     EventBus.$emit('notification', {
       type: 'success',
       message: i18n.t('Product {productName} has been added to the compare!', { productName: htmlDecode(product.name) }),
-      action1: {label: 'OK', action: 'close'}
+      action1: {label: i18n.t('OK'), action: 'close'}
     })
   },
   removeItem ({commit}, product) {
@@ -24,7 +24,7 @@ export default {
     EventBus.$emit('notification', {
       type: 'success',
       message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
-      action1: {label: 'OK', action: 'close'}
+      action1: {label: i18n.t('OK'), action: 'close'}
     })
   }
 }

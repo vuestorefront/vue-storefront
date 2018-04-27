@@ -22,17 +22,17 @@ export default {
         subscribed: {
           type: 'success',
           message: i18n.t('Newsletter successfully subscribed. Thank you!'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         },
         alreadySubscribed: {
           type: 'error',
           message: i18n.t('You have already subscribed our newsletter'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         },
         wrongEmail: {
           type: 'error',
           message: i18n.t('Email field is empty'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         }
       }
 

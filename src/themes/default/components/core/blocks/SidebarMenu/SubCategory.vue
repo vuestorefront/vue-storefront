@@ -22,7 +22,7 @@
         v-for="link in categoryLinks"
       >
         <sub-btn
-          class="bg-cl-transparent brdr-none"
+          class="bg-cl-transparent brdr-none fs-medium"
           :id="link.id"
           :name="link.name"
           v-if="link.children_data.length"
@@ -119,7 +119,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'warning',
           message: i18n.t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       }
     }

@@ -69,7 +69,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
         return
       }
@@ -80,7 +80,7 @@ export default {
       this.$bus.$emit('notification', {
         type: 'success',
         message: i18n.t('You have been successfully subscribed to our newsletter!'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
 
       this.$bus.$emit('modal-hide', 'modal-newsletter')

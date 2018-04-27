@@ -22,7 +22,7 @@ export default {
         EventBus.$emit('notification', {
           type: 'error',
           message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       } else {
         console.error(e)
