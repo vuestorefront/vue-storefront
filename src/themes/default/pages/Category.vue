@@ -1,19 +1,25 @@
 <template>
   <div id="category">
-    <header class="bg-cl-secondary py35 pl20">
+    <header class="bg-cl-secondary py35 px20">
       <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
-        <h1 class="category-title mb10"> {{ category.name }} </h1>
-        <sort-by/>
-      </div>
-      <div class="container">
-        <div class="row m0">
-          <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 weight-300 sans-serif fs-medium-small"
-            @click="openFilters"
-          >
-            {{ $t('Filters') }}
-          </button>
+        <div class="row m0 bottom-xs">
+          <div class="col-xs-12">
+            <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h1 class="category-title mb10"> {{ category.name }}</h1>
+          </div>
+          <div class="col-xs-6 hidden-md">
+            <button
+              class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 weight-300 sans-serif fs-medium-small"
+              @click="openFilters"
+            >
+              {{ $t('Filters') }}
+            </button>
+          </div>
+          <div class="col-xs-6 end-xs">
+            <sort-by/>
+          </div>
         </div>
       </div>
     </header>
@@ -117,6 +123,8 @@ export default {
 
   .mobile-filters-button {
     display: none;
+    max-width: initial;
+    min-width: 100%;
   }
 
   .category-title {
@@ -149,7 +157,6 @@ export default {
       display: block;
       height: 45px;
     }
-
     .category-filters {
       display: none;
     }
