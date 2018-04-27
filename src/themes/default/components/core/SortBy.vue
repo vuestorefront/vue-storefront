@@ -1,9 +1,10 @@
 <template>
   <div class="sort-by">
-    <i class="sort-by__icon material-icons">arrow_drop_down</i>
+    <i class="sort-by__icon material-icons cl-secondary">arrow_drop_down</i>
 
     <select
       name="sortby"
+      class="cl-secondary"
       v-model="sortby"
       @change="selected"
     >
@@ -37,6 +38,9 @@ export default {
 @import '~theme/css/base/text';
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
+
+$bg-secondary: color(secondary, $colors-background);
+$border-secondary: color(secondary, $colors-border);
 $color-tertiary: color(tertiary);
 .sort-by {
   display: inline-flex;
@@ -45,7 +49,7 @@ $color-tertiary: color(tertiary);
     @extend .h4;
       padding: 10px 0;
       border: none;
-      border-bottom: 1px solid $color-tertiary;
+      border-bottom: 1px solid $border-secondary;
       width: 100%;
       -moz-appearance: none;
       -webkit-appearance: none;
