@@ -53,7 +53,7 @@ export default {
       this.$bus.$emit('notification', {
         type: 'warning',
         message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
       this.$router.push('/')
     } else {
@@ -85,7 +85,7 @@ export default {
               this.$bus.$emit('notification', {
                 type: 'error',
                 message: chp.name + i18n.t(' is out of the stock!'),
-                action1: { label: 'OK', action: 'close' }
+                action1: { label: i18n.t('OK'), action: 'close' }
               })
             }
           }
@@ -210,14 +210,14 @@ export default {
             this.$bus.$emit('notification', {
               type: 'error',
               message: i18n.t('Some of the ordered products are not available!'),
-              action1: { label: 'OK', action: 'close' }
+              action1: { label: i18n.t('OK'), action: 'close' }
             })
           }
         } else {
           this.$bus.$emit('notification', {
             type: 'warning',
             message: i18n.t('Stock check in progress, please wait while available stock quantities are checked'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
           isValid = false
         }
@@ -239,7 +239,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'warning',
           message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       }
     },
@@ -310,7 +310,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Some of the ordered products are not available!'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       }
     },

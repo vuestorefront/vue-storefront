@@ -194,7 +194,7 @@ export default {
       EventBus.$emit('notification', {
         type: 'error',
         message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
       throw new ValidationError(validate.errors)
     } else {
@@ -233,7 +233,7 @@ export default {
         EventBus.$emit('notification', {
           type: 'success',
           message: 'Password has successfully been changed',
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
 
         store.dispatch('user/login', {
@@ -244,7 +244,7 @@ export default {
         EventBus.$emit('notification', {
           type: 'error',
           message: i18n.t(resp.result),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       }
     })
@@ -259,7 +259,7 @@ export default {
       EventBus.$emit('notification', {
         type: 'success',
         message: i18n.t('You\'re logged out'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
     }
   },
@@ -271,7 +271,7 @@ export default {
     EventBus.$emit('notification', {
       type: 'success',
       message: i18n.t('Newsletter preferences have successfully been updated'),
-      action1: { label: 'OK', action: 'close' }
+      action1: { label: i18n.t('OK'), action: 'close' }
     })
   },
   /**
