@@ -4,7 +4,7 @@
       <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
       <img src="/assets/logo.svg" alt="Vuestore" class="logo">
 
-      <div class="copy align-center cl-secondary weight-200">
+      <div class="copy align-center cl-secondary">
         <p class="h1">Welcome to Vue Storefront!</p>
         <div class="h4">
           <p>

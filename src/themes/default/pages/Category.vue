@@ -8,7 +8,7 @@
       <div class="container">
         <div class="row m0">
           <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 weight-300 sans-serif fs-medium-small"
+            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
             @click="openFilters"
           >
             {{ $t('Filters') }}

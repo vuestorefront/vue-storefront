@@ -136,7 +136,6 @@ $color-white: color(white);
   text-transform: uppercase;
   color: $color-white;
   font-size: 12px;
-  font-weight: 400;
 }
 
 .product-image {
