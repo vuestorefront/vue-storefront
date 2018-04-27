@@ -21,152 +21,165 @@
 
     <!-- My shipping details body (edit mode) -->
     <div class="row" v-if="isEdited">
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="first-name"
-        :placeholder="$t('First name')"
-        v-model.trim="shippingDetails.firstName"
-        :validations="[
-          {
-            condition: !$v.shippingDetails.firstName.required,
+      <template>
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="first-name"
+          :placeholder="`${$t('First name')} *`"
+          v-model.trim="shippingDetails.firstName"
+          @input="$v.shippingDetails.firstName.$touch()"
+          :validations="[
+            {
+              condition: !$v.shippingDetails.firstName.required && $v.shippingDetails.firstName.$error,
+              text: $t('Field is required')
+            },
+            {
+              condition: !$v.shippingDetails.firstName.minLength,
+              text: $t('Name must have at least 3 letters.')
+            }
+          ]"
+        />
+
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="last-name"
+          :placeholder="`${$t('Last name')} *`"
+          v-model.trim="shippingDetails.lastName"
+          @input="$v.shippingDetails.lastName.$touch()"
+          :validation="{
+            condition: !$v.shippingDetails.lastName.required && $v.shippingDetails.lastName.$error,
             text: $t('Field is required')
-          },
-          {
-            condition: !$v.shippingDetails.firstName.minLength,
-            text: $t('Name must have at least 3 letters.')
-          }
-        ]"
-      />
+          }"
+        />
 
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="last-name"
-        :placeholder="$t('Last name')"
-        v-model.trim="shippingDetails.lastName"
-        :validation="{
-          condition: !$v.shippingDetails.lastName.required,
-          text: $t('Field is required')
-        }"
-      />
+        <base-checkbox
+          v-if="hasBillingAddress()"
+          class="col-xs-12 mb25"
+          id="addCompanyFilled"
+          v-model="useCompanyAddress"
+          @click="fillCompanyAddress"
+        >
+          {{ $t("Use my company's address details") }}
+        </base-checkbox>
 
-      <base-checkbox
-        v-if="hasBillingAddress()"
-        class="col-xs-12 mb25"
-        id="addCompanyFilled"
-        v-model="useCompanyAddress"
-        @click="fillCompanyAddress"
-      >
-        {{ $t("Use my company's address details") }}
-      </base-checkbox>
-
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="street-address"
-        :placeholder="$t('Street name')"
-        v-model.trim="shippingDetails.street"
-        :validation="{
-          condition: !$v.shippingDetails.street.required,
-          text: $t('Field is required')
-        }"
-      />
-
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="apartment-number"
-        :placeholder="$t('House/Apartment number')"
-        v-model.trim="shippingDetails.house"
-        :validation="{
-          condition: !$v.shippingDetails.house.required,
-          text: $t('Field is required')
-        }"
-      />
-
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="city"
-        :placeholder="$t('City')"
-        v-model.trim="shippingDetails.city"
-        :validation="{
-          condition: !$v.shippingDetails.city.required,
-          text: $t('Field is required')
-        }"
-      />
-
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="state"
-        :placeholder="$t('State / Province')"
-        v-model.trim="shippingDetails.region"
-      />
-
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="zip-code"
-        :placeholder="$t('Zip-code')"
-        v-model.trim="shippingDetails.postcode"
-        :validations="[
-          {
-            condition: !$v.shippingDetails.postcode.required,
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="street-address"
+          :placeholder="`${$t('Street name')} *`"
+          v-model.trim="shippingDetails.street"
+          @input="$v.shippingDetails.street.$touch()"
+          :validation="{
+            condition: !$v.shippingDetails.street.required && $v.shippingDetails.street.$error,
             text: $t('Field is required')
-          },
-          {
-            condition: !$v.shippingDetails.postcode.minLength,
-            text: $t('Zip-code must have at least 3 letters.')
-          }
-        ]"
-      />
+          }"
+        />
 
-      <div class="col-xs-12 col-sm-6 mb25">
-        <select name="countries" v-model="shippingDetails.country">
-          <option value="" disabled selected hidden>
-            {{ $t('Country') }}
-          </option>
-          <option
-            v-for="country in countries"
-            :key="country.code"
-            :value="country.code"
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="apartment-number"
+          :placeholder="`${$t('House/Apartment number')} *`"
+          v-model.trim="shippingDetails.house"
+          @input="$v.shippingDetails.house.$touch()"
+          :validation="{
+            condition: !$v.shippingDetails.house.required && $v.shippingDetails.house.$error,
+            text: $t('Field is required')
+          }"
+        />
+
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="city"
+          :placeholder="`${$t('City')} *`"
+          v-model.trim="shippingDetails.city"
+          @input="$v.shippingDetails.city.$touch()"
+          :validation="{
+            condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
+            text: $t('Field is required')
+          }"
+        />
+
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="state"
+          :placeholder="$t('State / Province')"
+          v-model.trim="shippingDetails.region"
+        />
+
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="zip-code"
+          :placeholder="`${$t('Zip-code')} *`"
+          v-model.trim="shippingDetails.postcode"
+          @input="$v.shippingDetails.postcode.$touch()"
+          :validations="[
+            {
+              condition: !$v.shippingDetails.postcode.required && $v.shippingDetails.postcode.$error,
+              text: $t('Field is required')
+            },
+            {
+              condition: !$v.shippingDetails.postcode.minLength,
+              text: $t('Zip-code must have at least 3 letters.')
+            }
+          ]"
+        />
+
+        <div class="col-xs-12 col-sm-6 mb25">
+          <select
+            name="countries"
+            v-model="shippingDetails.country"
+            :class="{ 'cl-tertiary' : !shippingDetails.country || shippingDetails.country.length === 0 }"
           >
-            {{ country.name }}
-          </option>
-        </select>
-        <span
-          class="validation-error"
-          v-if="!$v.shippingDetails.country.required"
-        >
-          {{ $t('Field is required') }}
-        </span>
-      </div>
+            <option value="" disabled selected hidden>
+              {{ `${$t('Country')} *` }}
+            </option>
+            <option
+              v-for="country in countries"
+              :key="country.code"
+              :value="country.code"
+              class="cl-black"
+            >
+              {{ country.name }}
+            </option>
+          </select>
+          <span
+            class="validation-error"
+            v-if="!$v.shippingDetails.country.required && $v.shippingDetails.country.$error"
+          >
+            {{ $t('Field is required') }}
+          </span>
+        </div>
 
-      <base-input
-        class="col-xs-12 col-sm-6 mb25"
-        type="text"
-        name="phone-number"
-        :placeholder="$t('Phone Number')"
-        v-model.trim="shippingDetails.phone"
-      />
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="phone-number"
+          :placeholder="$t('Phone Number')"
+          v-model.trim="shippingDetails.phone"
+        />
 
-      <div class="hidden-xs col-sm-6 mb25"/>
+        <div class="hidden-xs col-sm-6 mb25"/>
 
-      <div class="col-xs-12 col-sm-6">
-        <button-full
-          @click.native="updateDetails"
-          :class="{ 'button-disabled': $v.$invalid }"
-        >
-          {{ $t('Update my shipping details') }}
-        </button-full>
-      </div>
-      <div class="col-xs-12 col-sm-6 flex middle-xs py10">
-        <a href="#" @click="exitSection" class="h4 cl-accent">
-          {{ $t('Cancel') }}
-        </a>
-      </div>
+        <div class="col-xs-12 col-sm-6">
+          <button-full
+            @click.native="updateDetails"
+            :class="{ 'button-disabled': $v.$invalid }"
+          >
+            {{ $t('Update my shipping details') }}
+          </button-full>
+        </div>
+        <div class="col-xs-12 col-sm-6 flex middle-xs py10">
+          <a href="#" @click="exitSection" class="h4 cl-accent">
+            {{ $t('Cancel') }}
+          </a>
+        </div>
+      </template>
     </div>
 
     <!-- My shipping details summary -->

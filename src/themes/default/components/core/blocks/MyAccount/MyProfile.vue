@@ -233,6 +233,7 @@
               v-for="country in countries"
               :key="country.code"
               :value="country.code"
+              class="cl-black"
             >
               {{ country.name }}
             </option>
@@ -375,7 +376,7 @@ export default {
       },
       postcode: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(5)
       },
       city: {
         required

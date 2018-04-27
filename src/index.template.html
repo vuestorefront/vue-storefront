@@ -3,22 +3,7 @@
   <head>
   	{{{ meta.inject().title.text() }}}
   	{{{ meta.inject().meta.text() }}}
-	{{{ meta.inject().link.text() }}}
-	  
-	<script type="text/javascript">
-		WebFontConfig = {
-		  google: { families: [ 'Playfair+Display:400,700', 'Roboto:300,400,700' ] }
-		};
-		(function() {
-		  var wf = document.createElement('script');
-		  wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-			'://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
-		  wf.type = 'text/javascript';
-		  wf.async = 'true';
-		  var s = document.getElementsByTagName('script')[0];
-		  s.parentNode.insertBefore(wf, s);
-		})(); 
-	</script>
+		{{{ meta.inject().link.text() }}}
 
     <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {

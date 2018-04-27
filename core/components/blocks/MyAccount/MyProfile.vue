@@ -28,14 +28,21 @@ export default {
       password: '',
       rPassword: '',
       addCompany: false,
-      isEdited: false
+      isEdited: false,
+      remainInEditMode: false
     }
   },
   created () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$on('myAccount-before-remainInEditMode', block => {
+      if (block === 'MyProfile') {
+        this.remainInEditMode = true
+      }
+    })
   },
   destroyed () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.userCompany = this.getUserCompany()
@@ -84,7 +91,10 @@ export default {
           !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
           (this.userCompany.company && !this.addCompany)
       ) {
-        updatedProfile = this.$store.state.user.current
+        updatedProfile = JSON.parse(JSON.stringify(this.$store.state.user.current))
+        updatedProfile.firstname = this.currentUser.firstname
+        updatedProfile.lastname = this.currentUser.lastname
+        updatedProfile.email = this.currentUser.email
         if (updatedProfile.hasOwnProperty('default_billing')) {
           let index
           for (let i = 0; i < updatedProfile.addresses.length; i++) {
@@ -154,8 +164,11 @@ export default {
         if (!this.userCompany.company) {
           this.addCompany = false
         }
+        this.remainInEditMode = false
       }
-      this.isEdited = false
+      if (!this.remainInEditMode) {
+        this.isEdited = false
+      }
     },
     getUserCompany () {
       if (this.currentUser.hasOwnProperty('default_billing')) {

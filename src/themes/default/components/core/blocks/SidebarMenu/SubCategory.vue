@@ -22,7 +22,7 @@
         v-for="link in categoryLinks"
       >
         <sub-btn
-          class="bg-cl-transparent brdr-none"
+          class="bg-cl-transparent brdr-none fs-medium"
           :id="link.id"
           :name="link.name"
           v-if="link.children_data.length"

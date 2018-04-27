@@ -47,7 +47,6 @@ export default {
     min-width: 250px;
   }
   .dark {
-    font-weight: 200;
     border: 1px solid $dark-border;
     &:hover,
     &:focus {

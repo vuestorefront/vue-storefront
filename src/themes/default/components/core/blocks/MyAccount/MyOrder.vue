@@ -172,7 +172,7 @@ table {
 
       &:before {
         content: attr(data-th) ': ';
-        font-weight: bold
+        font-weight: 700
       }
 
       &:first-child {
@@ -212,7 +212,7 @@ table {
 
       &:first-child {
         @media (max-width: 767px) {
-          font-weight: bold;
+          font-weight: 700;
           padding: 20px 20px 5px 20px;
         }
       }

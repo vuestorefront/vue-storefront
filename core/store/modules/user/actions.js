@@ -190,7 +190,6 @@ export default {
     const validate = ajv.compile(require('./userProfile.schema.json'))
 
     if (!validate(userData)) { // schema validation of user profile data
-      console.error(validate.errors)
       EventBus.$emit('notification', {
         type: 'error',
         message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
