@@ -9,6 +9,7 @@
 import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
 import config from 'config'
+
 export default {
   name: 'ProductGallery',
   props: {

@@ -7,7 +7,7 @@
     </div>
     <i v-if="isZoomOpen" v-show="OnlineOnly" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
     <div v-show="OnlineOnly" :class="{ 'container product-zoom py40': isZoomOpen }">
-      <div :class="{ row: isZoomOpen }">
+      <div v-if="loaded" :class="{ row: isZoomOpen }">
         <div class="scroll col-md-2  p0" v-if="isZoomOpen">
           <div class="thumbnails">
             <div
@@ -64,6 +64,19 @@ export default {
   mixins: [coreComponent('ProductGallery')],
   components: {
     'no-ssr': NoSSR
+  },
+  data () {
+    return {
+      loaded: false
+    }
+  },
+  methods: {
+    isLoaded () {
+      this.loaded = true
+    }
+  },
+  created () {
+    this.$Lazyload.$on('loaded', this.isLoaded)
   }
 }
 </script>
@@ -93,9 +106,6 @@ export default {
 .offline-image {
   width: 100%;
 }
-img[lazy="loading"] {
-
-}
 .product-zoom {
   max-width: 750px;
 }
@@ -104,11 +114,6 @@ img[lazy="loading"] {
   bottom: 0;
   right: 0;
 }
-@keyframes rotate {
-  from {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
-}
-
 img {
   opacity: 0.9;
   mix-blend-mode: multiply;
@@ -178,3 +183,4 @@ img {
   }
 }
 </style>
+
