@@ -199,7 +199,7 @@ export default {
       throw new ValidationError(validate.errors)
     } else {
       return new Promise((resolve, reject) => {
-        context.dispatch('sync/queue', { url: config.users.me_endpoint + '?token={{token}}',
+        context.dispatch('sync/queue', { url: config.users.me_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
