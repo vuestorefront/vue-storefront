@@ -46,6 +46,7 @@ function buildFilterQr () {
 }
 
 function filterChanged (filterOption) { // slection of product variant on product page
+  this.pagination.current = 0
   if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
     delete this.filters.chosen[filterOption.attribute_code]
   } else {
