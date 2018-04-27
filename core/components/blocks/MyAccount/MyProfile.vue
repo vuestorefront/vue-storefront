@@ -28,14 +28,21 @@ export default {
       password: '',
       rPassword: '',
       addCompany: false,
-      isEdited: false
+      isEdited: false,
+      remainInEditMode: false
     }
   },
   created () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$on('myAccount-before-remainInEditMode', block => {
+      if (block === 'MyProfile') {
+        this.remainInEditMode = true
+      }
+    })
   },
   destroyed () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.userCompany = this.getUserCompany()
@@ -154,8 +161,11 @@ export default {
         if (!this.userCompany.company) {
           this.addCompany = false
         }
+        this.remainInEditMode = false
       }
-      this.isEdited = false
+      if (!this.remainInEditMode) {
+        this.isEdited = false
+      }
     },
     getUserCompany () {
       if (this.currentUser.hasOwnProperty('default_billing')) {

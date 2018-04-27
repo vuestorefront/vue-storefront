@@ -31,7 +31,8 @@ export default {
   },
   data () {
     return {
-      navigation: []
+      navigation: [],
+      returnEditMode: false
     }
   },
   created () {
@@ -72,7 +73,11 @@ export default {
     },
     onBeforeUpdateUser (updatedData) {
       if (updatedData) {
-        this.$store.dispatch('user/update', { customer: updatedData })
+        try {
+          this.$store.dispatch('user/update', { customer: updatedData })
+        } catch (err) {
+          this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
+        }
       }
     },
     notify (title) {
