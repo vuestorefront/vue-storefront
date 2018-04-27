@@ -25,14 +25,21 @@ export default {
       countries: Countries,
       useCompanyAddress: false,
       currentUser: Object.assign({}, this.$store.state.user.current),
-      isEdited: false
+      isEdited: false,
+      remainInEditMode: false
     }
   },
   created () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$on('myAccount-before-remainInEditMode', block => {
+      if (block === 'MyShippingDetails') {
+        this.remainInEditMode = true
+      }
+    })
   },
   destroyed () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.shippingDetails = this.getShippingDetails()
@@ -72,7 +79,7 @@ export default {
     updateDetails () {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
-        updatedShippingDetails = this.$store.state.user.current
+        updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
         if (this.currentUser.hasOwnProperty('default_shipping')) {
           let index
           for (let i = 0; i < this.currentUser.addresses.length; i++) {
@@ -115,8 +122,11 @@ export default {
       if (!updatedShippingDetails) {
         this.shippingDetails = this.getShippingDetails()
         this.useCompanyAddress = false
+        this.remainInEditMode = false
       }
-      this.isEdited = false
+      if (!this.remainInEditMode) {
+        this.isEdited = false
+      }
     },
     fillCompanyAddress () {
       this.useCompanyAddress = !this.useCompanyAddress

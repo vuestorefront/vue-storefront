@@ -25,6 +25,7 @@
           <div
             class="py10 px20 pointer weight-400 uppercase"
             @click="action(notification.action2.action, index)"
+            v-if="notification.action2"
           >
             {{ notification.action2.label }}
           </div>
