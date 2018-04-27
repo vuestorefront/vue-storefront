@@ -12,6 +12,7 @@ import config from 'config'
 import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
 import ProductListing from 'core/components/ProductListing.vue'
 import Breadcrumbs from 'core/components/Breadcrumbs.vue'
+import SortBy from 'core/components/SortBy.vue'
 import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
@@ -369,7 +370,8 @@ export default {
   components: {
     ProductListing,
     Breadcrumbs,
-    Sidebar
+    Sidebar,
+    SortBy
   }
 }
 </script>

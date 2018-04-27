@@ -4,6 +4,7 @@
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <h1 class="category-title mb10"> {{ category.name }} </h1>
+        <sort-by/>
       </div>
       <div class="container">
         <div class="row m0">
@@ -32,7 +33,7 @@
           <div v-if="isCategoryEmpty" class="hidden-xs">
             {{ $t('No products found!') }}
           </div>
-          <product-listing columns="3" :products="products" />
+          <product-listing columns="3" :products="products"/>
         </div>
       </div>
     </div>
@@ -44,12 +45,14 @@ import { corePage } from 'core/lib/themes'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import SortBy from '../components/core/SortBy.vue'
 
 export default {
   components: {
     ProductListing,
     Breadcrumbs,
-    Sidebar
+    Sidebar,
+    SortBy
   },
   data () {
     return {
