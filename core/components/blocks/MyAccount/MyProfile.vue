@@ -91,7 +91,10 @@ export default {
           !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
           (this.userCompany.company && !this.addCompany)
       ) {
-        updatedProfile = this.$store.state.user.current
+        updatedProfile = JSON.parse(JSON.stringify(this.$store.state.user.current))
+        updatedProfile.firstname = this.currentUser.firstname
+        updatedProfile.lastname = this.currentUser.lastname
+        updatedProfile.email = this.currentUser.email
         if (updatedProfile.hasOwnProperty('default_billing')) {
           let index
           for (let i = 0; i < updatedProfile.addresses.length; i++) {
