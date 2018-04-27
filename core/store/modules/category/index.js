@@ -9,7 +9,8 @@ export default {
     current: {},
     filters: { available: {}, chosen: {} },
     breadcrumbs: {routes: []},
-    current_path: [] // list of categories from root to current
+    current_path: [], // list of categories from root to current
+    sortBy: '4'
   },
   getters,
   actions,

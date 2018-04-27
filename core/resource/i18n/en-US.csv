@@ -302,3 +302,7 @@
 "Internal Application error while refreshing the tokens. Please clear the storage and refresh page.", "Internal Application error while refreshing the tokens. Please clear the storage and refresh page."
 "Proceed to checkout","Proceed to checkout"
 "OK","OK"
+"Low to high","Low to high"
+"High to low","High to low"
+"Newest first","Newest first"
+"Sale first","Sale first"

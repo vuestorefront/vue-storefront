@@ -35,5 +35,8 @@ export default {
         console.error(e)
       }
     }
+  },
+  [types.CATEGORY_SORT] (state, sortBy) {
+    state.sortBy = sortBy
   }
 }
