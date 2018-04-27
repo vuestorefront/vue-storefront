@@ -48,7 +48,9 @@ export default {
     },
     toggleZoom () {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
-      this.navigate(this.$refs.carousel.currentPage)
+      setTimeout(() => {
+        this.navigate(this.$refs.carousel.currentPage)
+      }, 1)
     }
   },
   created () {
