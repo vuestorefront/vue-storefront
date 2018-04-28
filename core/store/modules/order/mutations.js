@@ -1,7 +1,7 @@
 import * as types from '../../mutation-types'
-import * as entities from 'core/lib/entities'
-import EventBus from 'core/plugins/event-bus'
-import config from 'config'
+import * as entities from '../../lib/entities'
+import EventBus from '../../lib/event-bus'
+import config from '../../lib/config'
 
 export default {
   /**
@@ -9,7 +9,7 @@ export default {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.ORDER_PLACE_ORDER] (state, order) {
-    const ordersCollection = global.db.ordersCollection
+    const ordersCollection = global.$VS.db.ordersCollection
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
     order.order_id = orderId.toString()
     order.transmited = false

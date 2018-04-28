@@ -16,6 +16,7 @@ const themesRoot = '../../src/themes'
 
 const themeRoot = require('./theme-path')
 const themeComponents = themeRoot + '/components'
+const themeExtensions = themeRoot + '/extensions'
 const themePages = themeRoot + '/pages'
 const themePlugins = themeRoot + '/plugins'
 const themeFilters = themeRoot + '/filters'
@@ -68,7 +69,6 @@ module.exports = {
       'core/plugins': path.resolve(__dirname, '../plugins'),
       'core/resource': path.resolve(__dirname, '../resource'),
       'core/router': path.resolve(__dirname, '../router'),
-      'core/store': path.resolve(__dirname, '../store'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
@@ -79,7 +79,8 @@ module.exports = {
       'theme/pages': themePages,
       'theme/plugins': themePlugins,
       'theme/resource': themeResources,
-      'theme/store': themeStores
+      'theme/store': themeStores,
+      'theme/extensions': themeExtensions
     }
   },
   output: {
@@ -88,12 +89,13 @@ module.exports = {
     filename: '[name].[hash].js'
   },
   module: {
-    rules: [{
-      enforce: 'pre',
-      test: /\.(js|vue)$/,
-      loader: 'eslint-loader',
-      exclude: /node_modules/
-    },
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -136,6 +138,10 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
+        loader: 'url-loader?importLoaders=1&limit=10000'
       }
     ]
   }

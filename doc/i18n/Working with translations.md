@@ -13,7 +13,7 @@ When you're working with plain JS module you can simply use the translation help
     EventBus.$emit('notification', {
         type: 'success',
         message: i18n.t('Product has been added to the cart!'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
     })
 ```
 

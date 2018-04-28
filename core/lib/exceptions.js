@@ -1,21 +1,14 @@
-export class ValidationError {
+export class HttpError {
   /**
-     * ValidationError to be used with multiple validation errors return from Ajv or other validators
-     * @param {Object} _validationMessages dictionary of validation errors
-     */
-  constructor (_validationMessages) {
-    this._messages = _validationMessages
+   * ValidationError to be used with multiple validation errors return from Ajv or other validators
+   * @param {Object} _validationMessages dictionary of validation errors
+   */
+  constructor (message, code) {
+    this.message = message
+    this.code = code
     this.name = 'ValidationError'
   }
-
-  /**
-   * @return {Array} array of errors
-   */
-  get messages () {
-    return this._messages
-  }
-
   toString () {
-    return this._messages.join(', ')
+    return 'HttpError' + this.code + ': ' + this.message
   }
 }

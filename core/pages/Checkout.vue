@@ -12,7 +12,6 @@ import Shipping from 'core/components/blocks/Checkout/Shipping'
 import Payment from 'core/components/blocks/Checkout/Payment'
 import OrderReview from 'core/components/blocks/Checkout/OrderReview'
 import CartSummary from 'core/components/blocks/Checkout/CartSummary'
-import ThankYouPage from 'core/components/blocks/Checkout/ThankYouPage'
 import Composite from 'core/mixins/composite'
 
 export default {
@@ -54,7 +53,7 @@ export default {
       this.$bus.$emit('notification', {
         type: 'warning',
         message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
       this.$router.push('/')
     } else {
@@ -63,7 +62,7 @@ export default {
       for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
         if (product.onlineStockCheckid) {
           checkPromises.push(new Promise((resolve, reject) => {
-            global.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
+            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
               if (err) {
                 console.error(err)
                 resolve(null)
@@ -86,83 +85,45 @@ export default {
               this.$bus.$emit('notification', {
                 type: 'error',
                 message: chp.name + i18n.t(' is out of the stock!'),
-                action1: { label: 'OK', action: 'close' }
+                action1: { label: i18n.t('OK'), action: 'close' }
               })
             }
           }
         }
       }.bind(this))
     }
-    if (this.$store.state.checkout.shippingDetails.country) {
-      this.$bus.$emit('checkout-before-shippingMethods', this.$store.state.checkout.shippingDetails.country)
-    }
+    let country = this.$store.state.checkout.shippingDetails.country
+    if (!country) country = config.i18n.defaultCountry
+    this.$bus.$emit('checkout-before-shippingMethods', country)
     this.$store.dispatch('cart/getPaymentMethods')
   },
   created () {
     // TO-DO: Dont use event bus ad use v-on at components (?)
-    this.$bus.$on('network-before-checkStatus', (status) => { this.checkConnection(status) })
+    this.$bus.$on('network-before-checkStatus', this.onNetworkStatusCheck)
     // TO-DO: Use one event with name as apram
-    this.$bus.$on('checkout-after-personalDetails', (receivedData, validationResult) => {
-      this.personalDetails = receivedData
-      this.validationResults.personalDetails = validationResult
-      this.activateSection('shipping')
-      this.savePersonalDetails()
-    })
-    this.$bus.$on('checkout-after-shippingDetails', (receivedData, validationResult) => {
-      this.shipping = receivedData
-      this.validationResults.shipping = validationResult
-      global.__TAX_COUNTRY__ = this.shipping.country
-      this.activateSection('payment')
-      this.saveShippingDetails()
-    })
-    this.$bus.$on('checkout-after-paymentDetails', (receivedData, validationResult) => {
-      this.payment = receivedData
-      this.validationResults.payment = validationResult
-      this.activateSection('orderReview')
-      this.savePaymentDetails()
-    })
-    this.$bus.$on('checkout-after-cartSummary', (receivedData) => {
-      this.cartSummary = receivedData
-    })
-    this.$bus.$on('checkout-before-placeOrder', (userId) => {
-      if (userId) {
-        this.userId = userId.toString()
-      }
-    })
-    this.$bus.$on('checkout-do-placeOrder', (additionalPayload) => {
-      this.payment.paymentMethodAdditional = additionalPayload
-      this.placeOrder()
-    })
-    this.$bus.$on('checkout-before-edit', (section) => {
-      this.activateSection(section)
-    })
-    this.$bus.$on('order-after-placed', (order) => {
-      this.orderPlaced = true
-      console.log(this.order)
-    })
-    this.$bus.$on('checkout-before-shippingMethods', (country) => {
-      this.$store.dispatch('cart/getShippingMethods', {
-        country_id: country
-      }).then(() => {
-        this.$store.dispatch('cart/refreshTotals')
-      })
-    })
-    this.$bus.$on('checkout-after-shippingMethodChanged', (payload) => {
-      this.$store.dispatch('cart/refreshTotals', payload)
-    })
+    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
+    this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
+    this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
+    this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
+    this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
+    this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
+    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
   },
   destroyed () {
-    this.$bus.$off('network-before-checkStatus')
-    this.$bus.$off('checkout-after-personalDetails')
-    this.$bus.$off('checkout-after-shippingDetails')
-    this.$bus.$off('checkout-after-paymentDetails')
-    this.$bus.$off('checkout-after-cartSummary')
-    this.$bus.$off('checkout-before-placeOrder')
-    this.$bus.$off('checkout-do-placeOrder')
-    this.$bus.$off('checkout-before-edit')
-    this.$bus.$off('order-after-placed')
-    this.$bus.$off('checkout-before-shippingMethods')
-    this.$bus.$off('checkout-after-shippingMethodChanged')
+    this.$bus.$off('network-before-checkStatus', this.onNetworkStatusCheck)
+    this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
+    this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
+    this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
+    this.$bus.$off('checkout-before-placeOrder') // this is intentional exception as the payment methods are dynamically binding to the before-placeOrder event
+    this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
+    this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
+    this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
   },
   computed: {
   },
@@ -170,6 +131,58 @@ export default {
     '$route': 'activateHashSection'
   },
   methods: {
+    onAfterShippingMethodChanged (payload) {
+      this.$store.dispatch('cart/refreshTotals', payload)
+    },
+    onBeforeShippingMethods (country) {
+      this.$store.dispatch('cart/getShippingMethods', {
+        country_id: country
+      }).then(() => {
+        this.$store.dispatch('cart/refreshTotals')
+        this.$forceUpdate()
+      })
+    },
+    onAfterPlaceOrder (order) {
+      this.orderPlaced = true
+      console.log(this.order)
+    },
+    onBeforeEdit (section) {
+      this.activateSection(section)
+    },
+    onBeforePlaceOrder (userId) {
+      if (userId) {
+        this.userId = userId.toString()
+      }
+    },
+    onAfterCartSummary (receivedData) {
+      this.cartSummary = receivedData
+    },
+    onDoPlaceOrder (additionalPayload) {
+      this.payment.paymentMethodAdditional = additionalPayload
+      this.placeOrder()
+    },
+    onAfterPaymentDetails (receivedData, validationResult) {
+      this.payment = receivedData
+      this.validationResults.payment = validationResult
+      this.activateSection('orderReview')
+      this.savePaymentDetails()
+    },
+    onAfterShippingDetails (receivedData, validationResult) {
+      this.shipping = receivedData
+      this.validationResults.shipping = validationResult
+      global.$VS.__TAX_COUNTRY__ = this.shipping.country
+      this.activateSection('payment')
+      this.saveShippingDetails()
+    },
+    onAfterPersonalDetails (receivedData, validationResult) {
+      this.personalDetails = receivedData
+      this.validationResults.personalDetails = validationResult
+      this.activateSection('shipping')
+      this.savePersonalDetails()
+    },
+    onNetworkStatusCheck (status) {
+      this.checkConnection(status)
+    },
     checkStocks () {
       let isValid = true
       for (let child of this.$children) {
@@ -197,14 +210,14 @@ export default {
             this.$bus.$emit('notification', {
               type: 'error',
               message: i18n.t('Some of the ordered products are not available!'),
-              action1: { label: 'OK', action: 'close' }
+              action1: { label: i18n.t('OK'), action: 'close' }
             })
           }
         } else {
           this.$bus.$emit('notification', {
             type: 'warning',
             message: i18n.t('Stock check in progress, please wait while available stock quantities are checked'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
           isValid = false
         }
@@ -226,7 +239,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'warning',
           message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       }
     },
@@ -297,7 +310,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Some of the ordered products are not available!'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
       }
     },
@@ -316,8 +329,7 @@ export default {
     Shipping,
     Payment,
     OrderReview,
-    CartSummary,
-    ThankYouPage
+    CartSummary
   }
 }
 </script>

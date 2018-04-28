@@ -48,8 +48,7 @@
                             "street": {
                                 "minItems": 2,
                                 "items": {
-                                    "type": "string",
-                                    "minLength": 1
+                                    "type": ["string", "number"]
                                 }
                             },
                             "city": {
@@ -64,21 +63,16 @@
                                 }
                             },
                             "country_id": {
-                                "type": "string",
+                                "type": ["string", "null"],
                                 "minLength": 2,
                                 "pattern": "[A-Z]+"
                             },
                             "postcode": {
-                                "type": "string",
-                                "minLength": 5
+                                "type": ["string", "null"]
                             },
                             "company": {
                                 "type": "string",
                                 "minLength": 1
-                            },
-                            "vat_id": {
-                                "type": "string",
-                                "minLength": 3
                             },
                             "telephone": {
                                 "type": "string"

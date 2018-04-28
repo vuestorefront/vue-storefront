@@ -1,7 +1,7 @@
 import * as types from '../../mutation-types'
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
-import { htmlDecode } from 'core/filters'
+import EventBus from '../../lib/event-bus'
+import i18n from '../../lib/i18n'
+import { htmlDecode } from '../../lib/filters'
 
 export default {
   clear (context) {
@@ -9,7 +9,7 @@ export default {
   },
   load (context) {
     const commit = context.commit
-    global.db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
+    global.$VS.db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
     })
@@ -19,7 +19,7 @@ export default {
     EventBus.$emit('notification', {
       type: 'success',
       message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
-      action1: { label: 'OK', action: 'close' }
+      action1: { label: i18n.t('OK'), action: 'close' }
     })
   },
   removeItem ({ commit }, product) {
@@ -27,7 +27,7 @@ export default {
     EventBus.$emit('notification', {
       type: 'success',
       message: i18n.t('Product {productName} has been removed from wishlit!', { productName: htmlDecode(product.name) }),
-      action1: { label: 'OK', action: 'close' }
+      action1: { label: i18n.t('OK'), action: 'close' }
     })
   }
 }

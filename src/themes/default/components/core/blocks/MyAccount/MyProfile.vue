@@ -224,7 +224,7 @@
           <select
             name="countries"
             v-model="userCompany.country"
-            :class="{'cl-tertiary' : userCompany.country.length === 0}"
+            :class="{'cl-tertiary' : !userCompany.country || userCompany.country.length === 0}"
           >
             <option value="" disabled selected hidden>
               {{ $t('Country *') }}
@@ -233,6 +233,7 @@
               v-for="country in countries"
               :key="country.code"
               :value="country.code"
+              class="cl-black"
             >
               {{ country.name }}
             </option>
@@ -375,7 +376,7 @@ export default {
       },
       postcode: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(5)
       },
       city: {
         required

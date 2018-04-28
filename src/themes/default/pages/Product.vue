@@ -1,15 +1,13 @@
 <template>
   <div id="product">
-    <section class="bg-cl-secondary py30 px20 product-top-section">
+    <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
-        <section class="row py35 m0 data-wrapper">
-          <div class="col-xs-12 col-md-7 center-xs middle-xs image">
-            <transition name="fade" appear>
-              <img class="product-image inline-flex mw-100" v-lazy="image" ref="image">
-            </transition>
+        <breadcrumbs class="py30" :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
+        <section class="row m0 data-wrapper">
+          <div class="col-xs-12 col-md-6 px15 center-xs middle-xs image">
+            <product-gallery :gallery="gallery" :offline="offlineImage" :configuration="configuration"/>
           </div>
-          <div class="col-md-5 col-xs-12 px15 data">
+          <div class="col-md-6 col-xs-12 px20 data">
             <div class="uppercase cl-secondary">
               sku: {{ product.sku }}
             </div>
@@ -203,6 +201,7 @@ import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
+import ProductGallery from '../components/core/ProductGallery'
 
 export default {
   asyncData ({ store, route }) {
@@ -217,6 +216,7 @@ export default {
     }
   },
   components: {
+    ProductGallery,
     AddToCart,
     GenericSelector,
     ColorSelector,
@@ -240,6 +240,13 @@ $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
 
+.breadcrumbs {
+  @media (max-width: 767px) {
+    margin: 15px 0;
+    padding: 15px 0 0 15px;
+  }
+}
+
 .data-wrapper {
   @media (max-width: 767px) {
     padding: 0;
@@ -256,7 +263,6 @@ $bg-secondary: color(secondary, $colors-background);
   @media (max-width: 1023px) {
     margin-bottom: 20px;
     padding: 20px 0 30px 0;
-    background-color: $bg-secondary;
   }
 }
 

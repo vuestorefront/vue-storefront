@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as types from './mutation-types'
 import localForage from 'localforage'
-import UniversalStorage from 'core/lib/storage'
+import UniversalStorage from './lib/storage'
 import order from './modules/order'
 import product from './modules/product'
 import category from './modules/category'
@@ -22,7 +22,6 @@ import social from './modules/social-tiles'
 import claims from './modules/claims'
 import sync from './modules/sync'
 import promoted from './modules/promoted-offers'
-import themeModules from 'theme/store'
 
 Vue.prototype.$db = {
   ordersCollection: new UniversalStorage(localForage.createInstance({
@@ -96,7 +95,8 @@ Vue.prototype.$db = {
   }))
 }
 
-global.db = Vue.prototype.$db // localForage instance
+if (!global.$VS) global.$VS = {}
+global.$VS.db = Vue.prototype.$db // localForage instance
 
 Vue.use(Vuex)
 
@@ -120,56 +120,70 @@ const mutations = {
 const plugins = [
   store => {
     store.subscribe((mutation, state) => {
-      if (mutation.type.indexOf(types.SN_CART) === 0) { // check if this mutation is cart related
-        global.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
+      let nameArray = mutation.type.split('/')
+      let storeName, actionName
+      if (nameArray.length) {
+        storeName = nameArray[0]
+        actionName = nameArray.slice(1).join('/')
+      } else {
+        console.error('Store mutation name is incorrectly formed')
+      }
+
+      if (storeName === types.SN_CART) { // check if this mutation is cart related
+        global.$VS.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
-        global.db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
+        global.$VS.db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
           console.error(reason)
         })
       }
-      if (mutation.type.indexOf(types.SN_WISHLIST) === 0) { // check if this mutation is wishlist related
-        global.db.wishlistCollection.setItem('current-wishlist', state.wishlist.itemsWishlist).catch((reason) => {
+      if (storeName === types.SN_WISHLIST) { // check if this mutation is wishlist related
+        global.$VS.db.wishlistCollection.setItem('current-wishlist', state.wishlist.itemsWishlist).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.SN_COMPARE) === 0) { // check if this mutation is compare related
-        global.db.compareCollection.setItem('current-compare', state.compare.itemsCompare).catch((reason) => {
+      if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
+        global.$VS.db.compareCollection.setItem('current-compare', state.compare.itemsCompare).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
-      if (mutation.type.indexOf(types.USER_INFO_LOADED) >= 0) { // check if this mutation is user related
-        global.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
+      if (actionName === types.USER_INFO_LOADED) { // check if this mutation is user related
+        global.$VS.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (mutation.type.indexOf(types.USER_ORDERS_HISTORY_LOADED) >= 0) { // check if this mutation is user related
-        global.db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
+      if (actionName === types.USER_ORDERS_HISTORY_LOADED) { // check if this mutation is user related
+        global.$VS.db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-      if (mutation.type.indexOf(types.USER_TOKEN_CHANGED) >= 0) { // check if this mutation is user related
-        global.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
+      if (actionName === types.USER_TOKEN_CHANGED) { // check if this mutation is user related
+        global.$VS.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
-      }
-      if (mutation.type.indexOf(types.SN_CHECKOUT) === 0) {
-        if (mutation.type.indexOf(types.CHECKOUT_SAVE_PERSONAL_DETAILS) > 0) {
-          global.db.checkoutFieldsCollection.setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
-            console.error(reason) // it doesn't work on SSR
-          }) // populate cache
-        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_SHIPPING_DETAILS) > 0) {
-          global.db.checkoutFieldsCollection.setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
-            console.error(reason) // it doesn't work on SSR
-          }) // populate cache
-        } else if (mutation.type.indexOf(types.CHECKOUT_SAVE_PAYMENT_DETAILS) > 0) {
-          global.db.checkoutFieldsCollection.setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
+        if (state.user.refreshToken) {
+          global.$VS.db.usersCollection.setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
       }
-      if (mutation.type.indexOf(types.USER_UPDATE_PREFERENCES) >= 0) {
-        global.db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
+      if (storeName === types.SN_CHECKOUT) {
+        if (actionName === types.CHECKOUT_SAVE_PERSONAL_DETAILS) {
+          global.$VS.db.checkoutFieldsCollection.setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
+        } else if (actionName === types.CHECKOUT_SAVE_SHIPPING_DETAILS) {
+          global.$VS.db.checkoutFieldsCollection.setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
+        } else if (actionName === types.CHECKOUT_SAVE_PAYMENT_DETAILS) {
+          global.$VS.db.checkoutFieldsCollection.setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache
+        }
+      }
+      if (actionName === types.USER_UPDATE_PREFERENCES) {
+        global.$VS.db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
           console.error(reason)
         })
       }
@@ -177,8 +191,8 @@ const plugins = [
   }
 ]
 
-export default new Vuex.Store({
-  modules: {
+let rootStore = new Vuex.Store({
+  modules: { // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
     order,
     product,
     category,
@@ -197,10 +211,35 @@ export default new Vuex.Store({
     tax,
     claims,
     sync,
-    promoted,
-    ...themeModules
+    promoted
   },
   state,
   mutations,
   plugins
 })
+
+rootStore.i18n = {
+  t: function (key) {
+    return key
+  }
+}
+rootStore.eventBus = new Vue()
+
+rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init sub modules "context" with i18n + eventBus
+  if (config !== null) {
+    console.debug('Vuex VS store - using external config')
+    this.config = config
+    global.$VS.config = Object.assign(global.$VS.config, config)
+  }
+  if (i18n !== null) {
+    console.debug('Vuex VS store - using external i18n')
+    this.i18n = i18n
+    global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
+  }
+  if (eventBus !== null) {
+    console.debug('Vuex VS store - using external event-bus')
+    this.eventBus = eventBus
+    global.$VS.eventBus = Object.assign(global.$VS.eventBus, eventBus)
+  }
+}
+export default rootStore

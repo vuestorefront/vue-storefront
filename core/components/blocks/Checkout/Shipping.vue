@@ -51,12 +51,12 @@ export default {
       currentUser: state => state.user.current
     }),
     ...mapGetters({
-      shippingMethods: 'cart/shippingMethods'
+      shippingMethods: 'shipping/shippingMethods'
     })
   },
   mounted () {
     if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
-      this.shipping.shippingMethod = this.shippingMethods[0].method_code
+      this.shipping.shippingMethod = this.shippingMethods.find(item => item.default).method_code
     }
   },
   methods: {

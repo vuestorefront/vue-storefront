@@ -1,13 +1,19 @@
 import * as types from '../../mutation-types'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '../../lib/event-bus'
 
 export default {
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {
     state.related[key] = items
     EventBus.$emit('product-after-related', { key: key, items: items })
   },
-  [types.CATALOG_UPD_PRODUCTS] (state, products) {
-    state.list = products // extract fields from ES _source
+  [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
+    if (append === false) {
+      state.list = products
+    } else {
+      state.list.start = products.start
+      state.list.perPage = products.perPage
+      state.list.items = state.list.items.concat(products.items)
+    }
   },
   [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {
     state.current = product

@@ -28,20 +28,21 @@ export default {
       password: '',
       rPassword: '',
       addCompany: false,
-      isEdited: false
+      isEdited: false,
+      remainInEditMode: false
     }
   },
   created () {
-    this.$bus.$on('user-after-loggedin', () => {
-      this.currentUser = Object.assign({}, this.$store.state.user.current)
-      this.userCompany = this.getUserCompany()
-      if (this.userCompany.company) {
-        this.addCompany = true
+    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$on('myAccount-before-remainInEditMode', block => {
+      if (block === 'MyProfile') {
+        this.remainInEditMode = true
       }
     })
   },
   destroyed () {
-    this.$bus.$off('user-after-loggedin')
+    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.userCompany = this.getUserCompany()
@@ -50,6 +51,13 @@ export default {
     }
   },
   methods: {
+    onLoggedIn () {
+      this.currentUser = Object.assign({}, this.$store.state.user.current)
+      this.userCompany = this.getUserCompany()
+      if (this.userCompany.company) {
+        this.addCompany = true
+      }
+    },
     edit () {
       this.isEdited = true
     },
@@ -83,7 +91,10 @@ export default {
           !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
           (this.userCompany.company && !this.addCompany)
       ) {
-        updatedProfile = this.$store.state.user.current
+        updatedProfile = JSON.parse(JSON.stringify(this.$store.state.user.current))
+        updatedProfile.firstname = this.currentUser.firstname
+        updatedProfile.lastname = this.currentUser.lastname
+        updatedProfile.email = this.currentUser.email
         if (updatedProfile.hasOwnProperty('default_billing')) {
           let index
           for (let i = 0; i < updatedProfile.addresses.length; i++) {
@@ -93,17 +104,17 @@ export default {
           }
           if (index >= 0) {
             if (this.addCompany) {
-              updatedProfile.addresses[index].firstname = this.currentUser.firstname
-              updatedProfile.addresses[index].lastname = this.currentUser.lastname
-              updatedProfile.addresses[index].company = this.userCompany.company
-              updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house]
-              updatedProfile.addresses[index].city = this.userCompany.city
+              updatedProfile.addresses[index].firstname = this.currentUser.firstname || ''
+              updatedProfile.addresses[index].lastname = this.currentUser.lastname || ''
+              updatedProfile.addresses[index].company = this.userCompany.company || ''
+              updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house] || ['', '']
+              updatedProfile.addresses[index].city = this.userCompany.city || ''
               updatedProfile.addresses[index].region = {
                 region: this.userCompany.region ? this.userCompany.region : null
               }
-              updatedProfile.addresses[index].country_id = this.userCompany.country
-              updatedProfile.addresses[index].postcode = this.userCompany.postcode
-              updatedProfile.addresses[index].vat_id = this.userCompany.taxId
+              updatedProfile.addresses[index].country_id = this.userCompany.country || ''
+              updatedProfile.addresses[index].postcode = this.userCompany.postcode || ''
+              updatedProfile.addresses[index].vat_id = this.userCompany.taxId || ''
             } else {
               updatedProfile.addresses.splice(index, 1)
               this.userCompany = {
@@ -153,8 +164,11 @@ export default {
         if (!this.userCompany.company) {
           this.addCompany = false
         }
+        this.remainInEditMode = false
       }
-      this.isEdited = false
+      if (!this.remainInEditMode) {
+        this.isEdited = false
+      }
     },
     getUserCompany () {
       if (this.currentUser.hasOwnProperty('default_billing')) {
@@ -166,14 +180,14 @@ export default {
         }
         if (index >= 0) {
           return {
-            company: this.currentUser.addresses[index].company,
-            street: this.currentUser.addresses[index].street[0],
-            house: this.currentUser.addresses[index].street[1],
-            city: this.currentUser.addresses[index].city,
+            company: this.currentUser.addresses[index].company || '',
+            street: this.currentUser.addresses[index].street[0] || '',
+            house: this.currentUser.addresses[index].street[1] || '',
+            city: this.currentUser.addresses[index].city || '',
             region: this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : '',
-            country: this.currentUser.addresses[index].country_id,
-            postcode: this.currentUser.addresses[index].postcode,
-            taxId: this.currentUser.addresses[index].vat_id
+            country: this.currentUser.addresses[index].country_id || '',
+            postcode: this.currentUser.addresses[index].postcode || '',
+            taxId: this.currentUser.addresses[index].vat_id || ''
           }
         }
       } else {

@@ -1,5 +1,6 @@
 import { createApp } from './app'
-global.isSSR = true
+import { HttpError } from 'core/lib/exceptions'
+global.$VS.isSSR = true
 
 export default context => {
   return new Promise((resolve, reject) => {
@@ -10,7 +11,7 @@ export default context => {
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
       if (!matchedComponents.length) {
-        return reject(new Error({ code: 404 }))
+        return reject(new HttpError('No components matched', 404))
       }
       Promise.all(matchedComponents.map(Component => {
         const components = Component.mixins ? Array.from(Component.mixins) : []
@@ -27,9 +28,9 @@ export default context => {
           resolve(app)
         }).catch(err => {
           if (err.message.indexOf('query returned empty result') > 0) {
-            reject(new Error({ code: 404 }))
+            reject(new HttpError(err.message, 404))
           } else {
-            reject(new Error())
+            reject(new Error(err.message))
           }
         })
       }))

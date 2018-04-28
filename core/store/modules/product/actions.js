@@ -1,14 +1,14 @@
-import config from 'config'
+import config from '../../lib/config'
 import * as types from '../../mutation-types'
-import { breadCrumbRoutes } from 'core/helpers'
+import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { configureProductAsync, doPlatformPricesSync, calculateTaxes } from './helpers'
 import bodybuilder from 'bodybuilder'
-import { entityKeyName } from 'core/lib/entities'
-import { optionLabel } from 'core/store/modules/attribute/helpers'
-import { quickSearchByQuery } from 'core/lib/search'
-import EventBus from 'core/plugins/event-bus'
+import { entityKeyName } from '../../lib/entities'
+import { optionLabel } from '../attribute/helpers'
+import { quickSearchByQuery } from '../../lib/search'
+import EventBus from '../../lib/event-bus'
 import _ from 'lodash'
-import { productThumbnailPath } from '../../../helpers'
+import rootStore from '../../'
 
 export default {
   /**
@@ -100,7 +100,7 @@ export default {
             options: { sku: pl.linked_product_sku },
             setCurrentProduct: false,
             selectDefaultVariant: false
-          }).catch(err => { console.log('err'); console.error(err) }).then((asocProd) => {
+          }).catch(err => { console.error(err) }).then((asocProd) => {
             pl.product = asocProd
             pl.product.qty = 1
             product.price += pl.product.price
@@ -179,8 +179,11 @@ export default {
             label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
           }
           context.state.current_configuration[attr.attribute_code] = confVal
-          const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
-          context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+          // @deprecated fallback for VS <= 1.0RC
+          if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
+            const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+            context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+          }
         }
       }).catch(err => {
         console.error(err)
@@ -196,11 +199,33 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {} }) {
-    return quickSearchByQuery({ query, start, size, entityType, sort }).then((resp) => {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
+    let isCacheable = (includeFields === null && excludeFields === null)
+    if (isCacheable) {
+      console.log('Entity cache is enabled for productList')
+    } else {
+      console.log('Entity cache is disabled for productList')
+    }
+
+    if (config.entities.optimize) {
+      if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
+        excludeFields = config.entities.product.excludeFields
+      }
+      if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
+        includeFields = config.entities.product.includeFields
+      }
+    }
+    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
+      if (resp.items && resp.items.length && configuration) { // preconfigure products; eg: after filters
+        for (let product of resp.items) {
+          let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
+          product.parentSku = product.sku
+          Object.assign(product, selectedVariant)
+        }
+      }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
-        const cache = global.db.elasticCacheCollection
+        const cache = global.$VS.db.elasticCacheCollection
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
           if (prod.configurable_children) {
             for (let configurableChild of prod.configurable_children) {
@@ -216,17 +241,19 @@ export default {
             cacheByKey = 'id'
           }
           const cacheKey = entityKeyName(cacheByKey, prod[cacheByKey])
-          cache.setItem(cacheKey, prod)
-            .catch((err) => {
-              console.error('Cannot store cache for ' + cacheKey + ', ' + err)
-            })
+          if (isCacheable) { // store cache only for full loads
+            cache.setItem(cacheKey, prod)
+              .catch((err) => {
+                console.error('Cannot store cache for ' + cacheKey, err)
+              })
+          }
           if (prod.type_id === 'grouped' && prefetchGroupProducts) {
             context.dispatch('setupAssociated', { product: prod })
           }
         }
         // commit update products list mutation
         if (updateState) {
-          context.commit(types.CATALOG_UPD_PRODUCTS, resp)
+          context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
         }
         EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
@@ -247,7 +274,7 @@ export default {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = global.db.elasticCacheCollection
+      const cache = global.$VS.db.elasticCacheCollection
       cache.getItem(cacheKey, (err, res) => {
         // report errors
         if (err) {
@@ -263,6 +290,9 @@ export default {
           }
           // check is prod has configurable children
           const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
+          if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
+            prod = _.omit(prod, ['configurable_children', 'configurable_options'])
+          }
           // set current product - configurable or not
           if (prod.type_id === 'configurable' && hasConfigurableChildren) {
             // set first available configuration
@@ -279,15 +309,15 @@ export default {
           const cachedProduct = setupProduct(res)
           if (config.products.alwaysSyncPlatformPricesOver) {
             doPlatformPricesSync([cachedProduct]).then((products) => {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
               resolve(products[0])
             })
             if (!config.products.waitForPlatformSync) {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
           } else {
-            EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+            if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
             resolve(cachedProduct)
           }
         } else {
@@ -298,10 +328,10 @@ export default {
             prefetchGroupProducts: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
-              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
               resolve(setupProduct(res.items[0]))
             } else {
-              reject(Error('Product query returned empty result'))
+              reject(new Error('Product query returned empty result'))
             }
           })
         }
@@ -350,5 +380,66 @@ export default {
    */
   related (context, { key = 'related-products', items }) {
     context.commit(types.CATALOG_UPD_RELATED, { key, items })
+  },
+
+  /**
+   * Load the product data
+   */
+  fetch (context, { parentSku, childSku = null }) {
+    // pass both id and sku to render a product
+    const productSingleOptions = {
+      sku: parentSku,
+      childSku: childSku
+    }
+    return context.dispatch('single', { options: productSingleOptions }).then((product) => {
+      let subloaders = []
+      if (product) {
+        subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+
+        subloaders.push(rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
+          filterValues: [true],
+          filterField: 'is_user_defined',
+          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+        }))
+
+        subloaders.push(context.dispatch('setupVariants', { product: product }))
+        subloaders.push(context.dispatch('setupAssociated', { product: product }))
+
+        if (config.products.preventConfigurableChildrenDirectAccess) {
+          subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
+        }
+      } else { // error or redirect
+
+      }
+      return subloaders
+    })
+  },
+  /**
+   * Load the product data - async version for asyncData()
+   */
+  fetchAsync (context, { parentSku, childSku = null, route = null }) {
+    return new Promise((resolve, reject) => {
+      console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
+      EventBus.$emit('product-before-load', { store: rootStore, route: route })
+      context.dispatch('reset').then(() => {
+        context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
+          Promise.all(subpromises).then(subresults => {
+            EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
+              return resolve()
+            }).catch((err) => {
+              console.error(err)
+              return resolve()
+            })
+          }).catch(errs => {
+            console.error(errs)
+            return resolve()
+          })
+        }).catch(err => {
+          console.error(err)
+          reject(err)
+        })
+      })
+    })
   }
+
 }

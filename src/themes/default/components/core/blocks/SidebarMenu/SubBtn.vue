@@ -1,6 +1,6 @@
 <template>
   <button
-    class="inline-flex between-xs w-100 px25 py20 serif cl-accent fs-medium"
+    class="inline-flex between-xs w-100 px25 py20 pr15 serif cl-accent"
     v-if="type === 'next'"
     type="button"
     @click.stop="next()"
@@ -10,7 +10,7 @@
     <i class="material-icons">keyboard_arrow_right</i>
   </button>
   <button
-    class="inline-flex p15 between-xs w-100"
+    class="inline-flex p15 between-xs"
     v-else
     type="button"
     @click.stop="back()"
@@ -59,14 +59,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  button {
-    .material-icons {
-      opacity: 0.6;
-    }
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-gray: color(gainsboro);
+$color-black: color(matterhorn);
 
-    &:hover,
-    &:focus {
-      opacity: 1;
+button {
+  i {
+    color: $color-gray;
+    font-size: 28px;
+    line-height: 24px;
+  }
+  &:hover,
+  &:focus {
+    i {
+      color: $color-black;
     }
   }
+}
 </style>

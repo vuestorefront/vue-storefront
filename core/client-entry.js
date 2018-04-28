@@ -1,13 +1,13 @@
 import { createApp } from './app'
 import config from 'config'
-import { execute } from 'core/lib/task'
+import { execute } from '@vue-storefront/store/lib/task'
 import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
 
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
-global.isSSR = false
+global.$VS.isSSR = false
 
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
@@ -25,7 +25,7 @@ router.onReady(() => {
       return next()
     }
     Promise.all(activated.map(c => { // TODO: update me for mixins support
-      const components = c.mixins ? Array.from(c.mixins) : []
+      const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
       components.push(c)
       Promise.all(components.map(SubComponent => {
         if (SubComponent.asyncData) {
@@ -234,12 +234,12 @@ EventBus.$on('user-after-loggedin', (receivedData) => {
 })
 
 EventBus.$on('user-before-logout', () => {
-  store.dispatch('user/logout')
+  store.dispatch('user/logout', { silent: false })
   store.commit('ui/setSubmenu', {
     depth: 0
   })
 
-  const usersCollection = global.db.usersCollection
+  const usersCollection = global.$VS.db.usersCollection
   usersCollection.setItem('current-token', '')
 
   if (store.state.route.path === '/my-account') {

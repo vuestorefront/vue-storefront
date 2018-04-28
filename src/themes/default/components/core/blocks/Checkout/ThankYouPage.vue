@@ -6,10 +6,10 @@
     <p class="h4">
       {{ $t('Thank you for placing an order.') }}
     </p>
-    <p v-if="isOnline" class="h4">
+    <p v-online class="h4">
       {{ $t('Your order has been sent to the server and will be immediately processed') }}
     </p>
-    <p v-else class="h4">
+    <p v-offline class="h4">
       {{ $t('Your order will be sent to the server as soon as you connect to the Internet and then confirmed regarding the stock quantities of selected items') }}
     </p>
     <div id="thank-you-extensions"/>
@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
 import Composite from 'core/mixins/composite'
 
 export default {
-  mixins: [coreComponent('blocks/Checkout/ThankYouPage'), Composite]
+  name: 'ThankYouPage',
+  mixins: [Composite]
 }
 </script>

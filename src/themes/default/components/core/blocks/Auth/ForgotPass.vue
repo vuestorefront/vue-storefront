@@ -94,7 +94,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'error',
           message: 'Please fix the validation errors',
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
         return
       }
@@ -108,7 +108,7 @@ export default {
           this.$bus.$emit('notification', {
             type: 'error',
             message: i18n.t(response.result) || i18n.t('Error while sending reset password e-mail'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
         }
       }).catch((err) => {

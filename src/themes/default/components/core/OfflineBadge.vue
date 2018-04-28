@@ -1,20 +1,23 @@
 <template>
-  <div
-    v-show="!isOnline"
-    class="offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs"
-  >
-    {{ $t('You are offline, some of the functionalities are limited') }}
-  </div>
+  <no-ssr>
+    <div
+      v-show="OfflineOnly"
+      class="offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs"
+    >
+      {{ $t('You are offline, some of the functionalities are limited') }}
+    </div>
+  </no-ssr>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import NoSSR from 'vue-no-ssr'
 
 export default {
-  mixins: [coreComponent('OfflineBadge')]
+  components: {
+    'no-ssr': NoSSR
+  }
 }
 </script>
-
 <style scoped>
 .offline-badge {
   bottom: 0;

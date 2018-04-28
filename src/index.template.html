@@ -3,7 +3,8 @@
   <head>
   	{{{ meta.inject().title.text() }}}
   	{{{ meta.inject().meta.text() }}}
-  	{{{ meta.inject().link.text() }}}
+		{{{ meta.inject().link.text() }}}
+
     <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>

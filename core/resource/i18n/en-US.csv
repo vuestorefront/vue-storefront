@@ -297,7 +297,8 @@
 "Discount","Discount"
 "Order informations","Order informations"
 "Shipping address","Shipping address"
-"Shipping method","Shipping method"
 "Billing address","Billing address"
-
-
+"not authorized","not authorized"
+"Internal Application error while refreshing the tokens. Please clear the storage and refresh page.", "Internal Application error while refreshing the tokens. Please clear the storage and refresh page."
+"Proceed to checkout","Proceed to checkout"
+"OK","OK"

@@ -6,6 +6,9 @@ const HTMLPlugin = require('html-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
+const fs = require('fs')
+const themeDirectory = require('./theme-path')
+const themedIndex = path.join(themeDirectory, 'index.template.html')
 
 const config = merge(base, {
   resolve: {
@@ -25,7 +28,7 @@ const config = merge(base, {
     }),
     // generate output HTML
     new HTMLPlugin({
-      template: 'src/index.template.html'
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
     })
   ]
 })
@@ -43,23 +46,42 @@ if (process.env.NODE_ENV === 'production') {
         'dist/**.*',
         'assets/**.*',
         'assets/ig/**.*',
-        'index.html'
+        'index.html',
+        '/'
       ],
       runtimeCaching: [
-       {
+        {
+          urlPattern: "^https://fonts\.googleapis\.com/", /** cache the html stub  */
+          handler: "cacheFirst"
+        },
+        {
+          urlPattern: "^https://fonts\.gstatic\.com/", /** cache the html stub  */
+          handler: "cacheFirst"
+        },
+        {
+          urlPattern: "^https://unpkg\.com/", /** cache the html stub  */
+          handler: "cacheFirst"
+        },                     
+        {
         urlPattern: "/pwa.html", /** cache the html stub  */
-        handler: "networkFirst"
+        handler: "fastest"
+      },{
+        urlPattern: "/", /** cache the html stub for homepage  */
+        handler: "fastest"
       },
       {
         urlPattern: "/p/*", /** cache the html stub  */
-        handler: "networkFirst"
+        handler: "fastest"
       },
       {
         urlPattern: "/c/*", /** cache the html stub  */
-        handler: "networkFirst"
+        handler: "fastest"
       },
       {
         urlPattern: "/img/(.*)",
+        handler: "fastest"
+      },{
+        urlPattern: "/api/catalog/*",
         handler: "fastest"
       },{
         urlPattern: "/api/*",
@@ -72,29 +94,13 @@ if (process.env.NODE_ENV === 'production') {
         handler: "fastest"
       },{
         urlPattern: "/assets/*",
-        handler: "networkFirst"
+        handler: "fastest"
       },{
         urlPattern: "/assets/ig/(.*)",
-        handler: "networkFirst"
+        handler: "fastest"
       },{
         urlPattern: "/dist/(.*)",
         handler: "fastest"
-      },{
-        urlPattern:'/api/catalog/*', /** cache products catalog */
-        method: "post",
-        options: {
-          origin: 'http://localhost:8080',
-          debug: true
-        },
-        handler: "networkFirst"
-      },{
-        urlPattern:'/api/*', /** cache products catalog */
-        method: "post",
-        options: {
-          origin: 'https://demo.vuestorefront.io/',
-          debug: true
-        },
-        handler: "networkFirst"
       }],
       "importScripts": ['/service-worker-ext.js'] /* custom logic */
     })

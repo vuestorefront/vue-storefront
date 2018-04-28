@@ -9,5 +9,5 @@ cache:
 
 script:
   - yarn lint
-  - yarn unit
+ # - yarn unit
   - yarn build

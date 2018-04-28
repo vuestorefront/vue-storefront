@@ -8,7 +8,7 @@
       <div class="container">
         <div class="row m0">
           <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 weight-300 sans-serif"
+            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
             @click="openFilters"
           >
             {{ $t('Filters') }}
@@ -44,6 +44,7 @@ import { corePage } from 'core/lib/themes'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import { buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 
 export default {
   components: {
@@ -53,15 +54,50 @@ export default {
   },
   data () {
     return {
+      bottom: false,
       mobileFilters: false
     }
   },
+  created () {
+    if (!global.$VS.isSSR) {
+      window.addEventListener('scroll', () => {
+        this.bottom = this.bottomVisible()
+      })
+    }
+  },
   methods: {
+    bottomVisible () {
+      const scrollY = window.scrollY
+      const visible = document.documentElement.clientHeight
+      const pageHeight = document.documentElement.scrollHeight
+      const bottomOfPage = visible + scrollY >= pageHeight
+      return bottomOfPage || pageHeight < visible
+    },
+    pullMoreProducts () {
+      let currentQuery = this.currentQuery
+      currentQuery.append = true
+      currentQuery.route = this.$route
+      currentQuery.store = this.$store
+      currentQuery.current = currentQuery.current + currentQuery.perPage
+      this.pagination.current = currentQuery.current
+      this.pagination.perPage = currentQuery.perPage
+      if (currentQuery.current <= this.productsTotal) {
+        currentQuery.searchProductQuery = buildFilterProductsQuery(this.category, this.filters.chosen)
+        return this.$store.dispatch('category/products', currentQuery)
+      }
+    },
     openFilters () {
       this.mobileFilters = true
     },
     closeFilters () {
       this.mobileFilters = false
+    }
+  },
+  watch: {
+    bottom (bottom) {
+      if (bottom) {
+        this.pullMoreProducts()
+      }
     }
   },
   mixins: [corePage('Category')]
@@ -82,6 +118,10 @@ export default {
     display: none;
   }
 
+  .category-title {
+    line-height: 65px;
+  }
+
   @media (max-width: 64em) {
     .products-list {
       max-width: 530px;
@@ -92,6 +132,7 @@ export default {
     .category-title {
       margin: 0;
       font-size: 36px;
+      line-height: 40px;
     }
 
     .products-list {
@@ -105,6 +146,7 @@ export default {
 
     .mobile-filters-button {
       display: block;
+      height: 45px;
     }
 
     .category-filters {

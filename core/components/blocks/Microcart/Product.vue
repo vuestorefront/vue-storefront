@@ -6,7 +6,7 @@
 
 <script>
 import AddToCart from 'core/components/AddToCart.vue'
-import { productThumbnailPath } from 'core/helpers'
+import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
 export default {
   name: 'Product',
