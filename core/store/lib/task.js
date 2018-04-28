@@ -55,7 +55,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
                   action1: { label: i18n.t('OK'), action: 'close' }
                 })
               } else {
-                console.info('Invalidation process in progress (autoRefreshTokens is set to true)')
+                console.info('Invalidation process in progress (autoRefreshTokens is set to true)', global.$VS.userTokenInvalidateAttemptsCount)
                 global.$VS.userTokenInvalidateLock = _.isNumber(global.$VS.userTokenInvalidateLock) ? global.$VS.userTokenInvalidateLock++ : 1
                 global.$VS.userTokenInvalidateAttemptsCount++
                 rootStore.dispatch('user/refresh').then((resp) => {
