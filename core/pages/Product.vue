@@ -154,7 +154,7 @@ export default {
     },
     offlineImage () {
       return {
-        src: this.getThumbnail(this.product.image, 570, 569),
+        src: this.getThumbnail(this.product.image, 310, 300),
         error: this.getThumbnail(this.product.image, 310, 300),
         loading: this.getThumbnail(this.product.image, 310, 300)
       }
@@ -165,7 +165,8 @@ export default {
         for (let mediaItem of this.product.media_gallery) {
           if (mediaItem.image) {
             images.push({
-              'path': this.getThumbnail(mediaItem.image, 600, 744)
+              'src': this.getThumbnail(mediaItem.image, 600, 744),
+              'loading': this.getThumbnail(this.product.image, 310, 300)
             })
           }
         }
@@ -178,14 +179,16 @@ export default {
         Object.keys(grupedByAttribute).forEach((confChild) => {
           if (grupedByAttribute[confChild][0].image) {
             images.push({
-              'path': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+              'src': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+              'loading': this.getThumbnail(this.product.image, 310, 300),
               'id': confChild
             })
           }
         })
       } else {
         images.push({
-          'path': this.getThumbnail(this.product.image, 600, 744)
+          'src': this.getThumbnail(this.product.image, 600, 744),
+          'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
       return images

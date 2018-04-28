@@ -7,7 +7,7 @@
     </div>
     <i v-if="isZoomOpen" v-show="OnlineOnly" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
     <div v-show="OnlineOnly" :class="{ 'container product-zoom py40': isZoomOpen }">
-      <div v-if="loaded" :class="{ row: isZoomOpen }">
+      <div :class="{ row: isZoomOpen }">
         <div class="scroll col-md-2  p0" v-if="isZoomOpen">
           <div class="thumbnails">
             <div
@@ -15,14 +15,14 @@
               v-for="(images, key) in gallery"
               :key="key">
               <transition name="fade" appear>
-                <img v-lazy="images.path" class="mw-100 pointer" ref="images.path" @click="navigate(key)">
+                <img v-lazy="images" class="mw-100 pointer" ref="images" @click="navigate(key)">
               </transition>
             </div>
           </div>
         </div>
         <div v-if="gallery.length === 1">
           <transition name="fade" appear>
-            <img v-lazy="gallery[0].path" class="mw-100 pointer" ref="gallery[0].path">
+            <img v-lazy="gallery[0].src" class="mw-100 pointer" ref="gallery[0].src">
           </transition>
         </div>
         <div v-else :class="{ 'col-md-10' : isZoomOpen}">
@@ -42,8 +42,8 @@
                 <div class="bg-cl-secondary">
                   <img
                     class="product-image inline-flex pointer mw-100"
-                    v-lazy="images.path"
-                    ref="images.path"
+                    v-lazy="images"
+                    ref="images"
                     @dblclick="toggleZoom">
                 </div>
               </slide>
@@ -69,14 +69,6 @@ export default {
     return {
       loaded: true
     }
-  },
-  methods: {
-    isLoaded () {
-      this.loaded = true
-    }
-  },
-  created () {
-    this.$Lazyload.$on('loaded', this.isLoaded)
   }
 }
 </script>
@@ -84,6 +76,7 @@ export default {
 <style lang="scss" scoped>
 .media-gallery {
   text-align: center;
+  height: 100%;
   &.open {
     z-index: 3;
     top: 0;
@@ -121,7 +114,12 @@ img {
     opacity: 1;
   }
 }
-
+img[lazy=error] {
+  width: 100%;
+}
+img[lazy=loading] {
+  width: 100%;
+}
 .scroll {
   height: 747px;
   overflow: auto;
