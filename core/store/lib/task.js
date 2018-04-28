@@ -45,7 +45,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
           if (config.users.autoRefreshTokens) {
             _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
             if (!global.$VS.userTokenInvalidateLock) {
-              if (global.$VS.userTokenInvalidateAttemptsCount > 100) {
+              if (global.$VS.userTokenInvalidateAttemptsCount > 20) {
                 console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
                 rootStore.dispatch('user/logout', { silent: true })
                 EventBus.$emit('modal-show', 'modal-signup')
