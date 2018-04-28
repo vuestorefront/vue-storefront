@@ -355,7 +355,7 @@ class Storefront extends Abstract {
         config.users.login_endpoint = `${backendPath}/api/user/login`
         config.users.create_endpoint = `${backendPath}/api/user/create`
         config.users.me_endpoint = `${backendPath}/api/user/me`
-        config.users.refresh_endpoint = `${backendPath}/api/user/refresh`        
+        config.users.refresh_endpoint = `${backendPath}/api/user/refresh`
         config.stock.endpoint = `${backendPath}/api/stock`
         config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`
         config.cart.updateitem_endpoint = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
