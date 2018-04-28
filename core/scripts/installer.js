@@ -349,13 +349,13 @@ class Storefront extends Abstract {
         config.orders.endpoint = `${backendPath}/api/order`
         config.products.endpoint = `${backendPath}/api/product`
         config.users.endpoint = `${backendPath}/api/user`
-        config.users.history_endpoint = `${backendPath}/api/user/order-history`
+        config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}`
         config.users.resetPassword_endpoint = `${backendPath}/api/user/resetPassword`
-        config.users.changePassword_endpoint = `${backendPath}/api/user/changePassword`
+        config.users.changePassword_endpoint = `${backendPath}/api/user/changePassword?token={{token}}`
         config.users.login_endpoint = `${backendPath}/api/user/login`
         config.users.create_endpoint = `${backendPath}/api/user/create`
-        config.users.me_endpoint = `${backendPath}/api/user/me`
-        config.users.refresh_endpoint = `${backendPath}/api/user/refresh`        
+        config.users.me_endpoint = `${backendPath}/api/user/me?token={{token}}`
+        config.users.refresh_endpoint = `${backendPath}/api/user/refresh`
         config.stock.endpoint = `${backendPath}/api/stock`
         config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`
         config.cart.updateitem_endpoint = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
