@@ -100,7 +100,8 @@ i:hover {
 
 @media only screen and (max-width:50em) {
   .searchpanel .product {
-    width: auto;
+    width: 50%;
+    box-sizing: border-box;
   }
 }
 </style>
