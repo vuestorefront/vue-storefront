@@ -349,7 +349,7 @@ export default {
   },
 
   setCurrentOption (context, productOption) {
-    if (productOption && typeof productOption === 'object') {
+    if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
     }
   },

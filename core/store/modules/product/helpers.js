@@ -157,27 +157,28 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
 
   for (const configKey of Object.keys(configuration)) {
     const configOption = configuration[configKey]
-    const option = product.configurable_options.find(co => {
-      return (co.attribute_code === configOption.attribute_code)
-    })
+    if (configOption.attribute_code) {
+      const option = product.configurable_options.find(co => {
+        return (co.attribute_code === configOption.attribute_code)
+      })
 
-    if (!option) {
-      console.error('Wrong option id for setProductOptions', configOption.attribute_code)
-      return product
-    }
-    let existingOption = configurable_item_options.find(cop => {
-      return cop.option_id === option.id
-    })
-    if (!existingOption) {
-      existingOption = {
-        option_id: option.id,
-        option_value: configOption.id
+      if (!option) {
+        console.error('Wrong option id for setProductOptions', configOption.attribute_code)
+        return null
       }
-      product_option.extension_attributes.configurable_item_options.push(existingOption)
+      let existingOption = configurable_item_options.find(cop => {
+        return cop.option_id === option.id
+      })
+      if (!existingOption) {
+        existingOption = {
+          option_id: option.attribute_id,
+          option_value: configOption.id
+        }
+        product_option.extension_attributes.configurable_item_options.push(existingOption)
+      }
+      existingOption.option_value = configOption.id
     }
-    existingOption.option_value = configOption.id
   }
-
   return product_option
 }
 
