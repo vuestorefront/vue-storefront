@@ -65,7 +65,8 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         console.log('No server item for ' + clientItem.sku)
         rootStore.dispatch('cart/serverUpdateItem', {
           sku: clientItem.sku,
-          qty: clientItem.qty
+          qty: clientItem.qty,
+          product_option: clientItem.product_option
         }, { root: true })
         serverCartUpdateRequired = true
       } else if (serverItem.qty !== clientItem.qty) {
@@ -74,7 +75,8 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
           sku: clientItem.sku,
           qty: clientItem.qty,
           item_id: serverItem.item_id,
-          quoteId: serverItem.quote_id
+          quoteId: serverItem.quote_id,
+          product_option: clientItem.product_option
         }, { root: true })
         serverCartUpdateRequired = true
       } else {

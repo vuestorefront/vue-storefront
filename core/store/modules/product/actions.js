@@ -347,6 +347,12 @@ export default {
   configure (context, { product = null, configuration, selectDefaultVariant = true }) {
     return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant })
   },
+
+  setCurrentOption (context, productOption) {
+    if (productOption && typeof productOption === 'object') {
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
+    }
+  },
   /**
    * Set current product with given variant's properties
    * @param {Object} context

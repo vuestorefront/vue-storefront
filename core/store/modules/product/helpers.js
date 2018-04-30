@@ -137,6 +137,60 @@ export function calculateTaxes (products, store) {
   })
 }
 
+function _prepareProductOption (product) {
+  let product_option = {
+    extension_attributes: {
+      custom_options: [],
+      configurable_item_options: [],
+      bundle_options: []
+    }
+  }
+  if (product.product_option) {
+    product_option = product.product_option
+  }
+  return product_option
+}
+export function setConfigurableProductOptionsAsync (context, { product, configuration }) {
+  const product_option = _prepareProductOption(product)
+  /* eslint camelcase: "off" */
+  const configurable_item_options = product_option.extension_attributes.configurable_item_options
+
+  for (const configKey of Object.keys(configuration)) {
+    const configOption = configuration[configKey]
+    const option = product.configurable_options.find(co => {
+      return (co.attribute_code === configOption.attribute_code)
+    })
+
+    if (!option) {
+      console.error('Wrong option id for setProductOptions', configOption.attribute_code)
+      return product
+    }
+    let existingOption = configurable_item_options.find(cop => {
+      return cop.option_id === option.id
+    })
+    if (!existingOption) {
+      existingOption = {
+        option_id: option.id,
+        option_value: configOption.id
+      }
+      product_option.extension_attributes.configurable_item_options.push(existingOption)
+    }
+    existingOption.option_value = configOption.id
+  }
+
+  return product_option
+}
+
+export function setCustomProductOptionsAsync (context, { product, configuration }) {
+  _prepareProductOption(product)
+  // const custom_options = product.extension_attributes.custom_options
+}
+
+export function setBundleProductOptionsAsync (context, { product, configuration }) {
+  _prepareProductOption(product)
+  // const bundle_options = product.extension_attributes.bundle_options
+}
+
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
@@ -176,7 +230,14 @@ export function configureProductAsync (context, { product, configuration, select
 
     // use chosen variant
     if (selectDefaultVariant) {
+      let productOption = null
+      if (config.cart.setConfigurableProductOptions) {
+        productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
+        selectedVariant = _.omit(selectedVariant, 'sku', 'name') // not update the name of the product but just set the options
+        console.log(productOption)
+      }
       context.dispatch('setCurrent', selectedVariant)
+      if (productOption) context.dispatch('setCurrentOption', productOption)
     }
     EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     return selectedVariant
