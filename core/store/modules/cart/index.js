@@ -5,6 +5,8 @@ import EventBus from '../../lib/event-bus'
 import rootStore from '../../'
 import * as types from '../../mutation-types'
 import i18n from '../../lib/i18n'
+import _ from 'lodash'
+import config from '../../lib/config'
 
 const MAX_BYPASS_COUNT = 10
 
@@ -39,6 +41,7 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
     let itemsAfterTotal = {}
     let platformTotalSegments = event.result.total_segments
     for (let item of event.result.items) {
+      if (item.options && _.isString(item.options)) item.options = JSON.parse(item.options)
       itemsAfterTotal[item.item_id] = item
       rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }, { root: true }) // update the server_id reference
     }
@@ -64,7 +67,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
       if (!serverItem) {
         console.log('No server item for ' + clientItem.sku)
         rootStore.dispatch('cart/serverUpdateItem', {
-          sku: clientItem.parentSku ? clientItem.parentSku : clientItem.sku,
+          sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
           qty: clientItem.qty,
           product_option: clientItem.product_option
         }, { root: true })
@@ -72,7 +75,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
       } else if (serverItem.qty !== clientItem.qty) {
         console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
         rootStore.dispatch('cart/serverUpdateItem', {
-          sku: clientItem.parentSku ? clientItem.parentSku : clientItem.sku,
+          sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
           qty: clientItem.qty,
           item_id: serverItem.item_id,
           quoteId: serverItem.quote_id,
@@ -81,8 +84,8 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         serverCartUpdateRequired = true
       } else {
         console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
-        console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id })
-        rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id } }, { root: true })
+        console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })
+        rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } }, { root: true })
       }
     }
 
@@ -107,6 +110,9 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
               product.server_item_id = serverItem.item_id
               product.qty = serverItem.qty
               product.server_cart_id = serverItem.quote_id
+              if (serverItem.product_option) {
+                product.product_option = serverItem.product_option
+              }
               rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
                 clientCartUpdateRequired = true
               // rootStore.dispatch('cart/updateItem', { product: product })

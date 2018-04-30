@@ -1,7 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
-import { configureProductAsync, doPlatformPricesSync, calculateTaxes } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
@@ -160,31 +160,7 @@ export default {
           }
         }
         let selectedVariant = context.state.current
-        for (let option of product.configurable_options) {
-          let attr = context.rootState.attribute.list_by_id[option.attribute_id]
-          let selectedOption = null
-          if (selectedVariant.custom_attributes) {
-            selectedOption = selectedVariant.custom_attributes.find((a) => {
-              return (a.attribute_code === attr.attribute_code)
-            })
-          } else {
-            selectedOption = {
-              attribute_code: attr.attribute_code,
-              value: selectedVariant[attr.attribute_code]
-            }
-          }
-          const confVal = {
-            attribute_code: attr.attribute_code,
-            id: selectedOption.value,
-            label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
-          }
-          context.state.current_configuration[attr.attribute_code] = confVal
-          // @deprecated fallback for VS <= 1.0RC
-          if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
-            const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
-            context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
-          }
-        }
+        populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
       }).catch(err => {
         console.error(err)
       }))
@@ -216,11 +192,13 @@ export default {
       }
     }
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
-      if (resp.items && resp.items.length && configuration) { // preconfigure products; eg: after filters
+      if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
-          let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
           product.parentSku = product.sku
-          Object.assign(product, selectedVariant)
+          if (configuration) {
+            let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
+            Object.assign(product, selectedVariant)
+          }
         }
       }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
@@ -369,6 +347,7 @@ export default {
       }
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
+      populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
     } else console.debug('Unable to update current product.')
   },
@@ -402,12 +381,6 @@ export default {
       if (product) {
         subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
 
-        subloaders.push(rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
-          filterValues: [true],
-          filterField: 'is_user_defined',
-          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
-        }))
-
         subloaders.push(context.dispatch('setupVariants', { product: product }))
         subloaders.push(context.dispatch('setupAssociated', { product: product }))
 
@@ -428,24 +401,32 @@ export default {
       console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
       EventBus.$emit('product-before-load', { store: rootStore, route: route })
       context.dispatch('reset').then(() => {
-        context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
-          Promise.all(subpromises).then(subresults => {
-            EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
-              return resolve()
-            }).catch((err) => {
-              console.error(err)
+        rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
+          filterValues: [true],
+          filterField: 'is_user_defined',
+          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+        }).then((attrs) => {
+          context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
+            Promise.all(subpromises).then(subresults => {
+              EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
+                return resolve()
+              }).catch((err) => {
+                console.error(err)
+                return resolve()
+              })
+            }).catch(errs => {
+              console.error(errs)
               return resolve()
             })
-          }).catch(errs => {
-            console.error(errs)
-            return resolve()
+          }).catch(err => {
+            console.error(err)
+            reject(err)
+          }).catch(err => {
+            console.error(err)
+            reject(err)
           })
-        }).catch(err => {
-          console.error(err)
-          reject(err)
         })
       })
     })
   }
-
 }
