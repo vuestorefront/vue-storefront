@@ -234,7 +234,8 @@ export function configureProductAsync (context, { product, configuration, select
       let productOption = null
       if (config.cart.setConfigurableProductOptions) {
         productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
-        selectedVariant = _.omit(selectedVariant, 'sku', 'name') // not update the name of the product but just set the options
+        selectedVariant.parentSku = product.sku
+        selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
         console.log(productOption)
       }
       context.dispatch('setCurrent', selectedVariant)
