@@ -142,11 +142,13 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
       }
     })
   } else {
-    if (event.result.indexOf(i18n.t('avail'))) { // product is not available
+    if (event.result.indexOf(i18n.t('avail')) >= 0) { // product is not available
       const originalCartItem = JSON.parse(event.payload.body).cartItem
       console.log('Removing product from the cart', originalCartItem)
       rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
-      /** rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
+    } else if (event.result.indexOf(i18n.t('requested')) >= 0) {
+      const originalCartItem = JSON.parse(event.payload.body).cartItem
+      rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
         if (cartItem) {
           console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
           if (cartItem.prev_qty > 0) {
@@ -156,7 +158,7 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
             rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
           }
         }
-      }) */
+      })
     }
   }
 })
