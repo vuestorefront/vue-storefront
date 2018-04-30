@@ -14,6 +14,18 @@
           <div class="h6 cl-bg-tertiary pt5 sku">
             {{ product.sku }}
           </div>
+          <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
+            <div v-for="opt in product.totals.options" :key="opt.label">
+              <span class="opn">{{ opt.label }}: </span>
+              <span class="opv">{{ opt.value }}</span>
+            </div>
+          </div>
+          <div class="h6 cl-bg-tertiary pt5 options" v-else-if="product.options">
+            <div v-for="opt in product.options" :key="opt.label">
+              <span class="opn">{{ opt.label }}: </span>
+              <span class="opv">{{ opt.value }}</span>
+            </div>
+          </div>
           <div class="h6 pt5 cl-error" v-if="product.warning_message">
             {{ product.warning_message }}
           </div>

@@ -181,7 +181,7 @@ export default {
 
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
-    if (productToAdd.type_id === 'grouped') {
+    if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
       productsToAdd = productToAdd.product_links.map((pl) => { return pl.product })
     } else {
       productsToAdd.push(productToAdd)

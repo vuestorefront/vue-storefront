@@ -129,6 +129,8 @@ export default {
   },
   beforeMount () {
     this.onStateCheck()
+  },
+  created () {
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
   },

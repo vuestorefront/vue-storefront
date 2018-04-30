@@ -91,7 +91,7 @@ export default {
       })
     })
   },
-  beforeMount () {
+  created () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
   },
   beforeDestroy () {
