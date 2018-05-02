@@ -275,7 +275,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (configuration.sku) {
         return configurableChild.sku === configuration.sku // by sku or first one
       } else {
-        return Object.keys(configuration).every((configProperty) => {
+        return Object.keys(_.omit(configuration, ['price'])).every((configProperty) => {
           return _.toString(configurableChild[configProperty]) === _.toString(configuration[configProperty].id)
         })
       }
