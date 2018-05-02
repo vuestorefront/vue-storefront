@@ -14,11 +14,12 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
 * <a href="#how-to-sync-the-products-cart-with-magento-to-get-the-cart-promo-rules-up-and-runnig">How to sync the products cart with Magento to get the Cart Promo Rules up and runnig</a>
 * <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent an error "Can’t build storefront npm"</a>
-* <a href="#legacy-software">Do you think it could be used with a legacy bespoke PHP eCommerce?</a>
+* <a href="#legacy-software">How to integrate 3rd party platform? Do you think it could be used with a legacy bespoke PHP eCommerce?</a>
 * <a href="#payment-gateways">Is there any documentation on integrating payment gateways?</a>
 * <a href="#i18n-support">Is there any internationalisation support?</a>
 * <a href="#caching-strategy">If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device</a>
 * <a href="#how-to-modify-schema">How to add/remove/change field types in the ElasticSearch index</a>
+* <a href="#magento-extensions">How to integrate 3rd party Magento extensions?</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -180,7 +181,7 @@ npm run build # check if no errors
 npm run installer
 ```
 
-### <a name="legacy-software"></a>Do you think it could be used with a legacy bespoke PHP eCommerce?
+### <a name="legacy-software"></a>How to integrate 3rd party platform? Do you think it could be used with a legacy bespoke PHP eCommerce?
 
 Yes I believe it could. You should expose the API accordingly to our spec: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md and the second step is to create a data bridge to fill out the ElasticSearch with the current catalog data: https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6
 
@@ -200,3 +201,15 @@ Not necessarily. VS is caching the products from the categories browsed. This is
 ### <a name="how-to-modify-schema"></a>How to add/remove/change field types in the ElasticSearch schema
 
 It's done via Database Tool schema changes. Please follow the instructions from the <a href="https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Database%20tool.md#chaning-the-index-structure--adding-new-fields--chaning-the-types">Database Tool Manual</a>
+
+### <a name="magento-extensions"></a>How to integrate 3rd party Magento extensions
+
+Unofrtunatelly Magento extensions are not compilant with any PWA available solution yet. So if You like to integrate some existing extensions the simplest way is to: 
+
+a) expose the data via some Magento2 rest api endpoints; 
+b) consume the endpoints in the VS using Vuex stores; <a href="https://github.com/DivanteLtd/vue-storefront#data-in-vue-storefront">Read more on Vuex in Vue Storefront</a>
+c) implement the UI in VS
+
+If the extensions are not playing with the User Interface, probably they will work with VS out of the box, as we're using the standard Magento2 API calls for the integration part.
+
+
