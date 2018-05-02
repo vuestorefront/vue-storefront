@@ -1,7 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
-import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
@@ -329,6 +329,15 @@ export default {
   setCurrentOption (context, productOption) {
     if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
+    }
+  },
+
+  /**
+   * Assign the custom options object to the currentl product
+   */
+  setCustomOptions (context, { customOptions, product }) {
+    if (customOptions) { // TODO: this causes some kind of recurrency error
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
     }
   },
   /**

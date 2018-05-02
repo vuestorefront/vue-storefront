@@ -93,7 +93,7 @@ export default {
         this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please fix the validation errors',
+          message: i18n.t('Please fix the validation errors'),
           action1: { label: i18n.t('OK'), action: 'close' }
         })
         return

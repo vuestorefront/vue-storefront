@@ -106,6 +106,10 @@
               v-if="product.type_id =='grouped' && !loading"
               :products="product.product_links"
             />
+            <product-custom-options
+              v-if="product.custom_options && product.custom_options.length > 0 && !loading"
+              :product="product"
+            />
             <div class="row m0">
               <add-to-cart
                 :product="product"
@@ -200,6 +204,7 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
+import ProductCustomOptions from '../components/core/ProductCustomOptions.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ProductGallery from '../components/core/ProductGallery'
 
@@ -225,7 +230,8 @@ export default {
     ProductAttribute,
     ProductTile,
     RelatedProducts,
-    ProductLinks
+    ProductLinks,
+    ProductCustomOptions
   },
   mixins: [corePage('Product')]
 }
