@@ -29,6 +29,13 @@ h2,
 h3,
 .h3 {
   font-size: 24px;
+  margin-top: 35px;
+  margin-bottom: 10px;
+
+  @media  (min-width: 767px) {
+      margin-top: 40px;
+      margin-bottom: 25px;
+  }
 }
 h4,
 .h4 {
