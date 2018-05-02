@@ -5,10 +5,9 @@
         py10 w-100 border-box brdr-none brdr-bottom
         brdr-cl-primary h4 sans-serif
       "
-      :class="{pr30: type === 'password'}"
+      :class="{pr30: type === 'password', empty: value === ''}"
       :type="type === 'password' ? passType : type"
       :name="name"
-      :placeholder="placeholder"
       :autocomplete="autocomplete"
       :value="value"
       :autofocus="autofocus"
@@ -18,6 +17,7 @@
       @keyup.enter="$emit('keyup.enter', $event.target.value)"
       @keyup="$emit('keyup', $event)"
     >
+    <label>{{ placeholder }}</label>
     <button
       v-if="iconActive"
       type="button"
@@ -60,22 +60,32 @@ export default {
   @import '~theme/css/helpers/functions/color';
   $color-tertiary: color(tertiary);
   $color-black: color(black);
+  $color-puerto-rico: color(puerto-rico);
   $color-hover: color(tertiary, $colors-background);
 
   input {
-    transition: 0.3s all;
-    &::-webkit-input-placeholder {
-      color: $color-tertiary;
-    }
-    &::-moz-placeholder {
-      color: $color-tertiary;
-    }
+   // transition: 0.3s all;
     &:hover,
     &:focus {
       outline: none;
-      border-color: $color-black;
+      border-color: $color-puerto-rico;
     }
     background: inherit;
+  }
+  label {
+    color:#999;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top: 10px;
+    transition:0.2s ease all;
+    -moz-transition:0.2s ease all;
+    -webkit-transition:0.2s ease all;
+  }
+  input:focus ~ label, input:not(.empty) ~ label{
+    top: -10px;
+    font-size:14px;
+    color:$color-puerto-rico;
   }
 
   .icon {
