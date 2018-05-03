@@ -26,7 +26,7 @@ export default {
   },
   [types.CART_DEL_ITEM] (state, { product }) {
     EventBus.$emit('cart-before-delete', { items: state.cartItems })
-    state.cartItems = state.cartItems.filter(p => p.sku !== product.sku)
+    state.cartItems = state.cartItems.filter(p => p.sku !== product.sku && p.parentSku !== product.sku)
     EventBus.$emit('cart-after-delete', { items: state.cartItems })
     state.cartSavedAt = new Date()
   },

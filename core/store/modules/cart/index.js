@@ -5,6 +5,8 @@ import EventBus from '../../lib/event-bus'
 import rootStore from '../../'
 import * as types from '../../mutation-types'
 import i18n from '../../lib/i18n'
+import _ from 'lodash'
+import config from '../../lib/config'
 
 const MAX_BYPASS_COUNT = 10
 
@@ -39,6 +41,7 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
     let itemsAfterTotal = {}
     let platformTotalSegments = event.result.total_segments
     for (let item of event.result.items) {
+      if (item.options && _.isString(item.options)) item.options = JSON.parse(item.options)
       itemsAfterTotal[item.item_id] = item
       rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }, { root: true }) // update the server_id reference
     }
@@ -64,23 +67,25 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
       if (!serverItem) {
         console.log('No server item for ' + clientItem.sku)
         rootStore.dispatch('cart/serverUpdateItem', {
-          sku: clientItem.sku,
-          qty: clientItem.qty
+          sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+          qty: clientItem.qty,
+          product_option: clientItem.product_option
         }, { root: true })
         serverCartUpdateRequired = true
       } else if (serverItem.qty !== clientItem.qty) {
         console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
         rootStore.dispatch('cart/serverUpdateItem', {
-          sku: clientItem.sku,
+          sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
           qty: clientItem.qty,
           item_id: serverItem.item_id,
-          quoteId: serverItem.quote_id
+          quoteId: serverItem.quote_id,
+          product_option: clientItem.product_option
         }, { root: true })
         serverCartUpdateRequired = true
       } else {
         console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
-        console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id })
-        rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id } }, { root: true })
+        console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })
+        rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } }, { root: true })
       }
     }
 
@@ -105,6 +110,9 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
               product.server_item_id = serverItem.item_id
               product.qty = serverItem.qty
               product.server_cart_id = serverItem.quote_id
+              if (serverItem.product_option) {
+                product.product_option = serverItem.product_option
+              }
               rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
                 clientCartUpdateRequired = true
               // rootStore.dispatch('cart/updateItem', { product: product })
@@ -134,11 +142,13 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
       }
     })
   } else {
-    if (event.result.indexOf(i18n.t('avail'))) { // product is not available
+    if (event.result.indexOf(i18n.t('avail')) >= 0) { // product is not available
       const originalCartItem = JSON.parse(event.payload.body).cartItem
       console.log('Removing product from the cart', originalCartItem)
       rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
-      /** rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
+    } else if (event.result.indexOf(i18n.t('requested')) >= 0) {
+      const originalCartItem = JSON.parse(event.payload.body).cartItem
+      rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
         if (cartItem) {
           console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
           if (cartItem.prev_qty > 0) {
@@ -148,7 +158,7 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
             rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
           }
         }
-      }) */
+      })
     }
   }
 })

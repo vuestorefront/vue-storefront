@@ -3,6 +3,8 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import { calculateProductTax } from '../../lib/taxcalc'
 import _ from 'lodash'
+import { optionLabel } from '../attribute/helpers'
+import i18n from '../../lib/i18n'
 
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price
@@ -137,6 +139,120 @@ export function calculateTaxes (products, store) {
   })
 }
 
+function _prepareProductOption (product) {
+  let product_option = {
+    extension_attributes: {
+      custom_options: [],
+      configurable_item_options: [],
+      bundle_options: []
+    }
+  }
+  if (product.product_option) {
+    product_option = product.product_option
+  }
+  return product_option
+}
+export function setConfigurableProductOptionsAsync (context, { product, configuration }) {
+  if (product.configurable_options) {
+    const product_option = _prepareProductOption(product)
+    /* eslint camelcase: "off" */
+    const configurable_item_options = product_option.extension_attributes.configurable_item_options
+    for (const configKey of Object.keys(configuration)) {
+      const configOption = configuration[configKey]
+      if (configOption.attribute_code) {
+        const option = product.configurable_options.find(co => {
+          return (co.attribute_code === configOption.attribute_code)
+        })
+
+        if (!option) {
+          console.error('Wrong option id for setProductOptions', configOption.attribute_code)
+          return null
+        }
+        let existingOption = configurable_item_options.find(cop => {
+          return cop.option_id === option.attribute_id
+        })
+        if (!existingOption) {
+          existingOption = {
+            option_id: option.attribute_id,
+            option_value: configOption.id,
+            label: i18n.t(configOption.attribute_code),
+            value: configOption.label
+          }
+          configurable_item_options.push(existingOption)
+        }
+        existingOption.option_value = configOption.id
+        existingOption.label = i18n.t(configOption.attribute_code)
+        existingOption.value = configOption.label
+      }
+    }
+    return product_option
+  } else {
+    return null
+  }
+}
+
+export function setCustomProductOptionsAsync (context, { product, configuration }) {
+  _prepareProductOption(product)
+  // const custom_options = product.extension_attributes.custom_options
+}
+
+export function setBundleProductOptionsAsync (context, { product, configuration }) {
+  _prepareProductOption(product)
+  // const bundle_options = product.extension_attributes.bundle_options
+}
+
+function _internalMapOptions (productOption) {
+  const optionsMapped = []
+  for (let option of productOption.extension_attributes.configurable_item_options) {
+    optionsMapped.push({
+      label: option.label,
+      value: option.value
+    })
+  }
+  productOption.extension_attributes.configurable_item_options = productOption.extension_attributes.configurable_item_options.map((op) => {
+    return _.omit(op, ['label', 'value'])
+  })
+  return optionsMapped
+}
+
+export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
+  if (product.configurable_options) {
+    for (let option of product.configurable_options) {
+      let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+      let selectedOption = null
+      if (selectedVariant.custom_attributes) {
+        selectedOption = selectedVariant.custom_attributes.find((a) => {
+          return (a.attribute_code === attr.attribute_code)
+        })
+      } else {
+        selectedOption = {
+          attribute_code: attr.attribute_code,
+          value: selectedVariant[attr.attribute_code]
+        }
+      }
+      const confVal = {
+        attribute_code: attr.attribute_code,
+        id: selectedOption.value,
+        label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+      }
+      context.state.current_configuration[attr.attribute_code] = confVal
+      // @deprecated fallback for VS <= 1.0RC
+      if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
+        const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+        context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
+      }
+    }
+    if (config.cart.setConfigurableProductOptions) {
+      const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
+      if (productOption) {
+        selectedVariant.options = _internalMapOptions(productOption)
+        selectedVariant.product_option = productOption
+      }
+    }
+  }
+  return selectedVariant
+}
+
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
@@ -159,7 +275,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (configuration.sku) {
         return configurableChild.sku === configuration.sku // by sku or first one
       } else {
-        return Object.keys(configuration).every((configProperty) => {
+        return Object.keys(_.omit(configuration, ['price'])).every((configProperty) => {
           return _.toString(configurableChild[configProperty]) === _.toString(configuration[configProperty].id)
         })
       }
@@ -174,8 +290,16 @@ export function configureProductAsync (context, { product, configuration, select
 
     product.is_configured = true
 
+    if (config.cart.setConfigurableProductOptions) { // TODO: I'm wondering if it shouldn't have been marked as options - regarding the call in the populateProductConfigurationAsync
+      const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
+      if (productOption) {
+        selectedVariant.product_option = productOption
+        selectedVariant.options = _internalMapOptions(productOption)
+      }
+    }
     // use chosen variant
     if (selectDefaultVariant) {
+      selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       context.dispatch('setCurrent', selectedVariant)
     }
     EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })

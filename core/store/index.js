@@ -133,6 +133,8 @@ const plugins = [
         global.$VS.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+      }
+      if (actionName === types.CART_LOAD_CART_SERVER_TOKEN) {
         global.$VS.db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
           console.error(reason)
         })
