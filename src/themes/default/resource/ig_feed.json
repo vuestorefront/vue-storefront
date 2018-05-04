@@ -1,32 +1,32 @@
 [
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig01.jpg"
+    "image": "/assets/ig/ig01.jpg",
+    "link": "/c/women-20",
+    "alt": "Woman practicing on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig02.jpg"
+    "image": "/assets/ig/ig02.jpg",
+    "link": "/c/men-11",
+    "alt": "Man practicing on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig03.jpg"
+    "image": "/assets/ig/ig03.jpg",
+    "link": "/c/fitness-equipment-5",
+    "alt": "Woman drinks water form the bottle on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig04.jpg"
+    "image": "/assets/ig/ig04.jpg",
+    "link": "/c/tops-12",
+    "alt": "Man rests on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig05.jpg"
+    "image": "/assets/ig/ig05.jpg",
+    "link": "/c/training-9",
+    "alt": "Woman practicing on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig06.jpg"
+    "image": "/assets/ig/ig06.jpg",
+    "link": "/c/gear-3",
+    "alt": "Man is holding a watter bottle"
   }
 ]
