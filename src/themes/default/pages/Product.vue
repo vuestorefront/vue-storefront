@@ -155,19 +155,22 @@
       </div>
     </section>
     <section class="container pt50 pb20 px20 cl-accent details">
-      <h2 class="h3 m0 mb10 sans-serif">
+      <h2 class="h3 m0 mb10 serif lh20 details-title">
         {{ $t('Product details') }}
       </h2>
-      <div class="h4 details-wrapper" ref="details">
+      <div
+        class="h4 details-wrapper"
+        :class="{'details-wrapper--open': detailsOpen}"
+      >
         <div class="row between-md m0">
-          <div class="col-md-5">
+          <div class="col-xs-12 col-sm-6">
             <div
-              class="lh30 cl-secondary"
+              class="lh30 h5"
               v-html="product.description"
             />
           </div>
-          <div class="col-md-6">
-            <ul class="attributes p0 pt10 m0">
+          <div class="col-xs-12 col-sm-5">
+            <ul class="attributes p0 pt5 m0">
               <product-attribute
                 :key="attr.attribute_code"
                 v-for="attr in customAttributes"
@@ -207,11 +210,15 @@ export default {
   asyncData ({ store, route }) {
     // this is for SSR purposes to prefetch data
   },
+  data () {
+    return {
+      detailsOpen: false
+    }
+  },
   directives: { focusClean },
   methods: {
     showDetails (event) {
-      const details = this.$refs.details
-      details.style.maxHeight = `${details.children[0].offsetHeight}px`
+      this.detailsOpen = true
       event.target.classList.add('hidden')
     }
   },
@@ -325,6 +332,15 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
+.details-title {
+  padding: 0 8px;
+
+  @media (max-width: 767px) {
+    font-size: 18px;
+    margin: 0;
+  }
+}
+
 .details-wrapper {
   @media (max-width: 767px) {
     position: relative;
@@ -332,6 +348,10 @@ $bg-secondary: color(secondary, $colors-background);
     overflow: hidden;
     transition: all 0.3s ease;
     font-size: 14px;
+  }
+
+  &--open {
+    max-height: none;
   }
 }
 
