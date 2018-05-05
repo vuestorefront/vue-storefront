@@ -69,6 +69,24 @@ export default {
         })
       }
     },
+    onAfterCustomOptionsChanged (payload) {
+      let priceDelta = 0
+      let priceDeltaInclTax = 0
+      for (const optionValue of Object.values(payload.optionValues)) {
+        if (typeof optionValue === 'object' && parseInt(optionValue.option_type_id) > 0) {
+          if (optionValue.price_type === 'fixed' && optionValue.price !== 0) {
+            priceDelta += optionValue.price
+            priceDeltaInclTax += optionValue.price
+          }
+          if (optionValue.price_type === 'percent' && optionValue.price !== 0) {
+            priceDelta += ((optionValue.price / 100) * this.originalProduct.price)
+            priceDeltaInclTax += ((optionValue.price / 100) * this.originalProduct.priceInclTax)
+          }
+        }
+      }
+      this.product.price = this.originalProduct.price + priceDelta
+      this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
+    },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
         console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
@@ -126,6 +144,7 @@ export default {
   beforeDestroy () {
     this.$bus.$off('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
+    this.$bus.$off('product-after-customoptions', this.onAfterCustomOptionsChanged)
   },
   beforeMount () {
     this.onStateCheck()
@@ -133,6 +152,7 @@ export default {
   created () {
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
+    this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
   },
   computed: {
     ...mapGetters({
