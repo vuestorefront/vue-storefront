@@ -7,7 +7,7 @@ export default {
   check (context, { product, qty = 1 }) {
     return new Promise((resolve, reject) => {
       if (config.stock.synchronize) {
-        context.dispatch('sync/queue', { url: config.stock.endpoint + '/check/' + encodeURIComponent(product.sku),
+        context.dispatch('sync/queue', { url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },

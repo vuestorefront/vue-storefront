@@ -191,9 +191,10 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
   }
 }
 
-export function setCustomProductOptionsAsync (context, { product, configuration }) {
-  _prepareProductOption(product)
-  // const custom_options = product.extension_attributes.custom_options
+export function setCustomProductOptionsAsync (context, { product, customOptions }) {
+  const productOption = _prepareProductOption(product)
+  productOption.extension_attributes.custom_options = customOptions
+  return productOption
 }
 
 export function setBundleProductOptionsAsync (context, { product, configuration }) {

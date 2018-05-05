@@ -6,8 +6,8 @@
         <div class="col-xs-12 col-md-9 pb15">
           <div class="mb15">
             <div class="h4 weight-400 cl-accent serif">{{ product.name | htmlDecode }}</div>
-            <div class="error" v-if="product.warning_message">
-              {{ product.warning_message }}
+            <div class="error" v-if="Object.keys(product.errors).length > 0">
+              {{ product.errors | formatProductMessages }}
             </div>
             <div class="h5 cl-tertiary pt5">{{ product.sku }}</div>
             <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">

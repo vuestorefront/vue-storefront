@@ -26,11 +26,11 @@
               <span class="opv">{{ opt.value }}</span>
             </div>
           </div>
-          <div class="h6 pt5 cl-error" v-if="product.warning_message">
-            {{ product.warning_message }}
+          <div class="h6 pt5 cl-error" v-if="Object.keys(product.errors).length > 0">
+            {{ product.errors | formatProductMessages }}
           </div>
-          <div class="h6 pt5 cl-success" v-if="product.info_message && !product.warning_message">
-            {{ product.info_message }}
+          <div class="h6 pt5 cl-success" v-if="Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
+            {{ product.info | formatProductMessages }}
           </div>
         </div>
         <div class="h5 pt5 cl-accent lh25 qty">

@@ -196,6 +196,15 @@ export default {
         })
         continue
       }
+      const firstError = product.errors && Object.values(product.errors).find((errorMsg) => { return errorMsg !== null })
+      if (typeof firstError !== 'undefined') {
+        EventBus.$emit('notification', {
+          type: 'error',
+          message: Object.values(product.errors).join(', '),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        continue
+      }
       const record = state.cartItems.find(p => p.sku === product.sku)
       dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
         product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result

@@ -81,7 +81,7 @@ export default {
           if (chp && chp.stock) {
             if (!chp.stock.is_in_stock) {
               this.stockCheckOK = false
-              chp.warning_message = i18n.t('Out of stock!')
+              chp.errors.stock = i18n.t('Out of stock!')
               this.$bus.$emit('notification', {
                 type: 'error',
                 message: chp.name + i18n.t(' is out of the stock!'),

@@ -1,7 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
-import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
@@ -194,6 +194,8 @@ export default {
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
+          product.errors = {} // this is an object to store validation result for custom options and others
+          product.info = {}
           product.parentSku = product.sku
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
@@ -214,7 +216,6 @@ export default {
               }
             }
           }
-
           if (!prod[cacheByKey]) {
             cacheByKey = 'id'
           }
@@ -331,6 +332,15 @@ export default {
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
     }
   },
+
+  /**
+   * Assign the custom options object to the currentl product
+   */
+  setCustomOptions (context, { customOptions, product }) {
+    if (customOptions) { // TODO: this causes some kind of recurrency error
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
+    }
+  },
   /**
    * Set current product with given variant's properties
    * @param {Object} context
@@ -392,6 +402,12 @@ export default {
       }
       return subloaders
     })
+  },
+  /**
+   * Add custom option validator for product custom options
+   */
+  addCustomOptionValidator (context, { validationRule, validatorFunction }) {
+    context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
   /**
    * Load the product data - async version for asyncData()
