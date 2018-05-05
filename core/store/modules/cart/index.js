@@ -141,8 +141,8 @@ EventBus.$on('servercart-after-itemupdated', (event) => {
         EventBus.$emit('cart-after-itemchanged', { item: cartItem })
       }
     })
-  } else {
-    if (event.result.indexOf(i18n.t('avail')) >= 0) { // product is not available
+  } else { // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
+    if (event.result.indexOf(i18n.t('avail')) >= 0 || event.result.indexOf(i18n.t('out of stock')) >= 0) { // product is not available
       const originalCartItem = JSON.parse(event.payload.body).cartItem
       console.log('Removing product from the cart', originalCartItem)
       rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})

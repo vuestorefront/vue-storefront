@@ -194,6 +194,8 @@ export default {
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
+          product.errors = {} // this is an object to store validation result for custom options and others
+          product.info = {}
           product.parentSku = product.sku
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
@@ -214,7 +216,6 @@ export default {
               }
             }
           }
-
           if (!prod[cacheByKey]) {
             cacheByKey = 'id'
           }
