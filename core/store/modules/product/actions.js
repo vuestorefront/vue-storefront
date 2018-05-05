@@ -403,6 +403,12 @@ export default {
     })
   },
   /**
+   * Add custom option validator for product custom options
+   */
+  addCustomOptionValidator (context, { validationRule, validatorFunction }) {
+    context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
+  },
+  /**
    * Load the product data - async version for asyncData()
    */
   fetchAsync (context, { parentSku, childSku = null, route = null }) {
