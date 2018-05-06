@@ -151,7 +151,7 @@ export default {
     }
   }
 
-  .sku {
+  .options, .sku {
     @media (max-width: 767px) {
       font-size: 10px;
     }

@@ -147,9 +147,9 @@ function _prepareProductOption (product) {
       bundle_options: []
     }
   }
-  if (product.product_option) {
+  /* if (product.product_option) {
     product_option = product.product_option
-  }
+  } */
   return product_option
 }
 export function setConfigurableProductOptionsAsync (context, { product, configuration }) {
@@ -185,6 +185,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         existingOption.value = configOption.label
       }
     }
+    console.log('Server product options object', product_option)
     return product_option
   } else {
     return null
@@ -291,12 +292,15 @@ export function configureProductAsync (context, { product, configuration, select
 
     product.is_configured = true
 
-    if (config.cart.setConfigurableProductOptions) { // TODO: I'm wondering if it shouldn't have been marked as options - regarding the call in the populateProductConfigurationAsync
+    if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
+      // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
       if (productOption) {
         selectedVariant.product_option = productOption
         selectedVariant.options = _internalMapOptions(productOption)
       }
+    } else {
+      console.log('Skipping configurable options setup')
     }
     // use chosen variant
     if (selectDefaultVariant) {
