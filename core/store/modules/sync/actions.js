@@ -21,6 +21,17 @@ export default {
     commit(types.SYNC_ADD_TASK, task)
     return task
   },
+  clearNotTransmited ({ commit }) {
+    const syncTaskCollection = localForage.createInstance({
+      name: 'shop',
+      storeName: 'syncTasks'
+    })
+    syncTaskCollection.iterate((task, id, iterationNumber) => {
+      if (!task.transmited) {
+        syncTaskCollection.removeItem(id)
+      }
+    })
+  },
   execute ({ commit }, task) { // not offline task
     task = _prepareTask(task)
     const usersCollection = localForage.createInstance({

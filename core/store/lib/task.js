@@ -4,6 +4,7 @@ import _ from 'lodash'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
 import config from './config'
+const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
 function _sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
@@ -41,19 +42,22 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
         let resultString = jsonResponse.result ? _.toString(jsonResponse.result) : null
         if (resultString && (resultString.indexOf(i18n.t('not authorized')) >= 0 || resultString.indexOf('not authorized')) >= 0 && currentToken !== null) { // the token is no longer valid, try to invalidate it
           console.error('Invalid token - need to be revalidated', currentToken, task.url)
+          if (_.isNaN(global.$VS.userTokenInvalidateAttemptsCount)) global.$VS.userTokenInvalidateAttemptsCount = 0
           silentMode = true
           if (config.users.autoRefreshTokens) {
-            _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
+            if (global.$VS.userTokenInvalidateAttemptsCount <= AUTO_REFRESH_MAX_ATTEMPTS) _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
             if (!global.$VS.userTokenInvalidateLock) {
-              if (global.$VS.userTokenInvalidateAttemptsCount > 20) {
+              if (global.$VS.userTokenInvalidateAttemptsCount > AUTO_REFRESH_MAX_ATTEMPTS) {
                 console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
                 rootStore.dispatch('user/logout', { silent: true })
+                rootStore.dispatch('sync/clearNotTransmited')
                 EventBus.$emit('modal-show', 'modal-signup')
                 EventBus.$emit('notification', {
                   type: 'error',
                   message: i18n.t('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'),
                   action1: { label: i18n.t('OK'), action: 'close' }
                 })
+                global.$VS.userTokenInvalidateAttemptsCount = 0
               } else {
                 console.info('Invalidation process in progress (autoRefreshTokens is set to true)', global.$VS.userTokenInvalidateAttemptsCount)
                 global.$VS.userTokenInvalidateLock = _.isNumber(global.$VS.userTokenInvalidateLock) ? global.$VS.userTokenInvalidateLock++ : 1
