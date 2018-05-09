@@ -160,6 +160,9 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
         currentCartId = store.state.cart.cartServerToken
       }
 
+      if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+        currentToken = store.state.user.token
+      }
       const fetchQueue = []
       console.log('Current User token = ' + currentToken)
       console.log('Current Cart token = ' + currentCartId)
