@@ -106,6 +106,8 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
               quoteId: serverItem.quote_id
             }, { root: true })
           } else {
+            clientCartUpdateRequired = true
+            cartHasItems = true
             rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
               product.server_item_id = serverItem.item_id
               product.qty = serverItem.qty
@@ -114,7 +116,6 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
                 product.product_option = serverItem.product_option
               }
               rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
-                clientCartUpdateRequired = true
               // rootStore.dispatch('cart/updateItem', { product: product })
               })
             })

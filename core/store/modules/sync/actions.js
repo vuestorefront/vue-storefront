@@ -2,6 +2,7 @@ import * as types from '../../mutation-types'
 import { execute as taskExecute } from '../../lib/task'
 import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
+import store from '../../'
 
 export default {
   /**
@@ -19,6 +20,17 @@ export default {
   queue ({ commit }, task) {
     commit(types.SYNC_ADD_TASK, task)
     return task
+  },
+  clearNotTransmited ({ commit }) {
+    const syncTaskCollection = localForage.createInstance({
+      name: 'shop',
+      storeName: 'syncTasks'
+    })
+    syncTaskCollection.iterate((task, id, iterationNumber) => {
+      if (!task.transmited) {
+        syncTaskCollection.removeItem(id)
+      }
+    })
   },
   execute ({ commit }, task) { // not offline task
     task = _prepareTask(task)
@@ -45,6 +57,12 @@ export default {
           cartsCollection.getItem('current-cart-token', (err, currentCartId) => {
             if (err) {
               console.error(err)
+            }
+            if (!currentCartId && store.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentCartId = store.state.cart.cartServerToken
+            }
+            if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentToken = store.state.user.token
             }
             taskExecute(task, currentToken, currentCartId).then((result) => {
               resolve(result)

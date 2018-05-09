@@ -213,7 +213,7 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return images
+      return _.uniqBy(images, 'src')
     },
     customAttributes () {
       let inst = this
