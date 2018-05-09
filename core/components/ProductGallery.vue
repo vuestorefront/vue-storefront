@@ -43,9 +43,11 @@ export default {
       }
     },
     selectVariant () {
-      let option = this.configuration[config.products.galleryVariantsGroupAttribute].id
-      let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option))
-      this.navigate(index)
+      let option = this.configuration[config.products.galleryVariantsGroupAttribute]
+      if (typeof option !== 'undefined' && option !== null) {
+        let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
+        this.navigate(index)
+      }
       this.$forceUpdate()
     },
     toggleZoom () {
