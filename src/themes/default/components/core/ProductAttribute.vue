@@ -32,6 +32,8 @@ export default {
           })
           if (option) {
             results.push(option.label)
+          } else {
+            results.push(parsedVal)
           }
         } else {
           results.push(parsedVal)
