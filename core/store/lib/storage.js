@@ -69,13 +69,13 @@ class LocalForageCacheDriver {
   setItem (key, value, callback) {
     const self = this
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
+    self._localCache[key] = value
     const promise = this._localForageCollection.setItem(key, value).then(result => {
       if (isCallbackCallable) {
         callback(null, result)
       }
     }).catch(err => {
       console.debug('UniversalStorage - probably in SSR mode: ' + err)
-      self._localCache[key] = value
     })
 
     return promise
