@@ -314,3 +314,4 @@
 "choose options","choose options"
 "required","required"
 "Please configure product custom options and fix the validation errors","Please configure product custom options and fix the validation errors"
+"Error refreshing user token. User is not authorized to access the resource","Error refreshing user token. User is not authorized to access the resource"

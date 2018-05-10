@@ -67,6 +67,7 @@ export default {
     }).then(resp => { return resp.json() })
       .then((resp) => {
         if (resp.code === 200) {
+          global.$VS.userTokenInvalidateLock = 0
           context.commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
           context.dispatch('me', { refresh: true, useCache: false }).then(result => {})
           context.dispatch('getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
@@ -166,9 +167,9 @@ export default {
           .then((resp) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
+              EventBus.$emit('user-after-loggedin', resp.result)
             }
             if (!resolvedFromCache) {
-              EventBus.$emit('user-after-loggedin', resp.result)
               resolve(resp.resultCode === 200 ? resp : null)
             }
             return resp

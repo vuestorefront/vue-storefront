@@ -11,14 +11,17 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
-  if (currentToken !== null && global.$VS.userTokenInvalidateLock) { // invalidate lock set
+  if (currentToken !== null && global.$VS.userTokenInvalidateLock > 0) { // invalidate lock set
     console.log('Waiting for global.$VS.userTokenInvalidateLock to release for', task.url)
     _sleep(1000).then(() => {
       console.log('Another try for global.$VS.userTokenInvalidateLock for ', task.url)
       _internalExecute(resolve, reject, task, currentToken, currentCartId)
     })
-
     return // return but not resolve
+  } else if (global.$VS.userTokenInvalidateLock < 0) {
+    console.error('Aborting the network task', task.url, global.$VS.userTokenInvalidateLock)
+    resolve({ code: 401, message: i18n.t('Error refreshing user token. User is not authorized to access the resource') })
+    return
   } else {
     if (global.$VS.userTokenInvalidated) {
       console.log('Using new user token', global.$VS.userTokenInvalidated)
@@ -51,6 +54,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
               global.$VS.userTokenInvalidateLock++
               if (global.$VS.userTokenInvalidateAttemptsCount > AUTO_REFRESH_MAX_ATTEMPTS) {
                 console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
+                global.$VS.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
                 rootStore.dispatch('sync/clearNotTransmited')
                 EventBus.$emit('modal-show', 'modal-signup')
@@ -69,12 +73,18 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
                     global.$VS.userTokenInvalidated = resp.result
                     console.info('User token refreshed successfully', resp.result)
                   } else {
-                    global.$VS.userTokenInvalidateLock = 0
+                    global.$VS.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
                     EventBus.$emit('modal-show', 'modal-signup')
                     rootStore.dispatch('sync/clearNotTransmited')
                     console.error('Error refreshing user token', resp.result)
                   }
+                }).catch((excp) => {
+                  global.$VS.userTokenInvalidateLock = -1
+                  rootStore.dispatch('user/logout', { silent: true })
+                  EventBus.$emit('modal-show', 'modal-signup')
+                  rootStore.dispatch('sync/clearNotTransmited')
+                  console.error('Error refreshing user token', excp)
                 })
               }
             }
