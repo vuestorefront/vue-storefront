@@ -17,11 +17,14 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', { forceClientState: false }, { root: true })
   } else {
-    if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
-      console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
-      rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
-      rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
-      console.error(event.result)
+    let resultString = event.result ? _.toString(event.result) : null
+    if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
+      if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
+        console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
+        rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
+        rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
+        console.error(event.result)
+      }
     }
   }
 })

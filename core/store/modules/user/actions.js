@@ -143,7 +143,6 @@ export default {
           }
 
           if (res) {
-            global.$VS.userTokenInvalidateLock = 0
             context.commit(types.USER_INFO_LOADED, res)
             EventBus.$emit('user-after-loggedin', res)
 
@@ -167,10 +166,9 @@ export default {
           .then((resp) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
-
-              EventBus.$emit('user-after-loggedin', resp.result)
             }
             if (!resolvedFromCache) {
+              EventBus.$emit('user-after-loggedin', resp.result)
               resolve(resp.resultCode === 200 ? resp : null)
             }
             return resp
@@ -298,7 +296,7 @@ export default {
 
             resolve(res)
             resolvedFromCache = true
-            console.log('Current user served from cache')
+            console.log('Current user order history served from cache')
           }
         })
       }
