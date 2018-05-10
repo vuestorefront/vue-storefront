@@ -59,18 +59,20 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
                 })
                 global.$VS.userTokenInvalidateAttemptsCount = 0
               } else {
-                console.info('Invalidation process in progress (autoRefreshTokens is set to true)', global.$VS.userTokenInvalidateAttemptsCount)
                 global.$VS.userTokenInvalidateLock = _.isNumber(global.$VS.userTokenInvalidateLock) ? global.$VS.userTokenInvalidateLock++ : 1
+                console.info('Invalidation process in progress (autoRefreshTokens is set to true)', global.$VS.userTokenInvalidateAttemptsCount)
                 global.$VS.userTokenInvalidateAttemptsCount++
                 rootStore.dispatch('user/refresh').then((resp) => {
                   if (resp.code === 200) {
                     global.$VS.userTokenInvalidateLock = 0
+                    global.$VS.userTokenInvalidateAttemptsCount = 0
                     global.$VS.userTokenInvalidated = resp.result
                     console.info('User token refreshed successfully', resp.result)
                   } else {
                     global.$VS.userTokenInvalidateLock = 0
                     rootStore.dispatch('user/logout', { silent: true })
                     EventBus.$emit('modal-show', 'modal-signup')
+                    rootStore.dispatch('sync/clearNotTransmited')
                     console.error('Error refreshing user token', resp.result)
                   }
                 })
