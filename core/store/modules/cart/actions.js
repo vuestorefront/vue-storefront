@@ -23,7 +23,7 @@ export default {
   save (context) {
     context.commit(types.CART_SAVE)
   },
-  serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
+  serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     if (config.cart.synchronize && !global.$VS.isSSR) {
       const newItemsHash = hash({ items: context.state.cartItems, token: context.state.cartServerToken })
       if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
@@ -37,6 +37,7 @@ export default {
           },
           silent: true,
           force_client_state: forceClientState,
+          dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
           /* rootStore.dispatch('cart/getPaymentMethods')
@@ -164,7 +165,7 @@ export default {
           if (token) { // previously set token
             commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
             console.log('Existing cart token = ' + token)
-            context.dispatch('serverPull', { forceClientState: false })
+            context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.server_merge_by_default })
           } else {
             console.log('Creating server cart ...')
             context.dispatch('serverCreate', { guestCart: false })
