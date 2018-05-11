@@ -136,6 +136,11 @@ export default {
         info: 'Dispatch product/configure in Product.vue',
         err
       }))
+    },
+    updateAddToWishlistState (product) {
+      if (product.sku === this.product.sku) {
+        this.favorite.isFavorite = false
+      }
     }
   },
   watch: {
@@ -145,6 +150,7 @@ export default {
     this.$bus.$off('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions', this.onAfterCustomOptionsChanged)
+    this.$bus.$off('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   beforeMount () {
     this.onStateCheck()
@@ -153,6 +159,7 @@ export default {
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
+    this.$bus.$on('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   computed: {
     ...mapGetters({
