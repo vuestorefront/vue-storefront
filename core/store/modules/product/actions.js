@@ -124,11 +124,11 @@ export default {
           }).catch(err => { console.error(err) }).then((asocProd) => {
             pl.product = asocProd
             pl.product.qty = pl.qty
-            /* if (pl.is_default) {
+            if (pl.is_default) {
               product.price += pl.product.price
               product.priceInclTax += pl.product.priceInclTax
               product.tax += pl.product.tax
-            } */
+            }
           }))
         }
       }
@@ -423,7 +423,11 @@ export default {
         subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
 
         subloaders.push(context.dispatch('setupVariants', { product: product }))
-        subloaders.push(context.dispatch('setupAssociated', { product: product }))
+        if (product.type_id === 'grouped' || product.type_id === 'bundle') {
+          subloaders.push(context.dispatch('setupAssociated', { product: product }).then((subloaderresults) => {
+            context.dispatch('setCurrent', product) // because setup Associated can modify the product price we need to update the current product
+          }))
+        }
 
         if (config.products.preventConfigurableChildrenDirectAccess) {
           subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))

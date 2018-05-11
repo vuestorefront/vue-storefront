@@ -70,7 +70,6 @@ export default {
       }
     },
     onAfterCustomOptionsChanged (payload) {
-      console.log(payload)
       let priceDelta = 0
       let priceDeltaInclTax = 0
       for (const optionValue of Object.values(payload.optionValues)) {
@@ -92,19 +91,11 @@ export default {
       let priceDelta = 0
       let priceDeltaInclTax = 0
       for (const optionValue of Object.values(payload.optionValues)) {
-        if (typeof optionValue === 'object' && parseInt(optionValue.option_type_id) > 0) {
-          if (optionValue.price_type === 'fixed' && optionValue.price !== 0) {
-            priceDelta += optionValue.price
-            priceDeltaInclTax += optionValue.price
-          }
-          if (optionValue.price_type === 'percent' && optionValue.price !== 0) {
-            priceDelta += ((optionValue.price / 100) * this.originalProduct.price)
-            priceDeltaInclTax += ((optionValue.price / 100) * this.originalProduct.priceInclTax)
-          }
-        }
+        priceDelta += optionValue.value.product.price * parseInt(optionValue.value.qty)
+        priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.value.qty)
       }
-      this.product.price = this.originalProduct.price + priceDelta
-      this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
+      this.product.price = priceDelta
+      this.product.priceInclTax = priceDeltaInclTax
     },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {

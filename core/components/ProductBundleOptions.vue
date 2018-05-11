@@ -67,11 +67,11 @@ export default {
         }
       }
       const fieldNameQty = _fieldName(option)[1]
-      const value = opval === null ? this.inputValues[fieldName] : opval.option_type_id
+      const value = opval === null ? this.inputValues[fieldName] : opval.id
+      this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(this.inputValues[fieldNameQty]), optionSelections: [value] })
+      this.$store.dispatch('product/setBundleOptions', { product: this.product, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
+      this.selectedOptions[fieldName] = { value: (opval === null ? value : opval), qty: parseInt(this.inputValues[fieldNameQty]) }
       if (this.validateField(option)) {
-        this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(this.inputValues[fieldNameQty]), optionSelections: [value] })
-        this.$store.dispatch('product/setBundleOptions', { product: this.product, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
-        this.selectedOptions[fieldName] = { value: (opval === null ? value : opval), qty: parseInt(this.inputValues[fieldNameQty]) }
         this.$bus.$emit('product-after-bundleoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
       }
     },
