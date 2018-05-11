@@ -34,6 +34,7 @@
       }
     },
     "cart": {
+      "server_merge_by_default": true,
       "synchronize": false,
       "synchronize_totals": false,
       "setCustomProductOptions": true,
