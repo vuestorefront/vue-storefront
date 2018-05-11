@@ -198,9 +198,10 @@ export function setCustomProductOptionsAsync (context, { product, customOptions 
   return productOption
 }
 
-export function setBundleProductOptionsAsync (context, { product, configuration }) {
-  _prepareProductOption(product)
-  // const bundle_options = product.extension_attributes.bundle_options
+export function setBundleProductOptionsAsync (context, { product, bundleOptions }) {
+  const productOption = _prepareProductOption(product)
+  productOption.extension_attributes.bundle_options = bundleOptions
+  return productOption
 }
 
 function _internalMapOptions (productOption) {

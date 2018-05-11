@@ -1,7 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
-import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
@@ -92,7 +92,7 @@ export default {
     if (product.type_id === 'grouped') {
       product.price = 0
       product.priceInclTax = 0
-      console.log(product.name + ' SETUP ASSOCIATED')
+      console.log(product.name + ' SETUP ASSOCIATED', product.type_id)
       for (let pl of product.product_links) {
         if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
           console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
@@ -106,6 +106,29 @@ export default {
             product.price += pl.product.price
             product.priceInclTax += pl.product.priceInclTax
             product.tax += pl.product.tax
+          }))
+        }
+      }
+    }
+    if (product.type_id === 'bundle') {
+      product.price = 0
+      product.priceInclTax = 0
+      console.log(product.name + ' SETUP ASSOCIATED', product.type_id)
+      for (let bo of product.bundle_options) {
+        for (let pl of bo.product_links) {
+          console.log('Prefetching bundle product link for ' + bo.sku + ' = ' + pl.sku)
+          subloaders.push(context.dispatch('single', {
+            options: { sku: pl.sku },
+            setCurrentProduct: false,
+            selectDefaultVariant: false
+          }).catch(err => { console.error(err) }).then((asocProd) => {
+            pl.product = asocProd
+            pl.product.qty = pl.qty
+            /* if (pl.is_default) {
+              product.price += pl.product.price
+              product.priceInclTax += pl.product.priceInclTax
+              product.tax += pl.product.tax
+            } */
           }))
         }
       }
@@ -226,7 +249,7 @@ export default {
                 console.error('Cannot store cache for ' + cacheKey, err)
               })
           }
-          if (prod.type_id === 'grouped' && prefetchGroupProducts) {
+          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts) {
             context.dispatch('setupAssociated', { product: prod })
           }
         }
@@ -339,6 +362,14 @@ export default {
   setCustomOptions (context, { customOptions, product }) {
     if (customOptions) { // TODO: this causes some kind of recurrency error
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
+    }
+  },
+  /**
+   * Assign the bundle options object to the vurrent product
+   */
+  setBundleOptions (context, { bundleOptions, product }) {
+    if (bundleOptions) { // TODO: this causes some kind of recurrency error
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.state.current, bundleOptions: bundleOptions }) }))
     }
   },
   /**
