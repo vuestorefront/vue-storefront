@@ -60,13 +60,20 @@ export default {
     },
     optionChanged (option, opval = null) {
       const fieldName = _fieldName(option)[0]
+      if (opval === null) {
+        const existingField = this.selectedOptions[fieldName]
+        if (existingField) {
+          opval = existingField.value
+        }
+      }
       const fieldNameQty = _fieldName(option)[1]
       const value = opval === null ? this.inputValues[fieldName] : opval.option_type_id
-      this.validateField(option)
-      this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(this.inputValues[fieldNameQty]), optionSelections: [value] })
-      this.$store.dispatch('product/setBundleOptions', { product: this.product, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
-      this.selectedOptions[fieldName] = { value: (opval === null ? value : opval), qty: parseInt(this.inputValues[fieldNameQty]) }
-      this.$bus.$emit('product-after-bundleoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
+      if (this.validateField(option)) {
+        this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(this.inputValues[fieldNameQty]), optionSelections: [value] })
+        this.$store.dispatch('product/setBundleOptions', { product: this.product, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
+        this.selectedOptions[fieldName] = { value: (opval === null ? value : opval), qty: parseInt(this.inputValues[fieldNameQty]) }
+        this.$bus.$emit('product-after-bundleoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
+      }
     },
     isValid () {
       let isValid = true
@@ -74,6 +81,7 @@ export default {
       return isValid
     },
     validateField (option) {
+      let result = true
       for (let fieldName of _fieldName(option)) {
         const validationRule = this.validation.rules[fieldName]
         this.product.errors.custom_options = null
@@ -84,6 +92,7 @@ export default {
             this.validation.results[fieldName] = validationResult
             if (validationResult.error) {
               this.product.errors.bundle_options = i18n.t('Please configure product bundle options and fix the validation errors')
+              result = false
             } else {
               this.product.errors.bundle_options = null
             }
@@ -95,6 +104,7 @@ export default {
           this.validation.results[fieldName] = { error: false, message: '' }
         }
       }
+      return result
     }
   },
   data () {

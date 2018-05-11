@@ -15,17 +15,17 @@
             v-model="inputValues[('bundleOption_' + option.option_id)]"
           >
           <label class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
-          <label class="qty" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label><input
-            @input="optionChanged(option, opval)"
-            type="number"
-            min="0"
-            class="m0 no-outline qty"
-            :name="('bundleOptionQty_' + option.option_id)"
-            :id="('bundleOptionQty_' + option.option_id)"
-            focus
-            v-model="inputValues[('bundleOptionQty_' + option.option_id)]"
-          >
         </div>
+        <label class="qty" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label><input
+          @input="optionChanged(option)"
+          type="number"
+          min="0"
+          class="m0 no-outline qty"
+          :name="('bundleOptionQty_' + option.option_id)"
+          :id="('bundleOptionQty_' + option.option_id)"
+          focus
+          v-model="inputValues[('bundleOptionQty_' + option.option_id)]"
+        >
         <span class="error" v-if="validation.results[('bundleOptionQty_' + option.option_id)].error">{{ validation.results[('bundleOptionQty_' + option.option_id)].message }}</span>
         <span class="error" v-if="validation.results[('bundleOption_' + option.option_id)].error">{{ validation.results[('bundleOption_' + option.option_id)].message }}</span>
       </div>
