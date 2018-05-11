@@ -114,22 +114,24 @@ export default {
       product.price = 0
       product.priceInclTax = 0
       console.log(product.name + ' SETUP ASSOCIATED', product.type_id)
-      for (let bo of product.bundle_options) {
-        for (let pl of bo.product_links) {
-          console.log('Prefetching bundle product link for ' + bo.sku + ' = ' + pl.sku)
-          subloaders.push(context.dispatch('single', {
-            options: { sku: pl.sku },
-            setCurrentProduct: false,
-            selectDefaultVariant: false
-          }).catch(err => { console.error(err) }).then((asocProd) => {
-            pl.product = asocProd
-            pl.product.qty = pl.qty
-            if (pl.is_default) {
-              product.price += pl.product.price
-              product.priceInclTax += pl.product.priceInclTax
-              product.tax += pl.product.tax
-            }
-          }))
+      if (product.bundle_options && product.bundle_options.length > 0) {
+        for (let bo of product.bundle_options) {
+          for (let pl of bo.product_links) {
+            console.log('Prefetching bundle product link for ' + bo.sku + ' = ' + pl.sku)
+            subloaders.push(context.dispatch('single', {
+              options: { sku: pl.sku },
+              setCurrentProduct: false,
+              selectDefaultVariant: false
+            }).catch(err => { console.error(err) }).then((asocProd) => {
+              pl.product = asocProd
+              pl.product.qty = pl.qty
+              if (pl.is_default) {
+                product.price += pl.product.price
+                product.priceInclTax += pl.product.priceInclTax
+                product.tax += pl.product.tax
+              }
+            }))
+          }
         }
       }
     }
