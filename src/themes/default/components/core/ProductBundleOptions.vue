@@ -1,0 +1,154 @@
+<template>
+  <form class="custom-options">
+    <div v-for="option in product.bundle_options" :key="('bundleOption_' + option.option_id)">
+      <div class="custom-option mb15">
+        <h4>{{ option.title }}</h4>
+        <div class="m5 relative" v-for="opval in option.product_links" :key="opval.id" v-if="option.type === 'radio'">
+          <input
+            @input="optionChanged(option, opval)"
+            type="radio"
+            class="m0 no-outline"
+            :name="('bundleOption_' + option.option_id)"
+            :id="('bundleOption_' + opval.id)"
+            focus
+            :value="opval.id"
+            v-model="inputValues[('bundleOption_' + option.option_id)]"
+          >
+          <label class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
+        </div>
+        <label class="qty" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label><input
+          @input="optionChanged(option)"
+          type="number"
+          min="0"
+          class="m0 no-outline qty"
+          :name="('bundleOptionQty_' + option.option_id)"
+          :id="('bundleOptionQty_' + option.option_id)"
+          focus
+          v-model="inputValues[('bundleOptionQty_' + option.option_id)]"
+        >
+        <span class="error" v-if="validation.results[('bundleOptionQty_' + option.option_id)].error">{{ validation.results[('bundleOptionQty_' + option.option_id)].message }}</span>
+        <span class="error" v-if="validation.results[('bundleOption_' + option.option_id)].error">{{ validation.results[('bundleOption_' + option.option_id)].message }}</span>
+      </div>
+    </div>
+  </form>
+</template>
+
+<script>
+import { coreComponent } from 'core/lib/themes'
+export default {
+  name: 'ProductBundleOptions',
+  mixins: [coreComponent('ProductBundleOptions')]
+}
+</script>
+<style lang="scss" scoped>
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-tertiary: color(tertiary);
+  $color-black: color(black);
+  $color-hover: color(tertiary, $colors-background);
+
+  $bg-secondary: color(secondary, $colors-background);
+  $color-secondary: color(secondary);
+  $color-error: color(error);
+
+  .custom-option > label {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .custom-option > input.qty {
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin: 5px;
+    width: 20px;
+  }
+  .error {
+    color: $color-error;
+    padding-top: 5px;
+    display: block;
+  }
+  $color-silver: color(silver);
+  $color-active: color(secondary);
+  $color-white: color(white);
+
+  .relative label.qty {
+    padding-left: 5px;
+  }
+
+  .relative label {
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 30px;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      background-color: $color-white;
+      border: 1px solid $color-silver;
+      cursor: pointer;
+    }
+  }
+  input[type='text'] {
+    transition: 0.3s all;
+    &::-webkit-input-placeholder {
+      color: $color-tertiary;
+    }
+    &::-moz-placeholder {
+      color: $color-tertiary;
+    }
+    &:hover,
+    &:focus {
+      outline: none;
+      border-color: $color-black;
+    }
+    background: inherit;
+  }
+  input[type='radio'], input[type='checkbox']  {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    &:checked + label {
+      &:before {
+        background-color: $color-silver;
+        border-color: $color-silver;
+        cursor: pointer;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        top: 9px;
+        left: 5px;
+        width: 11px;
+        height: 5px;
+        border: 3px solid $color-white;
+        border-top: none;
+        border-right: none;
+        background-color: $color-silver;
+        transform: rotate(-45deg);
+      }
+    }
+    &:hover,
+    &:focus {
+      + label {
+        &:before {
+          border-color: $color-active;
+        }
+      }
+    }
+    &:disabled + label {
+      cursor: not-allowed;
+      &:hover,
+      &:focus {
+        &:before {
+          border-color: $color-silver;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+</style>
+

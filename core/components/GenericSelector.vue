@@ -37,11 +37,11 @@ export default {
       active: false
     }
   },
-  beforeDestroy () {
+  destroyed () {
     this.$bus.$off('filter-reset', this.filterReset)
     this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
-  beforeMount () {
+  created () {
     this.$bus.$on('filter-reset', this.filterReset)
     this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
   },

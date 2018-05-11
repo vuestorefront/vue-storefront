@@ -106,8 +106,12 @@
               v-if="product.type_id =='grouped' && !loading"
               :products="product.product_links"
             />
+            <product-bundle-options
+              v-if="product.bundle_options && product.bundle_options.length > 0 && !loading"
+              :product="product"
+            />
             <product-custom-options
-              v-if="product.custom_options && product.custom_options.length > 0 && !loading"
+              v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
             <div class="row m0">
@@ -208,6 +212,7 @@ import ProductAttribute from '../components/core/ProductAttribute.vue'
 import ProductTile from '../components/core/ProductTile.vue'
 import ProductLinks from '../components/core/ProductLinks.vue'
 import ProductCustomOptions from '../components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from '../components/core/ProductBundleOptions.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ProductGallery from '../components/core/ProductGallery'
 
@@ -238,7 +243,8 @@ export default {
     ProductTile,
     RelatedProducts,
     ProductLinks,
-    ProductCustomOptions
+    ProductCustomOptions,
+    ProductBundleOptions
   },
   mixins: [corePage('Product')]
 }

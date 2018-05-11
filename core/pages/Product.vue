@@ -87,6 +87,16 @@ export default {
       this.product.price = this.originalProduct.price + priceDelta
       this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
     },
+    onAfterBundleOptionsChanged (payload) {
+      let priceDelta = 0
+      let priceDeltaInclTax = 0
+      for (const optionValue of Object.values(payload.optionValues)) {
+        priceDelta += optionValue.value.product.price * parseInt(optionValue.value.qty)
+        priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.value.qty)
+      }
+      this.product.price = priceDelta
+      this.product.priceInclTax = priceDeltaInclTax
+    },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
         console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
@@ -150,6 +160,7 @@ export default {
     this.$bus.$off('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions', this.onAfterCustomOptionsChanged)
+    this.$bus.$off('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
     this.$bus.$off('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   beforeMount () {
@@ -159,6 +170,7 @@ export default {
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
+    this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
     this.$bus.$on('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   computed: {
@@ -201,7 +213,7 @@ export default {
         }
       }
       let groupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children[0][groupBy]) {
+      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][groupBy]) {
         let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
           return child[groupBy]
         })

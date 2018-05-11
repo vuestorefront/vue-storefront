@@ -198,9 +198,10 @@ export function setCustomProductOptionsAsync (context, { product, customOptions 
   return productOption
 }
 
-export function setBundleProductOptionsAsync (context, { product, configuration }) {
-  _prepareProductOption(product)
-  // const bundle_options = product.extension_attributes.bundle_options
+export function setBundleProductOptionsAsync (context, { product, bundleOptions }) {
+  const productOption = _prepareProductOption(product)
+  productOption.extension_attributes.bundle_options = bundleOptions
+  return productOption
 }
 
 function _internalMapOptions (productOption) {
@@ -221,6 +222,10 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
       let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+      if (!attr) {
+        console.error('Wrong attribute given in configurable_options', option)
+        continue
+      }
       let selectedOption = null
       if (selectedVariant.custom_attributes) {
         selectedOption = selectedVariant.custom_attributes.find((a) => {
@@ -247,8 +252,8 @@ export function populateProductConfigurationAsync (context, { product, selectedV
     if (config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
       if (productOption) {
-        selectedVariant.options = _internalMapOptions(productOption)
-        selectedVariant.product_option = productOption
+        product.options = _internalMapOptions(productOption)
+        product.product_option = productOption
       }
     }
   }
@@ -300,7 +305,7 @@ export function configureProductAsync (context, { product, configuration, select
         selectedVariant.options = _internalMapOptions(productOption)
       }
     } else {
-      console.log('Skipping configurable options setup')
+      console.log('Skipping configurable options setup', configuration)
     }
     // use chosen variant
     if (selectDefaultVariant) {

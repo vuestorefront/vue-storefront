@@ -54,6 +54,25 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
   }
 })
 
+function _updateClientItem (event, clientItem) {
+  console.log('Updating server id to ', clientItem.sku, event.result.item_id)
+  rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }, { root: true }) // update the server_id reference
+  EventBus.$emit('cart-after-itemchanged', { item: clientItem })
+}
+
+function _afterServerItemUpdated (event, clientItem = null) {
+  console.debug('Cart item server sync', event)
+  if (clientItem === null) {
+    rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
+      if (cartItem) {
+        _updateClientItem(event, cartItem)
+      }
+    })
+  } else {
+    _updateClientItem(event, clientItem)
+  }
+}
+
 EventBus.$on('servercart-after-pulled', (event) => { // example stock check callback
   if (event.resultCode === 200) {
     let diffLog = []
@@ -65,7 +84,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
     for (const clientItem of clientItems) {
       cartHasItems = true
       const serverItem = serverItems.find((itm) => {
-        return itm.sku === clientItem.sku
+        return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') >= 0 /* bundle products */
       })
 
       if (!serverItem) {
@@ -76,7 +95,9 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
             sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
             qty: clientItem.qty,
             product_option: clientItem.product_option
-          }, { root: true })
+          }, { root: true }).then((event) => {
+            _afterServerItemUpdated(event, clientItem)
+          })
           serverCartUpdateRequired = true
         }
       } else if (serverItem.qty !== clientItem.qty) {
@@ -89,7 +110,9 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
             item_id: serverItem.item_id,
             quoteId: serverItem.quote_id,
             product_option: clientItem.product_option
-          }, { root: true })
+          }, { root: true }).then((event) => {
+            _afterServerItemUpdated(event, clientItem)
+          })
           serverCartUpdateRequired = true
         }
       } else {
@@ -104,7 +127,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
     for (const serverItem of serverItems) {
       if (serverItem) {
         const clientItem = clientItems.find((itm) => {
-          return itm.sku === serverItem.sku
+          return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') >= 0 /* bundle products */
         })
         if (!clientItem) {
           console.log('No client item for ' + serverItem.sku)
@@ -152,16 +175,8 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
 })
 
 EventBus.$on('servercart-after-itemupdated', (event) => {
-  if (event.resultCode === 200) {
-    console.debug('Cart item server sync', event)
-    rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
-      if (cartItem) {
-        console.log('Updating server id to ', event.result.sku, event.result.item_id)
-        rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: event.result.sku, server_cart_id: event.result.quote_id, prev_qty: cartItem.qty } }, { root: true }) // update the server_id reference
-        EventBus.$emit('cart-after-itemchanged', { item: cartItem })
-      }
-    })
-  } else { // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
+  if (event.resultCode !== 200) {
+  // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
     if (event.result.indexOf(i18n.t('avail')) >= 0 || event.result.indexOf(i18n.t('out of stock')) >= 0 || event.result.indexOf(i18n.t('required')) >= 0 || event.result.indexOf(i18n.t('choose options')) >= 0) { // product is not available
       const originalCartItem = JSON.parse(event.payload.body).cartItem
       console.log('Removing product from the cart', originalCartItem)
