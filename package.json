@@ -115,8 +115,6 @@
     "shelljs": "^0.8.1",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^2.4.0",
     "sw-precache-webpack-plugin": "^0.9.2",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "url-loader": "^1.0.1",
