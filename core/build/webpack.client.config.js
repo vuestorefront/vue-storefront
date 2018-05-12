@@ -1,16 +1,15 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
-const vueConfig = require('./vue-loader.config')
 const HTMLPlugin = require('html-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 const fs = require('fs')
 const themeDirectory = require('./theme-path')
 const themedIndex = path.join(themeDirectory, 'index.template.html')
 
 const config = merge(base, {
+  mode: 'development',
   resolve: {
     alias: {
       'create-api': './create-api-client.js'
@@ -22,10 +21,6 @@ const config = merge(base, {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"client"'
     }),
-    // extract vendor chunks for better caching
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
-    }),
     // generate output HTML
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
@@ -36,7 +31,7 @@ const config = merge(base, {
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
     // minify JS
-    new UglifyJSPlugin(),
+    new webpack.optimize.UglifyJSPlugin(),
     // auto generate service worker
     new SWPrecachePlugin({
       cacheId: 'vue-sfr',
@@ -61,7 +56,7 @@ if (process.env.NODE_ENV === 'production') {
         {
           urlPattern: "^https://unpkg\.com/", /** cache the html stub  */
           handler: "cacheFirst"
-        },                     
+        },
         {
         urlPattern: "/pwa.html", /** cache the html stub  */
         handler: "fastest"
