@@ -2,7 +2,6 @@
   "name": "vue-storefront",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
-  "engineStrict": true,
   "engines": {
     "node": "8.x"
   },
