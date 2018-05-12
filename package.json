@@ -3,7 +3,7 @@
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
-    "node": "8.x"
+    "node": ">=8.x <10.x"
   },
   "repository": {
     "type": "git",
