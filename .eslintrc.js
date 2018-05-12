@@ -1,13 +1,14 @@
 module.exports = {
   root: true,
   env: { 'browser': true },
-  parser: "vue-eslint-parser",
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    sourceType: "module",
+    sourceType: 'module',
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
-    'plugin:vue/recommended', 'standard'
+    'plugin:vue/recommended',
+    'standard'
   ],
   plugins: [
     'vue'
