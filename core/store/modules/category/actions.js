@@ -136,8 +136,8 @@ export default {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null, append = false }) {
-    rootStore.state.product.current_query = {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false }) {
+    rootStore.state.category.current_product_query = {
       populateAggregations,
       filters,
       current,
@@ -145,7 +145,8 @@ export default {
       includeFields,
       excludeFields,
       configuration,
-      append
+      append,
+      sort
     }
 
     if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
@@ -168,7 +169,8 @@ export default {
       excludeFields: excludeFields,
       includeFields: includeFields,
       configuration: configuration,
-      append: append
+      append: append,
+      sort: sort
     }).then(function (res) {
       let t1 = new Date().getTime()
       global.$VS.twoStageCachingDelta1 = t1 - t0
@@ -184,7 +186,7 @@ export default {
         rootStore.state.product.list = { items: [] } // no products to show TODO: refactor to rootStore.state.category.reset() and rootStore.state.product.reset()
         // rootStore.state.category.filters = { color: [], size: [], price: [] }
       } else {
-        if (populateAggregations === true) { // populate filter aggregates
+        if (populateAggregations === true && res.aggregations) { // populate filter aggregates
           for (let attrToFilter of filters) { // fill out the filter options
             rootStore.state.category.filters.available[attrToFilter] = []
 

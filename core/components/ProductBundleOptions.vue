@@ -15,7 +15,16 @@ import rootStore from 'core/store'
 import i18n from 'core/lib/i18n'
 
 function _defaultOptionValue (co, field = 'id') {
-  return co.product_links && co.product_links.length ? co.product_links.find(pl => { return pl.is_default })[field] : 0
+  if (co.product_links && co.product_links.length) {
+    const defaultOption = co.product_links.find(pl => { return pl.is_default })
+    if (defaultOption) {
+      return defaultOption[field]
+    } else {
+      return co.product_links[0][field]
+    }
+  } else {
+    return 0
+  }
 }
 
 function _fieldName (co) {

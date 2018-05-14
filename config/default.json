@@ -21,6 +21,7 @@
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable" ]
       },
       "productList": {
+        "sort": "",
         "includeFields": [ "type_id", "sku", "special_price", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new" ],
         "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn", "tax_class_id" ]
       },

@@ -217,9 +217,6 @@ import focusClean from 'theme/components/theme/directives/focusClean'
 import ProductGallery from '../components/core/ProductGallery'
 
 export default {
-  asyncData ({ store, route }) {
-    // this is for SSR purposes to prefetch data
-  },
   data () {
     return {
       detailsOpen: false

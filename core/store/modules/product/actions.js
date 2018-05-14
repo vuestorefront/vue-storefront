@@ -93,21 +93,29 @@ export default {
       product.price = 0
       product.priceInclTax = 0
       console.log(product.name + ' SETUP ASSOCIATED', product.type_id)
-      for (let pl of product.product_links) {
-        if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
-          console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
-          subloaders.push(context.dispatch('single', {
-            options: { sku: pl.linked_product_sku },
-            setCurrentProduct: false,
-            selectDefaultVariant: false
-          }).catch(err => { console.error(err) }).then((asocProd) => {
-            pl.product = asocProd
-            pl.product.qty = 1
-            product.price += pl.product.price
-            product.priceInclTax += pl.product.priceInclTax
-            product.tax += pl.product.tax
-          }))
+      if (product.product_links && product.product_links.length > 0) {
+        for (let pl of product.product_links) {
+          if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
+            console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
+            subloaders.push(context.dispatch('single', {
+              options: { sku: pl.linked_product_sku },
+              setCurrentProduct: false,
+              selectDefaultVariant: false
+            }).catch(err => { console.error(err) }).then((asocProd) => {
+              if (asocProd) {
+                pl.product = asocProd
+                pl.product.qty = 1
+                product.price += pl.product.price
+                product.priceInclTax += pl.product.priceInclTax
+                product.tax += pl.product.tax
+              } else {
+                console.error('Product link not found', pl.linked_product_sku)
+              }
+            }))
+          }
         }
+      } else {
+        console.error('Product with type grouped has no product_links set!', product)
       }
     }
     if (product.type_id === 'bundle') {
@@ -123,12 +131,16 @@ export default {
               setCurrentProduct: false,
               selectDefaultVariant: false
             }).catch(err => { console.error(err) }).then((asocProd) => {
-              pl.product = asocProd
-              pl.product.qty = pl.qty
-              if (pl.is_default) {
-                product.price += pl.product.price
-                product.priceInclTax += pl.product.priceInclTax
-                product.tax += pl.product.tax
+              if (asocProd) {
+                pl.product = asocProd
+                pl.product.qty = pl.qty
+                if (pl.is_default) {
+                  product.price += pl.product.price
+                  product.priceInclTax += pl.product.priceInclTax
+                  product.tax += pl.product.tax
+                }
+              } else {
+                console.error('Product link not found', pl.sku)
               }
             }))
           }
