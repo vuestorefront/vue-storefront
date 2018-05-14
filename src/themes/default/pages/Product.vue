@@ -2,32 +2,43 @@
   <div id="product">
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
-        <breadcrumbs class="py30" :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
         <section class="row m0 data-wrapper">
           <div class="col-xs-12 col-md-6 px15 center-xs middle-xs image">
-            <product-gallery :gallery="gallery" :offline="offlineImage" :configuration="configuration"/>
+            <product-gallery
+              :gallery="gallery"
+              :offline="offlineImage"
+              :configuration="configuration"
+            />
           </div>
-          <div class="col-md-6 col-xs-12 px20 data">
-            <div class="uppercase cl-secondary">
-              sku: {{ product.sku }}
-            </div>
-            <h1 class="mb20 mt0 cl-accent product-name">
+          <div class="col-xs-12 col-md-6 px20 data">
+            <breadcrumbs
+              class="pt40 pb20"
+              :routes="breadcrumbs.routes"
+              :active-route="breadcrumbs.name"
+            />
+            <h1 class="mb20 mt0 cl-mine-shaft product-name">
               {{ product.name | htmlDecode }}
             </h1>
-            <div class="mb30 price" v-if="product.type_id !== 'grouped'">
+            <div class="mb20 uppercase cl-secondary">
+              sku: {{ product.sku }}
+            </div>
+            <div
+              class="mb40 price serif"
+              v-if="product.type_id !== 'grouped'"
+            >
               <div
                 class="h3 cl-secondary"
                 v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
               >
-                <span class="cl-error">
+                <span class="h2 cl-mine-shaft weight-700">
                   {{ product.priceInclTax | price }}
                 </span>&nbsp;
-                <span class="price-original h4">
+                <span class="price-original h3">
                   {{ product.originalPriceInclTax | price }}
                 </span>
               </div>
               <div
-                class="h3 cl-bg-tertiary"
+                class="h2 cl-mine-shaft weight-700"
                 v-if="!product.special_price && product.priceInclTax"
               >
                 {{ product.priceInclTax | price }}
