@@ -3,7 +3,7 @@
     <div v-for="option in product.bundle_options" :key="('bundleOption_' + option.option_id)">
       <div class="custom-option mb15">
         <h4>{{ option.title }}</h4>
-        <div class="m5 relative" v-for="opval in option.product_links" :key="opval.id" v-if="option.type === 'radio'">
+        <div class="m5 relative" v-for="opval in option.product_links" :key="opval.id">
           <input
             @change="optionChanged(option, opval)"
             type="radio"

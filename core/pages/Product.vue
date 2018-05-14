@@ -96,8 +96,10 @@ export default {
           priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
         }
       }
-      this.product.price = priceDelta
-      this.product.priceInclTax = priceDeltaInclTax
+      if (priceDelta > 0) {
+        this.product.price = priceDelta
+        this.product.priceInclTax = priceDeltaInclTax
+      }
     },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {

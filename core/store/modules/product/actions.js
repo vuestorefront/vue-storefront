@@ -124,6 +124,8 @@ export default {
       console.log(product.name + ' SETUP ASSOCIATED', product.type_id)
       if (product.bundle_options && product.bundle_options.length > 0) {
         for (let bo of product.bundle_options) {
+          let defaultOption = bo.product_links.find((p) => { return p.is_default })
+          if (!defaultOption) defaultOption = bo.product_links[0]
           for (let pl of bo.product_links) {
             console.log('Prefetching bundle product link for ' + bo.sku + ' = ' + pl.sku)
             subloaders.push(context.dispatch('single', {
@@ -134,7 +136,7 @@ export default {
               if (asocProd) {
                 pl.product = asocProd
                 pl.product.qty = pl.qty
-                if (pl.is_default) {
+                if (pl.id === defaultOption.id) {
                   product.price += pl.product.price
                   product.priceInclTax += pl.product.priceInclTax
                   product.tax += pl.product.tax

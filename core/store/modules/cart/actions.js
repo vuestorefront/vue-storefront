@@ -231,13 +231,23 @@ export default {
             dispatch('serverPull', { forceClientState: true })
           }
 
-          EventBus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' },
-            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-          })
+          if (productToAdd.type_id !== 'grouped') {
+            EventBus.$emit('notification', {
+              type: 'success',
+              message: i18n.t('Product has been added to the cart!'),
+              action1: { label: i18n.t('OK'), action: 'close' },
+              action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+            })
+          }
         }
+      })
+    }
+    if (productToAdd.type_id === 'grouped') { // sum-up message for grouped products
+      EventBus.$emit('notification', {
+        type: 'success',
+        message: i18n.t('Product has been added to the cart!'),
+        action1: { label: i18n.t('OK'), action: 'close' },
+        action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
       })
     }
   },
