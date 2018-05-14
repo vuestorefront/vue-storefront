@@ -66,8 +66,8 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
     }
     return filterQr
   }
-  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
-    .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
+  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).notFilter('match', 'type_id', 'configurable'))
+    .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
   return filterQr
 }
 

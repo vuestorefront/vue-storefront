@@ -307,9 +307,9 @@ export function configureProductAsync (context, { product, configuration, select
     } else {
       console.log('Skipping configurable options setup', configuration)
     }
+    selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
     // use chosen variant
     if (selectDefaultVariant) {
-      selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       context.dispatch('setCurrent', selectedVariant)
     }
     EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
