@@ -194,7 +194,7 @@ export default {
         })
         continue
       }
-      const firstError = product.errors && Object.values(product.errors).find((errorMsg) => { return errorMsg !== null })
+      const firstError = product.errors !== null && typeof product.errors !== 'undefined' && Object.values(product.errors).find((errorMsg) => { return errorMsg !== null })
       if (typeof firstError !== 'undefined') {
         EventBus.$emit('notification', {
           type: 'error',
