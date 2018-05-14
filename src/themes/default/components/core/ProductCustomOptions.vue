@@ -17,7 +17,7 @@
           @change="optionChanged(option)">
         <div class="m5 relative" v-for="opval in option.values" :key="opval.option_type_id" v-if="option.type === 'radio'">
           <input
-            @input="optionChanged(option, opval)"
+            @change="optionChanged(option, opval)"
             type="radio"
             class="m0 no-outline"
             :name="('customOption_' + option.option_id)"

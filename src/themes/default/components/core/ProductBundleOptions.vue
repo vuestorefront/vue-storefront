@@ -5,7 +5,7 @@
         <h4>{{ option.title }}</h4>
         <div class="m5 relative" v-for="opval in option.product_links" :key="opval.id" v-if="option.type === 'radio'">
           <input
-            @input="optionChanged(option, opval)"
+            @change="optionChanged(option, opval)"
             type="radio"
             class="m0 no-outline"
             :name="('bundleOption_' + option.option_id)"
@@ -17,7 +17,7 @@
           <label class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
         </div>
         <label class="qty" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label><input
-          @input="optionChanged(option)"
+          @change="optionChanged(option)"
           type="number"
           min="0"
           class="m0 no-outline qty"
