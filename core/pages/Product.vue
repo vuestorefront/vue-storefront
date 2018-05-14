@@ -88,12 +88,13 @@ export default {
       this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
     },
     onAfterBundleOptionsChanged (payload) {
-      console.log('Bundle options changed', payload)
       let priceDelta = 0
       let priceDeltaInclTax = 0
       for (const optionValue of Object.values(payload.optionValues)) {
-        priceDelta += optionValue.value.product.price * parseInt(optionValue.qty)
-        priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
+        if (typeof optionValue.value.product !== 'undefined') {
+          priceDelta += optionValue.value.product.price * parseInt(optionValue.qty)
+          priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
+        }
       }
       this.product.price = priceDelta
       this.product.priceInclTax = priceDeltaInclTax

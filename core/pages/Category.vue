@@ -35,7 +35,15 @@ export default {
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
 
       const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-      this.$store.dispatch('category/products', { populateAggregations: false, searchProductQuery: filterQr, route: this.$route, current: this.pagination.current, perPage: this.pagination.perPage, filters: config.products.defaultFilters, configuration: fsC }).then((res) => {
+      this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
+        populateAggregations: false,
+        searchProductQuery: filterQr,
+        current: this.pagination.current,
+        perPage: this.pagination.perPage,
+        configuration: fsC,
+        append: false
+      })
+      this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
       }) // because already aggregated
     },
     validateRoute () {
@@ -54,7 +62,18 @@ export default {
           this.pagination.current = 0
           let searchProductQuery = baseFilterProductsQuery(store.state.category.current, config.products.defaultFilters)
           self.$bus.$emit('current-category-changed', store.state.category.current_path)
-          self.$store.dispatch('category/products', { searchProductQuery: searchProductQuery, populateAggregations: true, route: route, current: self.pagination.current, perPage: self.pagination.perPage, filters: config.products.defaultFilters })
+          let query = store.state.category.current_product_query
+          query = Object.assign(query, { // base prototype from the asyncData is being used here
+            current: self.pagination.current,
+            perPage: self.pagination.perPage,
+            store: this.$store,
+            route: this.$route,
+            append: false
+          })
+          if (!query.searchProductQuery) {
+            query.searchProductQuery = searchProductQuery
+          }
+          self.$store.dispatch('category/products', store.state.category.current_product_query)
           EventBus.$emitFilter('category-after-load', { store: store, route: route })
         }
       })
@@ -62,6 +81,21 @@ export default {
   },
   watch: {
     '$route': 'validateRoute'
+  },
+  preAsyncData ({ store, route }) {
+    console.log('preAsyncData query setup')
+    store.state.category.current_product_query = {
+      populateAggregations: true,
+      store: store,
+      route: route,
+      current: 0,
+      perPage: 50,
+      sort: config.entities.productList.sort,
+      filters: config.products.defaultFilters,
+      includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null,
+      append: false
+    }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
@@ -73,7 +107,11 @@ export default {
           includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.attribute.includeFields : null
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            store.dispatch('category/products', { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters), populateAggregations: true, store: store, route: route, current: 0, perPage: 50, filters: defaultFilters, includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null, excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null }).then((subloaders) => {
+            let query = store.state.category.current_product_query
+            if (!query.searchProductQuery) {
+              query = Object.assign(query, { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters) })
+            }
+            store.dispatch('category/products', query).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
                 EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
                   return resolve()
@@ -108,7 +146,7 @@ export default {
       return this.$store.state.product.list.total
     },
     currentQuery () {
-      return this.$store.state.product.current_query
+      return this.$store.state.category.current_product_query
     },
     isCategoryEmpty () {
       return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)

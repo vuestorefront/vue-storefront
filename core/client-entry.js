@@ -3,6 +3,7 @@ import config from 'config'
 import { execute } from '@vue-storefront/store/lib/task'
 import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
+import _ from 'lodash'
 
 require('./service-worker-registration') // register the service worker
 
@@ -12,7 +13,18 @@ global.$VS.isSSR = false
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
-
+function _ssrHydrateSubcomponents (components, next, to) {
+  Promise.all(components.map(SubComponent => {
+    if (SubComponent.asyncData) {
+      return SubComponent.asyncData({
+        store,
+        route: to
+      })
+    }
+  })).then(() => {
+    next()
+  }).catch(next)
+}
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
@@ -26,17 +38,19 @@ router.onReady(() => {
     }
     Promise.all(activated.map(c => { // TODO: update me for mixins support
       const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
-      components.push(c)
-      Promise.all(components.map(SubComponent => {
-        if (SubComponent.asyncData) {
-          return SubComponent.asyncData({
-            store,
-            route: to
-          })
+      _.union(components, [c]).map(SubComponent => {
+        if (SubComponent.preAsyncData) {
+          SubComponent.preAsyncData({ store, route: router.currentRoute })
         }
-      })).then(() => {
-        next()
-      }).catch(next)
+      })
+      if (c.asyncData) {
+        c.asyncData({ store, route: to }).then((result) => { // always execute the asyncData() from the top most component first
+          console.log('Top-most asyncData executed')
+          _ssrHydrateSubcomponents(components, next, to)
+        }).catch(next)
+      } else {
+        _ssrHydrateSubcomponents(components, next, to)
+      }
     }))
   })
   app.$mount('#app')

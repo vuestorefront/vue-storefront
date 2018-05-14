@@ -186,6 +186,7 @@ export default {
     }
 
     for (let product of productsToAdd) {
+      if (typeof product === 'undefined' || product === null) continue
       if (product.priceInclTax <= 0) {
         EventBus.$emit('notification', {
           type: 'error',
