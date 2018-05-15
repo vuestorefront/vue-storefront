@@ -180,7 +180,7 @@ export default {
     let subloaders = []
     if (product.type_id === 'configurable') {
       const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
-      if (config.products.filterUnavailableVariants) {
+      if (config.products.filterUnavailableVariants) { // TODO: add cache + prefetching
         subloaders.push(context.dispatch('stock/list', { skus: product.configurable_children.map((c) => { return c.sku }) }, {root: true}).then((task) => {
           if (task && task.resultCode === 200) {
             for (const stockItem of task.result) {
