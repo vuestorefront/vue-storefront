@@ -92,11 +92,11 @@ export default {
     if (product.type_id === 'grouped') {
       product.price = 0
       product.priceInclTax = 0
-      console.log(product.name + ' SETUP ASSOCIATED', product.type_id)
+      console.debug(product.name + ' SETUP ASSOCIATED', product.type_id)
       if (product.product_links && product.product_links.length > 0) {
         for (let pl of product.product_links) {
           if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
-            console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
+            console.debug('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
             subloaders.push(context.dispatch('single', {
               options: { sku: pl.linked_product_sku },
               setCurrentProduct: false,
@@ -121,13 +121,13 @@ export default {
     if (product.type_id === 'bundle') {
       product.price = 0
       product.priceInclTax = 0
-      console.log(product.name + ' SETUP ASSOCIATED', product.type_id)
+      console.debug(product.name + ' SETUP ASSOCIATED', product.type_id)
       if (product.bundle_options && product.bundle_options.length > 0) {
         for (let bo of product.bundle_options) {
           let defaultOption = bo.product_links.find((p) => { return p.is_default })
           if (!defaultOption) defaultOption = bo.product_links[0]
           for (let pl of bo.product_links) {
-            console.log('Prefetching bundle product link for ' + bo.sku + ' = ' + pl.sku)
+            console.debug('Prefetching bundle product link for ' + bo.sku + ' = ' + pl.sku)
             subloaders.push(context.dispatch('single', {
               options: { sku: pl.sku },
               setCurrentProduct: false,
@@ -217,9 +217,9 @@ export default {
   list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
-      console.log('Entity cache is enabled for productList')
+      console.debug('Entity cache is enabled for productList')
     } else {
-      console.log('Entity cache is disabled for productList')
+      console.debug('Entity cache is disabled for productList')
     }
 
     if (config.entities.optimize) {
@@ -400,7 +400,7 @@ export default {
 
       if (!context.state.offlineImage) {
         context.state.offlineImage = productThumbnailPath(productOriginal, true)
-        console.log('Image offline fallback set to ', context.state.offlineImage)
+        console.debug('Image offline fallback set to ', context.state.offlineImage)
       }
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)

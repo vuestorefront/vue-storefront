@@ -122,7 +122,7 @@ export function doPlatformPricesSync (products) {
 export function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
     if (config.tax.calculateServerSide) {
-      console.log('Taxes calculated server side, skipping')
+      console.debug('Taxes calculated server side, skipping')
       doPlatformPricesSync(products).then((products) => {
         resolve(products)
       })
@@ -291,7 +291,7 @@ export function configureProductAsync (context, { product, configuration, select
     if (typeof navigator !== 'undefined') {
       if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
         selectedVariant.image = context.state.offlineImage
-        console.log('Image offline fallback to ', context.state.offlineImage)
+        console.debug('Image offline fallback to ', context.state.offlineImage)
       }
     }
 
@@ -305,7 +305,7 @@ export function configureProductAsync (context, { product, configuration, select
         selectedVariant.options = _internalMapOptions(productOption)
       }
     } else {
-      console.log('Skipping configurable options setup', configuration)
+      console.debug('Skipping configurable options setup', configuration)
     }
     selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
     // use chosen variant

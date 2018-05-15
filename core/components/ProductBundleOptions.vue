@@ -18,12 +18,12 @@ function _defaultOptionValue (co, field = 'id') {
   if (co.product_links && co.product_links.length) {
     const defaultOption = co.product_links.find(pl => { return pl.is_default })
     if (defaultOption) {
-      return defaultOption[field]
+      return field === '*' ? defaultOption : defaultOption[field]
     } else {
-      return co.product_links[0][field]
+      return field === '*' ? co.product_links[0] : co.product_links[0][field]
     }
   } else {
-    return 0
+    return field === '*' ? null : 0
   }
 }
 
@@ -63,15 +63,15 @@ export default {
           if (co.required) { // validation rules are very basic
             this.validation.rules[fieldName] = 'gtzero' // TODO: add custom validators for the custom options
           }
-          this.optionChanged(co, co.product_links && co.product_links.length > 0 ? co.product_links.find(pl => { return pl.is_default }) : null)
         }
+        this.optionChanged(co, _defaultOptionValue(co, '*'))
       }
     },
     optionChanged (option, opval = null) {
       const fieldName = _fieldName(option)[0]
       if (opval === null) {
         const existingField = this.selectedOptions[fieldName]
-        if (existingField) {
+        if (existingField && existingField.hasOwnProperty('value') && typeof existingField.value === 'object') {
           opval = existingField.value
         }
       }

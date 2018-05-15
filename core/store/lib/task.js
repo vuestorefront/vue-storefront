@@ -103,7 +103,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
           })
         }
       }
-      console.info('Response for: ' + task.task_id + ' = ' + jsonResponse.result)
+      console.debug('Response for: ' + task.task_id + ' = ' + jsonResponse.result)
       task.transmited = true
       task.transmited_at = new Date()
       task.result = jsonResponse.result
@@ -131,7 +131,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
 export function execute (task, currentToken = null, currentCartId = null) {
   const taskId = task.task_id
 
-  console.log('Pushing out task ' + taskId)
+  console.debug('Pushing out task ' + taskId)
   return new Promise((resolve, reject) => {
     _internalExecute(resolve, reject, task, currentToken, currentCartId)
   })

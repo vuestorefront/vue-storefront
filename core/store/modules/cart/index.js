@@ -55,9 +55,11 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
 })
 
 function _updateClientItem (event, clientItem) {
-  console.log('Updating server id to ', clientItem.sku, event.result.item_id)
-  rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }, { root: true }) // update the server_id reference
-  EventBus.$emit('cart-after-itemchanged', { item: clientItem })
+  if (typeof event.result.item_id !== 'undefined') {
+    console.log('Updating server id to ', clientItem.sku, event.result.item_id)
+    rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }, { root: true }) // update the server_id reference
+    EventBus.$emit('cart-after-itemchanged', { item: clientItem })
+  }
 }
 
 function _afterServerItemUpdated (event, clientItem = null) {
