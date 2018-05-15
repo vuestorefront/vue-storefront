@@ -168,10 +168,10 @@ export default {
     '$route': 'validateRoute'
   },
   beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.onAfterFilterChanged)
+    this.$bus.$off('filter-changed-product')
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
-    this.$bus.$off('product-after-customoptions', this.onAfterCustomOptionsChanged)
-    this.$bus.$off('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
+    this.$bus.$off('product-after-customoptions')
+    this.$bus.$off('product-after-bundleoptions')
     this.$bus.$off('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   beforeMount () {
