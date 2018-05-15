@@ -159,7 +159,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
     const configurable_item_options = product_option.extension_attributes.configurable_item_options
     for (const configKey of Object.keys(configuration)) {
       const configOption = configuration[configKey]
-      if (configOption.attribute_code) {
+      if (configOption.attribute_code && configOption.attribute_code !== 'price') {
         const option = product.configurable_options.find(co => {
           return (co.attribute_code === configOption.attribute_code)
         })
@@ -185,7 +185,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         existingOption.value = configOption.label
       }
     }
-    console.log('Server product options object', product_option)
+    console.debug('Server product options object', product_option)
     return product_option
   } else {
     return null
@@ -260,7 +260,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true }) {
+export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
@@ -286,7 +286,7 @@ export function configureProductAsync (context, { product, configuration, select
           return _.toString(configurableChild[configProperty]) === _.toString(configuration[configProperty].id)
         })
       }
-    }) || product.configurable_children[0]
+    }) || (fallbackToDefaultWhenNoAvailable ? product.configurable_children[0] : null)
 
     if (typeof navigator !== 'undefined') {
       if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
@@ -295,24 +295,26 @@ export function configureProductAsync (context, { product, configuration, select
       }
     }
 
-    product.is_configured = true
+    if (selectedVariant !== null) {
+      product.is_configured = true
 
-    if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
-      // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
-      const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
-      if (productOption) {
-        selectedVariant.product_option = productOption
-        selectedVariant.options = _internalMapOptions(productOption)
+      if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
+        // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
+        const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
+        if (productOption) {
+          selectedVariant.product_option = productOption
+          selectedVariant.options = _internalMapOptions(productOption)
+        }
+      } else {
+        console.debug('Skipping configurable options setup', configuration)
       }
-    } else {
-      console.debug('Skipping configurable options setup', configuration)
+      selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
+      // use chosen variant
+      if (selectDefaultVariant) {
+        context.dispatch('setCurrent', selectedVariant)
+      }
+      EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     }
-    selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
-    // use chosen variant
-    if (selectDefaultVariant) {
-      context.dispatch('setCurrent', selectedVariant)
-    }
-    EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     return selectedVariant
   } else {
     return product
