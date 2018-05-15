@@ -16,6 +16,9 @@ export default {
   },
   created () {
     this.$bus.$on('notification', data => {
+      if (this.notifications.length > 0 && this.notifications[this.notifications.length - 1].message === data.message) {
+        return
+      }
       this.notifications.push(data)
       setTimeout(() => {
         this.action('close', this.notifications.length - 1)

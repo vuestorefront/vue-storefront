@@ -185,7 +185,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         existingOption.value = configOption.label
       }
     }
-    console.debug('Server product options object', product_option)
+    // console.debug('Server product options object', product_option)
     return product_option
   } else {
     return null
@@ -305,9 +305,9 @@ export function configureProductAsync (context, { product, configuration, select
           selectedVariant.product_option = productOption
           selectedVariant.options = _internalMapOptions(productOption)
         }
-      } else {
+      }/* else {
         console.debug('Skipping configurable options setup', configuration)
-      }
+      } */
       selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
