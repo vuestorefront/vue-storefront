@@ -9,7 +9,7 @@ export const thumbnail = {
      * @param {Int} height
      */
     getThumbnail (relativeUrl, width, height) {
-      return relativeUrl ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
+      return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
     }
   }
 }

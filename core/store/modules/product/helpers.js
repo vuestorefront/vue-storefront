@@ -159,7 +159,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
     const configurable_item_options = product_option.extension_attributes.configurable_item_options
     for (const configKey of Object.keys(configuration)) {
       const configOption = configuration[configKey]
-      if (configOption.attribute_code) {
+      if (configOption.attribute_code && configOption.attribute_code !== 'price') {
         const option = product.configurable_options.find(co => {
           return (co.attribute_code === configOption.attribute_code)
         })
@@ -185,7 +185,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         existingOption.value = configOption.label
       }
     }
-    console.log('Server product options object', product_option)
+    console.debug('Server product options object', product_option)
     return product_option
   } else {
     return null

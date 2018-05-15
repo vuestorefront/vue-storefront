@@ -236,7 +236,7 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return _.uniqBy(images, 'src')
+      return _.uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
     },
     customAttributes () {
       let inst = this

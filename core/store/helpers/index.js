@@ -41,6 +41,10 @@ export function productThumbnailPath (product, ignoreConfig = false) {
     ('image' in product.configurable_children[0])
   ) {
     thumbnail = product.configurable_children[0].image
+    if (!thumbnail || thumbnail === 'no_selection') {
+      const childWithImg = product.configurable_children.find(f => f.image && f.image !== 'no_selection')
+      if (childWithImg) thumbnail = childWithImg.image
+    }
   }
   return thumbnail
 }

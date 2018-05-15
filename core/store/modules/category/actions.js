@@ -170,7 +170,8 @@ export default {
       includeFields: includeFields,
       configuration: configuration,
       append: append,
-      sort: sort
+      sort: sort,
+      updateState: true
     }).then(function (res) {
       let t1 = new Date().getTime()
       global.$VS.twoStageCachingDelta1 = t1 - t0
