@@ -91,13 +91,15 @@ export default {
       let priceDelta = 0
       let priceDeltaInclTax = 0
       for (const optionValue of Object.values(payload.optionValues)) {
-        if (typeof optionValue.value.product !== 'undefined') {
+        if (typeof optionValue.value.product !== 'undefined' && parseInt(optionValue.qty) >= 0) {
           priceDelta += optionValue.value.product.price * parseInt(optionValue.qty)
           priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
         }
       }
-      this.product.price = priceDelta
-      this.product.priceInclTax = priceDeltaInclTax
+      if (priceDelta > 0) {
+        this.product.price = priceDelta
+        this.product.priceInclTax = priceDeltaInclTax
+      }
     },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {

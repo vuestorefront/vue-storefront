@@ -18,7 +18,7 @@ function _getEsClientSingleton () {
     global.$VS.esClient = new es.Client({
       host: config.elasticsearch.host,
       httpAuth: config.elasticsearch.httpAuth,
-      log: 'debug',
+      log: 'error',
       apiVersion: '5.5',
       requestTimeout: 5000
     })
@@ -94,11 +94,11 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         res.noresults = false
         res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
         resolve(res)
-        console.info('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         servedFromCache = true
       } else {
         if (!isOnline()) {
-          console.info('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
 
           res = {
             items: [],
@@ -121,7 +121,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       const res = _handleEsResult(resp, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
       if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-        console.info('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         res.cache = false
         res.noresults = false
         res.offline = false
