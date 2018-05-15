@@ -38,6 +38,9 @@ export default {
           skus: skus
         }, { root: true }).then(task => {
           resolve(task) // if online we can return ok because it will be verified anyway
+        }).catch((err) => {
+          console.error(err)
+          resolve(null)
         })
       } else {
         resolve(null) // if not online, cannot check the source of true here

@@ -182,7 +182,7 @@ export default {
       const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
       if (config.products.filterUnavailableVariants) {
         subloaders.push(context.dispatch('stock/list', { skus: product.configurable_children.map((c) => { return c.sku }) }, {root: true}).then((task) => {
-          if (task.resultCode === 200) {
+          if (task && task.resultCode === 200) {
             for (const stockItem of task.result) {
               if (stockItem.is_in_stock === false) {
                 product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
@@ -195,7 +195,7 @@ export default {
             }
             console.debug('Filtered configurable_children', product.configurable_children)
           } else {
-            console.error('Cannot sync the availability of the product options')
+            console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api')
           }
         }).catch(err => {
           console.error(err)
