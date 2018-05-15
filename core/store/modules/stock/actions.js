@@ -37,6 +37,11 @@ export default {
           },
           skus: skus
         }, { root: true }).then(task => {
+          if (task.resultCode === 200) {
+            for (const si of task.result) {
+              context.state.cache[si.product_id] = { is_in_stock: si.is_in_stock, qty: si.qty, product_id: si.product_id } // TODO: should be moved to mutation
+            }
+          }
           resolve(task) // if online we can return ok because it will be verified anyway
         }).catch((err) => {
           console.error(err)
@@ -46,5 +51,8 @@ export default {
         resolve(null) // if not online, cannot check the source of true here
       }
     })
+  },
+  clearCache (context) {
+    context.state.cache = {}
   }
 }

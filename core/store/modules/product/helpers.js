@@ -185,7 +185,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         existingOption.value = configOption.label
       }
     }
-    console.debug('Server product options object', product_option)
+    // console.debug('Server product options object', product_option)
     return product_option
   } else {
     return null

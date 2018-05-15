@@ -53,6 +53,9 @@
       "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
+      "configurableChildrenStockPrefetchStatic": false,
+      "configurableChildrenStockPrefetchDynamic": true,
+      "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
       "filterUnavailableVariants": false,
       "preventConfigurableChildrenDirectAccess": true,
       "alwaysSyncPlatformPricesOver": false,
