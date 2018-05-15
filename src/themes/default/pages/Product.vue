@@ -37,6 +37,9 @@
               class="cl-primary variants"
               v-if="product.type_id =='configurable' && !loading"
             >
+              <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
+                {{ product.errors | formatProductMessages }}
+              </div>
               <div
                 class="h4"
                 v-for="(option, index) in product.configurable_options"

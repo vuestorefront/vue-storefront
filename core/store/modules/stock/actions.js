@@ -22,5 +22,26 @@ export default {
         resolve({ qty: product.stock ? product.stock.qty : 0, status: product.stock ? (product.stock.is_in_stock ? 'ok' : 'out_of_stock') : 'volatile' }) // if not online, cannot check the source of true here
       }
     })
+  },
+  /**
+   * Reset current configuration and selected variatnts
+   */
+  list (context, { skus }) {
+    return new Promise((resolve, reject) => {
+      if (config.stock.synchronize) {
+        context.dispatch('sync/execute', { url: config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
+          payload: {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          skus: skus
+        }, { root: true }).then(task => {
+          resolve(task) // if online we can return ok because it will be verified anyway
+        })
+      } else {
+        resolve(null) // if not online, cannot check the source of true here
+      }
+    })
   }
 }

@@ -9,6 +9,7 @@ import { quickSearchByQuery } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
 import _ from 'lodash'
 import rootStore from '../../'
+import i18n from '../../lib/i18n'
 
 export default {
   /**
@@ -179,6 +180,27 @@ export default {
     let subloaders = []
     if (product.type_id === 'configurable') {
       const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
+      if (config.products.filterUnavailableVariants) {
+        subloaders.push(context.dispatch('stock/list', { skus: product.configurable_children.map((c) => { return c.sku }) }, {root: true}).then((task) => {
+          if (task.resultCode === 200) {
+            for (const stockItem of task.result) {
+              if (stockItem.is_in_stock === false) {
+                product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
+              } else {
+                const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
+                if (confChild) {
+                  confChild.stock = stockItem
+                }
+              }
+            }
+            console.debug('Filtered configurable_children', product.configurable_children)
+          } else {
+            console.error('Cannot sync the availability of the product options')
+          }
+        }).catch(err => {
+          console.error(err)
+        }))
+      }
       subloaders.push(context.dispatch('attribute/list', {
         filterValues: configurableAttrIds,
         filterField: 'attribute_id'
@@ -204,7 +226,39 @@ export default {
         console.error(err)
       }))
     }
-    return Promise.all(subloaders)
+    return new Promise((resolve, reject) => {
+      Promise.all(subloaders).then((subresults) => {
+        if (config.products.filterUnavailableVariants && product.type_id === 'configurable') {
+          let totalOptions = 0
+          for (const optionKey in context.state.current_options) {
+            let optionsAvailable = context.state.current_options[optionKey]
+            if (optionsAvailable && optionsAvailable.length > 0) {
+              optionsAvailable = optionsAvailable.filter((opt) => {
+                const config = {}
+                config[optionKey] = opt
+                const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
+                if (!variant) {
+                  console.log('No variant for', opt)
+                  return false
+                } else {
+                  totalOptions++
+                  return true
+                }
+              })
+              console.debug('Options still available', optionsAvailable)
+              context.state.current_options[optionKey] = optionsAvailable
+            }
+          }
+          if (totalOptions === 0) {
+            product.errors.variants = i18n.t('No available product variants')
+            context.state.current.errors = product.errors
+          }
+          resolve(subresults)
+        } else {
+          resolve(subresults)
+        }
+      })
+    })
   },
   /**
    * Search ElasticSearch catalog of products using simple text query
@@ -324,20 +378,22 @@ export default {
         if (res !== null) {
           console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
 
-          const cachedProduct = setupProduct(res)
-          if (config.products.alwaysSyncPlatformPricesOver) {
-            doPlatformPricesSync([cachedProduct]).then((products) => {
-              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
-              resolve(products[0])
-            })
-            if (!config.products.waitForPlatformSync) {
+          context.dispatch('setupVariants', { product: res }).then((subresults) => {
+            const cachedProduct = setupProduct(res)
+            if (config.products.alwaysSyncPlatformPricesOver) {
+              doPlatformPricesSync([cachedProduct]).then((products) => {
+                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+                resolve(products[0])
+              })
+              if (!config.products.waitForPlatformSync) {
+                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                resolve(cachedProduct)
+              }
+            } else {
               if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
-          } else {
-            if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
-            resolve(cachedProduct)
-          }
+          })
         } else {
           context.dispatch('list', { // product list syncs the platform price on it's own
             query: bodybuilder()
@@ -347,8 +403,11 @@ export default {
             updateState: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
-              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
-              resolve(setupProduct(res.items[0]))
+              let prd = res.items[0]
+              context.dispatch('setupVariants', { product: prd }).then((subresults) => {
+                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+                resolve(setupProduct(prd))
+              })
             } else {
               reject(new Error('Product query returned empty result'))
             }
@@ -363,8 +422,8 @@ export default {
    * @param {Object} product
    * @param {Array} configuration
    */
-  configure (context, { product = null, configuration, selectDefaultVariant = true }) {
-    return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant })
+  configure (context, { product = null, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
+    return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant, fallbackToDefaultWhenNoAvailable: fallbackToDefaultWhenNoAvailable })
   },
 
   setCurrentOption (context, productOption) {
@@ -439,7 +498,7 @@ export default {
       if (product) {
         subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
 
-        subloaders.push(context.dispatch('setupVariants', { product: product }))
+        // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
         if (product.type_id === 'grouped' || product.type_id === 'bundle') {
           subloaders.push(context.dispatch('setupAssociated', { product: product }).then((subloaderresults) => {
             context.dispatch('setCurrent', product) // because setup Associated can modify the product price we need to update the current product

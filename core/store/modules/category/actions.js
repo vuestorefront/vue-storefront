@@ -149,11 +149,14 @@ export default {
       sort
     }
 
+    let prefetchGroupProducts = true
     if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
       includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
       excludeFields = config.entities.productListWithChildren.excludeFields
+      prefetchGroupProducts = false
       console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
     } else {
+      prefetchGroupProducts = true
       if (global.$VS.twoStageCachingDisabled) {
         console.log('Two stage caching is disabled runtime because of no performance gain')
       } else {
@@ -171,7 +174,8 @@ export default {
       configuration: configuration,
       append: append,
       sort: sort,
-      updateState: true
+      updateState: true,
+      prefetchGroupProducts: prefetchGroupProducts
     }).then(function (res) {
       let t1 = new Date().getTime()
       global.$VS.twoStageCachingDelta1 = t1 - t0
