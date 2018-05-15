@@ -195,7 +195,7 @@ export default {
             }
             console.debug('Filtered configurable_children', product.configurable_children)
           } else {
-            console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api')
+            console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)')
           }
         }).catch(err => {
           console.error(err)
