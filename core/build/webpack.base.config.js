@@ -161,12 +161,6 @@ module.exports = {
         test: path.resolve(__dirname, '../lib/translation.preprocessor.js'),
         use: [
           {
-            loader: 'file-loader',
-            options: {
-              name: "[path][name].[ext]"
-            }
-          },
-          {
             loader: 'val-loader',
             options: {
               csvDirectories: [
