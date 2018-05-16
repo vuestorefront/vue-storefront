@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Shipping from 'core/components/blocks/Checkout/Shipping'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
@@ -296,6 +296,6 @@ export default {
     BaseCheckbox,
     BaseInput
   },
-  mixins: [coreComponent('blocks/Checkout/Shipping')]
+  mixins: [Shipping]
 }
 </script>

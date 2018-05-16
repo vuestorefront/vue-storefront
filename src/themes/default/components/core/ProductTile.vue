@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductTile from 'core/components/ProductTile'
 import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
 
 export default {
@@ -77,7 +77,7 @@ export default {
       default: true
     }
   },
-  mixins: [coreComponent('ProductTile')],
+  mixins: [ProductTile],
   directives: { imgPlaceholder },
   created () {
     this.$bus.$on('product-after-priceupdate', (product) => {

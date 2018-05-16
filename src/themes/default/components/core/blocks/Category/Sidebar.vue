@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Sidebar from 'core/components/blocks/Category/Sidebar'
 
 import ColorSelector from '../../ColorSelector.vue'
 import SizeSelector from '../../SizeSelector.vue'
@@ -92,6 +92,6 @@ export default {
     PriceSelector,
     GenericSelector
   },
-  mixins: [coreComponent('blocks/Category/Sidebar')]
+  mixins: [Sidebar]
 }
 </script>

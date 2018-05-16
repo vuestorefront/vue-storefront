@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Notification from 'core/components/Notification'
 
 export default {
-  mixins: [coreComponent('Notification')]
+  mixins: [Notification]
 }
 </script>
 

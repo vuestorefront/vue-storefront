@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import PageNotFound from 'core/pages/PageNotFound'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
@@ -68,7 +68,7 @@ export default {
       this.$store.commit('ui/setSearchpanel', true)
     }
   },
-  mixins: [corePage('PageNotFound')]
+  mixins: [PageNotFound]
 }
 </script>
 

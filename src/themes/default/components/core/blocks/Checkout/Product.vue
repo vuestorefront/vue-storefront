@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Product from 'core/components/blocks/Checkout/Product'
 
 export default {
-  mixins: [coreComponent('blocks/Checkout/Product')]
+  mixins: [Product]
 }
 </script>
 

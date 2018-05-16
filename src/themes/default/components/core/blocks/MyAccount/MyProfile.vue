@@ -330,7 +330,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
@@ -405,6 +405,6 @@ export default {
     BaseCheckbox,
     BaseInput
   },
-  mixins: [coreComponent('blocks/MyAccount/MyProfile')]
+  mixins: [MyProfile]
 }
 </script>

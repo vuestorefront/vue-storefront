@@ -200,7 +200,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Product from 'core/pages/Product'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
@@ -246,7 +246,7 @@ export default {
     ProductCustomOptions,
     ProductBundleOptions
   },
-  mixins: [corePage('Product')]
+  mixins: [Product]
 }
 </script>
 

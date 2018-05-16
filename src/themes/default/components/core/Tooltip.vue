@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import SizeSelector from 'core/components/SizeSelector'
 
 export default {
-  mixins: [coreComponent('SizeSelector')]
+  mixins: [SizeSelector]
 }
 </script>
 

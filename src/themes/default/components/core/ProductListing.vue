@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductListing from 'core/components/ProductListing'
 import ProductTile from './ProductTile.vue'
 let lastHero = 0
 
@@ -35,7 +35,7 @@ export default {
       lastHero: 0
     }
   },
-  mixins: [coreComponent('ProductListing')],
+  mixins: [ProductListing],
   methods: {
     wide (isOnSale, isNew, index) {
       let deltaCondition = index > 0 && ((index - 1) - lastHero) % 2 === 0

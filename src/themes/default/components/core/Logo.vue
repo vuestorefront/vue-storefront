@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Logo from 'core/components/Logo'
 
 export default {
   props: {
@@ -23,6 +23,6 @@ export default {
       required: true
     }
   },
-  mixins: [coreComponent('Logo')]
+  mixins: [Logo]
 }
 </script>

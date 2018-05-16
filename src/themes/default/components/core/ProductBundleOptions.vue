@@ -34,10 +34,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductBundleOptions from 'core/components/ProductBundleOptions'
 export default {
   name: 'ProductBundleOptions',
-  mixins: [coreComponent('ProductBundleOptions')]
+  mixins: [ProductBundleOptions]
 }
 </script>
 <style lang="scss" scoped>

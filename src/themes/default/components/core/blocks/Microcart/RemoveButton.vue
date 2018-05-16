@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import RemoveButton from 'core/components/blocks/Microcart/RemoveButton'
 
 export default {
-  mixins: [coreComponent('blocks/Microcart/RemoveButton')]
+  mixins: [RemoveButton]
 }
 </script>

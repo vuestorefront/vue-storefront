@@ -53,14 +53,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
 import Product from './Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [coreComponent('blocks/Checkout/CartSummary')]
+  mixins: [CartSummary]
 }
 </script>
 
