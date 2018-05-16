@@ -150,9 +150,9 @@ module.exports = {
         use: [
           'vue-loader',
           {
-            loader: 'vue-markdown-loader',
+            loader: 'markdown-to-vue-loader',
             options: {
-              wrapper: 'div'
+              componentWrapper: 'div'
             }
           }
         ]

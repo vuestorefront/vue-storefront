@@ -120,7 +120,7 @@
     "val-loader": "^1.1.0",
     "vue-eslint-parser": "^2.0.2",
     "vue-loader": "^15.0.10",
-    "vue-markdown-loader": "^2.4.1",
+    "markdown-to-vue-loader": "^0.4.0",
     "vue-ssr-webpack-plugin": "^1.0.2",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^4.8.2",
