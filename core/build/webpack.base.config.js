@@ -31,7 +31,7 @@ module.exports = {
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin()
   ],
-  devtool: '#source-map',
+  devtool: 'source-map',
   entry: {
     app: './core/client-entry.js',
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']

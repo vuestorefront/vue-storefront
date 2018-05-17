@@ -2,7 +2,7 @@ const baseConfig = require('../../core/build/webpack.base.config')
 const webpack = require('webpack')
 const webpackConfig = Object.assign({}, baseConfig, {
   mode: 'development',
-  devtool: '#inline-source-map',
+  devtool: 'inline-source-map',
   resolve: {
     mainFields: ['main']
   },
