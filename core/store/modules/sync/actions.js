@@ -2,6 +2,7 @@ import * as types from '../../mutation-types'
 import { execute as taskExecute } from '../../lib/task'
 import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
+import UniversalStorage from '@vue-storefront/store/lib/storage'
 import store from '../../'
 
 export default {
@@ -22,10 +23,10 @@ export default {
     return task
   },
   clearNotTransmited ({ commit }) {
-    const syncTaskCollection = localForage.createInstance({
+    const syncTaskCollection = new UniversalStorage(localForage.createInstance({
       name: 'shop',
       storeName: 'syncTasks'
-    })
+    }))
     syncTaskCollection.iterate((task, id, iterationNumber) => {
       if (!task.transmited) {
         syncTaskCollection.removeItem(id)
@@ -34,14 +35,14 @@ export default {
   },
   execute ({ commit }, task) { // not offline task
     task = _prepareTask(task)
-    const usersCollection = localForage.createInstance({
+    const usersCollection = new UniversalStorage(localForage.createInstance({
       name: 'shop',
       storeName: 'user'
-    })
-    const cartsCollection = localForage.createInstance({
+    }))
+    const cartsCollection = new UniversalStorage(localForage.createInstance({
       name: 'shop',
       storeName: 'carts'
-    })
+    }))
     return new Promise((resolve, reject) => {
       if (global.$VS.isSSR) {
         taskExecute(task, null, null).then((result) => {
