@@ -1,5 +1,5 @@
 <template>
-  <button-full @click.native="addToCart(product)">
+  <button-full @click.native="addToCart(product)" :disabled="product.errors && Object.keys(product.errors).length > 0">
     {{ $t('Add to cart') }}
   </button-full>
 </template>

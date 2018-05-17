@@ -130,6 +130,9 @@ export default {
           }))
       }
     },
+    onAfterRemovedVariant (payload) {
+      this.$forceUpdate()
+    },
     onAfterFilterChanged (filterOption) {
       EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
@@ -168,6 +171,7 @@ export default {
     '$route': 'validateRoute'
   },
   beforeDestroy () {
+    this.$bus.$off('product-after-removevariant')
     this.$bus.$off('filter-changed-product')
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
@@ -178,6 +182,7 @@ export default {
     this.onStateCheck()
   },
   created () {
+    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)

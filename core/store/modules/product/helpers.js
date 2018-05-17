@@ -6,6 +6,91 @@ import _ from 'lodash'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 
+function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
+  if (config.products.filterUnavailableVariants && product.type_id === 'configurable') {
+    for (const stockItem of stockItems) {
+      if (stockItem.is_in_stock === false) {
+        product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
+        diffLog.push(stockItem.product_id)
+      } else {
+        const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
+        if (confChild) {
+          confChild.stock = stockItem
+        }
+      }
+    }
+    let totalOptions = 0
+    let removedOptions = 0
+    for (const optionKey in context.state.current_options) {
+      let optionsAvailable = context.state.current_options[optionKey] // TODO: it should take the attribute combinations into consideration
+      if (optionsAvailable && optionsAvailable.length > 0) {
+        optionsAvailable = optionsAvailable.filter((opt) => {
+          const config = {}
+          config[optionKey] = opt
+          const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
+          if (!variant) {
+            console.log('No variant for', opt)
+            EventBus.$emit('product-after-removevariant', { product: product })
+            removedOptions++
+            return false
+          } else {
+            totalOptions++
+            return true
+          }
+        })
+        console.debug('Options still available', optionsAvailable, removedOptions)
+        context.state.current_options[optionKey] = optionsAvailable
+      }
+    }
+    if (removedOptions > 0) {
+      configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
+    }
+    if (totalOptions === 0) {
+      product.errors.variants = i18n.t('No available product variants')
+      context.state.current.errors = product.errors
+      EventBus.$emit('product-after-removevariant', { product: product })
+    }
+  }
+}
+
+export function filterOutUnavailableVariants (context, product) {
+  return new Promise((resolve, reject) => {
+    if (config.products.filterUnavailableVariants) { // TODO: add cache + prefetching
+      const stockItems = []
+      let confChildSkus = product.configurable_children.map((c) => { return c.sku })
+      for (const confChild of product.configurable_children) {
+        const stockCached = context.rootState.stock.cache[confChild.id]
+        if (stockCached) {
+          stockItems.push(stockCached)
+          confChildSkus = _.remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
+        }
+      }
+      console.debug('Cached stock items and delta', stockItems, confChildSkus)
+      if (confChildSkus.length > 0) {
+        context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
+          if (task && task.resultCode === 200) {
+            const diffLog = []
+            _filterChildrenByStockitem(context, _.union(task.result, stockItems), product, diffLog)
+            console.debug('Filtered configurable_children with the network call', diffLog)
+            resolve()
+          } else {
+            console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)')
+          }
+        }).catch(err => {
+          console.error(err)
+        })
+      } else {
+        const diffLog = []
+        _filterChildrenByStockitem(context, stockItems, product, diffLog)
+        console.debug('Filtered configurable_children without the network call', diffLog)
+        resolve()
+      }
+    } else {
+      resolve()
+    }
+  })
+}
+
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price
   product.priceInclTax = backProduct.price_info.final_price
@@ -317,6 +402,10 @@ export function configureProductAsync (context, { product, configuration, select
     }
     return selectedVariant
   } else {
-    return product
+    if (fallbackToDefaultWhenNoAvailable) {
+      return product
+    } else {
+      return null
+    }
   }
 }
