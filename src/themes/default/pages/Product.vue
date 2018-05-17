@@ -54,6 +54,7 @@
               <div
                 class="h5"
                 v-for="(option, index) in product.configurable_options"
+                v-if="!product.errors || Object.keys(product.errors).length === 0"
                 :key="index"
               >
                 <div class="variants-label">
@@ -277,6 +278,11 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+  padding-bottom: 15px;
+}
 .data {
   @media (max-width: 767px) {
     border-bottom: 1px solid $bg-secondary;

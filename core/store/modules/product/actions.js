@@ -1,7 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
-import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
@@ -9,21 +9,6 @@ import { quickSearchByQuery } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
 import _ from 'lodash'
 import rootStore from '../../'
-import i18n from '../../lib/i18n'
-
-function _filterChildrenByStockitem (stockItems, product, diffLog) {
-  for (const stockItem of stockItems) {
-    if (stockItem.is_in_stock === false) {
-      product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
-      diffLog.push(stockItem.product_id)
-    } else {
-      const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
-      if (confChild) {
-        confChild.stock = stockItem
-      }
-    }
-  }
-}
 
 export default {
   /**
@@ -194,35 +179,6 @@ export default {
     let subloaders = []
     if (product.type_id === 'configurable') {
       const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
-      if (config.products.filterUnavailableVariants) { // TODO: add cache + prefetching
-        const stockItems = []
-        let confChildSkus = product.configurable_children.map((c) => { return c.sku })
-        for (const confChild of product.configurable_children) {
-          const stockCached = context.rootState.stock.cache[confChild.id]
-          if (stockCached) {
-            stockItems.push(stockCached)
-            confChildSkus = _.remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
-          }
-        }
-        console.debug('Cached stock items and delta', stockItems, confChildSkus)
-        if (confChildSkus.length > 0) {
-          subloaders.push(context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
-            if (task && task.resultCode === 200) {
-              const diffLog = []
-              _filterChildrenByStockitem(_.union(task.result, stockItems), product, diffLog)
-              console.debug('Filtered configurable_children with the network call', diffLog)
-            } else {
-              console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)')
-            }
-          }).catch(err => {
-            console.error(err)
-          }))
-        } else {
-          const diffLog = []
-          _filterChildrenByStockitem(stockItems, product, diffLog)
-          console.debug('Filtered configurable_children without the network call', diffLog)
-        }
-      }
       subloaders.push(context.dispatch('attribute/list', {
         filterValues: configurableAttrIds,
         filterField: 'attribute_id'
@@ -248,41 +204,10 @@ export default {
         console.error(err)
       }))
     }
-    return new Promise((resolve, reject) => {
-      Promise.all(subloaders).then((subresults) => {
-        if (config.products.filterUnavailableVariants && product.type_id === 'configurable') {
-          let totalOptions = 0
-          let removedOptions = 0
-          for (const optionKey in context.state.current_options) {
-            let optionsAvailable = context.state.current_options[optionKey] // TODO: it should take the attribute combinations into consideration
-            if (optionsAvailable && optionsAvailable.length > 0) {
-              optionsAvailable = optionsAvailable.filter((opt) => {
-                const config = {}
-                config[optionKey] = opt
-                const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
-                if (!variant) {
-                  console.log('No variant for', opt)
-                  removedOptions++
-                  return false
-                } else {
-                  totalOptions++
-                  return true
-                }
-              })
-              console.debug('Options still available', optionsAvailable, removedOptions)
-              context.state.current_options[optionKey] = optionsAvailable
-            }
-          }
-          if (totalOptions === 0) {
-            product.errors.variants = i18n.t('No available product variants')
-            context.state.current.errors = product.errors
-          }
-          resolve(subresults)
-        } else {
-          resolve(subresults)
-        }
-      })
-    })
+    return Promise.all(subloaders)
+  },
+  filterUnavailableVariants (context, { product }) {
+    return filterOutUnavailableVariants(context, product)
   },
   /**
    * Search ElasticSearch catalog of products using simple text query
@@ -520,6 +445,11 @@ export default {
     return context.dispatch('single', { options: productSingleOptions }).then((product) => {
       let subloaders = []
       if (product) {
+        if (global.$VS.isSSR) {
+          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+        } else {
+          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
+        }
         subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
 
         // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
