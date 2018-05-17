@@ -7,7 +7,7 @@ import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
-  if (config.products.filterUnavailableVariants && product.type_id === 'configurable') {
+  if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
     for (const stockItem of stockItems) {
       if (stockItem.is_in_stock === false) {
         product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
@@ -55,7 +55,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
 
 export function filterOutUnavailableVariants (context, product) {
   return new Promise((resolve, reject) => {
-    if (config.products.filterUnavailableVariants) { // TODO: add cache + prefetching
+    if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
       const stockItems = []
       let confChildSkus = product.configurable_children.map((c) => { return c.sku })
       for (const confChild of product.configurable_children) {
