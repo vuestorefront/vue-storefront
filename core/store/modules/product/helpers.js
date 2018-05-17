@@ -6,6 +6,91 @@ import _ from 'lodash'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 
+function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
+  if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
+    for (const stockItem of stockItems) {
+      if (stockItem.is_in_stock === false) {
+        product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
+        diffLog.push(stockItem.product_id)
+      } else {
+        const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
+        if (confChild) {
+          confChild.stock = stockItem
+        }
+      }
+    }
+    let totalOptions = 0
+    let removedOptions = 0
+    for (const optionKey in context.state.current_options) {
+      let optionsAvailable = context.state.current_options[optionKey] // TODO: it should take the attribute combinations into consideration
+      if (optionsAvailable && optionsAvailable.length > 0) {
+        optionsAvailable = optionsAvailable.filter((opt) => {
+          const config = {}
+          config[optionKey] = opt
+          const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
+          if (!variant) {
+            console.log('No variant for', opt)
+            EventBus.$emit('product-after-removevariant', { product: product })
+            removedOptions++
+            return false
+          } else {
+            totalOptions++
+            return true
+          }
+        })
+        console.debug('Options still available', optionsAvailable, removedOptions)
+        context.state.current_options[optionKey] = optionsAvailable
+      }
+    }
+    if (removedOptions > 0) {
+      configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
+    }
+    if (totalOptions === 0) {
+      product.errors.variants = i18n.t('No available product variants')
+      context.state.current.errors = product.errors
+      EventBus.$emit('product-after-removevariant', { product: product })
+    }
+  }
+}
+
+export function filterOutUnavailableVariants (context, product) {
+  return new Promise((resolve, reject) => {
+    if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
+      const stockItems = []
+      let confChildSkus = product.configurable_children.map((c) => { return c.sku })
+      for (const confChild of product.configurable_children) {
+        const stockCached = context.rootState.stock.cache[confChild.id]
+        if (stockCached) {
+          stockItems.push(stockCached)
+          confChildSkus = _.remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
+        }
+      }
+      console.debug('Cached stock items and delta', stockItems, confChildSkus)
+      if (confChildSkus.length > 0) {
+        context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
+          if (task && task.resultCode === 200) {
+            const diffLog = []
+            _filterChildrenByStockitem(context, _.union(task.result, stockItems), product, diffLog)
+            console.debug('Filtered configurable_children with the network call', diffLog)
+            resolve()
+          } else {
+            console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)')
+          }
+        }).catch(err => {
+          console.error(err)
+        })
+      } else {
+        const diffLog = []
+        _filterChildrenByStockitem(context, stockItems, product, diffLog)
+        console.debug('Filtered configurable_children without the network call', diffLog)
+        resolve()
+      }
+    } else {
+      resolve()
+    }
+  })
+}
+
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price
   product.priceInclTax = backProduct.price_info.final_price
@@ -122,7 +207,7 @@ export function doPlatformPricesSync (products) {
 export function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
     if (config.tax.calculateServerSide) {
-      console.log('Taxes calculated server side, skipping')
+      console.debug('Taxes calculated server side, skipping')
       doPlatformPricesSync(products).then((products) => {
         resolve(products)
       })
@@ -159,7 +244,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
     const configurable_item_options = product_option.extension_attributes.configurable_item_options
     for (const configKey of Object.keys(configuration)) {
       const configOption = configuration[configKey]
-      if (configOption.attribute_code) {
+      if (configOption.attribute_code && configOption.attribute_code !== 'price') {
         const option = product.configurable_options.find(co => {
           return (co.attribute_code === configOption.attribute_code)
         })
@@ -185,7 +270,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         existingOption.value = configOption.label
       }
     }
-    console.log('Server product options object', product_option)
+    // console.debug('Server product options object', product_option)
     return product_option
   } else {
     return null
@@ -260,7 +345,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true }) {
+export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
@@ -286,35 +371,41 @@ export function configureProductAsync (context, { product, configuration, select
           return _.toString(configurableChild[configProperty]) === _.toString(configuration[configProperty].id)
         })
       }
-    }) || product.configurable_children[0]
+    }) || (fallbackToDefaultWhenNoAvailable ? product.configurable_children[0] : null)
 
     if (typeof navigator !== 'undefined') {
       if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
         selectedVariant.image = context.state.offlineImage
-        console.log('Image offline fallback to ', context.state.offlineImage)
+        console.debug('Image offline fallback to ', context.state.offlineImage)
       }
     }
 
-    product.is_configured = true
+    if (selectedVariant !== null) {
+      product.is_configured = true
 
-    if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
-      // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
-      const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
-      if (productOption) {
-        selectedVariant.product_option = productOption
-        selectedVariant.options = _internalMapOptions(productOption)
-      }
-    } else {
-      console.log('Skipping configurable options setup', configuration)
-    }
-    // use chosen variant
-    if (selectDefaultVariant) {
+      if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
+        // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
+        const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
+        if (productOption) {
+          selectedVariant.product_option = productOption
+          selectedVariant.options = _internalMapOptions(productOption)
+        }
+      }/* else {
+        console.debug('Skipping configurable options setup', configuration)
+      } */
       selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
-      context.dispatch('setCurrent', selectedVariant)
+      // use chosen variant
+      if (selectDefaultVariant) {
+        context.dispatch('setCurrent', selectedVariant)
+      }
+      EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     }
-    EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     return selectedVariant
   } else {
-    return product
+    if (fallbackToDefaultWhenNoAvailable) {
+      return product
+    } else {
+      return null
+    }
   }
 }

@@ -10025,6 +10025,10 @@ vue-no-ssr@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-0.2.2.tgz#e1a0ef0ba39fc54972edd71a2ae11a7988312b19"
 
+vue-observe-visibility@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.3.1.tgz#e7cad37893da42858c086196da9acdb0fd85340b"
+
 vue-offline@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-1.0.7.tgz#a2ce87c92364458e9a90d45c6c400e9486515352"

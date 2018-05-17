@@ -2,32 +2,43 @@
   <div id="product">
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
-        <breadcrumbs class="py30" :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
-        <section class="row m0 data-wrapper">
-          <div class="col-xs-12 col-md-6 px15 center-xs middle-xs image">
-            <product-gallery :gallery="gallery" :offline="offlineImage" :configuration="configuration"/>
+        <section class="row m0 between-xs">
+          <div class="col-xs-12 col-md-6 center-xs middle-xs image">
+            <product-gallery
+              :gallery="gallery"
+              :offline="offlineImage"
+              :configuration="configuration"
+            />
           </div>
-          <div class="col-md-6 col-xs-12 px20 data">
-            <div class="uppercase cl-secondary">
-              sku: {{ product.sku }}
-            </div>
-            <h1 class="mb20 mt0 cl-accent product-name">
+          <div class="col-xs-12 col-md-5 data">
+            <breadcrumbs
+              class="pt40 pb20 hidden-xs"
+              :routes="breadcrumbs.routes"
+              :active-route="breadcrumbs.name"
+            />
+            <h1 class="mb20 mt0 cl-mine-shaft product-name">
               {{ product.name | htmlDecode }}
             </h1>
-            <div class="mb30 price" v-if="product.type_id !== 'grouped'">
+            <div class="mb20 uppercase cl-secondary">
+              sku: {{ product.sku }}
+            </div>
+            <div
+              class="mb40 price serif"
+              v-if="product.type_id !== 'grouped'"
+            >
               <div
                 class="h3 cl-secondary"
                 v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
               >
-                <span class="cl-error">
+                <span class="h2 cl-mine-shaft weight-700">
                   {{ product.priceInclTax | price }}
                 </span>&nbsp;
-                <span class="price-original h4">
+                <span class="price-original h3">
                   {{ product.originalPriceInclTax | price }}
                 </span>
               </div>
               <div
-                class="h3 cl-bg-tertiary"
+                class="h2 cl-mine-shaft weight-700"
                 v-if="!product.special_price && product.priceInclTax"
               >
                 {{ product.priceInclTax | price }}
@@ -37,9 +48,13 @@
               class="cl-primary variants"
               v-if="product.type_id =='configurable' && !loading"
             >
+              <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
+                {{ product.errors | formatProductMessages }}
+              </div>
               <div
-                class="h4"
+                class="h5"
                 v-for="(option, index) in product.configurable_options"
+                v-if="!product.errors || Object.keys(product.errors).length === 0"
                 :key="index"
               >
                 <div class="variants-label">
@@ -90,8 +105,8 @@
                     to="/size-guide"
                     v-if="option.label == 'Size'"
                     class="
-                      p0 ml30 inline-flex middle-xs weight-700 uppercase
-                      no-underline action size-guide pointer cl-tertiary
+                      p0 ml30 inline-flex middle-xs no-underline h5
+                      action size-guide pointer cl-secondary
                     "
                   >
                     <i class="pr5 material-icons">accessibility</i>
@@ -120,13 +135,13 @@
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
-            <div class="row pt45 add-to-buttons">
-              <div class="col-xs-12 col-sm-5">
+            <div class="row py40 add-to-buttons">
+              <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
                   @click="addToFavorite"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action weight-700 h5 uppercase pointer cl-tertiary
+                    action h5 pointer cl-secondary
                   "
                   type="button"
                 >
@@ -139,12 +154,12 @@
                   </template>
                 </button>
               </div>
-              <div class="hidden-xs col-md-7">
+              <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
                   @click="addToCompare"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action weight-700 h5 uppercase pointer cl-tertiary
+                    action h5 pointer cl-secondary
                   "
                   type="button"
                 >
@@ -217,9 +232,6 @@ import focusClean from 'theme/components/theme/directives/focusClean'
 import ProductGallery from '../components/core/ProductGallery'
 
 export default {
-  asyncData ({ store, route }) {
-    // this is for SSR purposes to prefetch data
-  },
   data () {
     return {
       detailsOpen: false
@@ -266,12 +278,11 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
-.data-wrapper {
-  @media (max-width: 767px) {
-    padding: 0;
-  }
+.error {
+  color: red;
+  font-weight: bold;
+  padding-bottom: 15px;
 }
-
 .data {
   @media (max-width: 767px) {
     border-bottom: 1px solid $bg-secondary;
@@ -281,13 +292,11 @@ $bg-secondary: color(secondary, $colors-background);
 .image {
   @media (max-width: 1023px) {
     margin-bottom: 20px;
-    padding: 20px 0 30px 0;
   }
 }
 
 .product-name {
   @media (max-width: 767px) {
-    margin-top: 10px;
     font-size: 36px;
   }
 }
@@ -311,14 +320,14 @@ $bg-secondary: color(secondary, $colors-background);
 
  .sizes {
     @media (max-width: 767px) {
-      width: 60%;
+      width: 100%;
     }
   }
 
   .size-guide {
     height: 40px;
     @media (max-width: 767px) {
-      width: 40%;
+      width: 100%;
       margin-left: 0;
     }
   }
@@ -389,7 +398,7 @@ $bg-secondary: color(secondary, $colors-background);
 
 .action {
   &:hover {
-    color: $color-secondary;
+    color: $color-tertiary;
   }
 }
 

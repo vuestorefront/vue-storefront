@@ -91,11 +91,15 @@ export default {
       let priceDelta = 0
       let priceDeltaInclTax = 0
       for (const optionValue of Object.values(payload.optionValues)) {
-        priceDelta += optionValue.value.product.price * parseInt(optionValue.value.qty)
-        priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.value.qty)
+        if (typeof optionValue.value.product !== 'undefined' && parseInt(optionValue.qty) >= 0) {
+          priceDelta += optionValue.value.product.price * parseInt(optionValue.qty)
+          priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
+        }
       }
-      this.product.price = priceDelta
-      this.product.priceInclTax = priceDeltaInclTax
+      if (priceDelta > 0) {
+        this.product.price = priceDelta
+        this.product.priceInclTax = priceDeltaInclTax
+      }
     },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
@@ -126,15 +130,25 @@ export default {
           }))
       }
     },
+    onAfterRemovedVariant (payload) {
+      this.$forceUpdate()
+    },
     onAfterFilterChanged (filterOption) {
       EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+      const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption
       this.$store.dispatch('product/configure', {
         product: this.product,
         configuration: this.configuration,
-        selectDefaultVariant: true
+        selectDefaultVariant: true,
+        fallbackToDefaultWhenNoAvailable: false
       }).then((selectedVariant) => {
         if (!selectedVariant) {
+          if (typeof prevOption !== 'undefined' && prevOption) {
+            this.configuration[filterOption.attribute_code] = prevOption
+          } else {
+            delete this.configuration[filterOption.attribute_code]
+          }
           this.$bus.$emit('notification', {
             type: 'warning',
             message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
@@ -156,16 +170,18 @@ export default {
     '$route': 'validateRoute'
   },
   beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.onAfterFilterChanged)
+    this.$bus.$off('product-after-removevariant')
+    this.$bus.$off('filter-changed-product')
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
-    this.$bus.$off('product-after-customoptions', this.onAfterCustomOptionsChanged)
-    this.$bus.$off('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
+    this.$bus.$off('product-after-customoptions')
+    this.$bus.$off('product-after-bundleoptions')
     this.$bus.$off('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   beforeMount () {
     this.onStateCheck()
   },
   created () {
+    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
@@ -231,7 +247,7 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return _.uniqBy(images, 'src')
+      return _.uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
     },
     customAttributes () {
       let inst = this
