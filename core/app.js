@@ -13,6 +13,7 @@ import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
 import registerExtensions from 'core/lib/extensions'
 import extensionEntryPoints from 'src/extensions'
 import themeExtensionEntryPoints from 'theme/extensions'
+import VueObserveVisibility from 'vue-observe-visibility'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
@@ -36,6 +37,7 @@ Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
 Vue.use(VueOffline)
+Vue.use(VueObserveVisibility)
 
 const pluginsObject = plugins()
 Object.keys(pluginsObject).forEach(function (key) {

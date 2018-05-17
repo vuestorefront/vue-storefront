@@ -48,6 +48,8 @@ export default {
     state.offlineImage = null
     state.parent = null
     state.current_options = {color: [], size: []}
+    state.current_bundle_options = {}
+    state.current_custom_options = {}
     EventBus.$emit('product-after-reset', { })
   }
 }

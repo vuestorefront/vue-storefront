@@ -4,8 +4,6 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
-import _ from 'lodash'
-
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -186,6 +184,7 @@ export default {
     }
 
     for (let product of productsToAdd) {
+      if (typeof product === 'undefined' || product === null) continue
       if (product.priceInclTax <= 0) {
         EventBus.$emit('notification', {
           type: 'error',
@@ -194,14 +193,21 @@ export default {
         })
         continue
       }
-      const firstError = product.errors && Object.values(product.errors).find((errorMsg) => { return errorMsg !== null })
-      if (typeof firstError !== 'undefined') {
-        EventBus.$emit('notification', {
-          type: 'error',
-          message: _.compact(Object.values(product.errors)).join(', '),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-        continue
+      if (product.errors !== null && typeof product.errors !== 'undefined') {
+        let productCanBeAdded = true
+        for (let errKey in product.errors) {
+          if (product.errors[errKey]) {
+            productCanBeAdded = false
+            EventBus.$emit('notification', {
+              type: 'error',
+              message: product.errors[errKey],
+              action1: { label: i18n.t('OK'), action: 'close' }
+            })
+          }
+        }
+        if (!productCanBeAdded) {
+          continue
+        }
       }
       const record = state.cartItems.find(p => p.sku === product.sku)
       dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
@@ -230,13 +236,23 @@ export default {
             dispatch('serverPull', { forceClientState: true })
           }
 
-          EventBus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' },
-            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-          })
+          if (productToAdd.type_id !== 'grouped') {
+            EventBus.$emit('notification', {
+              type: 'success',
+              message: i18n.t('Product has been added to the cart!'),
+              action1: { label: i18n.t('OK'), action: 'close' },
+              action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+            })
+          }
         }
+      })
+    }
+    if (productToAdd.type_id === 'grouped') { // sum-up message for grouped products
+      EventBus.$emit('notification', {
+        type: 'success',
+        message: i18n.t('Product has been added to the cart!'),
+        action1: { label: i18n.t('OK'), action: 'close' },
+        action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
       })
     }
   },

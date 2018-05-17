@@ -1,6 +1,31 @@
 import { createApp } from './app'
+import _ from 'lodash'
 import { HttpError } from 'core/lib/exceptions'
 global.$VS.isSSR = true
+
+function _commonErrorHandler (err, reject) {
+  if (err.message.indexOf('query returned empty result') > 0) {
+    reject(new HttpError(err.message, 404))
+  } else {
+    reject(new Error(err.message))
+  }
+}
+
+function _ssrHydrateSubcomponents (components, store, router, resolve, reject, app, context) {
+  Promise.all(components.map(SubComponent => {
+    if (SubComponent.asyncData) {
+      return SubComponent.asyncData({
+        store,
+        route: router.currentRoute
+      })
+    }
+  })).then(() => {
+    context.state = store.state
+    resolve(app)
+  }).catch(err => {
+    _commonErrorHandler(err, reject)
+  })
+}
 
 export default context => {
   return new Promise((resolve, reject) => {
@@ -15,24 +40,21 @@ export default context => {
       }
       Promise.all(matchedComponents.map(Component => {
         const components = Component.mixins ? Array.from(Component.mixins) : []
-        components.push(Component)
-        Promise.all(components.map(SubComponent => {
-          if (SubComponent.asyncData) {
-            return SubComponent.asyncData({
-              store,
-              route: router.currentRoute
-            })
-          }
-        })).then(() => {
-          context.state = store.state
-          resolve(app)
-        }).catch(err => {
-          if (err.message.indexOf('query returned empty result') > 0) {
-            reject(new HttpError(err.message, 404))
-          } else {
-            reject(new Error(err.message))
+        _.union(components, [Component]).map(SubComponent => {
+          if (SubComponent.preAsyncData) {
+            SubComponent.preAsyncData({ store, route: router.currentRoute })
           }
         })
+        if (Component.asyncData) {
+          Component.asyncData({ store, route: router.currentRoute }).then((result) => { // always execute the asyncData() from the top most component first
+            console.log('Top-most asyncData executed')
+            _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
+          }).catch((err) => {
+            _commonErrorHandler(err, reject)
+          })
+        } else {
+          _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
+        }
       }))
     }, reject)
   })

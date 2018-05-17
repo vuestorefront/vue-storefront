@@ -27,5 +27,8 @@ EventBus.$on('stock-after-check', (event) => { // example stock check callback
 
 export default {
   namespaced: true,
-  actions
+  actions,
+  state: {
+    cache: {}
+  }
 }

@@ -26,10 +26,10 @@
               <span class="opv" v-html="opt.value" />
             </div>
           </div>
-          <div class="h6 pt5 cl-error" v-if="Object.keys(product.errors).length > 0">
+          <div class="h6 pt5 cl-error" v-if="product.errors && Object.keys(product.errors).length > 0">
             {{ product.errors | formatProductMessages }}
           </div>
-          <div class="h6 pt5 cl-success" v-if="Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
+          <div class="h6 pt5 cl-success" v-if="product.info && Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
             {{ product.info | formatProductMessages }}
           </div>
         </div>
