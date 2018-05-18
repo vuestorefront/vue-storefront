@@ -22,19 +22,20 @@
                 class="mw-100 block"
                 v-if="instant"
                 :src="thumbnail"
-                :key="thumbnail"
-                v-img-placeholder="placeholder"
                 :alt="product.name"
                 height="300"
+                width="310"
               >
               <img
                 class="mw-100 block"
                 v-if="!instant"
                 :src="placeholder"
                 v-lazy="thumbnail"
-                :key="thumbnail"
                 :alt="product.name"
                 height="300"
+                width="310"
+                data-loading="/assets/loading.jpg"
+                data-error="/assets/error.jpg"
               >
             </transition>
           </div>
@@ -177,12 +178,17 @@ $color-white: color(white);
 
   img {
     max-height: 100%;
-    height: auto;
+    max-width: 100%;
     margin: auto;
     mix-blend-mode: multiply;
     opacity: 0.8;
     transform: scale(1);
     transition: 0.3s all $motion-main;
+
+    &[lazy=loaded] {
+      width: auto;
+      height: auto;
+    }
   }
 
   &.sale {
