@@ -11,6 +11,7 @@
           error: notification.type == 'error',
           warning: notification.type == 'warning'
         }"
+        @click="action(notification.action1.action, index)"
       >
         <div class="message p20">
           {{ notification.message }}
@@ -18,16 +19,16 @@
         <div class="actions">
           <div
             class="py10 px20 pointer weight-400 uppercase"
-            @click="action(notification.action1.action, index)"
-          >
-            {{ notification.action1.label }}
-          </div>
-          <div
-            class="py10 px20 pointer weight-400 uppercase"
-            @click="action(notification.action2.action, index)"
+            @click.stop="action(notification.action2.action, index)"
             v-if="notification.action2"
           >
             {{ notification.action2.label }}
+          </div>
+          <div
+            class="py10 px20 pointer weight-400 uppercase"
+            @click.stop="action(notification.action1.action, index)"
+          >
+            {{ notification.action1.label }}
           </div>
         </div>
       </div>
@@ -84,6 +85,7 @@ $color-action: color(black);
 .actions {
   background: rgba($color-action, .2);
   display: flex;
+  justify-content: flex-end;
 }
 .success {
   background: $color-success;
