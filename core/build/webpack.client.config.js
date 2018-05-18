@@ -29,8 +29,6 @@ const config = merge(base, {
 
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
-    // minify JS
-    new webpack.optimize.UglifyJSPlugin(),
     // auto generate service worker
     new SWPrecachePlugin({
       cacheId: 'vue-sfr',
