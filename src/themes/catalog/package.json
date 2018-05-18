@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/theme-catalog",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.3",
   "description": "Catalog theme for Vue Storefront",
   "main": "index.js",
   "scripts": {

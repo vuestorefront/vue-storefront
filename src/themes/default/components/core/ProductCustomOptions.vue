@@ -5,7 +5,7 @@
         <h4>{{ option.title }}</h4>
         <input
           class="
-            py10 w-100 border-box brdr-none brdr-bottom
+            py10 w-100 border-box brdr-none brdr-bottom-1
             brdr-cl-primary h4 sans-serif
           "
           v-if="option.type === 'field'"
