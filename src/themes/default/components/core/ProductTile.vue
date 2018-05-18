@@ -17,24 +17,24 @@
         >
           <div>
             <transition name="fade" appear>
-              <img
-                class="mw-100 block"
+              <div
+                class="mw-100 block bg-img"
                 v-if="instant"
+                :style="{ backgroundImage: 'url(' + thumbnail + ')' }"
                 :src="thumbnail"
-                :key="thumbnail"
                 v-img-placeholder="placeholder"
                 :alt="product.name"
                 height="300"
-              >
-              <img
-                class="mw-100 block"
+              />
+              <div
+                class="mw-100 block bg-img"
                 v-if="!instant"
-                :src="placeholder"
-                v-lazy="thumbnail"
+                :style="{ backgroundImage: 'url(' + placeholder + ')' }"
+                v-lazy:background-image="thumbnail"
                 :key="thumbnail"
                 :alt="product.name"
                 height="300"
-              >
+              />
             </transition>
           </div>
         </div>
@@ -136,7 +136,7 @@ $color-white: color(white);
   width: 40px;
   height: 40px;
   background-color: $border-secondary;
-  transition: 0.3s all $motion-main;
+  transition: 0.3s opacity $motion-main;
   text-transform: uppercase;
   color: $color-white;
   font-size: 12px;
@@ -146,7 +146,7 @@ $color-white: color(white);
   width: 100%;
   mix-blend-mode: multiply;
   overflow: hidden;
-  transition: 0.3s all $motion-main;
+  transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
   max-height: 300px;
 
   > div {
@@ -156,7 +156,7 @@ $color-white: color(white);
   &:hover {
     background-color: rgba($bg-secondary, .3);
 
-    img {
+    .bg-img {
       transform: scale(1.1);
       opacity: 1;
     }
@@ -167,18 +167,20 @@ $color-white: color(white);
     }
   }
 
-  img {
+  .bg-img {
     max-height: 100%;
     height: auto;
+    margin: auto;
     opacity: 0.8;
-    transition: 0.3s all $motion-main;
+    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
     mix-blend-mode: multiply;
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    margin: auto;
+    background-position: center center;
+    background-size: auto 300px;
   }
 
   &.sale {
