@@ -1,6 +1,6 @@
 if (!global.$VS) global.$VS = {}
 
-import _ from 'lodash'
+import union from 'lodash-es/union'
 import Vue from 'vue'
 import App from 'theme/App'
 import store from '@vue-storefront/store'
@@ -66,7 +66,7 @@ export function createApp () {
   })
 
   registerExtensions(
-    _.union(extensionEntryPoints, themeExtensionEntryPoints),
+    union(extensionEntryPoints, themeExtensionEntryPoints),
     app,
     router,
     store,
