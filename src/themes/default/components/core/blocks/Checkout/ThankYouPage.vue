@@ -32,9 +32,21 @@
             <h4>
               {{ $t('What we can improve?') }}
             </h4>
-            <p>
+            <p class="mb25">
               {{ $t('Your feedback is important fo us. Let us know what we could improve.') }}
             </p>
+            <form>
+              <base-textarea
+                class="mb25"
+                type="text"
+                name="improvment-opinion"
+                :placeholder="$t('Type your opinion')"
+                :autofocus="true"
+              />
+              <button-outline color="dark">
+                {{ $t('Give a feedback') }}
+              </button-outline>
+            </form>
           </div>
         </div>
       </div>
@@ -45,12 +57,16 @@
 <script>
 import Composite from 'core/mixins/composite'
 import Breadcrumbs from '../../Breadcrumbs.vue'
+import BaseTextarea from '../Form/BaseTextarea.vue'
+import ButtonOutline from 'theme/components/theme/ButtonOutline.vue'
 
 export default {
   name: 'ThankYouPage',
   mixins: [Composite],
   components: {
-    Breadcrumbs
+    Breadcrumbs,
+    BaseTextarea,
+    ButtonOutline
   }
 }
 </script>
@@ -70,6 +86,14 @@ export default {
     }
   }
   .thank-you-improvment {
-    padding: 20px 40px;
+    padding: 20px 10px;
+
+    @media (min-width: 64em) {
+      padding: 20px 40px;
+    }
+
+    textarea {
+      min-height: 100px;
+    }
   }
 </style>
