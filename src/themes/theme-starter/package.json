@@ -1,11 +1,14 @@
 {
   "name": "@vue-storefront/theme-starter",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.3",
   "description": "Scaffolding for building Vue Storefront themes",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "pkarw <pkarwatka@divante.pl> and contributors",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }

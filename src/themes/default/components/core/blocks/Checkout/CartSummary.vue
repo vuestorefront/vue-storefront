@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="brdr-bottom brdr-cl-primary pb60">
+    <div class="brdr-bottom-1 brdr-cl-primary pb60">
       <h3 class="cl-accent ml30 mt50 summary-title">
         {{ $t('Order Summary') }}
       </h3>
