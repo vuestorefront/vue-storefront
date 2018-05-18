@@ -44,10 +44,10 @@ export default {
       }
     },
     addToList (list) {
-      this.$store.dispatch(`${list}/addItem`, this.product)
+      return this.$store.state[list] ? this.$store.dispatch(`${list}/addItem`, this.product) : false
     },
     removeFromList (list) {
-      this.$store.dispatch(`${list}/removeItem`, this.product)
+      return this.$store.state[list] ? this.$store.dispatch(`${list}/removeItem`, this.product) : false
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
