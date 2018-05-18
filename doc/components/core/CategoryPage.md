@@ -17,6 +17,7 @@ No props
 - `categoryId` - category ID.
 - `breadcrumbs` - breadcrumbs for the current category from the Vuex store.
 - `productsCounter` - how many products are in the category.
+- 'lazyLoadProductsOnscroll' - allows lazy loading more products ons croll, by default it's true
 
 ### Methods
 - `fetchData ({ store, route })` - prepares query for fetching a list of products of the current category and dispatches *'product/list'* action that extracts that list.
