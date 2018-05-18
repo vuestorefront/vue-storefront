@@ -154,9 +154,7 @@ export default {
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
-      category: 'category/current',
-      wishlistCheck: 'wishlist/check',
-      compareCheck: 'compare/check'
+      category: 'category/current'
     }),
     productName () {
       return this.product ? this.product.name : ''
