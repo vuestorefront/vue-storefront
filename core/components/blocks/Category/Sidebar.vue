@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import ColorSelector from '../../ColorSelector.vue'
-import SizeSelector from '../../SizeSelector.vue'
-import PriceSelector from '../../PriceSelector.vue'
+import ColorSelector from '../../colorSelector'
+import SizeSelector from '../../sizeSelector'
+import PriceSelector from '../../priceSelector'
 
 export default {
   name: 'CategorySidebar',

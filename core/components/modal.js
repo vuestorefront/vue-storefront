@@ -1,17 +1,7 @@
-<template>
-  <div class="modal"
-       v-if="isVisible"
-       ref="modal"
-       @click.self="close">
-    <slot name="close"><button @click="close"> X </button></slot>
-    <slot/>
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import { mapMutations } from 'vuex'
-export default {
-  name: 'Modal',
+
+export default Vue.component('Modal', {
   data () {
     return {
       isVisible: false
@@ -51,5 +41,4 @@ export default {
       this.toggle(false)
     }
   }
-}
-</script>
+})

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Breadcrumbs from 'core/components/Breadcrumbs'
+import Breadcrumbs from 'core/components/breadcrumbs'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'

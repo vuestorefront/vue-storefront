@@ -1,35 +1,30 @@
-<template>
-  <button
-    @click="switchFilter(id, label)"
-    :aria-label="$t('Select ' + label)"
-  >
-    {{ label }}
-  </button>
-</template>
+import Vue from 'vue'
 
-<script>
-export default {
-  name: 'GenericSelector',
+export default Vue.component('PriceSelector', {
   props: {
-    label: {
+    content: {
       type: null,
-      required: false,
-      default: () => false
+      default: ''
     },
     id: {
       type: null,
-      required: false,
-      default: () => false
+      required: true
     },
     code: {
       type: null,
-      required: false,
-      default: () => false
+      required: true
+    },
+    from: {
+      type: null,
+      required: true
+    },
+    to: {
+      type: null,
+      required: true
     },
     context: {
       type: null,
-      required: false,
-      default: () => false
+      default: ''
     }
   },
   data () {
@@ -37,7 +32,7 @@ export default {
       active: false
     }
   },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('filter-reset', this.filterReset)
     this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
@@ -63,9 +58,8 @@ export default {
     filterReset (filterOption) {
       this.active = false
     },
-    switchFilter (id, label) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
+    switchFilter (id, from, to) {
+      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
     }
   }
-}
-</script>
+})

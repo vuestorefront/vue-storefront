@@ -1,11 +1,6 @@
-<template>
-  <div>
-    Core Products Slider
-  </div>
-</template>
+import Vue from 'vue'
 
-<script>
-export default {
+export default Vue.component('ProductsSlider', {
   name: 'ProductsSlider',
   props: {
     title: {
@@ -21,5 +16,4 @@ export default {
       required: true
     }
   }
-}
-</script>
+})

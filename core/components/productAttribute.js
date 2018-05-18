@@ -1,10 +1,6 @@
-<script>
-/* Fields available in template
-  {{ label }} - attribute label
-  {{ value }} = attribute value
-*/
-export default {
-  name: 'ProductAttribute',
+import Vue from 'vue'
+
+export default Vue.component('ProductAttribute', {
   props: {
     product: {
       type: Object,
@@ -50,5 +46,4 @@ export default {
       this.value = results.join(', ')
     }
   }
-}
-</script>
+})

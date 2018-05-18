@@ -1,14 +1,7 @@
-<template>
-  <div class="search-ico">
-    Core Search Icon
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default {
-  name: 'SearchIcon',
+export default Vue.component('SearchIcon', {
   computed: {
     ...mapState({
       isOpen: state => state.ui.searchpanel
@@ -20,5 +13,4 @@ export default {
       this.$store.commit('ui/setSearchpanel', !this.isOpen)
     }
   }
-}
-</script>
+})

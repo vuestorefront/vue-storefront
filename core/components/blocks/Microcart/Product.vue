@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AddToCart from 'core/components/AddToCart.vue'
+import AddToCart from 'core/components/addToCart'
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
 export default {

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import productTile from 'core/components/productTile'
 import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
 import config from 'config'
 import rootStore from '@vue-storefront/store'
@@ -78,7 +78,7 @@ export default {
       default: true
     }
   },
-  mixins: [coreComponent('ProductTile')],
+  mixins: [productTile],
   directives: { imgPlaceholder },
   methods: {
     visibilityChanged (isVisible, entry) {

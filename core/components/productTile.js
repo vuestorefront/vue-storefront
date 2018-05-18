@@ -1,22 +1,7 @@
-<template>
-  <div class="product-tile">
-    Core Product Tile
-    <!--
-      Product name and price with price filter
-      props;
-      "product" - product object width 'name', 'priceInclTax', 'image' properties
-      data to display:
-      {{ product.name }}
-      {{ product.priceInclTax | price }}
-      {{ product.image }}
-    -->
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
-export default {
-  name: 'ProductTile',
+
+export default Vue.component('ProductTile', {
   props: {
     product: {
       type: Object,
@@ -30,5 +15,4 @@ export default {
       return this.getThumbnail(thumbnail, 310, 300)
     }
   }
-}
-</script>
+})

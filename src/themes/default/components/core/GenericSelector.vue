@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import coreComponent from 'core/lib/themes'
+import genericSelector from 'core/components/genericSelector'
 export default {
-  mixins: coreComponent('GenericSelector')
+  mixins: [genericSelector]
 }
 </script>
 

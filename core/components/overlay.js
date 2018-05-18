@@ -1,12 +1,6 @@
-<template>
-  <div>
-    Core Overlay
-  </div>
-</template>
+import Vue from 'vue'
 
-<script>
-export default {
-  name: 'Overlay',
+export default Vue.component('Overlay', {
   computed: {
     isVisible () {
       return this.$store.state.ui.overlay
@@ -17,5 +11,4 @@ export default {
       this.$store.commit('ui/setOverlay', false)
     }
   }
-}
-</script>
+})

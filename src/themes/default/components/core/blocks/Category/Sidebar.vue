@@ -83,7 +83,7 @@ import { coreComponent } from 'core/lib/themes'
 import ColorSelector from '../../ColorSelector.vue'
 import SizeSelector from '../../SizeSelector.vue'
 import PriceSelector from '../../PriceSelector.vue'
-import GenericSelector from 'core/components/GenericSelector.vue'
+import GenericSelector from 'core/components/genericSelector'
 
 export default {
   components: {

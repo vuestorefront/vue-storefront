@@ -1,36 +1,26 @@
-<template>
-  <button>
-    Core price button
-  </button>
-</template>
+import Vue from 'vue'
 
-<script>
-export default {
-  name: 'PriceSelector',
+export default Vue.component('GenericSelector', {
   props: {
-    content: {
+    label: {
       type: null,
-      default: ''
+      required: false,
+      default: () => false
     },
     id: {
       type: null,
-      required: true
+      required: false,
+      default: () => false
     },
     code: {
       type: null,
-      required: true
-    },
-    from: {
-      type: null,
-      required: true
-    },
-    to: {
-      type: null,
-      required: true
+      required: false,
+      default: () => false
     },
     context: {
       type: null,
-      default: ''
+      required: false,
+      default: () => false
     }
   },
   data () {
@@ -38,7 +28,7 @@ export default {
       active: false
     }
   },
-  beforeDestroy () {
+  destroyed () {
     this.$bus.$off('filter-reset', this.filterReset)
     this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
@@ -64,9 +54,8 @@ export default {
     filterReset (filterOption) {
       this.active = false
     },
-    switchFilter (id, from, to) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
+    switchFilter (id, label) {
+      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
     }
   }
-}
-</script>
+})

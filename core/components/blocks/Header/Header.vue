@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import Logo from '../../Logo.vue'
+import Logo from '../../logo'
 
 import AccountIcon from './AccountIcon.vue'
-import SearchIcon from './SearchIcon.vue'
+import SearchIcon from './searchIcon'
 import MicrocartIcon from './MicrocartIcon.vue'
 import HamburgerIcon from './HamburgerIcon.vue'
 import ReturnIcon from './ReturnIcon.vue'

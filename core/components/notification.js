@@ -1,14 +1,6 @@
-<template>
-  <div class="notification">
-    <!--
-        Notifications component storing notifications that can be triggered by sending event 'notification' to Event Bus
-    -->
-  </div>
-</template>
+import Vue from 'vue'
 
-<script>
-export default {
-  name: 'Notification',
+export default Vue.component('Notification', {
   data () {
     return {
       notifications: []
@@ -39,5 +31,4 @@ export default {
       }
     }
   }
-}
-</script>
+})

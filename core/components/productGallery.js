@@ -1,17 +1,9 @@
-<template>
-  <div class="media-gallery">
-    <!-- SSR support needed here -->
-    Core Media Gallery
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
 import config from 'config'
 
-export default {
-  name: 'ProductGallery',
+export default Vue.component('ProductGallery', {
   props: {
     gallery: {
       type: Array,
@@ -67,5 +59,4 @@ export default {
       this.$forceUpdate()
     }, 0)
   }
-}
-</script>
+})
