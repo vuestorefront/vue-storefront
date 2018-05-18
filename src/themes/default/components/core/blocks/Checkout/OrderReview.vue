@@ -65,6 +65,7 @@
           <div class="col-xs-12 col-md-8 px20">
             <button-full
               @click.native="placeOrder"
+              data-testid="orderReviewSubmit"
               :class="{ 'button-disabled' : $v.orderReview.$invalid }"
             >
               {{ $t('Place the order') }}

@@ -36,7 +36,10 @@
     "build:server": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.prod.server.config.js --progress --hide-modules",
     "build": "rimraf dist && yarn build:client && yarn build:server",
     "unit": "karma start ./test/unit/karma.conf.js --single-run",
-    "lint": "eslint --ext .js,.vue core src"
+    "tests:e2e": "cypress open",
+    "tests:e2e:ci": "cypress run",
+    "lint": "eslint --ext .js,.vue core src",
+    "lerna": "lerna"
   },
   "dependencies": {
     "ajv": "^5.2.2",
@@ -100,6 +103,7 @@
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "cypress": "^2.1.0",
     "eslint": "^4.16.0",
     "eslint-config-standard": "^6.0.0-beta.2",
     "eslint-friendly-formatter": "^2.0.6",
