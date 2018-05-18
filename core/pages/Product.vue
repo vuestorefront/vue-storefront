@@ -43,19 +43,11 @@ export default {
         console.error('Error with loading = true in Product.vue; Reload page')
       }
     },
-    addToFavorite () {
-      if (!this.isOnWishlist) {
-        this.$store.dispatch('wishlist/addItem', this.product)
-      } else {
-        this.$store.dispatch('wishlist/removeItem', this.product)
-      }
+    addToList (list) {
+      this.$store.dispatch(`${list}/addItem`, this.product)
     },
-    addToCompare () {
-      if (!this.isOnCompare) {
-        this.$store.dispatch('compare/addItem', this.product)
-      } else {
-        this.$store.dispatch('compare/removeItem', this.product)
-      }
+    removeFromList (list) {
+      this.$store.dispatch(`${list}/removeItem`, this.product)
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0

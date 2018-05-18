@@ -137,7 +137,7 @@
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
-                  @click="addToFavorite"
+                  @click="isOnWishlist ? removeFromList('wishlist') : addToList('wishlist')"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action h5 pointer cl-secondary
@@ -155,7 +155,7 @@
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
-                  @click="addToCompare"
+                  @click="isOnCompare ? removeFromList('compare') : addToList('compare')"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action h5 pointer cl-secondary
