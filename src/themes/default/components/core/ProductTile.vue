@@ -105,8 +105,7 @@ export default {
         Object.assign(this.product, product)
       }
     })
-  },
-  mixins: [coreComponent('ProductTile')]
+  }
 }
 </script>
 

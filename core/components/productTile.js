@@ -9,7 +9,7 @@ export default Vue.component('ProductTile', {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       clicks: 0,
       placeholder: '/assets/placeholder.jpg'
@@ -21,10 +21,10 @@ export default Vue.component('ProductTile', {
       let thumbnail = productThumbnailPath(this.product)
       return this.getThumbnail(thumbnail, 310, 300)
     },
-    isOnSale() {
+    isOnSale () {
       return this.product.sale === '1' ? 'sale' : ''
     },
-    isNew() {
+    isNew () {
       return this.product.new === '1' ? 'new' : ''
     }
   },
