@@ -6,7 +6,7 @@
 
 <script>
 import EventBus from 'core/plugins/event-bus'
-import MainSlider from 'core/components/blocks/MainSlider/MainSlider.vue'
+import MainSlider from 'core/components/blocks/MainSlider/mainSlider'
 import ProductTile from 'core/components/productTile'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'

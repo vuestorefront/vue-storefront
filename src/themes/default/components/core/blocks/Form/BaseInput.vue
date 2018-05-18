@@ -51,9 +51,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import baseInput from 'core/components/blocks/Form/baseInput'
+
 export default {
-  mixins: [coreComponent('blocks/Form/BaseInput')]
+  mixins: [baseInput]
 }
 </script>
 

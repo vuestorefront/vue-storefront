@@ -83,8 +83,8 @@
 </template>
 
 <script>
+import orderReview from 'core/components/blocks/Checkout/orderReview'
 import { required } from 'vuelidate/lib/validators'
-import { coreComponent } from 'core/lib/themes'
 import Composite from 'core/mixins/composite'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import ValidationError from 'theme/components/core/ValidationError.vue'
@@ -107,7 +107,7 @@ export default {
     Modal,
     BaseCheckbox
   },
-  mixins: [coreComponent('blocks/Checkout/OrderReview'), Composite]
+  mixins: [orderReview, Composite]
 }
 </script>
 

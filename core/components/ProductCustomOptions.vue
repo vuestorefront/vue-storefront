@@ -6,9 +6,9 @@
   </div>
 </template>
 <script>
-import BaseInput from './blocks/Form/BaseInput.vue'
-import BaseRadiobutton from './blocks/Form/BaseRadiobutton.vue'
-import BaseCheckbox from './blocks/Form/BaseCheckbox.vue'
+import BaseInput from './blocks/Form/baseInput'
+import BaseRadiobutton from './blocks/Form/baseRadiobutton'
+import BaseCheckbox from './blocks/Form/baseCheckbox'
 import { mapMutations } from 'vuex'
 import * as types from 'core/store/mutation-types'
 import rootStore from 'core/store'
