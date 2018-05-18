@@ -24,6 +24,26 @@ export default {
   },
   mixins: [Composite],
   methods: {
+    bottomVisible () {
+      const scrollY = window.scrollY
+      const visible = document.documentElement.clientHeight
+      const pageHeight = document.documentElement.scrollHeight
+      const bottomOfPage = visible + scrollY >= pageHeight
+      return bottomOfPage || pageHeight < visible
+    },
+    pullMoreProducts () {
+      let currentQuery = this.currentQuery
+      currentQuery.append = true
+      currentQuery.route = this.$route
+      currentQuery.store = this.$store
+      currentQuery.current = currentQuery.current + currentQuery.perPage
+      this.pagination.current = currentQuery.current
+      this.pagination.perPage = currentQuery.perPage
+      if (currentQuery.current <= this.productsTotal) {
+        currentQuery.searchProductQuery = buildFilterProductsQuery(this.category, this.filters.chosen)
+        return this.$store.dispatch('category/products', currentQuery)
+      }
+    },
     onFilterChanged (filterOption) {
       this.pagination.current = 0
       if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
@@ -61,7 +81,12 @@ export default {
     }
   },
   watch: {
-    '$route': 'validateRoute'
+    '$route': 'validateRoute',
+    bottom (bottom) {
+      if (bottom) {
+        this.pullMoreProducts()
+      }
+    }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
@@ -93,6 +118,11 @@ export default {
   },
   created () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
+    if (!global.$VS.isSSR && this.lazyLoadProductsOnscroll) {
+      window.addEventListener('scroll', () => {
+        this.bottom = this.bottomVisible()
+      })
+    }
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
@@ -136,7 +166,9 @@ export default {
         perPage: 50,
         current: 0,
         enabled: false
-      }
+      },
+      bottom: false,
+      lazyLoadProductsOnscroll: true
     }
   },
   components: {

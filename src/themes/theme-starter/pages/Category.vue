@@ -2,9 +2,11 @@
   <div id="category">
     <!-- You can find everything in 'category' object -->
     <h1>Category Page: {{ category.name }} </h1>
-    <router-link to="/">Back to home </router-link>
-    <h2> Category JSON </h2>
+    <div><router-link to="/">Back to home </router-link></div>
     <product-tile v-for="product in products" :product="product" :key="product.name"/>
+    <div v-if="isCategoryEmpty">
+      Category is empty
+    </div>
   </div>
 </template>
 
@@ -16,6 +18,11 @@ import ProductTile from 'theme/components/ProductTile' // Component to display s
 export default {
   // Here we are injecting core Category Page business logic (you can find it under core/pages/Product.vue)
   // You can find the docs for Category Page here: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/CategoryPage.md
+  data () {
+    return {
+      lazyLoadProductsOnscroll: true
+    }
+  },
   components: {
     ProductTile
   },
