@@ -34,7 +34,8 @@
     "build:server": "cross-env webpack --config ./core/build/webpack.prod.server.config.js --mode production --progress --hide-modules",
     "build": "rimraf dist && yarn build:client && yarn build:server",
     "unit": "karma start ./test/unit/karma.conf.js --single-run",
-    "lint": "eslint --ext .js,.vue core src"
+    "lint": "eslint --ext .js,.vue core src",
+    "lerna": "lerna"
   },
   "dependencies": {
     "ajv": "^5.2.2",

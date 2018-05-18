@@ -70,6 +70,7 @@ module.exports = {
       'core/plugins': path.resolve(__dirname, '../plugins'),
       'core/resource': path.resolve(__dirname, '../resource'),
       'core/router': path.resolve(__dirname, '../router'),
+      'core/directives': path.resolve(__dirname, '../directives'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
