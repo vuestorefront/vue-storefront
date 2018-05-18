@@ -153,7 +153,6 @@ $color-white: color(white);
   width: 40px;
   height: 40px;
   background-color: $border-secondary;
-  transition: 0.3s all $motion-main;
   text-transform: uppercase;
   color: $color-white;
   font-size: 12px;
@@ -161,21 +160,13 @@ $color-white: color(white);
 
 .product-image {
   width: 100%;
-  mix-blend-mode: multiply;
   overflow: hidden;
-  transition: 0.3s all $motion-main;
   max-height: 300px;
 
-  > div {
-    padding-top: 118%;
-  }
-
   &:hover {
-    background-color: rgba($bg-secondary, .3);
-
     img {
-      transform: scale(1.1);
       opacity: 1;
+      transform: scale(1.1);
     }
 
     &.sale::after,
@@ -187,15 +178,11 @@ $color-white: color(white);
   img {
     max-height: 100%;
     height: auto;
-    opacity: 0.8;
-    transition: 0.3s all $motion-main;
-    mix-blend-mode: multiply;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
     margin: auto;
+    mix-blend-mode: multiply;
+    opacity: 0.8;
+    transform: scale(1);
+    transition: 0.3s all $motion-main;
   }
 
   &.sale {

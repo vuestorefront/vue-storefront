@@ -85,9 +85,7 @@ $color-product-bg: color(secondary, $colors-background);
 
 .product {
   &.collection-product {
-    background-color: $color-product-bg;
     padding: 15px;
-    mix-blend-mode: darken;
   }
 
   &.is-muted {
@@ -97,7 +95,6 @@ $color-product-bg: color(secondary, $colors-background);
 
 .collection-product {
   .product-image {
-    mix-blend-mode: darken;
     height: auto;
     will-change: opacity;
 
