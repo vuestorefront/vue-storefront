@@ -2755,6 +2755,12 @@ eslint-plugin-standard@^2.0.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-2.3.1.tgz#6765bd2a6d9ecdc7bdf1b145ae4bb30e2b7b86f8"
 
+eslint-plugin-vue-storefront@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue-storefront/-/eslint-plugin-vue-storefront-0.0.1.tgz#23e99e73977dfb26526c7ec00b76d43e6e93af3d"
+  dependencies:
+    requireindex "~1.2.0"
+
 eslint-plugin-vue@^4.3.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-4.4.0.tgz#bfc3a71f76bd0e139313e4425a807257ae42f768"
@@ -7142,6 +7148,10 @@ require-uncached@^1.0.3:
   dependencies:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
+
+requireindex@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/requireindex/-/requireindex-1.2.0.tgz#3463cdb22ee151902635aa6c9535d4de9c2ef1ef"
 
 requires-port@1.x.x, requires-port@~1.0.0:
   version "1.0.0"
