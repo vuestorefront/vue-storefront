@@ -2,7 +2,6 @@
   <div class="product align-center w-100" v-observe-visibility="visibilityChanged">
     <div>
       <router-link
-        class="no-underline"
         :to="{
           name: product.type_id + '-product',
           params: {
@@ -107,20 +106,7 @@ export default {
       }
     })
   },
-  data () {
-    return {
-      clicks: 0,
-      placeholder: '/assets/placeholder.jpg'
-    }
-  },
-  computed: {
-    isOnSale () {
-      return this.product.sale === '1' ? 'sale' : ''
-    },
-    isNew () {
-      return this.product.new === '1' ? 'new' : ''
-    }
-  }
+  mixins: [coreComponent('ProductTile')]
 }
 </script>
 
