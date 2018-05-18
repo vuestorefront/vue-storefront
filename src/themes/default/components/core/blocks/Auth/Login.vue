@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Login from 'core/components/blocks/Auth/login'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
@@ -96,7 +96,7 @@ export default {
       required
     }
   },
-  mixins: [coreComponent('blocks/Auth/Login')],
+  mixins: [Login],
   methods: {
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'register')

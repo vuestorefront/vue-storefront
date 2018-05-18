@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import productCustomOptions from 'core/components/productCustomOptions'
+
 export default {
-  name: 'ProductCustomOptions',
-  mixins: [coreComponent('ProductCustomOptions')]
+  mixins: [productCustomOptions]
 }
 </script>
 <style lang="scss" scoped>

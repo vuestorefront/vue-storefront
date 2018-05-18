@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import productsSlider from 'core/components/productsSlider'
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductTile from 'theme/components/core/ProductTile.vue'
@@ -53,7 +53,7 @@ export default {
       this.currentPage = currentPage
     }
   },
-  mixins: [coreComponent('ProductsSlider')],
+  mixins: [productsSlider],
   components: {
     Slide,
     Carousel,

@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import addToCart from 'core/components/addToCart'
 import { formatProductMessages } from 'core/filters/product-messages'
 
 export default {
-  mixins: [coreComponent('AddToCart')],
+  mixins: [addToCart],
   directives: { focusClean },
   components: { ButtonFull },
   methods: {

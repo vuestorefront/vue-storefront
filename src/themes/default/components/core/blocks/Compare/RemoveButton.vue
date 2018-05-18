@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import removeButton from 'core/components/blocks/Compare/removeButton'
 
 export default {
-  mixins: [coreComponent('blocks/Compare/RemoveButton')]
+  mixins: [removeButton]
 }
 </script>

@@ -6,9 +6,9 @@
 
 <script>
 import config from 'config'
-import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
-import ProductListing from 'core/components/ProductListing.vue'
-import Breadcrumbs from 'core/components/Breadcrumbs.vue'
+import Sidebar from 'core/components/blocks/Category/sidebar'
+import ProductListing from 'core/components/productListing'
+import Breadcrumbs from 'core/components/breadcrumbs'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
