@@ -44,29 +44,17 @@ export default {
       }
     },
     addToFavorite () {
-      let self = this
-      if (!self.favorite.isFavorite) {
-        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
-          self.favorite.icon = 'favorite'
-          self.favorite.isFavorite = true
-        })
+      if (!this.isOnWishlist) {
+        this.$store.dispatch('wishlist/addItem', this.product)
       } else {
-        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
-          self.favorite.icon = 'favorite_border'
-          self.favorite.isFavorite = false
-        })
+        this.$store.dispatch('wishlist/removeItem', this.product)
       }
     },
     addToCompare () {
-      let self = this
-      if (!self.compare.isCompare) {
-        this.$store.dispatch('compare/addItem', self.product).then(res => {
-          self.compare.isCompare = true
-        })
+      if (!this.isOnCompare) {
+        this.$store.dispatch('compare/addItem', this.product)
       } else {
-        this.$store.dispatch('compare/removeItem', self.product).then(res => {
-          self.compare.isCompare = false
-        })
+        this.$store.dispatch('compare/removeItem', this.product)
       }
     },
     onAfterCustomOptionsChanged (payload) {
@@ -106,19 +94,6 @@ export default {
         console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
         this.$router.push({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
       }
-
-      if (this.wishlistCheck.isOnWishlist(this.product)) {
-        this.favorite.icon = 'favorite'
-        this.favorite.isFavorite = true
-      } else {
-        this.favorite.icon = 'favorite_border'
-        this.favorite.isFavorite = false
-      }
-      if (this.compareCheck.isOnCompare(this.product)) {
-        this.compare.isCompare = true
-      } else {
-        this.compare.isCompare = false
-      }
     },
     onAfterPriceUpdate (product) {
       if (product.sku === this.product.sku) {
@@ -157,11 +132,6 @@ export default {
         info: 'Dispatch product/configure in Product.vue',
         err
       }))
-    },
-    updateAddToWishlistState (product) {
-      if (product.sku === this.product.sku) {
-        this.favorite.isFavorite = false
-      }
     }
   },
   watch: {
@@ -172,7 +142,6 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    this.$bus.$off('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   beforeMount () {
     this.onStateCheck()
@@ -182,7 +151,6 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    this.$bus.$on('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   computed: {
     ...mapGetters({
@@ -250,18 +218,17 @@ export default {
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
       })
+    },
+    isOnWishlist () {
+      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
+    },
+    isOnCompare () {
+      return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
     }
   },
   data () {
     return {
-      loading: false,
-      favorite: {
-        isFavorite: false,
-        icon: 'favorite_border'
-      },
-      compare: {
-        isCompare: false
-      }
+      loading: false
     }
   },
   components: {

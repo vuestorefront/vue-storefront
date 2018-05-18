@@ -1,11 +1,12 @@
 <template>
-  <div class="compare-icon" v-if="hasCompare">
+  <div class="compare-icon" v-if="isActive">
     Core Compare Icon
     <router-link to="/compare">compare</router-link>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'CompareIcon',
   props: {
@@ -16,9 +17,9 @@ export default {
     }
   },
   computed: {
-    hasCompare () {
-      return this.$store.state.compare.compare
-    }
+    ...mapGetters('compare', [
+      'isActive'
+    ])
   }
 }
 </script>
