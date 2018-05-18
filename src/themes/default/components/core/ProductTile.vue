@@ -2,7 +2,6 @@
   <div class="product align-center w-100" v-observe-visibility="visibilityChanged">
     <div>
       <router-link
-        class="no-underline"
         :to="{
           name: product.type_id + '-product',
           params: {
@@ -62,7 +61,6 @@
 
 <script>
 import { coreComponent } from 'core/lib/themes'
-import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
 import config from 'config'
 import rootStore from '@vue-storefront/store'
 export default {
@@ -78,8 +76,6 @@ export default {
       default: true
     }
   },
-  mixins: [coreComponent('ProductTile')],
-  directives: { imgPlaceholder },
   methods: {
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
@@ -107,20 +103,7 @@ export default {
       }
     })
   },
-  data () {
-    return {
-      clicks: 0,
-      placeholder: '/assets/placeholder.jpg'
-    }
-  },
-  computed: {
-    isOnSale () {
-      return this.product.sale === '1' ? 'sale' : ''
-    },
-    isNew () {
-      return this.product.new === '1' ? 'new' : ''
-    }
-  }
+  mixins: [coreComponent('ProductTile')]
 }
 </script>
 

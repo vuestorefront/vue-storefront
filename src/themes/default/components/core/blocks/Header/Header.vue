@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="fixed w-100 brdr-bottom bg-cl-primary brdr-cl-secondary"
+      class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
