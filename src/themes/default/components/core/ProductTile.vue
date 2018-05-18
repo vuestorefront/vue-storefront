@@ -1,63 +1,72 @@
 <template>
-  <div class="product align-center w-100" v-observe-visibility="visibilityChanged">
-    <div>
-      <router-link
-        class="no-underline"
-        :to="{
-          name: product.type_id + '-product',
-          params: {
-            parentSku: product.parentSku ? product.parentSku : product.sku,
-            slug: product.slug,
-            childSku: product.sku
-          }
-        }"
+  <div
+    class="product align-center w-100"
+    v-observe-visibility="visibilityChanged"
+  >
+    <router-link
+      class="no-underline"
+      :to="{
+        name: product.type_id + '-product',
+        params: {
+          parentSku: product.parentSku ? product.parentSku : product.sku,
+          slug: product.slug,
+          childSku: product.sku
+        }
+      }"
+    >
+      <div
+        class="product-image relative bg-cl-secondary"
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
+        <img
+          v-if="instant"
+          :src="thumbnail"
+          :alt="product.name"
+          height="300"
+          width="310"
+        >
+
         <div
-          class="product-image relative bg-cl-secondary"
-          :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+          v-if="!instant"
+          v-lazy-container="{ selector: 'img' }"
         >
-          <div>
-            <transition name="fade" appear>
-              <img
-                class="mw-100 block"
-                v-if="instant"
-                :src="thumbnail"
-                :alt="product.name"
-                height="300"
-                width="310"
-              >
-              <img
-                class="mw-100 block"
-                v-if="!instant"
-                :src="placeholder"
-                v-lazy="thumbnail"
-                :alt="product.name"
-                height="300"
-                width="310"
-                data-loading="/assets/loading.jpg"
-                data-error="/assets/error.jpg"
-              >
-            </transition>
-          </div>
+          <img
+            :src="placeholder"
+            :data-src="thumbnail"
+            :alt="product.name"
+            height="300"
+            width="310"
+            :data-loading="placeholder"
+            :data-error="placeholder"
+          >
         </div>
-        <p class="mb0 cl-accent">{{ product.name | htmlDecode }}</p>
-        <span
-          class="price-original mr5 lh30 cl-secondary"
-          v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
-        >
-          {{ product.originalPriceInclTax | price }}
-        </span>
-        <span
-          class="price-special lh30 cl-accent weight-700"
-          v-if="product.special_price && parseFloat(product.special_price) > 0"
-        >
-          {{ product.priceInclTax | price }}
-        </span>
-        <span class="lh30 cl-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
-          {{ product.priceInclTax | price }}
-        </span>
-      </router-link>
-    </div>
+      </div>
+
+      <p class="mb0 cl-accent">
+        {{ product.name | htmlDecode }}
+      </p>
+
+      <span
+        class="price-original mr5 lh30 cl-secondary"
+        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
+      >
+        {{ product.originalPriceInclTax | price }}
+      </span>
+
+      <span
+        class="price-special lh30 cl-accent weight-700"
+        v-if="product.special_price && parseFloat(product.special_price) > 0"
+      >
+        {{ product.priceInclTax | price }}
+      </span>
+
+      <span
+        class="lh30 cl-secondary"
+        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0"
+      >
+        {{ product.priceInclTax | price }}
+      </span>
+    </router-link>
   </div>
 </template>
 
@@ -180,14 +189,25 @@ $color-white: color(white);
     max-height: 100%;
     max-width: 100%;
     margin: auto;
-    mix-blend-mode: multiply;
+    mix-blend-mode: darken;
     opacity: 0.8;
     transform: scale(1);
-    transition: 0.3s all $motion-main;
+    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
-    &[lazy=loaded] {
+    &[lazy="loaded"] {
       width: auto;
       height: auto;
+      animation: products-loaded;
+      animation-duration: 0.3s;
+    }
+
+    @keyframes products-loaded {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 0.8;
+      }
     }
   }
 
