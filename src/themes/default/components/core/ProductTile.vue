@@ -64,18 +64,6 @@ import { coreComponent } from 'core/lib/themes'
 import config from 'config'
 import rootStore from '@vue-storefront/store'
 export default {
-  props: {
-    instant: {
-      type: Boolean,
-      required: false,
-      default: () => false
-    },
-    labelsActive: {
-      type: Boolean,
-      requred: false,
-      default: true
-    }
-  },
   methods: {
     visibilityChanged (isVisible, entry) {
       if (isVisible) {

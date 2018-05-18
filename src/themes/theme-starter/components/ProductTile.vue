@@ -33,7 +33,7 @@
         >
       </transition>
       <!-- Main product information, you can find the rest under 'product' property passed -->
-      <h1> {{ product.name }} </h1>
+      <h3> {{ product.name }} </h3>
       <div>
         <!-- Displays proper price. Default with tax or special -->
         <span v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0">
@@ -49,13 +49,19 @@
         </span>
       </div>
     </router-link>
+    <add-to-cart :product="product" />
   </div>
 </template>
 
 <script>
 import { coreComponent } from 'core/lib/themes'
 
+import AddToCart from './AddToCart'
+
 export default {
+  components: {
+    AddToCart
+  },
   mixins: [coreComponent('ProductTile')]
 }
 </script>

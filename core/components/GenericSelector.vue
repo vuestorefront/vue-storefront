@@ -12,7 +12,7 @@ export default {
   name: 'GenericSelector',
   props: {
     label: {
-      type: null,
+      type: String,
       required: false,
       default: () => false
     },
