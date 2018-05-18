@@ -77,8 +77,6 @@ export default {
       default: true
     }
   },
-  mixins: [coreComponent('ProductTile')],
-  directives: { imgPlaceholder },
   created () {
     this.$bus.$on('product-after-priceupdate', (product) => {
       if (product.sku === this.product.sku) {
@@ -86,20 +84,7 @@ export default {
       }
     })
   },
-  data () {
-    return {
-      clicks: 0,
-      placeholder: '/assets/placeholder.jpg'
-    }
-  },
-  computed: {
-    isOnSale () {
-      return this.product.sale === '1' ? 'sale' : ''
-    },
-    isNew () {
-      return this.product.new === '1' ? 'new' : ''
-    }
-  }
+  mixins: [coreComponent('ProductTile')]
 }
 </script>
 
