@@ -1,45 +1,33 @@
 <template>
   <form class="custom-options">
-    <div v-for="option in product.custom_options" :key="('customOption_' + option.option_id)">
+    <div v-for="option in product.bundle_options" :key="('bundleOption_' + option.option_id)">
       <div class="custom-option mb15">
         <h4>{{ option.title }}</h4>
-        <input
-          class="
-            py10 w-100 border-box brdr-none brdr-bottom
-            brdr-cl-primary h4 sans-serif
-          "
-          v-if="option.type === 'field'"
-          type="text"
-          :name="('customOption_' + option.option_id)"
-          focus
-          v-model="inputValues[('customOption_' + option.option_id)]"
-          :placeholder="option.title"
-          @change="optionChanged(option)">
-        <div class="m5 relative" v-for="opval in option.values" :key="opval.option_type_id" v-if="option.type === 'radio' || option.type === 'select'">
+        <div class="m5 relative" v-for="opval in option.product_links" :key="opval.id">
           <input
             @change="optionChanged(option, opval)"
             type="radio"
             class="m0 no-outline"
-            :name="('customOption_' + option.option_id)"
-            :id="('customOption_' + opval.option_type_id)"
+            :name="('bundleOption_' + option.option_id)"
+            :id="('bundleOption_' + opval.id)"
             focus
-            :value="opval.option_type_id"
-            v-model="inputValues[('customOption_' + option.option_id)]"
-          ><label class="pl10 lh20 h4 pointer" :for="('customOption_' + opval.option_type_id)" v-html="opval.title" />
+            :value="opval.id"
+            v-model="inputValues[('bundleOption_' + option.option_id)]"
+          >
+          <label class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
         </div>
-        <div class="m5 relative" v-for="opval in option.values" :key="opval.option_type_id" v-if="option.type === 'checkbox'">
-          <input
-            @change="optionChanged(option, opval)"
-            type="checkbox"
-            class="m0 no-outline"
-            :name="('customOption_' + option.option_id)"
-            :id="('customOption_' + opval.option_type_id)"
-            focus
-            :value="opval.option_type_id"
-            v-model="inputValues[('customOption_' + option.option_id)]"
-          ><label class="pl10 lh20 h4 pointer" :for="('customOption_' + opval.option_type_id)" v-html="opval.title" />
-        </div>
-        <span class="error" v-if="validation.results[('customOption_' + option.option_id)].error">{{ validation.results[('customOption_' + option.option_id)].message }}</span>
+        <label class="qty" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label><input
+          @change="optionChanged(option)"
+          type="number"
+          min="0"
+          class="m0 no-outline qty"
+          :name="('bundleOptionQty_' + option.option_id)"
+          :id="('bundleOptionQty_' + option.option_id)"
+          focus
+          v-model="inputValues[('bundleOptionQty_' + option.option_id)]"
+        >
+        <span class="error" v-if="validation.results[('bundleOptionQty_' + option.option_id)].error">{{ validation.results[('bundleOptionQty_' + option.option_id)].message }}</span>
+        <span class="error" v-if="validation.results[('bundleOption_' + option.option_id)].error">{{ validation.results[('bundleOption_' + option.option_id)].message }}</span>
       </div>
     </div>
   </form>
@@ -48,8 +36,8 @@
 <script>
 import { coreComponent } from 'core/lib/themes'
 export default {
-  name: 'ProductCustomOptions',
-  mixins: [coreComponent('ProductCustomOptions')]
+  name: 'ProductBundleOptions',
+  mixins: [coreComponent('ProductBundleOptions')]
 }
 </script>
 <style lang="scss" scoped>
@@ -67,7 +55,12 @@ export default {
     font-weight: bold;
     margin-bottom: 10px;
   }
-
+  .custom-option > input.qty {
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin: 5px;
+    width: 20px;
+  }
   .error {
     color: $color-error;
     padding-top: 5px;
@@ -76,6 +69,10 @@ export default {
   $color-silver: color(silver);
   $color-active: color(secondary);
   $color-white: color(white);
+
+  .relative label.qty {
+    padding-left: 5px;
+  }
 
   .relative label {
     padding-left: 35px;

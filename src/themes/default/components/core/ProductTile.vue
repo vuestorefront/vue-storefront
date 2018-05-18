@@ -1,5 +1,5 @@
 <template>
-  <div class="product align-center w-100">
+  <div class="product align-center w-100" v-observe-visibility="visibilityChanged">
     <div>
       <router-link
         :to="{
@@ -61,8 +61,8 @@
 
 <script>
 import { coreComponent } from 'core/lib/themes'
-import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
-
+import config from 'config'
+import rootStore from '@vue-storefront/store'
 export default {
   props: {
     instant: {
@@ -74,6 +74,26 @@ export default {
       type: Boolean,
       requred: false,
       default: true
+    }
+  },
+  methods: {
+    visibilityChanged (isVisible, entry) {
+      if (isVisible) {
+        if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
+          const skus = []
+          if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
+            for (const confChild of this.product.configurable_children) {
+              const cachedItem = rootStore.state.stock.cache[confChild.id]
+              if (typeof cachedItem === 'undefined' || cachedItem === null) {
+                skus.push(confChild.sku)
+              }
+            }
+            if (skus.length > 0) {
+              rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
+            }
+          }
+        }
+      }
     }
   },
   created () {

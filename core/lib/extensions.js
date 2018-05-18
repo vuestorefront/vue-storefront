@@ -4,7 +4,7 @@ export default function registerExtensions (extensions, app, router, store, conf
       if (extEntryPoint.default) extEntryPoint = extEntryPoint.default
       let extDescriptor = extEntryPoint(app, router, store, config) // register module
       if (extDescriptor != null) {
-        console.log('Loaded', extDescriptor.EXTENSION_KEY)
+        console.debug('Loaded', extDescriptor.EXTENSION_KEY)
         app.$emit('application-after-registerExtensions', extDescriptor)
       }
     }

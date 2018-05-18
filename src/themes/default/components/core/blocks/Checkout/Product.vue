@@ -6,20 +6,20 @@
         <div class="col-xs-12 col-md-9 pb15">
           <div class="mb15">
             <div class="h4 weight-400 cl-accent serif">{{ product.name | htmlDecode }}</div>
-            <div class="error" v-if="Object.keys(product.errors).length > 0">
+            <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
               {{ product.errors | formatProductMessages }}
             </div>
             <div class="h5 cl-tertiary pt5">{{ product.sku }}</div>
             <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
               <div v-for="opt in product.totals.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
-                <span class="opv">{{ opt.value }}</span>
+                <span class="opv" v-html="opt.value" />
               </div>
             </div>
             <div class="h6 cl-bg-tertiary pt5 options" v-else-if="product.options">
               <div v-for="opt in product.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
-                <span class="opv">{{ opt.value }}</span>
+                <span class="opv" v-html="opt.value" />
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
-import { configureProductAsync, doPlatformPricesSync, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
@@ -92,21 +92,60 @@ export default {
     if (product.type_id === 'grouped') {
       product.price = 0
       product.priceInclTax = 0
-      console.log(product.name + ' SETUP ASSOCIATED')
-      for (let pl of product.product_links) {
-        if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
-          console.log('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
-          subloaders.push(context.dispatch('single', {
-            options: { sku: pl.linked_product_sku },
-            setCurrentProduct: false,
-            selectDefaultVariant: false
-          }).catch(err => { console.error(err) }).then((asocProd) => {
-            pl.product = asocProd
-            pl.product.qty = 1
-            product.price += pl.product.price
-            product.priceInclTax += pl.product.priceInclTax
-            product.tax += pl.product.tax
-          }))
+      console.debug(product.name + ' SETUP ASSOCIATED', product.type_id)
+      if (product.product_links && product.product_links.length > 0) {
+        for (let pl of product.product_links) {
+          if (pl.link_type === 'associated' && pl.linked_product_type === 'simple') { // prefetch links
+            console.debug('Prefetching grouped product link for ' + pl.sku + ' = ' + pl.linked_product_sku)
+            subloaders.push(context.dispatch('single', {
+              options: { sku: pl.linked_product_sku },
+              setCurrentProduct: false,
+              selectDefaultVariant: false
+            }).catch(err => { console.error(err) }).then((asocProd) => {
+              if (asocProd) {
+                pl.product = asocProd
+                pl.product.qty = 1
+                product.price += pl.product.price
+                product.priceInclTax += pl.product.priceInclTax
+                product.tax += pl.product.tax
+              } else {
+                console.error('Product link not found', pl.linked_product_sku)
+              }
+            }))
+          }
+        }
+      } else {
+        console.error('Product with type grouped has no product_links set!', product)
+      }
+    }
+    if (product.type_id === 'bundle') {
+      product.price = 0
+      product.priceInclTax = 0
+      console.debug(product.name + ' SETUP ASSOCIATED', product.type_id)
+      if (product.bundle_options && product.bundle_options.length > 0) {
+        for (let bo of product.bundle_options) {
+          let defaultOption = bo.product_links.find((p) => { return p.is_default })
+          if (!defaultOption) defaultOption = bo.product_links[0]
+          for (let pl of bo.product_links) {
+            console.debug('Prefetching bundle product link for ' + bo.sku + ' = ' + pl.sku)
+            subloaders.push(context.dispatch('single', {
+              options: { sku: pl.sku },
+              setCurrentProduct: false,
+              selectDefaultVariant: false
+            }).catch(err => { console.error(err) }).then((asocProd) => {
+              if (asocProd) {
+                pl.product = asocProd
+                pl.product.qty = pl.qty
+                if (pl.id === defaultOption.id) {
+                  product.price += pl.product.price
+                  product.priceInclTax += pl.product.priceInclTax
+                  product.tax += pl.product.tax
+                }
+              } else {
+                console.error('Product link not found', pl.sku)
+              }
+            }))
+          }
         }
       }
     }
@@ -167,6 +206,9 @@ export default {
     }
     return Promise.all(subloaders)
   },
+  filterUnavailableVariants (context, { product }) {
+    return filterOutUnavailableVariants(context, product)
+  },
   /**
    * Search ElasticSearch catalog of products using simple text query
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
@@ -175,12 +217,12 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
-      console.log('Entity cache is enabled for productList')
+      console.debug('Entity cache is enabled for productList')
     } else {
-      console.log('Entity cache is disabled for productList')
+      console.debug('Entity cache is disabled for productList')
     }
 
     if (config.entities.optimize) {
@@ -226,7 +268,7 @@ export default {
                 console.error('Cannot store cache for ' + cacheKey, err)
               })
           }
-          if (prod.type_id === 'grouped' && prefetchGroupProducts) {
+          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts) {
             context.dispatch('setupAssociated', { product: prod })
           }
         }
@@ -285,30 +327,36 @@ export default {
         if (res !== null) {
           console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
 
-          const cachedProduct = setupProduct(res)
-          if (config.products.alwaysSyncPlatformPricesOver) {
-            doPlatformPricesSync([cachedProduct]).then((products) => {
-              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
-              resolve(products[0])
-            })
-            if (!config.products.waitForPlatformSync) {
+          context.dispatch('setupVariants', { product: res }).then((subresults) => {
+            const cachedProduct = setupProduct(res)
+            if (config.products.alwaysSyncPlatformPricesOver) {
+              doPlatformPricesSync([cachedProduct]).then((products) => {
+                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+                resolve(products[0])
+              })
+              if (!config.products.waitForPlatformSync) {
+                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                resolve(cachedProduct)
+              }
+            } else {
               if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
-          } else {
-            if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
-            resolve(cachedProduct)
-          }
+          })
         } else {
           context.dispatch('list', { // product list syncs the platform price on it's own
             query: bodybuilder()
               .query('match', key, options[key])
               .build(),
-            prefetchGroupProducts: false
+            prefetchGroupProducts: false,
+            updateState: false
           }).then((res) => {
             if (res && res.items && res.items.length) {
-              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: res.items[0] })
-              resolve(setupProduct(res.items[0]))
+              let prd = res.items[0]
+              context.dispatch('setupVariants', { product: prd }).then((subresults) => {
+                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+                resolve(setupProduct(prd))
+              })
             } else {
               reject(new Error('Product query returned empty result'))
             }
@@ -323,8 +371,8 @@ export default {
    * @param {Object} product
    * @param {Array} configuration
    */
-  configure (context, { product = null, configuration, selectDefaultVariant = true }) {
-    return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant })
+  configure (context, { product = null, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
+    return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant, fallbackToDefaultWhenNoAvailable: fallbackToDefaultWhenNoAvailable })
   },
 
   setCurrentOption (context, productOption) {
@@ -342,6 +390,14 @@ export default {
     }
   },
   /**
+   * Assign the bundle options object to the vurrent product
+   */
+  setBundleOptions (context, { bundleOptions, product }) {
+    if (bundleOptions) { // TODO: this causes some kind of recurrency error
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.state.current, bundleOptions: bundleOptions }) }))
+    }
+  },
+  /**
    * Set current product with given variant's properties
    * @param {Object} context
    * @param {Object} productVariant
@@ -353,7 +409,7 @@ export default {
 
       if (!context.state.offlineImage) {
         context.state.offlineImage = productThumbnailPath(productOriginal, true)
-        console.log('Image offline fallback set to ', context.state.offlineImage)
+        console.debug('Image offline fallback set to ', context.state.offlineImage)
       }
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
@@ -389,10 +445,19 @@ export default {
     return context.dispatch('single', { options: productSingleOptions }).then((product) => {
       let subloaders = []
       if (product) {
+        if (global.$VS.isSSR) {
+          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+        } else {
+          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
+        }
         subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
 
-        subloaders.push(context.dispatch('setupVariants', { product: product }))
-        subloaders.push(context.dispatch('setupAssociated', { product: product }))
+        // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
+        if (product.type_id === 'grouped' || product.type_id === 'bundle') {
+          subloaders.push(context.dispatch('setupAssociated', { product: product }).then((subloaderresults) => {
+            context.dispatch('setCurrent', product) // because setup Associated can modify the product price we need to update the current product
+          }))
+        }
 
         if (config.products.preventConfigurableChildrenDirectAccess) {
           subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))

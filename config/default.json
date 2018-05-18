@@ -21,11 +21,12 @@
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable" ]
       },
       "productList": {
-        "includeFields": [ "type_id", "sku", "special_price", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new" ],
+        "sort": "",
+        "includeFields": [ "type_id", "sku", "product_links", "special_price", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new" ],
         "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn", "tax_class_id" ]
       },
       "productListWithChildren": {
-        "includeFields": [ "type_id", "sku", "name", "special_price", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size" ],
+        "includeFields": [ "type_id", "sku", "name", "special_price", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "product_links" ],
         "excludeFields": [ "description", "sgn", "tax_class_id" ]
       },
       "product": {
@@ -34,6 +35,7 @@
       }
     },
     "cart": {
+      "server_merge_by_default": true,
       "synchronize": false,
       "synchronize_totals": false,
       "setCustomProductOptions": true,
@@ -51,11 +53,15 @@
       "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
+      "configurableChildrenStockPrefetchStatic": false,
+      "configurableChildrenStockPrefetchDynamic": false,
+      "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
+      "filterUnavailableVariants": false,
       "preventConfigurableChildrenDirectAccess": true,
       "alwaysSyncPlatformPricesOver": false,
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
-      "setupVariantByAttributeCode": false,
+      "setupVariantByAttributeCode": true,
       "endpoint": "http://localhost:8080/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "galleryVariantsGroupAttribute": "color"

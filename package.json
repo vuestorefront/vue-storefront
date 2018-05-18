@@ -35,7 +35,8 @@
     "build:server": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.prod.server.config.js --progress --hide-modules",
     "build": "rimraf dist && yarn build:client && yarn build:server",
     "unit": "karma start ./test/unit/karma.conf.js --single-run",
-    "lint": "eslint --ext .js,.vue core src"
+    "lint": "eslint --ext .js,.vue core src",
+    "lerna": "lerna"
   },
   "dependencies": {
     "ajv": "^5.2.2",
@@ -63,6 +64,7 @@
     "moment": "^2.21.0",
     "npm": "^5.7.1",
     "object-hash": "^1.2.0",
+    "object-sizeof": "^1.2.0",
     "print-message": "^2.1.0",
     "rimraf": "^2.6.0",
     "scrollreveal": "^3.3.6",
@@ -78,6 +80,7 @@
     "vue-markdown-loader": "^2.2.1",
     "vue-meta": "^1.4.3",
     "vue-no-ssr": "^0.2.2",
+    "vue-observe-visibility": "^0.3.1",
     "vue-offline": "^1.0.7",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.2",

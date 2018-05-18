@@ -2,5 +2,11 @@
  * Format message string for product validation messages object
  */
 export function formatProductMessages (messages) {
-  return Object.values(messages).join(', ')
+  const msgs = []
+  for (const infoKey in messages) {
+    if (messages[infoKey]) {
+      msgs.push(messages[infoKey])
+    }
+  }
+  return msgs.join(', ')
 }

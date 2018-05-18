@@ -1242,6 +1242,13 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
+buffer@^5.0.6:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.1.0.tgz#c913e43678c7cb7c8bd16afbcddb6c5505e8f9fe"
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
+
 builtin-modules@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
@@ -5840,6 +5847,12 @@ object-hash@^1.1.4, object-hash@^1.2.0, object-hash@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-1.3.0.tgz#76d9ba6ff113cf8efc0d996102851fe6723963e2"
 
+object-sizeof@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/object-sizeof/-/object-sizeof-1.2.0.tgz#66397c923768939d2fc6d2a3930a981e1c7fa68b"
+  dependencies:
+    buffer "^5.0.6"
+
 object-visit@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/object-visit/-/object-visit-1.0.1.tgz#f79c4493af0c5377b59fe39d395e41042dd045bb"
@@ -8474,10 +8487,6 @@ vue-i18n@^7.4.2:
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-7.6.0.tgz#8745807756f6ca5090fd85629e9cab99b1c6e442"
 
-vue-infinite-loading@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/vue-infinite-loading/-/vue-infinite-loading-2.3.1.tgz#56f29616bcc95f21fd8a829ce747f30b333e890c"
-
 vue-lazyload@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.2.3.tgz#901f9ec15c7e6ca78781a2bae4a343686bdedb2c"
@@ -8518,6 +8527,10 @@ vue-meta@^1.4.3:
 vue-no-ssr@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-0.2.2.tgz#e1a0ef0ba39fc54972edd71a2ae11a7988312b19"
+
+vue-observe-visibility@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.3.1.tgz#e7cad37893da42858c086196da9acdb0fd85340b"
 
 vue-offline@^1.0.7:
   version "1.0.7"

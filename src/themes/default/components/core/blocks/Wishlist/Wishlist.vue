@@ -19,7 +19,7 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul class="products">
-      <product @click.native="closeWishlist" v-for="product in items" :key="product.id" :product="product" />
+      <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
   </div>
 </template>

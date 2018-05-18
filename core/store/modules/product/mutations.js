@@ -15,6 +15,13 @@ export default {
       option_value: optionValue
     }
   },
+  [types.CATALOG_UPD_BUNDLE_OPTION] (state, { optionId, optionQty, optionSelections }) {
+    state.current_bundle_options[optionId] = {
+      option_id: optionId,
+      option_qty: optionQty,
+      option_selections: optionSelections
+    }
+  },
   [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
     if (append === false) {
       state.list = products
@@ -41,6 +48,8 @@ export default {
     state.offlineImage = null
     state.parent = null
     state.current_options = {color: [], size: []}
+    state.current_bundle_options = {}
+    state.current_custom_options = {}
     EventBus.$emit('product-after-reset', { })
   }
 }

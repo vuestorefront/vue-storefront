@@ -4,7 +4,6 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
-
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -23,7 +22,7 @@ export default {
   save (context) {
     context.commit(types.CART_SAVE)
   },
-  serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
+  serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     if (config.cart.synchronize && !global.$VS.isSSR) {
       const newItemsHash = hash({ items: context.state.cartItems, token: context.state.cartServerToken })
       if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
@@ -37,6 +36,7 @@ export default {
           },
           silent: true,
           force_client_state: forceClientState,
+          dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
           /* rootStore.dispatch('cart/getPaymentMethods')
@@ -91,54 +91,50 @@ export default {
     }
   },
   serverUpdateItem (context, cartItem) {
-    if (config.cart.synchronize && !global.$VS.isSSR) {
-      if (!cartItem.quoteId) {
-        cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-      }
-      context.dispatch('sync/execute', { url: config.cart.updateitem_endpoint, // sync the cart
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors',
-          body: JSON.stringify({
-            cartItem: cartItem
-          })
-        },
-        callback_event: 'servercart-after-itemupdated'
-      }, { root: true }).then(task => {
-        // eslint-disable-next-line no-useless-return
-        if (config.cart.synchronize_totals) {
-          context.dispatch('refreshTotals')
-        }
-        return
-      })
+    if (!cartItem.quoteId) {
+      cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
     }
+    return context.dispatch('sync/execute', { url: config.cart.updateitem_endpoint, // sync the cart
+      payload: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        body: JSON.stringify({
+          cartItem: cartItem
+        })
+      },
+      callback_event: 'servercart-after-itemupdated'
+    }, { root: true }).then(task => {
+      // eslint-disable-next-line no-useless-return
+      if (config.cart.synchronize_totals) {
+        context.dispatch('refreshTotals')
+      }
+      return task
+    })
   },
   serverDeleteItem (context, cartItem) {
-    if (config.cart.synchronize && !global.$VS.isSSR) {
-      if (!cartItem.quoteId) {
-        cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-      }
+    if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-      context.dispatch('sync/execute', { url: config.cart.deleteitem_endpoint, // sync the cart
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors',
-          body: JSON.stringify({
-            cartItem: cartItem
-          })
-        },
-        silent: true,
-        callback_event: 'servercart-after-itemdeleted'
-      }, { root: true }).then(task => {
-        // eslint-disable-next-line no-useless-return
-        if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
-          context.dispatch('refreshTotals')
-        }
-        return
-      })
     }
+    cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
+    return context.dispatch('sync/execute', { url: config.cart.deleteitem_endpoint, // sync the cart
+      payload: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        body: JSON.stringify({
+          cartItem: cartItem
+        })
+      },
+      silent: true,
+      callback_event: 'servercart-after-itemdeleted'
+    }, { root: true }).then(task => {
+      // eslint-disable-next-line no-useless-return
+      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
+        context.dispatch('refreshTotals')
+      }
+      return task
+    })
   },
   load (context) {
     if (global.$VS.isSSR) return
@@ -164,7 +160,7 @@ export default {
           if (token) { // previously set token
             commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
             console.log('Existing cart token = ' + token)
-            context.dispatch('serverPull', { forceClientState: false })
+            context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.server_merge_by_default })
           } else {
             console.log('Creating server cart ...')
             context.dispatch('serverCreate', { guestCart: false })
@@ -188,6 +184,7 @@ export default {
     }
 
     for (let product of productsToAdd) {
+      if (typeof product === 'undefined' || product === null) continue
       if (product.priceInclTax <= 0) {
         EventBus.$emit('notification', {
           type: 'error',
@@ -196,14 +193,21 @@ export default {
         })
         continue
       }
-      const firstError = product.errors && Object.values(product.errors).find((errorMsg) => { return errorMsg !== null })
-      if (typeof firstError !== 'undefined') {
-        EventBus.$emit('notification', {
-          type: 'error',
-          message: Object.values(product.errors).join(', '),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-        continue
+      if (product.errors !== null && typeof product.errors !== 'undefined') {
+        let productCanBeAdded = true
+        for (let errKey in product.errors) {
+          if (product.errors[errKey]) {
+            productCanBeAdded = false
+            EventBus.$emit('notification', {
+              type: 'error',
+              message: product.errors[errKey],
+              action1: { label: i18n.t('OK'), action: 'close' }
+            })
+          }
+        }
+        if (!productCanBeAdded) {
+          continue
+        }
       }
       const record = state.cartItems.find(p => p.sku === product.sku)
       dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
@@ -232,13 +236,23 @@ export default {
             dispatch('serverPull', { forceClientState: true })
           }
 
-          EventBus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' },
-            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-          })
+          if (productToAdd.type_id !== 'grouped') {
+            EventBus.$emit('notification', {
+              type: 'success',
+              message: i18n.t('Product has been added to the cart!'),
+              action1: { label: i18n.t('OK'), action: 'close' },
+              action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+            })
+          }
         }
+      })
+    }
+    if (productToAdd.type_id === 'grouped') { // sum-up message for grouped products
+      EventBus.$emit('notification', {
+        type: 'success',
+        message: i18n.t('Product has been added to the cart!'),
+        action1: { label: i18n.t('OK'), action: 'close' },
+        action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
       })
     }
   },
