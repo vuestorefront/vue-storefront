@@ -11,3 +11,4 @@ script:
   - yarn lint
  # - yarn unit
   - yarn build
+  - yarn installer:ci

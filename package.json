@@ -28,6 +28,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./core/scripts/server",
     "installer": "node ./core/scripts/installer",
+    "installer:ci": "yarn installer --default-config",
     "all": "node ./core/scripts/all",
     "dev": "node ./core/scripts/server",
     "dev:inspect": "node --inspect ./core/scripts/server",
@@ -43,6 +44,7 @@
     "axios": "^0.13.1",
     "bodybuilder": "^2.2.1",
     "command-exists": "^1.2.2",
+    "commander": "^2.15.1",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
     "d3-dsv": "^1.0.8",

@@ -10,6 +10,7 @@ const urlParser = require('url-parse')
 const isWindows = require('is-windows')
 const isEmptyDir = require('empty-dir')
 const commandExists = require('command-exists')
+const program = require('commander')
 
 const SAMPLE_DATA_PATH = 'var/magento2-sample-data'
 const TARGET_FRONTEND_CONFIG_FILE = 'config/local.json'
@@ -645,6 +646,18 @@ let questions = [
   }
 ]
 
+async function processAnswers (answers) {
+  let manager = new Manager(answers)
+
+  await manager.tryToCreateLogFiles()
+    .then(manager.initBackend.bind(manager))
+    .then(manager.initStorefront.bind(manager))
+    .then(manager.showGoodbyeMessage.bind(manager))
+    .catch(Message.error)
+
+  shell.exit(0)
+}
+
 /**
  * Predefine class static variables
  */
@@ -659,22 +672,25 @@ if (require.main.filename === __filename) {
    * Pre-loading staff
    */
   Manager.checkUserOS()
-  Manager.showWelcomeMessage()
 
   /**
    * This is where all the magic happens
    */
-  inquirer.prompt(questions).then(async function (answers) {
-    let manager = new Manager(answers)
 
-    await manager.tryToCreateLogFiles()
-      .then(manager.initBackend.bind(manager))
-      .then(manager.initStorefront.bind(manager))
-      .then(manager.showGoodbyeMessage.bind(manager))
-      .catch(Message.error)
+  program
+    .option('--default-config', 'Run with default configuration')
+    .parse(process.argv)
 
-    shell.exit(0)
-  })
+  if (program.defaultConfig) {
+    const defaultConfig = {}
+    questions.forEach(question => {
+      defaultConfig[question.name] = question.default
+    })
+    processAnswers(defaultConfig)
+  } else {
+    Manager.showWelcomeMessage()
+    inquirer.prompt(questions).then(answers => processAnswers(answers))
+  }
 } else {
   module.exports.Message = Message
   module.exports.Manager = Manager
