@@ -1,11 +1,4 @@
-<template>
-  <div>
-    <div class="between-md" v-for="option in product.custom_options" :key="option.option_id">
-      <label for="">{{ option.title }}</label>
-    </div>
-  </div>
-</template>
-<script>
+import Vue from 'vue'
 import BaseInput from './blocks/Form/baseInput'
 import BaseRadiobutton from './blocks/Form/baseRadiobutton'
 import BaseCheckbox from './blocks/Form/baseCheckbox'
@@ -31,8 +24,7 @@ function _fieldName (co) {
   return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
 }
 
-export default {
-  name: 'ProductBundleOptions',
+export default Vue.component('ProductBundleOptions', {
   props: {
     product: {
       type: Object,
@@ -45,7 +37,8 @@ export default {
     BaseCheckbox
   },
   created () {
-    rootStore.dispatch('product/addCustomOptionValidator', { validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme
+    rootStore.dispatch('product/addCustomOptionValidator', {
+      validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme
       validatorFunction: (value) => {
         return { error: (value === null || value === '') || (value === false) || (value <= 0), message: i18n.t('Must be greater than 0') }
       }
@@ -128,5 +121,4 @@ export default {
       }
     }
   }
-}
-</script>
+})
