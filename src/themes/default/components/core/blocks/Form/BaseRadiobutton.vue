@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
 export default {
-  mixins: [coreComponent('blocks/Form/BaseRadiobutton')]
+  mixins: [BaseRadiobutton]
 }
 </script>
 
@@ -102,4 +102,3 @@ export default {
     }
   }
 </style>
-

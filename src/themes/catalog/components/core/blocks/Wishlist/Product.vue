@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Product from 'core/components/blocks/Wishlist/Product'
 
 export default {
   data () {
@@ -35,7 +35,7 @@ export default {
       this.$store.dispatch('wishlist/removeItem', this.product)
     }
   },
-  mixins: [coreComponent('blocks/Wishlist/Product')]
+  mixins: [Product]
 }
 </script>
 

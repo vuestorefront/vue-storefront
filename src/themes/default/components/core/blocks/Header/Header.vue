@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Header from 'core/components/blocks/Header/Header'
 import { mapState } from 'vuex'
 
 import Logo from '../../Logo.vue'
@@ -173,7 +173,7 @@ export default {
     ReturnIcon,
     Logo
   },
-  mixins: [coreComponent('blocks/Header/Header')]
+  mixins: [Header]
 }
 </script>
 

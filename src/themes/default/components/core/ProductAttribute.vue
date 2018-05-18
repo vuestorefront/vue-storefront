@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductAttribute from 'core/components/ProductAttribute'
 
 export default {
   data () {
@@ -42,6 +42,6 @@ export default {
       this.value = results.join(', ')
     }
   },
-  mixins: [coreComponent('ProductAttribute')]
+  mixins: [ProductAttribute]
 }
 </script>

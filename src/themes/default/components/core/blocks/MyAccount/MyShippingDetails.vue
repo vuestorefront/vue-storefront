@@ -223,7 +223,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import { required, minLength } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
@@ -264,6 +264,6 @@ export default {
     BaseCheckbox,
     BaseInput
   },
-  mixins: [coreComponent('blocks/MyAccount/MyShippingDetails')]
+  mixins: [MyShippingDetails]
 }
 </script>

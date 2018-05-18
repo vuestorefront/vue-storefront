@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import GenericSelector from 'core/components/GenericSelector'
 
 export default {
-  mixins: [coreComponent('GenericSelector')]
+  mixins: [GenericSelector]
 }
 </script>
 

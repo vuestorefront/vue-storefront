@@ -1,7 +1,11 @@
 const baseConfig = require('../../core/build/webpack.base.config')
 const webpack = require('webpack')
 const webpackConfig = Object.assign({}, baseConfig, {
-  devtool: '#inline-source-map',
+  mode: 'development',
+  devtool: 'inline-source-map',
+  resolve: {
+    mainFields: ['main']
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"test"'

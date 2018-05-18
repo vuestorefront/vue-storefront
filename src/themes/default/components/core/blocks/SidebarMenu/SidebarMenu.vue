@@ -109,13 +109,13 @@
 
 <script>
 import { mapState } from 'vuex'
-import { coreComponent } from 'core/lib/themes'
+import SidebarMenu from 'core/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from './SubBtn.vue'
 import SubCategory from './SubCategory.vue'
 import i18n from 'core/lib/i18n'
 
 export default {
-  mixins: [coreComponent('blocks/SidebarMenu/SidebarMenu')],
+  mixins: [SidebarMenu],
   components: {
     SubCategory,
     SubBtn

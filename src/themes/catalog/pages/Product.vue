@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Product from 'core/pages/Product'
 
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import ProductAttribute from 'theme/components/core/blocks/Product/ProductAttribute'
@@ -134,7 +134,7 @@ export default {
     SizeFilter,
     SimilarPdoducts
   },
-  mixins: [corePage('Product')]
+  mixins: [Product]
 }
 </script>
 

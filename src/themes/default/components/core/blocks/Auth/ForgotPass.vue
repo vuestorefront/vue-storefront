@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ForgotPass from 'core/components/blocks/Auth/ForgotPass'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseInput from '../Form/BaseInput.vue'
@@ -120,11 +120,10 @@ export default {
       this.$store.commit('ui/setAuthElem', 'login')
     }
   },
-  mixins: [coreComponent('blocks/Auth/ForgotPass')],
+  mixins: [ForgotPass],
   components: {
     ButtonFull,
     BaseInput
   }
 }
 </script>
-

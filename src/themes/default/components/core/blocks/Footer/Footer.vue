@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Footer from 'core/components/blocks/Footer/Footer'
 import Newsletter from './Newsletter.vue'
 
 export default {
@@ -199,7 +199,7 @@ export default {
   components: {
     Newsletter
   },
-  mixins: [coreComponent('blocks/Footer/Footer')]
+  mixins: [Footer]
 }
 </script>
 

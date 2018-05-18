@@ -154,7 +154,6 @@ export default {
             message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
             action1: { label: i18n.t('OK'), action: 'close' }
           })
-          return
         }
       }).catch(err => console.error({
         info: 'Dispatch product/configure in Product.vue',

@@ -24,7 +24,7 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-import { coreComponent } from 'core/lib/themes'
+import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
 import { Carousel, Slide } from 'vue-carousel'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
 import sliderData from 'theme/resource/slider.json'
@@ -39,7 +39,7 @@ export default {
     Slide,
     'no-ssr': NoSSR
   },
-  mixins: [coreComponent('blocks/MainSlider/MainSlider')]
+  mixins: [MainSlider]
 }
 </script>
 <style lang="scss">

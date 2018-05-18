@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductTile from 'core/components/ProductTile.vue'
 
 export default {
-  mixins: [coreComponent('ProductTile')]
+  mixins: [ProductTile]
 }
 </script>

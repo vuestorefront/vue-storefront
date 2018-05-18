@@ -218,7 +218,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
@@ -262,7 +262,7 @@ export default {
     BaseCheckbox,
     BaseInput
   },
-  mixins: [coreComponent('blocks/Checkout/PersonalDetails')]
+  mixins: [PersonalDetails]
 }
 </script>
 

@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import BaseCheckbox from 'core/components/blocks/Form/BaseCheckbox'
 export default {
-  mixins: [coreComponent('blocks/Form/BaseCheckbox')]
+  mixins: [BaseCheckbox]
 }
 </script>
 
@@ -102,4 +102,3 @@ export default {
     }
   }
 </style>
-

@@ -34,14 +34,14 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Category from 'core/pages/Category'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
   components: {
     ProductTile
   },
-  mixins: [corePage('Category')]
+  mixins: [Category]
 }
 </script>
 
