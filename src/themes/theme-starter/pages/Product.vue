@@ -1,7 +1,6 @@
 <template>
   <div id="product">
     <h1>Product Page </h1>
-    <router-link to="/">Back to home </router-link>
     <h2> Product JSON </h2>
     <p> {{ product }} </p>
   </div>

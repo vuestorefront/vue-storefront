@@ -11,10 +11,10 @@
         }
       }"
     >
-      <transition name="fade" appear>
-        <!-- Pass prop 'instant="true"' to avoid lazy loading for product images.
-        It's a good practice to use it for Product Tiles visible on a screen just after entering the page.
-        By default instant value is 'false' and uses lazy loading -->
+      <transition appear>
+        <!-- Pass prop instant="true" to avoid lazy loading for product images.
+             It's a good practice to use it for Product Tiles visible on a screen just after entering the page.
+             By default instant value is 'false' and uses lazy loading -->
         <img
           v-if="instant"
           :src="thumbnail"
@@ -22,6 +22,8 @@
           v-img-placeholder="placeholder"
           :alt="product.name"
         >
+        <!-- Default palceholer is taken from core/assets/placeholder.png,
+             you can override it by adding same file in your theme's assets -->
         <img
           v-if="!instant"
           :src="placeholder"
@@ -33,7 +35,7 @@
       <!-- Main product information, you can find the rest under 'product' property passed -->
       <h1> {{ product.name }} </h1>
       <div>
-        <!-- Displays proper price depending on amount of special price -->
+        <!-- Displays proper price. Default with tax or special -->
         <span v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0">
           {{ product.originalPriceInclTax | price }}
         </span>
