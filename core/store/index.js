@@ -140,12 +140,12 @@ const plugins = [
         })
       }
       if (storeName === types.SN_WISHLIST) { // check if this mutation is wishlist related
-        global.$VS.db.wishlistCollection.setItem('current-wishlist', state.wishlist.itemsWishlist).catch((reason) => {
+        global.$VS.db.wishlistCollection.setItem('current-wishlist', state.wishlist.items).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
       if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
-        global.$VS.db.compareCollection.setItem('current-compare', state.compare.itemsCompare).catch((reason) => {
+        global.$VS.db.compareCollection.setItem('current-compare', state.compare.items).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }

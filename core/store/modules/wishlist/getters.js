@@ -1,10 +1,5 @@
 export default {
-  check (state) {
-    return {
-      isOnWishlist: (product) => {
-        let item = state.itemsWishlist.find(p => p.sku === product.sku)
-        return (item !== undefined)
-      }
-    }
+  isActive (state) {
+    return state.items.length > 0
   }
 }
