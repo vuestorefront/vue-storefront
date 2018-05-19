@@ -70,9 +70,10 @@
 </template>
 
 <script>
-import productTile from 'core/components/productTile'
-import config from 'config'
 import rootStore from '@vue-storefront/store'
+import config from 'config'
+import productTile from 'core/components/productTile'
+
 export default {
   props: {
     instant: {
