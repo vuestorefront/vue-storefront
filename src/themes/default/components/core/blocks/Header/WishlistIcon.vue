@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import wishlistIcon from 'core/components/blocks/Header/WishlistIcon'
+import WishlistIcon from 'core/components/blocks/Header/WishlistIcon'
 
 export default {
-  mixins: [wishlistIcon]
+  mixins: [WishlistIcon]
 }
 </script>

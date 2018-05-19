@@ -25,14 +25,14 @@
 </template>
 
 <script>
-import wishlist from 'core/components/blocks/Wishlist/Wishlist'
-import Product from './Product'
+import Wishlist from 'core/components/blocks/Wishlist/Wishlist'
+import Product from 'theme/components/core/blocks/Wishlist/Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [wishlist]
+  mixins: [Wishlist]
 }
 </script>
 
