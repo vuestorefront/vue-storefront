@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import product from 'core/components/blocks/Wishlist/product'
+import product from 'core/components/blocks/Wishlist/Product'
 import RemoveButton from './RemoveButton'
 
 export default {

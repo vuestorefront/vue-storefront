@@ -6,7 +6,7 @@
   </modal>
 </template>
 <script>
-import SignUp from 'core/components/blocks/Auth/signUp'
+import SignUp from 'core/components/blocks/Auth/SignUp'
 import Modal from 'theme/components/core/Modal'
 import Login from './Login.vue'
 import Register from './Register.vue'

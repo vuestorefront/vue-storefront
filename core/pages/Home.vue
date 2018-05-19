@@ -6,8 +6,8 @@
 
 <script>
 import EventBus from 'core/plugins/event-bus'
-import MainSlider from 'core/components/blocks/MainSlider/mainSlider'
-import ProductTile from 'core/components/productTile'
+import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
+import ProductTile from 'core/components/ProductTile'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
 import Composite from 'core/mixins/composite'

@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import myOrders from 'core/components/blocks/MyAccount/myOrders'
+import myOrders from 'core/components/blocks/MyAccount/MyOrders'
 
 export default {
   mixins: [myOrders]

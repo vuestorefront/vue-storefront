@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import hamburgerIcon from 'core/components/blocks/Header/hamburgerIcon'
+import hamburgerIcon from 'core/components/blocks/Header/HamburgerIcon'
 
 export default {
   mixins: [hamburgerIcon]

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import searchPanel from 'core/components/blocks/SearchPanel/searchPanel'
+import searchPanel from 'core/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from '../../ProductTile.vue'
 
 export default {

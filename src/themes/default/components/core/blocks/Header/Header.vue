@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import header from 'core/components/blocks/Header/header'
+import header from 'core/components/blocks/Header/Header'
 import { mapState } from 'vuex'
 
 import Logo from '../../Logo.vue'

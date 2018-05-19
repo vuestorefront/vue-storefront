@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import breadcrumbs from 'core/components/modal'
+import breadcrumbs from 'core/components/Modal'
 
 export default {
   mixins: [breadcrumbs]

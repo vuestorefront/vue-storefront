@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import sidebar from 'core/components/blocks/Category/sidebar'
+import sidebar from 'core/components/blocks/Category/Sidebar'
 
 import ColorSelector from 'theme/components/core/ColorSelector'
 import SizeSelector from 'theme/components/core/SizeSelector'

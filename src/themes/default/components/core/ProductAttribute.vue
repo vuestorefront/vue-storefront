@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import productAttribute from 'core/components/productAttribute'
+import productAttribute from 'core/components/ProductAttribute'
 
 export default {
   data () {

@@ -7,11 +7,11 @@
 <script>
 import i18n from 'core/lib/i18n'
 import config from 'config'
-import PersonalDetails from 'core/components/blocks/Checkout/personalDetails'
-import Shipping from 'core/components/blocks/Checkout/shipping'
-import Payment from 'core/components/blocks/Checkout/payment'
-import OrderReview from 'core/components/blocks/Checkout/orderReview'
-import CartSummary from 'core/components/blocks/Checkout/cartSummary'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
+import Shipping from 'core/components/blocks/Checkout/Shipping'
+import Payment from 'core/components/blocks/Checkout/Payment'
+import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
 import Composite from 'core/mixins/composite'
 
 export default {

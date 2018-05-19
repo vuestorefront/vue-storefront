@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import priceSelector from 'core/components/priceSelector'
+import priceSelector from 'core/components/PriceSelector'
 
 export default {
   mixins: [priceSelector]

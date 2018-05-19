@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import overlay from 'core/components/overlay'
+import overlay from 'core/components/Overlay'
 
 export default {
   beforeCreate () {

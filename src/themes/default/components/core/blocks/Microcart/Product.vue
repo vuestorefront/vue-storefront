@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import product from 'core/components/blocks/Microcart/product'
+import product from 'core/components/blocks/Microcart/Product'
 
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'

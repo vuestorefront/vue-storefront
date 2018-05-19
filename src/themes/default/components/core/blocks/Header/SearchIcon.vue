@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import searchIcon from 'core/components/blocks/Header/searchIcon'
+import searchIcon from 'core/components/blocks/Header/SearchIcon'
 
 export default {
   mixins: [searchIcon]

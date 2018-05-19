@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import loader from 'core/components/loader'
+import loader from 'core/components/Loader'
 
 export default {
   mixins: [loader]

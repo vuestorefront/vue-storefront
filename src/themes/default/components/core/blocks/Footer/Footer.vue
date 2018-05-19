@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import footer from 'core/components/blocks/Footer/footer'
+import footer from 'core/components/blocks/Footer/Footer'
 import Newsletter from './Newsletter.vue'
 
 export default {

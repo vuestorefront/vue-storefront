@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import tooltip from 'core/components/tooltip'
+import tooltip from 'core/components/Tooltip'
 
 export default {
   mixins: [tooltip]

@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import productTile from 'core/components/productTile'
+import productTile from 'core/components/ProductTile'
 import config from 'config'
 import rootStore from '@vue-storefront/store'
 export default {

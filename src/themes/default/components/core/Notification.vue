@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import notification from 'core/components/notification'
+import notification from 'core/components/Notification'
 
 export default {
   mixins: [notification]

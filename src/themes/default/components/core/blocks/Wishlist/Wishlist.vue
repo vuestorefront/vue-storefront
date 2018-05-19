@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import wishlist from 'core/components/blocks/Wishlist/wishlist'
+import wishlist from 'core/components/blocks/Wishlist/Wishlist'
 import Product from './Product'
 
 export default {

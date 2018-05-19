@@ -312,7 +312,7 @@
 </template>
 
 <script>
-import payment from 'core/components/blocks/Checkout/payment'
+import payment from 'core/components/blocks/Checkout/Payment'
 import { required, minLength } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'

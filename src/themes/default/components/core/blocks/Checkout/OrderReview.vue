@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import orderReview from 'core/components/blocks/Checkout/orderReview'
+import orderReview from 'core/components/blocks/Checkout/OrderReview'
 import { required } from 'vuelidate/lib/validators'
 import Composite from 'core/mixins/composite'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'

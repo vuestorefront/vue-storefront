@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import notification from 'core/components/blocks/SearchPanel/searchPanel'
+import notification from 'core/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {

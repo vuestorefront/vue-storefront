@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import removeButton from 'core/components/blocks/Microcart/removeButton'
+import removeButton from 'core/components/blocks/Microcart/RemoveButton'
 
 export default {
   mixins: [removeButton]

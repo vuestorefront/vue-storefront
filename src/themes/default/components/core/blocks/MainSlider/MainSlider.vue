@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import mainSlider from 'core/components/blocks/MainSlider/mainSlider'
+import mainSlider from 'core/components/blocks/MainSlider/MainSlider'
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'

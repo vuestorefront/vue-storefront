@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import microcart from 'core/components/blocks/Microcart/microcart'
+import microcart from 'core/components/blocks/Microcart/Microcart'
 import Product from './Product'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'

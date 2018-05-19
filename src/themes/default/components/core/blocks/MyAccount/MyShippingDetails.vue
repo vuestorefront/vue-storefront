@@ -223,7 +223,7 @@
 </template>
 
 <script>
-import myShippingDetails from 'core/components/blocks/MyAccount/myShippingDetails'
+import myShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import { required, minLength } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'

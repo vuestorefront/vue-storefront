@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import product from 'core/components/blocks/Checkout/product'
+import product from 'core/components/blocks/Checkout/Product'
 
 export default {
   mixins: [product]

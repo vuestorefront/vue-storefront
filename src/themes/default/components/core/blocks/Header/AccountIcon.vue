@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import accountIcon from 'core/components/blocks/Header/accountIcon'
+import accountIcon from 'core/components/blocks/Header/AccountIcon'
 import i18n from 'core/lib/i18n'
 
 export default {

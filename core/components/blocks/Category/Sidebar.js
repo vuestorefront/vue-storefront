@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import ColorSelector from '../../colorSelector'
-import SizeSelector from '../../sizeSelector'
-import PriceSelector from '../../priceSelector'
+import ColorSelector from 'core/components/ColorSelector'
+import SizeSelector from 'core/components/SizeSelector'
+import PriceSelector from 'core/components/PriceSelector'
 
 export default Vue.component('CategorySidebar', {
   props: {

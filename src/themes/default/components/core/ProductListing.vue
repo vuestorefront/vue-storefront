@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import productListing from 'core/components/productListing'
+import productListing from 'core/components/ProductListing'
 import ProductTile from './ProductTile.vue'
 let lastHero = 0
 

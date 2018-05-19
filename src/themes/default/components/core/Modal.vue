@@ -25,7 +25,7 @@
 
 <script>
 import staticContent from 'theme/components/theme/StaticContent'
-import modal from 'core/components/modal'
+import modal from 'core/components/Modal'
 
 export default {
   mixins: [modal],

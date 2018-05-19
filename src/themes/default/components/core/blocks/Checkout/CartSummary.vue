@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import cartSummary from 'core/components/blocks/Checkout/cartSummary'
+import cartSummary from 'core/components/blocks/Checkout/CartSummary'
 import Product from './Product'
 
 export default {

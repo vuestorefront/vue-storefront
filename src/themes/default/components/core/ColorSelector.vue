@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import colorSelector from 'core/components/colorSelector'
+import colorSelector from 'core/components/ColorSelector'
 
 export default {
   methods: {

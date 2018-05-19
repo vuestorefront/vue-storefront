@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import breadcrumbs from 'core/components/breadcrumbs'
+import breadcrumbs from 'core/components/Breadcrumbs'
 
 export default {
   mixins: [breadcrumbs]

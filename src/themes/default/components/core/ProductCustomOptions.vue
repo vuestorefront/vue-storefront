@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import productCustomOptions from 'core/components/productCustomOptions'
+import productCustomOptions from 'core/components/ProductCustomOptions'
 
 export default {
   mixins: [productCustomOptions]

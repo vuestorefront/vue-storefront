@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import myOrder from 'core/components/blocks/MyAccount/myOrder'
+import myOrder from 'core/components/blocks/MyAccount/MyOrder'
 
 export default {
   mixins: [myOrder]

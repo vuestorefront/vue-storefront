@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import productBundleOptions from 'core/components/productBundleOptions'
+import productBundleOptions from 'core/components/ProductBundleOptions'
 
 export default {
   mixins: [productBundleOptions]

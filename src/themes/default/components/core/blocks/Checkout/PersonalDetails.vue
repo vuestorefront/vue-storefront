@@ -219,7 +219,7 @@
 </template>
 
 <script>
-import personalDetails from 'core/components/blocks/Checkout/personalDetails'
+import personalDetails from 'core/components/blocks/Checkout/PersonalDetails'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import Modal from 'theme/components/core/Modal.vue'

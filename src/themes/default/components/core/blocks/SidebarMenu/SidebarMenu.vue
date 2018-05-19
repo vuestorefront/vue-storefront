@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import sidebarMenu from 'core/components/blocks/SidebarMenu/sidebarMenu'
+import sidebarMenu from 'core/components/blocks/SidebarMenu/SidebarMenu'
 import { mapState } from 'vuex'
 import SubBtn from './SubBtn.vue'
 import SubCategory from './SubCategory.vue'

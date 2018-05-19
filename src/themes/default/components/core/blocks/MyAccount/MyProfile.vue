@@ -330,7 +330,7 @@
 </template>
 
 <script>
-import myProfile from 'core/components/blocks/MyAccount/myProfile'
+import myProfile from 'core/components/blocks/MyAccount/MyProfile'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'

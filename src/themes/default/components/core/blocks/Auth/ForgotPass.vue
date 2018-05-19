@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import ForgotPass from 'core/components/blocks/Auth/forgotPass'
+import ForgotPass from 'core/components/blocks/Auth/ForgotPass'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseInput from '../Form/BaseInput.vue'

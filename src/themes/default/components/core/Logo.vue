@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import logo from 'core/components/logo'
+import logo from 'core/components/Logo'
 
 export default {
   props: {

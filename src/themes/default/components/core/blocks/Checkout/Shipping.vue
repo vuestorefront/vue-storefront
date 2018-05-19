@@ -251,7 +251,7 @@
 </template>
 
 <script>
-import shipping from 'core/components/blocks/Checkout/shipping'
+import shipping from 'core/components/blocks/Checkout/Shipping'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'

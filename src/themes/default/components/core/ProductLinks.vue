@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import productLinks from 'core/components/productLinks'
+import productLinks from 'core/components/ProductLinks'
 export default {
   mixins: [productLinks]
 }

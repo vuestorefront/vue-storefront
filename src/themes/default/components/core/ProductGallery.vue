@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import productGallery from 'core/components/productGallery'
+import productGallery from 'core/components/ProductGallery'
 import NoSSR from 'vue-no-ssr'
 
 export default {

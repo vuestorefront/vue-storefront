@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import Login from 'core/components/blocks/Auth/login'
+import Login from 'core/components/blocks/Auth/Login'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'

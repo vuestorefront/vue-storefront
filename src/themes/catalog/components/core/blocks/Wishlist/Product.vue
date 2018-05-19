@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import product from 'core/components/blocks/Wishlist/product'
+import product from 'core/components/blocks/Wishlist/Product'
 
 export default {
   data () {

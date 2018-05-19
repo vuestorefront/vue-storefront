@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import compareIcon from 'core/components/blocks/Header/compareIcon'
+import compareIcon from 'core/components/blocks/Header/CompareIcon'
 
 export default {
   mixins: [compareIcon]

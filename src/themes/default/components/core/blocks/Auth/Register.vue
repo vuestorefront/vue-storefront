@@ -118,7 +118,7 @@
   </div>
 </template>
 <script>
-import Register from 'core/components/blocks/Auth/register'
+import Register from 'core/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'

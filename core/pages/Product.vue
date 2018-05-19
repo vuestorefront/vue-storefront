@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Breadcrumbs from 'core/components/breadcrumbs'
-import AddToCart from 'core/components/addToCart'
-import ProductGallery from 'core/components/productGallery'
+import Breadcrumbs from 'core/components/Breadcrumbs'
+import AddToCart from 'core/components/AddToCart'
+import ProductGallery from 'core/components/ProductGallery'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'

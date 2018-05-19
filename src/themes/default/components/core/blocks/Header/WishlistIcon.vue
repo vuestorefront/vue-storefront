@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import wishlistIcon from 'core/components/blocks/Header/wishlistIcon'
+import wishlistIcon from 'core/components/blocks/Header/WishlistIcon'
 
 export default {
   mixins: [wishlistIcon]
