@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import PriceSelector from 'core/components/PriceSelector'
 
 export default {
   name: 'PriceSelector',
-  mixins: [coreComponent('PriceSelector')]
+  mixins: [PriceSelector]
 }
 </script>
 

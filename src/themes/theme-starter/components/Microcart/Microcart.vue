@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Microcart from 'core/components/blocks/Microcart/Microcart'
 
 export default {
-  mixins: [coreComponent('blocks/Microcart/Microcart')]
+  mixins: [Microcart]
 }
 </script>
