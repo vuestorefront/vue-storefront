@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
@@ -47,9 +47,9 @@ export default {
       attributesByCode: 'attribute/attributeListByCode',
       attributesById: 'attribute/attributeListById'
     }),
-    items () {
-      return this.$store.state.compare.itemsCompare
-    },
+    ...mapState('compare', [
+      'items'
+    ]),
     all_comparable_attributes () {
       return Object.values(this.attributesByCode).filter(a => {
         return parseInt(a.is_comparable)

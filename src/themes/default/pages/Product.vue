@@ -138,15 +138,15 @@
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
-                  @click="addToFavorite"
+                  @click="isOnWishlist ? removeFromList('wishlist') : addToList('wishlist')"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action h5 pointer cl-secondary
                   "
                   type="button"
                 >
-                  <i class="pr5 material-icons">{{ favorite.icon }}</i>
-                  <template v-if="!favorite.isFavorite">
+                  <i class="pr5 material-icons">{{ favoriteIcon }}</i>
+                  <template v-if="!isOnWishlist">
                     {{ $t('Add to favorite') }}
                   </template>
                   <template v-else>
@@ -156,7 +156,7 @@
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
-                  @click="addToCompare"
+                  @click="isOnCompare ? removeFromList('compare') : addToList('compare')"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action h5 pointer cl-secondary
@@ -164,7 +164,7 @@
                   type="button"
                 >
                   <i class="pr5 material-icons">compare</i>
-                  <template v-if="!compare.isCompare">
+                  <template v-if="!isOnCompare">
                     {{ $t('Add to compare') }}
                   </template>
                   <template v-else>
@@ -238,6 +238,11 @@ export default {
     }
   },
   directives: { focusClean },
+  computed: {
+    favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    }
+  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true

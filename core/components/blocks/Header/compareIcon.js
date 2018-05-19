@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 
 export default Vue.component('CompareIcon', {
   props: {
@@ -9,8 +10,8 @@ export default Vue.component('CompareIcon', {
     }
   },
   computed: {
-    hasCompare () {
-      return this.$store.state.compare.compare
-    }
+    ...mapGetters('compare', [
+      'isActive'
+    ])
   }
 })
