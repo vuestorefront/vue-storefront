@@ -1,10 +1,4 @@
-<template>
-  <div id="product">
-    Core Product
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import Breadcrumbs from 'core/components/breadcrumbs'
 import AddToCart from 'core/components/addToCart'
 import ProductGallery from 'core/components/productGallery'
@@ -16,12 +10,11 @@ import groupBy from 'lodash-es/groupBy'
 import uniqBy from 'lodash-es/uniqBy'
 import config from 'config'
 
-export default {
-  name: 'Product',
+export default Vue.component('Product', {
   metaInfo () {
     return {
       title: this.$route.meta.title || this.productName,
-      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
@@ -90,7 +83,7 @@ export default {
     },
     onAfterPriceUpdate (product) {
       if (product.sku === this.product.sku) {
-      // join selected variant object to the store
+        // join selected variant object to the store
         this.$store.dispatch('product/setCurrent', product)
           .catch(err => console.error({
             info: 'Dispatch product/setCurrent in Product.vue',
@@ -176,6 +169,7 @@ export default {
     },
     gallery () {
       let images = []
+      console.log(this.product.media_gallery)
       if (this.product.media_gallery) {
         for (let mediaItem of this.product.media_gallery) {
           if (mediaItem.image) {
@@ -231,5 +225,4 @@ export default {
     AddToCart,
     ProductGallery
   }
-}
-</script>
+})

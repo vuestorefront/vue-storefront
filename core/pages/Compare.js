@@ -1,26 +1,13 @@
-<template>
-  <div class="compare">
-    Core Compare page
-    <!-- Items in compare -->
-    <ul>
-      <li v-for="(product, index) in items" :key="index">
-        {{ product.name | htmlDecode }}
-      </li>
-    </ul>
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import { mapState, mapGetters } from 'vuex'
 import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
-export default {
-  name: 'Compare',
+export default Vue.component('Compare', {
   metaInfo () {
     return {
       title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
-      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   },
   props: {
@@ -56,5 +43,4 @@ export default {
       })
     }
   }
-}
-</script>
+})
