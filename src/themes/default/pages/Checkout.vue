@@ -18,12 +18,8 @@
           <cart-summary />
         </div>
       </div>
-      <div class="row" v-show="orderPlaced">
-        <div class="col-xs-12">
-          <thank-you-page />
-        </div>
-      </div>
     </div>
+    <thank-you-page v-show="orderPlaced" />
   </div>
 </template>
 
