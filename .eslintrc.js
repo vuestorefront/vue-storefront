@@ -29,6 +29,7 @@ module.exports = {
     'generator-star-spacing': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    "no-restricted-imports": [2, { "paths": ["lodash"] }]
     "vue-storefront/no-corecomponent-import": "error",
     "vue-storefront/no-corecomponent": "error",
     "vue-storefront/no-corepage-import": "error",

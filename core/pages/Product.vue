@@ -12,7 +12,8 @@ import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
-import _ from 'lodash'
+import groupBy from 'lodash-es/groupBy'
+import uniqBy from 'lodash-es/uniqBy'
 import config from 'config'
 
 export default {
@@ -227,15 +228,15 @@ export default {
           }
         }
       }
-      let groupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][groupBy]) {
-        let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
-          return child[groupBy]
+      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
+      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
+        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
+          return child[variantsGroupBy]
         })
-        Object.keys(grupedByAttribute).forEach((confChild) => {
-          if (grupedByAttribute[confChild][0].image) {
+        Object.keys(groupedByAttribute).forEach((confChild) => {
+          if (groupedByAttribute[confChild][0].image) {
             images.push({
-              'src': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
               'loading': this.getThumbnail(this.product.image, 310, 300),
               'id': confChild
             })
@@ -247,7 +248,7 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return _.uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
+      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
     },
     customAttributes () {
       let inst = this
