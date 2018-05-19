@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Home from 'core/pages/Home.vue'
 import builder from 'bodybuilder'
 import config from 'config'
 
@@ -109,7 +109,7 @@ export default {
     Collection,
     Onboard
   },
-  mixins: [corePage('Home')]
+  mixins: [Home]
 }
 </script>
 
