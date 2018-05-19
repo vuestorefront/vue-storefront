@@ -35,10 +35,6 @@ export function filters () {
   return _.merge(themeFilters, coreFilters)
 }
 
-export function corePage (path) {
-  return require('core/pages/' + path + '.vue') // using webpack path alias  - core/pages = core/pages
-}
-
 export function extendStore (coreStore, extendStore) {
   return _.merge(coreStore, extendStore)
 }
