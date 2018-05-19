@@ -9,7 +9,7 @@
 
 <script>
 // Here we are importing Core Page module responsible for business logic injection
-import Product from 'core/pages/Product.vue'
+import Product from 'core/pages/Product'
 
 export default {
   // Here we are injecting core Product Page business logic (you can find it under core/pages/Product.vue)

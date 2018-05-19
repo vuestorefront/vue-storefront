@@ -12,7 +12,7 @@
 
 <script>
 // Here we are importing Core Page module responsible for business logic injection
-import Category from 'core/pages/Category.vue'
+import Category from 'core/pages/Category'
 import ProductTile from 'theme/components/ProductTile' // Component to display small product tile
 
 export default {
