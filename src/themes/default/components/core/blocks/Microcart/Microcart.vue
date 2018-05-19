@@ -97,11 +97,12 @@
 </template>
 
 <script>
-import microcart from 'core/components/blocks/Microcart/Microcart'
-import Product from './Product'
+import Microcart from 'core/components/blocks/Microcart/Microcart'
+
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import Product from 'theme/components/core/blocks/Microcart/Product'
 
 export default {
   components: {
@@ -110,7 +111,7 @@ export default {
     ButtonOutline,
     BaseInput
   },
-  mixins: [microcart]
+  mixins: [Microcart]
 }
 </script>
 

@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import baseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
+import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
 
 export default {
-  mixins: [baseRadiobutton]
+  mixins: [BaseRadiobutton]
 }
 </script>
 

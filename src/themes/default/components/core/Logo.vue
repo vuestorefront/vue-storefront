@@ -10,9 +10,10 @@
 </template>
 
 <script>
-import logo from 'core/components/Logo'
+import Logo from 'core/components/Logo'
 
 export default {
+  mixins: [Logo],
   props: {
     width: {
       type: [String, Number],
@@ -22,7 +23,6 @@ export default {
       type: [String, Number],
       required: true
     }
-  },
-  mixins: [logo]
+  }
 }
 </script>

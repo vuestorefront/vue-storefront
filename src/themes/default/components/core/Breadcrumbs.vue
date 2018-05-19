@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import breadcrumbs from 'core/components/Breadcrumbs'
+import Breadcrumbs from 'core/components/Breadcrumbs'
 
 export default {
-  mixins: [breadcrumbs]
+  mixins: [Breadcrumbs]
 }
 </script>

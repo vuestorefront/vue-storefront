@@ -219,17 +219,24 @@
 </template>
 
 <script>
-import personalDetails from 'core/components/blocks/Checkout/PersonalDetails'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tooltip from 'theme/components/core/Tooltip.vue'
-import Modal from 'theme/components/core/Modal.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
 
-// https://monterail.github.io/vuelidate/#sub-basic-usage
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Modal from 'theme/components/core/Modal'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
+  components: {
+    ButtonFull,
+    Tooltip,
+    Modal,
+    BaseCheckbox,
+    BaseInput
+  },
+  mixins: [PersonalDetails],
   validations: {
     personalDetails: {
       firstName: {
@@ -254,15 +261,7 @@ export default {
     acceptConditions: {
       required
     }
-  },
-  components: {
-    ButtonFull,
-    Tooltip,
-    Modal,
-    BaseCheckbox,
-    BaseInput
-  },
-  mixins: [personalDetails]
+  }
 }
 </script>
 

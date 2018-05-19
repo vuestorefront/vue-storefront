@@ -26,10 +26,11 @@
 </template>
 
 <script>
-import accountIcon from 'core/components/blocks/Header/AccountIcon'
 import i18n from 'core/lib/i18n'
+import AccountIcon from 'core/components/blocks/Header/AccountIcon'
 
 export default {
+  mixins: [AccountIcon],
   data () {
     return {
       navigation: [
@@ -41,8 +42,7 @@ export default {
         { title: i18n.t('My product reviews'), link: '#' }
       ]
     }
-  },
-  mixins: [accountIcon]
+  }
 }
 </script>
 

@@ -52,7 +52,7 @@ export default {
     focusSearchBox () {
       this.$refs.search.focus()
     }
-  },
+  }
 }
 </script>
 

@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import returnIcon from 'core/components/blocks/Header/ReturnIcon'
+import ReturnIcon from 'core/components/blocks/Header/ReturnIcon'
 
 export default {
-  mixins: [returnIcon]
+  mixins: [ReturnIcon]
 }
 </script>

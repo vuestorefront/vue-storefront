@@ -1,9 +1,11 @@
 <template>
   <transition name="fade-in-down">
-    <div class="modal"
-         v-if="isVisible"
-         ref="modal"
-         @click.self="close">
+    <div
+      class="modal"
+      v-if="isVisible"
+      ref="modal"
+      @click.self="close"
+    >
       <div class="modal-wrapper">
         <div class="modal-center">
           <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
@@ -24,12 +26,14 @@
 </template>
 
 <script>
-import staticContent from 'theme/components/theme/StaticContent'
-import modal from 'core/components/Modal'
+import StaticContent from 'theme/components/theme/StaticContent'
+import Modal from 'core/components/Modal'
 
 export default {
-  mixins: [modal],
-  components: { staticContent },
+  components: {
+    StaticContent
+  },
+  mixins: [Modal],
   props: {
     staticData: {
       type: String,
