@@ -1,4 +1,4 @@
-# Working with stylesheets in 'defalt' theme
+# Working with stylesheets in 'default' theme
 # Introduction
 
 Default theme CSS is designed to be easly maintanable which implies smallest possible files footprint. We are using flexbox and reusable atomic classes to prevent CSS files rapid growth. We're trying to avoid nesting CSS classes (maximum nesting level is 1) to make them easier to understand and debug.
