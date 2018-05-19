@@ -28,6 +28,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./core/scripts/server",
     "installer": "node ./core/scripts/installer",
+    "installer:ci": "yarn installer --default-config",
     "all": "node ./core/scripts/all",
     "dev": "node ./core/scripts/server",
     "dev:inspect": "node --inspect ./core/scripts/server",
@@ -35,6 +36,8 @@
     "build:server": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.prod.server.config.js --progress --hide-modules",
     "build": "rimraf dist && yarn build:client && yarn build:server",
     "unit": "karma start ./test/unit/karma.conf.js --single-run",
+    "tests:e2e": "cypress open",
+    "tests:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue core src",
     "lerna": "lerna"
   },
@@ -44,6 +47,7 @@
     "axios": "^0.13.1",
     "bodybuilder": "^2.2.1",
     "command-exists": "^1.2.2",
+    "commander": "^2.15.1",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
     "d3-dsv": "^1.0.8",
@@ -99,6 +103,7 @@
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "cypress": "^2.1.0",
     "eslint": "^4.16.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-friendly-formatter": "^4.0.1",

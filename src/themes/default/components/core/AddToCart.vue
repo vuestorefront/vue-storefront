@@ -1,5 +1,5 @@
 <template>
-  <button-full @click.native="addToCart(product)" :disabled="canBeAdded(product)">
+  <button-full @click.native="addToCart(product)" :disabled="canBeAdded(product)" data-testid="addToCart">
     {{ $t('Add to cart') }}
   </button-full>
 </template>

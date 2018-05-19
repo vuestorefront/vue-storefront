@@ -162,6 +162,7 @@
         <div class="row my30">
           <div class="col-xs-12 col-md-7 px20 button-container">
             <button-full
+              data-testid="personalDetailsSubmit"
               @click.native="sendDataToCheckout"
               :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
             >

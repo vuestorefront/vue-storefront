@@ -200,6 +200,7 @@
         <div class="row">
           <div class="col-xs-12 col-md-8 my30 px20">
             <button-full
+              data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
               :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
             >
