@@ -1,5 +1,3 @@
-if (!global.$VS) global.$VS = {}
-
 import _ from 'lodash'
 import Vue from 'vue'
 import App from 'theme/App'
@@ -23,6 +21,8 @@ import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 import VueOffline from 'vue-offline'
 import shippingMethods from 'core/resource/shipping_methods.json'
+
+if (!global.$VS) global.$VS = {}
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
