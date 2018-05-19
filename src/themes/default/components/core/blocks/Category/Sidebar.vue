@@ -78,12 +78,12 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import sidebar from 'core/components/blocks/Category/sidebar'
 
-import ColorSelector from '../../ColorSelector.vue'
-import SizeSelector from '../../SizeSelector.vue'
-import PriceSelector from '../../PriceSelector.vue'
-import GenericSelector from 'core/components/GenericSelector.vue'
+import ColorSelector from 'theme/components/core/ColorSelector'
+import SizeSelector from 'theme/components/core/SizeSelector'
+import PriceSelector from 'theme/components/core/PriceSelector'
+import GenericSelector from 'theme/components/core/GenericSelector'
 
 export default {
   components: {
@@ -92,6 +92,6 @@ export default {
     PriceSelector,
     GenericSelector
   },
-  mixins: [coreComponent('blocks/Category/Sidebar')]
+  mixins: [sidebar]
 }
 </script>

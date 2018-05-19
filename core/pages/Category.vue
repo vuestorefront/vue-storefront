@@ -6,13 +6,13 @@
 
 <script>
 import config from 'config'
-import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
-import ProductListing from 'core/components/ProductListing.vue'
-import Breadcrumbs from 'core/components/Breadcrumbs.vue'
+import Sidebar from 'core/components/blocks/Category/sidebar'
+import ProductListing from 'core/components/productListing'
+import Breadcrumbs from 'core/components/breadcrumbs'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
-import _ from 'lodash'
+import toString from 'lodash-es/toString'
 
 export default {
   name: 'Category',
@@ -46,7 +46,7 @@ export default {
     },
     onFilterChanged (filterOption) {
       this.pagination.current = 0
-      if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+      if (this.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
         delete this.filters.chosen[filterOption.attribute_code]
       } else {
         this.filters.chosen[filterOption.attribute_code] = filterOption

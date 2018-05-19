@@ -54,14 +54,13 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-
-import AddToCart from './AddToCart'
+import productTile from 'core/components/productTile'
+import AddToCart from 'theme/components/AddToCart'
 
 export default {
   components: {
     AddToCart
   },
-  mixins: [coreComponent('ProductTile')]
+  mixins: [productTile]
 }
 </script>

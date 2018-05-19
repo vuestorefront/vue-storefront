@@ -356,6 +356,33 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://www.getnoticed.nl/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/38860463-87a9fff4-4230-11e8-8017-e5ffb73e77f9.png"
+            alt="Get.Noticed"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://novatize.com/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/39051246-62220fae-44a8-11e8-92d3-3bbe02644313.png"
+            alt="Novatize"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.imaginationmedia.com/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/39051477-0c46c1aa-44a9-11e8-8f53-0adabe3e66a4.png"
+            alt="Imagination Media"
+            height="50"
+          >
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import Breadcrumbs from 'core/components/Breadcrumbs'
-import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
-import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
-import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
-import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
-import MyOrder from 'core/components/blocks/MyAccount/MyOrder'
+import Breadcrumbs from 'core/components/breadcrumbs'
+import MyProfile from 'core/components/blocks/MyAccount/myProfile'
+import MyShippingDetails from 'core/components/blocks/MyAccount/myShippingDetails'
+import MyNewsletter from 'core/components/blocks/MyAccount/myNewsletter'
+import MyOrders from 'core/components/blocks/MyAccount/myOrders'
+import MyOrder from 'core/components/blocks/MyAccount/myOrder'
 import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 

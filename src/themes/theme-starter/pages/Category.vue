@@ -19,9 +19,7 @@
 </template>
 
 <script>
-// Here we are importing Core Page module responsible for business logic injection
-import { corePage } from 'core/lib/themes'
-
+import Category from 'core/pages/Category'
 import Sidebar from 'theme/components/Category/Sidebar'
 import ProductTile from 'theme/components/ProductTile' // Component to display small product tile
 
@@ -37,6 +35,6 @@ export default {
     ProductTile,
     Sidebar
   },
-  mixins: [corePage('Category')]
+  mixins: [Category]
 }
 </script>

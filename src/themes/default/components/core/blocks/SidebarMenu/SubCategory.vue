@@ -6,7 +6,7 @@
       :style="styles"
     >
       <li
-        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         v-if="parentSlug"
       >
         <router-link
@@ -17,7 +17,7 @@
         </router-link>
       </li>
       <li
-        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         :key="link.slug"
         v-for="link in categoryLinks"
       >
@@ -48,7 +48,7 @@
       :style="styles"
     >
       <li
-        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         :key="link.id"
         v-for="link in myAccountLinks"
         @click="notify(link.name)"
@@ -60,7 +60,7 @@
           {{ link.name }}
         </router-link>
       </li>
-      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex">
+      <li class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex">
         <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click.prevent="logout">
           {{ $t('Logout') }}
         </a>
