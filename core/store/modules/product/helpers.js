@@ -2,7 +2,11 @@ import config from '../../lib/config'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import { calculateProductTax } from '../../lib/taxcalc'
-import _ from 'lodash'
+import flattenDeep from 'lodash-es/flattenDeep'
+import omit from 'lodash-es/omit'
+import remove from 'lodash-es/remove'
+import toString from 'lodash-es/toString'
+import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 
@@ -62,7 +66,7 @@ export function filterOutUnavailableVariants (context, product) {
         const stockCached = context.rootState.stock.cache[confChild.id]
         if (stockCached) {
           stockItems.push(stockCached)
-          confChildSkus = _.remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
+          confChildSkus = remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
         }
       }
       console.debug('Cached stock items and delta', stockItems, confChildSkus)
@@ -70,7 +74,7 @@ export function filterOutUnavailableVariants (context, product) {
         context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
           if (task && task.resultCode === 200) {
             const diffLog = []
-            _filterChildrenByStockitem(context, _.union(task.result, stockItems), product, diffLog)
+            _filterChildrenByStockitem(context, union(task.result, stockItems), product, diffLog)
             console.debug('Filtered configurable_children with the network call', diffLog)
             resolve()
           } else {
@@ -157,8 +161,8 @@ export function doPlatformPricesSync (products) {
       let skus = products.map((p) => { return p.sku })
 
       if (products.length === 1) { // single product - download child data
-        const childSkus = _.flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
-        skus = _.union(skus, childSkus)
+        const childSkus = flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
+        skus = union(skus, childSkus)
       }
       console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
 
@@ -298,7 +302,7 @@ function _internalMapOptions (productOption) {
     })
   }
   productOption.extension_attributes.configurable_item_options = productOption.extension_attributes.configurable_item_options.map((op) => {
-    return _.omit(op, ['label', 'value'])
+    return omit(op, ['label', 'value'])
   })
   return optionsMapped
 }
@@ -367,8 +371,8 @@ export function configureProductAsync (context, { product, configuration, select
       if (configuration.sku) {
         return configurableChild.sku === configuration.sku // by sku or first one
       } else {
-        return Object.keys(_.omit(configuration, ['price'])).every((configProperty) => {
-          return _.toString(configurableChild[configProperty]) === _.toString(configuration[configProperty].id)
+        return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
+          return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
         })
       }
     }) || (fallbackToDefaultWhenNoAvailable ? product.configurable_children[0] : null)
@@ -393,7 +397,7 @@ export function configureProductAsync (context, { product, configuration, select
       }/* else {
         console.debug('Skipping configurable options setup', configuration)
       } */
-      selectedVariant = _.omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
+      selectedVariant = omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', selectedVariant)

@@ -5,10 +5,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import validationError from 'core/components/validationError'
 
 export default {
-  name: 'ValidationError',
-  mixins: [coreComponent('ValidationError')]
+  mixins: [validationError]
 }
 </script>

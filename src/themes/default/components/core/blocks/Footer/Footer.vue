@@ -1,6 +1,6 @@
 <template>
   <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckout }">
-    <newsletter class=" flex brdr-bottom brdr-cl-secondary" v-if="!isCheckout"/>
+    <newsletter class=" flex brdr-bottom-1 brdr-cl-secondary" v-if="!isCheckout"/>
     <div
       class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
       v-if="!isCheckout"
@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import footer from 'core/components/blocks/Footer/footer'
 import Newsletter from './Newsletter.vue'
 
 export default {
@@ -199,7 +199,7 @@ export default {
   components: {
     Newsletter
   },
-  mixins: [coreComponent('blocks/Footer/Footer')]
+  mixins: [footer]
 }
 </script>
 

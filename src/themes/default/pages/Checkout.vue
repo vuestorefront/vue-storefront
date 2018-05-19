@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Checkout from 'core/pages/Checkout.vue'
 
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails.vue'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
@@ -42,7 +42,7 @@ export default {
     CartSummary,
     ThankYouPage
   },
-  mixins: [corePage('Checkout')]
+  mixins: [Checkout]
 }
 </script>
 

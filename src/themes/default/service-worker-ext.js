@@ -11,4 +11,3 @@ toolbox.router.get("/catalog", toolbox.fastest, {});
 
 self.addEventListener('message', function (event) {
 })
-

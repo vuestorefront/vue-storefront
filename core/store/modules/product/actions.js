@@ -7,7 +7,8 @@ import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
-import _ from 'lodash'
+import omit from 'lodash-es/omit'
+import trim from 'lodash-es/trim'
 import rootStore from '../../'
 
 export default {
@@ -186,7 +187,7 @@ export default {
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
-            if (_.trim(lb) !== '') {
+            if (trim(lb) !== '') {
               let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
               if (!context.state.current_options[optionKey]) {
                 context.state.current_options[optionKey] = []
@@ -312,7 +313,7 @@ export default {
           // check is prod has configurable children
           const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
           if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
-            prod = _.omit(prod, ['configurable_children', 'configurable_options'])
+            prod = omit(prod, ['configurable_children', 'configurable_options'])
           }
           // set current product - configurable or not
           if (prod.type_id === 'configurable' && hasConfigurableChildren) {

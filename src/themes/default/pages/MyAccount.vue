@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import MyAccount from 'core/pages/MyAccount.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
@@ -62,7 +62,7 @@ export default {
     MyOrders,
     MyOrder
   },
-  mixins: [corePage('MyAccount')]
+  mixins: [MyAccount]
 }
 </script>
 

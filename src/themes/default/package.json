@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/theme-default",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.3",
   "description": "Default theme for Vue Storefront",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,8 @@
     "vue-no-ssr": "^0.2.2",
     "vuelidate": "^0.6.1",
     "vuex": "^3.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

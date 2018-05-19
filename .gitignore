@@ -21,3 +21,5 @@ core/resource/.promoted_offers.json.icloud
 core/resource/.slider.json.icloud
 yarn-error.log
 package-lock.json
+cypress/videos
+cypress/screenshots

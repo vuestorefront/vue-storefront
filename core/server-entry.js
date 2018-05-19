@@ -1,5 +1,5 @@
 import { createApp } from './app'
-import _ from 'lodash'
+import union from 'lodash-es/union'
 import { HttpError } from 'core/lib/exceptions'
 global.$VS.isSSR = true
 
@@ -40,7 +40,7 @@ export default context => {
       }
       Promise.all(matchedComponents.map(Component => {
         const components = Component.mixins ? Array.from(Component.mixins) : []
-        _.union(components, [Component]).map(SubComponent => {
+        union(components, [Component]).map(SubComponent => {
           if (SubComponent.preAsyncData) {
             SubComponent.preAsyncData({ store, route: router.currentRoute })
           }

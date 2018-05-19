@@ -1,5 +1,5 @@
 import config from '../lib/config'
-import _ from 'lodash'
+import map from 'lodash-es/map'
 import { slugify } from '../helpers'
 import hash from 'object-hash'
 
@@ -38,7 +38,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
   }
   if (resp.hasOwnProperty('hits')) {
     return {
-      items: _.map(resp.hits.hits, function (hit) {
+      items: map(resp.hits.hits, function (hit) {
         return Object.assign(hit._source, { _score: hit._score, slug: hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '' }) // TODO: assign slugs server side
       }), // TODO: add scoring information
       total: resp.hits.total,
