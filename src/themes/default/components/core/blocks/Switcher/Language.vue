@@ -1,28 +1,26 @@
 <template>
   <modal name="modal-switcher" :width="650">
     <p slot="header">
-      {{ $t('Change language') }}
+      {{ $t('Choose your country') }}
     </p>
     <div slot="content">
-      <form @submit.prevent="subscribe" novalidate>
-        <button-full
-          class="mb35"
-          type="submit"
-          @click.native="$v.email.$touch"
-        >
-          {{ $t('Update settings') }}
-        </button-full>
-      </form>
+      <h3>United Kingdom</h3>
+      <ul>
+        <li>English</li>
+      </ul>
+      <h3>Italy</h3>
+      <ul>
+        <li>English</li>
+        <li>Italiano</li>
+      </ul>
     </div>
   </modal>
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   components: {
-    ButtonFull,
     Modal
   },
   methods: {
@@ -33,5 +31,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+  h3 {
+    margin-bottom: 0.5em;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    li {
+      display: inline-block;
+      + li {
+        margin-left: 1em;
+      }
+    }
+  }
 </style>
