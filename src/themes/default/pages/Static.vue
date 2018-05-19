@@ -100,3 +100,16 @@ $border-primary: color(primary, $colors-border);
   }
 }
 </style>
+
+<style lang="scss">
+.static-content {
+  h3 {
+    margin-top: 40px;
+    margin-bottom: 25px;
+    @media (max-width: 767px) {
+      margin-top: 35px;
+      margin-bottom: 10px;
+    }
+  }
+}
+</style>

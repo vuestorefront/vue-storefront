@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import accountIcon from 'core/components/blocks/Header/accountIcon'
 import i18n from 'core/lib/i18n'
 
 export default {
@@ -42,7 +42,7 @@ export default {
       ]
     }
   },
-  mixins: [coreComponent('blocks/Header/AccountIcon')]
+  mixins: [accountIcon]
 }
 </script>
 

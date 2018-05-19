@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import searchIcon from 'core/components/blocks/Header/searchIcon'
 
 export default {
-  mixins: [coreComponent('blocks/Header/SearchIcon')]
+  mixins: [searchIcon]
 }
 </script>

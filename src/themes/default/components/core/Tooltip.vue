@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import tooltip from 'core/components/tooltip'
 
 export default {
-  mixins: [coreComponent('SizeSelector')]
+  mixins: [tooltip]
 }
 </script>
 

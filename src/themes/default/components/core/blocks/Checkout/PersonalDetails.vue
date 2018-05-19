@@ -162,6 +162,7 @@
         <div class="row my30">
           <div class="col-xs-12 col-md-7 px20 button-container">
             <button-full
+              data-testid="personalDetailsSubmit"
               @click.native="sendDataToCheckout"
               :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
             >
@@ -218,8 +219,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-
+import personalDetails from 'core/components/blocks/Checkout/personalDetails'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import Modal from 'theme/components/core/Modal.vue'
@@ -262,7 +262,7 @@ export default {
     BaseCheckbox,
     BaseInput
   },
-  mixins: [coreComponent('blocks/Checkout/PersonalDetails')]
+  mixins: [personalDetails]
 }
 </script>
 

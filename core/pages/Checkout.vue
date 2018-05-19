@@ -7,11 +7,11 @@
 <script>
 import i18n from 'core/lib/i18n'
 import config from 'config'
-import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
-import Shipping from 'core/components/blocks/Checkout/Shipping'
-import Payment from 'core/components/blocks/Checkout/Payment'
-import OrderReview from 'core/components/blocks/Checkout/OrderReview'
-import CartSummary from 'core/components/blocks/Checkout/CartSummary'
+import PersonalDetails from 'core/components/blocks/Checkout/personalDetails'
+import Shipping from 'core/components/blocks/Checkout/shipping'
+import Payment from 'core/components/blocks/Checkout/payment'
+import OrderReview from 'core/components/blocks/Checkout/orderReview'
+import CartSummary from 'core/components/blocks/Checkout/cartSummary'
 import Composite from 'core/mixins/composite'
 
 export default {
@@ -81,7 +81,7 @@ export default {
           if (chp && chp.stock) {
             if (!chp.stock.is_in_stock) {
               this.stockCheckOK = false
-              chp.warning_message = i18n.t('Out of stock!')
+              chp.errors.stock = i18n.t('Out of stock!')
               this.$bus.$emit('notification', {
                 type: 'error',
                 message: chp.name + i18n.t(' is out of the stock!'),

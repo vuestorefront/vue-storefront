@@ -1,8 +1,11 @@
 import { createApp } from './app'
 import config from 'config'
 import { execute } from '@vue-storefront/store/lib/task'
+import UniversalStorage from '@vue-storefront/store/lib/storage'
 import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
+import union from 'lodash-es/union'
+import sizeof from 'object-sizeof'
 
 require('./service-worker-registration') // register the service worker
 
@@ -12,7 +15,18 @@ global.$VS.isSSR = false
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
-
+function _ssrHydrateSubcomponents (components, next, to) {
+  Promise.all(components.map(SubComponent => {
+    if (SubComponent.asyncData) {
+      return SubComponent.asyncData({
+        store,
+        route: to
+      })
+    }
+  })).then(() => {
+    next()
+  }).catch(next)
+}
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
@@ -26,17 +40,19 @@ router.onReady(() => {
     }
     Promise.all(activated.map(c => { // TODO: update me for mixins support
       const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
-      components.push(c)
-      Promise.all(components.map(SubComponent => {
-        if (SubComponent.asyncData) {
-          return SubComponent.asyncData({
-            store,
-            route: to
-          })
+      union(components, [c]).map(SubComponent => {
+        if (SubComponent.preAsyncData) {
+          SubComponent.preAsyncData({ store, route: router.currentRoute })
         }
-      })).then(() => {
-        next()
-      }).catch(next)
+      })
+      if (c.asyncData) {
+        c.asyncData({ store, route: to }).then((result) => { // always execute the asyncData() from the top most component first
+          console.log('Top-most asyncData executed')
+          _ssrHydrateSubcomponents(components, next, to)
+        }).catch(next)
+      } else {
+        _ssrHydrateSubcomponents(components, next, to)
+      }
     }))
   })
   app.$mount('#app')
@@ -58,10 +74,10 @@ const orderMutex = {}
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
 
-  const ordersCollection = localForage.createInstance({
+  const ordersCollection = new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders'
-  })
+  }))
 
   const fetchQueue = []
   ordersCollection.iterate((order, id, iterationNumber) => {
@@ -133,19 +149,19 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   console.log('Executing task queue')
   // event.data.config - configuration, endpoints etc
 
-  const syncTaskCollection = localForage.createInstance({
+  const syncTaskCollection = new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'syncTasks'
-  })
+  }))
 
-  const usersCollection = localForage.createInstance({
+  const usersCollection = new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'user'
-  })
-  const cartsCollection = localForage.createInstance({
+  }))
+  const cartsCollection = new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'carts'
-  })
+  }))
 
   usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
     if (err) {
@@ -160,23 +176,13 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
         currentCartId = store.state.cart.cartServerToken
       }
 
+      if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+        currentToken = store.state.user.token
+      }
       const fetchQueue = []
       console.log('Current User token = ' + currentToken)
       console.log('Current Cart token = ' + currentCartId)
       syncTaskCollection.iterate((task, id, iterationNumber) => {
-        /** if (config.cart.synchronize) {
-          if (task.url.indexOf('{{cartId}}') >= 0 && (isNullOrUndefined(currentCartId) || !currentCartId)) { // we don't have cart id, let's create server cart in that case
-            console.log('No cartId, required for async URL', task.url)
-            task = { url: config.cart.create_endpoint, // recreate cart
-              payload: {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                mode: 'cors'
-              },
-              callback_event: 'servercart-after-created'
-            }
-          }
-        } */
         if (!task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
@@ -202,6 +208,12 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
     })
   })
 })
+
+setInterval(function () {
+  const sizeOfCache = sizeof(global.$VS.localCache) / 1024
+  console.debug('Local cache size = ' + sizeOfCache + 'KB')
+  EventBus.$emit('cache-local-size', sizeOfCache)
+}, 30000)
 
 /**
  * Process order queue when we're back onlin

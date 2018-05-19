@@ -1,6 +1,4 @@
-if (!global.$VS) global.$VS = {}
-
-import _ from 'lodash'
+import union from 'lodash-es/union'
 import Vue from 'vue'
 import App from 'theme/App'
 import store from '@vue-storefront/store'
@@ -15,6 +13,7 @@ import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
 import registerExtensions from 'core/lib/extensions'
 import extensionEntryPoints from 'src/extensions'
 import themeExtensionEntryPoints from 'theme/extensions'
+import VueObserveVisibility from 'vue-observe-visibility'
 
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
@@ -22,6 +21,8 @@ import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 import VueOffline from 'vue-offline'
 import shippingMethods from 'core/resource/shipping_methods.json'
+
+if (!global.$VS) global.$VS = {}
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
@@ -36,6 +37,7 @@ Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
 Vue.use(VueOffline)
+Vue.use(VueObserveVisibility)
 
 const pluginsObject = plugins()
 Object.keys(pluginsObject).forEach(function (key) {
@@ -64,7 +66,7 @@ export function createApp () {
   })
 
   registerExtensions(
-    _.union(extensionEntryPoints, themeExtensionEntryPoints),
+    union(extensionEntryPoints, themeExtensionEntryPoints),
     app,
     router,
     store,

@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import AddToCart from 'core/components/AddToCart.vue'
-import ProductGallery from 'core/components/ProductGallery.vue'
+import Breadcrumbs from 'core/components/breadcrumbs'
+import AddToCart from 'core/components/addToCart'
+import ProductGallery from 'core/components/productGallery'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
-import _ from 'lodash'
+import groupBy from 'lodash-es/groupBy'
+import uniqBy from 'lodash-es/uniqBy'
 import config from 'config'
 
 export default {
@@ -69,6 +70,38 @@ export default {
         })
       }
     },
+    onAfterCustomOptionsChanged (payload) {
+      let priceDelta = 0
+      let priceDeltaInclTax = 0
+      for (const optionValue of Object.values(payload.optionValues)) {
+        if (typeof optionValue === 'object' && parseInt(optionValue.option_type_id) > 0) {
+          if (optionValue.price_type === 'fixed' && optionValue.price !== 0) {
+            priceDelta += optionValue.price
+            priceDeltaInclTax += optionValue.price
+          }
+          if (optionValue.price_type === 'percent' && optionValue.price !== 0) {
+            priceDelta += ((optionValue.price / 100) * this.originalProduct.price)
+            priceDeltaInclTax += ((optionValue.price / 100) * this.originalProduct.priceInclTax)
+          }
+        }
+      }
+      this.product.price = this.originalProduct.price + priceDelta
+      this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
+    },
+    onAfterBundleOptionsChanged (payload) {
+      let priceDelta = 0
+      let priceDeltaInclTax = 0
+      for (const optionValue of Object.values(payload.optionValues)) {
+        if (typeof optionValue.value.product !== 'undefined' && parseInt(optionValue.qty) >= 0) {
+          priceDelta += optionValue.value.product.price * parseInt(optionValue.qty)
+          priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
+        }
+      }
+      if (priceDelta > 0) {
+        this.product.price = priceDelta
+        this.product.priceInclTax = priceDeltaInclTax
+      }
+    },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
         console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
@@ -98,39 +131,63 @@ export default {
           }))
       }
     },
+    onAfterRemovedVariant (payload) {
+      this.$forceUpdate()
+    },
     onAfterFilterChanged (filterOption) {
       EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+      const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption
       this.$store.dispatch('product/configure', {
         product: this.product,
         configuration: this.configuration,
-        selectDefaultVariant: true
+        selectDefaultVariant: true,
+        fallbackToDefaultWhenNoAvailable: false
       }).then((selectedVariant) => {
         if (!selectedVariant) {
+          if (typeof prevOption !== 'undefined' && prevOption) {
+            this.configuration[filterOption.attribute_code] = prevOption
+          } else {
+            delete this.configuration[filterOption.attribute_code]
+          }
           this.$bus.$emit('notification', {
             type: 'warning',
             message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
             action1: { label: i18n.t('OK'), action: 'close' }
           })
-          return
         }
       }).catch(err => console.error({
         info: 'Dispatch product/configure in Product.vue',
         err
       }))
+    },
+    updateAddToWishlistState (product) {
+      if (product.sku === this.product.sku) {
+        this.favorite.isFavorite = false
+      }
     }
   },
   watch: {
     '$route': 'validateRoute'
   },
   beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.onAfterFilterChanged)
+    this.$bus.$off('product-after-removevariant')
+    this.$bus.$off('filter-changed-product')
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
+    this.$bus.$off('product-after-customoptions')
+    this.$bus.$off('product-after-bundleoptions')
+    this.$bus.$off('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   beforeMount () {
     this.onStateCheck()
+  },
+  created () {
+    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
+    this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
+    this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
+    this.$bus.$on('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   computed: {
     ...mapGetters({
@@ -171,15 +228,15 @@ export default {
           }
         }
       }
-      let groupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children[0][groupBy]) {
-        let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
-          return child[groupBy]
+      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
+      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
+        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
+          return child[variantsGroupBy]
         })
-        Object.keys(grupedByAttribute).forEach((confChild) => {
-          if (grupedByAttribute[confChild][0].image) {
+        Object.keys(groupedByAttribute).forEach((confChild) => {
+          if (groupedByAttribute[confChild][0].image) {
             images.push({
-              'src': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
               'loading': this.getThumbnail(this.product.image, 310, 300),
               'id': confChild
             })
@@ -191,7 +248,7 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return images
+      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
     },
     customAttributes () {
       let inst = this

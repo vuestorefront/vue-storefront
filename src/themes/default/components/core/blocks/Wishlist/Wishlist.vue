@@ -19,20 +19,20 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul class="products">
-      <product @click.native="closeWishlist" v-for="product in items" :key="product.id" :product="product" />
+      <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
   </div>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import wishlist from 'core/components/blocks/Wishlist/wishlist'
 import Product from './Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [coreComponent('blocks/Wishlist/Wishlist')]
+  mixins: [wishlist]
 }
 </script>
 

@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import microcart from 'core/components/blocks/Microcart/microcart'
 import Product from './Product'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
@@ -110,7 +110,7 @@ export default {
     ButtonOutline,
     BaseInput
   },
-  mixins: [coreComponent('blocks/Microcart/Microcart')]
+  mixins: [microcart]
 }
 </script>
 
