@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import product from 'core/components/blocks/Microcart/product'
 
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
@@ -127,7 +127,7 @@ export default {
     EditButton,
     RemoveButton
   },
-  mixins: [coreComponent('blocks/Microcart/Product')]
+  mixins: [product]
 }
 </script>
 

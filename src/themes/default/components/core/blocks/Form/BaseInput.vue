@@ -3,7 +3,7 @@
     <div class="relative">
       <input
         class="
-         py10 w-100 border-box brdr-none brdr-bottom
+         py10 w-100 border-box brdr-none brdr-bottom-1
          brdr-cl-primary h4 sans-serif
        "
         :class="{pr30: type === 'password', empty: value === ''}"
@@ -51,9 +51,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import baseInput from 'core/components/blocks/Form/baseInput'
+
 export default {
-  mixins: [coreComponent('blocks/Form/BaseInput')]
+  mixins: [baseInput]
 }
 </script>
 

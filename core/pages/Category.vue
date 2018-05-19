@@ -6,13 +6,13 @@
 
 <script>
 import config from 'config'
-import Sidebar from 'core/components/blocks/Category/Sidebar.vue'
-import ProductListing from 'core/components/ProductListing.vue'
-import Breadcrumbs from 'core/components/Breadcrumbs.vue'
+import Sidebar from 'core/components/blocks/Category/sidebar'
+import ProductListing from 'core/components/productListing'
+import Breadcrumbs from 'core/components/breadcrumbs'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
-import _ from 'lodash'
+import toString from 'lodash-es/toString'
 
 export default {
   name: 'Category',
@@ -24,9 +24,29 @@ export default {
   },
   mixins: [Composite],
   methods: {
+    bottomVisible () {
+      const scrollY = window.scrollY
+      const visible = document.documentElement.clientHeight
+      const pageHeight = document.documentElement.scrollHeight
+      const bottomOfPage = visible + scrollY >= pageHeight
+      return bottomOfPage || pageHeight < visible
+    },
+    pullMoreProducts () {
+      let currentQuery = this.currentQuery
+      currentQuery.append = true
+      currentQuery.route = this.$route
+      currentQuery.store = this.$store
+      currentQuery.current = currentQuery.current + currentQuery.perPage
+      this.pagination.current = currentQuery.current
+      this.pagination.perPage = currentQuery.perPage
+      if (currentQuery.current <= this.productsTotal) {
+        currentQuery.searchProductQuery = buildFilterProductsQuery(this.category, this.filters.chosen)
+        return this.$store.dispatch('category/products', currentQuery)
+      }
+    },
     onFilterChanged (filterOption) {
       this.pagination.current = 0
-      if (this.filters.chosen[filterOption.attribute_code] && ((_.toString(filterOption.id) === _.toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+      if (this.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
         delete this.filters.chosen[filterOption.attribute_code]
       } else {
         this.filters.chosen[filterOption.attribute_code] = filterOption
@@ -80,7 +100,12 @@ export default {
     }
   },
   watch: {
-    '$route': 'validateRoute'
+    '$route': 'validateRoute',
+    bottom (bottom) {
+      if (bottom) {
+        this.pullMoreProducts()
+      }
+    }
   },
   preAsyncData ({ store, route }) {
     console.log('preAsyncData query setup')
@@ -131,6 +156,11 @@ export default {
   },
   created () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
+    if (!global.$VS.isSSR && this.lazyLoadProductsOnscroll) {
+      window.addEventListener('scroll', () => {
+        this.bottom = this.bottomVisible()
+      })
+    }
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
@@ -174,7 +204,9 @@ export default {
         perPage: 50,
         current: 0,
         enabled: false
-      }
+      },
+      bottom: false,
+      lazyLoadProductsOnscroll: true
     }
   },
   components: {

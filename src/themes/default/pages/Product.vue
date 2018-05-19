@@ -54,6 +54,7 @@
               <div
                 class="h5"
                 v-for="(option, index) in product.configurable_options"
+                v-if="!product.errors || Object.keys(product.errors).length === 0"
                 :key="index"
               >
                 <div class="variants-label">
@@ -214,11 +215,11 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Product from 'core/pages/Product.vue'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'
-import GenericSelector from 'core/components/GenericSelector.vue'
+import GenericSelector from 'core/components/genericSelector'
 import ColorSelector from '../components/core/ColorSelector.vue'
 import SizeSelector from '../components/core/SizeSelector.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
@@ -262,7 +263,7 @@ export default {
     ProductCustomOptions,
     ProductBundleOptions
   },
-  mixins: [corePage('Product')]
+  mixins: [Product]
 }
 </script>
 
@@ -282,6 +283,11 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+  padding-bottom: 15px;
+}
 .data {
   @media (max-width: 767px) {
     border-bottom: 1px solid $bg-secondary;

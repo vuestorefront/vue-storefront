@@ -1,6 +1,8 @@
 import EventBus from './event-bus'
 import i18n from './i18n'
-import _ from 'lodash'
+import isNaN from 'lodash-es/isNaN'
+import isUndefined from 'lodash-es/isUndefined'
+import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
 import config from './config'
@@ -42,11 +44,11 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
   }).then((jsonResponse) => {
     if (jsonResponse) {
       if (parseInt(jsonResponse.code) !== 200) {
-        let resultString = jsonResponse.result ? _.toString(jsonResponse.result) : null
+        let resultString = jsonResponse.result ? toString(jsonResponse.result) : null
         if (resultString && (resultString.indexOf(i18n.t('not authorized')) >= 0 || resultString.indexOf('not authorized')) >= 0 && currentToken !== null) { // the token is no longer valid, try to invalidate it
           console.error('Invalid token - need to be revalidated', currentToken, task.url, global.$VS.userTokenInvalidateLock)
-          if (_.isNaN(global.$VS.userTokenInvalidateAttemptsCount) || _.isUndefined(global.$VS.userTokenInvalidateAttemptsCount)) global.$VS.userTokenInvalidateAttemptsCount = 0
-          if (_.isNaN(global.$VS.userTokenInvalidateLock) || _.isUndefined(global.$VS.userTokenInvalidateLock)) global.$VS.userTokenInvalidateLock = 0
+          if (isNaN(global.$VS.userTokenInvalidateAttemptsCount) || isUndefined(global.$VS.userTokenInvalidateAttemptsCount)) global.$VS.userTokenInvalidateAttemptsCount = 0
+          if (isNaN(global.$VS.userTokenInvalidateLock) || isUndefined(global.$VS.userTokenInvalidateLock)) global.$VS.userTokenInvalidateLock = 0
 
           silentMode = true
           if (config.users.autoRefreshTokens) {

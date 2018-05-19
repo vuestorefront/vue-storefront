@@ -9,11 +9,11 @@
 
 <script>
 // Here we are importing Core Page module responsible for business logic injection
-import { corePage } from 'core/lib/themes'
+import Product from 'core/pages/Product.vue'
 
 export default {
   // Here we are injecting core Product Page business logic (you can find it under core/pages/Product.vue)
   // You can find the docs for Product Page here: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/ProductPage.md
-  mixins: [corePage('Product')]
+  mixins: [Product]
 }
 </script>

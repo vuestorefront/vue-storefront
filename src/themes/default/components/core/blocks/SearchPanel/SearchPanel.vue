@@ -14,7 +14,7 @@
         id="search"
         v-model="search"
         @input="makeSearch"
-        class="mr20 py10 brdr-none brdr-bottom brdr-cl-primary no-outline h4"
+        class="mr20 py10 brdr-none brdr-bottom-1 brdr-cl-primary no-outline h4"
         :placeholder="$t('Type what you are looking for...')"
         type="text"
       >
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import searchPanel from 'core/components/blocks/SearchPanel/searchPanel'
 import ProductTile from '../../ProductTile.vue'
 
 export default {
@@ -53,7 +53,7 @@ export default {
       }
     })
   },
-  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
+  mixins: [searchPanel]
 }
 </script>
 

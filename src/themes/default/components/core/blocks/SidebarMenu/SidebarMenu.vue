@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: isOpen }">
-    <div class="row brdr-bottom brdr-cl-bg-secondary">
+    <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary">
+          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
             <router-link
               class="block px25 py20 cl-accent no-underline"
               to="/"
@@ -28,7 +28,7 @@
             </router-link>
           </li>
           <li
-            class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+            class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
             :key="category.slug"
             @click="closeMenu"
             v-for="category in categories"
@@ -56,7 +56,7 @@
           </li>
           <li @click="closeMenu">
             <router-link
-              class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               to="/magazine"
               exact
             >
@@ -65,7 +65,7 @@
           </li>
           <li @click="closeMenu">
             <router-link
-              class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               to="/sale"
               exact
             >
@@ -74,14 +74,14 @@
           </li>
           <li @click="closeMenu">
             <router-link
-              class="block px25 py20 brdr-bottom brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               to="/order-tracking"
               exact
             >
               {{ $t('Track my order') }}
             </router-link>
           </li>
-          <li @click="closeMenu" class="brdr-bottom brdr-cl-secondary flex">
+          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-secondary flex">
             <sub-btn
               v-if="currentUser"
               :name="$t('My account')"
@@ -108,14 +108,14 @@
 </template>
 
 <script>
+import sidebarMenu from 'core/components/blocks/SidebarMenu/sidebarMenu'
 import { mapState } from 'vuex'
-import { coreComponent } from 'core/lib/themes'
 import SubBtn from './SubBtn.vue'
 import SubCategory from './SubCategory.vue'
 import i18n from 'core/lib/i18n'
 
 export default {
-  mixins: [coreComponent('blocks/SidebarMenu/SidebarMenu')],
+  mixins: [sidebarMenu],
   components: {
     SubCategory,
     SubBtn

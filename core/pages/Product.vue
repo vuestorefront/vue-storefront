@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import AddToCart from 'core/components/AddToCart.vue'
-import ProductGallery from 'core/components/ProductGallery.vue'
+import Breadcrumbs from 'core/components/breadcrumbs'
+import AddToCart from 'core/components/addToCart'
+import ProductGallery from 'core/components/productGallery'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
-import _ from 'lodash'
+import groupBy from 'lodash-es/groupBy'
+import uniqBy from 'lodash-es/uniqBy'
 import config from 'config'
 
 export default {
@@ -97,6 +98,9 @@ export default {
           }))
       }
     },
+    onAfterRemovedVariant (payload) {
+      this.$forceUpdate()
+    },
     onAfterFilterChanged (filterOption) {
       EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
@@ -118,7 +122,6 @@ export default {
             message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
             action1: { label: i18n.t('OK'), action: 'close' }
           })
-          return
         }
       }).catch(err => console.error({
         info: 'Dispatch product/configure in Product.vue',
@@ -130,6 +133,7 @@ export default {
     '$route': 'validateRoute'
   },
   beforeDestroy () {
+    this.$bus.$off('product-after-removevariant')
     this.$bus.$off('filter-changed-product')
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
@@ -139,6 +143,7 @@ export default {
     this.onStateCheck()
   },
   created () {
+    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
@@ -181,15 +186,15 @@ export default {
           }
         }
       }
-      let groupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][groupBy]) {
-        let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
-          return child[groupBy]
+      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
+      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
+        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
+          return child[variantsGroupBy]
         })
-        Object.keys(grupedByAttribute).forEach((confChild) => {
-          if (grupedByAttribute[confChild][0].image) {
+        Object.keys(groupedByAttribute).forEach((confChild) => {
+          if (groupedByAttribute[confChild][0].image) {
             images.push({
-              'src': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
               'loading': this.getThumbnail(this.product.image, 310, 300),
               'id': confChild
             })
@@ -201,7 +206,7 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return _.uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
+      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
     },
     customAttributes () {
       let inst = this

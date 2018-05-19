@@ -6,7 +6,9 @@ import config from '../../lib/config'
 import rootStore from '../../'
 import bodybuilder from 'bodybuilder'
 import i18n from '../../lib/i18n'
-import _ from 'lodash'
+import chunk from 'lodash-es/chunk'
+import trim from 'lodash-es/trim'
+import toString from 'lodash-es/toString'
 import { optionLabel } from '../attribute/helpers'
 
 export default {
@@ -209,8 +211,8 @@ export default {
               prefetchIndex++
             }
           })
-          for (const chunk of _.chunk(skus, 15)) {
-            rootStore.dispatch('stock/list', { skus: chunk }) // store it in the cache
+          for (const chunkItem of chunk(skus, 15)) {
+            rootStore.dispatch('stock/list', { skus: chunkItem }) // store it in the cache
           }
         }
         if (populateAggregations === true && res.aggregations) { // populate filter aggregates
@@ -226,13 +228,13 @@ export default {
                 }
 
                 for (let option of buckets) {
-                  uniqueFilterValues.add(_.toString(option.key))
+                  uniqueFilterValues.add(toString(option.key))
                 }
               }
 
               for (let key of uniqueFilterValues.values()) {
                 const label = optionLabel(rootStore.state.attribute, { attributeKey: attrToFilter, optionId: key })
-                if (_.trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
+                if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
                   rootStore.state.category.filters.available[attrToFilter].push({
                     id: key,
                     label: label

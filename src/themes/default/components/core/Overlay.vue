@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import overlay from 'core/components/overlay'
 
 export default {
   beforeCreate () {
@@ -21,7 +21,7 @@ export default {
       this.$store.commit('ui/setSidebar', false)
     }
   },
-  mixins: [coreComponent('Overlay')]
+  mixins: [overlay]
 }
 </script>
 

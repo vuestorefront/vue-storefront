@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import compareIcon from 'core/components/blocks/Header/compareIcon'
 
 export default {
-  mixins: [coreComponent('blocks/Header/CompareIcon')]
+  mixins: [compareIcon]
 }
 </script>

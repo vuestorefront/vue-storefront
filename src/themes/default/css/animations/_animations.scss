@@ -1,4 +1,4 @@
-@keyframes products-loaded {
+@keyframes images-lazy-loading {
   from {
     opacity: 0;
   }
@@ -9,8 +9,8 @@
 }
 
 [lazy="loaded"] {
-  animation: products-loaded;
-  animation-duration: .3s;
+  animation: images-lazy-loading;
+  animation-duration: 0.3s;
 }
 
 @keyframes ripple-effect {

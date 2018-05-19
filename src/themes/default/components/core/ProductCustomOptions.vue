@@ -5,7 +5,7 @@
         <h4>{{ option.title }}</h4>
         <input
           class="
-            py10 w-100 border-box brdr-none brdr-bottom
+            py10 w-100 border-box brdr-none brdr-bottom-1
             brdr-cl-primary h4 sans-serif
           "
           v-if="option.type === 'field'"
@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import productCustomOptions from 'core/components/productCustomOptions'
+
 export default {
-  name: 'ProductCustomOptions',
-  mixins: [coreComponent('ProductCustomOptions')]
+  mixins: [productCustomOptions]
 }
 </script>
 <style lang="scss" scoped>
@@ -154,4 +154,3 @@ export default {
     }
   }
 </style>
-
