@@ -56,16 +56,16 @@
 
 <script>
 import Composite from 'core/mixins/composite'
-import Breadcrumbs from '../../Breadcrumbs.vue'
-import BaseTextarea from '../Form/BaseTextarea.vue'
-import ButtonOutline from 'theme/components/theme/ButtonOutline.vue'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
 
 export default {
   name: 'ThankYouPage',
   mixins: [Composite],
   components: {
-    Breadcrumbs,
     BaseTextarea,
+    Breadcrumbs,
     ButtonOutline
   }
 }
