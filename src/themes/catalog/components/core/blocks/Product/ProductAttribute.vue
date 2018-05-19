@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import productAttribute from 'core/components/ProductAttribute'
+import ProductAttribute from 'core/components/ProductAttribute'
 
 export default {
-  mixins: [productAttribute]
+  mixins: [ProductAttribute]
 }
 </script>

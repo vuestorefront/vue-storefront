@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import sidebar from 'core/components/blocks/Category/Sidebar'
+import Sidebar from 'core/components/blocks/Category/Sidebar'
 
 import ColorSelector from 'theme/components/core/ColorSelector'
 import SizeSelector from 'theme/components/core/SizeSelector'
@@ -92,6 +92,6 @@ export default {
     PriceSelector,
     GenericSelector
   },
-  mixins: [sidebar]
+  mixins: [Sidebar]
 }
 </script>

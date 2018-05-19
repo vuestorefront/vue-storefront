@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import productTile from 'core/components/ProductTile'
+import ProductTile from 'core/components/ProductTile'
 
 export default {
-  mixins: [productTile]
+  mixins: [ProductTile]
 }
 </script>

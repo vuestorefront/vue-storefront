@@ -36,10 +36,14 @@
 </template>
 
 <script>
-import product from 'core/components/blocks/Wishlist/Product'
+import Product from 'core/components/blocks/Wishlist/Product'
 import RemoveButton from './RemoveButton'
 
 export default {
+  components: {
+    RemoveButton
+  },
+  mixins: [Product],
   data () {
     return {
       qty: 1
@@ -54,11 +58,7 @@ export default {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setWishlist', false)
     }
-  },
-  components: {
-    RemoveButton
-  },
-  mixins: [product]
+  }
 }
 </script>
 

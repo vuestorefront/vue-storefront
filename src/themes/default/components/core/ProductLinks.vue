@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import productLinks from 'core/components/ProductLinks'
+import ProductLinks from 'core/components/ProductLinks'
 export default {
-  mixins: [productLinks]
+  mixins: [ProductLinks]
 }
 </script>
 
