@@ -169,7 +169,6 @@ export default Vue.component('Product', {
     },
     gallery () {
       let images = []
-      console.log(this.product.media_gallery)
       if (this.product.media_gallery) {
         for (let mediaItem of this.product.media_gallery) {
           if (mediaItem.image) {
