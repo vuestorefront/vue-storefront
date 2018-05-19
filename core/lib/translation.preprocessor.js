@@ -33,4 +33,3 @@ module.exports = function (options) {
     code: JSON.stringify(coreMessages)
   }
 }
-

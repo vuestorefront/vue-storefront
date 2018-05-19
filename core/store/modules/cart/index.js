@@ -5,7 +5,8 @@ import EventBus from '../../lib/event-bus'
 import rootStore from '../../'
 import * as types from '../../mutation-types'
 import i18n from '../../lib/i18n'
-import _ from 'lodash'
+import isString from 'lodash-es/isString'
+import toString from 'lodash-es/toString'
 import config from '../../lib/config'
 
 const MAX_BYPASS_COUNT = 10
@@ -17,7 +18,7 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
     rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !config.cart.server_merge_by_default }, { root: true })
   } else {
-    let resultString = event.result ? _.toString(event.result) : null
+    let resultString = event.result ? toString(event.result) : null
     if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
         console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
@@ -44,7 +45,7 @@ EventBus.$on('servercart-after-totals', (event) => { // example stock check call
     let itemsAfterTotal = {}
     let platformTotalSegments = event.result.total_segments
     for (let item of event.result.items) {
-      if (item.options && _.isString(item.options)) item.options = JSON.parse(item.options)
+      if (item.options && isString(item.options)) item.options = JSON.parse(item.options)
       itemsAfterTotal[item.item_id] = item
       rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }, { root: true }) // update the server_id reference
     }

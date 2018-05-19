@@ -4,7 +4,7 @@ import { execute } from '@vue-storefront/store/lib/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
-import _ from 'lodash'
+import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 
 require('./service-worker-registration') // register the service worker
@@ -40,7 +40,7 @@ router.onReady(() => {
     }
     Promise.all(activated.map(c => { // TODO: update me for mixins support
       const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
-      _.union(components, [c]).map(SubComponent => {
+      union(components, [c]).map(SubComponent => {
         if (SubComponent.preAsyncData) {
           SubComponent.preAsyncData({ store, route: router.currentRoute })
         }

@@ -312,8 +312,8 @@
 </template>
 
 <script>
+import payment from 'core/components/blocks/Checkout/payment'
 import { required, minLength } from 'vuelidate/lib/validators'
-import { coreComponent } from 'core/lib/themes'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tooltip from 'theme/components/core/Tooltip.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
@@ -398,6 +398,6 @@ export default {
     BaseCheckbox,
     BaseInput
   },
-  mixins: [coreComponent('blocks/Checkout/Payment')]
+  mixins: [payment]
 }
 </script>
