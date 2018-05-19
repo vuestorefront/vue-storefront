@@ -143,7 +143,7 @@
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
         <div class="col-xs-5 col-sm-3 cl-tertiary">
-          {{ $t('United States (US)') }}
+          <language-switcher />
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links">
@@ -175,6 +175,7 @@
 <script>
 import { coreComponent } from 'core/lib/themes'
 import Newsletter from './Newsletter.vue'
+import LanguageSwitcher from '../../LanguageSwitcher.vue'
 
 export default {
   data () {
@@ -197,7 +198,8 @@ export default {
     }
   },
   components: {
-    Newsletter
+    Newsletter,
+    LanguageSwitcher
   },
   mixins: [coreComponent('blocks/Footer/Footer')]
 }
