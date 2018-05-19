@@ -27,7 +27,6 @@ const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
 module.exports = {
-  mode: 'development',
   plugins: [
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin()
