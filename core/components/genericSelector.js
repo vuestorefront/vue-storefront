@@ -3,7 +3,7 @@ import Vue from 'vue'
 export default Vue.component('GenericSelector', {
   props: {
     label: {
-      type: null,
+      type: String,
       required: false,
       default: () => false
     },
