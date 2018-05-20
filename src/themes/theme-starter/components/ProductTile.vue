@@ -55,17 +55,12 @@
 
 <script>
 import productTile from 'core/components/productTile'
-
-import AddToCart from './AddToCart'
+import AddToCart from 'theme/components/AddToCart'
 
 export default {
-<<<<<<< HEAD
   components: {
     AddToCart
   },
-  mixins: [coreComponent('ProductTile')]
-=======
   mixins: [productTile]
->>>>>>> upstream/develop
 }
 </script>

@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import AddToCart from 'core/components/AddToCart'
 
 export default {
-  mixins: [coreComponent('AddToCart')]
+  mixins: [AddToCart]
 }
 </script>
