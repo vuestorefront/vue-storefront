@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="fixed w-100 brdr-bottom bg-cl-primary brdr-cl-secondary"
+      class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import header from 'core/components/blocks/Header/header'
 import { mapState } from 'vuex'
 
 import Logo from '../../Logo.vue'
@@ -173,7 +173,7 @@ export default {
     ReturnIcon,
     Logo
   },
-  mixins: [coreComponent('blocks/Header/Header')]
+  mixins: [header]
 }
 </script>
 

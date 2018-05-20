@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import productsSlider from 'core/components/productsSlider'
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductTile from 'theme/components/core/ProductTile.vue'
@@ -53,7 +53,7 @@ export default {
       this.currentPage = currentPage
     }
   },
-  mixins: [coreComponent('ProductsSlider')],
+  mixins: [productsSlider],
   components: {
     Slide,
     Carousel,
@@ -85,21 +85,18 @@ $color-product-bg: color(secondary, $colors-background);
 
 .product {
   &.collection-product {
-    background-color: $color-product-bg;
     padding: 15px;
   }
 
   &.is-muted {
-    @media (min-width: 1024px) {
-      opacity: 0.5;
-    }
+    opacity: 0.5;
   }
 }
 
 .collection-product {
   .product-image {
-    mix-blend-mode: darken;
     height: auto;
+    will-change: opacity;
 
     img {
       max-width: 100%;

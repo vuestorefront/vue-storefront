@@ -102,10 +102,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import myOrder from 'core/components/blocks/MyAccount/myOrder'
 
 export default {
-  mixins: [coreComponent('blocks/MyAccount/MyOrder')]
+  mixins: [myOrder]
 }
 </script>
 

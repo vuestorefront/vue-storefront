@@ -18,17 +18,13 @@
           <cart-summary />
         </div>
       </div>
-      <div class="row" v-show="orderPlaced">
-        <div class="col-xs-12">
-          <thank-you-page />
-        </div>
-      </div>
     </div>
+    <thank-you-page v-show="orderPlaced" />
   </div>
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Checkout from 'core/pages/Checkout.vue'
 
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails.vue'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
@@ -46,7 +42,7 @@ export default {
     CartSummary,
     ThankYouPage
   },
-  mixins: [corePage('Checkout')]
+  mixins: [Checkout]
 }
 </script>
 

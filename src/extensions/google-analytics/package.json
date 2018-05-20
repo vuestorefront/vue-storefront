@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/extension-google-analytics",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.3",
   "description": "Google Analytics extension for Vue Storefront",
   "license": "MIT",
   "main": "index.js",

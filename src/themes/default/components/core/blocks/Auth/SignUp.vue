@@ -6,12 +6,11 @@
   </modal>
 </template>
 <script>
+import SignUp from 'core/components/blocks/Auth/signUp'
 import Modal from 'theme/components/core/Modal'
 import Login from './Login.vue'
 import Register from './Register.vue'
 import ForgotPass from './ForgotPass.vue'
-
-import { coreComponent } from 'core/lib/themes'
 
 export default {
   components: {
@@ -20,7 +19,7 @@ export default {
     Register,
     ForgotPass
   },
-  mixins: [coreComponent('blocks/Auth/SignUp')]
+  mixins: [SignUp]
 }
 </script>
 <style scoped>

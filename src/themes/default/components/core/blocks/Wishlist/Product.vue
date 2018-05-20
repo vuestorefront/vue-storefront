@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import product from 'core/components/blocks/Wishlist/product'
 import RemoveButton from './RemoveButton'
 
 export default {
@@ -58,7 +58,7 @@ export default {
   components: {
     RemoveButton
   },
-  mixins: [coreComponent('blocks/Wishlist/Product')]
+  mixins: [product]
 }
 </script>
 

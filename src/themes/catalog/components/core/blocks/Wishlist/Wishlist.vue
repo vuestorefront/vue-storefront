@@ -45,9 +45,9 @@ export default {
     ...mapActions({ 'removeFromWishlist': 'wishlist/removeItem' })
   },
   computed: {
-    items () {
-      return this.$store.state.wishlist.itemsWishlist
-    },
+    ...mapState('wishlist', [
+      'items'
+    ]),
     ...mapState({
       isOpen: state => state.ui.wishlist
     })

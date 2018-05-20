@@ -20,9 +20,13 @@
 
 <script>
 // Here we are importing Core Page module responsible for business logic injection
+<<<<<<< HEAD
 import { corePage } from 'core/lib/themes'
 
 import Sidebar from 'theme/components/Category/Sidebar'
+=======
+import Category from 'core/pages/Category.vue'
+>>>>>>> upstream/develop
 import ProductTile from 'theme/components/ProductTile' // Component to display small product tile
 
 export default {
@@ -37,6 +41,6 @@ export default {
     ProductTile,
     Sidebar
   },
-  mixins: [corePage('Category')]
+  mixins: [Category]
 }
 </script>

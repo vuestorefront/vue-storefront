@@ -1,6 +1,4 @@
-if (!global.$VS) global.$VS = {}
-
-import _ from 'lodash'
+import union from 'lodash-es/union'
 import Vue from 'vue'
 import App from 'theme/App'
 import store from '@vue-storefront/store'
@@ -23,6 +21,8 @@ import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 import VueOffline from 'vue-offline'
 import shippingMethods from 'core/resource/shipping_methods.json'
+
+if (!global.$VS) global.$VS = {}
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
@@ -66,7 +66,7 @@ export function createApp () {
   })
 
   registerExtensions(
-    _.union(extensionEntryPoints, themeExtensionEntryPoints),
+    union(extensionEntryPoints, themeExtensionEntryPoints),
     app,
     router,
     store,

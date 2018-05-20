@@ -12,18 +12,23 @@
           warning: notification.type == 'warning'
         }"
       >
-        <div class="message p20">
+        <div
+          class="message p20"
+          data-testid="notificationMessage"
+        >
           {{ notification.message }}
         </div>
         <div class="actions">
           <div
             class="py10 px20 pointer weight-400 uppercase"
+            data-testid="notificationAction1"
             @click="action(notification.action1.action, index)"
           >
             {{ notification.action1.label }}
           </div>
           <div
             class="py10 px20 pointer weight-400 uppercase"
+            data-testid="notificationAction2"
             @click="action(notification.action2.action, index)"
             v-if="notification.action2"
           >
@@ -36,10 +41,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import notification from 'core/components/notification'
 
 export default {
-  mixins: [coreComponent('Notification')]
+  mixins: [notification]
 }
 </script>
 

@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import Breadcrumbs from 'core/components/Breadcrumbs.vue'
-import AddToCart from 'core/components/AddToCart.vue'
-import ProductGallery from 'core/components/ProductGallery.vue'
+import Breadcrumbs from 'core/components/breadcrumbs'
+import AddToCart from 'core/components/addToCart'
+import ProductGallery from 'core/components/productGallery'
 import EventBus from 'core/plugins/event-bus'
 import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
-import _ from 'lodash'
+import groupBy from 'lodash-es/groupBy'
+import uniqBy from 'lodash-es/uniqBy'
 import config from 'config'
 
 export default {
@@ -43,31 +44,11 @@ export default {
         console.error('Error with loading = true in Product.vue; Reload page')
       }
     },
-    addToFavorite () {
-      let self = this
-      if (!self.favorite.isFavorite) {
-        this.$store.dispatch('wishlist/addItem', self.product).then(res => {
-          self.favorite.icon = 'favorite'
-          self.favorite.isFavorite = true
-        })
-      } else {
-        this.$store.dispatch('wishlist/removeItem', self.product).then(res => {
-          self.favorite.icon = 'favorite_border'
-          self.favorite.isFavorite = false
-        })
-      }
+    addToList (list) {
+      return this.$store.state[list] ? this.$store.dispatch(`${list}/addItem`, this.product) : false
     },
-    addToCompare () {
-      let self = this
-      if (!self.compare.isCompare) {
-        this.$store.dispatch('compare/addItem', self.product).then(res => {
-          self.compare.isCompare = true
-        })
-      } else {
-        this.$store.dispatch('compare/removeItem', self.product).then(res => {
-          self.compare.isCompare = false
-        })
-      }
+    removeFromList (list) {
+      return this.$store.state[list] ? this.$store.dispatch(`${list}/removeItem`, this.product) : false
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
@@ -106,19 +87,6 @@ export default {
         console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
         this.$router.push({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
       }
-
-      if (this.wishlistCheck.isOnWishlist(this.product)) {
-        this.favorite.icon = 'favorite'
-        this.favorite.isFavorite = true
-      } else {
-        this.favorite.icon = 'favorite_border'
-        this.favorite.isFavorite = false
-      }
-      if (this.compareCheck.isOnCompare(this.product)) {
-        this.compare.isCompare = true
-      } else {
-        this.compare.isCompare = false
-      }
     },
     onAfterPriceUpdate (product) {
       if (product.sku === this.product.sku) {
@@ -154,17 +122,11 @@ export default {
             message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
             action1: { label: i18n.t('OK'), action: 'close' }
           })
-          return
         }
       }).catch(err => console.error({
         info: 'Dispatch product/configure in Product.vue',
         err
       }))
-    },
-    updateAddToWishlistState (product) {
-      if (product.sku === this.product.sku) {
-        this.favorite.isFavorite = false
-      }
     }
   },
   watch: {
@@ -176,7 +138,6 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    this.$bus.$off('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   beforeMount () {
     this.onStateCheck()
@@ -187,7 +148,6 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    this.$bus.$on('product-after-remove-from-wishlist', this.updateAddToWishlistState)
   },
   computed: {
     ...mapGetters({
@@ -199,9 +159,7 @@ export default {
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
-      category: 'category/current',
-      wishlistCheck: 'wishlist/check',
-      compareCheck: 'compare/check'
+      category: 'category/current'
     }),
     productName () {
       return this.product ? this.product.name : ''
@@ -228,15 +186,15 @@ export default {
           }
         }
       }
-      let groupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][groupBy]) {
-        let grupedByAttribute = _.groupBy(this.product.configurable_children, child => {
-          return child[groupBy]
+      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
+      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
+        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
+          return child[variantsGroupBy]
         })
-        Object.keys(grupedByAttribute).forEach((confChild) => {
-          if (grupedByAttribute[confChild][0].image) {
+        Object.keys(groupedByAttribute).forEach((confChild) => {
+          if (groupedByAttribute[confChild][0].image) {
             images.push({
-              'src': this.getThumbnail(grupedByAttribute[confChild][0].image, 600, 744),
+              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
               'loading': this.getThumbnail(this.product.image, 310, 300),
               'id': confChild
             })
@@ -248,25 +206,24 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return _.uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
+      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
     },
     customAttributes () {
       let inst = this
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
       })
+    },
+    isOnWishlist () {
+      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
+    },
+    isOnCompare () {
+      return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
     }
   },
   data () {
     return {
-      loading: false,
-      favorite: {
-        isFavorite: false,
-        icon: 'favorite_border'
-      },
-      compare: {
-        isCompare: false
-      }
+      loading: false
     }
   },
   components: {

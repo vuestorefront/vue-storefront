@@ -21,15 +21,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-
+import newsletter from 'core/components/blocks/Footer/newsletter'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
 
 export default {
   components: {
     ButtonOutline
   },
-  mixins: [coreComponent('blocks/Footer/Newsletter')]
+  mixins: [newsletter]
 }
 </script>
 
