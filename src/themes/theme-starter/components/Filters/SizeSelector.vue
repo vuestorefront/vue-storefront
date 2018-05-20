@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import GenericSelector from 'core/components/GenericSelector'
+import GenericSelector from 'core/components/genericSelector'
 
 export default {
   name: 'SizeSelector',

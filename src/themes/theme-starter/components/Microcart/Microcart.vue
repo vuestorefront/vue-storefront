@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Microcart from 'core/components/blocks/Microcart/Microcart'
+import Microcart from 'core/components/blocks/Microcart/microcart'
 
 export default {
   mixins: [Microcart]

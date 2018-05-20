@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AddToCart from 'core/components/AddToCart'
+import AddToCart from 'core/components/addToCart'
 
 export default {
   mixins: [AddToCart]

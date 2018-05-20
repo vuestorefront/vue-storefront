@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import Sidebar from 'core/components/blocks/Category/Sidebar'
+import Sidebar from 'core/components/blocks/Category/sidebar'
 
 import ColorSelector from '../Filters/ColorSelector'
 import PriceSelector from '../Filters/PriceSelector'
