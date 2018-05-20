@@ -1,3 +1,5 @@
+
+//to be splitted an microcart component will make use of this features
 export default {
   props: {
     product: {
