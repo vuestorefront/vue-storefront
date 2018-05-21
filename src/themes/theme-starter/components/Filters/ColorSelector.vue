@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import GenericSelector from 'core/components/genericSelector'
+import GenericSelector from 'core/components/GenericSelector'
 
 export default {
   methods: {
