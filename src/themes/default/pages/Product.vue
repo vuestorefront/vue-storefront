@@ -230,6 +230,7 @@ import ProductCustomOptions from '../components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from '../components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
 import focusClean from 'theme/components/theme/directives/focusClean'
+import Composite from 'core/mixins/composite'
 
 export default {
   components: {
@@ -246,7 +247,7 @@ export default {
     RelatedProducts,
     SizeSelector
   },
-  mixins: [Product],
+  mixins: [Product, Composite],
   data () {
     return {
       detailsOpen: false

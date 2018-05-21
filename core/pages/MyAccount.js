@@ -1,14 +1,14 @@
-import Vue from 'vue'
 import Breadcrumbs from 'core/components/Breadcrumbs'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
 import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
 import MyOrder from 'core/components/blocks/MyAccount/MyOrder'
-import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
+import Composite from 'core/mixins/composite'
 
-export default Vue.component('MyAccount', {
+export default {
+  name: 'MyAccount',
   mixins: [Composite],
   metaInfo () {
     return {
@@ -92,4 +92,4 @@ export default Vue.component('MyAccount', {
     MyOrders,
     MyOrder
   }
-})
+}

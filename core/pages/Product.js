@@ -1,16 +1,17 @@
-import Vue from 'vue'
 import Breadcrumbs from 'core/components/Breadcrumbs'
 import AddToCart from 'core/components/AddToCart'
 import ProductGallery from 'core/components/ProductGallery'
 import EventBus from 'core/plugins/event-bus'
-import Composite from 'core/mixins/composite'
 import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
 import groupBy from 'lodash-es/groupBy'
 import uniqBy from 'lodash-es/uniqBy'
 import config from 'config'
+import Composite from 'core/mixins/composite'
 
-export default Vue.component('Product', {
+export default {
+  name: 'Product',
+  mixins: [Composite],
   metaInfo () {
     return {
       title: this.$route.meta.title || this.productName,
@@ -21,7 +22,6 @@ export default Vue.component('Product', {
     EventBus.$emit('product-before-load', { store: store, route: route })
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
-  mixins: [Composite],
   methods: {
     validateRoute () {
       let inst = this
@@ -224,4 +224,4 @@ export default Vue.component('Product', {
     AddToCart,
     ProductGallery
   }
-})
+}
