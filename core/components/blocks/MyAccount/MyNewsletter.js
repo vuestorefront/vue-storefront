@@ -1,5 +1,5 @@
-
 export default {
+  name: 'MyNewsletter',
   data () {
     return {
       newsletterPreferences: {

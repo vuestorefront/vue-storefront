@@ -1,6 +1,7 @@
 import { mapState } from 'vuex'
 
 export default {
+  name: 'SidebarMenu',
   computed: {
     categories () {
       return this.$store.state.category.list.filter((op) => {

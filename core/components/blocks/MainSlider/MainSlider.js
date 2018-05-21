@@ -1,15 +1,10 @@
-
-const sliderData = {
-  'slides': [],
-  'total': '1'
-}
-
 export default {
+  name: 'MainSlider',
   data () {
     return {
       currentSlide: 1,
-      slides: sliderData.slides,
-      totalSlides: sliderData.total
+      slides: [],
+      totalSlides: 1
     }
   },
   methods: {

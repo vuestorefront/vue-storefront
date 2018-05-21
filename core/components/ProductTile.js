@@ -2,6 +2,7 @@ import { productThumbnailPath } from '@vue-storefront/store/helpers'
 import imgPlaceholder from 'core/directives/imgPlaceholder'
 
 export default {
+  name: 'ProductTile',
   props: {
     instant: {
       type: Boolean,

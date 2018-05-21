@@ -1,5 +1,5 @@
-
 export default {
+  name: 'BaseTextarea',
   data () {
     return {
       iconActive: false,

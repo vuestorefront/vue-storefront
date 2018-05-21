@@ -1,6 +1,7 @@
 import { mapMutations } from 'vuex'
 
 export default {
+  name: 'Modal',
   data () {
     return {
       isVisible: false

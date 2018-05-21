@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 
 export default {
+  name: 'MicrocartIcon',
   computed: {
     totalItems () {
       // return this.$store.getters.totals.quantity

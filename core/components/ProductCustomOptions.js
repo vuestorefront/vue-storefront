@@ -1,12 +1,7 @@
-
 import { mapMutations } from 'vuex'
 import * as types from 'core/store/mutation-types'
 import rootStore from 'core/store'
 import i18n from 'core/lib/i18n'
-
-import BaseCheckbox from 'core/components/blocks/Form/BaseCheckbox'
-import BaseInput from 'core/components/blocks/Form/BaseInput'
-import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
 
 function _defaultOptionValue (co) {
   switch (co.type) {
@@ -21,16 +16,24 @@ function _fieldName (co) {
 }
 
 export default {
+  name: 'ProductCustomOptions',
   props: {
     product: {
       type: Object,
       required: true
     }
   },
-  components: {
-    BaseCheckbox,
-    BaseInput,
-    BaseRadiobutton
+  data () {
+    return {
+      inputValues: {
+      },
+      selectedOptions: {
+      },
+      validation: {
+        rules: {},
+        results: {}
+      }
+    }
   },
   created () {
     rootStore.dispatch('product/addCustomOptionValidator', {
@@ -90,18 +93,6 @@ export default {
       let isValid = true
       this.validation.results.map((res) => { if (res.error) isValid = false })
       return isValid
-    }
-  },
-  data () {
-    return {
-      inputValues: {
-      },
-      selectedOptions: {
-      },
-      validation: {
-        rules: {},
-        results: {}
-      }
     }
   }
 }

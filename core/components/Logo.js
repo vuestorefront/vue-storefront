@@ -1,2 +1,3 @@
-
-export default {}
+export default {
+  name: 'Logo'
+}

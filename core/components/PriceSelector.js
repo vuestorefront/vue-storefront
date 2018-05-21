@@ -1,5 +1,5 @@
-
 export default {
+  name: 'PriceSelector',
   props: {
     content: {
       type: null,

@@ -1,6 +1,7 @@
 import Countries from 'core/resource/countries.json'
 
 export default {
+  name: 'MyShippingDetails',
   data () {
     return {
       shippingDetails: {

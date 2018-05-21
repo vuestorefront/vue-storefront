@@ -1,5 +1,5 @@
-
 export default {
+  name: 'ProductAttribute',
   props: {
     product: {
       type: Object,

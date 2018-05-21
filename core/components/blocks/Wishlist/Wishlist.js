@@ -1,6 +1,7 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
+  name: 'Wishlist',
   props: {
     product: {
       type: Object,

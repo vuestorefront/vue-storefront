@@ -1,6 +1,7 @@
 import Countries from 'core/resource/countries.json'
 
 export default {
+  name: 'MyProfile',
   data () {
     return {
       currentUser: Object.assign({}, this.$store.state.user.current),

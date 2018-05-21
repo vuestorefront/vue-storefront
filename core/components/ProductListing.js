@@ -1,6 +1,5 @@
-import ProductTile from './ProductTile'
-
 export default {
+  name: 'ProductListing',
   props: {
     products: {
       type: null,
@@ -10,8 +9,5 @@ export default {
       type: [String, Number],
       required: true
     }
-  },
-  components: {
-    ProductTile
   }
 }

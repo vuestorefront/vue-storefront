@@ -1,5 +1,5 @@
-
 export default {
+  name: 'BaseInput',
   data () {
     return {
       passType: 'password',

@@ -1,5 +1,5 @@
-
 export default {
+  name: 'Overlay',
   computed: {
     isVisible () {
       return this.$store.state.ui.overlay

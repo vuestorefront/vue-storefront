@@ -2,6 +2,7 @@ import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
 
 export default {
+  name: 'AccountIcon',
   data () {
     return {
       navigation: []

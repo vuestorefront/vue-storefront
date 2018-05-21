@@ -1,5 +1,5 @@
-
 export default {
+  name: 'Notification',
   data () {
     return {
       notifications: []

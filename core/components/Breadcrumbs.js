@@ -1,5 +1,5 @@
-
 export default {
+  name: 'Breadcrumbs',
   props: {
     routes: {
       type: Array,

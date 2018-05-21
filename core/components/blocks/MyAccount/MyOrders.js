@@ -1,5 +1,5 @@
-
 export default {
+  name: 'MyOrders',
   data () {
     return {
       ordersHistory: [],

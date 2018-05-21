@@ -1,5 +1,5 @@
-
 export default {
+  name: 'GenericSelector',
   props: {
     label: {
       type: String,

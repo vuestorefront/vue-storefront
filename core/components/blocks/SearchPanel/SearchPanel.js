@@ -1,17 +1,15 @@
+import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
-const bodybuilder = require('bodybuilder')
 
 export default {
+  name: 'SearchPanel',
   data () {
     return {
       products: [],
       search: '',
       placeholder: i18n.t('Type what you are looking for...')
     }
-  },
-  components: {
-    mapState
   },
   methods: {
     closeSearchpanel () {

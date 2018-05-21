@@ -1,6 +1,7 @@
 import { mapState } from 'vuex'
 
 export default {
+  name: 'Loader',
   data () {
     return {
       message: null

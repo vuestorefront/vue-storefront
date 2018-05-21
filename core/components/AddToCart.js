@@ -1,5 +1,5 @@
-
 export default {
+  name: 'AddToCart',
   props: {
     product: {
       type: Object,

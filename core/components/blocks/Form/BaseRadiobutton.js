@@ -1,5 +1,5 @@
-
 export default {
+  name: 'BaseRadiobutton',
   props: {
     id: {
       type: String,

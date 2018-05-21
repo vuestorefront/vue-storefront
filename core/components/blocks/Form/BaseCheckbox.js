@@ -1,5 +1,5 @@
-
 export default {
+  name: 'BaseCheckbox',
   props: {
     id: {
       type: String,

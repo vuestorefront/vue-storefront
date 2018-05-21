@@ -1,6 +1,7 @@
 import { mapState } from 'vuex'
 
 export default {
+  name: 'WishlistIcon',
   props: {
     product: {
       type: Object,
