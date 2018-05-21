@@ -35,23 +35,29 @@ class LocalForageCacheDriver {
     }
     // console.debug('No local cache fallback for GET', key)
     const promise = this._localForageCollection.getItem(key).then(result => {
-      if (isCallbackCallable) {
-        callback(null, result)
+      if (!isResolved) {
+        if (isCallbackCallable) {
+          callback(null, result)
+        }
+        isResolved = true
+      } else {
+        console.debug('Skipping return value as it was previously resolved')
       }
-      isResolved = true
       return result
     }).catch(err => {
       console.debug('UniversalStorage - GET - probably in SSR mode: ' + err)
-      if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+      if (!isResolved) {
+        if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+      }
       isResolved = true
     })
 
     setTimeout(function () {
       if (!isResolved) { // this is cache time out check
-        console.error('Cache not responding within 2s')
+        console.error('Cache not responding within 1s')
         if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
       }
-    }, 2000)
+    }, 1000)
     return promise
   }
 

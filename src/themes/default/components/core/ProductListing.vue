@@ -6,7 +6,7 @@
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
-      <product-tile :product="product" :instant="false" />
+      <product-tile :product="product" :instant="key<10 && product.is_configured" />
     </div>
   </div>
 </template>
