@@ -39,13 +39,13 @@ export default {
           dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
-          /* rootStore.dispatch('cart/getPaymentMethods')
+          rootStore.dispatch('cart/getPaymentMethods')
           if (context.state.cartItems.length > 0) {
-            /* let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+            let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
             rootStore.dispatch('cart/getShippingMethods', {
               country_id: country
             })
-          } */
+          }
         })
       } else {
         console.log('Too short interval for refreshing the cart or items not changed', newItemsHash, context.state.cartItemsHash)
@@ -334,8 +334,16 @@ export default {
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-        let shipping = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
-        let payment = context.rootGetters['payment/paymentMethods'].find(item => item.default)
+        const shippingMethods = context.rootGetters['shipping/shippingMethods']
+        const paymentMethods = context.rootGetters['payment/paymentMethods']
+        let shipping = shippingMethods.find(item => item.default)
+        let payment = paymentMethods.find(item => item.default)
+        if (!shipping && shippingMethods && shippingMethods.length > 0) {
+          shipping = shippingMethods[0]
+        }
+        if (!payment && paymentMethods && paymentMethods.length > 0) {
+          shipping = paymentMethods[0]
+        }
         methodsData = {
           country: country,
           method_code: shipping ? shipping.method_code : null,
@@ -344,24 +352,46 @@ export default {
         }
       }
       if (methodsData.country && methodsData.carrier_code) {
-        context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
+        context.dispatch('sync/execute', { url: config.cart.shippinginfo_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify({
+              addressInformation: {
+                shippingAddress: {
+                  countryId: methodsData.country
+                }
+              },
               methods: {
-                paymentMethod: {
-                  method: methodsData.payment_method
-                },
                 shippingCarrierCode: methodsData.carrier_code,
                 shippingMethodCode: methodsData.method_code
               }
             })
           },
-          silent: true,
-          callback_event: 'servercart-after-totals'
-        }, { root: true }).then(task => {}).catch(e => {
+          silent: true
+        }, { root: true }).then(task => {
+          context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
+            payload: {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors',
+              body: JSON.stringify({
+                methods: {
+                  paymentMethod: {
+                    method: methodsData.payment_method
+                  },
+                  shippingCarrierCode: methodsData.carrier_code,
+                  shippingMethodCode: methodsData.method_code
+                }
+              })
+            },
+            silent: true,
+            callback_event: 'servercart-after-totals'
+          }, { root: true }).then(task => {}).catch(e => {
+            console.error(e)
+          })
+        }).catch(e => {
           console.error(e)
         })
       } else {
