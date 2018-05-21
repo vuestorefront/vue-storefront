@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Checkout from 'core/pages/Checkout.vue'
+import Checkout from 'core/pages/Checkout'
 
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails.vue'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'

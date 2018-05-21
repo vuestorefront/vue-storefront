@@ -215,7 +215,7 @@
 </template>
 
 <script>
-import Product from 'core/pages/Product.vue'
+import Product from 'core/pages/Product'
 
 import RelatedProducts from '../components/core/blocks/Product/Related.vue'
 import AddToCart from '../components/core/AddToCart.vue'

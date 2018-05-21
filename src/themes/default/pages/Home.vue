@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Home from 'core/pages/Home.vue'
+import Home from 'core/pages/Home'
 import builder from 'bodybuilder'
 import config from 'config'
 
