@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import PageNotFound from 'core/pages/PageNotFound.vue'
+import PageNotFound from 'core/pages/PageNotFound'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {

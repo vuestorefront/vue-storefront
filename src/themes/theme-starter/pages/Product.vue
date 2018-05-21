@@ -1,7 +1,6 @@
 <template>
   <div id="product">
     <h1>Product Page </h1>
-    <router-link to="/">Back to home </router-link>
     <h2> Product JSON </h2>
     <p> {{ product }} </p>
   </div>
@@ -9,7 +8,7 @@
 
 <script>
 // Here we are importing Core Page module responsible for business logic injection
-import Product from 'core/pages/Product.vue'
+import Product from 'core/pages/Product'
 
 export default {
   // Here we are injecting core Product Page business logic (you can find it under core/pages/Product.vue)

@@ -1,10 +1,4 @@
-<template>
-  <div id="hp">
-    Core Home
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import EventBus from 'core/plugins/event-bus'
 import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
 import ProductTile from 'core/components/ProductTile'
@@ -12,12 +6,11 @@ import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
 import Composite from 'core/mixins/composite'
 
-export default {
-  name: 'Home',
+export default Vue.component('Home', {
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Home Page'),
-      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
@@ -44,5 +37,4 @@ export default {
     MainSlider
   },
   mixins: [Composite]
-}
-</script>
+})

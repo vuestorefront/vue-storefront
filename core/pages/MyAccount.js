@@ -1,26 +1,19 @@
-<template>
-  <div id="my_account">
-    Core My Account
-  </div>
-</template>
-
-<script>
-import Breadcrumbs from 'core/components/Breadcrumbs'
-import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
-import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
-import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
-import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
-import MyOrder from 'core/components/blocks/MyAccount/MyOrder'
+import Vue from 'vue'
+import Breadcrumbs from 'core/components/breadcrumbs'
+import MyProfile from 'core/components/blocks/MyAccount/myProfile'
+import MyShippingDetails from 'core/components/blocks/MyAccount/myShippingDetails'
+import MyNewsletter from 'core/components/blocks/MyAccount/myNewsletter'
+import MyOrders from 'core/components/blocks/MyAccount/myOrders'
+import MyOrder from 'core/components/blocks/MyAccount/myOrder'
 import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
 
-export default {
-  name: 'MyAccount',
+export default Vue.component('MyAccount', {
   mixins: [Composite],
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('My Account'),
-      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   },
   props: {
@@ -99,5 +92,4 @@ export default {
     MyOrders,
     MyOrder
   }
-}
-</script>
+})

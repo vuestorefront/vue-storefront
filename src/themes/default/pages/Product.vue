@@ -216,6 +216,18 @@
 
 <script>
 import Product from 'core/pages/Product'
+
+import RelatedProducts from '../components/core/blocks/Product/Related.vue'
+import AddToCart from '../components/core/AddToCart.vue'
+import GenericSelector from 'core/components/genericSelector'
+import ColorSelector from '../components/core/ColorSelector.vue'
+import SizeSelector from '../components/core/SizeSelector.vue'
+import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import ProductAttribute from '../components/core/ProductAttribute.vue'
+import ProductTile from '../components/core/ProductTile.vue'
+import ProductLinks from '../components/core/ProductLinks.vue'
+import ProductCustomOptions from '../components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from '../components/core/ProductBundleOptions.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
 
 import AddToCart from 'theme/components/core/AddToCart'
