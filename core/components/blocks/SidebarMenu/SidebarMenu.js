@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default Vue.component('SidebarMenu', {
+export default {
   computed: {
     categories () {
       return this.$store.state.category.list.filter((op) => {
@@ -21,4 +20,4 @@ export default Vue.component('SidebarMenu', {
       this.$store.commit('ui/setMicrocart', false)
     }
   }
-})
+}

@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
 
-export default Vue.component('Wishlist', {
+export default {
   props: {
     product: {
       type: Object,
@@ -27,4 +26,4 @@ export default Vue.component('Wishlist', {
       isOpen: state => state.ui.wishlist
     })
   }
-})
+}

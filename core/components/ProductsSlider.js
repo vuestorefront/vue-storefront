@@ -1,6 +1,5 @@
-import Vue from 'vue'
 
-export default Vue.component('ProductsSlider', {
+export default {
   name: 'ProductsSlider',
   props: {
     title: {
@@ -16,4 +15,4 @@ export default Vue.component('ProductsSlider', {
       required: true
     }
   }
-})
+}

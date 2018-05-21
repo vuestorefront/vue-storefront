@@ -1,8 +1,7 @@
-import Vue from 'vue'
 import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
 
-export default Vue.component('Shipping', {
+export default {
   props: {
     isActive: {
       type: Boolean,
@@ -146,4 +145,4 @@ export default Vue.component('Shipping', {
       return true
     }
   }
-})
+}

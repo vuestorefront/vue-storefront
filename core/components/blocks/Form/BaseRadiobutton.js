@@ -1,6 +1,5 @@
-import Vue from 'vue'
 
-export default Vue.component('BaseRadiobutton', {
+export default {
   props: {
     id: {
       type: String,
@@ -21,4 +20,4 @@ export default Vue.component('BaseRadiobutton', {
       default: false
     }
   }
-})
+}

@@ -1,10 +1,9 @@
-import Vue from 'vue'
 
-export default Vue.component('ProductLinks', {
+export default {
   props: {
     products: {
       type: Array,
       required: true
     }
   }
-})
+}

@@ -1,9 +1,8 @@
-import Vue from 'vue'
 import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
 import config from 'config'
 
-export default Vue.component('ProductGallery', {
+export default {
   props: {
     gallery: {
       type: Array,
@@ -59,4 +58,4 @@ export default Vue.component('ProductGallery', {
       this.$forceUpdate()
     }, 0)
   }
-})
+}

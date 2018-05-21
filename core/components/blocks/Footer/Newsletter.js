@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default Vue.component('Newsletter', {
+export default {
   computed: {
     ...mapState({
       isOpen: state => state.ui.newsletterPopup
@@ -12,4 +11,4 @@ export default Vue.component('Newsletter', {
       this.$store.commit('ui/setNewsletterPopup', !this.isOpen)
     }
   }
-})
+}

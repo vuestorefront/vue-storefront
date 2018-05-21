@@ -1,6 +1,5 @@
-import Vue from 'vue'
 
-export default Vue.component('Overlay', {
+export default {
   computed: {
     isVisible () {
       return this.$store.state.ui.overlay
@@ -11,4 +10,4 @@ export default Vue.component('Overlay', {
       this.$store.commit('ui/setOverlay', false)
     }
   }
-})
+}

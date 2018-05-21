@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default Vue.component('Loader', {
+export default {
   data () {
     return {
       message: null
@@ -25,4 +24,4 @@ export default Vue.component('Loader', {
     })
     this.$bus.$on('notification-progress-stop', this.hide)
   }
-})
+}

@@ -1,6 +1,5 @@
-import Vue from 'vue'
 
-export default Vue.component('AddToCart', {
+export default {
   props: {
     product: {
       type: Object,
@@ -12,4 +11,4 @@ export default Vue.component('AddToCart', {
       this.$store.dispatch('cart/addItem', { productToAdd: product })
     }
   }
-})
+}

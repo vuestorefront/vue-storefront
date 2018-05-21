@@ -1,8 +1,7 @@
-import Vue from 'vue'
 import AddToCart from 'core/components/AddToCart'
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
-export default Vue.component('Product', {
+export default {
   props: {
     product: {
       type: Object,
@@ -20,4 +19,4 @@ export default Vue.component('Product', {
   components: {
     AddToCart
   }
-})
+}

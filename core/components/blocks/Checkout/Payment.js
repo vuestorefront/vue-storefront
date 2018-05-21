@@ -1,8 +1,7 @@
-import Vue from 'vue'
 import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
 
-export default Vue.component('Payment', {
+export default {
   props: {
     isActive: {
       type: Boolean,
@@ -203,4 +202,4 @@ export default Vue.component('Payment', {
       this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
     }
   }
-})
+}

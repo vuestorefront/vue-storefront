@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapGetters } from 'vuex'
 
-export default Vue.component('CompareIcon', {
+export default {
   props: {
     product: {
       type: Object,
@@ -14,4 +13,4 @@ export default Vue.component('CompareIcon', {
       'isActive'
     ])
   }
-})
+}

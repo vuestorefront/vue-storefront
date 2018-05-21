@@ -1,6 +1,5 @@
-import Vue from 'vue'
 
-export default Vue.component('Product', {
+export default {
   props: {
     product: {
       type: Object,
@@ -12,4 +11,4 @@ export default Vue.component('Product', {
       return this.getThumbnail(this.product.image, 150, 150)
     }
   }
-})
+}

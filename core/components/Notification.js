@@ -1,6 +1,5 @@
-import Vue from 'vue'
 
-export default Vue.component('Notification', {
+export default {
   data () {
     return {
       notifications: []
@@ -31,4 +30,4 @@ export default Vue.component('Notification', {
       }
     }
   }
-})
+}

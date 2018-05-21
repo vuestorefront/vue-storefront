@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default Vue.component('WishlistIcon', {
+export default {
   props: {
     product: {
       type: Object,
@@ -19,4 +18,4 @@ export default Vue.component('WishlistIcon', {
       this.$store.commit('ui/setWishlist', !this.isOpen)
     }
   }
-})
+}

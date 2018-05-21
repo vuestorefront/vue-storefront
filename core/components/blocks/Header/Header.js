@@ -1,4 +1,3 @@
-import Vue from 'vue'
 
 import AccountIcon from 'core/components/blocks/Header/AccountIcon'
 import CompareIcon from 'core/components/blocks/Header/CompareIcon'
@@ -9,7 +8,7 @@ import ReturnIcon from 'core/components/blocks/Header/ReturnIcon'
 import SearchIcon from 'core/components/blocks/Header/SearchIcon'
 import WishlistIcon from 'core/components/blocks/Header/WishlistIcon'
 
-export default Vue.component('MainHeader', {
+export default {
   components: {
     AccountIcon,
     CompareIcon,
@@ -20,4 +19,4 @@ export default Vue.component('MainHeader', {
     SearchIcon,
     WishlistIcon
   }
-})
+}

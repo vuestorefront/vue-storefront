@@ -1,11 +1,10 @@
-import Vue from 'vue'
 
 const sliderData = {
   'slides': [],
   'total': '1'
 }
 
-export default Vue.component('MainSlider', {
+export default {
   data () {
     return {
       currentSlide: 1,
@@ -25,4 +24,4 @@ export default Vue.component('MainSlider', {
       self.currentSlide = (self.currentSlide + 1) % (self.totalSlides)
     }, 5000)
   }
-})
+}

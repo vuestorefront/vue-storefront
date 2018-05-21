@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapState, mapGetters } from 'vuex'
 
-export default Vue.component('MicrocartIcon', {
+export default {
   computed: {
     totalItems () {
       // return this.$store.getters.totals.quantity
@@ -20,4 +19,4 @@ export default Vue.component('MicrocartIcon', {
       this.$store.commit('ui/setMicrocart', !this.isOpen)
     }
   }
-})
+}

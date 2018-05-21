@@ -1,6 +1,5 @@
-import Vue from 'vue'
 
-export default Vue.component('MyOrders', {
+export default {
   data () {
     return {
       ordersHistory: [],
@@ -37,4 +36,4 @@ export default Vue.component('MyOrders', {
       })
     }
   }
-})
+}

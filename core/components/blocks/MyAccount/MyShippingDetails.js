@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import Countries from 'core/resource/countries.json'
 
-export default Vue.component('MyShippingDetails', {
+export default {
   data () {
     return {
       shippingDetails: {
@@ -210,4 +209,4 @@ export default Vue.component('MyShippingDetails', {
       return false
     }
   }
-})
+}

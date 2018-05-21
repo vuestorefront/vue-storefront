@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default Vue.component('HamburgerIcon', {
+export default {
   name: 'HamburgerIcon',
   computed: mapState({
     isOpen: state => state.ui.sidebar
@@ -11,4 +10,4 @@ export default Vue.component('HamburgerIcon', {
       this.$store.commit('ui/setSidebar', !this.isOpen)
     }
   }
-})
+}

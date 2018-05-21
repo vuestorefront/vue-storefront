@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 
-export default Vue.component('Microcart', {
+export default {
   props: {
     product: {
       type: Object,
@@ -75,4 +74,4 @@ export default Vue.component('Microcart', {
       isOpen: state => state.ui.microcart
     })
   }
-})
+}

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 
 import { mapMutations } from 'vuex'
 import * as types from 'core/store/mutation-types'
@@ -26,7 +25,7 @@ function _fieldName (co) {
   return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
 }
 
-export default Vue.component('ProductBundleOptions', {
+export default {
   props: {
     product: {
       type: Object,
@@ -123,4 +122,4 @@ export default Vue.component('ProductBundleOptions', {
       }
     }
   }
-})
+}

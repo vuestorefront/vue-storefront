@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import ProductTile from './ProductTile'
 
-export default Vue.component('ProductListing', {
+export default {
   props: {
     products: {
       type: null,
@@ -15,4 +14,4 @@ export default Vue.component('ProductListing', {
   components: {
     ProductTile
   }
-})
+}

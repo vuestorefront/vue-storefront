@@ -1,7 +1,6 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default Vue.component('SearchIcon', {
+export default {
   computed: {
     ...mapState({
       isOpen: state => state.ui.searchpanel
@@ -13,4 +12,4 @@ export default Vue.component('SearchIcon', {
       this.$store.commit('ui/setSearchpanel', !this.isOpen)
     }
   }
-})
+}

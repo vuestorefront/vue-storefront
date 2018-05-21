@@ -1,9 +1,8 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
 const bodybuilder = require('bodybuilder')
 
-export default Vue.component('SearchPanel', {
+export default {
   data () {
     return {
       products: [],
@@ -49,4 +48,4 @@ export default Vue.component('SearchPanel', {
       isOpen: state => state.ui.searchpanel
     })
   }
-})
+}
