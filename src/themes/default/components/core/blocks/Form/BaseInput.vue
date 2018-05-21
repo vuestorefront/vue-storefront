@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import baseInput from 'core/components/blocks/Form/baseInput'
+import baseInput from 'core/components/blocks/Form/BaseInput'
 
 export default {
   mixins: [baseInput]

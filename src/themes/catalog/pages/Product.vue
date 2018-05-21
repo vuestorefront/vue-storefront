@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import Product from 'core/pages/Product.vue'
+import Product from 'core/pages/Product'
 
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import ProductAttribute from 'theme/components/core/blocks/Product/ProductAttribute'

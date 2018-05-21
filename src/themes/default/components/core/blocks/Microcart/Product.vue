@@ -88,12 +88,17 @@
 </template>
 
 <script>
-import product from 'core/components/blocks/Microcart/product'
+import Product from 'core/components/blocks/Microcart/Product'
 
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
 
 export default {
+  components: {
+    EditButton,
+    RemoveButton
+  },
+  mixins: [Product],
   data () {
     return {
       qty: 0,
@@ -122,12 +127,7 @@ export default {
       this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
       this.isEditing = !this.isEditing
     }
-  },
-  components: {
-    EditButton,
-    RemoveButton
-  },
-  mixins: [product]
+  }
 }
 </script>
 

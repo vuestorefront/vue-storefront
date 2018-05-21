@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Category from 'core/pages/Category.vue'
+import Category from 'core/pages/Category'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {

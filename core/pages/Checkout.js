@@ -1,26 +1,19 @@
-<template>
-  <div id="checkout">
-    Core Checkout
-  </div>
-</template>
-
-<script>
+import Vue from 'vue'
 import i18n from 'core/lib/i18n'
 import config from 'config'
-import PersonalDetails from 'core/components/blocks/Checkout/personalDetails'
-import Shipping from 'core/components/blocks/Checkout/shipping'
-import Payment from 'core/components/blocks/Checkout/payment'
-import OrderReview from 'core/components/blocks/Checkout/orderReview'
-import CartSummary from 'core/components/blocks/Checkout/cartSummary'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
+import Shipping from 'core/components/blocks/Checkout/Shipping'
+import Payment from 'core/components/blocks/Checkout/Payment'
+import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
 import Composite from 'core/mixins/composite'
 
-export default {
-  name: 'Checkout',
+export default Vue.component('Checkout', {
   mixins: [Composite],
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Checkout'),
-      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   },
   data () {
@@ -331,5 +324,4 @@ export default {
     OrderReview,
     CartSummary
   }
-}
-</script>
+})

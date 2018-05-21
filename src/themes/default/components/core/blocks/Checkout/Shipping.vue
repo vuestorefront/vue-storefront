@@ -251,16 +251,22 @@
 </template>
 
 <script>
-import shipping from 'core/components/blocks/Checkout/shipping'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tooltip from 'theme/components/core/Tooltip.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
+import shipping from 'core/components/blocks/Checkout/Shipping'
 
-// https://monterail.github.io/vuelidate/#sub-contextified-validators
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
+  components: {
+    ButtonFull,
+    Tooltip,
+    BaseCheckbox,
+    BaseInput
+  },
+  mixins: [shipping],
   validations: {
     shipping: {
       firstName: {
@@ -290,13 +296,6 @@ export default {
         required
       }
     }
-  },
-  components: {
-    ButtonFull,
-    Tooltip,
-    BaseCheckbox,
-    BaseInput
-  },
-  mixins: [shipping]
+  }
 }
 </script>

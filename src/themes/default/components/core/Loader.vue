@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import loader from 'core/components/loader'
+import Loader from 'core/components/Loader'
 
 export default {
-  mixins: [loader]
+  mixins: [Loader]
 }
 </script>
 

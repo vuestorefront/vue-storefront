@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import ProductTile from './productTile'
+import ProductTile from 'core/components/ProductTile'
 
 export default Vue.component('ProductListing', {
   props: {

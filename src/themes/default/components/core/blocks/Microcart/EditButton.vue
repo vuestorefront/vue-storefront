@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import editButton from 'core/components/blocks/Microcart/editButton'
+import editButton from 'core/components/blocks/Microcart/EditButton'
 
 export default {
   mixins: [editButton]

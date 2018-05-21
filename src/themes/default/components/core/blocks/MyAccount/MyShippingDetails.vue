@@ -223,14 +223,22 @@
 </template>
 
 <script>
-import myShippingDetails from 'core/components/blocks/MyAccount/myShippingDetails'
 import { required, minLength } from 'vuelidate/lib/validators'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tooltip from 'theme/components/core/Tooltip.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
+import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
+
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 
 export default {
+  components: {
+    ButtonFull,
+    Tooltip,
+    BaseCheckbox,
+    BaseInput
+  },
+  mixins: [MyShippingDetails],
   validations: {
     shippingDetails: {
       firstName: {
@@ -257,13 +265,6 @@ export default {
         required
       }
     }
-  },
-  components: {
-    ButtonFull,
-    Tooltip,
-    BaseCheckbox,
-    BaseInput
-  },
-  mixins: [myShippingDetails]
+  }
 }
 </script>

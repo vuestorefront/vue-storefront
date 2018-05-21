@@ -57,14 +57,14 @@
 </template>
 
 <script>
-import productGallery from 'core/components/productGallery'
+import ProductGallery from 'core/components/ProductGallery'
 import NoSSR from 'vue-no-ssr'
 
 export default {
-  mixins: [productGallery],
   components: {
     'no-ssr': NoSSR
   },
+  mixins: [ProductGallery],
   data () {
     return {
       loaded: true

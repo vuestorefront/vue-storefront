@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import myNewsletter from 'core/components/blocks/MyAccount/myNewsletter'
+import myNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 

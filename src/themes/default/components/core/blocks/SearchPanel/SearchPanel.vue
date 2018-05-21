@@ -31,20 +31,19 @@
 </template>
 
 <script>
-import searchPanel from 'core/components/blocks/SearchPanel/searchPanel'
-import ProductTile from '../../ProductTile.vue'
+import SearchPanel from 'core/components/blocks/SearchPanel/SearchPanel'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
+  components: {
+    ProductTile
+  },
+  mixins: [SearchPanel],
   data () {
     return {
       emptyResults: false,
       search: ''
     }
-  },
-  components: {
-    ProductTile
-  },
-  methods: {
   },
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
@@ -52,8 +51,7 @@ export default {
         this.$refs.search.focus()
       }
     })
-  },
-  mixins: [searchPanel]
+  }
 }
 </script>
 
