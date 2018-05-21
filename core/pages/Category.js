@@ -1,14 +1,14 @@
-import Vue from 'vue'
 import config from 'config'
 import Sidebar from 'core/components/blocks/Category/Sidebar'
 import ProductListing from 'core/components/ProductListing'
 import Breadcrumbs from 'core/components/Breadcrumbs'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import EventBus from 'core/plugins/event-bus'
-import Composite from 'core/mixins/composite'
 import toString from 'lodash-es/toString'
+import Composite from 'core/mixins/composite'
 
-export default Vue.component('Category', {
+export default {
+  name: 'Category',
   metaInfo () {
     return {
       title: this.$route.meta.title || this.categoryName,
@@ -207,4 +207,4 @@ export default Vue.component('Category', {
     Breadcrumbs,
     Sidebar
   }
-})
+}

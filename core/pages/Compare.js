@@ -1,9 +1,9 @@
-import Vue from 'vue'
 import { mapState, mapGetters } from 'vuex'
-import Composite from 'core/mixins/composite'
 import i18n from 'core/lib/i18n'
+import Composite from 'core/mixins/composite'
 
-export default Vue.component('Compare', {
+export default {
+  name: 'Compare',
   metaInfo () {
     return {
       title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
@@ -43,4 +43,4 @@ export default Vue.component('Compare', {
       })
     }
   }
-})
+}

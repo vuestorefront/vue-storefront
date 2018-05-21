@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import EventBus from 'core/plugins/event-bus'
 import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
 import ProductTile from 'core/components/ProductTile'
@@ -6,7 +5,9 @@ import { mapGetters } from 'vuex'
 import i18n from 'core/lib/i18n'
 import Composite from 'core/mixins/composite'
 
-export default Vue.component('Home', {
+export default {
+  name: 'Home',
+  mixins: [Composite],
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Home Page'),
@@ -35,6 +36,5 @@ export default Vue.component('Home', {
   components: {
     ProductTile,
     MainSlider
-  },
-  mixins: [Composite]
-})
+  }
+}
