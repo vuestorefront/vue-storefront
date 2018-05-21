@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import validationError from 'core/components/validationError'
+import ValidationError from 'core/components/ValidationError'
 
 export default {
-  mixins: [validationError]
+  mixins: [ValidationError]
 }
 </script>

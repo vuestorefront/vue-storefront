@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import AddToCart from 'core/components/addToCart'
+import AddToCart from 'core/components/AddToCart'
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
 export default Vue.component('Product', {

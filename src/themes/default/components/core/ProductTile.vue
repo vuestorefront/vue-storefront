@@ -70,11 +70,12 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/store'
 import config from 'config'
-import productTile from 'core/components/productTile'
+import rootStore from '@vue-storefront/store'
+import ProductTile from 'core/components/ProductTile'
 
 export default {
+  mixins: [ProductTile],
   props: {
     instant: {
       type: Boolean,
@@ -87,7 +88,6 @@ export default {
       default: true
     }
   },
-  mixins: [productTile],
   methods: {
     visibilityChanged (isVisible, entry) {
       if (isVisible) {

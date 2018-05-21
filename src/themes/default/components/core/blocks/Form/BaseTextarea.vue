@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import BaseTextarea from 'core/components/blocks/Form/baseTextarea'
+import BaseTextarea from 'core/components/blocks/Form/BaseTextarea'
 
 export default {
   mixins: [BaseTextarea]

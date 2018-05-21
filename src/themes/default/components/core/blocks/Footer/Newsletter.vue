@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import newsletter from 'core/components/blocks/Footer/newsletter'
+import newsletter from 'core/components/blocks/Footer/Newsletter'
 import ButtonOutline from '../../../theme/ButtonOutline.vue'
 
 export default {

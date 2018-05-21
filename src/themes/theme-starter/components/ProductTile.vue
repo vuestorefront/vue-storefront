@@ -54,13 +54,9 @@
 </template>
 
 <script>
-import productTile from 'core/components/productTile'
-import AddToCart from 'theme/components/AddToCart'
+import ProductTile from 'core/components/ProductTile'
 
 export default {
-  components: {
-    AddToCart
-  },
-  mixins: [productTile]
+  mixins: [ProductTile]
 }
 </script>

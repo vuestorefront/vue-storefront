@@ -23,23 +23,24 @@
 </template>
 
 <script>
-import mainSlider from 'core/components/blocks/MainSlider/mainSlider'
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
-import ButtonOutline from '../../../theme/ButtonOutline.vue'
 import sliderData from 'theme/resource/slider.json'
 
+import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
+
 export default {
-  created () {
-    this.updateSliderData(sliderData)
-  },
   components: {
     ButtonOutline,
     Carousel,
     Slide,
     'no-ssr': NoSSR
   },
-  mixins: [mainSlider]
+  mixins: [MainSlider],
+  created () {
+    this.updateSliderData(sliderData)
+  }
 }
 </script>
 <style lang="scss">

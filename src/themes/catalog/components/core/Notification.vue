@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import notification from 'core/components/blocks/notification'
+import Notification from 'core/components/blocks/Notification'
 
 export default {
-  mixins: [notification]
+  mixins: [Notification]
 }
 </script>
 

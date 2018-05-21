@@ -229,9 +229,36 @@ import ProductLinks from '../components/core/ProductLinks.vue'
 import ProductCustomOptions from '../components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from '../components/core/ProductBundleOptions.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import ProductGallery from '../components/core/ProductGallery'
+
+import AddToCart from 'theme/components/core/AddToCart'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import ColorSelector from 'theme/components/core/ColorSelector'
+import GenericSelector from 'core/components/GenericSelector'
+import ProductAttribute from 'theme/components/core/ProductAttribute'
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions'
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions'
+import ProductGallery from 'theme/components/core/ProductGallery'
+import ProductLinks from 'theme/components/core/ProductLinks'
+import ProductTile from 'theme/components/core/ProductTile'
+import RelatedProducts from 'theme/components/core/blocks/Product/Related'
+import SizeSelector from 'theme/components/core/SizeSelector'
 
 export default {
+  components: {
+    AddToCart,
+    Breadcrumbs,
+    ColorSelector,
+    GenericSelector,
+    ProductAttribute,
+    ProductBundleOptions,
+    ProductCustomOptions,
+    ProductGallery,
+    ProductLinks,
+    ProductTile,
+    RelatedProducts,
+    SizeSelector
+  },
+  mixins: [Product],
   data () {
     return {
       detailsOpen: false
@@ -248,22 +275,7 @@ export default {
       this.detailsOpen = true
       event.target.classList.add('hidden')
     }
-  },
-  components: {
-    ProductGallery,
-    AddToCart,
-    GenericSelector,
-    ColorSelector,
-    SizeSelector,
-    Breadcrumbs,
-    ProductAttribute,
-    ProductTile,
-    RelatedProducts,
-    ProductLinks,
-    ProductCustomOptions,
-    ProductBundleOptions
-  },
-  mixins: [Product]
+  }
 }
 </script>
 

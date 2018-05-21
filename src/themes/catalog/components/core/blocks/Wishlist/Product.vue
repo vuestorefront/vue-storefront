@@ -8,23 +8,33 @@
         {{ product.name | htmlDecode }}
       </div>
       <div class="row mt10 fs-medium">
-        <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>
-        <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+        <span class="price-special" v-if="product.special_price">
+          {{ product.priceInclTax | price }}
+        </span>
+        <span class="price-original" v-if="product.special_price">
+          {{ product.originalPriceInclTax | price }}
+        </span>
         <span v-if="!product.special_price">
           {{ product.priceInclTax | price }}
         </span>
       </div>
       <div class="row mt30">
-        <div class="py10 px20 bg-secondary c-on-secondary inline-flex pointer bg-secondary-hover" @click="removeItem">Remove Item</div>
+        <div
+          class="py10 px20 bg-secondary c-on-secondary inline-flex pointer bg-secondary-hover"
+          @click="removeItem"
+        >
+          Remove Item
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import product from 'core/components/blocks/Wishlist/product'
+import Product from 'core/components/blocks/Wishlist/Product'
 
 export default {
+  mixins: [Product],
   data () {
     return {
       qty: 1
@@ -34,8 +44,7 @@ export default {
     removeItem () {
       this.$store.dispatch('wishlist/removeItem', this.product)
     }
-  },
-  mixins: [product]
+  }
 }
 </script>
 

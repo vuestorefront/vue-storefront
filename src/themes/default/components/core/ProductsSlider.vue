@@ -37,12 +37,20 @@
 </template>
 
 <script>
-import productsSlider from 'core/components/productsSlider'
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
-import ProductTile from 'theme/components/core/ProductTile.vue'
+
+import ProductsSlider from 'core/components/ProductsSlider'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
+  components: {
+    Slide,
+    Carousel,
+    ProductTile,
+    'no-ssr': NoSSR
+  },
+  mixins: [ProductsSlider],
   data () {
     return {
       currentPage: 0
@@ -52,13 +60,6 @@ export default {
     setMuted (currentPage) {
       this.currentPage = currentPage
     }
-  },
-  mixins: [productsSlider],
-  components: {
-    Slide,
-    Carousel,
-    ProductTile,
-    'no-ssr': NoSSR
   }
 }
 </script>

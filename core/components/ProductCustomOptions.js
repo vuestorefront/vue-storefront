@@ -1,11 +1,13 @@
 import Vue from 'vue'
-import BaseInput from './blocks/Form/baseInput'
-import BaseRadiobutton from './blocks/Form/baseRadiobutton'
-import BaseCheckbox from './blocks/Form/baseCheckbox'
+
 import { mapMutations } from 'vuex'
 import * as types from 'core/store/mutation-types'
 import rootStore from 'core/store'
 import i18n from 'core/lib/i18n'
+
+import BaseCheckbox from 'core/components/blocks/Form/BaseCheckbox'
+import BaseInput from 'core/components/blocks/Form/BaseInput'
+import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
 
 function _defaultOptionValue (co) {
   switch (co.type) {
@@ -27,9 +29,9 @@ export default Vue.component('ProductCustomOptions', {
     }
   },
   components: {
+    BaseCheckbox,
     BaseInput,
-    BaseRadiobutton,
-    BaseCheckbox
+    BaseRadiobutton
   },
   created () {
     rootStore.dispatch('product/addCustomOptionValidator', {

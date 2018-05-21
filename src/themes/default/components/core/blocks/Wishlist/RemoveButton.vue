@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import removeButton from 'core/components/blocks/Wishlist/removeButton'
+import RemoveButton from 'core/components/blocks/Wishlist/RemoveButton'
 
 export default {
-  mixins: [removeButton]
+  mixins: [RemoveButton]
 }
 </script>

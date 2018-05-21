@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Newsletter from './newsletter'
+import Newsletter from 'core/components/blocks/Footer/Newsletter'
 
 export default Vue.component('MainFooter', {
   components: {
