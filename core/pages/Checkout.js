@@ -1,20 +1,12 @@
+// Core dependecies
 import i18n from 'core/lib/i18n'
 import config from 'config'
-import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
-import Shipping from 'core/components/blocks/Checkout/Shipping'
-import Payment from 'core/components/blocks/Checkout/Payment'
-import OrderReview from 'core/components/blocks/Checkout/OrderReview'
-import CartSummary from 'core/components/blocks/Checkout/CartSummary'
+
+// Core mixins
 import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Checkout',
-  metaInfo () {
-    return {
-      title: this.$route.meta.title || i18n.t('Checkout'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
-    }
-  },
   mixins: [Composite],
   data () {
     return {
@@ -117,8 +109,6 @@ export default {
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
-  },
-  computed: {
   },
   watch: {
     '$route': 'activateHashSection'
@@ -317,11 +307,10 @@ export default {
       this.$store.dispatch('checkout/savePaymentDetails', this.payment)
     }
   },
-  components: {
-    PersonalDetails,
-    Shipping,
-    Payment,
-    OrderReview,
-    CartSummary
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('Checkout'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+    }
   }
 }

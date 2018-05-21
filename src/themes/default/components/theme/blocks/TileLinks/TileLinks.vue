@@ -25,13 +25,13 @@ import socialData from 'theme/resource/ig_feed.json'
 
 export default {
   name: 'TileLinks',
-  created () {
-    this.updateSocialTiles(socialData)
-  },
   computed: {
     ...mapGetters({
       social_tiles: 'social/getSocialTiles'
     })
+  },
+  created () {
+    this.updateSocialTiles(socialData)
   },
   methods: {
     ...mapActions({

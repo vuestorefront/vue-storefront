@@ -1,6 +1,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
+  name: 'Microcart',
   props: {
     product: {
       type: Object,

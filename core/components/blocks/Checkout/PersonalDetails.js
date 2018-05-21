@@ -1,6 +1,7 @@
 import { mapState } from 'vuex'
 
 export default {
+  name: 'PersonalDetails',
   props: {
     isActive: {
       type: Boolean,

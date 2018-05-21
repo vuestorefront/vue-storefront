@@ -2,6 +2,7 @@ import { mapState, mapGetters } from 'vuex'
 import Countries from 'core/resource/countries.json'
 
 export default {
+  name: 'Payment',
   props: {
     isActive: {
       type: Boolean,

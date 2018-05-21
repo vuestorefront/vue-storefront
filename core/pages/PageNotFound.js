@@ -1,17 +1,16 @@
+// 3rd party dependecies
 import builder from 'bodybuilder'
-import EventBus from 'core/plugins/event-bus'
+
+// Core dependecies
 import i18n from 'core/lib/i18n'
+import EventBus from 'core/plugins/event-bus'
+
+// Core mixins
 import Composite from 'core/mixins/composite'
 
 export default {
   name: 'PageNotFound',
   mixins: [Composite],
-  metaInfo () {
-    return {
-      title: this.$route.meta.title || i18n.t('404 Page Not Found'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
-    }
-  },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
@@ -34,5 +33,11 @@ export default {
         })
       })
     })
+  },
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('404 Page Not Found'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+    }
   }
 }

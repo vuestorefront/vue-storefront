@@ -2,6 +2,10 @@ import AddToCart from 'core/components/AddToCart'
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
 export default {
+  name: 'Product',
+  components: {
+    AddToCart
+  },
   props: {
     product: {
       type: Object,
@@ -15,8 +19,5 @@ export default {
         return this.getThumbnail(thumbnail, 310, 300) // for offline support we do need to have ProductTile version
       } else return this.getThumbnail(thumbnail, 150, 150)
     }
-  },
-  components: {
-    AddToCart
   }
 }

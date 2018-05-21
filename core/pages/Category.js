@@ -1,21 +1,126 @@
-import config from 'config'
-import Sidebar from 'core/components/blocks/Category/Sidebar'
-import ProductListing from 'core/components/ProductListing'
-import Breadcrumbs from 'core/components/Breadcrumbs'
-import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
-import EventBus from 'core/plugins/event-bus'
+// 3rd party dependecies
 import toString from 'lodash-es/toString'
+
+// Core dependecies
+import config from 'config'
+import EventBus from 'core/plugins/event-bus'
+import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+
+// Core mixins
 import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Category',
-  metaInfo () {
+  mixins: [Composite],
+  data () {
     return {
-      title: this.$route.meta.title || this.categoryName,
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      pagination: {
+        perPage: 50,
+        current: 0,
+        enabled: false
+      },
+      bottom: false,
+      lazyLoadProductsOnscroll: true
     }
   },
-  mixins: [Composite],
+  computed: {
+    products () {
+      return this.$store.state.product.list.items
+    },
+    productsCounter () {
+      return this.$store.state.product.list.items.length
+    },
+    productsTotal () {
+      return this.$store.state.product.list.total
+    },
+    currentQuery () {
+      return this.$store.state.category.current_product_query
+    },
+    isCategoryEmpty () {
+      return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)
+    },
+    category () {
+      return this.$store.state.category.current
+    },
+    categoryName () {
+      return this.$store.state.category.current ? this.$store.state.category.current.name : ''
+    },
+    categoryId () {
+      return this.$store.state.category.current ? this.$store.state.category.current.id : ''
+    },
+    filters () {
+      return this.$store.state.category.filters
+    },
+    breadcrumbs () {
+      return this.$store.state.category.breadcrumbs
+    }
+  },
+  watch: {
+    '$route': 'validateRoute',
+    bottom (bottom) {
+      if (bottom) {
+        this.pullMoreProducts()
+      }
+    }
+  },
+  preAsyncData ({ store, route }) {
+    console.log('preAsyncData query setup')
+    store.state.category.current_product_query = {
+      populateAggregations: true,
+      store: store,
+      route: route,
+      current: 0,
+      perPage: 50,
+      sort: config.entities.productList.sort,
+      filters: config.products.defaultFilters,
+      includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null,
+      append: false
+    }
+  },
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      console.log('Entering asyncData for Category root ' + new Date())
+      const defaultFilters = config.products.defaultFilters
+      store.dispatch('category/list', { includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.category.includeFields : null }).then((categories) => {
+        store.dispatch('attribute/list', { // load filter attributes for this specific category
+          filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+          includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.attribute.includeFields : null
+        }).then((attrs) => {
+          store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
+            let query = store.state.category.current_product_query
+            if (!query.searchProductQuery) {
+              query = Object.assign(query, { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters) })
+            }
+            store.dispatch('category/products', query).then((subloaders) => {
+              Promise.all(subloaders).then((results) => {
+                EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
+                  return resolve()
+                }).catch((err) => {
+                  console.error(err)
+                  return resolve()
+                })
+              })
+            })
+          }).catch(err => {
+            console.error(err)
+            reject(err)
+          })
+        })
+      })
+    })
+  },
+  created () {
+    this.$bus.$on('filter-changed-category', this.onFilterChanged)
+    if (!global.$VS.isSSR && this.lazyLoadProductsOnscroll) {
+      window.addEventListener('scroll', () => {
+        this.bottom = this.bottomVisible()
+      })
+    }
+  },
+  beforeDestroy () {
+    this.$bus.$off('filter-changed-category', this.onFilterChanged)
+  },
   methods: {
     bottomVisible () {
       const scrollY = window.scrollY
@@ -92,119 +197,10 @@ export default {
       })
     }
   },
-  watch: {
-    '$route': 'validateRoute',
-    bottom (bottom) {
-      if (bottom) {
-        this.pullMoreProducts()
-      }
-    }
-  },
-  preAsyncData ({ store, route }) {
-    console.log('preAsyncData query setup')
-    store.state.category.current_product_query = {
-      populateAggregations: true,
-      store: store,
-      route: route,
-      current: 0,
-      perPage: 50,
-      sort: config.entities.productList.sort,
-      filters: config.products.defaultFilters,
-      includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.includeFields : null,
-      excludeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.productList.excludeFields : null,
-      append: false
-    }
-  },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Category root ' + new Date())
-      const defaultFilters = config.products.defaultFilters
-      store.dispatch('category/list', { includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.category.includeFields : null }).then((categories) => {
-        store.dispatch('attribute/list', { // load filter attributes for this specific category
-          filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-          includeFields: config.entities.optimize && global.$VS.isSSR ? config.entities.attribute.includeFields : null
-        }).then((attrs) => {
-          store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            let query = store.state.category.current_product_query
-            if (!query.searchProductQuery) {
-              query = Object.assign(query, { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters) })
-            }
-            store.dispatch('category/products', query).then((subloaders) => {
-              Promise.all(subloaders).then((results) => {
-                EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
-                  return resolve()
-                }).catch((err) => {
-                  console.error(err)
-                  return resolve()
-                })
-              })
-            })
-          }).catch(err => {
-            console.error(err)
-            reject(err)
-          })
-        })
-      })
-    })
-  },
-  created () {
-    this.$bus.$on('filter-changed-category', this.onFilterChanged)
-    if (!global.$VS.isSSR && this.lazyLoadProductsOnscroll) {
-      window.addEventListener('scroll', () => {
-        this.bottom = this.bottomVisible()
-      })
-    }
-  },
-  beforeDestroy () {
-    this.$bus.$off('filter-changed-category', this.onFilterChanged)
-  },
-  computed: {
-    products () {
-      return this.$store.state.product.list.items
-    },
-    productsCounter () {
-      return this.$store.state.product.list.items.length
-    },
-    productsTotal () {
-      return this.$store.state.product.list.total
-    },
-    currentQuery () {
-      return this.$store.state.category.current_product_query
-    },
-    isCategoryEmpty () {
-      return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)
-    },
-    category () {
-      return this.$store.state.category.current
-    },
-    categoryName () {
-      return this.$store.state.category.current ? this.$store.state.category.current.name : ''
-    },
-    categoryId () {
-      return this.$store.state.category.current ? this.$store.state.category.current.id : ''
-    },
-    filters () {
-      return this.$store.state.category.filters
-    },
-    breadcrumbs () {
-      return this.$store.state.category.breadcrumbs
-    }
-
-  },
-  data () {
+  metaInfo () {
     return {
-      pagination: {
-        perPage: 50,
-        current: 0,
-        enabled: false
-      },
-      bottom: false,
-      lazyLoadProductsOnscroll: true
+      title: this.$route.meta.title || this.categoryName,
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
-  },
-  components: {
-    ProductListing,
-    Breadcrumbs,
-    Sidebar
   }
 }

@@ -1,6 +1,7 @@
 import i18n from 'core/lib/i18n'
 
 export default {
+  name: 'OrderReview',
   props: {
     isActive: {
       type: Boolean,

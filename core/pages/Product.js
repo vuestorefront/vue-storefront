@@ -1,26 +1,119 @@
-import Breadcrumbs from 'core/components/Breadcrumbs'
-import AddToCart from 'core/components/AddToCart'
-import ProductGallery from 'core/components/ProductGallery'
-import EventBus from 'core/plugins/event-bus'
+// 3rd party dependecies
 import { mapGetters } from 'vuex'
-import i18n from 'core/lib/i18n'
 import groupBy from 'lodash-es/groupBy'
 import uniqBy from 'lodash-es/uniqBy'
+
+// Core dependecies
+import i18n from 'core/lib/i18n'
 import config from 'config'
+import EventBus from 'core/plugins/event-bus'
+
+// Core mixins
 import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Product',
   mixins: [Composite],
-  metaInfo () {
+  data () {
     return {
-      title: this.$route.meta.title || this.productName,
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      loading: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      product: 'product/productCurrent',
+      originalProduct: 'product/productOriginal',
+      parentProduct: 'product/productParent',
+      attributesByCode: 'attribute/attributeListByCode',
+      attributesById: 'attribute/attributeListById',
+      breadcrumbs: 'product/breadcrumbs',
+      configuration: 'product/currentConfiguration',
+      options: 'product/currentOptions',
+      category: 'category/current'
+    }),
+    productName () {
+      return this.product ? this.product.name : ''
+    },
+    productId () {
+      return this.product ? this.product.id : ''
+    },
+    offlineImage () {
+      return {
+        src: this.getThumbnail(this.product.image, 310, 300),
+        error: this.getThumbnail(this.product.image, 310, 300),
+        loading: this.getThumbnail(this.product.image, 310, 300)
+      }
+    },
+    gallery () {
+      let images = []
+      if (this.product.media_gallery) {
+        for (let mediaItem of this.product.media_gallery) {
+          if (mediaItem.image) {
+            images.push({
+              'src': this.getThumbnail(mediaItem.image, 600, 744),
+              'loading': this.getThumbnail(this.product.image, 310, 300)
+            })
+          }
+        }
+      }
+      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
+      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
+        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
+          return child[variantsGroupBy]
+        })
+        Object.keys(groupedByAttribute).forEach((confChild) => {
+          if (groupedByAttribute[confChild][0].image) {
+            images.push({
+              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
+              'loading': this.getThumbnail(this.product.image, 310, 300),
+              'id': confChild
+            })
+          }
+        })
+      } else {
+        images.push({
+          'src': this.getThumbnail(this.product.image, 600, 744),
+          'loading': this.getThumbnail(this.product.image, 310, 300)
+        })
+      }
+      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
+    },
+    customAttributes () {
+      let inst = this
+      return Object.values(this.attributesByCode).filter(a => {
+        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
+      })
+    },
+    isOnWishlist () {
+      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
+    },
+    isOnCompare () {
+      return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     EventBus.$emit('product-before-load', { store: store, route: route })
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+  },
+  watch: {
+    '$route': 'validateRoute'
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-removevariant')
+    this.$bus.$off('filter-changed-product')
+    this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
+    this.$bus.$off('product-after-customoptions')
+    this.$bus.$off('product-after-bundleoptions')
+  },
+  beforeMount () {
+    this.onStateCheck()
+  },
+  created () {
+    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
+    this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
+    this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
+    this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
+    this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
   },
   methods: {
     validateRoute () {
@@ -122,106 +215,10 @@ export default {
       }))
     }
   },
-  watch: {
-    '$route': 'validateRoute'
-  },
-  beforeDestroy () {
-    this.$bus.$off('product-after-removevariant')
-    this.$bus.$off('filter-changed-product')
-    this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
-    this.$bus.$off('product-after-customoptions')
-    this.$bus.$off('product-after-bundleoptions')
-  },
-  beforeMount () {
-    this.onStateCheck()
-  },
-  created () {
-    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
-    this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
-    this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
-    this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
-    this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-  },
-  computed: {
-    ...mapGetters({
-      product: 'product/productCurrent',
-      originalProduct: 'product/productOriginal',
-      parentProduct: 'product/productParent',
-      attributesByCode: 'attribute/attributeListByCode',
-      attributesById: 'attribute/attributeListById',
-      breadcrumbs: 'product/breadcrumbs',
-      configuration: 'product/currentConfiguration',
-      options: 'product/currentOptions',
-      category: 'category/current'
-    }),
-    productName () {
-      return this.product ? this.product.name : ''
-    },
-    productId () {
-      return this.product ? this.product.id : ''
-    },
-    offlineImage () {
-      return {
-        src: this.getThumbnail(this.product.image, 310, 300),
-        error: this.getThumbnail(this.product.image, 310, 300),
-        loading: this.getThumbnail(this.product.image, 310, 300)
-      }
-    },
-    gallery () {
-      let images = []
-      if (this.product.media_gallery) {
-        for (let mediaItem of this.product.media_gallery) {
-          if (mediaItem.image) {
-            images.push({
-              'src': this.getThumbnail(mediaItem.image, 600, 744),
-              'loading': this.getThumbnail(this.product.image, 310, 300)
-            })
-          }
-        }
-      }
-      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
-        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
-          return child[variantsGroupBy]
-        })
-        Object.keys(groupedByAttribute).forEach((confChild) => {
-          if (groupedByAttribute[confChild][0].image) {
-            images.push({
-              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
-              'loading': this.getThumbnail(this.product.image, 310, 300),
-              'id': confChild
-            })
-          }
-        })
-      } else {
-        images.push({
-          'src': this.getThumbnail(this.product.image, 600, 744),
-          'loading': this.getThumbnail(this.product.image, 310, 300)
-        })
-      }
-      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
-    },
-    customAttributes () {
-      let inst = this
-      return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
-      })
-    },
-    isOnWishlist () {
-      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
-    },
-    isOnCompare () {
-      return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
-    }
-  },
-  data () {
+  metaInfo () {
     return {
-      loading: false
+      title: this.$route.meta.title || this.productName,
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
-  },
-  components: {
-    Breadcrumbs,
-    AddToCart,
-    ProductGallery
   }
 }

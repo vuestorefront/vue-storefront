@@ -1,18 +1,20 @@
-import EventBus from 'core/plugins/event-bus'
-import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
-import ProductTile from 'core/components/ProductTile'
+// 3rd party dependecies
 import { mapGetters } from 'vuex'
+
+// Core dependecies
+import EventBus from 'core/plugins/event-bus'
 import i18n from 'core/lib/i18n'
+
+// Core mixins
 import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Home',
   mixins: [Composite],
-  metaInfo () {
-    return {
-      title: this.$route.meta.title || i18n.t('Home Page'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
-    }
+  computed: {
+    ...mapGetters({
+      rootCategories: 'category/list'
+    })
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
@@ -28,13 +30,10 @@ export default {
   beforeMount () {
     this.$store.dispatch('category/reset')
   },
-  computed: {
-    ...mapGetters({
-      rootCategories: 'category/list'
-    })
-  },
-  components: {
-    ProductTile,
-    MainSlider
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('Home Page'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+    }
   }
 }
