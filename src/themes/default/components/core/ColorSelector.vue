@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import ColorSelector from 'core/components/ColorSelector'
+import GenericSelector from 'core/components/GenericSelector'
 
 export default {
-  mixins: [ColorSelector],
+  mixins: [GenericSelector],
   methods: {
     colorFrom (label) {
       if (label && label.toString().indexOf(',') >= 0) {

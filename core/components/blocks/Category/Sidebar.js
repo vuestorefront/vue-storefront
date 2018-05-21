@@ -1,6 +1,5 @@
 import Vue from 'vue'
-import ColorSelector from 'core/components/ColorSelector'
-import SizeSelector from 'core/components/SizeSelector'
+import GenericSelector from 'core/components/GenericSelector'
 import PriceSelector from 'core/components/PriceSelector'
 
 export default Vue.component('CategorySidebar', {
@@ -11,8 +10,7 @@ export default Vue.component('CategorySidebar', {
     }
   },
   components: {
-    ColorSelector,
-    SizeSelector,
+    GenericSelector,
     PriceSelector
   }
 })
