@@ -1,8 +1,8 @@
-import Vue from 'vue'
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 import imgPlaceholder from 'core/directives/imgPlaceholder'
 
-export default Vue.component('ProductTile', {
+export default {
+  name: 'ProductTile',
   props: {
     instant: {
       type: Boolean,
@@ -39,4 +39,4 @@ export default Vue.component('ProductTile', {
     }
   },
   directives: { imgPlaceholder }
-})
+}

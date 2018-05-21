@@ -1,3 +1,3 @@
-import Vue from 'vue'
-
-export default Vue.component('EditButton', {})
+export default {
+  name: 'EditButton'
+}

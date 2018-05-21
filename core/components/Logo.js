@@ -1,3 +1,3 @@
-import Vue from 'vue'
-
-export default Vue.component('Logo', {})
+export default {
+  name: 'Logo'
+}

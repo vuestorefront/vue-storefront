@@ -18,6 +18,7 @@
 
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
+
 export default {
   name: 'ButtonOutline',
   directives: { focusClean },

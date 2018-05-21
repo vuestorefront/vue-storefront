@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('MyNewsletter', {
+export default {
+  name: 'MyNewsletter',
   data () {
     return {
       newsletterPreferences: {
@@ -99,4 +98,4 @@ export default Vue.component('MyNewsletter', {
       }
     }
   }
-})
+}

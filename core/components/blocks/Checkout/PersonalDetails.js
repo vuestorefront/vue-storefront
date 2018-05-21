@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 
-export default Vue.component('PersonalDetails', {
+export default {
+  name: 'PersonalDetails',
   props: {
     isActive: {
       type: Boolean,
@@ -57,4 +57,4 @@ export default Vue.component('PersonalDetails', {
   destroyed () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   }
-})
+}

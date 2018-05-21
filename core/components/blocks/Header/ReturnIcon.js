@@ -1,9 +1,8 @@
-import Vue from 'vue'
-
-export default Vue.component('ReturnIcon', {
+export default {
+  name: 'ReturnIcon',
   methods: {
     goBack () {
       this.$router.back()
     }
   }
-})
+}

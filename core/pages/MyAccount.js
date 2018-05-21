@@ -1,21 +1,12 @@
-import Breadcrumbs from 'core/components/Breadcrumbs'
-import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
-import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
-import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
-import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
-import MyOrder from 'core/components/blocks/MyAccount/MyOrder'
+// Core dependecies
 import i18n from 'core/lib/i18n'
+
+// Core mixins
 import Composite from 'core/mixins/composite'
 
 export default {
   name: 'MyAccount',
   mixins: [Composite],
-  metaInfo () {
-    return {
-      title: this.$route.meta.title || i18n.t('My Account'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
-    }
-  },
   props: {
     activeBlock: {
       type: String,
@@ -84,12 +75,10 @@ export default {
       }
     }
   },
-  components: {
-    Breadcrumbs,
-    MyProfile,
-    MyShippingDetails,
-    MyNewsletter,
-    MyOrders,
-    MyOrder
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('My Account'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+    }
   }
 }

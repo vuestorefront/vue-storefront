@@ -1,13 +1,7 @@
-import Vue from 'vue'
-
 import { mapMutations } from 'vuex'
 import * as types from 'core/store/mutation-types'
 import rootStore from 'core/store'
 import i18n from 'core/lib/i18n'
-
-import BaseCheckbox from 'core/components/blocks/Form/BaseCheckbox'
-import BaseInput from 'core/components/blocks/Form/BaseInput'
-import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
 
 function _defaultOptionValue (co, field = 'id') {
   if (co.product_links && co.product_links.length) {
@@ -26,17 +20,25 @@ function _fieldName (co) {
   return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
 }
 
-export default Vue.component('ProductBundleOptions', {
+export default {
+  name: 'ProductBundleOptions',
   props: {
     product: {
       type: Object,
       required: true
     }
   },
-  components: {
-    BaseCheckbox,
-    BaseInput,
-    BaseRadiobutton
+  data () {
+    return {
+      inputValues: {
+      },
+      selectedOptions: {
+      },
+      validation: {
+        rules: {},
+        results: {}
+      }
+    }
   },
   created () {
     rootStore.dispatch('product/addCustomOptionValidator', {
@@ -110,17 +112,5 @@ export default Vue.component('ProductBundleOptions', {
       }
       return result
     }
-  },
-  data () {
-    return {
-      inputValues: {
-      },
-      selectedOptions: {
-      },
-      validation: {
-        rules: {},
-        results: {}
-      }
-    }
   }
-})
+}

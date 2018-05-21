@@ -1,3 +1,3 @@
-import Vue from 'vue'
-
-export default Vue.component('Tooltip', {})
+export default {
+  name: 'Tooltip'
+}

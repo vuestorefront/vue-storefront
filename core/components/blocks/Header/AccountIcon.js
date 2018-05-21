@@ -1,8 +1,8 @@
-import Vue from 'vue'
 import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
 
-export default Vue.component('AccountIcon', {
+export default {
+  name: 'AccountIcon',
   data () {
     return {
       navigation: []
@@ -35,4 +35,4 @@ export default Vue.component('AccountIcon', {
       }
     }
   }
-})
+}

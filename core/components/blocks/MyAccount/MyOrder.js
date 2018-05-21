@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('MyOrder', {
+export default {
+  name: 'MyOrder',
   data () {
     return {
       ordersHistory: [],
@@ -81,4 +80,4 @@ export default Vue.component('MyOrder', {
       }
     }
   }
-})
+}

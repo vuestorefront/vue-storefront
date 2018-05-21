@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('BaseTextarea', {
+export default {
+  name: 'BaseTextarea',
   data () {
     return {
       iconActive: false,
@@ -57,4 +56,4 @@ export default Vue.component('BaseTextarea', {
       this.$refs[this.name].focus()
     }
   }
-})
+}

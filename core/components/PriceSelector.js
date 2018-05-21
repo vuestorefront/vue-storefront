@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('PriceSelector', {
+export default {
+  name: 'PriceSelector',
   props: {
     content: {
       type: null,
@@ -62,4 +61,4 @@ export default Vue.component('PriceSelector', {
       this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
     }
   }
-})
+}

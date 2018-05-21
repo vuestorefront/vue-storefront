@@ -1,6 +1,4 @@
-import Vue from 'vue'
-
-export default Vue.component('ValidationError', {
+export default {
   name: 'ValidationError',
   props: {
     message: {
@@ -8,4 +6,4 @@ export default Vue.component('ValidationError', {
       default: ''
     }
   }
-})
+}

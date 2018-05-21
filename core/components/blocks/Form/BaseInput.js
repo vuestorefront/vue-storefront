@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('BaseInput', {
+export default {
+  name: 'BaseInput',
   data () {
     return {
       passType: 'password',
@@ -74,4 +73,4 @@ export default Vue.component('BaseInput', {
       this.$refs[this.name].focus()
     }
   }
-})
+}

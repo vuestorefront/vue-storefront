@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import Countries from 'core/resource/countries.json'
 
-export default Vue.component('MyProfile', {
+export default {
+  name: 'MyProfile',
   data () {
     return {
       currentUser: Object.assign({}, this.$store.state.user.current),
@@ -205,4 +205,4 @@ export default Vue.component('MyProfile', {
       return ''
     }
   }
-})
+}

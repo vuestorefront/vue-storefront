@@ -4,29 +4,11 @@ import Composite from 'core/mixins/composite'
 
 export default {
   name: 'Compare',
-  metaInfo () {
-    return {
-      title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
-    }
-  },
+  mixins: [Composite],
   props: {
     title: {
       type: String,
       required: true
-    }
-  },
-  mixins: [Composite],
-  created () {
-    this.$store.dispatch('compare/load')
-    this.$store.dispatch('attribute/list', {
-      filterValues: [true],
-      filterField: 'is_user_defined'
-    })
-  },
-  methods: {
-    removeFromCompare (product) {
-      this.$store.dispatch('compare/removeItem', product)
     }
   },
   computed: {
@@ -41,6 +23,24 @@ export default {
       return Object.values(this.attributesByCode).filter(a => {
         return parseInt(a.is_comparable)
       })
+    }
+  },
+  created () {
+    this.$store.dispatch('compare/load')
+    this.$store.dispatch('attribute/list', {
+      filterValues: [true],
+      filterField: 'is_user_defined'
+    })
+  },
+  methods: {
+    removeFromCompare (product) {
+      this.$store.dispatch('compare/removeItem', product)
+    }
+  },
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   }
 }

@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('Breadcrumbs', {
+export default {
+  name: 'Breadcrumbs',
   props: {
     routes: {
       type: Array,
@@ -11,4 +10,4 @@ export default Vue.component('Breadcrumbs', {
       required: true
     }
   }
-})
+}

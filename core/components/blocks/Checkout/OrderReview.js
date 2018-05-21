@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import i18n from 'core/lib/i18n'
 
-export default Vue.component('OrderReview', {
+export default {
+  name: 'OrderReview',
   props: {
     isActive: {
       type: Boolean,
@@ -55,4 +55,4 @@ export default Vue.component('OrderReview', {
       })
     }
   }
-})
+}

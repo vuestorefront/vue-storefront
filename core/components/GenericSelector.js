@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('GenericSelector', {
+export default {
+  name: 'GenericSelector',
   props: {
     label: {
       type: String,
@@ -58,4 +57,4 @@ export default Vue.component('GenericSelector', {
       this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
     }
   }
-})
+}

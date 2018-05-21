@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.component('ProductAttribute', {
+export default {
+  name: 'ProductAttribute',
   props: {
     product: {
       type: Object,
@@ -46,4 +45,4 @@ export default Vue.component('ProductAttribute', {
       this.value = results.join(', ')
     }
   }
-})
+}

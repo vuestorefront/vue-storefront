@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import { mapMutations } from 'vuex'
 
-export default Vue.component('Modal', {
+export default {
+  name: 'Modal',
   data () {
     return {
       isVisible: false
@@ -41,4 +41,4 @@ export default Vue.component('Modal', {
       this.toggle(false)
     }
   }
-})
+}

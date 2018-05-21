@@ -1,9 +1,14 @@
-import Vue from 'vue'
 import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
 import config from 'config'
 
-export default Vue.component('ProductGallery', {
+export default {
+  name: 'ProductGallery',
+  components: {
+    Slide,
+    Carousel,
+    VueOffline
+  },
   props: {
     gallery: {
       type: Array,
@@ -23,10 +28,15 @@ export default Vue.component('ProductGallery', {
       isZoomOpen: false
     }
   },
-  components: {
-    Slide,
-    Carousel,
-    VueOffline
+  created () {
+    this.$bus.$on('filter-changed-product', this.selectVariant)
+    this.$bus.$on('product-after-load', this.selectVariant)
+  },
+  mounted () {
+    setTimeout(() => {
+      this.selectVariant()
+      this.$forceUpdate()
+    }, 0)
   },
   methods: {
     navigate (index) {
@@ -48,15 +58,5 @@ export default Vue.component('ProductGallery', {
         this.navigate(this.$refs.carousel.currentPage)
       }, 1)
     }
-  },
-  created () {
-    this.$bus.$on('filter-changed-product', this.selectVariant)
-    this.$bus.$on('product-after-load', this.selectVariant)
-  },
-  mounted () {
-    setTimeout(() => {
-      this.selectVariant()
-      this.$forceUpdate()
-    }, 0)
   }
-})
+}
