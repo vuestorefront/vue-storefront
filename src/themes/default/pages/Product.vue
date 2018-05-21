@@ -217,20 +217,19 @@
 <script>
 import Product from 'core/pages/Product'
 
-import RelatedProducts from '../components/core/blocks/Product/Related.vue'
-import AddToCart from '../components/core/AddToCart.vue'
+import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+import AddToCart from 'theme/components/core/AddToCart.vue'
 import GenericSelector from 'core/components/GenericSelector'
-import ColorSelector from '../components/core/ColorSelector.vue'
-import SizeSelector from '../components/core/SizeSelector.vue'
-import Breadcrumbs from '../components/core/Breadcrumbs.vue'
-import ProductAttribute from '../components/core/ProductAttribute.vue'
-import ProductTile from '../components/core/ProductTile.vue'
-import ProductLinks from '../components/core/ProductLinks.vue'
-import ProductCustomOptions from '../components/core/ProductCustomOptions.vue'
-import ProductBundleOptions from '../components/core/ProductBundleOptions.vue'
+import ColorSelector from 'theme/components/core/ColorSelector.vue'
+import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
+import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import ProductTile from 'theme/components/core/ProductTile.vue'
+import ProductLinks from 'theme/components/core/ProductLinks.vue'
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import Composite from 'core/mixins/composite'
 
 export default {
   components: {
@@ -247,7 +246,7 @@ export default {
     RelatedProducts,
     SizeSelector
   },
-  mixins: [Product, Composite],
+  mixins: [Product],
   data () {
     return {
       detailsOpen: false

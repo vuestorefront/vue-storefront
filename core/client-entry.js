@@ -6,6 +6,7 @@ import * as localForage from 'localforage'
 import EventBus from 'core/plugins/event-bus'
 import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
+import rootStore from '@vue-storefront/store'
 
 require('./service-worker-registration') // register the service worker
 
@@ -258,3 +259,5 @@ EventBus.$on('user-before-logout', () => {
     router.push('/')
   }
 })
+
+rootStore.dispatch('cart/load') // load cart from the indexedDb

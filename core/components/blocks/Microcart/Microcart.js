@@ -22,7 +22,6 @@ export default Vue.component('Microcart', {
     }
   },
   created () {
-    this.$store.dispatch('cart/load') // load cart from the indexedDb
     this.$bus.$on('network-before-checkStatus', this.onNetworkStatusChanged)
   },
   destroyed () {
