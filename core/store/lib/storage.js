@@ -76,7 +76,7 @@ class LocalForageCacheDriver {
             iterator(value, key, globalIterationNumber)
             globalIterationNumber++
           } else {
-            console.debug('Skipping iteration key because local cache executed', key)
+            // console.debug('Skipping iteration key because local cache executed', key)
           }
         } else {
           iterator(value, key, iterationNumber)

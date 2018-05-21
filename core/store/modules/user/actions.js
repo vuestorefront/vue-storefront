@@ -130,7 +130,7 @@ export default {
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.log('No User token, user unathorized')
+        console.debug('No User token, user unathorized')
         return resolve(null)
       }
       const cache = global.$VS.db.usersCollection
@@ -278,7 +278,7 @@ export default {
   getOrdersHistory (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.log('No User token, user unathorized')
+        console.debug('No User token, user unathorized')
         return resolve(null)
       }
       const cache = global.$VS.db.ordersHistoryCollection
