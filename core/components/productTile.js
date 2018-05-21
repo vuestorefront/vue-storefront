@@ -4,6 +4,16 @@ import imgPlaceholder from 'core/directives/imgPlaceholder'
 
 export default Vue.component('ProductTile', {
   props: {
+    instant: {
+      type: Boolean,
+      required: false,
+      default: () => false
+    },
+    labelsActive: {
+      type: Boolean,
+      requred: false,
+      default: true
+    },
     product: {
       type: Object,
       required: true

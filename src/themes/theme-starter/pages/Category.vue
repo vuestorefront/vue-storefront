@@ -2,17 +2,25 @@
   <div id="category">
     <!-- You can find everything in 'category' object -->
     <h1>Category Page: {{ category.name }} </h1>
-    <div><router-link to="/">Back to home </router-link></div>
-    <product-tile v-for="product in products" :product="product" :key="product.name"/>
-    <div v-if="isCategoryEmpty">
-      Category is empty
+    <div class="row">
+      <div class="col-md-3">
+        <Sidebar :filters="filters.available"/>
+      </div>
+      <div class="col-md-9">
+        <div class="row">
+          <div v-if="isCategoryEmpty" class="col-12">
+            Category is empty
+          </div>
+          <product-tile v-for="product in products" :product="product" :key="product.name" class="col-md-3 col-sm-4 col-xs-12"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// Here we are importing Core Page module responsible for business logic injection
 import Category from 'core/pages/Category'
+import Sidebar from 'theme/components/Category/Sidebar'
 import ProductTile from 'theme/components/ProductTile' // Component to display small product tile
 
 export default {
@@ -24,7 +32,8 @@ export default {
     }
   },
   components: {
-    ProductTile
+    ProductTile,
+    Sidebar
   },
   mixins: [Category]
 }
