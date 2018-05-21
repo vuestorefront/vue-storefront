@@ -181,14 +181,14 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
         currentToken = store.state.user.token
       }
       const fetchQueue = []
-      console.log('Current User token = ' + currentToken)
-      console.log('Current Cart token = ' + currentCartId)
+      console.debug('Current User token = ' + currentToken)
+      console.debug('Current Cart token = ' + currentCartId)
       syncTaskCollection.iterate((task, id, iterationNumber) => {
         if (!task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
             return execute(task, currentToken, currentCartId).then((executedTask) => {
-              console.log('Storing the task result', executedTask)
+              console.debug('Storing the task result', executedTask)
               syncTaskCollection.setItem(executedTask.task_id.toString(), executedTask)
               mutex[id] = false
             }).catch((err) => {
@@ -198,10 +198,10 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
           })
         }
       }).then(() => {
-        console.log('Iteration has completed')
+        console.debug('Iteration has completed')
         // execute them serially
         serial(fetchQueue)
-          .then((res) => console.info('Processing sync tasks queue has finished'))
+          .then((res) => console.debug('Processing sync tasks queue has finished'))
       }).catch((err) => {
         // This code runs if there were any errors
         console.log(err)
@@ -259,5 +259,5 @@ EventBus.$on('user-before-logout', () => {
     router.push('/')
   }
 })
-
-rootStore.dispatch('cart/load') // load cart from the indexedDb
+rootStore.dispatch('cart/load')
+rootStore.dispatch('user/startSession')

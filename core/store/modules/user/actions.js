@@ -18,8 +18,10 @@ export default {
 
       if (res) {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
+        EventBus.$emit('session-after-authorized')
+      } else {
+        EventBus.$emit('session-after-nonauthorized')
       }
-      EventBus.$emit('session-after-started')
     })
 
     const newsletterStorage = global.$VS.db.newsletterPreferencesCollection
@@ -167,10 +169,12 @@ export default {
           .then((resp) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
-              EventBus.$emit('user-after-loggedin', resp.result)
             }
-            if (!resolvedFromCache) {
-              resolve(resp.resultCode === 200 ? resp : null)
+            if (!resolvedFromCache && resp.resultCode === 200) {
+              EventBus.$emit('user-after-loggedin', resp.result)
+              resolve(resp)
+            } else {
+              resolve(null)
             }
             return resp
           })

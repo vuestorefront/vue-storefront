@@ -327,8 +327,7 @@ export default {
         }
         if (res !== null) {
           console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-
-          context.dispatch('setupVariants', { product: res }).then((subresults) => {
+          const _returnProductFromCacheHelper = (subresults) => {
             const cachedProduct = setupProduct(res)
             if (config.products.alwaysSyncPlatformPricesOver) {
               doPlatformPricesSync([cachedProduct]).then((products) => {
@@ -343,7 +342,12 @@ export default {
               if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
               resolve(cachedProduct)
             }
-          })
+          }
+          if (setCurrentProduct || selectDefaultVariant) {
+            context.dispatch('setupVariants', { product: res }).then(_returnProductFromCacheHelper)
+          } else {
+            _returnProductFromCacheHelper(null)
+          }
         } else {
           context.dispatch('list', { // product list syncs the platform price on it's own
             query: bodybuilder()
@@ -354,10 +358,15 @@ export default {
           }).then((res) => {
             if (res && res.items && res.items.length) {
               let prd = res.items[0]
-              context.dispatch('setupVariants', { product: prd }).then((subresults) => {
+              const _returnProductNoCacheHelper = (subresults) => {
                 if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
                 resolve(setupProduct(prd))
-              })
+              }
+              if (setCurrentProduct || selectDefaultVariant) {
+                context.dispatch('setupVariants', { product: prd }).then(_returnProductNoCacheHelper)
+              } else {
+                _returnProductNoCacheHelper(null)
+              }
             } else {
               reject(new Error('Product query returned empty result'))
             }
