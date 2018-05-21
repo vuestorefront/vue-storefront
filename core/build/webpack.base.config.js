@@ -2,13 +2,13 @@ const path = require('path')
 const config = require('config')
 const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
 )
 
-const vueConfig = require('./vue-loader.config')
 const appConfig = require('./config.json')
 
 const extensionsRoot = '../../src/extensions'
@@ -28,9 +28,10 @@ const themeApp = themeRoot + '/App.vue'
 
 module.exports = {
   plugins: [
-    new CaseSensitivePathsPlugin()
+    new CaseSensitivePathsPlugin(),
+    new VueLoaderPlugin()
   ],
-  devtool: '#source-map',
+  devtool: 'source-map',
   entry: {
     app: './core/client-entry.js',
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
@@ -100,7 +101,10 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueConfig,
+        options: {
+          optimizeSSR: false,
+          preserveWhitespace: false
+        }
       },
       {
         test: /\.js$/,
@@ -115,20 +119,48 @@ module.exports = {
         }
       },
       {
-        test: /\.s[a|c]ss$/,
-        loader: 'style!css!sass'
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              indentedSyntax: true
+            }
+          }
+        ]
       },
       {
         test: /\.md$/,
-        loader: 'vue-markdown-loader',
-        options: {
-          wrapper: 'div'
-        }
+        use: [
+          'vue-loader',
+          {
+            loader: 'markdown-to-vue-loader',
+            options: {
+              componentWrapper: 'div'
+            }
+          }
+        ]
       },
       {
         test: path.resolve(__dirname, '../lib/translation.preprocessor.js'),
         use: [
-          { loader: 'json-loader' },
           {
             loader: 'val-loader',
             options: {

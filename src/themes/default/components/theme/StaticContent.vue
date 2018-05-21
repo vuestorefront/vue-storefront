@@ -28,7 +28,7 @@ export default {
   methods: {
     loadContent (file = this.file) {
       this.staticLoaded = false
-      this.$options.components.static = require('../../resource/' + file + '.md')
+      this.$options.components.static = require('../../resource/' + file + '.md').default
       this.staticLoaded = 'static'
     }
   }
