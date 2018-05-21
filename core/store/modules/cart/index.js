@@ -41,15 +41,16 @@ EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
 
 EventBus.$on('servercart-after-totals', (event) => { // example stock check callback
   if (event.resultCode === 200) {
-    console.log('Overriding server totals', event.result)
+    const totalsObj = event.result.totals ? event.result.totals : event.result
+    console.log('Overriding server totals', totalsObj)
     let itemsAfterTotal = {}
-    let platformTotalSegments = event.result.total_segments
-    for (let item of event.result.items) {
+    let platformTotalSegments = totalsObj.total_segments
+    for (let item of totalsObj.items) {
       if (item.options && isString(item.options)) item.options = JSON.parse(item.options)
       itemsAfterTotal[item.item_id] = item
       rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }, { root: true }) // update the server_id reference
     }
-    rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: event.result, platformTotalSegments: platformTotalSegments })
+    rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: totalsObj, platformTotalSegments: platformTotalSegments })
   } else {
     console.error(event.result)
   }

@@ -96,6 +96,7 @@ export default {
       } else {
         this.shipping = this.$store.state.checkout.shippingDetails
       }
+      this.changeCountry()
     },
     getShippingMethod () {
       for (let i = 0; i < this.shippingMethods.length; i++) {
