@@ -33,6 +33,7 @@
             :src="placeholder"
             :data-src="thumbnail"
             :alt="product.name"
+            v-lazy="thumbnail"
             height="300"
             width="310"
             :data-loading="placeholder"
