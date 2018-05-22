@@ -46,6 +46,7 @@ export default {
   $color-white: color(white);
 
   label {
+    user-select: none;
     &:before {
       content: '';
       position: absolute;
@@ -63,6 +64,7 @@ export default {
     position: absolute;
     top: 3px;
     left: 0;
+    opacity: 0;
     &:checked + label {
       &:before {
         background-color: $color-silver;
@@ -93,6 +95,8 @@ export default {
     }
     &:disabled + label {
       cursor: not-allowed;
+      opacity: 0.5;
+      pointer-events: none;
       &:hover,
       &:focus {
         &:before {
