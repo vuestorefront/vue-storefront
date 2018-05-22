@@ -37,6 +37,10 @@ export default {
       this.selectVariant()
       this.$forceUpdate()
     }, 0)
+    document.addEventListener('keydown', this.handleEscKey)
+  },
+  beforeDestroy () {
+    document.removeEventListener('keydown', this.handleEscKey)
   },
   methods: {
     navigate (index) {
@@ -57,6 +61,11 @@ export default {
       setTimeout(() => {
         this.navigate(this.$refs.carousel.currentPage)
       }, 1)
+    },
+    handleEscKey (event) {
+      if (this.isZoomOpen && event.keyCode === 27) {
+        this.toggleZoom()
+      }
     }
   }
 }
