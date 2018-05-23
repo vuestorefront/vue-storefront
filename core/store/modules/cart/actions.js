@@ -39,13 +39,13 @@ export default {
           dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
-          /* rootStore.dispatch('cart/getPaymentMethods')
+          rootStore.dispatch('cart/getPaymentMethods')
           if (context.state.cartItems.length > 0) {
             let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
             rootStore.dispatch('cart/getShippingMethods', {
               country_id: country
             })
-          } */
+          }
         })
       } else {
         console.log('Too short interval for refreshing the cart or items not changed', newItemsHash, context.state.cartItemsHash)
