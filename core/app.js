@@ -24,6 +24,19 @@ import shippingMethods from 'core/resource/shipping_methods.json'
 
 if (!global.$VS) global.$VS = {}
 
+global.$VS.__VERSION__ = '1.0.0-rc2s.0'
+global.$VS.__CONFIG__ = config
+
+const storeView = { // current, default store
+  tax: config.tax,
+  i18n: config.i18n,
+  elasticsearch: config.elasticsearch,
+  storeCode: '',
+  storeId: 0
+}
+global.$VS.__STOREVIEW__ = storeView
+store.state.shipping.methods = shippingMethods
+
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
     console.log('Registering custom, theme Vuex store as module', moduleName)
@@ -82,15 +95,6 @@ export function createApp () {
   } else {
     global.$VS.__DEMO_MODE__ = false
   }
-
-  global.$VS.__VERSION__ = '1.0.0-rc2s.0'
-  global.$VS.__CONFIG__ = config
-  global.$VS.__TAX_COUNTRY__ = config.tax.defaultCountry || 'PL'
-  global.$VS.__TAX_REGION__ = config.tax.defaultRegion || ''
-  global.$VS.__I18N_COUNTRY__ = config.i18n.defaultCountry || 'US'
-  global.$VS.__I18N_LANG__ = config.i18n.defaultLanguage || 'EN'
-
-  store.state.shipping.methods = shippingMethods
 
   return { app, router, store }
 }

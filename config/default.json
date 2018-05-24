@@ -11,6 +11,31 @@
     "ssr": {
       "executeMixedinAsyncData": true
     },
+    "storeviews": {
+      "multistore": false,
+      "example": {
+        "storeCode": "example",
+        "storeId": 2,
+        "name": "Example storeview",
+        "url": "http://localhost:3000/example",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_test"
+        },      
+        "tax": {
+          "defaultCountry": "PL",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "defaultCountry": "PL",
+          "defaultLocale": "de-DE",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      }      
+    },
     "entities": {
       "optimize": true,
       "twoStageCaching": true,

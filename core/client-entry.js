@@ -13,9 +13,19 @@ require('./service-worker-registration') // register the service worker
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
 
+let storeCode = null // select the storeview by prefetched vuex store state (prefetched serverside)
+let storeView = null
+
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
+if ((storeCode = rootStore.state.user.current_storecode)) {
+  if ((storeView = config.storeviews[storeCode])) {
+    rootStore.state.user.current_storecode = storeCode
+    global.$VS.__STOREVIEW__ = storeView
+  }
+}
+
 function _ssrHydrateSubcomponents (components, next, to) {
   Promise.all(components.map(SubComponent => {
     if (SubComponent.asyncData) {

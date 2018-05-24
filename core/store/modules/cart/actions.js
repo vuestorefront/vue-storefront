@@ -4,6 +4,7 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
+import { currentStoreView } from '@vue-storefront/store/helpers'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -40,12 +41,13 @@ export default {
           dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
+          const storeView = currentStoreView()
           if ((new Date() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
             context.state.cartServerMethodsRefreshAt = new Date()
             console.debug('Refreshing payment & shipping methods')
             rootStore.dispatch('cart/getPaymentMethods')
             if (context.state.cartItems.length > 0) {
-              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
               rootStore.dispatch('cart/getShippingMethods', {
                 country_id: country
               })
@@ -336,9 +338,10 @@ export default {
     }
   },
   refreshTotals (context, methodsData) {
+    const storeView = currentStoreView()
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
-        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
         const paymentMethods = context.rootGetters['payment/paymentMethods']
         let shipping = shippingMethods.find(item => item.default)

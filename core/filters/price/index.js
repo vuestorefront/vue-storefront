@@ -1,4 +1,4 @@
-import config from 'config'
+import { currentStoreView } from '@vue-storefront/store/helpers'
 
 /**
  * Converts number to price string
@@ -6,9 +6,10 @@ import config from 'config'
  */
 export function price (value) {
   const formattedVal = parseFloat(value).toFixed(2)
+  const storeView = currentStoreView()
   if (value >= 0) {
-    return config.i18n.currencySign + formattedVal
+    return storeView.i18n.currencySign + formattedVal
   } else {
-    return '-' + config.i18n.currencySign + Math.abs(formattedVal)
+    return '-' + storeView.i18n.currencySign + Math.abs(formattedVal)
   }
 }
