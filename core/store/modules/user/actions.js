@@ -22,6 +22,7 @@ export default {
       } else {
         EventBus.$emit('session-after-nonauthorized')
       }
+      EventBus.$emit('session-after-started')
     })
 
     const newsletterStorage = global.$VS.db.newsletterPreferencesCollection

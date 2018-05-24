@@ -259,5 +259,6 @@ EventBus.$on('user-before-logout', () => {
     router.push('/')
   }
 })
+
 rootStore.dispatch('cart/load')
 rootStore.dispatch('user/startSession')
