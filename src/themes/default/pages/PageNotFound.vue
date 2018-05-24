@@ -38,8 +38,8 @@
             </h3>
           </header>
           <div class="row center-xs">
-            <div v-for="(product, key) in ourBestsellersCollection" :key="product.id" class="col-md-3">
-              <product-tile :instant="key < 4 ? true : false" :product="product"/>
+            <div v-for="product in ourBestsellersCollection" :key="product.id" class="col-md-3">
+              <product-tile :product="product"/>
             </div>
           </div>
         </section>
