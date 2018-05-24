@@ -52,10 +52,14 @@
         </div>
       </div>
       <div class="row py20">
-        <div v-if="isOnline && !addCouponPressed" class="col-xs-12 pt30">
-          <a class="cl-secondary link" href="#" @click="addDiscountCoupon">
+        <div v-if="isOnline && !addCouponPressed" class="col-xs-12">
+          <button
+            class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"
+            type="button"
+            @click="addDiscountCoupon"
+          >
             {{ $t('Add a discount code') }}
-          </a>
+          </button>
         </div>
         <div v-if="isOnline && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
