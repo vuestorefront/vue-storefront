@@ -7,6 +7,7 @@ import hash from 'object-hash'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
+const CART_METHODS_INTERVAL_MS = 1000 * 60 * 10 // refresh methods each 10 min
 
 export default {
   serverTokenClear (context) {
@@ -39,12 +40,16 @@ export default {
           dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
-          rootStore.dispatch('cart/getPaymentMethods')
-          if (context.state.cartItems.length > 0) {
-            let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-            rootStore.dispatch('cart/getShippingMethods', {
-              country_id: country
-            })
+          if ((new Date() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
+            context.state.cartServerMethodsRefreshAt = new Date()
+            console.debug('Refreshing payment & shipping methods')
+            rootStore.dispatch('cart/getPaymentMethods')
+            if (context.state.cartItems.length > 0) {
+              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+              rootStore.dispatch('cart/getShippingMethods', {
+                country_id: country
+              })
+            }
           }
         })
       } else {

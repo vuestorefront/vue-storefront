@@ -216,6 +216,7 @@ export default {
     cartServerPullAt: 0,
     cartServerTotalsAt: 0,
     cartServerCreatedAt: 0,
+    cartServerMethodsRefreshAt: 0,
     cartSavedAt: new Date(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
