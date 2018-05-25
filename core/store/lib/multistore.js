@@ -35,6 +35,15 @@ export function storeCodeFromRoute (matchedRoute) {
   }
 }
 
+export function adjustMultistoreApiUrl (url) {
+  const storeView = currentStoreView()
+  if (storeView.storeCode) {
+    const urlSep = (url.indexOf('?') > 0) ? '&' : '?'
+    url += urlSep + 'storeCode=' + storeView.storeCode
+  }
+  return url
+}
+
 export function localizedRoute (routeObj, storeCode) {
   if (storeCode && routeObj) {
     if (typeof routeObj === 'object') {
