@@ -143,7 +143,7 @@
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
         <div class="col-xs-5 col-sm-3 cl-tertiary">
-          {{ $t('United States (US)') }}
+          <language-switcher />
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links">
@@ -173,6 +173,7 @@
 </template>
 
 <script>
+import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Footer from 'core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
@@ -199,7 +200,11 @@ export default {
         this.isCheckout = false
       }
     }
-  }
+  },
+  components: {
+    Newsletter,
+    LanguageSwitcher
+  },
 }
 </script>
 
