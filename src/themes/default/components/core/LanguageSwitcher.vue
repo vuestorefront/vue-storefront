@@ -8,14 +8,15 @@
 </template>
 
 <script>
-import config from 'config'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   data () {
+    const storeView = currentStoreView()
     return {
-      country: config.i18n.defaultCountry,
-      lang: config.i18n.defaultLanguage,
-      currency: config.i18n.currencyCode
+      country: storeView.i18n.defaultCountry,
+      lang: storeView.i18n.defaultLanguage,
+      currency: storeView.i18n.currencyCode
     }
   }
 }

@@ -4,24 +4,35 @@
       {{ $t('Choose your country') }}
     </p>
     <div slot="content">
-      <h3>United Kingdom</h3>
-      <ul>
-        <li>English</li>
-      </ul>
-      <h3>Italy</h3>
-      <ul>
-        <li>English</li>
-        <li>Italiano</li>
-      </ul>
+      <div>
+        <h3>{{ config.i18n.fullCountryName }}</h3>
+        <ul>
+          <li><a href="/">{{ config.i18n.fullLanguageName }}</a></li>
+        </ul>
+      </div>
+      <div v-for="(storeView, storeCode) in storeViews" :key="storeCode" v-if="!storeView.disabled && typeof storeView === 'object' && storeView.i18n">
+        <h3>{{ storeView.i18n.fullCountryName }}</h3>
+        <ul>
+          <li><a :href="'/' + storeCode">{{ storeView.i18n.fullLanguageName }}</a></li>
+        </ul>
+      </div>
     </div>
   </modal>
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
-
+import config from 'config'
 export default {
   components: {
     Modal
+  },
+  computed: {
+    storeViews () {
+      return config.storeViews
+    },
+    config () {
+      return config
+    }
   },
   methods: {
     close () {
