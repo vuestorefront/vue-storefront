@@ -4,11 +4,6 @@ import imgPlaceholder from 'core/directives/imgPlaceholder'
 export default {
   name: 'ProductTile',
   props: {
-    instant: {
-      type: Boolean,
-      required: false,
-      default: () => false
-    },
     labelsActive: {
       type: Boolean,
       requred: false,
@@ -30,6 +25,13 @@ export default {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, image is going to be 'red'
       let thumbnail = productThumbnailPath(this.product)
       return this.getThumbnail(thumbnail, 310, 300)
+    },
+    thumbnailObj () {
+      return {
+        src: this.thumbnail,
+        loading: this.placeholder,
+        error: this.placeholder
+      }
     },
     isOnSale () {
       return this.product.sale === '1' ? 'sale' : ''

@@ -24,7 +24,6 @@
                     :product="product"
                     :class="{'is-muted': (currentPage == index || index == currentPage + 5)}"
                     :labels-active="false"
-                    :instant="false"
                   />
                 </slide>
               </carousel>
