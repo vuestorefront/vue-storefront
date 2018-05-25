@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import HamburgerIcon from 'core/components/blocks/Header/HamburgerIcon'
 
 export default {
-  mixins: [coreComponent('blocks/Header/HamburgerIcon')]
+  mixins: [HamburgerIcon]
 }
 </script>

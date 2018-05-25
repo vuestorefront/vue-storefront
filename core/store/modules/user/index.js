@@ -16,9 +16,9 @@ EventBus.$on('user-after-update', (event) => {
   }
 })
 
-EventBus.$on('session-after-started', (event) => { // example stock check callback
+EventBus.$on('session-after-authorized', (event) => { // example stock check callback
   console.log('Loading user profile')
-  store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {})
+  store.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {}) // this will load user cart
   store.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
 })
 
@@ -74,6 +74,7 @@ export default {
   state: {
     token: '',
     current: null,
+    current_storecode: '',
     session_started: new Date(),
     newsletter: null,
     orders_history: null

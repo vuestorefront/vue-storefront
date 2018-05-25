@@ -42,9 +42,9 @@
                 @click="isAvailable()"> {{ availabilityLabel }}</button>
             </div>
           </div>
-          <div v-if="!ui.savedToWishlist" class="row mt40">
+          <div v-if="!isOnWishlist" class="row mt40">
             <div class="col-xs-12 col-md-4">
-              <div @click="addToWishlist" class="c-secondary-lighter c-icon-hover pointer flex start-xs middle-xs uppercase fs-medium-small hover-transition">
+              <div @click="addToList('wishlist')" class="c-secondary-lighter c-icon-hover pointer flex start-xs middle-xs uppercase fs-medium-small hover-transition">
                 <span class="material-icons">favorite_border</span>
                 <span class="pl10">{{ $t('Save product') }}</span>
               </div>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Product from 'core/pages/Product'
 
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import ProductAttribute from 'theme/components/core/blocks/Product/ProductAttribute'
@@ -90,8 +90,7 @@ export default {
       },
       ui: {
         aboutProduct: true,
-        qualities: false,
-        savedToWishlist: false
+        qualities: false
       },
       scrollReveal: null
     }
@@ -107,12 +106,7 @@ export default {
       this.availability.checked = true
       this.availability.available = this.product.stock.is_in_stock
     },
-    addToWishlist () {
-      this.$store.dispatch('wishlist/addItem', this.product)
-      this.ui.savedToWishlist = true
-    },
     resetProductState () {
-      this.ui.savedToWishlist = false
       this.availability.checked = false
     }
   },
@@ -134,7 +128,7 @@ export default {
     SizeFilter,
     SimilarPdoducts
   },
-  mixins: [corePage('Product')]
+  mixins: [Product]
 }
 </script>
 

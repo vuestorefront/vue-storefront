@@ -4,6 +4,7 @@
     "background_color": "#ffffff",
     "display": "standalone",
     "theme_color": "#ffffff",
+    "start_url": "/pwa.html",
     "icons": [
       {
         "src": "/assets/launcher-icon-1x.png",
@@ -34,7 +35,11 @@
         "src": "/assets/launcher-icon-4x.png",
         "type": "image/png",
         "sizes": "192x192"
+      },
+      {
+        "src": "/assets/launcher-icon-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
       }
-    ],
-    "start_url": "/pwa.html"
+    ]
   }

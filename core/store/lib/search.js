@@ -1,6 +1,6 @@
-import config from '../lib/config'
-import _ from 'lodash'
+import map from 'lodash-es/map'
 import { slugify } from '../helpers'
+import { currentStoreView } from './multistore'
 import hash from 'object-hash'
 
 let es = require('elasticsearch')
@@ -14,11 +14,12 @@ function isOnline () {
 }
 
 function _getEsClientSingleton () {
+  const storeView = currentStoreView()
   if (!global.$VS.esClient) {
     global.$VS.esClient = new es.Client({
-      host: config.elasticsearch.host,
-      httpAuth: config.elasticsearch.httpAuth,
-      log: 'debug',
+      host: storeView.elasticsearch.host,
+      httpAuth: storeView.elasticsearch.httpAuth,
+      log: 'error',
       apiVersion: '5.5',
       requestTimeout: 5000
     })
@@ -38,7 +39,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
   }
   if (resp.hasOwnProperty('hits')) {
     return {
-      items: _.map(resp.hits.hits, function (hit) {
+      items: map(resp.hits.hits, function (hit) {
         return Object.assign(hit._source, { _score: hit._score, slug: hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '' }) // TODO: assign slugs server side
       }), // TODO: add scoring information
       total: resp.hits.total,
@@ -69,8 +70,9 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
+    const storeView = currentStoreView()
     const esQuery = {
-      index: index || config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+      index: index || storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: entityType,
       body: query,
       size: size,
@@ -94,11 +96,11 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         res.noresults = false
         res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
         resolve(res)
-        console.info('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         servedFromCache = true
       } else {
         if (!isOnline()) {
-          console.info('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
 
           res = {
             items: [],
@@ -121,7 +123,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       const res = _handleEsResult(resp, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
       if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-        console.info('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         res.cache = false
         res.noresults = false
         res.offline = false
@@ -148,8 +150,9 @@ export function quickSearchByText ({ queryText, start = 0, size = 50 }) {
 
   return new Promise((resolve, reject) => {
     let client = _getEsClientSingleton()
+    const storeView = currentStoreView()
     client.search({
-      index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+      index: storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: 'product',
       q: queryText,
       size: size,

@@ -11,7 +11,7 @@
     <div v-if="currentUser" class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400">
       <div class="py5">
         <div v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-          <router-link class="no-underline block py10 px15" :to="page.link">
+          <router-link class="no-underline block py10 px15" :to="localizedRoute(page.link)">
             {{ page.title }}
           </router-link>
         </div>
@@ -26,10 +26,11 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
 import i18n from 'core/lib/i18n'
+import AccountIcon from 'core/components/blocks/Header/AccountIcon'
 
 export default {
+  mixins: [AccountIcon],
   data () {
     return {
       navigation: [
@@ -41,8 +42,7 @@ export default {
         { title: i18n.t('My product reviews'), link: '#' }
       ]
     }
-  },
-  mixins: [coreComponent('blocks/Header/AccountIcon')]
+  }
 }
 </script>
 

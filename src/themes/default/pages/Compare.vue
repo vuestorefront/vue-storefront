@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import {corePage} from 'core/lib/themes'
+import Compare from 'core/pages/Compare'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
 import ProductTile from '../components/core/ProductTile'
@@ -81,7 +81,7 @@ export default {
     RemoveButton,
     ProductAttribute
   },
-  mixins: [corePage('Compare')]
+  mixins: [Compare]
 }
 </script>
 

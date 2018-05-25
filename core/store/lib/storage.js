@@ -1,6 +1,19 @@
 class LocalForageCacheDriver {
-  constructor (collection) {
-    this._localCache = {}
+  constructor (collection, useLocalCacheByDefault = true) {
+    const collectionName = collection._config.storeName
+    const dbName = collection._config.name
+    if (typeof global.$VS.localCache === 'undefined') {
+      global.$VS.localCache = {}
+    }
+    if (typeof global.$VS.localCache[dbName] === 'undefined') {
+      global.$VS.localCache[dbName] = {}
+    }
+    if (typeof global.$VS.localCache[dbName][collectionName] === 'undefined') {
+      global.$VS.localCache[dbName][collectionName] = {}
+    }
+    this._dbName = dbName
+    this._useLocalCacheByDefault = useLocalCacheByDefault
+    this._localCache = global.$VS.localCache[dbName][collectionName]
     this._localForageCollection = collection
   }
 
@@ -17,30 +30,70 @@ class LocalForageCacheDriver {
     const self = this
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     let isResolved = false
+    if (self._useLocalCacheByDefault && self._localCache[key]) {
+      // console.debug('Local cache fallback for GET', key)
+      return new Promise((resolve, reject) => {
+        const value = typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null
+        if (isCallbackCallable) callback(null, value)
+        resolve(value)
+      })
+    }
+    // console.debug('No local cache fallback for GET', key)
     const promise = this._localForageCollection.getItem(key).then(result => {
-      if (isCallbackCallable) {
-        callback(null, result)
+      if (!isResolved) {
+        if (isCallbackCallable) {
+          callback(null, result)
+        }
+        isResolved = true
+      } else {
+        console.debug('Skipping return value as it was previously resolved')
       }
-      isResolved = true
       return result
     }).catch(err => {
-      console.debug('UniversalStorage - probably in SSR mode: ' + err)
-      if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+      console.debug('UniversalStorage - GET - probably in SSR mode: ' + err)
+      if (!isResolved) {
+        if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+      }
       isResolved = true
     })
 
     setTimeout(function () {
       if (!isResolved) { // this is cache time out check
-        console.error('Cache not responding within 2s')
+        console.error('Cache not responding within 1s')
         if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
       }
-    }, 2000)
+    }, 1000)
     return promise
   }
 
   // Iterate over all items in the store.
   iterate (iterator, callback) {
-    return this._localForageCollection.iterate(iterator, callback)
+    const self = this
+    const isIteratorCallable = (typeof iterator !== 'undefined' && iterator)
+    let globalIterationNumber = 1
+    if (this._useLocalCacheByDefault) {
+      // console.debug('Local cache iteration')
+      for (const localKey in self._localCache) {
+        if (isIteratorCallable) {
+          iterator(self._localCache[localKey], localKey, globalIterationNumber)
+          globalIterationNumber++
+        }
+      }
+    }
+    return this._localForageCollection.iterate(function (value, key, iterationNumber) {
+      if (isIteratorCallable) {
+        if (self._useLocalCacheByDefault) {
+          if (typeof self._localCache[key] === 'undefined') {
+            iterator(value, key, globalIterationNumber)
+            globalIterationNumber++
+          } else {
+            // console.debug('Skipping iteration key because local cache executed', key)
+          }
+        } else {
+          iterator(value, key, iterationNumber)
+        }
+      }
+    })
   }
 
   // Same as localStorage's key() method, except takes a callback.
@@ -59,6 +112,9 @@ class LocalForageCacheDriver {
 
   // Remove an item from the store, nice and simple.
   removeItem (key, callback) {
+    if (typeof self._localCache[key] !== 'undefined') {
+      delete typeof self._localCache[key]
+    }
     return this._localForageCollection.removeItem(key, callback)
   }
 
@@ -69,13 +125,13 @@ class LocalForageCacheDriver {
   setItem (key, value, callback) {
     const self = this
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
+    self._localCache[key] = value
     const promise = this._localForageCollection.setItem(key, value).then(result => {
       if (isCallbackCallable) {
         callback(null, result)
       }
     }).catch(err => {
-      console.debug('UniversalStorage - probably in SSR mode: ' + err)
-      self._localCache[key] = value
+      console.debug('UniversalStorage - SET - probably in SSR mode: ' + err)
     })
 
     return promise

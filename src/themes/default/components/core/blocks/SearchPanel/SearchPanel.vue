@@ -14,7 +14,7 @@
         id="search"
         v-model="search"
         @input="makeSearch"
-        class="mr20 py10 brdr-none brdr-bottom brdr-cl-primary no-outline h4"
+        class="mr20 py10 brdr-none brdr-bottom-1 brdr-cl-primary no-outline h4"
         :placeholder="$t('Type what you are looking for...')"
         type="text"
       >
@@ -31,20 +31,19 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import ProductTile from '../../ProductTile.vue'
+import SearchPanel from 'core/components/blocks/SearchPanel/SearchPanel'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
+  components: {
+    ProductTile
+  },
+  mixins: [SearchPanel],
   data () {
     return {
       emptyResults: false,
       search: ''
     }
-  },
-  components: {
-    ProductTile
-  },
-  methods: {
   },
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
@@ -52,8 +51,7 @@ export default {
         this.$refs.search.focus()
       }
     })
-  },
-  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
+  }
 }
 </script>
 

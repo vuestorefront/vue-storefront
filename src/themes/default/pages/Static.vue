@@ -13,7 +13,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link :to="page.link" class="cl-accent relative">{{ page.title }}</router-link>
+                <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
@@ -27,20 +27,20 @@
 </template>
 
 <script>
-import Breadcrumbs from '../components/core/Breadcrumbs'
-import staticContent from 'theme/components/theme/StaticContent'
 import i18n from 'core/lib/i18n'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import StaticContent from 'theme/components/theme/StaticContent'
 
 export default {
+  components: {
+    Breadcrumbs,
+    StaticContent
+  },
   metaInfo () {
     return {
       title: this.$route.meta.title || this.$props.title,
       meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
     }
-  },
-  components: {
-    Breadcrumbs,
-    staticContent
   },
   props: {
     title: {

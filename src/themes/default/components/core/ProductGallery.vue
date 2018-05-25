@@ -57,14 +57,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductGallery from 'core/components/ProductGallery'
 import NoSSR from 'vue-no-ssr'
 
 export default {
-  mixins: [coreComponent('ProductGallery')],
   components: {
     'no-ssr': NoSSR
   },
+  mixins: [ProductGallery],
   data () {
     return {
       loaded: true
@@ -181,4 +181,3 @@ img[lazy=loading] {
   }
 }
 </style>
-

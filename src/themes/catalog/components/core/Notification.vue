@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Notification from 'core/components/blocks/Notification'
 
 export default {
-  mixins: [coreComponent('Notification')]
+  mixins: [Notification]
 }
 </script>
 

@@ -13,4 +13,3 @@ The code will be merged with default Service Worker
 
 self.addEventListener('message', function (event) {
 })
-

@@ -8,7 +8,7 @@
 
 <script>
 import builder from 'bodybuilder'
-import ProductTile from 'theme/components/core/ProductTile.vue'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
   props: {
