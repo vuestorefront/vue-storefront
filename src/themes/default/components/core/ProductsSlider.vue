@@ -86,7 +86,7 @@ $color-product-bg: color(secondary, $colors-background);
 
 .product {
   &.collection-product {
-    padding: 15px;
+    padding: 15px 0;
   }
 
   &.is-muted {
@@ -95,6 +95,11 @@ $color-product-bg: color(secondary, $colors-background);
 }
 
 .collection-product {
+  .product-link {
+    display: block;
+    padding: 0 15px;
+  }
+
   .product-image {
     height: auto;
     will-change: opacity;
@@ -103,6 +108,7 @@ $color-product-bg: color(secondary, $colors-background);
       max-width: 100%;
       max-height: 100%;
       height: auto;
+      vertical-align: bottom;
     }
   }
 }

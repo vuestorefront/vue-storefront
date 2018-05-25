@@ -4,6 +4,7 @@
     v-observe-visibility="visibilityChanged"
   >
     <router-link
+      class="no-underline product-link"
       :to="{
         name: product.type_id + '-product',
         params: {
