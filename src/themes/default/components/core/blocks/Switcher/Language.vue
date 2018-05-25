@@ -5,15 +5,15 @@
     </p>
     <div slot="content">
       <div>
-        <h3>{{ config.i18n.fullCountryName }}</h3>
+        <h3>{{ $t(config.i18n.fullCountryName) }}</h3>
         <ul>
-          <li><a href="/">{{ config.i18n.fullLanguageName }}</a></li>
+          <li><a href="/">{{ $t(config.i18n.fullLanguageName) }}</a></li>
         </ul>
       </div>
       <div v-for="(storeView, storeCode) in storeViews" :key="storeCode" v-if="!storeView.disabled && typeof storeView === 'object' && storeView.i18n">
-        <h3>{{ storeView.i18n.fullCountryName }}</h3>
+        <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>
         <ul>
-          <li><a :href="'/' + storeCode">{{ storeView.i18n.fullLanguageName }}</a></li>
+          <li><a :href="'/' + storeCode">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
         </ul>
       </div>
     </div>
