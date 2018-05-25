@@ -1,6 +1,6 @@
 <template>
   <div class="similar row" >
-    <router-link :class="classes" v-for="(product, key) in related.by_category" :key="product.id" :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
+    <router-link :class="classes" v-for="product in related.by_category" :key="product.id" :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
       <product-tile :product="product"/>
     </router-link>
   </div>
