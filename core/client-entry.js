@@ -7,7 +7,7 @@ import EventBus from 'core/plugins/event-bus'
 import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
-import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
+import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 require('./service-worker-registration') // register the service worker
 
@@ -87,8 +87,11 @@ const orderMutex = {}
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
 
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
   const ordersCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'orders'
   }))
 
@@ -161,18 +164,20 @@ const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   console.log('Executing task queue')
   // event.data.config - configuration, endpoints etc
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
   const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'syncTasks'
   }))
 
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'user'
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'carts'
   }))
 

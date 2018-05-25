@@ -164,6 +164,12 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     console.debug('Vuex VS store - using external i18n')
     this.i18n = i18n
     global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
+  } else {
+    global.$VS.i18n = {
+      t: function (key) {
+        return key
+      }
+    }
   }
   if (eventBus !== null) {
     console.debug('Vuex VS store - using external event-bus')

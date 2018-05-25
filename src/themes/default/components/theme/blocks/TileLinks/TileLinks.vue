@@ -6,7 +6,7 @@
       :key="index"
     >
       <router-link
-        :to="tile.link"
+        :to="localizedRoute(tile.link)"
         class="tile center-xs middle-xs no-underline"
       >
         <img

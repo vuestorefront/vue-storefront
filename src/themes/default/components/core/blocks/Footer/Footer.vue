@@ -15,22 +15,22 @@
                 {{ $t('Departments') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/c/women-20" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/c/women-20')" exact>
                   {{ $t('Women fashion') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/c/men-11" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/c/men-11')" exact>
                   {{ $t("Men's fashion") }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
                   {{ $t('Kidswear') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
                   {{ $t('Home') }}
                 </router-link>
               </div>
@@ -40,22 +40,22 @@
                 {{ $t('Orders') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/order-tracking" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/order-tracking')" exact>
                   {{ $t('Track my order') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/my-account" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/my-account')" exact>
                   {{ $t('My account') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/delivery" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
                   {{ $t('Delivery') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/returns" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/returns')" exact>
                   {{ $t('Return policy') }}
                 </router-link>
               </div>
@@ -65,17 +65,17 @@
                 {{ $t('Help') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/customer-service" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/customer-service')" exact>
                   {{ $t('Customer service') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/size-guide" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/size-guide')" exact>
                   {{ $t('Size guide') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/contact" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/contact')" exact>
                   {{ $t('Contact us') }}
                 </router-link>
               </div>
@@ -85,12 +85,12 @@
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/about-us" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
                   {{ $t('About us') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/store-locator" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
                 </router-link>
               </div>

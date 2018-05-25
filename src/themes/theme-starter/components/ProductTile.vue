@@ -2,14 +2,14 @@
   <div class="product-tile">
     <!-- Pass product object to this component -->
     <router-link
-      :to="{
+      :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
           parentSku: product.parentSku ? product.parentSku : product.sku,
           slug: product.slug,
           childSku: product.sku
         }
-      }"
+      })"
     >
       <transition appear>
         <!-- Pass prop instant="true" to avoid lazy loading for product images.

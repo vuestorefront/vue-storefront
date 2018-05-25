@@ -33,11 +33,9 @@ if (themeModules) {
     store.registerModule(moduleName, themeModules[moduleName])
   }
 }
-const storeView = prepareStoreView(null, config) // prepare the default storeView
+const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
 global.$VS.storeView = storeView
 store.state.shipping.methods = shippingMethods
-
-store.init(config, i18n, EventBus)
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})

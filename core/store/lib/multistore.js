@@ -1,12 +1,11 @@
 import store from '../'
-import i18n from './i18n'
 import EventBus from './event-bus'
 
 export function currentStoreView () {
   return global.$VS.storeView
 }
 
-export function prepareStoreView (storeCode, config) {
+export function prepareStoreView (storeCode, config, i18n = null, eventBus = null) {
   let storeView = { // current, default store
     tax: config.tax,
     i18n: config.i18n,
@@ -20,9 +19,11 @@ export function prepareStoreView (storeCode, config) {
       store.state.user.current_storecode = storeCode
     }
   }
-  global.$VS.storeView = storeView
-  global.$VS.i18n.locale = storeView.i18n.defaultLocale
-  store.init(config, i18n, EventBus)
+  if (!global.$VS.storeView || global.$VS.storeView.storeCode !== storeCode) {
+    global.$VS.storeView = storeView
+    global.$VS.i18n.locale = storeView.i18n.defaultLocale
+    store.init(config, i18n || global.$VS.i18n, eventBus || EventBus)
+  }
   return storeView
 }
 
@@ -35,7 +36,7 @@ export function storeCodeFromRoute (matchedRoute) {
 }
 
 export function localizedRoute (routeObj, storeCode) {
-  if (storeCode) {
+  if (storeCode && routeObj) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name
