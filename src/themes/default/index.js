@@ -7,6 +7,8 @@ import Compare from './pages/Compare.vue'
 import PageNotFound from './pages/PageNotFound.vue'
 import MyAccount from './pages/MyAccount.vue'
 import UIStore from './store/ui-store'
+import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
+import config from 'config'
 
 const routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -39,11 +41,15 @@ const routes = [
   { name: 'order-from-catalog', path: '/order-from-catalog', component: Static, props: {page: 'lorem', title: 'Order from catalog'} },
   { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
   { name: 'compare', path: '/compare', component: Compare, props: {title: 'Compare Products'} },
-  { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
-  { path: '*', redirect: 'page-not-found' }
+  { name: 'page-not-found', path: '/page-not-found', component: PageNotFound }
 ]
 
 export default function (app, router, store) {
+  // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
+  // You can do it on your own and then be able to customize the components used for example for German storeview checkout
+  // To do so please execlude the desired storeview from the config.storeviews.mapStoreUrlsFor and map the urls by Your own like:
+  // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   router.addRoutes(routes)
+  setupMultistoreRoutes(config, router, routes)
   store.registerModule('ui', UIStore)
 }

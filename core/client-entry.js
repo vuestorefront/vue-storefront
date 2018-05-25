@@ -7,6 +7,7 @@ import EventBus from 'core/plugins/event-bus'
 import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
+import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
 
 require('./service-worker-registration') // register the service worker
 
@@ -14,16 +15,11 @@ const { app, router, store } = createApp()
 global.$VS.isSSR = false
 
 let storeCode = null // select the storeview by prefetched vuex store state (prefetched serverside)
-let storeView = null
-
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
 if ((storeCode = rootStore.state.user.current_storecode)) {
-  if ((storeView = config.storeviews[storeCode])) {
-    rootStore.state.user.current_storecode = storeCode
-    global.$VS.__STOREVIEW__ = storeView
-  }
+  prepareStoreView(storeCode, config)
 }
 
 function _ssrHydrateSubcomponents (components, next, to) {
@@ -42,6 +38,12 @@ router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
+    if (router.currentRoute && router.currentRoute.matched.length) { // this is from url
+      const storeCode = storeCodeFromRoute(router.currentRoute.matched[0])
+      if (storeCode !== '' && storeCode !== null) {
+        prepareStoreView(storeCode, config)
+      }
+    }
     let diffed = false
     const activated = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))

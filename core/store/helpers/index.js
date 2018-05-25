@@ -1,10 +1,6 @@
 import builder from 'bodybuilder'
 import config from '../lib/config'
 
-export function currentStoreView () {
-  return global.$VS.__STOREVIEW__
-}
-
 /**
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text

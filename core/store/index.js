@@ -22,82 +22,9 @@ import social from './modules/social-tiles'
 import claims from './modules/claims'
 import sync from './modules/sync'
 import promoted from './modules/promoted-offers'
-
-Vue.prototype.$db = {
-  ordersCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'orders'
-  })),
-
-  categoriesCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'categories'
-  })),
-
-  attributesCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'attributes'
-  })),
-
-  cartsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'carts'
-  })),
-
-  elasticCacheCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'elasticCache'
-  })),
-
-  productsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'products'
-  })),
-
-  claimsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'claims'
-  })),
-
-  wishlistCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'wishlist'
-  })),
-
-  compareCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'compare'
-  })),
-
-  usersCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'user'
-  })),
-
-  syncTaskCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'syncTasks'
-  })),
-
-  checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'checkoutFieldValues'
-  })),
-
-  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'newsletterPreferences'
-  })),
-
-  ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'ordersHistory'
-  }))
-}
+import { currentStoreView } from './lib/multistore'
 
 if (!global.$VS) global.$VS = {}
-global.$VS.db = Vue.prototype.$db // localForage instance
-
 Vue.use(Vuex)
 
 const state = {
@@ -243,5 +170,67 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     this.eventBus = eventBus
     global.$VS.eventBus = Object.assign(global.$VS.eventBus, eventBus)
   }
+
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+  Vue.prototype.$db = {
+    ordersCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'orders'
+    })),
+    categoriesCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'categories'
+    })),
+    attributesCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'attributes'
+    })),
+    cartsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'carts'
+    })),
+    elasticCacheCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'elasticCache'
+    })),
+    productsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'products'
+    })),
+    claimsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'claims'
+    })),
+    wishlistCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'wishlist'
+    })),
+    compareCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'compare'
+    })),
+    usersCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'user'
+    })),
+    syncTaskCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'syncTasks'
+    })),
+    checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'checkoutFieldValues'
+    })),
+    newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'newsletterPreferences'
+    })),
+    ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'ordersHistory'
+    }))
+  }
+  global.$VS.db = Vue.prototype.$db // localForage instance
 }
 export default rootStore

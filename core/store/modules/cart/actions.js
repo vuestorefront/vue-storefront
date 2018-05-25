@@ -4,7 +4,7 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
-import { currentStoreView } from '@vue-storefront/store/helpers'
+import { currentStoreView } from '../../lib/multistore'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200

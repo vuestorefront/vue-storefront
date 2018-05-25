@@ -1,5 +1,5 @@
 import { createApp } from './app'
-import rootStore from '@vue-storefront/store'
+import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
 import config from 'config'
 import union from 'lodash-es/union'
 import { HttpError } from 'core/lib/exceptions'
@@ -37,14 +37,12 @@ export default context => {
     context.meta = meta
     router.onReady(() => {
       if (config.storeviews.multistore === true) {
-        let storeCode = context.storeCode ? context.storeCode : router.currentRoute.query.storeCode
-        if (router.currentRoute && storeCode) { // current store code
-          let storeview = null
-          if ((storeview = config.storeviews[storeCode])) {
-            rootStore.state.user.current_storecode = storeCode
-            global.$VS.__STOREVIEW__ = storeview
-            console.log('Selected Storeview', storeCode, global.$VS.__STOREVIEW__)
-          }
+        let storeCode = context.storeCode // this is from http header or env variable
+        if (router.currentRoute && router.currentRoute.matched.length) { // this is from url
+          storeCode = storeCodeFromRoute(router.currentRoute.matched[0])
+        }
+        if (storeCode !== '' && storeCode !== null) {
+          prepareStoreView(storeCode, config)
         }
       }
       const matchedComponents = router.getMatchedComponents()

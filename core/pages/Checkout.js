@@ -4,7 +4,7 @@ import config from 'config'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
-import { currentStoreView } from '@vue-storefront/store/helpers'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'Checkout',

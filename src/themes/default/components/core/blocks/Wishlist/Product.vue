@@ -1,19 +1,19 @@
 <template>
   <li class="row pr55 py20">
     <div @click="closeWishlist">
-      <router-link :to="{
+      <router-link :to="localizedRoute({
         name: product.type_id + '-product',
         params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
-      }">
+      })">
         <img v-lazy="thumbnail" >
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
       <div @click="closeWishlist">
-        <router-link :to="{
+        <router-link :to="localizedRoute({
           name: product.type_id + '-product',
           params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
-        }">
+        })">
           {{ product.name | htmlDecode }}
         </router-link>
         <div class="h6 cl-bg-secondary pt5">{{ product.sku }}</div>

@@ -1,6 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
-import { breadCrumbRoutes, productThumbnailPath, currentStoreView } from '../../helpers'
+import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
+import { currentStoreView } from '../../lib/multistore'
 import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'

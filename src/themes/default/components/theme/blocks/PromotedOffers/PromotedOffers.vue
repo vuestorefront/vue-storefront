@@ -6,7 +6,7 @@
         v-for="(banner, index) in banners.mainBanners"
         :key="index"
       >
-        <router-link :to="banner.link">
+        <router-link :to="localizedRoute(banner.link)">
           <div
             class="offer border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
             v-lazy:background-image="banner.image"

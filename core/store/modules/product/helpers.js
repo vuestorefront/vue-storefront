@@ -9,7 +9,7 @@ import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
-import { currentStoreView } from '@vue-storefront/store/helpers'
+import { currentStoreView } from '../../lib/multistore'
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
   if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {

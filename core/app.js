@@ -21,21 +21,12 @@ import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
 import VueOffline from 'vue-offline'
 import shippingMethods from 'core/resource/shipping_methods.json'
+import { prepareStoreView } from './store/lib/multistore'
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.__VERSION__ = '1.0.0-rc2s.0'
+global.$VS.__VERSION__ = '1.0.0-rc3.0'
 global.$VS.__CONFIG__ = config
-
-const storeView = { // current, default store
-  tax: config.tax,
-  i18n: config.i18n,
-  elasticsearch: config.elasticsearch,
-  storeCode: '',
-  storeId: 0
-}
-global.$VS.__STOREVIEW__ = storeView
-store.state.shipping.methods = shippingMethods
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
@@ -43,6 +34,9 @@ if (themeModules) {
     store.registerModule(moduleName, themeModules[moduleName])
   }
 }
+const storeView = prepareStoreView(null, config) // prepare the default storeview
+global.$VS.__STOREVIEW__ = storeView
+store.state.shipping.methods = shippingMethods
 
 store.init(config, i18n, EventBus)
 

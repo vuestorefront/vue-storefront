@@ -1,5 +1,6 @@
 import map from 'lodash-es/map'
-import { slugify, currentStoreView } from '../helpers'
+import { slugify } from '../helpers'
+import { currentStoreView } from './multistore'
 import hash from 'object-hash'
 
 let es = require('elasticsearch')
