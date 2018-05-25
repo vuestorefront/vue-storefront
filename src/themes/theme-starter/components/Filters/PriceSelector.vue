@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import PriceSelector from 'core/components/priceSelector'
+import PriceSelector from 'core/components/PriceSelector'
 
 export default {
   name: 'PriceSelector',
