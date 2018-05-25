@@ -14,7 +14,7 @@ require('./service-worker-registration') // register the service worker
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
 
-let storeCode = null // select the storeview by prefetched vuex store state (prefetched serverside)
+let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }

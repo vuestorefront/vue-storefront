@@ -215,6 +215,6 @@ If the extensions are not playing with the User Interface, probably they will wo
 
 ### <a name="multi-website"></a>How to support Multistore / Multiwebsite setup
 
-Currently, the Multi Website support is possible by setting up few separate instances of Vue Storefront configured to use other API endpoints + have few ElasticSearch indexes (each for one storeview). Magento2 API allows the user to simply add the: http://magento-store.example.com/store_code/V1 ... to the endpoitns so You can just switch the store view by changing store_code - from "default" to any kind of "en", "de" ... 
+Currently, the Multi Website support is possible by setting up few separate instances of Vue Storefront configured to use other API endpoints + have few ElasticSearch indexes (each for one storeView). Magento2 API allows the user to simply add the: http://magento-store.example.com/store_code/V1 ... to the endpoitns so You can just switch the store view by changing store_code - from "default" to any kind of "en", "de" ... 
 2
 

@@ -11,13 +11,13 @@
     "ssr": {
       "executeMixedinAsyncData": true
     },
-    "storeviews": {
+    "storeViews": {
       "multistore": false,
       "mapStoreUrlsFor": ["example"],
       "example": {
         "storeCode": "example",
         "storeId": 2,
-        "name": "Example storeview",
+        "name": "Example storeView",
         "url": "http://localhost:3000/example",
         "elasticsearch": {
           "host": "localhost:8080/api/catalog",
