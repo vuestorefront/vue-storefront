@@ -143,7 +143,7 @@
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
         <div class="col-xs-5 col-sm-3 cl-tertiary">
-          <language-switcher />
+          <language-switcher v-if="multistoreEnabled" />
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links">
@@ -176,11 +176,9 @@
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Footer from 'core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
+import config from 'config'
 
 export default {
-  components: {
-    Newsletter
-  },
   mixins: [Footer],
   data () {
     return {
@@ -190,6 +188,11 @@ export default {
   created () {
     if (this.$route.path === '/checkout') {
       this.isCheckout = true
+    }
+  },
+  computed: {
+    multistoreEnabled () {
+      return config.storeViews.multistore
     }
   },
   watch: {
@@ -204,7 +207,7 @@ export default {
   components: {
     Newsletter,
     LanguageSwitcher
-  },
+  }
 }
 </script>
 

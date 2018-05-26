@@ -16,6 +16,7 @@
       "mapStoreUrlsFor": ["example"],
       "example": {
         "storeCode": "example",
+        "disabled": true,
         "storeId": 2,
         "name": "Example storeView",
         "url": "http://localhost:3000/example",
@@ -29,7 +30,9 @@
           "calculateServerSide": true
         },
         "i18n": {
-          "defaultCountry": "PL",
+          "fullCountryName": "Germany",
+          "fullLanguageName": "German",          
+          "defaultCountry": "DE",
           "defaultLocale": "de-DE",
           "currencyCode": "EUR",
           "currencySign": "EUR",
@@ -134,7 +137,9 @@
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",
-      "dateFormat": "HH:mm D/M/YYYY"
+      "dateFormat": "HH:mm D/M/YYYY",
+      "fullCountryName": "United States",
+      "fullLanguageName": "English"
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
