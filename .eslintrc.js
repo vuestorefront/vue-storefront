@@ -3,7 +3,9 @@ module.exports = {
   env: { 'browser': true },
   parser: "vue-eslint-parser",
   parserOptions: {
-    sourceType: "module",
+    parser: "babel-eslint",
+    ecmaVersion: 8,
+    sourceType: "module"
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [

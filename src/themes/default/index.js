@@ -1,12 +1,12 @@
-import Home from './pages/Home.vue'
-import Category from './pages/Category.vue'
-import Product from './pages/Product.vue'
-import Static from './pages/Static.vue'
-import Checkout from './pages/Checkout.vue'
-import Compare from './pages/Compare.vue'
-import PageNotFound from './pages/PageNotFound.vue'
-import MyAccount from './pages/MyAccount.vue'
 import UIStore from './store/ui-store'
+const Home = () => import(/* webpackChunkName: "page-Home" */'./pages/Home.vue')
+const Category = () => import(/* webpackChunkName: "page-Category" */'./pages/Category.vue')
+const Product = () => import(/* webpackChunkName: "page-Product" */'./pages/Product.vue')
+const Checkout = () => import(/* webpackChunkName: "page-Checkout" */'./pages/Checkout.vue')
+const Compare = () => import(/* webpackChunkName: "page-Compare" */'./pages/Compare.vue')
+const MyAccount = () => import(/* webpackChunkName: "page-MyAccount" */'./pages/MyAccount.vue')
+const Static = () => import(/* webpackChunkName: "page-Static" */'./pages/Static.vue')
+const PageNotFound = () => import(/* webpackChunkName: "page-PageNotFound" */'./pages/PageNotFound.vue')
 
 const routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },

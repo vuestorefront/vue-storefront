@@ -1,6 +1,6 @@
-import Home from './pages/Home.vue'
-import Product from './pages/Product.vue'
-import Category from './pages/Category.vue'
+const Home = () => import(/* webpackChunkName: "page-Home" */'./pages/Home.vue')
+const Product = () => import(/* webpackChunkName: "page-Product" */'./pages/Product.vue')
+const Category = () => import(/* webpackChunkName: "page-Category" */'./pages/Category.vue')
 
 const routes = [
   { path: '/', component: Home, name: 'home' },

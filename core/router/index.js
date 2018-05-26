@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
-const router = new VueRouter({
+const router = new Router({
   mode: 'history',
   base: __dirname,
   scrollBehavior: (to, from, savedPosition) => {
