@@ -58,7 +58,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
           if (config.users.autoRefreshTokens) {
             if (!global.$VS.userTokenInvalidateLock) {
               global.$VS.userTokenInvalidateLock++
-              if (global.$VS.userTokenInvalidateAttemptsCount > AUTO_REFRESH_MAX_ATTEMPTS) {
+              if (global.$VS.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
                 console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
                 global.$VS.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
