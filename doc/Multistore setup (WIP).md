@@ -62,6 +62,7 @@ npm run db rebuild -- --indexName=vue_storefront_catalog_de
 npm run db rebuild -- --indexName=vue_storefront_catalog
 ```
 
+### Vue Storefront and Vue Storefront Api configuration
 After this sequence of command You may add the available ES index to Your `vue-storefront-api/config/local.json`:
 
 ```json
@@ -155,6 +156,8 @@ The storeCode may be switched by ENV variable set before runing `npm run dev` / 
 
 Another option - usefull when using multistore mode with the nginx/varnish mode is to set the shop code by the `x-vs-store-code` http reqeuest header.
 
+### Changing the UI for specific store views
+
 If You like to modify the routes or change some particular components regarding the current locale (for example different Checkout in the German store) please take a look at: `src/themes/default/index.js`:
 
 ```js
@@ -168,5 +171,23 @@ export default function (app, router, store) {
   store.registerModule('ui', UIStore)
 }
 
-
 ```
+
+Another option is to create a separate theme for specific storeview. Runtime theme changes are not possible as themes are compiled in the JS bundles by webpack during the page build process. In that case You should run separate instances of `vue-storefront` having the proper theme set in `config/local.json` file.
+
+### Localized routes
+
+Route switching mechanism by default works on the URL level. Please use the `localizedRoute` mixin:
+
+```vue
+                <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{ page.title }}</router-link>
+```
+
+or 
+
+```vue
+      <router-link :to="localizedRoute({
+        name: product.type_id + '-product',
+        params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
+      })">
+ ```
