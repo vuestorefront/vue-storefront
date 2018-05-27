@@ -4,17 +4,19 @@
       {{ $t('Choose your country') }}
     </p>
     <div slot="content">
-      <div>
-        <h3>{{ $t(config.i18n.fullCountryName) }}</h3>
-        <ul>
-          <li><a href="/">{{ $t(config.i18n.fullLanguageName) }}</a></li>
-        </ul>
-      </div>
-      <div v-for="(storeView, storeCode) in storeViews" :key="storeCode" v-if="!storeView.disabled && typeof storeView === 'object' && storeView.i18n">
-        <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>
-        <ul>
-          <li><a :href="'/' + storeCode">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
-        </ul>
+      <div :class="{ 'columns': enableColumns }">
+        <div class="country country-current">
+          <h3>{{ $t(config.i18n.fullCountryName) }}</h3>
+          <ul>
+            <li><a href="/">{{ $t(config.i18n.fullLanguageName) }}</a></li>
+          </ul>
+        </div>
+        <div class="country country-available" v-for="(storeView, storeCode) in storeViews" :key="storeCode" v-if="!storeView.disabled && typeof storeView === 'object' && storeView.i18n">
+          <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>
+          <ul>
+            <li><a :href="'/' + storeCode">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </modal>
@@ -26,12 +28,22 @@ export default {
   components: {
     Modal
   },
+  data () {
+    return {
+      minCountryPerColumn: 3
+    }
+  },
   computed: {
     storeViews () {
       return config.storeViews
     },
     config () {
       return config
+    },
+    enableColumns () {
+      var totalEnableStoreViews = 0
+      // @todo return count of total storeview which disabled attribute is false
+      return totalEnableStoreViews > this.minCountryPerColumn
     }
   },
   methods: {
@@ -43,16 +55,33 @@ export default {
 </script>
 <style lang="scss" scoped>
   h3 {
+    margin-top: 0;
     margin-bottom: 0.5em;
+  }
+  .columns {
+    -moz-column-count: 2;
+    column-count: 2;
+    column-gap: 15px;
+    .country {
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  }
+  .country {
+    margin-bottom: 2em;
+    color: #4f4f4f;
   }
   ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
+    margin-left: -1em;
     li {
       display: inline-block;
-      + li {
-        margin-left: 1em;
+      margin-left: 1em;
+      a {
+        font-size: 0.9em;
       }
     }
   }
