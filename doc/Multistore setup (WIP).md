@@ -151,6 +151,9 @@ By default the language / store is switched by the URL prefix:
 - `http://localhost:3000/it` will switch the store to the Italian one
 - `http://localhost:3000/de` will switch the store to the German one one
 
+General URL format is:
+`http://localhost:3000/{storeCode}`
+
 The storeCode may be switched by ENV variable set before runing `npm run dev` / `npm start`:
 - `export STORE_CODE=de && npm run dev` will run the shop with the `de` shop loaded
 
