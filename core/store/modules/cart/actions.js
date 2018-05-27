@@ -235,32 +235,17 @@ export default {
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
-          if (config.cart.synchronize && !forceServerSilence) {
-            /* dispatch('serverUpdateItem', {
-              sku: product.sku,
-              qty: 1
-            }) */
-            dispatch('serverPull', { forceClientState: true })
-          }
-
-          if (productToAdd.type_id !== 'grouped') {
-            EventBus.$emit('notification', {
-              type: 'success',
-              message: i18n.t('Product has been added to the cart!'),
-              action1: { label: i18n.t('OK'), action: 'close' },
-              action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-            })
-          }
         }
       })
     }
-    if (productToAdd.type_id === 'grouped') { // sum-up message for grouped products
-      EventBus.$emit('notification', {
-        type: 'success',
-        message: i18n.t('Product has been added to the cart!'),
-        action1: { label: i18n.t('OK'), action: 'close' },
-        action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-      })
+    EventBus.$emit('notification', {
+      type: 'success',
+      message: i18n.t('Product has been added to the cart!'),
+      action1: { label: i18n.t('OK'), action: 'close' },
+      action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+    })
+    if (config.cart.synchronize && !forceServerSilence) {
+      dispatch('serverPull', { forceClientState: true })
     }
   },
   removeItem ({ commit, dispatch }, product) {
