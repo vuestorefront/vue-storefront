@@ -10,14 +10,15 @@ Multiwebsite support starts with the ElasticSearch indexing. Basically - each st
 The simplest script to index multi site:
 
 ```bash
-echo 'Indexing the EN site'
 export TIME_TO_EXIT=2000
-export MAGENTO_URL=http://your.magentosite.com/rest/en
-export INDEX_NAME=vue_storefront_catalog_en
-export MAGENTO_CONSUMER_KEY=s9e2dsbpoxo5xcklq9pffyyto84ose7h
-export MAGENTO_CONSUMER_SECRET=jdatyq6yu5c9534sy3fflg3nx49j7hng
-export MAGENTO_ACCESS_TOKEN=sgpec63709lukofofsjojffri8e2wb78
-export MAGENTO_ACCESS_TOKEN_SECRET=scmpoj4uox2mhk9ijuffu410f1qmfjtr
+export MAGENTO_CONSUMER_KEY=byv3730rhoulpopcq64don8ukb8lf2gq
+export MAGENTO_CONSUMER_SECRET=u9q4fcobv7vfx9td80oupa6uhexc27rb
+export MAGENTO_ACCESS_TOKEN=040xx3qy7s0j28o3q0exrfop579cy20m
+export MAGENTO_ACCESS_TOKEN_SECRET=7qunl3p505rubmr7u1ijt7odyialnih9
+
+echo 'German store - de'
+export MAGENTO_URL=http://demo-magento2.vuestorefront.io/rest/de
+export INDEX_NAME=vue_storefront_catalog_de
 
 node --harmony cli.js categories --partitions=1 --removeNonExistient=true
 node --harmony cli.js productcategories --partitions=1
@@ -25,8 +26,18 @@ node --harmony cli.js attributes --partitions=1 --removeNonExistient=true
 node --harmony cli.js taxrule --partitions=1 --removeNonExistient=true
 node --harmony cli.js products --partitions=1 --removeNonExistient=true
 
-echo 'Indexing the Default site'
-export MAGENTO_URL=http://your.magentosite.com/rest/
+echo 'Italian store - it'
+export MAGENTO_URL=http://demo-magento2.vuestorefront.io/rest/it  
+export INDEX_NAME=vue_storefront_catalog_it
+
+node --harmony cli.js categories --partitions=1 --removeNonExistient=true
+node --harmony cli.js productcategories --partitions=1
+node --harmony cli.js attributes --partitions=1 --removeNonExistient=true
+node --harmony cli.js taxrule --partitions=1 --removeNonExistient=true
+node --harmony cli.js products --partitions=1 --removeNonExistient=true
+
+echo 'Default store - in our case United States / en'
+export MAGENTO_URL=http://demo-magento2.vuestorefront.io/rest
 export INDEX_NAME=vue_storefront_catalog
 
 node --harmony cli.js categories --partitions=1 --removeNonExistient=true
@@ -34,19 +45,20 @@ node --harmony cli.js productcategories --partitions=1
 node --harmony cli.js attributes --partitions=1 --removeNonExistient=true
 node --harmony cli.js taxrule --partitions=1 --removeNonExistient=true
 node --harmony cli.js products --partitions=1 --removeNonExistient=true
-
 ```
 
-As You may see it's just a **en** store code which is added to the base Magento2 REST API urls that makes the difference and then the **INDEX_NAME** set to the dedicated index name.
+As You may see it's just a **it** or **de** store code which is added to the base Magento2 REST API urls that makes the difference and then the **INDEX_NAME** set to the dedicated index name.
 
 In the result You should get:
-- *vue_storefront_catalog_en* - populated with the "en" store data
+- *vue_storefront_catalog_it* - populated with the "it" store data
+- *vue_storefront_catalog_de* - populated with the "it" store data
 - *vue_storefront_catalog* - populated with the "default" store data
 
 Then, to use these indexes in the Vue Storefront You should index the database schema using the `vue-storefront-api` db tool:
 
 ```bash
-npm run db rebuild -- --indexName=vue_storefront_catalog_en
+npm run db rebuild -- --indexName=vue_storefront_catalog_it
+npm run db rebuild -- --indexName=vue_storefront_catalog_de
 npm run db rebuild -- --indexName=vue_storefront_catalog
 ```
 
@@ -61,46 +73,100 @@ After this sequence of command You may add the available ES index to Your `vue-s
 	"esHost": "localhost:9200",
 	"esIndexes": [
 		"vue_storefront_catalog",
- 		"vue_storefront_catalog_en",
+		"vue_storefront_catalog_de",
+		"vue_storefront_catalog_it"
 	],
+	"availableStores": [
+		"de", "it"
+	],	
 
 ```
 
-The last thing is to change the `vue-storefront/config/local.json` to point to the right index (currently You need to run separate `vue-storefront` instances - one per the store view (it will be changed shortly)).
+The last thing is to change the `vue-storefront/config/local.json` to configure the storeViews which are available.
 
 ```json
-{
-  "elasticsearch": {
-    "host": "localhost:8080/api/catalog",
-    "index": "vue_storefront_catalog"
-  },
-```
-
-and in the *en* instance:
-
-```json
-{
-  "elasticsearch": {
-    "host": "localhost:8080/api/catalog",
-    "index": "vue_storefront_catalog_en"
-  },
-```
-
-You may want to change the other locale-oriented sections as well:
-
-```json
-    "tax": {
-      "defaultCountry": "PL",
-      "defaultRegion": "",
-      "calculateServerSide": true
+    "storeViews": {
+      "multistore": false,
+      "mapStoreUrlsFor": ["de", "it"],
+      "de": {
+        "storeCode": "de",
+        "disabled": true,
+        "storeId": 3,
+        "name": "German Store",
+        "url": "/de",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_de"
+        },      
+        "tax": {
+          "defaultCountry": "DE",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Germany",
+          "fullLanguageName": "German",          
+          "defaultLanguage": "DE",
+          "defaultCountry": "DE",
+          "defaultLocale": "de-DE",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      },
+      "it": {
+        "storeCode": "it",
+        "disabled": true,
+        "storeId": 4,
+        "name": "Italian Store",
+        "url": "/it",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_it"
+        },      
+        "tax": {
+          "defaultCountry": "DE",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Italy",
+          "fullLanguageName": "Italian",          
+          "defaultCountry": "IT",
+          "defaultLanguage": "IT",
+          "defaultLocale": "it-IT",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      }          
     },
-    "i18n": {
-      "defaultCountry": "US",
-      "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR"],
-      "defaultLocale": "en-US",
-      "currencyCode": "USD",
-      "currencySign": "$",
-      "dateFormat": "HH:mm D/M/YYYY"
-    },
+```
+
+After these changes You'll have a `LanguageSwitcher` component visible in the bottom.
+
+By default the language / store is switched by the URL prefix:
+- `http://localhost:3000` is for the default store
+- `http://localhost:3000/it` will switch the store to the Italian one
+- `http://localhost:3000/de` will switch the store to the German one one
+
+The storeCode may be switched by ENV variable set before runing `npm run dev` / `npm start`:
+- `export STORE_CODE=de && npm run dev` will run the shop with the `de` shop loaded
+
+Another option - usefull when using multistore mode with the nginx/varnish mode is to set the shop code by the `x-vs-store-code` http reqeuest header.
+
+If You like to modify the routes or change some particular components regarding the current locale (for example different Checkout in the German store) please take a look at: `src/themes/default/index.js`:
+
+```js
+export default function (app, router, store) {
+  // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
+  // You can do it on your own and then be able to customize the components used for example for German storeView checkout
+  // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:
+  // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
+  router.addRoutes(routes)
+  setupMultistoreRoutes(config, router, routes)
+  store.registerModule('ui', UIStore)
+}
+
+
 ```
