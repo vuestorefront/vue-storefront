@@ -32,6 +32,7 @@
         "i18n": {
           "fullCountryName": "Germany",
           "fullLanguageName": "German",          
+          "defaultLanguage": "DE",
           "defaultCountry": "DE",
           "defaultLocale": "de-DE",
           "currencyCode": "EUR",
@@ -58,6 +59,7 @@
           "fullCountryName": "Italy",
           "fullLanguageName": "Italian",          
           "defaultCountry": "IT",
+          "defaultLanguage": "IT",
           "defaultLocale": "it-IT",
           "currencyCode": "EUR",
           "currencySign": "EUR",
