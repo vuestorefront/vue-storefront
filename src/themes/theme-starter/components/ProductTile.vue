@@ -44,8 +44,9 @@
 
 <script>
 import ProductTile from 'core/components/ProductTile'
-
+import AddToCart from 'theme/components/AddToCart'
 export default {
-  mixins: [ProductTile]
+  mixins: [ProductTile],
+  components: { AddToCart }
 }
 </script>
