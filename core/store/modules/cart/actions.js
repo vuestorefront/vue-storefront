@@ -189,7 +189,8 @@ export default {
     } else {
       productsToAdd.push(productToAdd)
     }
-
+    let productHasBeenAdded = false
+    let productIndex = 0
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
       if (product.priceInclTax <= 0) {
@@ -235,17 +236,21 @@ export default {
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
+          productHasBeenAdded = true
         }
+        if (productIndex === (productsToAdd.length - 1) && productHasBeenAdded) {
+          EventBus.$emit('notification', {
+            type: 'success',
+            message: i18n.t('Product has been added to the cart!'),
+            action1: { label: i18n.t('OK'), action: 'close' },
+            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+          })
+          if (config.cart.synchronize && !forceServerSilence) {
+            dispatch('serverPull', { forceClientState: true })
+          }
+        }
+        productIndex++
       })
-    }
-    EventBus.$emit('notification', {
-      type: 'success',
-      message: i18n.t('Product has been added to the cart!'),
-      action1: { label: i18n.t('OK'), action: 'close' },
-      action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-    })
-    if (config.cart.synchronize && !forceServerSilence) {
-      dispatch('serverPull', { forceClientState: true })
     }
   },
   removeItem ({ commit, dispatch }, product) {

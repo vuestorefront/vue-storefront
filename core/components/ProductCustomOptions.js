@@ -77,9 +77,9 @@ export default {
           const validationResult = validator(this['inputValues'][fieldName])
           this.validation.results[fieldName] = validationResult
           if (validationResult.error) {
-            this.product.errors.custom_options = i18n.t('Please configure product custom options and fix the validation errors')
+            this.product.errors['custom_options_' + fieldName] = i18n.t('Please configure product custom options and fix the validation errors')
           } else {
-            this.product.errors.custom_options = null
+            this.product.errors['custom_options_' + fieldName] = null
           }
         } else {
           console.error('No validation rule found for ', validationRule)
