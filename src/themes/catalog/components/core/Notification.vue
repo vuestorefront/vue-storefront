@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Notification from 'core/components/blocks/Notification'
+import Notification from 'core/components/Notification'
 
 export default {
   mixins: [Notification]
