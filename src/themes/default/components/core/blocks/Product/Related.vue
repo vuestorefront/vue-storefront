@@ -39,12 +39,17 @@ export default {
     ProductListing
   },
   beforeMount () {
-    let sku = this.productLinks.filter(pl => pl.link_type === this.type).map(pl => pl.linked_product_sku)
+    let sku = this.productLinks
+      .filter(pl => pl.link_type === this.type)
+      .map(pl => pl.linked_product_sku)
+
     let query = builder().query('terms', 'sku', sku).build()
 
     if (sku.length === 0) {
       sku = this.product.current.category.map(cat => cat.category_id)
-      query = builder().query('terms', 'category.category_id', sku).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }).build()
+      query = builder().query('terms', 'category.category_id', sku)
+        .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
+        .build()
     }
 
     this.$store.dispatch('product/list', {
