@@ -41,9 +41,11 @@ export default {
       return config
     },
     enableColumns () {
-      var totalEnableStoreViews = 0
-      // @todo return count of total storeview which disabled attribute is false
-      return totalEnableStoreViews > this.minCountryPerColumn
+      var enableStoreViews = Object.keys(config.storeViews).filter(function (key) {
+        var value = config.storeViews[key]
+        return (typeof value === 'object' && value.disabled === false)
+      })
+      return enableStoreViews.length > this.minCountryPerColumn
     }
   },
   methods: {
