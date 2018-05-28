@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import builder from 'bodybuilder'
-import ProductListing from '../../ProductListing.vue'
+import ProductListing from 'theme/components/core/ProductListing'
 
+import builder from 'bodybuilder'
 import i18n from 'core/lib/i18n'
 
 export default {
