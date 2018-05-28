@@ -26,7 +26,7 @@
     </h4>
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
       {{ $t("Don't hesitate and") }}
-      <router-link to="/">
+      <router-link :to="localizedRoute('/')">
         {{ $t('browse our catalog') }}
       </router-link>
       {{ $t('to find something beautiful for You!') }}
@@ -84,7 +84,7 @@
       v-if="items.length && !isCheckoutMode"
     >
       <div class="col-xs-12 col-sm first-sm">
-        <router-link to="/" class="no-underline cl-secondary link">
+        <router-link :to="localizedRoute('/')" class="no-underline cl-secondary link">
           <span @click="closeMicrocart">
             {{ $t('Return to shopping') }}
           </span>

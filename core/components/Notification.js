@@ -24,7 +24,7 @@ export default {
           this.notifications.splice(id, 1)
           break
         case 'goToCheckout':
-          this.$router.push('/checkout')
+          this.$router.push(this.localizedRoute('/checkout'))
           this.notifications.splice(id, 1)
           break
       }

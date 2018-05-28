@@ -1,14 +1,19 @@
 class LocalForageCacheDriver {
   constructor (collection, useLocalCacheByDefault = true) {
     const collectionName = collection._config.storeName
+    const dbName = collection._config.name
     if (typeof global.$VS.localCache === 'undefined') {
       global.$VS.localCache = {}
     }
-    if (typeof global.$VS.localCache[collectionName] === 'undefined') {
-      global.$VS.localCache[collectionName] = {}
+    if (typeof global.$VS.localCache[dbName] === 'undefined') {
+      global.$VS.localCache[dbName] = {}
     }
+    if (typeof global.$VS.localCache[dbName][collectionName] === 'undefined') {
+      global.$VS.localCache[dbName][collectionName] = {}
+    }
+    this._dbName = dbName
     this._useLocalCacheByDefault = useLocalCacheByDefault
-    this._localCache = global.$VS.localCache[collectionName]
+    this._localCache = global.$VS.localCache[dbName][collectionName]
     this._localForageCollection = collection
   }
 

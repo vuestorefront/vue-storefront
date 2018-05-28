@@ -5,14 +5,14 @@
   >
     <router-link
       class="no-underline product-link"
-      :to="{
+      :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
           parentSku: product.parentSku ? product.parentSku : product.sku,
           slug: product.slug,
           childSku: product.sku
         }
-      }"
+      })"
     >
       <div
         class="product-image relative bg-cl-secondary"

@@ -7,15 +7,21 @@ import EventBus from 'core/plugins/event-bus'
 import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
+import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
 
+let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
+if ((storeCode = rootStore.state.user.current_storecode)) {
+  prepareStoreView(storeCode, config)
+}
+
 function _ssrHydrateSubcomponents (components, next, to) {
   Promise.all(components.map(SubComponent => {
     if (SubComponent.asyncData) {
@@ -32,6 +38,12 @@ router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
+    if (router.currentRoute && router.currentRoute.matched.length) { // this is from url
+      const storeCode = storeCodeFromRoute(router.currentRoute.matched[0])
+      if (storeCode !== '' && storeCode !== null) {
+        prepareStoreView(storeCode, config)
+      }
+    }
     let diffed = false
     const activated = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
@@ -75,8 +87,11 @@ const orderMutex = {}
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
 
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
   const ordersCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'orders'
   }))
 
@@ -149,18 +164,20 @@ const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   console.log('Executing task queue')
   // event.data.config - configuration, endpoints etc
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
   const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'syncTasks'
   }))
 
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'user'
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'carts'
   }))
 

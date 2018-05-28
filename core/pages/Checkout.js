@@ -4,6 +4,7 @@ import config from 'config'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'Checkout',
@@ -77,8 +78,9 @@ export default {
         }
       }.bind(this))
     }
+    const storeView = currentStoreView()
     let country = this.$store.state.checkout.shippingDetails.country
-    if (!country) country = config.i18n.defaultCountry
+    if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
     this.$store.dispatch('cart/getPaymentMethods')
   },
@@ -153,9 +155,11 @@ export default {
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
-      global.$VS.__TAX_COUNTRY__ = this.shipping.country
       this.activateSection('payment')
       this.saveShippingDetails()
+
+      const storeView = currentStoreView()
+      storeView.tax.defaultCountry = this.shipping.country
     },
     onAfterPersonalDetails (receivedData, validationResult) {
       this.personalDetails = receivedData

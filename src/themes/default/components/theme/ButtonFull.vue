@@ -2,7 +2,7 @@
   <component
     :is="link ? 'router-link' : 'button'"
     :type="!link ? type : false"
-    :to="link"
+    :to="localizedRoute(link)"
     class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium"
     :class="{ 'no-underline pointer align-center border-box': link, 'disabled': disabled }"
   >
