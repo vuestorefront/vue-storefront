@@ -1,7 +1,6 @@
 <template>
   <div>
-    <a href="#" class="store-locale" @click="$bus.$emit('modal-show', 'modal-switcher')">
-      <!-- {{ $t('United States (US)') }} -->
+    <a href="#" class="store-locale" @click.prevent="$bus.$emit('modal-show', 'modal-switcher')">
       {{ country }} / {{ lang }} / {{ currency }}
     </a>
   </div>
