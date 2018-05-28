@@ -1,5 +1,5 @@
 <template>
-  <div class="media-gallery relative" :class="{ 'open fixed bg-cl-primary': isZoomOpen }">
+  <div class="media-gallery" :class="{ 'open fixed bg-cl-primary': isZoomOpen }">
     <div v-show="OfflineOnly">
       <transition name="fade" appear>
         <img class="offline-image" v-lazy="offline" ref="offline">
@@ -7,7 +7,7 @@
     </div>
     <i v-if="isZoomOpen" v-show="OnlineOnly" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
     <div v-show="OnlineOnly" :class="{ 'container product-zoom py40': isZoomOpen }">
-      <div :class="{ row: isZoomOpen }">
+      <div :class="['relative', { row: isZoomOpen }]">
         <div class="scroll col-md-2  p0" v-if="isZoomOpen">
           <div class="thumbnails">
             <div
@@ -110,6 +110,7 @@ export default {
 img {
   opacity: 0.9;
   mix-blend-mode: multiply;
+  vertical-align: top;
   &:hover {
     opacity: 1;
   }
