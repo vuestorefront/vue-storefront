@@ -1,6 +1,7 @@
 import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
+import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'SearchPanel',
@@ -12,6 +13,9 @@ export default {
     }
   },
   methods: {
+    onEscapePress () {
+      this.closeSearchpanel()
+    },
     closeSearchpanel () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
@@ -45,5 +49,6 @@ export default {
     ...mapState({
       isOpen: state => state.ui.searchpanel
     })
-  }
+  },
+  mixins: [onEscapePress]
 }
