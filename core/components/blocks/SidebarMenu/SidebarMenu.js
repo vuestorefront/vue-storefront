@@ -1,4 +1,5 @@
 import { mapState } from 'vuex'
+import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'SidebarMenu',
@@ -16,9 +17,13 @@ export default {
     this.$store.dispatch('category/list', {})
   },
   methods: {
+    onEscapePress () {
+      this.closeMenu()
+    },
     closeMenu () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
     }
-  }
+  },
+  mixins: [onEscapePress]
 }

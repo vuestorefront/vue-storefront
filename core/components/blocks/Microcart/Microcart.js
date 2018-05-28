@@ -1,4 +1,5 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
+import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'Microcart',
@@ -28,6 +29,9 @@ export default {
     this.$bus.$off('network-before-checkStatus', this.onNetworkStatusChanged)
   },
   methods: {
+    onEscapePress () {
+      this.closeMicrocart()
+    },
     onNetworkStatusChanged (status) {
       this.isOnline = status.online
     },
@@ -74,5 +78,6 @@ export default {
     ...mapState({
       isOpen: state => state.ui.microcart
     })
-  }
+  },
+  mixins: [onEscapePress]
 }

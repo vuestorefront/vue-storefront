@@ -50,12 +50,18 @@
         <div v-if="segment.value != null" class="col-xs align-right">
           {{ segment.value | price }}
         </div>
-        <div v-if="isOnline && segment.code === 'discount' && !addCouponPressed" class="col-xs-12 pt30">
-          <a class="cl-secondary link" href="#" @click="addDiscountCoupon">
+      </div>
+      <div class="row py20">
+        <div v-if="isOnline && !addCouponPressed" class="col-xs-12">
+          <button
+            class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"
+            type="button"
+            @click="addDiscountCoupon"
+          >
             {{ $t('Add a discount code') }}
-          </a>
+          </button>
         </div>
-        <div v-if="isOnline && segment.code === 'discount' && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
+        <div v-if="isOnline && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
             <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup="enterCoupon"/>

@@ -78,6 +78,9 @@ export default {
       }
       return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
     },
+    image () {
+      return this.gallery.length ? this.gallery[0] : false
+    },
     customAttributes () {
       let inst = this
       return Object.values(this.attributesByCode).filter(a => {

@@ -4,6 +4,7 @@
     v-observe-visibility="visibilityChanged"
   >
     <router-link
+      class="no-underline product-link"
       :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
@@ -15,30 +16,13 @@
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
-      >
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
         <img
-          v-if="instant"
-          :src="thumbnail"
           :alt="product.name"
+          :src="thumbnailObj.loading"
+          v-lazy="thumbnailObj"
           height="300"
-          width="310"
-        >
-
-        <div
-          v-if="!instant"
-          v-lazy-container="{ selector: 'img' }"
-        >
-          <img
-            :src="placeholder"
-            :data-src="thumbnail"
-            :alt="product.name"
-            height="300"
-            width="310"
-            :data-loading="placeholder"
-            :data-error="placeholder"
-          >
-        </div>
+          width="310">
       </div>
 
       <p class="mb0 cl-accent">
@@ -77,11 +61,6 @@ import ProductTile from 'core/components/ProductTile'
 export default {
   mixins: [ProductTile],
   props: {
-    instant: {
-      type: Boolean,
-      required: false,
-      default: () => false
-    },
     labelsActive: {
       type: Boolean,
       requred: false,
@@ -172,6 +151,8 @@ $color-white: color(white);
   img {
     max-height: 100%;
     max-width: 100%;
+    width: auto;
+    height: auto;
     margin: auto;
     mix-blend-mode: darken;
     opacity: 0.8;
@@ -179,8 +160,6 @@ $color-white: color(white);
     transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
     &[lazy="loaded"] {
-      width: auto;
-      height: auto;
       animation: products-loaded;
       animation-duration: 0.3s;
     }
