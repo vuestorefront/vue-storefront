@@ -12,25 +12,14 @@
       }"
     >
       <transition appear>
-        <!-- Pass prop instant="true" to avoid lazy loading for product images.
-             It's a good practice to use it for Product Tiles visible on a screen just after entering the page.
-             By default instant value is 'false' and uses lazy loading -->
-        <img
-          v-if="instant"
-          :src="thumbnail"
-          :key="thumbnail"
-          v-img-placeholder="placeholder"
-          :alt="product.name"
-        >
         <!-- Default palceholer is taken from core/assets/placeholder.png,
              you can override it by adding same file in your theme's assets -->
         <img
-          v-if="!instant"
-          :src="placeholder"
-          v-lazy="thumbnail"
-          :key="thumbnail"
           :alt="product.name"
-        >
+          :src="thumbnailObj.loading"
+          v-lazy="thumbnailObj"
+          height="300"
+          width="310">
       </transition>
       <!-- Main product information, you can find the rest under 'product' property passed -->
       <h3> {{ product.name }} </h3>
@@ -54,13 +43,10 @@
 </template>
 
 <script>
-import productTile from 'core/components/productTile'
+import ProductTile from 'core/components/ProductTile'
 import AddToCart from 'theme/components/AddToCart'
-
 export default {
-  components: {
-    AddToCart
-  },
-  mixins: [productTile]
+  mixins: [ProductTile],
+  components: { AddToCart }
 }
 </script>

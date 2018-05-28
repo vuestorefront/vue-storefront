@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import notification from 'core/components/notification'
+import Notification from 'core/components/Notification'
 
 export default {
-  mixins: [notification]
+  mixins: [Notification]
 }
 </script>
 

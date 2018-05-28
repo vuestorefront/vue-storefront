@@ -18,11 +18,12 @@
             <h4>
               {{ $t('Your purchase') }}
             </h4>
-            <p v-online v-html="this.$t('You have successfuly placed the order <b>#121213</b> You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
+            <p v-online v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
             <p v-online v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, seuggestions how we could improve products or shopping experience')"/>
             <p v-offline>
               {{ $t('Your order will be sent to the server as soon as you connect to the Internet and then confirmed regarding the stock quantities of selected items') }}
             </p>
+            <div id="thank-you-extensions"/>
             <h4>
               {{ $t('Your Account') }}
             </h4>
@@ -35,11 +36,12 @@
             <p class="mb25">
               {{ $t('Your feedback is important fo us. Let us know what we could improve.') }}
             </p>
-            <form>
+            <form action="mailto:contributors@vuestorefront.io">
               <base-textarea
                 class="mb25"
                 type="text"
-                name="improvment-opinion"
+                name="body"
+                value=""
                 :placeholder="$t('Type your opinion')"
                 :autofocus="true"
               />

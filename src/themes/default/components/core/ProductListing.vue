@@ -6,17 +6,20 @@
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
-      <product-tile :product="product" :instant="false" />
+      <product-tile :product="product"/>
     </div>
   </div>
 </template>
 
 <script>
-import productListing from 'core/components/productListing'
-import ProductTile from './ProductTile.vue'
+import ProductListing from 'core/components/ProductListing'
+import ProductTile from 'theme/components/core/ProductTile'
 let lastHero = 0
-
 export default {
+  components: {
+    ProductTile
+  },
+  mixins: [ProductListing],
   props: {
     products: {
       type: null,
@@ -27,15 +30,6 @@ export default {
       required: true
     }
   },
-  components: {
-    ProductTile
-  },
-  data () {
-    return {
-      lastHero: 0
-    }
-  },
-  mixins: [productListing],
   methods: {
     wide (isOnSale, isNew, index) {
       let deltaCondition = index > 0 && ((index - 1) - lastHero) % 2 === 0

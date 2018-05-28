@@ -30,21 +30,46 @@
 </template>
 
 <script>
-import Home from 'core/pages/Home.vue'
+// 3rd party dependecies
 import builder from 'bodybuilder'
+
+// Core dependecies
 import config from 'config'
 
-// Base components overwrite
-import MainSlider from '../components/core/blocks/MainSlider/MainSlider.vue'
-// import ProductTile from '../components/core/ProductTile.vue'
-import ProductListing from '../components/core/ProductListing.vue'
+// Core pages
+import Home from 'core/pages/Home'
 
-import PromotedOffers from '../components/theme/blocks/PromotedOffers/PromotedOffers.vue'
-import TileLinks from '../components/theme/blocks/TileLinks/TileLinks.vue'
-import Collection from '../components/theme/blocks/Collection/Collection'
-import Onboard from '../components/theme/blocks/Home/Onboard.vue'
+// Theme core components
+import ProductListing from 'theme/components/core/ProductListing'
+import MainSlider from 'theme/components/core/blocks/MainSlider/MainSlider'
+
+// Theme local components
+import Collection from 'theme/components/theme/blocks/Collection/Collection'
+import Onboard from 'theme/components/theme/blocks/Home/Onboard'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 
 export default {
+  mixins: [Home],
+  components: {
+    Collection,
+    MainSlider,
+    Onboard,
+    ProductListing,
+    PromotedOffers,
+    TileLinks
+  },
+  computed: {
+    categories () {
+      return this.$store.state.category.list
+    },
+    everythingNewCollection () {
+      return this.$store.state.homepage.new_collection
+    },
+    coolBagsCollection () {
+      return this.$store.state.homepage.coolbags_collection
+    }
+  },
   created () {
     // Load personal and shipping details for Checkout page from IndexedDB
     this.$store.dispatch('checkout/load')
@@ -57,17 +82,6 @@ export default {
           this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
         }
       })
-    }
-  },
-  computed: {
-    categories () {
-      return this.$store.state.category.list
-    },
-    everythingNewCollection () {
-      return this.$store.state.homepage.new_collection
-    },
-    coolBagsCollection () {
-      return this.$store.state.homepage.coolbags_collection
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
@@ -100,16 +114,7 @@ export default {
         })
       })
     })
-  },
-  components: {
-    ProductListing,
-    MainSlider,
-    PromotedOffers,
-    TileLinks,
-    Collection,
-    Onboard
-  },
-  mixins: [Home]
+  }
 }
 </script>
 

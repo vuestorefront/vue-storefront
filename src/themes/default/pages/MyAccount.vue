@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import MyAccount from 'core/pages/MyAccount.vue'
+import MyAccount from 'core/pages/MyAccount'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'

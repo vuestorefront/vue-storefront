@@ -24,7 +24,6 @@
                     :product="product"
                     :class="{'is-muted': (currentPage == index || index == currentPage + 5)}"
                     :labels-active="false"
-                    :instant="false"
                   />
                 </slide>
               </carousel>
@@ -37,12 +36,20 @@
 </template>
 
 <script>
-import productsSlider from 'core/components/productsSlider'
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
-import ProductTile from 'theme/components/core/ProductTile.vue'
+
+import ProductsSlider from 'core/components/ProductsSlider'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
+  components: {
+    Slide,
+    Carousel,
+    ProductTile,
+    'no-ssr': NoSSR
+  },
+  mixins: [ProductsSlider],
   data () {
     return {
       currentPage: 0
@@ -52,13 +59,6 @@ export default {
     setMuted (currentPage) {
       this.currentPage = currentPage
     }
-  },
-  mixins: [productsSlider],
-  components: {
-    Slide,
-    Carousel,
-    ProductTile,
-    'no-ssr': NoSSR
   }
 }
 </script>
@@ -85,7 +85,7 @@ $color-product-bg: color(secondary, $colors-background);
 
 .product {
   &.collection-product {
-    padding: 15px;
+    padding: 15px 0;
   }
 
   &.is-muted {
@@ -94,6 +94,11 @@ $color-product-bg: color(secondary, $colors-background);
 }
 
 .collection-product {
+  .product-link {
+    display: block;
+    padding: 0 15px;
+  }
+
   .product-image {
     height: auto;
     will-change: opacity;
@@ -102,6 +107,7 @@ $color-product-bg: color(secondary, $colors-background);
       max-width: 100%;
       max-height: 100%;
       height: auto;
+      vertical-align: bottom;
     }
   }
 }

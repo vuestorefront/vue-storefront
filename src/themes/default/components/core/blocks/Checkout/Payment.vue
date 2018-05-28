@@ -312,14 +312,22 @@
 </template>
 
 <script>
-import payment from 'core/components/blocks/Checkout/payment'
 import { required, minLength } from 'vuelidate/lib/validators'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tooltip from 'theme/components/core/Tooltip.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
+import Payment from 'core/components/blocks/Checkout/Payment'
+
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
+  components: {
+    BaseCheckbox,
+    BaseInput,
+    ButtonFull,
+    Tooltip
+  },
+  mixins: [Payment],
   validations () {
     if (!this.generateInvoice) {
       return {
@@ -391,13 +399,6 @@ export default {
         }
       }
     }
-  },
-  components: {
-    ButtonFull,
-    Tooltip,
-    BaseCheckbox,
-    BaseInput
-  },
-  mixins: [payment]
+  }
 }
 </script>

@@ -18,6 +18,9 @@ export default {
 
       if (res) {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
+        EventBus.$emit('session-after-authorized')
+      } else {
+        EventBus.$emit('session-after-nonauthorized')
       }
       EventBus.$emit('session-after-started')
     })
@@ -130,7 +133,7 @@ export default {
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.log('No User token, user unathorized')
+        console.debug('No User token, user unathorized')
         return resolve(null)
       }
       const cache = global.$VS.db.usersCollection
@@ -167,10 +170,12 @@ export default {
           .then((resp) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
-              EventBus.$emit('user-after-loggedin', resp.result)
             }
-            if (!resolvedFromCache) {
-              resolve(resp.resultCode === 200 ? resp : null)
+            if (!resolvedFromCache && resp.resultCode === 200) {
+              EventBus.$emit('user-after-loggedin', resp.result)
+              resolve(resp)
+            } else {
+              resolve(null)
             }
             return resp
           })
@@ -278,7 +283,7 @@ export default {
   getOrdersHistory (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.log('No User token, user unathorized')
+        console.debug('No User token, user unathorized')
         return resolve(null)
       }
       const cache = global.$VS.db.ordersHistoryCollection

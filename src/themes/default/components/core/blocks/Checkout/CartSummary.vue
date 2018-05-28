@@ -4,7 +4,7 @@
       <h3 class="cl-accent ml30 mt50 summary-title">
         {{ $t('Order Summary') }}
       </h3>
-      <product v-for="product in items" :key="product.id" :product="product"/>
+      <product v-for="product in items" :key="product.sku" :product="product"/>
       <div v-if="items.length" class="checkout bg-cl-secondary pt10 serif cl-accent">
 
         <div v-for="(segment, index) in totals" :key="index" class="row pt15 pb20 pl30 pr55 " v-if="segment.code !== 'grand_total'">
@@ -53,14 +53,14 @@
 </template>
 
 <script>
-import cartSummary from 'core/components/blocks/Checkout/cartSummary'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
 import Product from './Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [cartSummary]
+  mixins: [CartSummary]
 }
 </script>
 

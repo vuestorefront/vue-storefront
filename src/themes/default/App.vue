@@ -47,9 +47,6 @@ export default {
       overlayActive: state => state.ui.overlay
     })
   },
-  mounted () {
-    this.$store.dispatch('user/startSession')
-  },
   metaInfo: Head,
   components: {
     MainHeader,

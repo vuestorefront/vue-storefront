@@ -28,19 +28,18 @@
 </template>
 
 <script>
-import notification from 'core/components/blocks/SearchPanel/searchPanel'
+import SearchPanel from 'core/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
+  components: {
+    ProductTile
+  },
+  mixins: [SearchPanel],
   data () {
     return {
       search: null,
       emptyResults: false
-    }
-  },
-  methods: {
-    focusSearchBox () {
-      this.$refs.search.focus()
     }
   },
   mounted () {
@@ -49,10 +48,11 @@ export default {
       this.focusSearchBox()
     })
   },
-  components: {
-    ProductTile
-  },
-  mixins: [notification]
+  methods: {
+    focusSearchBox () {
+      this.$refs.search.focus()
+    }
+  }
 }
 </script>
 

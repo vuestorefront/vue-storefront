@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import baseInput from 'core/components/blocks/Form/baseInput'
+import baseInput from 'core/components/blocks/Form/BaseInput'
 
 export default {
   mixins: [baseInput]
@@ -67,18 +67,26 @@ export default {
   $color-hover: color(tertiary, $colors-background);
 
   input {
-   // transition: 0.3s all;
+    background: inherit;
+
     &:hover,
     &:focus {
       outline: none;
       border-color: $color-puerto-rico;
     }
-    background: inherit;
+
+    &:disabled,
+    &:disabled + label {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
   }
   label {
     color:#999;
     position:absolute;
     pointer-events:none;
+    user-select: none;
     left:5px;
     top: 10px;
     transition:0.2s ease all;

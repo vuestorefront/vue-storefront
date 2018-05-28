@@ -7,6 +7,7 @@ import hash from 'object-hash'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
+const CART_METHODS_INTERVAL_MS = 1000 * 60 * 10 // refresh methods each 10 min
 
 export default {
   serverTokenClear (context) {
@@ -39,13 +40,17 @@ export default {
           dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
-          /* rootStore.dispatch('cart/getPaymentMethods')
-          if (context.state.cartItems.length > 0) {
-            /* let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-            rootStore.dispatch('cart/getShippingMethods', {
-              country_id: country
-            })
-          } */
+          if ((new Date() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
+            context.state.cartServerMethodsRefreshAt = new Date()
+            console.debug('Refreshing payment & shipping methods')
+            rootStore.dispatch('cart/getPaymentMethods')
+            if (context.state.cartItems.length > 0) {
+              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+              rootStore.dispatch('cart/getShippingMethods', {
+                country_id: country
+              })
+            }
+          }
         })
       } else {
         console.log('Too short interval for refreshing the cart or items not changed', newItemsHash, context.state.cartItemsHash)
@@ -334,8 +339,16 @@ export default {
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-        let shipping = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
-        let payment = context.rootGetters['payment/paymentMethods'].find(item => item.default)
+        const shippingMethods = context.rootGetters['shipping/shippingMethods']
+        const paymentMethods = context.rootGetters['payment/paymentMethods']
+        let shipping = shippingMethods.find(item => item.default)
+        let payment = paymentMethods.find(item => item.default)
+        if (!shipping && shippingMethods && shippingMethods.length > 0) {
+          shipping = shippingMethods[0]
+        }
+        if (!payment && paymentMethods && paymentMethods.length > 0) {
+          shipping = paymentMethods[0]
+        }
         methodsData = {
           country: country,
           method_code: shipping ? shipping.method_code : null,
@@ -344,15 +357,15 @@ export default {
         }
       }
       if (methodsData.country && methodsData.carrier_code) {
-        context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
+        context.dispatch('sync/execute', { url: config.cart.shippinginfo_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify({
-              methods: {
-                paymentMethod: {
-                  method: methodsData.payment_method
+              addressInformation: {
+                shippingAddress: {
+                  countryId: methodsData.country
                 },
                 shippingCarrierCode: methodsData.carrier_code,
                 shippingMethodCode: methodsData.method_code
@@ -361,7 +374,7 @@ export default {
           },
           silent: true,
           callback_event: 'servercart-after-totals'
-        }, { root: true }).then(task => {}).catch(e => {
+        }, { root: true }).catch(e => {
           console.error(e)
         })
       } else {

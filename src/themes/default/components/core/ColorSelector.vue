@@ -13,9 +13,10 @@
 </template>
 
 <script>
-import colorSelector from 'core/components/colorSelector'
+import GenericSelector from 'core/components/GenericSelector'
 
 export default {
+  mixins: [GenericSelector],
   methods: {
     colorFrom (label) {
       if (label && label.toString().indexOf(',') >= 0) {
@@ -24,8 +25,7 @@ export default {
         return 'background-color: ' + label
       }
     }
-  },
-  mixins: [colorSelector]
+  }
 }
 </script>
 

@@ -69,9 +69,6 @@ import promotedOffers from 'theme/resource/promoted_offers.json'
 
 export default {
   name: 'PromotedOffers',
-  created () {
-    this.updatePromotedOffers(promotedOffers)
-  },
   props: {
     singleBanner: {
       type: Boolean,
@@ -83,6 +80,9 @@ export default {
     ...mapGetters({
       banners: 'promoted/getPromotedOffers'
     })
+  },
+  created () {
+    this.updatePromotedOffers(promotedOffers)
   },
   methods: {
     ...mapActions({

@@ -4,6 +4,7 @@
     v-observe-visibility="visibilityChanged"
   >
     <router-link
+      class="no-underline product-link"
       :to="{
         name: product.type_id + '-product',
         params: {
@@ -15,30 +16,13 @@
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
-      >
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
         <img
-          v-if="instant"
-          :src="thumbnail"
           :alt="product.name"
+          :src="thumbnailObj.loading"
+          v-lazy="thumbnailObj"
           height="300"
-          width="310"
-        >
-
-        <div
-          v-if="!instant"
-          v-lazy-container="{ selector: 'img' }"
-        >
-          <img
-            :src="placeholder"
-            :data-src="thumbnail"
-            :alt="product.name"
-            height="300"
-            width="310"
-            :data-loading="placeholder"
-            :data-error="placeholder"
-          >
-        </div>
+          width="310">
       </div>
 
       <p class="mb0 cl-accent">
@@ -70,24 +54,19 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/store'
 import config from 'config'
-import productTile from 'core/components/productTile'
+import rootStore from '@vue-storefront/store'
+import ProductTile from 'core/components/ProductTile'
 
 export default {
+  mixins: [ProductTile],
   props: {
-    instant: {
-      type: Boolean,
-      required: false,
-      default: () => false
-    },
     labelsActive: {
       type: Boolean,
       requred: false,
       default: true
     }
   },
-  mixins: [productTile],
   methods: {
     visibilityChanged (isVisible, entry) {
       if (isVisible) {

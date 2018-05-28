@@ -1,7 +1,7 @@
 <template>
   <section class="main-slider w-100 bg-cl-th-accent cl-white">
     <no-ssr>
-      <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
+      <carousel :per-page="1" pagination-active-color="#ffffff" pagination-color="#e0e0e0">
         <slide v-for="(slide, index) in slides" :key="index">
           <div class="container w-100" v-lazy:background-image="slide.image">
             <div class="row middle-xs center-xs">
@@ -23,23 +23,24 @@
 </template>
 
 <script>
-import mainSlider from 'core/components/blocks/MainSlider/mainSlider'
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
-import ButtonOutline from '../../../theme/ButtonOutline.vue'
 import sliderData from 'theme/resource/slider.json'
 
+import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
+
 export default {
-  created () {
-    this.updateSliderData(sliderData)
-  },
   components: {
     ButtonOutline,
     Carousel,
     Slide,
     'no-ssr': NoSSR
   },
-  mixins: [mainSlider]
+  mixins: [MainSlider],
+  created () {
+    this.updateSliderData(sliderData)
+  }
 }
 </script>
 <style lang="scss">

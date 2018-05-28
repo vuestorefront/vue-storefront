@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import sizeSelector from 'core/components/sizeSelector'
+import GenericSelector from 'core/components/GenericSelector'
 
 export default {
-  mixins: [sizeSelector]
+  mixins: [GenericSelector]
 }
 </script>
 

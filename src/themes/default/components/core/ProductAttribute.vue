@@ -6,9 +6,10 @@
 </template>
 
 <script>
-import productAttribute from 'core/components/productAttribute'
+import ProductAttribute from 'core/components/ProductAttribute'
 
 export default {
+  mixins: [ProductAttribute],
   data () {
     return {
       label: '',
@@ -41,7 +42,6 @@ export default {
       }
       this.value = results.join(', ')
     }
-  },
-  mixins: [productAttribute]
+  }
 }
 </script>

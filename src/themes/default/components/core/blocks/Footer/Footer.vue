@@ -173,10 +173,14 @@
 </template>
 
 <script>
-import footer from 'core/components/blocks/Footer/footer'
-import Newsletter from './Newsletter.vue'
+import Footer from 'core/components/blocks/Footer/Footer'
+import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
 export default {
+  components: {
+    Newsletter
+  },
+  mixins: [Footer],
   data () {
     return {
       isCheckout: false
@@ -195,11 +199,7 @@ export default {
         this.isCheckout = false
       }
     }
-  },
-  components: {
-    Newsletter
-  },
-  mixins: [footer]
+  }
 }
 </script>
 

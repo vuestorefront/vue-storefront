@@ -1,14 +1,14 @@
 <template>
   <div class="similar row" >
-    <router-link :class="classes" v-for="(product, key) in related.by_category" :key="product.id" :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
-      <product-tile :instant="key < 4 ? true : false" :product="product"/>
+    <router-link :class="classes" v-for="product in related.by_category" :key="product.id" :to="`/p/${product.sku}/${product.slug}/${product.sku}`">
+      <product-tile :product="product"/>
     </router-link>
   </div>
 </template>
 
 <script>
 import builder from 'bodybuilder'
-import ProductTile from 'theme/components/core/ProductTile.vue'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
   props: {

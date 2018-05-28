@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import microcartIcon from 'core/components/blocks/Header/microcartIcon'
+import MicrocartIcon from 'core/components/blocks/Header/MicrocartIcon'
 
 export default {
-  mixins: [microcartIcon]
+  mixins: [MicrocartIcon]
 }
 </script>
 
