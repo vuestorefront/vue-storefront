@@ -72,7 +72,7 @@ export default {
       return this.$store.state.product
     },
     productLinks () {
-      return this.$store.state.product.current.product_links
+      return this.product.current.product_links
     }
   }
 }
