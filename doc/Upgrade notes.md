@@ -2,6 +2,40 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+## 1.0RC-3 -> 1.0([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0))
+This is official, stable release of Vue Storefront.
+
+1. We've renamed `the core/components/*.vue` -> `the core/components/*.js`
+2. We've renamed `the core/pages/*.vue` -> `the core/pages/*.js`
+3. We've removed `corePage` and `coreComponent` helpers and created an es-lint rule to migrate the `import` statements automatically (with `--fix` parameter)
+
+You should replace the mixin declarations from the previous version:
+
+```vue
+<script>
+import { coreComponent } from 'core/lib/themes'
+
+export default {
+  mixins: [coreComponent('blocks/MyAccount/MyOrders')]
+}
+</script>
+```
+
+to
+
+
+```vue
+<script>
+import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
+
+export default {
+  mixins: [MyOrders]
+}
+</script>
+```
+4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled). More info on that: <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md">How to setup Multistore mode</a>.
+
+
 ## 1.0RC-2 -> 1.0RC-3 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.3))
 This release contains three important refactoring efforts:
 
