@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/theme-starter",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0",
   "description": "Scaffolding for building Vue Storefront themes",
   "main": "index.js",
   "scripts": {
