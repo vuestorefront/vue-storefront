@@ -2,7 +2,19 @@
 
 Vue Storefront is Platform Agnostic Headless Frontend for eCommerce. Here we tried to put all the features available in 1.0 alltogether:
 
-## Vue Storefront for Magento 2 
+## Vue Storefront unique features
+
+- 100% offline support - via in-browser IndexedDB database
+- High speed with local caching (Service Workers + IndexedDB); avg. server response time < 0.3s; avg client-side rendering time < 2s 
+- Platform Agnostic - Magento2, Magento1, Pimcore supported out-of-the-box
+- Offline Orders support (via in-browser queue)
+- Single Page App User Experience with Server Side Rendering support for SEO
+- Native app features - install on Home Screen (iOS, Android, Chrome), push notifications (via customization)
+- NoSQL/ElasticSearch database backend
+- Modern Vue.js based frontend - easy to design and customize, atomic-design, design-system backed
+- It's a Framework - customizable via Extensions, Themes, easy to update with separated Core
+
+## Vue Storefront Magento2 support
 
 ### CHECKOUT, PAYMENT, & SHIPPING
 
