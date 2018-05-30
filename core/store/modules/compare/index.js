@@ -5,8 +5,7 @@ import mutations from './mutations'
 export default {
   namespaced: true,
   state: {
-    compare: false,
-    itemsCompare: []
+    items: []
   },
   getters,
   actions,

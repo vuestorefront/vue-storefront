@@ -15,11 +15,11 @@
           </p>
           <p>
             {{ $t('If you need an assistance you can drop us a line on') }}
-            <router-link to="/" class="cl-secondary no-underline">
+            <router-link :to="localizedRoute('/')" class="cl-secondary no-underline">
               {{ $t('a chat') }}
             </router-link>
             {{ $t('or write to us through') }}
-            <router-link to="/contact" class="cl-secondary no-underline">
+            <router-link :to="localizedRoute('/contact')" class="cl-secondary no-underline">
               {{ $t('a contact page') }}
             </router-link>.
           </p>
@@ -38,8 +38,8 @@
             </h3>
           </header>
           <div class="row center-xs">
-            <div v-for="(product, key) in ourBestsellersCollection" :key="product.id" class="col-md-3">
-              <product-tile :instant="key < 4 ? true : false" :product="product"/>
+            <div v-for="product in ourBestsellersCollection" :key="product.id" class="col-md-3">
+              <product-tile :product="product"/>
             </div>
           </div>
         </section>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import PageNotFound from 'core/pages/PageNotFound'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
@@ -68,7 +68,7 @@ export default {
       this.$store.commit('ui/setSearchpanel', true)
     }
   },
-  mixins: [corePage('PageNotFound')]
+  mixins: [PageNotFound]
 }
 </script>
 

@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 
@@ -108,6 +108,6 @@ export default {
     ButtonFull,
     BaseCheckbox
   },
-  mixins: [coreComponent('blocks/MyAccount/MyNewsletter')]
+  mixins: [MyNewsletter]
 }
 </script>

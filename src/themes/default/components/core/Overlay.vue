@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Overlay from 'core/components/Overlay'
 
 export default {
+  mixins: [Overlay],
   beforeCreate () {
     document.documentElement.classList.add('no-scroll')
   },
@@ -20,8 +21,7 @@ export default {
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
     }
-  },
-  mixins: [coreComponent('Overlay')]
+  }
 }
 </script>
 

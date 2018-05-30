@@ -9,6 +9,7 @@ export default {
     current: {},
     filters: { available: {}, chosen: {} },
     breadcrumbs: {routes: []},
+    current_product_query: null,
     current_path: [] // list of categories from root to current
   },
   getters,

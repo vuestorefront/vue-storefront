@@ -6,7 +6,7 @@
         v-for="(banner, index) in banners.mainBanners"
         :key="index"
       >
-        <router-link :to="banner.link">
+        <router-link :to="localizedRoute(banner.link)">
           <div
             class="offer border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
             v-lazy:background-image="banner.image"
@@ -27,7 +27,7 @@
           v-for="(banner, index) in banners.smallBanners"
           :key="index"
         >
-          <router-link :to="banner.link">
+          <router-link :to="localizedRoute(banner.link)">
             <div
               class="offer offer-small border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
               v-lazy:background-image="banner.image"
@@ -46,7 +46,7 @@
       v-for="(banner, index) in banners.productBanners"
       :key="index"
     >
-      <router-link :to="banner.link">
+      <router-link :to="localizedRoute(banner.link)">
         <div
           class="offer offer-product border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
           v-lazy:background-image="banner.image"
@@ -69,9 +69,6 @@ import promotedOffers from 'theme/resource/promoted_offers.json'
 
 export default {
   name: 'PromotedOffers',
-  created () {
-    this.updatePromotedOffers(promotedOffers)
-  },
   props: {
     singleBanner: {
       type: Boolean,
@@ -83,6 +80,9 @@ export default {
     ...mapGetters({
       banners: 'promoted/getPromotedOffers'
     })
+  },
+  created () {
+    this.updatePromotedOffers(promotedOffers)
   },
   methods: {
     ...mapActions({

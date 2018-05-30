@@ -1,7 +1,7 @@
 <template>
   <component
     :is="link ? 'router-link' : 'button'"
-    :to="link"
+    :to="localizedRoute(link)"
     class="button-outline no-outline py15 bg-cl-transparent h4 no-underline sans-serif fs-medium"
     :class="{
       light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
@@ -18,6 +18,7 @@
 
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
+
 export default {
   name: 'ButtonOutline',
   directives: { focusClean },

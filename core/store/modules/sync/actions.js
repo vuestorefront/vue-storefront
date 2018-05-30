@@ -2,6 +2,9 @@ import * as types from '../../mutation-types'
 import { execute as taskExecute } from '../../lib/task'
 import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
+import UniversalStorage from '@vue-storefront/store/lib/storage'
+import { currentStoreView } from '../../lib/multistore'
+import store from '../../'
 
 export default {
   /**
@@ -20,16 +23,32 @@ export default {
     commit(types.SYNC_ADD_TASK, task)
     return task
   },
+  clearNotTransmited ({ commit }) {
+    const storeView = currentStoreView()
+    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
+    const syncTaskCollection = new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'syncTasks'
+    }))
+    syncTaskCollection.iterate((task, id, iterationNumber) => {
+      if (!task.transmited) {
+        syncTaskCollection.removeItem(id)
+      }
+    })
+  },
   execute ({ commit }, task) { // not offline task
+    const storeView = currentStoreView()
+    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
     task = _prepareTask(task)
-    const usersCollection = localForage.createInstance({
-      name: 'shop',
+    const usersCollection = new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
       storeName: 'user'
-    })
-    const cartsCollection = localForage.createInstance({
-      name: 'shop',
+    }))
+    const cartsCollection = new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
       storeName: 'carts'
-    })
+    }))
     return new Promise((resolve, reject) => {
       if (global.$VS.isSSR) {
         taskExecute(task, null, null).then((result) => {
@@ -45,6 +64,12 @@ export default {
           cartsCollection.getItem('current-cart-token', (err, currentCartId) => {
             if (err) {
               console.error(err)
+            }
+            if (!currentCartId && store.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentCartId = store.state.cart.cartServerToken
+            }
+            if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentToken = store.state.user.token
             }
             taskExecute(task, currentToken, currentCartId).then((result) => {
               resolve(result)

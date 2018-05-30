@@ -65,6 +65,7 @@
           <div class="col-xs-12 col-md-8 px20">
             <button-full
               @click.native="placeOrder"
+              data-testid="orderReviewSubmit"
               :class="{ 'button-disabled' : $v.orderReview.$invalid }"
             >
               {{ $t('Place the order') }}
@@ -84,30 +85,31 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { coreComponent } from 'core/lib/themes'
 import Composite from 'core/mixins/composite'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import ValidationError from 'theme/components/core/ValidationError.vue'
-import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
-import Modal from 'theme/components/core/Modal.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
+
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
+import Modal from 'theme/components/core/Modal'
+import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import ValidationError from 'theme/components/core/ValidationError'
 
 export default {
+  components: {
+    BaseCheckbox,
+    ButtonFull,
+    CartSummary,
+    Modal,
+    ValidationError
+  },
+  mixins: [OrderReview, Composite],
   validations: {
     orderReview: {
       terms: {
         required
       }
     }
-  },
-  components: {
-    ButtonFull,
-    ValidationError,
-    CartSummary,
-    Modal,
-    BaseCheckbox
-  },
-  mixins: [coreComponent('blocks/Checkout/OrderReview'), Composite]
+  }
 }
 </script>
 

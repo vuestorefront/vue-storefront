@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import editButton from 'core/components/blocks/Microcart/EditButton'
 
 export default {
-  mixins: [coreComponent('blocks/Microcart/EditButton')]
+  mixins: [editButton]
 }
 </script>

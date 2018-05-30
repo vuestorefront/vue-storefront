@@ -12,11 +12,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import PriceSelector from 'core/components/PriceSelector'
 
-export default { // TODO: move logic to parent component
-  name: 'PriceSelector',
-  mixins: [coreComponent('PriceSelector')]
+export default {
+  mixins: [PriceSelector]
 }
 </script>
 

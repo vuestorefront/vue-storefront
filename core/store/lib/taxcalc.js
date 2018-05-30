@@ -8,13 +8,17 @@ export function updateProductPrices (product, rate) {
   product.specialPriceTax = (parseFloat(product.special_price) * (parseFloat(rate.rate) / 100))
 
   if (product.special_price && (product.special_price < product.price)) {
-    product.originalPrice = product.price
-    product.originalPriceInclTax = product.priceInclTax
-    product.originalPriceTax = product.priceTax
+    if ((product.special_to_date && new Date(product.special_to_date) > new Date()) || (product.special_from_date && new Date(product.special_from_date) < new Date())) {
+      product.special_price = 0 // out of the dates period
+    } else {
+      product.originalPrice = product.price
+      product.originalPriceInclTax = product.priceInclTax
+      product.originalPriceTax = product.priceTax
 
-    product.price = parseFloat(product.special_price)
-    product.priceInclTax = product.specialPriceInclTax
-    product.priceTax = product.specialPriceTax
+      product.price = parseFloat(product.special_price)
+      product.priceInclTax = product.specialPriceInclTax
+      product.priceTax = product.specialPriceTax
+    }
   } else {
     product.special_price = 0 // the same price as original; it's not a promotion
   }
@@ -34,13 +38,17 @@ export function updateProductPrices (product, rate) {
       configurableChild.specialPriceTax = (parseFloat(configurableChild.special_price) * (parseFloat(rate.rate) / 100))
 
       if (configurableChild.special_price && (configurableChild.special_price < configurableChild.price)) {
-        configurableChild.originalPrice = parseFloat(configurableChild.price)
-        configurableChild.originalPriceInclTax = configurableChild.priceInclTax
-        configurableChild.originalPriceTax = configurableChild.priceTax
+        if ((configurableChild.special_to_date && new Date(configurableChild.special_to_date) > new Date()) || (configurableChild.special_from_date && new Date(configurableChild.special_from_date) < new Date())) {
+          configurableChild.special_price = 0 // out of the dates period
+        } else {
+          configurableChild.originalPrice = parseFloat(configurableChild.price)
+          configurableChild.originalPriceInclTax = configurableChild.priceInclTax
+          configurableChild.originalPriceTax = configurableChild.priceTax
 
-        configurableChild.price = parseFloat(configurableChild.special_price)
-        configurableChild.priceInclTax = configurableChild.specialPriceInclTax
-        configurableChild.priceTax = configurableChild.specialPriceTax
+          configurableChild.price = parseFloat(configurableChild.special_price)
+          configurableChild.priceInclTax = configurableChild.specialPriceInclTax
+          configurableChild.priceTax = configurableChild.specialPriceTax
+        }
       } else {
         configurableChild.special_price = 0
       }

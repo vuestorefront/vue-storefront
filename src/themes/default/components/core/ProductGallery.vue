@@ -1,28 +1,45 @@
 <template>
-  <div class="media-gallery relative" :class="{ 'open fixed bg-cl-primary': isZoomOpen }">
+  <div :class="['media-gallery', { 'open fixed bg-cl-primary': isZoomOpen }]">
     <div v-show="OfflineOnly">
       <transition name="fade" appear>
-        <img class="offline-image" v-lazy="offline" ref="offline">
+        <img class="offline-image" v-lazy="offline" ref="offline" alt="">
       </transition>
     </div>
-    <i v-if="isZoomOpen" v-show="OnlineOnly" class="material-icons modal-close p15 cl-bg-tertiary pointer" @click="toggleZoom">close</i>
-    <div v-show="OnlineOnly" :class="{ 'container product-zoom py40': isZoomOpen }">
-      <div :class="{ row: isZoomOpen }">
-        <div class="scroll col-md-2  p0" v-if="isZoomOpen">
+    <i
+      v-if="isZoomOpen"
+      v-show="OnlineOnly"
+      class="material-icons modal-close p15 cl-bg-tertiary pointer"
+      @click="toggleZoom"
+    >close</i>
+    <div
+      v-show="OnlineOnly"
+      :class="{ 'container product-zoom py40': isZoomOpen }"
+    >
+      <div :class="['relative', { row: isZoomOpen }]">
+        <div class="scroll col-md-2 p0" v-if="isZoomOpen">
           <div class="thumbnails">
             <div
               class="bg-cl-secondary"
               v-for="(images, key) in gallery"
               :key="key">
               <transition name="fade" appear>
-                <img v-lazy="images" class="mw-100 pointer" ref="images" @click="navigate(key)">
+                <img
+                  v-lazy="images"
+                  class="mw-100 pointer" ref="images" @click="navigate(key)"
+                  alt=""
+                >
               </transition>
             </div>
           </div>
         </div>
         <div v-if="gallery.length === 1">
           <transition name="fade" appear>
-            <img v-lazy="gallery[0].src" class="mw-100 pointer" ref="gallery[0].src">
+            <img
+              v-lazy="gallery[0].src"
+              class="mw-100 pointer"
+              ref="gallery[0].src"
+              alt=""
+            >
           </transition>
         </div>
         <div v-else :class="{ 'col-md-10' : isZoomOpen}">
@@ -35,7 +52,8 @@
               pagination-color="#828282"
               navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
               navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
-              ref="carousel">
+              ref="carousel"
+            >
               <slide
                 v-for="(images, key) in gallery"
                 :key="key">
@@ -44,12 +62,18 @@
                     class="product-image inline-flex pointer mw-100"
                     v-lazy="images"
                     ref="images"
-                    @dblclick="toggleZoom">
+                    @dblclick="toggleZoom"
+                    alt=""
+                  >
                 </div>
               </slide>
             </carousel>
           </no-ssr>
-          <i v-if="isZoomOpen === false" class="zoom-in material-icons p15 cl-bg-tertiary pointer" @click="toggleZoom">zoom_in</i>
+          <i
+            v-if="isZoomOpen === false"
+            class="zoom-in material-icons p15 cl-bgs-tertiary pointer"
+            @click="toggleZoom"
+          >zoom_in</i>
         </div>
       </div>
     </div>
@@ -57,14 +81,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductGallery from 'core/components/ProductGallery'
 import NoSSR from 'vue-no-ssr'
 
 export default {
-  mixins: [coreComponent('ProductGallery')],
   components: {
     'no-ssr': NoSSR
   },
+  mixins: [ProductGallery],
   data () {
     return {
       loaded: true
@@ -110,6 +134,7 @@ export default {
 img {
   opacity: 0.9;
   mix-blend-mode: multiply;
+  vertical-align: top;
   &:hover {
     opacity: 1;
   }
@@ -181,4 +206,3 @@ img[lazy=loading] {
   }
 }
 </style>
-

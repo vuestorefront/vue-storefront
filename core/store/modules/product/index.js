@@ -14,7 +14,9 @@ export default {
     original: null, // default, not configured product
     related: {},
     offlineImage: null,
-    current_query: null
+    current_custom_options: {},
+    current_bundle_options: {},
+    custom_options_validators: {}
   },
   getters,
   actions,

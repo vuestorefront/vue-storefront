@@ -16,7 +16,7 @@ $border-radius: (
       border-top-width: #{$i}px;
       border-top-style: solid;
     }
-    .brdr-bottom {
+    .brdr-bottom-#{$i} {
       border-bottom-width: #{$i}px;
       border-bottom-style: solid;
     }

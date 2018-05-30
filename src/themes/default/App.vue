@@ -15,6 +15,7 @@
       <newsletter-popup/>
       <cookie-notification/>
       <offline-badge/>
+      <modal-switcher/>
     </div>
   </div>
 </template>
@@ -38,6 +39,7 @@ import SignUp from './components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
 import OfflineBadge from './components/core/OfflineBadge.vue'
+import ModalSwitcher from './components/core/blocks/Switcher/Language.vue'
 
 import Head from 'theme/resource/head'
 
@@ -46,9 +48,6 @@ export default {
     ...mapState({
       overlayActive: state => state.ui.overlay
     })
-  },
-  mounted () {
-    this.$store.dispatch('user/startSession')
   },
   metaInfo: Head,
   components: {
@@ -65,9 +64,12 @@ export default {
     SignUp,
     NewsletterPopup,
     CookieNotification,
-    OfflineBadge
+    OfflineBadge,
+    ModalSwitcher
   }
 }
 </script>
 
 <style lang="scss" src="./css/main.scss">
+
+</style>

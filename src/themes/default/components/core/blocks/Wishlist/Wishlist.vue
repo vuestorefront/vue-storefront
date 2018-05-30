@@ -13,26 +13,26 @@
     </h4>
     <div v-if="!items.length" class="ml30">
       {{ $t("Don't hesitate and") }}
-      <router-link to="/">
+      <router-link :to="localizedRoute('/')">
         {{ $t('browse our catalog') }}
       </router-link>
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul class="products">
-      <product @click.native="closeWishlist" v-for="product in items" :key="product.id" :product="product" />
+      <product v-for="product in items" :key="product.id" :product="product" />
     </ul>
   </div>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import Product from './Product'
+import Wishlist from 'core/components/blocks/Wishlist/Wishlist'
+import Product from 'theme/components/core/blocks/Wishlist/Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [coreComponent('blocks/Wishlist/Wishlist')]
+  mixins: [Wishlist]
 }
 </script>
 

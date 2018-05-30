@@ -18,7 +18,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-                <router-link :to="page.link" class="cl-accent">{{ page.title }}</router-link>
+                <router-link :to="localizedRoute(page.link)" class="cl-accent">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import MyAccount from 'core/pages/MyAccount'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
@@ -62,7 +62,7 @@ export default {
     MyOrders,
     MyOrder
   },
-  mixins: [corePage('MyAccount')]
+  mixins: [MyAccount]
 }
 </script>
 

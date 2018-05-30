@@ -2,10 +2,12 @@ import { price } from './price'
 import { htmlDecode } from './html-decode'
 import { date } from './date'
 import { capitalize } from './capitalize'
+import { formatProductMessages } from './product-messages'
 
 export {
   price,
   htmlDecode,
   date,
-  capitalize
+  capitalize,
+  formatProductMessages
 }

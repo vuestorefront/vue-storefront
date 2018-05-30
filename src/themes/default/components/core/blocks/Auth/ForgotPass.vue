@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ForgotPass from 'core/components/blocks/Auth/ForgotPass'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseInput from '../Form/BaseInput.vue'
@@ -93,7 +93,7 @@ export default {
         this.$v.$touch()
         this.$bus.$emit('notification', {
           type: 'error',
-          message: 'Please fix the validation errors',
+          message: i18n.t('Please fix the validation errors'),
           action1: { label: i18n.t('OK'), action: 'close' }
         })
         return
@@ -120,11 +120,10 @@ export default {
       this.$store.commit('ui/setAuthElem', 'login')
     }
   },
-  mixins: [coreComponent('blocks/Auth/ForgotPass')],
+  mixins: [ForgotPass],
   components: {
     ButtonFull,
     BaseInput
   }
 }
 </script>
-

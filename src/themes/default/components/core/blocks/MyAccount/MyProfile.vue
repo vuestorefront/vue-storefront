@@ -330,13 +330,33 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
+import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
+
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
 
 export default {
+  components: {
+    BaseCheckbox,
+    BaseInput,
+    ButtonFull
+  },
+  mixins: [MyProfile],
+  methods: {
+    checkValidation () {
+      if (this.changePassword && this.addCompany) {
+        return this.$v.$invalid
+      } else if (this.changePassword && !this.addCompany) {
+        return this.$v.currentUser.$invalid || this.$v.password.$invalid || this.$v.rPassword.$invalid
+      } else if (!this.changePassword && this.addCompany) {
+        return this.$v.currentUser.$invalid || this.$v.userCompany.$invalid
+      } else {
+        return this.$v.currentUser.$invalid
+      }
+    }
+  },
   validations: {
     currentUser: {
       firstname: {
@@ -386,25 +406,6 @@ export default {
         minLength: minLength(3)
       }
     }
-  },
-  methods: {
-    checkValidation () {
-      if (this.changePassword && this.addCompany) {
-        return this.$v.$invalid
-      } else if (this.changePassword && !this.addCompany) {
-        return this.$v.currentUser.$invalid || this.$v.password.$invalid || this.$v.rPassword.$invalid
-      } else if (!this.changePassword && this.addCompany) {
-        return this.$v.currentUser.$invalid || this.$v.userCompany.$invalid
-      } else {
-        return this.$v.currentUser.$invalid
-      }
-    }
-  },
-  components: {
-    ButtonFull,
-    BaseCheckbox,
-    BaseInput
-  },
-  mixins: [coreComponent('blocks/MyAccount/MyProfile')]
+  }
 }
 </script>

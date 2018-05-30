@@ -4,10 +4,11 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
-
+import { currentStoreView } from '../../lib/multistore'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
+const CART_METHODS_INTERVAL_MS = 1000 * 60 * 10 // refresh methods each 10 min
 
 export default {
   serverTokenClear (context) {
@@ -23,7 +24,7 @@ export default {
   save (context) {
     context.commit(types.CART_SAVE)
   },
-  serverPull (context, { forceClientState = false }) { // pull current cart FROM the server
+  serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     if (config.cart.synchronize && !global.$VS.isSSR) {
       const newItemsHash = hash({ items: context.state.cartItems, token: context.state.cartServerToken })
       if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
@@ -37,15 +38,21 @@ export default {
           },
           silent: true,
           force_client_state: forceClientState,
+          dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
-          /* rootStore.dispatch('cart/getPaymentMethods')
-          if (context.state.cartItems.length > 0) {
-            /* let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-            rootStore.dispatch('cart/getShippingMethods', {
-              country_id: country
-            })
-          } */
+          const storeView = currentStoreView()
+          if ((new Date() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
+            context.state.cartServerMethodsRefreshAt = new Date()
+            console.debug('Refreshing payment & shipping methods')
+            rootStore.dispatch('cart/getPaymentMethods')
+            if (context.state.cartItems.length > 0) {
+              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
+              rootStore.dispatch('cart/getShippingMethods', {
+                country_id: country
+              })
+            }
+          }
         })
       } else {
         console.log('Too short interval for refreshing the cart or items not changed', newItemsHash, context.state.cartItemsHash)
@@ -91,54 +98,50 @@ export default {
     }
   },
   serverUpdateItem (context, cartItem) {
-    if (config.cart.synchronize && !global.$VS.isSSR) {
-      if (!cartItem.quoteId) {
-        cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-      }
-      context.dispatch('sync/execute', { url: config.cart.updateitem_endpoint, // sync the cart
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors',
-          body: JSON.stringify({
-            cartItem: cartItem
-          })
-        },
-        callback_event: 'servercart-after-itemupdated'
-      }, { root: true }).then(task => {
-        // eslint-disable-next-line no-useless-return
-        if (config.cart.synchronize_totals) {
-          context.dispatch('refreshTotals')
-        }
-        return
-      })
+    if (!cartItem.quoteId) {
+      cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
     }
+    return context.dispatch('sync/execute', { url: config.cart.updateitem_endpoint, // sync the cart
+      payload: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        body: JSON.stringify({
+          cartItem: cartItem
+        })
+      },
+      callback_event: 'servercart-after-itemupdated'
+    }, { root: true }).then(task => {
+      // eslint-disable-next-line no-useless-return
+      if (config.cart.synchronize_totals) {
+        context.dispatch('refreshTotals')
+      }
+      return task
+    })
   },
   serverDeleteItem (context, cartItem) {
-    if (config.cart.synchronize && !global.$VS.isSSR) {
-      if (!cartItem.quoteId) {
-        cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-      }
+    if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-      context.dispatch('sync/execute', { url: config.cart.deleteitem_endpoint, // sync the cart
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors',
-          body: JSON.stringify({
-            cartItem: cartItem
-          })
-        },
-        silent: true,
-        callback_event: 'servercart-after-itemdeleted'
-      }, { root: true }).then(task => {
-        // eslint-disable-next-line no-useless-return
-        if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
-          context.dispatch('refreshTotals')
-        }
-        return
-      })
     }
+    cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
+    return context.dispatch('sync/execute', { url: config.cart.deleteitem_endpoint, // sync the cart
+      payload: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        body: JSON.stringify({
+          cartItem: cartItem
+        })
+      },
+      silent: true,
+      callback_event: 'servercart-after-itemdeleted'
+    }, { root: true }).then(task => {
+      // eslint-disable-next-line no-useless-return
+      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
+        context.dispatch('refreshTotals')
+      }
+      return task
+    })
   },
   load (context) {
     if (global.$VS.isSSR) return
@@ -164,7 +167,7 @@ export default {
           if (token) { // previously set token
             commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
             console.log('Existing cart token = ' + token)
-            context.dispatch('serverPull', { forceClientState: false })
+            context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.server_merge_by_default })
           } else {
             console.log('Creating server cart ...')
             context.dispatch('serverCreate', { guestCart: false })
@@ -181,13 +184,15 @@ export default {
 
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
-    if (productToAdd.type_id === 'grouped') {
-      productsToAdd = productToAdd.product_links.map((pl) => { return pl.product })
+    if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
+      productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
     } else {
       productsToAdd.push(productToAdd)
     }
-
+    let productHasBeenAdded = false
+    let productIndex = 0
     for (let product of productsToAdd) {
+      if (typeof product === 'undefined' || product === null) continue
       if (product.priceInclTax <= 0) {
         EventBus.$emit('notification', {
           type: 'error',
@@ -195,6 +200,22 @@ export default {
           action1: { label: i18n.t('OK'), action: 'close' }
         })
         continue
+      }
+      if (product.errors !== null && typeof product.errors !== 'undefined') {
+        let productCanBeAdded = true
+        for (let errKey in product.errors) {
+          if (product.errors[errKey]) {
+            productCanBeAdded = false
+            EventBus.$emit('notification', {
+              type: 'error',
+              message: product.errors[errKey],
+              action1: { label: i18n.t('OK'), action: 'close' }
+            })
+          }
+        }
+        if (!productCanBeAdded) {
+          continue
+        }
       }
       const record = state.cartItems.find(p => p.sku === product.sku)
       dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
@@ -215,21 +236,20 @@ export default {
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
-          if (config.cart.synchronize && !forceServerSilence) {
-            /* dispatch('serverUpdateItem', {
-              sku: product.sku,
-              qty: 1
-            }) */
-            dispatch('serverPull', { forceClientState: true })
-          }
-
+          productHasBeenAdded = true
+        }
+        if (productIndex === (productsToAdd.length - 1) && productHasBeenAdded) {
           EventBus.$emit('notification', {
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
             action1: { label: i18n.t('OK'), action: 'close' },
             action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
           })
+          if (config.cart.synchronize && !forceServerSilence) {
+            dispatch('serverPull', { forceClientState: true })
+          }
         }
+        productIndex++
       })
     }
   },
@@ -308,11 +328,20 @@ export default {
     }
   },
   refreshTotals (context, methodsData) {
+    const storeView = currentStoreView()
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
-        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
-        let shipping = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
-        let payment = context.rootGetters['payment/paymentMethods'].find(item => item.default)
+        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
+        const shippingMethods = context.rootGetters['shipping/shippingMethods']
+        const paymentMethods = context.rootGetters['payment/paymentMethods']
+        let shipping = shippingMethods.find(item => item.default)
+        let payment = paymentMethods.find(item => item.default)
+        if (!shipping && shippingMethods && shippingMethods.length > 0) {
+          shipping = shippingMethods[0]
+        }
+        if (!payment && paymentMethods && paymentMethods.length > 0) {
+          shipping = paymentMethods[0]
+        }
         methodsData = {
           country: country,
           method_code: shipping ? shipping.method_code : null,
@@ -321,15 +350,15 @@ export default {
         }
       }
       if (methodsData.country && methodsData.carrier_code) {
-        context.dispatch('sync/execute', { url: config.cart.collecttotals_endpoint,
+        context.dispatch('sync/execute', { url: config.cart.shippinginfo_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify({
-              methods: {
-                paymentMethod: {
-                  method: methodsData.payment_method
+              addressInformation: {
+                shippingAddress: {
+                  countryId: methodsData.country
                 },
                 shippingCarrierCode: methodsData.carrier_code,
                 shippingMethodCode: methodsData.method_code
@@ -338,7 +367,7 @@ export default {
           },
           silent: true,
           callback_event: 'servercart-after-totals'
-        }, { root: true }).then(task => {}).catch(e => {
+        }, { root: true }).catch(e => {
           console.error(e)
         })
       } else {

@@ -26,7 +26,7 @@
     </h4>
     <div v-if="!items.length" class="ml30" @click="closeMicrocart">
       {{ $t("Don't hesitate and") }}
-      <router-link to="/">
+      <router-link :to="localizedRoute('/')">
         {{ $t('browse our catalog') }}
       </router-link>
       {{ $t('to find something beautiful for You!') }}
@@ -50,12 +50,18 @@
         <div v-if="segment.value != null" class="col-xs align-right">
           {{ segment.value | price }}
         </div>
-        <div v-if="isOnline && segment.code === 'discount' && !addCouponPressed" class="col-xs-12 pt30">
-          <a class="cl-secondary link" href="#" @click="addDiscountCoupon">
+      </div>
+      <div class="row py20">
+        <div v-if="isOnline && !addCouponPressed" class="col-xs-12">
+          <button
+            class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"
+            type="button"
+            @click="addDiscountCoupon"
+          >
             {{ $t('Add a discount code') }}
-          </a>
+          </button>
         </div>
-        <div v-if="isOnline && segment.code === 'discount' && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
+        <div v-if="isOnline && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
             <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup="enterCoupon"/>
@@ -78,7 +84,7 @@
       v-if="items.length && !isCheckoutMode"
     >
       <div class="col-xs-12 col-sm first-sm">
-        <router-link to="/" class="no-underline cl-secondary link">
+        <router-link :to="localizedRoute('/')" class="no-underline cl-secondary link">
           <span @click="closeMicrocart">
             {{ $t('Return to shopping') }}
           </span>
@@ -97,11 +103,12 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import Product from './Product'
+import Microcart from 'core/components/blocks/Microcart/Microcart'
+
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import Product from 'theme/components/core/blocks/Microcart/Product'
 
 export default {
   components: {
@@ -110,7 +117,7 @@ export default {
     ButtonOutline,
     BaseInput
   },
-  mixins: [coreComponent('blocks/Microcart/Microcart')]
+  mixins: [Microcart]
 }
 </script>
 

@@ -7,7 +7,7 @@
 </template>
 <script>
 import builder from 'bodybuilder'
-import ProductsSlider from 'theme/components/core/ProductsSlider.vue'
+import ProductsSlider from 'theme/components/core/ProductsSlider'
 
 export default {
   name: 'Collection',

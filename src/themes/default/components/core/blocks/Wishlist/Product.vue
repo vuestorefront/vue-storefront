@@ -1,14 +1,19 @@
 <template>
   <li class="row pr55 py20">
-    <div>
-      <img v-lazy="thumbnail" >
+    <div @click="closeWishlist">
+      <router-link :to="localizedRoute({
+        name: product.type_id + '-product',
+        params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
+      })">
+        <img v-lazy="thumbnail" >
+      </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
-      <div>
-        <router-link :to="{
+      <div @click="closeWishlist">
+        <router-link :to="localizedRoute({
           name: product.type_id + '-product',
           params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
-        }">
+        })">
           {{ product.name | htmlDecode }}
         </router-link>
         <div class="h6 cl-bg-secondary pt5">{{ product.sku }}</div>
@@ -31,10 +36,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Product from 'core/components/blocks/Wishlist/Product'
 import RemoveButton from './RemoveButton'
 
 export default {
+  components: {
+    RemoveButton
+  },
+  mixins: [Product],
   data () {
     return {
       qty: 1
@@ -43,12 +52,13 @@ export default {
   methods: {
     removeItem () {
       this.$store.dispatch('wishlist/removeItem', this.product)
+      this.$bus.$emit('product-after-remove-from-wishlist', this.product)
+    },
+    closeWishlist () {
+      this.$store.commit('ui/setSidebar', false)
+      this.$store.commit('ui/setWishlist', false)
     }
-  },
-  components: {
-    RemoveButton
-  },
-  mixins: [coreComponent('blocks/Wishlist/Product')]
+  }
 }
 </script>
 
