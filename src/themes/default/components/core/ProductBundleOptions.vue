@@ -119,6 +119,7 @@ export default {
     position: absolute;
     top: 3px;
     left: 0;
+    opacity: 0;
     &:checked + label {
       &:before {
         background-color: $color-silver;
