@@ -119,8 +119,8 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 
 ## Roadmap
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
-[See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones)
-[Full feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
+[See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
+[Check the feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md).
 
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
