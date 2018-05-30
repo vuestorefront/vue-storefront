@@ -38,10 +38,15 @@ router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
-    if (router.currentRoute && router.currentRoute.matched.length) { // this is from url
-      const storeCode = storeCodeFromRoute(router.currentRoute.matched[0])
+    if (to) { // this is from url
+      const storeCode = storeCodeFromRoute(to)
+      const currentStore = currentStoreView()
       if (storeCode !== '' && storeCode !== null) {
-        prepareStoreView(storeCode, config)
+        if (storeCode !== currentStore.storeCode) {
+          document.location = to.path // full reload
+        } else {
+          prepareStoreView(storeCode, config)
+        }
       }
     }
     let diffed = false
@@ -55,7 +60,7 @@ router.onReady(() => {
       const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
       union(components, [c]).map(SubComponent => {
         if (SubComponent.preAsyncData) {
-          SubComponent.preAsyncData({ store, route: router.currentRoute })
+          SubComponent.preAsyncData({ store, route: to })
         }
       })
       if (c.asyncData) {

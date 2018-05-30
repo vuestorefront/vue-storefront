@@ -49,7 +49,11 @@ export default {
   },
   mounted () {
     if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
-      this.shipping.shippingMethod = this.shippingMethods.find(item => item.default).method_code
+      let shipping = this.shippingMethods.find(item => item.default)
+      if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {
+        shipping = this.shippingMethods[0]
+      }
+      this.shipping.shippingMethod = shipping.method_code
     }
   },
   methods: {

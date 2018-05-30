@@ -38,8 +38,8 @@ export default context => {
     router.onReady(() => {
       if (config.storeViews.multistore === true) {
         let storeCode = context.storeCode // this is from http header or env variable
-        if (router.currentRoute && router.currentRoute.matched.length) { // this is from url
-          storeCode = storeCodeFromRoute(router.currentRoute.matched[0])
+        if (router.currentRoute) { // this is from url
+          storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
           prepareStoreView(storeCode, config)
