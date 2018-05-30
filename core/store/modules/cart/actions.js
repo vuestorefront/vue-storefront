@@ -12,11 +12,11 @@ const CART_METHODS_INTERVAL_MS = 1000 * 60 * 10 // refresh methods each 10 min
 
 export default {
   serverTokenClear (context) {
-    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
+    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
   clear (context) {
     context.commit(types.CART_LOAD_CART, [])
-    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
+    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
     if (config.cart.synchronize) {
       rootStore.dispatch('cart/serverCreate', { guestCart: true }, {root: true}) // guest cart because when the order hasn't been passed to magento yet it will repopulate your cart
     }
@@ -329,10 +329,6 @@ export default {
   },
   refreshTotals (context, methodsData) {
     const storeView = currentStoreView()
-    if (context.state.cartItems.length === 0) {
-      console.error('No items in the cart')
-      return
-    }
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
