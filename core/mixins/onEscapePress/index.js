@@ -1,3 +1,14 @@
-import { onEscapePress } from 'core/modules/ui'
-// for backward compatibility, probably will be changed for a module
-export default onEscapePress
+export default {
+  mounted () {
+    const keydownHandler = (e) => {
+      // for old browser support as a fallback
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        this.onEscapePress()
+      }
+    }
+    document.addEventListener('keydown', keydownHandler)
+    this.$once('hook:desktroyed', () => {
+      document.removeEventListener('keydown', keydownHandler)
+    })
+  }
+}
