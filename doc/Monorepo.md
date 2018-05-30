@@ -20,6 +20,6 @@ If your package is not designed to be published, add `"private": true` and remov
 # Publishing packages on npm registry
 * You need to have an account on [npmjs.com](https://www.npmjs.com/) and privileges to publish packages on [vue-storefront](https://www.npmjs.com/org/vue-storefront)
 * Open console and login to your account via `yarn login`
-* Yu should be on a `master` branch or if you are relasing RC versions on `develop`
+* You should be on a `master` branch or if you are relasing RC versions on `develop`
 * Run `yarn lerna publish` and follow on screen questions to bump packages versions, according to semantic versioning rules
 * Push commit and tags to repository
