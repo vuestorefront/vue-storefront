@@ -92,8 +92,8 @@
     },
     "cart": {
       "server_merge_by_default": true,
-      "synchronize": false,
-      "synchronize_totals": false,
+      "synchronize": true,
+      "synchronize_totals": true,
       "setCustomProductOptions": true,
       "setConfigurableProductOptions": true,
       "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
