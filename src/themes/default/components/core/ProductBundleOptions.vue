@@ -16,18 +16,21 @@
           >
           <label class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
         </div>
-        <label class="qty" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label><input
-          @change="optionChanged(option)"
-          type="number"
-          min="0"
-          class="m0 no-outline qty"
-          :name="('bundleOptionQty_' + option.option_id)"
-          :id="('bundleOptionQty_' + option.option_id)"
-          focus
-          v-model="inputValues[('bundleOptionQty_' + option.option_id)]"
-        >
-        <span class="error" v-if="validation.results[('bundleOptionQty_' + option.option_id)].error">{{ validation.results[('bundleOptionQty_' + option.option_id)].message }}</span>
-        <span class="error" v-if="validation.results[('bundleOption_' + option.option_id)].error">{{ validation.results[('bundleOption_' + option.option_id)].message }}</span>
+        <div>
+          <label class="qty-label flex" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label>
+          <input
+            @change="optionChanged(option)"
+            type="number"
+            min="0"
+            class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
+            :name="('bundleOptionQty_' + option.option_id)"
+            :id="('bundleOptionQty_' + option.option_id)"
+            focus
+            v-model="inputValues[('bundleOptionQty_' + option.option_id)]"
+          >
+          <span class="error" v-if="validation.results[('bundleOptionQty_' + option.option_id)].error">{{ validation.results[('bundleOptionQty_' + option.option_id)].message }}</span>
+          <span class="error" v-if="validation.results[('bundleOption_' + option.option_id)].error">{{ validation.results[('bundleOption_' + option.option_id)].message }}</span>
+        </div>
       </div>
     </div>
   </form>
@@ -50,6 +53,11 @@ export default {
   $bg-secondary: color(secondary, $colors-background);
   $color-secondary: color(secondary);
   $color-error: color(error);
+  .qty-input {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    width: 90px;
+  }
 
   .custom-option > label {
     font-weight: bold;
@@ -111,6 +119,7 @@ export default {
     position: absolute;
     top: 3px;
     left: 0;
+    opacity: 0;
     &:checked + label {
       &:before {
         background-color: $color-silver;
@@ -149,5 +158,9 @@ export default {
         }
       }
     }
+  }
+  .qty-label {
+    font-size: 12px !important;
+    padding-left: 0px !important;
   }
 </style>

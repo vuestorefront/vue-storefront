@@ -23,7 +23,7 @@
         "elasticsearch": {
           "host": "localhost:8080/api/catalog",
           "index": "vue_storefront_catalog_de"
-        },      
+        },
         "tax": {
           "defaultCountry": "DE",
           "defaultRegion": "",
@@ -31,7 +31,7 @@
         },
         "i18n": {
           "fullCountryName": "Germany",
-          "fullLanguageName": "German",          
+          "fullLanguageName": "German",
           "defaultLanguage": "DE",
           "defaultCountry": "DE",
           "defaultLocale": "de-DE",
@@ -49,7 +49,7 @@
         "elasticsearch": {
           "host": "localhost:8080/api/catalog",
           "index": "vue_storefront_catalog_it"
-        },      
+        },
         "tax": {
           "defaultCountry": "DE",
           "defaultRegion": "",
@@ -57,7 +57,7 @@
         },
         "i18n": {
           "fullCountryName": "Italy",
-          "fullLanguageName": "Italian",          
+          "fullLanguageName": "Italian",
           "defaultCountry": "IT",
           "defaultLanguage": "IT",
           "defaultLocale": "it-IT",
@@ -65,7 +65,7 @@
           "currencySign": "EUR",
           "dateFormat": "HH:mm D-M-YYYY"
         }
-      }          
+      }
     },
     "entities": {
       "optimize": true,
@@ -160,7 +160,7 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",
