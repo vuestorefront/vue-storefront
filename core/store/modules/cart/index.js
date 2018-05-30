@@ -30,9 +30,9 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
   }
 })
 
-EventBus.$on('user-before-logout', () => {
+EventBus.$on('user-after-logout', () => {
   rootStore.dispatch('cart/clear', {}, { root: true })
-  rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
+  // rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback

@@ -49,7 +49,7 @@ export default function (app, router, store) {
   // You can do it on your own and then be able to customize the components used for example for German storeView checkout
   // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
-  router.addRoutes(routes)
   setupMultistoreRoutes(config, router, routes)
+  router.addRoutes(routes)
   store.registerModule('ui', UIStore)
 }

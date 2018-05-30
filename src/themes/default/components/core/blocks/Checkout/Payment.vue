@@ -165,7 +165,7 @@
               @change="$v.payment.country.$touch()"
               autocomplete="country"
             >
-              <option value="" disabled selected hidden>{{ $t('Country') }}</option>
+              <option value="" disabled selected hidden>{{ $t('Country') }} *</option>
               <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
             <span class="validation-error" v-if="$v.payment.country.$error && !$v.payment.country.required">

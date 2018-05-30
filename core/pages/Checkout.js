@@ -88,6 +88,8 @@ export default {
     // TO-DO: Dont use event bus ad use v-on at components (?)
     this.$bus.$on('network-before-checkStatus', this.onNetworkStatusCheck)
     // TO-DO: Use one event with name as apram
+    this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
+    this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
     this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
@@ -100,6 +102,8 @@ export default {
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
   },
   destroyed () {
+    this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
+    this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$off('network-before-checkStatus', this.onNetworkStatusCheck)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
@@ -116,6 +120,16 @@ export default {
     '$route': 'activateHashSection'
   },
   methods: {
+    onCartAfterUpdate (payload) {
+      if (this.$store.state.cart.cartItems.length === 0) {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        this.$router.push('/')
+      }
+    },
     onAfterShippingMethodChanged (payload) {
       this.$store.dispatch('cart/refreshTotals', payload)
     },
@@ -143,8 +157,17 @@ export default {
       this.cartSummary = receivedData
     },
     onDoPlaceOrder (additionalPayload) {
-      this.payment.paymentMethodAdditional = additionalPayload
-      this.placeOrder()
+      if (this.$store.state.cart.cartItems.length === 0) {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        this.$router.push('/')
+      } else {
+        this.payment.paymentMethodAdditional = additionalPayload
+        this.placeOrder()
+      }
     },
     onAfterPaymentDetails (receivedData, validationResult) {
       this.payment = receivedData

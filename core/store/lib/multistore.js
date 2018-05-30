@@ -1,5 +1,6 @@
 import store from '../'
 import EventBus from './event-bus'
+import config from 'config'
 
 export function currentStoreView () {
   return global.$VS.storeView
@@ -28,8 +29,13 @@ export function prepareStoreView (storeCode, config, i18n = null, eventBus = nul
 }
 
 export function storeCodeFromRoute (matchedRoute) {
-  if (matchedRoute && matchedRoute.props && matchedRoute.props.default) {
-    return matchedRoute.props.default.storeCode
+  if (matchedRoute) {
+    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
+      if (matchedRoute.path.indexOf('/' + storeCode + '/') === 0 || matchedRoute.path === '/' + storeCode) {
+        return storeCode
+      }
+    }
+    return ''
   } else {
     return ''
   }
@@ -53,8 +59,6 @@ export function localizedRoute (routeObj, storeCode) {
       if (routeObj.path) {
         routeObj.path = '/' + storeCode + '/' + routeObj.path.slice(1)
       }
-      if (!routeObj.props) routeObj.props = {}
-      routeObj.props.storeCode = storeCode
     } else {
       return '/' + storeCode + routeObj
     }

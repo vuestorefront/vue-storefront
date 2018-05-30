@@ -117,6 +117,7 @@ export default {
       this.$store.dispatch('cart/removeItem', this.product)
     },
     updateQuantity () {
+      this.qty = parseInt(this.qty)
       if (this.qty <= 0) {
         this.qty = this.product.qty
       }

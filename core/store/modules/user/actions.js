@@ -270,7 +270,9 @@ export default {
    */
   logout (context, { silent = false }) {
     context.commit(types.USER_END_SESSION)
-    context.dispatch('cart/serverTokenClear', {}, { root: true })
+    context.dispatch('cart/serverTokenClear', {}, { root: true }).then(() => {
+      EventBus.$emit('user-after-logout')
+    })
     if (!silent) {
       EventBus.$emit('notification', {
         type: 'success',
