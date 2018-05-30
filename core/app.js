@@ -25,7 +25,7 @@ import { prepareStoreView } from './store/lib/multistore'
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.0.0-rc3.0'
+global.$VS.version = '1.0.1'
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
