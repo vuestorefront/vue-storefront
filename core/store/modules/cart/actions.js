@@ -113,7 +113,7 @@ export default {
       callback_event: 'servercart-after-itemupdated'
     }, { root: true }).then(task => {
       // eslint-disable-next-line no-useless-return
-      if (config.cart.synchronize_totals) {
+      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
         context.dispatch('refreshTotals')
       }
       return task
@@ -329,6 +329,10 @@ export default {
   },
   refreshTotals (context, methodsData) {
     const storeView = currentStoreView()
+    if (context.state.cartItems.length === 0) {
+      console.error('No items in the cart')
+      return
+    }
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
@@ -340,7 +344,7 @@ export default {
           shipping = shippingMethods[0]
         }
         if (!payment && paymentMethods && paymentMethods.length > 0) {
-          shipping = paymentMethods[0]
+          payment = paymentMethods[0]
         }
         methodsData = {
           country: country,
