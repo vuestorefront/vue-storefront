@@ -21,7 +21,7 @@
           <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
             <router-link
               class="block px25 py20 cl-accent no-underline"
-              to="/"
+              :to="localizedRoute('/')"
               exact
             >
               {{ $t('Home') }}
@@ -43,7 +43,7 @@
             <router-link
               v-else
               class="px25 py20 cl-accent no-underline col-xs"
-              :to="{ name: 'category', params: { id: category.id, slug: category.slug }}"
+              :to="localizedRoute({ name: 'category', params: { id: category.id, slug: category.slug }})"
             >
               {{ category.name }}
             </router-link>
@@ -57,7 +57,7 @@
           <li @click="closeMenu">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              to="/magazine"
+              :to="localizedRoute('/magazine')"
               exact
             >
               {{ $t('Magazine') }}
@@ -66,7 +66,7 @@
           <li @click="closeMenu">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              to="/sale"
+              :to="localizedRoute('/sale')"
               exact
             >
               {{ $t('Sale') }}
@@ -75,7 +75,7 @@
           <li @click="closeMenu">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              to="/order-tracking"
+              :to="localizedRoute('/order-tracking')"
               exact
             >
               {{ $t('Track my order') }}

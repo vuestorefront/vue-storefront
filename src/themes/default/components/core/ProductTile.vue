@@ -4,14 +4,15 @@
     v-observe-visibility="visibilityChanged"
   >
     <router-link
-      :to="{
+      class="no-underline product-link"
+      :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
           parentSku: product.parentSku ? product.parentSku : product.sku,
           slug: product.slug,
           childSku: product.sku
         }
-      }"
+      })"
     >
       <div
         class="product-image relative bg-cl-secondary"
@@ -150,6 +151,8 @@ $color-white: color(white);
   img {
     max-height: 100%;
     max-width: 100%;
+    width: auto;
+    height: auto;
     margin: auto;
     mix-blend-mode: darken;
     opacity: 0.8;
@@ -157,8 +160,6 @@ $color-white: color(white);
     transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
     &[lazy="loaded"] {
-      width: auto;
-      height: auto;
       animation: products-loaded;
       animation-duration: 0.3s;
     }

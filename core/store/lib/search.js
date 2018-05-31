@@ -1,6 +1,6 @@
-import config from '../lib/config'
 import map from 'lodash-es/map'
 import { slugify } from '../helpers'
+import { currentStoreView } from './multistore'
 import hash from 'object-hash'
 
 let es = require('elasticsearch')
@@ -14,10 +14,11 @@ function isOnline () {
 }
 
 function _getEsClientSingleton () {
+  const storeView = currentStoreView()
   if (!global.$VS.esClient) {
     global.$VS.esClient = new es.Client({
-      host: config.elasticsearch.host,
-      httpAuth: config.elasticsearch.httpAuth,
+      host: storeView.elasticsearch.host,
+      httpAuth: storeView.elasticsearch.httpAuth,
       log: 'error',
       apiVersion: '5.5',
       requestTimeout: 5000
@@ -69,8 +70,9 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
+    const storeView = currentStoreView()
     const esQuery = {
-      index: index || config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+      index: index || storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: entityType,
       body: query,
       size: size,
@@ -148,8 +150,9 @@ export function quickSearchByText ({ queryText, start = 0, size = 50 }) {
 
   return new Promise((resolve, reject) => {
     let client = _getEsClientSingleton()
+    const storeView = currentStoreView()
     client.search({
-      index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+      index: storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: 'product',
       q: queryText,
       size: size,

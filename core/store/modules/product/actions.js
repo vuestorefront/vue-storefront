@@ -1,6 +1,7 @@
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
+import { currentStoreView } from '../../lib/multistore'
 import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
 import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
@@ -74,7 +75,8 @@ export default {
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
   syncPlatformPricesOver (context, { skus }) {
-    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + encodeURIComponent(config.i18n.currencyCode)), // sync the cart
+    const storeView = currentStoreView()
+    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode)), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },

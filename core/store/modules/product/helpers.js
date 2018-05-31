@@ -9,6 +9,7 @@ import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
+import { currentStoreView } from '../../lib/multistore'
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
   if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
@@ -216,9 +217,10 @@ export function calculateTaxes (products, store) {
         resolve(products)
       })
     } else {
+      const storeView = currentStoreView()
       store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
         for (let product of products) {
-          product = calculateProductTax(product, tcs.items, global.$VS.__TAX_COUNTRY__, global.$VS.__TAX_REGION__)
+          product = calculateProductTax(product, tcs.items, storeView.tax.defaultCountry, storeView.tax.defaultRegion)
         }
         doPlatformPricesSync(products).then((products) => {
           resolve(products)

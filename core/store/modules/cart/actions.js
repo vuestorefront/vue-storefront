@@ -4,6 +4,7 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
+import { currentStoreView } from '../../lib/multistore'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -11,11 +12,11 @@ const CART_METHODS_INTERVAL_MS = 1000 * 60 * 10 // refresh methods each 10 min
 
 export default {
   serverTokenClear (context) {
-    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
+    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
   clear (context) {
     context.commit(types.CART_LOAD_CART, [])
-    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, '')
+    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
     if (config.cart.synchronize) {
       rootStore.dispatch('cart/serverCreate', { guestCart: true }, {root: true}) // guest cart because when the order hasn't been passed to magento yet it will repopulate your cart
     }
@@ -40,12 +41,13 @@ export default {
           dry_run: dryRun,
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
+          const storeView = currentStoreView()
           if ((new Date() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
             context.state.cartServerMethodsRefreshAt = new Date()
             console.debug('Refreshing payment & shipping methods')
             rootStore.dispatch('cart/getPaymentMethods')
             if (context.state.cartItems.length > 0) {
-              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
               rootStore.dispatch('cart/getShippingMethods', {
                 country_id: country
               })
@@ -111,7 +113,7 @@ export default {
       callback_event: 'servercart-after-itemupdated'
     }, { root: true }).then(task => {
       // eslint-disable-next-line no-useless-return
-      if (config.cart.synchronize_totals) {
+      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
         context.dispatch('refreshTotals')
       }
       return task
@@ -183,11 +185,12 @@ export default {
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
     if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
-      productsToAdd = productToAdd.product_links.map((pl) => { return pl.product })
+      productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
     } else {
       productsToAdd.push(productToAdd)
     }
-
+    let productHasBeenAdded = false
+    let productIndex = 0
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
       if (product.priceInclTax <= 0) {
@@ -233,31 +236,20 @@ export default {
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
+          productHasBeenAdded = true
+        }
+        if (productIndex === (productsToAdd.length - 1) && productHasBeenAdded) {
+          EventBus.$emit('notification', {
+            type: 'success',
+            message: i18n.t('Product has been added to the cart!'),
+            action1: { label: i18n.t('OK'), action: 'close' },
+            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+          })
           if (config.cart.synchronize && !forceServerSilence) {
-            /* dispatch('serverUpdateItem', {
-              sku: product.sku,
-              qty: 1
-            }) */
             dispatch('serverPull', { forceClientState: true })
           }
-
-          if (productToAdd.type_id !== 'grouped') {
-            EventBus.$emit('notification', {
-              type: 'success',
-              message: i18n.t('Product has been added to the cart!'),
-              action1: { label: i18n.t('OK'), action: 'close' },
-              action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-            })
-          }
         }
-      })
-    }
-    if (productToAdd.type_id === 'grouped') { // sum-up message for grouped products
-      EventBus.$emit('notification', {
-        type: 'success',
-        message: i18n.t('Product has been added to the cart!'),
-        action1: { label: i18n.t('OK'), action: 'close' },
-        action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+        productIndex++
       })
     }
   },
@@ -336,9 +328,10 @@ export default {
     }
   },
   refreshTotals (context, methodsData) {
+    const storeView = currentStoreView()
     if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
       if (!methodsData) {
-        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : config.tax.defaultCountry
+        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
         const paymentMethods = context.rootGetters['payment/paymentMethods']
         let shipping = shippingMethods.find(item => item.default)
@@ -347,7 +340,7 @@ export default {
           shipping = shippingMethods[0]
         }
         if (!payment && paymentMethods && paymentMethods.length > 0) {
-          shipping = paymentMethods[0]
+          payment = paymentMethods[0]
         }
         methodsData = {
           country: country,

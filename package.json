@@ -44,7 +44,6 @@
   "dependencies": {
     "ajv": "^5.2.2",
     "app-root-path": "^2.0.1",
-    "axios": "^0.13.1",
     "bodybuilder": "^2.2.1",
     "command-exists": "^1.2.2",
     "commander": "^2.15.1",

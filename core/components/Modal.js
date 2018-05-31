@@ -1,4 +1,5 @@
 import { mapMutations } from 'vuex'
+import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'Modal',
@@ -30,6 +31,9 @@ export default {
     this.$bus.$on('modal-hide', (name, state, params) => name === this.name ? this.toggle(false) : false)
   },
   methods: {
+    onEscapePress () {
+      this.close()
+    },
     ...mapMutations('ui', [
       'setOverlay'
     ]),
@@ -40,5 +44,6 @@ export default {
     close () {
       this.toggle(false)
     }
-  }
+  },
+  mixins: [onEscapePress]
 }

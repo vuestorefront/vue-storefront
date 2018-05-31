@@ -7,15 +7,21 @@ import EventBus from 'core/plugins/event-bus'
 import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
+import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
 
+let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
+if ((storeCode = rootStore.state.user.current_storecode)) {
+  prepareStoreView(storeCode, config)
+}
+
 function _ssrHydrateSubcomponents (components, next, to) {
   Promise.all(components.map(SubComponent => {
     if (SubComponent.asyncData) {
@@ -32,6 +38,17 @@ router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
+    if (to) { // this is from url
+      const storeCode = storeCodeFromRoute(to)
+      const currentStore = currentStoreView()
+      if (storeCode !== '' && storeCode !== null) {
+        if (storeCode !== currentStore.storeCode) {
+          document.location = to.path // full reload
+        } else {
+          prepareStoreView(storeCode, config)
+        }
+      }
+    }
     let diffed = false
     const activated = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c))
@@ -43,7 +60,7 @@ router.onReady(() => {
       const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
       union(components, [c]).map(SubComponent => {
         if (SubComponent.preAsyncData) {
-          SubComponent.preAsyncData({ store, route: router.currentRoute })
+          SubComponent.preAsyncData({ store, route: to })
         }
       })
       if (c.asyncData) {
@@ -75,8 +92,11 @@ const orderMutex = {}
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
 
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
   const ordersCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'orders'
   }))
 
@@ -149,18 +169,20 @@ const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   console.log('Executing task queue')
   // event.data.config - configuration, endpoints etc
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
   const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'syncTasks'
   }))
 
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'user'
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: 'shop',
+    name: dbNamePrefix + 'shop',
     storeName: 'carts'
   }))
 

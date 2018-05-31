@@ -2,14 +2,14 @@
   <div class="product-tile">
     <!-- Pass product object to this component -->
     <router-link
-      :to="{
+      :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
           parentSku: product.parentSku ? product.parentSku : product.sku,
           slug: product.slug,
           childSku: product.sku
         }
-      }"
+      })"
     >
       <transition appear>
         <!-- Default palceholer is taken from core/assets/placeholder.png,
@@ -44,8 +44,9 @@
 
 <script>
 import ProductTile from 'core/components/ProductTile'
-
+import AddToCart from 'theme/components/AddToCart'
 export default {
-  mixins: [ProductTile]
+  mixins: [ProductTile],
+  components: { AddToCart }
 }
 </script>

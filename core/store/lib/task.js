@@ -6,6 +6,7 @@ import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
 import config from './config'
+import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
 function _sleep (time) {
@@ -30,7 +31,10 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
       currentToken = global.$VS.userTokenInvalidated
     }
   }
-  const url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+  let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+  if (config.storeViews.multistore) {
+    url = adjustMultistoreApiUrl(url)
+  }
   let silentMode = false
   return fetch(url, task.payload).then((response) => {
     const contentType = response.headers.get('content-type')
@@ -54,7 +58,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
           if (config.users.autoRefreshTokens) {
             if (!global.$VS.userTokenInvalidateLock) {
               global.$VS.userTokenInvalidateLock++
-              if (global.$VS.userTokenInvalidateAttemptsCount > AUTO_REFRESH_MAX_ATTEMPTS) {
+              if (global.$VS.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
                 console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
                 global.$VS.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })

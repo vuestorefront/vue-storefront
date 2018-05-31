@@ -11,6 +11,62 @@
     "ssr": {
       "executeMixedinAsyncData": true
     },
+    "storeViews": {
+      "multistore": false,
+      "mapStoreUrlsFor": ["de", "it"],
+      "de": {
+        "storeCode": "de",
+        "disabled": true,
+        "storeId": 3,
+        "name": "German Store",
+        "url": "/de",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_de"
+        },
+        "tax": {
+          "defaultCountry": "DE",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Germany",
+          "fullLanguageName": "German",
+          "defaultLanguage": "DE",
+          "defaultCountry": "DE",
+          "defaultLocale": "de-DE",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      },
+      "it": {
+        "storeCode": "it",
+        "disabled": true,
+        "storeId": 4,
+        "name": "Italian Store",
+        "url": "/it",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_it"
+        },
+        "tax": {
+          "defaultCountry": "DE",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Italy",
+          "fullLanguageName": "Italian",
+          "defaultCountry": "IT",
+          "defaultLanguage": "IT",
+          "defaultLocale": "it-IT",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      }
+    },
     "entities": {
       "optimize": true,
       "twoStageCaching": true,
@@ -36,8 +92,8 @@
     },
     "cart": {
       "server_merge_by_default": true,
-      "synchronize": false,
-      "synchronize_totals": false,
+      "synchronize": true,
+      "synchronize_totals": true,
       "setCustomProductOptions": true,
       "setConfigurableProductOptions": true,
       "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
@@ -104,11 +160,13 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",
-      "dateFormat": "HH:mm D/M/YYYY"
+      "dateFormat": "HH:mm D/M/YYYY",
+      "fullCountryName": "United States",
+      "fullLanguageName": "English"
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"

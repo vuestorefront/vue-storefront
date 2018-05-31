@@ -34,7 +34,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     app: './core/client-entry.js',
-    vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
+    vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),

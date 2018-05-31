@@ -4,6 +4,7 @@ import config from 'config'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'Checkout',
@@ -77,8 +78,9 @@ export default {
         }
       }.bind(this))
     }
+    const storeView = currentStoreView()
     let country = this.$store.state.checkout.shippingDetails.country
-    if (!country) country = config.i18n.defaultCountry
+    if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
     this.$store.dispatch('cart/getPaymentMethods')
   },
@@ -86,6 +88,8 @@ export default {
     // TO-DO: Dont use event bus ad use v-on at components (?)
     this.$bus.$on('network-before-checkStatus', this.onNetworkStatusCheck)
     // TO-DO: Use one event with name as apram
+    this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
+    this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
     this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
@@ -98,6 +102,8 @@ export default {
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
   },
   destroyed () {
+    this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
+    this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$off('network-before-checkStatus', this.onNetworkStatusCheck)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
@@ -114,6 +120,16 @@ export default {
     '$route': 'activateHashSection'
   },
   methods: {
+    onCartAfterUpdate (payload) {
+      if (this.$store.state.cart.cartItems.length === 0) {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        this.$router.push('/')
+      }
+    },
     onAfterShippingMethodChanged (payload) {
       this.$store.dispatch('cart/refreshTotals', payload)
     },
@@ -141,8 +157,17 @@ export default {
       this.cartSummary = receivedData
     },
     onDoPlaceOrder (additionalPayload) {
-      this.payment.paymentMethodAdditional = additionalPayload
-      this.placeOrder()
+      if (this.$store.state.cart.cartItems.length === 0) {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        this.$router.push('/')
+      } else {
+        this.payment.paymentMethodAdditional = additionalPayload
+        this.placeOrder()
+      }
     },
     onAfterPaymentDetails (receivedData, validationResult) {
       this.payment = receivedData
@@ -153,9 +178,11 @@ export default {
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
-      global.$VS.__TAX_COUNTRY__ = this.shipping.country
       this.activateSection('payment')
       this.saveShippingDetails()
+
+      const storeView = currentStoreView()
+      storeView.tax.defaultCountry = this.shipping.country
     },
     onAfterPersonalDetails (receivedData, validationResult) {
       this.personalDetails = receivedData

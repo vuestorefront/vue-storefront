@@ -1,4 +1,6 @@
 import { createApp } from './app'
+import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
+import config from 'config'
 import union from 'lodash-es/union'
 import { HttpError } from 'core/lib/exceptions'
 global.$VS.isSSR = true
@@ -34,6 +36,15 @@ export default context => {
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
+      if (config.storeViews.multistore === true) {
+        let storeCode = context.storeCode // this is from http header or env variable
+        if (router.currentRoute) { // this is from url
+          storeCode = storeCodeFromRoute(router.currentRoute)
+        }
+        if (storeCode !== '' && storeCode !== null) {
+          prepareStoreView(storeCode, config)
+        }
+      }
       const matchedComponents = router.getMatchedComponents()
       if (!matchedComponents.length) {
         return reject(new HttpError('No components matched', 404))

@@ -40,7 +40,7 @@
         <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
-              <router-link to="/" class="cl-tertiary links">
+              <router-link :to="localizedRoute('/')" class="cl-tertiary links">
                 {{ $t('Return to shopping') }}
               </router-link>
             </div>
