@@ -1,6 +1,6 @@
-const Home = () => import(/* webpackChunkName: "page-Home" */'./pages/Home.vue')
-const Product = () => import(/* webpackChunkName: "page-Product" */'./pages/Product.vue')
-const Category = () => import(/* webpackChunkName: "page-Category" */'./pages/Category.vue')
+const Home = () => import(/* webpackChunkName: "page-Home", webpackPrefetch: true */'./pages/Home.vue')
+const Product = () => import(/* webpackChunkName: "page-Product", webpackPrefetch: true */'./pages/Product.vue')
+const Category = () => import(/* webpackChunkName: "page-Category", webpackPrefetch: true */'./pages/Category.vue')
 
 const routes = [
   { path: '/', component: Home, name: 'home' },

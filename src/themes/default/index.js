@@ -1,14 +1,14 @@
 import UIStore from './store/ui-store'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import config from 'config'
-const Home = () => import(/* webpackChunkName: "page-Home" */'./pages/Home.vue')
-const Category = () => import(/* webpackChunkName: "page-Category" */'./pages/Category.vue')
-const Product = () => import(/* webpackChunkName: "page-Product" */'./pages/Product.vue')
-const Checkout = () => import(/* webpackChunkName: "page-Checkout" */'./pages/Checkout.vue')
-const Compare = () => import(/* webpackChunkName: "page-Compare" */'./pages/Compare.vue')
-const MyAccount = () => import(/* webpackChunkName: "page-MyAccount" */'./pages/MyAccount.vue')
-const Static = () => import(/* webpackChunkName: "page-Static" */'./pages/Static.vue')
-const PageNotFound = () => import(/* webpackChunkName: "page-PageNotFound" */'./pages/PageNotFound.vue')
+const Home = () => import(/* webpackChunkName: "page-Home", webpackPrefetch: true */'./pages/Home.vue')
+const Category = () => import(/* webpackChunkName: "page-Category", webpackPrefetch: true */'./pages/Category.vue')
+const Product = () => import(/* webpackChunkName: "page-Product", webpackPrefetch: true */'./pages/Product.vue')
+const Checkout = () => import(/* webpackChunkName: "page-Checkout", webpackPrefetch: true */'./pages/Checkout.vue')
+const Compare = () => import(/* webpackChunkName: "page-Compare", webpackPrefetch: true */'./pages/Compare.vue')
+const MyAccount = () => import(/* webpackChunkName: "page-MyAccount", webpackPrefetch: true */'./pages/MyAccount.vue')
+const Static = () => import(/* webpackChunkName: "page-Static", webpackPrefetch: true */'./pages/Static.vue')
+const PageNotFound = () => import(/* webpackChunkName: "page-PageNotFound", webpackPrefetch: true */'./pages/PageNotFound.vue')
 
 const routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
