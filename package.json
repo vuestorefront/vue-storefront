@@ -110,7 +110,7 @@
     "eslint-plugin-vue": "^4.5.0",
     "eslint-plugin-vue-storefront": "^0.0.1",
     "file-loader": "^1.1.11",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^4.0.0-alpha",
     "karma": "^1.1.2",
     "karma-mocha": "^1.1.1",
     "karma-phantomjs-launcher": "^1.0.1",

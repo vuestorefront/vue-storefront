@@ -22,7 +22,6 @@ const config = merge(base, {
     }),
     // generate output HTML
     new HTMLPlugin({
-      chunksSortMode: 'none',
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
     })
   ]
