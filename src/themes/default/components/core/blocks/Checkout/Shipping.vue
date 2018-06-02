@@ -148,21 +148,21 @@
             ]"
           />
 
-          <div class="col-xs-12 col-sm-6 mb25">
-            <select
-              name="countries"
-              :class="{'cl-tertiary' : shipping.country.length === 0}"
-              v-model="shipping.country"
-              @change="$v.shipping.country.$touch(); changeCountry();"
-              autocomplete="country"
-            >
-              <option value="" disabled selected hidden>{{ $t('Country') }} *</option>
-              <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
-            </select>
-            <span class="validation-error" v-if="$v.shipping.country.$error && !$v.shipping.country.required">
-              {{ $t('Field is required') }}
-            </span>
-          </div>
+          <base-select
+            class="col-xs-12 col-sm-6 mb25"
+            :options="countryOptions"
+            :selected="shipping.country"
+            :placeholder="$t('Country *')"
+            :validations="[
+              {
+                condition: $v.shipping.country.$error && !$v.shipping.country.required,
+                text: $t('Field is required')
+              }
+            ]"
+            v-model="shipping.country"
+            autocomplete="country"
+            @blur="$v.shipping.country.$touch()"
+            @change="$v.shipping.country.$touch(); changeCountry();"/>
 
           <base-input
             class="col-xs-12 mb25"
@@ -256,6 +256,7 @@ import shipping from 'core/components/blocks/Checkout/Shipping'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
 
@@ -264,9 +265,20 @@ export default {
     ButtonFull,
     Tooltip,
     BaseCheckbox,
-    BaseInput
+    BaseInput,
+    BaseSelect
   },
   mixins: [shipping],
+  computed: {
+    countryOptions () {
+      return this.countries.map((item) => {
+        return {
+          value: item.code,
+          label: item.name
+        }
+      })
+    }
+  },
   validations: {
     shipping: {
       firstName: {
