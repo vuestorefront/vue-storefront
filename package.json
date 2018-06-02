@@ -82,7 +82,7 @@
     "vue-offline": "^1.0.7",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.2",
-    "vue-storefront-stripe": "^1.0.71",
+    "vsf-payment-stripe": "^1.0.0",
     "vue2-google-maps": "^0.8.4",
     "vue2-slugify": "0.0.1",
     "vuelidate": "^0.6.2",
