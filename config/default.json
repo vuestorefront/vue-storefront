@@ -51,7 +51,7 @@
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
-          "defaultCountry": "DE",
+          "defaultCountry": "IT",
           "defaultRegion": "",
           "calculateServerSide": true
         },
