@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/extension-mailchimp-subscribe",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mailchimp extension for Vue Storefront",
   "license": "MIT",
   "main": "index.js",
