@@ -2,6 +2,8 @@
   <div id="home">
     <main-slider />
 
+    <cms-block id="5"/>
+
     <promoted-offers/>
 
     <section class="new-collection container px15">
@@ -42,6 +44,7 @@ import Home from 'core/pages/Home'
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
 import MainSlider from 'theme/components/core/blocks/MainSlider/MainSlider'
+import CmsBlock from 'src/extensions/cms/components/CmsBlock.vue'
 
 // Theme local components
 import Collection from 'theme/components/theme/blocks/Collection/Collection'
@@ -57,7 +60,8 @@ export default {
     Onboard,
     ProductListing,
     PromotedOffers,
-    TileLinks
+    TileLinks,
+    CmsBlock
   },
   computed: {
     categories () {
