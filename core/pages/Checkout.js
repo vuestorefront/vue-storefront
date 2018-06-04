@@ -286,7 +286,7 @@ export default {
             firstname: this.shipping.firstName,
             lastname: this.shipping.lastName,
             email: this.personalDetails.emailAddress,
-            region_code: this.shipping.region_code ? this.shipping.region_code : '',
+            region_code: this.shipping.region_code ? this.shipping.region_code : ''
           },
           billingAddress: {
             region: this.payment.state,
