@@ -32,7 +32,7 @@ const moduleOverrides = {}
 
 for (const moduleName of Object.keys(coreModules)) {
   if (themeModules && themeModules[moduleName]) {
-    moduleOverrides[moduleName] = true;
+    moduleOverrides[moduleName] = true
     console.log('Registering override, theme Vuex store as module', moduleName)
     store.registerModule(moduleName, themeModules[moduleName])
   } else {
@@ -42,7 +42,7 @@ for (const moduleName of Object.keys(coreModules)) {
 
 if (themeModules) {
   for (const moduleName of Object.keys(themeModules)) {
-    if(!moduleOverrides[moduleName]) {
+    if (!moduleOverrides[moduleName]) {
       console.log('Registering custom, theme Vuex store as module', moduleName)
       store.registerModule(moduleName, themeModules[moduleName])
     }
