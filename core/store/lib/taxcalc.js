@@ -1,5 +1,4 @@
 export function updateProductPrices (product, rate, sourcePriceInclTax = false) {
-
   product.price = parseFloat(product.price)
 
   let priceExclTax = product.price
@@ -7,7 +6,6 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
     priceExclTax = product.price / (1 + (rate.rate / 100))
     product.price = priceExclTax
   }
-  
   product.priceInclTax = (priceExclTax + priceExclTax * (parseFloat(rate.rate) / 100))
   product.priceTax = (priceExclTax * (parseFloat(rate.rate) / 100))
 
