@@ -6,8 +6,6 @@ import router from 'core/router'
 import config from 'config'
 import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
-import coreModules from 'core/store/modules'
-import themeModules from 'theme/store'
 import EventBus from 'core/plugins/event-bus'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
@@ -27,27 +25,6 @@ import { prepareStoreView } from './store/lib/multistore'
 if (!global.$VS) global.$VS = {}
 
 global.$VS.version = '1.0.4'
-
-const moduleOverrides = {}
-
-for (const moduleName of Object.keys(coreModules)) {
-  if (themeModules && themeModules[moduleName]) {
-    moduleOverrides[moduleName] = true
-    console.log('Registering override, theme Vuex store as module', moduleName)
-    store.registerModule(moduleName, themeModules[moduleName])
-  } else {
-    store.registerModule(moduleName, coreModules[moduleName])
-  }
-}
-
-if (themeModules) {
-  for (const moduleName of Object.keys(themeModules)) {
-    if (!moduleOverrides[moduleName]) {
-      console.log('Registering custom, theme Vuex store as module', moduleName)
-      store.registerModule(moduleName, themeModules[moduleName])
-    }
-  }
-}
 
 const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
 global.$VS.storeView = storeView
