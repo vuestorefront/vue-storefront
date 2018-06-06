@@ -1,8 +1,8 @@
 // import router from 'core/router'
 // uncomment if you want to modify the router e.g. add before/after hooks
-import Home from './pages/Home.vue'
-import Product from './pages/Product.vue'
-import Category from './pages/Category.vue'
+import Home from 'theme/pages/Home.vue'
+import Product from 'theme/pages/Product.vue'
+import Category from 'theme/pages/Category.vue'
 
 export default [
   { path: '/', component: Home, name: 'home' },
