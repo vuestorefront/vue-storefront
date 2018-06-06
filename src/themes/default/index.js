@@ -1,9 +1,7 @@
-import themeRouter from './router'
 import UIStore from './store/ui-store'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import config from 'config'
-import './plugins'
-const routes = themeRouter.routes
+import routes from './router'
 
 export default function (app, router, store) {
   // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
