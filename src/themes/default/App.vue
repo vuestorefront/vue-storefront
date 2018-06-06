@@ -51,8 +51,14 @@ export default {
     })
   },
   created () {
+    // Progress bar on top of the page
     this.$router.beforeEach((to, from, next) => {
+      this.$Progress.start()
+      this.$Progress.increase(40)
       next()
+    })
+    this.$router.afterEach((to, from) => {
+      this.$Progress.finish()
     })
   },
   metaInfo: Head,
