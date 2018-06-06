@@ -350,11 +350,11 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-      <td align="center" valign="middle">
-        <a href="https://magedirect.co/">
+       <td align="center" valign="middle">
+        <a href="https://vendic.nl/">
           <img
-            src="https://user-images.githubusercontent.com/18116406/38415925-4a31e358-3993-11e8-9bee-b2b9af95d305.png"
-            alt="MageDirect"
+            src="https://divante.co/partners/Vue-Storefront/vendic-rood.png"
+            alt="Vendic"
             height="50"
           >
         </a>
@@ -382,6 +382,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/39051477-0c46c1aa-44a9-11e8-8f53-0adabe3e66a4.png"
             alt="Imagination Media"
+            height="50"
+          >
+        </a>
+      </td>
+    </tr>
+    <tr>
+        <td align="center" valign="middle">
+        <a href="https://magedirect.co/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/38415925-4a31e358-3993-11e8-9bee-b2b9af95d305.png"
+            alt="MageDirect"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.edmondscommerce.co.uk/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/edmonds-ecommerce.png"
+            alt="Edmonds Commerce"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.kt-team.ru/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/kt.team.png"
+            alt="KT Team"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
             height="50"
           >
         </a>
