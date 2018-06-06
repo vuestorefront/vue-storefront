@@ -36,13 +36,12 @@ if (themeModules) {
 const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
 global.$VS.storeView = storeView
 store.state.shipping.methods = shippingMethods
-
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
 Vue.use(VueOffline)
 Vue.use(VueObserveVisibility)
-
+require('theme/plugins')
 const pluginsObject = plugins()
 Object.keys(pluginsObject).forEach(function (key) {
   Vue.use(pluginsObject[key])
