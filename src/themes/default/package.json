@@ -14,6 +14,7 @@
     "vue": "^2.5.13",
     "vue-carousel": "^0.6.9",
     "vue-no-ssr": "^0.2.2",
+    "vue-progressbar": "^0.7.5",
     "vuelidate": "^0.6.1",
     "vuex": "^3.0.1"
   },

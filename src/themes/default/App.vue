@@ -17,6 +17,7 @@
       <offline-badge/>
       <modal-switcher/>
     </div>
+    <vue-progress-bar />
   </div>
 </template>
 
@@ -47,6 +48,11 @@ export default {
   computed: {
     ...mapState({
       overlayActive: state => state.ui.overlay
+    })
+  },
+  created () {
+    this.$router.beforeEach((to, from, next) => {
+      next()
     })
   },
   metaInfo: Head,
