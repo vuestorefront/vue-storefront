@@ -14,5 +14,5 @@ To add new core plugin you have to create new file `core/plugins/{plugin-name}/i
 
 ## Theme plugins
 
-Theme plugins should be located in `src/themes/{theme_name}/plugins`. To add new theme plugin you have to create new file `plugins/{plugin-name}/index.js` in theme scope and write there plugin code. If you want to register it just add it to `plugins/index.js` in theme scope as well.
+It's a best practice to lcoate all theme plugins in `src/themes/{theme_name}/plugins`. To add new theme plugin you have to create new file `plugins/{plugin-name}/index.js` in theme scope and write there plugin code. If you want to register it just add it to `plugins/index.js` in theme scope as well.
 
