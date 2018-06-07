@@ -22,9 +22,19 @@ import VueOffline from 'vue-offline'
 import shippingMethods from 'core/resource/shipping_methods.json'
 import { prepareStoreView } from './store/lib/multistore'
 
+import coreModules from './store/modules'
+import themeModules from 'theme/store'
+
 if (!global.$VS) global.$VS = {}
 
 global.$VS.version = '1.0.4'
+
+const storeModules = Object.assign(coreModules, themeModules || {})
+
+for (const moduleName of Object.keys(storeModules)) {
+  console.log('Registering custom, theme Vuex store as module', moduleName)
+  store.registerModule(moduleName, storeModules[moduleName])
+}
 
 const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
 global.$VS.storeView = storeView

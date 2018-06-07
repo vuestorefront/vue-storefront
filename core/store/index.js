@@ -4,8 +4,6 @@ import * as types from './mutation-types'
 import localForage from 'localforage'
 import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
-import coreModules from './modules'
-import themeModules from 'theme/store'
 
 if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
@@ -103,11 +101,8 @@ const plugins = [
   }
 ]
 
-const modules = Object.assign(coreModules, themeModules || {}) // Merge themes store modules
-
 let rootStore = new Vuex.Store({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
-  modules,
   state,
   mutations,
   plugins
