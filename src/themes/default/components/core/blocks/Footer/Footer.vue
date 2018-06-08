@@ -144,7 +144,6 @@
       <div class="row middle-xs px15 bottom-links">
         <div class="col-xs-5 col-sm-3 cl-tertiary">
           <language-switcher v-if="multistoreEnabled" />
-          {{ multistoreEnabled }}
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links">
