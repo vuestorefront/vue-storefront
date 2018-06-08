@@ -9,7 +9,8 @@ export default {
     return {
       products: [],
       search: '',
-      placeholder: i18n.t('Type what you are looking for...')
+      placeholder: i18n.t('Type what you are looking for...'),
+      emptyResults: false
     }
   },
   methods: {

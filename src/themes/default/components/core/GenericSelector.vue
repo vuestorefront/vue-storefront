@@ -1,6 +1,7 @@
 <template>
   <button
-    :class="{'active': active, 'p0': true, 'bg-cl-primary': true, 'brdr-1': true, 'brdr-cl-primary': true, 'brdr-square': true, 'h5': true, 'cl-tertiary': true, 'generic-selector': true}"
+    :class="{'active': active}"
+    class="bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary generic-selector"
     @click="switchFilter(id, label)"
     :aria-label="$t('Select ' + label)"
   >
