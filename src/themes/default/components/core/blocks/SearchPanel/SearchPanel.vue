@@ -39,12 +39,6 @@ export default {
     ProductTile
   },
   mixins: [SearchPanel],
-  data () {
-    return {
-      emptyResults: false,
-      search: ''
-    }
-  },
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
       if (!this.$store.state.ui.searchpanel) {
