@@ -103,7 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Themes refactor
 - Lot of smaller tweaks
 
-## [0.3.0] - 2018-03-18
+## [0.3.0] - 2017-12-21
 ### Added
 - Bundle products support,
 - Tax calculation regarding the Magento's logic for different rates per countries, states.
