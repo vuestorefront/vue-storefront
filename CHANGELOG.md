@@ -1,26 +1,28 @@
 # Changelog
+All notable changes to this project will be documented in this file.
 
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
 
 ## [1.0.5] - 2018-06-04
 ### Fixed
 - Minor fixes
-
 
 ## [1.0.4] - 2018-06-02
 ### Fixed
 - Minor fixes
 
 ## [1.0.3] - 2018-06-02
-### Fixed
-- Minor fixes
+- yarn.lock clean-up
 
 ## [1.0.2] - 2018-06-02
-### Fixed
-- Minor fixes
+### Changed
+- 1.0.1->1.0.2 version number changed
 
 ## [1.0.1] - 2018-05-31
-### Fixed
-- Minor fixes
+- 1.0.1 minor release
 
 ## [1.0.0] - 2018-05-30
 ### Added
