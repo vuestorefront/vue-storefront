@@ -80,13 +80,7 @@ import { required, email } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
 export default {
-  data () {
-    return {
-      remember: false,
-      email: '',
-      password: ''
-    }
-  },
+  mixins: [Login],
   validations: {
     email: {
       required,
@@ -96,24 +90,9 @@ export default {
       required
     }
   },
-  mixins: [Login],
   methods: {
-    switchElem () {
-      this.$store.commit('ui/setAuthElem', 'register')
-    },
     close () {
       this.$bus.$emit('modal-hide', 'modal-signup')
-    },
-    remindPassword () {
-      if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Reset password feature does not work while offline!'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-      } else {
-        this.$store.commit('ui/setAuthElem', 'forgot-pass')
-      }
     },
     login () {
       if (this.$v.$invalid) {
