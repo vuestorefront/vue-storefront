@@ -8,16 +8,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.5] - 2018-06-04
 ### Fixed
+- Shipping region fix
+- Hotfix for missing config.storeViews.multistore check
 - Minor fixes
 
 ## [1.0.4] - 2018-06-02
 ### Fixed
+- defaultCountry fix for IT
+- Tax classes hotfix
+- tax_class_id is required by taxcalc - restored along with version inc
 - Minor fixes
 
 ## [1.0.3] - 2018-06-02
 - yarn.lock clean-up
 
 ## [1.0.2] - 2018-06-02
+### Fixed
+- vue-storefront-stripe renamed to vsf-payment-stripe hotfix
+
 ### Changed
 - 1.0.1->1.0.2 version number changed
 
