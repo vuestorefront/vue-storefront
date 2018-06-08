@@ -130,6 +130,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Lazy loaded blocks size fixed
 
+[Unreleased]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.5...HEAD
 [1.0.5]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.2...v1.0.3
