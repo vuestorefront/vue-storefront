@@ -88,7 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Service-workers and webpack config can be now extended by theme developers,
 - Droppoints shipping methods (NL support) added.
 
-## [0.4.0] - 2018-03-18
+## [0.4.0] - 2018-01-28
 ### Added
 - Improved theming support + B2B product catalog theme included (original github repo); it's PoC made in just one week! Isn't it amazing that you can customize VS in just one week to this extent? :)
 - Pimcore support (more on this, github repo)
