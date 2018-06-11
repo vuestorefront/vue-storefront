@@ -176,7 +176,6 @@
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Footer from 'core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
-import config from 'config'
 
 export default {
   mixins: [Footer],
@@ -188,11 +187,6 @@ export default {
   created () {
     if (this.$route.path === '/checkout') {
       this.isCheckout = true
-    }
-  },
-  computed: {
-    multistoreEnabled () {
-      return config.storeViews.multistore
     }
   },
   watch: {
