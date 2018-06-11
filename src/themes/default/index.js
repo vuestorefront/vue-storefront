@@ -1,4 +1,3 @@
-import UIStore from './store/ui-store'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import config from 'config'
 import routes from './router'
@@ -10,5 +9,4 @@ export default function (app, router, store) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
   router.addRoutes(routes)
-  store.registerModule('ui', UIStore)
 }

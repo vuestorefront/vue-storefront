@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/store",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Vue Storefront core data store",
   "license": "MIT",
   "main": "index.js",
