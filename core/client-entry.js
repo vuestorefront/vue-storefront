@@ -11,6 +11,10 @@ import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-sto
 
 require('./service-worker-registration') // register the service worker
 
+if ('Notification' in window && Notification.permission !== 'granted') {
+  Notification.requestPermission()
+}
+
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
 
@@ -148,6 +152,15 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             }
             orderMutex[id] = false
           }).catch((err) => {
+            navigator.serviceWorker.ready.then(registration => {
+              registration.sync.register('orderSync')
+                .then(() => {
+                  console.log('Order sync registered')
+                })
+                .catch(error => {
+                  console.log('Unable to sync', error)
+                })
+            })
             console.error('Error sending order: ' + orderId, err)
             orderMutex[id] = false
           })
