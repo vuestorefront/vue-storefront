@@ -3,25 +3,6 @@ import Vuex from 'vuex'
 import * as types from './mutation-types'
 import localForage from 'localforage'
 import UniversalStorage from './lib/storage'
-import order from './modules/order'
-import product from './modules/product'
-import category from './modules/category'
-import attribute from './modules/attribute'
-import cart from './modules/cart'
-import wishlist from './modules/wishlist'
-import compare from './modules/compare'
-import user from './modules/user'
-import payment from './modules/payment'
-import shipping from './modules/shipping'
-import ui from './modules/ui-store'
-import checkout from './modules/checkout'
-import homepage from './modules/homepage'
-import stock from './modules/stock'
-import tax from './modules/tax'
-import social from './modules/social-tiles'
-import claims from './modules/claims'
-import sync from './modules/sync'
-import promoted from './modules/promoted-offers'
 import { currentStoreView } from './lib/multistore'
 
 if (!global.$VS) global.$VS = {}
@@ -121,27 +102,7 @@ const plugins = [
 ]
 
 let rootStore = new Vuex.Store({
-  modules: { // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
-    order,
-    product,
-    category,
-    attribute,
-    cart,
-    wishlist,
-    compare,
-    user,
-    payment,
-    shipping,
-    ui,
-    homepage,
-    social,
-    stock,
-    checkout,
-    tax,
-    claims,
-    sync,
-    promoted
-  },
+  // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state,
   mutations,
   plugins

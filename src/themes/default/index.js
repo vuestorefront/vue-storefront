@@ -1,4 +1,11 @@
-import UIStore from './store/ui-store'
+import Home from './pages/Home.vue'
+import Category from './pages/Category.vue'
+import Product from './pages/Product.vue'
+import Static from './pages/Static.vue'
+import Checkout from './pages/Checkout.vue'
+import Compare from './pages/Compare.vue'
+import PageNotFound from './pages/PageNotFound.vue'
+import MyAccount from './pages/MyAccount.vue'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import config from 'config'
 import routes from './router'
@@ -10,5 +17,4 @@ export default function (app, router, store) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
   router.addRoutes(routes)
-  store.registerModule('ui', UIStore)
 }

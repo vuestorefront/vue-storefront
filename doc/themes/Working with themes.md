@@ -8,11 +8,15 @@ All themes are located in `src/themes` folder and you can think about them as a 
 
 ## Switching themes
 
-To use any of the themes located in `src/themes` just change the `theme` property in your config file to folder name of the theme that you want to use. The config files are located in `config` folder. You shouldn't make changes in `config/default.json`. Instead just copy the `default.json` file to the same folder, name it `local.json` and make changes here.
+To use any of the themes located in `src/themes` just change the `theme` property in your config file to `name` property from package.json file sitting in your theme's root dir. The config files are located in `config` folder. You shouldn't make changes in `config/default.json`. Instead just copy the default.json file to the same folder, name it `local.json` and make changes there.
 
 ## Creating your own themes
 
-To create your own theme just copy the `theme-starter` folder (it contains all files needed for a new theme) located in `src/themes` and change its name to your new theme's name. Now you can start development of your own theme for Vue Storefront! You can also copy `default` theme, rename it and adjust to your needs.
+There are two ways of creating your own VS theme
+1. Copying and modifying the default theme which is fully-styled and ready to work out of the box (it's the one that you can find on our demo)
+2. Copying and modifying theme-starter which contains only data and no styling. It requires more work to have it production-ready (you need to style it from scratch) but if your designs are much different than our default theme you'd probably want to start with this one.
+
+To create your own theme just copy the `theme-starter` or `default` folder located in `src/themes` and change it's name to your new theme's name. Next change the name property in your theme's package.json file. You can use this name in your config file to change the active theme. After adding new theme you need to run `yarn install` so lerma can detect new theme. Now you can start development of your own theme for Vue Storefront! 
 
 Only official themes tested and accepted by the community should be in a `master` branch. Please develop your own themes on separate branches and keep them updated with `master` to be sure it works with the newest core.
 
@@ -20,7 +24,8 @@ Only official themes tested and accepted by the community should be in a `master
 
 Each theme is a separate Vue.js application with its own dependencies, which can make use of the core or even modify it.
 Below you can find the list of files that are essential for your theme to work:
-
+* `extensions` - theme-specific extensiosn (see [Working withe xtensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md))
+  * `index.js` - here you can register your theme-specific extensions
 * `filters` - theme-specific filters (extends `core/filters`)
   * `index.js` - here you can register your theme-specific filters
 * `mixins` - theme-specific mixins (extends `core/mixins`
