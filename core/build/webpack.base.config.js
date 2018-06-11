@@ -26,6 +26,19 @@ const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
+const postcssConfig =  {
+  loader: 'postcss-loader',
+  options: {
+    ident: 'postcss',
+    plugins: (loader) => [
+      require('postcss-flexbugs-fixes'),
+      require('autoprefixer')({
+        flexbox: 'no-2009',
+      }),
+    ]
+  }
+};
+
 module.exports = {
   plugins: [
     new CaseSensitivePathsPlugin(),
@@ -124,7 +137,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
-          'postcss-loader'
+          postcssConfig
         ]
       },
       {
@@ -140,7 +153,7 @@ module.exports = {
         test: /\.sass$/,
         use: [
           'vue-style-loader',
-          'css-loader',
+         'css-loader',
           {
             loader: 'sass-loader',
             options: {
