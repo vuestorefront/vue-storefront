@@ -22,7 +22,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: '/c/' + sc.slug
+      route_link: (config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
     })
   }
 
