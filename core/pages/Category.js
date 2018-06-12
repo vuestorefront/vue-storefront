@@ -5,6 +5,7 @@ import toString from 'lodash-es/toString'
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { htmlDecode } from 'core/filters/html-decode'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
@@ -199,8 +200,8 @@ export default {
   },
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.categoryName,
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      title: htmlDecode(this.$route.meta.title || this.categoryName),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
     }
   }
 }

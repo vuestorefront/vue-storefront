@@ -93,6 +93,17 @@ if (process.env.NODE_ENV === 'production') {
       },{
         urlPattern: "/dist/(.*)",
         handler: "fastest"
+      },{
+        urlPattern: "/*/*", /** this is new product url format  */
+        handler: "networkFirst"
+      },
+      {
+        urlPattern: "/*/*/*", /** this is new product url format  */
+        handler: "networkFirst"
+      },
+      {
+        urlPattern: "/*", /** this is new category url format  */
+        handler: "networkFirst"
       }],
       "importScripts": ['/service-worker-ext.js'] /* custom logic */
     })
