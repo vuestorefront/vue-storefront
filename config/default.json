@@ -110,7 +110,7 @@
     },
     "products": {
       "useShortCatalogUrls": false,
-      "useMagentoUrlKeys": true,
+      "useMagentoUrlKeys": false,
       "configurableChildrenStockPrefetchStatic": false,
       "configurableChildrenStockPrefetchDynamic": false,
       "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
