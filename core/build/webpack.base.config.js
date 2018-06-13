@@ -9,8 +9,6 @@ fs.writeFileSync(
   JSON.stringify(config)
 )
 
-const appConfig = require('./config.json')
-
 const extensionsRoot = '../../src/extensions'
 const themesRoot = '../../src/themes'
 

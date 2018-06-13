@@ -1,10 +1,9 @@
 const path = require('path')
-const themeRoot = require('./theme-path')
 const merge = require('webpack-merge')
+const baseClientConfig = require('./webpack.client.config')
+const themeRoot = require('./theme-path')
 const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
-
-const baseClientConfig = require('./webpack.client.config')
 
 const prodClientConfig = merge(baseClientConfig, {
   plugins: [
