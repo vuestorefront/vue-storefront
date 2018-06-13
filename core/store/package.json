@@ -11,7 +11,7 @@
     "ajv": "^6.4.0",
     "bodybuilder": "^2.2.10",
     "config": "^1.30.0",
-    "elasticsearch": "^14.2.2",
+    "elasticsearch": "^15.0.0",
     "he": "^1.1.1",
     "isomorphic-fetch": "^2.2.1",
     "localforage": "^1.7.1",

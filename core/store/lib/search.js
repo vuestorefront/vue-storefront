@@ -2,8 +2,7 @@ import map from 'lodash-es/map'
 import { slugify } from '../helpers'
 import { currentStoreView } from './multistore'
 import hash from 'object-hash'
-
-let es = require('elasticsearch')
+import es from 'elasticsearch'
 
 function isOnline () {
   if (typeof navigator !== 'undefined') {
