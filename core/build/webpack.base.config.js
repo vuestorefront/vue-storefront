@@ -144,6 +144,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
+          postcssConfig,
           'sass-loader'
         ]
       },
@@ -151,7 +152,8 @@ module.exports = {
         test: /\.sass$/,
         use: [
           'vue-style-loader',
-         'css-loader',
+          'css-loader',
+          postcssConfig,
           {
             loader: 'sass-loader',
             options: {
