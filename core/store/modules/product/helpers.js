@@ -220,7 +220,7 @@ export function calculateTaxes (products, store) {
       const storeView = currentStoreView()
       store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
         for (let product of products) {
-          product = calculateProductTax(product, tcs.items, storeView.tax.defaultCountry, storeView.tax.defaultRegion)
+          product = calculateProductTax(product, tcs.items, storeView.tax.defaultCountry, storeView.tax.defaultRegion, storeView.tax.sourcePriceIncludesTax)
         }
         doPlatformPricesSync(products).then((products) => {
           resolve(products)

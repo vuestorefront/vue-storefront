@@ -25,6 +25,7 @@
           "index": "vue_storefront_catalog_de"
         },
         "tax": {
+          "sourcePriceIncludesTax": false,          
           "defaultCountry": "DE",
           "defaultRegion": "",
           "calculateServerSide": true
@@ -51,6 +52,7 @@
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
+          "sourcePriceIncludesTax": false,          
           "defaultCountry": "IT",
           "defaultRegion": "",
           "calculateServerSide": true
@@ -157,6 +159,7 @@
     "tax": {
       "defaultCountry": "PL",
       "defaultRegion": "",
+      "sourcePriceIncludesTax": false,
       "calculateServerSide": true
     },
     "i18n": {
