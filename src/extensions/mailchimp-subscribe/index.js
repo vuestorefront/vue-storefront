@@ -1,3 +1,4 @@
+import extensionStore from './store'
 import extensionRoutes from './router'
 import EventBus from 'core/plugins/event-bus'
 
@@ -5,9 +6,7 @@ const EXTENSION_KEY = 'mailchimp-subscribe'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
-  import(/* webpackChunkName: "store-mailchimp-subscribe" */'./store').then(extensionStore => {
-    store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
-  })
+  store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
   console.log('Mailchimp extension registered')
   EventBus.$on('newsletter-after-unsubscribe', (payload) => {
     console.log('Mailchimp unsubscribe')
@@ -37,5 +36,5 @@ export default function (app, router, store, config) {
     })
   })
 
-  return { EXTENSION_KEY, extensionRoutes }
+  return { EXTENSION_KEY, extensionRoutes, extensionStore }
 }
