@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import EventBus from 'core/plugins/event-bus'
 
-import extensionStore from './store'
 import extensionRoutes from './router'
 import InfoComponent from './components/info'
 
@@ -9,7 +8,9 @@ const EXTENSION_KEY = 'payment-cash-on-delivery'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
-  store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
+  import(/* webpackChunkName: "store-cash-on-delivery" */'./store').then(extensionStore => {
+    store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
+  })
 
   app.$on('application-after-init', () => {
     console.debug(EXTENSION_KEY + ' extension initialised')
@@ -43,7 +44,7 @@ export default function (app, router, store, config) {
     }
   })
 
-  return { EXTENSION_KEY, extensionRoutes, extensionStore }
+  return { EXTENSION_KEY, extensionRoutes }
 }
 
 // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'

@@ -2,14 +2,15 @@ import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 import EventBus from 'core/plugins/event-bus'
 
-import extensionStore from './store'
 import extensionRoutes from './router'
 
 const EXTENSION_KEY = 'google-analytics'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes)
-  store.registerModule(EXTENSION_KEY, extensionStore)
+  import(/* webpackChunkName: "store-google-analytics" */'./store').then(extensionStore => {
+    store.registerModule(EXTENSION_KEY, extensionStore)
+  })
   console.log('Google Analytics extension registered')
 
   if (config.analytics.id && !global.$VS.isSSR) {
@@ -40,5 +41,5 @@ export default function (app, router, store, config) {
     console.log('Ensure google analytic account ID is defined in config')
   }
 
-  return { EXTENSION_KEY, extensionRoutes, extensionStore }
+  return { EXTENSION_KEY, extensionRoutes }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: isOpen }">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
-      <div class="col-xs bg-cl-primary" v-if="submenu.depth">
+      <div class="col-xs bg-cl-primary" v-if="submenu && submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
       <div class="col-xs bg-cl-primary">
@@ -159,7 +159,7 @@ export default {
   },
   computed: {
     mainListStyles () {
-      return this.submenu.depth ? `transform: translateX(${this.submenu.depth * 100}%)` : false
+      return this.submenu && this.submenu.depth ? `transform: translateX(${this.submenu.depth * 100}%)` : false
     },
     ...mapState({
       submenu: state => state.ui.submenu,

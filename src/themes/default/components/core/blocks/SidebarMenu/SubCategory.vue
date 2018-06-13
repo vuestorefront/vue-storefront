@@ -104,7 +104,7 @@ export default {
       submenu: state => state.ui.submenu
     }),
     styles () {
-      const pos = this.submenu.path.indexOf(this.id)
+      const pos = this.submenu && this.submenu.path.indexOf(this.id)
       return pos !== -1 ? {
         zIndex: pos + 1
       } : false

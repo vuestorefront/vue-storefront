@@ -1,4 +1,3 @@
-import UIStore from './store/ui-store'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import config from 'config'
 const Home = () => import(/* webpackChunkName: "page-Home", webpackPrefetch: true */'./pages/Home.vue')
@@ -51,5 +50,7 @@ export default function (app, router, store) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
   router.addRoutes(routes)
-  store.registerModule('ui', UIStore)
+  import(/* webpackChunkName: "store-UI" */'./store/ui-store').then(UIStore => {
+    store.registerModule('ui', UIStore)
+  })
 }
