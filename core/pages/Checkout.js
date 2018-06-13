@@ -276,7 +276,7 @@ export default {
         addressInformation: {
           shippingAddress: {
             region: this.shipping.state,
-            region_id: 0,
+            region_id: this.shipping.region_id ? this.shipping.region_id : 0,
             country_id: this.shipping.country,
             street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
             company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
@@ -286,11 +286,11 @@ export default {
             firstname: this.shipping.firstName,
             lastname: this.shipping.lastName,
             email: this.personalDetails.emailAddress,
-            region_code: ''
+            region_code: this.shipping.region_code ? this.shipping.region_code : ''
           },
           billingAddress: {
             region: this.payment.state,
-            region_id: 0,
+            region_id: this.payment.region_id ? this.payment.region_id : 0,
             country_id: this.payment.country,
             street: [this.payment.streetAddress, this.payment.apartmentNumber],
             company: this.payment.company,
@@ -300,7 +300,7 @@ export default {
             firstname: this.payment.firstName,
             lastname: this.payment.lastName,
             email: this.personalDetails.emailAddress,
-            region_code: '',
+            region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
           shipping_method_code: this.shipping.shippingMethod,

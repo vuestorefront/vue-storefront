@@ -27,18 +27,14 @@ Currently there are two core plugins:
 
 ## Theme plugins
 
-Theme plugins works exactly like core plugins and are merged with them during webpack build process. 
-
-If you want to add new 3rd party plugin (e.g Vuetify) you need to export it in `src/{theme}/plugins/index.js` so it will be proceeded with `Vue.use()` in `core/app.js` file. Here is an example of  Vuetify registration in `core/plugins/index.js` file:
+It's a good practice to register theme plugins under `{theme}/plugins` folder.
 
 ````js
 import Vuetify from 'vuetify'
 // import other plugins
 
-export {
-  Vuetify
-  // other plugins
-}
+Vue.use(Vuetify)
+// other plugins
  ````
  
  If you want to make custom plugin for your theme create a directory for it in 'src/{theme}/plugins' (eg. `src/{theme}/plugins/custom_plugin`) and register it in `src/{theme}/plugins/index.js` like a 3rd party plugin in example above.
