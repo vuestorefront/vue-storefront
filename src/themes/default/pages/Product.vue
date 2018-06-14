@@ -224,7 +224,7 @@ import Product from 'core/pages/Product'
 
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
-import GenericSelector from 'core/components/GenericSelector'
+import GenericSelector from 'theme/components/core/GenericSelector'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
