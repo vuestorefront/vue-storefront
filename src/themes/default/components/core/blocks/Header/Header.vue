@@ -27,8 +27,8 @@
           <div class="col-xs-2 visible-xs">
             <wishlist-icon class="p15 icon pointer" />
           </div>
-          <div class="right-icons col-sm-4 col-xs-2 end-xs">
-            <div class="inline-flex">
+          <div class="col-sm-4 col-xs-2 end-xs">
+            <div class="inline-flex right-icons">
               <search-icon class="p15 icon hidden-xs pointer" />
               <wishlist-icon class="p15 icon hidden-xs pointer" />
               <compare-icon class="p15 icon hidden-xs pointer" />
