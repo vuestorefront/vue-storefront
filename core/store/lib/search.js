@@ -2,6 +2,7 @@ import map from 'lodash-es/map'
 import { slugify } from '../helpers'
 import { currentStoreView } from './multistore'
 import hash from 'object-hash'
+import config from 'config'
 
 let es = require('elasticsearch')
 
@@ -40,7 +41,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
   if (resp.hasOwnProperty('hits')) {
     return {
       items: map(resp.hits.hits, function (hit) {
-        return Object.assign(hit._source, { _score: hit._score, slug: hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '' }) // TODO: assign slugs server side
+        return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
       }), // TODO: add scoring information
       total: resp.hits.total,
       start: start,
