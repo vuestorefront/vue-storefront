@@ -3,8 +3,7 @@ import { slugify } from '../helpers'
 import { currentStoreView } from './multistore'
 import hash from 'object-hash'
 import config from 'config'
-
-let es = require('elasticsearch')
+import fetch from 'isomorphic-fetch'
 
 function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -14,19 +13,47 @@ function isOnline () {
   }
 }
 
-function _getEsClientSingleton () {
+const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIComponent).join('=')).join('&')
+
+/**
+ * Execute ElasticSearch query
+ */
+function search (elasticQuery) {
   const storeView = currentStoreView()
-  if (!global.$VS.esClient) {
-    global.$VS.esClient = new es.Client({
-      host: storeView.elasticsearch.host,
-      httpAuth: storeView.elasticsearch.httpAuth,
-      log: 'error',
-      apiVersion: '5.5',
-      requestTimeout: 5000
-    })
+  let url = storeView.elasticsearch.host
+  if (!url.startsWith('http')) {
+    url = 'http://' + url
+  }
+  const httpQuery = {
+    'size': elasticQuery.size,
+    'from': elasticQuery.from,
+    'sort': elasticQuery.sort
+  }
+  if (elasticQuery._sourceExclude) {
+    httpQuery._source_exclude = elasticQuery._sourceExclude.join(',')
+  }
+  if (elasticQuery._sourceInclude) {
+    httpQuery._source_include = elasticQuery._sourceInclude.join(',')
+  }
+  if (elasticQuery.q) {
+    httpQuery.q = elasticQuery.q
   }
 
-  return global.$VS.esClient
+  if (!elasticQuery.index || !elasticQuery.type) {
+    throw new Error('elasticQuery.index and elasticQuery.type are required arguments for executing ElasticSearch query')
+  }
+
+  url = url + '/' + encodeURIComponent(elasticQuery.index) + '/' + encodeURIComponent(elasticQuery.type) + '/_search'
+  url = url + '?' + buildURLQuery(httpQuery)
+
+  return fetch(url, { method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(elasticQuery.body)
+  }).then(resp => { return resp.json() })
 }
 /**
  * Helper function to handle ElasticSearch Results
@@ -119,8 +146,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
-    let client = _getEsClientSingleton()
-    client.search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
+    search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
       if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
@@ -150,9 +176,8 @@ export function quickSearchByText ({ queryText, start = 0, size = 50 }) {
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
-    let client = _getEsClientSingleton()
     const storeView = currentStoreView()
-    client.search({
+    search({
       index: storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: 'product',
       q: queryText,
