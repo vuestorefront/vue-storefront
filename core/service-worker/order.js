@@ -12,3 +12,8 @@ self.addEventListener('sync', event => {
     event.waitUntil(sendNotification())
   }
 })
+
+self.addEventListener('notificationclick', event => {
+  const pageUrl = '/offlineorder'
+  event.waitUntil(self.clients.openWindow(pageUrl))
+})

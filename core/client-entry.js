@@ -11,10 +11,6 @@ import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-sto
 
 require('./service-worker-registration') // register the service worker
 
-if ('Notification' in window && Notification.permission !== 'granted') {
-  Notification.requestPermission()
-}
-
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
 

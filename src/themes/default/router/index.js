@@ -11,6 +11,7 @@ import MyAccount from 'theme/pages/MyAccount.vue'
 
 export default [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
+  { name: 'offlineorder', path: '/offlineorder', component: Home, alias: '/pwa.html' },
   { name: 'checkout', path: '/checkout', component: Checkout },
   { name: 'category', path: '/c/:slug', component: Category },
   { name: 'virtual-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site

@@ -94,7 +94,7 @@ if (process.env.NODE_ENV === 'production') {
         urlPattern: "/dist/(.*)",
         handler: "fastest"
       }],
-      "importScripts": ['/core-service-worker.js'] /* custom logic */
+      "importScripts": ['/dist/core-service-worker.js'] /* custom logic */
     })
   )
 }
