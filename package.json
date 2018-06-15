@@ -78,7 +78,7 @@
     "vue-meta": "^1.4.3",
     "vue-no-ssr": "^0.2.2",
     "vue-observe-visibility": "^0.3.1",
-    "vue-offline": "^1.0.7",
+    "vue-offline": "^1.0.8",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.2",
     "vue2-google-maps": "^0.8.4",
@@ -145,7 +145,8 @@
     "development": [
       "last 2 chrome versions",
       "last 2 firefox versions",
-      "last 2 edge versions"
+      "last 2 edge versions",
+      "IE 10"
     ],
     "production": [
       ">0.5%",

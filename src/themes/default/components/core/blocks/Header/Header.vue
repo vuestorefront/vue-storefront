@@ -28,7 +28,7 @@
             <wishlist-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-2 end-xs">
-            <div class="inline-flex">
+            <div class="inline-flex right-icons">
               <search-icon class="p15 icon hidden-xs pointer" />
               <wishlist-icon class="p15 icon hidden-xs pointer" />
               <compare-icon class="p15 icon hidden-xs pointer" />
@@ -182,6 +182,7 @@ export default {
 $color-icon-hover: color(secondary, $colors-background);
 
 header {
+  display: flex;
   height: 54px;
   top: -54px;
   z-index: 2;
@@ -194,6 +195,10 @@ header {
     background-color: $color-icon-hover;
     opacity: 1;
   }
+}
+.right-icons {
+  //for edge
+  float: right;
 }
 .header-placeholder {
   height: 54px;

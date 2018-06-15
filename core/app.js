@@ -18,7 +18,6 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
-import VueOffline from 'vue-offline'
 import shippingMethods from 'core/resource/shipping_methods.json'
 import { prepareStoreView } from './store/lib/multistore'
 
@@ -43,7 +42,6 @@ store.state.shipping.methods = shippingMethods
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
-Vue.use(VueOffline)
 Vue.use(VueObserveVisibility)
 
 require('theme/plugins')

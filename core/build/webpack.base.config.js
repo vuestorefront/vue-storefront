@@ -3,7 +3,7 @@ const config = require('config')
 const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-
+const autoprefixer = require('autoprefixer')
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
@@ -116,7 +116,8 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           optimizeSSR: false,
-          preserveWhitespace: false
+          preserveWhitespace: false,
+          postcss: [autoprefixer()],
         }
       },
       {
