@@ -26,22 +26,24 @@ import themeModules from 'theme/store'
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.0.4'
+global.$VS.version = '1.0.5'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
 for (const moduleName of Object.keys(storeModules)) {
-  console.log('Registering custom, theme Vuex store as module', moduleName)
+  console.log('Registering Vuex module', moduleName)
   store.registerModule(moduleName, storeModules[moduleName])
 }
 
 const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
 global.$VS.storeView = storeView
 store.state.shipping.methods = shippingMethods
+
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
 Vue.use(VueObserveVisibility)
+
 require('theme/plugins')
 const pluginsObject = plugins()
 Object.keys(pluginsObject).forEach(function (key) {
