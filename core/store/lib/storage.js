@@ -50,7 +50,6 @@ class LocalForageCacheDriver {
       }
       return result
     }).catch(err => {
-      console.debug('UniversalStorage - GET - probably in SSR mode: ' + err)
       if (!isResolved) {
         if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
       }
@@ -131,7 +130,7 @@ class LocalForageCacheDriver {
         callback(null, result)
       }
     }).catch(err => {
-      console.debug('UniversalStorage - SET - probably in SSR mode: ' + err)
+      console.debug(err)
     })
 
     return promise
