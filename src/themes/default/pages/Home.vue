@@ -73,9 +73,6 @@ export default {
   created () {
     // Load personal and shipping details for Checkout page from IndexedDB
     this.$store.dispatch('checkout/load')
-    if (this.$route.path === '/offlineorder') {
-      alert('order confirmed')
-    }
   },
   beforeMount () {
     if (global.$VS.__DEMO_MODE__) {
