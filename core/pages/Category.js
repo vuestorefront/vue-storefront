@@ -161,7 +161,9 @@ export default {
         current: this.pagination.current,
         perPage: this.pagination.perPage,
         configuration: fsC,
-        append: false
+        append: false,
+        includeFields: null,
+        excludeFields: null
       })
       this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
       }) // because already aggregated
