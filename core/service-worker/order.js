@@ -4,8 +4,6 @@ function sendNotification () {
     body: 'There is an order that you made offline waiting for your confirmation',
     icon: 'theme/assets/logo.svg',
     requireInteraction: true
-  }).then(createdNotification => {
-    console.log(createdNotification)
   })
 }
 
