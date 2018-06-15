@@ -124,6 +124,10 @@
       "setupVariantByAttributeCode": true,
       "endpoint": "http://localhost:8080/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
+      "sortByAttributes": {
+        "Latest": "updated_at",
+        "Price":"price"
+      },
       "galleryVariantsGroupAttribute": "color"
     },
     "orders": {
