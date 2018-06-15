@@ -15,6 +15,7 @@ class LocalForageCacheDriver {
     this._useLocalCacheByDefault = useLocalCacheByDefault
     this._localCache = global.$VS.localCache[dbName][collectionName]
     this._localForageCollection = collection
+    this._lastError = null
   }
 
   // Remove all keys from the datastore, effectively destroying all data in
@@ -50,6 +51,7 @@ class LocalForageCacheDriver {
       }
       return result
     }).catch(err => {
+      this._lastError = err
       if (!isResolved) {
         if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
       }
@@ -130,7 +132,7 @@ class LocalForageCacheDriver {
         callback(null, result)
       }
     }).catch(err => {
-      console.debug(err)
+      self._lastError = err
     })
 
     return promise
