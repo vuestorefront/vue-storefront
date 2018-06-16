@@ -15,9 +15,9 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <h4>
+            <h3 v-if="OnlineOnly" >
               {{ $t('Your purchase') }}
-            </h4>
+            </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
             <p v-if="OnlineOnly" v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, seuggestions how we could improve products or shopping experience')"/>
 
@@ -27,8 +27,11 @@
             <p v-if="OfflineOnly && !isNotificationSupported" >
               {{ $t('To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items') }}
             </p>
-            <p v-if="OfflineOnly && isNotificationSupported" >
-              <strong>{{ $t('You can also allow us to let you finish the order from push notification after coming back online.') }}</strong>
+            <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted" >
+              {{ $t('You can allow us to remind you about the order via push notification after coming back online. You\'ll only need to click on it to confirm.') }}
+            </p>
+            <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted" >
+              <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
             </p>
             <p v-if="!isPermissionGranted">
               <button-outline color="dark" @click.native="requestNotificationPermission()" >

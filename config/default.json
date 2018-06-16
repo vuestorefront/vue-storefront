@@ -133,6 +133,14 @@
     "orders": {
       "endpoint": "http://localhost:8080/api/order",
       "payment_methods_mapping": {
+      },
+      "offline_orders": {
+        "notification" : {
+          "enabled": true,
+          "title" : "Order waiting!",
+          "message": "Click here to confirm the order that you made offline.",
+          "icon": "/assets/logo.png"
+        }
       }
     },
     "users": {

@@ -148,15 +148,17 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             }
             orderMutex[id] = false
           }).catch((err) => {
-            navigator.serviceWorker.ready.then(registration => {
-              registration.sync.register('orderSync')
-                .then(() => {
-                  console.log('Order sync registered')
-                })
-                .catch(error => {
-                  console.log('Unable to sync', error)
-                })
-            })
+            if (config.orders.offline_orders.notification.enabled) {
+              navigator.serviceWorker.ready.then(registration => {
+                registration.sync.register('orderSync')
+                  .then(() => {
+                    console.log('Order sync registered')
+                  })
+                  .catch(error => {
+                    console.log('Unable to sync', error)
+                  })
+              })
+            }
             console.error('Error sending order: ' + orderId, err)
             orderMutex[id] = false
           })
