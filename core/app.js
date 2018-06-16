@@ -6,7 +6,6 @@ import router from 'core/router'
 import config from 'config'
 import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
-import themeModules from 'theme/store'
 import EventBus from 'core/plugins/event-bus'
 
 import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
@@ -19,20 +18,23 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import i18n from 'core/lib/i18n'
-import VueOffline from 'vue-offline'
 import shippingMethods from 'core/resource/shipping_methods.json'
 import { prepareStoreView } from './store/lib/multistore'
 
+import coreModules from './store/modules'
+import themeModules from 'theme/store'
+
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.0.4'
+global.$VS.version = '1.0.5'
 
-if (themeModules) {
-  for (const moduleName of Object.keys(themeModules)) {
-    console.log('Registering custom, theme Vuex store as module', moduleName)
-    store.registerModule(moduleName, themeModules[moduleName])
-  }
+const storeModules = Object.assign(coreModules, themeModules || {})
+
+for (const moduleName of Object.keys(storeModules)) {
+  console.log('Registering Vuex module', moduleName)
+  store.registerModule(moduleName, storeModules[moduleName])
 }
+
 const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
 global.$VS.storeView = storeView
 store.state.shipping.methods = shippingMethods
@@ -40,9 +42,9 @@ store.state.shipping.methods = shippingMethods
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
-Vue.use(VueOffline)
 Vue.use(VueObserveVisibility)
 
+require('theme/plugins')
 const pluginsObject = plugins()
 Object.keys(pluginsObject).forEach(function (key) {
   Vue.use(pluginsObject[key])

@@ -3,7 +3,7 @@ const config = require('config')
 const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-
+const autoprefixer = require('autoprefixer')
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
@@ -25,6 +25,19 @@ const themeResources = themeRoot + '/resource'
 const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
+
+const postcssConfig =  {
+  loader: 'postcss-loader',
+  options: {
+    ident: 'postcss',
+    plugins: (loader) => [
+      require('postcss-flexbugs-fixes'),
+      require('autoprefixer')({
+        flexbox: 'no-2009',
+      }),
+    ]
+  }
+};
 
 module.exports = {
   plugins: [
@@ -103,7 +116,8 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           optimizeSSR: false,
-          preserveWhitespace: false
+          preserveWhitespace: false,
+          postcss: [autoprefixer()],
         }
       },
       {
@@ -122,7 +136,8 @@ module.exports = {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          'css-loader',
+          postcssConfig
         ]
       },
       {
@@ -130,6 +145,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
+          postcssConfig,
           'sass-loader'
         ]
       },
@@ -138,6 +154,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
+          postcssConfig,
           {
             loader: 'sass-loader',
             options: {

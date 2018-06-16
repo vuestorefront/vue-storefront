@@ -22,7 +22,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: '/c/' + sc.slug
+      route_link: (config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
     })
   }
 
@@ -74,7 +74,7 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
     }
     return filterQr
   }
-  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).notFilter('match', 'type_id', 'configurable'))
+  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b))
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
   return filterQr
 }

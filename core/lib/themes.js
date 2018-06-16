@@ -1,7 +1,6 @@
 import merge from 'lodash-es/merge'
 import messages from 'core/lib/translation.preprocessor'
 import * as corePlugins from 'core/plugins'
-import * as themePlugins from 'theme/plugins'
 import * as coreMixins from 'core/mixins'
 import * as themeMixins from 'theme/mixins'
 import * as coreFilters from 'core/filters'
@@ -15,10 +14,10 @@ export function translations () {
 }
 
 /**
- * Return plugins load from both: core/plugins and theme/plugins
+ * Return plugins load from core/plugins. Theme ones are ommited due to config that needs to be passed
  */
 export function plugins () {
-  return merge(corePlugins, themePlugins)
+  return corePlugins
 }
 
 /**

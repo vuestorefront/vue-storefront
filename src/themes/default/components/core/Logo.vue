@@ -10,10 +10,7 @@
 </template>
 
 <script>
-import Logo from 'core/components/Logo'
-
 export default {
-  mixins: [Logo],
   props: {
     width: {
       type: [String, Number],

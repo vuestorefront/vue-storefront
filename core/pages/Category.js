@@ -5,6 +5,8 @@ import toString from 'lodash-es/toString'
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { htmlDecode } from 'core/filters/html-decode'
+import i18n from 'core/lib/i18n'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
@@ -112,6 +114,7 @@ export default {
   },
   created () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
+    this.$bus.$on('list-change-sort', (param) => { this.onSortOrderChanged(param) })
     if (!global.$VS.isSSR && this.lazyLoadProductsOnscroll) {
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
@@ -159,10 +162,29 @@ export default {
         current: this.pagination.current,
         perPage: this.pagination.perPage,
         configuration: fsC,
-        append: false
+        append: false,
+        includeFields: null,
+        excludeFields: null
       })
       this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
       }) // because already aggregated
+    },
+    onSortOrderChanged (param) {
+      if (param.attribute) {
+        let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
+        this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
+          sort: param.attribute + ':' + param.direction,
+          searchProductQuery: filterQr
+        })
+        this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
+        })
+      } else {
+        this.$bus.$emit('notification', {
+          type: 'error',
+          message: i18n.t('Please select the field which You like to sort by'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+      }
     },
     validateRoute () {
       let self = this
@@ -199,8 +221,8 @@ export default {
   },
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.categoryName,
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      title: htmlDecode(this.$route.meta.title || this.categoryName),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
     }
   }
 }
