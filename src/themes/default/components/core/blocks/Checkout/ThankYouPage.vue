@@ -28,7 +28,7 @@
               {{ $t('To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items') }}
             </p>
             <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted" >
-              <strong>{{ $t('You can also allow us to let you finish the order from push notification after coming back online.') }}</strong>
+              {{ $t('You can allow us to remind you about the order via push notification after coming back online. You\'ll only need to click on it to confirm.') }}
             </p>
             <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted" >
               <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
