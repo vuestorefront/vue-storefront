@@ -113,6 +113,7 @@ export default {
   },
   created () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
+    this.$bus.$on('list-change-sort', (param) => { this.onSortOrderChanged(param) })
     if (!global.$VS.isSSR && this.lazyLoadProductsOnscroll) {
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
@@ -160,10 +161,21 @@ export default {
         current: this.pagination.current,
         perPage: this.pagination.perPage,
         configuration: fsC,
-        append: false
+        append: false,
+        includeFields: null,
+        excludeFields: null
       })
       this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
       }) // because already aggregated
+    },
+    onSortOrderChanged (param) {
+      let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
+      this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
+        sort: param.attribute + ':' + param.direction,
+        searchProductQuery: filterQr
+      })
+      this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
+      })
     },
     validateRoute () {
       let self = this

@@ -241,7 +241,9 @@ export default {
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
           product.info = {}
-          product.parentSku = product.sku
+          if (!product.parentSku) {
+            product.parentSku = product.sku
+          }
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
             Object.assign(product, selectedVariant)

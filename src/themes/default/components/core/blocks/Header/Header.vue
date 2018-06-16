@@ -182,7 +182,6 @@ export default {
 $color-icon-hover: color(secondary, $colors-background);
 
 header {
-  display: flex;
   height: 54px;
   top: -54px;
   z-index: 2;

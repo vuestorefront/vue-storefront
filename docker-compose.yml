@@ -1,0 +1,24 @@
+version: '2.0'
+services:
+  app:
+    # image: divante/vue-storefront:latest
+    build:
+      context: .
+      dockerfile: docker/vue-storefront/Dockerfile
+    env_file: docker/vue-storefront/default.env
+    environment:
+      VS_ENV: dev
+    volumes:
+      - '.babelrc:/var/www/.babelrc'
+      - './config:/var/www/config'
+      - './core:/var/www/core'
+      - './.eslintignore:/var/www/.eslintignore'
+      - './.eslintrc.js:/var/www/.eslintrc.js'
+      - './lerna.json:/var/www/lerna.json'
+      - './package.json:/var/www/package.json'
+      - './src:/var/www/src'
+      - './var:/var/www/var'
+    tmpfs:
+      - /var/www/dist
+    ports:
+      - '3000:3000'
