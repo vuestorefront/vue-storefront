@@ -5,4 +5,6 @@ DO NOT USE IT until it'll be marked as ready. This API is only a proof of cocnep
 
 If you are modifying any core component feature that is imported from core api please modify it in api folder.
 
+Please develop all new features in the way that is shown in this folder.
+
 You can read the discussion about the feature here ( https://github.com/DivanteLtd/vue-storefront/issues/1213 ). Feedback is much appreciated ;)
