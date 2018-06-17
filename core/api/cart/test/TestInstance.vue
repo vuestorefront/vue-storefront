@@ -1,9 +1,12 @@
 <template>
-  <button @click="addToCart(product)">Click</button>
+  <div>
+    <button id="add-to-cart" @click="addToCart(product)">Click</button>
+    <button id="remove-from-cart" @click="removeFromCart(product)">Click</button>
+  </div>
 </template>
 
 <script>
-import { addToCart } from '../addToCart'
+import { addToCart, removeFromCart, productsInCart } from '../index.js'
 
 export default {
   data () {
@@ -11,6 +14,6 @@ export default {
       product: 'productString'
     }
   },
-  mixins: [addToCart]
+  mixins: [addToCart, removeFromCart, productsInCart]
 }
 </script>

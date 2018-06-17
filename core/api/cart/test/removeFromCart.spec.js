@@ -6,13 +6,13 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('cart/addToCart.js', () => {
+describe('cart/removeFromCart.js', () => {
   let actions
   let store
 
   beforeEach(() => {
     actions = {
-      addItem: sinon.spy()
+      removeItem: sinon.spy()
     }
 
     store = new Vuex.Store({
@@ -26,16 +26,16 @@ describe('cart/addToCart.js', () => {
     })
   })
 
-  it('dispatches cart/addItem action after calling addToCart', () => {
+  it('dispatches cart/removeItem action after calling removeFromCart', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
-    wrapper.find('button#add-to-cart').trigger('click')
-    expect(actions.addItem).to.have.been.called
+    wrapper.find('button#remove-from-cart').trigger('click')
+    expect(actions.removeItem).to.have.been.called
   })
 
   it('passes correct product object to product property', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
-    sinon.spy(wrapper.vm, 'addToCart')
-    wrapper.find('button#add-to-cart').trigger('click')
-    expect(wrapper.vm.addToCart).to.have.been.calledWithMatch(wrapper.vm.product)
+    sinon.spy(wrapper.vm, 'removeFromCart')
+    wrapper.find('button#remove-from-cart').trigger('click')
+    expect(wrapper.vm.removeFromCart).to.have.been.calledWithMatch(wrapper.vm.product)
   })
 })
