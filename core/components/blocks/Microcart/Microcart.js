@@ -1,4 +1,5 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
+import { productsInCart } from 'core/api/cart'
 import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
@@ -69,9 +70,6 @@ export default {
     payment () {
       return this.$store.state.cart.payment
     },
-    items () {
-      return this.$store.state.cart.cartItems
-    },
     coupon () {
       return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
     },
@@ -79,5 +77,5 @@ export default {
       isOpen: state => state.ui.microcart
     })
   },
-  mixins: [onEscapePress]
+  mixins: [onEscapePress, productsInCart]
 }
