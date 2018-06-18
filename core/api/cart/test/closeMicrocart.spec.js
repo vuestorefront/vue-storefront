@@ -6,36 +6,34 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('cart/addToCart.js', () => {
-  let actions
+describe('cart/closeMicrocart.js', () => {
+  let mutations
   let store
+  let state
 
   beforeEach(() => {
-    actions = {
-      addItem: sinon.spy()
+    mutations = {
+      setMicrocart: sinon.spy()
+    }
+
+    state = {
+      microcart: true
     }
 
     store = new Vuex.Store({
       modules: {
-        cart: {
-          state: {},
-          actions,
+        ui: {
+          state,
+          mutations,
           namespaced: true
         }
       }
     })
   })
 
-  it('dispatches cart/addItem action after calling addToCart', () => {
+  it('calls ui/setMicrocart mutation after calling closeMicrocart', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
-    wrapper.find('button#add-to-cart').trigger('click')
-    expect(actions.addItem).to.have.been.called
-  })
-
-  it('passes correct product object to product property', () => {
-    const wrapper = shallowMount(TestInstance, { store, localVue })
-    sinon.spy(wrapper.vm, 'addToCart')
-    wrapper.find('button#add-to-cart').trigger('click')
-    expect(wrapper.vm.addToCart).to.have.been.calledWithMatch(wrapper.vm.product)
+    wrapper.find('button#open-microcart').trigger('click')
+    expect(mutations.setMicrocart).to.have.been.called
   })
 })
