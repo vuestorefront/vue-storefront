@@ -1,7 +1,7 @@
 <template>
   <div
     class="microcart mw-100 fixed cl-accent"
-    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: isOpen }]"
+    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: isMicrocartOpen }]"
   >
     <div class="row middle-xs bg-cl-primary top-sm">
       <div class="col-xs-10">
@@ -13,7 +13,7 @@
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 brdr-none bg-cl-transparent close" @click="closeMicrocart">
+        <button type="button" class="p0 brdr-none bg-cl-transparent close" @click="closeMicrocartExtend">
           <i class="material-icons p15 cl-accent">
             close
           </i>
@@ -24,7 +24,7 @@
     <h4 v-if="!productsInCart.length" class="cl-accent ml30">
       {{ $t('Your shopping cart is empty.') }}
     </h4>
-    <div v-if="!productsInCart.length" class="ml30" @click="closeMicrocart">
+    <div v-if="!productsInCart.length" class="ml30" @click="closeMicrocartExtend">
       {{ $t("Don't hesitate and") }}
       <router-link :to="localizedRoute('/')">
         {{ $t('browse our catalog') }}
@@ -85,7 +85,7 @@
     >
       <div class="col-xs-12 col-sm first-sm">
         <router-link :to="localizedRoute('/')" class="no-underline cl-secondary link">
-          <span @click="closeMicrocart">
+          <span @click="closeMicrocartExtend">
             {{ $t('Return to shopping') }}
           </span>
         </router-link>
@@ -93,7 +93,7 @@
       <div class="col-xs-12 first-xs col-sm-4 end-sm">
         <button-full
           :link="{ name: 'checkout' }"
-          @click.native="closeMicrocart"
+          @click.native="closeMicrocartExtend"
         >
           {{ $t('Go to checkout') }}
         </button-full>

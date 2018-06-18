@@ -1,5 +1,5 @@
-import { mapActions, mapState, mapGetters } from 'vuex'
-import { productsInCart, openMicrocart, closeMicrocart } from 'core/api/cart'
+import { mapActions, mapGetters } from 'vuex'
+import { productsInCart, closeMicrocart, isMicrocartOpen } from 'core/api/cart'
 import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
@@ -36,9 +36,9 @@ export default {
     onNetworkStatusChanged (status) {
       this.isOnline = status.online
     },
-    closeMicrocart () {
+    closeMicrocartExtend () {
+      this.closeMicrocart()
       this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setMicrocart', false)
       this.addCouponPressed = false
     },
     removeCoupon () {
@@ -72,10 +72,7 @@ export default {
     },
     coupon () {
       return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
-    },
-    ...mapState({
-      isOpen: state => state.ui.microcart
-    })
+    }
   },
-  mixins: [onEscapePress, productsInCart]
+  mixins: [onEscapePress, productsInCart, isMicrocartOpen, closeMicrocart]
 }

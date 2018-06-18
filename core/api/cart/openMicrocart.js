@@ -1,7 +1,7 @@
 export const openMicrocart = {
   methods: {
     openMicrocart () {
-      this.$store.dispatch('ui/Microcart', true)
+      this.$store.commit('ui/setMicrocart', true)
     }
   }
 }
