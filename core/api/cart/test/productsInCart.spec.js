@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('cart/productsInCart.js', () => {
+describe('[cart] productsInCart.js', () => {
   let store
   let state
 
@@ -26,5 +26,5 @@ describe('cart/productsInCart.js', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
     expect(wrapper.vm.productsInCart).to.equal(state.cart.cartItems)
   })
-
+  // TODO: Check the returned value adter state changes
 })

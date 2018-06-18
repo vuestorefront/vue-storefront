@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('cart/addToCart.js', () => {
+describe('[cart] addToCart.js', () => {
   let actions
   let store
 
