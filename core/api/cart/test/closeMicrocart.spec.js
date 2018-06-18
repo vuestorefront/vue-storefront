@@ -33,7 +33,7 @@ describe('cart/closeMicrocart.js', () => {
 
   it('calls ui/setMicrocart mutation after calling closeMicrocart', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
-    wrapper.find('button#open-microcart').trigger('click')
+    wrapper.find('button#close-microcart').trigger('click')
     expect(mutations.setMicrocart).to.have.been.called
   })
 })

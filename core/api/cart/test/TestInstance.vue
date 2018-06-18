@@ -2,11 +2,17 @@
   <div>
     <button id="add-to-cart" @click="addToCart(product)">Click</button>
     <button id="remove-from-cart" @click="removeFromCart(product)">Click</button>
+    <button id="close-microcart" @click="closeMicrocart">Click</button>
   </div>
 </template>
 
 <script>
-import { addToCart, removeFromCart, productsInCart } from '../index.js'
+import { 
+  addToCart, 
+  removeFromCart, 
+  productsInCart, 
+  closeMicrocart 
+} from '../index.js'
 
 export default {
   data () {
@@ -14,6 +20,11 @@ export default {
       product: 'productString'
     }
   },
-  mixins: [addToCart, removeFromCart, productsInCart]
+  mixins: [
+    addToCart, 
+    removeFromCart, 
+    productsInCart, 
+    closeMicrocart
+  ]
 }
 </script>
