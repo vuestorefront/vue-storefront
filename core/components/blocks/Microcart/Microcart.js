@@ -1,5 +1,5 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { productsInCart } from 'core/api/cart'
+import { productsInCart, openMicrocart, closeMicrocart } from 'core/api/cart'
 import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
