@@ -22,6 +22,10 @@ Changes that happened in `Microcart.js` core component and `Microcart.vue` compo
 
 It was redundant 
 
+#### `{theme}/service-worker-ext.js` moved to `{theme}/service-worker/index.js`
+
+Now it mirrors `core/` folder structure which is desired behavior
+
 ### New features
 
 We added [`vue-progressbar`](https://github.com/hilongjw/vue-progressbar) to default theme which can be found in `App.vue` file
