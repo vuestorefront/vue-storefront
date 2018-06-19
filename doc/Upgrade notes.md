@@ -18,6 +18,9 @@ Changes that happened in `Microcart.js` core component and `Microcart.vue` compo
 - `closeMicrocart` renamed to `closeMicrocartExtend` 
 - `items` renamed to `productsInCart`
 
+#### `theme/app-extend.js` removed
+
+It was redundant 
 
 ### New features
 
