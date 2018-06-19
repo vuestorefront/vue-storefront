@@ -1,5 +1,5 @@
 import { mapActions, mapGetters } from 'vuex'
-import { productsInCart, closeMicrocart, isMicrocartOpen } from 'core/api/cart'
+import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart } from 'core/api/cart'
 import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
@@ -58,7 +58,6 @@ export default {
         this.applyCoupon()
       }
     },
-    ...mapActions({ 'removeFromCart': 'cart/removeItem' })
   },
   computed: {
     ...mapGetters({
@@ -74,5 +73,5 @@ export default {
       return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
     }
   },
-  mixins: [onEscapePress, productsInCart, isMicrocartOpen, closeMicrocart]
+  mixins: [onEscapePress, productsInCart, isMicrocartOpen, closeMicrocart, removeFromCart]
 }
