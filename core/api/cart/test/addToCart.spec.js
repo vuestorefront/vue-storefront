@@ -32,7 +32,7 @@ describe('[cart] addToCart.js', () => {
     expect(actions.addItem).to.have.been.called
   })
 
-  it('passes correct product object to product property', () => {
+  it('passes correct product object to function\'s product property', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
     sinon.spy(wrapper.vm, 'addToCart')
     wrapper.find('button#add-to-cart').trigger('click')

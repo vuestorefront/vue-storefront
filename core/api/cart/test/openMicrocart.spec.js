@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('[cart] closeMicrocart.js', () => {
+describe('[cart] openMicrocart.js', () => {
   let mutations
   let store
   let state
@@ -17,7 +17,7 @@ describe('[cart] closeMicrocart.js', () => {
     }
 
     state = {
-      microcart: true
+      microcart: false
     }
 
     store = new Vuex.Store({
@@ -31,15 +31,15 @@ describe('[cart] closeMicrocart.js', () => {
     })
   })
 
-  it('calls ui/setMicrocart mutation after calling closeMicrocart', () => {
+  it('calls ui/setMicrocart mutation after calling openMicrocart', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
-    wrapper.find('button#close-microcart').trigger('click')
+    wrapper.find('button#open-microcart').trigger('click')
     expect(mutations.setMicrocart).to.have.been.called
   })
 
-  it('calls ui/setMicrocart mutation with argument \'false\'', () => {
+  it('calls ui/setMicrocart mutation with argument \'true\'', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
-    wrapper.find('button#close-microcart').trigger('click')
-    expect(state.microcart).to.equal(false)
+    wrapper.find('button#open-microcart').trigger('click')
+    expect(state.microcart).to.equal(true)
   })
 })

@@ -3,6 +3,7 @@
     <button id="add-to-cart" @click="addToCart(product)">Click</button>
     <button id="remove-from-cart" @click="removeFromCart(product)">Click</button>
     <button id="close-microcart" @click="closeMicrocart">Click</button>
+    <button id="open-microcart" @click="openMicrocart">Click</button>
   </div>
 </template>
 
@@ -11,7 +12,9 @@ import {
   addToCart, 
   removeFromCart, 
   productsInCart, 
-  closeMicrocart 
+  closeMicrocart,
+  openMicrocart,
+  isMicrocartOpen
 } from '../index.js'
 
 export default {
@@ -24,7 +27,9 @@ export default {
     addToCart, 
     removeFromCart, 
     productsInCart, 
-    closeMicrocart
+    closeMicrocart,
+    openMicrocart,
+    isMicrocartOpen
   ]
 }
 </script>
