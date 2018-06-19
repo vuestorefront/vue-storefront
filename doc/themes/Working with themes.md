@@ -39,7 +39,8 @@ Below you can find the list of files that are essential for your theme to work:
 * `App.vue` - theme's entry component
 * `index.js` - theme's routes
 * `package.json` - theme-specific dependencies
-* `service-worker-ext.js` - you can extend core service worker here (see [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
+* `service-worker` 
+  * `index.js` you can extend core service worker here (see [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * `webpack.config.js` - you can extend core webpack build in this file (extends `core/build/`, see [Working with webpack](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md))
 
 ## Official Vue Storefront themes included with the template:
