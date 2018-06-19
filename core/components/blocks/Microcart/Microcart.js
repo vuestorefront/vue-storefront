@@ -1,4 +1,4 @@
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart } from 'core/api/cart'
 import onEscapePress from 'core/mixins/onEscapePress'
 
@@ -57,7 +57,7 @@ export default {
       if (e.keyCode === 13) {
         this.applyCoupon()
       }
-    },
+    }
   },
   computed: {
     ...mapGetters({
