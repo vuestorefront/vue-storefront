@@ -10,6 +10,15 @@ We're trying to keep the upgrade process as easy as it's possible. Unfortunately
 
 Instead of exporting an object in `{theme}/plugins/index.js` just use `Vue.use(pugin)` directly in this file ( [docs](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md) )
 
+#### Microcart logic moved to API module (partially)
+
+Starting from the Microcart we are moving most of the logic to core modules along with unit testing them [read more](https://github.com/DivanteLtd/vue-storefront/issues/1213).
+
+Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme
+- `closeMicrocart` renamed to `closeMicrocartExtend` 
+- `items` renamed to `productsInCart`
+
+
 ### New features
 
 We added [`vue-progressbar`](https://github.com/hilongjw/vue-progressbar) to default theme which can be found in `App.vue` file
