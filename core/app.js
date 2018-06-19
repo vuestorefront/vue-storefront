@@ -4,7 +4,6 @@ import App from 'theme/App'
 import store from '@vue-storefront/store'
 import router from 'core/router'
 import config from 'config'
-import appExtend from 'theme/app-extend'
 import { sync } from 'vuex-router-sync'
 import EventBus from 'core/plugins/event-bus'
 
@@ -59,8 +58,6 @@ const filtersObject = filters()
 Object.keys(filtersObject).forEach(key => {
   Vue.filter(key, filtersObject[key])
 })
-
-appExtend(Vue)
 
 export function createApp () {
   sync(store, router)

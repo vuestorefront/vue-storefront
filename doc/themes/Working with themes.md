@@ -36,7 +36,6 @@ Below you can find the list of files that are essential for your theme to work:
 * `store` - theme-specific stores (extends `core/store`)
   * `ui-store.js` - here you can extend core `ui-store`
   * `index.js` -  here you can register theme-specific stores
-* `app-extend.js` - The code inside this file will be executed in app's entry file just after registering core plugins, filters and mixins. It takes app's Vue instance as a param so you can make use of it. (extends `core/app.js`)
 * `App.vue` - theme's entry component
 * `index.js` - theme's routes
 * `package.json` - theme-specific dependencies

@@ -1,3 +1,4 @@
 core/build/*.js
 src/service-worker-ext.js
 node_modules
+core/api/**/test
