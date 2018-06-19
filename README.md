@@ -416,10 +416,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="">
+        <a href="https://magebit.com/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Magebit_150px.png"
+            alt="MageBit"
             height="50"
           >
         </a>
