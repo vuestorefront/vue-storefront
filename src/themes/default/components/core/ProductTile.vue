@@ -1,6 +1,6 @@
 <template>
   <div
-    class="product align-center w-100"
+    class="product align-center w-100 pb20"
     v-observe-visibility="visibilityChanged"
   >
     <router-link
@@ -25,7 +25,7 @@
           width="310">
       </div>
 
-      <p class="mb0 cl-accent">
+      <p class="mb0 cl-accent mt10">
         {{ product.name | htmlDecode }}
       </p>
 
@@ -107,8 +107,8 @@ $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
 .product {
-  @media (max-width: 700px) {
-    padding: 0;
+  @media (max-width: 767px) {
+    padding-bottom: 10px;
   }
 }
 
