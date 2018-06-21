@@ -2,21 +2,30 @@
 
 To display cms data:
  - install `snowdog/module-cms-api` composer module in your Magento 2 instance
- - make sure that in vie-storefront-api repo the `cms-data` extension ins installed
+ - make sure that in vue-storefront-api repo the `cms-data` extension is installed
  - in your local.config file add:
  ```
  "cms": {
-   "endpointBlock": "http://localhost:8080/api/ext/cms-data/cmsBlock/{{cmsBlockId}}",
-   "endpointPage": "http://localhost:8080/api/ext/cms-data/cmsPage/{{cmsPageId}}"
+   "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}"
  },
  ```
-the root for pages is for now:
-`/cms/:pageId`
-to display static block import:
-`import CmsBlock from 'src/extensions/cms/components/CmsBlock.vue'`
-and use component `CmsBlock`
+## Cms Page
+To display CMS Page:
+- in custom theme `themes/<theme-name>/index.js` import CmsPage component, add custom route and define page id in props, example:
+```
+import CmsPage from 'src/extensions/cms/components/CmsPage'
 
+const routes = [
+  // ... theme routes
+  { name: 'custom-cms-page', path: '/custom-cms-page', component: CmsPage, props: {id: 4} }
+]
+```
+- create custom page and call the `CmsPage` component there,
+see `src/themes/default/pages/CustomCmsPage.vue`
 
-Usage in template:
-`<cms-block id="5"/>`
+## Cms Block
+To display CmsBlock use in template:
+
+`<cms-block :id="5"/>`
+
 where `5` is a block identifier

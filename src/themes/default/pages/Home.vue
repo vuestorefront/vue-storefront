@@ -2,8 +2,6 @@
   <div id="home">
     <main-slider />
 
-    <cms-block id="5"/>
-
     <promoted-offers/>
 
     <section class="new-collection container px15">
@@ -28,6 +26,14 @@
       <tile-links />
     </section>
     <Onboard/>
+
+
+    <cms-block :id="5"/>
+
+    <!-- Link to custom Magento Cms Page -->
+    <router-link :to="localizedRoute('/custom-cms-page')" exact>
+      Link to Custom Cms Page
+    </router-link>
   </div>
 </template>
 
@@ -44,7 +50,7 @@ import Home from 'core/pages/Home'
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
 import MainSlider from 'theme/components/core/blocks/MainSlider/MainSlider'
-import CmsBlock from 'src/extensions/cms/components/CmsBlock.vue'
+import CmsBlock from 'src/extensions/cms/components/CmsBlock'
 
 // Theme local components
 import Collection from 'theme/components/theme/blocks/Collection/Collection'

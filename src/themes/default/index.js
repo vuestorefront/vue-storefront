@@ -9,6 +9,7 @@ import MyAccount from './pages/MyAccount.vue'
 import UIStore from './store/ui-store'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import config from 'config'
+import CmsPage from 'src/extensions/cms/components/CmsPage'
 
 const routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -41,7 +42,8 @@ const routes = [
   { name: 'order-from-catalog', path: '/order-from-catalog', component: Static, props: {page: 'lorem', title: 'Order from catalog'} },
   { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
   { name: 'compare', path: '/compare', component: Compare, props: {title: 'Compare Products'} },
-  { name: 'page-not-found', path: '/page-not-found', component: PageNotFound }
+  { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
+  { name: 'custom-cms-page', path: '/custom-cms-page', component: CmsPage, props: {id: 4} }
 ]
 
 export default function (app, router, store) {

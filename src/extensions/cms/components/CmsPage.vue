@@ -1,10 +1,10 @@
 <template>
-  <div class="cms-block" v-if="block" v-html="block.content" />
+  <div class="cms-page" v-if="page" v-html="page.content" />
 </template>
 
 <script>
 export default {
-  name: 'CmsBlock',
+  name: 'CmsPage',
   props: {
     id: {
       type: Number,
@@ -16,13 +16,13 @@ export default {
       'cms/loadCms',
       {
         id: this.id,
-        type: 'Block'
+        type: 'Page'
       }
     )
   },
   computed: {
-    block () {
-      return this.$store.getters['cms/getBlock'](this.id)
+    page () {
+      return this.$store.getters['cms/getPage'](this.id)
     }
   }
 }

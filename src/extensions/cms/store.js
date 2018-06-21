@@ -8,21 +8,20 @@ const state = {
 
 const getters = {
   getBlock: (state) => (id) => {
-    return state.cmsBlock.find(item => {
-      return item.id.toString() === id
-    })
+    return state.cmsBlock.find(item => item.id === id)
   },
   getPage: (state) => (id) => {
-    return state.cmsPages.find(item => {
-      return item.id.toString() === id
-    })
+    return state.cmsPages.find(item => item.id === id)
   }
 }
 
 // actions
 const actions = {
-  loadBlock (context, id) {
-    let url = (config.cms.endpointBlock).replace('{{cmsBlockId}}', id)
+  loadCms (context, {id, type}) {
+    let url = (config.cms.endpoint)
+      .replace('{{type}}', type)
+      .replace(`{{cmsId}}`, id)
+
     fetch(url, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -31,21 +30,7 @@ const actions = {
       .then(response => response.json())
       .then(data => {
         if (data.code === 200) {
-          context.commit('setCmsBlock', data.result)
-        }
-      })
-  },
-  loadPage ({state, commit}, id) {
-    let url = (config.cms.endpointPage).replace('{{cmsPageId}}', id)
-    fetch(url, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.code === 200) {
-          commit('setCmsPage', data.result)
+          context.commit(`setCms${type}`, data.result)
         }
       })
   }
@@ -54,12 +39,12 @@ const actions = {
 // mutations
 const mutations = {
   setCmsBlock (state, data) {
-    if (state.cmsBlock.indexOf(data) === -1) {
+    if (!state.cmsBlock.includes(data)) {
       state.cmsBlock.push(data)
     }
   },
   setCmsPage (state, data) {
-    if (state.cmsPages.indexOf(data) === -1) {
+    if (!state.cmsPages.includes(data)) {
       state.cmsPages.push(data)
     }
   }
