@@ -27,7 +27,6 @@
     </section>
     <Onboard/>
 
-
     <cms-block :id="5"/>
 
     <!-- Link to custom Magento Cms Page -->
