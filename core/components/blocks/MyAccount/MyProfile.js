@@ -54,7 +54,7 @@ export default {
     edit () {
       this.isEdited = true
     },
-    objectsEqual (a, b) {
+    objectsEqual (a, b, excludedFields = []) {
       const aProps = Object.keys(a)
       const bProps = Object.keys(b)
 
@@ -71,7 +71,7 @@ export default {
             if (!this.objectsEqual(a[propName], b[propName])) {
               return false
             }
-          } else if (a[propName] !== b[propName]) {
+          } else if (!excludedFields.includes(propName) && a[propName] !== b[propName]) {
             return false
           }
         }
@@ -80,7 +80,7 @@ export default {
     },
     updateProfile () {
       let updatedProfile
-      if (!this.objectsEqual(this.currentUser, this.$store.state.user.current) ||
+      if (!this.objectsEqual(this.currentUser, this.$store.state.user.current, ['updated_at', 'addresses']) ||
         !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
         (this.userCompany.company && !this.addCompany)
       ) {
@@ -148,7 +148,7 @@ export default {
     exitSection (event, updatedProfile) {
       this.$bus.$emit('myAccount-before-updateUser', updatedProfile)
       if (!updatedProfile) {
-        this.currentUser = this.$store.state.user.current
+        this.currentUser = Object.assign({}, this.$store.state.user.current)
         this.userCompany = this.getUserCompany()
         this.changePassword = false
         this.oldPassword = ''
@@ -164,23 +164,24 @@ export default {
       }
     },
     getUserCompany () {
-      if (this.currentUser.hasOwnProperty('default_billing')) {
+      let user = this.$store.state.user.current
+      if (user.hasOwnProperty('default_billing')) {
         let index
         for (let i = 0; i < this.currentUser.addresses.length; i++) {
-          if (this.currentUser.addresses[i].id === Number(this.currentUser.default_billing)) {
+          if (user.addresses[i].id === Number(user.default_billing)) {
             index = i
           }
         }
         if (index >= 0) {
           return {
-            company: this.currentUser.addresses[index].company || '',
-            street: this.currentUser.addresses[index].street[0] || '',
-            house: this.currentUser.addresses[index].street[1] || '',
-            city: this.currentUser.addresses[index].city || '',
-            region: this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : '',
-            country: this.currentUser.addresses[index].country_id || '',
-            postcode: this.currentUser.addresses[index].postcode || '',
-            taxId: this.currentUser.addresses[index].vat_id || ''
+            company: user.addresses[index].company || '',
+            street: user.addresses[index].street[0] || '',
+            house: user.addresses[index].street[1] || '',
+            city: user.addresses[index].city || '',
+            region: user.addresses[index].region.region ? user.addresses[index].region.region : '',
+            country: user.addresses[index].country_id || '',
+            postcode: user.addresses[index].postcode || '',
+            taxId: user.addresses[index].vat_id || ''
           }
         }
       } else {
