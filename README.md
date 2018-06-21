@@ -425,10 +425,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="">
+        <a href="https://webvisum.de/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Webvisium-Logo.png"
+            alt="WebVisum"
             height="50"
           >
         </a>
