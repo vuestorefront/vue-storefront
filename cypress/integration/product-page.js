@@ -44,5 +44,15 @@ describe("product page", () => {
       "contain",
       "Product Gwyn Endurance Tee has been removed from wishlist!"
     );
+    cy.get(".py40 > :nth-child(2) > .p0").click();
+    cy.get("[data-testid=notificationMessage]").should(
+      "contain",
+      "Product Gwyn Endurance Tee has been added to the compare!"
+    );
+    cy.get(".py40 > :nth-child(2) > .p0").click();
+    cy.get("[data-testid=notificationMessage]").should(
+      "contain",
+      "Product Gwyn Endurance Tee has been removed from compare!"
+    );
   });
 });
