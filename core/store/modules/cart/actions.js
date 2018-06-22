@@ -239,12 +239,15 @@ export default {
           productHasBeenAdded = true
         }
         if (productIndex === (productsToAdd.length - 1) && productHasBeenAdded) {
-          EventBus.$emit('notification', {
+          let notificationData = {
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' },
-            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-          })
+            action1: { label: i18n.t('OK'), action: 'close' }
+          }
+          if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+            notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+          }
+          EventBus.$emit('notification', notificationData)
           if (config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
           }
