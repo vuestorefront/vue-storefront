@@ -5,6 +5,7 @@ import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '../../lib/multistore'
 import store from '../../'
+import config from 'config'
 
 export default {
   /**
@@ -44,12 +45,12 @@ export default {
     const usersCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'user',
-      driver: localForage.LOCALSTORAGE
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'carts',
-      driver: localForage.LOCALSTORAGE
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     }))
     return new Promise((resolve, reject) => {
       if (global.$VS.isSSR) {

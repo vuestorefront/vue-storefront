@@ -49,7 +49,7 @@ export default {
         if (product.onlineStockCheckid) {
           checkPromises.push(new Promise((resolve, reject) => {
             global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
-              if (err) {
+              if (err || !item) {
                 console.error(err)
                 resolve(null)
               } else {

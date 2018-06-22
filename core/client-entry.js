@@ -102,7 +102,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
   const ordersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'orders',
-    driver: localForage.LOCALSTORAGE
+    driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
   }))
 
   const fetchQueue = []
@@ -197,12 +197,12 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   const usersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'user',
-    driver: localForage.LOCALSTORAGE
+    driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'carts',
-    driver: localForage.LOCALSTORAGE
+    driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
   }))
 
   usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
@@ -229,7 +229,6 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
             return execute(task, currentToken, currentCartId).then((executedTask) => {
-              console.debug('Storing the task result', executedTask)
               syncTaskCollection.setItem(executedTask.task_id.toString(), executedTask)
               mutex[id] = false
             }).catch((err) => {

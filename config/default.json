@@ -144,6 +144,7 @@
       }
     },
     "users": {
+      "useSafeLocalStorageForCache": true,
       "autoRefreshTokens": true,
       "endpoint": "http://localhost:8080/api/user",
       "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",

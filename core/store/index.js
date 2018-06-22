@@ -144,7 +144,7 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     ordersCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'orders',
-      driver: localForage.LOCALSTORAGE
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     })),
     categoriesCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
@@ -157,7 +157,7 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     cartsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'carts',
-      driver: localForage.LOCALSTORAGE
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     })),
     elasticCacheCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
@@ -182,7 +182,7 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     usersCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'user',
-      driver: localForage.LOCALSTORAGE
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     })),
     syncTaskCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
@@ -191,7 +191,7 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'checkoutFieldValues',
-      driver: localForage.LOCALSTORAGE
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     })),
     newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
