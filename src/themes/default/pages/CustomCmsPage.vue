@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import CmsPage from 'src/extensions/cms/components/CmsData'
+import CmsData from 'src/extensions/cms/components/CmsData'
 
 export default {
   components: {
