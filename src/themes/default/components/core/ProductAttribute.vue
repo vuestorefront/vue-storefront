@@ -1,14 +1,15 @@
 <template>
-  <li class="py10 cl-secondary">
+  <li class="lh30 h5">
     <span>{{ label|htmlDecode }} </span>
     <span class="weight-700">{{ value|htmlDecode }}</span>
   </li>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductAttribute from 'core/components/ProductAttribute'
 
 export default {
+  mixins: [ProductAttribute],
   data () {
     return {
       label: '',
@@ -32,6 +33,8 @@ export default {
           })
           if (option) {
             results.push(option.label)
+          } else {
+            results.push(parsedVal)
           }
         } else {
           results.push(parsedVal)
@@ -39,7 +42,6 @@ export default {
       }
       this.value = results.join(', ')
     }
-  },
-  mixins: [coreComponent('ProductAttribute')]
+  }
 }
 </script>

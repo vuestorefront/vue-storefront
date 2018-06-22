@@ -118,6 +118,7 @@
   </div>
 </template>
 <script>
+import Register from 'core/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
@@ -125,16 +126,6 @@ import { required, email, sameAs } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
 export default {
-  data () {
-    return {
-      email: '',
-      firstName: '',
-      lastName: '',
-      password: '',
-      rPassword: '',
-      conditions: false
-    }
-  },
   validations: {
     email: {
       required,
@@ -157,12 +148,10 @@ export default {
       required
     }
   },
+  mixins: [Register],
   methods: {
     close () {
       this.$bus.$emit('modal-hide', 'modal-signup')
-    },
-    switchElem () {
-      this.$store.commit('ui/setAuthElem', 'login')
     },
     register () {
       if (this.$v.$invalid) {

@@ -22,7 +22,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: '/c/' + sc.slug
+      route_link: (config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
     })
   }
 
@@ -41,6 +41,14 @@ export function productThumbnailPath (product, ignoreConfig = false) {
     ('image' in product.configurable_children[0])
   ) {
     thumbnail = product.configurable_children[0].image
+    if (!thumbnail || thumbnail === 'no_selection') {
+      const childWithImg = product.configurable_children.find(f => f.image && f.image !== 'no_selection')
+      if (childWithImg) {
+        thumbnail = childWithImg.image
+      } else {
+        thumbnail = product.image
+      }
+    }
   }
   return thumbnail
 }
@@ -66,13 +74,13 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
     }
     return filterQr
   }
-  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).filter('match', 'type_id', 'simple'))
-    .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable'))
+  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b))
+    .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
   return filterQr
 }
 
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
-  let searchProductQuery = builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
+  let searchProductQuery = builder().andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
 
   // add filters to query
   for (let attrToFilter of filters) {

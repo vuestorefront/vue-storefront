@@ -33,10 +33,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductLinks from 'core/components/ProductLinks'
 export default {
-  name: 'ProductLinks',
-  mixins: [coreComponent('ProductLinks')]
+  mixins: [ProductLinks]
 }
 </script>
 

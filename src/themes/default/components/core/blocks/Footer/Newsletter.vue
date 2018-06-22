@@ -1,7 +1,7 @@
 <template>
   <div class="newsletter py25 px40 bg-cl-secondary">
     <div class="container">
-      <div class="newsletter-content m0 row middle-xs start-md">
+      <div class="newsletter-content m0 row middle-sm start-md">
         <div class="col-md-9 col-xs-12">
           <h3 class="h3 cl-accent weight-400 m0">
             {{ $t('Subscribe to the newsletter and receive a coupon for 10% off') }}
@@ -21,15 +21,14 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-
-import ButtonOutline from '../../../theme/ButtonOutline.vue'
+import Newsletter from 'core/components/blocks/Footer/Newsletter'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
 
 export default {
+  mixins: [Newsletter],
   components: {
     ButtonOutline
-  },
-  mixins: [coreComponent('blocks/Footer/Newsletter')]
+  }
 }
 </script>
 

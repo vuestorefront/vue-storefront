@@ -1,9 +1,9 @@
-import config from '../lib/config'
-import _ from 'lodash'
+import map from 'lodash-es/map'
 import { slugify } from '../helpers'
+import { currentStoreView } from './multistore'
 import hash from 'object-hash'
-
-let es = require('elasticsearch')
+import config from 'config'
+import fetch from 'isomorphic-fetch'
 
 function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -13,18 +13,47 @@ function isOnline () {
   }
 }
 
-function _getEsClientSingleton () {
-  if (!global.$VS.esClient) {
-    global.$VS.esClient = new es.Client({
-      host: config.elasticsearch.host,
-      httpAuth: config.elasticsearch.httpAuth,
-      log: 'debug',
-      apiVersion: '5.5',
-      requestTimeout: 5000
-    })
+const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIComponent).join('=')).join('&')
+
+/**
+ * Execute ElasticSearch query
+ */
+function search (elasticQuery) {
+  const storeView = currentStoreView()
+  let url = storeView.elasticsearch.host
+  if (!url.startsWith('http')) {
+    url = 'http://' + url
+  }
+  const httpQuery = {
+    'size': elasticQuery.size,
+    'from': elasticQuery.from,
+    'sort': elasticQuery.sort
+  }
+  if (elasticQuery._sourceExclude) {
+    httpQuery._source_exclude = elasticQuery._sourceExclude.join(',')
+  }
+  if (elasticQuery._sourceInclude) {
+    httpQuery._source_include = elasticQuery._sourceInclude.join(',')
+  }
+  if (elasticQuery.q) {
+    httpQuery.q = elasticQuery.q
   }
 
-  return global.$VS.esClient
+  if (!elasticQuery.index || !elasticQuery.type) {
+    throw new Error('elasticQuery.index and elasticQuery.type are required arguments for executing ElasticSearch query')
+  }
+
+  url = url + '/' + encodeURIComponent(elasticQuery.index) + '/' + encodeURIComponent(elasticQuery.type) + '/_search'
+  url = url + '?' + buildURLQuery(httpQuery)
+
+  return fetch(url, { method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(elasticQuery.body)
+  }).then(resp => { return resp.json() })
 }
 /**
  * Helper function to handle ElasticSearch Results
@@ -38,8 +67,8 @@ function _handleEsResult (resp, start = 0, size = 50) {
   }
   if (resp.hasOwnProperty('hits')) {
     return {
-      items: _.map(resp.hits.hits, function (hit) {
-        return Object.assign(hit._source, { _score: hit._score, slug: hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '' }) // TODO: assign slugs server side
+      items: map(resp.hits.hits, function (hit) {
+        return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
       }), // TODO: add scoring information
       total: resp.hits.total,
       start: start,
@@ -69,8 +98,9 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
+    const storeView = currentStoreView()
     const esQuery = {
-      index: index || config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+      index: index || storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: entityType,
       body: query,
       size: size,
@@ -94,11 +124,11 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         res.noresults = false
         res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
         resolve(res)
-        console.info('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         servedFromCache = true
       } else {
         if (!isOnline()) {
-          console.info('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
 
           res = {
             items: [],
@@ -116,12 +146,11 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
-    let client = _getEsClientSingleton()
-    client.search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
+    search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
       if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-        console.info('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         res.cache = false
         res.noresults = false
         res.offline = false
@@ -147,9 +176,9 @@ export function quickSearchByText ({ queryText, start = 0, size = 50 }) {
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
-    let client = _getEsClientSingleton()
-    client.search({
-      index: config.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+    const storeView = currentStoreView()
+    search({
+      index: storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
       type: 'product',
       q: queryText,
       size: size,

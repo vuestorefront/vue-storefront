@@ -14,11 +14,23 @@
           <div class="h6 cl-bg-tertiary pt5 sku">
             {{ product.sku }}
           </div>
-          <div class="h6 pt5 cl-error" v-if="product.warning_message">
-            {{ product.warning_message }}
+          <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
+            <div v-for="opt in product.totals.options" :key="opt.label">
+              <span class="opn">{{ opt.label }}: </span>
+              <span class="opv" v-html="opt.value" />
+            </div>
           </div>
-          <div class="h6 pt5 cl-success" v-if="product.info_message && !product.warning_message">
-            {{ product.info_message }}
+          <div class="h6 cl-bg-tertiary pt5 options" v-else-if="product.options">
+            <div v-for="opt in product.options" :key="opt.label">
+              <span class="opn">{{ opt.label }}: </span>
+              <span class="opv" v-html="opt.value" />
+            </div>
+          </div>
+          <div class="h6 pt5 cl-error" v-if="product.errors && Object.keys(product.errors).length > 0">
+            {{ product.errors | formatProductMessages }}
+          </div>
+          <div class="h6 pt5 cl-success" v-if="product.info && Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
+            {{ product.info | formatProductMessages }}
           </div>
         </div>
         <div class="h5 pt5 cl-accent lh25 qty">
@@ -76,46 +88,17 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Product from 'core/components/blocks/Microcart/Product'
 
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
 
 export default {
-  data () {
-    return {
-      qty: 0,
-      isEditing: false
-    }
-  },
-  created () {
-    this.$bus.$on('cart-after-itemchanged', (event) => {
-      if (event.item.sku === this.product.sku) {
-        this.$forceUpdate()
-      }
-    })
-  },
-  methods: {
-    removeItem () {
-      this.$store.dispatch('cart/removeItem', this.product)
-    },
-    updateQuantity () {
-      if (this.qty <= 0) {
-        this.qty = this.product.qty
-      }
-      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: this.qty })
-      this.isEditing = !this.isEditing
-    },
-    switchEdit () {
-      this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
-      this.isEditing = !this.isEditing
-    }
-  },
   components: {
     EditButton,
     RemoveButton
   },
-  mixins: [coreComponent('blocks/Microcart/Product')]
+  mixins: [Product]
 }
 </script>
 
@@ -139,7 +122,7 @@ export default {
     }
   }
 
-  .sku {
+  .options, .sku {
     @media (max-width: 767px) {
       font-size: 10px;
     }

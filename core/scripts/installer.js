@@ -10,6 +10,7 @@ const urlParser = require('url-parse')
 const isWindows = require('is-windows')
 const isEmptyDir = require('empty-dir')
 const commandExists = require('command-exists')
+const program = require('commander')
 
 const SAMPLE_DATA_PATH = 'var/magento2-sample-data'
 const TARGET_FRONTEND_CONFIG_FILE = 'config/local.json'
@@ -135,7 +136,7 @@ class Backend extends Abstract {
       Message.info(`Cloning backend into '${this.answers.backend_dir}'...`)
 
       if (shell.exec(`${this.answers.git_path} clone ${STOREFRONT_BACKEND_GIT_URL} ${this.answers.backend_dir} > ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(`Can't clone backend into '${this.answers.backend_dir}'.`)
+        reject(new Error(`Can't clone backend into '${this.answers.backend_dir}'.`))
       }
 
       resolve()
@@ -154,7 +155,7 @@ class Backend extends Abstract {
       Message.info(`Trying change directory to '${dir}'...`)
 
       if (shell.cd(dir).code !== 0) {
-        reject(`Can't change directory to '${dir}'.`)
+        reject(new Error(`Can't change directory to '${dir}'.`))
       }
 
       Message.info(`Working in directory '${shell.pwd()}'...`)
@@ -173,7 +174,7 @@ class Backend extends Abstract {
       Message.info('Installing backend npm...')
 
       if (shell.exec(`npm i >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject('Can\'t install backend npm.')
+        reject(new Error('Can\'t install backend npm.'))
       }
 
       resolve()
@@ -190,7 +191,7 @@ class Backend extends Abstract {
       Message.info('Starting docker in background...')
 
       if (shell.exec(`docker-compose up -d > /dev/null 2>&1`).code !== 0) {
-        reject('Can\'t start docker in background.')
+        reject(new Error('Can\'t start docker in background.'))
       }
       // Adding 20sec timer for ES to get up and running
       // before starting restoration and migration processes
@@ -222,7 +223,7 @@ class Backend extends Abstract {
 
         jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
-        reject('Can\'t create backend config.')
+        reject(new Error('Can\'t create backend config.'))
       }
 
       resolve()
@@ -239,7 +240,7 @@ class Backend extends Abstract {
       Message.info('Restoring data for ElasticSearch...')
 
       if (shell.exec(`npm run restore >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject('Can\'t restore data for ElasticSearch.')
+        reject(new Error('Can\'t restore data for ElasticSearch.'))
       }
 
       resolve()
@@ -256,7 +257,7 @@ class Backend extends Abstract {
       Message.info('Migrating data into ElasticSearch...')
 
       if (shell.exec(`npm run migrate >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject('Can\'t migrate data into ElasticSearch.')
+        reject(new Error('Can\'t migrate data into ElasticSearch.'))
       }
 
       resolve()
@@ -273,7 +274,7 @@ class Backend extends Abstract {
       Message.info(`Cloning Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`)
 
       if (shell.exec(`${this.answers.git_path} clone ${MAGENTO_SAMPLE_DATA_GIT_URL} ${SAMPLE_DATA_PATH} >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(`Can't clone Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`)
+        reject(new Error(`Can't clone Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`))
       }
 
       resolve()
@@ -290,7 +291,7 @@ class Backend extends Abstract {
       Message.info('Starting backend server...')
 
       if (shell.exec(`nohup npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
-        reject('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE)
+        reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
       }
 
       resolve()
@@ -313,7 +314,7 @@ class Storefront extends Abstract {
         Message.info(`Trying change directory to '${STOREFRONT_DIRECTORY}'...`)
 
         if (shell.cd(STOREFRONT_DIRECTORY).code !== 0) {
-          reject(`Can't change directory to '${STOREFRONT_DIRECTORY}'.`)
+          reject(new Error(`Can't change directory to '${STOREFRONT_DIRECTORY}'.`))
         }
 
         Message.info(`Working in directory '${STOREFRONT_DIRECTORY}'...`)
@@ -349,12 +350,13 @@ class Storefront extends Abstract {
         config.orders.endpoint = `${backendPath}/api/order`
         config.products.endpoint = `${backendPath}/api/product`
         config.users.endpoint = `${backendPath}/api/user`
-        config.history_endpoint = `${backendPath}/api/user/order-history`
-        config.resetPassword_endpoint = `${backendPath}/api/user/resetPassword`
-        config.changePassword_endpoint = `${backendPath}/api/user/changePassword`
-        config.login_endpoint = `${backendPath}/api/user/login`
-        config.create_endpoint = `${backendPath}/api/user/create`
-        config.me_endpoint = `${backendPath}/api/user/me`
+        config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}`
+        config.users.resetPassword_endpoint = `${backendPath}/api/user/resetPassword`
+        config.users.changePassword_endpoint = `${backendPath}/api/user/changePassword?token={{token}}`
+        config.users.login_endpoint = `${backendPath}/api/user/login`
+        config.users.create_endpoint = `${backendPath}/api/user/create`
+        config.users.me_endpoint = `${backendPath}/api/user/me?token={{token}}`
+        config.users.refresh_endpoint = `${backendPath}/api/user/refresh`
         config.stock.endpoint = `${backendPath}/api/stock`
         config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`
         config.cart.updateitem_endpoint = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
@@ -378,7 +380,7 @@ class Storefront extends Abstract {
 
         jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
-        reject('Can\'t create storefront config.')
+        reject(new Error('Can\'t create storefront config.'))
       }
 
       resolve()
@@ -395,7 +397,7 @@ class Storefront extends Abstract {
       Message.info('Build storefront npm...')
 
       if (shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>&1`).code !== 0) {
-        reject('Can\'t build storefront npm.', VUE_STOREFRONT_LOG_FILE)
+        reject(new Error('Can\'t build storefront npm.', VUE_STOREFRONT_LOG_FILE))
       }
 
       resolve()
@@ -412,7 +414,7 @@ class Storefront extends Abstract {
       Message.info('Starting storefront server...')
 
       if (shell.exec(`nohup npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
-        reject('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE)
+        reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
       }
 
       resolve(answers)
@@ -644,6 +646,18 @@ let questions = [
   }
 ]
 
+async function processAnswers (answers) {
+  let manager = new Manager(answers)
+
+  await manager.tryToCreateLogFiles()
+    .then(manager.initBackend.bind(manager))
+    .then(manager.initStorefront.bind(manager))
+    .then(manager.showGoodbyeMessage.bind(manager))
+    .catch(Message.error)
+
+  shell.exit(0)
+}
+
 /**
  * Predefine class static variables
  */
@@ -658,22 +672,25 @@ if (require.main.filename === __filename) {
    * Pre-loading staff
    */
   Manager.checkUserOS()
-  Manager.showWelcomeMessage()
 
   /**
    * This is where all the magic happens
    */
-  inquirer.prompt(questions).then(async function (answers) {
-    let manager = new Manager(answers)
 
-    await manager.tryToCreateLogFiles()
-      .then(manager.initBackend.bind(manager))
-      .then(manager.initStorefront.bind(manager))
-      .then(manager.showGoodbyeMessage.bind(manager))
-      .catch(Message.error)
+  program
+    .option('--default-config', 'Run with default configuration')
+    .parse(process.argv)
 
-    shell.exit(0)
-  })
+  if (program.defaultConfig) {
+    const defaultConfig = {}
+    questions.forEach(question => {
+      defaultConfig[question.name] = question.default
+    })
+    processAnswers(defaultConfig)
+  } else {
+    Manager.showWelcomeMessage()
+    inquirer.prompt(questions).then(answers => processAnswers(answers))
+  }
 } else {
   module.exports.Message = Message
   module.exports.Manager = Manager

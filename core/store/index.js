@@ -3,101 +3,9 @@ import Vuex from 'vuex'
 import * as types from './mutation-types'
 import localForage from 'localforage'
 import UniversalStorage from './lib/storage'
-import order from './modules/order'
-import product from './modules/product'
-import category from './modules/category'
-import attribute from './modules/attribute'
-import cart from './modules/cart'
-import wishlist from './modules/wishlist'
-import compare from './modules/compare'
-import user from './modules/user'
-import payment from './modules/payment'
-import shipping from './modules/shipping'
-import ui from './modules/ui-store'
-import checkout from './modules/checkout'
-import homepage from './modules/homepage'
-import stock from './modules/stock'
-import tax from './modules/tax'
-import social from './modules/social-tiles'
-import claims from './modules/claims'
-import sync from './modules/sync'
-import promoted from './modules/promoted-offers'
-
-Vue.prototype.$db = {
-  ordersCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'orders'
-  })),
-
-  categoriesCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'categories'
-  })),
-
-  attributesCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'attributes'
-  })),
-
-  cartsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'carts'
-  })),
-
-  elasticCacheCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'elasticCache'
-  })),
-
-  productsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'products'
-  })),
-
-  claimsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'claims'
-  })),
-
-  wishlistCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'wishlist'
-  })),
-
-  compareCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'compare'
-  })),
-
-  usersCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'user'
-  })),
-
-  syncTaskCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'syncTasks'
-  })),
-
-  checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'checkoutFieldValues'
-  })),
-
-  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'newsletterPreferences'
-  })),
-
-  ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'ordersHistory'
-  }))
-}
+import { currentStoreView } from './lib/multistore'
 
 if (!global.$VS) global.$VS = {}
-global.$VS.db = Vue.prototype.$db // localForage instance
-
 Vue.use(Vuex)
 
 const state = {
@@ -129,21 +37,23 @@ const plugins = [
         console.error('Store mutation name is incorrectly formed')
       }
 
-      if (storeName === types.SN_CART) { // check if this mutation is cart related
+      if (actionName === types.CART_ADD_ITEM || actionName === types.CART_DEL_ITEM || actionName === types.CART_UPD_ITEM || actionName === types.CART_UPD_ITEM_PROPS) { // check if this mutation is cart related
         global.$VS.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
+      }
+      if (actionName === types.CART_LOAD_CART_SERVER_TOKEN) {
         global.$VS.db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
           console.error(reason)
         })
       }
       if (storeName === types.SN_WISHLIST) { // check if this mutation is wishlist related
-        global.$VS.db.wishlistCollection.setItem('current-wishlist', state.wishlist.itemsWishlist).catch((reason) => {
+        global.$VS.db.wishlistCollection.setItem('current-wishlist', state.wishlist.items).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
       if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
-        global.$VS.db.compareCollection.setItem('current-compare', state.compare.itemsCompare).catch((reason) => {
+        global.$VS.db.compareCollection.setItem('current-compare', state.compare.items).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
@@ -192,27 +102,7 @@ const plugins = [
 ]
 
 let rootStore = new Vuex.Store({
-  modules: { // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
-    order,
-    product,
-    category,
-    attribute,
-    cart,
-    wishlist,
-    compare,
-    user,
-    payment,
-    shipping,
-    ui,
-    homepage,
-    social,
-    stock,
-    checkout,
-    tax,
-    claims,
-    sync,
-    promoted
-  },
+  // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state,
   mutations,
   plugins
@@ -235,11 +125,79 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     console.debug('Vuex VS store - using external i18n')
     this.i18n = i18n
     global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
+  } else {
+    global.$VS.i18n = {
+      t: function (key) {
+        return key
+      }
+    }
   }
   if (eventBus !== null) {
     console.debug('Vuex VS store - using external event-bus')
     this.eventBus = eventBus
     global.$VS.eventBus = Object.assign(global.$VS.eventBus, eventBus)
   }
+
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+  Vue.prototype.$db = {
+    ordersCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'orders'
+    })),
+    categoriesCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'categories'
+    })),
+    attributesCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'attributes'
+    })),
+    cartsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'carts'
+    })),
+    elasticCacheCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'elasticCache'
+    })),
+    productsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'products'
+    })),
+    claimsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'claims'
+    })),
+    wishlistCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'wishlist'
+    })),
+    compareCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'compare'
+    })),
+    usersCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'user'
+    })),
+    syncTaskCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'syncTasks'
+    })),
+    checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'checkoutFieldValues'
+    })),
+    newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'newsletterPreferences'
+    })),
+    ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'ordersHistory'
+    }))
+  }
+  global.$VS.db = Vue.prototype.$db // localForage instance
 }
 export default rootStore

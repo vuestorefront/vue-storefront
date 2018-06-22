@@ -1,0 +1,13 @@
+{
+  "name": "@vue-storefront/core",
+  "version": "1.0.4",
+  "description": "Vue Storefront core",
+  "license": "MIT",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

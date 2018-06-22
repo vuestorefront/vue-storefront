@@ -1,20 +1,20 @@
 <template>
-  <div class="breadcrumbs h5 cl-accent">
+  <div class="breadcrumbs h5 cl-gray">
     <span v-for="link in routes" :key="link.route_link">
-      <router-link :to="link.route_link">
+      <router-link :to="localizedRoute(link.route_link)">
         {{ link.name | htmlDecode }}
       </router-link> /
     </span>
-    <strong>
+    <span class="cl-mine-shaft">
       {{ activeRoute | htmlDecode }}
-    </strong>
+    </span>
   </div>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Breadcrumbs from 'core/components/Breadcrumbs'
 
 export default {
-  mixins: [coreComponent('Breadcrumbs')]
+  mixins: [Breadcrumbs]
 }
 </script>

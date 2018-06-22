@@ -1,7 +1,6 @@
-import _ from 'lodash'
+import merge from 'lodash-es/merge'
 import messages from 'core/lib/translation.preprocessor'
 import * as corePlugins from 'core/plugins'
-import * as themePlugins from 'theme/plugins'
 import * as coreMixins from 'core/mixins'
 import * as themeMixins from 'theme/mixins'
 import * as coreFilters from 'core/filters'
@@ -15,36 +14,28 @@ export function translations () {
 }
 
 /**
- * Return plugins load from both: core/plugins and theme/plugins
+ * Return plugins load from core/plugins. Theme ones are ommited due to config that needs to be passed
  */
 export function plugins () {
-  return _.merge(corePlugins, themePlugins)
+  return corePlugins
 }
 
 /**
  * Return mixins load from both: core/mixins and theme/mixins
  */
 export function mixins () {
-  return _.merge(coreMixins, themeMixins)
+  return merge(coreMixins, themeMixins)
 }
 
 /**
  * Return filters load from both: core/filters and theme/filters
  */
 export function filters () {
-  return _.merge(themeFilters, coreFilters)
-}
-
-export function corePage (path) {
-  return require('core/pages/' + path + '.vue') // using webpack path alias  - core/pages = core/pages
-}
-
-export function coreComponent (path) {
-  return require('core/components/' + path + '.vue') // using webpack path alias  - core/omponents = core/components
+  return merge(themeFilters, coreFilters)
 }
 
 export function extendStore (coreStore, extendStore) {
-  return _.merge(coreStore, extendStore)
+  return merge(coreStore, extendStore)
 }
 
 export function registerTheme (themeName, app, routes, store) {

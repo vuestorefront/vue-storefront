@@ -14,7 +14,7 @@
         id="search"
         v-model="search"
         @input="makeSearch"
-        class="mr20 py10 brdr-none brdr-bottom brdr-cl-primary no-outline h4"
+        class="mr20 py10 brdr-none brdr-bottom-1 brdr-cl-primary no-outline h4"
         :placeholder="$t('Type what you are looking for...')"
         type="text"
       >
@@ -31,29 +31,21 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import ProductTile from '../../ProductTile.vue'
+import SearchPanel from 'core/components/blocks/SearchPanel/SearchPanel'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
-  data () {
-    return {
-      emptyResults: false,
-      search: ''
-    }
-  },
   components: {
     ProductTile
   },
-  methods: {
-  },
+  mixins: [SearchPanel],
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
       if (!this.$store.state.ui.searchpanel) {
         this.$refs.search.focus()
       }
     })
-  },
-  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
+  }
 }
 </script>
 
@@ -100,7 +92,8 @@ i:hover {
 
 @media only screen and (max-width:50em) {
   .searchpanel .product {
-    width: auto;
+    width: 50%;
+    box-sizing: border-box;
   }
 }
 </style>

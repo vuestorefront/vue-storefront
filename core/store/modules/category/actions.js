@@ -6,7 +6,9 @@ import config from '../../lib/config'
 import rootStore from '../../'
 import bodybuilder from 'bodybuilder'
 import i18n from '../../lib/i18n'
-import _ from 'lodash'
+import chunk from 'lodash-es/chunk'
+import trim from 'lodash-es/trim'
+import toString from 'lodash-es/toString'
 import { optionLabel } from '../attribute/helpers'
 
 export default {
@@ -17,6 +19,7 @@ export default {
   reset (context) {
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, [])
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY, {})
+    rootStore.dispatch('stock/clearCache')
     EventBus.$emit('category-after-reset', { })
   },
   /**
@@ -136,8 +139,8 @@ export default {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, includeFields = null, excludeFields = null, configuration = null, append = false }) {
-    rootStore.state.product.current_query = {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false }) {
+    rootStore.state.category.current_product_query = {
       populateAggregations,
       filters,
       current,
@@ -145,14 +148,18 @@ export default {
       includeFields,
       excludeFields,
       configuration,
-      append
+      append,
+      sort
     }
 
+    let prefetchGroupProducts = true
     if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
       includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
       excludeFields = config.entities.productListWithChildren.excludeFields
+      prefetchGroupProducts = false
       console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
     } else {
+      prefetchGroupProducts = true
       if (global.$VS.twoStageCachingDisabled) {
         console.log('Two stage caching is disabled runtime because of no performance gain')
       } else {
@@ -168,7 +175,10 @@ export default {
       excludeFields: excludeFields,
       includeFields: includeFields,
       configuration: configuration,
-      append: append
+      append: append,
+      sort: sort,
+      updateState: true,
+      prefetchGroupProducts: prefetchGroupProducts
     }).then(function (res) {
       let t1 = new Date().getTime()
       global.$VS.twoStageCachingDelta1 = t1 - t0
@@ -184,7 +194,28 @@ export default {
         rootStore.state.product.list = { items: [] } // no products to show TODO: refactor to rootStore.state.category.reset() and rootStore.state.product.reset()
         // rootStore.state.category.filters = { color: [], size: [], price: [] }
       } else {
-        if (populateAggregations === true) { // populate filter aggregates
+        if (config.products.filterUnavailableVariants && config.products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
+          const skus = []
+          let prefetchIndex = 0
+          res.items.map(i => {
+            if (config.products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
+              if (prefetchIndex > config.products.configurableChildrenStockPrefetchStaticPrefetchCount) return
+            }
+            if (i.type_id === 'configurable' && i.configurable_children && i.configurable_children.length > 0) {
+              for (const confChild of i.configurable_children) {
+                const cachedItem = context.rootState.stock.cache[confChild.id]
+                if (typeof cachedItem === 'undefined' || cachedItem === null) {
+                  skus.push(confChild.sku)
+                }
+              }
+              prefetchIndex++
+            }
+          })
+          for (const chunkItem of chunk(skus, 15)) {
+            rootStore.dispatch('stock/list', { skus: chunkItem }) // store it in the cache
+          }
+        }
+        if (populateAggregations === true && res.aggregations) { // populate filter aggregates
           for (let attrToFilter of filters) { // fill out the filter options
             rootStore.state.category.filters.available[attrToFilter] = []
 
@@ -197,13 +228,13 @@ export default {
                 }
 
                 for (let option of buckets) {
-                  uniqueFilterValues.add(_.toString(option.key))
+                  uniqueFilterValues.add(toString(option.key))
                 }
               }
 
               for (let key of uniqueFilterValues.values()) {
                 const label = optionLabel(rootStore.state.attribute, { attributeKey: attrToFilter, optionId: key })
-                if (_.trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
+                if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
                   rootStore.state.category.filters.available[attrToFilter].push({
                     id: key,
                     label: label

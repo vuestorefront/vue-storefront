@@ -165,7 +165,7 @@
               @change="$v.payment.country.$touch()"
               autocomplete="country"
             >
-              <option value="" disabled selected hidden>{{ $t('Country') }}</option>
+              <option value="" disabled selected hidden>{{ $t('Country') }} *</option>
               <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
             </select>
             <span class="validation-error" v-if="$v.payment.country.$error && !$v.payment.country.required">
@@ -261,6 +261,7 @@
           <div class="col-xs-12 col-md-8 px20 my30">
             <button-full
               @click.native="sendDataToCheckout"
+              data-testid="paymentSubmit"
               :class="{ 'button-disabled' : $v.payment.$invalid }"
             >
               {{ $t('Go review the order') }}
@@ -312,13 +313,21 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import { coreComponent } from 'core/lib/themes'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tooltip from 'theme/components/core/Tooltip.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
+import Payment from 'core/components/blocks/Checkout/Payment'
+
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
+  components: {
+    BaseCheckbox,
+    BaseInput,
+    ButtonFull,
+    Tooltip
+  },
+  mixins: [Payment],
   validations () {
     if (!this.generateInvoice) {
       return {
@@ -390,13 +399,6 @@ export default {
         }
       }
     }
-  },
-  components: {
-    ButtonFull,
-    Tooltip,
-    BaseCheckbox,
-    BaseInput
-  },
-  mixins: [coreComponent('blocks/Checkout/Payment')]
+  }
 }
 </script>

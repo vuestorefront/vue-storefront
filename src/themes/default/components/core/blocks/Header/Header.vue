@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header
-      class="fixed w-100 brdr-bottom bg-cl-primary brdr-cl-secondary"
+      class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container">
@@ -28,7 +28,7 @@
             <wishlist-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-2 end-xs">
-            <div class="inline-flex">
+            <div class="inline-flex right-icons">
               <search-icon class="p15 icon hidden-xs pointer" />
               <wishlist-icon class="p15 icon hidden-xs pointer" />
               <compare-icon class="p15 icon hidden-xs pointer" />
@@ -40,7 +40,7 @@
         <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
-              <router-link to="/" class="cl-tertiary links">
+              <router-link :to="localizedRoute('/')" class="cl-tertiary links">
                 {{ $t('Return to shopping') }}
               </router-link>
             </div>
@@ -66,20 +66,30 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
 import { mapState } from 'vuex'
+import Header from 'core/components/blocks/Header/Header'
 
-import Logo from '../../Logo.vue'
-
-import AccountIcon from './AccountIcon.vue'
-import MicrocartIcon from './MicrocartIcon.vue'
-import HamburgerIcon from './HamburgerIcon.vue'
-import ReturnIcon from './ReturnIcon.vue'
-import SearchIcon from './SearchIcon.vue'
-import WishlistIcon from './WishlistIcon.vue'
-import CompareIcon from './CompareIcon.vue'
+import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
+import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
+import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
+import Logo from 'theme/components/core/Logo'
+import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
+import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
+import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
 export default {
+  components: {
+    AccountIcon,
+    CompareIcon,
+    HamburgerIcon,
+    Logo,
+    MicrocartIcon,
+    ReturnIcon,
+    SearchIcon,
+    WishlistIcon
+  },
+  mixins: [Header],
   data () {
     return {
       productPageRoutes: [
@@ -93,6 +103,12 @@ export default {
       isProductPage: false,
       navVisible: true
     }
+  },
+  computed: {
+    ...mapState({
+      isOpenLogin: state => state.ui.signUp,
+      currentUser: state => state.user.current
+    })
   },
   beforeCreated () {
     if (this.productPageRoutes.includes(this.$route.name)) {
@@ -152,28 +168,11 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState({
-      isOpenLogin: state => state.ui.signUp,
-      currentUser: state => state.user.current
-    })
-  },
   methods: {
     gotoAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
     }
-  },
-  components: {
-    AccountIcon,
-    MicrocartIcon,
-    HamburgerIcon,
-    WishlistIcon,
-    CompareIcon,
-    SearchIcon,
-    ReturnIcon,
-    Logo
-  },
-  mixins: [coreComponent('blocks/Header/Header')]
+  }
 }
 </script>
 
@@ -195,6 +194,10 @@ header {
     background-color: $color-icon-hover;
     opacity: 1;
   }
+}
+.right-icons {
+  //for edge
+  float: right;
 }
 .header-placeholder {
   height: 54px;

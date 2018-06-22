@@ -4,6 +4,7 @@ import config from '../../lib/config'
 import store from '../../'
 import { ValidationError } from '../../lib/exceptions'
 import i18n from '../../lib/i18n'
+import { adjustMultistoreApiUrl } from '../../lib/multistore'
 const Ajv = require('ajv') // json validator
 
 export default {
@@ -18,6 +19,9 @@ export default {
 
       if (res) {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
+        EventBus.$emit('session-after-authorized')
+      } else {
+        EventBus.$emit('session-after-nonauthorized')
       }
       EventBus.$emit('session-after-started')
     })
@@ -57,7 +61,11 @@ export default {
    * Login user and return user profile and current token
    */
   login (context, { username, password }) {
-    return fetch(config.users.login_endpoint, { method: 'POST',
+    let url = config.users.login_endpoint
+    if (config.storeViews.multistore) {
+      url = adjustMultistoreApiUrl(url)
+    }
+    return fetch(url, { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -67,6 +75,7 @@ export default {
     }).then(resp => { return resp.json() })
       .then((resp) => {
         if (resp.code === 200) {
+          global.$VS.userTokenInvalidateLock = 0
           context.commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
           context.dispatch('me', { refresh: true, useCache: false }).then(result => {})
           context.dispatch('getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
@@ -78,7 +87,11 @@ export default {
    * Login user and return user profile and current token
    */
   register (context, { email, firstname, lastname, password }) {
-    return fetch(config.users.create_endpoint, { method: 'POST',
+    let url = config.users.create_endpoint
+    if (config.storeViews.multistore) {
+      url = adjustMultistoreApiUrl(url)
+    }
+    return fetch(url, { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -105,7 +118,11 @@ export default {
         if (err) {
           console.error(err)
         }
-        return fetch(config.users.refresh_endpoint, { method: 'POST',
+        let url = config.users.refresh_endpoint
+        if (config.storeViews.multistore) {
+          url = adjustMultistoreApiUrl(url)
+        }
+        return fetch(url, { method: 'POST',
           mode: 'cors',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -129,7 +146,7 @@ export default {
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.log('No User token, user unathorized')
+        console.debug('No User token, user unathorized')
         return resolve(null)
       }
       const cache = global.$VS.db.usersCollection
@@ -143,7 +160,6 @@ export default {
           }
 
           if (res) {
-            global.$VS.userTokenInvalidateLock = 0
             context.commit(types.USER_INFO_LOADED, res)
             EventBus.$emit('user-after-loggedin', res)
 
@@ -167,11 +183,12 @@ export default {
           .then((resp) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
-
-              EventBus.$emit('user-after-loggedin', resp.result)
             }
-            if (!resolvedFromCache) {
-              resolve(resp.resultCode === 200 ? resp : null)
+            if (!resolvedFromCache && resp.resultCode === 200) {
+              EventBus.$emit('user-after-loggedin', resp.result)
+              resolve(resp)
+            } else {
+              resolve(null)
             }
             return resp
           })
@@ -253,7 +270,9 @@ export default {
    */
   logout (context, { silent = false }) {
     context.commit(types.USER_END_SESSION)
-    context.dispatch('cart/serverTokenClear', {}, { root: true })
+    context.dispatch('cart/serverTokenClear', {}, { root: true }).then(() => {
+      EventBus.$emit('user-after-logout')
+    })
     if (!silent) {
       EventBus.$emit('notification', {
         type: 'success',
@@ -279,7 +298,7 @@ export default {
   getOrdersHistory (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.log('No User token, user unathorized')
+        console.debug('No User token, user unathorized')
         return resolve(null)
       }
       const cache = global.$VS.db.ordersHistoryCollection
@@ -298,7 +317,7 @@ export default {
 
             resolve(res)
             resolvedFromCache = true
-            console.log('Current user served from cache')
+            console.log('Current user order history served from cache')
           }
         })
       }

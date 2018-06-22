@@ -6,18 +6,18 @@
       :style="styles"
     >
       <li
-        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         v-if="parentSlug"
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="{ name: 'category', params: { id: id, slug: parentSlug }}"
+          :to="localizedRoute({ name: 'category', params: { id: id, slug: parentSlug }})"
         >
           {{ $t('View all') }}
         </router-link>
       </li>
       <li
-        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         :key="link.slug"
         v-for="link in categoryLinks"
       >
@@ -30,7 +30,7 @@
         <router-link
           v-else
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
+          :to="localizedRoute({ name: 'category', params: { id: link.id, slug: link.slug }})"
         >
           {{ link.name }}
         </router-link>
@@ -48,19 +48,19 @@
       :style="styles"
     >
       <li
-        class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         :key="link.id"
         v-for="link in myAccountLinks"
         @click="notify(link.name)"
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="link.url"
+          :to="localizedRoute(link.url)"
         >
           {{ link.name }}
         </router-link>
       </li>
-      <li class="brdr-bottom brdr-cl-bg-secondary bg-cl-primary flex">
+      <li class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex">
         <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click.prevent="logout">
           {{ $t('Logout') }}
         </a>

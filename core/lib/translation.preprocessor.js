@@ -30,7 +30,6 @@ module.exports = function (options) {
     })
   })
   return {
-    code: JSON.stringify(coreMessages)
+    code: `module.exports = ${JSON.stringify(coreMessages)};`
   }
 }
-

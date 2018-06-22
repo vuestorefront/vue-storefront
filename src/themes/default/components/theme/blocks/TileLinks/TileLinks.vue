@@ -1,13 +1,20 @@
 <template>
-  <div class="tile-links">
-    <div class="row center-xs">
-      <div
-        class="tile-container middle-xs center-xs row col-md-4 p15"
-        v-for="(tile, index) in social_tiles"
-        :key="index"
+  <div class="row center-xs">
+    <div
+      class="col-sm-4 pb15"
+      v-for="(tile, index) in social_tiles"
+      :key="index"
+    >
+      <router-link
+        :to="localizedRoute(tile.link)"
+        class="tile center-xs middle-xs no-underline"
       >
-        <tile-link :tile="tile" />
-      </div>
+        <img
+          class="tile-image"
+          v-lazy="tile.image"
+          :alt="tile.alt"
+        >
+      </router-link>
     </div>
   </div>
 </template>
@@ -15,47 +22,41 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import socialData from 'theme/resource/ig_feed.json'
-import TileLink from './TileLink.vue'
 
 export default {
   name: 'TileLinks',
-  created () {
-    this.updateSocialTiles(socialData)
-  },
   computed: {
     ...mapGetters({
       social_tiles: 'social/getSocialTiles'
     })
   },
+  created () {
+    this.updateSocialTiles(socialData)
+  },
   methods: {
     ...mapActions({
       updateSocialTiles: 'social/updateSocialTiles'
     })
-  },
-  components: {
-    TileLink
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .tile-links {
-    @media (max-width: 1199px) {
-      padding-top: 15px;
-    }
+@import "~theme/css/animations/transitions";
 
-    @media (max-width: 767px) {
-      padding: 15px;
-    }
+.tile {
+  display: flex;
+  overflow: hidden;
+}
+
+.tile-image {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s $motion-main;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.2);
   }
-
-  .tile-container {
-    @media (max-width: 1199px) {
-      margin-top: -15px;
-    }
-
-    @media (max-width: 767px) {
-      flex: 100%;
-    }
-  }
+}
 </style>

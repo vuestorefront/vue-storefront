@@ -26,7 +26,7 @@ export default {
   },
   [types.CART_DEL_ITEM] (state, { product }) {
     EventBus.$emit('cart-before-delete', { items: state.cartItems })
-    state.cartItems = state.cartItems.filter(p => p.sku !== product.sku)
+    state.cartItems = state.cartItems.filter(p => p.sku !== product.sku && p.parentSku !== product.sku)
     EventBus.$emit('cart-after-delete', { items: state.cartItems })
     state.cartSavedAt = new Date()
   },
@@ -61,6 +61,7 @@ export default {
     EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
     EventBus.$emit('application-after-loaded')
+    EventBus.$emit('cart-after-loaded')
   },
   [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
     state.cartServerToken = token

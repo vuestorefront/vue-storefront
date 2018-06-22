@@ -5,13 +5,13 @@
     <forgot-pass v-if="activeElem === 'forgot-pass'" />
   </modal>
 </template>
-<script>
-import Modal from 'theme/components/core/Modal'
-import Login from './Login.vue'
-import Register from './Register.vue'
-import ForgotPass from './ForgotPass.vue'
 
-import { coreComponent } from 'core/lib/themes'
+<script>
+import SignUp from 'core/components/blocks/Auth/SignUp'
+import Modal from 'theme/components/core/Modal'
+import Login from 'theme/components/core/blocks/Auth/Login'
+import Register from 'theme/components/core/blocks/Auth/Register'
+import ForgotPass from 'theme/components/core/blocks/Auth/ForgotPass'
 
 export default {
   components: {
@@ -20,9 +20,10 @@ export default {
     Register,
     ForgotPass
   },
-  mixins: [coreComponent('blocks/Auth/SignUp')]
+  mixins: [SignUp]
 }
 </script>
+
 <style scoped>
   .modal {
     font-size: 18px;
