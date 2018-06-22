@@ -12,7 +12,6 @@ describe('register path', () => {
     cy.get('[name=password]').type('Password123');
     cy.get('[name=password-confirm]').type('Password123');
     cy.get('#terms').check({ force: true });
-    cy.get('.modal form').submit();
     cy.get(".modal .cl-error").should('be.not.be.visible');
   });
 });

@@ -8,7 +8,6 @@ describe('login path', () => {
     cy.get('[name=email]').type('test@test.com');
     cy.get('[name=password]').type('Password123');
     cy.get('#remember').check({ force: true });
-    cy.get('.modal form').submit();
     cy.get(".modal .cl-error").should('be.not.be.visible');
   });
 });
