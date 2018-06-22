@@ -90,7 +90,7 @@ class LocalForageCacheDriver {
         }
       }
     }
-    return this._localForageCollection.iterate(function (value, key, iterationNumber) {
+    return this._localForageCollection.ready().then(() => self._localForageCollection.iterate(function (value, key, iterationNumber) {
       if (isIteratorCallable) {
         if (self._useLocalCacheByDefault) {
           if (typeof self._localCache[key] === 'undefined') {
@@ -103,7 +103,7 @@ class LocalForageCacheDriver {
           iterator(value, key, iterationNumber)
         }
       }
-    })
+    }))
   }
 
   // Same as localStorage's key() method, except takes a callback.
