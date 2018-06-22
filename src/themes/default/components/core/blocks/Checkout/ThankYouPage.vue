@@ -15,13 +15,28 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <h4>
+            <h3 v-if="OnlineOnly" >
               {{ $t('Your purchase') }}
+            </h3>
+            <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
+            <p v-if="OnlineOnly" v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, seuggestions how we could improve products or shopping experience')"/>
+
+            <h4 v-if="OfflineOnly">
+              {{ $t('You are offline') }}
             </h4>
-            <p v-online v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
-            <p v-online v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, seuggestions how we could improve products or shopping experience')"/>
-            <p v-offline>
-              {{ $t('Your order will be sent to the server as soon as you connect to the Internet and then confirmed regarding the stock quantities of selected items') }}
+            <p v-if="OfflineOnly && !isNotificationSupported" >
+              {{ $t('To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items') }}
+            </p>
+            <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted" >
+              {{ $t('You can allow us to remind you about the order via push notification after coming back online. You\'ll only need to click on it to confirm.') }}
+            </p>
+            <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted" >
+              <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
+            </p>
+            <p v-if="!isPermissionGranted">
+              <button-outline color="dark" @click.native="requestNotificationPermission()" >
+                Allow notification about the order
+              </button-outline>
             </p>
             <div id="thank-you-extensions"/>
             <h4>
@@ -61,10 +76,29 @@ import Composite from 'core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   name: 'ThankYouPage',
-  mixins: [Composite],
+  mixins: [Composite, VueOfflineMixin],
+  computed: {
+    isNotificationSupported () {
+      if (global.$VS.isSSR) return false
+      return 'Notification' in window
+    },
+    isPermissionGranted () {
+      if (global.$VS.isSSR) return false
+      return Notification.permission === 'granted'
+    }
+  },
+  methods: {
+    requestNotificationPermission () {
+      if (global.$VS.isSSR) return false
+      if ('Notification' in window && Notification.permission !== 'granted') {
+        Notification.requestPermission()
+      }
+    }
+  },
   components: {
     BaseTextarea,
     Breadcrumbs,

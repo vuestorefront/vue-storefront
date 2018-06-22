@@ -9,7 +9,12 @@ export default {
         kids: false,
         home: false
       },
-      stateNewsletter: Object.assign({}, this.$store.state.user.newsletter),
+      stateNewsletter: Object.assign(
+        {},
+        this.$store.state.user.newsletter
+          ? this.$store.state.user.newsletter
+          : this.getNewsletter()
+      ),
       isEdited: false
     }
   },
@@ -24,7 +29,12 @@ export default {
   },
   methods: {
     onLoggedIn () {
-      this.stateNewsletter = Object.assign({}, this.$store.state.user.newsletter)
+      this.stateNewsletter = Object.assign(
+        {},
+        this.$store.state.user.newsletter
+          ? this.$store.state.user.newsletter
+          : this.getNewsletter()
+      )
       this.newsletterPreferences = this.getNewsletter()
     },
     edit () {
@@ -79,6 +89,7 @@ export default {
       this.isEdited = false
     },
     getNewsletter () {
+      this.stateNewsletter = Object.assign({}, this.$store.state.user.newsletter)
       if (this.stateNewsletter) {
         return {
           generalAgreement: this.stateNewsletter.generalAgreement ? this.stateNewsletter.generalAgreement : false,

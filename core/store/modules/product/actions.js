@@ -76,7 +76,7 @@ export default {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode)), // sync the cart
+    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -241,7 +241,9 @@ export default {
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
           product.info = {}
-          product.parentSku = product.sku
+          if (!product.parentSku) {
+            product.parentSku = product.sku
+          }
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
             Object.assign(product, selectedVariant)
