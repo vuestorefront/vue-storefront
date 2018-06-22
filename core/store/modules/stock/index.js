@@ -21,8 +21,8 @@ EventBus.$on('stock-after-check', (event) => { // example stock check callback
       EventBus.$emit('cart-after-itemchanged', { item: cartItem })
     }
   })
-  console.log('Stock quantity checked for ' + event.result.product_id + ', qty = ' + event.result.qty + ', response time: ' + (event.transmited_at - event.created_at) + ' ms')
-  console.log(event)
+  console.debug('Stock quantity checked for ' + event.result.product_id + ', response time: ' + (event.transmited_at - event.created_at) + ' ms')
+  console.debug(event)
 })
 
 export default {
