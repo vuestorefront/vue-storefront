@@ -9,7 +9,7 @@ const themedIndex = path.join(themeRoot, 'index.template.html')
 
 const config = merge(base, {
   entry: {
-    'service-worker-ext': themeRoot + '/service-worker-ext.js',
+    'core-service-worker': path.resolve(__dirname, '../service-worker/index.js')
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
