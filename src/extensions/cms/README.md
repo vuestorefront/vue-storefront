@@ -11,7 +11,7 @@ To display cms data:
  ```
 ## Cms Page
 To display Cms Page:
-- in custom theme `themes/<theme-name>/index.js` import `CmsData` component, add custom route and define props: `{id: :pageId, type: 'Page'}`, example:
+- in custom theme `themes/<theme-name>/router/index.js` import `CmsData` component, add custom route and define props: `{id: :pageId, type: 'Page'}`, example:
 ```
 import CmsData from 'src/extensions/cms/components/CmsData'
 
