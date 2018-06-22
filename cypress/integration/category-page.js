@@ -1,6 +1,6 @@
 /* eslint no-undef: 0 */
 describe('Category page', () => {
-  it('verification of filters in the Women category  ', () => {
+  it('verification of filters in the Women category', () => {
     cy.visit('/')
     cy.get('.modal-close').click()
     indexedDB.deleteDatabase('shop')
@@ -43,6 +43,7 @@ describe('Category page', () => {
       .click()
       .should('contain', 'XL')
     cy.get('.sidebar > :nth-child(4)').should('be.visible')
+    cy.get('.products-list > div > div').should('have.length', 17)
     cy.get('[label="< $50"]>.relative')
       .click()
       .should('have.class', 'active')
