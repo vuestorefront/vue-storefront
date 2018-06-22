@@ -1,13 +1,13 @@
 <template>
-  <cms-page />
+  <cms-data />
 </template>
 
 <script>
-import CmsPage from 'src/extensions/cms/components/CmsPage'
+import CmsPage from 'src/extensions/cms/components/CmsData'
 
 export default {
   components: {
-    CmsPage
+    CmsData
   }
 }
 </script>

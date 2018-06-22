@@ -1,13 +1,17 @@
 <template>
-  <div class="cms-page" v-if="page" v-html="page.content" />
+  <div class="cms-content" v-if="data" v-html="data.content" />
 </template>
 
 <script>
 export default {
-  name: 'CmsPage',
+  name: 'CmsData',
   props: {
     id: {
       type: Number,
+      required: true
+    },
+    type: {
+      type: String,
       required: true
     }
   },
@@ -16,13 +20,13 @@ export default {
       'cms/loadCms',
       {
         id: this.id,
-        type: 'Page'
+        type: this.type
       }
     )
   },
   computed: {
-    page () {
-      return this.$store.getters['cms/getPage'](this.id)
+    data () {
+      return this.$store.getters[`cms/get${this.type}`](this.id)
     }
   }
 }

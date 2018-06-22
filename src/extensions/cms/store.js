@@ -20,7 +20,7 @@ const actions = {
   loadCms (context, {id, type}) {
     let url = (config.cms.endpoint)
       .replace('{{type}}', type)
-      .replace(`{{cmsId}}`, id)
+      .replace('{{cmsId}}', id)
 
     fetch(url, {
       method: 'GET',

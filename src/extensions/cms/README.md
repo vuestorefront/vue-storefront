@@ -10,22 +10,22 @@ To display cms data:
  },
  ```
 ## Cms Page
-To display CMS Page:
-- in custom theme `themes/<theme-name>/index.js` import CmsPage component, add custom route and define page id in props, example:
+To display Cms Page:
+- in custom theme `themes/<theme-name>/index.js` import `CmsData` component, add custom route and define props: `{id: :pageId, type: 'Page'}`, example:
 ```
-import CmsPage from 'src/extensions/cms/components/CmsPage'
+import CmsData from 'src/extensions/cms/components/CmsData'
 
 const routes = [
   // ... theme routes
-  { name: 'custom-cms-page', path: '/custom-cms-page', component: CmsPage, props: {id: 4} }
+  { name: 'custom-cms-page', path: '/custom-cms-page', component: CmsData, props: {id: 4, type: 'Page'} }
 ]
 ```
-- create custom page and call the `CmsPage` component there,
-see `src/themes/default/pages/CustomCmsPage.vue`
+- create custom page and call the `CmsData` component there,
+see `src/themes/default/pages/CustomCmsPage.vue` for detailed example.
 
 ## Cms Block
-To display CmsBlock use in template:
+To display Cms Block use in template:
 
-`<cms-block :id="5"/>`
+`<cms-data :id="5" :type="'Block'" />`
 
-where `5` is a block identifier
+where `5` is a cms block identifier
