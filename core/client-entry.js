@@ -101,7 +101,8 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 
   const ordersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
-    storeName: 'orders'
+    storeName: 'orders',
+    driver: localForage.LOCALSTORAGE
   }))
 
   const fetchQueue = []
@@ -164,7 +165,8 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
           })
       })
     }
-  }).then(() => {
+  }, (err, result) => {
+    if (err) console.error(err)
     console.log('Iteration has completed')
 
     // execute them serially
@@ -194,11 +196,13 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
 
   const usersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
-    storeName: 'user'
+    storeName: 'user',
+    driver: localForage.LOCALSTORAGE
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
-    storeName: 'carts'
+    storeName: 'carts',
+    driver: localForage.LOCALSTORAGE
   }))
 
   usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
@@ -234,7 +238,8 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
             })
           })
         }
-      }).then(() => {
+      }, (err, result) => {
+        if (err) console.error(err)
         console.debug('Iteration has completed')
         // execute them serially
         serial(fetchQueue)

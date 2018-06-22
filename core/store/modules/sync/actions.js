@@ -43,11 +43,13 @@ export default {
     task = _prepareTask(task)
     const usersCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'user'
+      storeName: 'user',
+      driver: localForage.LOCALSTORAGE
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'carts'
+      storeName: 'carts',
+      driver: localForage.LOCALSTORAGE
     }))
     return new Promise((resolve, reject) => {
       if (global.$VS.isSSR) {

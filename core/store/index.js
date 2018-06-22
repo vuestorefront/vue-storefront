@@ -143,7 +143,8 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
   Vue.prototype.$db = {
     ordersCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'orders'
+      storeName: 'orders',
+      driver: localForage.LOCALSTORAGE
     })),
     categoriesCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
@@ -155,7 +156,8 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     })),
     cartsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'carts'
+      storeName: 'carts',
+      driver: localForage.LOCALSTORAGE
     })),
     elasticCacheCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
@@ -179,7 +181,8 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     })),
     usersCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'user'
+      storeName: 'user',
+      driver: localForage.LOCALSTORAGE
     })),
     syncTaskCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
@@ -187,7 +190,8 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     })),
     checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'checkoutFieldValues'
+      storeName: 'checkoutFieldValues',
+      driver: localForage.LOCALSTORAGE
     })),
     newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',

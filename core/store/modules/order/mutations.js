@@ -18,7 +18,8 @@ export default {
 
     ordersCollection.setItem(orderId.toString(), order).catch((reason) => {
       console.error(reason) // it doesn't work on SSR
-    }).then((resp) => {
+    }, (err, resp) => {
+      if (err) console.error(err)
       EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
       console.info('Order placed, orderId = ' + orderId)
     }) // populate cache
