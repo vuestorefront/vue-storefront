@@ -130,10 +130,12 @@ class LocalForageCacheDriver {
           iterator(value, key, iterationNumber)
         }
       }
+      if (isCallbackCallable) callback(null, null)
     })).catch((err) => {
       this._lastError = err
       console.error(err)
       isResolved = true
+      if (isCallbackCallable) callback(err, null)
     })
     setTimeout(function () {
       if (!isResolved) { // this is cache time out check
