@@ -80,7 +80,7 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
 }
 
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
-  let searchProductQuery = builder().andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
+  let searchProductQuery = builder().andFilter('range', 'status', { 'gte': 0, 'lt': 3 }/* 3 = disabled, 4 = out of stock */).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
 
   // add filters to query
   for (let attrToFilter of filters) {
