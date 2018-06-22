@@ -19,6 +19,7 @@
           name="email"
           autocomplete="email"
           v-model="email"
+          @blur="$v.email.$touch()"
           focus
           :placeholder="$t('E-mail address *')"
           :validations="[
@@ -39,6 +40,7 @@
             name="fist-name"
             autocomplete="given-name"
             v-model="firstName"
+            @blur="$v.firstName.$touch()"
             :placeholder="$t('First name *')"
             :validation="{
               condition: !$v.firstName.required && $v.firstName.$error,
@@ -51,6 +53,7 @@
             name="last-name"
             autocomplete="last-name"
             v-model="lastName"
+            @blur="$v.lastName.$touch()"
             :placeholder="$t('Last name *')"
             :validation="{
               condition: !$v.lastName.required && $v.lastName.$error,
@@ -64,11 +67,18 @@
           name="password"
           autocomplete="new-password"
           v-model="password"
+          @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
-          :validation="{
-            condition: !$v.password.required && $v.password.$error,
-            text: $t('Field is required.')
-          }"
+          :validations="[
+            {
+              condition: !$v.password.required && $v.password.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !$v.password.minLength && $v.password.$error,
+              text: $t('Password must have at least 8 letters.')
+            }
+          ]"
         />
         <base-input
           class="mb35"
@@ -76,6 +86,7 @@
           name="password-confirm"
           autocomplete="new-password"
           v-model="rPassword"
+          @blur="$v.rPassword.$touch()"
           :placeholder="$t('Repeat password *')"
           :validations="[
             {
@@ -83,7 +94,7 @@
               text: $t('Field is required.')
             },
             {
-              condition: !$v.rPassword.sameAsPassword,
+              condition: !$v.rPassword.sameAsPassword && $v.rPassword.$error,
               text: $t('Passwords must be identical.')
             }
           ]"
@@ -122,7 +133,7 @@ import Register from 'core/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
-import { required, email, sameAs } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
 export default {
@@ -138,6 +149,7 @@ export default {
       required
     },
     password: {
+      minLength: minLength(8),
       required
     },
     rPassword: {
