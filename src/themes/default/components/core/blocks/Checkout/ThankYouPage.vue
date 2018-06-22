@@ -83,14 +83,17 @@ export default {
   mixins: [Composite, VueOfflineMixin],
   computed: {
     isNotificationSupported () {
+      if (global.$VS.isSSR) return false
       return 'Notification' in window
     },
     isPermissionGranted () {
+      if (global.$VS.isSSR) return false
       return Notification.permission === 'granted'
     }
   },
   methods: {
     requestNotificationPermission () {
+      if (global.$VS.isSSR) return false
       if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission()
       }
