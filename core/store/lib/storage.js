@@ -62,10 +62,10 @@ class LocalForageCacheDriver {
 
       setTimeout(function () {
         if (!isResolved) { // this is cache time out check
-          console.error('Cache not responding within 1s')
+          console.error('Cache not responding within 1.5s')
           if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
         }
-      }, 1200)
+      }, 1500)
       return promise
     } else {
       return new Promise((resolve, reject) => {
