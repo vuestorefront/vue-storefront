@@ -20,8 +20,8 @@
           <div class="thumbnails">
             <div
               class="bg-cl-secondary"
-              v-for="(images, key) in gallery"
-              :key="key">
+              v-for="images in gallery"
+              :key="images.src">
               <transition name="fade" appear>
                 <img
                   v-lazy="images"
@@ -55,8 +55,8 @@
               ref="carousel"
             >
               <slide
-                v-for="(images, key) in gallery"
-                :key="key">
+                v-for="images in gallery"
+                :key="images.src">
                 <div class="bg-cl-secondary">
                   <img
                     class="product-image inline-flex pointer mw-100"
@@ -83,12 +83,13 @@
 <script>
 import ProductGallery from 'core/components/ProductGallery'
 import NoSSR from 'vue-no-ssr'
+import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   components: {
     'no-ssr': NoSSR
   },
-  mixins: [ProductGallery],
+  mixins: [ProductGallery, VueOfflineMixin],
   data () {
     return {
       loaded: true

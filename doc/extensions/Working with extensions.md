@@ -37,7 +37,7 @@ The naming convention for the events is: `after-<module>-<action>` for example `
 If you want to provide some components for the themes please think of them as a mixins (you can add default HTML markup) so they can be styled and modified in themes.
 
 ## How to install the extension
-The enabled extensions must be declared within `src/extensions/index.js` file. 
+The enabled extensions must be declared within `src/extensions/index.js` file. You can also declare theme-specific extensions in `src/{your_theme}/extensions/index.js`.
 
 You should just instantionate your extension adding it to the list:
 

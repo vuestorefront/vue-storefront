@@ -7,14 +7,6 @@
   </span>
 </template>
 
-<script>
-import Tooltip from 'core/components/Tooltip'
-
-export default {
-  mixins: [Tooltip]
-}
-</script>
-
 <style lang="scss" scoped>
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';

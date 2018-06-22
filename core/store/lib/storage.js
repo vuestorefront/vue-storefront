@@ -15,6 +15,7 @@ class LocalForageCacheDriver {
     this._useLocalCacheByDefault = useLocalCacheByDefault
     this._localCache = global.$VS.localCache[dbName][collectionName]
     this._localForageCollection = collection
+    this._lastError = null
   }
 
   // Remove all keys from the datastore, effectively destroying all data in
@@ -39,7 +40,7 @@ class LocalForageCacheDriver {
       })
     }
     // console.debug('No local cache fallback for GET', key)
-    const promise = this._localForageCollection.getItem(key).then(result => {
+    const promise = this._localForageCollection.ready().then(() => self._localForageCollection.getItem(key).then(result => {
       if (!isResolved) {
         if (isCallbackCallable) {
           callback(null, result)
@@ -50,19 +51,19 @@ class LocalForageCacheDriver {
       }
       return result
     }).catch(err => {
-      console.debug('UniversalStorage - GET - probably in SSR mode: ' + err)
+      this._lastError = err
       if (!isResolved) {
         if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
       }
       isResolved = true
-    })
+    }))
 
     setTimeout(function () {
       if (!isResolved) { // this is cache time out check
         console.error('Cache not responding within 1s')
         if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
       }
-    }, 1000)
+    }, 1200)
     return promise
   }
 
@@ -126,13 +127,13 @@ class LocalForageCacheDriver {
     const self = this
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     self._localCache[key] = value
-    const promise = this._localForageCollection.setItem(key, value).then(result => {
+    const promise = this._localForageCollection.ready().then(() => self._localForageCollection.setItem(key, value).then(result => {
       if (isCallbackCallable) {
         callback(null, result)
       }
     }).catch(err => {
-      console.debug('UniversalStorage - SET - probably in SSR mode: ' + err)
-    })
+      self._lastError = err
+    }))
 
     return promise
   }

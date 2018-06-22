@@ -145,6 +145,7 @@ export default {
       }
     },
     getShippingDetails () {
+      this.currentUser = Object.assign({}, this.$store.state.user.current)
       if (this.currentUser) {
         if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
           let index

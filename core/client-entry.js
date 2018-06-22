@@ -18,8 +18,10 @@ let storeCode = null // select the storeView by prefetched vuex store state (pre
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
-if ((storeCode = rootStore.state.user.current_storecode)) {
-  prepareStoreView(storeCode, config)
+if (config.storeViews.multistore === true) {
+  if ((storeCode = rootStore.state.user.current_storecode)) {
+    prepareStoreView(storeCode, config)
+  }
 }
 
 function _ssrHydrateSubcomponents (components, next, to) {
@@ -39,13 +41,15 @@ router.onReady(() => {
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
     if (to) { // this is from url
-      const storeCode = storeCodeFromRoute(to)
-      const currentStore = currentStoreView()
-      if (storeCode !== '' && storeCode !== null) {
-        if (storeCode !== currentStore.storeCode) {
-          document.location = to.path // full reload
-        } else {
-          prepareStoreView(storeCode, config)
+      if (config.storeViews.multistore === true) {
+        const storeCode = storeCodeFromRoute(to)
+        const currentStore = currentStoreView()
+        if (storeCode !== '' && storeCode !== null) {
+          if (storeCode !== currentStore.storeCode) {
+            document.location = to.path // full reload
+          } else {
+            prepareStoreView(storeCode, config)
+          }
         }
       }
     }
@@ -144,6 +148,17 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             }
             orderMutex[id] = false
           }).catch((err) => {
+            if (config.orders.offline_orders.notification.enabled) {
+              navigator.serviceWorker.ready.then(registration => {
+                registration.sync.register('orderSync')
+                  .then(() => {
+                    console.log('Order sync registered')
+                  })
+                  .catch(error => {
+                    console.log('Unable to sync', error)
+                  })
+              })
+            }
             console.error('Error sending order: ' + orderId, err)
             orderMutex[id] = false
           })

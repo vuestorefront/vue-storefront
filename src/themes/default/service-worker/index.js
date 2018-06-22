@@ -1,13 +1,10 @@
-'use strict'
-
 /*
+Service worker extension
 
-Service worker extensions for theme DEFAULT
 Add your own Service worker code here - for example using sw-toolbox library:
 
 toolbox.router.get("/", toolbox.cacheFirst, {});
 toolbox.router.get("/catalog", toolbox.fastest, {});
-*/
 
-self.addEventListener('message', function (event) {
-})
+The code will be merged with default Service Worker
+*/

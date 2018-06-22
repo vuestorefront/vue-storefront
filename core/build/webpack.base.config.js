@@ -3,13 +3,12 @@ const config = require('config')
 const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const autoprefixer = require('autoprefixer')
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
 )
-
-const appConfig = require('./config.json')
 
 const extensionsRoot = '../../src/extensions'
 const themesRoot = '../../src/themes'
@@ -25,6 +24,19 @@ const themeResources = themeRoot + '/resource'
 const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
+
+const postcssConfig =  {
+  loader: 'postcss-loader',
+  options: {
+    ident: 'postcss',
+    plugins: (loader) => [
+      require('postcss-flexbugs-fixes'),
+      require('autoprefixer')({
+        flexbox: 'no-2009',
+      }),
+    ]
+  }
+};
 
 module.exports = {
   plugins: [
@@ -71,6 +83,8 @@ module.exports = {
       'core/resource': path.resolve(__dirname, '../resource'),
       'core/router': path.resolve(__dirname, '../router'),
       'core/directives': path.resolve(__dirname, '../directives'),
+      // Ccre API Modules
+      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
@@ -96,14 +110,15 @@ module.exports = {
         enforce: 'pre',
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
-        exclude: /node_modules/
+        exclude: [/node_modules/, /test/]
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
           optimizeSSR: false,
-          preserveWhitespace: false
+          preserveWhitespace: false,
+          postcss: [autoprefixer()],
         }
       },
       {
@@ -122,7 +137,8 @@ module.exports = {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          'css-loader',
+          postcssConfig
         ]
       },
       {
@@ -130,6 +146,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
+          postcssConfig,
           'sass-loader'
         ]
       },
@@ -138,6 +155,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
+          postcssConfig,
           {
             loader: 'sass-loader',
             options: {

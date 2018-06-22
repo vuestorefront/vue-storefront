@@ -22,7 +22,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: '/c/' + sc.slug
+      route_link: (config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
     })
   }
 
@@ -74,13 +74,13 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
     }
     return filterQr
   }
-  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b).notFilter('match', 'type_id', 'configurable'))
+  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b))
     .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
   return filterQr
 }
 
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
-  let searchProductQuery = builder().andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
+  let searchProductQuery = builder().andFilter('range', 'status', { 'gte': 0, 'lt': 3 }/* 3 = disabled, 4 = out of stock */).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
 
   // add filters to query
   for (let attrToFilter of filters) {
