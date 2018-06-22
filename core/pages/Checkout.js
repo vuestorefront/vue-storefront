@@ -50,7 +50,7 @@ export default {
           checkPromises.push(new Promise((resolve, reject) => {
             global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
               if (err || !item) {
-                console.error(err)
+                if (err) console.error(err)
                 resolve(null)
               } else {
                 product.stock = item.result

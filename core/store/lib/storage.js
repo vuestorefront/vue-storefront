@@ -25,6 +25,7 @@ class LocalForageCacheDriver {
     this._localCache = global.$VS.localCache[dbName][collectionName]
     this._localForageCollection = collection
     this._lastError = null
+    this._persistenceErrorNotified = false
   }
 
   // Remove all keys from the datastore, effectively destroying all data in
@@ -51,7 +52,10 @@ class LocalForageCacheDriver {
 
     if (!global.$VS.isSSR) {
       if (global.$VS.cacheErrorsCount[self._collectionName] >= DISABLE_PERSISTANCE_AFTER && self._useLocalCacheByDefault) {
-        console.error('Persistent cache disabled becasue of previous errors [get]', key)
+        if (!self._persistenceErrorNotified) {
+          console.error('Persistent cache disabled becasue of previous errors [get]', key)
+          self._persistenceErrorNotified = true
+        }
         return new Promise((resolve, reject) => {
           if (isCallbackCallable) callback(null, null)
           resolve(null)
@@ -84,7 +88,10 @@ class LocalForageCacheDriver {
 
         setTimeout(function () {
           if (!isResolved) { // this is cache time out check
-            console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, global.$VS.cacheErrorsCount[self._collectionName])
+            if (!self._persistenceErrorNotified) {
+              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, global.$VS.cacheErrorsCount[self._collectionName])
+              self._persistenceErrorNotified = true
+            }
             global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
           }
@@ -140,7 +147,10 @@ class LocalForageCacheDriver {
     })
     setTimeout(function () {
       if (!isResolved) { // this is cache time out check
-        console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [iterate]', global.$VS.cacheErrorsCount[self._collectionName])
+        if (!self._persistenceErrorNotified) {
+          console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [iterate]', global.$VS.cacheErrorsCount[self._collectionName])
+          self._persistenceErrorNotified = true
+        }
         global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
         if (isCallbackCallable) callback(null, null)
       }
@@ -180,7 +190,10 @@ class LocalForageCacheDriver {
     self._localCache[key] = value
     if (!global.$VS.isSSR) {
       if (global.$VS.cacheErrorsCount[self._collectionName] >= DISABLE_PERSISTANCE_AFTER && self._useLocalCacheByDefault) {
-        console.error('Persistent cache disabled becasue of previous errors [set]', key)
+        if (!self._persistenceErrorNotified) {
+          console.error('Persistent cache disabled becasue of previous errors [set]', key)
+          self._persistenceErrorNotified = true
+        }
         return new Promise((resolve, reject) => {
           if (isCallbackCallable) callback(null, null)
           resolve(null)
@@ -198,7 +211,10 @@ class LocalForageCacheDriver {
         }))
         setTimeout(function () {
           if (!isResolved) { // this is cache time out check
-            console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, global.$VS.cacheErrorsCount[self._collectionName])
+            if (!self._persistenceErrorNotified) {
+              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, global.$VS.cacheErrorsCount[self._collectionName])
+              self._persistenceErrorNotified = true
+            }
             global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, null)
           }
