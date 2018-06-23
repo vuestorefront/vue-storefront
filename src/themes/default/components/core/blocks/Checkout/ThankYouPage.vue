@@ -33,7 +33,7 @@
             <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted" >
               <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
             </p>
-            <p v-if="!isPermissionGranted">
+            <p v-if="!isPermissionGranted && isNotificationSupported">
               <button-outline color="dark" @click.native="requestNotificationPermission()" >
                 Allow notification about the order
               </button-outline>
