@@ -13,7 +13,8 @@ export default {
         region: '',
         country: '',
         postcode: '',
-        taxId: ''
+        taxId: '',
+        phone: ''
       },
       countries: Countries,
       changePassword: false,
@@ -108,6 +109,7 @@ export default {
               updatedProfile.addresses[index].country_id = this.userCompany.country || ''
               updatedProfile.addresses[index].postcode = this.userCompany.postcode || ''
               updatedProfile.addresses[index].vat_id = this.userCompany.taxId || ''
+              updatedProfile.addresses[index].telephone = this.userCompany.phone || ''
             } else {
               updatedProfile.addresses.splice(index, 1)
               this.userCompany = {
@@ -118,7 +120,8 @@ export default {
                 region: '',
                 country: '',
                 postcode: '',
-                taxId: ''
+                taxId: '',
+                phone: ''
               }
             }
           }
@@ -133,6 +136,7 @@ export default {
             country_id: this.userCompany.country,
             postcode: this.userCompany.postcode,
             vat_id: this.userCompany.taxId,
+            telephone: this.userCompany.phone,
             default_billing: true
           })
         }
@@ -181,7 +185,8 @@ export default {
             region: user.addresses[index].region.region ? user.addresses[index].region.region : '',
             country: user.addresses[index].country_id || '',
             postcode: user.addresses[index].postcode || '',
-            taxId: user.addresses[index].vat_id || ''
+            taxId: user.addresses[index].vat_id || '',
+            phone: user.addresses[index].telephone || ''
           }
         }
       } else {
@@ -193,7 +198,8 @@ export default {
           region: '',
           country: '',
           postcode: '',
-          taxId: ''
+          taxId: '',
+          phone: ''
         }
       }
     },
