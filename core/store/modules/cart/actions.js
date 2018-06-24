@@ -337,8 +337,8 @@ export default {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
         const paymentMethods = context.rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods.find(item => item.default)
-        let payment = paymentMethods.find(item => item.default)
+        let shipping = shippingMethods ? shippingMethods.find(item => item.default) : null
+        let payment = paymentMethods ? paymentMethods.find(item => item.default) : null
         if (!shipping && shippingMethods && shippingMethods.length > 0) {
           shipping = shippingMethods[0]
         }
