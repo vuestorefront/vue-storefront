@@ -144,62 +144,72 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     ordersCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'orders',
-      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+      driver: localForage[config.localForage.defaultDrivers['orders']]
     })),
     categoriesCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'categories'
+      storeName: 'categories',
+      driver: localForage[config.localForage.defaultDrivers['categories']]
     })),
     attributesCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'attributes'
+      storeName: 'attributes',
+      driver: localForage[config.localForage.defaultDrivers['attributes']]
     })),
     cartsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'carts',
-      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+      driver: localForage[config.localForage.defaultDrivers['carts']]
     })),
     elasticCacheCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'elasticCache'
+      storeName: 'elasticCache',
+      driver: localForage[config.localForage.defaultDrivers['elasticCache']]
     })),
     productsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'products'
+      storeName: 'products',
+      driver: localForage[config.localForage.defaultDrivers['products']]
     })),
     claimsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'claims'
+      storeName: 'claims',
+      driver: localForage[config.localForage.defaultDrivers['claims']]
     })),
     wishlistCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'wishlist'
+      storeName: 'wishlist',
+      driver: localForage[config.localForage.defaultDrivers['wishlist']]
     })),
     compareCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'compare'
+      storeName: 'compare',
+      driver: localForage[config.localForage.defaultDrivers['compare']]
     })),
     usersCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'user',
-      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+      driver: localForage[config.localForage.defaultDrivers['user']]
     })),
     syncTaskCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'syncTasks'
+      storeName: 'syncTasks',
+      driver: localForage[config.localForage.defaultDrivers['syncTasks']]
     })),
     checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'checkoutFieldValues',
-      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+      driver: localForage[config.localForage.defaultDrivers['checkoutFieldValues']]
     })),
     newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'newsletterPreferences'
+      storeName: 'newsletterPreferences',
+      driver: localForage[config.localForage.defaultDrivers['newsletterPreferences']]
     })),
     ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'ordersHistory'
+      storeName: 'ordersHistory',
+      driver: localForage[config.localForage.defaultDrivers['ordersHistory']]
     }))
   }
   global.$VS.db = Vue.prototype.$db // localForage instance
