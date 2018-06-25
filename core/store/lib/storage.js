@@ -1,6 +1,9 @@
+
+import * as localForage from 'localforage'
 const CACHE_TIMEOUT = 1500
 const CACHE_TIMEOUT_ITERATE = 3000
 const DISABLE_PERSISTANCE_AFTER = 3
+
 class LocalForageCacheDriver {
   constructor (collection, useLocalCacheByDefault = true) {
     const collectionName = collection._config.storeName
@@ -33,6 +36,15 @@ class LocalForageCacheDriver {
   // the app's key/value store!
   clear (callback) {
     return this._localForageCollection.clear(callback)
+  }
+
+  // Increment the database version number and recreate the context
+  recreateDb () {
+    const existingConfig = Object.assign({}, this._localForageCollection._config)
+    localForage.dropInstance(existingConfig) // drop the store and create the new one
+    const destVersionNumber = this._localForageCollection._dbInfo.version + 1
+    this._localForageCollection = localForage.createInstance({ ...existingConfig, version: destVersionNumber })
+    console.log('DB recreated with', existingConfig, destVersionNumber)
   }
 
   // Retrieve an item from the store. Unlike the original async_storage
@@ -95,6 +107,7 @@ class LocalForageCacheDriver {
             if (!self._persistenceErrorNotified) {
               console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, global.$VS.cacheErrorsCount[self._collectionName])
               self._persistenceErrorNotified = true
+              self.recreateDb()
             }
             global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
@@ -157,6 +170,7 @@ class LocalForageCacheDriver {
         if (!self._persistenceErrorNotified) {
           console.error('Cache not responding within ' + CACHE_TIMEOUT_ITERATE + ' ms for [iterate]', global.$VS.cacheErrorsCount[self._collectionName])
           self._persistenceErrorNotified = true
+          self.recreateDb()
         }
         global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
         if (isCallbackCallable) callback(null, null)
@@ -221,6 +235,7 @@ class LocalForageCacheDriver {
             if (!self._persistenceErrorNotified) {
               console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, global.$VS.cacheErrorsCount[self._collectionName])
               self._persistenceErrorNotified = true
+              self.recreateDb()
             }
             global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, null)
