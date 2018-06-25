@@ -11,7 +11,7 @@
     <div v-if="currentUser" class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400">
       <div class="py5">
         <div v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-          <router-link class="no-underline block py10 px15" :to="page.link">
+          <router-link class="no-underline block py10 px15" :to="localizedRoute(page.link)">
             {{ page.title }}
           </router-link>
         </div>

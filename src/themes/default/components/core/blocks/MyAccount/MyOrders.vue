@@ -35,7 +35,7 @@
                 <span class="relative dropdown">
                   <i class="material-icons cl-secondary pointer">more_horiz</i>
                   <div class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400 fs-medium-small py5">
-                    <router-link class="no-underline block py10 px15" :to="`/my-account/orders/${order.entity_id}`">
+                    <router-link class="no-underline block py10 px15" :to="localizedRoute(`/my-account/orders/${order.entity_id}`)">
                       {{ $t('View order') }}
                     </router-link>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(order.items)">{{ $t('Remake order') }}</a>

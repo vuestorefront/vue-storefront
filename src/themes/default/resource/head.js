@@ -23,6 +23,7 @@ export default {
     { rel: 'apple-touch-icon', href: '/assets/apple_splash_1242.png', sizes: '1242x2208' },
     { rel: 'apple-touch-icon', href: '/assets/apple_splash_750.png', sizes: '750x1334' },
     { rel: 'apple-touch-icon', href: '/assets/apple_splash_640.png', sizes: '640x1136' },
-    { rel: 'manifest', href: '/assets/manifest.json' }
+    { rel: 'manifest', href: '/assets/manifest.json' },
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
   ]
 }

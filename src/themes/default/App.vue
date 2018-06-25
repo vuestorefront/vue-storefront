@@ -15,7 +15,9 @@
       <newsletter-popup/>
       <cookie-notification/>
       <offline-badge/>
+      <modal-switcher/>
     </div>
+    <vue-progress-bar />
   </div>
 </template>
 
@@ -38,6 +40,7 @@ import SignUp from './components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
 import OfflineBadge from './components/core/OfflineBadge.vue'
+import ModalSwitcher from './components/core/blocks/Switcher/Language.vue'
 
 import Head from 'theme/resource/head'
 
@@ -45,6 +48,17 @@ export default {
   computed: {
     ...mapState({
       overlayActive: state => state.ui.overlay
+    })
+  },
+  created () {
+    // Progress bar on top of the page
+    this.$router.beforeEach((to, from, next) => {
+      this.$Progress.start()
+      this.$Progress.increase(40)
+      next()
+    })
+    this.$router.afterEach((to, from) => {
+      this.$Progress.finish()
     })
   },
   metaInfo: Head,
@@ -62,9 +76,12 @@ export default {
     SignUp,
     NewsletterPopup,
     CookieNotification,
-    OfflineBadge
+    OfflineBadge,
+    ModalSwitcher
   }
 }
 </script>
 
 <style lang="scss" src="./css/main.scss">
+
+</style>

@@ -70,12 +70,6 @@ import { required, email } from 'vuelidate/lib/validators'
 import i18n from 'core/lib/i18n'
 
 export default {
-  data () {
-    return {
-      email: '',
-      passwordSent: false
-    }
-  },
   validations: {
     email: {
       required,
@@ -115,9 +109,6 @@ export default {
         console.error(err)
         this.$bus.$emit('notification-progress-stop')
       })
-    },
-    switchElem () {
-      this.$store.commit('ui/setAuthElem', 'login')
     }
   },
   mixins: [ForgotPass],

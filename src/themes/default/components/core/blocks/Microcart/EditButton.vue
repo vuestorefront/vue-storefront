@@ -6,11 +6,3 @@
     <i class="material-icons h4 p5 pr0">mode_edit</i>
   </button>
 </template>
-
-<script>
-import editButton from 'core/components/blocks/Microcart/EditButton'
-
-export default {
-  mixins: [editButton]
-}
-</script>

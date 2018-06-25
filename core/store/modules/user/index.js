@@ -74,6 +74,7 @@ export default {
   state: {
     token: '',
     current: null,
+    current_storecode: '',
     session_started: new Date(),
     newsletter: null,
     orders_history: null

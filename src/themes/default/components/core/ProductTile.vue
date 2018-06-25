@@ -1,18 +1,18 @@
 <template>
   <div
-    class="product align-center w-100"
+    class="product align-center w-100 pb20"
     v-observe-visibility="visibilityChanged"
   >
     <router-link
       class="no-underline product-link"
-      :to="{
+      :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
           parentSku: product.parentSku ? product.parentSku : product.sku,
           slug: product.slug,
           childSku: product.sku
         }
-      }"
+      })"
     >
       <div
         class="product-image relative bg-cl-secondary"
@@ -25,7 +25,7 @@
           width="310">
       </div>
 
-      <p class="mb0 cl-accent">
+      <p class="mb0 cl-accent mt10">
         {{ product.name | htmlDecode }}
       </p>
 
@@ -107,8 +107,8 @@ $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
 .product {
-  @media (max-width: 700px) {
-    padding: 0;
+  @media (max-width: 767px) {
+    padding-bottom: 10px;
   }
 }
 
@@ -151,6 +151,8 @@ $color-white: color(white);
   img {
     max-height: 100%;
     max-width: 100%;
+    width: auto;
+    height: auto;
     margin: auto;
     mix-blend-mode: darken;
     opacity: 0.8;
@@ -158,8 +160,6 @@ $color-white: color(white);
     transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
     &[lazy="loaded"] {
-      width: auto;
-      height: auto;
       animation: products-loaded;
       animation-duration: 0.3s;
     }

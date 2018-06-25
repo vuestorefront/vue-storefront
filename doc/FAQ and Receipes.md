@@ -21,6 +21,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#how-to-modify-schema">How to add/remove/change field types in the ElasticSearch index</a>
 * <a href="#magento-extensions">How to integrate 3rd party Magento extensions?</a>
 * <a href="#multi-website">How to support Multistore / Multiwebsite setup</a>
+* <a href="#configurable-filters">How to deal with Category filters based on configurable_children</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -215,6 +216,10 @@ If the extensions are not playing with the User Interface, probably they will wo
 
 ### <a name="multi-website"></a>How to support Multistore / Multiwebsite setup
 
-Currently, the Multi Website support is possible by setting up few separate instances of Vue Storefront configured to use other API endpoints + have few ElasticSearch indexes (each for one storeview). Magento2 API allows the user to simply add the: http://magento-store.example.com/store_code/V1 ... to the endpoitns so You can just switch the store view by changing store_code - from "default" to any kind of "en", "de" ... 
+Currently, the Multi Website support is possible by setting up few separate instances of Vue Storefront configured to use other API endpoints + have few ElasticSearch indexes (each for one storeView). Magento2 API allows the user to simply add the: http://magento-store.example.com/store_code/V1 ... to the endpoitns so You can just switch the store view by changing store_code - from "default" to any kind of "en", "de" ... 
 2
+
+### <a name="configurable-filters"></a>How to deal with Category filters based on configurable_children
+
+If You like to have Category filter working with configurable products - You need to expand the `product.configurable_children.attrName` to `product.attrName_options` array. This is automatically done by [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) for all attributes set as `product.configurable_options` (by default: color, size). If You like to add additional fields like `manufacturer` to the filters You need to expand `product.manufacturer_options` field. The easiest way to do so is to set `config.product.expandConfigurableFilters` to `['manufacturer']` and re-run the `mage2vuestorefront` indexer.
 

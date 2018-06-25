@@ -1,4 +1,6 @@
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
+import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart } from 'core/api/cart'
+import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'Microcart',
@@ -28,12 +30,15 @@ export default {
     this.$bus.$off('network-before-checkStatus', this.onNetworkStatusChanged)
   },
   methods: {
+    onEscapePress () {
+      this.closeMicrocart()
+    },
     onNetworkStatusChanged (status) {
       this.isOnline = status.online
     },
-    closeMicrocart () {
+    closeMicrocartExtend () {
+      this.closeMicrocart()
       this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setMicrocart', false)
       this.addCouponPressed = false
     },
     removeCoupon () {
@@ -52,8 +57,7 @@ export default {
       if (e.keyCode === 13) {
         this.applyCoupon()
       }
-    },
-    ...mapActions({ 'removeFromCart': 'cart/removeItem' })
+    }
   },
   computed: {
     ...mapGetters({
@@ -65,14 +69,9 @@ export default {
     payment () {
       return this.$store.state.cart.payment
     },
-    items () {
-      return this.$store.state.cart.cartItems
-    },
     coupon () {
       return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
-    },
-    ...mapState({
-      isOpen: state => state.ui.microcart
-    })
-  }
+    }
+  },
+  mixins: [onEscapePress, productsInCart, isMicrocartOpen, closeMicrocart, removeFromCart]
 }

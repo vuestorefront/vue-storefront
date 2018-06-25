@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/" :title="$t('Home Page')" class="no-underline inline-flex">
+  <router-link :to="localizedRoute('/')" :title="$t('Home Page')" class="no-underline inline-flex">
     <img
       :width="width"
       :height="height"
@@ -10,10 +10,7 @@
 </template>
 
 <script>
-import Logo from 'core/components/Logo'
-
 export default {
-  mixins: [Logo],
   props: {
     width: {
       type: [String, Number],

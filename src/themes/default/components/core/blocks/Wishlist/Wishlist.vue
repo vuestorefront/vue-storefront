@@ -13,7 +13,7 @@
     </h4>
     <div v-if="!items.length" class="ml30">
       {{ $t("Don't hesitate and") }}
-      <router-link to="/">
+      <router-link :to="localizedRoute('/')">
         {{ $t('browse our catalog') }}
       </router-link>
       {{ $t('to find something beautiful for You!') }}

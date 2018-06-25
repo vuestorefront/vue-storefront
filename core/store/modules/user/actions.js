@@ -4,6 +4,7 @@ import config from '../../lib/config'
 import store from '../../'
 import { ValidationError } from '../../lib/exceptions'
 import i18n from '../../lib/i18n'
+import { adjustMultistoreApiUrl } from '../../lib/multistore'
 const Ajv = require('ajv') // json validator
 
 export default {
@@ -60,7 +61,11 @@ export default {
    * Login user and return user profile and current token
    */
   login (context, { username, password }) {
-    return fetch(config.users.login_endpoint, { method: 'POST',
+    let url = config.users.login_endpoint
+    if (config.storeViews.multistore) {
+      url = adjustMultistoreApiUrl(url)
+    }
+    return fetch(url, { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -82,7 +87,11 @@ export default {
    * Login user and return user profile and current token
    */
   register (context, { email, firstname, lastname, password }) {
-    return fetch(config.users.create_endpoint, { method: 'POST',
+    let url = config.users.create_endpoint
+    if (config.storeViews.multistore) {
+      url = adjustMultistoreApiUrl(url)
+    }
+    return fetch(url, { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -109,7 +118,11 @@ export default {
         if (err) {
           console.error(err)
         }
-        return fetch(config.users.refresh_endpoint, { method: 'POST',
+        let url = config.users.refresh_endpoint
+        if (config.storeViews.multistore) {
+          url = adjustMultistoreApiUrl(url)
+        }
+        return fetch(url, { method: 'POST',
           mode: 'cors',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -257,7 +270,9 @@ export default {
    */
   logout (context, { silent = false }) {
     context.commit(types.USER_END_SESSION)
-    context.dispatch('cart/serverTokenClear', {}, { root: true })
+    context.dispatch('cart/serverTokenClear', {}, { root: true }).then(() => {
+      EventBus.$emit('user-after-logout')
+    })
     if (!silent) {
       EventBus.$emit('notification', {
         type: 'success',

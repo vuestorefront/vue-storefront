@@ -9,7 +9,7 @@
       </section>
       <section>
         <p>{{ $t('Under /pages directiry you can find some predefined pages to speed up your development (based on VS example data, can be empty if you are using different data source)') }}:</p>
-        <p><router-link to="/p/MS08/strike-endurance-tee-627/MS08">Product Page</router-link> | <router-link to="/c/women-20">Category Page</router-link></p>
+        <p><router-link :to="localizedRoute('/p/MS08/strike-endurance-tee-627/MS08')">Product Page</router-link> | <router-link to="/c/women-20">Category Page</router-link></p>
       </section>
       <section>
         <h3>{{ $t('Here are some links that can help you with developing your own theme') }}:</h3>

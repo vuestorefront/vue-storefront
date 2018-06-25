@@ -1,6 +1,6 @@
 # Vue Storefront - headless PWA for eCommerce 
 <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
-![version](https://img.shields.io/badge/version-1.0%20RC-blue.svg) 
+![version](https://img.shields.io/badge/version-1.0-blue.svg) 
 ![version](https://img.shields.io/badge/node-v8.x-blue.svg) 
 ![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
@@ -119,7 +119,8 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 
 ## Roadmap
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
-[See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones)
+[See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
+[Check the feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md).
 
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
@@ -135,6 +136,7 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
 * [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
+* [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
@@ -171,6 +173,7 @@ Tutorial series on creating themes for Vue Storefront:
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)
 * [How to connect 3rd party platform to Vue Storefront?](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6)
 * [VueStorefrontBridge API docs](https://github.com/DivanteLtd/magento1-vsbridge/blob/master/doc/VueStorefrontBridge%20API%20specs.md) - this is the API You should implement to integrate 3rd party platform
+* [Magento2 MultiStore support](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md)
 
 ### 'Default theme' contribution rules
 * [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/default/Working%20with%20stylesheets.md)
@@ -191,7 +194,7 @@ Here you can read more about the proof of concept for [Vue Storefront connected 
 Besides a big improvement for the shopping experience, we also want to create a great code base for every developer who needs to work on a front-end application for the eCommerce.
 
 ## The architecture
-![Architecture diagram](doc/media/Vue-storefront-architecture.png)
+![Architecture diagram](doc/media/arch.png)
 
 ## The design
 The application is prepared to be fully customized in design through theming system.
@@ -347,11 +350,11 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-      <td align="center" valign="middle">
-        <a href="https://magedirect.co/">
+       <td align="center" valign="middle">
+        <a href="https://vendic.nl/">
           <img
-            src="https://user-images.githubusercontent.com/18116406/38415925-4a31e358-3993-11e8-9bee-b2b9af95d305.png"
-            alt="MageDirect"
+            src="https://divante.co/partners/Vue-Storefront/vendic-rood.png"
+            alt="Vendic"
             height="50"
           >
         </a>
@@ -379,6 +382,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/39051477-0c46c1aa-44a9-11e8-8f53-0adabe3e66a4.png"
             alt="Imagination Media"
+            height="50"
+          >
+        </a>
+      </td>
+    </tr>
+    <tr>
+        <td align="center" valign="middle">
+        <a href="https://magedirect.co/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/38415925-4a31e358-3993-11e8-9bee-b2b9af95d305.png"
+            alt="MageDirect"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.edmondscommerce.co.uk/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/edmonds-ecommerce.png"
+            alt="Edmonds Commerce"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.kt-team.ru/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/kt.team.png"
+            alt="KT Team"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
             height="50"
           >
         </a>

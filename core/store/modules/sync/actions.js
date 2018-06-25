@@ -3,7 +3,9 @@ import { execute as taskExecute } from '../../lib/task'
 import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
+import { currentStoreView } from '../../lib/multistore'
 import store from '../../'
+import config from 'config'
 
 export default {
   /**
@@ -23,8 +25,11 @@ export default {
     return task
   },
   clearNotTransmited ({ commit }) {
+    const storeView = currentStoreView()
+    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
     const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-      name: 'shop',
+      name: dbNamePrefix + 'shop',
       storeName: 'syncTasks'
     }))
     syncTaskCollection.iterate((task, id, iterationNumber) => {
@@ -34,14 +39,18 @@ export default {
     })
   },
   execute ({ commit }, task) { // not offline task
+    const storeView = currentStoreView()
+    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
     task = _prepareTask(task)
     const usersCollection = new UniversalStorage(localForage.createInstance({
-      name: 'shop',
-      storeName: 'user'
+      name: dbNamePrefix + 'shop',
+      storeName: 'user',
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
-      name: 'shop',
-      storeName: 'carts'
+      name: dbNamePrefix + 'shop',
+      storeName: 'carts',
+      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
     }))
     return new Promise((resolve, reject) => {
       if (global.$VS.isSSR) {

@@ -9,6 +9,8 @@ import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
+import { currentStoreView } from '../../lib/multistore'
+import * as types from '../../mutation-types'
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
   if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
@@ -48,6 +50,8 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
     }
     if (removedOptions > 0) {
       configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
+    } else {
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, product) // just override the reference to not miss changes in the configurable_children
     }
     if (totalOptions === 0) {
       product.errors.variants = i18n.t('No available product variants')
@@ -216,9 +220,10 @@ export function calculateTaxes (products, store) {
         resolve(products)
       })
     } else {
+      const storeView = currentStoreView()
       store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
         for (let product of products) {
-          product = calculateProductTax(product, tcs.items, global.$VS.__TAX_COUNTRY__, global.$VS.__TAX_REGION__)
+          product = calculateProductTax(product, tcs.items, storeView.tax.defaultCountry, storeView.tax.defaultRegion, storeView.tax.sourcePriceIncludesTax)
         }
         doPlatformPricesSync(products).then((products) => {
           resolve(products)

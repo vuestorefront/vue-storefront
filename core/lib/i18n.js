@@ -14,4 +14,4 @@ const i18n = new VueI18n({
 })
 
 if (!global.$VS) { global.$VS = { i18n: i18n } } else { global.$VS.i18n = i18n }
-export default i18n
+export default global.$VS.i18n

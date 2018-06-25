@@ -11,7 +11,7 @@
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="{ name: 'category', params: { id: id, slug: parentSlug }}"
+          :to="localizedRoute({ name: 'category', params: { id: id, slug: parentSlug }})"
         >
           {{ $t('View all') }}
         </router-link>
@@ -30,7 +30,7 @@
         <router-link
           v-else
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="{ name: 'category', params: { id: link.id, slug: link.slug }}"
+          :to="localizedRoute({ name: 'category', params: { id: link.id, slug: link.slug }})"
         >
           {{ link.name }}
         </router-link>
@@ -55,7 +55,7 @@
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="link.url"
+          :to="localizedRoute(link.url)"
         >
           {{ link.name }}
         </router-link>

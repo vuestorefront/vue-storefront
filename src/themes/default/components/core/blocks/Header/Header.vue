@@ -28,7 +28,7 @@
             <wishlist-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-2 end-xs">
-            <div class="inline-flex">
+            <div class="inline-flex right-icons">
               <search-icon class="p15 icon hidden-xs pointer" />
               <wishlist-icon class="p15 icon hidden-xs pointer" />
               <compare-icon class="p15 icon hidden-xs pointer" />
@@ -40,7 +40,7 @@
         <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
-              <router-link to="/" class="cl-tertiary links">
+              <router-link :to="localizedRoute('/')" class="cl-tertiary links">
                 {{ $t('Return to shopping') }}
               </router-link>
             </div>
@@ -194,6 +194,10 @@ header {
     background-color: $color-icon-hover;
     opacity: 1;
   }
+}
+.right-icons {
+  //for edge
+  float: right;
 }
 .header-placeholder {
   height: 54px;

@@ -1,6 +1,7 @@
 import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
+import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'SearchPanel',
@@ -8,10 +9,14 @@ export default {
     return {
       products: [],
       search: '',
-      placeholder: i18n.t('Type what you are looking for...')
+      placeholder: i18n.t('Type what you are looking for...'),
+      emptyResults: false
     }
   },
   methods: {
+    onEscapePress () {
+      this.closeSearchpanel()
+    },
     closeSearchpanel () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
@@ -23,11 +28,11 @@ export default {
       let size = 18
 
       let query = bodybuilder()
-        .orQuery('match', 'name', { query: queryText, boost: 3 })
-        .orQuery('match', 'category.name', { query: queryText, boost: 1 })
-        .orQuery('match', 'short_description', { query: queryText, boost: 2 })
-        .orQuery('match', 'description', { query: queryText, boost: 1 })
-        .filter('range', 'visibility', { 'gte': 3, 'lte': 4 })
+        .query('range', 'visibility', { 'gte': 3, 'lte': 4 })
+        .andQuery('bool', b => b.orQuery('match', 'name', { query: queryText, boost: 3 })
+          .orQuery('match', 'category.name', { query: queryText, boost: 1 })
+          .orQuery('match', 'short_description', { query: queryText, boost: 2 })
+          .orQuery('match', 'description', { query: queryText, boost: 1 }))
         .build()
 
       this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
@@ -45,5 +50,6 @@ export default {
     ...mapState({
       isOpen: state => state.ui.searchpanel
     })
-  }
+  },
+  mixins: [onEscapePress]
 }

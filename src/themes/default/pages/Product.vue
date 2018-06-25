@@ -210,7 +210,12 @@
         </div>
       </div>
     </section>
-    <related-products/>
+    <related-products
+      type="upsell"
+      :heading="$t('We found other products you might like')"
+    />
+    <promoted-offers single-banner />
+    <related-products type="related" />
   </div>
 </template>
 
@@ -219,7 +224,7 @@ import Product from 'core/pages/Product'
 
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
-import GenericSelector from 'core/components/GenericSelector'
+import GenericSelector from 'theme/components/core/GenericSelector'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
@@ -229,6 +234,7 @@ import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
@@ -243,6 +249,7 @@ export default {
     ProductGallery,
     ProductLinks,
     ProductTile,
+    PromotedOffers,
     RelatedProducts,
     SizeSelector
   },

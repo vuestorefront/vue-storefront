@@ -11,11 +11,12 @@ export default {
   [types.SYNC_ADD_TASK] (state, task) {
     const tasksCollection = global.$VS.db.syncTaskCollection
     task = _prepareTask(task)
-    tasksCollection.setItem(task.task_id.toString(), task).catch((reason) => {
-      console.error(reason) // it doesn't work on SSR
-    }).then((resp) => {
+    tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
+      if (err) console.error(err)
       EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-      console.info('Synchronization task added url = ' + task.url + ' taskId = ' + task.task_id)
-    }) // populate cache
+      console.log('Synchronization task added url = ' + task.url + ' taskId = ' + task.task_id)
+    }).catch((reason) => {
+      console.error(reason) // it doesn't work on SSR
+    })
   }
 }
