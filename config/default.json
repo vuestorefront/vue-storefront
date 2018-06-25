@@ -72,6 +72,7 @@
     "entities": {
       "optimize": true,
       "twoStageCaching": true,
+      "optimizeShoppingCart": true,
       "category": {
         "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key" ]
       },
@@ -143,8 +144,25 @@
         }
       }
     },
+    "localForage": {
+      "defaultDrivers": {
+        "user": "LOCALSTORAGE",
+        "carts": "LOCALSTORAGE",
+        "orders": "LOCALSTORAGE",
+        "wishlist": "INDEXEDDB",
+        "categories": "INDEXEDDB",
+        "attributes": "INDEXEDDB",
+        "products": "INDEXEDDB",
+        "elasticCache": "INDEXEDDB",
+        "claims": "LOCALSTORAGE",        
+        "compare": "INDEXEDDB",        
+        "syncTasks": "INDEXEDDB",        
+        "newsletterPreferences": "INDEXEDDB",
+        "ordersHistory": "INDEXEDDB",
+        "checkoutFieldValues": "LOCALSTORAGE"
+      }
+    },
     "users": {
-      "useSafeLocalStorageForCache": true,
       "autoRefreshTokens": true,
       "endpoint": "http://localhost:8080/api/user",
       "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",

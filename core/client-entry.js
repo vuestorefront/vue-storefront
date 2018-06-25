@@ -102,7 +102,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
   const ordersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'orders',
-    driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+    driver: localForage[config.localForage.defaultDrivers['orders']]
   }))
 
   const fetchQueue = []
@@ -197,12 +197,12 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   const usersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'user',
-    driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+    driver: localForage[config.localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'carts',
-    driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+    driver: localForage[config.localForage.defaultDrivers['carts']]
   }))
 
   usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
