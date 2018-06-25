@@ -30,7 +30,8 @@ export default {
 
     const syncTaskCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'syncTasks'
+      storeName: 'syncTasks',
+      driver: localForage[config.localForage.defaultDrivers['syncTasks']]
     }))
     syncTaskCollection.iterate((task, id, iterationNumber) => {
       if (!task.transmited) {

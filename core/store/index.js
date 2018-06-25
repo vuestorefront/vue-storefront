@@ -37,7 +37,7 @@ const plugins = [
         console.error('Store mutation name is incorrectly formed')
       }
 
-      if (actionName === types.CART_ADD_ITEM || actionName === types.CART_DEL_ITEM || actionName === types.CART_UPD_ITEM || actionName === types.CART_UPD_ITEM_PROPS) { // check if this mutation is cart related
+      if (actionName === types.CART_LOAD_CART || actionName === types.CART_ADD_ITEM || actionName === types.CART_DEL_ITEM || actionName === types.CART_UPD_ITEM || actionName === types.CART_UPD_ITEM_PROPS) { // check if this mutation is cart related
         global.$VS.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache

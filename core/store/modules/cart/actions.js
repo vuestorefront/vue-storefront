@@ -84,6 +84,9 @@ export default {
   serverCreate (context, { guestCart = false }) {
     if (config.cart.synchronize && !global.$VS.isSSR) {
       if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
+        if (guestCart) {
+          global.$VS.db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
+        }
         const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
           payload: {
             method: 'POST',

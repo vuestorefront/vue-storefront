@@ -1,6 +1,6 @@
 
 import * as localForage from 'localforage'
-const CACHE_TIMEOUT = 1500
+const CACHE_TIMEOUT = 1600
 const CACHE_TIMEOUT_ITERATE = 3000
 const DISABLE_PERSISTANCE_AFTER = 3
 
@@ -40,11 +40,19 @@ class LocalForageCacheDriver {
 
   // Increment the database version number and recreate the context
   recreateDb () {
-    const existingConfig = Object.assign({}, this._localForageCollection._config)
-    localForage.dropInstance(existingConfig) // drop the store and create the new one
-    const destVersionNumber = this._localForageCollection._dbInfo.version + 1
-    this._localForageCollection = localForage.createInstance({ ...existingConfig, version: destVersionNumber })
-    console.log('DB recreated with', existingConfig, destVersionNumber)
+    if (this._localForageCollection._config) {
+      const existingConfig = Object.assign({}, this._localForageCollection._config)
+      if (existingConfig.storeName) {
+        // localForage.dropInstance(existingConfig) // drop the store and create the new one
+        const destVersionNumber = this._localForageCollection && this._localForageCollection._dbInfo ? this._localForageCollection._dbInfo.version + 1 : 0
+        if (destVersionNumber > 0) {
+          this._localForageCollection = localForage.createInstance({ ...existingConfig, version: destVersionNumber })
+        } else {
+          this._localForageCollection = localForage.createInstance(existingConfig)
+        }
+        console.log('DB recreated with', existingConfig, destVersionNumber)
+      }
+    }
   }
 
   // Retrieve an item from the store. Unlike the original async_storage
