@@ -6,6 +6,7 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 
 const prodClientConfig = merge(baseClientConfig, {
+  mode: 'production',
   plugins: [
     // auto generate service worker
     new SWPrecachePlugin({
