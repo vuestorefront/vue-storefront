@@ -13,8 +13,8 @@ export default {
       totalQuantity: 'cart/totalQuantity'
     })
   },
-  mixins: {
+  mixins: [
     openMicrocart,
     isMicrocartOpen
-  }
+  ]
 }
