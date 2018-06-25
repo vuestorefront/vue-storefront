@@ -203,7 +203,7 @@ export default {
         continue
       }
       if (config.entities.optimize && config.entities.optimizeShoppingCart) {
-        product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category', 'category_ids', 'product_links', 'stock'])
+        product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category', 'category_ids', 'product_links', 'stock', 'description'])
       }
       if (product.errors !== null && typeof product.errors !== 'undefined') {
         let productCanBeAdded = true
