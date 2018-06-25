@@ -13,7 +13,7 @@ export default {
     { name: 'apple-mobile-web-app-status-bar-style', content: '#ffffff' }
   ],
   link: [
-    { rel: 'icon', href: '/assets/logo.png' },
+    { rel: 'icon', href: '/assets/favicon.ico' },
     { rel: 'apple-touch-icon', href: '/assets/launcher-icon-1x.png' },
     { rel: 'apple-touch-startup-image', href: '/assets/launcher-icon-144x144.png' },
     { rel: 'apple-touch-icon', href: '/assets/apple_splash_2048.png', sizes: '2048x2732' },
