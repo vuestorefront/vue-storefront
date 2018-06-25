@@ -16,7 +16,6 @@ const config = merge(base, {
     publicPath: '/dist/',
     filename: '[name].js'
   },
-  mode: 'development',
   resolve: {
     alias: {
       'create-api': './create-api-client.js'
