@@ -194,5 +194,8 @@
     },
     "stripe": {
       "api_key": "my_example_api_key"
-  }
- }
+    },
+    "cms": {
+      "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}"
+    }
+}

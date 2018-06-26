@@ -3,12 +3,7 @@
 To display cms data:
  - install `snowdog/module-cms-api` composer module in your Magento 2 instance
  - make sure that in vue-storefront-api repo the `cms-data` extension is installed
- - in your local.config file add:
- ```
- "cms": {
-   "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}"
- },
- ```
+
 ## Cms Page
 To display Cms Page:
 - in custom theme `themes/<theme-name>/router/index.js` import `CmsData` component, add custom route and define props: `{id: :pageId, type: 'Page'}`, example:
