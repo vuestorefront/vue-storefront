@@ -4,8 +4,8 @@
       class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
-      <div class="container">
-        <div class="row between-xs middle-xs px15" v-if="!isCheckout">
+      <div class="container px15">
+        <div class="row between-xs middle-xs" v-if="!isCheckout">
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!isProductPage">
