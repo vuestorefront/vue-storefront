@@ -136,7 +136,7 @@ export default {
   .image {
     mix-blend-mode: multiply;
     vertical-align: top;
-    width: 150px;
+    max-width: 150px;
   }
 
   .details {
