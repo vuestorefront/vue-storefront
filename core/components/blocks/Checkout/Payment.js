@@ -80,6 +80,7 @@ export default {
                 apartmentNumber: addresses[i].street[1],
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
+                phoneNumber: addresses[i].telephone,
                 paymentMethod: this.paymentMethods[0].code
               }
               this.generateInvoice = true
@@ -148,6 +149,7 @@ export default {
               apartmentNumber: addresses[i].street[1],
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
+              phoneNumber: addresses[i].telephone,
               paymentMethod: this.paymentMethods[0].code
             }
             this.generateInvoice = true

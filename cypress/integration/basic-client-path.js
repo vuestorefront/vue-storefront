@@ -1,3 +1,4 @@
+/* eslint no-undef: 0 */
 describe('basic client path', () => {
   it('should go through basic user flow', () => {
     cy.visit('/')

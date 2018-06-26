@@ -1,7 +1,19 @@
+
+import * as localForage from 'localforage'
+const CACHE_TIMEOUT = 1600
+const CACHE_TIMEOUT_ITERATE = 3000
+const DISABLE_PERSISTANCE_AFTER = 3
+
 class LocalForageCacheDriver {
   constructor (collection, useLocalCacheByDefault = true) {
     const collectionName = collection._config.storeName
     const dbName = collection._config.name
+    if (typeof global.$VS.cacheErrorsCount === 'undefined') {
+      global.$VS.cacheErrorsCount = {}
+    }
+    if (typeof global.$VS.cacheErrorsCount[collectionName] === 'undefined') {
+      global.$VS.cacheErrorsCount[collectionName] = 0
+    }
     if (typeof global.$VS.localCache === 'undefined') {
       global.$VS.localCache = {}
     }
@@ -11,17 +23,36 @@ class LocalForageCacheDriver {
     if (typeof global.$VS.localCache[dbName][collectionName] === 'undefined') {
       global.$VS.localCache[dbName][collectionName] = {}
     }
+    this._collectionName = collectionName
     this._dbName = dbName
     this._useLocalCacheByDefault = useLocalCacheByDefault
     this._localCache = global.$VS.localCache[dbName][collectionName]
     this._localForageCollection = collection
     this._lastError = null
+    this._persistenceErrorNotified = false
   }
 
   // Remove all keys from the datastore, effectively destroying all data in
   // the app's key/value store!
   clear (callback) {
     return this._localForageCollection.clear(callback)
+  }
+
+  // Increment the database version number and recreate the context
+  recreateDb () {
+    if (this._localForageCollection._config) {
+      const existingConfig = Object.assign({}, this._localForageCollection._config)
+      if (existingConfig.storeName) {
+        // localForage.dropInstance(existingConfig) // drop the store and create the new one
+        const destVersionNumber = this._localForageCollection && this._localForageCollection._dbInfo ? this._localForageCollection._dbInfo.version + 1 : 0
+        if (destVersionNumber > 0) {
+          this._localForageCollection = localForage.createInstance({ ...existingConfig, version: destVersionNumber })
+        } else {
+          this._localForageCollection = localForage.createInstance(existingConfig)
+        }
+        console.log('DB recreated with', existingConfig, destVersionNumber)
+      }
+    }
   }
 
   // Retrieve an item from the store. Unlike the original async_storage
@@ -39,38 +70,73 @@ class LocalForageCacheDriver {
         resolve(value)
       })
     }
-    // console.debug('No local cache fallback for GET', key)
-    const promise = this._localForageCollection.getItem(key).then(result => {
-      if (!isResolved) {
-        if (isCallbackCallable) {
-          callback(null, result)
-        }
-        isResolved = true
-      } else {
-        console.debug('Skipping return value as it was previously resolved')
-      }
-      return result
-    }).catch(err => {
-      this._lastError = err
-      if (!isResolved) {
-        if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
-      }
-      isResolved = true
-    })
 
-    setTimeout(function () {
-      if (!isResolved) { // this is cache time out check
-        console.error('Cache not responding within 1s')
-        if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+    if (!global.$VS.isSSR) {
+      if (global.$VS.cacheErrorsCount[self._collectionName] >= DISABLE_PERSISTANCE_AFTER && self._useLocalCacheByDefault) {
+        if (!self._persistenceErrorNotified) {
+          console.error('Persistent cache disabled becasue of previous errors [get]', key)
+          self._persistenceErrorNotified = true
+        }
+        return new Promise((resolve, reject) => {
+          if (isCallbackCallable) callback(null, null)
+          resolve(null)
+        })
+      } else {
+        const startTime = new Date().getTime()
+        // console.debug('No local cache fallback for GET', key)
+        const promise = this._localForageCollection.ready().then(() => self._localForageCollection.getItem(key).then(result => {
+          const endTime = new Date().getTime()
+          if ((endTime - startTime) >= CACHE_TIMEOUT) {
+            console.error('Cache promise resolved after [ms]', key, (endTime - startTime))
+          }
+          if (!self._localCache[key]) {
+            self._localCache[key] = result // populate the local cache for the next call
+          }
+          if (!isResolved) {
+            if (isCallbackCallable) {
+              callback(null, result)
+            }
+            isResolved = true
+          } else {
+            console.debug('Skipping return value as it was previously resolved')
+          }
+          return result
+        }).catch(err => {
+          this._lastError = err
+          if (!isResolved) {
+            if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+          }
+          console.error(err)
+          isResolved = true
+        }))
+
+        setTimeout(function () {
+          if (!isResolved) { // this is cache time out check
+            if (!self._persistenceErrorNotified) {
+              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, global.$VS.cacheErrorsCount[self._collectionName])
+              self._persistenceErrorNotified = true
+              self.recreateDb()
+            }
+            global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
+            if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
+          }
+        }, CACHE_TIMEOUT)
+        return promise
       }
-    }, 1000)
-    return promise
+    } else {
+      return new Promise((resolve, reject) => {
+        const value = typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null
+        if (isCallbackCallable) callback(null, value)
+        resolve(value)
+      })
+    }
   }
 
   // Iterate over all items in the store.
   iterate (iterator, callback) {
     const self = this
     const isIteratorCallable = (typeof iterator !== 'undefined' && iterator)
+    const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     let globalIterationNumber = 1
     if (this._useLocalCacheByDefault) {
       // console.debug('Local cache iteration')
@@ -81,7 +147,9 @@ class LocalForageCacheDriver {
         }
       }
     }
-    return this._localForageCollection.iterate(function (value, key, iterationNumber) {
+    let isResolved = false
+    const promise = this._localForageCollection.ready().then(() => self._localForageCollection.iterate(function (value, key, iterationNumber) {
+      isResolved = true
       if (isIteratorCallable) {
         if (self._useLocalCacheByDefault) {
           if (typeof self._localCache[key] === 'undefined') {
@@ -94,7 +162,29 @@ class LocalForageCacheDriver {
           iterator(value, key, iterationNumber)
         }
       }
+    }, (err, result) => {
+      if (isCallbackCallable) callback(err, result)
+      isResolved = true
+    })).catch((err) => {
+      this._lastError = err
+      console.error(err)
+      if (!isResolved) {
+        isResolved = true
+        if (isCallbackCallable) callback(err, null)
+      }
     })
+    setTimeout(function () {
+      if (!isResolved) { // this is cache time out check
+        if (!self._persistenceErrorNotified) {
+          console.error('Cache not responding within ' + CACHE_TIMEOUT_ITERATE + ' ms for [iterate]', global.$VS.cacheErrorsCount[self._collectionName])
+          self._persistenceErrorNotified = true
+          self.recreateDb()
+        }
+        global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
+        if (isCallbackCallable) callback(null, null)
+      }
+    }, CACHE_TIMEOUT_ITERATE)
+    return promise
   }
 
   // Same as localStorage's key() method, except takes a callback.
@@ -127,15 +217,43 @@ class LocalForageCacheDriver {
     const self = this
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     self._localCache[key] = value
-    const promise = this._localForageCollection.setItem(key, value).then(result => {
-      if (isCallbackCallable) {
-        callback(null, result)
+    if (!global.$VS.isSSR) {
+      if (global.$VS.cacheErrorsCount[self._collectionName] >= DISABLE_PERSISTANCE_AFTER && self._useLocalCacheByDefault) {
+        if (!self._persistenceErrorNotified) {
+          console.error('Persistent cache disabled becasue of previous errors [set]', key)
+          self._persistenceErrorNotified = true
+        }
+        return new Promise((resolve, reject) => {
+          if (isCallbackCallable) callback(null, null)
+          resolve(null)
+        })
+      } else {
+        let isResolved = false
+        const promise = this._localForageCollection.ready().then(() => self._localForageCollection.setItem(key, value).then(result => {
+          if (isCallbackCallable) {
+            callback(null, result)
+          }
+          isResolved = true
+        }).catch(err => {
+          isResolved = true
+          self._lastError = err
+        }))
+        setTimeout(function () {
+          if (!isResolved) { // this is cache time out check
+            if (!self._persistenceErrorNotified) {
+              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, global.$VS.cacheErrorsCount[self._collectionName])
+              self._persistenceErrorNotified = true
+              self.recreateDb()
+            }
+            global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
+            if (isCallbackCallable) callback(null, null)
+          }
+        }, CACHE_TIMEOUT)
+        return promise
       }
-    }).catch(err => {
-      self._lastError = err
-    })
-
-    return promise
+    } else {
+      return new Promise((resolve, reject) => resolve())
+    }
   }
 }
 

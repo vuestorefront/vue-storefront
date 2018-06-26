@@ -14,7 +14,7 @@
         <div class="country country-available" v-for="(storeView, storeCode) in storeViews" :key="storeCode" v-if="!storeView.disabled && typeof storeView === 'object' && storeView.i18n">
           <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>
           <ul>
-            <li><a :href="'/' + storeCode">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
+            <li><a :href="storeView.url">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
           </ul>
         </div>
       </div>

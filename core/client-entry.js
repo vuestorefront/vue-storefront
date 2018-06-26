@@ -101,7 +101,8 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 
   const ordersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
-    storeName: 'orders'
+    storeName: 'orders',
+    driver: localForage[config.localForage.defaultDrivers['orders']]
   }))
 
   const fetchQueue = []
@@ -164,7 +165,8 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
           })
       })
     }
-  }).then(() => {
+  }, (err, result) => {
+    if (err) console.error(err)
     console.log('Iteration has completed')
 
     // execute them serially
@@ -194,11 +196,13 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
 
   const usersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
-    storeName: 'user'
+    storeName: 'user',
+    driver: localForage[config.localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
-    storeName: 'carts'
+    storeName: 'carts',
+    driver: localForage[config.localForage.defaultDrivers['carts']]
   }))
 
   usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
@@ -225,7 +229,6 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
             return execute(task, currentToken, currentCartId).then((executedTask) => {
-              console.debug('Storing the task result', executedTask)
               syncTaskCollection.setItem(executedTask.task_id.toString(), executedTask)
               mutex[id] = false
             }).catch((err) => {
@@ -234,7 +237,8 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
             })
           })
         }
-      }).then(() => {
+      }, (err, result) => {
+        if (err) console.error(err)
         console.debug('Iteration has completed')
         // execute them serially
         serial(fetchQueue)
