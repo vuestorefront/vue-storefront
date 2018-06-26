@@ -1,4 +1,5 @@
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
+import { openMicrocart, isMicrocartOpen } from 'core/api/cart'
 
 export default {
   name: 'MicrocartIcon',
@@ -7,17 +8,13 @@ export default {
       // return this.$store.getters.totals.quantity
       return 3
     },
-    ...mapState({
-      isOpen: state => state.ui.microcart
-    }),
     ...mapGetters({
       totals: 'cart/totals',
       totalQuantity: 'cart/totalQuantity'
     })
   },
-  methods: {
-    openMicrocart () {
-      this.$store.commit('ui/setMicrocart', !this.isOpen)
-    }
-  }
+  mixins: [
+    openMicrocart,
+    isMicrocartOpen
+  ]
 }

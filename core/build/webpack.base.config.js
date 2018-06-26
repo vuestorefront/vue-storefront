@@ -48,6 +48,11 @@ module.exports = {
     app: './core/client-entry.js',
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync']
   },
+  output: {
+    path: path.resolve(__dirname, '../../dist'),
+    publicPath: '/dist/',
+    filename: '[name].[hash].js'
+  },
   resolveLoader: {
     modules: [
       'node_modules',
@@ -98,11 +103,6 @@ module.exports = {
       'theme/store': themeStores,
       'theme/extensions': themeExtensions
     }
-  },
-  output: {
-    path: path.resolve(__dirname, '../../dist'),
-    publicPath: '/dist/',
-    filename: '[name].[hash].js'
   },
   module: {
     rules: [

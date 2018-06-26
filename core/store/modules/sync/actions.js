@@ -5,6 +5,7 @@ import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '../../lib/multistore'
 import store from '../../'
+import config from 'config'
 
 export default {
   /**
@@ -29,7 +30,8 @@ export default {
 
     const syncTaskCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'syncTasks'
+      storeName: 'syncTasks',
+      driver: localForage[config.localForage.defaultDrivers['syncTasks']]
     }))
     syncTaskCollection.iterate((task, id, iterationNumber) => {
       if (!task.transmited) {
@@ -43,11 +45,13 @@ export default {
     task = _prepareTask(task)
     const usersCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'user'
+      storeName: 'user',
+      driver: localForage[config.localForage.defaultDrivers['user']]
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'carts'
+      storeName: 'carts',
+      driver: localForage[config.localForage.defaultDrivers['carts']]
     }))
     return new Promise((resolve, reject) => {
       if (global.$VS.isSSR) {

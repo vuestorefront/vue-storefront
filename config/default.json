@@ -72,6 +72,7 @@
     "entities": {
       "optimize": true,
       "twoStageCaching": true,
+      "optimizeShoppingCart": true,
       "category": {
         "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key" ]
       },
@@ -141,6 +142,24 @@
           "message": "Click here to confirm the order that you made offline.",
           "icon": "/assets/logo.png"
         }
+      }
+    },
+    "localForage": {
+      "defaultDrivers": {
+        "user": "LOCALSTORAGE",
+        "carts": "LOCALSTORAGE",
+        "orders": "LOCALSTORAGE",
+        "wishlist": "INDEXEDDB",
+        "categories": "INDEXEDDB",
+        "attributes": "INDEXEDDB",
+        "products": "INDEXEDDB",
+        "elasticCache": "INDEXEDDB",
+        "claims": "LOCALSTORAGE",        
+        "compare": "INDEXEDDB",        
+        "syncTasks": "INDEXEDDB",        
+        "newsletterPreferences": "INDEXEDDB",
+        "ordersHistory": "INDEXEDDB",
+        "checkoutFieldValues": "LOCALSTORAGE"
       }
     },
     "users": {

@@ -265,7 +265,14 @@
           ]"
         />
 
-        <div class="hidden-xs col-sm-6 mb25"/>
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="phone-number"
+          :placeholder="$t('Phone Number')"
+          v-model.trim="userCompany.phone"
+        />
+
       </template>
 
       <div class="col-xs-12 col-sm-6">
@@ -323,6 +330,12 @@
           <p class="mb25" v-if="userCompany.taxId">
             {{ userCompany.taxId }}
           </p>
+          <div class="mb25">
+            {{ userCompany.phone }}
+            <tooltip v-if="userCompany.phone">
+              {{ $t('Phone number may be needed by carrier') }}
+            </tooltip>
+          </div>
         </template>
       </div>
     </div>
@@ -336,12 +349,14 @@ import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
   components: {
     BaseCheckbox,
     BaseInput,
-    ButtonFull
+    ButtonFull,
+    Tooltip
   },
   mixins: [MyProfile],
   methods: {

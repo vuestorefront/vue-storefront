@@ -18,6 +18,7 @@
           name="email"
           focus
           v-model="email"
+          @blur="$v.email.$touch()"
           :placeholder="$t('E-mail address *')"
           :validations="[
             {
@@ -35,6 +36,7 @@
           type="password"
           name="password"
           v-model="password"
+          @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
           :validation="{
             condition: !$v.password.required && $v.password.$error,
