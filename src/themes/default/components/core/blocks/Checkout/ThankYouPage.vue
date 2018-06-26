@@ -14,7 +14,7 @@
     <div class="thank-you-content py40 pl20">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 pl20">
             <h3 v-if="OnlineOnly" >
               {{ $t('Your purchase') }}
             </h3>
