@@ -97,6 +97,11 @@ const plugins = [
           console.error(reason)
         })
       }
+      if (actionName === 'setCmsBlock' || actionName === 'setCmsPage') {
+        global.$VS.db.cmsData.setItem('cms-data', state.cms).catch((reason) => {
+          console.error(reason)
+        })
+      }
     })
   }
 ]
@@ -196,6 +201,10 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
     ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'ordersHistory'
+    })),
+    cmsData: new UniversalStorage(localForage.createInstance({
+      name: dbNamePrefix + 'shop',
+      storeName: 'cms'
     }))
   }
   global.$VS.db = Vue.prototype.$db // localForage instance
