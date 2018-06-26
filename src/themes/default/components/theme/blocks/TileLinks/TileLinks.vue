@@ -5,16 +5,15 @@
       v-for="(tile, index) in social_tiles"
       :key="index"
     >
-      <router-link
-        :to="localizedRoute(tile.link)"
-        class="tile center-xs middle-xs no-underline"
+      <div
+        class="tile center-xs middle-xs"
       >
         <img
           class="tile-image"
           v-lazy="tile.image"
           :alt="tile.alt"
         >
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
