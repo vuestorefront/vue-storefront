@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" appear>
     <li class="row py10">
-      <div>
+      <div class="image-block col-xs">
         <div class="ml10 bg-cl-secondary">
           <img class="image" v-lazy="thumbnail" alt="" >
         </div>
@@ -51,7 +51,7 @@
           </span>
         </div>
       </div>
-      <div class="flex py15 mr10 align-right start-xs between-sm actions">
+      <div class="inline-flex py15 mr10 align-right start-xs between-sm actions">
         <div v-if="!product.totals">
           <span class="h4 serif cl-error price-special" v-if="product.special_price">
             {{ product.priceInclTax * product.qty | price }}&nbsp;
@@ -133,10 +133,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
   .image {
     mix-blend-mode: multiply;
     vertical-align: top;
-    width: 150px;
+    max-width: 150px;
   }
 
   .details {
