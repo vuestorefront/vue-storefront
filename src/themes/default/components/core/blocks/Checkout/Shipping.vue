@@ -162,7 +162,8 @@
             v-model="shipping.country"
             autocomplete="country"
             @blur="$v.shipping.country.$touch()"
-            @change="$v.shipping.country.$touch(); changeCountry();"/>
+            @change="$v.shipping.country.$touch(); changeCountry();"
+          />
 
           <base-input
             class="col-xs-12 mb25"
