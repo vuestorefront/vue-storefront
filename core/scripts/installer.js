@@ -372,6 +372,7 @@ class Storefront extends Abstract {
 
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.images.baseUrl = this.answers.images_endpoint
+        config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
 
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,
