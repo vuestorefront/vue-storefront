@@ -58,17 +58,6 @@ export default {
   $color-black: color(black);
 
   #checkout {
-    select {
-      @extend .h4;
-      padding: 10px 0;
-      border: none;
-      border-bottom: 1px solid $color-tertiary;
-      width: 100%;
-      -moz-appearance: none;
-      -webkit-appearance: none;
-      border-radius: 0;
-      background-color: transparent;
-    }
     .number-circle {
       width: 35px;
       height: 35px;
