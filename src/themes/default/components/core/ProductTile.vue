@@ -71,7 +71,7 @@ export default {
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
         if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
-          const skus = []
+          const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
               const cachedItem = rootStore.state.stock.cache[confChild.id]

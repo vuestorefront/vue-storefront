@@ -201,6 +201,7 @@ export default {
             if (config.products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
               if (prefetchIndex > config.products.configurableChildrenStockPrefetchStaticPrefetchCount) return
             }
+            skus.push(i.sku) // main product sku to be checked anyway
             if (i.type_id === 'configurable' && i.configurable_children && i.configurable_children.length > 0) {
               for (const confChild of i.configurable_children) {
                 const cachedItem = context.rootState.stock.cache[confChild.id]
