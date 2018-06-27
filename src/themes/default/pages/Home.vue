@@ -27,12 +27,6 @@
     </section>
     <Onboard/>
 
-    <cms-data :id="5" :type="'Block'" />
-
-    <!-- Link to custom Magento Cms Page -->
-    <router-link :to="localizedRoute('/custom-cms-page')" exact>
-      Link to Custom Cms Page
-    </router-link>
   </div>
 </template>
 
@@ -49,7 +43,6 @@ import Home from 'core/pages/Home'
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
 import MainSlider from 'theme/components/core/blocks/MainSlider/MainSlider'
-import CmsData from 'src/extensions/cms/components/CmsData'
 
 // Theme local components
 import Collection from 'theme/components/theme/blocks/Collection/Collection'
@@ -65,8 +58,7 @@ export default {
     Onboard,
     ProductListing,
     PromotedOffers,
-    TileLinks,
-    CmsData
+    TileLinks
   },
   computed: {
     categories () {
