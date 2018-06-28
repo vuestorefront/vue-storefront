@@ -30,6 +30,7 @@ describe('local-storage', () => {
       .click()
       .clear()
       .type('2')
+      .blur()
     cy.get('.cl-success').click()
     cy.reload()
     cy.get('header [aria-label="Open microcart"]').click({ force: true })

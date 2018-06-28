@@ -12,86 +12,120 @@ import i18n from '../../lib/i18n'
 import { currentStoreView } from '../../lib/multistore'
 import * as types from '../../mutation-types'
 
-function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
-  if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
-    for (const stockItem of stockItems) {
-      if (stockItem.is_in_stock === false) {
-        product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
-        diffLog.push(stockItem.product_id)
-      } else {
-        const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
-        if (confChild) {
-          confChild.stock = stockItem
-        }
-      }
-    }
-    let totalOptions = 0
-    let removedOptions = 0
-    for (const optionKey in context.state.current_options) {
-      let optionsAvailable = context.state.current_options[optionKey] // TODO: it should take the attribute combinations into consideration
-      if (optionsAvailable && optionsAvailable.length > 0) {
-        optionsAvailable = optionsAvailable.filter((opt) => {
-          const config = {}
-          config[optionKey] = opt
-          const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
-          if (!variant) {
-            console.log('No variant for', opt)
-            EventBus.$emit('product-after-removevariant', { product: product })
-            removedOptions++
-            return false
-          } else {
-            totalOptions++
-            return true
-          }
-        })
-        console.debug('Options still available', optionsAvailable, removedOptions)
-        context.state.current_options[optionKey] = optionsAvailable
-      }
-    }
-    if (removedOptions > 0) {
-      configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
-    } else {
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, product) // just override the reference to not miss changes in the configurable_children
-    }
-    if (totalOptions === 0) {
+function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
+  if (stockItem) {
+    product.stock = stockItem
+    if (stockItem.is_in_stock === false) {
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
-      EventBus.$emit('product-after-removevariant', { product: product })
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, product) // just override the reference to not miss changes in the configurable_children
+      if (config.products.listOutOfStockProducts === false) {
+        errorCallback(new Error('Product query returned empty result'))
+      }
+    }
+  }
+}
+
+function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
+  if (config.products.filterUnavailableVariants) {
+    if (product.type_id === 'configurable' && product.configurable_children) {
+      for (const stockItem of stockItems) {
+        if (stockItem.is_in_stock === false) {
+          product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
+          diffLog.push(stockItem.product_id)
+        } else {
+          const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
+          if (confChild) {
+            confChild.stock = stockItem
+          }
+        }
+      }
+      let totalOptions = 0
+      let removedOptions = 0
+      for (const optionKey in context.state.current_options) {
+        let optionsAvailable = context.state.current_options[optionKey] // TODO: it should take the attribute combinations into consideration
+        if (optionsAvailable && optionsAvailable.length > 0) {
+          optionsAvailable = optionsAvailable.filter((opt) => {
+            const config = {}
+            config[optionKey] = opt
+            const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
+            if (!variant) {
+              console.log('No variant for', opt)
+              EventBus.$emit('product-after-removevariant', { product: product })
+              removedOptions++
+              return false
+            } else {
+              totalOptions++
+              return true
+            }
+          })
+          console.debug('Options still available', optionsAvailable, removedOptions)
+          context.state.current_options[optionKey] = optionsAvailable
+        }
+      }
+      if (removedOptions > 0) {
+        configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
+      } else {
+        context.commit(types.CATALOG_SET_PRODUCT_CURRENT, product) // just override the reference to not miss changes in the configurable_children
+      }
+      if (totalOptions === 0) {
+        product.errors.variants = i18n.t('No available product variants')
+        context.state.current.errors = product.errors
+        EventBus.$emit('product-after-removevariant', { product: product })
+      }
     }
   }
 }
 
 export function filterOutUnavailableVariants (context, product) {
   return new Promise((resolve, reject) => {
-    if (config.products.filterUnavailableVariants && product.type_id === 'configurable' && product.configurable_children) {
-      const stockItems = []
-      let confChildSkus = product.configurable_children.map((c) => { return c.sku })
-      for (const confChild of product.configurable_children) {
-        const stockCached = context.rootState.stock.cache[confChild.id]
-        if (stockCached) {
-          stockItems.push(stockCached)
-          confChildSkus = remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
+    if (config.products.filterUnavailableVariants) {
+      const _filterConfigurableHelper = () => {
+        if (product.type_id === 'configurable' && product.configurable_children) {
+          const stockItems = []
+          let confChildSkus = product.configurable_children.map((c) => { return c.sku })
+          for (const confChild of product.configurable_children) {
+            const stockCached = context.rootState.stock.cache[confChild.id]
+            if (stockCached) {
+              stockItems.push(stockCached)
+              confChildSkus = remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
+            }
+          }
+          console.debug('Cached stock items and delta', stockItems, confChildSkus)
+          if (confChildSkus.length > 0) {
+            context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
+              if (task && task.resultCode === 200) {
+                const diffLog = []
+                _filterChildrenByStockitem(context, union(task.result, stockItems), product, diffLog)
+                console.debug('Filtered configurable_children with the network call', diffLog)
+                resolve()
+              } else {
+                console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)')
+              }
+            }).catch(err => {
+              console.error(err)
+            })
+          } else {
+            const diffLog = []
+            _filterChildrenByStockitem(context, stockItems, product, diffLog)
+            console.debug('Filtered configurable_children without the network call', diffLog)
+            resolve()
+          }
+        } else {
+          resolve()
         }
       }
-      console.debug('Cached stock items and delta', stockItems, confChildSkus)
-      if (confChildSkus.length > 0) {
-        context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
-          if (task && task.resultCode === 200) {
-            const diffLog = []
-            _filterChildrenByStockitem(context, union(task.result, stockItems), product, diffLog)
-            console.debug('Filtered configurable_children with the network call', diffLog)
-            resolve()
-          } else {
-            console.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)')
-          }
-        }).catch(err => {
-          console.error(err)
+      const rootStockCached = context.rootState.stock.cache[product.id]
+      if (!rootStockCached) {
+        context.dispatch('stock/list', { skus: [product.sku] }, {root: true}).then((task) => {
+          _filterRootProductByStockitem(context, task && task.result && task.result.length ? task.result[0] : null, product, reject)
+          console.debug('Filtered root product stock with the network call')
+          _filterConfigurableHelper()
         })
       } else {
-        const diffLog = []
-        _filterChildrenByStockitem(context, stockItems, product, diffLog)
-        console.debug('Filtered configurable_children without the network call', diffLog)
-        resolve()
+        _filterRootProductByStockitem(context, rootStockCached, product, reject)
+        console.debug('Filtered root product stock without the network call')
+        _filterConfigurableHelper()
       }
     } else {
       resolve()
@@ -372,6 +406,7 @@ export function configureProductAsync (context, { product, configuration, select
       }
     })
     // find selected variant
+    let desiredProductFound = false
     let selectedVariant = product.configurable_children.find((configurableChild) => {
       if (configuration.sku) {
         return configurableChild.sku === configuration.sku // by sku or first one
@@ -380,13 +415,24 @@ export function configureProductAsync (context, { product, configuration, select
           return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
         })
       }
-    }) || (fallbackToDefaultWhenNoAvailable ? product.configurable_children[0] : null)
+    })
+    if (!selectedVariant && fallbackToDefaultWhenNoAvailable) {
+      selectedVariant = product.configurable_children[0]
+      desiredProductFound = false
+    } else {
+      desiredProductFound = true
+    }
 
     if (typeof navigator !== 'undefined') {
       if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
         selectedVariant.image = context.state.offlineImage
         console.debug('Image offline fallback to ', context.state.offlineImage)
       }
+    }
+
+    if (!desiredProductFound && selectedVariant) { // update the configuration
+      populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
+      configuration = context.state.current_configuration
     }
 
     if (selectedVariant !== null) {

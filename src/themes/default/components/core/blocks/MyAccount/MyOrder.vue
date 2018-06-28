@@ -15,7 +15,7 @@
     <div class="row fs16 mb20">
       <div class="col-xs-12 h4">
         <p>{{ order.created_at | date('MMMM D, YYYY') }}</p>
-        <p class="mt35"><a href="#" class="underline" @click.prevent="remakeOrder(order.items)">{{ $t('Remake order') }}</a></p>
+        <p class="mt35"><a href="#" class="underline" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a></p>
       </div>
     </div>
     <div class="row fs16 mb35">
@@ -32,7 +32,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in order.items" :key="item.item_id">
+            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in skipGrouped(order.items)" :key="item.item_id">
               <td class="fs-medium lh25" :data-th="$t('Product Name')">{{ item.name }}</td>
               <td class="fs-medium lh25" :data-th="$t('SKU')">{{ item.sku }}</td>
               <td class="fs-medium lh25" :data-th="$t('Price')">{{ item.price_incl_tax | price }}</td>
@@ -168,11 +168,10 @@ table {
         display: block;
         text-align: left;
         padding: 10px 20px;
-      }
-
-      &:before {
-        content: attr(data-th) ': ';
-        font-weight: 700
+        &:before {
+          content: attr(data-th) ': ';
+          font-weight: 700;
+        }
       }
 
       &:first-child {

@@ -5,7 +5,9 @@
 // Below you can find commented exaple for additional theme store
 
 import ui from './ui-store'
+import product from './product-extensions'
 
 export default {
-  ui
+  ui,
+  product
 }

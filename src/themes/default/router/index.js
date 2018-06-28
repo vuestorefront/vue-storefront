@@ -8,6 +8,7 @@ import Checkout from 'theme/pages/Checkout.vue'
 import Compare from 'theme/pages/Compare.vue'
 import PageNotFound from 'theme/pages/PageNotFound.vue'
 import MyAccount from 'theme/pages/MyAccount.vue'
+import CustomCmsPage from 'theme/pages/CustomCmsPage.vue'
 
 import config from 'config'
 
@@ -34,7 +35,8 @@ let routes = [
   { name: 'order-from-catalog', path: '/order-from-catalog', component: Static, props: {page: 'lorem', title: 'Order from catalog'} },
   { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
   { name: 'compare', path: '/compare', component: Compare, props: {title: 'Compare Products'} },
-  { name: 'page-not-found', path: '/page-not-found', component: PageNotFound }
+  { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
+  { name: 'custom-cms-page', path: '/custom-cms-page', component: CustomCmsPage }
 ]
 if (!config.products.useShortCatalogUrls) {
   routes = routes.concat([{ name: 'virtual-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
