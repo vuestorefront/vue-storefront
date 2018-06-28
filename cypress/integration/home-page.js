@@ -2,7 +2,7 @@
 describe('home page', () => {
   it('verify the content of the homepage', () => {
     cy.visit('/')
-    cy.get('.modal-close').click()
+    cy.setCookie('shop/claims/onboardingAccepted', 'test')
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
     cy.get('.VueCarousel-inner .VueCarousel-slide:first-of-type h1').should(

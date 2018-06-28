@@ -1,7 +1,7 @@
 describe('Search results', () => {
   it('verification of the search results', () => {
     cy.visit('/')
-    cy.get('.modal-close').click()
+    cy.setCookie('shop/claims/onboardingAccepted', 'test')
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
     cy.get('.header > .fixed > .container > .row > .end-xs')

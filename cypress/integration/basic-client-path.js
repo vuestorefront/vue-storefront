@@ -1,9 +1,7 @@
 describe('basic client path', () => {
   it('should go through basic user flow', () => {
     cy.visit('/')
-    cy.get('.modal-close', {
-      timeout: 120000
-    })
+    cy.setCookie('shop/claims/onboardingAccepted', 'test')
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
     cy.reload()

@@ -1,7 +1,7 @@
 describe('register path', () => {
   it('should register user', () => {
     cy.visit('/')
-    cy.get('.modal-close').click()
+    cy.setCookie('shop/claims/onboardingAccepted', 'test')
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
     cy.get('.header button')
