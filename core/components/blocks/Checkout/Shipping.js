@@ -140,6 +140,11 @@ export default {
         return window.navigator.language.slice(3).toUpperCase()
       }
     },
+    getCurrentShippingMethod () {
+      let shippingCode = this.shipping.shippingMethod
+      let currentMethod = this.shippingMethods.find(item => item.method_code === shippingCode)
+      return currentMethod
+    },
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
       if (currentShippingMethod) {
