@@ -168,15 +168,9 @@ table {
         display: block;
         text-align: left;
         padding: 10px 20px;
-      }
-
-      &:before {
-        content: attr(data-th) ': ';
-        font-weight: 700;
-        display: none;
-
-        @media (max-width: 767px) {
-          display: block;
+        &:before {
+          content: attr(data-th) ': ';
+          font-weight: 700;
         }
       }
 
