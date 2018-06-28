@@ -30,7 +30,8 @@ export default {
 
     const syncTaskCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
-      storeName: 'syncTasks'
+      storeName: 'syncTasks',
+      driver: localForage[config.localForage.defaultDrivers['syncTasks']]
     }))
     syncTaskCollection.iterate((task, id, iterationNumber) => {
       if (!task.transmited) {
@@ -45,12 +46,12 @@ export default {
     const usersCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'user',
-      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+      driver: localForage[config.localForage.defaultDrivers['user']]
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'carts',
-      driver: config.users.useSafeLocalStorageForCache ? localForage.LOCALSTORAGE : localForage.INDEXEDDB
+      driver: localForage[config.localForage.defaultDrivers['carts']]
     }))
     return new Promise((resolve, reject) => {
       if (global.$VS.isSSR) {

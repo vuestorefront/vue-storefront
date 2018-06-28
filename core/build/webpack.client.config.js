@@ -8,9 +8,6 @@ const themeRoot = require('./theme-path')
 const themedIndex = path.join(themeRoot, 'index.template.html')
 
 const config = merge(base, {
-  entry: {
-    'core-service-worker': path.resolve(__dirname, '../service-worker/index.js')
-  },
   output: {
     path: path.resolve(__dirname, '../../dist'),
     publicPath: '/dist/',
@@ -35,4 +32,3 @@ const config = merge(base, {
 })
 
 module.exports = config;
-

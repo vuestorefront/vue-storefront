@@ -5,6 +5,7 @@ import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
 import { currentStoreView } from '../../lib/multistore'
+import omit from 'lodash-es/omit'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -83,6 +84,9 @@ export default {
   serverCreate (context, { guestCart = false }) {
     if (config.cart.synchronize && !global.$VS.isSSR) {
       if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
+        if (guestCart) {
+          global.$VS.db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
+        }
         const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
           payload: {
             method: 'POST',
@@ -200,6 +204,9 @@ export default {
           action1: { label: i18n.t('OK'), action: 'close' }
         })
         continue
+      }
+      if (config.entities.optimize && config.entities.optimizeShoppingCart) {
+        product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category', 'category_ids', 'product_links', 'stock', 'description'])
       }
       if (product.errors !== null && typeof product.errors !== 'undefined') {
         let productCanBeAdded = true

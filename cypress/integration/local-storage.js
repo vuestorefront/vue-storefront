@@ -29,8 +29,8 @@ describe("local-storage", () => {
     cy.get("input.h6")
       .click()
       .clear()
-      .type("2");
-    cy.get(".cl-success").click();
+      .type("2")
+      .blur();
     cy.reload();
     cy.get('header [aria-label="Open microcart"]').click({ force: true });
     cy.get(".col-xs > .h5 > .weight-700").should("contain", "2");

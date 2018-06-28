@@ -457,6 +457,12 @@ export default {
       childSku: childSku
     }
     return context.dispatch('single', { options: productSingleOptions }).then((product) => {
+      if (product.status >= 3) {
+        throw new Error('Category query returned empty result product status = ', product.status)
+      }
+      if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
+        throw new Error('Category query returned empty result product visibility = ', product.visibility)
+      }
       let subloaders = []
       if (product) {
         if (global.$VS.isSSR) {
@@ -510,8 +516,7 @@ export default {
                 return resolve()
               })
             }).catch(errs => {
-              console.error(errs)
-              return resolve()
+              reject(errs)
             })
           }).catch(err => {
             console.error(err)
