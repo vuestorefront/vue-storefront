@@ -150,6 +150,7 @@
 
           <base-select
             class="col-xs-12 col-sm-6 mb25"
+            name="countries"
             :options="countryOptions"
             :selected="shipping.country"
             :placeholder="$t('Country *')"
@@ -162,7 +163,8 @@
             v-model="shipping.country"
             autocomplete="country"
             @blur="$v.shipping.country.$touch()"
-            @change="$v.shipping.country.$touch(); changeCountry();"/>
+            @change="$v.shipping.country.$touch(); changeCountry();"
+          />
 
           <base-input
             class="col-xs-12 mb25"

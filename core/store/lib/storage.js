@@ -1,5 +1,9 @@
-const CACHE_TIMEOUT = 1000
+
+import * as localForage from 'localforage'
+const CACHE_TIMEOUT = 1600
+const CACHE_TIMEOUT_ITERATE = 3000
 const DISABLE_PERSISTANCE_AFTER = 3
+
 class LocalForageCacheDriver {
   constructor (collection, useLocalCacheByDefault = true) {
     const collectionName = collection._config.storeName
@@ -32,6 +36,23 @@ class LocalForageCacheDriver {
   // the app's key/value store!
   clear (callback) {
     return this._localForageCollection.clear(callback)
+  }
+
+  // Increment the database version number and recreate the context
+  recreateDb () {
+    if (this._localForageCollection._config) {
+      const existingConfig = Object.assign({}, this._localForageCollection._config)
+      if (existingConfig.storeName) {
+        // localForage.dropInstance(existingConfig) // drop the store and create the new one
+        const destVersionNumber = this._localForageCollection && this._localForageCollection._dbInfo ? this._localForageCollection._dbInfo.version + 1 : 0
+        if (destVersionNumber > 0) {
+          this._localForageCollection = localForage.createInstance({ ...existingConfig, version: destVersionNumber })
+        } else {
+          this._localForageCollection = localForage.createInstance(existingConfig)
+        }
+        console.log('DB recreated with', existingConfig, destVersionNumber)
+      }
+    }
   }
 
   // Retrieve an item from the store. Unlike the original async_storage
@@ -68,6 +89,9 @@ class LocalForageCacheDriver {
           if ((endTime - startTime) >= CACHE_TIMEOUT) {
             console.error('Cache promise resolved after [ms]', key, (endTime - startTime))
           }
+          if (!self._localCache[key]) {
+            self._localCache[key] = result // populate the local cache for the next call
+          }
           if (!isResolved) {
             if (isCallbackCallable) {
               callback(null, result)
@@ -91,6 +115,7 @@ class LocalForageCacheDriver {
             if (!self._persistenceErrorNotified) {
               console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, global.$VS.cacheErrorsCount[self._collectionName])
               self._persistenceErrorNotified = true
+              self.recreateDb()
             }
             global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, typeof self._localCache[key] !== 'undefined' ? self._localCache[key] : null)
@@ -137,7 +162,10 @@ class LocalForageCacheDriver {
           iterator(value, key, iterationNumber)
         }
       }
-    }, callback)).catch((err) => {
+    }, (err, result) => {
+      if (isCallbackCallable) callback(err, result)
+      isResolved = true
+    })).catch((err) => {
       this._lastError = err
       console.error(err)
       if (!isResolved) {
@@ -148,13 +176,14 @@ class LocalForageCacheDriver {
     setTimeout(function () {
       if (!isResolved) { // this is cache time out check
         if (!self._persistenceErrorNotified) {
-          console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [iterate]', global.$VS.cacheErrorsCount[self._collectionName])
+          console.error('Cache not responding within ' + CACHE_TIMEOUT_ITERATE + ' ms for [iterate]', global.$VS.cacheErrorsCount[self._collectionName])
           self._persistenceErrorNotified = true
+          self.recreateDb()
         }
         global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
         if (isCallbackCallable) callback(null, null)
       }
-    }, CACHE_TIMEOUT)
+    }, CACHE_TIMEOUT_ITERATE)
     return promise
   }
 
@@ -214,6 +243,7 @@ class LocalForageCacheDriver {
             if (!self._persistenceErrorNotified) {
               console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, global.$VS.cacheErrorsCount[self._collectionName])
               self._persistenceErrorNotified = true
+              self.recreateDb()
             }
             global.$VS.cacheErrorsCount[self._collectionName] = global.$VS.cacheErrorsCount[self._collectionName] ? global.$VS.cacheErrorsCount[self._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, null)

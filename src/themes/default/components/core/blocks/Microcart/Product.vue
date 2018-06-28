@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <li class="row py10">
+    <li class="row flex-nowrap py10">
       <div>
         <div class="ml10 bg-cl-secondary">
           <img class="image" v-lazy="thumbnail" alt="" >
@@ -107,6 +107,9 @@ export default {
     mix-blend-mode: multiply;
     vertical-align: top;
     width: 150px;
+    @media (max-width: 767px) {
+      width: 100px;
+    }
   }
 
   .details {
@@ -165,5 +168,9 @@ export default {
 
   input {
     width: 30px;
+  }
+
+  .flex-nowrap {
+    flex-wrap: nowrap;
   }
 </style>
