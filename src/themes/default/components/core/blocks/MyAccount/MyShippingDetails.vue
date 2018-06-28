@@ -130,31 +130,21 @@
           ]"
         />
 
-        <div class="col-xs-12 col-sm-6 mb25">
-          <select
-            name="countries"
-            v-model="shippingDetails.country"
-            :class="{ 'cl-tertiary' : !shippingDetails.country || shippingDetails.country.length === 0 }"
-          >
-            <option value="" disabled selected hidden>
-              {{ `${$t('Country')} *` }}
-            </option>
-            <option
-              v-for="country in countries"
-              :key="country.code"
-              :value="country.code"
-              class="cl-black"
-            >
-              {{ country.name }}
-            </option>
-          </select>
-          <span
-            class="validation-error"
-            v-if="!$v.shippingDetails.country.required && $v.shippingDetails.country.$error"
-          >
-            {{ $t('Field is required') }}
-          </span>
-        </div>
+        <base-select
+          class="col-xs-12 col-sm-6 mb25"
+          name="countries"
+          :options="countryOptions"
+          :selected="countryCodeFallback(shippingDetails.country)"
+          :placeholder="$t('Country *')"
+          :validations="[
+            {
+              condition: $v.shippingDetails.country.$error && !$v.shippingDetails.country.required,
+              text: $t('Field is required')
+            }
+          ]"
+          v-model="shippingDetails.country"
+          autocomplete="country"
+        />
 
         <base-input
           class="col-xs-12 col-sm-6 mb25"
@@ -230,13 +220,15 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 
 export default {
   components: {
     ButtonFull,
     Tooltip,
     BaseCheckbox,
-    BaseInput
+    BaseInput,
+    BaseSelect
   },
   mixins: [MyShippingDetails],
   validations: {
@@ -264,6 +256,25 @@ export default {
       city: {
         required
       }
+    }
+  },
+  computed: {
+    countryOptions () {
+      return this.countries.map((item) => {
+        return {
+          value: item.code,
+          label: item.name
+        }
+      })
+    }
+  },
+  methods: {
+    countryCodeFallback (country) {
+      debugger
+      if (!country && window.navigator && window.navigator.language) {
+        return window.navigator.language.slice(3).toUpperCase()
+      }
+      return country
     }
   }
 }
