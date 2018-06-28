@@ -5,6 +5,9 @@ import { currentStoreView } from '@vue-storefront/store/lib/multistore'
  * @param {Number} value
  */
 export function price (value) {
+  if (isNaN(value)) {
+    return value
+  }
   const formattedVal = parseFloat(value).toFixed(2)
   const storeView = currentStoreView()
   if (value >= 0) {
