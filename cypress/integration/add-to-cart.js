@@ -14,7 +14,10 @@ describe('add to cart', () => {
       'Product has been added to the cart!'
     )
     cy.get('header [aria-label="Open microcart"]').click({ force: true })
-    cy.get('div.microcart ul li:nth-child(1) .sku').should('contain', 'WS01-L-Green')
+    cy.get('div.microcart ul li:nth-child(1) .sku').should(
+      'contain',
+      'WS01-L-Green'
+    )
     cy.get('div.microcart button.close').click()
   })
 
@@ -33,7 +36,10 @@ describe('add to cart', () => {
       'Product has been added to the cart!'
     )
     cy.get('header [aria-label="Open microcart"]').click({ force: true })
-    cy.get('div.microcart ul li:nth-child(1) .price-regular').should('contain', '163.59')
+    cy.get('div.microcart ul li:nth-child(1) .price-regular').should(
+      'contain',
+      '163.59'
+    )
     cy.get('div.microcart button.close').click()
   })
 })
