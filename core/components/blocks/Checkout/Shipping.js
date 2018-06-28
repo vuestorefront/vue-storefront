@@ -55,6 +55,14 @@ export default {
       }
       this.shipping.shippingMethod = shipping.method_code
     }
+
+    if (!this.myAddressDetails.country) {
+      this.myAddressDetails.country = this.getDefaultCountryCode()
+    }
+
+    if (!this.shipping.country) {
+      this.shipping.country = this.getDefaultCountryCode()
+    }
   },
   methods: {
     sendDataToCheckout () {
@@ -127,10 +135,10 @@ export default {
     changeCountry () {
       this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
     },
-    getCurrentShippingMethod () {
-      let shippingCode = this.shipping.shippingMethod
-      let currentMethod = this.shippingMethods.find(item => item.method_code === shippingCode)
-      return currentMethod
+    getDefaultCountryCode () {
+      if (window.navigator && window.navigator.language) {
+        return window.navigator.language.slice(3).toUpperCase()
+      }
     },
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
