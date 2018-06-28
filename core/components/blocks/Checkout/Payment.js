@@ -41,6 +41,10 @@ export default {
       }
     }
     this.changePaymentMethod()
+
+    if (!this.payment.country) {
+      this.payment.country = this.getDefaultCountryCode()
+    }
   },
   methods: {
     sendDataToCheckout () {
@@ -175,6 +179,11 @@ export default {
         }
       }
       return ''
+    },
+    getDefaultCountryCode () {
+      if (window.navigator && window.navigator.language) {
+        return window.navigator.language.slice(3).toUpperCase()
+      }
     },
     getPaymentMethod () {
       for (let i = 0; i < this.paymentMethods.length; i++) {
