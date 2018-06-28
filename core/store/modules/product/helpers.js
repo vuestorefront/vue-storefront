@@ -406,6 +406,7 @@ export function configureProductAsync (context, { product, configuration, select
       }
     })
     // find selected variant
+    let desiredProductFound = false
     let selectedVariant = product.configurable_children.find((configurableChild) => {
       if (configuration.sku) {
         return configurableChild.sku === configuration.sku // by sku or first one
@@ -414,13 +415,24 @@ export function configureProductAsync (context, { product, configuration, select
           return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
         })
       }
-    }) || (fallbackToDefaultWhenNoAvailable ? product.configurable_children[0] : null)
+    })
+    if (!selectedVariant && fallbackToDefaultWhenNoAvailable) {
+      selectedVariant = product.configurable_children[0]
+      desiredProductFound = false
+    } else {
+      desiredProductFound = true
+    }
 
     if (typeof navigator !== 'undefined') {
       if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
         selectedVariant.image = context.state.offlineImage
         console.debug('Image offline fallback to ', context.state.offlineImage)
       }
+    }
+
+    if (!desiredProductFound && selectedVariant) { // update the configuration
+      populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
+      configuration = context.state.current_configuration
     }
 
     if (selectedVariant !== null) {
