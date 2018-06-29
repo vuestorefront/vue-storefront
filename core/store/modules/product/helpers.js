@@ -19,6 +19,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, product) // just override the reference to not miss changes in the configurable_children
+      EventBus.$emit('product-after-removevariant', { product: product })
       if (config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned empty result'))
       }
