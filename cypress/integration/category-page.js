@@ -2,7 +2,7 @@
 describe('Category page', () => {
   it('verification of filters in the Women category', () => {
     cy.visit('/')
-    cy.get('.modal-close').click()
+    cy.setCookie('shop/claims/onboardingAccepted', 'test')
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
     cy.get('[aria-label="Open menu"]').click()
