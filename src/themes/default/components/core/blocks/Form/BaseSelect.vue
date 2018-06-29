@@ -9,13 +9,17 @@
       :autocomplete="autocomplete"
       @focus="$emit('focus');"
       @blur="$emit('blur');"
-      @change="$emit('input', $event.target.value)">
+      @change="$emit('input', $event.target.value)"
+    >
       <option v-if="!selected"/>
       <option
         v-for="(option, key) in options"
         :key="key"
         :value="option.value"
-        v-bind="{selected: option.value === selected}">{{ option.label }}</option>
+        v-bind="{selected: option.value === selected}"
+      >
+        {{ option.label }}
+      </option>
     </select>
     <label>{{ placeholder }}</label>
 
@@ -43,13 +47,22 @@ export default {
 <style lang="scss" scoped>
   @import '~theme/css/variables/colors';
   @import '~theme/css/helpers/functions/color';
+  @import '~theme/css/base/text';
   $color-tertiary: color(tertiary);
   $color-black: color(black);
   $color-puerto-rico: color(puerto-rico);
   $color-hover: color(tertiary, $colors-background);
 
   select {
-    background: inherit;
+    @extend .h4;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid $color-tertiary;
+    width: 100%;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    background-color: transparent;
 
     &:hover,
     &:focus {
@@ -65,19 +78,19 @@ export default {
     }
   }
   label {
-    color:#999;
-    position:absolute;
-    pointer-events:none;
+    color: #999;
+    position: absolute;
+    pointer-events: none;
     user-select: none;
-    left:5px;
+    left: 13px;
     top: 10px;
-    transition:0.2s ease all;
-    -moz-transition:0.2s ease all;
-    -webkit-transition:0.2s ease all;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
   }
   select:focus ~ label, select:not(.empty) ~ label {
     top: -10px;
-    font-size:14px;
-    color:$color-puerto-rico;
+    font-size: 14px;
+    color: $color-puerto-rico;
   }
 </style>

@@ -2,6 +2,7 @@ import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
 import onEscapePress from 'core/mixins/onEscapePress'
+import config from 'config'
 
 export default {
   name: 'SearchPanel',
@@ -29,11 +30,17 @@ export default {
 
       let query = bodybuilder()
         .query('range', 'visibility', { 'gte': 3, 'lte': 4 })
-        .andQuery('bool', b => b.orQuery('match', 'name', { query: queryText, boost: 3 })
-          .orQuery('match', 'category.name', { query: queryText, boost: 1 })
-          .orQuery('match', 'short_description', { query: queryText, boost: 2 })
-          .orQuery('match', 'description', { query: queryText, boost: 1 }))
-        .build()
+        .andQuery('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */)
+
+      if (config.products.listOutOfStockProducts === false) {
+        query = query.andQuery('match', 'stock.is_in_stock', true)
+      }
+
+      query = query.andQuery('bool', b => b.orQuery('match', 'name', { query: queryText, boost: 3 })
+        .orQuery('match', 'category.name', { query: queryText, boost: 1 })
+        .orQuery('match', 'short_description', { query: queryText, boost: 2 })
+        .orQuery('match', 'description', { query: queryText, boost: 1 }))
+      query = query.build()
 
       this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
         this.products = resp.items
