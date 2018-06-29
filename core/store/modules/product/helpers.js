@@ -433,7 +433,7 @@ export function configureProductAsync (context, { product, configuration, select
         console.debug('Image offline fallback to ', context.state.offlineImage)
       }
     }
-    if (selectedVariant !== null) {
+    if (selectedVariant) {
       if (!desiredProductFound) { // update the configuration
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
         configuration = context.state.current_configuration
