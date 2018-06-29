@@ -6,12 +6,13 @@ describe('checkout page', () => {
     cy.clearLocalStorage()
     cy.get('.header button')
       .last()
-      .click()
+      .click({ force: true })
     cy.get('[name=email]').type('logintest@user.co')
     cy.get('[name=password]').type('123qwe!@#')
     cy.get('#remember').check({ force: true })
-    cy.get('.button-full').click()
-    cy.get('.col-xs-4 > div').click()
+    cy.get('.button-full').click({ force: true })
+    cy.wait(200)
+    cy.get('.col-xs-4 > div').click({ force: true })
     cy.get(
       '.VueCarousel-inner > :nth-child(3) > .product > .no-underline > .product-image > img'
     ).click({ force: true })
