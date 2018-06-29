@@ -140,9 +140,9 @@ export default {
                 pl.product = asocProd
                 pl.product.qty = pl.qty
                 if (pl.id === defaultOption.id) {
-                  product.price += pl.product.price
-                  product.priceInclTax += pl.product.priceInclTax
-                  product.tax += pl.product.tax
+                  product.price += pl.product.price * pl.product.qty
+                  product.priceInclTax += pl.product.priceInclTax * pl.product.qty
+                  product.tax += pl.product.tax * pl.product.qty
                 }
               } else {
                 console.error('Product link not found', pl.sku)
