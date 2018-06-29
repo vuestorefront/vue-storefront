@@ -95,7 +95,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
     for (const clientItem of clientItems) {
       cartHasItems = true
       const serverItem = serverItems.find((itm) => {
-        return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') >= 0 /* bundle products */
+        return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
       })
 
       if (!serverItem) {
@@ -138,7 +138,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
     for (const serverItem of serverItems) {
       if (serverItem) {
         const clientItem = clientItems.find((itm) => {
-          return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') >= 0 /* bundle products */
+          return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') === 0 /* bundle products */
         })
         if (!clientItem) {
           console.log('No client item for ' + serverItem.sku)
