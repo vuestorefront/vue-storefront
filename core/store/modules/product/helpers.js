@@ -416,9 +416,13 @@ export function configureProductAsync (context, { product, configuration, select
         })
       }
     })
-    if (!selectedVariant && fallbackToDefaultWhenNoAvailable) {
-      selectedVariant = product.configurable_children[0]
-      desiredProductFound = false
+    if (!selectedVariant) {
+      if (fallbackToDefaultWhenNoAvailable) {
+        selectedVariant = product.configurable_children[0]
+        desiredProductFound = false
+      } else {
+        desiredProductFound = false
+      }
     } else {
       desiredProductFound = true
     }
@@ -429,13 +433,11 @@ export function configureProductAsync (context, { product, configuration, select
         console.debug('Image offline fallback to ', context.state.offlineImage)
       }
     }
-
-    if (!desiredProductFound && selectedVariant) { // update the configuration
-      populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
-      configuration = context.state.current_configuration
-    }
-
     if (selectedVariant !== null) {
+      if (!desiredProductFound) { // update the configuration
+        populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
+        configuration = context.state.current_configuration
+      }
       product.is_configured = true
 
       if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
