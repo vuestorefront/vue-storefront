@@ -5,7 +5,7 @@ describe('basic client path', () => {
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
     cy.reload()
-    cy.get(':nth-child(6) > .product > .no-underline > .product-image > img')
+    cy.get(':nth-child(8) > .product > .no-underline > .product-image > img')
       .first()
       .click({ force: true })
     cy.get('[data-testid=addToCart]').click()

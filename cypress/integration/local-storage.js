@@ -31,7 +31,7 @@ describe('local-storage', () => {
       .clear()
       .type('2')
       .blur()
-    cy.get('.cl-success').click()
+    cy.get('.summary').click()
     cy.reload()
     cy.get('header [aria-label="Open microcart"]').click({ force: true })
     cy.get('.col-xs > .h5 > .weight-700').should('contain', '2')

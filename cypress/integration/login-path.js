@@ -4,7 +4,6 @@ describe('login path', () => {
     cy.setCookie('shop/claims/onboardingAccepted', 'test')
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
     cy.get('.header button')
       .last()
       .click({ force: true })
