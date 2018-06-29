@@ -38,6 +38,8 @@ export default {
 
       query = query.andQuery('bool', b => b.orQuery('match', 'name', { query: queryText, boost: 3 })
         .orQuery('match', 'category.name', { query: queryText, boost: 1 })
+        .orQuery('match', 'sku', { query: queryText, boost: 1 })
+        .orQuery('match', 'configurable_children.sku', { query: queryText, boost: 1 })
         .orQuery('match', 'short_description', { query: queryText, boost: 2 })
         .orQuery('match', 'description', { query: queryText, boost: 1 }))
       query = query.build()
