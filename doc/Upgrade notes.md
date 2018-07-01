@@ -17,7 +17,7 @@ Starting from the Microcart we are moving most of the logic to core modules alon
 Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme
 - `closeMicrocart` renamed to `closeMicrocartExtend` 
 - `items` renamed to `productsInCart`
-- `removeItem` renamed to `removeFromCart`
+- `removeFromCart`method added to core Microcart
 
 #### `theme/app-extend.js` removed
 
