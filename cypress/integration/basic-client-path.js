@@ -21,6 +21,10 @@ describe('basic client path', () => {
     cy.get('[name=city]').type('Wroclaw', { force: true })
     cy.get('[name=state]').type('Lowersilesian', { force: true })
     cy.get('[name=zip-code').type('50-000', { force: true })
+    cy.window().then((window) => {
+      let country = window.navigator.language.slice(3).toUpperCase()
+      cy.get('[name=countries]').should('have.value', country)
+    })
     cy.get('[name=countries]').select('PL', { force: true })
     cy.get('[name=phone-number]').type('111 222 333', { force: true })
     cy.get('[data-testid=shippingSubmit]').click({ force: true })
