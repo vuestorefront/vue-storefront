@@ -270,7 +270,6 @@ export default {
   },
   methods: {
     countryCodeFallback (country) {
-      debugger
       if (!country && window.navigator && window.navigator.language) {
         return window.navigator.language.slice(3).toUpperCase()
       }
