@@ -194,7 +194,7 @@ We're working on kind of boilerplate for payment modules. Right now please just 
 
 ### <a name="i18n-support"></a>Is there any internationalisation support? 
 
-es, we already have 7 languages supported by default (EN, FR, ES, RU, JP, NL, DE) and the docs: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md
+Yes, we already have 7 languages supported by default (EN, FR, ES, RU, JP, NL, DE) and the docs: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md
 The currency is set in the local.json configuration file and it's (along with the language) set per instance - so if You have few languages and countries supported You need to run (as for now) few separate instances
 
 ### <a name="caching-strategy"></a>If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device
