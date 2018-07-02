@@ -6,13 +6,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1] - 2018-07-02
+### Fixed
+- Zip Code validation [#1372]
+- Get inpspired block [#968]
+- Favicon [#836]
+- Webpack config + refactoring [#1250]
+- Account page updates [#1323]
+- UI fixes [#901]
+- Vuex Store extensions fixes [#1028, #1102]
+- MS Edge + IE10 fixes [#1266]
+- IndexedDB locking issue
+
+### Added
+- Added PM2 process manager [#1162]
+- Added billing data phone number support [#1338]
+- Added validation labels + generic control for CountrySelector [#1227]
+- Offline mode Push Notification support [#1348, #1122, #1317]
+- Added billing data phone number support [#1338]
+- PoC of API refactoring for the cart module [#1316]
+- Sort feature added [#671]
+- Page loader [#1240]
+- Production ready Docker config for vue-storefront-api
 
 ## [1.0.5] - 2018-06-04
 ### Fixed
 - Shipping region fix
 - Hotfix for missing config.storeViews.multistore check
 - Minor fixes
-
 
 ## [1.0.4] - 2018-06-02
 ### Fixed

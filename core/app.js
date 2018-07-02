@@ -25,7 +25,7 @@ import themeModules from 'theme/store'
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.0.5'
+global.$VS.version = '1.1'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
