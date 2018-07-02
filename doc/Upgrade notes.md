@@ -2,7 +2,7 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
-## 1.0 -> 1.1 (currently on develop branch)
+## 1.0 -> 1.1
 
 ### Modifications
 
@@ -26,6 +26,18 @@ It was redundant
 #### `{theme}/service-worker-ext.js` moved to `{theme}/service-worker/index.js`
 
 Now it mirrors `core/` folder structure which is desired behavior
+
+### vue-storefront-api docker support has been extended
+
+We've added the possibility to run the `vue-storefront-api` fully in docker (previously just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
+
+### Default storage of the shopping carts and user data moved to localStorage
+
+Currently there is an config option to setup the default local storage configs: https://github.com/DivanteLtd/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If You like the previous behaviour of storing the carts in the indexedDb - please change the config backend to `INDEXEDDB`.
+
+### mage2vuestorefront improvements
+
+However non-breaking changes - lot of improvements have been added to the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) importer. For example - fixed special_price sync. For such a changes - please update [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and re-import Your products. We've also added the dynamic on/demand indexing.
 
 ### New features
 
