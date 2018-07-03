@@ -42,6 +42,11 @@ export default {
   beforeDestroy () {
     document.removeEventListener('keydown', this.handleEscKey)
   },
+  computed: {
+    defaultImage () {
+      return this.gallery.length ? this.gallery[0] : false
+    }
+  },
   methods: {
     navigate (index) {
       if (this.$refs.carousel) {
