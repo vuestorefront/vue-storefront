@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1] - 2018-07-02
+## [1.1.0] - 2018-07-02
+
+Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)**
+
 ### Fixed
 - Zip Code validation [#1372]
 - Get inpspired block [#968]
