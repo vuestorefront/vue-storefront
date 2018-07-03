@@ -54,7 +54,7 @@ export function adjustMultistoreApiUrl (url) {
 }
 
 export function localizedRoute (routeObj, storeCode) {
-  if (storeCode && routeObj) {
+  if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name
