@@ -458,10 +458,10 @@ export default {
     }
     return context.dispatch('single', { options: productSingleOptions }).then((product) => {
       if (product.status >= 2) {
-        throw new Error('Category query returned empty result product status = ', product.status)
+        throw new Error('Product query returned empty result product status = ', product.status)
       }
       if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-        throw new Error('Category query returned empty result product visibility = ', product.visibility)
+        throw new Error('Product query returned empty result product visibility = ', product.visibility)
       }
       let subloaders = []
       if (product) {
