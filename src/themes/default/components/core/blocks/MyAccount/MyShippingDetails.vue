@@ -26,6 +26,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="first-name"
+          autocomplete="given-name"
           :placeholder="`${$t('First name')} *`"
           v-model.trim="shippingDetails.firstName"
           @input="$v.shippingDetails.firstName.$touch()"
@@ -45,6 +46,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="last-name"
+          autocomplete="family-name"
           :placeholder="`${$t('Last name')} *`"
           v-model.trim="shippingDetails.lastName"
           @input="$v.shippingDetails.lastName.$touch()"
@@ -68,6 +70,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="street-address"
+          autocomplete="address-line1"
           :placeholder="`${$t('Street name')} *`"
           v-model.trim="shippingDetails.street"
           @input="$v.shippingDetails.street.$touch()"
@@ -81,6 +84,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="apartment-number"
+          autocomplete="address-line2"
           :placeholder="`${$t('House/Apartment number')} *`"
           v-model.trim="shippingDetails.house"
           @input="$v.shippingDetails.house.$touch()"
@@ -94,6 +98,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="city"
+          autocomplete="address-level2"
           :placeholder="`${$t('City')} *`"
           v-model.trim="shippingDetails.city"
           @input="$v.shippingDetails.city.$touch()"
@@ -107,6 +112,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="state"
+          autocomplete="address-level1"
           :placeholder="$t('State / Province')"
           v-model.trim="shippingDetails.region"
         />
@@ -115,6 +121,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="zip-code"
+          autocomplete="postal-code"
           :placeholder="`${$t('Zip-code')} *`"
           v-model.trim="shippingDetails.postcode"
           @input="$v.shippingDetails.postcode.$touch()"
@@ -133,6 +140,7 @@
         <div class="col-xs-12 col-sm-6 mb25">
           <select
             name="countries"
+            autocomplete="country-name"
             v-model="shippingDetails.country"
             :class="{ 'cl-tertiary' : !shippingDetails.country || shippingDetails.country.length === 0 }"
           >
@@ -160,6 +168,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="phone-number"
+          autocomplete="tel"
           :placeholder="$t('Phone Number')"
           v-model.trim="shippingDetails.phone"
         />

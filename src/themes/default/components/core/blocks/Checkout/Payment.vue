@@ -121,7 +121,7 @@
             :placeholder="$t('City *')"
             v-model.trim="payment.city"
             @blur="$v.payment.city.$touch()"
-            autocomplete="address-line2"
+            autocomplete="address-level2"
             :validation="{
               condition: $v.payment.city.$error && !$v.payment.city.required,
               text: $t('Field is required')
@@ -134,7 +134,7 @@
             name="state"
             :placeholder="$t('State / Province')"
             v-model.trim="payment.state"
-            autocomplete="state"
+            autocomplete="address-level1"
           />
 
           <base-input
@@ -170,7 +170,7 @@
               }
             ]"
             v-model="payment.country"
-            autocomplete="country"
+            autocomplete="country-name"
             @blur="$v.payment.country.$touch()"
             @change="$v.payment.country.$touch()"
           />
@@ -201,7 +201,7 @@
               :placeholder="$t('Company name *')"
               v-model.trim="payment.company"
               @blur="$v.payment.company.$touch()"
-              autocomplete="company-name"
+              autocomplete="organization"
               :validation="{
                 condition: $v.payment.company.$error && !$v.payment.company.required,
                 text: $t('Field is required')
