@@ -47,16 +47,6 @@ export default {
     },
     gallery () {
       let images = []
-      if (this.product.media_gallery) {
-        for (let mediaItem of this.product.media_gallery) {
-          if (mediaItem.image) {
-            images.push({
-              'src': this.getThumbnail(mediaItem.image, 600, 744),
-              'loading': this.getThumbnail(this.product.image, 310, 300)
-            })
-          }
-        }
-      }
       let variantsGroupBy = config.products.galleryVariantsGroupAttribute
       if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
         let groupedByAttribute = groupBy(this.product.configurable_children, child => {
