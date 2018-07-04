@@ -1,6 +1,5 @@
 # Vue Storefront - headless PWA for eCommerce 
 <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
-[![npm version](https://badge.fury.io/js/vue-storefront.svg)](https://badge.fury.io/js/vue-storefront)
 ![version](https://img.shields.io/badge/node-v8.x-blue.svg) 
 ![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
