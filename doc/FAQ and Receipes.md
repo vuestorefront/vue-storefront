@@ -22,6 +22,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#magento-extensions">How to integrate 3rd party Magento extensions?</a>
 * <a href="#multi-website">How to support Multistore / Multiwebsite setup</a>
 * <a href="#configurable-filters">How to deal with Category filters based on configurable_children</a>
+* <a href="#seo-redirects">How to redirect original Magento2 urls to Vue Storefront</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -193,7 +194,7 @@ We're working on kind of boilerplate for payment modules. Right now please just 
 
 ### <a name="i18n-support"></a>Is there any internationalisation support? 
 
-es, we already have 7 languages supported by default (EN, FR, ES, RU, JP, NL, DE) and the docs: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md
+Yes, we already have 7 languages supported by default (EN, FR, ES, RU, JP, NL, DE) and the docs: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md
 The currency is set in the local.json configuration file and it's (along with the language) set per instance - so if You have few languages and countries supported You need to run (as for now) few separate instances
 
 ### <a name="caching-strategy"></a>If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device
@@ -223,3 +224,12 @@ Currently, the Multi Website support is possible by setting up few separate inst
 
 If You like to have Category filter working with configurable products - You need to expand the `product.configurable_children.attrName` to `product.attrName_options` array. This is automatically done by [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) for all attributes set as `product.configurable_options` (by default: color, size). If You like to add additional fields like `manufacturer` to the filters You need to expand `product.manufacturer_options` field. The easiest way to do so is to set `config.product.expandConfigurableFilters` to `['manufacturer']` and re-run the `mage2vuestorefront` indexer.
 
+### <a name="seo-redirects"></a>How to redirect original Magento2 urls to Vue Storefront
+
+There is a SEO redirects generator for nginx -> https://serverfault.com/a/441517 available within the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api/commit/2c7e10b4c4294f222f7a1aae96627d6a0e23f30e). Now You can generate SEO map redirecting users from the original Magento urls to Vue Storefront URLs by running:
+
+`npm run seo redirects — —oldFormat=true | false`
+
+- `oldFormat` - should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (oldFormat = !useShortCatalogUrls)
+
+Please make sure that  `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and You have ElasticSearch synchronised with the Magento2 instance using current version of https://github.com/DivanteLtd/mage2vuestorefront

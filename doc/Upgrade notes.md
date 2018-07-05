@@ -2,13 +2,44 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
-## 1.0 -> 1.1 (currently on develop branch)
+## 1.0 -> 1.1 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.1.0))
 
 ### Modifications
 
 #### Plugins registration simplified
 
 Instead of exporting an object in `{theme}/plugins/index.js` just use `Vue.use(pugin)` directly in this file ( [docs](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md) )
+
+#### Microcart logic moved to API module (partially)
+
+Starting from the Microcart we are moving most of the logic to core modules along with unit testing them [read more](https://github.com/DivanteLtd/vue-storefront/issues/1213).
+
+Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme
+- `closeMicrocart` renamed to `closeMicrocartExtend` 
+- `items` renamed to `productsInCart`
+- `removeFromCart`method added to core Microcart
+
+#### `theme/app-extend.js` removed
+
+It was redundant 
+
+#### `{theme}/service-worker-ext.js` moved to `{theme}/service-worker/index.js`
+
+Now it mirrors `core/` folder structure which is desired behavior
+
+### vue-storefront-api docker support has been extended
+
+We've added the possibility to run the `vue-storefront-api` fully in docker (previously just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
+
+**PLEASE NOTE:** We've changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update Your config files automatically by running: `npm run migrate` in the `vue-storefront-api` folder.
+
+### Default storage of the shopping carts and user data moved to localStorage
+
+Currently there is an config option to setup the default local storage configs: https://github.com/DivanteLtd/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If You like the previous behaviour of storing the carts in the indexedDb - please change the config backend to `INDEXEDDB`.
+
+### mage2vuestorefront improvements
+
+However non-breaking changes - lot of improvements have been added to the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) importer. For example - fixed special_price sync. For such a changes - please update [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and re-import Your products. We've also added the dynamic on/demand indexing.
 
 ### New features
 
