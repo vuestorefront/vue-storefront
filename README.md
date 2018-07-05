@@ -422,11 +422,58 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-      <td align="center" valign="middle">
+     <td align="center" valign="middle">
+        <a href="https://upsidelab.io/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/upside-logo@4x.png"
+            alt="UpsideLab"
+            height="50"
+          >
+        </a>
+       </td>
+    </tr>
+     <tr>
+       <td align="center" valign="middle">
+        <a href="http://meigee.team/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/meigee.png"
+            alt="Meigee"
+            height="50"
+          >
+        </a>
+      </td>
+         <td align="center" valign="middle">
         <a href="https://webvisum.de/">
           <img
             src="https://divante.co/partners/Vue-Storefront/Webvisium-Logo.png"
             alt="WebVisum"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+  <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+        <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
             height="50"
           >
         </a>
