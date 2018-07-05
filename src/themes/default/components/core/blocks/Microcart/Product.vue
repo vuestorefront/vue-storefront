@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <li class="row py10">
+    <li class="row flex-nowrap py10">
       <div>
         <div class="ml10 bg-cl-secondary">
           <img class="image" v-lazy="thumbnail" alt="" >
@@ -98,37 +98,7 @@ export default {
     EditButton,
     RemoveButton
   },
-  mixins: [Product],
-  data () {
-    return {
-      qty: 0,
-      isEditing: false
-    }
-  },
-  created () {
-    this.$bus.$on('cart-after-itemchanged', (event) => {
-      if (event.item.sku === this.product.sku) {
-        this.$forceUpdate()
-      }
-    })
-  },
-  methods: {
-    removeItem () {
-      this.$store.dispatch('cart/removeItem', this.product)
-    },
-    updateQuantity () {
-      this.qty = parseInt(this.qty)
-      if (this.qty <= 0) {
-        this.qty = this.product.qty
-      }
-      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: this.qty })
-      this.isEditing = !this.isEditing
-    },
-    switchEdit () {
-      this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
-      this.isEditing = !this.isEditing
-    }
-  }
+  mixins: [Product]
 }
 </script>
 
@@ -136,7 +106,10 @@ export default {
   .image {
     mix-blend-mode: multiply;
     vertical-align: top;
-    max-width: 150px;
+    width: 150px;
+    @media (max-width: 767px) {
+      width: 100px;
+    }
   }
 
   .details {
@@ -195,5 +168,9 @@ export default {
 
   input {
     width: 30px;
+  }
+
+  .flex-nowrap {
+    flex-wrap: nowrap;
   }
 </style>

@@ -52,10 +52,6 @@ app.use('/service-worker.js', serve('dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))
 
-app.use('/service-worker-ext.js', serve('dist/service-worker-ext.js', {
-  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
-}))
-
 app.get('*', (req, res) => {
   if (!res.get('Content-Type')) {
     res.append('Content-Type', 'text/html')

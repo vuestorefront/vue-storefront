@@ -7,6 +7,7 @@ import uniqBy from 'lodash-es/uniqBy'
 import i18n from 'core/lib/i18n'
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
+import { htmlDecode } from 'core/filters/html-decode'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
@@ -128,6 +129,15 @@ export default {
           inst.defaultOfflineImage = inst.product.image
           this.onStateCheck()
           this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
+        }).catch((err) => {
+          inst.loading = false
+          console.error(err)
+          this.$bus.$emit('notification', {
+            type: 'error',
+            message: i18n.t('The product is out of stock and cannot be added to the cart!'),
+            action1: { label: i18n.t('OK'), action: 'close' }
+          })
+          this.$router.back()
         })
       } else {
         console.error('Error with loading = true in Product.vue; Reload page')
@@ -220,8 +230,8 @@ export default {
   },
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.productName,
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      title: htmlDecode(this.$route.meta.title || this.productName),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
     }
   }
 }

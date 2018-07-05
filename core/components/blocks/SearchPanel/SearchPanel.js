@@ -2,6 +2,7 @@ import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
 import i18n from 'core/lib/i18n'
 import onEscapePress from 'core/mixins/onEscapePress'
+import config from 'config'
 
 export default {
   name: 'SearchPanel',
@@ -9,7 +10,8 @@ export default {
     return {
       products: [],
       search: '',
-      placeholder: i18n.t('Type what you are looking for...')
+      placeholder: i18n.t('Type what you are looking for...'),
+      emptyResults: false
     }
   },
   methods: {
@@ -27,12 +29,20 @@ export default {
       let size = 18
 
       let query = bodybuilder()
-        .orQuery('match', 'name', { query: queryText, boost: 3 })
+        .query('range', 'visibility', { 'gte': 3, 'lte': 4 })
+        .andQuery('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */)
+
+      if (config.products.listOutOfStockProducts === false) {
+        query = query.andQuery('match', 'stock.is_in_stock', true)
+      }
+
+      query = query.andQuery('bool', b => b.orQuery('match', 'name', { query: queryText, boost: 3 })
         .orQuery('match', 'category.name', { query: queryText, boost: 1 })
+        .orQuery('match', 'sku', { query: queryText, boost: 1 })
+        .orQuery('match', 'configurable_children.sku', { query: queryText, boost: 1 })
         .orQuery('match', 'short_description', { query: queryText, boost: 2 })
-        .orQuery('match', 'description', { query: queryText, boost: 1 })
-        .filter('range', 'visibility', { 'gte': 3, 'lte': 4 })
-        .build()
+        .orQuery('match', 'description', { query: queryText, boost: 1 }))
+      query = query.build()
 
       this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
         this.products = resp.items

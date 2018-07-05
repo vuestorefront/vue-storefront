@@ -16,7 +16,42 @@ You can modify the existing store actions by responding to events. Events are sp
  * [User](User%20Store.md)
  * [Attribute](Attribute%20Store.md)
  * [UI Store](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
- 
+
+## Override existing core modules
+Existing core modules can be overridden in themes store. Just import any core store modules and override it using `extendStore()` utility method like the example given below in `themes/default/store/ui-store.js`.
+
+```
+import coreStore from '@vue-storefront/store/modules/ui-store'
+import { extendStore } from 'core/lib/themes'
+
+const state = {
+  // override state of core ui module...
+}
+
+const mutations = {
+  // override mutations of core ui module...
+}
+
+const actions = {
+  // override actions of core ui module...
+}
+
+export default extendStore(coreStore, {
+  state,
+  mutations,
+  actions
+})
+```
+
+And then import it in `themes/default/store/index.js`
+
+```
+import ui from './ui-store'
+
+export default {
+  ui
+}
+```
  ## Related
 
 * [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)

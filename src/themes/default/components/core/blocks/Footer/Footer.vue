@@ -94,6 +94,12 @@
                   {{ $t('Store locator') }}
                 </router-link>
               </div>
+              <div class="mt15">
+                <!-- Link to custom Magento Cms Page -->
+                <router-link class="cl-secondary" :to="localizedRoute('/custom-cms-page')" exact>
+                  {{ $t('Custom Cms Page') }}
+                </router-link>
+              </div>
             </div>
           </div>
           <div class="row social mt30">
@@ -176,7 +182,6 @@
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Footer from 'core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
-import config from 'config'
 
 export default {
   mixins: [Footer],
@@ -188,11 +193,6 @@ export default {
   created () {
     if (this.$route.path === '/checkout') {
       this.isCheckout = true
-    }
-  },
-  computed: {
-    multistoreEnabled () {
-      return config.storeViews.multistore
     }
   },
   watch: {

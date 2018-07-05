@@ -21,6 +21,7 @@ import ProductListing from 'theme/components/core/ProductListing'
 
 import builder from 'bodybuilder'
 import i18n from 'core/lib/i18n'
+import config from 'config'
 
 export default {
   name: 'Related',
@@ -43,14 +44,19 @@ export default {
       .filter(pl => pl.link_type === this.type)
       .map(pl => pl.linked_product_sku)
 
-    let query = builder().query('terms', 'sku', sku).build()
-
+    let query = builder().query('terms', 'sku', sku)
     if (sku.length === 0) {
       sku = this.product.current.category.map(cat => cat.category_id)
       query = builder().query('terms', 'category.category_id', sku)
         .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
-        .build()
+        .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
     }
+    query = query.andFilter('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */)
+    if (config.products.listOutOfStockProducts === false) {
+      query = query.andFilter('match', 'stock.is_in_stock', true)
+    }
+
+    query = query.build()
 
     this.$store.dispatch('product/list', {
       query,

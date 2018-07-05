@@ -34,6 +34,11 @@ export default {
           this.$store.dispatch('cart/addItem', { productToAdd: product }).then(() => { })
         })
       })
+    },
+    skipGrouped (items) {
+      return items.filter((item) => {
+        return !item.parent_item_id
+      })
     }
   }
 }

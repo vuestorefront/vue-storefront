@@ -37,11 +37,11 @@ Below you can find the list of files that are essential for your theme to work:
 * `store` - theme-specific stores (extends `core/store`)
   * `ui-store.js` - here you can extend core `ui-store`
   * `index.js` -  here you can register theme-specific stores
-* `app-extend.js` - The code inside this file will be executed in app's entry file just after registering core plugins, filters and mixins. It takes app's Vue instance as a param so you can make use of it. (extends `core/app.js`)
 * `App.vue` - theme's entry component
 * `index.js` - theme initialization
 * `package.json` - theme-specific dependencies
-* `service-worker-ext.js` - you can extend core service worker here (see [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
+* `service-worker` 
+  * `index.js` you can extend core service worker here (see [Working with Service Workers](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20service-worker.md)
 * `webpack.config.js` - you can extend core webpack build in this file (extends `core/build/`, see [Working with webpack](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md))
 
 ## Official Vue Storefront themes included with the template:

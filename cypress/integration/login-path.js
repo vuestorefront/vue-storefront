@@ -1,0 +1,15 @@
+describe('login path', () => {
+  it('should login user', () => {
+    cy.visit('/')
+    cy.setCookie('shop/claims/onboardingAccepted', 'test')
+    indexedDB.deleteDatabase('shop')
+    cy.clearLocalStorage()
+    cy.get('.header button')
+      .last()
+      .click({ force: true })
+    cy.get('[name=email]').type('test@test.com', { force: true })
+    cy.get('[name=password]').type('Password123', { force: true })
+    cy.get('#remember').check({ force: true })
+    cy.get('.modal .cl-error').should('be.not.be.visible')
+  })
+})

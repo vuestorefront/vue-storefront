@@ -4,8 +4,8 @@
       class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
-      <div class="container">
-        <div class="row between-xs middle-xs px15" v-if="!isCheckout">
+      <div class="container px15">
+        <div class="row between-xs middle-xs" v-if="!isCheckout">
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!isProductPage">
@@ -28,7 +28,7 @@
             <wishlist-icon class="p15 icon pointer" />
           </div>
           <div class="col-sm-4 col-xs-2 end-xs">
-            <div class="inline-flex">
+            <div class="inline-flex right-icons">
               <search-icon class="p15 icon hidden-xs pointer" />
               <wishlist-icon class="p15 icon hidden-xs pointer" />
               <compare-icon class="p15 icon hidden-xs pointer" />
@@ -101,7 +101,11 @@ export default {
       ],
       isCheckout: false,
       isProductPage: false,
-      navVisible: true
+      navVisible: true,
+      isScrolling: false,
+      scrollTop: 0,
+      lastScrollTop: 0,
+      navbarHeight: 54
     }
   },
   computed: {
@@ -121,35 +125,16 @@ export default {
     }
   },
   beforeMount () {
-    let didScroll
-    let lastScrollTop = 0
-    const delta = 5
-    const navbarHeight = 54
-
     window.addEventListener('scroll', () => {
-      didScroll = true
+      this.isScrolling = true
     })
 
     setInterval(() => {
-      if (didScroll) {
-        hasScrolled.apply(this)
-        didScroll = false
+      if (this.isScrolling) {
+        this.hasScrolled()
+        this.isScrolling = false
       }
     }, 250)
-
-    function hasScrolled () {
-      let st = document.scrollingElement.scrollTop
-
-      if (Math.abs(lastScrollTop - st) <= delta) {
-        return
-      }
-      if (st > lastScrollTop && st > navbarHeight) {
-        this.navVisible = false
-      } else {
-        this.navVisible = true
-      }
-      lastScrollTop = st
-    }
   },
   watch: {
     '$route.name': function () {
@@ -171,6 +156,15 @@ export default {
   methods: {
     gotoAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
+    },
+    hasScrolled () {
+      this.scrollTop = window.scrollY
+      if (this.scrollTop > this.lastScrollTop && this.scrollTop > this.navbarHeight) {
+        this.navVisible = false
+      } else {
+        this.navVisible = true
+      }
+      this.lastScrollTop = this.scrollTop
     }
   }
 }
@@ -183,9 +177,12 @@ $color-icon-hover: color(secondary, $colors-background);
 
 header {
   height: 54px;
-  top: -54px;
+  top: -55px;
   z-index: 2;
   transition: top 0.2s ease-in-out;
+  &.is-visible {
+    top: 0;
+  }
 }
 .icon {
   opacity: 0.6;
@@ -195,14 +192,15 @@ header {
     opacity: 1;
   }
 }
+.right-icons {
+  //for edge
+  float: right;
+}
 .header-placeholder {
   height: 54px;
 }
 .links {
   text-decoration: underline;
-}
-.is-visible {
-  top: 0 !important;
 }
 @media (max-width: 767px) {
   .row.middle-xs {

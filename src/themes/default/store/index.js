@@ -3,16 +3,11 @@
 // The good practice is to keep all modulase separated in this folder.
 
 // Below you can find commented exaple for additional theme store
-const exampleThemeStore = {
-  namespaced: true,
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  }
-}
+
+import ui from './ui-store'
+import product from './product-extensions'
 
 export default {
-  exampleThemeStore
+  ui,
+  product
 }

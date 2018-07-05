@@ -2,7 +2,7 @@
   <div :class="['media-gallery', { 'open fixed bg-cl-primary': isZoomOpen }]">
     <div v-show="OfflineOnly">
       <transition name="fade" appear>
-        <img class="offline-image" v-lazy="offline" ref="offline" alt="">
+        <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
       </transition>
     </div>
     <i
@@ -21,7 +21,7 @@
             <div
               class="bg-cl-secondary"
               v-for="(images, key) in gallery"
-              :key="key">
+              :key="images.src">
               <transition name="fade" appear>
                 <img
                   v-lazy="images"
@@ -35,9 +35,10 @@
         <div v-if="gallery.length === 1">
           <transition name="fade" appear>
             <img
-              v-lazy="gallery[0].src"
+              :src="defaultImage.src"
+              v-lazy="defaultImage"
               class="mw-100 pointer"
-              ref="gallery[0].src"
+              ref="defaultImage"
               alt=""
             >
           </transition>
@@ -55,8 +56,8 @@
               ref="carousel"
             >
               <slide
-                v-for="(images, key) in gallery"
-                :key="key">
+                v-for="images in gallery"
+                :key="images.src">
                 <div class="bg-cl-secondary">
                   <img
                     class="product-image inline-flex pointer mw-100"
@@ -83,15 +84,24 @@
 <script>
 import ProductGallery from 'core/components/ProductGallery'
 import NoSSR from 'vue-no-ssr'
+import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   components: {
     'no-ssr': NoSSR
   },
-  mixins: [ProductGallery],
+  mixins: [ProductGallery, VueOfflineMixin],
+  watch: {
+    '$route': 'validateRoute'
+  },
   data () {
     return {
       loaded: true
+    }
+  },
+  methods: {
+    validateRoute () {
+      this.$forceUpdate()
     }
   }
 }

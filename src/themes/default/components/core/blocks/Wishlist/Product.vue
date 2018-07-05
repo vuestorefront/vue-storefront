@@ -44,16 +44,7 @@ export default {
     RemoveButton
   },
   mixins: [Product],
-  data () {
-    return {
-      qty: 1
-    }
-  },
   methods: {
-    removeItem () {
-      this.$store.dispatch('wishlist/removeItem', this.product)
-      this.$bus.$emit('product-after-remove-from-wishlist', this.product)
-    },
     closeWishlist () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setWishlist', false)

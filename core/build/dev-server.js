@@ -16,17 +16,6 @@ module.exports = function setupDevServer (app, cb) {
   let template
 
   // modify client config to work with hot middleware
-
-  if(!clientConfig.hasOwnProperty('entry')) // multicompiler
-  {
-    for(let cc of clientConfig)
-    if(cc.hasOwnProperty('entry') && cc.entry.hasOwnProperty('app'))
-      {
-        clientConfig = cc;
-        break;
-      }
-    }
-
   clientConfig.entry.app = ['webpack-hot-middleware/client', clientConfig.entry.app]
   clientConfig.output.filename = '[name].js'
   clientConfig.plugins.push(

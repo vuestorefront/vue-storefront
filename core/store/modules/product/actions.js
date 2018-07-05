@@ -76,7 +76,7 @@ export default {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',') + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode)), // sync the cart
+    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -140,9 +140,9 @@ export default {
                 pl.product = asocProd
                 pl.product.qty = pl.qty
                 if (pl.id === defaultOption.id) {
-                  product.price += pl.product.price
-                  product.priceInclTax += pl.product.priceInclTax
-                  product.tax += pl.product.tax
+                  product.price += pl.product.price * pl.product.qty
+                  product.priceInclTax += pl.product.priceInclTax * pl.product.qty
+                  product.tax += pl.product.tax * pl.product.qty
                 }
               } else {
                 console.error('Product link not found', pl.sku)
@@ -241,7 +241,9 @@ export default {
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
           product.info = {}
-          product.parentSku = product.sku
+          if (!product.parentSku) {
+            product.parentSku = product.sku
+          }
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
             Object.assign(product, selectedVariant)
@@ -455,6 +457,12 @@ export default {
       childSku: childSku
     }
     return context.dispatch('single', { options: productSingleOptions }).then((product) => {
+      if (product.status >= 2) {
+        throw new Error('Product query returned empty result product status = ', product.status)
+      }
+      if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
+        throw new Error('Product query returned empty result product visibility = ', product.visibility)
+      }
       let subloaders = []
       if (product) {
         if (global.$VS.isSSR) {
@@ -508,8 +516,7 @@ export default {
                 return resolve()
               })
             }).catch(errs => {
-              console.error(errs)
-              return resolve()
+              reject(errs)
             })
           }).catch(err => {
             console.error(err)

@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "name": "server",
+      "script": "./core/scripts/server.js",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "ignore_watch": [
+        "core/build/config.json",
+        "node_modules"
+      ]
+    }
+  ]
+}

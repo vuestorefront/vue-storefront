@@ -36,7 +36,14 @@ EventBus.$on('user-after-logout', () => {
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
-  rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
+  global.$VS.db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
+    if (err) {
+      console.error(err)
+    }
+    if ((new Date() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
+      rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
+    }
+  })
 })
 
 EventBus.$on('servercart-after-totals', (event) => { // example stock check callback
@@ -88,7 +95,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
     for (const clientItem of clientItems) {
       cartHasItems = true
       const serverItem = serverItems.find((itm) => {
-        return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') >= 0 /* bundle products */
+        return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
       })
 
       if (!serverItem) {
@@ -131,7 +138,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
     for (const serverItem of serverItems) {
       if (serverItem) {
         const clientItem = clientItems.find((itm) => {
-          return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') >= 0 /* bundle products */
+          return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') === 0 /* bundle products */
         })
         if (!clientItem) {
           console.log('No client item for ' + serverItem.sku)
@@ -217,6 +224,7 @@ export default {
     cartServerTotalsAt: 0,
     cartServerCreatedAt: 0,
     cartServerMethodsRefreshAt: 0,
+    cartServerBypassAt: 0,
     cartSavedAt: new Date(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)

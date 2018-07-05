@@ -5,6 +5,7 @@ import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
 import { currentStoreView } from '../../lib/multistore'
+import omit from 'lodash-es/omit'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -83,6 +84,9 @@ export default {
   serverCreate (context, { guestCart = false }) {
     if (config.cart.synchronize && !global.$VS.isSSR) {
       if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
+        if (guestCart) {
+          global.$VS.db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
+        }
         const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
           payload: {
             method: 'POST',
@@ -201,6 +205,9 @@ export default {
         })
         continue
       }
+      if (config.entities.optimize && config.entities.optimizeShoppingCart) {
+        product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category', 'category_ids', 'product_links', 'stock', 'description'])
+      }
       if (product.errors !== null && typeof product.errors !== 'undefined') {
         let productCanBeAdded = true
         for (let errKey in product.errors) {
@@ -239,12 +246,15 @@ export default {
           productHasBeenAdded = true
         }
         if (productIndex === (productsToAdd.length - 1) && productHasBeenAdded) {
-          EventBus.$emit('notification', {
+          let notificationData = {
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' },
-            action2: { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
-          })
+            action1: { label: i18n.t('OK'), action: 'close' }
+          }
+          if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+            notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+          }
+          EventBus.$emit('notification', notificationData)
           if (config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
           }
@@ -334,8 +344,8 @@ export default {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
         const paymentMethods = context.rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods.find(item => item.default)
-        let payment = paymentMethods.find(item => item.default)
+        let shipping = shippingMethods ? shippingMethods.find(item => item.default) : null
+        let payment = paymentMethods ? paymentMethods.find(item => item.default) : null
         if (!shipping && shippingMethods && shippingMethods.length > 0) {
           shipping = shippingMethods[0]
         }
