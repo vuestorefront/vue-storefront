@@ -13,6 +13,7 @@
           childSku: product.sku
         }
       })"
+      data-testid="productLink"
     >
       <div
         class="product-image relative bg-cl-secondary"
