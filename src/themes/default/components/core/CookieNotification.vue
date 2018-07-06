@@ -12,7 +12,13 @@
             </router-link>
           </div>
           <div class="col-xs-2 end-xs">
-            <i class="material-icons icon p15 pointer" @click="accept">close</i>
+            <i
+              class="material-icons icon p15 pointer"
+              @click="accept"
+              data-testid="closeCookieButton"
+            >
+              close
+            </i>
           </div>
         </div>
       </div>
