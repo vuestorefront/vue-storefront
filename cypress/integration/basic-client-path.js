@@ -4,7 +4,7 @@ describe('basic client path', () => {
     cy.setCookie('shop/claims/onboardingAccepted', 'test')
     indexedDB.deleteDatabase('shop')
     cy.clearLocalStorage()
-    cy.get('.product-link').eq(7).click()
+    cy.get('[data-testid=productLink]').eq(7).click()
     cy.get('[data-testid=addToCart]').click()
     cy.get('[data-testid=notificationAction2]').click()
     cy.get('[name=first-name]').type('Firstname')
