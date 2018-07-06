@@ -13,7 +13,12 @@
         </h2>
       </div>
       <div class="col-xs-2 end-xs">
-        <button type="button" class="p0 brdr-none bg-cl-transparent close" @click="closeMicrocartExtend">
+        <button
+          type="button"
+          class="p0 brdr-none bg-cl-transparent close"
+          @click="closeMicrocartExtend"
+          data-testid="closeMicrocartButton"
+        >
           <i class="material-icons p15 cl-accent">
             close
           </i>

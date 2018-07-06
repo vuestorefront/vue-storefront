@@ -11,7 +11,7 @@
           <div class="serif h4 name">
             {{ product.name | htmlDecode }}
           </div>
-          <div class="h6 cl-bg-tertiary pt5 sku">
+          <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
             {{ product.sku }}
           </div>
           <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
@@ -59,7 +59,7 @@
           <span class="h6 serif price-original" v-if="product.special_price">
             {{ product.originalPriceInclTax * product.qty | price }}
           </span>
-          <span class="h4 serif price-regular" v-if="!product.special_price">
+          <span class="h4 serif price-regular" v-if="!product.special_price" data-testid="productPrice">
             {{ product.priceInclTax * product.qty | price }}
           </span>
         </div>

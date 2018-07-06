@@ -22,7 +22,7 @@ import './commands'
 before(() => {
   return window.caches.keys().then((cacheNames) => {
     return Promise.all(
-      cacheNames.map(function (cacheName) {
+      cacheNames.map((cacheName) => {
         return window.caches.delete(cacheName);
       })
     );

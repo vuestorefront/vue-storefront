@@ -9,16 +9,10 @@ describe('add to cart', () => {
     cy.get('.color[aria-label="Select color Green"]').click()
     cy.get('[aria-label="Select size L"]').click()
     cy.get('[data-testid=addToCart]').click()
-    cy.get('[data-testid=notificationMessage]').should(
-      'contain',
-      'Product has been added to the cart!'
-    )
-    cy.get('header [aria-label="Open microcart"]').click({ force: true })
-    cy.get('div.microcart ul li:nth-child(1) .sku').should(
-      'contain',
-      'WS01-L-Green'
-    )
-    cy.get('div.microcart button.close').click()
+    cy.get('[data-testid=notificationMessage]').contains('Product has been added to the cart!')
+    cy.get('[data-testid=openMicrocartButton]').click({ force: true })
+    cy.get('[data-testid=productSku]').contains('WS01-L-Green')
+    cy.get('[data-testid=closeMicrocartButton]').click()
   })
 
   it('verify that the bundle product is added to cart', () => {
@@ -27,19 +21,13 @@ describe('add to cart', () => {
     indexedDB.deleteDatabase('carts')
     cy.clearLocalStorage()
     cy.get('#bundleOption_2').click({ force: true })
-    cy.get('#bundleOptionQty_1').type('{backspace}2')
+    cy.get('#bundleOptionQty_1').clear().type('2')
     cy.get('#bundleOption_6').click({ force: true })
-    cy.get('#bundleOptionQty_4').type('{backspace}3')
+    cy.get('#bundleOptionQty_4').clear().type('3')
     cy.get('[data-testid=addToCart]').click()
-    cy.get('[data-testid=notificationMessage]').should(
-      'contain',
-      'Product has been added to the cart!'
-    )
-    cy.get('header [aria-label="Open microcart"]').click({ force: true })
-    cy.get('div.microcart ul li:nth-child(1) .price-regular').should(
-      'contain',
-      '163.59'
-    )
-    cy.get('div.microcart button.close').click()
+    cy.get('[data-testid=notificationMessage]').contains('Product has been added to the cart!')
+    cy.get('[data-testid=openMicrocartButton]').click({ force: true })
+    cy.get('[data-testid=productPrice]').contains('163.59')
+    cy.get('[data-testid=closeMicrocartButton]').click()
   })
 })
