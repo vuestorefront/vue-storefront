@@ -1,4 +1,3 @@
-/* eslint no-undef: 0 */
 describe('add to cart', () => {
   it('verify that the configurable product is added to cart', () => {
     cy.visit('/p/WS01/gwyn-endurance-tee-1577/WS01')

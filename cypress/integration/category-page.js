@@ -1,4 +1,3 @@
-/* eslint no-undef: 0 */
 describe('Category page', () => {
   it('verification of filters in the Women category', () => {
     cy.visit('/')

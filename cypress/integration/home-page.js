@@ -1,4 +1,3 @@
-/* eslint no-undef: 0 */
 describe('home page', () => {
   it('verify the content of the homepage', () => {
     cy.visit('/')
