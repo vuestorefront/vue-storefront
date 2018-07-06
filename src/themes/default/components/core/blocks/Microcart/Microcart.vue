@@ -2,6 +2,7 @@
   <div
     class="microcart mw-100 fixed cl-accent"
     :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: isMicrocartOpen }]"
+    data-testid="microcart"
   >
     <div class="row middle-xs bg-cl-primary top-sm">
       <div class="col-xs-10">

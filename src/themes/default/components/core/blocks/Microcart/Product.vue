@@ -37,7 +37,7 @@
           <span>
             {{ $t('Qty') }}
           </span>
-          <span class="weight-700" :class="{ hidden: isEditing }">
+          <span class="weight-700" :class="{ hidden: isEditing }" data-testid="productQty">
             {{ product.qty }}
           </span>
           <span :class="{ hidden: !isEditing }">
@@ -47,6 +47,7 @@
               autofocus
               v-model.number="qty"
               @change="updateQuantity"
+              data-testid="productQtyInput"
             >
           </span>
         </div>

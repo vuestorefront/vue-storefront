@@ -57,7 +57,7 @@
                 v-if="!product.errors || Object.keys(product.errors).length === 0"
                 :key="index"
               >
-                <div class="variants-label">
+                <div class="variants-label" data-testid="variantsLabel">
                   {{ option.label }}
                   <span class="weight-700">
                     {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}

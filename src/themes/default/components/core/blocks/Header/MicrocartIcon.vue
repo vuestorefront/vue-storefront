@@ -11,6 +11,7 @@
       class="minicart-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver"
       v-cloak
       v-if="totalQuantity"
+      data-testid="minicartCount"
     >
       {{ totalQuantity }}
     </span>
