@@ -22,7 +22,9 @@
           :src="thumbnailObj.loading"
           v-lazy="thumbnailObj"
           height="300"
-          width="310">
+          width="310"
+          data-testid="productImage"
+        >
       </div>
 
       <p class="mb0 cl-accent mt10">
