@@ -4,7 +4,7 @@
     v-observe-visibility="visibilityChanged"
   >
     <router-link
-      class="no-underline product-link"
+      class="block no-underline product-link"
       :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
