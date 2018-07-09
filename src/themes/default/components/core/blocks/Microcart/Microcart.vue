@@ -18,7 +18,7 @@
           type="button"
           class="p0 brdr-none bg-cl-transparent close"
           @click="closeMicrocartExtend"
-          data-testid="closeMicrocartButton"
+          data-testid="closeMicrocart"
         >
           <i class="material-icons p15 cl-accent">
             close

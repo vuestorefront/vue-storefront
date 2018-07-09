@@ -9,7 +9,7 @@
         <i
           class="material-icons p15 pointer cl-accent"
           @click="closeSearchpanel"
-          data-testid="closeSearchPanelButton"
+          data-testid="closeSearchPanel"
         >
           close
         </i>

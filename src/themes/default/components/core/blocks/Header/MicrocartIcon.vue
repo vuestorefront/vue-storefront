@@ -3,7 +3,7 @@
     type="button"
     class="relative bg-cl-transparent brdr-none inline-flex"
     @click="openMicrocart"
-    data-testid="openMicrocartButton"
+    data-testid="openMicrocart"
     :aria-label="$t('Open microcart')"
   >
     <i class="material-icons">shopping_cart</i>

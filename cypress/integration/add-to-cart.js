@@ -9,9 +9,9 @@ describe('add to cart', () => {
     cy.get('[aria-label="Select size L"]').click()
     cy.get('[data-testid=addToCart]').click()
     cy.get('[data-testid=notificationMessage]').contains('Product has been added to the cart!')
-    cy.get('[data-testid=openMicrocartButton]').click({ force: true })
+    cy.get('[data-testid=openMicrocart]').click({ force: true })
     cy.get('[data-testid=productSku]').contains('WS01-L-Green')
-    cy.get('[data-testid=closeMicrocartButton]').click()
+    cy.get('[data-testid=closeMicrocart]').click()
   })
 
   it('verify that the bundle product is added to cart', () => {
@@ -25,8 +25,8 @@ describe('add to cart', () => {
     cy.get('#bundleOptionQty_4').clear().type('3')
     cy.get('[data-testid=addToCart]').click()
     cy.get('[data-testid=notificationMessage]').contains('Product has been added to the cart!')
-    cy.get('[data-testid=openMicrocartButton]').click({ force: true })
+    cy.get('[data-testid=openMicrocart]').click({ force: true })
     cy.get('[data-testid=productPrice]').contains('163.59')
-    cy.get('[data-testid=closeMicrocartButton]').click()
+    cy.get('[data-testid=closeMicrocart]').click()
   })
 })

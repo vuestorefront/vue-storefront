@@ -60,7 +60,7 @@ describe('product page', () => {
       'Product has been added to the cart!'
     )
     cy.get('[data-testid=notificationAction1]').click()
-    cy.get('[data-testid=openMicrocartButton]').click({ force: true })
+    cy.get('[data-testid=openMicrocart]').click({ force: true })
     cy.get('[data-testid=microcart').contains('Gwyn Endurance Tee')
   })
 })
