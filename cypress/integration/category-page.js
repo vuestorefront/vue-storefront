@@ -15,13 +15,13 @@ describe('Category page', () => {
       'src',
       'https://demo.vuestorefront.io/img/310/300/resize/w/s/ws08-red_main.jpg'
     )
-    cy.get('[aria-label="Select size S"]').click().should('contain', 'S')
+    cy.get('[aria-label="Select size S"]').click().contains('S')
     cy.get('[aria-label="Select size 30"]').click().should('have.class', 'active')
-    cy.get('[aria-label="Select size XL"]').click().should('contain', 'XL')
+    cy.get('[aria-label="Select size XL"]').click().contains('XL')
     cy.get('[data-testid=productImage]').should('have.length', 17)
     cy.get('[label="< $50"] > .price-selector').click().should('have.class', 'active')
     cy.get('[label="> $150"] > .price-selector').click().should('have.class', 'active')
-    cy.get('[data-testid=noProductsInfo]').should('contain', 'No products found!')
+    cy.get('[data-testid=noProductsInfo]').contains('No products found!')
     cy.get('[label="> $150"] > .price-selector').click()
     cy.get('[data-testid=noProductsInfo]').should('not.exist')
   })
