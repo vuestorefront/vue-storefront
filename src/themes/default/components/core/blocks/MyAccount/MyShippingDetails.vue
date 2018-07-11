@@ -279,8 +279,10 @@ export default {
   methods: {
     countryCodeFallback (country) {
       if (!country && window.navigator && window.navigator.language) {
-        return window.navigator.language.slice(3).toUpperCase()
+        var lang = window.navigator.language.toUpperCase()
+        return (lang.length === 2) ? lang : lang.slice(3)
       }
+
       return country
     }
   }
