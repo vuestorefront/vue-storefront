@@ -29,8 +29,7 @@ export default {
     width: 20px;
     height: 20px;
 
-    &:hover,
-    &:focus {
+    &:hover{
       .square {
         background-color: $color-event;
       }
