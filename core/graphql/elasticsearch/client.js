@@ -3,8 +3,8 @@ const elasticsearch = require('elasticsearch')
 
 const client = new elasticsearch.Client({
   hosts: [
-    'http://' + config.elasticsearch.host + ':' + config.elasticsearch.port
+    'http://' + config.elasticsearch.EShost + ':' + config.elasticsearch.ESport
   ]
 })
 
-module.exports.client = client
+module.exports = client

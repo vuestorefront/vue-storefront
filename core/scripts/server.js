@@ -45,15 +45,12 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
 
 const themeRoot = require('../build/theme-path')
 
-// -----------------------
+// Declare graphQl Server part
 const bodyParser = require('body-parser')
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
 const { makeExecutableSchema } = require('graphql-tools')
 const resolvers = require('../graphql/resolvers')
 const typeDefs = require('../graphql/schema')
-
-console.log('-------------------------------------------------')
-console.log(typeDefs)
 
 const schema = makeExecutableSchema({
   typeDefs,
@@ -64,8 +61,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/graphql', graphqlExpress({ schema }))
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
-
-// --------------------------------
+// End of Declare graphQl Server part
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
