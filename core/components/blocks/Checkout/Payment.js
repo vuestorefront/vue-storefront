@@ -182,7 +182,8 @@ export default {
     },
     getDefaultCountryCode () {
       if (window.navigator && window.navigator.language) {
-        return window.navigator.language.slice(3).toUpperCase()
+        var lang = window.navigator.language.toUpperCase()
+        return (lang.length === 2) ? lang : lang.slice(3)
       }
     },
     getPaymentMethod () {
