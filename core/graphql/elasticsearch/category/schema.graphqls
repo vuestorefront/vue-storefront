@@ -1,0 +1,15 @@
+type Category {
+  id: Int!
+  parent_id: Int
+  name: String
+  is_active: Int
+  position: Int
+  level: Int
+  product_count: Int
+  tsk: Int
+}
+
+type Query {
+  category(id: Int!): Category
+  categoryList(query: String!): [Category]
+}

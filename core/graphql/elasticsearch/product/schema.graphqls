@@ -1,0 +1,20 @@
+scalar Date
+
+type Product {
+  id: Int!
+  sku: String
+  name: String
+  price: Float
+  status: Int
+  visibility: Int
+  type_id: String
+  created_at: Date
+  updated_at: Date
+  weight: Float
+  description: String
+}
+
+type Query {
+  product(id: Int!): Product
+  productList(query: String!): [Product]
+}
