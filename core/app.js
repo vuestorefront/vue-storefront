@@ -32,7 +32,7 @@ import VueApollo from 'vue-apollo'
 console.log('Add Vue-Apollo graphql client')
 
 const httpLink = new HttpLink({
-  uri: config.server.protocol + '://' + config.server.host + ':' + config.server.port + '/graphql'
+  uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
 })
 
 const apolloClient = new ApolloClient({

@@ -4,6 +4,10 @@
       "port": 3000,
       "protocol": "http"
     },
+    "graphql":{
+      "host": "localhost",
+      "port": 8080
+    },
     "elasticsearch": {
       "httpAuth": "",
       "host": "localhost:8080/api/catalog",
