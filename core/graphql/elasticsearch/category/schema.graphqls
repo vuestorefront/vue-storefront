@@ -10,6 +10,6 @@ type Category {
 }
 
 type Query {
-  category(id: Int!): Category
-  categoryList(query: String!): [Category]
+  Category(id: Int!): Category
+  CategoryList(query: String!): [Category]
 }

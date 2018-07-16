@@ -46,8 +46,8 @@ async function searchList (req) {
 
 const resolver = {
   Query: {
-    product: (_, { id }) => search(id),
-    productList: (_, { query }) => searchList(query)
+    Product: (_, { id }) => search(id),
+    ProductList: (_, { query }) => searchList(query)
   }
 }
 

@@ -46,8 +46,8 @@ async function searchList (req) {
 
 const resolver = {
   Query: {
-    category: (_, { id }) => search(id),
-    categoryList: (_, { query }) => searchList(query)
+    Category: (_, { id }) => search(id),
+    CategoryList: (_, { query }) => searchList(query)
   }
 }
 
