@@ -2,12 +2,9 @@
     "server": {
       "host": "localhost",
       "port": 3000,
-      "protocol": "http",
-      "searchEngine": "elasticsearch"
+      "protocol": "http"
     },
     "elasticsearch": {
-      "EShost": "localhost",
-      "ESport": 9200,
       "httpAuth": "",
       "host": "localhost:8080/api/catalog",
       "index": "vue_storefront_catalog"
