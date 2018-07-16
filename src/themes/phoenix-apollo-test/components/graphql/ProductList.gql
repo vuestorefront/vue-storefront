@@ -9,5 +9,8 @@ query ProductList($query: String!) {
     type_id
     weight
     description
+    image
+    url_key
+    thumbnail
   }
 }
