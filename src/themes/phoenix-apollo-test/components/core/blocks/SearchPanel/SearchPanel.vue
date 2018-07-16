@@ -12,21 +12,27 @@
       <input
         ref="search"
         id="search"
-        v-model="search"
-        @input="makeSearch"
+        v-model="query"
         class="mr20 py10 brdr-none brdr-bottom-1 brdr-cl-primary no-outline h4"
         :placeholder="$t('Type what you are looking for...')"
         type="text"
       >
     </div>
-    <div class="col-md-12 product-listing pl35 pt20 row">
-      <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in products" :product="product"/>
-      <transition name="fade">
-        <div v-if="emptyResults" class="no-results relative center-xs h4">
-          {{ $t('No results were found.') }}
+    <ApolloQuery
+      :query="require('../../../graphql/ProductList.gql')"
+      :variables="{ query }"
+    >
+      <template slot-scope="{ result: { loading, error, data } }">
+        <div v-if="data" class="col-md-12 product-listing pl35 pt20 row">
+          <product-tile @click.native="closeSearchpanel" :key="Product.id" v-for="Product in data.ProductList" :product="Product"/>
+          <transition name="fade">
+            <div v-if="error" class="no-results relative center-xs h4">
+              {{ $t('No results were found.') }}
+            </div>
+          </transition>
         </div>
-      </transition>
-    </div>
+      </template>
+    </ApolloQuery>
   </div>
 </template>
 
@@ -45,12 +51,17 @@ export default {
         this.$refs.search.focus()
       }
     })
+  },
+  data () {
+    return {
+      query: ''
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~theme/css/animations/transitions";
+@import '~theme/css/animations/transitions';
 
 .searchpanel {
   height: 100vh;
@@ -64,7 +75,7 @@ export default {
   overflow-x: hidden;
 
   &.active {
-    transform: translateX(0)
+    transform: translateX(0);
   }
 
   .product {
@@ -90,7 +101,7 @@ i:hover {
   opacity: 1;
 }
 
-@media only screen and (max-width:50em) {
+@media only screen and (max-width: 50em) {
   .searchpanel .product {
     width: 50%;
     box-sizing: border-box;

@@ -12,10 +12,10 @@
       <div>Testing GraphQl:</div>
       <input type="text" v-model="searchText">
       <button @click="showSearch">Search</button>
-      <template v-if="productList">
+      <template v-if="ProductList">
         <div class="gql-products">
-          <div class="products" v-for="product in productList" :key="product.id">
-            <div>{{ product.id }} - {{ product.name }}</div>
+          <div class="products" v-for="Product in ProductList" :key="Product.id">
+            <div>{{ Product.id }} - {{ Product.name }}</div>
           </div>
         </div>
       </template>
@@ -37,10 +37,10 @@ export default {
   apollo: {
     $loadingKey: 'loading',
     // productList data
-    productList: {
+    ProductList: {
       // GraphQL Query
-      query: gql`query productList ($searchText: String!) {
-        productList(query: $searchText) {
+      query: gql`query ProductList ($searchText: String!) {
+        ProductList(query: $searchText) {
           id
           name
           type_id
@@ -59,7 +59,7 @@ export default {
     showSearch () {
       console.log(this.$apollo)
       console.log(this.$apollo.client)
-      this.$apollo.queries.productList.refetch()
+      this.$apollo.queries.ProductList.refetch()
     }
   }
 }
