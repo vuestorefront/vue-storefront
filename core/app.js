@@ -24,6 +24,46 @@ import { prepareStoreView } from './store/lib/multistore'
 import coreModules from './store/modules'
 import themeModules from 'theme/store'
 
+// Declare Apollo graphql client
+import ApolloClient from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import VueApollo from 'vue-apollo'
+console.log('Add Vue-Apollo graphql client')
+
+const httpLink = new HttpLink({
+  uri: config.server.protocol + '://' + config.server.host + ':' + config.server.port + '/graphql'
+})
+
+const apolloClient = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+  connectToDevTools: true
+})
+
+let loading = 0
+
+const apolloProvider = new VueApollo({
+  clients: {
+    a: apolloClient
+  },
+  defaultClient: apolloClient,
+  defaultOptions: {
+    // $loadingKey: 'loading',
+  },
+  watchLoading (state, mod) {
+    loading += mod
+    console.log('Global loading', loading, mod)
+  },
+  errorHandler (error) {
+    console.log('Global error handler')
+    console.error(error)
+  }
+})
+
+Vue.use(VueApollo)
+// End declare Apollo graphql client
+
 if (!global.$VS) global.$VS = {}
 
 global.$VS.version = '1.0.5'
@@ -68,6 +108,7 @@ export function createApp () {
     router,
     store,
     i18n,
+    provide: apolloProvider.provide(),
     render: h => h(App)
   })
 
