@@ -16,7 +16,7 @@
               :routes="breadcrumbs.routes"
               :active-route="breadcrumbs.name"
             />
-            <h1 class="mb20 mt0 cl-mine-shaft product-name">
+            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb20 uppercase cl-secondary">
@@ -57,7 +57,7 @@
                 v-if="!product.errors || Object.keys(product.errors).length === 0"
                 :key="index"
               >
-                <div class="variants-label">
+                <div class="variants-label" data-testid="variantsLabel">
                   {{ option.label }}
                   <span class="weight-700">
                     {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
@@ -144,6 +144,7 @@
                     action h5 pointer cl-secondary
                   "
                   type="button"
+                  data-testid="addToWishlist"
                 >
                   <i class="pr5 material-icons">{{ favoriteIcon }}</i>
                   <template v-if="!isOnWishlist">
@@ -162,6 +163,7 @@
                     action h5 pointer cl-secondary
                   "
                   type="button"
+                  data-testid="addToCompare"
                 >
                   <i class="pr5 material-icons">compare</i>
                   <template v-if="!isOnCompare">

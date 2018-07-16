@@ -6,8 +6,15 @@
           <div class="container w-100" v-lazy:background-image="slide.image">
             <div class="row middle-xs center-xs">
               <div class="col-md-12 px10p">
-                <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
-                <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
+                <p
+                  class="subtitle mb0 serif uppercase h3 align-center"
+                  data-testid="mainSliderSubtitle"
+                >
+                  {{ slide.subtitle }}
+                </p>
+                <h1 class="title mt0 mb30 align-center" data-testid="mainSliderTitle">
+                  {{ slide.title }}
+                </h1>
                 <div class="align-center inline-flex">
                   <button-outline :link="slide.link" color="light">
                     {{ slide.button_text }}

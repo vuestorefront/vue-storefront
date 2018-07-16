@@ -5,6 +5,7 @@
     type="button"
     @click.stop="next()"
     :aria-label="$t('Show subcategories')"
+    data-testid="categoryButton"
   >
     {{ name }}
     <i class="material-icons">keyboard_arrow_right</i>
