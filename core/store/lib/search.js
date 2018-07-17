@@ -55,6 +55,83 @@ function search (elasticQuery) {
     body: JSON.stringify(elasticQuery.body)
   }).then(resp => { return resp.json() })
 }
+
+/**
+ * Execute GraphQl query
+ */
+function searchGql (elasticQuery) {
+  let urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
+
+  const query = `query ProductList ($searchText: String!) {
+    ProductList(query: $searchText) {
+      id
+      name
+      image
+      sku
+      price
+      status
+      visibility
+      type_id
+      weight
+      url_key
+      description
+    }
+  }`
+  let searchText = ''
+  if (typeof elasticQuery.body.query.bool.should[0].match.name.query !== 'undefined') {
+    searchText = elasticQuery.body.query.bool.should[0].match.name.query
+  }
+
+  return fetch(urlGql, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      query,
+      variables: { searchText }
+    })
+  })
+    .then(resp => {
+      // console.log('data returned:', resp.json())
+      return resp.json()
+    })
+    // .then(data => console.log('data returned:', data.ProductList))
+}
+
+/**
+ * Helper function to handle ElasticSearch Results
+ * @param {Object} resp result from ES call
+ * @param {Int} start pagination data
+ * @param {Int} size pagination data
+ */
+function _handleGqlResult (resp, start = 0, size = 50) {
+  // console.log(resp)
+  if (resp == null) {
+    throw new Error('Invalid ES result - null not exepcted')
+  }
+  if (resp.hasOwnProperty('data')) {
+    let itemsValues = {
+      items: map(resp.data.ProductList, function (hit) {
+        // console.log(hit)
+        return Object.assign(hit, { slug: (hit.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit.url_key : (hit.hasOwnProperty('name') ? slugify(hit.name) + '-' + hit.id : '') }) // TODO: assign slugs server side
+      }), // TODO: add scoring information
+      // total: resp.hits.total,
+      start: start,
+      perPage: size,
+      aggregations: resp.aggregations
+    }
+    return itemsValues
+  } else {
+    if (resp.error) {
+      throw new Error(JSON.stringify(resp.error))
+    } else {
+      throw new Error('Unknown error with ES result in _handleGqlResult')
+    }
+  }
+}
+
 /**
  * Helper function to handle ElasticSearch Results
  * @param {Object} resp result from ES call
@@ -146,20 +223,39 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
-    search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
-      const res = _handleEsResult(resp, start, size)
-      cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
-      if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-        res.cache = false
-        res.noresults = false
-        res.offline = false
-        resolve(res)
-      }
-    }).catch(function (err) {
-      // reject(err)
-      console.error(err)
-    })
+
+    // Use test graphql for simple product search
+    if (config.server.api === 'graphql' && entityType === 'product') {
+      searchGql(esQuery).then(function (resp) { // we're always trying to populate cache - when online
+        const res = _handleGqlResult(resp, start, size)
+        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
+          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          res.cache = false
+          res.noresults = false
+          res.offline = false
+          resolve(res)
+        }
+      }).catch(function (err) {
+        // reject(err)
+        console.error(err)
+      })
+    } else {
+      search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
+        const res = _handleEsResult(resp, start, size)
+        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
+          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          res.cache = false
+          res.noresults = false
+          res.offline = false
+          resolve(res)
+        }
+      }).catch(function (err) {
+        // reject(err)
+        console.error(err)
+      })
+    }
   })
 }
 
