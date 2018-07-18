@@ -33,7 +33,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null, skipCache = false }) {
     const commit = context.commit
     let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
@@ -48,8 +48,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    if (!context.state.list || context.state.list.length === 0) {
-      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
+    if (skipCache || (!context.state.list || context.state.list.length === 0)) {
+      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields, skipCache }).then((resp) => {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
         return resp
@@ -145,7 +145,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false }) {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false }) {
     rootStore.state.category.current_product_query = {
       populateAggregations,
       filters,
@@ -219,7 +219,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             }
           })
           for (const chunkItem of chunk(skus, 15)) {
-            rootStore.dispatch('stock/list', { skus: chunkItem }) // store it in the cache
+            rootStore.dispatch('stock/list', { skus: chunkItem, skipCache }) // store it in the cache
           }
         }
         if (populateAggregations === true && res.aggregations) { // populate filter aggregates

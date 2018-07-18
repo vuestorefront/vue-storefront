@@ -14,7 +14,7 @@
             :value="opval.id"
             v-model="inputValues[('bundleOption_' + option.option_id)]"
           >
-          <label class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
+          <label v-if="opval.product" class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
         </div>
         <div>
           <label class="qty-label flex" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label>

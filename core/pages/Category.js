@@ -113,6 +113,10 @@ export default {
   created () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
     this.$bus.$on('list-change-sort', (param) => { this.onSortOrderChanged(param) })
+    if (config.usePriceTiers) {
+      this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
+      this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
+    }
     if (!Vue.prototype.$isServer && this.lazyLoadProductsOnscroll) {
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
@@ -121,6 +125,10 @@ export default {
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
+    if (config.usePriceTiers) {
+      this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
+      this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
+    }
   },
   methods: {
     bottomVisible () {
@@ -211,6 +219,22 @@ export default {
           this.$store.dispatch('category/products', this.$store.state.category.current_product_query)
           EventBus.$emitFilter('category-after-load', { store: this.$store, route: this.$route })
         }
+      })
+    },
+    onUserPricesRefreshed () {
+      const defaultFilters = config.products.defaultFilters
+      this.$store.dispatch('category/single', {
+        key: 'slug',
+        value: this.$route.params.slug
+      }).then((parentCategory) => {
+        let query = this.$store.state.category.current_product_query
+        if (!query.searchProductQuery) {
+          query = Object.assign(query, {
+            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
+            skipCache: true
+          })
+        }
+        this.$store.dispatch('category/products', query)
       })
     }
   },

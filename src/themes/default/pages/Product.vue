@@ -58,7 +58,7 @@
                 <div
                   class="h5"
                   v-for="(option, index) in product.configurable_options"
-                  v-if="!product.errors || Object.keys(product.errors).length === 0"
+                  v-if="(!product.errors || Object.keys(product.errors).length === 0) && Object.keys(configuration).length > 0"
                   :key="index"
                 >
                   <div class="variants-label" data-testid="variantsLabel">

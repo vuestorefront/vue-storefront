@@ -112,6 +112,10 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
+    if (config.usePriceTiers) {
+      this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
+      this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
+    }
   },
   beforeMount () {
     this.onStateCheck()
@@ -122,6 +126,10 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
+    if (config.usePriceTiers) {
+      this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
+      this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
+    }
   },
   methods: {
     validateRoute () {
@@ -231,6 +239,20 @@ export default {
         info: 'Dispatch product/configure in Product.vue',
         err
       }))
+    },
+    /**
+     * Reload product to get correct prices (including tier prices for group)
+     */
+    onUserPricesRefreshed () {
+      this.$store.dispatch('product/reset')
+      EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
+      this.$store.dispatch('product/single', {
+        options: {
+          sku: this.$route.params.parentSku,
+          childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null
+        },
+        skipCache: true
+      })
     }
   },
   metaInfo () {
