@@ -2,9 +2,7 @@
     "server": {
       "host": "localhost",
       "port": 3000,
-      "protocol": "http",
-      "api": "graphql",
-      "apiEngine": "elasticsearch"
+      "protocol": "http"
     },
     "graphql":{
       "host": "localhost",
