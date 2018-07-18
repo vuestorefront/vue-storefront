@@ -219,5 +219,5 @@
     "cms": {
       "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}"
     },
-    "priceTiers": true
+    "priceTiers": false
 }
