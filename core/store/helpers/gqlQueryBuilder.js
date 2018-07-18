@@ -5,28 +5,7 @@ export function prepareGraphQlBody (gqlQuery) {
     ProductList(query: $searchText) {
       _index
       _id
-      _source {
-        id
-        name
-        sku
-        price
-        status
-        visibility
-        type_id
-        weight
-        description
-        image
-        url_key
-        small_image
-        thumbnail
-        price
-        max_price
-        minimal_price
-        regular_price
-        max_regular_price
-        minimal_regular_price
-        final_price
-      }
+      _source
     }
   }`
 
