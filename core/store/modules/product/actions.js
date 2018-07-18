@@ -220,7 +220,7 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, skipCache = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.debug('Entity cache is enabled for productList')
@@ -236,7 +236,7 @@ export default {
         includeFields = config.entities.product.includeFields
       }
     }
-    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
+    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields, skipCache }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
@@ -377,6 +377,62 @@ export default {
           })
         }
       })// .catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
+    })
+  },
+  /**
+   * Search products by specific field
+   * @param {Object} options
+   */
+  singleWithoutCache (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku' }) {
+    if (!options[key]) {
+      throw Error('Please provide the search key ' + key + ' for product/single action!')
+    }
+
+    return new Promise((resolve, reject) => {
+      const setupProduct = (prod) => {
+        // set original product
+        if (setCurrentProduct) {
+          context.dispatch('setOriginal', prod)
+        }
+        // check is prod has configurable children
+        const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
+        if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
+          prod = omit(prod, ['configurable_children', 'configurable_options'])
+        }
+        // set current product - configurable or not
+        if (prod.type_id === 'configurable' && hasConfigurableChildren) {
+          // set first available configuration
+          // todo: probably a good idea is to change this [0] to specific id
+          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant })
+        } else {
+          if (setCurrentProduct) context.dispatch('setCurrent', prod)
+        }
+        return prod
+      }
+      context.dispatch('list', { // product list syncs the platform price on it's own
+        query: bodybuilder()
+          .query('match', key, options[key])
+          .build(),
+        prefetchGroupProducts: false,
+        updateState: false,
+        skipCache: true
+      }).then((res) => {
+        if (res && res.items && res.items.length) {
+          let prd = res.items[0]
+          const _returnProductNoCacheHelper = (subresults) => {
+            if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+            resolve(setupProduct(prd))
+          }
+          if (setCurrentProduct || selectDefaultVariant) {
+            context.dispatch('setupVariants', { product: prd }).then(_returnProductNoCacheHelper)
+          } else {
+            _returnProductNoCacheHelper(null)
+          }
+          context.dispatch('setCurrent', prd)
+        } else {
+          reject(new Error('Product query returned empty result'))
+        }
+      })
     })
   },
   /**
