@@ -293,15 +293,60 @@ The only lines You need to alter are:
 You should put here the `allowedHosts` and `trustedHosts` for the Imageable - to download the product images. The domain names points to the **Magento2** instance where images are sourced. In this example Magento2 is running under **http://demo-magento2.vuestorefront.io**.
 
 
+#### Build VS
+
+Before we can run Vue Storefront and Vue Storefront API we should build it in the production mode. To do so please just execute the following commands:
+
+```bash
+cd /home/www/vuestorefront/vue-storefront/
+yarn build
+```
+
+```bash
+cd /home/www/vuestorefront/vue-storefront-api/
+yarn build
+```
+
 #### Data import
+
+Vue Storefront need to have some data in the ElasticSearch to properly display products and categories. Of course You can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the ElasticSearch indeex whenever data is being changed in Magento. For purposes of this tutorial we'll just restore the data from the JSON file.
+
+You can easily dump Your current VS index using the following command (Your local instalation):
+
+```bash
+cd vue-storefront-api
+rm var/catalog.json
+npm run dump
+```
+
+Now in the `var/catalog.json` You have Your current database dump. Please transfer this file to the server for example using the following ssh command:
+
+```bash
+ssh vuestorefront@prod.vuestorefront.io rm ~/vue-storefront-api/var/catalog.json
+scp vue-storefront-api/var/catalog.json vuestorefront@prod.vuestorefront.io:~/vue-storefront-api/var/catalog.json
+```
+
+Then, after logging in to your `prod.vuestorefront.io` server as a `vuestorefront` You can run the following command to import the data:
+
+```bash
+cd vue-storefront-api
+npm run db new
+npm run restore2main
+npm run db reindex
+```
 
 #### Running the Vue Storefront and Vue Storefront API
 
-### Usefull database commands
+After everything set, You can just start the `vue-storefront` and `vue-storefront-api`:
 
+```bash
+cd vue-storefront-api
+yarn start
+cd vue-storefront
+yarn start
+```
 
-
-
+Both applications are using [`PM2` process manager](http://pm2.keymetrics.io/) in the production mode (`start` commands) to manage and respawn the nodejs processess when neede.
 
 ## Production setup - using Docker / Kubernetes
 
