@@ -10,6 +10,9 @@ To run Vue Storefront in the production mode without Docker/Kubernetes You'll ne
 
 Assumptions for the rest of this tutorial:
 - You're having root access to Debian Linux machine 
+- We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/DivanteLtd/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api); the ports **should not be exposed** as they will be hidden behind **nginx proxy**
+- We're using **prod.vuestorefront.io** as a domain name - please replace it with Your host URL address. 
+- We assume that You have SSL certificate for **prod.vuestorefront.io** (or Your domain of course). SSL encryption is required for PWA + service workers
 - That's all ;)
 
 ### Prerequisites
