@@ -40,6 +40,11 @@ Then install the Elasticsearch and Redis (as root user):
 apt-get update
 apt-get install curl
 apt-get install git
+
+curl -sL https://deb.nodesource.com/setup_8.x | bash -
+apt-get install -y nodejs
+npm install -g yarn
+
 apt-get install redis-server
 
 
