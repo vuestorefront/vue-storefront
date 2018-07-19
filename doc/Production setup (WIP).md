@@ -76,10 +76,17 @@ ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/
 **Install the SSL certificate**
 
 ```bash
+mkdir /etc/nginx/ssl
 nano /etc/nginx/ssl/prod.vuestorefront.io.chained.crt
 nano /etc/nginx/ssl/prod.vuestorefront.io.key
+nano /etc/nginx/ssl/dhparam.pem
 ```
 
+Now You can run the nginx:
+
+```bash
+/etc/init.d/nginx restart
+```
 
 Please find the full comments on the following sections of the file below:
 
