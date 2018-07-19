@@ -184,11 +184,105 @@ It may take few minutes. Once the modules are installed we can set the configura
 The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config).
 
 Please vreate the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` filesaccordingly.
-
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
 
+```json
+    "elasticsearch": {
+        "httpAuth": "",
+        "host": "https://prod.vuestorefront.io/api/catalog",
+        "index": "vue_storefront_catalog"
+    },
+    "storeViews": {
+        "mapStoreUrlsFor": [
+            "de",
+            "it"
+        ],
+        "multistore": true,
+        "de": {
+            "disabled": false,
+            "elasticsearch": {
+                "httpAuth": "",
+                "host": "https://prod.vuestorefront.io/api/catalog",
+                "index": "vue_storefront_catalog_de"
+            }
+        },
+        "it": {
+            "disabled": false,
+            "elasticsearch": {
+                "httpAuth": "",
+                "host": "https://prod.vuestorefront.io/api/catalog",
+                "index": "vue_storefront_catalog_it"
+            }
+        }
+    },
+```
+
+We're seting up the product's endpoint to https://prod.vuestorefront.io/api/catalog (please use Your domain accordingly of course). As You may noticed the `/api` url is proxied by the nginx to `localhost:8080` - our `vue-storefront-api` instance.
+
+```json
+ "cart": {
+        "synchronize": true,
+        "synchronize_totals": true,
+        "create_endpoint": "https://prod.vuestorefront.io/api/cart/create?token={{token}}",
+        "updateitem_endpoint": "https://prod.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
+        "deleteitem_endpoint": "https://prod.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
+        "pull_endpoint": "https://prod.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
+        "totals_endpoint": "https://prod.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
+        "paymentmethods_endpoint": "https://prod.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+        "shippingmethods_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+        "shippinginfo_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+        "collecttotals_endpoint": "https://prod.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+        "deletecoupon_endpoint": "https://prod.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+        "applycoupon_endpoint": "https://prod.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    },
+```
+
+There are ... 27 more instances of `prod.vuestorefront.io` to be replaced with Your production URL address in this file - please just do so :)
 
 
+#### Vue Storefront API configuration
+
+The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config) requires almost no changes.
+
+The only lines You need to alter are:
+
+```json
+    "imageable": {
+        "namespace": "",
+        "maxListeners": 512,
+        "imageSizeLimit": 1024,
+        "timeouts": {
+            "convert": 5000,
+            "identify": 100,
+            "download": 1000
+        },
+        "whitelist": {
+            "allowedHosts": [
+                ".*divante.pl",
+                ".*vuestorefront.io"
+            ],
+            "trustedHosts": [
+                ".*divante.pl",
+                ".*vuestorefront.io"
+            ]
+        },
+        "keepDownloads": true,
+        "maxDownloadCacheSize": 1000,
+        "tmpPathRoot": "/tmp"
+    },
+    "elasticsearch": {
+        "host": "localhost",
+        "port": "9200",
+        "indices": [
+            "vue_storefront_catalog",
+            "vue_storefront_catalog_it",
+            "vue_storefront_catalog_de"
+        ]
+```
+You should put here the `allowedHosts` and `trustedHosts` for the Imageable - to download the product images. The domain names points to the **Magento2** instance where images are sourced. In this example Magento2 is running under **http://demo-magento2.vuestorefront.io**.
+
+
+#### Data import
 
 #### Running the Vue Storefront and Vue Storefront API
 
