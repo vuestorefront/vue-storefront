@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "core/api/cart": ["./core/api/cart/index.js"]
+      "core/api/*": ["./core/api/*"]
     }
   }
 }
