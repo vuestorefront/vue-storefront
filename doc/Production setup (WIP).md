@@ -39,6 +39,7 @@ Then install the Elasticsearch and Redis (as root user):
 ```bash
 apt-get update
 apt-get install curl
+apt-get install git
 apt-get install redis-server
 
 
