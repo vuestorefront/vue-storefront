@@ -112,7 +112,7 @@
             :placeholder="$t('City *')"
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
-            autocomplete="city"
+            autocomplete="address-level2"
             :validation="{
               condition: $v.shipping.city.$error && !$v.shipping.city.required,
               text: $t('Field is required')
@@ -125,7 +125,7 @@
             name="state"
             :placeholder="$t('State / Province')"
             v-model.trim="shipping.state"
-            autocomplete="state"
+            autocomplete="address-level1"
           />
 
           <base-input
@@ -161,7 +161,7 @@
               }
             ]"
             v-model="shipping.country"
-            autocomplete="country"
+            autocomplete="country-name"
             @blur="$v.shipping.country.$touch()"
             @change="$v.shipping.country.$touch(); changeCountry();"
           />
@@ -172,7 +172,7 @@
             name="phone-number"
             :placeholder="$t('Phone Number')"
             v-model.trim="shipping.phoneNumber"
-            autocomplete="phone-number"
+            autocomplete="tel"
           />
 
           <h4 class="col-xs-12">
@@ -216,7 +216,7 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
-          <div class="col-xs-12 h4">
+          <div class="col-xs-12 h4" data-testid="shippingAddressSummary">
             <p>
               {{ shipping.firstName }} {{ shipping.lastName }}
             </p>

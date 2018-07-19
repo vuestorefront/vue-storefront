@@ -10,7 +10,6 @@ import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 import { currentStoreView } from '../../lib/multistore'
-import * as types from '../../mutation-types'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -18,7 +17,6 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
     if (stockItem.is_in_stock === false) {
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, product) // just override the reference to not miss changes in the configurable_children
       EventBus.$emit('product-after-removevariant', { product: product })
       if (config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned empty result'))
@@ -64,11 +62,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
-      if (removedOptions > 0) {
-        configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
-      } else {
-        context.commit(types.CATALOG_SET_PRODUCT_CURRENT, product) // just override the reference to not miss changes in the configurable_children
-      }
+      configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
       if (totalOptions === 0) {
         product.errors.variants = i18n.t('No available product variants')
         context.state.current.errors = product.errors

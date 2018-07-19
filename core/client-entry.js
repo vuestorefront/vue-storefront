@@ -8,6 +8,7 @@ import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
+import i18n from 'core/lib/i18n'
 
 require('./service-worker-registration') // register the service worker
 
@@ -24,6 +25,24 @@ if (config.storeViews.multistore === true) {
   }
 }
 
+function _commonErrorHandler (err, reject) {
+  if (err.message.indexOf('query returned empty result') > 0) {
+    EventBus.$emit('notification', {
+      type: 'error',
+      message: i18n.t('No available product variants'),
+      action1: { label: i18n.t('OK'), action: 'close' }
+    })
+    router.back()
+  } else {
+    EventBus.$emit('notification', {
+      type: 'error',
+      message: i18n.t(err.message),
+      action1: { label: i18n.t('OK'), action: 'close' }
+    })
+    reject()
+  }
+}
+
 function _ssrHydrateSubcomponents (components, next, to) {
   Promise.all(components.map(SubComponent => {
     if (SubComponent.asyncData) {
@@ -34,7 +53,9 @@ function _ssrHydrateSubcomponents (components, next, to) {
     }
   })).then(() => {
     next()
-  }).catch(next)
+  }).catch(err => {
+    _commonErrorHandler(err, next)
+  })
 }
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {

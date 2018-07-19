@@ -2,7 +2,7 @@
   <div :class="['media-gallery', { 'open fixed bg-cl-primary': isZoomOpen }]">
     <div v-show="OfflineOnly">
       <transition name="fade" appear>
-        <img class="offline-image" v-lazy="offline" ref="offline" alt="">
+        <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
       </transition>
     </div>
     <i
@@ -20,7 +20,7 @@
           <div class="thumbnails">
             <div
               class="bg-cl-secondary"
-              v-for="images in gallery"
+              v-for="(images, key) in gallery"
               :key="images.src">
               <transition name="fade" appear>
                 <img
@@ -35,9 +35,10 @@
         <div v-if="gallery.length === 1">
           <transition name="fade" appear>
             <img
-              v-lazy="gallery[0].src"
+              :src="defaultImage.src"
+              v-lazy="defaultImage"
               class="mw-100 pointer"
-              ref="gallery[0].src"
+              ref="defaultImage"
               alt=""
             >
           </transition>
@@ -64,6 +65,7 @@
                     ref="images"
                     @dblclick="toggleZoom"
                     alt=""
+                    data-testid="productGalleryImage"
                   >
                 </div>
               </slide>
@@ -90,9 +92,17 @@ export default {
     'no-ssr': NoSSR
   },
   mixins: [ProductGallery, VueOfflineMixin],
+  watch: {
+    '$route': 'validateRoute'
+  },
   data () {
     return {
       loaded: true
+    }
+  },
+  methods: {
+    validateRoute () {
+      this.$forceUpdate()
     }
   }
 }

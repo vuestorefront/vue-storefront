@@ -58,12 +58,12 @@
             </a>
           </div>
         </div>
-        <button-full class="mb20" type="submit">
+        <button-full class="mb20" type="submit" data-testid="loginSubmit">
           {{ $t('Log in to your account') }}
         </button-full>
         <div class="center-xs">
           {{ $t('or') }}
-          <a href="#" @click.prevent="switchElem">
+          <a href="#" @click.prevent="switchElem" data-testid="registerLink">
             {{ $t('register an account') }}
           </a>
         </div>

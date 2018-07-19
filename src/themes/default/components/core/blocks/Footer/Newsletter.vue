@@ -11,6 +11,7 @@
           <button-outline
             @click.native="$bus.$emit('modal-show', 'modal-newsletter')"
             color="dark"
+            data-testid="openNewsletterButton"
           >
             {{ $t('Subscribe') }}
           </button-outline>

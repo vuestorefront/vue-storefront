@@ -11,6 +11,7 @@
     "ssr": {
       "executeMixedinAsyncData": true
     },
+    "defaultStoreCode": "",
     "storeViews": {
       "multistore": false,
       "mapStoreUrlsFor": ["de", "it"],

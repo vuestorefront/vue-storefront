@@ -12,6 +12,7 @@ import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import rootStore from '../../'
 
+const PRODUCT_REENTER_TIMEOUT = 20000
 export default {
   /**
    * Reset current configuration and selected variatnts
@@ -458,10 +459,10 @@ export default {
     }
     return context.dispatch('single', { options: productSingleOptions }).then((product) => {
       if (product.status >= 2) {
-        throw new Error('Category query returned empty result product status = ', product.status)
+        throw new Error('Product query returned empty result product status = ', product.status)
       }
       if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-        throw new Error('Category query returned empty result product visibility = ', product.visibility)
+        throw new Error('Product query returned empty result product visibility = ', product.visibility)
       }
       let subloaders = []
       if (product) {
@@ -498,35 +499,46 @@ export default {
    * Load the product data - async version for asyncData()
    */
   fetchAsync (context, { parentSku, childSku = null, route = null }) {
-    return new Promise((resolve, reject) => {
-      console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
-      EventBus.$emit('product-before-load', { store: rootStore, route: route })
-      context.dispatch('reset').then(() => {
-        rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
-          filterValues: [true],
-          filterField: 'is_user_defined',
-          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
-        }).then((attrs) => {
-          context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
-            Promise.all(subpromises).then(subresults => {
-              EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
-                return resolve()
-              }).catch((err) => {
-                console.error(err)
-                return resolve()
+    if (context.state.productLoadStart && (new Date() - context.state.productLoadStart) < PRODUCT_REENTER_TIMEOUT) {
+      console.log('Product is being fetched ...')
+    } else {
+      context.state.productLoadPromise = new Promise((resolve, reject) => {
+        context.state.productLoadStart = new Date()
+        console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
+        EventBus.$emit('product-before-load', { store: rootStore, route: route })
+        context.dispatch('reset').then(() => {
+          rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
+            filterValues: [true],
+            filterField: 'is_user_defined',
+            includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+          }).then((attrs) => {
+            context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
+              Promise.all(subpromises).then(subresults => {
+                EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
+                  context.state.productLoadStart = null
+                  return resolve()
+                }).catch((err) => {
+                  context.state.productLoadStart = null
+                  console.error(err)
+                  return resolve()
+                })
+              }).catch(errs => {
+                context.state.productLoadStart = null
+                reject(errs)
               })
-            }).catch(errs => {
-              reject(errs)
+            }).catch(err => {
+              context.state.productLoadStart = null
+              console.error(err)
+              reject(err)
+            }).catch(err => {
+              context.state.productLoadStart = null
+              console.error(err)
+              reject(err)
             })
-          }).catch(err => {
-            console.error(err)
-            reject(err)
-          }).catch(err => {
-            console.error(err)
-            reject(err)
           })
         })
       })
-    })
+    }
+    return context.state.productLoadPromise
   }
 }
