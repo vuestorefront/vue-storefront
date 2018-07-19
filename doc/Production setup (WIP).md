@@ -183,7 +183,18 @@ It may take few minutes. Once the modules are installed we can set the configura
 
 The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config).
 
-Please vreate the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` filesaccordingly.
+Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly.
+
+```bash
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
+```
+... and ...
+
+```bash
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
+```
+
+
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
 
 ```json
