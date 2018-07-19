@@ -13,7 +13,7 @@ server {
 	ssl_certificate /etc/nginx/ssl/prod.vuestorefront.io.chained.crt;
 	ssl_certificate_key /etc/nginx/ssl/prod.vuestorefront.io.key;
 
-	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	ssl_prefer_server_ciphers on;	
 	ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA;
 	ssl_ecdh_curve secp384r1;
@@ -43,7 +43,6 @@ server {
 		application/json
 		text/json
 		text/html;
-	}
 
 	location / {
 		proxy_pass http://localhost:3000/;
