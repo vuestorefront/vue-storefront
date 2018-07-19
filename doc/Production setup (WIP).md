@@ -203,6 +203,7 @@ We created a Linux user called `vuestorefront` and go to `/home/www/vuestorefron
 You need to clone the `vue-storefront` and the `vue-storefront-api` repos accordingly with the following commands:
 
 ```bash
+sudo su vuestorefront
 cd /home/www/vuestorefront
 git clone https://github.com/DivanteLtd/vue-storefront.git
 git clone https://github.com/DivanteLtd/vue-storefront-api.git
