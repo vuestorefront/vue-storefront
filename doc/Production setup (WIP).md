@@ -71,6 +71,13 @@ curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/pro
 ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
 ```
 
+**Install the SSL certificate**
+
+```bash
+nano /etc/nginx/ssl/prod.vuestorefront.io.chained.crt
+nano /etc/nginx/ssl/prod.vuestorefront.io.key
+```
+
 
 Please find the full comments on the following sections of the file below:
 
