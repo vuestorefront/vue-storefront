@@ -15,9 +15,24 @@ Assumptions for the rest of this tutorial:
 - We assume that You have SSL certificate for **prod.vuestorefront.io** (or Your domain of course). SSL encryption is required for PWA + service workers
 - That's all ;)
 
+General Solution Architecture:
+USER -> nginx proxy -> vue-storefront / vue-storefront-api 
+
+We'll be hiding the `vue-storefront` and `vue-storefront-api` services behind nginx proxy. You can use nginx for caching proxy, but in our case it will be just forwarding the requests without cache (as VS is pretty fast and caching is not required). The key features we're using are: SSL encryption, gzip-encoding, url routing (to merge `vue-storefront` and `vue-storefront-api` services under one domain)
+
+### Prerequisites
+
+Vue Storefront requires **Elastic Search** and the **Redis server** installed. By default, in the development mode, both dependencies are provided with the `docker-compose.yml` Docker images. However, for the production purposes we recommend to install the servers natively.
+
+For the purposes of this tutorial we'll be using default packages distributed along with the Debian operating systems, without any security hardening, config hardening operations.
+
+**Please make sure** that Your security/devops team have taken a look at the configs You're using and do harden the server configuration before launching Your app publicly!
+
 ### Nginx
 
-We decided to use **nginx** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as backend. This is a general rule of setting up production node.js app which gives You lot of flexibility regarding the SSL, gzip compression, URL routing and other techniques to be configured without additional hassle. You can use any other proxy server for this purpose - such as Varnish or Apache2 + mod_proxy.
+We decided to use **nginx** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as backend. 
+
+This is a general rule of setting up production node.js app which gives You lot of flexibility regarding the SSL, gzip compression, URL routing and other techniques to be configured without additional hassle. You can use any other proxy server for this purpose - such as Varnish or Apache2 + mod_proxy.
 
 Some additional materials:
 - [How to setup production node.js app in the Digital Ocean environment (Ubuntu 16)](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04)
@@ -134,7 +149,48 @@ The next proxy section is used for serving the API. It's a proxy to [`vue-storef
 The last proxy  is used for serving the product images. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app. running on `8080` port (default config). The `/img` endpoint. Images will be available under: https://prod.vuestorefront.io/img
 
 
-### Vue Storefront Setup
+### Vue Storefront and Vue Storefront API
+
+After You have the nginx set up, You should get ... a 502 error when accesing the https://prod.vuestorefront.io. This is totally fine! We've just missed the most important step which is running the backend services that will power up our installation. Now nginx is trying to connect to `localhost:3000` for `vue-storefront` and `localhost:8080` for `vue-storefront-api` without any success!
+
+We created a Linux user called `vuestorefront` and go to `/home/www/vuestorefront` which is our home directory.
+
+You need to clone the `vue-storefront` and the `vue-storefront-api` repos accordingly with the following commands:
+
+```bash
+cd /home/www/vuestorefront
+git clone https://github.com/DivanteLtd/vue-storefront.git
+git clone https://github.com/DivanteLtd/vue-storefront-api.git
+```
+
+Then You need to install the required node packages:
+
+```bash
+cd /home/www/vuestorefront/vue-storefront-api
+yarn install
+```
+
+... and ...
+
+```
+cd /home/www/vuestorefront/vue-storefront
+yarn install
+```
+
+It may take few minutes. Once the modules are installed we can set the configuration files for both services.
+
+#### Vue Storefront configuration
+
+The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config).
+
+Please vreate the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` filesaccordingly.
+
+Please find the key sections of the `vue-storefront/config/local.json` file described in below:
+
+
+
+
+#### Running the Vue Storefront and Vue Storefront API
 
 ### Usefull database commands
 
