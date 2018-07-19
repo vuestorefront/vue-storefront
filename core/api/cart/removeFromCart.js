@@ -1,5 +1,6 @@
 /**
  * Functionality for removing product from the cart.
+ * 
  * #### Methods
  * - **`removeFromCart(product)`** removes passed product from the cart (basing on `sku` & `parentSku`). Dispatches `cart/removeItem` Vuex action
  * 

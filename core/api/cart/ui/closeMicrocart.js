@@ -1,5 +1,6 @@
 /**
  * [Helper] Optional UI functionality for closing microcart.
+ * 
  * #### Methods
  * - **`openMicrocart`** sets `microcart` and `overlay` property from ui state to `false`. Dispatches `ui/setMicrocart'` Vuex action
  * 

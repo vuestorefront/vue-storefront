@@ -1,5 +1,6 @@
 /**
  * Functionality for adding product to the cart.
+ * 
  * #### Methods
  * - **`addToCart(product)`** adds passed product to the cart. Dispatches `cart/addItem` Vuex action
  * 
