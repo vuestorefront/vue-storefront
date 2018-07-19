@@ -41,10 +41,11 @@ apt-get update
 apt-get install redis-server
 
 
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-apt-get install apt-transport-https
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
-apt-get update && apt-get install elasticsearch
+apt-get install openjdk-8-jre
+curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.9.deb
+dpkg -i elasticsearch-5.6.9.deb
+bin/elasticsearch-plugin remove x-pack --purge
+/etc/init.d/elasticsearch start
 
 
 apt-get install imagemagick
