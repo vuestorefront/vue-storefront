@@ -22,7 +22,7 @@ The cart module as name suggests is a set of mixins respomnsible for interacting
 - **[method] openMicrocart()** - sets `microcart` and `overlay` property from ui state to `false`. Dispatches `ui/setMicrocart'` Vuex action
 
 #### isMicrocartOpen
-- **[computed] isMicrocartOpen** - returns `true` if Microcart is open. Retuens `ui/microcart` Vuex state.
+- **[computed] isMicrocartOpen** - returns `true` if Microcart is open. Returns `ui/microcart` Vuex state.
 
 ## Example
 
