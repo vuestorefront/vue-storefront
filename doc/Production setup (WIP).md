@@ -15,9 +15,18 @@ Assumptions for the rest of this tutorial:
 - We assume that You have SSL certificate for **prod.vuestorefront.io** (or Your domain of course). SSL encryption is required for PWA + service workers
 - That's all ;)
 
-### Prerequisites
+### Nginx
 
-### Nginx Setup
+We decided to use **nginx** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as backend. This is a general rule of setting up production node.js app which gives You lot of flexibility regarding the SSL, gzip compression, URL routing and other techniques to be configured without additional hassle. You can use any other proxy server for this purpose - such as Varnish or Apache2 + mod_proxy.
+
+Some additional materials:
+- [How to setup production node.js app in the Digital Ocean environment (Ubuntu 16)](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04)
+- [How to setup nginx reverse proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
+
+#### Nginx installation
+
+
+#### Nginx configuration
 
 [Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/etc/nginx/sites-enabled). Please find the full comments on the following sections of the file below:
 
