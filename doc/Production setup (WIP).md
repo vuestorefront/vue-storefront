@@ -19,7 +19,7 @@ Assumptions for the rest of this tutorial:
 
 ### Nginx Setup
 
-Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file - just divided into sections to comment each specific directive separately.
+[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/etc/nginx/sites-enabled). Please find the full comments on the following sections of the file below:
 
 ```
 server {
