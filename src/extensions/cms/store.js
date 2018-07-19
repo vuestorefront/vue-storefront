@@ -3,12 +3,12 @@ import fetch from 'isomorphic-fetch'
 
 const state = {
   cmsPages: [],
-  cmsBlock: []
+  cmsBlocks: []
 }
 
 const getters = {
   getBlock: (state) => (id) => {
-    return state.cmsBlock.find(item => item.id === id)
+    return state.cmsBlocks.find(item => item.id === id)
   },
   getPage: (state) => (id) => {
     return state.cmsPages.find(item => item.id === id)
@@ -42,12 +42,12 @@ const actions = {
 // mutations
 const mutations = {
   setCmsBlock (state, data) {
-    if (!state.cmsBlock.includes(data)) {
-      state.cmsBlock.push(data)
+    if (!state.cmsBlocks.filter(e => e.id === data.id).length > 0) {
+      state.cmsBlocks.push(data)
     }
   },
   setCmsPage (state, data) {
-    if (!state.cmsPages.includes(data)) {
+    if (!state.cmsPages.filter(e => e.id === data.id).length > 0) {
       state.cmsPages.push(data)
     }
   }
