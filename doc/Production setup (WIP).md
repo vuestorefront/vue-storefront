@@ -28,6 +28,28 @@ For the purposes of this tutorial we'll be using default packages distributed al
 
 **Please make sure** that Your security/devops team have taken a look at the configs You're using and do harden the server configuration before launching Your app publicly!
 
+
+First, let's create the user (as root user):
+```bash
+mkdir /home/www
+useradd -m -d /home/www/vuestorefront vuestorefront
+```
+
+Then install the Elasticsearch and Redis (as root user):
+```bash
+apt-get install redis-server
+
+
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+apt-get install apt-transport-https
+echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list
+apt-get update && sudo apt-get install elasticsearch
+
+
+apt-get install imagemagick
+apt-get install nginx
+```
+
 ### Nginx
 
 We decided to use **nginx** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as backend. 
@@ -38,12 +60,18 @@ Some additional materials:
 - [How to setup production node.js app in the Digital Ocean environment (Ubuntu 16)](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04)
 - [How to setup nginx reverse proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/)
 
-#### Nginx installation
-
-
 #### Nginx configuration
 
-[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/etc/nginx/sites-enabled). Please find the full comments on the following sections of the file below:
+[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/etc/nginx/sites-enabled). 
+
+Create nginx config file from the template (please run as a root user):
+```bash
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/etc/nginx/sites-enabled/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
+ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
+```
+
+
+Please find the full comments on the following sections of the file below:
 
 ```
 server {
