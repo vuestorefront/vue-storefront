@@ -41,10 +41,10 @@ apt-get update
 apt-get install redis-server
 
 
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 apt-get install apt-transport-https
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
-apt-get update && sudo apt-get install elasticsearch
+echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
+apt-get update && apt-get install elasticsearch
 
 
 apt-get install imagemagick
