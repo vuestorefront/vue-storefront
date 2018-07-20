@@ -5,24 +5,24 @@ The cart module as name suggests is a set of mixins respomnsible for interacting
 ## Content
 
 #### addToCart
-- **[method] addToCart(product)** - adds passed product to the cart. Dispatches `cart/addItem` Vuex action
+- **[method] addToCart(product)** 
 
 #### removeFromCart
-- **[method] removeFromCart(product)** - removes passed product from the cart (basing on `sku` & `parentSku`). Dispatches `cart/removeItem` Vuex action.
+- **[method] removeFromCart(product)** 
 
 #### productsInCart
-- **[computed] productsInCart** - returns products in cart. Returns `cart/cartItems` Vuex state.
+- **[computed] productsInCart**
 
 ## UI helpers
 
 #### openMicrocart
-- **[method] openMicrocart()** - sets `microcart` and `overlay` property from ui state to `true`. Dispatches `ui/setMicrocart'` Vuex action
+- **[method] openMicrocart()** 
 
 #### closeMicrocart
-- **[method] openMicrocart()** - sets `microcart` and `overlay` property from ui state to `false`. Dispatches `ui/setMicrocart'` Vuex action
+- **[method] openMicrocart()** 
 
 #### isMicrocartOpen
-- **[computed] isMicrocartOpen** - returns `true` if Microcart is open. Returns `ui/microcart` Vuex state.
+- **[computed] isMicrocartOpen** 
 
 ## Example
 
