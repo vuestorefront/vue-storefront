@@ -12,7 +12,7 @@ jobs:
     - stage: lint
       script:
         - yarn lint
-        - yarn unit
+        # - yarn unit
         - yarn build
     - stage: e2e
       if: branch IN (master, develop)
