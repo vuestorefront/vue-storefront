@@ -5,24 +5,24 @@ The cart module as name suggests is a set of mixins respomnsible for interacting
 ## Content
 
 #### addToCart
-- **[method] addToCart(product)** 
+- [method] addToCart(product)
 
 #### removeFromCart
-- **[method] removeFromCart(product)** 
+- **[method] removeFromCart(product)
 
 #### productsInCart
-- **[computed] productsInCart**
+- [computed] productsInCart
 
 ## UI helpers
 
 #### openMicrocart
-- **[method] openMicrocart()** 
+- [method] openMicrocart()
 
 #### closeMicrocart
-- **[method] openMicrocart()** 
+- [method] openMicrocart()
 
 #### isMicrocartOpen
-- **[computed] isMicrocartOpen** 
+- [computed] isMicrocartOpen
 
 ## Example
 
