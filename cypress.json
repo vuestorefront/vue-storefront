@@ -1,4 +1,7 @@
 {
   "baseUrl": "http://localhost:3000",
-  "projectId": "xrqwrm"
+  "projectId": "xrqwrm",
+  "video": false,
+  "defaultCommandTimeout": 6000,
+  "numTestsKeptInMemory": 10
 }

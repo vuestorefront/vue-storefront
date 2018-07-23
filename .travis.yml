@@ -12,10 +12,10 @@ jobs:
     - stage: lint
       script:
         - yarn lint
-        - yarn unit
+        # - yarn unit
         - yarn build
     - stage: e2e
       if: branch IN (master, develop)
       script:
         - yarn installer:ci
-        # - yarn tests:e2e:ci
+        - yarn tests:e2e:ci
