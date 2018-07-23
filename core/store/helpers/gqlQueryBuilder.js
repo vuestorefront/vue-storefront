@@ -2,7 +2,7 @@ export function prepareGraphQlBody (gqlQuery) {
   // @TODO Create graphQl query builder uses gqlQuery.body params
   // below is a simple demo test products search query
   const query = `query DemoProductList ($searchText: String!) {
-    ProductList(query: $searchText) {
+    products(search: $searchText) {
       _index
       _id
       _source

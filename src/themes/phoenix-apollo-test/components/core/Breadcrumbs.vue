@@ -40,7 +40,7 @@ export default {
     ProductList: {
       // GraphQL Query
       query: gql`query ProductList ($searchText: String!) {
-        ProductList(query: $searchText) {
+        products(search: $searchText) {
           id
           name
           type_id

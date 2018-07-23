@@ -50,7 +50,7 @@ function _handleGqlResult (resp, start = 0, size = 50) {
   }
   if (resp.hasOwnProperty('data')) {
     let itemsValues = {
-      items: map(resp.data.ProductList, function (hit) {
+      items: map(resp.data.products, function (hit) {
         // console.log(hit)
         return Object.assign(hit._source, { slug: (hit.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit.url_key : (hit.hasOwnProperty('name') ? slugify(hit.name) + '-' + hit.id : '') }) // TODO: assign slugs server side
       }), // TODO: add scoring information
