@@ -8,7 +8,7 @@ The cart module as name suggests is a set of mixins responsible for interacting 
 - [method] addToCart(product)
 
 #### removeFromCart
-- **[method] removeFromCart(product)
+- [method] removeFromCart(product)
 
 #### productsInCart
 - [computed] productsInCart
