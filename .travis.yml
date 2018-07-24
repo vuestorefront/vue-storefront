@@ -10,16 +10,9 @@ cache:
   directories:
     - node_modules
 
-jobs:
-  include:
-    - stage: "ESLint & Tests & Build"
-    name: "ESLint"
-    script: yarn lint
-    - script: yarn unit
-    name: "Unit tests"
-    # - script:
-    #   - yarn installer:ci
-    #   - yarn tests:e2e:ci
-    # name: "E2E tests"
-    - script: yarn build
-    name: "Build"
+script:
+  - yarn lint
+  - yarn unit
+  # - yarn installer:ci
+  # - yarn tests:e2e:ci
+  - yarn build
