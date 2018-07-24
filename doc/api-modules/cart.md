@@ -1,6 +1,6 @@
 # Cart module
 
-The cart module as name suggests is a set of mixins respomnsible for interacting with Cart. You can find methods responsible for adding/removing/getting cart items along with optional UI interactions for microcart.
+The cart module as name suggests is a set of mixins responsible for interacting with Cart. You can find methods responsible for adding/removing/getting cart items along with optional UI interactions for microcart.
 
 ## Content
 
