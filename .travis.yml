@@ -12,13 +12,17 @@ cache:
 
 jobs:
   include:
-    - stage: lint
+    - stage: "ESLint"
       script:
         - yarn lint
-        - yarn unit
-        - yarn build
-    - stage: e2e
-      if: branch IN (master, develop)
+    - stage: "Tests"
+      name: "Unit tests"
       script:
-        - yarn installer:ci
-        # - yarn tests:e2e:ci
+        - yarn unit
+      # name: "E2E tests"
+      # script:
+      #   - yarn installer:ci
+      #   - yarn tests:e2e:ci
+    - stage: "Build"
+      script:
+        - yarn build
