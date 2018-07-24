@@ -12,6 +12,7 @@ cache:
 
 jobs:
   include:
+    stage: "ESLint & Tests & Build"
     name: "ESLint"
     script:
       - yarn lint
