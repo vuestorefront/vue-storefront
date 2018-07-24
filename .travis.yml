@@ -12,17 +12,16 @@ cache:
 
 jobs:
   include:
-    - stage: "ESLint"
-      script:
-        - yarn lint
-    - stage: "Tests"
-      name: "Unit tests"
-      script:
-        - yarn unit
-      # name: "E2E tests"
-      # script:
-      #   - yarn installer:ci
-      #   - yarn tests:e2e:ci
-    - stage: "Build"
-      script:
-        - yarn build
+    name: "ESLint"
+    script:
+      - yarn lint
+    name: "Unit tests"
+    script:
+      - yarn unit
+    # name: "E2E tests"
+    # script:
+    #   - yarn installer:ci
+    #   - yarn tests:e2e:ci
+    name: "Build"
+    script:
+      - yarn build
