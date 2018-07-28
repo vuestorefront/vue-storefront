@@ -9,3 +9,5 @@ Please develop all new features in the way that is shown in this folder.
 
 Every feature in this folder must be unit-tested.
 You can read the discussion about the feature here ( https://github.com/DivanteLtd/vue-storefront/issues/1213 ). Feedback is much appreciated ;)
+
+Current version 0.1

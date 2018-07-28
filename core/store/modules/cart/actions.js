@@ -181,7 +181,7 @@ export default {
       commit(types.CART_LOAD_CART, storedItems)
     })
   },
-
+  // This should be a getter, just sayin
   getItem ({ commit, dispatch, state }, sku) {
     return state.cartItems.find(p => p.sku === sku)
   },
