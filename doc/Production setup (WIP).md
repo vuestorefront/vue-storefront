@@ -383,7 +383,7 @@ Then, after logging in to your `prod.vuestorefront.io` server as a `vuestorefron
 cd vue-storefront-api
 npm run db new
 npm run restore2main
-npm run db reindex
+npm run db rebuild
 ```
 
 #### Running the Vue Storefront and Vue Storefront API
