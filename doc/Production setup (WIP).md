@@ -51,7 +51,6 @@ apt-get install redis-server
 apt-get install openjdk-8-jre
 curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.9.deb
 dpkg -i elasticsearch-5.6.9.deb
-bin/elasticsearch-plugin remove x-pack --purge
 /etc/init.d/elasticsearch start
 
 
