@@ -3,11 +3,11 @@ import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
 import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
-import bodybuilder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery } from '../../lib/search'
-import { quickSearchByQueryGql } from '../../lib/searchGql'
+import { quickSearchByQueryObj } from '../../lib/search/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
@@ -162,11 +162,17 @@ export default {
   checkConfigurableParent (context, {product}) {
     if (product.type_id === 'simple') {
       console.log('Checking configurable parent')
-      let query = bodybuilder()
+
+      let searchQuery = new SearchQuery()
+      searchQuery = searchQuery.addQuery({type: 'match', key: 'configurable_children.sku', value: context.state.current.sku, boolType: 'query'})
+
+      /* let query = bodybuilder()
         .query('match', 'configurable_children.sku', context.state.current.sku)
         .build()
 
-      return context.dispatch('list', {query, start: 0, size: 1, updateState: false}).then((resp) => {
+      return context.dispatch('list', {query, start: 0, size: 1, updateState: false}).then((resp) => { */
+
+      return context.dispatch('listByQuery', {searchQuery: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
@@ -290,12 +296,12 @@ export default {
   /**
    * Search ElasticSearch catalog of products using simple text query
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
-   * @param {Object} queryBodyParams query parameters
+   * @param {Object} searchQuery query object
    * @param {Int} start start index
    * @param {Int} size page size
    * @return {Promise}
    */
-  listGql (context, { queryBodyParams, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
+  listByQuery (context, { searchQuery, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.debug('Entity cache is enabled for productList')
@@ -312,7 +318,7 @@ export default {
       }
     }
 
-    return quickSearchByQueryGql({ queryBodyParams, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
+    return quickSearchByQueryObj({ searchQuery, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
@@ -355,7 +361,7 @@ export default {
         if (updateState) {
           context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
         }
-        EventBus.$emit('product-after-listGql', { queryBodyParams: queryBodyParams, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
+        EventBus.$emit('product-after-listByQuery', { searchQuery: searchQuery, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
     }).catch(function (err) {
@@ -427,10 +433,16 @@ export default {
             _returnProductFromCacheHelper(null)
           }
         } else {
-          context.dispatch('list', { // product list syncs the platform price on it's own
-            query: bodybuilder()
+          // context.dispatch('list', { // product list syncs the platform price on it's own
+          /* query: bodybuilder()
               .query('match', key, options[key])
-              .build(),
+              .build(), */
+
+          let searchQuery = new SearchQuery()
+          searchQuery = searchQuery.addQuery({type: 'match', key: key, value: options[key], boolType: 'query'})
+
+          context.dispatch('listByQuery', { // product list syncs the platform price on it's own
+            searchQuery: searchQuery,
             prefetchGroupProducts: false,
             updateState: false
           }).then((res) => {

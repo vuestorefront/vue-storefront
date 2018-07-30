@@ -1,5 +1,5 @@
 // 3rd party dependecies
-import builder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 
 // Core dependecies
 import i18n from 'core/lib/i18n'
@@ -14,10 +14,13 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
-      let ourBestsellersQuery = builder().query('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      // let ourBestsellersQuery = /* builder().query('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      let ourBestsellersQuery = new SearchQuery()
+      ourBestsellersQuery = ourBestsellersQuery.addQuery({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }, boolType: 'query'})
+
       store.dispatch('category/list', {}).then((categories) => {
-        store.dispatch('product/list', {
-          query: ourBestsellersQuery,
+        store.dispatch('product/listByQuery', {
+          searchQuery: ourBestsellersQuery,
           size: 8,
           sort: 'created_at:desc'
         }).then(function (res) {

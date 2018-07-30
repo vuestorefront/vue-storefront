@@ -31,7 +31,7 @@
 
 <script>
 // 3rd party dependecies
-import builder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 
 // Core dependecies
 import config from 'config'
@@ -87,11 +87,22 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
-      let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      // let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      // let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+
+      let newProductsQuery = new SearchQuery()
+      newProductsQuery = newProductsQuery
+        .addQuery({type: 'match', key: 'category.name', value: 'Tees', boolType: 'query'}) // try andQuery
+        .addQuery({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }, boolType: 'andQuery'}) // try andQuery
+
+      let coolBagsQuery = new SearchQuery()
+      coolBagsQuery = coolBagsQuery
+        .addQuery({type: 'match', key: 'category.name', value: 'Women', boolType: 'query'}) // try andQuery
+        .addQuery({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }, boolType: 'andQuery'}) // try andQuery
+
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
-        store.dispatch('product/list', {
-          query: newProductsQuery,
+        store.dispatch('product/listByQuery', {
+          searchQuery: newProductsQuery,
           size: 8,
           sort: 'created_at:desc',
           includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
@@ -100,8 +111,8 @@ export default {
             store.state.homepage.new_collection = res.items
           }
 
-          store.dispatch('product/list', {
-            query: coolBagsQuery,
+          store.dispatch('product/listByQuery', {
+            searchQuery: coolBagsQuery,
             size: 4,
             sort: 'created_at:desc',
             includeFields: config.entities.optimize ? config.entities.productList.includeFields : []

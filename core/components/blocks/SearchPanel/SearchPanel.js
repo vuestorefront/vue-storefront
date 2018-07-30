@@ -1,8 +1,8 @@
-import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
 import config from 'config'
 import i18n from 'core/lib/i18n'
 import onEscapePress from 'core/mixins/onEscapePress'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 
 export default {
   name: 'SearchPanel',
@@ -27,39 +27,24 @@ export default {
       let queryText = this.search
       let start = 0
       let size = 18
-      if (config.server.api === 'graphql') {
-        let queryBodyParams = {
-          queryText: queryText,
-          filters: {
-            0: {
-              type: 'range',
-              attribute: 'visibility',
-              value: { 'gte': 3, 'lte': 4 }
-            }
-          }
-        }
-        this.$store.dispatch('product/listGql', { queryBodyParams, start, size, updateState: false }).then((resp) => {
-          this.products = resp.items
-          this.emptyResults = resp.items.length < 1
-        }).catch(function (err) {
-          console.error(err)
-        })
-      } else {
-        let query = bodybuilder()
-          .orQuery('match', 'name', { query: queryText, boost: 3 })
-          .orQuery('match', 'category.name', { query: queryText, boost: 1 })
-          .orQuery('match', 'short_description', { query: queryText, boost: 2 })
-          .orQuery('match', 'description', { query: queryText, boost: 1 })
-          .filter('range', 'visibility', { 'gte': 3, 'lte': 4 })
-          .build()
 
-        this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
-          this.products = resp.items
-          this.emptyResults = resp.items.length < 1
-        }).catch(function (err) {
-          console.error(err)
-        })
+      let searchQuery = new SearchQuery()
+
+      searchQuery = searchQuery
+        .setSearchText(queryText)
+        .addQuery({type: 'range', key: 'visibility', value: { 'gte': 3, 'lte': 4 }, boolType: 'query'})
+        .addQuery({type: 'range', key: 'status', value: { 'gte': 0, 'lte': 2 }, boolType: 'andQuery'})
+
+      if (config.products.listOutOfStockProducts === false) {
+        searchQuery = searchQuery.addQuery({type: 'term', key: 'stock.is_in_stock', value: true, boolType: 'andQuery'})
       }
+
+      this.$store.dispatch('product/listByQuery', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {
+        this.products = resp.items
+        this.emptyResults = resp.items.length < 1
+      }).catch(function (err) {
+        console.error(err)
+      })
     }
   },
   computed: {

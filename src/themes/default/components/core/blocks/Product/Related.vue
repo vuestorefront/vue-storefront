@@ -19,7 +19,7 @@
 <script>
 import ProductListing from 'theme/components/core/ProductListing'
 
-import builder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import i18n from 'core/lib/i18n'
 
 export default {
@@ -42,18 +42,28 @@ export default {
     let sku = this.productLinks
       .filter(pl => pl.link_type === this.type)
       .map(pl => pl.linked_product_sku)
-
-    let query = builder().query('terms', 'sku', sku).build()
-
+    /* let query = builder().query('terms', 'sku', sku).build()
     if (sku.length === 0) {
       sku = this.product.current.category.map(cat => cat.category_id)
-      query = builder().query('terms', 'category.category_id', sku)
+      // query = builder().query('terms', 'category.category_id', sku)
         .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
         .build()
     }
 
     this.$store.dispatch('product/list', {
-      query,
+      query, */
+
+    let relatedProductsQuery = new SearchQuery()
+    if (sku.length === 0) {
+      sku = this.product.current.category.map(cat => cat.category_id)
+      relatedProductsQuery = relatedProductsQuery.addQuery({type: 'terms', key: 'category.category_id', value: sku, boolType: 'query'})
+    } else {
+      relatedProductsQuery = relatedProductsQuery.addQuery({type: 'terms', key: 'sku', value: sku, boolType: 'query'})
+    }
+    relatedProductsQuery = relatedProductsQuery.addQuery({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }, boolType: 'andQuery'})
+
+    this.$store.dispatch('product/listByQuery', {
+      searchQuery: relatedProductsQuery,
       size: 8,
       prefetchGroupProducts: false,
       updateState: false

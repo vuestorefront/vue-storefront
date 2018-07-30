@@ -1,6 +1,6 @@
 import * as types from '../../mutation-types'
-import { quickSearchByQuery } from '../../lib/search'
-import builder from 'bodybuilder'
+import { quickSearchByQueryObj } from '../../lib/search/search'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 
 export default {
   /**
@@ -13,7 +13,9 @@ export default {
         resolve({ items: context.state.rules })
       })
     } else {
-      return quickSearchByQuery({ query: builder(), entityType }).then((resp) => {
+      // removed builder()
+      const searchQuery = new SearchQuery()
+      return quickSearchByQueryObj({ searchQuery: searchQuery, entityType }).then((resp) => {
         context.commit(types.TAX_UPDATE_RULES, resp)
         return resp
       }).catch(function (err) {

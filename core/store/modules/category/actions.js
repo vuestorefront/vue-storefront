@@ -1,10 +1,10 @@
 import * as types from '../../mutation-types'
-import { quickSearchByQuery } from '../../lib/search'
+import { quickSearchByQueryObj } from '../../lib/search/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import config from '../../lib/config'
 import rootStore from '../../'
-import bodybuilder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import i18n from '../../lib/i18n'
 import chunk from 'lodash-es/chunk'
 import trim from 'lodash-es/trim'
@@ -29,7 +29,7 @@ export default {
    */
   list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null }) {
     const commit = context.commit
-    let qrObj = bodybuilder()
+    /* let qrObj = bodybuilder()
     if (parent && typeof parent !== 'undefined') {
       qrObj = qrObj.filter('term', 'parent_id', parent.id)
     }
@@ -41,11 +41,29 @@ export default {
     if (onlyNotEmpty === true) {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
+    */
+
+    let searchQuery = new SearchQuery()
+    if (parent && typeof parent !== 'undefined') {
+      // qrObj = qrObj.filter('term', 'parent_id', parent.id)
+      searchQuery = searchQuery.addQuery({type: 'term', key: 'parent_id', value: parent.id, boolType: 'andQuery'})
+    }
+
+    if (onlyActive === true) {
+      // qrObj = qrObj.andFilter('term', 'is_active', true) // show only active cateogires
+      searchQuery = searchQuery.addQuery({type: 'term', key: 'is_active', value: true, boolType: 'andQuery'})
+    }
+
+    if (onlyNotEmpty === true) {
+      // qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
+      searchQuery = searchQuery.addQuery({type: 'range', key: 'product_count', value: {'gt': 0}, boolType: 'andQuery'})
+    }
 
     if (!context.state.list | context.state.list.length === 0) {
-      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+      // return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+      return quickSearchByQueryObj({ entityType: 'category', searchQuery: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
-        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         return resp
       }).catch(function (err) {
         console.error(err)
@@ -53,7 +71,7 @@ export default {
     } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
-        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         resolve(resp)
       })
     }
@@ -167,9 +185,13 @@ export default {
       }
     }
     let t0 = new Date().getTime()
-    let precachedQuery = searchProductQuery.build()
+
+    let precachedQuery = searchProductQuery
+    /* let precachedQuery = searchProductQuery.build()
     let productPromise = rootStore.dispatch('product/list', {
-      query: precachedQuery,
+      query: precachedQuery, */
+    let productPromise = rootStore.dispatch('product/listByQuery', {
+      searchQuery: precachedQuery,
       start: current,
       size: perPage,
       excludeFields: excludeFields,
@@ -271,8 +293,8 @@ export default {
 
     if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
       console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
-      rootStore.dispatch('product/list', {
-        query: precachedQuery,
+      rootStore.dispatch('product/listByQuery', {
+        searchQuery: precachedQuery,
         start: current,
         size: perPage,
         excludeFields: null,
