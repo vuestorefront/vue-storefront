@@ -1,9 +1,6 @@
 describe('Search results', () => {
   it('verification of the search results', () => {
     cy.visit('/')
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get('[data-testid=openSearchPanel]').first().should('not.be.visible')
     cy.get('[data-testid=openSearchPanel]').last().click()
     cy.get('#search').should('be.visible').type('Didi Sport Watch')

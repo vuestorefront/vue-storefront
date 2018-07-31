@@ -1,9 +1,6 @@
 describe('Category page', () => {
   it('verification of filters in the Women category', () => {
     cy.visit('/')
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get('[data-testid=menuButton]').click()
     cy.get('[data-testid=categoryButton]').contains('Women').click()
     cy.get('[data-testid=categoryLink][href="/c/women-20"]').click()

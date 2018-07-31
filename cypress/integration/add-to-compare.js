@@ -1,9 +1,6 @@
 describe('add to compare', () => {
   it('Two products should be added to comparison table', () => {
     cy.visit('/c/jackets-23')
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get(':nth-child(1) > .product > .no-underline > .product-image > img').click()
     cy.get('.py40 > :nth-child(2) > .p0').click()
     cy.scrollTo(0, 0)
