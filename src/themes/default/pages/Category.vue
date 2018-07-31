@@ -34,7 +34,7 @@
         <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsCounter }} items</p>
         <div class="col-md-9 pt20 px10 border-box products-list">
           <div v-if="isCategoryEmpty" class="hidden-xs">
-            <h4>{{ $t('No products found!') }}</h4>
+            <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
           <product-listing columns="3" :products="products" />

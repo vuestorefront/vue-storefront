@@ -12,6 +12,7 @@
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
           :to="localizedRoute({ name: 'category', params: { id: id, slug: parentSlug }})"
+          data-testid="categoryLink"
         >
           {{ $t('View all') }}
         </router-link>

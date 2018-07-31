@@ -23,6 +23,7 @@
       <span
         class="block cl-error h6"
         v-if="validation.condition"
+        data-testid="errorMessage"
       >
         {{ validation.text }}
       </span>
