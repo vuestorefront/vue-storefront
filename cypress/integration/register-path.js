@@ -1,9 +1,6 @@
 describe('register path', () => {
   it('should register user', () => {
     cy.visit('/')
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get('[data-testid=accountButton]').click()
     cy.get('[data-testid=registerLink]').click()
     cy.get('[name=email]').type('test@test.com')
