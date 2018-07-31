@@ -109,6 +109,10 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
+    if (config.priceTiers) {
+      this.$bus.$off('user-after-loggedin', this.refreshProduct)
+      this.$bus.$off('user-after-logout', this.refreshProduct)
+    }
   },
   beforeMount () {
     this.onStateCheck()
@@ -119,6 +123,11 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
+    if (config.priceTiers) {
+      this.$bus.$on('user-after-loggedin', this.refreshProduct)
+      this.$bus.$on('user-after-logout', this.refreshProduct)
+      this.refreshProduct()
+    }
   },
   methods: {
     validateRoute () {
@@ -227,6 +236,11 @@ export default {
         info: 'Dispatch product/configure in Product.vue',
         err
       }))
+    },
+    refreshProduct () {
+      this.$store.dispatch('product/reset')
+      EventBus.$emit('product-before-load', { store: this.$store, route: this.$route.route })
+      this.$store.dispatch('product/singleWithoutCache', {options: { sku: this.$route.params.parentSku, childSku: this.$route.route && this.$route.route.params && this.$route.params.childSku ? this.$route.params.childSku : null }})
     }
   },
   metaInfo () {

@@ -115,6 +115,10 @@ export default {
   created () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
     this.$bus.$on('list-change-sort', (param) => { this.onSortOrderChanged(param) })
+    if (config.priceTiers) {
+      this.$bus.$on('user-after-loggedin', this.refreshData)
+      this.$bus.$on('user-after-logout', this.refreshData)
+    }
     if (!global.$VS.isSSR && this.lazyLoadProductsOnscroll) {
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
@@ -123,6 +127,10 @@ export default {
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
+    if (config.priceTiers) {
+      this.$bus.$off('user-after-loggedin', this.refreshData)
+      this.$bus.$off('user-after-logout', this.refreshData)
+    }
   },
   methods: {
     bottomVisible () {
@@ -216,6 +224,26 @@ export default {
           self.$store.dispatch('category/products', store.state.category.current_product_query)
           EventBus.$emitFilter('category-after-load', { store: store, route: route })
         }
+      })
+    },
+    refreshData () {
+      let store = this.$store
+      let route = this.$route
+      const defaultFilters = config.products.defaultFilters
+      store.dispatch('category/single', {
+        key: 'slug',
+        value: route.params.slug,
+        skipCache: true
+      }).then((parentCategory) => {
+        let query = store.state.category.current_product_query
+        if (!query.searchProductQuery) {
+          query = Object.assign(query, {
+            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
+            skipCache: true
+          })
+        }
+        store.dispatch('category/products', query).then((subloaders) => {
+        })
       })
     }
   },
