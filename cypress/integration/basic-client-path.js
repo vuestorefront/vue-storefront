@@ -1,9 +1,6 @@
 describe('basic client path', () => {
   it('should go through basic user flow', () => {
     cy.visit('/')
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get('[data-testid=productLink]').eq(7).click()
     cy.get('[data-testid=addToCart]').click()
     cy.get('[data-testid=notificationAction2]').click()

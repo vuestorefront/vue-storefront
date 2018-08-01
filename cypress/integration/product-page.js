@@ -2,8 +2,6 @@
 describe('product page', () => {
   it('should verify that all information are visible', () => {
     cy.visit('/p/WS01/gwyn-endurance-tee-1577/WS01')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get('[data-testid=productName]').contains('Gwyn Endurance Tee')
     cy.get('[data-testid=productGalleryImage]').first().should(
       'have.attr',

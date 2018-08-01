@@ -232,32 +232,23 @@
           ]"
         />
 
-        <div class="col-xs-12 col-sm-6 mb25">
-          <select
-            name="countries"
-            autocomplete="country-name"
-            v-model="userCompany.country"
-            :class="{'cl-tertiary' : !userCompany.country || userCompany.country.length === 0}"
-          >
-            <option value="" disabled selected hidden>
-              {{ $t('Country *') }}
-            </option>
-            <option
-              v-for="country in countries"
-              :key="country.code"
-              :value="country.code"
-              class="cl-black"
-            >
-              {{ country.name }}
-            </option>
-          </select>
-          <span
-            class="validation-error"
-            v-if="!$v.userCompany.country.required && $v.userCompany.country.$error"
-          >
-            {{ $t('Field is required') }}
-          </span>
-        </div>
+        <base-select
+          class="col-xs-12 col-md-6 mb25"
+          name="countries"
+          :options="countryOptions"
+          :selected="userCompany.country"
+          :placeholder="$t('Country *')"
+          :validations="[
+            {
+              condition: $v.userCompany.country.$error && !$v.userCompany.country.required,
+              text: $t('Field is required')
+            }
+          ]"
+          v-model="userCompany.country"
+          autocomplete="country-name"
+          @blur="$v.userCompany.country.$touch()"
+          @change="$v.userCompany.country.$touch()"
+        />
 
         <base-input
           class="col-xs-12 col-sm-6 mb25"
@@ -362,6 +353,7 @@ import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
@@ -369,11 +361,22 @@ import Tooltip from 'theme/components/core/Tooltip'
 export default {
   components: {
     BaseCheckbox,
+    BaseSelect,
     BaseInput,
     ButtonFull,
     Tooltip
   },
   mixins: [MyProfile],
+  computed: {
+    countryOptions () {
+      return this.countries.map((item) => {
+        return {
+          value: item.code,
+          label: item.name
+        }
+      })
+    }
+  },
   methods: {
     checkValidation () {
       if (this.changePassword && this.addCompany) {

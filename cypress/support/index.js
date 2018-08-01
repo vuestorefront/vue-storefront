@@ -28,3 +28,11 @@ before(() => {
     );
   })
 })
+
+beforeEach(() => {
+  cy.setCookie('shop/claims/onboardingAccepted', 'test')
+  indexedDB.deleteDatabase('shop')
+  indexedDB.deleteDatabase('carts')
+  cy.clearLocalStorage()
+})
+
