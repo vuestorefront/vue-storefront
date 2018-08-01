@@ -10,9 +10,15 @@ cache:
   directories:
     - node_modules
 
-script:
-  - yarn lint
-  - yarn unit
-  # - yarn installer:ci
-  # - yarn tests:e2e:ci
-  - yarn build
+jobs:
+  include:
+    - stage: lint
+      script:
+        - yarn lint
+        # - yarn unit
+        - yarn build
+    - stage: e2e
+      if: branch IN (master, develop)
+      script:
+        - yarn installer:ci
+        # - yarn tests:e2e:ci
