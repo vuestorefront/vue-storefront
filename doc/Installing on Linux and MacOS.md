@@ -32,15 +32,34 @@ After answering some questions precess would start automatically. Enjoy :)
 ## Manual installation
 
 ### Install the vue-storefront-api
-You need to use https://github.com/DivanteLtd/vue-storefront-api.
-It's the ultimate API backend for this application
+
+You need to use https://github.com/DivanteLtd/vue-storefront-api. It's the ultimate API backend for this application.
 
 ```
 git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
 cd vue-storefront-api
-yarn
-docker-compose up
 ```
+
+You can choose between two modes of running the application:
+
+1. The **legacy** (A) mode - starting just the Elastic and Redis containers:
+   ```
+   docker-compose up -d
+   yarn install
+   yarn start
+   ```
+
+2. The **standard** (B) mode - starting Elastic, Redis + Vue Storefront API containers:
+   ```
+   docker-compose -f docker-compose.yml -f docker-compose.nodejs.yml up -d
+   ```
+
+As a result, all necessary services will be launched:
+- Vue Storefront API runtime environment (Node.js with dependencies from `package.json`)
+- [ElasticSearch](https://www.elastic.co/products/elasticsearch)
+- [Redis](https://redis.io/)
+- Kibana (optional)
+
 To test out the application you'll need some test data. In vue-storefront-api/var/catalog.json you have data dump for ElasticSearch with default Magento2 products database. We're using for development purposes.
 
 First step is to configure the application:
