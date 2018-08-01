@@ -6,16 +6,18 @@ If you're on Windows please check [Windows Installation Tutorial](https://github
 
 Let's go:
 
+## Requirements
+- Docker (with ['docker-compose'](https://docs.docker.com/compose/install/) installed)
+
+Already included in `vue-storefront` and `vue-storefront-api` Docker images (required locally, if you do not use containerization):
+- Node.js [Active LTS](https://github.com/nodejs/Release) (>=8.0.0)
+- [Yarn](https://yarnpkg.com/en/docs/install) (>=1.0.0)
+- [ImageMagick](https://www.imagemagick.org/script/index.php) (to fit, resize and crop images)
+
 ## User-friendly installation
 
 If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
 
-### Requirements
-1. Docker (with ['docker-compose'](https://docs.docker.com/compose/install/) installed)
-2. Node.js [Active LTS](https://github.com/nodejs/Release) (>=8.0.0)
-3. [Yarn](https://yarnpkg.com/en/docs/install) (>=1.0.0)
-
-### Installing
 You need to use https://github.com/DivanteLtd/vue-storefront.
 
 ```
@@ -26,7 +28,6 @@ yarn installer
 ```
 
 After answering some questions precess would start automatically. Enjoy :)
-
 
 ## Manual installation
 
