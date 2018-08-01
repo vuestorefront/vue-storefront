@@ -40,12 +40,12 @@ cd vue-storefront-api
 
 You can choose between two modes of running the application:
 
-1. The **legacy** (A) mode - starting just Elastic and Redis containers, :
+1. The **legacy** mode - starting just Elastic and Redis containers:
    ```
    docker-compose up -d
    ```
 
-2. The **standard** (B) mode - starting Elastic, Redis and Vue Storefront API containers:
+2. The **standard** mode - starting Elastic, Redis and Vue Storefront API containers:
    ```
    docker-compose -f docker-compose.yml -f docker-compose.nodejs.yml up -d
    ```
@@ -77,12 +77,12 @@ We re using powerfull node.js library for config files, check the docs to learn 
 To import these products we'll use 'elasticdump' - which is provided by default with package.json dependencies and yarn command. Then, we need to update the structures in the database to the latest version (data migrations).
 
 Depending on the selected mode, execute the following commands:
-- **legacy** (A) mode:
+- **legacy** mode:
   ```
   yarn restore
   yarn migrate
   ```
-- **standard** (B) mode:
+- **standard** mode:
   ```
   docker exec -it vuestorefrontapi_app_1 yarn restore
   docker exec -it vuestorefrontapi_app_1 yarn migrate
@@ -107,28 +107,37 @@ You can check if everything works just fine by executing the following command:
 curl -i http://localhost:8080/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
 ```
 
+Now, it's the time to install the frontend itself.
+
 ### Install the vue-storefront
 You need to use https://github.com/DivanteLtd/vue-storefront.
-Now, it's the time to install the frontend itself:
 
 ```
 git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
 cd vue-storefront
-yarn
 ```
 
-You have to prepare the config:
-(we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config)
+Next, you have to prepare the config:
+_(we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config)_
 
 ```
 cp config/default.json config/local.json
 nano config/local.json
 ```
 
-And then you can build app and run dev server:
-```
-yarn build
-yarn dev
-```
-
 The default config file should work perfectly fine for default purposes.
+
+Finally, you have to choose between two modes of running the application (similarly as in the case of vue-storefront-api):
+
+1. The **legacy** mode:
+   ```
+   yarn build
+   yarn dev
+   ```
+
+2. The **standard** mode (whole runtime environment inside the container):
+   ```
+   docker-compose up
+   ```
+
+That's all - your application is now up and running!
