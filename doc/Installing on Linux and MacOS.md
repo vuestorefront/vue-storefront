@@ -62,7 +62,7 @@ As a result, all necessary services will be launched:
 - [Redis](https://redis.io/)
 - Kibana (optional)
 
-To test out the application you'll need some test data. In vue-storefront-api/var/catalog.json you have data dump for ElasticSearch with default Magento2 products database. We're using for development purposes.
+To test out the application you'll need some test data. In `vue-storefront-api/var/catalog.json` you have data dump for ElasticSearch with default Magento2 products database. We're using for development purposes.
 
 First step is to configure the application:
 
