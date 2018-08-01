@@ -323,4 +323,5 @@ EventBus.$on('user-before-logout', () => {
 })
 
 rootStore.dispatch('cart/load')
+rootStore.dispatch('compare/load')
 rootStore.dispatch('user/startSession')
