@@ -1,6 +1,6 @@
 {
   "name": "cms",
-  "version": "0.0.0",
+  "version": "1.2.0",
   "description": "Extension Magento 2 Cms Data for Vue Storefront",
   "license": "MIT",
   "main": "index.js",
