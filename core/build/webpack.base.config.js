@@ -45,13 +45,24 @@ module.exports = {
   ],
   devtool: 'source-map',
   entry: {
-    app: './core/client-entry.js',
-    vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync']
+    app: './core/client-entry.js'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
     publicPath: '/dist/',
     filename: '[name].[hash].js'
+  },
+  optimization: {
+    splitChunks:  {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+    runtimeChunk: 'single',
   },
   resolveLoader: {
     modules: [
