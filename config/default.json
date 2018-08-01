@@ -95,6 +95,7 @@
       }
     },
     "cart": {
+      "multisiteCommonCart": true,
       "server_merge_by_default": true,
       "synchronize": true,
       "synchronize_totals": true,

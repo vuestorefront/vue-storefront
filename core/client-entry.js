@@ -216,12 +216,12 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }))
 
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
+    name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
     storeName: 'user',
     driver: localForage[config.localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
+    name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
     storeName: 'carts',
     driver: localForage[config.localForage.defaultDrivers['carts']]
   }))
