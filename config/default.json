@@ -95,6 +95,7 @@
       }
     },
     "cart": {
+      "multisiteCommonCart": true,
       "server_merge_by_default": true,
       "synchronize": true,
       "synchronize_totals": true,
@@ -129,7 +130,7 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "sortByAttributes": {
         "Latest": "updated_at",
-        "Price":"price"
+        "Price":"final_price"
       },
       "galleryVariantsGroupAttribute": "color"
     },
