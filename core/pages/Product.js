@@ -11,10 +11,11 @@ import { htmlDecode } from 'core/filters/html-decode'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
+import { addToWishlist, removeFromWishlist } from 'core/api/wishlist'
 
 export default {
   name: 'Product',
-  mixins: [Composite],
+  mixins: [ Composite, addToWishlist, removeFromWishlist ],
   data () {
     return {
       loading: false

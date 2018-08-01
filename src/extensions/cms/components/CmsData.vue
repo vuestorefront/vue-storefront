@@ -1,32 +1,81 @@
 <template>
-  <div class="cms-content" v-if="data" v-html="data.content" />
+  <div
+    :class="['cms-content', { 'container': sync }]"
+    v-if="data"
+    v-html="data.content"
+  />
 </template>
 
 <script>
+import config from 'config'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+
 export default {
   name: 'CmsData',
   props: {
     id: {
       type: Number,
-      required: true
+      default: null,
+      required: false
+    },
+    identifier: {
+      type: String,
+      default: null,
+      required: false
     },
     type: {
       type: String,
       required: true
+    },
+    sync: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   created () {
     this.$store.dispatch(
       'cms/loadCms',
       {
-        id: this.id,
+        url: this.getEndpointPath(),
         type: this.type
       }
     )
   },
   computed: {
     data () {
-      return this.$store.getters[`cms/get${this.type}`](this.id)
+      if (this.id) {
+        return this.$store.getters[`cms/get${this.type}`](this.id)
+      } else {
+        return this.$store.getters[`cms/get${this.type}Identifier`](this.identifier)
+      }
+    },
+    currentStore () {
+      return currentStoreView()
+    },
+    storeView () {
+      return (this.isMultistoreEnable && this.currentStore) ? this.currentStore.storeId : 0
+    }
+  },
+  data () {
+    return {
+      isMultistoreEnable: config.storeViews.multistore
+    }
+  },
+  methods: {
+    getEndpointPath () {
+      let url
+      if (this.id) {
+        url = (config.cms.endpoint)
+          .replace('{{type}}', this.type)
+          .replace('{{cmsId}}', this.id)
+      } else if (this.identifier) {
+        url = (config.cms.endpointIdentifier)
+          .replace('{{type}}', this.type)
+          .replace('{{cmsIdentifier}}', this.identifier)
+          .replace('{{storeId}}', this.storeView)
+      }
+      return url
     }
   }
 }

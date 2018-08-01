@@ -130,6 +130,8 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Installing on Linux/MacOS](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md)
 * [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
 * [How to install and integrate with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2)
+* [Production setup](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Production%20setup%20(WIP).md)
+* [Configuration file explained](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Config%20docs.md)
 
 ### Basics
 * [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction
@@ -173,6 +175,8 @@ Tutorial series on creating themes for Vue Storefront:
 * [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
 * [Magento2 MultiStore support](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md)
 
+### Core API Modules docs (experimental feature, not safe to use right now)
+* [Cart Module](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md)
 ### 'Default theme' contribution rules
 * [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/default/Working%20with%20stylesheets.md)
 
@@ -422,11 +426,58 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-      <td align="center" valign="middle">
+     <td align="center" valign="middle">
+        <a href="https://upsidelab.io/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/upside-logo@4x.png"
+            alt="UpsideLab"
+            height="50"
+          >
+        </a>
+       </td>
+    </tr>
+     <tr>
+       <td align="center" valign="middle">
+        <a href="http://meigee.team/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/meigee.png"
+            alt="Meigee"
+            height="50"
+          >
+        </a>
+      </td>
+         <td align="center" valign="middle">
         <a href="https://webvisum.de/">
           <img
             src="https://divante.co/partners/Vue-Storefront/Webvisium-Logo.png"
             alt="WebVisum"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+  <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+        <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
             height="50"
           >
         </a>

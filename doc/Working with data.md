@@ -113,7 +113,7 @@ const actions = {
    */
   placeOrder ({ commit }, order) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('core/models/order.schema.json'))
+    const validate = ajv.compile(require('core/store/modules/order/order.schema.json'))
 
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
@@ -167,14 +167,14 @@ export default {
 
 Data formats for vue-storefront and vue-storefront-api are the same JSON files. There is Ajv validator (https://github.com/epoberezkin/ajv) used for validation.
 
-The convention is, that schemas are stored under `/src/models` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json).
+The convention is, that schemas are stored under `/core/store/modules/<module-name>/<model-name>.schema.json` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/order/order.schema.json).
 
 Validation of objects is rather straight forward:
 
 ```js
     const Ajv = require('ajv') // json validator
     const ajv = new Ajv()
-    const validate = ajv.compile(require('core/models/order.schema.json'))
+    const validate = ajv.compile(require('core/store/modules/order/order.schema.json'))
 
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
@@ -195,7 +195,7 @@ Validation errors format:
 `Orders` repository stores all orders transmitted and *to be transmitted* (aka. order queue) used by service worker.
 ![Orders data format as seen on Developers Tools](media/orders-localstorage.png)
 
-Here you have a validation schema for order: https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json
+Here you have a validation schema for order: https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/order/order.schema.json
 
 ```json
 {
