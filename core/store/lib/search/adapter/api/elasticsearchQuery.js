@@ -2,6 +2,7 @@ import bodybuilder from 'bodybuilder'
 import getBoosts from '../../boost'
 
 export function prepareElasticsearchQueryBody (searchQuery) {
+  const optionsPrfeix = '_options'
   const queryText = searchQuery.getSearchText()
   let query = bodybuilder()
 
@@ -38,27 +39,81 @@ export function prepareElasticsearchQueryBody (searchQuery) {
     })
   }
 
-  const filtersList = searchQuery.getFilters()
-  if (filtersList.length > 0) {
-    filtersList.forEach(function (_filter) {
-      switch (_filter.type) {
-        case 'range':
-          query = query.filter(_filter.type, _filter.attribute, _filter.value)
-          break
-        case 'term':
-          query = query.filter(_filter.type, _filter.attribute, _filter.value)
-          break
-        default:
-          console.log('Sorry, we do not suport ' + _filter.type + ' filter type')
+  // process applied filters
+  const appliedFilters = searchQuery.getAppliedFilters()
+  if (appliedFilters.length > 0) {
+    let hasCatalogFilters = false
+    // apply default filters
+    appliedFilters.forEach(function (_filter) {
+      if (_filter.scope === 'default') {
+        switch (_filter.type) {
+          case 'range':
+            query = query.filter(_filter.type, _filter.attribute, _filter.value)
+            break
+          case 'term':
+            query = query.filter('terms', _filter.attribute, [_filter.value])
+            break
+          case 'terms':
+            if (_filter.value.constructor !== Array && _filter.value.constructor !== Object) {
+              _filter.value = [_filter.value]
+            }
+            query = query.filter(_filter.type, _filter.attribute, _filter.value)
+            break
+          case 'match':
+            if (_filter.value.constructor !== Array && _filter.value.constructor !== Object) {
+              _filter.value = [_filter.value]
+            }
+            query = query.filter('terms', _filter.attribute, _filter.value)
+            break
+          default:
+            console.log('Sorry, we do not suport ' + _filter.type + ' filter type')
+        }
+      } else if (_filter.scope === 'catalogsearch' || _filter.scope === 'catalog') {
+        hasCatalogFilters = true
       }
     })
+
+    // apply catalog filters
+
+    let attrFilterBuilder = (filterQr, attrPostfix = '') => {
+      for (let filter of appliedFilters) {
+        if (filter.scope === 'catalogsearch' || filter.scope === 'catalog') {
+          if (filter.attribute !== 'price' && filter.type !== 'range') {
+            filterQr = filterQr.andFilter('match', filter.attribute + attrPostfix, filter.value)
+          } else { // multi should be possible filter here?
+            filterQr = filterQr.andFilter('range', filter.attribute, filter.value)
+          }
+        }
+      }
+
+      return filterQr
+    }
+
+    if (hasCatalogFilters) {
+      query = query.orFilter('bool', (b) => attrFilterBuilder(b))
+        .orFilter('bool', (b) => attrFilterBuilder(b, optionsPrfeix).filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
+    }
   }
 
-  const aggregationsList = searchQuery.getAggregations()
-  if (aggregationsList.length > 0) {
-    aggregationsList.forEach(function (_aggregation) {
-      query = query.aggregation(_aggregation.type, _aggregation.field, _aggregation.options, _aggregation.name, _aggregation.subaggregations)
-    })
+  // Add aggregations for filters
+  const allFilters = searchQuery.getAvailableFilters()
+  if (allFilters.length > 0) {
+    for (let attrToFilter of allFilters) {
+      if (attrToFilter.field !== 'price') {
+        query = query.aggregation('terms', attrToFilter.field)
+        query = query.aggregation('terms', attrToFilter.field + optionsPrfeix)
+      } else {
+        query = query.aggregation('terms', attrToFilter.field)
+        query.aggregation('range', 'price', {
+          ranges: [
+            { from: 0, to: 50 },
+            { from: 50, to: 100 },
+            { from: 100, to: 150 },
+            { from: 150 }
+          ]
+        })
+      }
+    }
   }
 
   if (queryText !== '') {

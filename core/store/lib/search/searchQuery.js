@@ -2,18 +2,25 @@ class SearchQuery {
   /**
     */
   constructor () {
-    this._filters = []
+    this._availableFilters = []
+    this._appliedFilters = []
     this._queries = []
-    this._aggregations = []
-    this._seartchText = ''
+    this._searchText = ''
     console.log('create SearchQuery object')
   }
 
   /**
-    * @return {Array} array of filters objects
+    * @return {Array} array of all available filters objects
     */
-  getFilters () {
-    return this._filters
+  getAvailableFilters () {
+    return this._availableFilters
+  }
+
+  /**
+    * @return {Array} array of applied filters objects
+    */
+  getAppliedFilters () {
+    return this._appliedFilters
   }
 
   /**
@@ -24,17 +31,10 @@ class SearchQuery {
   }
 
   /**
-    * @return {Array} array of aggregations objects
-    */
-  getAggregations () {
-    return this._aggregations
-  }
-
-  /**
     * @return {String}
     */
   getSearchText () {
-    return this._seartchText
+    return this._searchText
   }
 
   /**
@@ -61,12 +61,13 @@ class SearchQuery {
   }
 
   /**
-    * @param {String} type // {range, term}
+    * @param {String} type // {range, term, terms}
     * @param {String} key
     * @param {Object} value
+    * @param {Object} scope // default, catalog, catalogsearch, quicksearch
     * @return {Object}
     */
-  addFilter (type, key, value, extraOption = Object) {
+  applyFilter ({type, key, value, scope = 'default', options = Object}) {
     switch (type) {
       case 'range':
         // check if range value has correct format
@@ -76,35 +77,58 @@ class SearchQuery {
         if (value.hasOwnProperty('gt')) { range.gt = value.gt }
         if (value.hasOwnProperty('gte')) { range.gte = value.gte }
         if (Object.keys(range).length !== 0 && range.constructor === Object) {
-          this._filters.push({
+          this._appliedFilters.push({
             attribute: key,
             type: type,
             value: value,
-            extraOption: extraOption
+            scope: scope,
+            options: options
           })
         } else {
           console.log('Filter was not added. Please provide correct range value with format like { \'gte\': 3, \'lte\': 4 }')
         }
         break
-      case 'term' || 'terms':
+      case 'terms':
+        // value can has only String, Array or numeric type
+        this._appliedFilters.push({
+          attribute: key,
+          type: type,
+          value: value,
+          scope: scope,
+          options: options
+        })
+        break
+      case 'match':
+        // value can has only String, Array or numeric type
+        this._appliedFilters.push({
+          attribute: key,
+          type: type,
+          value: value,
+          scope: scope,
+          options: options
+        })
+        break
+      case 'term':
         // value can has only String, Array or numeric type
         if (typeof value !== 'object') {
-          this._filters.push({
+          this._appliedFilters.push({
             attribute: key,
             type: type,
             value: value,
-            extraOption: extraOption
+            scope: scope,
+            options: options
           })
         }
         break
       case 'bool':
         // value can has only String, Array or numeric type
         if (typeof value === 'object') {
-          this._filters.push({
+          this._appliedFilters.push({
             attribute: key,
             type: type,
             value: value,
-            extraOption: extraOption
+            scope: scope,
+            options: options
           })
         }
         break
@@ -118,23 +142,29 @@ class SearchQuery {
   /**
     * @param {String} key
     * @param {String} type // { match_all, match, terms, nested }
+    * @param {Object} options // { eg price options ] }
     * @return {Object}
     */
-  addAggregation ({type,
+  addAvailableFilter ({type,
     field,
-    options = {},
-    name = '',
-    subaggregations = {}}) {
+    options = {}}) {
     // value can has only String, Array or numeric type
 
-    this._aggregations.push({
+    this._availableFilters.push({
       type: type,
       field: field,
-      options: options,
-      name: name,
-      subaggregations: subaggregations
+      options: options
     })
 
+    return this
+  }
+
+  /**
+  * @param {Array} filters
+  * @return {Object}
+  */
+  setAvailableFilters (filters) {
+    this._availableFilters = filters
     return this
   }
 
@@ -143,7 +173,7 @@ class SearchQuery {
   * @return {Object}
   */
   setSearchText (searchText) {
-    this._seartchText = searchText
+    this._searchText = searchText
     return this
   }
 }

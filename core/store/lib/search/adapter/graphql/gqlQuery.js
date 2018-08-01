@@ -1,4 +1,4 @@
-export function prepareGraphQlBody (searchQuery) {
+export function prepareGraphQlBody (Query) {
   // @TODO Create graphQl query builder uses gqlQuery.body params
   // below is a simple demo test products search query
   const query = `query ProductListFilters ($searchText: String!) {
@@ -32,14 +32,14 @@ export function prepareGraphQlBody (searchQuery) {
 
   console.log(query)
 
-  const searchText = searchQuery.body.getSearchText()
-  /* const filters = []// searchQuery.body.getFilters()
-  const sortDir = searchQuery.sortDir
-  const sortBy = searchQuery.sortBy
+  const searchText = Query.searchQuery.getSearchText()
+  /* const filters = []// Query.searchQuery.getAppliedFilters()
+  const sortDir = Query.sortDir
+  const sortBy = Query.sortBy
   let sort = {}
   sort[sortBy] = sortDir
-  const size = searchQuery.size
-  const from = searchQuery.from */
+  const size = Query.size
+  const from = Query.from */
 
   const body = JSON.stringify({
     query,

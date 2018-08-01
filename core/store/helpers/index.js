@@ -125,59 +125,39 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   return searchProductQuery
 }
 
+// ----------------------
 export function buildFilterProductsSearchQuery (currentCategory, chosenFilters, defaultFilters = null) {
   let filterQr = baseFilterProductsSearchQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
-  let attrFilterBuilder = (filterQr, attrPostfix = '') => {
-    for (let code of Object.keys(chosenFilters)) {
-      const filter = chosenFilters[code]
 
-      if (filter.attribute_code !== 'price') {
-        filterQr = filterQr.addFilter('match', filter.attribute_code + attrPostfix, filter.id)
-      } else { // multi should be possible filter here?
-        const rangeqr = {}
-        if (filter.from) {
-          rangeqr['gte'] = filter.from
-        }
-        if (filter.to) {
-          rangeqr['lte'] = filter.to
-        }
-        filterQr = filterQr.addFilter('range', filter.attribute_code, rangeqr)
+  // add choosedn filters
+  for (let code of Object.keys(chosenFilters)) {
+    const filter = chosenFilters[code]
+
+    if (filter.attribute_code !== 'price') {
+      filterQr = filterQr.applyFilter({type: 'match', key: filter.attribute_code, value: filter.id, scope: 'catalog'})
+    } else { // multi should be possible filter here?
+      const rangeqr = {}
+      if (filter.from) {
+        rangeqr['gte'] = filter.from
       }
+      if (filter.to) {
+        rangeqr['lte'] = filter.to
+      }
+      filterQr = filterQr.applyFilter({type: 'range', key: filter.attribute_code, value: rangeqr, scope: 'catalog'})
     }
-    return filterQr
   }
-  filterQr = filterQr.addFilter('bool', (b) => attrFilterBuilder(b))
-  // filterQr = filterQr.addFilter('bool', (b) => attrFilterBuilder(b, '_options').addFilter('match', 'type_id', 'configurable'))
-  // the queries can vary based on the product type
+
   return filterQr
 }
 
 export function baseFilterProductsSearchQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
-    // .addQuery({type: 'match', key: 'category.name', value: 'Tees', boolType: 'query'}) // try andQuery
-    .addQuery({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }, boolType: 'andQuery'}) // try andQuery
+    .applyFilter({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }}) // try andQuery
 
-  // let searchProductQuery = builder().andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
-
-  // add filters to query
+  // Add available filters
   for (let attrToFilter of filters) {
-    if (attrToFilter !== 'price') {
-      searchProductQuery = searchProductQuery.addAggregation({type: 'terms', field: attrToFilter})
-      searchProductQuery = searchProductQuery.addAggregation({type: 'terms', field: attrToFilter + '_options'})
-    } else {
-      searchProductQuery = searchProductQuery.addAggregation({type: 'terms', field: attrToFilter})
-      searchProductQuery.addAggregation({type: 'range',
-        field: 'price',
-        options: {
-          ranges: [
-            { from: 0, to: 50 },
-            { from: 50, to: 100 },
-            { from: 100, to: 150 },
-            { from: 150 }
-          ]
-        }})
-    }
+    searchProductQuery = searchProductQuery.addAvailableFilter({field: attrToFilter})
   }
 
   let childCats = [parentCategory.id]
@@ -200,6 +180,6 @@ export function baseFilterProductsSearchQuery (parentCategory, filters = []) { /
     }
     recurCatFinderBuilder(parentCategory)
   }
-  searchProductQuery = searchProductQuery.addFilter('terms', 'category.category_id', childCats)
+  searchProductQuery = searchProductQuery.applyFilter({type: 'terms', key: 'category.category_id', value: childCats})
   return searchProductQuery
 }
