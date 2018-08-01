@@ -4,7 +4,7 @@
     v-observe-visibility="visibilityChanged"
   >
     <router-link
-      class="no-underline product-link"
+      class="block no-underline product-link"
       :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
@@ -13,6 +13,7 @@
           childSku: product.sku
         }
       })"
+      data-testid="productLink"
     >
       <div
         class="product-image relative bg-cl-secondary"
@@ -22,7 +23,9 @@
           :src="thumbnailObj.loading"
           v-lazy="thumbnailObj"
           height="300"
-          width="310">
+          width="310"
+          data-testid="productImage"
+        >
       </div>
 
       <p class="mb0 cl-accent mt10">

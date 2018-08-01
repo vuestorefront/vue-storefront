@@ -65,6 +65,7 @@
                     ref="images"
                     @dblclick="toggleZoom"
                     alt=""
+                    data-testid="productGalleryImage"
                   >
                 </div>
               </slide>

@@ -44,12 +44,12 @@ export default {
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
     task = _prepareTask(task)
     const usersCollection = new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'user',
       driver: localForage[config.localForage.defaultDrivers['user']]
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'carts',
       driver: localForage[config.localForage.defaultDrivers['carts']]
     }))

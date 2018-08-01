@@ -100,6 +100,12 @@
                   {{ $t('Custom Cms Page') }}
                 </router-link>
               </div>
+              <div class="mt15">
+                <!-- Link to synced Magento Cms Page -->
+                <router-link class="cl-secondary" :to="localizedRoute('/cms-page-sync')" exact>
+                  {{ $t('Cms Page Sync') }}
+                </router-link>
+              </div>
             </div>
           </div>
           <div class="row social mt30">
@@ -152,7 +158,7 @@
           <language-switcher v-if="multistoreEnabled" />
         </div>
         <div class="col-xs col-sm-9 end-xs">
-          <ul class="pl0 links">
+          <ul class="pl0 links" data-testid="bottomLinks">
             <li class="inline-flex">
               <router-link
                 class="cl-tertiary mr10 underline"

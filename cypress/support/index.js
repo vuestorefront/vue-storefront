@@ -18,3 +18,21 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+before(() => {
+  return window.caches.keys().then((cacheNames) => {
+    return Promise.all(
+      cacheNames.map((cacheName) => {
+        return window.caches.delete(cacheName);
+      })
+    );
+  })
+})
+
+beforeEach(() => {
+  cy.setCookie('shop/claims/onboardingAccepted', 'test')
+  indexedDB.deleteDatabase('shop')
+  indexedDB.deleteDatabase('carts')
+  cy.clearLocalStorage()
+})
+

@@ -26,7 +26,6 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('compare/load')
     this.$store.dispatch('attribute/list', {
       filterValues: [true],
       filterField: 'is_user_defined'
