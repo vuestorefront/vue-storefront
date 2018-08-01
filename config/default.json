@@ -129,7 +129,7 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "sortByAttributes": {
         "Latest": "updated_at",
-        "Price":"price"
+        "Price":"final_price"
       },
       "galleryVariantsGroupAttribute": "color"
     },
