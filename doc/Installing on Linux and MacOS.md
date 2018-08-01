@@ -42,17 +42,21 @@ cd vue-storefront-api
 
 You can choose between two modes of running the application:
 
-1. The **legacy** (A) mode - starting just the Elastic and Redis containers:
+1. The **legacy** (A) mode - starting just Elastic and Redis containers, :
    ```
    docker-compose up -d
-   yarn install
-   yarn start
    ```
 
-2. The **standard** (B) mode - starting Elastic, Redis + Vue Storefront API containers:
+2. The **standard** (B) mode - starting Elastic, Redis and Vue Storefront API containers:
    ```
    docker-compose -f docker-compose.yml -f docker-compose.nodejs.yml up -d
    ```
+
+If you choose to use **legacy** mode, you must manually install the Yarn dependencies for the project:
+
+```
+yarn install
+```
 
 As a result, all necessary services will be launched:
 - Vue Storefront API runtime environment (Node.js with dependencies from `package.json`)
@@ -68,15 +72,23 @@ First step is to configure the application:
 cp config/default.json config/local.json
 nano config/local.json
 ```
+
 The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
 We re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config.
 
-To import these products we'll use 'elasticdump' - which is provided by default with package.json dependencies and yarn command:
+To import these products we'll use 'elasticdump' - which is provided by default with package.json dependencies and yarn command. Then, we need to update the structures in the database to the latest version (data migrations).
 
-```
-yarn restore
-yarn migrate
-```
+Depending on the selected mode, execute the following commands:
+- **legacy** (A) mode:
+  ```
+  yarn restore
+  yarn migrate
+  ```
+- **standard** (B) mode:
+  ```
+  docker exec -it vuestorefrontapi_app_1 yarn restore
+  docker exec -it vuestorefrontapi_app_1 yarn migrate
+  ```
 
 Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
 
@@ -84,11 +96,13 @@ Clone the image files for default product database (we're using Magento2 example
 git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data
 ```
 
-After all these steps you should be able to run the application using following command (development mode with dynamic file reloads when changed):
+If you choose to use **standard** mode, the application is already running in the background. However, if you decided to stay with the **legacy** mode, you must start the application manually using following command (development mode with dynamic file reloads when changed):
 
 ```
 yarn dev
 ```
+
+After all these steps you should be able to use the application!
 
 You can check if everything works just fine by executing the following command:
 ```
