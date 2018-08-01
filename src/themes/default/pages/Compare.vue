@@ -23,7 +23,7 @@
             </div>
             <div class="compare__products-wrapper">
               <ul class="compare__products-columns">
-                <li v-for="(product, index) in items" :key="index" class="compare__product">
+                <li v-for="(product, index) in items" :key="index" class="compare__product" data-testid="comparedProduct">
                   <div class="compare__top-info">
                     <div class="check"/>
                     <product-tile class="col-md-12 collection-product" :product="product"/>
