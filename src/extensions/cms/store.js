@@ -1,4 +1,3 @@
-import config from 'config'
 import fetch from 'isomorphic-fetch'
 
 const state = {
@@ -10,18 +9,20 @@ const getters = {
   getBlock: (state) => (id) => {
     return state.cmsBlocks.find(item => item.id === id)
   },
+  getBlockIdentifier: (state) => (identifier) => {
+    return state.cmsBlocks.find(item => item.identifier === identifier)
+  },
   getPage: (state) => (id) => {
     return state.cmsPages.find(item => item.id === id)
+  },
+  getPageIdentifier: (state) => (identifier) => {
+    return state.cmsPages.find(item => item.identifier === identifier)
   }
 }
 
 // actions
 const actions = {
-  loadCms (context, {id, type}) {
-    let url = (config.cms.endpoint)
-      .replace('{{type}}', type)
-      .replace('{{cmsId}}', id)
-
+  loadCms (context, {url, type}) {
     fetch(url, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -33,7 +34,8 @@ const actions = {
           context.commit(`setCms${type}`, data.result)
         }
       })
-      .catch(function () {
+      .catch(function (err) {
+        console.log(err)
         console.error('You need to install a custom Magento module from Snow.dog to make the CMS magick happen. Please go to https://github.com/SnowdogApps/magento2-cms-api and follow the instructions')
       })
   }
