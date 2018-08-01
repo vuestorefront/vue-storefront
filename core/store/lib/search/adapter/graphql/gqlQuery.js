@@ -1,9 +1,12 @@
 export function prepareGraphQlBody (Query) {
   // @TODO Create graphQl query builder uses gqlQuery.body params
   // below is a simple demo test products search query
-  const query = `query ProductListFilters ($searchText: String!) {
+  const query = `query ProductListFilters ($filter: ProductFilterTypeInput, $search: String!, $size: Int, $from: Int) {
     searchProducts(
-      search:$searchText
+      filter: $filter
+      search: $search
+      size: $size
+      from: $from
     )
     {
       hits
@@ -13,13 +16,13 @@ export function prepareGraphQlBody (Query) {
     }
 }`
 
-  const queryFilters = `query ProductListFiltersNew ($searchText: String!) {
+  const queryFilters = `query ProductListFiltersNew ($search: String!) {
     searchProducts(
-      search: $searchText
-      filter: $filters
+      filter: $filter
       sort: $sort
       size: $size
       from: $from
+      search: $search
     )
     {
       hits
@@ -32,19 +35,34 @@ export function prepareGraphQlBody (Query) {
 
   console.log(query)
 
-  const searchText = Query.searchQuery.getSearchText()
-  /* const filters = []// Query.searchQuery.getAppliedFilters()
+  const search = Query.searchQuery.getSearchText()
+
+  const filter = Query.searchQuery.getAppliedFilters()
   const sortDir = Query.sortDir
   const sortBy = Query.sortBy
   let sort = {}
   sort[sortBy] = sortDir
+
+  /* const filter = {
+    terms:
+    {
+      color: [49, 58],
+      category_ids: [3, 7, 4, 8]
+    },
+    range:
+    {
+      price1: {gte: 10.1, lte: 50.1}
+    }
+  } */
   const size = Query.size
-  const from = Query.from */
+  const from = Query.from
+
+  // const storeId = Query.storeId
 
   const body = JSON.stringify({
     query,
-    // variables: { searchText, filters, sort, size, from }
-    variables: { searchText }
+    // variables: { filter, sort, from, size, search }
+    variables: { filter, size, from, search }
   })
 
   return body
