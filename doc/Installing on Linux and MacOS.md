@@ -1,6 +1,6 @@
 # Installation
 
-The steps below are tested on MacOS and Linux environments. If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
+The steps below are tested on MacOS and Linux environments. If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md).
 
 Let's go!
 
