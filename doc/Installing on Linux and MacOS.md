@@ -100,7 +100,7 @@ If you choose to use **standard** mode, the application is already running in th
 yarn dev
 ```
 
-After all these steps you should be able to use the application!
+After all these steps you should be able to use the API application!
 
 You can check if everything works just fine by executing the following command:
 ```
@@ -140,4 +140,4 @@ Finally, you have to choose between two modes of running the application (simila
    docker-compose up
    ```
 
-That's all - your application is now up and running!
+That's all - your frontend application is now up and running!
