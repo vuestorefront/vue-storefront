@@ -6,6 +6,10 @@ export default {
     isActive: {
       type: Boolean,
       required: true
+    },
+    focusedField: {
+      type: String,
+      required: false
     }
   },
   data () {
@@ -15,7 +19,8 @@ export default {
       createAccount: false,
       acceptConditions: false,
       password: '',
-      rPassword: ''
+      rPassword: '',
+      isValidationError: false
     }
   },
   computed: {
@@ -40,6 +45,7 @@ export default {
       }
       this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
+      this.isValidationError = false
     },
     edit () {
       if (this.isFilled) {
@@ -49,6 +55,17 @@ export default {
     },
     gotoAccount () {
       this.$bus.$emit('modal-show', 'modal-signup')
+    }
+  },
+  updated () {
+    // Perform focusing on a field, name of which is passed through 'focusedField' prop
+    if (this.focusedField && !this.isValidationError) {
+      if (this.focusedField === 'password') {
+        this.isValidationError = true
+        this.password = ''
+        this.rPassword = ''
+        this.$refs['password'].setFocus('password')
+      }
     }
   },
   created () {
