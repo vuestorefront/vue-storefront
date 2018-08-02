@@ -1,3 +1,8 @@
+const fs = require('fs')
+const path = require('path')
+const dsvFormat = require('d3-dsv').dsvFormat
+const dsv = dsvFormat(',')
+
 /**
  *  Converts an Array to an Object
  */
@@ -9,27 +14,27 @@ function convertToObject (array) {
   return obj
 }
 
-module.exports = function (options) {
-  const csvDirectories = options.csvDirectories
-  const coreMessages = {}
-  const fs = require('fs')
-  const path = require('path')
-  const dsvFormat = require('d3-dsv').dsvFormat
-  const dsv = dsvFormat(',')
+module.exports = function (csvDirectories) {
+  let messages = {}
+  let languages = []
 
   csvDirectories.forEach(function (directory) {
     fs.readdirSync(directory).forEach(file => {
-      let fullFileName = path.join(directory, file)
-      let extName = path.extname(fullFileName)
-      let baseName = path.posix.basename(file, extName)
+      const fullFileName = path.join(directory, file)
+      const extName = path.extname(fullFileName)
+      const baseName = path.posix.basename(file, extName)
       if (extName === '.csv') {
-        let fileContent = fs.readFileSync(fullFileName, 'utf8')
-        console.debug('Processing translation file: ' + fullFileName + ' => ' + baseName)
-        coreMessages[baseName] = Object.assign(coreMessages[baseName] ? coreMessages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
+        const fileContent = fs.readFileSync(fullFileName, 'utf8')
+        if (languages.indexOf(baseName) === -1)
+          languages.push(baseName)
+        console.debug(`Processing translation file: ${fullFileName}`)
+        messages[baseName] = Object.assign(messages[baseName] ? messages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
       }
     })
   })
-  return {
-    code: `module.exports = ${JSON.stringify(coreMessages)};`
-  }
+
+  languages.forEach(function (language) {
+    console.debug(`Writing JSON file: ${language}.json`)
+    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
+  })
 }
