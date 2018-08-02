@@ -1,43 +1,38 @@
 export function prepareGraphQlBody (Query) {
   // @TODO Create graphQl query builder uses gqlQuery.body params
   // below is a simple demo test products search query
-  const query = `query ProductListFilters ($filter: ProductFilterTypeInput, $search: String!, $size: Int, $from: Int) {
+  const query = `query ProductListFilters ($filter: ProductFilterTypeInput, $search: String!, $size: Int, $from: Int, $sort: ProductSortInput) {
     searchProducts(
       filter: $filter
       search: $search
       size: $size
       from: $from
-    )
-    {
-      hits
-      aggregations
-      suggest
-
-    }
-}`
-
-  const queryFilters = `query ProductListFiltersNew ($search: String!) {
-    searchProducts(
-      filter: $filter
       sort: $sort
-      size: $size
-      from: $from
-      search: $search
     )
     {
       hits
       aggregations
       suggest
+
     }
-}`
-
-  console.log(queryFilters)
-
-  console.log(query)
+  }`
 
   const search = Query.searchQuery.getSearchText()
 
-  const filter = Query.searchQuery.getAppliedFilters()
+  const filters = Query.searchQuery.getAppliedFilters()
+  let filter = {}
+
+  for (let _filter of filters) {
+    // filter[_filter.type][_filter.attribute] = _filter.value
+    let newAttribute = {}
+    newAttribute[_filter.attribute] = _filter.value
+    if (!(_filter.type in filter)) {
+      filter[_filter.type] = {}
+    }
+    filter[_filter.type][_filter.attribute] = _filter.value
+  }
+  console.log(filter)
+
   const sortDir = Query.sortDir
   const sortBy = Query.sortBy
   let sort = {}
@@ -54,6 +49,7 @@ export function prepareGraphQlBody (Query) {
       price1: {gte: 10.1, lte: 50.1}
     }
   } */
+
   const size = Query.size
   const from = Query.from
 
@@ -61,8 +57,7 @@ export function prepareGraphQlBody (Query) {
 
   const body = JSON.stringify({
     query,
-    // variables: { filter, sort, from, size, search }
-    variables: { filter, size, from, search }
+    variables: { filter, sort, size, from, search }
   })
 
   return body

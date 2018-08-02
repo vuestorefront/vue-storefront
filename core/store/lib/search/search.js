@@ -91,27 +91,30 @@ function searchES (Query) {
 /**
  * Execute search query
  */
-function search (Query) {
-  if (config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') {
+/* function search (Query) {
+  if ((config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') && Query.type === 'product') {
     return searchGql(Query)
   } else {
     return searchES(Query)
   }
 }
-
+*/
 /**
  * Helper function to handle ElasticSearch Results
  * @param {Object} resp result from ES call
  * @param {Int} start pagination data
  * @param {Int} size pagination data
  */
-function _handleResult (resp, start = 0, size = 50) {
+/* function _handleResult (resp, start = 0, size = 50) {
+  console.log(resp)
   if (config.server.api === 'graphql' || resp.hasOwnProperty('data')) {
     return _handleGqlResult(resp, start, size)
+    // return _handleEsResult(resp.data.searchProducts, start, size)
   } else {
     return _handleEsResult(resp, start, size)
   }
 }
+*/
 
 /**
  * Helper function to handle ElasticSearch Results
@@ -235,20 +238,38 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
 
-    // Use test graphql for simple product search
-    search(Query).then(function (resp) { // we're always trying to populate cache - when online
-      const res = _handleResult(resp, start, size)
-      cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
-      if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-        res.cache = false
-        res.noresults = false
-        res.offline = false
-        resolve(res)
-      }
-    }).catch(function (err) {
-      // reject(err)
-      console.error(err)
-    })
+    if ((config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') && Query.type === 'product') {
+      // Use test graphql for simple product search
+      searchGql(Query).then(function (resp) { // we're always trying to populate cache - when online
+        const res = _handleGqlResult(resp, start, size)
+        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
+          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          res.cache = false
+          res.noresults = false
+          res.offline = false
+          resolve(res)
+        }
+      }).catch(function (err) {
+        // reject(err)
+        console.error(err)
+      })
+    } else {
+      // Use test graphql for simple product search
+      searchES(Query).then(function (resp) { // we're always trying to populate cache - when online
+        const res = _handleEsResult(resp, start, size)
+        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
+          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          res.cache = false
+          res.noresults = false
+          res.offline = false
+          resolve(res)
+        }
+      }).catch(function (err) {
+        // reject(err)
+        console.error(err)
+      })
+    }
   })
 }

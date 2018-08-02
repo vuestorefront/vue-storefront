@@ -153,7 +153,7 @@ export function buildFilterProductsSearchQuery (currentCategory, chosenFilters, 
 export function baseFilterProductsSearchQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
-    .applyFilter({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }}) // try andQuery
+    .applyFilter({type: 'terms', key: 'visibility', value: [2, 3, 4]}) // try andQuery
 
   // Add available filters
   for (let attrToFilter of filters) {
@@ -180,6 +180,6 @@ export function baseFilterProductsSearchQuery (parentCategory, filters = []) { /
     }
     recurCatFinderBuilder(parentCategory)
   }
-  searchProductQuery = searchProductQuery.applyFilter({type: 'terms', key: 'category.category_id', value: childCats})
+  searchProductQuery = searchProductQuery.applyFilter({type: 'terms', key: 'category_ids', value: childCats})
   return searchProductQuery
 }

@@ -16,7 +16,7 @@ export default {
       console.log('Entering asyncData for PageNotFound ' + new Date())
       // let ourBestsellersQuery = /* builder().query('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
       let ourBestsellersQuery = new SearchQuery()
-      ourBestsellersQuery = ourBestsellersQuery.addQuery({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }, boolType: 'query'})
+      ourBestsellersQuery = ourBestsellersQuery.applyFilter({type: 'terms', key: 'visibility', value: [2, 3, 4]})
 
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('product/listByQuery', {

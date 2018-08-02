@@ -56,11 +56,11 @@ export default {
     let relatedProductsQuery = new SearchQuery()
     if (sku.length === 0) {
       sku = this.product.current.category.map(cat => cat.category_id)
-      relatedProductsQuery = relatedProductsQuery.addQuery({type: 'terms', key: 'category.category_id', value: sku, boolType: 'query'})
+      relatedProductsQuery = relatedProductsQuery.applyFilter({type: 'terms', key: 'category_ids', value: sku})
     } else {
-      relatedProductsQuery = relatedProductsQuery.addQuery({type: 'terms', key: 'sku', value: sku, boolType: 'query'})
+      relatedProductsQuery = relatedProductsQuery.applyFilter({type: 'terms', key: 'sku', value: sku})
     }
-    relatedProductsQuery = relatedProductsQuery.addQuery({type: 'range', key: 'visibility', value: { 'gte': 2, 'lte': 4 }, boolType: 'andQuery'})
+    relatedProductsQuery = relatedProductsQuery.applyFilter({type: 'terms', key: 'visibility', value: [2, 3, 4]})
 
     this.$store.dispatch('product/listByQuery', {
       searchQuery: relatedProductsQuery,
