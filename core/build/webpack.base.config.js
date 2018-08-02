@@ -52,18 +52,6 @@ module.exports = {
     publicPath: '/dist/',
     filename: '[name].[hash].js'
   },
-  optimization: {
-    splitChunks:  {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all',
-        },
-      },
-    },
-    runtimeChunk: 'single',
-  },
   resolveLoader: {
     modules: [
       'node_modules',
