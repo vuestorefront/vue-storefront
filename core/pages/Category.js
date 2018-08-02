@@ -6,7 +6,7 @@ import config from 'config'
 import EventBus from 'core/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from 'core/filters/html-decode'
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
