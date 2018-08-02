@@ -72,7 +72,7 @@ yarn dev
 
 You can check if everything works just fine by executing the following command:
 ```
-curl -i http://localhost:8080/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
+curl -i http://localhost:8080/api/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
 ```
 
 ### Install the vue-storefront
