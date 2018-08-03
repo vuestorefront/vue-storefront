@@ -2,6 +2,11 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+## 1.2 -> 1.3
+
+1. We've removed event emit from client-entry.js with online status information. Instead of this we are using now [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
+2. We've removed isOnline variable from Microcart.js, instead of this we are using now variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
+
 ## 1.1 -> 1.2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.2.0))
 
 There were no breaking-changes introduced. No special treatment needed :) 
@@ -161,4 +166,3 @@ Module not found: Error: Can't resolve 'theme/store' in '***/vue-storefront/core
 ```
 
 It means, that You need to copy the [template store](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/store/index.js) to: `<Your custom theme folder>/store`.
-

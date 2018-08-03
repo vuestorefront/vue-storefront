@@ -1,3 +1,6 @@
+// 3rd party dependecies
+import VueOfflineMixin from 'vue-offline/mixin'
+
 // Core dependecies
 import i18n from 'core/lib/i18n'
 import config from 'config'
@@ -8,7 +11,7 @@ import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'Checkout',
-  mixins: [Composite],
+  mixins: [Composite, VueOfflineMixin],
   data () {
     return {
       stockCheckCompleted: false,
@@ -88,8 +91,6 @@ export default {
     this.$store.dispatch('cart/getPaymentMethods')
   },
   created () {
-    // TO-DO: Dont use event bus ad use v-on at components (?)
-    this.$bus.$on('network-before-checkStatus', this.onNetworkStatusCheck)
     // TO-DO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
@@ -108,7 +109,6 @@ export default {
   destroyed () {
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
-    this.$bus.$off('network-before-checkStatus', this.onNetworkStatusCheck)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
     this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
@@ -122,7 +122,8 @@ export default {
     this.$bus.$off('checkout-after-validationError', this.focusField)
   },
   watch: {
-    '$route': 'activateHashSection'
+    '$route': 'activateHashSection',
+    'OnlineOnly': 'onNetworkStatusCheck'
   },
   methods: {
     onCartAfterUpdate (payload) {
@@ -196,8 +197,8 @@ export default {
       this.savePersonalDetails()
       this.focusedField = null
     },
-    onNetworkStatusCheck (status) {
-      this.checkConnection(status)
+    onNetworkStatusCheck (isOnline) {
+      this.checkConnection(isOnline)
     },
     checkStocks () {
       let isValid = true
@@ -250,8 +251,8 @@ export default {
         }
       }
     },
-    checkConnection (status) {
-      if (!status.online) {
+    checkConnection (isOnline) {
+      if (!isOnline) {
         this.$bus.$emit('notification', {
           type: 'warning',
           message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),

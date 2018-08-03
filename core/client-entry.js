@@ -282,7 +282,6 @@ setInterval(() => {
  * Process order queue when we're back onlin
  */
 function checkiIsOnline () {
-  EventBus.$emit('network-before-checkStatus', { online: navigator.onLine })
   console.log('Are we online: ' + navigator.onLine)
 
   if (typeof navigator !== 'undefined' && navigator.onLine) {
