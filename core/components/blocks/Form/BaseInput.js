@@ -61,6 +61,12 @@ export default {
         this.passType = 'password'
         this.icon = 'visibility'
       }
+    },
+    // setFocus sets focus on a field which has a value of 'ref' tag equal to fieldName
+    setFocus (fieldName) {
+      if (this.name === fieldName) {
+        this.$refs[this.name].focus()
+      }
     }
   },
   created () {
