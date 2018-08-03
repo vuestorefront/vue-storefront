@@ -72,20 +72,6 @@ export default {
 @import '~theme/css/helpers/functions/color';
 $color-tertiary: color(tertiary);
 
-#my_account {
-  select {
-    @extend .h4;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid $color-tertiary;
-    width: 100%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    background-color: transparent;
-  }
-}
-
 .static-menu {
   ul {
     list-style: none;
