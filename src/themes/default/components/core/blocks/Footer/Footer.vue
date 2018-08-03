@@ -100,6 +100,12 @@
                   {{ $t('Custom Cms Page') }}
                 </router-link>
               </div>
+              <div class="mt15">
+                <!-- Link to synced Magento Cms Page -->
+                <router-link class="cl-secondary" :to="localizedRoute('/cms-page-sync')" exact>
+                  {{ $t('Cms Page Sync') }}
+                </router-link>
+              </div>
             </div>
           </div>
           <div class="row social mt30">

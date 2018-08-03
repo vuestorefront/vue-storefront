@@ -13,7 +13,7 @@
         :value="value"
         :autofocus="autofocus"
         :ref="focus ? name : false"
-        @textarea="$emit('textarea', $event.target.value)"
+        @input="$emit('input', $event.target.value)"
         @blur="$emit('blur')"
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
         @keyup="$emit('keyup', $event)"

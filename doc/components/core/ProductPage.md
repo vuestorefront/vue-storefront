@@ -18,7 +18,6 @@ No props
 `category` - a computed property that represents a category object of the current product. Gets its value from *'category/current'* Vuex store getter.  
 `productName` - a computed property that represents a product name. Gets its value from *'category/current'* Vuex store getter.  
 `productId` - a computed property that represents a product id. Gets its value from *'category/current'* Vuex store getter.
-`isOnWishlist` - a computed property that checks if a given product is in the wishlist.
 `isOnCompare` - a computed property that checks if a given product is in compare list.
 `image` - a computed property that defines an image (thumbnail) that will be shown on the page and its size.  
 `customAttributes` - this is a subset of *attributesByCode* list of attributes that the current product has.  
@@ -47,13 +46,13 @@ No parameters
 **Parameters**  
 No Parameters  
 
-`addToList` - adds the current product to the wishlist or compare by dispatching *'wishlist/addItem'* or *'compare/addItem'* actions accordingly.
+`addToList` - adds the current product to the compare by dispatching *'compare/addItem'* actions accordingly.
 **Parameters**
-*list* - compare or wishlist
+*list* - compare
 
-`removeFromList` - remove the current product from the wishlist or compare by dispatching *'wishlist/removeItem'* or *'compare/removeItem'* actions accordingly.
+`removeFromList` - remove the current product from the compare by dispatching *'compare/removeItem'* actions accordingly.
 **Parameters**
-*list* - compare or wishlist
+*list* - compare
 
 ### Hooks
 #### asyncData

@@ -1,9 +1,6 @@
 describe('checkout page', () => {
   it('Default shipping/billing address should be changed', () => {
     cy.visit('/')
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get('[data-testid=accountButton]').click()
     cy.get('[name=email]').type('logintest@user.co')
     cy.get('[name=password]').type('123qwe!@#')

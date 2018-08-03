@@ -138,7 +138,7 @@
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
-                  @click="isOnWishlist ? removeFromList('wishlist') : addToList('wishlist')"
+                  @click="isOnWishlist ? removeFromWishlist(product) : addToWishlist(product)"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action h5 pointer cl-secondary

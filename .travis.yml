@@ -1,3 +1,6 @@
+sudo: required
+addons:
+  chrome: stable
 language: node_js
 node_js:
   - "8"
@@ -12,7 +15,7 @@ jobs:
     - stage: lint
       script:
         - yarn lint
-        - yarn unit
+        # - yarn unit
         - yarn build
     - stage: e2e
       if: branch IN (master, develop)
