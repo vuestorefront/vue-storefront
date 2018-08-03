@@ -13,6 +13,7 @@
         }"
       >
         <div
+          @click="action(notification.action1.action, index)"
           class="message p20"
           data-testid="notificationMessage"
         >
@@ -20,14 +21,16 @@
         </div>
         <div class="actions">
           <div
-            class="py10 px20 pointer weight-400 uppercase"
+            class="py10 px20 pointer weight-400 notification-action uppercase"
+            id="notificationAction1"
             data-testid="notificationAction1"
             @click="action(notification.action1.action, index)"
           >
             {{ notification.action1.label }}
           </div>
           <div
-            class="py10 px20 pointer weight-400 uppercase"
+            class="py10 px20 pointer weight-400 notification-action align-center uppercase"
+            id="notificationAction2"
             data-testid="notificationAction2"
             @click="action(notification.action2.action, index)"
             v-if="notification.action2"
@@ -87,8 +90,20 @@ $color-action: color(black);
 }
 
 .actions {
-  background: rgba($color-action, .2);
   display: flex;
+  justify-content: space-between;
+
+  .notification-action {
+    background: rgba($color-action, .2);
+  }
+
+  #notificationAction1 {
+    border-right: 2px solid $color-success;
+  }
+
+  #notificationAction2 {
+    width: 100%;
+  }
 }
 .success {
   background: $color-success;

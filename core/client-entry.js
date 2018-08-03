@@ -8,7 +8,7 @@ import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 
 require('./service-worker-registration') // register the service worker
 
@@ -282,7 +282,6 @@ setInterval(() => {
  * Process order queue when we're back onlin
  */
 function checkiIsOnline () {
-  EventBus.$emit('network-before-checkStatus', { online: navigator.onLine })
   console.log('Are we online: ' + navigator.onLine)
 
   if (typeof navigator !== 'undefined' && navigator.onLine) {

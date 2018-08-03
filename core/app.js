@@ -16,7 +16,7 @@ import VueObserveVisibility from 'vue-observe-visibility'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 import shippingMethods from 'core/resource/shipping_methods.json'
 import { prepareStoreView } from './store/lib/multistore'
 
@@ -25,7 +25,7 @@ import themeModules from 'theme/store'
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.1'
+global.$VS.version = '1.2'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 

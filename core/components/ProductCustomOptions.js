@@ -1,7 +1,7 @@
 import { mapMutations } from 'vuex'
 import * as types from 'core/store/mutation-types'
 import rootStore from 'core/store'
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 
 function _defaultOptionValue (co) {
   switch (co.type) {

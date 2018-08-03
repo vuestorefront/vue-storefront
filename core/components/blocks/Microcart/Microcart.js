@@ -1,9 +1,16 @@
+// 3rd party dependecies
 import { mapGetters } from 'vuex'
+import VueOfflineMixin from 'vue-offline/mixin'
+
+// Core dependecies
 import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart } from 'core/api/cart'
+
+// Core mixins
 import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'Microcart',
+  mixins: [onEscapePress, productsInCart, isMicrocartOpen, closeMicrocart, removeFromCart, VueOfflineMixin],
   props: {
     product: {
       type: Object,
@@ -19,22 +26,26 @@ export default {
   data () {
     return {
       addCouponPressed: false,
-      couponCode: '',
-      isOnline: true
+      couponCode: ''
     }
   },
-  created () {
-    this.$bus.$on('network-before-checkStatus', this.onNetworkStatusChanged)
-  },
-  destroyed () {
-    this.$bus.$off('network-before-checkStatus', this.onNetworkStatusChanged)
+  computed: {
+    ...mapGetters({
+      totals: 'cart/totals'
+    }),
+    shipping () {
+      return this.$store.state.cart.shipping
+    },
+    payment () {
+      return this.$store.state.cart.payment
+    },
+    coupon () {
+      return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
+    }
   },
   methods: {
     onEscapePress () {
       this.closeMicrocart()
-    },
-    onNetworkStatusChanged (status) {
-      this.isOnline = status.online
     },
     closeMicrocartExtend () {
       this.closeMicrocart()
@@ -58,20 +69,5 @@ export default {
         this.applyCoupon()
       }
     }
-  },
-  computed: {
-    ...mapGetters({
-      totals: 'cart/totals'
-    }),
-    shipping () {
-      return this.$store.state.cart.shipping
-    },
-    payment () {
-      return this.$store.state.cart.payment
-    },
-    coupon () {
-      return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
-    }
-  },
-  mixins: [onEscapePress, productsInCart, isMicrocartOpen, closeMicrocart, removeFromCart]
+  }
 }
