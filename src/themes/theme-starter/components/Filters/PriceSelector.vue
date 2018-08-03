@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import PriceSelector from 'core/components/PriceSelector'
+import PriceSelector from '@vue-storefront/core/components/PriceSelector'
 
 export default {
   name: 'PriceSelector',

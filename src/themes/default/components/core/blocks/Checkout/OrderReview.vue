@@ -85,13 +85,13 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import Composite from 'core/mixins/composite'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
-import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import OrderReview from '@vue-storefront/core/components/blocks/Checkout/OrderReview'
 import ValidationError from 'theme/components/core/ValidationError'
 
 export default {
