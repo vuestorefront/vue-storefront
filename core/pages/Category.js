@@ -203,7 +203,8 @@ export default {
             perPage: this.pagination.perPage,
             store: this.$store,
             route: this.$route,
-            append: false
+            append: false,
+            populateAggregations: true
           })
           if (!query.searchProductQuery) {
             query.searchProductQuery = searchProductQuery

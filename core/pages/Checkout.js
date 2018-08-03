@@ -36,49 +36,51 @@ export default {
     }
   },
   beforeMount () {
-    if (this.$store.state.cart.cartItems.length === 0) {
-      this.$bus.$emit('notification', {
-        type: 'warning',
-        message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-        action1: { label: i18n.t('OK'), action: 'close' }
-      })
-      this.$router.push('/')
-    } else {
-      this.stockCheckCompleted = false
-      const checkPromises = []
-      for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
-        if (product.onlineStockCheckid) {
-          checkPromises.push(new Promise((resolve, reject) => {
-            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
-              if (err || !item) {
-                if (err) console.error(err)
-                resolve(null)
-              } else {
-                product.stock = item.result
-                resolve(product)
-              }
-            })
-          }))
-        }
-      }
-      Promise.all(checkPromises).then((checkedProducts) => {
-        this.stockCheckCompleted = true
-        this.stockCheckOK = true
-        for (let chp of checkedProducts) {
-          if (chp && chp.stock) {
-            if (!chp.stock.is_in_stock) {
-              this.stockCheckOK = false
-              chp.errors.stock = i18n.t('Out of stock!')
-              this.$bus.$emit('notification', {
-                type: 'error',
-                message: chp.name + i18n.t(' is out of the stock!'),
-                action1: { label: i18n.t('OK'), action: 'close' }
+    this.$store.dispatch('cart/load').then(() => {
+      if (this.$store.state.cart.cartItems.length === 0) {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        this.$router.push('/')
+      } else {
+        this.stockCheckCompleted = false
+        const checkPromises = []
+        for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
+          if (product.onlineStockCheckid) {
+            checkPromises.push(new Promise((resolve, reject) => {
+              global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                if (err || !item) {
+                  if (err) console.error(err)
+                  resolve(null)
+                } else {
+                  product.stock = item.result
+                  resolve(product)
+                }
               })
-            }
+            }))
           }
         }
-      })
-    }
+        Promise.all(checkPromises).then((checkedProducts) => {
+          this.stockCheckCompleted = true
+          this.stockCheckOK = true
+          for (let chp of checkedProducts) {
+            if (chp && chp.stock) {
+              if (!chp.stock.is_in_stock) {
+                this.stockCheckOK = false
+                chp.errors.stock = i18n.t('Out of stock!')
+                this.$bus.$emit('notification', {
+                  type: 'error',
+                  message: chp.name + i18n.t(' is out of the stock!'),
+                  action1: { label: i18n.t('OK'), action: 'close' }
+                })
+              }
+            }
+          }
+        })
+      }
+    })
     const storeView = currentStoreView()
     let country = this.$store.state.checkout.shippingDetails.country
     if (!country) country = storeView.i18n.defaultCountry
