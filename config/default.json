@@ -116,6 +116,7 @@
     "products": {
       "useShortCatalogUrls": false,
       "useMagentoUrlKeys": false,
+      "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
       "configurableChildrenStockPrefetchDynamic": false,
       "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
