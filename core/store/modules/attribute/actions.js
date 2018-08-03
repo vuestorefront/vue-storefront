@@ -17,9 +17,9 @@ export default {
       qrObj = qrObj.orFilter('term', filterField, value)
     }
 
-    return quickSearchByQuery({ entityType: 'attribute', query: qrObj.build(), includeFields: includeFields }).then(function (resp) {
+    return quickSearchByQuery({ entityType: 'attribute', query: qrObj.build(), includeFields: includeFields }).then((resp) => {
       commit(types.ATTRIBUTE_UPD_ATTRIBUTES, resp)
-    }).catch(function (err) {
+    }).catch((err) => {
       console.error(err)
     })
   }

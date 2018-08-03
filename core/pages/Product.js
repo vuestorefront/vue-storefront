@@ -63,7 +63,7 @@ export default {
         let groupedByAttribute = groupBy(this.product.configurable_children, child => {
           return child[variantsGroupBy]
         })
-        Object.keys(groupedByAttribute).forEach((confChild) => {
+        Object.keys(groupedByAttribute).forEach(confChild => {
           if (groupedByAttribute[confChild][0].image) {
             images.push({
               'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
@@ -78,15 +78,14 @@ export default {
           'loading': this.getThumbnail(this.product.image, 310, 300)
         })
       }
-      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
+      return uniqBy(images, 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
     },
     image () {
       return this.gallery.length ? this.gallery[0] : false
     },
     customAttributes () {
-      let inst = this
       return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
+        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && this.product[a.attribute_code]
       })
     },
     isOnWishlist () {
@@ -122,16 +121,15 @@ export default {
   },
   methods: {
     validateRoute () {
-      let inst = this
-      if (!inst.loading) {
-        inst.loading = true
-        inst.$store.dispatch('product/fetchAsync', { parentSku: inst.$route.params.parentSku, childSku: inst.$route && inst.$route.params && inst.$route.params.childSku ? inst.$route.params.childSku : null }).then((res) => {
-          inst.loading = false
-          inst.defaultOfflineImage = inst.product.image
+      if (!this.loading) {
+        this.loading = true
+        this.$store.dispatch('product/fetchAsync', { parentSku: this.$route.params.parentSku, childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null }).then(res => {
+          this.loading = false
+          this.defaultOfflineImage = this.product.image
           this.onStateCheck()
           this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
-        }).catch((err) => {
-          inst.loading = false
+        }).catch(err => {
+          this.loading = false
           console.error(err)
           this.$bus.$emit('notification', {
             type: 'error',
@@ -210,7 +208,7 @@ export default {
         configuration: this.configuration,
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false
-      }).then((selectedVariant) => {
+      }).then(selectedVariant => {
         if (!selectedVariant) {
           if (typeof prevOption !== 'undefined' && prevOption) {
             this.configuration[filterOption.attribute_code] = prevOption

@@ -17,7 +17,7 @@ module.exports = function (options) {
   const dsvFormat = require('d3-dsv').dsvFormat
   const dsv = dsvFormat(',')
 
-  csvDirectories.forEach(function (directory) {
+  csvDirectories.forEach(directory => {
     fs.readdirSync(directory).forEach(file => {
       let fullFileName = path.join(directory, file)
       let extName = path.extname(fullFileName)
