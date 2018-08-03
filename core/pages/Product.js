@@ -101,7 +101,7 @@ export default {
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   watch: {
-    '$route': 'validateRoute'
+    '$route.params.parentSku': 'validateRoute'
   },
   beforeDestroy () {
     this.$bus.$off('product-after-removevariant')
@@ -129,7 +129,6 @@ export default {
           inst.loading = false
           inst.defaultOfflineImage = inst.product.image
           this.onStateCheck()
-          this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
         }).catch((err) => {
           inst.loading = false
           console.error(err)
@@ -211,6 +210,9 @@ export default {
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false
       }).then((selectedVariant) => {
+        if (config.products.setFirstVarianAsDefaultInURL) {
+          this.$router.push({params: { childSku: selectedVariant.sku }})
+        }
         if (!selectedVariant) {
           if (typeof prevOption !== 'undefined' && prevOption) {
             this.configuration[filterOption.attribute_code] = prevOption
