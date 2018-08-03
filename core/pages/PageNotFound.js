@@ -2,7 +2,7 @@
 import builder from 'bodybuilder'
 
 // Core dependecies
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 import EventBus from 'core/plugins/event-bus'
 
 // Core mixins

@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex'
 
 // Core dependecies
 import EventBus from 'core/plugins/event-bus'
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
