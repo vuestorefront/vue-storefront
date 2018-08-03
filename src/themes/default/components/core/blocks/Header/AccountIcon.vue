@@ -1,10 +1,10 @@
 <template>
-  <div class="inline-flex relative dropdown">
+  <div class="inline-flex relative dropdown"
+       data-testid="accountButton"
+       @click="goToAccount">
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
-      @click="goToAccount();"
-      data-testid="accountButton"
       :aria-label="$t('Open my account')"
     >
       <i class="material-icons block">account_circle</i>

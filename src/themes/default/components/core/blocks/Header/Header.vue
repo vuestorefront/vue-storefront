@@ -50,7 +50,7 @@
           </div>
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
-              <a v-if="!currentUser" href="#" @click="gotoAccount" class="cl-tertiary links">
+              <a v-if="!currentUser" href="#" @click.prevent="gotoAccount" class="cl-tertiary links">
                 {{ $t('Login to your account') }}
               </a>
               <span v-else>
