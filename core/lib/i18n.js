@@ -1,7 +1,7 @@
+import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import config from 'config'
-import Vue from 'vue'
-import { loadLanguageAsync } from 'core/lib/i18n-utils'
+import { loadLanguageAsync } from '@vue-storefront/core/lib/i18n-utils'
 
 Vue.use(VueI18n)
 

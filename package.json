@@ -159,6 +159,7 @@
     ]
   },
   "workspaces": [
+    "core",
     "core/store",
     "src/extensions/*",
     "src/themes/*"

@@ -3,13 +3,13 @@ import toString from 'lodash-es/toString'
 
 // Core dependecies
 import config from 'config'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
-import { htmlDecode } from 'core/filters/html-decode'
-import i18n from 'core/lib/i18n'
+import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
+import i18n from '@vue-storefront/core/lib/i18n'
 
 // Core mixins
-import Composite from 'core/mixins/composite'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Category',

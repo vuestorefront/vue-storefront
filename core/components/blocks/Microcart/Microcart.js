@@ -1,6 +1,6 @@
 import { mapGetters } from 'vuex'
-import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart } from 'core/api/cart'
-import onEscapePress from 'core/mixins/onEscapePress'
+import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart } from '@vue-storefront/core/api/cart'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
 export default {
   name: 'Microcart',
