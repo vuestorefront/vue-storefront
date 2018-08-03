@@ -104,6 +104,7 @@
               class="col-xs-12 mb25 mt10"
               type="password"
               name="password"
+              ref="password"
               :placeholder="$t('Password *')"
               v-model="password"
               @blur="$v.password.$touch()"
