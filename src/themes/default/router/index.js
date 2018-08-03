@@ -9,7 +9,7 @@ import Compare from 'theme/pages/Compare.vue'
 import PageNotFound from 'theme/pages/PageNotFound.vue'
 import MyAccount from 'theme/pages/MyAccount.vue'
 import CustomCmsPage from 'theme/pages/CustomCmsPage.vue'
-import CmsData from 'src/extensions/cms/components/CmsData'
+import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'
 
 import config from 'config'
 

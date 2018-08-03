@@ -7,7 +7,7 @@ To display Cms data:
 ## Cms Block
 To display Cms Block import CmsData component and use it in template:
 
-`import CmsData from 'src/extensions/cms/components/CmsData'`
+`import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'`
 
 we have to options to get Cms Block data:
 1. by Magento `identifier`:
@@ -27,7 +27,7 @@ To display Cms Page:
 1. Cms page content like a block
 * in custom theme create new page with custom route
 * import CmsData component and use it in template:
-`import CmsData from 'src/extensions/cms/components/CmsData'`
+`import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'`
 
 call Cms Page like a Block using either Magento `identifier`:
 `<cms-data :identifier="'about-us'" :type="'Page'" />`
@@ -41,7 +41,7 @@ Like Cms Block, the Cms Page by `identifier` handles different Store Views, Cms 
 2. Cms page content as a page component:
 - in custom theme `themes/<theme-name>/router/index.js` import `CmsData` component, add custom route and define props: `{identifier: :pageIdentifier, type: 'Page', sync: true}`, example:
 ```
-import CmsData from 'src/extensions/cms/components/CmsData'
+import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'
 
 const routes = [
   // ... theme routes
