@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2018-08-01
+
+### Fixed
+- Improved integration tests [#1471]
+- Minor taxcalc.js improvements [#1467]
+- Search by SKU fixed [#1455]
+- ProductList dbl click fix [#1438]
+
+### Added
+- Docker support for vue-storefront
+- Production config docs added [#1450]
+- Integration tests for Compare products added [#1422]
+- Wishlist module refactored to the new core/api standard + unit tests [#1434]
+- Dropdown components in MyProfile replaced with the base-select [#1463]
+- Magento2/CMS integration by block/page identifiers [#1452]
+
 ## [1.1.0] - 2018-07-02
 
 Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)**
