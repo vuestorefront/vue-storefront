@@ -4,6 +4,7 @@ import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import hash from 'object-hash'
+import { htmlDecode } from '../../lib/filters'
 import { currentStoreView } from '../../lib/multistore'
 import omit from 'lodash-es/omit'
 const CART_PULL_INTERVAL_MS = 2000
@@ -275,6 +276,12 @@ export default {
       }) */
       dispatch('serverPull', { forceClientState: true })
     }
+
+    EventBus.$emit('notification', {
+      type: 'success',
+      message: i18n.t('Product {productName} has been removed from cart!', { productName: htmlDecode(product.name) }),
+      action1: {label: i18n.t('OK'), action: 'close'}
+    })
   },
   updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
