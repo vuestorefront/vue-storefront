@@ -23,7 +23,6 @@
 
 <script>
 import { mapState } from 'vuex'
-
 import MainHeader from './components/core/blocks/Header/Header.vue'
 import MainFooter from './components/core/blocks/Footer/Footer.vue'
 

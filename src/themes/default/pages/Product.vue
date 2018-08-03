@@ -223,6 +223,7 @@
 
 <script>
 import Product from 'core/pages/Product'
+import ContentBlock from 'core/api/content/components/ContentBlock'
 
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
@@ -255,10 +256,11 @@ export default {
     RelatedProducts,
     SizeSelector
   },
-  mixins: [Product],
+  mixins: [Product, ContentBlock],
   data () {
     return {
-      detailsOpen: false
+      detailsOpen: false,
+      id: 1
     }
   },
   directives: { focusClean },

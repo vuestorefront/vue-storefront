@@ -1,28 +1,33 @@
-const dataMock = [
-  {id: '0', content: 'data zero'},
-  {id: '1', content: 'data one'}
-]
-
 const actions = {
   fetchContent ({ commit }, id, param = 'id') {
-    return new Promise((resolve, reject) => {
-      commit('addEntity', dataMock[id])
-      resolve(dataMock[id])
-      reject(new Error('epic fail'))
-    })
+    fetch('https://jsonplaceholder.typicode.com/todos/' + id)
+      .then(response => response.json())
+      .then(content => {
+        return new Promise((resolve, reject) => {
+          if (content) {
+            commit('addBlock', content)
+          } else {
+            reject(new Error('error while fetching CMS data'))
+          }
+        })
+      })
   }
 }
 
 const mutations = {
   addBlock (state, entity) {
     state.content.push(entity)
+  },
+  removeBlock (state, id, param = 'id') {
+    state.content = state.content.filter(block =>
+      block[param] !== id)
   }
 }
 
 const getters = {
   findBlock: (state) => (value, param = 'id') => {
-    return state.content.map(current =>
-      current[param] === value
+    return state.content.find(block =>
+      block[param] === value
     )
   }
 }
