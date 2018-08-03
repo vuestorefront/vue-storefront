@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import BaseSelect from 'core/components/blocks/Form/BaseSelect'
+import BaseSelect from '@vue-storefront/core/components/blocks/Form/BaseSelect'
 
 export default {
   mixins: [BaseSelect]

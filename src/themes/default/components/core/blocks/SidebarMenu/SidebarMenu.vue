@@ -118,9 +118,9 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/core/lib/i18n'
 
-import SidebarMenu from 'core/components/blocks/SidebarMenu/SidebarMenu'
+import SidebarMenu from '@vue-storefront/core/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
 

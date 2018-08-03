@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import baseCheckbox from 'core/components/blocks/Form/BaseCheckbox'
+import baseCheckbox from '@vue-storefront/core/components/blocks/Form/BaseCheckbox'
 
 export default {
   mixins: [baseCheckbox]

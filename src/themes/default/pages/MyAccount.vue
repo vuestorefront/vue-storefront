@@ -32,14 +32,14 @@
 </template>
 
 <script>
-import MyAccount from 'core/pages/MyAccount'
+import MyAccount from '@vue-storefront/core/pages/MyAccount'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/core/lib/i18n'
 
 export default {
   data () {

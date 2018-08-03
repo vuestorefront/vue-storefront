@@ -315,7 +315,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import Payment from 'core/components/blocks/Checkout/Payment'
+import Payment from '@vue-storefront/core/components/blocks/Checkout/Payment'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'

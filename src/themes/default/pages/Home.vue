@@ -38,7 +38,7 @@ import builder from 'bodybuilder'
 import config from 'config'
 
 // Core pages
-import Home from 'core/pages/Home'
+import Home from '@vue-storefront/core/pages/Home'
 
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
