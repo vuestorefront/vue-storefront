@@ -5,11 +5,8 @@
         class="m0 no-outline"
         type="checkbox"
         :id="id"
-        :checked="value"
-        @keyup.enter="$emit('click')"
-        @click="$emit('click')"
-        @blur="$emit('blur')"
-        @change="$emit('change')"
+        :checked="checked"
+        v-on="listeners"
         :disabled="disabled"
       >
       <label
