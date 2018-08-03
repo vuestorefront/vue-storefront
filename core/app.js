@@ -16,7 +16,7 @@ import VueObserveVisibility from 'vue-observe-visibility'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 import shippingMethods from 'core/resource/shipping_methods.json'
 import { prepareStoreView } from './store/lib/multistore'
 

@@ -1,7 +1,7 @@
 import store from '../'
 import EventBus from './event-bus'
 import config from 'config'
-import { loadLanguageAsync } from 'core/lib/i18n'
+import { loadLanguageAsync } from 'core/lib/i18n-utils'
 
 export function currentStoreView () {
   return global.$VS.storeView

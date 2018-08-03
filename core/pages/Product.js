@@ -4,7 +4,7 @@ import groupBy from 'lodash-es/groupBy'
 import uniqBy from 'lodash-es/uniqBy'
 
 // Core dependecies
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
 import { htmlDecode } from 'core/filters/html-decode'

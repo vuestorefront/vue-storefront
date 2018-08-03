@@ -20,7 +20,7 @@
 import ProductListing from 'theme/components/core/ProductListing'
 
 import builder from 'bodybuilder'
-import { i18n } from 'core/lib/i18n'
+import i18n from 'core/lib/i18n'
 import config from 'config'
 
 export default {
