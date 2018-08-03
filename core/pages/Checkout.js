@@ -26,6 +26,7 @@ export default {
       order: {},
       personalDetails: {},
       shipping: {},
+      shippingMethod: {},
       payment: {},
       orderReview: {},
       cartSummary: {},
@@ -138,6 +139,7 @@ export default {
     },
     onAfterShippingMethodChanged (payload) {
       this.$store.dispatch('cart/refreshTotals', payload)
+      this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
       this.$store.dispatch('cart/getShippingMethods', {
@@ -310,8 +312,8 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.shipping.shippingMethod,
-          shipping_carrier_code: this.shipping.shippingMethod,
+          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.method_code,
+          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.method_code,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
