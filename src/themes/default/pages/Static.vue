@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from 'core/lib/i18n'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import StaticContent from 'theme/components/theme/StaticContent'
 

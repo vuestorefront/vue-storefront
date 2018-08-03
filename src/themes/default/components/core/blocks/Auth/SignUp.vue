@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import SignUp from '@vue-storefront/core/components/blocks/Auth/SignUp'
+import SignUp from 'core/components/blocks/Auth/SignUp'
 import Modal from 'theme/components/core/Modal'
 import Login from 'theme/components/core/blocks/Auth/Login'
 import Register from 'theme/components/core/blocks/Auth/Register'

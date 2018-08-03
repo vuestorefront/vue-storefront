@@ -2,11 +2,11 @@
 import VueOfflineMixin from 'vue-offline/mixin'
 
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from 'core/lib/i18n'
 import config from 'config'
 
 // Core mixins
-import Composite from '@vue-storefront/core/mixins/composite'
+import Composite from 'core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {

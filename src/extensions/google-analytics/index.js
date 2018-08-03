@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
 
 import extensionStore from './store'
 import extensionRoutes from './router'

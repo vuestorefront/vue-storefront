@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import Sidebar from '@vue-storefront/core/components/blocks/Category/Sidebar'
+import Sidebar from 'core/components/blocks/Category/Sidebar'
 
 import ColorSelector from 'theme/components/core/ColorSelector'
 import SizeSelector from 'theme/components/core/SizeSelector'

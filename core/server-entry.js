@@ -1,10 +1,8 @@
-import config from 'config'
-import { union } from 'lodash-es'
-
-import { createApp } from '@vue-storefront/core/app'
-import { HttpError } from '@vue-storefront/core/lib/exceptions'
+import { createApp } from './app'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
-
+import config from 'config'
+import union from 'lodash-es/union'
+import { HttpError } from 'core/lib/exceptions'
 global.$VS.isSSR = true
 
 function _commonErrorHandler (err, reject) {

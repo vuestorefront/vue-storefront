@@ -233,7 +233,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import MyShippingDetails from '@vue-storefront/core/components/blocks/MyAccount/MyShippingDetails'
+import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
 
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'

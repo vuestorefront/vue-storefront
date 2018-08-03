@@ -1,4 +1,4 @@
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from 'core/plugins/event-bus'
 
 export default {
   beforeCreated () {

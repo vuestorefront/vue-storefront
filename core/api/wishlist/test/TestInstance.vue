@@ -11,7 +11,7 @@
 
 <script>
 // Just import the features that you need in the view grouped in modules
-import {
+import { 
   addToWishlist,
   removeFromWishlist,
   clearWishlist,
@@ -19,7 +19,7 @@ import {
   openWishlist,
   closeWishlist,
   isWishlistOpen
-} from '@vue-storefront/core/api/wishlist'
+} from 'core/api/wishlist'
 
 export default {
   data () {

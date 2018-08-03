@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ValidationError from '@vue-storefront/core/components/ValidationError'
+import ValidationError from 'core/components/ValidationError'
 
 export default {
   mixins: [ValidationError]

@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import MyOrder from '@vue-storefront/core/components/blocks/MyAccount/MyOrder'
+import MyOrder from 'core/components/blocks/MyAccount/MyOrder'
 
 export default {
   mixins: [MyOrder]

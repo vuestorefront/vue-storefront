@@ -1,5 +1,5 @@
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import { loadWishlist, productsInWishlist, closeWishlist, isWishlistOpen } from '@vue-storefront/core/api/wishlist'
+import onEscapePress from 'core/mixins/onEscapePress'
+import { loadWishlist, productsInWishlist, closeWishlist, isWishlistOpen } from 'core/api/wishlist'
 
 export default {
   name: 'Wishlist',

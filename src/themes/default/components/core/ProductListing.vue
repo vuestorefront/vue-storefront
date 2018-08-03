@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ProductListing from '@vue-storefront/core/components/ProductListing'
+import ProductListing from 'core/components/ProductListing'
 import ProductTile from 'theme/components/core/ProductTile'
 let lastHero = 0
 export default {

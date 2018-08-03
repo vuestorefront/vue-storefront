@@ -68,7 +68,7 @@
 <script>
 import { mapState } from 'vuex'
 import CurrentPage from 'theme/mixins/currentPage'
-import Header from '@vue-storefront/core/components/blocks/Header/Header'
+import Header from 'core/components/blocks/Header/Header'
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
 import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
 import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'

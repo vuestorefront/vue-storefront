@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Category from '@vue-storefront/core/pages/Category'
+import Category from 'core/pages/Category'
 import Sidebar from 'theme/components/Category/Sidebar'
 import ProductTile from 'theme/components/ProductTile' // Component to display small product tile
 

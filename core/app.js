@@ -1,27 +1,27 @@
+import union from 'lodash-es/union'
 import Vue from 'vue'
-import { sync } from 'vuex-router-sync'
-import VueObserveVisibility from 'vue-observe-visibility'
-import { union } from 'lodash-es'
+import App from 'theme/App'
+import store from '@vue-storefront/store'
+import router from 'core/router'
 import config from 'config'
+import { sync } from 'vuex-router-sync'
+import EventBus from 'core/plugins/event-bus'
+
+import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
+import registerExtensions from 'core/lib/extensions'
+import extensionEntryPoints from 'src/extensions'
+import themeExtensionEntryPoints from 'theme/extensions'
+import VueObserveVisibility from 'vue-observe-visibility'
+
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
+import i18n from 'core/lib/i18n'
+import shippingMethods from 'core/resource/shipping_methods.json'
+import { prepareStoreView } from './store/lib/multistore'
 
-import router from '@vue-storefront/core/router'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
-import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
-import registerExtensions from '@vue-storefront/core/lib/extensions'
-import i18n from '@vue-storefront/core/lib/i18n'
-import shippingMethods from '@vue-storefront/core/resource/shipping_methods.json'
-
-import store from '@vue-storefront/store'
-import coreModules from '@vue-storefront/store/modules'
-import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
-
-import App from 'theme/App'
+import coreModules from './store/modules'
 import themeModules from 'theme/store'
-import themeExtensionEntryPoints from 'theme/extensions'
-import extensionEntryPoints from 'src/extensions'
 
 if (!global.$VS) global.$VS = {}
 

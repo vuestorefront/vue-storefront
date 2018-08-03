@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AddToCart from '@vue-storefront/core/components/AddToCart'
+import AddToCart from 'core/components/AddToCart'
 
 export default {
   mixins: [AddToCart]

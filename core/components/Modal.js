@@ -1,5 +1,5 @@
 import { mapMutations } from 'vuex'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import onEscapePress from 'core/mixins/onEscapePress'
 
 export default {
   name: 'Modal',

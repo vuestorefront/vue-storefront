@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Checkout from '@vue-storefront/core/pages/Checkout'
+import Checkout from 'core/pages/Checkout'
 
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping'

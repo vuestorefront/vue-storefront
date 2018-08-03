@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import Microcart from '@vue-storefront/core/components/blocks/Microcart/Microcart'
+import Microcart from 'core/components/blocks/Microcart/Microcart'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'

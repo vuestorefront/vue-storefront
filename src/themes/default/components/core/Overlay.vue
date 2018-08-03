@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Overlay from '@vue-storefront/core/components/Overlay'
+import Overlay from 'core/components/Overlay'
 
 export default {
   mixins: [Overlay],

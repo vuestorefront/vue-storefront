@@ -3,8 +3,10 @@
 </template>
 
 <script>
-// Import the features you need in the view grouped in modules
-import { loadWishlist } from '@vue-storefront/core/api/wishlist'
+// Just import the features that you need in the view grouped in modules
+import { 
+  loadWishlist
+} from 'core/api/wishlist'
 
 export default {
   mixins: [

@@ -44,7 +44,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from 'core/lib/i18n'
 
 export default {
   data () {

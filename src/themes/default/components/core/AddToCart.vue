@@ -7,8 +7,8 @@
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import addToCart from '@vue-storefront/core/components/AddToCart'
-import { formatProductMessages } from '@vue-storefront/core/filters/product-messages'
+import addToCart from 'core/components/AddToCart'
+import { formatProductMessages } from 'core/filters/product-messages'
 
 export default {
   mixins: [addToCart],

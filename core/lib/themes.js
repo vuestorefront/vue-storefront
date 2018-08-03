@@ -1,8 +1,8 @@
-import { merge } from 'lodash-es'
-import * as corePlugins from '@vue-storefront/core/plugins'
-import * as coreMixins from '@vue-storefront/core/mixins'
-import * as coreFilters from '@vue-storefront/core/filters'
+import merge from 'lodash-es/merge'
+import * as corePlugins from 'core/plugins'
+import * as coreMixins from 'core/mixins'
 import * as themeMixins from 'theme/mixins'
+import * as coreFilters from 'core/filters'
 import * as themeFilters from 'theme/filters'
 
 /**

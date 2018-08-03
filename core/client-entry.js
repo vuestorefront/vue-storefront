@@ -1,18 +1,16 @@
-import * as localForage from 'localforage'
-import { union } from 'lodash-es'
-import sizeof from 'object-sizeof'
+import { createApp } from './app'
 import config from 'config'
-
-import { createApp } from '@vue-storefront/core/app'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
-
-import rootStore from '@vue-storefront/store'
 import { execute } from '@vue-storefront/store/lib/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
-import i18n from '@vue-storefront/core/lib/i18n'
+import * as localForage from 'localforage'
+import EventBus from 'core/plugins/event-bus'
+import union from 'lodash-es/union'
+import sizeof from 'object-sizeof'
+import rootStore from '@vue-storefront/store'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
+import i18n from 'core/lib/i18n'
 
-require('@vue-storefront/core/service-worker-registration') // register the service worker
+require('./service-worker-registration') // register the service worker
 
 const { app, router, store } = createApp()
 global.$VS.isSSR = false

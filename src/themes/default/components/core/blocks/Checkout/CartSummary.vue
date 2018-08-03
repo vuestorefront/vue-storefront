@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import CartSummary from '@vue-storefront/core/components/blocks/Checkout/CartSummary'
+import CartSummary from 'core/components/blocks/Checkout/CartSummary'
 import Product from './Product'
 
 export default {

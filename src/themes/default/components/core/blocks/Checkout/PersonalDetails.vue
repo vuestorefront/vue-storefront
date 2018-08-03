@@ -221,7 +221,7 @@
 
 <script>
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import PersonalDetails from '@vue-storefront/core/components/blocks/Checkout/PersonalDetails'
+import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'

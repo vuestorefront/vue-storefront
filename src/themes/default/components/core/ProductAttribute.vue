@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ProductAttribute from '@vue-storefront/core/components/ProductAttribute'
+import ProductAttribute from 'core/components/ProductAttribute'
 
 export default {
   mixins: [ProductAttribute],

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Notification from '@vue-storefront/core/components/Notification'
+import Notification from 'core/components/Notification'
 
 export default {
   mixins: [Notification]

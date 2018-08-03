@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import GenericSelector from '@vue-storefront/core/components/GenericSelector'
+import GenericSelector from 'core/components/GenericSelector'
 
 export default {
   methods: {

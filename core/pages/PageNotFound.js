@@ -2,11 +2,11 @@
 import builder from 'bodybuilder'
 
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import i18n from 'core/lib/i18n'
+import EventBus from 'core/plugins/event-bus'
 
 // Core mixins
-import Composite from '@vue-storefront/core/mixins/composite'
+import Composite from 'core/mixins/composite'
 
 export default {
   name: 'PageNotFound',
