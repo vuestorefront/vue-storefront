@@ -63,7 +63,7 @@
     "users": {
         "endpoint": "https://prod.vuestorefront.io/api/user",
         "history_endpoint": "https://prod.vuestorefront.io/api/user/order-history?token={{token}}",
-        "resetPassword_endpoint": "https://prod.vuestorefront.io/api/user/resetPassword",
+        "resetPassword_endpoint": "https://prod.vuestorefront.io/api/user/reset-password",
         "changePassword_endpoint": "https://prod.vuestorefront.io/api/user/change-password?token={{token}}",
         "login_endpoint": "https://prod.vuestorefront.io/api/user/login",
         "create_endpoint": "https://prod.vuestorefront.io/api/user/create",

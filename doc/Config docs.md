@@ -355,7 +355,7 @@ We're using `localForage` library for provide the persistance layer to Vue Store
       "autoRefreshTokens": true,
       "endpoint": "http://localhost:8080/api/user",
       "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-      "resetPassword_endpoint": "http://localhost:8080/api/user/resetPassword",
+      "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
       "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
       "login_endpoint": "http://localhost:8080/api/user/login",
       "create_endpoint": "http://localhost:8080/api/user/create",

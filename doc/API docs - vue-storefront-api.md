@@ -791,14 +791,14 @@ The result is a authorization token, that should be passed via `?token=xu8h02nd6
 - `200` when success
 - `500` in case of error
 
-### POST [/api/user/resetPassword](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/user.js#L60)
+### POST [/api/user/reset-password](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/user.js#L60)
 
 Sends the password reset link for the specified user.
 
 #### EXAMPLE CALL:
 
 ```bash
-curl 'https://demo.vuestorefront.io/api/user/resetPassword' -H 'content-type: application/json' -H 'accept: application/json, text/plain, */*' --data-binary '{"email":"pkarwatka992@divante.pl"}'
+curl 'https://demo.vuestorefront.io/api/user/reset-password' -H 'content-type: application/json' -H 'accept: application/json, text/plain, */*' --data-binary '{"email":"pkarwatka992@divante.pl"}'
 ```
 
 #### REQUEST BODY:
