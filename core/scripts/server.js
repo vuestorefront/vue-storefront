@@ -90,8 +90,19 @@ app.get('*', (req, res) => {
     .pipe(res)
 })
 
-const port = process.env.PORT || config.server.port
+let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
-app.listen(port, host, () => {
-  console.log(`Vue Storefront Server started at http://${host}:${port}`)
-})
+const start = () => {
+  app.listen(port, host)
+    .on('listening', () => {
+      console.log(`Vue Storefront Server started at http://${host}:${port}`)
+    })
+    .on('error', (e) => {
+      if (e.code === 'EADDRINUSE') {
+        console.log(`${port} already in use, trying ${port + 1}`)
+        port = port + 1
+        start()
+      }
+    })
+}
+start()
