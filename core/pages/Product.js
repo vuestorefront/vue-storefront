@@ -7,7 +7,7 @@ import uniqBy from 'lodash-es/uniqBy'
 import i18n from 'core/lib/i18n'
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
-import { htmlDecode } from 'core/filters/html-decode'
+import { htmlDecode, stripHTML } from 'core/filters'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
@@ -234,7 +234,7 @@ export default {
   metaInfo () {
     return {
       title: htmlDecode(this.$route.meta.title || this.productName),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
+      meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
     }
   }
 }
