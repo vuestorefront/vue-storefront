@@ -40,6 +40,10 @@ export default {
             message: i18n.t(result.result),
             action1: { label: i18n.t('OK'), action: 'close' }
           })
+          // If error includes a word 'password', emit event that eventually focuses on a corresponding field
+          if (result.result.includes('password')) {
+            this.$bus.$emit('checkout-after-validationError', 'password')
+          }
         } else {
           this.$bus.$emit('notification', {
             type: 'success',

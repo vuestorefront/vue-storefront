@@ -65,6 +65,7 @@
           class="mb35"
           type="password"
           name="password"
+          ref="password"
           autocomplete="new-password"
           v-model="password"
           @blur="$v.password.$touch()"
@@ -131,10 +132,9 @@
 <script>
 import Register from 'core/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import i18n from 'core/lib/i18n'
 
 export default {
   validations: {
@@ -161,45 +161,6 @@ export default {
     }
   },
   mixins: [Register],
-  methods: {
-    close () {
-      this.$bus.$emit('modal-hide', 'modal-signup')
-    },
-    register () {
-      if (this.$v.$invalid) {
-        this.$v.$touch()
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Please fix the validation errors'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-        return
-      }
-
-      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
-        console.log(result)
-        this.$bus.$emit('notification-progress-stop')
-        if (result.code !== 200) {
-          this.$bus.$emit('notification', {
-            type: 'error',
-            message: result.result,
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-        } else {
-          this.$bus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('You are logged in!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-          this.close()
-        }
-      }).catch(err => {
-        this.$bus.$emit('notification-progress-stop')
-        console.error(err)
-      })
-    }
-  },
   components: {
     ButtonFull,
     BaseCheckbox,
