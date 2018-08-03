@@ -134,7 +134,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 
 export default {
   validations: {

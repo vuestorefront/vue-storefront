@@ -25,6 +25,12 @@ const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
+const translationPreprocessor = require('../lib/translation.preprocessor.js')
+translationPreprocessor([
+  path.resolve(__dirname, '../resource/i18n/'),
+  path.resolve(__dirname, themeResources + '/i18n/')
+])
+
 const postcssConfig =  {
   loader: 'postcss-loader',
   options: {
@@ -171,20 +177,6 @@ module.exports = {
             loader: 'markdown-to-vue-loader',
             options: {
               componentWrapper: 'div'
-            }
-          }
-        ]
-      },
-      {
-        test: path.resolve(__dirname, '../lib/translation.preprocessor.js'),
-        use: [
-          {
-            loader: 'val-loader',
-            options: {
-              csvDirectories: [
-                path.resolve(__dirname, '../resource/i18n/'),
-                path.resolve(__dirname, themeResources + '/i18n/')
-              ]
             }
           }
         ]

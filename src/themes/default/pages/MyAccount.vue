@@ -39,7 +39,7 @@ import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDet
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 
 export default {
   data () {

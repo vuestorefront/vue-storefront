@@ -8,7 +8,7 @@ import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 
 require('./service-worker-registration') // register the service worker
 
