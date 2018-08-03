@@ -10,21 +10,17 @@ cache:
   yarn: true
   directories:
     - node_modules
-
-stages:
-  - lint
-  - e2e
     
 install:
   - yarn
+  
+script: 
+  - yarn lint
+  # - yarn unit
+  - yarn build
 
 jobs:
   include:
-    - stage: lint
-      script:
-        - yarn lint
-        # - yarn unit
-        - yarn build
     - stage: e2e
       if: branch IN (master, develop)
       script:
