@@ -9,7 +9,7 @@ We're trying to keep the upgrade process as easy as it's possible. Unfortunately
 
 ## 1.1 -> 1.2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.2.0))
 
-There were no breaking-changes introduced. No special treatment needed :) 
+There were no breaking-changes introduced. No special treatment needed :)
 
 ## 1.0 -> 1.1 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.1.0))
 
@@ -24,13 +24,13 @@ Instead of exporting an object in `{theme}/plugins/index.js` just use `Vue.use(p
 Starting from the Microcart we are moving most of the logic to core modules along with unit testing them [read more](https://github.com/DivanteLtd/vue-storefront/issues/1213).
 
 Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme
-- `closeMicrocart` renamed to `closeMicrocartExtend` 
+- `closeMicrocart` renamed to `closeMicrocartExtend`
 - `items` renamed to `productsInCart`
 - `removeFromCart`method added to core Microcart
 
 #### `theme/app-extend.js` removed
 
-It was redundant 
+It was redundant
 
 #### `{theme}/service-worker-ext.js` moved to `{theme}/service-worker/index.js`
 
@@ -65,7 +65,7 @@ You should replace the mixin declarations from the previous version:
 
 ```vue
 <script>
-import { coreComponent } from 'core/lib/themes'
+import { coreComponent } from '@vue-storefront/core/lib/themes'
 
 export default {
   mixins: [coreComponent('blocks/MyAccount/MyOrders')]
@@ -78,7 +78,7 @@ to
 
 ```vue
 <script>
-import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
+import MyOrders from '@vue-storefront/core/components/blocks/MyAccount/MyOrders'
 
 export default {
   mixins: [MyOrders]
@@ -152,17 +152,17 @@ If `optimize` is set to false - it's a fallback to the previous behaviour (getti
 ## 1.0RC -> 1.0RC-2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.2))
 This release brings some cool new features (Magento 1.x support, Magento 2 external checkout, My Orders, Discount codes) together with some minor refactors.
 
-Unfortunately with the refactors there comes two manual changes that need to be applied to Your custom themes after the update. 
+Unfortunately with the refactors there comes two manual changes that need to be applied to Your custom themes after the update.
 
 Here You can check an **[example how did we migrated our own default_m1 theme to RC-2](https://github.com/DivanteLtd/vue-storefront/commit/111519c04acec272657e7eefec7ea8405da95f13)**.
 
-1. We've changed `ColorButton`, `SizeButton`, `PriceButton` in the `core` to `ColorSelector`, `SizeSelector`, `PriceSelector` and added the `GenericSelector` for all other attribute types. Because of this change, the `coreComponent('ColorButton')` must be changed to `coreComponent('ColorSelector')` etc. 
+1. We've changed `ColorButton`, `SizeButton`, `PriceButton` in the `core` to `ColorSelector`, `SizeSelector`, `PriceSelector` and added the `GenericSelector` for all other attribute types. Because of this change, the `coreComponent('ColorButton')` must be changed to `coreComponent('ColorSelector')` etc.
 
 2. We added the Vuex Stores extensibility to the themes. If You're getting the following build error:
 
 ```
 ERROR in ./core/store/index.js
-Module not found: Error: Can't resolve 'theme/store' in '***/vue-storefront/core/store' 
+Module not found: Error: Can't resolve 'theme/store' in '***/vue-storefront/core/store'
 ```
 
 It means, that You need to copy the [template store](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/store/index.js) to: `<Your custom theme folder>/store`.
