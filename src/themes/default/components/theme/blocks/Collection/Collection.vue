@@ -45,16 +45,15 @@ export default {
     }
   },
   beforeMount () {
-    let self = this
     let inspirationsQuery = builder().query('match', 'category.name', this.category).build()
 
-    self.$store.dispatch('product/list', {
+    this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'
-    }).then(function (res) {
+    }).then(res => {
       if (res) {
-        self.products = res.items
+        this.products = res.items
       }
     })
   },

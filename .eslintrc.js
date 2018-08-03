@@ -1,11 +1,11 @@
 module.exports = {
   root: true,
   env: { 'browser': true },
-  parser: "vue-eslint-parser",
+  parser: 'vue-eslint-parser',
   parserOptions: {
     parser: "babel-eslint",
     ecmaVersion: 8,
-    sourceType: "module",
+    sourceType: "module"
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
@@ -27,14 +27,15 @@ module.exports = {
     'vue/no-confusing-v-for-v-if': 0,
     // allow paren-less arrow functions
     'arrow-parens': 0,
+    'prefer-arrow-callback': 1,
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    "no-restricted-imports": [2, { "paths": ["lodash"] }],
-    "vue-storefront/no-corecomponent-import": "error",
-    "vue-storefront/no-corecomponent": "error",
-    "vue-storefront/no-corepage-import": "error",
-    "vue-storefront/no-corepage": "error"
+    'no-restricted-imports': [2, { 'paths': ['lodash'] }],
+    'vue-storefront/no-corecomponent-import': 'error',
+    'vue-storefront/no-corecomponent': 'error',
+    'vue-storefront/no-corepage-import': 'error',
+    'vue-storefront/no-corepage': 'error'
   }
 }

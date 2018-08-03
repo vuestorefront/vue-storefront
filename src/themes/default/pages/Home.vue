@@ -96,7 +96,7 @@ export default {
           size: 8,
           sort: 'created_at:desc',
           includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
-        }).then(function (res) {
+        }).then((res) => {
           if (res) {
             store.state.homepage.new_collection = res.items
           }
@@ -106,7 +106,7 @@ export default {
             size: 4,
             sort: 'created_at:desc',
             includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
-          }).then(function (res) {
+          }).then((res) => {
             if (res) {
               store.state.homepage.coolbags_collection = res.items
             }

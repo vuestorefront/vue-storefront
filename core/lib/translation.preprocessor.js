@@ -18,7 +18,7 @@ module.exports = function (csvDirectories) {
   let messages = {}
   let languages = []
 
-  csvDirectories.forEach(function (directory) {
+  csvDirectories.forEach(directory => {
     fs.readdirSync(directory).forEach(file => {
       const fullFileName = path.join(directory, file)
       const extName = path.extname(fullFileName)
