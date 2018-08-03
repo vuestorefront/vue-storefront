@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import baseInput from 'core/components/blocks/Form/BaseInput'
+import baseInput from '@vue-storefront/core/components/blocks/Form/BaseInput'
 
 export default {
   mixins: [baseInput]

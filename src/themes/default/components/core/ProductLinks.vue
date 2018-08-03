@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import ProductLinks from 'core/components/ProductLinks'
+import ProductLinks from '@vue-storefront/core/components/ProductLinks'
 export default {
   mixins: [ProductLinks]
 }

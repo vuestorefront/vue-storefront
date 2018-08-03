@@ -1,9 +1,9 @@
+import i18n from '@vue-storefront/core/lib/i18n'
 import actions from './actions'
 import store from '../../'
 import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import config from '../../lib/config'
-import i18n from 'core/lib/i18n'
 
 EventBus.$on('stock-after-check', (event) => { // example stock check callback
   setTimeout(() => {

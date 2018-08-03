@@ -59,7 +59,7 @@
 <script>
 import config from 'config'
 import rootStore from '@vue-storefront/store'
-import ProductTile from 'core/components/ProductTile'
+import ProductTile from '@vue-storefront/core/components/ProductTile'
 
 export default {
   mixins: [ProductTile],

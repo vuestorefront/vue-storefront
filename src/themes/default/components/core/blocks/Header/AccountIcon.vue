@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import i18n from 'core/lib/i18n'
-import AccountIcon from 'core/components/blocks/Header/AccountIcon'
+import i18n from '@vue-storefront/core/lib/i18n'
+import AccountIcon from '@vue-storefront/core/components/blocks/Header/AccountIcon'
 
 export default {
   mixins: [AccountIcon],

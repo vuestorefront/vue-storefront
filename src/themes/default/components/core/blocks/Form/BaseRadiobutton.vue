@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
+import BaseRadiobutton from '@vue-storefront/core/components/blocks/Form/BaseRadiobutton'
 
 export default {
   mixins: [BaseRadiobutton]

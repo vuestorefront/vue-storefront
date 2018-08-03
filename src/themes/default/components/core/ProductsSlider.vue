@@ -39,7 +39,7 @@
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 
-import ProductsSlider from 'core/components/ProductsSlider'
+import ProductsSlider from '@vue-storefront/core/components/ProductsSlider'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {

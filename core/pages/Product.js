@@ -4,15 +4,15 @@ import groupBy from 'lodash-es/groupBy'
 import uniqBy from 'lodash-es/uniqBy'
 
 // Core dependecies
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/core/lib/i18n'
 import config from 'config'
-import EventBus from 'core/plugins/event-bus'
-import { htmlDecode, stripHTML } from 'core/filters'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
+import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 // Core mixins
-import Composite from 'core/mixins/composite'
-import { addToWishlist, removeFromWishlist } from 'core/api/wishlist'
+import Composite from '@vue-storefront/core/mixins/composite'
+import { addToWishlist, removeFromWishlist } from '@vue-storefront/core/api/wishlist'
 
 export default {
   name: 'Product',

@@ -227,7 +227,7 @@
 </template>
 
 <script>
-import Product from 'core/pages/Product'
+import Product from '@vue-storefront/core/pages/Product'
 
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
