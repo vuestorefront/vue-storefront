@@ -1,6 +1,7 @@
 import store from '../'
 import EventBus from './event-bus'
 import config from 'config'
+import { loadLanguageAsync } from 'core/lib/i18n'
 
 export function currentStoreView () {
   return global.$VS.storeView
@@ -25,7 +26,7 @@ export function prepareStoreView (storeCode, config, i18n = null, eventBus = nul
   }
   if (!global.$VS.storeView || global.$VS.storeView.storeCode !== storeCode) {
     global.$VS.storeView = storeView
-    global.$VS.i18n.locale = storeView.i18n.defaultLocale
+    loadLanguageAsync(storeView.i18n.defaultLocale)
     store.init(config, i18n || global.$VS.i18n, eventBus || EventBus)
   }
   return storeView

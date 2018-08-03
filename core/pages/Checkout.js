@@ -1,5 +1,5 @@
 // Core dependecies
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 import config from 'config'
 
 // Core mixins
