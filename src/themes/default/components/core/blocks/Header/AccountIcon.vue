@@ -1,7 +1,7 @@
 <template>
   <div class="inline-flex relative dropdown"
        data-testid="accountButton"
-       @click="goToAccount">
+       @click.self="goToAccount">
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
