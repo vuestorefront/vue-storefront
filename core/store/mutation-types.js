@@ -70,3 +70,7 @@ export const SYNC_PROCESS_QUEUE = SN_SYNC + '/PROCESS_QUEUE'
 
 export const SN_TAX = 'tax'
 export const TAX_UPDATE_RULES = SN_TAX + '/UPDATE_RULES'
+
+export const SN_CONTENT = 'content'
+export const CONTENT_ADD_BLOCK = SN_CONTENT + '/ADD_BLOCK'
+export const CONTENT_REMOVE_BLOCK = SN_CONTENT + '/REMOVE_BLOCK'

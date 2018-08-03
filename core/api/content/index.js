@@ -1,0 +1,1 @@
+import { getContent } from './getContent'
