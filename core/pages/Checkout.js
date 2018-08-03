@@ -31,7 +31,8 @@ export default {
         shipping: { $invalid: true },
         payment: { $invalid: true }
       },
-      userId: null
+      userId: null,
+      focusedField: null
     }
   },
   beforeMount () {
@@ -48,7 +49,7 @@ export default {
       for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
         if (product.onlineStockCheckid) {
           checkPromises.push(new Promise((resolve, reject) => {
-            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
+            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
               if (err || !item) {
                 if (err) console.error(err)
                 resolve(null)
@@ -60,7 +61,7 @@ export default {
           }))
         }
       }
-      Promise.all(checkPromises).then(function (checkedProducts) {
+      Promise.all(checkPromises).then((checkedProducts) => {
         this.stockCheckCompleted = true
         this.stockCheckOK = true
         for (let chp of checkedProducts) {
@@ -76,7 +77,7 @@ export default {
             }
           }
         }
-      }.bind(this))
+      })
     }
     const storeView = currentStoreView()
     let country = this.$store.state.checkout.shippingDetails.country
@@ -100,6 +101,7 @@ export default {
     this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
+    this.$bus.$on('checkout-after-validationError', this.focusField)
   },
   destroyed () {
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
@@ -115,6 +117,7 @@ export default {
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
+    this.$bus.$off('checkout-after-validationError', this.focusField)
   },
   watch: {
     '$route': 'activateHashSection'
@@ -189,6 +192,7 @@ export default {
       this.validationResults.personalDetails = validationResult
       this.activateSection('shipping')
       this.savePersonalDetails()
+      this.focusedField = null
     },
     onNetworkStatusCheck (status) {
       this.checkConnection(status)
@@ -332,6 +336,18 @@ export default {
     },
     savePaymentDetails () {
       this.$store.dispatch('checkout/savePaymentDetails', this.payment)
+    },
+    focusField (fieldName) {
+      if (fieldName === 'password') {
+        window.scrollTo(0, 0)
+        this.activateSection('personalDetails')
+        this.focusedField = fieldName
+      }
+      if (fieldName === 'email-address') {
+        window.scrollTo(0, 0)
+        this.activateSection('personalDetails')
+        this.focusedField = fieldName
+      }
     }
   },
   metaInfo () {
