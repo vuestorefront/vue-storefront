@@ -17,6 +17,7 @@ import social from './social-tiles'
 import claims from './claims'
 import sync from './sync'
 import promoted from './promoted-offers'
+import content from 'core/api/content/store'
 
 export default {
   order,
@@ -37,5 +38,6 @@ export default {
   social,
   claims,
   sync,
-  promoted
+  promoted,
+  content
 }
