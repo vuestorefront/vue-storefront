@@ -40,6 +40,7 @@
               class="mw-100 pointer"
               ref="defaultImage"
               alt=""
+              itemprop="image"
             >
           </transition>
         </div>
@@ -66,6 +67,7 @@
                     @dblclick="toggleZoom"
                     alt=""
                     data-testid="productGalleryImage"
+                    itemprop="image"
                   >
                 </div>
               </slide>

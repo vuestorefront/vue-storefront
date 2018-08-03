@@ -7,7 +7,8 @@ import uniqBy from 'lodash-es/uniqBy'
 import i18n from '@vue-storefront/core/lib/i18n'
 import config from 'config'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
-import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
+import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 // Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -93,6 +94,9 @@ export default {
     },
     isOnCompare () {
       return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
+    },
+    currentStore () {
+      return currentStoreView()
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
@@ -100,7 +104,7 @@ export default {
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   watch: {
-    '$route': 'validateRoute'
+    '$route.params.parentSku': 'validateRoute'
   },
   beforeDestroy () {
     this.$bus.$off('product-after-removevariant')
@@ -127,8 +131,7 @@ export default {
           this.loading = false
           this.defaultOfflineImage = this.product.image
           this.onStateCheck()
-          this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
-        }).catch(err => {
+        }).catch((err) => {
           this.loading = false
           console.error(err)
           this.$bus.$emit('notification', {
@@ -208,7 +211,10 @@ export default {
         configuration: this.configuration,
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false
-      }).then(selectedVariant => {
+      }).then((selectedVariant) => {
+        if (config.products.setFirstVarianAsDefaultInURL) {
+          this.$router.push({params: { childSku: selectedVariant.sku }})
+        }
         if (!selectedVariant) {
           if (typeof prevOption !== 'undefined' && prevOption) {
             this.configuration[filterOption.attribute_code] = prevOption
@@ -230,7 +236,7 @@ export default {
   metaInfo () {
     return {
       title: htmlDecode(this.$route.meta.title || this.productName),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
+      meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
     }
   }
 }

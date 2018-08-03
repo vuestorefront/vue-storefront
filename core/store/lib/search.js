@@ -21,7 +21,7 @@ const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIC
 function search (elasticQuery) {
   const storeView = currentStoreView()
   let url = storeView.elasticsearch.host
-  if (!url.startsWith('/') && !url.startsWith('/')) {
+  if (!url.startsWith('/') && !url.startsWith('http')) {
     url = 'http://' + url
   }
   const httpQuery = {

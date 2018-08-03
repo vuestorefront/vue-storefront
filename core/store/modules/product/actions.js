@@ -245,6 +245,9 @@ export default {
           if (!product.parentSku) {
             product.parentSku = product.sku
           }
+          if (config.products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
+            product.sku = product.configurable_children[0].sku
+          }
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
             Object.assign(product, selectedVariant)
