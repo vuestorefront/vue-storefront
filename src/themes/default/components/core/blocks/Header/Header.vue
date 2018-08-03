@@ -5,7 +5,7 @@
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container px15">
-        <div class="row between-xs middle-xs" v-if="!isCheckout">
+        <div class="row between-xs middle-xs" v-if="!isCheckoutPage">
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!isProductPage">
@@ -37,7 +37,7 @@
             </div>
           </div>
         </div>
-        <div class="row between-xs middle-xs px15 py5" v-if="isCheckout">
+        <div class="row between-xs middle-xs px15 py5" v-if="isCheckoutPage">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
               <router-link :to="localizedRoute('/')" class="cl-tertiary links">
@@ -50,7 +50,7 @@
           </div>
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
-              <a v-if="!currentUser" href="#" @click="gotoAccount" class="cl-tertiary links">
+              <a v-if="!currentUser" href="#" @click.prevent="gotoAccount" class="cl-tertiary links">
                 {{ $t('Login to your account') }}
               </a>
               <span v-else>
@@ -67,8 +67,8 @@
 
 <script>
 import { mapState } from 'vuex'
+import CurrentPage from 'theme/mixins/currentPage'
 import Header from 'core/components/blocks/Header/Header'
-
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
 import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
 import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
@@ -89,18 +89,9 @@ export default {
     SearchIcon,
     WishlistIcon
   },
-  mixins: [Header],
+  mixins: [Header, CurrentPage],
   data () {
     return {
-      productPageRoutes: [
-        'product',
-        'simple-product',
-        'configurable-product',
-        'downloadable-product',
-        'grouped-product'
-      ],
-      isCheckout: false,
-      isProductPage: false,
       navVisible: true,
       isScrolling: false,
       scrollTop: 0,
@@ -114,16 +105,6 @@ export default {
       currentUser: state => state.user.current
     })
   },
-  beforeCreated () {
-    if (this.productPageRoutes.includes(this.$route.name)) {
-      this.isProductPage = true
-    }
-  },
-  created () {
-    if (this.$route.name === 'checkout') {
-      this.isCheckout = true
-    }
-  },
   beforeMount () {
     window.addEventListener('scroll', () => {
       this.isScrolling = true
@@ -135,23 +116,6 @@ export default {
         this.isScrolling = false
       }
     }, 250)
-  },
-  watch: {
-    '$route.name': function () {
-      if (this.productPageRoutes.includes(this.$route.name)) {
-        this.isProductPage = true
-      } else {
-        this.isProductPage = false
-      }
-
-      if (this.$route.name === 'checkout') {
-        this.isCheckout = true
-        this.menuFixed = true
-      } else {
-        this.isCheckout = false
-        this.menuFixed = false
-      }
-    }
   },
   methods: {
     gotoAccount () {

@@ -95,8 +95,13 @@ export default {
           query: newProductsQuery,
           size: 8,
           sort: 'created_at:desc',
+<<<<<<< HEAD
           includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
         }).then(function (res) {
+=======
+          includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
+        }).then((res) => {
+>>>>>>> develop
           if (res) {
             store.state.homepage.new_collection = res.items
           }
@@ -105,8 +110,13 @@ export default {
             query: coolBagsQuery,
             size: 4,
             sort: 'created_at:desc',
+<<<<<<< HEAD
             includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
           }).then(function (res) {
+=======
+            includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
+          }).then((res) => {
+>>>>>>> develop
             if (res) {
               store.state.homepage.coolbags_collection = res.items
             }

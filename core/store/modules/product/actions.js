@@ -171,7 +171,7 @@ export default {
           const parentProduct = resp.items[0]
           context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.error(err)
       })
     }
@@ -288,7 +288,7 @@ export default {
         EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
-    }).catch(function (err) {
+    }).catch((err) => {
       console.error(err)
     })
   },

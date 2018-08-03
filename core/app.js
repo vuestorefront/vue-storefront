@@ -25,7 +25,7 @@ import themeModules from 'theme/store'
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.1'
+global.$VS.version = '1.2'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
@@ -45,12 +45,12 @@ Vue.use(VueObserveVisibility)
 
 require('theme/plugins')
 const pluginsObject = plugins()
-Object.keys(pluginsObject).forEach(function (key) {
+Object.keys(pluginsObject).forEach(key => {
   Vue.use(pluginsObject[key])
 })
 
 const mixinsObject = mixins()
-Object.keys(mixinsObject).forEach(function (key) {
+Object.keys(mixinsObject).forEach(key => {
   Vue.mixin(mixinsObject[key])
 })
 
