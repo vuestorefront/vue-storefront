@@ -8,7 +8,7 @@ import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 
 require('./service-worker-registration') // register the service worker
 
@@ -89,7 +89,7 @@ router.onReady(() => {
         }
       })
       if (c.asyncData) {
-        c.asyncData({ store, route: to }).then((result) => { // always execute the asyncData() from the top most component first
+        c.asyncData({ store, route: to }).then(result => { // always execute the asyncData() from the top most component first
           console.log('Top-most asyncData executed')
           _ssrHydrateSubcomponents(components, next, to)
         }).catch(next)
@@ -145,7 +145,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)
-          }).then((response) => {
+          }).then(response => {
           if (response.status === 200) {
             const contentType = response.headers.get('content-type')
             if (contentType && contentType.includes('application/json')) {
@@ -159,7 +159,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             console.error('Bad response status: ' + response.status)
           }
         })
-          .then(function (jsonResponse) {
+          .then(jsonResponse => {
             if (jsonResponse && jsonResponse.code === 200) {
               console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
               orderData.transmited = true
@@ -169,7 +169,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
               console.error(jsonResponse.result)
             }
             orderMutex[id] = false
-          }).catch((err) => {
+          }).catch(err => {
             if (config.orders.offline_orders.notification.enabled) {
               navigator.serviceWorker.ready.then(registration => {
                 registration.sync.register('orderSync')
@@ -192,11 +192,11 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 
     // execute them serially
     serial(fetchQueue)
-      .then((res) => {
+      .then(res => {
         console.info('Processing orders queue has finished')
         // store.dispatch('cart/serverPull', { forceClientState: false })
       })
-  }).catch((err) => {
+  }).catch(err => {
     // This code runs if there were any errors
     console.log(err)
   })
@@ -249,10 +249,10 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
         if (!task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
-            return execute(task, currentToken, currentCartId).then((executedTask) => {
+            return execute(task, currentToken, currentCartId).then(executedTask => {
               syncTaskCollection.setItem(executedTask.task_id.toString(), executedTask)
               mutex[id] = false
-            }).catch((err) => {
+            }).catch(err => {
               mutex[id] = false
               console.error(err)
             })
@@ -263,8 +263,8 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
         console.debug('Iteration has completed')
         // execute them serially
         serial(fetchQueue)
-          .then((res) => console.debug('Processing sync tasks queue has finished'))
-      }).catch((err) => {
+          .then(res => console.debug('Processing sync tasks queue has finished'))
+      }).catch(err => {
         // This code runs if there were any errors
         console.log(err)
       })
@@ -272,7 +272,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   })
 })
 
-setInterval(function () {
+setInterval(() => {
   const sizeOfCache = sizeof(global.$VS.localCache) / 1024
   console.debug('Local cache size = ' + sizeOfCache + 'KB')
   EventBus.$emit('cache-local-size', sizeOfCache)
@@ -296,7 +296,7 @@ function checkiIsOnline () {
 window.addEventListener('online', checkiIsOnline)
 window.addEventListener('offline', checkiIsOnline)
 
-EventBus.$on('user-after-loggedin', (receivedData) => {
+EventBus.$on('user-after-loggedin', receivedData => {
   store.dispatch('checkout/savePersonalDetails', {
     firstName: receivedData.firstname,
     lastName: receivedData.lastname,

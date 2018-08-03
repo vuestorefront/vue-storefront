@@ -1,6 +1,6 @@
 import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 import onEscapePress from 'core/mixins/onEscapePress'
 import config from 'config'
 
@@ -48,10 +48,10 @@ export default {
 
       query = query.build()
 
-      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
+      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then(resp => {
         this.products = resp.items
         this.emptyResults = resp.items.length < 1
-      }).catch(function (err) {
+      }).catch((err) => {
         console.error(err)
       })
     }

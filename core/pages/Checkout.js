@@ -1,5 +1,5 @@
 // Core dependecies
-import i18n from 'core/lib/i18n'
+import { i18n } from 'core/lib/i18n'
 import config from 'config'
 
 // Core mixins
@@ -49,7 +49,7 @@ export default {
       for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
         if (product.onlineStockCheckid) {
           checkPromises.push(new Promise((resolve, reject) => {
-            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
+            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
               if (err || !item) {
                 if (err) console.error(err)
                 resolve(null)
@@ -61,7 +61,7 @@ export default {
           }))
         }
       }
-      Promise.all(checkPromises).then(function (checkedProducts) {
+      Promise.all(checkPromises).then((checkedProducts) => {
         this.stockCheckCompleted = true
         this.stockCheckOK = true
         for (let chp of checkedProducts) {
@@ -77,7 +77,7 @@ export default {
             }
           }
         }
-      }.bind(this))
+      })
     }
     const storeView = currentStoreView()
     let country = this.$store.state.checkout.shippingDetails.country
