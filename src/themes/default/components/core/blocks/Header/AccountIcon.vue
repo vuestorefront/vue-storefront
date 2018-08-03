@@ -55,6 +55,10 @@ $color-icon-hover: color(secondary, $colors-background);
 
 .dropdown {
 
+  button {
+    pointer-events: none;
+  }
+
   .dropdown-content {
     display: none;
     position: absolute;
