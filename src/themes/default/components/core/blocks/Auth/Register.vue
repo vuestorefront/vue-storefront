@@ -207,3 +207,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .modal-content {
+    @media (max-width: 400px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+</style>
