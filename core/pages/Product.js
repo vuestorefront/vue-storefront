@@ -131,14 +131,8 @@ export default {
           this.loading = false
           this.defaultOfflineImage = this.product.image
           this.onStateCheck()
-<<<<<<< HEAD
         }).catch((err) => {
-          inst.loading = false
-=======
-          this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
-        }).catch(err => {
           this.loading = false
->>>>>>> develop
           console.error(err)
           this.$bus.$emit('notification', {
             type: 'error',
@@ -217,14 +211,10 @@ export default {
         configuration: this.configuration,
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false
-<<<<<<< HEAD
       }).then((selectedVariant) => {
         if (config.products.setFirstVarianAsDefaultInURL) {
           this.$router.push({params: { childSku: selectedVariant.sku }})
         }
-=======
-      }).then(selectedVariant => {
->>>>>>> develop
         if (!selectedVariant) {
           if (typeof prevOption !== 'undefined' && prevOption) {
             this.configuration[filterOption.attribute_code] = prevOption
