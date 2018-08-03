@@ -26,8 +26,7 @@ export default {
   data () {
     return {
       addCouponPressed: false,
-      couponCode: '',
-      isOnline: true
+      couponCode: ''
     }
   },
   computed: {
@@ -44,15 +43,9 @@ export default {
       return this.$store.state.cart.platformTotals && this.$store.state.cart.platformTotals.hasOwnProperty('coupon_code') ? this.$store.state.cart.platformTotals.coupon_code : ''
     }
   },
-  watch: {
-    'OnlineOnly': 'onNetworkStatusChanged'
-  },
   methods: {
     onEscapePress () {
       this.closeMicrocart()
-    },
-    onNetworkStatusChanged (isOnline) {
-      this.isOnline = isOnline
     },
     closeMicrocartExtend () {
       this.closeMicrocart()
