@@ -96,7 +96,7 @@ This release contains three important refactoring efforts:
       "endpoint": "http://localhost:8080/api/user",
       "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
       "resetPassword_endpoint": "http://localhost:8080/api/user/resetPassword",
-      "changePassword_endpoint": "http://localhost:8080/api/user/changePassword?token={{token}}",
+      "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
       "login_endpoint": "http://localhost:8080/api/user/login",
       "create_endpoint": "http://localhost:8080/api/user/create",
       "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",

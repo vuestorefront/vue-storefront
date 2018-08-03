@@ -819,7 +819,7 @@ curl 'https://demo.vuestorefront.io/api/user/resetPassword' -H 'content-type: ap
 ```
 
 
-### POST [/api/user/changePassword](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/user.js#L124)
+### POST [/api/user/change-password](https://github.com/DivanteLtd/vue-storefront-api/blob/7d98771994b1009ad17d69c458f9e93686cfb145/src/api/user.js#L124)
 
 This method is used to change password for current user identified by `token` obtained from `api/user/login`
 
