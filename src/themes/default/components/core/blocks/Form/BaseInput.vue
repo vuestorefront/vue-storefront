@@ -12,11 +12,8 @@
         :autocomplete="autocomplete"
         :value="value"
         :autofocus="autofocus"
-        :ref="name"
-        @input="$emit('input', $event.target.value)"
-        @blur="$emit('blur')"
-        @keyup.enter="$emit('keyup.enter', $event.target.value)"
-        @keyup="$emit('keyup', $event)"
+        :ref="focus ? name : false"
+        v-on="listeners"
       >
       <label>{{ placeholder }}</label>
     </div>

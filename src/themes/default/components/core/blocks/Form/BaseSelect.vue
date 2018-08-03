@@ -7,9 +7,7 @@
         'empty': !selected
       }"
       :autocomplete="autocomplete"
-      @focus="$emit('focus');"
-      @blur="$emit('blur');"
-      @change="$emit('input', $event.target.value)"
+      v-on="listeners"
     >
       <option v-if="!selected"/>
       <option
