@@ -41,8 +41,12 @@ export default {
             action1: { label: i18n.t('OK'), action: 'close' }
           })
           // If error includes a word 'password', emit event that eventually focuses on a corresponding field
-          if (result.result.includes('password')) {
+          if (result.result.includes(i18n.t('password'))) {
             this.$bus.$emit('checkout-after-validationError', 'password')
+          }
+          // If error includes a word 'mail', emit event that eventually focuses on a corresponding field
+          if (result.result.includes(i18n.t('email'))) {
+            this.$bus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
           this.$bus.$emit('notification', {

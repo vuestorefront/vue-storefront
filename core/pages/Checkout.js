@@ -343,6 +343,11 @@ export default {
         this.activateSection('personalDetails')
         this.focusedField = fieldName
       }
+      if (fieldName === 'email-address') {
+        window.scrollTo(0, 0)
+        this.activateSection('personalDetails')
+        this.focusedField = fieldName
+      }
     }
   },
   metaInfo () {
