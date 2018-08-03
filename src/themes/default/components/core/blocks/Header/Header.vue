@@ -114,12 +114,11 @@ export default {
       currentUser: state => state.user.current
     })
   },
-  beforeCreated () {
+  created () {
     if (this.productPageRoutes.includes(this.$route.name)) {
       this.isProductPage = true
     }
-  },
-  created () {
+
     if (this.$route.name === 'checkout') {
       this.isCheckout = true
     }
