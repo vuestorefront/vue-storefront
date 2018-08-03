@@ -8,6 +8,7 @@ import i18n from 'core/lib/i18n'
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
 import { htmlDecode, stripHTML } from 'core/filters'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
@@ -94,6 +95,9 @@ export default {
     },
     isOnCompare () {
       return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
+    },
+    currentStore () {
+      return currentStoreView()
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
