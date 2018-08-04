@@ -25,7 +25,7 @@
             {{ notification.action1.label }}
           </div>
           <div
-            class="py10 px20 pointer weight-400 notification-action align-center uppercase"
+            class="py10 px20 pointer weight-400 notification-action uppercase"
             id="notificationAction2"
             data-testid="notificationAction2"
             @click="action(notification.action2.action, index)"
