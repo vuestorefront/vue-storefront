@@ -2,6 +2,7 @@
   <div id="product">
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
+        <content-block identifier="1" type="todos" />
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
@@ -223,7 +224,7 @@
 
 <script>
 import Product from 'core/pages/Product'
-import ContentBlock from 'core/api/content/components/ContentBlock'
+import ContentBlock from 'theme/components/core/ContentBlock'
 
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
@@ -254,13 +255,13 @@ export default {
     ProductTile,
     PromotedOffers,
     RelatedProducts,
-    SizeSelector
+    SizeSelector,
+    ContentBlock
   },
-  mixins: [Product, ContentBlock],
+  mixins: [Product],
   data () {
     return {
-      detailsOpen: false,
-      id: 1
+      detailsOpen: false
     }
   },
   directives: { focusClean },
