@@ -1,7 +1,7 @@
 <template>
   <div class="inline-flex relative dropdown"
        data-testid="accountButton"
-       @click="goToAccount">
+       @click.self="goToAccount">
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
@@ -54,6 +54,10 @@ export default {
 $color-icon-hover: color(secondary, $colors-background);
 
 .dropdown {
+
+  button {
+    pointer-events: none;
+  }
 
   .dropdown-content {
     display: none;

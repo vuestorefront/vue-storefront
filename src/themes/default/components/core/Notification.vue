@@ -5,12 +5,7 @@
         class="notification mt30 border-box cl-white"
         v-for="(notification, index) in notifications"
         :key="index"
-        :class="{
-          info : notification.type == 'info',
-          success: notification.type == 'success',
-          error: notification.type == 'error',
-          warning: notification.type == 'warning'
-        }"
+        :class="notification.type"
       >
         <div
           @click="action(notification.action1.action, index)"
@@ -21,7 +16,8 @@
         </div>
         <div class="actions">
           <div
-            class="py10 px20 pointer weight-400 notification-action uppercase"
+            class="py10 px20 pointer weight-400 action-border notification-action uppercase"
+            :class="`border-${notification.type}`"
             id="notificationAction1"
             data-testid="notificationAction1"
             @click="action(notification.action1.action, index)"
@@ -97,10 +93,6 @@ $color-action: color(black);
     background: rgba($color-action, .2);
   }
 
-  #notificationAction1 {
-    border-right: 2px solid $color-success;
-  }
-
   #notificationAction2 {
     width: 100%;
   }
@@ -116,5 +108,20 @@ $color-action: color(black);
 }
 .info {
   background: $color-info;
+}
+.action-border {
+  border-right: 2px solid transparent;
+  &.border-success {
+    border-right-color: $color-success;
+  }
+  &.border-error {
+    border-color: $color-error;
+  }
+  &.border-warning {
+    border-color: $color-warning;
+  }
+  &.border-info {
+    border-color: $color-info;
+  }
 }
 </style>
