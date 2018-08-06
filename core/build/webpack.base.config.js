@@ -71,7 +71,7 @@ module.exports = {
       path.resolve(__dirname, extensionsRoot),
       path.resolve(__dirname, themesRoot)
     ],
-    extensions: ['.js', '.vue', 'ts'],
+    extensions: ['.js', '.vue'],
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
@@ -124,13 +124,6 @@ module.exports = {
           optimizeSSR: false,
           preserveWhitespace: false,
           postcss: [autoprefixer()],
-        }
-      },
-      {
-        test: /\.ts$/,
-        loader: 'ts-loader',
-        options: {
-          appendTsSuffixTo: [/\.vue$/]
         }
       },
       {
