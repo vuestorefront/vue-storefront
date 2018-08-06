@@ -34,7 +34,7 @@ import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 import sliderData from 'theme/resource/slider.json'
 
-import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
+import MainSlider from '@vue-storefront/core/components/blocks/MainSlider/MainSlider'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 
 export default {

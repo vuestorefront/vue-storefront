@@ -34,7 +34,7 @@
 
 <script>
 import StaticContent from 'theme/components/theme/StaticContent'
-import Modal from 'core/components/Modal'
+import Modal from '@vue-storefront/core/components/Modal'
 
 export default {
   components: {

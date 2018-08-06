@@ -3,13 +3,13 @@ import toString from 'lodash-es/toString'
 
 // Core dependecies
 import config from 'config'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
-import { htmlDecode } from 'core/filters/html-decode'
-import i18n from 'core/lib/i18n'
+import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
+import i18n from '@vue-storefront/core/lib/i18n'
 
 // Core mixins
-import Composite from 'core/mixins/composite'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Category',
@@ -174,7 +174,8 @@ export default {
         let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
         this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
           sort: param.attribute + ':' + param.direction,
-          searchProductQuery: filterQr
+          searchProductQuery: filterQr,
+          append: false
         })
         this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
         })
@@ -187,34 +188,30 @@ export default {
       }
     },
     validateRoute () {
-      let self = this
-      let store = self.$store
-      let route = self.$route
-
-      let slug = route.params.slug
       this.filters.chosen = {} // reset selected filters
       this.$bus.$emit('filter-reset')
 
-      store.dispatch('category/single', { key: 'slug', value: slug }).then((category) => {
+      this.$store.dispatch('category/single', { key: 'slug', value: this.$route.params.slug }).then(category => {
         if (!category) {
-          self.$router.push('/')
+          this.$router.push('/')
         } else {
           this.pagination.current = 0
-          let searchProductQuery = baseFilterProductsQuery(store.state.category.current, config.products.defaultFilters)
-          self.$bus.$emit('current-category-changed', store.state.category.current_path)
-          let query = store.state.category.current_product_query
+          let searchProductQuery = baseFilterProductsQuery(this.$store.state.category.current, config.products.defaultFilters)
+          this.$bus.$emit('current-category-changed', this.$store.state.category.current_path)
+          let query = this.$store.state.category.current_product_query
           query = Object.assign(query, { // base prototype from the asyncData is being used here
-            current: self.pagination.current,
-            perPage: self.pagination.perPage,
+            current: this.pagination.current,
+            perPage: this.pagination.perPage,
             store: this.$store,
             route: this.$route,
-            append: false
+            append: false,
+            populateAggregations: true
           })
           if (!query.searchProductQuery) {
             query.searchProductQuery = searchProductQuery
           }
-          self.$store.dispatch('category/products', store.state.category.current_product_query)
-          EventBus.$emitFilter('category-after-load', { store: store, route: route })
+          this.$store.dispatch('category/products', this.$store.state.category.current_product_query)
+          EventBus.$emitFilter('category-after-load', { store: this.$store, route: this.$route })
         }
       })
     }

@@ -38,7 +38,7 @@ In case You get the following error:
 ```
 Please check:
 - if there is `docker-compose` command available, if not please do install it
-- please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 644)
+- please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 755)
 
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 

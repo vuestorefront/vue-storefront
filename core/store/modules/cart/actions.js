@@ -148,37 +148,40 @@ export default {
     })
   },
   load (context) {
-    if (global.$VS.isSSR) return
-    console.log('Loading cart ...')
-    const commit = context.commit
-    const state = context.state
+    return new Promise((resolve, reject) => {
+      if (global.$VS.isSSR) return
+      console.log('Loading cart ...')
+      const commit = context.commit
+      const state = context.state
 
-    if (!state.shipping.method_code) {
-      let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
-      commit(types.CART_UPD_SHIPPING, shippingMethod)
-    }
-    if (!state.payment.code) {
-      let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
-      commit(types.CART_UPD_PAYMENT, paymentMethod)
-    }
-    global.$VS.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
-      if (err) throw new Error(err)
-
-      if (config.cart.synchronize) {
-        global.$VS.db.cartsCollection.getItem('current-cart-token', (err, token) => {
-          if (err) throw new Error(err)
-          // TODO: if token is null create cart server side and store the token!
-          if (token) { // previously set token
-            commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-            console.log('Existing cart token = ' + token)
-            context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.server_merge_by_default })
-          } else {
-            console.log('Creating server cart ...')
-            context.dispatch('serverCreate', { guestCart: false })
-          }
-        })
+      if (!state.shipping.method_code) {
+        let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
+        commit(types.CART_UPD_SHIPPING, shippingMethod)
       }
-      commit(types.CART_LOAD_CART, storedItems)
+      if (!state.payment.code) {
+        let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
+        commit(types.CART_UPD_PAYMENT, paymentMethod)
+      }
+      global.$VS.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
+        if (err) throw new Error(err)
+
+        if (config.cart.synchronize) {
+          global.$VS.db.cartsCollection.getItem('current-cart-token', (err, token) => {
+            if (err) throw new Error(err)
+            // TODO: if token is null create cart server side and store the token!
+            if (token) { // previously set token
+              commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
+              console.log('Existing cart token = ' + token)
+              context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.server_merge_by_default })
+            } else {
+              console.log('Creating server cart ...')
+              context.dispatch('serverCreate', { guestCart: false })
+            }
+          })
+        }
+        commit(types.CART_LOAD_CART, storedItems)
+        resolve(storedItems)
+      })
     })
   },
   // This should be a getter, just sayin

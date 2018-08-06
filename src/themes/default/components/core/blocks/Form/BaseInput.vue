@@ -13,10 +13,7 @@
         :value="value"
         :autofocus="autofocus"
         :ref="focus ? name : false"
-        @input="$emit('input', $event.target.value)"
-        @blur="$emit('blur')"
-        @keyup.enter="$emit('keyup.enter', $event.target.value)"
-        @keyup="$emit('keyup', $event)"
+        v-on="listeners"
       >
       <label>{{ placeholder }}</label>
     </div>
@@ -52,7 +49,7 @@
 </template>
 
 <script>
-import baseInput from 'core/components/blocks/Form/BaseInput'
+import baseInput from '@vue-storefront/core/components/blocks/Form/BaseInput'
 
 export default {
   mixins: [baseInput]

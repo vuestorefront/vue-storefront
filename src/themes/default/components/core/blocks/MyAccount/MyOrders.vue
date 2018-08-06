@@ -10,7 +10,7 @@
     </div>
     <!-- My orders body -->
     <div class="row">
-      <div class="col-xs-12" v-if="ordersHistory">
+      <div class="col-xs-12" v-if="ordersHistory.length > 0">
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import MyOrders from 'core/components/blocks/MyAccount/MyOrders'
+import MyOrders from '@vue-storefront/core/components/blocks/MyAccount/MyOrders'
 
 export default {
   mixins: [MyOrders]

@@ -1,5 +1,5 @@
-import { mapActions, mapState } from 'vuex'
-import onEscapePress from 'core/mixins/onEscapePress'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import { loadWishlist, productsInWishlist, closeWishlist, isWishlistOpen } from '@vue-storefront/core/api/wishlist'
 
 export default {
   name: 'Wishlist',
@@ -10,26 +10,10 @@ export default {
       default: () => { }
     }
   },
-  created () {
-    this.$store.dispatch('wishlist/load') // Load wishlist from the indexedDb
-  },
   methods: {
     onEscapePress () {
       this.closeWishlist()
-    },
-    closeWishlist () {
-      this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setWishlist', false)
-    },
-    ...mapActions({ 'removeFromWishlist': 'wishlist/removeItem' })
+    }
   },
-  computed: {
-    ...mapState('wishlist', [
-      'items'
-    ]),
-    ...mapState({
-      isOpen: state => state.ui.wishlist
-    })
-  },
-  mixins: [onEscapePress]
+  mixins: [ onEscapePress, loadWishlist, productsInWishlist, closeWishlist, isWishlistOpen ]
 }

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import GenericSelector from 'core/components/GenericSelector'
+import GenericSelector from '@vue-storefront/core/components/GenericSelector'
 
 export default {
   mixins: [GenericSelector]

@@ -162,7 +162,7 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
       driver: localForage[config.localForage.defaultDrivers['attributes']]
     })),
     cartsCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'carts',
       driver: localForage[config.localForage.defaultDrivers['carts']]
     })),
@@ -177,12 +177,12 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
       driver: localForage[config.localForage.defaultDrivers['products']]
     })),
     claimsCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'claims',
       driver: localForage[config.localForage.defaultDrivers['claims']]
     })),
     wishlistCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'wishlist',
       driver: localForage[config.localForage.defaultDrivers['wishlist']]
     })),
@@ -192,7 +192,7 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
       driver: localForage[config.localForage.defaultDrivers['compare']]
     })),
     usersCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'user',
       driver: localForage[config.localForage.defaultDrivers['user']]
     })),
@@ -202,17 +202,17 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
       driver: localForage[config.localForage.defaultDrivers['syncTasks']]
     })),
     checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'checkoutFieldValues',
       driver: localForage[config.localForage.defaultDrivers['checkoutFieldValues']]
     })),
     newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'newsletterPreferences',
       driver: localForage[config.localForage.defaultDrivers['newsletterPreferences']]
     })),
     ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'ordersHistory',
       driver: localForage[config.localForage.defaultDrivers['ordersHistory']]
     })),

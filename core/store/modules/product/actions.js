@@ -171,7 +171,7 @@ export default {
           const parentProduct = resp.items[0]
           context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.error(err)
       })
     }
@@ -245,6 +245,9 @@ export default {
           if (!product.parentSku) {
             product.parentSku = product.sku
           }
+          if (config.products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
+            product.sku = product.configurable_children[0].sku
+          }
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
             Object.assign(product, selectedVariant)
@@ -285,7 +288,7 @@ export default {
         EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
-    }).catch(function (err) {
+    }).catch((err) => {
       console.error(err)
     })
   },

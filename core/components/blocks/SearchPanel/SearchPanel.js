@@ -1,7 +1,7 @@
 import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
-import i18n from 'core/lib/i18n'
-import onEscapePress from 'core/mixins/onEscapePress'
+import i18n from '@vue-storefront/core/lib/i18n'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import config from 'config'
 
 export default {
@@ -36,18 +36,22 @@ export default {
         query = query.andQuery('match', 'stock.is_in_stock', true)
       }
 
-      query = query.andQuery('bool', b => b.orQuery('match', 'name', { query: queryText, boost: 3 })
-        .orQuery('match', 'category.name', { query: queryText, boost: 1 })
-        .orQuery('match', 'sku', { query: queryText, boost: 1 })
-        .orQuery('match', 'configurable_children.sku', { query: queryText, boost: 1 })
-        .orQuery('match', 'short_description', { query: queryText, boost: 2 })
-        .orQuery('match', 'description', { query: queryText, boost: 1 }))
+      query = query.andQuery('bool', b => b.orQuery('match_phrase_prefix', 'name', { query: queryText, boost: 3, slop: 2 })
+        .orQuery('match_phrase', 'category.name', { query: queryText, boost: 1 })
+        .orQuery('match_phrase', 'short_description', { query: queryText, boost: 1 })
+        .orQuery('match_phrase', 'description', { query: queryText, boost: 1 })
+        .orQuery('bool', b => b.orQuery('terms', 'sku', queryText.split('-'))
+          .orQuery('terms', 'configurable_children.sku', queryText.split('-'))
+          .orQuery('match_phrase', 'sku', { query: queryText, boost: 1 })
+          .orQuery('match_phrase', 'configurable_children.sku', { query: queryText, boost: 1 }))
+      )
+
       query = query.build()
 
-      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
+      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then(resp => {
         this.products = resp.items
         this.emptyResults = resp.items.length < 1
-      }).catch(function (err) {
+      }).catch((err) => {
         console.error(err)
       })
     }

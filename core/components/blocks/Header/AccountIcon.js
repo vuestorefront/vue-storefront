@@ -1,5 +1,5 @@
 import { mapState } from 'vuex'
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/core/lib/i18n'
 
 export default {
   name: 'AccountIcon',

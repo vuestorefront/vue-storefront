@@ -1,9 +1,6 @@
 describe('home page', () => {
   it('verify the content of the homepage', () => {
     cy.visit('/')
-    cy.setCookie('shop/claims/onboardingAccepted', 'test')
-    indexedDB.deleteDatabase('shop')
-    cy.clearLocalStorage()
     cy.get('[data-testid=mainSliderTitle]').first().contains('Luma Yoga')
     cy.get('.VueCarousel-dot-button').eq(1).click()
     cy.get('[data-testid=mainSliderTitle]').eq(1).contains('Luma Fitness')

@@ -13,10 +13,7 @@
         :value="value"
         :autofocus="autofocus"
         :ref="focus ? name : false"
-        @textarea="$emit('textarea', $event.target.value)"
-        @blur="$emit('blur')"
-        @keyup.enter="$emit('keyup.enter', $event.target.value)"
-        @keyup="$emit('keyup', $event)"
+        v-on="listeners"
       />
       <label>
         {{ placeholder }}
@@ -46,7 +43,7 @@
 </template>
 
 <script>
-import BaseTextarea from 'core/components/blocks/Form/BaseTextarea'
+import BaseTextarea from '@vue-storefront/core/components/blocks/Form/BaseTextarea'
 
 export default {
   mixins: [BaseTextarea]

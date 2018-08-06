@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "strict": false,
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node"
+  },
+  "files": [
+    "vue.d.ts"
+  ]
+}

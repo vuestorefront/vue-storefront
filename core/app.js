@@ -1,31 +1,31 @@
-import union from 'lodash-es/union'
 import Vue from 'vue'
-import App from 'theme/App'
-import store from '@vue-storefront/store'
-import router from 'core/router'
-import config from 'config'
 import { sync } from 'vuex-router-sync'
-import EventBus from 'core/plugins/event-bus'
-
-import { registerTheme, plugins, mixins, filters } from 'core/lib/themes'
-import registerExtensions from 'core/lib/extensions'
-import extensionEntryPoints from 'src/extensions'
-import themeExtensionEntryPoints from 'theme/extensions'
 import VueObserveVisibility from 'vue-observe-visibility'
-
+import { union } from 'lodash-es'
+import config from 'config'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
-import i18n from 'core/lib/i18n'
-import shippingMethods from 'core/resource/shipping_methods.json'
-import { prepareStoreView } from './store/lib/multistore'
 
-import coreModules from './store/modules'
+import router from '@vue-storefront/core/router'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
+import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
+import registerExtensions from '@vue-storefront/core/lib/extensions'
+import i18n from '@vue-storefront/core/lib/i18n'
+import shippingMethods from '@vue-storefront/core/resource/shipping_methods.json'
+
+import store from '@vue-storefront/store'
+import coreModules from '@vue-storefront/store/modules'
+import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
+
+import App from 'theme/App'
 import themeModules from 'theme/store'
+import themeExtensionEntryPoints from 'theme/extensions'
+import extensionEntryPoints from 'src/extensions'
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.1'
+global.$VS.version = '1.2'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
@@ -45,12 +45,12 @@ Vue.use(VueObserveVisibility)
 
 require('theme/plugins')
 const pluginsObject = plugins()
-Object.keys(pluginsObject).forEach(function (key) {
+Object.keys(pluginsObject).forEach(key => {
   Vue.use(pluginsObject[key])
 })
 
 const mixinsObject = mixins()
-Object.keys(mixinsObject).forEach(function (key) {
+Object.keys(mixinsObject).forEach(key => {
   Vue.mixin(mixinsObject[key])
 })
 

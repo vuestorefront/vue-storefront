@@ -351,8 +351,8 @@ class Storefront extends Abstract {
         config.products.endpoint = `${backendPath}/api/product`
         config.users.endpoint = `${backendPath}/api/user`
         config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}`
-        config.users.resetPassword_endpoint = `${backendPath}/api/user/resetPassword`
-        config.users.changePassword_endpoint = `${backendPath}/api/user/changePassword?token={{token}}`
+        config.users.resetPassword_endpoint = `${backendPath}/api/user/reset-password`
+        config.users.changePassword_endpoint = `${backendPath}/api/user/change-password?token={{token}}`
         config.users.login_endpoint = `${backendPath}/api/user/login`
         config.users.create_endpoint = `${backendPath}/api/user/create`
         config.users.me_endpoint = `${backendPath}/api/user/me?token={{token}}`
@@ -373,6 +373,7 @@ class Storefront extends Abstract {
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.images.baseUrl = this.answers.images_endpoint
         config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
+        config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
 
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,

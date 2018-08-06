@@ -1,17 +1,17 @@
 <template>
-  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isOpen }">
+  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isWishlistOpen }">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 pointer cl-accent" @click="closeWishlist">close</i>
       </div>
     </div>
-    <h2 v-if="items.length" class="cl-accent ml30">
+    <h2 v-if="productsInWishlist.length" class="cl-accent ml30">
       {{ $t('Wishlist') }}
     </h2>
-    <h4 v-if="!items.length" class="cl-accent ml30">
+    <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
       {{ $t('Your wishlist is empty.') }}
     </h4>
-    <div v-if="!items.length" class="ml30">
+    <div v-if="!productsInWishlist.length" class="ml30">
       {{ $t("Don't hesitate and") }}
       <router-link :to="localizedRoute('/')">
         {{ $t('browse our catalog') }}
@@ -19,13 +19,13 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul class="products">
-      <product v-for="product in items" :key="product.id" :product="product" />
+      <product v-for="product in productsInWishlist" :key="product.id" :product="product" />
     </ul>
   </div>
 </template>
 
 <script>
-import Wishlist from 'core/components/blocks/Wishlist/Wishlist'
+import Wishlist from '@vue-storefront/core/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
 
 export default {

@@ -29,27 +29,21 @@
         </span>
       </div>
       <div>
-        <div class="mt5"><span @click="removeItem"><remove-button class="cl-accent" /></span></div>
+        <div class="mt5"><span @click="removeFromWishlist(product)"><remove-button class="cl-accent" /></span></div>
       </div>
     </div>
   </li>
 </template>
 
 <script>
-import Product from 'core/components/blocks/Wishlist/Product'
+import Product from '@vue-storefront/core/components/blocks/Wishlist/Product'
 import RemoveButton from './RemoveButton'
 
 export default {
   components: {
     RemoveButton
   },
-  mixins: [Product],
-  methods: {
-    closeWishlist () {
-      this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setWishlist', false)
-    }
-  }
+  mixins: [Product]
 }
 </script>
 

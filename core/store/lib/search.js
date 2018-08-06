@@ -21,7 +21,7 @@ const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIC
 function search (elasticQuery) {
   const storeView = currentStoreView()
   let url = storeView.elasticsearch.host
-  if (!url.startsWith('http')) {
+  if (!url.startsWith('/') && !url.startsWith('http')) {
     url = 'http://' + url
   }
   const httpQuery = {
@@ -67,7 +67,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
   }
   if (resp.hasOwnProperty('hits')) {
     return {
-      items: map(resp.hits.hits, function (hit) {
+      items: map(resp.hits.hits, (hit) => {
         return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
       }), // TODO: add scoring information
       total: resp.hits.total,
@@ -146,7 +146,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
-    search(esQuery).then(function (resp) { // we're always trying to populate cache - when online
+    search(esQuery).then((resp) => { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
       if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
@@ -156,7 +156,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         res.offline = false
         resolve(res)
       }
-    }).catch(function (err) {
+    }).catch((err) => {
       // reject(err)
       console.error(err)
     })
@@ -183,9 +183,9 @@ export function quickSearchByText ({ queryText, start = 0, size = 50 }) {
       q: queryText,
       size: size,
       from: start
-    }).then(function (resp) {
+    }).then((resp) => {
       resolve(_handleEsResult(resp, start, size))
-    }).catch(function (err) {
+    }).catch((err) => {
       reject(err)
     })
   })

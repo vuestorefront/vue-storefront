@@ -57,19 +57,28 @@
           <li @click="closeMenu">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              :to="localizedRoute('/sale')"
+              exact
+            >
+              {{ $t('Sale') }}
+            </router-link>
+          </li>
+          <li @click="closeMenu">
+            <router-link
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/magazine')"
               exact
             >
               {{ $t('Magazine') }}
             </router-link>
           </li>
-          <li @click="closeMenu">
+          <li @click="closeMenu" v-if="compareIsActive">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              :to="localizedRoute('/sale')"
+              :to="localizedRoute('/compare')"
               exact
             >
-              {{ $t('Sale') }}
+              {{ $t('Compare products') }}
             </router-link>
           </li>
           <li @click="closeMenu">
@@ -108,10 +117,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import i18n from 'core/lib/i18n'
+import { mapState, mapGetters } from 'vuex'
+import i18n from '@vue-storefront/core/lib/i18n'
 
-import SidebarMenu from 'core/components/blocks/SidebarMenu/SidebarMenu'
+import SidebarMenu from '@vue-storefront/core/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
 
@@ -164,6 +173,9 @@ export default {
     ...mapState({
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
+    }),
+    ...mapGetters('compare', {
+      compareIsActive: 'isActive'
     })
   },
   methods: {

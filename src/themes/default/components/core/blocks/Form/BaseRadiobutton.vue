@@ -5,11 +5,8 @@
         class="m0 no-outline"
         type="radio"
         :id="id"
-        :checked="value"
-        @keyup.enter="$emit('click')"
-        @click="$emit('click')"
-        @blur="$emit('blur')"
-        @change="$emit('change')"
+        :checked="checked"
+        v-on="listeners"
         :disabled="disabled"
       >
       <label
@@ -31,7 +28,7 @@
 </template>
 
 <script>
-import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
+import BaseRadiobutton from '@vue-storefront/core/components/blocks/Form/BaseRadiobutton'
 
 export default {
   mixins: [BaseRadiobutton]

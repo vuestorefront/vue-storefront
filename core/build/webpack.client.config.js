@@ -13,6 +13,18 @@ const config = merge(base, {
     publicPath: '/dist/',
     filename: '[name].js'
   },
+  optimization: {
+    splitChunks:  {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+    runtimeChunk: 'single',
+  },
   mode: 'development',
   resolve: {
     alias: {

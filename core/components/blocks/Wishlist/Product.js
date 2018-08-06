@@ -1,3 +1,5 @@
+import { removeFromWishlist, closeWishlist } from '@vue-storefront/core/api/wishlist'
+
 export default {
   name: 'Product',
   props: {
@@ -11,10 +13,5 @@ export default {
       return this.getThumbnail(this.product.image, 150, 150)
     }
   },
-  methods: {
-    removeItem () {
-      this.$store.dispatch('wishlist/removeItem', this.product)
-      this.$bus.$emit('product-after-remove-from-wishlist', this.product)
-    }
-  }
+  mixins: [ removeFromWishlist, closeWishlist ]
 }

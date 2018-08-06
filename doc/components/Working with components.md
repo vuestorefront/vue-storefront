@@ -12,11 +12,11 @@ Inheritance by itself is done by [vue mixins](https://vuejs.org/v2/guide/mixins.
 
 To inherit from core component:
 
-1. <strong>Create new component in your theme. </strong> 
+1. <strong>Create new component in your theme. </strong>
 
 2. <strong>Import the core component that you want to include:</strong>
 ```javascript
-import YourCoreComponent from 'core/components/YourCoreComponent'
+import YourCoreComponent from '@vue-storefront/core/components/YourCoreComponent'
 ```
 3. <strong>Add core components mixin to your newly created theme component</strong>.
 ```javascript
@@ -32,11 +32,11 @@ From now you can access and override all methods, data and components from core 
 
 Inheritance in pages works exactly like in other components. The only difference is the importing alias. Instead of `core/components` we need to start with `core/pages` alias
 ```javascript
-import YourCorePage from 'core/pages/YourCorePage'
+import YourCorePage from '@vue-storefront/core/pages/YourCorePage'
 
 export default {
   ...
-  mixins: [YourCorePage] 
+  mixins: [YourCorePage]
 }
 ```
 Core pages are placed in `core/pages` folder.
@@ -49,7 +49,7 @@ First of all: <strong>override core components only when you're adding features 
 
 ## The core component's folder structure
 
-* `core/components` - Components that can be used across whole project should be placed in the root of this folder. 
+* `core/components` - Components that can be used across whole project should be placed in the root of this folder.
 * `core/components/blocks` - All other components specific to pages (e.g Home, Category), other components (e.g Header, Footer) or functionalities (e.g Auth).
 
 ## Rules to follow when creating new core components
@@ -59,7 +59,7 @@ First of all: <strong>override core components only when you're adding features 
 
 
 # Core components docs (still working on it)
-## Pages 
+## Pages
 * [Home](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/HomePage.md) - [`Home.vue`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Home.vue)
 * [Category](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/CategoryPage.md) - [`Category.vue`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Category.vue)
 * [Product](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/core/ProductPage.md) - [`Product.vue`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Product.vue)
@@ -69,7 +69,7 @@ First of all: <strong>override core components only when you're adding features 
 * [Modal](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/modal.md) - [`Modal.vue`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/components/Modal.vue)
 * ...
 
-# Related 
+# Related
 
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
 * [Creating themes in Vue Storefront -Part 1 ('Using Vue Storefront core in your theme' section)](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)

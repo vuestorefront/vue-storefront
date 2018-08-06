@@ -1,6 +1,6 @@
 import { mapState, mapGetters } from 'vuex'
-import i18n from 'core/lib/i18n'
-import Composite from 'core/mixins/composite'
+import i18n from '@vue-storefront/core/lib/i18n'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Compare',
@@ -26,7 +26,6 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('compare/load')
     this.$store.dispatch('attribute/list', {
       filterValues: [true],
       filterField: 'is_user_defined'

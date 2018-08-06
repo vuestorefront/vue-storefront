@@ -1,6 +1,6 @@
 import extensionStore from './store'
 import extensionRoutes from './router'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
 
 const EXTENSION_KEY = 'mailchimp-subscribe'
 

@@ -26,7 +26,7 @@
           "index": "vue_storefront_catalog_de"
         },
         "tax": {
-          "sourcePriceIncludesTax": false,          
+          "sourcePriceIncludesTax": false,
           "defaultCountry": "DE",
           "defaultRegion": "",
           "calculateServerSide": true
@@ -53,7 +53,7 @@
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
-          "sourcePriceIncludesTax": false,          
+          "sourcePriceIncludesTax": false,
           "defaultCountry": "IT",
           "defaultRegion": "",
           "calculateServerSide": true
@@ -95,6 +95,7 @@
       }
     },
     "cart": {
+      "multisiteCommonCart": true,
       "server_merge_by_default": true,
       "synchronize": true,
       "synchronize_totals": true,
@@ -115,6 +116,7 @@
     "products": {
       "useShortCatalogUrls": false,
       "useMagentoUrlKeys": false,
+      "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
       "configurableChildrenStockPrefetchDynamic": false,
       "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
@@ -129,7 +131,7 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "sortByAttributes": {
         "Latest": "updated_at",
-        "Price":"price"
+        "Price":"final_price"
       },
       "galleryVariantsGroupAttribute": "color"
     },
@@ -156,9 +158,9 @@
         "attributes": "INDEXEDDB",
         "products": "INDEXEDDB",
         "elasticCache": "INDEXEDDB",
-        "claims": "LOCALSTORAGE",        
-        "compare": "INDEXEDDB",        
-        "syncTasks": "INDEXEDDB",        
+        "claims": "LOCALSTORAGE",
+        "compare": "INDEXEDDB",
+        "syncTasks": "INDEXEDDB",
         "newsletterPreferences": "INDEXEDDB",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"
@@ -168,8 +170,8 @@
       "autoRefreshTokens": true,
       "endpoint": "http://localhost:8080/api/user",
       "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-      "resetPassword_endpoint": "http://localhost:8080/api/user/resetPassword",
-      "changePassword_endpoint": "http://localhost:8080/api/user/changePassword?token={{token}}",
+      "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
+      "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
       "login_endpoint": "http://localhost:8080/api/user/login",
       "create_endpoint": "http://localhost:8080/api/user/create",
       "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
@@ -217,6 +219,7 @@
       "api_key": "my_example_api_key"
     },
     "cms": {
-      "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}"
+      "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+      "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
     }
 }
