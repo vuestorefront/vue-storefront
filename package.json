@@ -133,6 +133,8 @@
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
     "sw-precache-webpack-plugin": "^0.11.5",
+    "ts-loader": "^4.4.2",
+    "typescript": "^3.0.1",
     "url-loader": "^1.0.1",
     "val-loader": "^1.1.1",
     "vue-eslint-parser": "^2.0.3",
