@@ -10,14 +10,14 @@
 
 <script>
 // Just import the features that you need in the view grouped in modules
-import { 
-  addToCart, 
-  removeFromCart, 
-  productsInCart, 
+import {
+  addToCart,
+  removeFromCart,
+  productsInCart,
   closeMicrocart,
   openMicrocart,
   isMicrocartOpen
-} from 'core/api/cart'
+} from '@vue-storefront/core/api/cart'
 
 export default {
   data () {
@@ -27,9 +27,9 @@ export default {
   },
   // And register them as a mixins
   mixins: [
-    addToCart, 
-    removeFromCart, 
-    productsInCart, 
+    addToCart,
+    removeFromCart,
+    productsInCart,
     closeMicrocart,
     openMicrocart,
     isMicrocartOpen

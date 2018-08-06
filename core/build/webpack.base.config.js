@@ -136,7 +136,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules\/(?!@vue-storefront)/
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

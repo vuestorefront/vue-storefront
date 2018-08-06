@@ -22,7 +22,7 @@ Existing core modules can be overridden in themes store. Just import any core st
 
 ```
 import coreStore from '@vue-storefront/store/modules/ui-store'
-import { extendStore } from 'core/lib/themes'
+import { extendStore } from '@vue-storefront/core/lib/themes'
 
 const state = {
   // override state of core ui module...

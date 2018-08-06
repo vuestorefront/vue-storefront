@@ -350,7 +350,7 @@
 
 <script>
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
+import MyProfile from '@vue-storefront/core/components/blocks/MyAccount/MyProfile'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'

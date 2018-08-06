@@ -104,6 +104,7 @@
               class="col-xs-12 mb25 mt10"
               type="password"
               name="password"
+              ref="password"
               :placeholder="$t('Password *')"
               v-model="password"
               @blur="$v.password.$touch()"
@@ -220,7 +221,7 @@
 
 <script>
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
+import PersonalDetails from '@vue-storefront/core/components/blocks/Checkout/PersonalDetails'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'

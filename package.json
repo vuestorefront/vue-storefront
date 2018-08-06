@@ -2,7 +2,6 @@
   "name": "vue-storefront",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
-  "engineStrict": true,
   "engines": {
     "node": ">=8.x <11.x"
   },
@@ -57,7 +56,6 @@
     "localforage": "^1.7.2",
     "lru-cache": "^4.0.1",
     "mkdirp": "^0.5.1",
-    "npm": "^5.7.1",
     "object-hash": "^1.2.0",
     "object-sizeof": "^1.2.0",
     "pm2": "^2.10.4",
@@ -162,6 +160,7 @@
     ]
   },
   "workspaces": [
+    "core",
     "core/store",
     "src/extensions/*",
     "src/themes/*"

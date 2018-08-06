@@ -1,16 +1,22 @@
+import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import config from 'config'
-import Vue from 'vue'
 
 Vue.use(VueI18n)
 
-export const i18n = new VueI18n({
+const loadedLanguages = ['en-US']
+const i18n = new VueI18n({
   locale: 'en-US', // set locale
-  fallbackLocale: 'en-US',
-  messages: require('../resource/i18n/en-US.json')
+  fallbackLocale: 'en-US'
 })
 
-const loadedLanguages = ['en-US']
+i18n.setLocaleMessage('en-US', require('../resource/i18n/en-US.json'))
+
+if (!global.$VS) {
+  global.$VS = { i18n: i18n }
+} else {
+  global.$VS.i18n = i18n
+}
 
 function setI18nLanguage (lang) {
   i18n.locale = lang
@@ -33,4 +39,4 @@ export function loadLanguageAsync (lang) {
 
 loadLanguageAsync(config.i18n.defaultLocale)
 
-if (!global.$VS) { global.$VS = { i18n: i18n } } else { global.$VS.i18n = i18n }
+export default global.$VS.i18n

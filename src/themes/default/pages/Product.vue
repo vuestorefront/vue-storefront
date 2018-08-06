@@ -1,5 +1,5 @@
 <template>
-  <div id="product">
+  <div id="product" itemscope itemtype="http://schema.org/Product">
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
         <section class="row m0 between-xs">
@@ -16,104 +16,108 @@
               :routes="breadcrumbs.routes"
               :active-route="breadcrumbs.name"
             />
-            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName">
+            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb20 uppercase cl-secondary">
               sku: {{ product.sku }}
             </div>
-            <div
-              class="mb40 price serif"
-              v-if="product.type_id !== 'grouped'"
-            >
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
+              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
               <div
-                class="h3 cl-secondary"
-                v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                class="mb40 price serif"
+                v-if="product.type_id !== 'grouped'"
               >
-                <span class="h2 cl-mine-shaft weight-700">
-                  {{ product.priceInclTax | price }}
-                </span>&nbsp;
-                <span class="price-original h3">
-                  {{ product.originalPriceInclTax | price }}
-                </span>
-              </div>
-              <div
-                class="h2 cl-mine-shaft weight-700"
-                v-if="!product.special_price && product.priceInclTax"
-              >
-                {{ product.priceInclTax | price }}
-              </div>
-            </div>
-            <div
-              class="cl-primary variants"
-              v-if="product.type_id =='configurable' && !loading"
-            >
-              <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
-                {{ product.errors | formatProductMessages }}
-              </div>
-              <div
-                class="h5"
-                v-for="(option, index) in product.configurable_options"
-                v-if="!product.errors || Object.keys(product.errors).length === 0"
-                :key="index"
-              >
-                <div class="variants-label" data-testid="variantsLabel">
-                  {{ option.label }}
-                  <span class="weight-700">
-                    {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
+                <div
+                  class="h3 cl-secondary"
+                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                >
+                  <span class="h2 cl-mine-shaft weight-700">
+                    {{ product.priceInclTax | price }}
+                  </span>&nbsp;
+                  <span class="price-original h3">
+                    {{ product.originalPriceInclTax | price }}
                   </span>
                 </div>
-                <div class="row top-xs m0 pt15 pb40 variants-wrapper">
-                  <div v-if="option.label == 'Color'">
-                    <color-selector
-                      v-for="(c, i) in options.color"
-                      :key="i"
-                      :id="c.id"
-                      :label="c.label"
-                      context="product"
-                      code="color"
-                      :class="{ active: c.id == configuration.color.id }"
-                    />
-                  </div>
-                  <div class="sizes" v-else-if="option.label == 'Size'">
-                    <size-selector
-                      v-for="(s, i) in options.size"
-                      :key="i"
-                      :id="s.id"
-                      :label="s.label"
-                      context="product"
-                      code="size"
-                      class="mr10 mb10"
-                      :class="{ active: s.id == configuration.size.id }"
-                      v-focus-clean
-                    />
-                  </div>
-                  <div :class="option.attribute_code" v-else>
-                    <generic-selector
-                      v-for="(s, i) in options[option.attribute_code]"
-                      :key="i"
-                      :id="s.id"
-                      :label="s.label"
-                      context="product"
-                      :code="option.attribute_code"
-                      class="mr10 mb10"
-                      :class="{ active: s.id == configuration[option.attribute_code].id }"
-                      v-focus-clean
-                    />
-                  </div>
-                  <router-link
-                    to="/size-guide"
-                    v-if="option.label == 'Size'"
-                    class="
-                      p0 ml30 inline-flex middle-xs no-underline h5
-                      action size-guide pointer cl-secondary
-                    "
-                  >
-                    <i class="pr5 material-icons">accessibility</i>
-                    <span>
-                      {{ $t('Size guide') }}
+                <div
+                  class="h2 cl-mine-shaft weight-700"
+                  v-if="!product.special_price && product.priceInclTax"
+                >
+                  {{ product.priceInclTax | price }}
+                </div>
+              </div>
+              <div
+                class="cl-primary variants"
+                v-if="product.type_id =='configurable' && !loading"
+              >
+                <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
+                  {{ product.errors | formatProductMessages }}
+                </div>
+                <div
+                  class="h5"
+                  v-for="(option, index) in product.configurable_options"
+                  v-if="!product.errors || Object.keys(product.errors).length === 0"
+                  :key="index"
+                >
+                  <div class="variants-label" data-testid="variantsLabel">
+                    {{ option.label }}
+                    <span class="weight-700">
+                      {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
                     </span>
-                  </router-link>
+                  </div>
+                  <div class="row top-xs m0 pt15 pb40 variants-wrapper">
+                    <div v-if="option.label == 'Color'">
+                      <color-selector
+                        v-for="(c, i) in options.color"
+                        :key="i"
+                        :id="c.id"
+                        :label="c.label"
+                        context="product"
+                        code="color"
+                        :class="{ active: c.id == configuration.color.id }"
+                      />
+                    </div>
+                    <div class="sizes" v-else-if="option.label == 'Size'">
+                      <size-selector
+                        v-for="(s, i) in options.size"
+                        :key="i"
+                        :id="s.id"
+                        :label="s.label"
+                        context="product"
+                        code="size"
+                        class="mr10 mb10"
+                        :class="{ active: s.id == configuration.size.id }"
+                        v-focus-clean
+                      />
+                    </div>
+                    <div :class="option.attribute_code" v-else>
+                      <generic-selector
+                        v-for="(s, i) in options[option.attribute_code]"
+                        :key="i"
+                        :id="s.id"
+                        :label="s.label"
+                        context="product"
+                        :code="option.attribute_code"
+                        class="mr10 mb10"
+                        :class="{ active: s.id == configuration[option.attribute_code].id }"
+                        v-focus-clean
+                      />
+                    </div>
+                    <router-link
+                      to="/size-guide"
+                      v-if="option.label == 'Size'"
+                      class="
+                        p0 ml30 inline-flex middle-xs no-underline h5
+                        action size-guide pointer cl-secondary
+                      "
+                    >
+                      <i class="pr5 material-icons">accessibility</i>
+                      <span>
+                        {{ $t('Size guide') }}
+                      </span>
+                    </router-link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -191,6 +195,7 @@
           <div class="col-xs-12 col-sm-6">
             <div
               class="lh30 h5"
+              itemprop="description"
               v-html="product.description"
             />
           </div>
@@ -222,7 +227,7 @@
 </template>
 
 <script>
-import Product from 'core/pages/Product'
+import Product from '@vue-storefront/core/pages/Product'
 
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'

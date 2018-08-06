@@ -2,7 +2,7 @@
 // The good practise is to keep all ui-related states in this file
 
 import coreStore from '@vue-storefront/store/modules/product'
-import { extendStore } from 'core/lib/themes'
+import { extendStore } from '@vue-storefront/core/lib/themes'
 
 const state = {
 }

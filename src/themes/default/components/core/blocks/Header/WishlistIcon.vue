@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import WishlistIcon from 'core/components/blocks/Header/WishlistIcon'
+import WishlistIcon from '@vue-storefront/core/components/blocks/Header/WishlistIcon'
 
 export default {
   mixins: [WishlistIcon]
