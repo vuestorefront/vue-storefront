@@ -32,11 +32,11 @@ export default {
 
       searchQuery = searchQuery
         .setSearchText(queryText)
-        .applyFilter({type: 'terms', key: 'visibility', value: [3, 4]})
-        .applyFilter({type: 'terms', key: 'status', value: [0, 1, 2]})
+        .applyFilter({key: 'visibility', value: {'in': [3, 4]}})
+        .applyFilter({key: 'status', value: {'in': [0, 1, 2]}})
 
       if (config.products.listOutOfStockProducts === false) {
-        searchQuery = searchQuery.applyFilter({type: 'term', key: 'stock.is_in_stock', value: true})
+        searchQuery = searchQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
       }
 
       this.$store.dispatch('product/listByQuery', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {

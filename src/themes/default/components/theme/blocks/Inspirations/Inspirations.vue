@@ -23,7 +23,7 @@ export default {
       query: inspirationsQuery, */
 
     let inspirationsQuery = new SearchQuery()
-    inspirationsQuery = inspirationsQuery.addQuery({type: 'match', key: 'category.name', value: 'Performance Fabrics', boolType: 'query'})
+    inspirationsQuery = inspirationsQuery.applyFilter({key: 'category.name', value: {'eq': 'Performance Fabrics'}})
 
     self.$store.dispatch('product/listByQuery', {
       searchQuery: inspirationsQuery,

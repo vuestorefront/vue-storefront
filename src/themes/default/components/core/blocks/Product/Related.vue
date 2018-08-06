@@ -42,25 +42,15 @@ export default {
     let sku = this.productLinks
       .filter(pl => pl.link_type === this.type)
       .map(pl => pl.linked_product_sku)
-    /* let query = builder().query('terms', 'sku', sku).build()
-    if (sku.length === 0) {
-      sku = this.product.current.category.map(cat => cat.category_id)
-      // query = builder().query('terms', 'category.category_id', sku)
-        .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
-        .build()
-    }
-
-    this.$store.dispatch('product/list', {
-      query, */
 
     let relatedProductsQuery = new SearchQuery()
     if (sku.length === 0) {
       sku = this.product.current.category.map(cat => cat.category_id)
-      relatedProductsQuery = relatedProductsQuery.applyFilter({type: 'terms', key: 'category_ids', value: sku})
+      relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'category_ids', value: {'in': sku}})
     } else {
-      relatedProductsQuery = relatedProductsQuery.applyFilter({type: 'terms', key: 'sku', value: sku})
+      relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'sku', value: {'eq': sku}})
     }
-    relatedProductsQuery = relatedProductsQuery.applyFilter({type: 'terms', key: 'visibility', value: [2, 3, 4]})
+    relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
 
     this.$store.dispatch('product/listByQuery', {
       searchQuery: relatedProductsQuery,

@@ -164,13 +164,7 @@ export default {
       console.log('Checking configurable parent')
 
       let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.addQuery({type: 'match', key: 'configurable_children.sku', value: context.state.current.sku, boolType: 'query'})
-
-      /* let query = bodybuilder()
-        .query('match', 'configurable_children.sku', context.state.current.sku)
-        .build()
-
-      return context.dispatch('list', {query, start: 0, size: 1, updateState: false}).then((resp) => { */
+      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.state.current.sku}})
 
       return context.dispatch('listByQuery', {searchQuery: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
@@ -433,13 +427,8 @@ export default {
             _returnProductFromCacheHelper(null)
           }
         } else {
-          // context.dispatch('list', { // product list syncs the platform price on it's own
-          /* query: bodybuilder()
-              .query('match', key, options[key])
-              .build(), */
-
           let searchQuery = new SearchQuery()
-          searchQuery = searchQuery.addQuery({type: 'match', key: key, value: options[key], boolType: 'query'})
+          searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
 
           context.dispatch('listByQuery', { // product list syncs the platform price on it's own
             searchQuery: searchQuery,

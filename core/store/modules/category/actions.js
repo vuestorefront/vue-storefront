@@ -29,38 +29,21 @@ export default {
    */
   list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null }) {
     const commit = context.commit
-    /* let qrObj = bodybuilder()
-    if (parent && typeof parent !== 'undefined') {
-      qrObj = qrObj.filter('term', 'parent_id', parent.id)
-    }
-
-    if (onlyActive === true) {
-      qrObj = qrObj.andFilter('term', 'is_active', true) // show only active cateogires
-    }
-
-    if (onlyNotEmpty === true) {
-      qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
-    }
-    */
 
     let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
-      // qrObj = qrObj.filter('term', 'parent_id', parent.id)
-      searchQuery = searchQuery.addQuery({type: 'term', key: 'parent_id', value: parent.id, boolType: 'andQuery'})
+      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parent.id}})
     }
 
     if (onlyActive === true) {
-      // qrObj = qrObj.andFilter('term', 'is_active', true) // show only active cateogires
-      searchQuery = searchQuery.addQuery({type: 'term', key: 'is_active', value: true, boolType: 'andQuery'})
+      searchQuery = searchQuery.applyFilter({key: 'is_active', value: {'eq': true}})
     }
 
     if (onlyNotEmpty === true) {
-      // qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
-      searchQuery = searchQuery.addQuery({type: 'range', key: 'product_count', value: {'gt': 0}, boolType: 'andQuery'})
+      searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
     }
 
     if (!context.state.list | context.state.list.length === 0) {
-      // return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
       return quickSearchByQueryObj({ entityType: 'category', searchQuery: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })

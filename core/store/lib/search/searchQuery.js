@@ -61,97 +61,30 @@ class SearchQuery {
   }
 
   /**
-    * @param {String} type // {range, term, terms}
     * @param {String} key
     * @param {Object} value
-    * @param {Object} scope // default, catalog, catalogsearch, quicksearch
+    * @param {Object} scope // default, catalog, quicksearch
     * @return {Object}
     */
-  applyFilter ({type, key, value, scope = 'default', options = Object}) {
-    switch (type) {
-      case 'range':
-        // check if range value has correct format
-        let range = {}
-        if (value.hasOwnProperty('lt')) { range.lt = value.lt }
-        if (value.hasOwnProperty('lte')) { range.lte = value.lte }
-        if (value.hasOwnProperty('gt')) { range.gt = value.gt }
-        if (value.hasOwnProperty('gte')) { range.gte = value.gte }
-        if (Object.keys(range).length !== 0 && range.constructor === Object) {
-          this._appliedFilters.push({
-            attribute: key,
-            type: type,
-            value: value,
-            scope: scope,
-            options: options
-          })
-        } else {
-          console.log('Filter was not added. Please provide correct range value with format like { \'gte\': 3, \'lte\': 4 }')
-        }
-        break
-      case 'terms':
-        // value can has only String, Array or numeric type
-        this._appliedFilters.push({
-          attribute: key,
-          type: type,
-          value: value,
-          scope: scope,
-          options: options
-        })
-        break
-      case 'match':
-        // value can has only String, Array or numeric type
-        this._appliedFilters.push({
-          attribute: key,
-          type: type,
-          value: value,
-          scope: scope,
-          options: options
-        })
-        break
-      case 'term':
-        // value can has only String, Array or numeric type
-        if (typeof value !== 'object') {
-          this._appliedFilters.push({
-            attribute: key,
-            type: type,
-            value: value,
-            scope: scope,
-            options: options
-          })
-        }
-        break
-      case 'bool':
-        // value can has only String, Array or numeric type
-        if (typeof value === 'object') {
-          this._appliedFilters.push({
-            attribute: key,
-            type: type,
-            value: value,
-            scope: scope,
-            options: options
-          })
-        }
-        break
-      default:
-        console.log('Sorry, we do not suport ' + type + 'filter type')
-    }
+  applyFilter ({key, value, scope = 'default', options = Object}) {
+    this._appliedFilters.push({
+      attribute: key,
+      value: value,
+      scope: scope,
+      options: options
+    })
 
     return this
   }
 
   /**
     * @param {String} key
-    * @param {String} type // { match_all, match, terms, nested }
     * @param {Object} options // { eg price options ] }
     * @return {Object}
     */
-  addAvailableFilter ({type,
-    field,
-    options = {}}) {
+  addAvailableFilter ({field, options = {}}) {
     // value can has only String, Array or numeric type
-
     this._availableFilters.push({
-      type: type,
       field: field,
       options: options
     })

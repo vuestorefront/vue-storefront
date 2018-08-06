@@ -4,6 +4,7 @@ import getBoosts from '../../boost'
 export function prepareElasticsearchQueryBody (searchQuery) {
   const optionsPrfeix = '_options'
   const queryText = searchQuery.getSearchText()
+  const rangeOperators = ['gt', 'lt', 'gte', 'lte', 'moreq', 'from', 'to']
   let query = bodybuilder()
 
   const queriesList = searchQuery.getQueries()
@@ -43,45 +44,41 @@ export function prepareElasticsearchQueryBody (searchQuery) {
   const appliedFilters = searchQuery.getAppliedFilters()
   if (appliedFilters.length > 0) {
     let hasCatalogFilters = false
+
     // apply default filters
-    appliedFilters.forEach(function (_filter) {
-      if (_filter.scope === 'default') {
-        switch (_filter.type) {
-          case 'range':
-            query = query.filter(_filter.type, _filter.attribute, _filter.value)
-            break
-          case 'term':
-            query = query.filter('terms', _filter.attribute, [_filter.value])
-            break
-          case 'terms':
-            if (_filter.value.constructor !== Array && _filter.value.constructor !== Object) {
-              _filter.value = [_filter.value]
-            }
-            query = query.filter(_filter.type, _filter.attribute, _filter.value)
-            break
-          case 'match':
-            if (_filter.value.constructor !== Array && _filter.value.constructor !== Object) {
-              _filter.value = [_filter.value]
-            }
-            query = query.filter('terms', _filter.attribute, _filter.value)
-            break
-          default:
-            console.log('Sorry, we do not suport ' + _filter.type + ' filter type')
+    appliedFilters.forEach(function (filter) {
+      if (filter.scope === 'default') {
+        if (rangeOperators.every(rangeOperator => filter.value.hasOwnProperty(rangeOperator))) {
+          // process range filters
+          query = query.filter('range', filter.attribute, filter.value)
+        } else {
+          // process terms filters
+          filter.value = filter.value[Object.keys(filter.value)[0]]
+          if (!Array.isArray(filter.value)) {
+            filter.value = [filter.value]
+          }
+          query = query.filter('terms', filter.attribute, filter.value)
         }
-      } else if (_filter.scope === 'catalogsearch' || _filter.scope === 'catalog') {
+      } else if (filter.scope === 'catalog') {
         hasCatalogFilters = true
       }
     })
 
-    // apply catalog filters
+    // apply catalog scope filters
 
     let attrFilterBuilder = (filterQr, attrPostfix = '') => {
-      for (let filter of appliedFilters) {
-        if (filter.scope === 'catalogsearch' || filter.scope === 'catalog') {
-          if (filter.attribute !== 'price' && filter.type !== 'range') {
-            filterQr = filterQr.andFilter('match', filter.attribute + attrPostfix, filter.value)
-          } else { // multi should be possible filter here?
-            filterQr = filterQr.andFilter('range', filter.attribute, filter.value)
+      for (let catalogfilter of appliedFilters) {
+        if (catalogfilter.scope === 'catalog') {
+          if (rangeOperators.every(rangeOperator => catalogfilter.value.hasOwnProperty(rangeOperator))) {
+            // process range filters
+            filterQr = filterQr.andFilter('range', catalogfilter.attribute, catalogfilter.value)
+          } else {
+            // process terms filters
+            catalogfilter.value = catalogfilter.value[Object.keys(catalogfilter.value)[0]]
+            if (!Array.isArray(catalogfilter.value)) {
+              catalogfilter.value = [catalogfilter.value]
+            }
+            filterQr = filterQr.andFilter('terms', catalogfilter.attribute + attrPostfix, catalogfilter.value)
           }
         }
       }
@@ -117,20 +114,17 @@ export function prepareElasticsearchQueryBody (searchQuery) {
   }
 
   if (queryText !== '') {
-    query = query.andQuery(
-      'bool',
-      b => b.orQuery('match', 'name', { query: queryText, boost: getBoosts('name') })
-        .orQuery('match', 'category.name', { query: queryText, boost: getBoosts('category.name') })
-        .orQuery('match', 'sku', { query: queryText, boost: getBoosts('sku') })
-        .orQuery('match', 'configurable_children.sku', { query: queryText, boost: getBoosts('configurable_children.sku') })
-        .orQuery('match', 'short_description', { query: queryText, boost: getBoosts('short_description') })
-        .orQuery('match', 'description', { query: queryText, boost: getBoosts('description') })
+    query = query.andQuery('bool', b => b.orQuery('match_phrase_prefix', 'name', { query: queryText, boost: getBoosts('name'), slop: 2 })
+      .orQuery('match_phrase', 'category.name', { query: queryText, boost: getBoosts('category.name') })
+      .orQuery('match_phrase', 'short_description', { query: queryText, boost: getBoosts('short_description') })
+      .orQuery('match_phrase', 'description', { query: queryText, boost: getBoosts('description') })
+      .orQuery('bool', b => b.orQuery('terms', 'sku', queryText.split('-'))
+        .orQuery('terms', 'configurable_children.sku', queryText.split('-'))
+        .orQuery('match_phrase', 'sku', { query: queryText, boost: getBoosts('sku') })
+        .orQuery('match_phrase', 'configurable_children.sku', { query: queryText, boost: getBoosts('configurable_children.sku') }))
     )
   }
 
   const queryBody = query.build()
-
-  console.log(queryBody)
-
   return queryBody
 }

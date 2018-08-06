@@ -14,9 +14,8 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
-      // let ourBestsellersQuery = /* builder().query('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
       let ourBestsellersQuery = new SearchQuery()
-      ourBestsellersQuery = ourBestsellersQuery.applyFilter({type: 'terms', key: 'visibility', value: [2, 3, 4]})
+      ourBestsellersQuery = ourBestsellersQuery.applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
 
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('product/listByQuery', {

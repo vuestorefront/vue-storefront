@@ -87,20 +87,18 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
-      // let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      // let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
 
       let newProductsQuery = new SearchQuery()
       newProductsQuery = newProductsQuery
         // .addQuery({type: 'match', key: 'category.name', value: 'Tees', boolType: 'query'}) // try andQuery
-        .applyFilter({type: 'terms', key: 'category_ids', value: [16, 25, 33]}) // IDs of Tees category
-        .applyFilter({type: 'terms', key: 'visibility', value: [2, 3, 4]}) // try andQuery
+        .applyFilter({key: 'category_ids', value: {'in': [16, 25, 33]}}) // IDs of Tees category
+        .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}}) // try andQuery
 
       let coolBagsQuery = new SearchQuery()
       coolBagsQuery = coolBagsQuery
         // .addQuery({type: 'match', key: 'category.name', value: 'Women', boolType: 'query'}) // try andQuery
-        .applyFilter({type: 'terms', key: 'category_ids', value: [20, 30]}) // IDs of Women category
-        .applyFilter({type: 'terms', key: 'visibility', value: [2, 3, 4]}) // try andQuery
+        .applyFilter({key: 'category_ids', value: {'in': [20, 30]}}) // IDs of Women category
+        .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}}) // try andQuery
 
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/listByQuery', {

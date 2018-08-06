@@ -21,8 +21,6 @@ function isOnline () {
 function searchGql (Query) {
   const gqlQueryBody = prepareGraphQlBody(Query)
 
-  console.log(gqlQueryBody)
-
   let urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
 
   return fetch(urlGql, {
@@ -34,10 +32,8 @@ function searchGql (Query) {
     body: gqlQueryBody
   })
     .then(resp => {
-      // console.log('data returned:', resp.json())
       return resp.json()
     })
-    // .then(data => console.log('data returned:', data.ProductList))
 }
 
 /**
@@ -109,7 +105,7 @@ function searchES (Query) {
   console.log(resp)
   if (config.server.api === 'graphql' || resp.hasOwnProperty('data')) {
     return _handleGqlResult(resp, start, size)
-    // return _handleEsResult(resp.data.searchProducts, start, size)
+    // return _handleEsResult(resp.data.products, start, size)
   } else {
     return _handleEsResult(resp, start, size)
   }
@@ -127,16 +123,15 @@ function _handleGqlResult (resp, start = 0, size = 50) {
     throw new Error('Invalid graphQl result - null not exepcted')
   }
 
-  console.log(resp)
   if (resp.hasOwnProperty('data')) {
     return {
-      items: map(resp.data.searchProducts.hits.hits, function (hit) {
+      items: map(resp.data.products.hits.hits, function (hit) {
         return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
       }), // TODO: add scoring information
-      total: resp.data.searchProducts.hits.total,
+      total: resp.data.products.hits.total,
       start: start,
       perPage: size,
-      aggregations: resp.data.searchProducts.aggregations
+      aggregations: resp.data.products.aggregations
     }
   } else {
     if (resp.error) {

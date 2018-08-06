@@ -47,13 +47,7 @@ export default {
   beforeMount () {
     let self = this
 
-    /* let inspirationsQuery = builder().query('match', 'category.name', this.category).build()
-
-    self.$store.dispatch('product/list', {
-      query: inspirationsQuery, */
-
     let inspirationsQuery = new SearchQuery()
-    inspirationsQuery = inspirationsQuery.addQuery({type: 'match', key: 'category.name', value: this.category, boolType: 'query'})
 
     self.$store.dispatch('product/listByQuery', {
       searchQuery: inspirationsQuery,
