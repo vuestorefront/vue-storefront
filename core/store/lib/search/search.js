@@ -21,7 +21,14 @@ function isOnline () {
 function searchGql (Query) {
   const gqlQueryBody = prepareGraphQlBody(Query)
 
+  const storeView = (Query.store === null) ? currentStoreView() : prepareStoreView(Query.store, config)
+
+  if (storeView.storeId === undefined || storeView.storeId == null || !Query.type) {
+    throw new Error('Store and Query.type are required arguments for executing Graphql query')
+  }
+
   let urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
+  urlGql = urlGql + '/' + encodeURIComponent(storeView.storeId) + '/'
 
   return fetch(urlGql, {
     method: 'POST',

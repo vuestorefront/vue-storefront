@@ -4,7 +4,6 @@ class SearchQuery {
   constructor () {
     this._availableFilters = []
     this._appliedFilters = []
-    this._queries = []
     this._searchText = ''
     console.log('create SearchQuery object')
   }
@@ -24,40 +23,10 @@ class SearchQuery {
   }
 
   /**
-    * @return {Array} array of queries objects
-    */
-  getQueries () {
-    return this._queries
-  }
-
-  /**
     * @return {String}
     */
   getSearchText () {
     return this._searchText
-  }
-
-  /**
-    * @param {String} key
-    * @param {Object} value
-    * @param {String} type // { match_all, match, terms, nested }
-    * @param {String} boolType // { query, orQuery, andQuery, notQuery }
-    * @return {Object}
-    */
-  addQuery ({key, value, type = 'terms', boolType = 'query'}) {
-    // value can has only String, Array or numeric type
-    if (value !== null) {
-      this._queries.push({
-        attribute: key,
-        value: value,
-        type: type,
-        boolType: boolType
-      })
-    } else {
-      console.log('Values has wrong format. Please use format like { \'value\': "3" }')
-    }
-
-    return this
   }
 
   /**
