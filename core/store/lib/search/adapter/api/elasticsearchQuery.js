@@ -7,39 +7,6 @@ export function prepareElasticsearchQueryBody (searchQuery) {
   const rangeOperators = ['gt', 'lt', 'gte', 'lte', 'moreq', 'from', 'to']
   let query = bodybuilder()
 
-  const queriesList = searchQuery.getQueries()
-  if (queriesList.length > 0) {
-    queriesList.forEach(function (_query) {
-      if (Object.keys(_query.value).length !== 0 && _query.value.constructor === Object) {
-        if (_query.value.hasOwnProperty('query')) {
-          _query.value.boost = getBoosts(_query.attribute)
-        }
-      }
-
-      if (_query.value) {
-
-      } else {
-
-      }
-      switch (_query.boolType) {
-        case 'query':
-          query = query.query(_query.type, _query.attribute, _query.value)
-          break
-        case 'orQuery':
-          query = query.orQuery(_query.type, _query.attribute, _query.value)
-          break
-        case 'andQuery':
-          query = query.andQuery(_query.type, _query.attribute, _query.value)
-          break
-        case 'notQuery':
-          query = query.notQuery(_query.type, _query.attribute, _query.value)
-          break
-        default:
-          console.log('Sorry, we do not suport ' + _query.boolType + ' query type')
-      }
-    })
-  }
-
   // process applied filters
   const appliedFilters = searchQuery.getAppliedFilters()
   if (appliedFilters.length > 0) {
