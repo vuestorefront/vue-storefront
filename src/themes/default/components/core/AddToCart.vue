@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import Product from 'core/typings/Product.ts'
-import { formatProductMessages } from 'core/filters/product-messages/typed.ts'
+import Product from 'core/typings/Product'
+import { formatProductMessages } from 'core/filters/product-messages/typed'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import addToCart from '@vue-storefront/core/components/AddToCart'
