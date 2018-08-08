@@ -22,5 +22,11 @@ Normally module can (but not must) contain following folders:
 - `store` - Vuex store associated to module
 - `helpers` - everything else that is meant to support modules behavior
 - `types` - TypeScript types associated with module
+- 'test' - folder with unit tests which is *required* for every new or rewritten module
 
 [under construction]
+
+
+# Contributions
+
+Please introduce every new feature with new architecture as a module. We also need your help in rewriting Vue Storefront to modular approach - [here](https://github.com/DivanteLtd/vue-storefront/issues?q=is%3Aissue+is%3Aopen+label%3A%22API+Module%22) you can find tasks related to this architectural change.
