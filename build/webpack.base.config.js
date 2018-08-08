@@ -14,14 +14,7 @@ const extensionsRoot = '../src/extensions'
 const themesRoot = '../src/themes'
 
 const themeRoot = require('./theme-path')
-const themeComponents = themeRoot + '/components'
-const themeExtensions = themeRoot + '/extensions'
-const themePages = themeRoot + '/pages'
-const themePlugins = themeRoot + '/plugins'
-const themeFilters = themeRoot + '/filters'
-const themeMixins = themeRoot + '/mixins'
 const themeResources = themeRoot + '/resource'
-const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
@@ -80,33 +73,13 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       // Core aliases
       'components': path.resolve(__dirname, '../src/components'),
-      'core/api': path.resolve(__dirname, '../src/core/api'),
-      'core/assets': path.resolve(__dirname, '../src/core/assets'),
-      'core/components': path.resolve(__dirname, '../src/core/components'),
-      'core/filters': path.resolve(__dirname, '../src/core/filters'),
-      'core/helpers': path.resolve(__dirname, '../src/core/helpers'),
-      'core/lib': path.resolve(__dirname, '../src/core/lib'),
-      'core/mixins': path.resolve(__dirname, '../src/core/mixins'),
-      'core/models': path.resolve(__dirname, '../src/core/models'),
-      'core/pages': path.resolve(__dirname, '../src/core/pages'),
-      'core/plugins': path.resolve(__dirname, '../src/core/plugins'),
-      'core/resource': path.resolve(__dirname, '../src/core/resource'),
-      'core/router': path.resolve(__dirname, '../src/core/router'),
-      'core/directives': path.resolve(__dirname, '../src/core/directives'),
       // Ccre API Modules
       'core/api/cart': path.resolve(__dirname, '../src/core/api/cart/index.js'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
-      'theme/components': themeComponents,
       'theme/css': themeCSS,
-      'theme/filters': themeFilters,
-      'theme/mixins': themeMixins,
-      'theme/pages': themePages,
-      'theme/plugins': themePlugins,
-      'theme/resource': themeResources,
-      'theme/store': themeStores,
-      'theme/extensions': themeExtensions
+      'theme/resource': themeResources
     }
   },
   module: {

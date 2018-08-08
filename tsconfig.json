@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "strict": false,
-    "allowJs": true,
+    "lib": ["es2017", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
+    "strict": false,
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "baseUrl": "./",
+    "types": ["reflect-metadata"],
     "paths": {
       "core/*": ["src/core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
