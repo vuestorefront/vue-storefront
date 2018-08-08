@@ -138,6 +138,7 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
 * [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
 * [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
+* [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
