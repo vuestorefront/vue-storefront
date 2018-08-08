@@ -136,10 +136,21 @@ function _handleGqlResult (resp, type, start = 0, size = 50) {
     switch (type) {
       case 'product':
         response = {
-          items: map(resp.data.products.hits.hits, function (hit) {
-            return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
+          items: map(resp.data.products.items, function (item) {
+            let options = {}
+            if (item._score) {
+              options._score = item._score
+              delete item._score
+            }
+            console.log(item)
+            options.slug = (item.hasOwnProperty('url_key') &&
+            config.products.useMagentoUrlKeys)
+              ? item.url_key : (item.hasOwnProperty('name')
+                ? slugify(item.name) + '-' + item.id : '')
+
+            return Object.assign(item, options) // TODO: assign slugs server side
           }), // TODO: add scoring information
-          total: resp.data.products.hits.total,
+          total: resp.data.products.total_count,
           start: start,
           perPage: size,
           aggregations: resp.data.products.aggregations

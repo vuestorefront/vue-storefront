@@ -18,9 +18,18 @@ export function prepareGraphQlBody (Query) {
           sort: $sort
         )
         {
-          hits
+          items
+          total_count
           aggregations
-          suggest
+          sort_fields{
+            options {
+              value
+            }
+          }
+          page_info{
+            page_size
+            current_page
+          }
         }
       }`
       queryVariables.search = Query.searchQuery.getSearchText()
