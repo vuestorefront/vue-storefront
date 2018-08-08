@@ -20,9 +20,9 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless'],
     frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec'],
-    files: ['./index.js'],
+    files: ['./test-context.js'],
     preprocessors: {
-      './index.js': ['webpack', 'sourcemap']
+      './test-context.js': ['webpack', 'sourcemap']
     },
     webpack: webpackConfig,
     webpackMiddleware: {

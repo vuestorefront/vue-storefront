@@ -14,15 +14,15 @@ cache:
 install:
   - yarn
   
-script: 
+script:
   - yarn lint
-  # - yarn unit
   - yarn build
 
 jobs:
   include:
+    # - yarn test:unit
     - stage: e2e
       if: branch IN (master, develop)
       script:
         - yarn installer:ci
-        # - yarn tests:e2e:ci
+        # - yarn test:e2e:ci

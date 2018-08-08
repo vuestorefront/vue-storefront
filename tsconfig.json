@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "strict": false,
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "core/*": ["core/*"],
+      "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
+    }
+  },
+  "files": ["vue.d.ts"]
+}
