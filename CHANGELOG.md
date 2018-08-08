@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- New folder structure
+- New folder structure [#1556]
+- New test folder structure [#1545]
+- Removed duplicated aliases [#1556]
 
 ## [1.2.0] - 2018-08-01
 
