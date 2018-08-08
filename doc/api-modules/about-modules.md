@@ -2,7 +2,7 @@
 
 # What are VS modules?
 
-You can think about each module as one feature available in Vue Storefront with all it's logic and dependencyc encapsulated inside.
+You can think about each module as one feature available in Vue Storefront with all it's logic and dependencys encapsulated inside. Cart, WIshlist or Content (cms integration) are good examples of modules.
 
 # What is the purpose of VS modules?
 
