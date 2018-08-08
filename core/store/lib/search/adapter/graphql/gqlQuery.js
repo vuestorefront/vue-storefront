@@ -4,8 +4,7 @@ export function prepareGraphQlBody (Query) {
 
   let query = ``
   let queryVariables = {}
-
-  console.log('Query.type: ', Query.type)
+  const filters = Query.searchQuery.getAppliedFilters()
 
   switch (Query.type) {
     case 'product':
@@ -35,13 +34,20 @@ export function prepareGraphQlBody (Query) {
       queryVariables.search = Query.searchQuery.getSearchText()
       break
     case 'attribute':
+      query = `query customAttributeMetadata ($attributes: AttributeInput!) {
+        customAttributeMetadata(
+          attributes: $attributes
+        )
+        {
+          hits
+        }
+      }`
       break
     default:
-
       break
   }
 
-  const filters = Query.searchQuery.getAppliedFilters()
+  queryVariables.sort = {}
   queryVariables.filter = {}
 
   // Add aggregations for filters
@@ -53,21 +59,20 @@ export function prepareGraphQlBody (Query) {
   }
 
   for (let _filter of filters) {
-    // filter[_filter.type][_filter.attribute] = _filter.value
     queryVariables.filter[_filter.attribute] = _filter.value
     if (_filter.scope) {
       _filter.value['scope'] = _filter.scope
     }
   }
 
-  queryVariables.sort = {}
   if (Query.sort !== '') {
     const sortParse = Query.sort.split(':')
     queryVariables.sort[sortParse[0]] = sortParse[1].toUpperCase()
   }
 
   queryVariables.pageSize = Query.size
-  queryVariables.currentPage = (Query.from / Query.size) + 1
+  queryVariables.currentPage = Query.from / Query.size + 1
+  queryVariables.attributes = queryVariables.filter
 
   const body = JSON.stringify({
     query,
