@@ -13,7 +13,7 @@ The purpose is well described in [this discussion](https://github.com/DivanteLtd
 
 # How module should look like
 
-Module by it's definition should contain all logic required for the feature it represents encapsulated. You can think about each module as a micro application that exposes it's parts to the outside world (Vue Storefront).
+Module by it's definition should encapsulate all logic required for the feature it represents. You can think about each module as a micro application that exposes it's parts to the outside world (Vue Storefront).
 
 Normally module can (but not must) contain following folders:
 
