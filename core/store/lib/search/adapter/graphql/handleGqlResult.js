@@ -18,10 +18,10 @@ export default function handleGqlResult (resp, type, start = 0, size = 50) {
     let response = []
     switch (type) {
       case 'product':
-        response = processProductsType(resp.data.products, type, start, size)
+        response = processProductsType(resp.data.products, start, size)
         break
       case 'attribute':
-        response = processESResponseType(resp.data.customAttributeMetadata, type, start, size)
+        response = processESResponseType(resp.data.customAttributeMetadata, start, size)
         break
     }
 
@@ -35,7 +35,7 @@ export default function handleGqlResult (resp, type, start = 0, size = 50) {
   }
 }
 
-function processESResponseType (resp, type, start, size) {
+function processESResponseType (resp, start, size) {
   const response = {
     items: map(resp.hits.hits, function (hit) {
       return Object.assign(hit._source, {
@@ -53,7 +53,7 @@ function processESResponseType (resp, type, start, size) {
   return response
 }
 
-function processProductsType (resp, type, start, size) {
+function processProductsType (resp, start, size) {
   const response = {
     items: map(resp.items, function (item) {
       let options = {}
