@@ -29,6 +29,12 @@ While writing issues, be as specific as possible
 All requests regarding support with implementation or application setup should be sent to contributors@vuestorefront.io
 
 If the issue is about some changes with particular theme prefix the issue with theme name (ex. "[default] change product tile background color" )
+
+## TypeScript?
+
+We're introducing TypeScript to Vue Storefront core, so You can use it where it's aproprierate - but please be pragmatic.
+Here are some thoughts on how to use TS features in Vue Storefront: [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md).
+
 ## Pull request checklist
 
 Here’s how to submit a pull request. <b>Pull request that dont meet this requirements will not be merged.</b>
