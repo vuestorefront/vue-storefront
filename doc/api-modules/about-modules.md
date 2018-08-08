@@ -17,7 +17,7 @@ Module by it's definition should encapsulate all logic required for the feature 
 
 Normally module can (but not must) contain following folders:
 
-- `components` - components related to this module (eg. Microcard for Cart module)
+- `components` - components related to this module (eg. Microcart for Cart module)
 - `features` - atomic features that can be used to build your components (eg. AddToCart, ProductsInCart, RemoveFromCart etc for Cart module)
 - `store` - Vuex store associated to module
 - `helpers` - everything else that is meant to support modules behavior
