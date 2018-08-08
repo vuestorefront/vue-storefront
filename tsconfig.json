@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "core/*": ["core/*"],
+      "core/*": ["src/core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
     }
   },

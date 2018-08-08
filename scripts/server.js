@@ -23,7 +23,7 @@ if (isProd) {
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
-  require(resolve('core/build/dev-server'))(app, (bundle, template) => {
+  require(resolve('build/dev-server'))(app, (bundle, template) => {
     renderer = createRenderer(bundle, template)
   })
 }
@@ -47,7 +47,7 @@ const themeRoot = require('../build/theme-path')
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
-app.use('/assets', serve('core/assets', true))
+app.use('/assets', serve('src/core/assets', true))
 app.use('/service-worker.js', serve('dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))

@@ -10,8 +10,8 @@ fs.writeFileSync(
   JSON.stringify(config)
 )
 
-const extensionsRoot = '../../src/extensions'
-const themesRoot = '../../src/themes'
+const extensionsRoot = '../src/extensions'
+const themesRoot = '../src/themes'
 
 const themeRoot = require('./theme-path')
 const themeComponents = themeRoot + '/components'
@@ -25,9 +25,9 @@ const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
-const translationPreprocessor = require('../lib/translation.preprocessor.js')
+const translationPreprocessor = require('./translation.preprocessor.js')
 translationPreprocessor([
-  path.resolve(__dirname, '../resource/i18n/'),
+  path.resolve(__dirname, '../src/core/resource/i18n/'),
   path.resolve(__dirname, themeResources + '/i18n/')
 ])
 
@@ -51,7 +51,7 @@ module.exports = {
   ],
   devtool: 'source-map',
   entry: {
-    app: './core/client-entry.js'
+    app: './src/client-entry.js'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -75,26 +75,26 @@ module.exports = {
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
-      'core': path.resolve(__dirname, '../'),
-      'lib': path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
-      'src': path.resolve(__dirname, '../../src'),
+      'core': path.resolve(__dirname, '../src/core'),
+      'lib': path.resolve(__dirname, '../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
+      'src': path.resolve(__dirname, '../src'),
       // Core aliases
-      'components': path.resolve(__dirname, '../../src/components'),
-      'core/api': path.resolve(__dirname, '../api'),
-      'core/assets': path.resolve(__dirname, '../assets'),
-      'core/components': path.resolve(__dirname, '../components'),
-      'core/filters': path.resolve(__dirname, '../filters'),
-      'core/helpers': path.resolve(__dirname, '../helpers'),
-      'core/lib': path.resolve(__dirname, '../lib'),
-      'core/mixins': path.resolve(__dirname, '../mixins'),
-      'core/models': path.resolve(__dirname, '../models'),
-      'core/pages': path.resolve(__dirname, '../pages'),
-      'core/plugins': path.resolve(__dirname, '../plugins'),
-      'core/resource': path.resolve(__dirname, '../resource'),
-      'core/router': path.resolve(__dirname, '../router'),
-      'core/directives': path.resolve(__dirname, '../directives'),
+      'components': path.resolve(__dirname, '../src/components'),
+      'core/api': path.resolve(__dirname, '../src/core/api'),
+      'core/assets': path.resolve(__dirname, '../src/core/assets'),
+      'core/components': path.resolve(__dirname, '../src/core/components'),
+      'core/filters': path.resolve(__dirname, '../src/core/filters'),
+      'core/helpers': path.resolve(__dirname, '../src/core/helpers'),
+      'core/lib': path.resolve(__dirname, '../src/core/lib'),
+      'core/mixins': path.resolve(__dirname, '../src/core/mixins'),
+      'core/models': path.resolve(__dirname, '../src/core/models'),
+      'core/pages': path.resolve(__dirname, '../src/core/pages'),
+      'core/plugins': path.resolve(__dirname, '../src/core/plugins'),
+      'core/resource': path.resolve(__dirname, '../src/core/resource'),
+      'core/router': path.resolve(__dirname, '../src/core/router'),
+      'core/directives': path.resolve(__dirname, '../src/core/directives'),
       // Ccre API Modules
-      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
+      'core/api/cart': path.resolve(__dirname, '../src/core/api/cart/index.js'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
@@ -136,7 +136,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!@vue-storefront)/
+        include: ['@vue-storefront']
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
