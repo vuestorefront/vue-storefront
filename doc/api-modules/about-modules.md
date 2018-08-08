@@ -15,4 +15,12 @@ The purpose is well described in [this discussion](https://github.com/DivanteLtd
 
 Module by it's definition should contain all logic required for the feature it represents encapsulated. You can think about each module as a micro application that exposes it's parts to the outside world (Vue Storefront).
 
+Normally module can (but not must) contain following folders:
+
+- `components` - components related to this module (eg. Microcard for Cart module)
+- `features` - atomic features that can be used to build your components (eg. AddToCart, ProductsInCart, RemoveFromCart etc for Cart module)
+- `store` - Vuex store associated to module
+- `helpers` - everything else that is meant to support modules behavior
+- `types` - TypeScript types associated with module
+
 [under construction]
