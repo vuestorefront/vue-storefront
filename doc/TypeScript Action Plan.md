@@ -1,3 +1,5 @@
+## TypeScript Action Plan
+
 We've started adding the TypeScript support to Vue Storefront - mostly because of the following reasons:
 - developer convinience (intelisense support in the IDE's)
 - types safety and code-testability
@@ -11,4 +13,4 @@ The Action Plan:
 2. One Vuex module, or just few components refactored within one release (once a month) is fine.
 3. All `core/api` modules should be created using TypeScript.
 4. All new components/pages and vuex stores should be created using TypeScript.
-5. We should put the typings inside `core/api/<module-name>/typings` - for example: Product.ts should be placed in `core/api/product/typings/Product.ts`
+5. We should put the typings inside `core/api/<module-name>/typings` or `core/api/typings` for shared one's; for example: Product.ts should be placed in `core/api/product/typings/Product.ts`
