@@ -135,19 +135,28 @@ function _handleGqlResult (resp, type, start = 0, size = 50) {
     let response = []
     switch (type) {
       case 'product':
-        response = {
-          items: map(resp.data.products.hits.hits, function (hit) {
-            return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
-          }), // TODO: add scoring information
-          total: resp.data.products.hits.total,
-          start: start,
-          perPage: size,
-          aggregations: resp.data.products.aggregations
-        }
+        resp = resp.data.products
         break
       case 'attribute':
+        resp = resp.data.customAttributeMetadata
         break
     }
+
+    response = {
+      items: map(resp.hits.hits, function (hit) {
+        return Object.assign(hit._source, {
+          _score: hit._score,
+          slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys)
+            ? hit._source.url_key
+            : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '')
+        }) // TODO: assign slugs server side
+      }), // TODO: add scoring information
+      total: resp,
+      start: start,
+      perPage: size,
+      aggregations: resp.aggregations
+    }
+
     return response
   } else {
     if (resp.error) {
