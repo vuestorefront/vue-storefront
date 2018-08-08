@@ -8,7 +8,7 @@
  */
 export const productsInCart = {
   computed: {
-    productsInCart () {
+    productsInCart () : any[] {
       return this.$store.state.cart.cartItems
     }
   }

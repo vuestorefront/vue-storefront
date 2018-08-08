@@ -6,10 +6,11 @@
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
-export const removeFromCart = {
+ import CartItem from '@vue-storefront/store/types/cart/CartItem'
+ export const removeFromCart = {
   methods: {
-    removeFromCart (product) {
-      this.$store.dispatch('cart/removeItem', product)
+    removeFromCart (item: CartItem) {
+      this.$store.dispatch('cart/removeItem', item)
     }
   }
 }

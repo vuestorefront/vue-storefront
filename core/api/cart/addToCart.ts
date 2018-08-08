@@ -6,9 +6,10 @@
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
+import Product from '@vue-storefront/store/types/product/Product'
 export const addToCart = {
   methods: {
-    addToCart (product) {
+    addToCart (product: Product) {
       this.$store.dispatch('cart/addItem', { productToAdd: product })
     }
   }
