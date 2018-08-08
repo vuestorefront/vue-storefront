@@ -36,6 +36,6 @@ module.exports = function (csvDirectories) {
 
   languages.forEach(function (language) {
     console.debug(`Writing JSON file: ${language}.json`)
-    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
+    fs.writeFileSync(path.join(__dirname, '../src/core/resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
   })
 }

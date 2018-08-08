@@ -32,9 +32,9 @@ Below you can find the list of files that are essential for your theme to work:
   * `index.js` - here you can register your theme-specific mixins
 * `pages` - your shop pages
 * `plugins` - theme-specific plugins (extends `core/plugins`, see [Working with plugins](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20plugins.md)
-* `resource` - theme-specific resources (extends `core/resorce`)
+* `resource` - theme-specific resources (extends `core/resource`)
 * `router` - theme router
-* `store` - theme-specific stores (extends `core/store`)
+* `store` - theme-specific stores (extends `src/store`)
   * `ui-store.js` - here you can extend core `ui-store`
   * `index.js` -  here you can register theme-specific stores
 * `App.vue` - theme's entry component

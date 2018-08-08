@@ -161,8 +161,8 @@ Here You can check an **[example how did we migrated our own default_m1 theme to
 2. We added the Vuex Stores extensibility to the themes. If You're getting the following build error:
 
 ```
-ERROR in ./core/store/index.js
-Module not found: Error: Can't resolve 'theme/store' in '***/vue-storefront/core/store'
+ERROR in ./src/store/index.js
+Module not found: Error: Can't resolve 'theme/store' in '***/vue-storefront/src/store'
 ```
 
 It means, that You need to copy the [template store](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/store/index.js) to: `<Your custom theme folder>/store`.

@@ -1,3 +1,2 @@
-core/build/*.js
+build/*.js
 node_modules
-core/api/**/test

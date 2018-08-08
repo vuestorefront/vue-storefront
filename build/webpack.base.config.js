@@ -10,17 +10,17 @@ fs.writeFileSync(
   JSON.stringify(config)
 )
 
-const extensionsRoot = '../../src/extensions'
-const themesRoot = '../../src/themes'
+const extensionsRoot = '../src/extensions'
+const themesRoot = '../src/themes'
 
 const themeRoot = require('./theme-path')
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
-const translationPreprocessor = require('../lib/translation.preprocessor.js')
+const translationPreprocessor = require('./translation.preprocessor.js')
 translationPreprocessor([
-  path.resolve(__dirname, '../resource/i18n/'),
+  path.resolve(__dirname, '../src/core/resource/i18n/'),
   path.resolve(__dirname, themeResources + '/i18n/')
 ])
 
@@ -44,7 +44,7 @@ module.exports = {
   ],
   devtool: 'source-map',
   entry: {
-    app: './core/client-entry.js'
+    app: './src/client-entry.js'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -68,13 +68,13 @@ module.exports = {
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
-      'core': path.resolve(__dirname, '../'),
-      'lib': path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
-      'src': path.resolve(__dirname, '../../src'),
+      'core': path.resolve(__dirname, '../src/core'),
+      'lib': path.resolve(__dirname, '../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
+      'src': path.resolve(__dirname, '../src'),
       // Core aliases
-      'components': path.resolve(__dirname, '../../src/components'),
+      'components': path.resolve(__dirname, '../src/components'),
       // Ccre API Modules
-      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
+      'core/api/cart': path.resolve(__dirname, '../src/core/api/cart/index.js'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
@@ -109,7 +109,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!@vue-storefront)/
+        include: ['@vue-storefront']
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

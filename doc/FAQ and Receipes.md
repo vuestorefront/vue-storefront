@@ -199,7 +199,7 @@ The currency is set in the local.json configuration file and it's (along with th
 
 ### <a name="caching-strategy"></a>If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device
 
-Not necessarily. VS is caching the products from the categories browsed. This is default solution which can be changed by modifying 'core/store/lib/search.js'
+Not necessarily. VS is caching the products from the categories browsed. This is default solution which can be changed by modifying 'src/store/lib/search.js'
 
 ### <a name="how-to-modify-schema"></a>How to add/remove/change field types in the ElasticSearch schema
 
