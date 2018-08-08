@@ -10,7 +10,8 @@ We're in the middle of [refactoring `core/components` to `core/api` modules](htt
 The Action Plan:
 
 1. Introduce types - move *.js modules to *.ts modules incrementally without breaking changes. 
-2. One Vuex module, or just few components refactored within one release (once a month) is fine.
-3. All `core/api` modules should be created using TypeScript.
-4. All new components/pages and vuex stores should be created using TypeScript.
-5. We should put the types/interfaces inside `core/api/<module-name>/typings` or `core/types` for shared one's; for example: Product.ts should be placed in `core/types/Product.ts`
+2. Use Types when it's approprierate in Your newly written modules and new features.
+3. One Vuex module, or just few components refactored within one release (once a month) is fine.
+4. All `core/api` modules should be created using TypeScript.
+5. All new components/pages and vuex stores should be created using TypeScript.
+6. We should put the types/interfaces inside `core/store/types` for all Entity/Data related models or in `core/types` for some shared one's; for example: Product.ts should be placed in `core/store/types/product/Product.ts`
