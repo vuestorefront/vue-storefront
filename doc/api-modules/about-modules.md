@@ -1,4 +1,4 @@
-***Important*** Modules approach is under heavy development. Only a few parts of Vue Storefront are rewritten to modules approach but we are aiming to rewrite everything soon along with adding TypeScript support and Unit tests to each of them. Some concepts may change over time before we introduce the final version of VS Modules.
+***Important*** Modules are under heavy development. Only a few parts of Vue Storefront are rewritten to modular architecture but we are aiming to rewrite everything soon along with adding TypeScript support and Unit tests to each of them. Some concepts may change over time before we introduce the final version of VS Modules.
 
 # What are VS modules?
 
