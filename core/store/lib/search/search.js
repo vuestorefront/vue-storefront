@@ -122,24 +122,33 @@ function searchES (Query) {
 /**
  * Helper function to handle ElasticSearch Results
  * @param {Object} resp result from ES call
+ * @param {String} type entity type
  * @param {Int} start pagination data
  * @param {Int} size pagination data
  */
-function _handleGqlResult (resp, start = 0, size = 50) {
+function _handleGqlResult (resp, type, start = 0, size = 50) {
   if (resp === null) {
     throw new Error('Invalid graphQl result - null not exepcted')
   }
 
   if (resp.hasOwnProperty('data')) {
-    return {
-      items: map(resp.data.products.hits.hits, function (hit) {
-        return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
-      }), // TODO: add scoring information
-      total: resp.data.products.hits.total,
-      start: start,
-      perPage: size,
-      aggregations: resp.data.products.aggregations
+    let response = []
+    switch (type) {
+      case 'product':
+        response = {
+          items: map(resp.data.products.hits.hits, function (hit) {
+            return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
+          }), // TODO: add scoring information
+          total: resp.data.products.hits.total,
+          start: start,
+          perPage: size,
+          aggregations: resp.data.products.aggregations
+        }
+        break
+      case 'attribute':
+        break
     }
+    return response
   } else {
     if (resp.error) {
       throw new Error(JSON.stringify(resp.error))
@@ -243,7 +252,7 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
     if ((config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') && Query.type === 'product') {
       // Use test graphql for simple product search
       searchGql(Query).then(function (resp) { // we're always trying to populate cache - when online
-        const res = _handleGqlResult(resp, start, size)
+        const res = _handleGqlResult(resp, Query.type, start, size)
         cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
           console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
