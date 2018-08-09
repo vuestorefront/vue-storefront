@@ -1,8 +1,6 @@
 import hash from 'object-hash'
 import config from 'config'
 
-let adapterName = config.server.api
-
 function isOnline () {
   if (typeof navigator !== 'undefined') {
     return navigator.onLine
@@ -73,7 +71,8 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
 
-    if (adapterName !== 'graphql' && (Query.type !== 'product' || Query.type !== 'attribute')) {
+    let adapterName = config.server.api
+    if (adapterName === 'graphql' && Query.type !== 'product' && Query.type !== 'attribute') {
       adapterName = 'api'
     }
 
