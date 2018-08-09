@@ -9,6 +9,11 @@ export default {
       requred: false,
       default: true
     },
+    onlyImage: {
+      type: Boolean,
+      requred: false,
+      default: false
+    },
     product: {
       type: Object,
       required: true
