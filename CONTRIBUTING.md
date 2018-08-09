@@ -33,7 +33,7 @@ If the issue is about some changes with particular theme prefix the issue with t
 
 Here’s how to submit a pull request. <b>Pull request that dont meet this requirements will not be merged.</b>
 
-1. Fork the repository and clone it locally fro the 'develop' branch. Make sure its up to date with current `develop` branch
+1. Fork the repository and clone it locally from the 'develop' branch. Make sure its up to date with current `develop` branch
 2. Create a branch for your edits. Use the following branch naming conventions:
  * bugfix/task-title
  * feature/task-name
