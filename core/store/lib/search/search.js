@@ -181,7 +181,7 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
 
-    if ((config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') && Query.type === 'product') {
+    if ((config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') && (Query.type === 'product' || Query.type === 'attribute')) {
       // Use test graphql for simple product search
       searchGql(Query).then(function (resp) { // we're always trying to populate cache - when online
         const res = handleGqlResult(resp, Query.type, start, size)
