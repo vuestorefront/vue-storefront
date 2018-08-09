@@ -1,9 +1,12 @@
 import * as types from '../../mutation-types'
-import bodybuilder from 'bodybuilder'
 import { quickSearchByQuery } from '../../lib/search'
 import config from '../../lib/config'
+import AttributeState from './types/AttributeState'
+import RootState from '../../types/RootState'
+import { ActionTree } from 'vuex'
+const bodybuilder = require('bodybuilder')
 
-export default {
+const actions: ActionTree<AttributeState, RootState> = {
   /**
    * Load attributes with specific codes
    * @param {Object} context
@@ -24,3 +27,5 @@ export default {
     })
   }
 }
+
+export default actions

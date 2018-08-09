@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as types from './mutation-types'
-import localForage from 'localforage'
+import * as localForage from 'localforage'
 import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
+import RootState from 'core/store/types/RootState'
+
+declare var global: any
 
 if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
@@ -106,12 +109,12 @@ const plugins = [
   }
 ]
 
-let rootStore = new Vuex.Store({
+let rootStore = new Vuex.Store<RootState>({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state,
   mutations,
   plugins
-})
+}) as any
 
 rootStore.i18n = {
   t: function (key) {
