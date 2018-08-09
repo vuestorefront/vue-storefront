@@ -51,4 +51,6 @@ Here’s how to submit a pull request. <b>Pull request that dont meet this requi
 8. If you have found a potential security vulnerability, please DO NOT report it on the public issue tracker. Instead, send it to us at contributors@vuestorefront.io. We will work with you to verify and fix it as soon as possible.
 (https://github.com/DivanteLtd/vue-storefront/blob/master/README.md#documentation--table-of-contents))
 
+## New features
 
+If you are making any new feature make sure it's adjusted to our new, modular approach. Read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
