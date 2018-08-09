@@ -39,6 +39,7 @@ Here are some thoughts on how to use TS features in Vue Storefront: [TypeScript 
 
 Here’s how to submit a pull request. <b>Pull request that dont meet this requirements will not be merged.</b>
 
+**ALWAYS** use [Pull Request template](https://github.com/DivanteLtd/vue-storefront/blob/master/PULL_REQUEST_TEMPLATE.md) it's automatically added to each PR.
 1. Fork the repository and clone it locally fro the 'develop' branch. Make sure its up to date with current `develop` branch
 2. Create a branch for your edits. Use the following branch naming conventions:
  * bugfix/task-title
