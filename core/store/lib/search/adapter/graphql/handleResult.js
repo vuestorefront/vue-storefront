@@ -9,7 +9,7 @@ import { slugify } from '../../../../helpers'
 * @param {Int} start pagination data
 * @param {Int} size pagination data
 */
-export default function handleGqlResult (resp, type, start = 0, size = 50) {
+export function handleResult (resp, type, start = 0, size = 50) {
   if (resp === null) {
     throw new Error('Invalid graphQl result - null not exepcted')
   }
@@ -61,7 +61,6 @@ function processProductsType (resp, start, size) {
         options._score = item._score
         delete item._score
       }
-      console.log(item)
       options.slug = (item.hasOwnProperty('url_key') &&
      config.products.useMagentoUrlKeys)
         ? item.url_key : (item.hasOwnProperty('name')

@@ -8,7 +8,7 @@ import { slugify } from '../../../../helpers'
 * @param {Int} start pagination data
 * @param {Int} size pagination data
 */
-export default function handleEsResult (resp, start = 0, size = 50) {
+export function handleResult (resp, type, start = 0, size = 50) {
   if (resp === null) {
     throw new Error('Invalid ES result - null not exepcted')
   }

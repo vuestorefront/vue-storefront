@@ -1,11 +1,7 @@
-import { prepareGraphQlBody } from './adapter/graphql/gqlQuery'
-import { prepareElasticsearchQueryBody } from './adapter/api/elasticsearchQuery'
-import { currentStoreView, prepareStoreView } from '../multistore'
 import hash from 'object-hash'
 import config from 'config'
-import fetch from 'isomorphic-fetch'
-import handleGqlResult from './adapter/graphql/handleGqlResult'
-import handleEsResult from './adapter/api/handleEsResult'
+
+let adapterName = config.server.api
 
 function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -14,110 +10,6 @@ function isOnline () {
     return true // SSR
   }
 }
-
-/**
- * Execute GraphQl query
- */
-function searchGql (Query) {
-  const gqlQueryBody = prepareGraphQlBody(Query)
-
-  const storeView = (Query.store === null) ? currentStoreView() : prepareStoreView(Query.store, config)
-
-  if (storeView.storeId === undefined || storeView.storeId == null || !Query.type) {
-    throw new Error('Store and Query.type are required arguments for executing Graphql query')
-  }
-
-  let urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
-  urlGql = urlGql + '/' + encodeURIComponent(storeView.storeId) + '/'
-
-  return fetch(urlGql, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: gqlQueryBody
-  })
-    .then(resp => {
-      return resp.json()
-    })
-}
-
-/**
- * Execute ElasticSearch query
- */
-function searchES (Query) {
-  const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIComponent).join('=')).join('&')
-
-  let ElasticsearchQueryBody = prepareElasticsearchQueryBody(Query.searchQuery)
-
-  const storeView = (Query.store === null) ? currentStoreView() : prepareStoreView(Query.store, config)
-
-  Query.index = storeView.elasticsearch.index
-
-  let url = storeView.elasticsearch.host
-  if (!url.startsWith('http')) {
-    url = 'http://' + url
-  }
-  const httpQuery = {
-    'size': Query.size,
-    'from': Query.from,
-    'sort': Query.sort
-  }
-  if (Query._sourceExclude) {
-    httpQuery._source_exclude = Query._sourceExclude.join(',')
-  }
-  if (Query._sourceInclude) {
-    httpQuery._source_include = Query._sourceInclude.join(',')
-  }
-  if (Query.q) {
-    httpQuery.q = Query.q
-  }
-
-  if (!Query.index || !Query.type) {
-    throw new Error('Query.index and Query.type are required arguments for executing ElasticSearch query')
-  }
-
-  url = url + '/' + encodeURIComponent(Query.index) + '/' + encodeURIComponent(Query.type) + '/_search'
-  url = url + '?' + buildURLQuery(httpQuery)
-
-  return fetch(url, { method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(ElasticsearchQueryBody)
-  }).then(resp => { return resp.json() })
-}
-
-/**
- * Execute search query
- */
-/* function search (Query) {
-  if ((config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') && Query.type === 'product') {
-    return searchGql(Query)
-  } else {
-    return searchES(Query)
-  }
-}
-*/
-/**
- * Helper function to handle ElasticSearch Results
- * @param {Object} resp result from ES call
- * @param {Int} start pagination data
- * @param {Int} size pagination data
- */
-/* function _handleResult (resp, start = 0, size = 50) {
-  console.log(resp)
-  if (config.server.api === 'graphql' || resp.hasOwnProperty('data')) {
-    return _handleGqlResult(resp, start, size)
-    // return _handleEsResult(resp.data.products, start, size)
-  } else {
-    return _handleEsResult(resp, start, size)
-  }
-}
-*/
 
 /**
  * Search ElasticSearch catalog of products using simple text query
@@ -181,38 +73,26 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
 
-    if ((config.server.api === 'graphql' || Query.searchQuery.getSearchText() !== '') && (Query.type === 'product' || Query.type === 'attribute')) {
-      // Use test graphql for simple product search
-      searchGql(Query).then(function (resp) { // we're always trying to populate cache - when online
-        const res = handleGqlResult(resp, Query.type, start, size)
-        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
-        if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-          res.cache = false
-          res.noresults = false
-          res.offline = false
-          resolve(res)
-        }
-      }).catch(function (err) {
-        // reject(err)
-        console.error(err)
-      })
-    } else {
-      // Use test graphql for simple product search
-      searchES(Query).then(function (resp) { // we're always trying to populate cache - when online
-        const res = handleEsResult(resp, start, size)
-        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
-        if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-          res.cache = false
-          res.noresults = false
-          res.offline = false
-          resolve(res)
-        }
-      }).catch(function (err) {
-        // reject(err)
-        console.error(err)
-      })
+    if (adapterName !== 'graphql' && (Query.type !== 'product' || Query.type !== 'attribute')) {
+      adapterName = 'api'
     }
+
+    const {search} = require(`./adapter/${adapterName}/search`)
+    const {handleResult} = require(`./adapter/${adapterName}/handleResult`)
+
+    search(Query).then(function (resp) { // we're always trying to populate cache - when online
+      const res = handleResult(resp, Query.type, start, size)
+      cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+      if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
+        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        res.cache = false
+        res.noresults = false
+        res.offline = false
+        resolve(res)
+      }
+    }).catch(function (err) {
+      // reject(err)
+      console.error(err)
+    })
   })
 }
