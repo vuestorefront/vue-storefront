@@ -10,9 +10,9 @@
 
 (if you made any changes in the UI layer please provide before/after screenshots)
 
-### Screenshot of passed e2e tests (if you are using demo.vuestorefront.io as a backend)
+### Screenshot of passed e2e tests (if you are using our standard setup as a backend)
 
-(run `yarn tests:e2e` and paste the results) 
+(run `yarn tests:e2e` and paste the results. If you are not using our standard backend setup or demo.vuestorefront.io you can ommit this step) 
 
 ### Contribution rules acceptance
 
