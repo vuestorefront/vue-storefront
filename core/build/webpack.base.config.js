@@ -44,7 +44,7 @@ module.exports = {
   ],
   devtool: 'source-map',
   entry: {
-    app: './core/client-entry.js'
+    app: './core/client-entry.ts'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -109,7 +109,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!@vue-storefront)/
+        include: ['@vue-storefront']
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

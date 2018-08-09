@@ -1,19 +1,35 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["es2017", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "esnext",
     "strict": false,
     "allowJs": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": "./",
-    "types": ["reflect-metadata"],
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "reflect-metadata",
+      "node"
+    ],
     "paths": {
       "core/*": ["core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
-    }
+    },
+    "lib": ["es2017", "dom"]
   },
-  "files": ["vue.d.ts"]
+  "files": ["shims.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "core/**/*.ts",
+    "core/**/*.vue",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

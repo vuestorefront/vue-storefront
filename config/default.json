@@ -13,11 +13,11 @@
     },
     "defaultStoreCode": "",
     "storeViews": {
-      "multistore": false,
+      "multistore": true,
       "mapStoreUrlsFor": ["de", "it"],
       "de": {
         "storeCode": "de",
-        "disabled": true,
+        "disabled": false,
         "storeId": 3,
         "name": "German Store",
         "url": "/de",
@@ -44,7 +44,7 @@
       },
       "it": {
         "storeCode": "it",
-        "disabled": true,
+        "disabled": false,
         "storeId": 4,
         "name": "Italian Store",
         "url": "/it",
@@ -198,12 +198,12 @@
       "calculateServerSide": true
     },
     "i18n": {
-      "defaultCountry": "US",
-      "defaultLanguage": "EN",
+      "defaultCountry": "FR",
+      "defaultLanguage": "FR",
       "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL"],
-      "defaultLocale": "en-US",
-      "currencyCode": "USD",
-      "currencySign": "$",
+      "defaultLocale": "fr-FR",
+      "currencyCode": "EUR",
+      "currencySign": "€",
       "dateFormat": "HH:mm D/M/YYYY",
       "fullCountryName": "United States",
       "fullLanguageName": "English"

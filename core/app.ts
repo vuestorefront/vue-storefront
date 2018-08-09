@@ -12,16 +12,19 @@ import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
 import registerExtensions from '@vue-storefront/core/lib/extensions'
 import i18n from '@vue-storefront/core/lib/i18n'
-import shippingMethods from '@vue-storefront/core/resource/shipping_methods.json'
 
 import store from '@vue-storefront/store'
 import coreModules from '@vue-storefront/store/modules'
 import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
 
-import App from 'theme/App'
+import App from 'theme/App.vue'
 import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
+
+const shippingMethods = require('@vue-storefront/core/resource/shipping_methods.json')
+
+declare var global: any
 
 if (!global.$VS) global.$VS = {}
 
@@ -59,7 +62,7 @@ Object.keys(filtersObject).forEach(key => {
   Vue.filter(key, filtersObject[key])
 })
 
-export function createApp () {
+export function createApp (): { app: Vue, router: any, store: any } {
   sync(store, router)
   const app = new Vue({
     router,
