@@ -28,27 +28,27 @@
         >
       </div>
 
-      <p class="mb0 cl-accent mt10">
+      <p class="mb0 cl-accent mt10" v-if="!onlyImage">
         {{ product.name | htmlDecode }}
       </p>
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
+        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
       >
         {{ product.originalPriceInclTax | price }}
       </span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
-        v-if="product.special_price && parseFloat(product.special_price) > 0"
+        v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0"
+        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
