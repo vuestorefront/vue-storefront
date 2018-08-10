@@ -5,6 +5,17 @@ We've started adding the TypeScript support to Vue Storefront - mostly because o
 - types safety and code-testability
 - making Vue Storefront code base easier to understand for new-comers.
 
+## Desired state
+
+**Desired state is that Vue Storefront Core outputs JS libraries, it's written using some TypeScript features, but all the user code (themes, extensions) is still JavaScript. No TypeScript experience is required to build Vue Storefront stores. This is just for core developers and transparent to the end users.**
+
+Therefore we're refactoring just:
+- core/api
+- core/store
+- core/lib
+
+Where it makes sense. The key TypeScript feature we feel is usable are data types.
+
 We're in the middle of [refactoring `core/components` to `core/api` modules](https://github.com/DivanteLtd/vue-storefront/issues/1213). All the modules should be created using TypeScript
 
 ### The Action Plan:
