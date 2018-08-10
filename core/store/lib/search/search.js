@@ -1,5 +1,6 @@
 import hash from 'object-hash'
 import config from 'config'
+import SearchAdapterFactory from './adapter/factory'
 
 function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -76,11 +77,12 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
       adapterName = 'api'
     }
 
-    const {search} = require(`./adapter/${adapterName}/search`)
-    const {handleResult} = require(`./adapter/${adapterName}/handleResult`)
+    // @TODO move searchAdapter class declaration to the top after finish migration of all entity types
+    const factory = new SearchAdapterFactory()
+    let searchAdapter = factory.getSearchAdapter(adapterName)
 
-    search(Query).then(function (resp) { // we're always trying to populate cache - when online
-      const res = handleResult(resp, Query.type, start, size)
+    searchAdapter.search(Query).then(function (resp) { // we're always trying to populate cache - when online
+      const res = searchAdapter.handleResult(resp, Query.type, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
       if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
         console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
