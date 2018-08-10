@@ -204,7 +204,9 @@ export default {
    */
   update (context, userData) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('./userProfile.schema.json'))
+    const userProfileSchema = require('./userProfile.schema.json')
+    const userProfileSchemaExtension = require('./userProfile.schema.extension.json')
+    const validate = ajv.compile(Object.assign(userProfileSchema, userProfileSchemaExtension))
 
     if (!validate(userData)) { // schema validation of user profile data
       EventBus.$emit('notification', {
