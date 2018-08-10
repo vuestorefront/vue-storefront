@@ -1,8 +1,11 @@
+import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
+import RootState from '../../types/RootState'
+import AttributeState from './types/AttributeState'
 
-export default {
+const attribute: Module<AttributeState, RootState> = {
   namespaced: true,
   state: {
     list_by_code: {},
@@ -13,3 +16,5 @@ export default {
   actions,
   mutations
 }
+
+export default attribute

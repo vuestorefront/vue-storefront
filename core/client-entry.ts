@@ -14,6 +14,9 @@ import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-sto
 
 require('@vue-storefront/core/service-worker-registration') // register the service worker
 
+declare var global: any
+declare var window: any
+
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
 
