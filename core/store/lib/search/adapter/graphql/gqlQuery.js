@@ -8,40 +8,11 @@ export function prepareGraphQlBody (Query) {
 
   switch (Query.type) {
     case 'product':
-      query = `query ProductListFilters ($filter: ProductFilterInput, $search: String!, $pageSize: Int, $currentPage: Int, $sort: ProductSortInput) {
-        products(
-          filter: $filter
-          search: $search
-          pageSize: $pageSize
-          currentPage: $currentPage
-          sort: $sort
-        )
-        {
-          items
-          total_count
-          aggregations
-          sort_fields{
-            options {
-              value
-            }
-          }
-          page_info{
-            page_size
-            current_page
-          }
-        }
-      }`
+      query = require('./queries/products.gql')
       queryVariables.search = Query.searchQuery.getSearchText()
       break
     case 'attribute':
-      query = `query customAttributeMetadata ($attributes: AttributeInput!) {
-        customAttributeMetadata(
-          attributes: $attributes
-        )
-        {
-          hits
-        }
-      }`
+      query = require('./queries/customAttributeMetadata.gql')
       break
     default:
       break
