@@ -14,6 +14,8 @@
 
 (run `yarn tests:e2e` and paste the results. If you are not using our standard backend setup or demo.vuestorefront.io you can ommit this step) 
 
-### Contribution rules acceptance
+### Contribution and curently important rules acceptance
 
 - [ ] I read and followed [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
+- [ ] I read the [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md) and adjusted my PR according to it
+- [ ] I read about [Vue Storefront Modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) and adjusted my PR according to it (details in contribition rules)
