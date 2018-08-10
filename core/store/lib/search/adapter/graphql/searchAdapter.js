@@ -44,6 +44,9 @@ export class SearchAdapter {
         case 'attribute':
           response = processESResponseType(resp.data.customAttributeMetadata, start, size)
           break
+        case 'category':
+          response = processESResponseType(resp.data.categories, start, size)
+          break
       }
 
       return response
@@ -72,6 +75,7 @@ function processESResponseType (resp, start, size) {
     perPage: size,
     aggregations: resp.aggregations
   }
+
   return response
 }
 
@@ -84,7 +88,7 @@ function processProductsType (resp, start, size) {
         delete item._score
       }
       options.slug = (item.hasOwnProperty('url_key') &&
-     config.products.useMagentoUrlKeys)
+       config.products.useMagentoUrlKeys)
         ? item.url_key : (item.hasOwnProperty('name')
           ? slugify(item.name) + '-' + item.id : '')
 
@@ -95,5 +99,6 @@ function processProductsType (resp, start, size) {
     perPage: size,
     aggregations: resp.aggregations
   }
+
   return response
 }

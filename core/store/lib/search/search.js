@@ -2,6 +2,8 @@ import hash from 'object-hash'
 import config from 'config'
 import SearchAdapterFactory from './adapter/factory'
 
+let adapterName = config.server.api
+
 function isOnline () {
   if (typeof navigator !== 'undefined') {
     return navigator.onLine
@@ -71,11 +73,6 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
         }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
-
-    let adapterName = config.server.api
-    if (adapterName === 'graphql' && Query.type !== 'product' && Query.type !== 'attribute') {
-      adapterName = 'api'
-    }
 
     // @TODO move searchAdapter class declaration to the top after finish migration of all entity types
     const factory = new SearchAdapterFactory()

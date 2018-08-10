@@ -14,6 +14,9 @@ export function prepareGraphQlBody (Query) {
     case 'attribute':
       query = require('./queries/customAttributeMetadata.gql')
       break
+    case 'category':
+      query = require('./queries/categories.gql')
+      break
     default:
       break
   }
