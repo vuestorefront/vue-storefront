@@ -12,18 +12,20 @@ const i18n = new VueI18n({
 
 i18n.setLocaleMessage('en-US', require('../resource/i18n/en-US.json'))
 
+declare var global: any
+
 if (!global.$VS) {
   global.$VS = { i18n: i18n }
 } else {
   global.$VS.i18n = i18n
 }
 
-function setI18nLanguage (lang) {
+function setI18nLanguage (lang: string): string {
   i18n.locale = lang
   return lang
 }
 
-export function loadLanguageAsync (lang) {
+export function loadLanguageAsync (lang: string): Promise<string> {
   if (i18n.locale !== lang) {
     if (!loadedLanguages.includes(lang)) {
       return import(/* webpackChunkName: "lang-[request]" */ `../resource/i18n/${lang}.json`).then(msgs => {

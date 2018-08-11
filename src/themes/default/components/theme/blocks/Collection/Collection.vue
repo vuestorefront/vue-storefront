@@ -29,8 +29,8 @@ export default {
     return {
       products: [],
       sliderConfig: {
-        perPage: 2,
-        perPageCustom: [[768, 6]],
+        perPage: 1,
+        perPageCustom: [[576, 2], [1024, 4]],
         paginationEnabled: false,
         loop: true
       }

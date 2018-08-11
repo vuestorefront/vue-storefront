@@ -5,6 +5,8 @@ import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
 
+declare var global: any
+
 global.$VS.isSSR = true
 
 function _commonErrorHandler (err, reject) {
@@ -34,7 +36,8 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
 export default context => {
   return new Promise((resolve, reject) => {
     const { app, router, store } = createApp()
-    const meta = app.$meta()
+
+    const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {

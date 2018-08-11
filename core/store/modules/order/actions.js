@@ -12,7 +12,9 @@ export default {
    */
   placeOrder ({ commit }, order) {
     const ajv = new Ajv()
-    const validate = ajv.compile(require('./order.schema.json'))
+    const orderSchema = require('./order.schema.json')
+    const orderSchemaExtension = require('./order.schema.extension.json')
+    const validate = ajv.compile(Object.assign(orderSchema, orderSchemaExtension))
 
     const storeView = currentStoreView()
     if (storeView.storeCode) {
