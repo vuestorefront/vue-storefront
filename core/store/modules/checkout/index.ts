@@ -1,7 +1,10 @@
+import { Module } from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
+import RootState from '../../types/RootState'
+import CheckoutState from './types/CheckoutState'
 
-export default {
+const checkout: Module<CheckoutState, RootState> = {
   namespaced: true,
   state: {
     order: {},
@@ -43,3 +46,5 @@ export default {
   actions,
   mutations
 }
+
+export default checkout
