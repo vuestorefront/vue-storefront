@@ -5,7 +5,7 @@ import CartState from './types/CartState'
 import RootState from '../../types/RootState'
 
 const getters: GetterTree<CartState, RootState> = {
-  totals (state: CartState) {
+  totals (state) {
     if (state.platformTotalSegments) {
       return state.platformTotalSegments
     } else {
@@ -43,7 +43,7 @@ const getters: GetterTree<CartState, RootState> = {
       }
     }
   },
-  totalQuantity (state: CartState) {
+  totalQuantity (state) {
     return sumBy(state.cartItems, (p) => {
       return p.qty
     })

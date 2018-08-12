@@ -1,10 +1,14 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { slugify, breadCrumbRoutes } from '../../helpers'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import config from 'config'
+import CategoryState from './types/CategoryState'
 
-export default {
+declare var global: any
+
+const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
     state.current = category
     EventBus.$emit('category-after-current', { category: category })
@@ -39,3 +43,5 @@ export default {
     }
   }
 }
+
+export default mutations
