@@ -12,6 +12,9 @@ if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
 
 const state = {
+  stock: {
+    cache: []
+  }
 }
 
 const mutations = {
