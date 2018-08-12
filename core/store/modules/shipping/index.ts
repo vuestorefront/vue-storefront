@@ -1,4 +1,8 @@
-export default {
+import { Module } from 'vuex'
+import RootState from '../../types/RootState'
+import ShippingState from './types/ShippingState'
+
+const shipping: Module<ShippingState, RootState> = {
   namespaced: true,
   state: {
     methods: []
@@ -25,3 +29,5 @@ export default {
     }
   }
 }
+
+export default shipping
