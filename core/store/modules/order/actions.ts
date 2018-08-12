@@ -2,9 +2,12 @@ import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
 import { ValidationError } from '../../lib/exceptions'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { ActionTree } from 'vuex'
+import RootState from '../../types/RootState'
+import OrderState from './types/OrderState'
 const Ajv = require('ajv') // json validator
 
-export default {
+const actions: ActionTree<OrderState, RootState> = {
   /**
    * Place order - send it to service worker queue
    * @param {Object} commit method
@@ -31,3 +34,5 @@ export default {
     }
   }
 }
+
+export default actions
