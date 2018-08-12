@@ -1,6 +1,8 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
+import CompareState from './types/CompareState'
 
-export default {
+const mutations: MutationTree<CompareState> = {
   /**
    * Add product to Compare
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
@@ -20,3 +22,5 @@ export default {
     state.items = storedItems || []
   }
 }
+
+export default mutations
