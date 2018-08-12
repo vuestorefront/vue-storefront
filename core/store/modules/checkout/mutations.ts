@@ -1,6 +1,8 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
+import CheckoutState from './types/CheckoutState'
 
-export default {
+const mutations: MutationTree<CheckoutState> = {
   /**
    * Setup current order object
    * @param {Object} order Object
@@ -34,3 +36,5 @@ export default {
     state.personalDetails.createAccount = false
   }
 }
+
+export default mutations

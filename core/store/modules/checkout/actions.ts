@@ -1,8 +1,13 @@
+import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
+import RootState from '../../types/RootState'
+import CheckoutState from './types/CheckoutState'
 
-export default {
+declare var global: any
+
+const actions: ActionTree<CheckoutState, RootState> = {
   /**
    * Place order - send it to service worker queue
    * @param {Object} commit method
@@ -62,3 +67,5 @@ export default {
     commit(types.CHECKOUT_UPDATE_PROP_VALUE, payload)
   }
 }
+
+export default actions
