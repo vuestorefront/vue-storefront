@@ -1,17 +1,23 @@
+import { ActionTree } from 'vuex'
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
-import hash from 'object-hash'
+import { sha1 } from 'object-hash'
 import { currentStoreView } from '../../lib/multistore'
 import omit from 'lodash-es/omit'
+import RootState from '../../types/RootState'
+import CartState from './types/CartState'
+
+declare var global: any
+
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
 const CART_METHODS_INTERVAL_MS = 1000 * 60 * 10 // refresh methods each 10 min
 
-export default {
+const actions: ActionTree<CartState, RootState> = {
   serverTokenClear (context) {
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
@@ -27,9 +33,9 @@ export default {
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     if (config.cart.synchronize && !global.$VS.isSSR) {
-      const newItemsHash = hash({ items: context.state.cartItems, token: context.state.cartServerToken })
-      if ((new Date() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
-        context.state.cartServerPullAt = new Date()
+      const newItemsHash = sha1({ items: context.state.cartItems, token: context.state.cartServerToken })
+      if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
+        context.state.cartServerPullAt = Date.now()
         context.state.cartItemsHash = newItemsHash
         context.dispatch('sync/execute', { url: config.cart.pull_endpoint, // sync the cart
           payload: {
@@ -43,8 +49,8 @@ export default {
           callback_event: 'servercart-after-pulled'
         }, { root: true }).then(task => {
           const storeView = currentStoreView()
-          if ((new Date() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
-            context.state.cartServerMethodsRefreshAt = new Date()
+          if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
+            context.state.cartServerMethodsRefreshAt = Date.now()
             console.debug('Refreshing payment & shipping methods')
             rootStore.dispatch('cart/getPaymentMethods')
             if (context.state.cartItems.length > 0) {
@@ -62,8 +68,8 @@ export default {
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
     if (config.cart.synchronize_totals && !global.$VS.isSSR) {
-      if ((new Date() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
-        context.state.cartServerPullAt = new Date()
+      if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
+        context.state.cartServerPullAt = Date.now()
         context.dispatch('sync/execute', { url: config.cart.totals_endpoint, // sync the cart
           payload: {
             method: 'GET',
@@ -83,7 +89,7 @@ export default {
   },
   serverCreate (context, { guestCart = false }) {
     if (config.cart.synchronize && !global.$VS.isSSR) {
-      if ((new Date() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
+      if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         if (guestCart) {
           global.$VS.db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
         }
@@ -252,7 +258,8 @@ export default {
           let notificationData = {
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' },
+            action2: null
           }
           if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
             notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
@@ -431,3 +438,5 @@ export default {
     }
   }
 }
+
+export default actions

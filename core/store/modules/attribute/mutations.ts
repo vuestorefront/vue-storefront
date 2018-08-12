@@ -1,7 +1,11 @@
-import * as types from '../../mutation-types'
+import { MutationTree } from 'vuex'
 import { entityKeyName } from '../../lib/entities'
+import * as types from '../../mutation-types'
+import AttributeState from './types/AttributeState'
 
-export default {
+declare var global: any
+
+const mutations: MutationTree<AttributeState> = {
   /**
    * Store attributes by code in state and localForage
    * @param {} state
@@ -32,3 +36,5 @@ export default {
     state.list_by_id = attrHashById
   }
 }
+
+export default mutations

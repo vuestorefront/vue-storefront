@@ -1,8 +1,11 @@
+import { GetterTree } from 'vuex'
 import sumBy from 'lodash-es/sumBy'
 import i18n from '../../lib/i18n'
+import CartState from './types/CartState'
+import RootState from '../../types/RootState'
 
-export default {
-  totals (state) {
+const getters: GetterTree<CartState, RootState> = {
+  totals (state: CartState) {
     if (state.platformTotalSegments) {
       return state.platformTotalSegments
     } else {
@@ -40,9 +43,11 @@ export default {
       }
     }
   },
-  totalQuantity (state) {
+  totalQuantity (state: CartState) {
     return sumBy(state.cartItems, (p) => {
       return p.qty
     })
   }
 }
+
+export default getters

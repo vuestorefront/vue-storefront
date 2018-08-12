@@ -1,3 +1,4 @@
+import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
@@ -8,6 +9,10 @@ import i18n from '../../lib/i18n'
 import isString from 'lodash-es/isString'
 import toString from 'lodash-es/toString'
 import config from '../../lib/config'
+import RootState from '../../types/RootState'
+import CartState from './types/CartState'
+
+declare var global: any
 
 const MAX_BYPASS_COUNT = 10
 
@@ -40,7 +45,7 @@ EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
     if (err) {
       console.error(err)
     }
-    if ((new Date() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
+    if ((Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
       rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
     }
   })
@@ -213,7 +218,7 @@ EventBus.$on('servercart-after-itemdeleted', (event) => {
 
 })
 
-export default {
+const cart: Module<CartState, RootState> = {
   namespaced: true,
   state: {
     itemsAfterPlatformTotals: {},
@@ -225,7 +230,7 @@ export default {
     cartServerCreatedAt: 0,
     cartServerMethodsRefreshAt: 0,
     cartServerBypassAt: 0,
-    cartSavedAt: new Date(),
+    cartSavedAt: Date.now(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: [],
@@ -238,3 +243,5 @@ export default {
   actions,
   mutations
 }
+
+export default cart

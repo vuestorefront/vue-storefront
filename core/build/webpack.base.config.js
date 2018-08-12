@@ -104,12 +104,16 @@ module.exports = {
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/]
-        }
+        },
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: ['@vue-storefront']
+        include: [
+          '@vue-storefront',
+          path.resolve(__dirname, '../../src')
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
