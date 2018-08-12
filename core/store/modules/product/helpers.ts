@@ -11,6 +11,8 @@ import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 import { currentStoreView } from '../../lib/multistore'
 
+declare var global: any
+
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
     product.stock = stockItem
