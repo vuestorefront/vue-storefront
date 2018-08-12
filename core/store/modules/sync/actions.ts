@@ -1,3 +1,4 @@
+import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { execute as taskExecute } from '../../lib/task'
 import { _prepareTask } from './helpers'
@@ -6,8 +7,12 @@ import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '../../lib/multistore'
 import store from '../../'
 import config from 'config'
+import RootState from '../../types/RootState'
+import SyncState from './types/SyncState'
 
-export default {
+declare var global: any
+
+const actions: ActionTree<SyncState, RootState> = {
   /**
    * Queue synchronization task
    * {
@@ -86,3 +91,5 @@ export default {
     })
   }
 }
+
+export default actions
