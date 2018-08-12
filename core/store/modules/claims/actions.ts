@@ -1,4 +1,10 @@
-export default {
+import { ActionTree } from 'vuex'
+import RootState from '../../types/RootState'
+import ClaimsState from './types/ClaimsState'
+
+declare var global: any
+
+const actions: ActionTree<ClaimsState, RootState> = {
   set (context, { claimCode, value, description }) {
     const claimCollection = global.$VS.db.claimsCollection
     claimCollection.setItem(claimCode, {
@@ -25,3 +31,5 @@ export default {
     })
   }
 }
+
+export default actions
