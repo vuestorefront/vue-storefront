@@ -1,7 +1,11 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { entityKeyName } from '../../lib/entities'
+import TaxState from './types/TaxState'
 
-export default {
+declare var global: any
+
+const mutations: MutationTree<TaxState> = {
   [types.TAX_UPDATE_RULES] (state, taxClasses) {
     const cache = global.$VS.db.elasticCacheCollection
     for (let tc of taxClasses.items) { // we store each product separately in cache to have offline acces for products/single method
@@ -13,3 +17,5 @@ export default {
     state.rules = taxClasses.items // extract fields from ES _source
   }
 }
+
+export default mutations
