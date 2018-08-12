@@ -1,9 +1,12 @@
+import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import store from '../../'
+import RootState from '../../types/RootState'
+import UserState from './types/UserState'
 
 EventBus.$on('user-after-update', (event) => {
   if (event.resultCode === 200) {
@@ -69,10 +72,11 @@ EventBus.$on('order-after-placed', (order) => {
   }
 })
 
-export default {
+const user: Module<UserState, RootState> = {
   namespaced: true,
   state: {
     token: '',
+    refreshToken: '',
     current: null,
     current_storecode: '',
     session_started: new Date(),
@@ -83,3 +87,5 @@ export default {
   actions,
   mutations
 }
+
+export default user

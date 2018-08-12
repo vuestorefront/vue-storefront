@@ -1,6 +1,8 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
+import UserState from './types/UserState'
 
-export default {
+const mutations: MutationTree<UserState> = {
   [types.USER_TOKEN_CHANGED] (state, payload) {
     state.token = payload.newToken
     if (payload.meta && payload.meta.refreshToken) {
@@ -26,3 +28,5 @@ export default {
     state.newsletter = newsletterPreferences
   }
 }
+
+export default mutations
