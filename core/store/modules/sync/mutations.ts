@@ -1,9 +1,13 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { _prepareTask } from './helpers'
 import EventBus from '../../lib/event-bus'
 import config from '../../lib/config'
+import SyncState from './types/SyncState'
 
-export default {
+declare var global: any
+
+const mutations: MutationTree<SyncState> = {
   /**
    * Add task to sync. queue
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
@@ -20,3 +24,5 @@ export default {
     })
   }
 }
+
+export default mutations
