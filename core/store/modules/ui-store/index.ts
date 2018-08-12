@@ -1,6 +1,9 @@
+import { Module } from 'vuex'
 import mutations from './mutations'
+import RootState from '../../types/RootState'
+import UiStoreState from './types/UiStoreState'
 
-export default {
+const uiStore: Module<UiStoreState, RootState> = {
   namespaced: true,
   state: {
     sidebar: false,
@@ -16,3 +19,5 @@ export default {
   },
   mutations
 }
+
+export default uiStore

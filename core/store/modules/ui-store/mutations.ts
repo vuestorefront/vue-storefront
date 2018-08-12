@@ -1,4 +1,7 @@
-export default {
+import { MutationTree } from 'vuex'
+import UiStoreState from './types/UiStoreState'
+
+const mutations: MutationTree<UiStoreState> = {
   setOverlay (state, action) {
     state.overlay = action === true
   },
@@ -24,3 +27,5 @@ export default {
     state.openMyAccount = action === true
   }
 }
+
+export default mutations
