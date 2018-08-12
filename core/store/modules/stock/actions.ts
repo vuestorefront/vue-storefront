@@ -1,6 +1,9 @@
 import config from '../../lib/config'
+import { ActionTree } from 'vuex'
+import RootState from '../../types/RootState'
+import StockState from './types/StockState'
 
-export default {
+const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
    */
@@ -56,3 +59,5 @@ export default {
     context.state.cache = {}
   }
 }
+
+export default actions

@@ -1,9 +1,12 @@
+import { Module } from 'vuex'
 import i18n from '@vue-storefront/core/lib/i18n'
 import actions from './actions'
 import store from '../../'
 import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import config from '../../lib/config'
+import RootState from '../../types/RootState'
+import StockState from './types/StockState'
 
 EventBus.$on('stock-after-check', (event) => { // example stock check callback
   setTimeout(() => {
@@ -27,10 +30,12 @@ EventBus.$on('stock-after-check', (event) => { // example stock check callback
   }, 500)
 })
 
-export default {
+const stock: Module<StockState, RootState> = {
   namespaced: true,
   actions,
   state: {
     cache: {}
   }
 }
+
+export default stock
