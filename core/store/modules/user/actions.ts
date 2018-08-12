@@ -1,3 +1,4 @@
+import { ActionTree } from 'vuex'
 import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import config from '../../lib/config'
@@ -5,9 +6,13 @@ import store from '../../'
 import { ValidationError } from '../../lib/exceptions'
 import i18n from '../../lib/i18n'
 import { adjustMultistoreApiUrl } from '../../lib/multistore'
+import RootState from '../../types/RootState'
+import UserState from './types/UserState'
 const Ajv = require('ajv') // json validator
 
-export default {
+declare var global: any
+
+const actions: ActionTree<UserState, RootState> = {
   startSession (context) {
     context.commit(types.USER_START_SESSION)
     const cache = global.$VS.db.usersCollection
@@ -352,3 +357,5 @@ export default {
     })
   }
 }
+
+export default actions
