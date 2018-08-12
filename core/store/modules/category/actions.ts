@@ -1,17 +1,22 @@
+import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import config from '../../lib/config'
 import rootStore from '../../'
-import bodybuilder from 'bodybuilder'
 import i18n from '../../lib/i18n'
 import chunk from 'lodash-es/chunk'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import { optionLabel } from '../attribute/helpers'
+import RootState from '../../types/RootState'
+import CategoryState from './types/CategoryState'
+const bodybuilder = require('bodybuilder')
 
-export default {
+declare var global: any
+
+const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Reset current category and path
    * @param {Object} context
@@ -42,7 +47,7 @@ export default {
       qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
     }
 
-    if (!context.state.list | context.state.list.length === 0) {
+    if (!context.state.list || context.state.list.length === 0) {
       return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
@@ -220,7 +225,7 @@ export default {
           for (let attrToFilter of filters) { // fill out the filter options
             rootStore.state.category.filters.available[attrToFilter] = []
 
-            let uniqueFilterValues = new Set()
+            let uniqueFilterValues = new Set<string>()
             if (attrToFilter !== 'price') {
               if (res.aggregations['agg_terms_' + attrToFilter]) {
                 let buckets = res.aggregations['agg_terms_' + attrToFilter].buckets
@@ -233,7 +238,7 @@ export default {
                 }
               }
 
-              for (let key of uniqueFilterValues.values()) {
+              uniqueFilterValues.forEach(key => {
                 const label = optionLabel(rootStore.state.attribute, { attributeKey: attrToFilter, optionId: key })
                 if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
                   rootStore.state.category.filters.available[attrToFilter].push({
@@ -241,7 +246,7 @@ export default {
                     label: label
                   })
                 }
-              }
+              });
             } else { // special case is range filter for prices
               if (res.aggregations['agg_range_' + attrToFilter]) {
                 let index = 0
@@ -295,3 +300,5 @@ export default {
     return productPromise
   }
 }
+
+export default actions
