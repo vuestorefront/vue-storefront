@@ -1,9 +1,14 @@
+import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
 import i18n from '../../lib/i18n'
 import { htmlDecode } from '../../lib/filters'
+import RootState from '../../types/RootState'
+import WishlistState from './types/WishlistState'
 
-export default {
+declare var global: any
+
+const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
     context.commit(types.WISH_LOAD_WISH, [])
   },
@@ -31,3 +36,5 @@ export default {
     })
   }
 }
+
+export default actions

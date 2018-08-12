@@ -1,6 +1,8 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
+import WishlistState from './types/WishlistState'
 
-export default {
+const mutations: MutationTree<WishlistState> = {
   /**
   * Add product to Wishlist
   * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
@@ -21,3 +23,5 @@ export default {
     state.items = storedItems || []
   }
 }
+
+export default mutations
