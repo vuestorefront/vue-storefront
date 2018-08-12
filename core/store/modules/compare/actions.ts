@@ -1,9 +1,14 @@
+import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
 import { htmlDecode } from '../../lib/filters'
 import i18n from '../../lib/i18n'
+import RootState from '../../types/RootState'
+import CompareState from './types/CompareState'
 
-export default {
+declare var global: any
+
+const actions: ActionTree<CompareState, RootState> = {
   load (context) {
     const commit = context.commit
     global.$VS.db.compareCollection.getItem('current-compare', (err, storedItems) => {
@@ -28,3 +33,5 @@ export default {
     })
   }
 }
+
+export default actions
