@@ -1,9 +1,9 @@
+import { ActionTree } from 'vuex'
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
 import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
-import bodybuilder from 'bodybuilder'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery } from '../../lib/search'
@@ -11,9 +11,15 @@ import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import rootStore from '../../'
+import RootState from '../../types/RootState'
+import ProductState from './types/ProductState'
+const bodybuilder = require('bodybuilder')
+
+declare var global: any
 
 const PRODUCT_REENTER_TIMEOUT = 20000
-export default {
+
+const actions: ActionTree<ProductState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
    */
@@ -59,7 +65,7 @@ export default {
                 break
               }
             }
-          }, { root: true }).catch(err => {
+          }).catch(err => {
             console.error(err)
           })
         )
@@ -462,10 +468,10 @@ export default {
     }
     return context.dispatch('single', { options: productSingleOptions }).then((product) => {
       if (product.status >= 2) {
-        throw new Error('Product query returned empty result product status = ', product.status)
+        throw new Error(`Product query returned empty result product status = ${product.status}`)
       }
       if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-        throw new Error('Product query returned empty result product visibility = ', product.visibility)
+        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
       }
       let subloaders = []
       if (product) {
@@ -502,11 +508,11 @@ export default {
    * Load the product data - async version for asyncData()
    */
   fetchAsync (context, { parentSku, childSku = null, route = null }) {
-    if (context.state.productLoadStart && (new Date() - context.state.productLoadStart) < PRODUCT_REENTER_TIMEOUT) {
+    if (context.state.productLoadStart && (Date.now() - context.state.productLoadStart) < PRODUCT_REENTER_TIMEOUT) {
       console.log('Product is being fetched ...')
     } else {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
-        context.state.productLoadStart = new Date()
+        context.state.productLoadStart = Date.now()
         console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
         EventBus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
@@ -545,3 +551,5 @@ export default {
     return context.state.productLoadPromise
   }
 }
+
+export default actions

@@ -1,7 +1,9 @@
+import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
+import ProductState, { PagedProductList } from './types/ProductState'
 
-export default {
+const mutations: MutationTree<ProductState> = {
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {
     state.related[key] = items
     EventBus.$emit('product-after-related', { key: key, items: items })
@@ -26,9 +28,9 @@ export default {
     if (append === false) {
       state.list = products
     } else {
-      state.list.start = products.start
-      state.list.perPage = products.perPage
-      state.list.items = state.list.items.concat(products.items)
+      (state.list as PagedProductList).start = products.start as number
+      (state.list as PagedProductList).perPage = products.perPage as number
+      (state.list as PagedProductList).items = (state.list as PagedProductList).items.concat(products.items)
     }
   },
   [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {
@@ -53,3 +55,5 @@ export default {
     EventBus.$emit('product-after-reset', { })
   }
 }
+
+export default mutations
