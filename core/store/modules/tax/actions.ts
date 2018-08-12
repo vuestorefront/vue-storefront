@@ -1,8 +1,11 @@
+import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { quickSearchByQuery } from '../../lib/search'
-import builder from 'bodybuilder'
+import RootState from '../../types/RootState'
+import TaxState from './types/TaxState'
+const bodybuilder = require('bodybuilder')
 
-export default {
+const actions: ActionTree<TaxState, RootState> = {
   /**
    * Load the tax rules
    */
@@ -13,7 +16,7 @@ export default {
         resolve({ items: context.state.rules })
       })
     } else {
-      return quickSearchByQuery({ query: builder(), entityType }).then((resp) => {
+      return quickSearchByQuery({ query: bodybuilder(), entityType }).then((resp) => {
         context.commit(types.TAX_UPDATE_RULES, resp)
         return resp
       }).catch((err) => {
@@ -25,3 +28,5 @@ export default {
     return context.state.rules.find((e) => { return e.product_tax_class_ids.indexOf(parseInt(productTaxClassId)) >= 0 })
   }
 }
+
+export default actions
