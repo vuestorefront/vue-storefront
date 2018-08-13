@@ -23,6 +23,7 @@ Normally module can (but not must) contain following folders:
 - `helpers` - everything else that is meant to support modules behavior
 - `types` - TypeScript types associated with module
 - `test` - folder with unit tests which is *required* for every new or rewritten module. This folder can be placed outside of the module in 'tests' folder.
+- `submodules` - Submodules related to this module. SUbmodules are a groups of features that are not a core functionalities of this module but rather kind of it's extensions or features available only under certain circumstances. For example if we have `order` module we can have all logic related to orders in this module but reordering something or seeing the list of your orders requires user account. In this case we might want to create `account` submodule with this functionalities.
 
 [under construction]
 
