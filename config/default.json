@@ -140,6 +140,7 @@
       "payment_methods_mapping": {
       },
       "offline_orders": {
+        "automatic_transmission_enabled": false,
         "notification" : {
           "enabled": true,
           "title" : "Order waiting!",
