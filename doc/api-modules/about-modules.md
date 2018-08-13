@@ -22,7 +22,7 @@ Normally module can (but not must) contain following folders:
 - `store` - Vuex store associated to module
 - `helpers` - everything else that is meant to support modules behavior
 - `types` - TypeScript types associated with module
-- 'test' - folder with unit tests which is *required* for every new or rewritten module
+- `test` - folder with unit tests which is *required* for every new or rewritten module. This folder can be placed outside of the module in 'tests' folder.
 
 [under construction]
 
