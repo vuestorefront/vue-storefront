@@ -33,10 +33,12 @@ export function prepareGraphQlBody (Query) {
   }
 
   for (let _filter of filters) {
-    queryVariables.filter[_filter.attribute] = _filter.value
     if (_filter.scope) {
       _filter.value['scope'] = _filter.scope
+      delete (_filter.scope)
     }
+    let processedFilter = processNestedFieldFilter(_filter)
+    queryVariables.filter = Object.assign(queryVariables.filter, processedFilter)
   }
 
   if (Query.sort !== '') {
@@ -54,4 +56,19 @@ export function prepareGraphQlBody (Query) {
   })
 
   return body
+}
+
+function processNestedFieldFilter (filter) {
+  let processedFilter = {}
+  let filterAttributes = filter.attribute.split('.')
+  if (filterAttributes.length > 1) {
+    let nestedFilter = filter.value
+    for (let i = filterAttributes.length - 1; i >= 0; i--) {
+      nestedFilter = { [filterAttributes[i]]: nestedFilter }
+    }
+    processedFilter = nestedFilter
+  } else {
+    processedFilter[filter.attribute] = filter.value
+  }
+  return processedFilter
 }
