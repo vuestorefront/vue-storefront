@@ -4,6 +4,7 @@
   	{{{ meta.inject().title.text() }}}
   	{{{ meta.inject().meta.text() }}}
 		{{{ meta.inject().link.text() }}}
+		{{{ meta.inject().script.text() }}}
 			
 		<script type="text/javascript">
 			WebFontConfig = {
@@ -19,7 +20,6 @@
 				s.parentNode.insertBefore(wf, s);
 			})(); 
 		</script>
-
     <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
