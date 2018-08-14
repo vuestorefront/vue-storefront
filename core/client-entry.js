@@ -11,8 +11,10 @@ import { execute } from '@vue-storefront/store/lib/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/core/lib/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { onNetworkStatusChange } from '@vue-storefront/core/api/offline-order/extends/client-entry'
 
 require('@vue-storefront/core/service-worker-registration') // register the service worker
+require('@vue-storefront/core/api/offline-order/extends/client-entry')
 
 const { app, router, store } = createApp()
 global.$VS.isSSR = false
@@ -284,54 +286,6 @@ setInterval(() => {
   EventBus.$emit('cache-local-size', sizeOfCache)
 }, 30000)
 
-/**
- * Process order queue when we're back onlin
- */
-function checkiIsOnline () {
-  console.log('Are we online: ' + navigator.onLine)
-
-  if (typeof navigator !== 'undefined' && navigator.onLine) {
-    if (config.orders.offline_orders.automatic_transmission_enabled || store.getters['checkout/isThankYouPage']) {
-      EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
-      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-      // store.dispatch('cart/serverPull', { forceClientState: false })
-      store.dispatch('cart/load')
-    } else {
-      const ordersToConfirm = []
-      const storeView = currentStoreView()
-      const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
-      const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: dbNamePrefix + 'shop',
-        storeName: 'orders',
-        driver: localForage[config.localForage.defaultDrivers['orders']]
-      }))
-
-      ordersCollection.iterate((order, id, iterationNumber) => {
-        if (!order.transmited) {
-          ordersToConfirm.push(order)
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-
-      if (ordersToConfirm.length > 0) {
-        EventBus.$emit('offline-order-confirmation', ordersToConfirm)
-      }
-    }
-  }
-}
-
-window.addEventListener('online', checkiIsOnline)
-window.addEventListener('offline', checkiIsOnline)
-
-EventBus.$on('offline-order-confirmation-confirm', () => {
-  EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
-  EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
-  // store.dispatch('cart/serverPull', { forceClientState: false })
-  store.dispatch('cart/load')
-})
-
 EventBus.$on('user-after-loggedin', receivedData => {
   store.dispatch('checkout/savePersonalDetails', {
     firstName: receivedData.firstname,
@@ -361,3 +315,5 @@ EventBus.$on('user-before-logout', () => {
 rootStore.dispatch('cart/load')
 rootStore.dispatch('compare/load')
 rootStore.dispatch('user/startSession')
+
+window.addEventListener('online', () => { onNetworkStatusChange(store) })

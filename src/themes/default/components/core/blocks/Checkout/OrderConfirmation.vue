@@ -47,12 +47,7 @@
 </template>
 
 <script>
-import * as localForage from 'localforage'
-import config from 'config'
-
-import EventBus from '@vue-storefront/core/plugins/event-bus'
-import UniversalStorage from '@vue-storefront/store/lib/storage'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { confirmOrder, cancelOrder } from '@vue-storefront/core/api/offline-order'
 
 import Modal from 'theme/components/core/Modal'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -65,37 +60,11 @@ export default {
       default: () => []
     }
   },
-  methods: {
-    confirmOrder () {
-      EventBus.$emit('offline-order-confirmation-confirm')
-      EventBus.$emit('modal-hide', 'modal-order-confirmation')
-    },
-    cancelOrder () {
-      const storeView = currentStoreView()
-      const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
-      const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: dbNamePrefix + 'shop',
-        storeName: 'orders',
-        driver: localForage[config.localForage.defaultDrivers['orders']]
-      }))
-
-      ordersCollection.iterate((order, id, iterationNumber) => {
-        if (!order.transmited) {
-          ordersCollection.removeItem(id)
-        }
-      }).catch(err => {
-        console.log(err)
-        console.log('Not transmitted orders was deleted')
-      })
-
-      EventBus.$emit('modal-hide', 'modal-order-confirmation')
-    }
-  },
   components: {
     Modal,
     ButtonFull
-  }
+  },
+  mixins: [ confirmOrder, cancelOrder ]
 }
 </script>
 
