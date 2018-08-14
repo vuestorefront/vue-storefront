@@ -29,6 +29,7 @@
       "
       @click="togglePassType()"
       :aria-label="$t('Toggle password visibility')"
+      :title="$t('Toggle password visibility')"
     >
       {{ icon }}
     </button>
