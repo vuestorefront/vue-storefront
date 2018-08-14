@@ -202,7 +202,7 @@ class LocalForageCacheDriver {
   // Remove an item from the store, nice and simple.
   removeItem (key, callback) {
     if (typeof this._localCache[key] !== 'undefined') {
-      delete typeof this._localCache[key]
+      delete this._localCache[key]
     }
     return this._localForageCollection.removeItem(key, callback)
   }
