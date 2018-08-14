@@ -112,7 +112,8 @@ module.exports = {
         loader: 'babel-loader',
         include: [
           '@vue-storefront',
-          path.resolve(__dirname, '../../src')
+          path.resolve(__dirname, '../../src'),
+          path.resolve(__dirname, '../../core')
         ]
       },
       {
