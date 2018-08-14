@@ -10,7 +10,7 @@ The offline order module as name suggests is a set of mixins responsible for sup
 #### cancelOrder
 - [method] cancelOrder()
 
-## Extends
+## Helpers
 
 #### onNetworkStatusChange
 - [function] onNetworkStatusChange(store)
