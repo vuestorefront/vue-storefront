@@ -1,5 +1,6 @@
 import { Module } from 'vuex'
 import actions from './actions'
+import getters from './getters'
 import mutations from './mutations'
 import RootState from '../../types/RootState'
 import CheckoutState from './types/CheckoutState'
@@ -41,8 +42,10 @@ const checkout: Module<CheckoutState, RootState> = {
       taxId: '',
       paymentMethod: '',
       paymentMethodAdditional: {}
-    }
+    },
+    isThankYouPage: false
   },
+  getters,
   actions,
   mutations
 }

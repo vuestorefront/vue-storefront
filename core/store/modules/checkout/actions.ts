@@ -65,6 +65,9 @@ const actions: ActionTree<CheckoutState, RootState> = {
   },
   updatePropValue ({ commit }, payload) {
     commit(types.CHECKOUT_UPDATE_PROP_VALUE, payload)
+  },
+  setThankYouPage ({ commit }, payload) {
+    commit(types.CHECKOUT_SET_THANKYOU, payload)
   }
 }
 

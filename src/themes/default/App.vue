@@ -16,6 +16,7 @@
       <cookie-notification/>
       <offline-badge/>
       <modal-switcher/>
+      <order-confirmation :orders-data="ordersData"/>
     </div>
     <vue-progress-bar />
   </div>
@@ -23,6 +24,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
 
 import MainHeader from './components/core/blocks/Header/Header.vue'
 import MainFooter from './components/core/blocks/Footer/Footer.vue'
@@ -41,10 +43,16 @@ import NewsletterPopup from './components/core/NewsletterPopup.vue'
 import CookieNotification from './components/core/CookieNotification.vue'
 import OfflineBadge from './components/core/OfflineBadge.vue'
 import ModalSwitcher from './components/core/blocks/Switcher/Language.vue'
+import OrderConfirmation from './components/core/blocks/Checkout/OrderConfirmation.vue'
 
 import Head from 'theme/resource/head'
 
 export default {
+  data () {
+    return {
+      ordersData: []
+    }
+  },
   computed: {
     ...mapState({
       overlayActive: state => state.ui.overlay
@@ -59,6 +67,10 @@ export default {
     })
     this.$router.afterEach((to, from) => {
       this.$Progress.finish()
+    })
+    EventBus.$on('offline-order-confirmation', (payload) => {
+      this.ordersData = payload
+      EventBus.$emit('modal-show', 'modal-order-confirmation')
     })
   },
   metaInfo: Head,
@@ -77,7 +89,8 @@ export default {
     NewsletterPopup,
     CookieNotification,
     OfflineBadge,
-    ModalSwitcher
+    ModalSwitcher,
+    OrderConfirmation
   }
 }
 </script>

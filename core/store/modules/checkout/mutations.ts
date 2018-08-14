@@ -34,6 +34,9 @@ const mutations: MutationTree<CheckoutState> = {
   [types.CHECKOUT_DROP_PASSWORD] (state) {
     state.personalDetails.password = ''
     state.personalDetails.createAccount = false
+  },
+  [types.CHECKOUT_SET_THANKYOU] (state, payload) {
+    state.isThankYouPage = payload
   }
 }
 

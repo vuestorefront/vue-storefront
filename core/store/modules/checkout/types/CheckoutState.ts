@@ -33,5 +33,6 @@ export default interface CategoryState {
     taxId: string,
     paymentMethod: string,
     paymentMethodAdditional: any
-  }
+  },
+  isThankYouPage: boolean
 }

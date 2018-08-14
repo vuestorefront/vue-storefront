@@ -99,6 +99,9 @@ export default {
       }
     }
   },
+  destroyed () {
+    this.$store.dispatch('checkout/setThankYouPage', false)
+  },
   components: {
     BaseTextarea,
     Breadcrumbs,
