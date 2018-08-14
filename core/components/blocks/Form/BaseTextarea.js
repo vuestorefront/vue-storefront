@@ -51,14 +51,6 @@ export default {
       default: () => []
     }
   },
-  computed: {
-    listeners () {
-      return {
-        ...this.$listeners,
-        input: event => this.$emit('input', event.target.value)
-      }
-    }
-  },
   mounted () {
     if (this.focus) {
       this.$refs[this.name].focus()

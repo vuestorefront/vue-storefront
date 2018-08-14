@@ -190,7 +190,7 @@ const actions: ActionTree<CartState, RootState> = {
       })
     })
   },
-
+  // This should be a getter, just sayin
   getItem ({ commit, dispatch, state }, sku) {
     return state.cartItems.find(p => p.sku === sku)
   },

@@ -119,6 +119,7 @@ const serial = funcs =>
     promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
 
 const orderMutex = {}
+// TODO: move to external file
 EventBus.$on('order/PROCESS_QUEUE', event => {
   console.log('Sending out orders queue to server ...')
 
