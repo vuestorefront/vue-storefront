@@ -44,7 +44,7 @@ module.exports = {
   ],
   devtool: 'source-map',
   entry: {
-    app: './core/client-entry.js'
+    app: './core/client-entry.ts'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -104,12 +104,17 @@ module.exports = {
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/]
-        }
+        },
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!@vue-storefront)/
+        include: [
+          '@vue-storefront',
+          path.resolve(__dirname, '../../src'),
+          path.resolve(__dirname, '../../core')
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
