@@ -4,7 +4,7 @@ import toString from 'lodash-es/toString'
 // Core dependecies
 import config from 'config'
 import EventBus from 'core/plugins/event-bus'
-import { baseFilterProductsSearchQuery, buildFilterProductsSearchQuery } from '@vue-storefront/store/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from 'core/filters/html-decode'
 
 // Core mixins
@@ -91,7 +91,7 @@ export default {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
             let query = store.state.category.current_product_query
             if (!query.searchProductQuery) {
-              query = Object.assign(query, { searchProductQuery: baseFilterProductsSearchQuery(parentCategory, defaultFilters) })
+              query = Object.assign(query, { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters) })
             }
             store.dispatch('category/products', query).then((subloaders) => {
               Promise.all(subloaders).then((results) => {
@@ -140,7 +140,7 @@ export default {
       this.pagination.current = currentQuery.current
       this.pagination.perPage = currentQuery.perPage
       if (currentQuery.current <= this.productsTotal) {
-        currentQuery.searchProductQuery = buildFilterProductsSearchQuery(this.category, this.filters.chosen)
+        currentQuery.searchProductQuery = buildFilterProductsQuery(this.category, this.filters.chosen)
         return this.$store.dispatch('category/products', currentQuery)
       }
     },
@@ -152,7 +152,7 @@ export default {
         this.filters.chosen[filterOption.attribute_code] = filterOption
       }
 
-      let filterQr = buildFilterProductsSearchQuery(this.category, this.filters.chosen)
+      let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
 
       const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
       this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
@@ -167,7 +167,7 @@ export default {
       }) // because already aggregated
     },
     onSortOrderChanged (param) {
-      let filterQr = buildFilterProductsSearchQuery(this.category, this.filters.chosen)
+      let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
       this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
         sort: param.attribute + ':' + param.direction,
         searchProductQuery: filterQr
@@ -189,7 +189,7 @@ export default {
           self.$router.push('/')
         } else {
           this.pagination.current = 0
-          let searchProductQuery = baseFilterProductsSearchQuery(store.state.category.current, config.products.defaultFilters)
+          let searchProductQuery = baseFilterProductsQuery(store.state.category.current, config.products.defaultFilters)
           self.$bus.$emit('current-category-changed', store.state.category.current_path)
           let query = store.state.category.current_product_query
           query = Object.assign(query, { // base prototype from the asyncData is being used here

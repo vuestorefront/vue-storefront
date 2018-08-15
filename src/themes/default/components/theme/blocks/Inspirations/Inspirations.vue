@@ -25,7 +25,7 @@ export default {
     let inspirationsQuery = new SearchQuery()
     inspirationsQuery = inspirationsQuery.applyFilter({key: 'category.name', value: {'eq': 'Performance Fabrics'}})
 
-    self.$store.dispatch('product/listByQuery', {
+    self.$store.dispatch('product/list', {
       searchQuery: inspirationsQuery,
       size: 3,
       sort: 'created_at:desc'

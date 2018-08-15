@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { quickSearchByQueryObj } from '../../lib/search/search'
+import { quickSearchByQuery } from '../../lib/search/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import config from '../../lib/config'
@@ -44,7 +44,7 @@ export default {
     }
 
     if (!context.state.list | context.state.list.length === 0) {
-      return quickSearchByQueryObj({ entityType: 'category', searchQuery: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+      return quickSearchByQuery({ entityType: 'category', searchQuery: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         return resp
@@ -173,7 +173,7 @@ export default {
     /* let precachedQuery = searchProductQuery.build()
     let productPromise = rootStore.dispatch('product/list', {
       query: precachedQuery, */
-    let productPromise = rootStore.dispatch('product/listByQuery', {
+    let productPromise = rootStore.dispatch('product/list', {
       searchQuery: precachedQuery,
       start: current,
       size: perPage,
@@ -276,7 +276,7 @@ export default {
 
     if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
       console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
-      rootStore.dispatch('product/listByQuery', {
+      rootStore.dispatch('product/list', {
         searchQuery: precachedQuery,
         start: current,
         size: perPage,

@@ -1,7 +1,7 @@
 import * as types from '../../mutation-types'
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import config from '../../lib/config'
-import { quickSearchByQueryObj } from '../../lib/search/search'
+import { quickSearchByQuery } from '../../lib/search/search'
 
 export default {
   /**
@@ -16,7 +16,7 @@ export default {
 
     searchQuery = searchQuery.applyFilter({key: filterField, value: {'in': filterValues}})
 
-    return quickSearchByQueryObj({ entityType: 'attribute', searchQuery: searchQuery, includeFields: includeFields }).then(function (resp) {
+    return quickSearchByQuery({ entityType: 'attribute', searchQuery: searchQuery, includeFields: includeFields }).then(function (resp) {
       commit(types.ATTRIBUTE_UPD_ATTRIBUTES, resp)
     }).catch(function (err) {
       console.error(err)
