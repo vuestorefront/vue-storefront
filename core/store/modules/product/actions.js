@@ -6,7 +6,7 @@ import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVarian
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
-import { quickSearchByQueryObj } from '../../lib/search/search'
+import { quickSearchByQuery } from '../../lib/search/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
@@ -238,7 +238,7 @@ export default {
       }
     }
 
-    return quickSearchByQueryObj({ searchQuery, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
+    return quickSearchByQuery({ searchQuery, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others

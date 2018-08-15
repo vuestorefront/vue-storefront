@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import { quickSearchByQueryObj } from '../../lib/search/search'
+import { quickSearchByQuery } from '../../lib/search/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import config from '../../lib/config'
@@ -44,7 +44,7 @@ export default {
     }
 
     if (!context.state.list | context.state.list.length === 0) {
-      return quickSearchByQueryObj({ entityType: 'category', searchQuery: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+      return quickSearchByQuery({ entityType: 'category', searchQuery: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         return resp

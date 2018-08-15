@@ -20,7 +20,7 @@ function isOnline () {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }) {
+export function quickSearchByQuery ({ searchQuery, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }) {
   size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
