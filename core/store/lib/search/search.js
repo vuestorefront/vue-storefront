@@ -2,7 +2,9 @@ import hash from 'object-hash'
 import config from 'config'
 import SearchAdapterFactory from './adapter/factory'
 
+const factory = new SearchAdapterFactory()
 let adapterName = config.server.api
+let searchAdapter = factory.getSearchAdapter(adapterName)
 
 function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -73,10 +75,6 @@ export function quickSearchByQueryObj ({ searchQuery, start = 0, size = 50, enti
         }
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
-
-    // @TODO move searchAdapter class declaration to the top after finish migration of all entity types
-    const factory = new SearchAdapterFactory()
-    let searchAdapter = factory.getSearchAdapter(adapterName)
 
     searchAdapter.search(Query).then(function (resp) { // we're always trying to populate cache - when online
       const res = searchAdapter.handleResult(resp, Query.type, start, size)

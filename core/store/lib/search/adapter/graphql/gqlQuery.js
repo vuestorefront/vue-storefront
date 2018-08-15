@@ -17,7 +17,8 @@ export function prepareGraphQlBody (Query) {
     case 'category':
       query = require('./queries/categories.gql')
       break
-    default:
+    case 'taxrule':
+      query = require('./queries/taxrule.gql')
       break
   }
 
