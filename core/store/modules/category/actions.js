@@ -173,7 +173,7 @@ export default {
     /* let precachedQuery = searchProductQuery.build()
     let productPromise = rootStore.dispatch('product/list', {
       query: precachedQuery, */
-    let productPromise = rootStore.dispatch('product/listByQuery', {
+    let productPromise = rootStore.dispatch('product/list', {
       searchQuery: precachedQuery,
       start: current,
       size: perPage,
@@ -276,7 +276,7 @@ export default {
 
     if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
       console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
-      rootStore.dispatch('product/listByQuery', {
+      rootStore.dispatch('product/list', {
         searchQuery: precachedQuery,
         start: current,
         size: perPage,

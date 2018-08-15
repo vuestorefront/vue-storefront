@@ -6,7 +6,6 @@ import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVarian
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
-import { quickSearchByQuery } from '../../lib/search'
 import { quickSearchByQueryObj } from '../../lib/search/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
@@ -166,7 +165,7 @@ export default {
       let searchQuery = new SearchQuery()
       searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.state.current.sku}})
 
-      return context.dispatch('listByQuery', {searchQuery: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
+      return context.dispatch('list', {searchQuery: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
@@ -213,80 +212,7 @@ export default {
   filterUnavailableVariants (context, { product }) {
     return filterOutUnavailableVariants(context, product)
   },
-  /**
-   * Search ElasticSearch catalog of products using simple text query
-   * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
-   * @param {Object} query elasticSearch request body
-   * @param {Int} start start index
-   * @param {Int} size page size
-   * @return {Promise}
-   */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
-    let isCacheable = (includeFields === null && excludeFields === null)
-    if (isCacheable) {
-      console.debug('Entity cache is enabled for productList')
-    } else {
-      console.debug('Entity cache is disabled for productList')
-    }
 
-    if (config.entities.optimize) {
-      if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        excludeFields = config.entities.product.excludeFields
-      }
-      if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        includeFields = config.entities.product.includeFields
-      }
-    }
-    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
-      if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
-        for (let product of resp.items) {
-          product.errors = {} // this is an object to store validation result for custom options and others
-          product.info = {}
-          product.parentSku = product.sku
-          if (configuration) {
-            let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
-            Object.assign(product, selectedVariant)
-          }
-        }
-      }
-      return calculateTaxes(resp.items, context).then((updatedProducts) => {
-        // handle cache
-        const cache = global.$VS.db.elasticCacheCollection
-        for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
-          if (prod.configurable_children) {
-            for (let configurableChild of prod.configurable_children) {
-              if (configurableChild.custom_attributes) {
-                for (let opt of configurableChild.custom_attributes) {
-                  configurableChild[opt.attribute_code] = opt.value
-                }
-              }
-            }
-          }
-          if (!prod[cacheByKey]) {
-            cacheByKey = 'id'
-          }
-          const cacheKey = entityKeyName(cacheByKey, prod[cacheByKey])
-          if (isCacheable) { // store cache only for full loads
-            cache.setItem(cacheKey, prod)
-              .catch((err) => {
-                console.error('Cannot store cache for ' + cacheKey, err)
-              })
-          }
-          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts) {
-            context.dispatch('setupAssociated', { product: prod })
-          }
-        }
-        // commit update products list mutation
-        if (updateState) {
-          context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
-        }
-        EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
-        return resp
-      })
-    }).catch(function (err) {
-      console.error(err)
-    })
-  },
   /**
    * Search ElasticSearch catalog of products using simple text query
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
@@ -295,7 +221,7 @@ export default {
    * @param {Int} size page size
    * @return {Promise}
    */
-  listByQuery (context, { searchQuery, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
+  list (context, { searchQuery, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.debug('Entity cache is enabled for productList')
@@ -355,7 +281,7 @@ export default {
         if (updateState) {
           context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
         }
-        EventBus.$emit('product-after-listByQuery', { searchQuery: searchQuery, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
+        EventBus.$emit('product-after-list', { searchQuery: searchQuery, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
     }).catch(function (err) {
@@ -430,7 +356,7 @@ export default {
           let searchQuery = new SearchQuery()
           searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
 
-          context.dispatch('listByQuery', { // product list syncs the platform price on it's own
+          context.dispatch('list', { // product list syncs the platform price on it's own
             searchQuery: searchQuery,
             prefetchGroupProducts: false,
             updateState: false

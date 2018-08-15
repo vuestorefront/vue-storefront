@@ -52,7 +52,7 @@ export default {
     }
     relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
 
-    this.$store.dispatch('product/listByQuery', {
+    this.$store.dispatch('product/list', {
       searchQuery: relatedProductsQuery,
       size: 8,
       prefetchGroupProducts: false,

@@ -103,7 +103,7 @@ export default {
         .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}}) // try andQuery
 
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
-        store.dispatch('product/listByQuery', {
+        store.dispatch('product/list', {
           searchQuery: newProductsQuery,
           size: 8,
           sort: 'created_at:desc',
@@ -113,7 +113,7 @@ export default {
             store.state.homepage.new_collection = res.items
           }
 
-          store.dispatch('product/listByQuery', {
+          store.dispatch('product/list', {
             searchQuery: coolBagsQuery,
             size: 4,
             sort: 'created_at:desc',

@@ -39,7 +39,7 @@ export default {
         searchQuery = searchQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
       }
 
-      this.$store.dispatch('product/listByQuery', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {
+      this.$store.dispatch('product/list', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {
         this.products = resp.items
         this.emptyResults = resp.items.length < 1
       }).catch(function (err) {

@@ -49,7 +49,7 @@ export default {
 
     let inspirationsQuery = new SearchQuery()
 
-    self.$store.dispatch('product/listByQuery', {
+    self.$store.dispatch('product/list', {
       searchQuery: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'

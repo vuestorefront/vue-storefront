@@ -18,7 +18,7 @@ export default {
       ourBestsellersQuery = ourBestsellersQuery.applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
 
       store.dispatch('category/list', {}).then((categories) => {
-        store.dispatch('product/listByQuery', {
+        store.dispatch('product/list', {
           searchQuery: ourBestsellersQuery,
           size: 8,
           sort: 'created_at:desc'
