@@ -8,6 +8,7 @@ import union from 'lodash-es/union'
 import sizeof from 'object-sizeof'
 import rootStore from '@vue-storefront/store'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
+import i18n from 'core/lib/i18n'
 
 require('./service-worker-registration') // register the service worker
 
@@ -24,6 +25,24 @@ if (config.storeViews.multistore === true) {
   }
 }
 
+function _commonErrorHandler (err, reject) {
+  if (err.message.indexOf('query returned empty result') > 0) {
+    EventBus.$emit('notification', {
+      type: 'error',
+      message: i18n.t('No available product variants'),
+      action1: { label: i18n.t('OK'), action: 'close' }
+    })
+    router.back()
+  } else {
+    EventBus.$emit('notification', {
+      type: 'error',
+      message: i18n.t(err.message),
+      action1: { label: i18n.t('OK'), action: 'close' }
+    })
+    reject()
+  }
+}
+
 function _ssrHydrateSubcomponents (components, next, to) {
   Promise.all(components.map(SubComponent => {
     if (SubComponent.asyncData) {
@@ -34,7 +53,9 @@ function _ssrHydrateSubcomponents (components, next, to) {
     }
   })).then(() => {
     next()
-  }).catch(next)
+  }).catch(err => {
+    _commonErrorHandler(err, next)
+  })
 }
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
@@ -101,7 +122,8 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 
   const ordersCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
-    storeName: 'orders'
+    storeName: 'orders',
+    driver: localForage[config.localForage.defaultDrivers['orders']]
   }))
 
   const fetchQueue = []
@@ -148,21 +170,24 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
             }
             orderMutex[id] = false
           }).catch((err) => {
-            navigator.serviceWorker.ready.then(registration => {
-              registration.sync.register('orderSync')
-                .then(() => {
-                  console.log('Order sync registered')
-                })
-                .catch(error => {
-                  console.log('Unable to sync', error)
-                })
-            })
+            if (config.orders.offline_orders.notification.enabled) {
+              navigator.serviceWorker.ready.then(registration => {
+                registration.sync.register('orderSync')
+                  .then(() => {
+                    console.log('Order sync registered')
+                  })
+                  .catch(error => {
+                    console.log('Unable to sync', error)
+                  })
+              })
+            }
             console.error('Error sending order: ' + orderId, err)
             orderMutex[id] = false
           })
       })
     }
-  }).then(() => {
+  }, (err, result) => {
+    if (err) console.error(err)
     console.log('Iteration has completed')
 
     // execute them serially
@@ -191,12 +216,14 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }))
 
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
-    storeName: 'user'
+    name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+    storeName: 'user',
+    driver: localForage[config.localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
-    storeName: 'carts'
+    name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+    storeName: 'carts',
+    driver: localForage[config.localForage.defaultDrivers['carts']]
   }))
 
   usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
@@ -223,7 +250,6 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(() => {
             return execute(task, currentToken, currentCartId).then((executedTask) => {
-              console.debug('Storing the task result', executedTask)
               syncTaskCollection.setItem(executedTask.task_id.toString(), executedTask)
               mutex[id] = false
             }).catch((err) => {
@@ -232,7 +258,8 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
             })
           })
         }
-      }).then(() => {
+      }, (err, result) => {
+        if (err) console.error(err)
         console.debug('Iteration has completed')
         // execute them serially
         serial(fetchQueue)
@@ -296,4 +323,5 @@ EventBus.$on('user-before-logout', () => {
 })
 
 rootStore.dispatch('cart/load')
+rootStore.dispatch('compare/load')
 rootStore.dispatch('user/startSession')

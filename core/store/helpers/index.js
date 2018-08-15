@@ -80,8 +80,12 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
-    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}}) // try andQuery
+    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+    .applyFilter({key: 'status', value: {'in': [0, 1, 2]}}) // @TODO Check if status 2 (disabled) was set not by occasion here
 
+  if (config.products.listOutOfStockProducts === false) {
+    searchProductQuery = searchProductQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
+  }
   // Add available filters
   for (let attrToFilter of filters) {
     searchProductQuery = searchProductQuery.addAvailableFilter({field: attrToFilter})

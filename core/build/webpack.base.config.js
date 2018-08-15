@@ -4,12 +4,11 @@ const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const autoprefixer = require('autoprefixer')
+
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
 )
-
-const appConfig = require('./config.json')
 
 const extensionsRoot = '../../src/extensions'
 const themesRoot = '../../src/themes'
@@ -49,6 +48,11 @@ module.exports = {
     app: './core/client-entry.js',
     vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync']
   },
+  output: {
+    path: path.resolve(__dirname, '../../dist'),
+    publicPath: '/dist/',
+    filename: '[name].[hash].js'
+  },
   resolveLoader: {
     modules: [
       'node_modules',
@@ -84,6 +88,8 @@ module.exports = {
       'core/resource': path.resolve(__dirname, '../resource'),
       'core/router': path.resolve(__dirname, '../router'),
       'core/directives': path.resolve(__dirname, '../directives'),
+      // Ccre API Modules
+      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
@@ -98,18 +104,13 @@ module.exports = {
       'theme/extensions': themeExtensions
     }
   },
-  output: {
-    path: path.resolve(__dirname, '../../dist'),
-    publicPath: '/dist/',
-    filename: '[name].[hash].js'
-  },
   module: {
     rules: [
       {
         enforce: 'pre',
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
-        exclude: /node_modules/
+        exclude: [/node_modules/, /test/]
       },
       {
         test: /\.vue$/,

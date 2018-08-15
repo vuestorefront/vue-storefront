@@ -1,10 +1,10 @@
 <template>
   <div
-    class="product align-center w-100"
+    class="product align-center w-100 pb20"
     v-observe-visibility="visibilityChanged"
   >
     <router-link
-      class="no-underline product-link"
+      class="block no-underline product-link"
       :to="localizedRoute({
         name: product.type_id + '-product',
         params: {
@@ -13,6 +13,7 @@
           childSku: product.sku
         }
       })"
+      data-testid="productLink"
     >
       <div
         class="product-image relative bg-cl-secondary"
@@ -22,10 +23,12 @@
           :src="thumbnailObj.loading"
           v-lazy="thumbnailObj"
           height="300"
-          width="310">
+          width="310"
+          data-testid="productImage"
+        >
       </div>
 
-      <p class="mb0 cl-accent">
+      <p class="mb0 cl-accent mt10">
         {{ product.name | htmlDecode }}
       </p>
 
@@ -71,7 +74,7 @@ export default {
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
         if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
-          const skus = []
+          const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
               const cachedItem = rootStore.state.stock.cache[confChild.id]
@@ -107,8 +110,8 @@ $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
 .product {
-  @media (max-width: 700px) {
-    padding: 0;
+  @media (max-width: 767px) {
+    padding-bottom: 10px;
   }
 }
 

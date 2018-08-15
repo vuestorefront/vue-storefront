@@ -25,6 +25,7 @@
         class="col-xs-12 col-md-6 mb25"
         type="text"
         name="first-name"
+        autocomplete="given-name"
         :placeholder="$t('First name')"
         v-model.trim="currentUser.firstname"
         @input="$v.currentUser.firstname.$touch()"
@@ -44,6 +45,7 @@
         class="col-xs-12 col-md-6 mb25"
         type="text"
         name="last-name"
+        autocomplete="family-name"
         :placeholder="$t('Last name')"
         v-model.trim="currentUser.lastname"
         @input="$v.currentUser.lastname.$touch()"
@@ -57,6 +59,7 @@
         class="col-xs-12 col-md-6 mb25"
         type="email"
         name="email-address"
+        autocomplete="email"
         :placeholder="$t('Email address')"
         v-model="currentUser.email"
         :validations="[
@@ -86,6 +89,7 @@
           class="col-xs-12 col-md-6 mb15 mt10"
           type="password"
           name="old-password"
+          autocomplete="current-password"
           :placeholder="$t('Current password *')"
           v-model="oldPassword"
           @input="$v.oldPassword.$touch()"
@@ -101,6 +105,7 @@
           class="col-xs-12 col-md-6 mb15 mt10"
           type="password"
           name="password"
+          autocomplete="new-password"
           :placeholder="$t('New password *')"
           v-model="password"
           @input="$v.password.$touch()"
@@ -114,6 +119,7 @@
           class="col-xs-12 col-md-6 mb15 mt10"
           type="password"
           name="password-confirm"
+          autocomplete="new-password"
           :placeholder="$t('Repeat new password *')"
           v-model="rPassword"
           @input="$v.rPassword.$touch()"
@@ -145,6 +151,7 @@
           class="col-xs-12 mb25"
           type="text"
           name="company-name"
+          autocomplete="organization"
           :placeholder="$t('Company name *')"
           v-model.trim="userCompany.company"
           @input="$v.userCompany.company.$touch()"
@@ -158,6 +165,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="street-address"
+          autocomplete="address-line1"
           :placeholder="$t('Street name *')"
           v-model.trim="userCompany.street"
           @input="$v.userCompany.street.$touch()"
@@ -171,6 +179,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="apartment-number"
+          autocomplete="address-line2"
           :placeholder="$t('House/Apartment number *')"
           v-model.trim="userCompany.house"
           @input="$v.userCompany.house.$touch()"
@@ -184,6 +193,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="city"
+          autocomplete="address-level2"
           :placeholder="$t('City *')"
           v-model.trim="userCompany.city"
           @input="$v.userCompany.city.$touch()"
@@ -197,6 +207,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="state"
+          autocomplete="address-level1"
           :placeholder="$t('State / Province')"
           v-model.trim="userCompany.region"
         />
@@ -205,6 +216,7 @@
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="zip-code"
+          autocomplete="postal-code"
           :placeholder="$t('Zip-code *')"
           v-model.trim="userCompany.postcode"
           @input="$v.userCompany.postcode.$touch()"
@@ -220,36 +232,29 @@
           ]"
         />
 
-        <div class="col-xs-12 col-sm-6 mb25">
-          <select
-            name="countries"
-            v-model="userCompany.country"
-            :class="{'cl-tertiary' : !userCompany.country || userCompany.country.length === 0}"
-          >
-            <option value="" disabled selected hidden>
-              {{ $t('Country *') }}
-            </option>
-            <option
-              v-for="country in countries"
-              :key="country.code"
-              :value="country.code"
-              class="cl-black"
-            >
-              {{ country.name }}
-            </option>
-          </select>
-          <span
-            class="validation-error"
-            v-if="!$v.userCompany.country.required && $v.userCompany.country.$error"
-          >
-            {{ $t('Field is required') }}
-          </span>
-        </div>
+        <base-select
+          class="col-xs-12 col-md-6 mb25"
+          name="countries"
+          :options="countryOptions"
+          :selected="userCompany.country"
+          :placeholder="$t('Country *')"
+          :validations="[
+            {
+              condition: $v.userCompany.country.$error && !$v.userCompany.country.required,
+              text: $t('Field is required')
+            }
+          ]"
+          v-model="userCompany.country"
+          autocomplete="country-name"
+          @blur="$v.userCompany.country.$touch()"
+          @change="$v.userCompany.country.$touch()"
+        />
 
         <base-input
           class="col-xs-12 col-sm-6 mb25"
           type="text"
           name="taxId"
+          autocomplete="tax-id"
           :placeholder="$t('Tax ID *')"
           v-model.trim="userCompany.taxId"
           @input="$v.userCompany.taxId.$touch()"
@@ -265,7 +270,15 @@
           ]"
         />
 
-        <div class="hidden-xs col-sm-6 mb25"/>
+        <base-input
+          class="col-xs-12 col-sm-6 mb25"
+          type="text"
+          name="phone-number"
+          autocomplete="tel"
+          :placeholder="$t('Phone Number')"
+          v-model.trim="userCompany.phone"
+        />
+
       </template>
 
       <div class="col-xs-12 col-sm-6">
@@ -323,6 +336,12 @@
           <p class="mb25" v-if="userCompany.taxId">
             {{ userCompany.taxId }}
           </p>
+          <div class="mb25">
+            {{ userCompany.phone }}
+            <tooltip v-if="userCompany.phone">
+              {{ $t('Phone number may be needed by carrier') }}
+            </tooltip>
+          </div>
         </template>
       </div>
     </div>
@@ -334,16 +353,30 @@ import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 import MyProfile from 'core/components/blocks/MyAccount/MyProfile'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
   components: {
     BaseCheckbox,
+    BaseSelect,
     BaseInput,
-    ButtonFull
+    ButtonFull,
+    Tooltip
   },
   mixins: [MyProfile],
+  computed: {
+    countryOptions () {
+      return this.countries.map((item) => {
+        return {
+          value: item.code,
+          label: item.name
+        }
+      })
+    }
+  },
   methods: {
     checkValidation () {
       if (this.changePassword && this.addCompany) {

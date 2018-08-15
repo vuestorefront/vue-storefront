@@ -244,7 +244,7 @@ export default {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(passwordData)
       }
-    }).then((resp) => {
+    }, { root: true }).then((resp) => {
       if (resp.code === 200) {
         EventBus.$emit('notification', {
           type: 'success',

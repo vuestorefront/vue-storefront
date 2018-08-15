@@ -43,6 +43,7 @@
         :key="index"
         v-if="validation.condition"
         class="block cl-error h6"
+        data-testid="errorMessage"
       >
         {{ validation.text }}
       </span>

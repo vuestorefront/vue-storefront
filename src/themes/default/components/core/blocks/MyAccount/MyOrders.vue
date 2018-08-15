@@ -10,7 +10,7 @@
     </div>
     <!-- My orders body -->
     <div class="row">
-      <div class="col-xs-12" v-if="ordersHistory">
+      <div class="col-xs-12" v-if="ordersHistory.length > 0">
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
@@ -38,7 +38,7 @@
                     <router-link class="no-underline block py10 px15" :to="localizedRoute(`/my-account/orders/${order.entity_id}`)">
                       {{ $t('View order') }}
                     </router-link>
-                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(order.items)">{{ $t('Remake order') }}</a>
+                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
                   </div>
                 </span>
               </td>

@@ -19,6 +19,9 @@ export function prepareStoreView (storeCode, config, i18n = null, eventBus = nul
       storeView.storeCode = storeCode
       store.state.user.current_storecode = storeCode
     }
+  } else {
+    storeView.storeCode = config.defaultStoreCode || ''
+    store.state.user.current_storecode = config.defaultStoreCode || ''
   }
   if (!global.$VS.storeView || global.$VS.storeView.storeCode !== storeCode) {
     global.$VS.storeView = storeView
@@ -51,7 +54,7 @@ export function adjustMultistoreApiUrl (url) {
 }
 
 export function localizedRoute (routeObj, storeCode) {
-  if (storeCode && routeObj) {
+  if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name

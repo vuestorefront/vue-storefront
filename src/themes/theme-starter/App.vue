@@ -23,3 +23,5 @@ export default {
 </script>
 
 <style lang="scss" src="./css/main.scss">
+
+</style>

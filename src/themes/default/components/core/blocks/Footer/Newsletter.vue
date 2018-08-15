@@ -1,5 +1,5 @@
 <template>
-  <div class="newsletter py25 px40 bg-cl-secondary">
+  <div class="newsletter py25 px15 bg-cl-secondary">
     <div class="container">
       <div class="newsletter-content m0 row middle-sm start-md">
         <div class="col-md-9 col-xs-12">
@@ -11,6 +11,7 @@
           <button-outline
             @click.native="$bus.$emit('modal-show', 'modal-newsletter')"
             color="dark"
+            data-testid="openNewsletterButton"
           >
             {{ $t('Subscribe') }}
           </button-outline>

@@ -3,7 +3,9 @@ export default {
   data () {
     return {
       ordersHistory: [],
-      order: {},
+      order: {
+        items: []
+      },
       paymentMethod: '',
       shippingAddress: {
         'firstname': '',
@@ -78,6 +80,11 @@ export default {
         'city': addressObject.city,
         'country': addressObject.country_id
       }
+    },
+    skipGrouped (items) {
+      return items.filter((item) => {
+        return !item.parent_item_id
+      })
     }
   }
 }

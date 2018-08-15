@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <li class="row py10">
+    <li class="row flex-nowrap py10">
       <div>
         <div class="ml10 bg-cl-secondary">
           <img class="image" v-lazy="thumbnail" alt="" >
@@ -11,7 +11,7 @@
           <div class="serif h4 name">
             {{ product.name | htmlDecode }}
           </div>
-          <div class="h6 cl-bg-tertiary pt5 sku">
+          <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
             {{ product.sku }}
           </div>
           <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
@@ -37,7 +37,7 @@
           <span>
             {{ $t('Qty') }}
           </span>
-          <span class="weight-700" :class="{ hidden: isEditing }">
+          <span class="weight-700" :class="{ hidden: isEditing }" data-testid="productQty">
             {{ product.qty }}
           </span>
           <span :class="{ hidden: !isEditing }">
@@ -47,6 +47,7 @@
               autofocus
               v-model.number="qty"
               @change="updateQuantity"
+              data-testid="productQtyInput"
             >
           </span>
         </div>
@@ -59,7 +60,7 @@
           <span class="h6 serif price-original" v-if="product.special_price">
             {{ product.originalPriceInclTax * product.qty | price }}
           </span>
-          <span class="h4 serif price-regular" v-if="!product.special_price">
+          <span class="h4 serif price-regular" v-if="!product.special_price" data-testid="productPrice">
             {{ product.priceInclTax * product.qty | price }}
           </span>
         </div>
@@ -107,6 +108,9 @@ export default {
     mix-blend-mode: multiply;
     vertical-align: top;
     width: 150px;
+    @media (max-width: 767px) {
+      width: 100px;
+    }
   }
 
   .details {
@@ -165,5 +169,9 @@ export default {
 
   input {
     width: 30px;
+  }
+
+  .flex-nowrap {
+    flex-wrap: nowrap;
   }
 </style>

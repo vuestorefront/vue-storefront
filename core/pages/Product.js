@@ -11,10 +11,11 @@ import { htmlDecode } from 'core/filters/html-decode'
 
 // Core mixins
 import Composite from 'core/mixins/composite'
+import { addToWishlist, removeFromWishlist } from 'core/api/wishlist'
 
 export default {
   name: 'Product',
-  mixins: [Composite],
+  mixins: [ Composite, addToWishlist, removeFromWishlist ],
   data () {
     return {
       loading: false
@@ -129,6 +130,15 @@ export default {
           inst.defaultOfflineImage = inst.product.image
           this.onStateCheck()
           this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
+        }).catch((err) => {
+          inst.loading = false
+          console.error(err)
+          this.$bus.$emit('notification', {
+            type: 'error',
+            message: i18n.t('The product is out of stock and cannot be added to the cart!'),
+            action1: { label: i18n.t('OK'), action: 'close' }
+          })
+          this.$router.back()
         })
       } else {
         console.error('Error with loading = true in Product.vue; Reload page')

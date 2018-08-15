@@ -3,6 +3,7 @@
     type="button"
     class="relative bg-cl-transparent brdr-none inline-flex"
     @click="openMicrocart"
+    data-testid="openMicrocart"
     :aria-label="$t('Open microcart')"
   >
     <i class="material-icons">shopping_cart</i>
@@ -10,6 +11,7 @@
       class="minicart-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver"
       v-cloak
       v-if="totalQuantity"
+      data-testid="minicartCount"
     >
       {{ totalQuantity }}
     </span>

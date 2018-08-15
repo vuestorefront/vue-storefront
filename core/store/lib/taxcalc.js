@@ -1,27 +1,28 @@
 export function updateProductPrices (product, rate, sourcePriceInclTax = false) {
+  const rateFactor = parseFloat(rate.rate) / 100
   product.price = parseFloat(product.price)
+  product.special_price = parseFloat(product.special_price)
 
   let priceExclTax = product.price
   if (sourcePriceInclTax) {
-    priceExclTax = product.price / (1 + (rate.rate / 100))
+    priceExclTax = product.price / (1 + rateFactor)
     product.price = priceExclTax
   }
-  product.priceInclTax = (priceExclTax + priceExclTax * (parseFloat(rate.rate) / 100))
-  product.priceTax = (priceExclTax * (parseFloat(rate.rate) / 100))
 
-  product.special_price = parseFloat(product.special_price)
+  product.priceTax = priceExclTax * rateFactor
+  product.priceInclTax = priceExclTax + product.priceTax
 
   let specialPriceExclTax = product.special_price
   if (sourcePriceInclTax) {
-    specialPriceExclTax = product.special_price / (1 + (rate.rate / 100))
+    specialPriceExclTax = product.special_price / (1 + rateFactor)
     product.special_price = specialPriceExclTax
   }
 
-  product.specialPriceInclTax = (specialPriceExclTax + specialPriceExclTax * (parseFloat(rate.rate) / 100))
-  product.specialPriceTax = (specialPriceExclTax * (parseFloat(rate.rate) / 100))
+  product.specialPriceTax = specialPriceExclTax * rateFactor
+  product.specialPriceInclTax = specialPriceExclTax + product.specialPriceTax
 
   if (product.special_price && (product.special_price < product.price)) {
-    if ((product.special_to_date && new Date(product.special_to_date) > new Date()) || (product.special_from_date && new Date(product.special_from_date) < new Date())) {
+    if ((product.special_to_date && new Date(product.special_to_date) < new Date()) || (product.special_from_date && new Date(product.special_from_date) > new Date())) {
       product.special_price = 0 // out of the dates period
     } else {
       product.originalPrice = priceExclTax
@@ -44,26 +45,28 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
         }
       }
       configurableChild.price = parseFloat(configurableChild.price)
+      configurableChild.special_price = parseFloat(configurableChild.special_price)
+
       let priceExclTax = configurableChild.price
       if (sourcePriceInclTax) {
-        priceExclTax = configurableChild.price / (1 + (rate.rate / 100))
+        priceExclTax = configurableChild.price / (1 + rateFactor)
         configurableChild.price = priceExclTax
       }
 
-      configurableChild.priceInclTax = (priceExclTax + priceExclTax * (parseFloat(rate.rate) / 100))
-      configurableChild.priceTax = (priceExclTax * (parseFloat(rate.rate) / 100))
+      configurableChild.priceTax = priceExclTax * rateFactor
+      configurableChild.priceInclTax = priceExclTax + configurableChild.priceTax
 
       let specialPriceExclTax = configurableChild.special_price
       if (sourcePriceInclTax) {
-        specialPriceExclTax = configurableChild.special_price / (1 + (rate.rate / 100))
+        specialPriceExclTax = configurableChild.special_price / (1 + rateFactor)
         configurableChild.special_price = specialPriceExclTax
       }
 
-      configurableChild.specialPriceInclTax = (specialPriceExclTax + specialPriceExclTax * (parseFloat(rate.rate) / 100))
-      configurableChild.specialPriceTax = (specialPriceExclTax * (parseFloat(rate.rate) / 100))
+      configurableChild.specialPriceTax = specialPriceExclTax * rateFactor
+      configurableChild.specialPriceInclTax = specialPriceExclTax + configurableChild.specialPriceTax
 
       if (configurableChild.special_price && (configurableChild.special_price < configurableChild.price)) {
-        if ((configurableChild.special_to_date && new Date(configurableChild.special_to_date) > new Date()) || (configurableChild.special_from_date && new Date(configurableChild.special_from_date) < new Date())) {
+        if ((configurableChild.special_to_date && new Date(configurableChild.special_to_date) < new Date()) || (configurableChild.special_from_date && new Date(configurableChild.special_from_date) > new Date())) {
           configurableChild.special_price = 0 // out of the dates period
         } else {
           configurableChild.originalPrice = priceExclTax
@@ -79,10 +82,10 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
       }
 
       if (configurableChild.priceInclTax < product.priceInclTax || product.price === 0) { // always show the lowest price
-        product.priceInclTax = parseFloat(configurableChild.priceInclTax)
-        product.priceTax = parseFloat(configurableChild.priceTax)
-        product.price = parseFloat(configurableChild.price)
-        product.special_price = parseFloat(configurableChild.special_price)
+        product.priceInclTax = configurableChild.priceInclTax
+        product.priceTax = configurableChild.priceTax
+        product.price = configurableChild.price
+        product.special_price = configurableChild.special_price
         product.specialPriceInclTax = configurableChild.specialPriceInclTax
         product.specialPriceTax = configurableChild.specialPriceTax
         product.originalPrice = configurableChild.originalPrice
@@ -92,6 +95,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
     }
   }
 }
+
 export function calculateProductTax (product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false) {
   let rateFound = false
   let taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
@@ -107,7 +111,7 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
   }
   if (!rateFound) {
     console.log('No such tax class id: ' + product.tax_class_id + ' or rate not found for ' + taxCountry + ' / ' + taxRegion)
-    updateProductPrices(product, { rate: 0 })
+    updateProductPrices(product, {rate: 0})
 
     product.priceInclTax = product.price
     product.priceTax = 0

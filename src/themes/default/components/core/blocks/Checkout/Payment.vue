@@ -121,7 +121,7 @@
             :placeholder="$t('City *')"
             v-model.trim="payment.city"
             @blur="$v.payment.city.$touch()"
-            autocomplete="address-line2"
+            autocomplete="address-level2"
             :validation="{
               condition: $v.payment.city.$error && !$v.payment.city.required,
               text: $t('Field is required')
@@ -134,7 +134,7 @@
             name="state"
             :placeholder="$t('State / Province')"
             v-model.trim="payment.state"
-            autocomplete="state"
+            autocomplete="address-level1"
           />
 
           <base-input
@@ -157,21 +157,23 @@
             ]"
           />
 
-          <div class="col-xs-12 col-sm-6 mb25">
-            <select
-              name="countries"
-              :class="{'cl-tertiary' : payment.country.length === 0}"
-              v-model="payment.country"
-              @change="$v.payment.country.$touch()"
-              autocomplete="country"
-            >
-              <option value="" disabled selected hidden>{{ $t('Country') }} *</option>
-              <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
-            </select>
-            <span class="validation-error" v-if="$v.payment.country.$error && !$v.payment.country.required">
-              {{ $t('Field is required') }}
-            </span>
-          </div>
+          <base-select
+            class="col-xs-12 col-sm-6 mb25"
+            name="countries"
+            :options="countryOptions"
+            :selected="payment.country"
+            :placeholder="$t('Country *')"
+            :validations="[
+              {
+                condition: $v.payment.country.$error && !$v.payment.country.required,
+                text: $t('Field is required')
+              }
+            ]"
+            v-model="payment.country"
+            autocomplete="country-name"
+            @blur="$v.payment.country.$touch()"
+            @change="$v.payment.country.$touch()"
+          />
 
           <base-input
             class="col-xs-12 mb25"
@@ -199,7 +201,7 @@
               :placeholder="$t('Company name *')"
               v-model.trim="payment.company"
               @blur="$v.payment.company.$touch()"
-              autocomplete="company-name"
+              autocomplete="organization"
               :validation="{
                 condition: $v.payment.company.$error && !$v.payment.company.required,
                 text: $t('Field is required')
@@ -317,6 +319,7 @@ import Payment from 'core/components/blocks/Checkout/Payment'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
 
@@ -324,10 +327,21 @@ export default {
   components: {
     BaseCheckbox,
     BaseInput,
+    BaseSelect,
     ButtonFull,
     Tooltip
   },
   mixins: [Payment],
+  computed: {
+    countryOptions () {
+      return this.countries.map((item) => {
+        return {
+          value: item.code,
+          label: item.name
+        }
+      })
+    }
+  },
   validations () {
     if (!this.generateInvoice) {
       return {

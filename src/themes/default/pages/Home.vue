@@ -17,7 +17,7 @@
 
     <collection :title="$t('New Luma Yoga Collection')" cover-image="/assets/collection.jpg" category="Women"/>
 
-    <section class="container pb60">
+    <section class="container pb60 px15">
       <div class="row center-xs">
         <header class="col-md-12 pt40">
           <h2 class="align-center cl-accent">{{ $t('Get inspired') }}</h2>
@@ -26,6 +26,7 @@
       <tile-links />
     </section>
     <Onboard/>
+
   </div>
 </template>
 

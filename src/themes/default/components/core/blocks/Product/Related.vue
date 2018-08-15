@@ -21,6 +21,7 @@ import ProductListing from 'theme/components/core/ProductListing'
 
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import i18n from 'core/lib/i18n'
+import config from 'config'
 
 export default {
   name: 'Related',
@@ -38,34 +39,53 @@ export default {
   components: {
     ProductListing
   },
+  created () {
+    this.$bus.$on('product-after-load', this.refreshList)
+  },
+  destroyed () {
+    this.$bus.$off('product-after-load', this.refreshList)
+  },
   beforeMount () {
-    let sku = this.productLinks
-      .filter(pl => pl.link_type === this.type)
-      .map(pl => pl.linked_product_sku)
+    this.refreshList()
+  },
+  methods: {
+    refreshList () {
+      let sku = this.productLinks
+        .filter(pl => pl.link_type === this.type)
+        .map(pl => pl.linked_product_sku)
 
-    let relatedProductsQuery = new SearchQuery()
-    if (sku.length === 0) {
-      sku = this.product.current.category.map(cat => cat.category_id)
-      relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'category_ids', value: {'in': sku}})
-    } else {
-      relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'sku', value: {'eq': sku}})
-    }
-    relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+      let relatedProductsQuery = new SearchQuery()
 
-    this.$store.dispatch('product/list', {
-      searchQuery: relatedProductsQuery,
-      size: 8,
-      prefetchGroupProducts: false,
-      updateState: false
-    }).then((response) => {
-      if (response) {
-        this.$store.dispatch('product/related', {
-          key: this.type,
-          items: response.items
-        })
-        this.$forceUpdate()
+      if (sku.length > 0) {
+        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'sku', value: {'eq': sku}})
+      } else {
+        sku = this.product.current.category.map(cat => cat.category_id)
+        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'category_ids', value: {'in': sku}})
       }
-    })
+
+      relatedProductsQuery = relatedProductsQuery
+        .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+        .applyFilter({key: 'status', value: {'in': [0, 1, 2]}}) // @TODO Check if status 2 (disabled) was set not by occasion here
+
+      if (config.products.listOutOfStockProducts === false) {
+        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
+      }
+
+      this.$store.dispatch('product/list', {
+        searchQuery: relatedProductsQuery,
+        size: 8,
+        prefetchGroupProducts: false,
+        updateState: false
+      }).then((response) => {
+        if (response) {
+          this.$store.dispatch('product/related', {
+            key: this.type,
+            items: response.items
+          })
+          this.$forceUpdate()
+        }
+      })
+    }
   },
   computed: {
     product () {
