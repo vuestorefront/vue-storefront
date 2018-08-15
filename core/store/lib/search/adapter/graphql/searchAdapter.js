@@ -47,6 +47,9 @@ export class SearchAdapter {
         case 'category':
           response = processESResponseType(resp.data.categories, start, size)
           break
+        case 'taxrule':
+          response = processESResponseType(resp.data.taxrule, start, size)
+          break
       }
 
       return response
