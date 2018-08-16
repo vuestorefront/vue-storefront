@@ -51,10 +51,11 @@ class SearchQuery {
     * @param {Object} options // { eg price options ] }
     * @return {Object}
     */
-  addAvailableFilter ({field, options = {}}) {
+  addAvailableFilter ({field, scope = 'default', options = {}}) {
     // value can has only String, Array or numeric type
     this._availableFilters.push({
       field: field,
+      scope: scope,
       options: options
     })
 

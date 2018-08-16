@@ -1,5 +1,5 @@
 // 3rd party dependecies
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import { preparePageNotFoundQuery } from 'core/store/helpers/index'
 
 // Core dependecies
 import i18n from 'core/lib/i18n'
@@ -14,8 +14,7 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
-      let ourBestsellersQuery = new SearchQuery()
-      ourBestsellersQuery = ourBestsellersQuery.applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+      let ourBestsellersQuery = preparePageNotFoundQuery()
 
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('product/list', {

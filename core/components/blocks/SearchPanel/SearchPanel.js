@@ -1,8 +1,7 @@
 import { mapState } from 'vuex'
-import config from 'config'
 import i18n from 'core/lib/i18n'
 import onEscapePress from 'core/mixins/onEscapePress'
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import { prepareQuickSearchQuery } from 'core/store/helpers/index'
 
 export default {
   name: 'SearchPanel',
@@ -30,16 +29,7 @@ export default {
         let start = 0
         let size = 18
 
-        let searchQuery = new SearchQuery()
-
-        searchQuery = searchQuery
-          .setSearchText(queryText)
-          .applyFilter({key: 'visibility', value: {'in': [3, 4]}})
-          .applyFilter({key: 'status', value: {'in': [0, 1]}})/* 2 = disabled, 3 = out of stock */
-
-        if (config.products.listOutOfStockProducts === false) {
-          searchQuery = searchQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
-        }
+        let searchQuery = prepareQuickSearchQuery(queryText)
 
         this.$store.dispatch('product/list', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {
           this.products = resp.items

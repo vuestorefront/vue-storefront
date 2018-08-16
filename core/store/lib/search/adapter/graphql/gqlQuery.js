@@ -30,6 +30,9 @@ export function prepareGraphQlBody (Query) {
   if (allFilters.length > 0) {
     for (let attrToFilter of allFilters) {
       queryVariables.filter[attrToFilter.field] = {}
+      if (typeof attrToFilter.scope !== 'undefined') {
+        queryVariables.filter[attrToFilter.field]['scope'] = attrToFilter.scope
+      }
     }
   }
 

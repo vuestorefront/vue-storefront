@@ -32,7 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import { prepareNewProductsQuery, prepareCoolBagsQuery } from 'core/store/helpers/index'
 
 // Core dependecies
 import config from 'config'
@@ -89,19 +89,8 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
 
-      let newProductsQuery = new SearchQuery()
-      newProductsQuery = newProductsQuery
-        // .addQuery({type: 'match', key: 'category.name', value: 'Tees', boolType: 'query'}) // try andQuery
-        .applyFilter({key: 'category.category_id', value: {'in': [16, 25, 33]}}) // IDs of Tees category
-        // .applyFilter({key: 'category_ids', value: {'in': [16, 25, 33]}}) // IDs of Tees category
-        .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}}) // try andQuery
-
-      let coolBagsQuery = new SearchQuery()
-      coolBagsQuery = coolBagsQuery
-        // .addQuery({type: 'match', key: 'category.name', value: 'Women', boolType: 'query'}) // try andQuery
-        .applyFilter({key: 'category.category_id', value: {'in': [20, 30]}}) // IDs of Women category
-        // .applyFilter({key: 'category_ids', value: {'in': [20, 30]}}) // IDs of Women category
-        .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}}) // try andQuery
+      let newProductsQuery = prepareNewProductsQuery()
+      let coolBagsQuery = prepareCoolBagsQuery()
 
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/list', {
