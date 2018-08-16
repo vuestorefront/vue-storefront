@@ -25,26 +25,32 @@ export default {
     },
     makeSearch: function () {
       let queryText = this.search
-      let start = 0
-      let size = 18
 
-      let searchQuery = new SearchQuery()
+      if (queryText !== '' && queryText !== undefined) {
+        let start = 0
+        let size = 18
 
-      searchQuery = searchQuery
-        .setSearchText(queryText)
-        .applyFilter({key: 'visibility', value: {'in': [3, 4]}})
-        .applyFilter({key: 'status', value: {'in': [0, 1]}})/* 2 = disabled, 3 = out of stock */
+        let searchQuery = new SearchQuery()
 
-      if (config.products.listOutOfStockProducts === false) {
-        searchQuery = searchQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
+        searchQuery = searchQuery
+          .setSearchText(queryText)
+          .applyFilter({key: 'visibility', value: {'in': [3, 4]}})
+          .applyFilter({key: 'status', value: {'in': [0, 1]}})/* 2 = disabled, 3 = out of stock */
+
+        if (config.products.listOutOfStockProducts === false) {
+          searchQuery = searchQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
+        }
+
+        this.$store.dispatch('product/list', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {
+          this.products = resp.items
+          this.emptyResults = resp.items.length < 1
+        }).catch(function (err) {
+          console.error(err)
+        })
+      } else {
+        this.products = []
+        this.emptyResults = 0
       }
-
-      this.$store.dispatch('product/list', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {
-        this.products = resp.items
-        this.emptyResults = resp.items.length < 1
-      }).catch(function (err) {
-        console.error(err)
-      })
     }
   },
   computed: {
