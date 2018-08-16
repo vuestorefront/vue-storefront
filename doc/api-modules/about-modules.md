@@ -31,3 +31,7 @@ Normally module can (but not must) contain following folders:
 # Contributions
 
 Please introduce every new feature with new architecture as a module. We also need your help in rewriting Vue Storefront to modular approach - [here](https://github.com/DivanteLtd/vue-storefront/issues?q=is%3Aissue+is%3Aopen+label%3A%22API+Module%22) you can find tasks related to this architectural change.
+
+# Refactoring into modules
+
+For now we are just detaching the features from core components (see cart module as an example) **we are not moving components, stores etc to api modules folder yet**. Please keep it in mind. After we will move all the features than we will proceed with components and stores.
