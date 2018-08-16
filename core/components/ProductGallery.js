@@ -54,7 +54,7 @@ export default {
       }
     },
     selectVariant () {
-      let option = this.configuration[config.products.galleryVariantsGroupAttribute]
+      let option = this.configuration[config.products.gallery.variantsGroupAttribute]
       if (typeof option !== 'undefined' && option !== null) {
         let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
         this.navigate(index)

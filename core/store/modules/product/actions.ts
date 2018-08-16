@@ -10,6 +10,8 @@ import { quickSearchByQuery } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
+import uniqBy from  'lodash-es/uniqBy'
+import groupBy from 'lodash-es/groupBy'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
@@ -489,6 +491,8 @@ const actions: ActionTree<ProductState, RootState> = {
           }))
         }
 
+        context.dispatch('setProductGallery', { product: product })
+
         if (config.products.preventConfigurableChildrenDirectAccess) {
           subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
         }
@@ -504,6 +508,54 @@ const actions: ActionTree<ProductState, RootState> = {
   addCustomOptionValidator (context, { validationRule, validatorFunction }) {
     context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
+
+
+  setProductGallery(context, { product }) {
+
+     function getThumbnail (relativeUrl, width, height) {
+          return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
+     }
+
+     if (product.type_id !== 'configurable') {
+        // TODO: Return gallery
+     }
+
+     let images = []
+     if (product.media_gallery) {
+          for (let mediaItem of product.media_gallery) {
+              if (mediaItem.image) {
+                  images.push({
+                      'src': getThumbnail(mediaItem.image, 600, 744),
+                      'loading': getThumbnail(product.image, 310, 300)
+                  })
+              }
+          }
+     }
+
+     let variantsGroupBy = config.products.gallery.variantsGroupAttribute
+     if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
+          let groupedByAttribute = groupBy(product.configurable_children, child => {
+              return child[variantsGroupBy]
+          })
+          Object.keys(groupedByAttribute).forEach(confChild => {
+              if (groupedByAttribute[confChild][0].image) {
+                  images.push({
+                      'src': getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
+                      'loading': getThumbnail(product.image, 310, 300),
+                      'id': confChild
+                  })
+              }
+          })
+      } else {
+          images.push({
+              'src': getThumbnail(product.image, 600, 744),
+              'loading': getThumbnail(product.image, 310, 300)
+          })
+      }
+      let productGallery = uniqBy(images, 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
+      context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+  },
+
   /**
    * Load the product data - async version for asyncData()
    */
