@@ -8,6 +8,7 @@
               :gallery="gallery"
               :offline="offlineImage"
               :configuration="configuration"
+              :product="product"
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
