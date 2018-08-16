@@ -56,7 +56,7 @@
                 class="mb25"
                 type="text"
                 name="body"
-                value=""
+                v-model="feedback"
                 :placeholder="$t('Type your opinion')"
                 :autofocus="true"
               />
@@ -81,6 +81,11 @@ import VueOfflineMixin from 'vue-offline/mixin'
 export default {
   name: 'ThankYouPage',
   mixins: [Composite, VueOfflineMixin],
+  data () {
+    return {
+      feedback: ''
+    }
+  },
   computed: {
     isNotificationSupported () {
       if (global.$VS.isSSR || !('Notification' in window)) return false
