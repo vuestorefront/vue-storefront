@@ -26,7 +26,7 @@
                 <img
                   v-lazy="images"
                   class="mw-100 pointer" ref="images" @click="navigate(key)"
-                  alt=""
+                  :alt="product.name | htmlDecode"
                 >
               </transition>
             </div>
@@ -39,7 +39,7 @@
               v-lazy="defaultImage"
               class="mw-100 pointer"
               ref="defaultImage"
-              alt=""
+              :alt="product.name | htmlDecode"
               itemprop="image"
             >
           </transition>
@@ -65,7 +65,7 @@
                     v-lazy="images"
                     ref="images"
                     @dblclick="toggleZoom"
-                    alt=""
+                    :alt="product.name | htmlDecode"
                     data-testid="productGalleryImage"
                     itemprop="image"
                   >

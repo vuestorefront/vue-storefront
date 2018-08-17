@@ -33,7 +33,7 @@ export function prepareElasticsearchQueryBody (searchQuery) {
 
     // apply catalog scope filters
     let attrFilterBuilder = (filterQr, attrPostfix = '') => {
-      appliedFilters.forEach(function (catalogfilter) {
+      appliedFilters.forEach(catalogfilter => {
         const valueKeys = Object.keys(catalogfilter.value)
         if (catalogfilter.scope === 'catalog' && valueKeys.length) {
           const isRange = valueKeys.filter(value => rangeOperators.indexOf(value) !== -1)

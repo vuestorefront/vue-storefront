@@ -21,6 +21,10 @@ export default {
     offline: {
       type: Object,
       required: true
+    },
+    product: {
+      type: Object,
+      required: true
     }
   },
   data () {

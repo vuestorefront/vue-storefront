@@ -12,6 +12,17 @@ if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
 
 const state = {
+  attribute: '',
+  category: {
+    current_path: '',
+    current: {
+      slug: '',
+      name: ''
+    }
+  },
+  stock: {
+    cache: []
+  }
 }
 
 const mutations = {

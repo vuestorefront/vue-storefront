@@ -35,7 +35,7 @@
             </p>
             <p v-if="!isPermissionGranted && isNotificationSupported">
               <button-outline color="dark" @click.native="requestNotificationPermission()" >
-                Allow notification about the order
+                {{ $t('Allow notification about the order') }}
               </button-outline>
             </p>
             <div id="thank-you-extensions"/>
@@ -56,7 +56,7 @@
                 class="mb25"
                 type="text"
                 name="body"
-                value=""
+                v-model="feedback"
                 :placeholder="$t('Type your opinion')"
                 :autofocus="true"
               />
@@ -81,6 +81,11 @@ import VueOfflineMixin from 'vue-offline/mixin'
 export default {
   name: 'ThankYouPage',
   mixins: [Composite, VueOfflineMixin],
+  data () {
+    return {
+      feedback: ''
+    }
+  },
   computed: {
     isNotificationSupported () {
       if (global.$VS.isSSR || !('Notification' in window)) return false
@@ -98,6 +103,9 @@ export default {
         Notification.requestPermission()
       }
     }
+  },
+  destroyed () {
+    this.$store.dispatch('checkout/setThankYouPage', false)
   },
   components: {
     BaseTextarea,
