@@ -17,16 +17,11 @@ export default {
 
   beforeMount () {
     let self = this
-    /* let inspirationsQuery = builder().query('match', 'category.name', 'Performance Fabrics').build()
-
-    self.$store.dispatch('product/list', {
-      query: inspirationsQuery, */
-
     let inspirationsQuery = new SearchQuery()
     inspirationsQuery = inspirationsQuery.applyFilter({key: 'category.name', value: {'eq': 'Performance Fabrics'}})
 
     self.$store.dispatch('product/list', {
-      searchQuery: inspirationsQuery,
+      query: inspirationsQuery,
       size: 3,
       sort: 'created_at:desc'
     }).then(function (res) {

@@ -15,7 +15,7 @@ export default {
     } else {
       // removed builder()
       const searchQuery = new SearchQuery()
-      return quickSearchByQuery({ searchQuery: searchQuery, entityType }).then((resp) => {
+      return quickSearchByQuery({ query: searchQuery, entityType }).then((resp) => {
         context.commit(types.TAX_UPDATE_RULES, resp)
         return resp
       }).catch(function (err) {

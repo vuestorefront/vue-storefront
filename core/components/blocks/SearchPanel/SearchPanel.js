@@ -28,10 +28,9 @@ export default {
       if (queryText !== '' && queryText !== undefined) {
         let start = 0
         let size = 18
-
         let searchQuery = prepareQuickSearchQuery(queryText)
 
-        this.$store.dispatch('product/list', { searchQuery: searchQuery, start, size, updateState: false }).then((resp) => {
+        this.$store.dispatch('product/list', { query: searchQuery, start, size, updateState: false }).then((resp) => {
           this.products = resp.items
           this.emptyResults = resp.items.length < 1
         }).catch(function (err) {

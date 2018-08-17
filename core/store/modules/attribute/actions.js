@@ -16,7 +16,7 @@ export default {
 
     searchQuery = searchQuery.applyFilter({key: filterField, value: {'in': filterValues}})
 
-    return quickSearchByQuery({ entityType: 'attribute', searchQuery: searchQuery, includeFields: includeFields }).then(function (resp) {
+    return quickSearchByQuery({ entityType: 'attribute', query: searchQuery, includeFields: includeFields }).then(function (resp) {
       commit(types.ATTRIBUTE_UPD_ATTRIBUTES, resp)
     }).catch(function (err) {
       console.error(err)

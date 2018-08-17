@@ -17,12 +17,12 @@ function isOnline () {
 /**
  * Search ElasticSearch catalog of products using simple text query
  * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
- * @param {Object} searchQuery query object
+ * @param {Object} query is the object of searchQuery class
  * @param {Int} start start index
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ searchQuery, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }) {
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }) {
   size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -31,7 +31,7 @@ export function quickSearchByQuery ({ searchQuery, start = 0, size = 50, entityT
     const Query = {
       store: storeCode, // TODO: add grouped prodduct and bundled product support
       type: entityType,
-      searchQuery: searchQuery,
+      searchQuery: query,
       size: size,
       from: start,
       sort: sort

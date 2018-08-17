@@ -94,7 +94,7 @@ export default {
 
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/list', {
-          searchQuery: newProductsQuery,
+          query: newProductsQuery,
           size: 8,
           sort: 'created_at:desc',
           includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
@@ -104,7 +104,7 @@ export default {
           }
 
           store.dispatch('product/list', {
-            searchQuery: coolBagsQuery,
+            query: coolBagsQuery,
             size: 4,
             sort: 'created_at:desc',
             includeFields: config.entities.optimize ? config.entities.productList.includeFields : []

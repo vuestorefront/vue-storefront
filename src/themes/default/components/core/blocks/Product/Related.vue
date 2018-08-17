@@ -72,7 +72,7 @@ export default {
       }
 
       this.$store.dispatch('product/list', {
-        searchQuery: relatedProductsQuery,
+        query: relatedProductsQuery,
         size: 8,
         prefetchGroupProducts: false,
         updateState: false

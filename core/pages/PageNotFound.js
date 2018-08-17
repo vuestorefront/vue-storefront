@@ -18,7 +18,7 @@ export default {
 
       store.dispatch('category/list', {}).then((categories) => {
         store.dispatch('product/list', {
-          searchQuery: ourBestsellersQuery,
+          query: ourBestsellersQuery,
           size: 8,
           sort: 'created_at:desc'
         }).then(function (res) {
