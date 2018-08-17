@@ -57,7 +57,7 @@ export class SearchAdapter {
     }
     if (resp.hasOwnProperty('hits')) {
       return {
-        items: map(resp.hits.hits, function (hit) {
+        items: map(resp.hits.hits, hit => {
           return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
         }), // TODO: add scoring information
         total: resp.hits.total,

@@ -76,7 +76,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       }
     }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
 
-    searchAdapter.search(Query).then(function (resp) { // we're always trying to populate cache - when online
+    searchAdapter.search(Query).then(resp => { // we're always trying to populate cache - when online
       const res = searchAdapter.handleResult(resp, Query.type, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
       if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
@@ -86,7 +86,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         res.offline = false
         resolve(res)
       }
-    }).catch(function (err) {
+    }).catch(err => {
       // reject(err)
       console.error(err)
     })

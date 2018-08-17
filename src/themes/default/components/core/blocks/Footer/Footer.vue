@@ -1,9 +1,9 @@
 <template>
-  <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckout }">
-    <newsletter class=" flex brdr-bottom-1 brdr-cl-secondary" v-if="!isCheckout"/>
+  <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckoutPage }">
+    <newsletter class=" flex brdr-bottom-1 brdr-cl-secondary" v-if="!isCheckoutPage"/>
     <div
       class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
-      v-if="!isCheckout"
+      v-if="!isCheckoutPage"
     >
       <div class="container">
         <div class="row m0 center-xs between-md">
@@ -185,31 +185,13 @@
 </template>
 
 <script>
+import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
-import Footer from 'core/components/blocks/Footer/Footer'
+import Footer from '@vue-storefront/core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
 export default {
-  mixins: [Footer],
-  data () {
-    return {
-      isCheckout: false
-    }
-  },
-  created () {
-    if (this.$route.path === '/checkout') {
-      this.isCheckout = true
-    }
-  },
-  watch: {
-    '$route.path': function () {
-      if (this.$route.path === '/checkout') {
-        this.isCheckout = true
-      } else {
-        this.isCheckout = false
-      }
-    }
-  },
+  mixins: [Footer, CurrentPage],
   components: {
     Newsletter,
     LanguageSwitcher

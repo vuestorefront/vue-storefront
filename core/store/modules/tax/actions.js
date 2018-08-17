@@ -18,7 +18,7 @@ export default {
       return quickSearchByQuery({ query: searchQuery, entityType }).then((resp) => {
         context.commit(types.TAX_UPDATE_RULES, resp)
         return resp
-      }).catch(function (err) {
+      }).catch((err) => {
         console.error(err)
       })
     }

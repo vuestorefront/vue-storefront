@@ -44,11 +44,11 @@ export default {
     }
 
     if (!context.state.list | context.state.list.length === 0) {
-      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         return resp
-      }).catch(function (err) {
+      }).catch(err => {
         console.error(err)
       })
     } else {
@@ -181,7 +181,7 @@ export default {
       sort: sort,
       updateState: true,
       prefetchGroupProducts: prefetchGroupProducts
-    }).then(function (res) {
+    }).then((res) => {
       let t1 = new Date().getTime()
       global.$VS.twoStageCachingDelta1 = t1 - t0
 

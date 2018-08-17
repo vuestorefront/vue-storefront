@@ -30,9 +30,7 @@ class SearchQuery {
   }
 
   /**
-    * @param {String} key
-    * @param {Object} value
-    * @param {Object} scope // default, catalog, quicksearch
+    * @param {Object}
     * @return {Object}
     */
   applyFilter ({key, value, scope = 'default', options = Object}) {
@@ -47,8 +45,7 @@ class SearchQuery {
   }
 
   /**
-    * @param {String} key
-    * @param {Object} options // { eg price options ] }
+    * @param {Object}
     * @return {Object}
     */
   addAvailableFilter ({field, scope = 'default', options = {}}) {

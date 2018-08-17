@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="select-wrapper relative">
     <select
       :name="name"
       :class="{
@@ -7,9 +7,7 @@
         'empty': !selected
       }"
       :autocomplete="autocomplete"
-      @focus="$emit('focus');"
-      @blur="$emit('blur');"
-      @change="$emit('input', $event.target.value)"
+      v-on="listeners"
     >
       <option v-if="!selected"/>
       <option
@@ -37,7 +35,7 @@
 </template>
 
 <script>
-import BaseSelect from 'core/components/blocks/Form/BaseSelect'
+import BaseSelect from '@vue-storefront/core/components/blocks/Form/BaseSelect'
 
 export default {
   mixins: [BaseSelect]
@@ -52,6 +50,22 @@ export default {
   $color-black: color(black);
   $color-puerto-rico: color(puerto-rico);
   $color-hover: color(tertiary, $colors-background);
+
+.select-wrapper {
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 6px 0 6px;
+    border-color: $color-tertiary transparent transparent transparent;
+    pointer-events: none;
+  }
 
   select {
     @extend .h4;
@@ -93,4 +107,5 @@ export default {
     font-size: 14px;
     color: $color-puerto-rico;
   }
+}
 </style>

@@ -29,8 +29,8 @@ export default {
     return {
       products: [],
       sliderConfig: {
-        perPage: 2,
-        perPageCustom: [[768, 6]],
+        perPage: 1,
+        perPageCustom: [[576, 2], [1024, 4]],
         paginationEnabled: false,
         loop: true
       }
@@ -45,17 +45,15 @@ export default {
     }
   },
   beforeMount () {
-    let self = this
-
     let inspirationsQuery = new SearchQuery()
 
-    self.$store.dispatch('product/list', {
+    this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'
-    }).then(function (res) {
+    }).then(res => {
       if (res) {
-        self.products = res.items
+        this.products = res.items
       }
     })
   },

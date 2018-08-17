@@ -14,16 +14,15 @@ const extensionsRoot = '../../src/extensions'
 const themesRoot = '../../src/themes'
 
 const themeRoot = require('./theme-path')
-const themeComponents = themeRoot + '/components'
-const themeExtensions = themeRoot + '/extensions'
-const themePages = themeRoot + '/pages'
-const themePlugins = themeRoot + '/plugins'
-const themeFilters = themeRoot + '/filters'
-const themeMixins = themeRoot + '/mixins'
 const themeResources = themeRoot + '/resource'
-const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
+
+const translationPreprocessor = require('../lib/translation.preprocessor.js')
+translationPreprocessor([
+  path.resolve(__dirname, '../resource/i18n/'),
+  path.resolve(__dirname, themeResources + '/i18n/')
+])
 
 const postcssConfig =  {
   loader: 'postcss-loader',
@@ -45,8 +44,7 @@ module.exports = {
   ],
   devtool: 'source-map',
   entry: {
-    app: './core/client-entry.js',
-    vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync']
+    app: './core/client-entry.ts'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -75,33 +73,13 @@ module.exports = {
       'src': path.resolve(__dirname, '../../src'),
       // Core aliases
       'components': path.resolve(__dirname, '../../src/components'),
-      'core/api': path.resolve(__dirname, '../api'),
-      'core/assets': path.resolve(__dirname, '../assets'),
-      'core/components': path.resolve(__dirname, '../components'),
-      'core/filters': path.resolve(__dirname, '../filters'),
-      'core/helpers': path.resolve(__dirname, '../helpers'),
-      'core/lib': path.resolve(__dirname, '../lib'),
-      'core/mixins': path.resolve(__dirname, '../mixins'),
-      'core/models': path.resolve(__dirname, '../models'),
-      'core/pages': path.resolve(__dirname, '../pages'),
-      'core/plugins': path.resolve(__dirname, '../plugins'),
-      'core/resource': path.resolve(__dirname, '../resource'),
-      'core/router': path.resolve(__dirname, '../router'),
-      'core/directives': path.resolve(__dirname, '../directives'),
       // Ccre API Modules
       'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
-      'theme/components': themeComponents,
       'theme/css': themeCSS,
-      'theme/filters': themeFilters,
-      'theme/mixins': themeMixins,
-      'theme/pages': themePages,
-      'theme/plugins': themePlugins,
-      'theme/resource': themeResources,
-      'theme/store': themeStores,
-      'theme/extensions': themeExtensions
+      'theme/resource': themeResources
     }
   },
   module: {
@@ -122,9 +100,16 @@ module.exports = {
         }
       },
       {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        include: ['@vue-storefront']
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -172,20 +157,6 @@ module.exports = {
             loader: 'markdown-to-vue-loader',
             options: {
               componentWrapper: 'div'
-            }
-          }
-        ]
-      },
-      {
-        test: path.resolve(__dirname, '../lib/translation.preprocessor.js'),
-        use: [
-          {
-            loader: 'val-loader',
-            options: {
-              csvDirectories: [
-                path.resolve(__dirname, '../resource/i18n/'),
-                path.resolve(__dirname, themeResources + '/i18n/')
-              ]
             }
           }
         ]

@@ -1,6 +1,6 @@
 import { mapState } from 'vuex'
-import i18n from 'core/lib/i18n'
-import onEscapePress from 'core/mixins/onEscapePress'
+import i18n from '@vue-storefront/core/lib/i18n'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { prepareQuickSearchQuery } from 'core/store/helpers/index'
 
 export default {
@@ -30,10 +30,10 @@ export default {
         let size = 18
         let searchQuery = prepareQuickSearchQuery(queryText)
 
-        this.$store.dispatch('product/list', { query: searchQuery, start, size, updateState: false }).then((resp) => {
+        this.$store.dispatch('product/list', { query: searchQuery, start, size, updateState: false }).then(resp => {
           this.products = resp.items
           this.emptyResults = resp.items.length < 1
-        }).catch(function (err) {
+        }).catch((err) => {
           console.error(err)
         })
       } else {

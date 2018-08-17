@@ -40,6 +40,7 @@
               class="mw-100 pointer"
               ref="defaultImage"
               alt=""
+              itemprop="image"
             >
           </transition>
         </div>
@@ -66,6 +67,7 @@
                     @dblclick="toggleZoom"
                     alt=""
                     data-testid="productGalleryImage"
+                    itemprop="image"
                   >
                 </div>
               </slide>
@@ -83,7 +85,7 @@
 </template>
 
 <script>
-import ProductGallery from 'core/components/ProductGallery'
+import ProductGallery from '@vue-storefront/core/components/ProductGallery'
 import NoSSR from 'vue-no-ssr'
 import VueOfflineMixin from 'vue-offline/mixin'
 

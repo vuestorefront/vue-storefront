@@ -1,5 +1,5 @@
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
-import imgPlaceholder from 'core/directives/imgPlaceholder'
+import imgPlaceholder from '@vue-storefront/core/directives/imgPlaceholder'
 
 export default {
   name: 'ProductTile',
@@ -8,6 +8,11 @@ export default {
       type: Boolean,
       requred: false,
       default: true
+    },
+    onlyImage: {
+      type: Boolean,
+      requred: false,
+      default: false
     },
     product: {
       type: Object,

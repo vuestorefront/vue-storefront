@@ -1,11 +1,15 @@
 export default {
   name: 'BaseCheckbox',
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
   props: {
     id: {
       type: String,
       required: true
     },
-    value: {
+    checked: {
       type: Boolean,
       required: true
     },
@@ -18,6 +22,14 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    }
+  },
+  computed: {
+    listeners () {
+      return {
+        ...this.$listeners,
+        change: event => this.$emit('change', event.target.checked)
+      }
     }
   }
 }

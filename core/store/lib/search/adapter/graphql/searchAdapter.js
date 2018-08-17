@@ -65,7 +65,7 @@ export class SearchAdapter {
 
 function processESResponseType (resp, start, size) {
   const response = {
-    items: map(resp.hits.hits, function (hit) {
+    items: map(resp.hits.hits, hit => {
       return Object.assign(hit._source, {
         _score: hit._score,
         slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys)
@@ -84,7 +84,7 @@ function processESResponseType (resp, start, size) {
 
 function processProductsType (resp, start, size) {
   const response = {
-    items: map(resp.items, function (item) {
+    items: map(resp.items, item => {
       let options = {}
       if (item._score) {
         options._score = item._score

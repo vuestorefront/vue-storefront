@@ -81,7 +81,7 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
     .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
-    .applyFilter({key: 'status', value: {'in': [0, 1, 2]}}) // @TODO Check if status 2 (disabled) was set not by occasion here
+    .applyFilter({key: 'status', value: {'in': [0, 1]}}) /* 2 = disabled, 4 = out of stock */
 
   if (config.products.listOutOfStockProducts === false) {
     searchProductQuery = searchProductQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})

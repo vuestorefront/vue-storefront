@@ -16,17 +16,16 @@ export default {
   name: 'Inspirations',
 
   beforeMount () {
-    let self = this
     let inspirationsQuery = new SearchQuery()
     inspirationsQuery = inspirationsQuery.applyFilter({key: 'category.name', value: {'eq': 'Performance Fabrics'}})
 
-    self.$store.dispatch('product/list', {
+    this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 3,
       sort: 'created_at:desc'
-    }).then(function (res) {
+    }).then(res => {
       if (res) {
-        self.products = res.items
+        this.products = res.items
       }
     })
   },

@@ -13,7 +13,7 @@ export function prepareElasticsearchQueryBody (searchQuery) {
     let hasCatalogFilters = false
 
     // apply default filters
-    appliedFilters.forEach(function (filter) {
+    appliedFilters.forEach(filter => {
       if (filter.scope === 'default') {
         if (rangeOperators.every(rangeOperator => filter.value.hasOwnProperty(rangeOperator))) {
           // process range filters

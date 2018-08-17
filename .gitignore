@@ -19,6 +19,7 @@ core/resource/.ig_feed.json.icloud
 core/resource/.order.json.icloud
 core/resource/.promoted_offers.json.icloud
 core/resource/.slider.json.icloud
+core/resource/i18n/*.json
 yarn-error.log
 package-lock.json
 cypress/videos

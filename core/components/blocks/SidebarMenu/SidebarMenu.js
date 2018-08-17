@@ -1,5 +1,5 @@
 import { mapState } from 'vuex'
-import onEscapePress from 'core/mixins/onEscapePress'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
 export default {
   name: 'SidebarMenu',
