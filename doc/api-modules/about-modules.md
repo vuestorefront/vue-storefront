@@ -22,7 +22,7 @@ This is obviously not a situation that we want to end up in with our small lego 
 
 So how we make this horrible situation better?
 
-Introducing... <drums> grouped bricks!
+Introducing... <drums> ***bricks grouped by colors***! <wows!>
   
 <img src="https://sh-s7-live-s.legocdn.com/is/image/LEGO/6177?$PDPDefault$" style="width: 150px;" />
   
