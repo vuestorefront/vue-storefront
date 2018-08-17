@@ -16,10 +16,14 @@ So if we end up with `addToCart` `applyCoupon` and `addToWishlist` features afte
 There is a requirement for all features that are moved to modules to be unit tested. You should put this tests inside `/tests` folder inside a module.
 
 After this process we should end up with a following structure of each modified/created module:
-* `module_name/`
-** `features` ( can contain files like  `addToCart.ts`, `productsInCart.ts`, `removeFromCart.ts`)
-** `tests`( can contain files like  `addToCart.spec.ts`, `productsInCart.spec.ts`, `removeFromCart.spec.ts`)
-** `types` - folder for TypeScript interfaces associated to this module
+
+ `module_name/`
+ 
+ `--- features` ( can contain files like  `addToCart.ts`, `productsInCart.ts`, `removeFromCart.ts`)
+ 
+ `--- tests`( can contain files like  `addToCart.spec.ts`, `productsInCart.spec.ts`, `removeFromCart.spec.ts`)
+ 
+ `--- types` - folder for TypeScript interfaces associated to this module
 
 At the end we are just using the features that we moved to modules instead of the methods that are directly in component. You can find part of this process for Microcart component. [Here](https://github.com/DivanteLtd/vue-storefront/blob/3a104223416bfe65aa72628844fa94188d6f3cda/core/components/blocks/Microcart/Microcart.js) you can see the component before refactoring it's functionality into small features and [here](https://github.com/DivanteLtd/vue-storefront/blob/66b8ed3eff5080b4efa540cc6effb4e5395598fd/core/components/blocks/Microcart/Microcart.js) after part of the process (we still need to move the rest)
 
