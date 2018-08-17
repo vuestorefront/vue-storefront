@@ -10,7 +10,8 @@ I believe that some neat metaphore can clearly describe the problem as well as a
 
 To better illustrate the whole concept I'll try to explain it with lego bricks. 
 
-Let's say we have a box with 90 lego bricks that we can use to build some fancy things like Towers, Castles, or Helicopters. Unfortunately due to some stupid EU regulations we can only have 3 different colors of bricks in our box. As we all know not every color is accurate for every structure that can be built  so we need to swap one color with a different one from the shop from time to time to have bricks in colors that are best-suited for our next lego project. Cool but there is a one problem. Since we have all our bricks in one box it looks more or less like this:
+Let's say we have a box with 90 lego bricks that we can use to build some fancy things like Towers, Castles, or Helicopters. Unfortunately due to some stupid EU regulations we can only have 3 different colors of bricks in our box. As we all know not every color is accurate for every structure that can be built  so we need to swap one color with a different one from the shop from time to time to have bricks in colors that are best-suited for our next lego project. 
+Cool, but there is one problem. Since we have all our bricks in one box it looks more or less like this:
 
 <img src="http://www.robomiku.ee/wp-content/uploads/2016/10/9027.png" style="width: 150px;" />
 
