@@ -2,7 +2,7 @@
 
 We are slowly refactoring Vue Storefront code to modules. You can learn about modules [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) and read about the motivations of this architectural changes [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#motivation)
 
-**tl;dr** For now we are just detaching the features from core components (see cart module as an example) **we are not moving components, stores etc to api modules folder yet**. Please keep it in mind. After we will move all the features then we will proceed with components and stores.
+**tl;dr** For now we are just detaching the features from core components (see cart module as an example). **We are not moving components, stores etc to api modules folder yet**. Please keep it in mind. After we will move all the features then we will proceed with components and stores.
 
 # Refactoring Plan
 The refactoring will be splitted into two phases:
