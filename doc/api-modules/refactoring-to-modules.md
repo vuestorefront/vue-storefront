@@ -37,3 +37,7 @@ We are splitting the refactoring plan for a few reasons:
 - remain backward compatible to the moment when we are done with the changes so we introduce breaking changes only once
 
 If you want to better understand the motivations of this process please read about [strangler pattern](https://medium.com/@piotrkarwatka/progressive-web-app-strategies-strangler-pattern-493ce61d4641). We are refactoring our code with the same goals in mind. that you can read about inside this article.
+
+# Perfect! Give me the tasks
+You can find currently aligned tasks [here](https://github.com/DivanteLtd/vue-storefront/labels/API%20Module) but there are more to come. We'd be more than happy if you will propose your own ideas for modules ;)
+We are open for a discussion about this issues with anyone willing to pick them or improve the idea
