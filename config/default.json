@@ -135,7 +135,10 @@
       },
       "gallery": {
         "variantsGroupAttribute": "color",
-        "mergeConfigurableChildren": true
+        "mergeConfigurableChildren": false,
+        "imageAttributes": ["image","thumbnail","small_image"],
+        "width": 600,
+        "height": 744
       }
     },
     "orders": {

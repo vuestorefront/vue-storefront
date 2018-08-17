@@ -1,9 +1,9 @@
 import { ActionTree } from 'vuex'
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
-import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
+import { breadCrumbRoutes, productThumbnailPath, getThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
-import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync, getMediaGallery, configurableChildrenImages, attributeImages } from './helpers'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery } from '../../lib/search'
@@ -11,7 +11,6 @@ import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from  'lodash-es/uniqBy'
-import groupBy from 'lodash-es/groupBy'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
@@ -440,6 +439,9 @@ const actions: ActionTree<ProductState, RootState> = {
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
+      if (!config.products.gallery.mergeConfigurableChildren) {
+          context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
+      }
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
     } else console.debug('Unable to update current product.')
   },
@@ -510,50 +512,21 @@ const actions: ActionTree<ProductState, RootState> = {
   },
 
 
+  /**
+   * Set product gallery depending on product type
+   */
+
   setProductGallery(context, { product }) {
-
-     function getThumbnail (relativeUrl, width, height) {
-          return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
-     }
-
-     if (product.type_id !== 'configurable') {
-        // TODO: Return gallery
-     }
-
-     let images = []
-     if (product.media_gallery) {
-          for (let mediaItem of product.media_gallery) {
-              if (mediaItem.image) {
-                  images.push({
-                      'src': getThumbnail(mediaItem.image, 600, 744),
-                      'loading': getThumbnail(product.image, 310, 300)
-                  })
-              }
-          }
-     }
-
-     let variantsGroupBy = config.products.gallery.variantsGroupAttribute
-     if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
-          let groupedByAttribute = groupBy(product.configurable_children, child => {
-              return child[variantsGroupBy]
-          })
-          Object.keys(groupedByAttribute).forEach(confChild => {
-              if (groupedByAttribute[confChild][0].image) {
-                  images.push({
-                      'src': getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
-                      'loading': getThumbnail(product.image, 310, 300),
-                      'id': confChild
-                  })
-              }
-          })
+      if (product.type_id === 'configurable') {
+        if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
+           context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
+        } else {
+          let productGallery = uniqBy(getMediaGallery(product).concat(configurableChildrenImages(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
+          context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+        }
       } else {
-          images.push({
-              'src': getThumbnail(product.image, 600, 744),
-              'loading': getThumbnail(product.image, 310, 300)
-          })
+          context.commit(types.CATALOG_UPD_GALLERY, getMediaGallery(product))
       }
-      let productGallery = uniqBy(images, 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-      context.commit(types.CATALOG_UPD_GALLERY, productGallery)
   },
 
   /**
