@@ -26,7 +26,7 @@ Introducing... (drums in the background) ***bricks grouped by colors***! (wows i
   
 <img src="https://sh-s7-live-s.legocdn.com/is/image/LEGO/6177?$PDPDefault$" style="width: 150px;" />
   
-When we have our bricks grouped by their colors (and in a separate boxes - modules) it's much easier to find this green brick that we needed for long awaited palm tree since we only need to search in a small subset of all bricks. Moreover when we want to replace green bricks with the black ones then instead of looking for all the grren represenattives one by one we are just replacing their box with the one containing black bricks. We also don't need to worry that something was left since we know that all the green bricks were in the box.
+When we have our bricks grouped by their colors (and in a separate boxes - modules) it's much easier to find this green brick that we needed for a palm tree since we only need to search in a small subset of all bricks. Moreover when we want to replace green bricks with the black ones then instead of looking for all the grren represenattives one by one we are just replacing their box with the one containing black bricks. We also don't need to worry that something was left since we know that all the green bricks were in the box.
 
 This is the kind of modularity and extendibility we want in Vue Storefront. If you think about each small feature (or user story) like signing in or adding product to a cart as a brick then we can group them by their common denominator which in case of bricks is a color but in case of user stories it can be some particular subset of data/features that we are interacting with (like a Cart, Acoount etc).
 
