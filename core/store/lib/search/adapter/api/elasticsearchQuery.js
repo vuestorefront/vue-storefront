@@ -32,24 +32,29 @@ export function prepareElasticsearchQueryBody (searchQuery) {
     })
 
     // apply catalog scope filters
-
     let attrFilterBuilder = (filterQr, attrPostfix = '') => {
-      for (let catalogfilter of appliedFilters) {
-        if (catalogfilter.scope === 'catalog') {
-          if (rangeOperators.every(rangeOperator => catalogfilter.value.hasOwnProperty(rangeOperator))) {
+      appliedFilters.forEach(function (catalogfilter) {
+        const valueKeys = Object.keys(catalogfilter.value)
+        if (catalogfilter.scope === 'catalog' && valueKeys.length) {
+          const isRange = valueKeys.filter(value => rangeOperators.indexOf(value) !== -1)
+          if (isRange.length) {
+            let rangeAttribute = catalogfilter.attribute
+            // filter by product fiunal price
+            if (rangeAttribute === 'price') {
+              rangeAttribute = 'final_price'
+            }
             // process range filters
-            filterQr = filterQr.andFilter('range', catalogfilter.attribute, catalogfilter.value)
+            filterQr = filterQr.andFilter('range', rangeAttribute, catalogfilter.value)
           } else {
             // process terms filters
-            catalogfilter.value = catalogfilter.value[Object.keys(catalogfilter.value)[0]]
-            if (!Array.isArray(catalogfilter.value)) {
-              catalogfilter.value = [catalogfilter.value]
+            let newValue = catalogfilter.value[Object.keys(catalogfilter.value)[0]]
+            if (!Array.isArray(newValue)) {
+              newValue = [newValue]
             }
-            filterQr = filterQr.andFilter('terms', catalogfilter.attribute + attrPostfix, catalogfilter.value)
+            filterQr = filterQr.andFilter('terms', catalogfilter.attribute + attrPostfix, newValue)
           }
         }
-      }
-
+      })
       return filterQr
     }
 
