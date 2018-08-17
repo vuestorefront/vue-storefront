@@ -49,9 +49,10 @@ Normally module can (but not must) contain following folders:
 - `helpers` - everything else that is meant to support modules behavior
 - `types` - TypeScript types associated with module
 - `test` - folder with unit tests which is *required* for every new or rewritten module. This folder can be placed outside of the module in 'tests' folder.
+- `extends` - code that you need to include into core files such as client/server entry, app entry, webpack config or service worker. If you need to extend, let's say `client-entry.js`just create a file with the same name and import it in the core `client-entry.js` by invoking files content with `import core/module/module-name/extends/client-entry.js
 - `submodules` - Submodules are a groups of features that are not a core functionalities of this module but rather kind of it's extensions or features available only under certain circumstances. For example if we have `order` module we can have all logic related to orders in this module but reordering something or seeing the list of your orders requires user account. In this case we might want to create `account` submodule with this functionalities.
 
-* currently we are using `core/api/module_name` instead of `module/module_name` but it's about to change soon
+[*] currently we are using `core/api/module_name` instead of `module/module_name` but it's about to change soon
 
 # Contributions
 
