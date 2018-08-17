@@ -135,7 +135,7 @@
       },
       "gallery": {
         "variantsGroupAttribute": "color",
-        "mergeConfigurableChildren": false,
+        "mergeConfigurableChildren": true,
         "imageAttributes": ["image","thumbnail","small_image"],
         "width": 600,
         "height": 744

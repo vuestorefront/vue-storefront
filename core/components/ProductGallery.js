@@ -54,12 +54,14 @@ export default {
       }
     },
     selectVariant () {
-      let option = this.configuration[config.products.gallery.variantsGroupAttribute]
-      if (typeof option !== 'undefined' && option !== null) {
-        let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
-        this.navigate(index)
+      if (config.products.gallery.mergeConfigurableChildren) {
+        let option = this.configuration[config.products.gallery.variantsGroupAttribute]
+        if (typeof option !== 'undefined' && option !== null) {
+          let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
+          this.navigate(index)
+        }
+        this.$forceUpdate()
       }
-      this.$forceUpdate()
     },
     toggleZoom () {
       this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true

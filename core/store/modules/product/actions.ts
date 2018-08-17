@@ -511,7 +511,6 @@ const actions: ActionTree<ProductState, RootState> = {
     context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
 
-
   /**
    * Set product gallery depending on product type
    */
@@ -521,7 +520,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
            context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
         } else {
-          let productGallery = uniqBy(getMediaGallery(product).concat(configurableChildrenImages(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
+          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
           context.commit(types.CATALOG_UPD_GALLERY, productGallery)
         }
       } else {
