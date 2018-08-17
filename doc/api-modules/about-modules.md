@@ -32,7 +32,3 @@ Please introduce every new feature with new architecture as a module. We also ne
 # Refactoring current core components into modules
 
 Read a [separate doc](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md) about refactoring current VS code to modules
-
-For now we are just detaching the features from core components (see cart module as an example) **we are not moving components, stores etc to api modules folder yet**. Please keep it in mind. After we will move all the features then we will proceed with components and stores.
-
-
