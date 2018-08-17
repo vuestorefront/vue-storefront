@@ -6,7 +6,7 @@ You can think about each module as a one, independent feature available in Vue S
 
 # Motivation
 
-I believe that some neat metaphore can clearly describe the problem aswell as a solution.
+I believe that some neat metaphore can clearly describe the problem as well as a solution.
 
 To better illustrate the whole concept I'll try to explain ti with Lego bricks. Let's say we have a box with a 90 lego bricks that we can use to build some fancy things like Towers, Castles, or Helicopters. Unfortunately due to some stupid EU regulations we can only have 3 different colors of bricks in our box. As we all know not every color is accurate for every structure taht we want to build so we need to swap one color with another from the shop from time to time to make the best possible building. Cool but there is a one problem. Since we have all our bricks in one box it looks more or less like this:
 
