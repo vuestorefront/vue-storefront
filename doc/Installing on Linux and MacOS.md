@@ -25,7 +25,7 @@ yarn
 yarn installer
 ```
 
-After answering some questions precess would start automatically. Enjoy :)
+After answering some questions the process will start automatically. Enjoy :)
 
 
 ## Manual installation
