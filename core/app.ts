@@ -28,7 +28,7 @@ declare var global: any
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.2'
+store.state.version = '1.2'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
