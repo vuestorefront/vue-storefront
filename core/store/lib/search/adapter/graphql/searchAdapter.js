@@ -10,13 +10,13 @@ export class SearchAdapter {
     const gqlQueryBody = prepareGraphQlBody(Query)
     const storeView = (Query.store === null) ? currentStoreView() : prepareStoreView(Query.store, config)
 
-    if (storeView.storeId === undefined || storeView.storeId == null || !Query.type) {
+    if (storeView.storeCode === undefined || storeView.storeCode == null || !Query.type) {
       throw new Error('Store and Query.type are required arguments for executing Graphql query')
     }
 
     let urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
-    urlGql = urlGql + '/' + encodeURIComponent(storeView.storeId) + '/'
-
+    const urlStoreCode = (storeView.storeCode !== '') ? encodeURIComponent(storeView.storeCode) + '/' : ''
+    urlGql = urlGql + '/' + urlStoreCode
     return fetch(urlGql, {
       method: 'POST',
       headers: {
