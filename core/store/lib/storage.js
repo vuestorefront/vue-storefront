@@ -1,5 +1,6 @@
-
+import Vue from 'vue'
 import * as localForage from 'localforage'
+
 const CACHE_TIMEOUT = 1600
 const CACHE_TIMEOUT_ITERATE = 3000
 const DISABLE_PERSISTANCE_AFTER = 3
@@ -70,7 +71,7 @@ class LocalForageCacheDriver {
       })
     }
 
-    if (!global.$VS.isSSR) {
+    if (!Vue.prototype.$isServer) {
       if (global.$VS.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           console.error('Persistent cache disabled becasue of previous errors [get]', key)
@@ -214,7 +215,7 @@ class LocalForageCacheDriver {
   setItem (key, value, callback) {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     this._localCache[key] = value
-    if (!global.$VS.isSSR) {
+    if (!Vue.prototype.$isServer) {
       if (global.$VS.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           console.error('Persistent cache disabled becasue of previous errors [set]', key)

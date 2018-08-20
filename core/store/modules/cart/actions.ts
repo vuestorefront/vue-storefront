@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
@@ -32,7 +33,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize && !global.$VS.isSSR) {
+    if (config.cart.synchronize && !Vue.prototype.$isServer) {
       const newItemsHash = sha1({ items: context.state.cartItems, token: context.state.cartServerToken })
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
@@ -67,7 +68,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize_totals && !global.$VS.isSSR) {
+    if (config.cart.synchronize_totals && !Vue.prototype.$isServer) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         context.state.cartServerPullAt = Date.now()
         context.dispatch('sync/execute', { url: config.cart.totals_endpoint, // sync the cart
@@ -88,7 +89,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverCreate (context, { guestCart = false }) {
-    if (config.cart.synchronize && !global.$VS.isSSR) {
+    if (config.cart.synchronize && !Vue.prototype.$isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         if (guestCart) {
           global.$VS.db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
@@ -155,7 +156,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   load (context) {
     return new Promise((resolve, reject) => {
-      if (global.$VS.isSSR) return
+      if (Vue.prototype.$isServer) return
       console.log('Loading cart ...')
       const commit = context.commit
       const state = context.state
