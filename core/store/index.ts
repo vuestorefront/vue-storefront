@@ -23,7 +23,8 @@ const state = {
   },
   stock: {
     cache: []
-  }
+  },
+  storeView: {}
 }
 
 const mutations = {

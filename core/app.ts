@@ -38,7 +38,7 @@ for (const moduleName of Object.keys(storeModules)) {
 }
 
 const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
-global.$VS.storeView = storeView
+store.state.storeView = storeView
 store.state.shipping.methods = shippingMethods
 
 Vue.use(Vuelidate)
