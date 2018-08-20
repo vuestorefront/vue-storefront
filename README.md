@@ -460,10 +460,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.phoenix-media.eu/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/PHOENIX_MEDIA_Logo_transparent.png"
+            alt="Phoenix Media"
             height="50"
           >
         </a>
