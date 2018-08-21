@@ -45,12 +45,10 @@ export default {
       return query.build()
     },
     makeSearch () {
-      let size = this.size
       let query = this.buildSearchQuery(this.search)
       this.start = 0
-      let start = this.start
       this.readMore = true
-      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then(resp => {
+      this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then(resp => {
         this.products = resp.items
         this.start = this.start + this.size
         this.emptyResults = resp.items.length < 1
@@ -59,10 +57,8 @@ export default {
       })
     },
     seeMore () {
-      let start = this.start
-      let size = this.size
       let query = this.buildSearchQuery(this.search)
-      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
+      this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
         let page = Math.floor(resp.total / this.size)
         let exceeed = resp.total - this.size * page
         if (resp.start === resp.total - exceeed) {
