@@ -37,6 +37,18 @@
         </div>
       </transition>
     </div>
+    <div v-if="products.length >= 18" class="buttons-set align-center py35 mt20 px40">
+      <button @click="seeMore" v-if="readMore"
+              class="no-outline brdr-none p15 bg-cl-mine-shaft :bg-cl-th-secondary h4 cl-white fs-medium"
+              type="button">
+        {{ $t('Load more items') }}
+      </button>
+      <button @click="closeSearchpanel"
+              class="no-outline brdr-none p15 bg-cl-mine-shaft :bg-cl-th-secondary h4 cl-white fs-medium"
+              type="button">
+        {{ $t('Close') }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -104,6 +116,10 @@ i:hover {
   .searchpanel .product {
     width: 50%;
     box-sizing: border-box;
+  }
+  button {
+    width: 100%;
+    margin-bottom: 15px;
   }
 }
 </style>

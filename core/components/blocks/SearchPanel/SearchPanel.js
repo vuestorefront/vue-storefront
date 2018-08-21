@@ -10,8 +10,11 @@ export default {
     return {
       products: [],
       search: '',
+      size: 18,
+      start: 0,
       placeholder: i18n.t('Type what you are looking for...'),
-      emptyResults: false
+      emptyResults: false,
+      readMore: true
     }
   },
   methods: {
@@ -23,19 +26,13 @@ export default {
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setSearchpanel', false)
     },
-    makeSearch: function () {
-      let queryText = this.search
-      let start = 0
-      let size = 18
-
+    buildSearchQuery (queryText) {
       let query = bodybuilder()
         .query('range', 'visibility', { 'gte': 3, 'lte': 4 })
         .andQuery('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */)
-
       if (config.products.listOutOfStockProducts === false) {
         query = query.andQuery('match', 'stock.is_in_stock', true)
       }
-
       query = query.andQuery('bool', b => b.orQuery('match_phrase_prefix', 'name', { query: queryText, boost: 3, slop: 2 })
         .orQuery('match_phrase', 'category.name', { query: queryText, boost: 1 })
         .orQuery('match_phrase', 'short_description', { query: queryText, boost: 1 })
@@ -45,12 +42,35 @@ export default {
           .orQuery('match_phrase', 'sku', { query: queryText, boost: 1 })
           .orQuery('match_phrase', 'configurable_children.sku', { query: queryText, boost: 1 }))
       )
-
-      query = query.build()
-
+      return query.build()
+    },
+    makeSearch () {
+      let size = this.size
+      let query = this.buildSearchQuery(this.search)
+      this.start = 0
+      let start = this.start
+      this.readMore = true
       this.$store.dispatch('product/list', { query, start, size, updateState: false }).then(resp => {
         this.products = resp.items
+        this.start = this.start + this.size
         this.emptyResults = resp.items.length < 1
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    seeMore () {
+      let start = this.start
+      let size = this.size
+      let query = this.buildSearchQuery(this.search)
+      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
+        let page = Math.floor(resp.total / this.size)
+        let exceeed = resp.total - this.size * page
+        if (resp.start === resp.total - exceeed) {
+          this.readMore = false
+        }
+        this.products = this.products.concat(resp.items)
+        this.start = this.start + this.size
+        this.emptyResults = this.products.length < 1
       }).catch((err) => {
         console.error(err)
       })
