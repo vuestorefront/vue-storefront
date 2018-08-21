@@ -44,7 +44,7 @@ Here’s how to submit a pull request. <b>Pull request that dont meet this requi
 2. Create a branch for your edits. Use the following branch naming conventions:
  * bugfix/task-title
  * feature/task-name
-3. Desribe what you've changed. Include screenshots of the new feature or the before and after if your changes include differences in HTML/CSS. Drag and drop the images into the body of your pull request.
+3. Describe what you've changed. Include screenshots of the new feature or the before and after if your changes include differences in HTML/CSS. Drag and drop the images into the body of your pull request.
 4. Reference any relevant issues or supporting documentation in your PR (ex. “Issue: 39. Issue title.”).
 5. If you are adding new feature provide documentation along with the PR. Also add it to [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
 6. If you are removing/renaming something or changing it's behavior also include it in [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
