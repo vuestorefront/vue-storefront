@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import builder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
