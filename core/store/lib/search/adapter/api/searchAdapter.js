@@ -4,12 +4,19 @@ import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '../../../../helpers'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 
 export class SearchAdapter {
   search (Query) {
     const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIComponent).join('=')).join('&')
 
-    let ElasticsearchQueryBody = prepareElasticsearchQueryBody(Query.searchQuery)
+    let ElasticsearchQueryBody = ''
+    if (Query.searchQuery instanceof SearchQuery) {
+      ElasticsearchQueryBody = prepareElasticsearchQueryBody(Query.searchQuery)
+    } else {
+      // backward compatibility for old themes uses bodybuilder
+      ElasticsearchQueryBody = Query.searchQuery
+    }
 
     const storeView = (Query.store === null) ? currentStoreView() : prepareStoreView(Query.store, config)
 
