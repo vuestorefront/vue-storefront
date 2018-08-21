@@ -32,7 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import builder from 'bodybuilder'
+import { prepareNewProductsQuery, prepareCoolBagsQuery } from 'core/store/helpers/index'
 
 // Core dependecies
 import config from 'config'
@@ -88,8 +88,10 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
-      let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+
+      let newProductsQuery = prepareNewProductsQuery()
+      let coolBagsQuery = prepareCoolBagsQuery()
+
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/list', {
           query: newProductsQuery,

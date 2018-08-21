@@ -104,7 +104,7 @@ After all these steps you should be able to use the API application!
 
 You can check if everything works just fine by executing the following command:
 ```
-curl -i http://localhost:8080/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
+curl -i http://localhost:8080/api/catalog/vue_storefront_catalog/product/_search?q=bag&size=50&from=0
 ```
 
 Now, it's the time to install the frontend itself.

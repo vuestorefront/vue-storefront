@@ -19,7 +19,7 @@
 <script>
 import ProductListing from 'theme/components/core/ProductListing'
 
-import builder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import i18n from '@vue-storefront/core/lib/i18n'
 import config from 'config'
 
@@ -54,22 +54,25 @@ export default {
         .filter(pl => pl.link_type === this.type)
         .map(pl => pl.linked_product_sku)
 
-      let query = builder().query('terms', 'sku', sku)
-      if (sku.length === 0) {
+      let relatedProductsQuery = new SearchQuery()
+
+      if (sku.length > 0) {
+        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'sku', value: {'eq': sku}})
+      } else {
         sku = this.product.current.category.map(cat => cat.category_id)
-        query = builder().query('terms', 'category.category_id', sku)
-          .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
-          .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
-      }
-      query = query.andFilter('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */)
-      if (config.products.listOutOfStockProducts === false) {
-        query = query.andFilter('match', 'stock.is_in_stock', true)
+        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'category_ids', value: {'in': sku}})
       }
 
-      query = query.build()
+      relatedProductsQuery = relatedProductsQuery
+        .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+        .applyFilter({key: 'status', value: {'in': [0, 1, 2]}}) // @TODO Check if status 2 (disabled) was set not by occasion here
+
+      if (config.products.listOutOfStockProducts === false) {
+        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
+      }
 
       this.$store.dispatch('product/list', {
-        query,
+        query: relatedProductsQuery,
         size: 8,
         prefetchGroupProducts: false,
         updateState: false

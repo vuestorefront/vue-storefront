@@ -138,6 +138,7 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
 * [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
 * [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
+* [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
@@ -180,6 +181,8 @@ Tutorial series on creating themes for Vue Storefront:
 ### 'Default theme' contribution rules
 * [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/default/Working%20with%20stylesheets.md)
 
+## Awesome projects related to Vue Storefront
+Check [Vue Storefront Awesome](https://github.com/frqnck/awesome-vue-storefront)
 ## The business challenges
 Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
 * The ultrafast front-end for the store - with the PWA approach we can now render the catalog of products within milliseconds;

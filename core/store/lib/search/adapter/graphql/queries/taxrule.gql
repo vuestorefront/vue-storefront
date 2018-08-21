@@ -1,0 +1,8 @@
+query taxrule ($filter: TaxRuleInput) {
+  taxrule(
+    filter: $filter
+  )
+  {
+    hits
+  }
+}

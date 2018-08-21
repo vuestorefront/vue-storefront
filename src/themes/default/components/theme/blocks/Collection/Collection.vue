@@ -6,7 +6,7 @@
   />
 </template>
 <script>
-import builder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import ProductsSlider from 'theme/components/core/ProductsSlider'
 
 export default {
@@ -45,7 +45,7 @@ export default {
     }
   },
   beforeMount () {
-    let inspirationsQuery = builder().query('match', 'category.name', this.category).build()
+    let inspirationsQuery = new SearchQuery()
 
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,

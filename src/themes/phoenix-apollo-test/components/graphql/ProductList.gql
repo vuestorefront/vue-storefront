@@ -1,0 +1,16 @@
+query ProductList($query: String!) {
+  ProductList(query: $query) {
+    id
+    name
+    sku
+    price
+    status
+    visibility
+    type_id
+    weight
+    description
+    image
+    url_key
+    thumbnail
+  }
+}

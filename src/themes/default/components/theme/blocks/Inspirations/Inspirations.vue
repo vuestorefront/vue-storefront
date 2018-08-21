@@ -16,7 +16,8 @@ export default {
   name: 'Inspirations',
 
   beforeMount () {
-    let inspirationsQuery = builder().query('match', 'category.name', 'Performance Fabrics').build()
+    let inspirationsQuery = new SearchQuery()
+    inspirationsQuery = inspirationsQuery.applyFilter({key: 'category.name', value: {'eq': 'Performance Fabrics'}})
 
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,

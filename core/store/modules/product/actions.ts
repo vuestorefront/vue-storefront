@@ -4,16 +4,16 @@ import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
 import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
-import { quickSearchByQuery } from '../../lib/search'
+import { quickSearchByQuery } from '../../lib/search/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
-const bodybuilder = require('bodybuilder')
 
 declare var global: any
 
@@ -168,11 +168,11 @@ const actions: ActionTree<ProductState, RootState> = {
   checkConfigurableParent (context, {product}) {
     if (product.type_id === 'simple') {
       console.log('Checking configurable parent')
-      let query = bodybuilder()
-        .query('match', 'configurable_children.sku', context.state.current.sku)
-        .build()
 
-      return context.dispatch('list', {query, start: 0, size: 1, updateState: false}).then((resp) => {
+      let searchQuery = new SearchQuery()
+      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.state.current.sku}})
+
+      return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
@@ -219,10 +219,11 @@ const actions: ActionTree<ProductState, RootState> = {
   filterUnavailableVariants (context, { product }) {
     return filterOutUnavailableVariants(context, product)
   },
+
   /**
    * Search ElasticSearch catalog of products using simple text query
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
-   * @param {Object} query elasticSearch request body
+   * @param {Object} query is the object of searchQuery class
    * @param {Int} start start index
    * @param {Int} size page size
    * @return {Promise}
@@ -363,10 +364,11 @@ const actions: ActionTree<ProductState, RootState> = {
             _returnProductFromCacheHelper(null)
           }
         } else {
+          let searchQuery = new SearchQuery()
+          searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
+
           context.dispatch('list', { // product list syncs the platform price on it's own
-            query: bodybuilder()
-              .query('match', key, options[key])
-              .build(),
+            query: searchQuery,
             prefetchGroupProducts: false,
             updateState: false
           }).then((res) => {

@@ -26,6 +26,46 @@ const shippingMethods = require('@vue-storefront/core/resource/shipping_methods.
 
 declare var global: any
 
+// Declare Apollo graphql client
+import ApolloClient from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import VueApollo from 'vue-apollo'
+console.log('Add Vue-Apollo graphql client')
+
+const httpLink = new HttpLink({
+  uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
+})
+
+const apolloClient = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+  connectToDevTools: true
+})
+
+let loading = 0
+
+const apolloProvider = new VueApollo({
+  clients: {
+    a: apolloClient
+  },
+  defaultClient: apolloClient,
+  defaultOptions: {
+    // $loadingKey: 'loading',
+  },
+  watchLoading (state, mod) {
+    loading += mod
+    console.log('Global loading', loading, mod)
+  },
+  errorHandler (error) {
+    console.log('Global error handler')
+    console.error(error)
+  }
+})
+
+Vue.use(VueApollo)
+// End declare Apollo graphql client
+
 if (!global.$VS) global.$VS = {}
 
 global.$VS.version = '1.2'
@@ -68,6 +108,7 @@ export function createApp (): { app: Vue, router: any, store: any } {
     router,
     store,
     i18n,
+    provide: apolloProvider.provide(),
     render: h => h(App)
   })
 

@@ -1,10 +1,11 @@
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
-import { quickSearchByQuery } from '../../lib/search'
+import { quickSearchByQuery } from '../../lib/search/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import config from '../../lib/config'
 import rootStore from '../../'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import i18n from '../../lib/i18n'
 import chunk from 'lodash-es/chunk'
 import trim from 'lodash-es/trim'
@@ -12,7 +13,6 @@ import toString from 'lodash-es/toString'
 import { optionLabel } from '../attribute/helpers'
 import RootState from '../../types/RootState'
 import CategoryState from './types/CategoryState'
-const bodybuilder = require('bodybuilder')
 
 declare var global: any
 
@@ -34,31 +34,32 @@ const actions: ActionTree<CategoryState, RootState> = {
    */
   list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null }) {
     const commit = context.commit
-    let qrObj = bodybuilder()
+
+    let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
-      qrObj = qrObj.filter('term', 'parent_id', parent.id)
+      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parent.id}})
     }
 
     if (onlyActive === true) {
-      qrObj = qrObj.andFilter('term', 'is_active', true) // show only active cateogires
+      searchQuery = searchQuery.applyFilter({key: 'is_active', value: {'eq': true}})
     }
 
     if (onlyNotEmpty === true) {
-      qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
+      searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
     }
 
     if (!context.state.list || context.state.list.length === 0) {
-      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
+      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
-        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         return resp
-      }).catch((err) => {
+      }).catch(err => {
         console.error(err)
       })
     } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
-        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         resolve(resp)
       })
     }
@@ -172,7 +173,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     }
     let t0 = new Date().getTime()
-    let precachedQuery = searchProductQuery.build()
+
+    let precachedQuery = searchProductQuery
     let productPromise = rootStore.dispatch('product/list', {
       query: precachedQuery,
       start: current,

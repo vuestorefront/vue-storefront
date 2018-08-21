@@ -1,4 +1,4 @@
-import builder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import config from '../lib/config'
 
 /**
@@ -55,51 +55,40 @@ export function productThumbnailPath (product, ignoreConfig = false) {
 
 export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
   let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
-  let attrFilterBuilder = (filterQr, attrPostfix = '') => {
-    for (let code of Object.keys(chosenFilters)) {
-      const filter = chosenFilters[code]
 
-      if (filter.attribute_code !== 'price') {
-        filterQr = filterQr.andFilter('match', filter.attribute_code + attrPostfix, filter.id)
-      } else { // multi should be possible filter here?
-        const rangeqr = {}
-        if (filter.from) {
-          rangeqr['gte'] = filter.from
-        }
-        if (filter.to) {
-          rangeqr['lte'] = filter.to
-        }
-        filterQr = filterQr.andFilter('range', filter.attribute_code, rangeqr)
+  // add choosedn filters
+  for (let code of Object.keys(chosenFilters)) {
+    const filter = chosenFilters[code]
+
+    if (filter.attribute_code !== 'price') {
+      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'eq': filter.id}, scope: 'catalog'})
+    } else { // multi should be possible filter here?
+      const rangeqr = {}
+      if (filter.from) {
+        rangeqr['gte'] = filter.from
       }
+      if (filter.to) {
+        rangeqr['lte'] = filter.to
+      }
+      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: rangeqr, scope: 'catalog'})
     }
-    return filterQr
   }
-  filterQr = filterQr.orFilter('bool', (b) => attrFilterBuilder(b))
-    .orFilter('bool', (b) => attrFilterBuilder(b, '_options').filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
+
   return filterQr
 }
 
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
-  let searchProductQuery = builder().andFilter('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
+  let searchProductQuery = new SearchQuery()
+  searchProductQuery = searchProductQuery
+    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+    .applyFilter({key: 'status', value: {'in': [0, 1]}}) /* 2 = disabled, 4 = out of stock */
+
   if (config.products.listOutOfStockProducts === false) {
-    searchProductQuery = searchProductQuery.andFilter('match', 'stock.is_in_stock', true)
+    searchProductQuery = searchProductQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
   }
-  // add filters to query
+  // Add available catalog filters
   for (let attrToFilter of filters) {
-    if (attrToFilter !== 'price') {
-      searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
-      searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter + '_options')
-    } else {
-      searchProductQuery = searchProductQuery.aggregation('terms', attrToFilter)
-      searchProductQuery.aggregation('range', 'price', {
-        ranges: [
-          { from: 0, to: 50 },
-          { from: 50, to: 100 },
-          { from: 100, to: 150 },
-          { from: 150 }
-        ]
-      })
-    }
+    searchProductQuery = searchProductQuery.addAvailableFilter({field: attrToFilter, scope: 'catalog'})
   }
 
   let childCats = [parentCategory.id]
@@ -122,6 +111,49 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
     }
     recurCatFinderBuilder(parentCategory)
   }
-  searchProductQuery = searchProductQuery.filter('terms', 'category.category_id', childCats)
+  searchProductQuery = searchProductQuery.applyFilter({key: 'category_ids', value: {'in': childCats}})
   return searchProductQuery
+}
+
+export function prepareNewProductsQuery () {
+  let newProductsQuery = new SearchQuery()
+  newProductsQuery = newProductsQuery
+    .applyFilter({key: 'category.name', value: {'eq': 'tees'}}) // Tees category
+    // .applyFilter({key: 'category.category_id', value: {'in': [16, 25, 33]}}) // IDs of Tees category
+    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+
+  return newProductsQuery
+}
+
+export function prepareCoolBagsQuery () {
+  let coolBagsQuery = new SearchQuery()
+  coolBagsQuery = coolBagsQuery
+    .applyFilter({key: 'category.name', value: {'eq': 'women'}}) // Tees category
+    // .applyFilter({key: 'category.category_id', value: {'in': [20, 30]}}) // IDs of Women category
+    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+
+  return coolBagsQuery
+}
+
+export function prepareQuickSearchQuery (queryText) {
+  let searchQuery = new SearchQuery()
+
+  searchQuery = searchQuery
+    .setSearchText(queryText)
+    .applyFilter({key: 'visibility', value: {'in': [3, 4]}})
+    .applyFilter({key: 'status', value: {'in': [0, 1]}})/* 2 = disabled, 3 = out of stock */
+
+  if (config.products.listOutOfStockProducts === false) {
+    searchQuery = searchQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
+  }
+
+  return searchQuery
+}
+
+export function preparePageNotFoundQuery () {
+  let ourBestsellersQuery = new SearchQuery()
+  ourBestsellersQuery = ourBestsellersQuery
+    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+
+  return ourBestsellersQuery
 }

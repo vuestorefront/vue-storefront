@@ -23,6 +23,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#multi-website">How to support Multistore / Multiwebsite setup</a>
 * <a href="#configurable-filters">How to deal with Category filters based on configurable_children</a>
 * <a href="#seo-redirects">How to redirect original Magento2 urls to Vue Storefront</a>
+* <a href="#configurable-error">You need to choose options for your item message when I hit API for add to cart configrable product</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -233,3 +234,7 @@ There is a SEO redirects generator for nginx -> https://serverfault.com/a/441517
 - `oldFormat` - should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (oldFormat = !useShortCatalogUrls)
 
 Please make sure that  `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and You have ElasticSearch synchronised with the Magento2 instance using current version of https://github.com/DivanteLtd/mage2vuestorefront
+
+### <a name="configurable-error"></a>You need to choose options for your item message when I hit API for add to cart configrable product
+
+This is because the demo data dump works on the demo-magento2.vuestorefront.io instance's attribute ids. Please reimport all product data using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront)
