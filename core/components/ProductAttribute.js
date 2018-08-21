@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     label () {
-      return this.attribute.default_frontend_label
+      return (this.attribute && this.attribute.default_frontend_label) ? this.attribute.default_frontend_label : ''
     },
     value () {
       let parsedValues = this.product[this.attribute.attribute_code]
@@ -34,6 +34,8 @@ export default {
             })
             if (option) {
               results.push(option.label)
+            } else {
+              results.push(parsedVal)
             }
           } else {
             results.push(parsedVal)
