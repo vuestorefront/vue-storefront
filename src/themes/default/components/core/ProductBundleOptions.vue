@@ -63,12 +63,7 @@ export default {
     font-weight: bold;
     margin-bottom: 10px;
   }
-  .custom-option > input.qty {
-    font-weight: bold;
-    margin-bottom: 10px;
-    margin: 5px;
-    width: 20px;
-  }
+
   .error {
     color: $color-error;
     padding-top: 5px;

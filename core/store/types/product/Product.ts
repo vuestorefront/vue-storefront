@@ -58,4 +58,5 @@ export default interface Product {
   url_key: string
   visibility: number
   _score: number
+  qty: number
 }

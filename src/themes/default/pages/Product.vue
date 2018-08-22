@@ -34,17 +34,17 @@
                   v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax | price }}
+                    {{ product.priceInclTax * product.qty | price }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax | price }}
+                    {{ product.originalPriceInclTax * product.qty | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ product.priceInclTax | price }}
+                  {{ product.priceInclTax * product.qty | price }}
                 </div>
               </div>
               <div
@@ -133,6 +133,19 @@
               v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
+            <div class="row m0 mb15" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+              <div>
+                <label class="qty-label flex" for="quantity">{{ $t('Quantity') }}</label>
+                <input
+                  type="number"
+                  min="0"
+                  class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
+                  id="quantity"
+                  focus
+                  v-model="product.qty"
+                >
+              </div>
+            </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
@@ -439,4 +452,17 @@ $bg-secondary: color(secondary, $colors-background);
   mix-blend-mode: multiply;
   width: 460px;
 }
+
+.qty-input {
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  width: 90px;
+}
+
+.qty-label {
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 </style>

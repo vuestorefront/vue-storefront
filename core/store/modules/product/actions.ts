@@ -320,6 +320,10 @@ const actions: ActionTree<ProductState, RootState> = {
           })
         }
         const setupProduct = (prod) => {
+          // set product quantity to 1
+          if(!prod.qty) {
+            prod.qty = 1
+          }
           // set original product
           if (setCurrentProduct) {
             context.dispatch('setOriginal', prod)
