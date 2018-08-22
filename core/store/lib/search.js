@@ -49,7 +49,7 @@ function search (elasticQuery) {
     global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
       if (err) console.log(err)
       if (userData && userData.groupToken) {
-        elasticQuery.body.token = userData.groupToken
+        elasticQuery.body.groupToken = userData.groupToken
       }
       fetch(url, {
         method: 'POST',
