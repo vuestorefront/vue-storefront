@@ -6,8 +6,9 @@
   />
 </template>
 <script>
-import SearchQuery from 'core/store/lib/search/searchQuery'
+
 import ProductsSlider from 'theme/components/core/ProductsSlider'
+import { prepareInspirationsQuery } from 'core/api/queries/components/theme/core/blocks/Inspirations/Inspirations'
 
 export default {
   name: 'Collection',
@@ -45,7 +46,7 @@ export default {
     }
   },
   beforeMount () {
-    let inspirationsQuery = new SearchQuery()
+    let inspirationsQuery = prepareInspirationsQuery()
 
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,

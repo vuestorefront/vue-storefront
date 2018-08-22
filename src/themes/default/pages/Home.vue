@@ -32,7 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import { prepareNewProductsQuery, prepareCoolBagsQuery } from 'core/store/helpers/index'
+import { prepareNewProductsQuery, prepareCoolBagsQuery } from 'core/api/queries/pages/Home'
 
 // Core dependecies
 import config from 'config'
