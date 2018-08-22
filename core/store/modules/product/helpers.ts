@@ -5,11 +5,14 @@ import { calculateProductTax } from '../../lib/taxcalc'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
+import groupBy from 'lodash-es/groupBy'
 import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 import { currentStoreView } from '../../lib/multistore'
+import { getThumbnailPath } from '../../helpers'
+
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -461,3 +464,69 @@ export function configureProductAsync (context, { product, configuration, select
     }
   }
 }
+
+/**
+ * Get media Gallery images from product
+ */
+
+export function getMediaGallery (product) {
+    let mediaGallery = []
+    if (product.media_gallery) {
+        for (let mediaItem of product.media_gallery) {
+            if (mediaItem.image) {
+                mediaGallery.push({
+                    'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
+                    'loading': getThumbnailPath(product.image, 310, 300)
+                })
+            }
+        }
+    }
+    return mediaGallery
+}
+
+/**
+ * Get configurable_children images from product if any
+ * otherwise get attribute images
+ */
+
+export function configurableChildrenImages(product) {
+  let configurableChildrenImages = []
+    let variantsGroupBy = config.products.gallery.variantsGroupAttribute
+    if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
+        let groupedByAttribute = groupBy(product.configurable_children, child => {
+            return child[variantsGroupBy]
+        })
+        Object.keys(groupedByAttribute).forEach(confChild => {
+            if (groupedByAttribute[confChild][0].image) {
+                configurableChildrenImages.push({
+                    'src': getThumbnailPath(groupedByAttribute[confChild][0].image, config.products.gallery.width, config.products.gallery.height),
+                    'loading': getThumbnailPath(product.image, 310, 300),
+                    'id': confChild
+                })
+            }
+        })
+    } else {
+        configurableChildrenImages = attributeImages(product)
+    }
+    return configurableChildrenImages
+}
+
+/**
+ * Get images from configured attribute images
+ */
+
+export function attributeImages(product) {
+    let attributeImages = []
+    if (config.products.gallery.imageAttributes) {
+        for (let attribute of config.products.gallery.imageAttributes) {
+            if(product[attribute]) {
+                attributeImages.push({
+                    'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
+                    'loading': getThumbnailPath(product[attribute], 310, 300)
+                })
+            }
+        }
+    }
+    return attributeImages
+}
+

@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
-import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
+import { breadCrumbRoutes, productThumbnailPath, getThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
-import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync, getMediaGallery, configurableChildrenImages, attributeImages } from './helpers'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery, isOnline } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
+import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
@@ -522,6 +523,9 @@ const actions: ActionTree<ProductState, RootState> = {
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
+      if (!config.products.gallery.mergeConfigurableChildren) {
+          context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
+      }
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
     } else console.debug('Unable to update current product.')
   },
@@ -573,6 +577,8 @@ const actions: ActionTree<ProductState, RootState> = {
           }))
         }
 
+        context.dispatch('setProductGallery', { product: product })
+
         if (rootStore.state.config.products.preventConfigurableChildrenDirectAccess) {
           subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
         }
@@ -588,6 +594,24 @@ const actions: ActionTree<ProductState, RootState> = {
   addCustomOptionValidator (context, { validationRule, validatorFunction }) {
     context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
+
+  /**
+   * Set product gallery depending on product type
+   */
+
+  setProductGallery(context, { product }) {
+      if (product.type_id === 'configurable') {
+        if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
+           context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
+        } else {
+          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
+          context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+        }
+      } else {
+          context.commit(types.CATALOG_UPD_GALLERY, getMediaGallery(product))
+      }
+  },
+
   /**
    * Load the product data - async version for asyncData()
    */
