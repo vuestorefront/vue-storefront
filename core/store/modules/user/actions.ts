@@ -272,14 +272,23 @@ const actions: ActionTree<UserState, RootState> = {
       }
     })
   },
+  clearGroupToken (context) {
+    global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
+      if (err) console.log(err)
+      if (userData && userData.groupToken) {
+        userData.groupToken = null
+        context.commit(types.USER_INFO_LOADED, userData)
+      }
+    })
+  },
   /**
    * Logout user
    */
   logout (context, { silent = false }) {
     context.commit(types.USER_END_SESSION)
-    context.dispatch('cart/serverTokenClear', {}, { root: true }).then(() => {
-      EventBus.$emit('user-after-logout')
-    })
+    context.dispatch('cart/serverTokenClear', {}, { root: true })
+        .then(() => {context.dispatch('clearGroupToken')})
+        .then(() => {EventBus.$emit('user-after-logout')})
     if (!silent) {
       EventBus.$emit('notification', {
         type: 'success',
