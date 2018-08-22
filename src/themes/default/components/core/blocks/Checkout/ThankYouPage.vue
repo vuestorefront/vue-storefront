@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Composite from '@vue-storefront/core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
@@ -88,17 +89,17 @@ export default {
   },
   computed: {
     isNotificationSupported () {
-      if (global.$VS.isSSR || !('Notification' in window)) return false
+      if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return 'Notification' in window
     },
     isPermissionGranted () {
-      if (global.$VS.isSSR || !('Notification' in window)) return false
+      if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
     }
   },
   methods: {
     requestNotificationPermission () {
-      if (global.$VS.isSSR) return false
+      if (Vue.prototype.$isServer) return false
       if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission()
       }

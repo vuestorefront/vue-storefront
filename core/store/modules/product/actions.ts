@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
@@ -7,7 +8,7 @@ import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVarian
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
-import { quickSearchByQuery } from '../../lib/search/search'
+import { quickSearchByQuery, isOnline } from '../../lib/search/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
@@ -97,7 +98,7 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Setup associated products
    */
-  setupAssociated (context, { product }) {
+  setupAssociated (context, { product, skipCache = true }) {
     let subloaders = []
     if (product.type_id === 'grouped') {
       product.price = 0
@@ -110,7 +111,8 @@ const actions: ActionTree<ProductState, RootState> = {
             subloaders.push(context.dispatch('single', {
               options: { sku: pl.linked_product_sku },
               setCurrentProduct: false,
-              selectDefaultVariant: false
+              selectDefaultVariant: false,
+              skipCache: skipCache
             }).catch(err => { console.error(err) }).then((asocProd) => {
               if (asocProd) {
                 pl.product = asocProd
@@ -141,11 +143,13 @@ const actions: ActionTree<ProductState, RootState> = {
             subloaders.push(context.dispatch('single', {
               options: { sku: pl.sku },
               setCurrentProduct: false,
-              selectDefaultVariant: false
+              selectDefaultVariant: false,
+              skipCache: skipCache
             }).catch(err => { console.error(err) }).then((asocProd) => {
               if (asocProd) {
                 pl.product = asocProd
                 pl.product.qty = pl.qty
+
                 if (pl.id === defaultOption.id) {
                   product.price += pl.product.price * pl.product.qty
                   product.priceInclTax += pl.product.priceInclTax * pl.product.qty
@@ -193,6 +197,11 @@ const actions: ActionTree<ProductState, RootState> = {
         filterValues: configurableAttrIds,
         filterField: 'attribute_id'
       }, { root: true }).then((attributes) => {
+        context.state.current_options = {
+          color: [],
+          size: []
+        }
+
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
@@ -228,7 +237,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, skipCache = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.debug('Entity cache is enabled for productList')
@@ -244,7 +253,7 @@ const actions: ActionTree<ProductState, RootState> = {
         includeFields = config.entities.product.includeFields
       }
     }
-    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
+    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields, skipCache }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
@@ -299,11 +308,41 @@ const actions: ActionTree<ProductState, RootState> = {
       console.error(err)
     })
   },
+
+  /**
+   * Update associated products for bundle product
+   * @param context
+   * @param product
+   */
+  configureBundleAsync(context, product) {
+    context.dispatch(
+      'setupAssociated', {
+        product: product ,
+        skipCache: true
+      })
+      .then(() => {context.dispatch('setCurrent', product)})
+      .then(() => {EventBus.$emit('product-after-setup-associated')})
+  },
+
+  /**
+   * Update associated products for group product
+   * @param context
+   * @param product
+   */
+  configureGroupedAsync(context, product) {
+    context.dispatch(
+      'setupAssociated', {
+        product: product,
+        skipCache: true
+      })
+      .then(() => {context.dispatch('setCurrent', product)})
+  },
+
   /**
    * Search products by specific field
    * @param {Object} options
    */
-  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku' }) {
+  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku', skipCache = false }) {
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
@@ -312,83 +351,129 @@ const actions: ActionTree<ProductState, RootState> = {
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
       const cache = global.$VS.db.elasticCacheCollection
-      cache.getItem(cacheKey, (err, res) => {
-        // report errors
-        if (err) {
-          console.error({
-            info: 'Get item from cache in ./store/modules/product.js',
-            err
-          })
+
+      const setupProduct = (prod) => {
+        // set product quantity to 1
+        if(!prod.qty) {
+            prod.qty = 1
         }
-        const setupProduct = (prod) => {
-          // set original product
-          if (setCurrentProduct) {
-            context.dispatch('setOriginal', prod)
-          }
-          // check is prod has configurable children
-          const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
-          if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
-            prod = omit(prod, ['configurable_children', 'configurable_options'])
-          }
-          // set current product - configurable or not
-          if (prod.type_id === 'configurable' && hasConfigurableChildren) {
-            // set first available configuration
-            // todo: probably a good idea is to change this [0] to specific id
-            configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant })
-          } else {
-            if (setCurrentProduct) context.dispatch('setCurrent', prod)
-          }
-          return prod
+        // set original product
+        if (setCurrentProduct) {
+          context.dispatch('setOriginal', prod)
         }
-        if (res !== null) {
-          console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-          const _returnProductFromCacheHelper = (subresults) => {
-            const cachedProduct = setupProduct(res)
-            if (config.products.alwaysSyncPlatformPricesOver) {
-              doPlatformPricesSync([cachedProduct]).then((products) => {
-                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
-                resolve(products[0])
-              })
-              if (!config.products.waitForPlatformSync) {
-                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
-                resolve(cachedProduct)
-              }
-            } else {
-              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
-              resolve(cachedProduct)
-            }
-          }
-          if (setCurrentProduct || selectDefaultVariant) {
-            context.dispatch('setupVariants', { product: res }).then(_returnProductFromCacheHelper)
-          } else {
-            _returnProductFromCacheHelper(null)
-          }
-        } else {
+        // check is prod has configurable children
+        const hasConfigurableChildren = prod && prod.configurable_children && prod.configurable_children.length
+        if (prod.type_id === 'simple' && hasConfigurableChildren) { // workaround for #983
+          prod = omit(prod, ['configurable_children', 'configurable_options'])
+        }
+
+        // set current product - configurable or not
+        if (prod.type_id === 'configurable' && hasConfigurableChildren) {
+          // set first available configuration
+          // todo: probably a good idea is to change this [0] to specific id
+          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant })
+        } else if (!skipCache || ('simple' === prod.type_id || 'downloadable' === prod.type_id)) {
+          if (setCurrentProduct) context.dispatch('setCurrent', prod)
+        }
+
+        return prod
+      }
+
+      const syncProducts = () => {
           let searchQuery = new SearchQuery()
           searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
 
-          context.dispatch('list', { // product list syncs the platform price on it's own
-            query: searchQuery,
-            prefetchGroupProducts: false,
-            updateState: false
-          }).then((res) => {
-            if (res && res.items && res.items.length) {
-              let prd = res.items[0]
-              const _returnProductNoCacheHelper = (subresults) => {
-                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
-                resolve(setupProduct(prd))
+          return context.dispatch('list', { // product list syncs the platform price on it's own
+              query: searchQuery,
+              prefetchGroupProducts: false,
+              updateState: false,
+              skipCache: skipCache
+        }).then((res) => {
+          if (res && res.items && res.items.length) {
+            let prd = res.items[0]
+            const _returnProductNoCacheHelper = (subresults) => {
+              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+              resolve(setupProduct(prd))
+            }
+            if (setCurrentProduct || selectDefaultVariant) {
+              context.dispatch('setupVariants', { product: prd }).then(_returnProductNoCacheHelper)
+            } else {
+              _returnProductNoCacheHelper(null)
+            }
+
+            if (skipCache && setCurrentProduct || selectDefaultVariant) {
+              if ('bundle' === prd.type_id) {
+                context.dispatch('configureBundleAsync', prd);
               }
-              if (setCurrentProduct || selectDefaultVariant) {
-                context.dispatch('setupVariants', { product: prd }).then(_returnProductNoCacheHelper)
+
+              if ('grouped' === prd.type_id) {
+                context.dispatch('configureGroupedAsync', prd);
+              }
+            }
+          } else {
+            reject(new Error('Product query returned empty result'))
+          }
+        })
+      }
+
+      const getProductFromCache = () => {
+        cache.getItem(cacheKey, (err, res) => {
+          // report errors
+          if (!skipCache && err) {
+            console.error({
+              info: 'Get item from cache in ./store/modules/product.js',
+              err
+            })
+          }
+
+          if (res !== null) {
+            console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+            const _returnProductFromCacheHelper = (subresults) => {
+              const cachedProduct = setupProduct(res)
+              if (config.products.alwaysSyncPlatformPricesOver) {
+                doPlatformPricesSync([cachedProduct]).then((products) => {
+                    if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+                    resolve(products[0])
+                })
+                if (!config.products.waitForPlatformSync) {
+                    if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                    resolve(cachedProduct)
+                }
               } else {
-                _returnProductNoCacheHelper(null)
+                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                resolve(cachedProduct)
+              }
+            }
+            if (setCurrentProduct || selectDefaultVariant) {
+              context.dispatch('setupVariants', { product: res }).then(_returnProductFromCacheHelper)
+
+              if (skipCache && setCurrentProduct || selectDefaultVariant) {
+                if ('bundle' === res.type_id) {
+                  context.dispatch('configureBundleAsync', res);
+                }
+
+                if ('grouped' === res.type_id) {
+                  context.dispatch('configureGroupedAsync', res);
+                }
               }
             } else {
-              reject(new Error('Product query returned empty result'))
+              _returnProductFromCacheHelper(null)
             }
-          })
+          } else {
+            syncProducts()
+          }
+        })
+      }
+
+      if (!skipCache) {
+        getProductFromCache()
+      } else {
+        if (!isOnline()) {
+          skipCache = false;
         }
-      })// .catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
+
+        syncProducts()
+      }
     })
   },
   /**
@@ -477,7 +562,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       let subloaders = []
       if (product) {
-        if (global.$VS.isSSR) {
+        if (Vue.prototype.$isServer) {
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {
           context.dispatch('filterUnavailableVariants', { product: product }) // exec async
