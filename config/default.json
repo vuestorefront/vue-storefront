@@ -133,7 +133,13 @@
         "Latest": "updated_at",
         "Price":"final_price"
       },
-      "galleryVariantsGroupAttribute": "color"
+      "gallery": {
+        "variantsGroupAttribute": "color",
+        "mergeConfigurableChildren": true,
+        "imageAttributes": ["image","thumbnail","small_image"],
+        "width": 600,
+        "height": 744
+      }
     },
     "orders": {
       "endpoint": "http://localhost:8080/api/order",
