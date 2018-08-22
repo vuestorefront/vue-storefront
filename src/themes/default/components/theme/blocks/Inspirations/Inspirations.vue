@@ -9,16 +9,15 @@
 </template>
 
 <script>
-import SearchQuery from 'core/store/lib/search/searchQuery'
+
+import { prepareInspirationsQuery } from 'core/api/queries/components/theme/core/blocks/Inspirations/Inspirations'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
   name: 'Inspirations',
 
   beforeMount () {
-    let inspirationsQuery = new SearchQuery()
-    inspirationsQuery = inspirationsQuery.applyFilter({key: 'category.name', value: {'eq': 'Performance Fabrics'}})
-
+    let inspirationsQuery = prepareInspirationsQuery()
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 3,

@@ -19,9 +19,8 @@
 <script>
 import ProductListing from 'theme/components/core/ProductListing'
 
-import SearchQuery from 'core/store/lib/search/searchQuery'
 import i18n from '@vue-storefront/core/lib/i18n'
-import config from 'config'
+import { prepareRelatedQuery } from 'core/api/queries/components/theme/core/blocks/Product/Related'
 
 export default {
   name: 'Related',
@@ -54,22 +53,12 @@ export default {
         .filter(pl => pl.link_type === this.type)
         .map(pl => pl.linked_product_sku)
 
-      let relatedProductsQuery = new SearchQuery()
-
-      if (sku.length > 0) {
-        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'sku', value: {'eq': sku}})
-      } else {
+      let key = 'sku'
+      if (!(sku.length > 0)) {
         sku = this.product.current.category.map(cat => cat.category_id)
-        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'category_ids', value: {'in': sku}})
+        key = 'category_ids'
       }
-
-      relatedProductsQuery = relatedProductsQuery
-        .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
-        .applyFilter({key: 'status', value: {'in': [0, 1, 2]}}) // @TODO Check if status 2 (disabled) was set not by occasion here
-
-      if (config.products.listOutOfStockProducts === false) {
-        relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
-      }
+      let relatedProductsQuery = prepareRelatedQuery(key, sku)
 
       this.$store.dispatch('product/list', {
         query: relatedProductsQuery,
