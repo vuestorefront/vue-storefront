@@ -195,7 +195,7 @@ const actions: ActionTree<CartState, RootState> = {
     return state.cartItems.find(p => p.sku === sku)
   },
 
-  addItem ({ commit, dispatch, state }, { productToAdd, qty = 1, forceServerSilence = false }) {
+  addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
     if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
       productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
