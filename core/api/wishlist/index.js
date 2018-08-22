@@ -3,9 +3,9 @@ import { addToWishlist } from './addToWishlist'
 import { removeFromWishlist } from './removeFromWishlist'
 import { clearWishlist } from './clearWishlist'
 import { productsInWishlist } from './productsInWishlist'
-import { openWishlist } from './ui/openWishlist'
-import { closeWishlist } from './ui/closeWishlist'
-import { isWishlistOpen } from './ui/isWishlistOpen'
+import { openWishlist } from './submodules/openWishlist'
+import { closeWishlist } from './submodules/closeWishlist'
+import { isWishlistOpen } from './submodules/isWishlistOpen'
 
 export {
   loadWishlist,

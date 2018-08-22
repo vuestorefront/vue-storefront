@@ -1,9 +1,9 @@
-import { addToCart } from './addToCart'
-import { removeFromCart } from './removeFromCart'
-import { productsInCart } from './productsInCart'
-import { closeMicrocart } from './ui/closeMicrocart'
-import { openMicrocart } from './ui/openMicrocart'
-import { isMicrocartOpen } from './ui/isMicrocartOpen'
+import { addToCart } from './features/addToCart'
+import { removeFromCart } from './features/removeFromCart'
+import { productsInCart } from './features/productsInCart'
+import { closeMicrocart } from './submodules/closeMicrocart'
+import { openMicrocart } from './submodules/openMicrocart'
+import { isMicrocartOpen } from './submodules/isMicrocartOpen'
 
 export {
   addToCart,
