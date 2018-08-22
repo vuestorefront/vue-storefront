@@ -37,7 +37,7 @@
         </div>
       </transition>
     </div>
-    <div v-if="products.length >= 18" class="buttons-set align-center py35 mt20 px40">
+    <div v-show="OnlineOnly" v-if="products.length >= 18" class="buttons-set align-center py35 mt20 px40">
       <button @click="seeMore" v-if="readMore"
               class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
               type="button">
@@ -55,12 +55,13 @@
 <script>
 import SearchPanel from '@vue-storefront/core/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
+import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   components: {
     ProductTile
   },
-  mixins: [SearchPanel],
+  mixins: [SearchPanel, VueOfflineMixin],
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
       if (!this.$store.state.ui.searchpanel) {
