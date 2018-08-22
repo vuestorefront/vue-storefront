@@ -39,12 +39,12 @@
     </div>
     <div v-if="products.length >= 18" class="buttons-set align-center py35 mt20 px40">
       <button @click="seeMore" v-if="readMore"
-              class="no-outline brdr-none p15 bg-cl-mine-shaft :bg-cl-th-secondary h4 cl-white fs-medium"
+              class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
               type="button">
-        {{ $t('Load more items') }}
+        {{ $t('Load more') }}
       </button>
       <button @click="closeSearchpanel"
-              class="no-outline brdr-none p15 bg-cl-mine-shaft :bg-cl-th-secondary h4 cl-white fs-medium"
+              class="no-outline brdr-none p15 fs-medium-small close-button"
               type="button">
         {{ $t('Close') }}
       </button>
@@ -110,6 +110,10 @@ i {
 
 i:hover {
   opacity: 1;
+}
+
+.close-button {
+  background: #fff;
 }
 
 @media only screen and (max-width:50em) {
