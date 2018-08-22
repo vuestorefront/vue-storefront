@@ -4,7 +4,6 @@ import { currentStoreView } from './multistore'
 import hash from 'object-hash'
 import config from 'config'
 import fetch from 'isomorphic-fetch'
-import store from '../index'
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -49,7 +48,7 @@ function search (elasticQuery) {
   return new Promise((resolve, reject) => {
     global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
       if (err) console.log(err)
-      if (userData && userData.groupToken && store.getters['user/isLoggedIn']) {
+      if (userData && userData.groupToken) {
         elasticQuery.body.token = userData.groupToken
       }
       fetch(url, {
