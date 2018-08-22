@@ -475,7 +475,7 @@ export function getMediaGallery (product) {
         for (let mediaItem of product.media_gallery) {
             if (mediaItem.image) {
                 mediaGallery.push({
-                    'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
+                    'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
                     'loading': getThumbnailPath(product.image, 310, 300)
                 })
             }
@@ -491,7 +491,7 @@ export function getMediaGallery (product) {
 
 export function configurableChildrenImages(product) {
   let configurableChildrenImages = []
-    let variantsGroupBy = config.products.gallery.variantsGroupAttribute
+    let variantsGroupBy = rootStore.state.config.products.gallery.variantsGroupAttribute
     if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
         let groupedByAttribute = groupBy(product.configurable_children, child => {
             return child[variantsGroupBy]
@@ -499,7 +499,7 @@ export function configurableChildrenImages(product) {
         Object.keys(groupedByAttribute).forEach(confChild => {
             if (groupedByAttribute[confChild][0].image) {
                 configurableChildrenImages.push({
-                    'src': getThumbnailPath(groupedByAttribute[confChild][0].image, config.products.gallery.width, config.products.gallery.height),
+                    'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
                     'loading': getThumbnailPath(product.image, 310, 300),
                     'id': confChild
                 })
@@ -517,11 +517,11 @@ export function configurableChildrenImages(product) {
 
 export function attributeImages(product) {
     let attributeImages = []
-    if (config.products.gallery.imageAttributes) {
-        for (let attribute of config.products.gallery.imageAttributes) {
+    if (rootStore.state.config.products.gallery.imageAttributes) {
+        for (let attribute of rootStore.state.config.products.gallery.imageAttributes) {
             if(product[attribute]) {
                 attributeImages.push({
-                    'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
+                    'src': getThumbnailPath(product[attribute], rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
                     'loading': getThumbnailPath(product[attribute], 310, 300)
                 })
             }

@@ -523,7 +523,7 @@ const actions: ActionTree<ProductState, RootState> = {
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
-      if (!config.products.gallery.mergeConfigurableChildren) {
+      if (!rootStore.state.config.products.gallery.mergeConfigurableChildren) {
           context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
       }
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
@@ -601,10 +601,10 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setProductGallery(context, { product }) {
       if (product.type_id === 'configurable') {
-        if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
+        if (!rootStore.state.config.products.gallery.mergeConfigurableChildren && product.is_configured) {
            context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
         } else {
-          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
+          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== rootStore.state.config.images.productPlaceholder })
           context.commit(types.CATALOG_UPD_GALLERY, productGallery)
         }
       } else {
