@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { Plugin } from 'vuex'
 import * as types from './mutation-types'
 import * as localForage from 'localforage'
 import UniversalStorage from './lib/storage'
@@ -13,13 +14,25 @@ Vue.use(Vuex)
 
 const state = {
   version: '',
+  __DEMO_MODE__: false,
+  config: {},
+  cart: {},
+  checkout: {},
+  cms: {},
+  compare: {},
+  product: {},
+  shipping: {},
+  user: {},
+  wishlist: {},
   attribute: '',
   category: {
     current_path: '',
+    current_product_query: {},
     current: {
       slug: '',
       name: ''
-    }
+    },
+    filters: {}
   },
   stock: {
     cache: []
@@ -41,7 +54,7 @@ const mutations = {
   }
 }
 
-const plugins = [
+const plugins: Plugin<RootState>[] = [
   store => {
     store.subscribe((mutation, state) => {
       let nameArray = mutation.type.split('/')
@@ -129,22 +142,15 @@ let rootStore = new Vuex.Store<RootState>({
   plugins
 }) as any
 
-rootStore.i18n = {
-  t: function (key) {
-    return key
-  }
-}
 rootStore.eventBus = new Vue()
 
 rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init sub modules "context" with i18n + eventBus
   if (config !== null) {
     console.debug('Vuex VS store - using external config')
-    this.config = config
-    global.$VS.config = Object.assign(global.$VS.config, config)
+    rootStore.state.config = Object.assign(rootStore.state.config, config)
   }
   if (i18n !== null) {
     console.debug('Vuex VS store - using external i18n')
-    this.i18n = i18n
     global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
   } else {
     global.$VS.i18n = {

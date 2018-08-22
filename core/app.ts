@@ -29,6 +29,7 @@ declare var global: any
 if (!global.$VS) global.$VS = {}
 
 store.state.version = '1.2'
+store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
@@ -82,12 +83,6 @@ export function createApp (): { app: Vue, router: any, store: any } {
   registerTheme(config.theme, app, router, store)
 
   app.$emit('application-after-init', app)
-
-  if (config.demomode === true) {
-    global.$VS.__DEMO_MODE__ = true
-  } else {
-    global.$VS.__DEMO_MODE__ = false
-  }
 
   return { app, router, store }
 }

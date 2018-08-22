@@ -1,10 +1,10 @@
 import config from 'config'
-import store from '../'
+import rootStore from '../'
 import EventBus from './event-bus'
 import { loadLanguageAsync } from '@vue-storefront/core/lib/i18n'
 
 export function currentStoreView () {
-  return store.state.storeView
+  return rootStore.state.storeView
 }
 
 export function prepareStoreView (storeCode, config, i18n = null, eventBus = null) {
@@ -18,16 +18,16 @@ export function prepareStoreView (storeCode, config, i18n = null, eventBus = nul
   if (storeCode) { // current store code
     if ((storeView = config.storeViews[storeCode])) {
       storeView.storeCode = storeCode
-      store.state.user.current_storecode = storeCode
+      rootStore.state.user.current_storecode = storeCode
     }
   } else {
     storeView.storeCode = config.defaultStoreCode || ''
-    store.state.user.current_storecode = config.defaultStoreCode || ''
+    rootStore.state.user.current_storecode = config.defaultStoreCode || ''
   }
-  if (!store.state.storeView || store.state.storeView.storeCode !== storeCode) {
-    store.state.storeView = storeView
+  if (!rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode) {
+    rootStore.state.storeView = storeView
     loadLanguageAsync(storeView.i18n.defaultLocale)
-    store.init(config, i18n || global.$VS.i18n, eventBus || EventBus)
+    rootStore.init(config, i18n || global.$VS.i18n, eventBus || EventBus)
   }
   return storeView
 }

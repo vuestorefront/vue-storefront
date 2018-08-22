@@ -1,5 +1,5 @@
 import builder from 'bodybuilder'
-import config from '../lib/config'
+import rootStore from '../'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -22,7 +22,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: (config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
+      route_link: (rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
     })
   }
 
@@ -54,7 +54,7 @@ export function productThumbnailPath (product, ignoreConfig = false) {
 }
 
 export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
-  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
+  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? rootStore.state.config.products.defaultFilters : defaultFilters)
   let attrFilterBuilder = (filterQr, attrPostfix = '') => {
     for (let code of Object.keys(chosenFilters)) {
       const filter = chosenFilters[code]
@@ -81,7 +81,7 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
 
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = builder().andFilter('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */)
-  if (config.products.listOutOfStockProducts === false) {
+  if (rootStore.state.config.products.listOutOfStockProducts === false) {
     searchProductQuery = searchProductQuery.andFilter('match', 'stock.is_in_stock', true)
   }
   // add filters to query

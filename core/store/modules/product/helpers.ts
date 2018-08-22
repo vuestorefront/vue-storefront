@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import config from '../../lib/config'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
 import { calculateProductTax } from '../../lib/taxcalc'
@@ -19,7 +18,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
       EventBus.$emit('product-after-removevariant', { product: product })
-      if (config.products.listOutOfStockProducts === false) {
+      if (rootStore.state.config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned empty result'))
       }
     }
@@ -27,7 +26,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
 }
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
-  if (config.products.filterUnavailableVariants) {
+  if (rootStore.state.config.products.filterUnavailableVariants) {
     if (product.type_id === 'configurable' && product.configurable_children) {
       for (const stockItem of stockItems) {
         if (stockItem.is_in_stock === false) {
@@ -75,7 +74,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
 
 export function filterOutUnavailableVariants (context, product) {
   return new Promise((resolve, reject) => {
-    if (config.products.filterUnavailableVariants) {
+    if (rootStore.state.config.products.filterUnavailableVariants) {
       const _filterConfigurableHelper = () => {
         if (product.type_id === 'configurable' && product.configurable_children) {
           const stockItems = []
@@ -159,8 +158,8 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
  */
 export function doPlatformPricesSync (products) {
   return new Promise((resolve, reject) => {
-    if (config.products.alwaysSyncPlatformPricesOver) {
-      if (config.products.clearPricesBeforePlatformSync) {
+    if (rootStore.state.config.products.alwaysSyncPlatformPricesOver) {
+      if (rootStore.state.config.products.clearPricesBeforePlatformSync) {
         for (let product of products) { // clear out the prices as we need to sync them with Magento
           product.priceInclTax = null
           product.originalPriceInclTax = null
@@ -225,7 +224,7 @@ export function doPlatformPricesSync (products) {
         }
         resolve(products)
       })
-      if (!config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
+      if (!rootStore.state.config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
         console.log('Returning products, the prices yet to come from backend!')
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
@@ -244,7 +243,7 @@ export function doPlatformPricesSync (products) {
  */
 export function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
-    if (config.tax.calculateServerSide) {
+    if (rootStore.state.config.tax.calculateServerSide) {
       console.debug('Taxes calculated server side, skipping')
       doPlatformPricesSync(products).then((products) => {
         resolve(products)
@@ -368,12 +367,12 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       }
       context.state.current_configuration[attr.attribute_code] = confVal
       // @deprecated fallback for VS <= 1.0RC
-      if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
+      if (!('setupVariantByAttributeCode' in rootStore.state.config.products) || rootStore.state.config.products.setupVariantByAttributeCode === false) {
         const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
         context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
       }
     }
-    if (config.cart.setConfigurableProductOptions) {
+    if (rootStore.state.config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
       if (productOption) {
         product.options = _internalMapOptions(productOption)
@@ -436,7 +435,7 @@ export function configureProductAsync (context, { product, configuration, select
       }
       product.is_configured = true
 
-      if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
+      if (rootStore.state.config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
         // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
         const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
         if (productOption) {
