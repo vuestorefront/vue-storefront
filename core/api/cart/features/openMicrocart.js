@@ -2,14 +2,14 @@
  * [Helper] Optional UI functionality for opening microcart.
  *
  * #### Methods
- * - **`openMicrocart`** sets `microcart` and `overlay` property from submodules state to `true`. Dispatches `submodules/setMicrocart'` Vuex action
+ * - **`openMicrocart`** sets `microcart` and `overlay` property from features state to `true`. Dispatches `features/setMicrocart'` Vuex action
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
 export const openMicrocart = {
   methods: {
     openMicrocart () {
-      this.$store.commit('submodules/setMicrocart', true)
+      this.$store.commit('features/setMicrocart', true)
     }
   }
 }
