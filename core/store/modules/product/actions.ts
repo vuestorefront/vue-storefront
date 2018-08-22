@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
@@ -479,7 +480,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       let subloaders = []
       if (product) {
-        if (global.$VS.isSSR) {
+        if (Vue.prototype.$isServer) {
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {
           context.dispatch('filterUnavailableVariants', { product: product }) // exec async

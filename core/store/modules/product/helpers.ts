@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import config from '../../lib/config'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'
@@ -10,8 +11,6 @@ import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
 import i18n from '../../lib/i18n'
 import { currentStoreView } from '../../lib/multistore'
-
-declare var global: any
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -226,7 +225,7 @@ export function doPlatformPricesSync (products) {
         }
         resolve(products)
       })
-      if (!config.products.waitForPlatformSync && !global.$VS.isSSR) {
+      if (!config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
         console.log('Returning products, the prices yet to come from backend!')
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not

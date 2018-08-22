@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { execute as taskExecute } from '../../lib/task'
@@ -9,8 +10,6 @@ import store from '../../'
 import config from 'config'
 import RootState from '../../types/RootState'
 import SyncState from './types/SyncState'
-
-declare var global: any
 
 const actions: ActionTree<SyncState, RootState> = {
   /**
@@ -59,7 +58,7 @@ const actions: ActionTree<SyncState, RootState> = {
       driver: localForage[config.localForage.defaultDrivers['carts']]
     }))
     return new Promise((resolve, reject) => {
-      if (global.$VS.isSSR) {
+      if (Vue.prototype.$isServer) {
         taskExecute(task, null, null).then((result) => {
           resolve(result)
         }).catch(err => {

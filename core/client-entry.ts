@@ -19,7 +19,6 @@ declare var global: any
 declare var window: any
 
 const { app, router, store } = createApp()
-global.$VS.isSSR = false
 
 let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {

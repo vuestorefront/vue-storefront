@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { quickSearchByQuery } from '../../lib/search'
@@ -158,7 +159,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
 
     let prefetchGroupProducts = true
-    if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+    if (config.entities.twoStageCaching && config.entities.optimize && !Vue.prototype.$isServer && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
       includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
       excludeFields = config.entities.productListWithChildren.excludeFields
       prefetchGroupProducts = false
@@ -275,7 +276,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (config.entities.twoStageCaching && config.entities.optimize && !global.$VS.isSSR && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
+    if (config.entities.twoStageCaching && config.entities.optimize && !Vue.prototype.$isServer && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
       console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
       rootStore.dispatch('product/list', {
         query: precachedQuery,
