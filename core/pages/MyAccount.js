@@ -4,9 +4,12 @@ import i18n from '@vue-storefront/core/lib/i18n'
 // Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
 
+// Core modules
+import { subscribe, unsubscribe } from '@vue-storefront/core/api/newsletter'
+
 export default {
   name: 'MyAccount',
-  mixins: [Composite],
+  mixins: [Composite, subscribe, unsubscribe],
   props: {
     activeBlock: {
       type: String,
@@ -44,10 +47,10 @@ export default {
     onBeforeUpdatePreferences (updatedData) {
       if (updatedData) {
         if (updatedData.action === 'subscribe') {
-          this.$bus.$emit('newsletter-after-subscribe', { email: updatedData.email })
+          this.subscribe(updatedData.email)
           this.$store.dispatch('user/updatePreferences', updatedData.preferences)
         } else {
-          this.$bus.$emit('newsletter-after-unsubscribe', { email: updatedData.email })
+          this.unsubscribe(updatedData.email)
           this.$store.dispatch('user/updatePreferences', null)
         }
       }
