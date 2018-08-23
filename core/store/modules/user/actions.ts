@@ -26,7 +26,7 @@ const actions: ActionTree<UserState, RootState> = {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
         EventBus.$emit('session-after-authorized')
 
-        if (config.usePriceTiers) {
+        if (rootStore.state.config.usePriceTiers) {
           global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
             if (err) {
               console.error(err)
@@ -163,7 +163,7 @@ const actions: ActionTree<UserState, RootState> = {
    * @param userData
    */
   setUserGroup(context, userData) {
-    if (config.usePriceTiers) {
+    if (rootStore.state.config.usePriceTiers) {
       if (userData.groupToken) {
         context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
       }
