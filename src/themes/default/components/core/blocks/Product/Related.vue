@@ -41,6 +41,17 @@ export default {
   },
   created () {
     this.$bus.$on('product-after-load', this.refreshList)
+
+    if (config.usePriceTiers) {
+      this.$bus.$on('user-after-loggedin', this.refreshList)
+      this.$bus.$on('user-after-logout', this.refreshList)
+    }
+  },
+  beforeDestroy () {
+    if (config.usePriceTiers) {
+      this.$bus.$off('user-after-loggedin', this.refreshList)
+      this.$bus.$off('user-after-logout', this.refreshList)
+    }
   },
   destroyed () {
     this.$bus.$off('product-after-load', this.refreshList)

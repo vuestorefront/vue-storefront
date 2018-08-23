@@ -25,6 +25,19 @@ const actions: ActionTree<UserState, RootState> = {
       if (res) {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
         EventBus.$emit('session-after-authorized')
+
+        if (config.usePriceTiers) {
+          global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
+            if (err) {
+              console.error(err)
+              return
+            }
+
+            if (userData) {
+              context.dispatch('setUserGroup', userData)
+            }
+          })
+        }
       } else {
         EventBus.$emit('session-after-nonauthorized')
       }
@@ -144,7 +157,25 @@ const actions: ActionTree<UserState, RootState> = {
       })
     })
   },
+  /**
+   * Update user groupToken and groupId in state
+   * @param context
+   * @param userData
+   */
+  setUserGroup(context, userData) {
+    if (config.usePriceTiers) {
+      if (userData.groupToken) {
+        context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
+      }
 
+      if (userData.group_id) {
+        context.commit(types.USER_GROUP_CHANGED, userData.group_id)
+      }
+    } else {
+      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
+      context.commit(types.USER_GROUP_CHANGED, null)
+    }
+  },
   /**
    * Load current user profile
    */
@@ -166,6 +197,7 @@ const actions: ActionTree<UserState, RootState> = {
 
           if (res) {
             context.commit(types.USER_INFO_LOADED, res)
+            context.dispatch('setUserGroup', res)
             EventBus.$emit('user-after-loggedin', res)
 
             resolve(res)
@@ -188,6 +220,7 @@ const actions: ActionTree<UserState, RootState> = {
           .then((resp) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
+              context.dispatch('setUserGroup', resp.result)
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
               EventBus.$emit('user-after-loggedin', resp.result)
@@ -273,11 +306,9 @@ const actions: ActionTree<UserState, RootState> = {
     })
   },
   clearCurrentUser (context) {
-    global.$VS.db.usersCollection.getItem('current-user', (err) => {
-      if (err) console.log(err)
-
+      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
+      context.commit(types.USER_GROUP_CHANGED, null)
       context.commit(types.USER_INFO_LOADED, null)
-    })
   },
   /**
    * Logout user
