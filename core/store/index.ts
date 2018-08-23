@@ -37,7 +37,10 @@ const state = {
   stock: {
     cache: []
   },
-  storeView: {}
+  storeView: {},
+  userTokenInvalidated: null,
+  userTokenInvalidateAttemptsCount: 0,
+  userTokenInvalidateLock: 0
 }
 
 const mutations = {

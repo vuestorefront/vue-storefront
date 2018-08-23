@@ -13,21 +13,21 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
-  if (currentToken !== null && global.$VS.userTokenInvalidateLock > 0) { // invalidate lock set
-    console.log('Waiting for global.$VS.userTokenInvalidateLock to release for', task.url)
+  if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
+    console.log('Waiting for rootStore.state.userTokenInvalidateLock to release for', task.url)
     _sleep(1000).then(() => {
-      console.log('Another try for global.$VS.userTokenInvalidateLock for ', task.url)
+      console.log('Another try for rootStore.state.userTokenInvalidateLock for ', task.url)
       _internalExecute(resolve, reject, task, currentToken, currentCartId)
     })
     return // return but not resolve
-  } else if (global.$VS.userTokenInvalidateLock < 0) {
-    console.error('Aborting the network task', task.url, global.$VS.userTokenInvalidateLock)
+  } else if (rootStore.state.userTokenInvalidateLock < 0) {
+    console.error('Aborting the network task', task.url, rootStore.state.userTokenInvalidateLock)
     resolve({ code: 401, message: i18n.t('Error refreshing user token. User is not authorized to access the resource') })
     return
   } else {
-    if (global.$VS.userTokenInvalidated) {
-      console.log('Using new user token', global.$VS.userTokenInvalidated)
-      currentToken = global.$VS.userTokenInvalidated
+    if (rootStore.state.userTokenInvalidated) {
+      console.log('Using new user token', rootStore.state.userTokenInvalidated)
+      currentToken = rootStore.state.userTokenInvalidated
     }
   }
   let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
@@ -49,17 +49,17 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
       if (parseInt(jsonResponse.code) !== 200) {
         let resultString = jsonResponse.result ? toString(jsonResponse.result) : null
         if (resultString && (resultString.indexOf(i18n.t('not authorized')) >= 0 || resultString.indexOf('not authorized')) >= 0 && currentToken !== null) { // the token is no longer valid, try to invalidate it
-          console.error('Invalid token - need to be revalidated', currentToken, task.url, global.$VS.userTokenInvalidateLock)
-          if (isNaN(global.$VS.userTokenInvalidateAttemptsCount) || isUndefined(global.$VS.userTokenInvalidateAttemptsCount)) global.$VS.userTokenInvalidateAttemptsCount = 0
-          if (isNaN(global.$VS.userTokenInvalidateLock) || isUndefined(global.$VS.userTokenInvalidateLock)) global.$VS.userTokenInvalidateLock = 0
+          console.error('Invalid token - need to be revalidated', currentToken, task.url, rootStore.state.userTokenInvalidateLock)
+          if (isNaN(rootStore.state.userTokenInvalidateAttemptsCount) || isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)) rootStore.state.userTokenInvalidateAttemptsCount = 0
+          if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
 
           silentMode = true
           if (rootStore.state.config.users.autoRefreshTokens) {
-            if (!global.$VS.userTokenInvalidateLock) {
-              global.$VS.userTokenInvalidateLock++
-              if (global.$VS.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
+            if (!rootStore.state.userTokenInvalidateLock) {
+              rootStore.state.userTokenInvalidateLock++
+              if (rootStore.state.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
                 console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
-                global.$VS.userTokenInvalidateLock = -1
+                rootStore.state.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
                 rootStore.dispatch('sync/clearNotTransmited')
                 EventBus.$emit('modal-show', 'modal-signup')
@@ -68,24 +68,24 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
                   message: i18n.t('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'),
                   action1: { label: i18n.t('OK'), action: 'close' }
                 })
-                global.$VS.userTokenInvalidateAttemptsCount = 0
+                rootStore.state.userTokenInvalidateAttemptsCount = 0
               } else {
-                console.info('Invalidation process in progress (autoRefreshTokens is set to true)', global.$VS.userTokenInvalidateAttemptsCount, global.$VS.userTokenInvalidateLock)
-                global.$VS.userTokenInvalidateAttemptsCount++
+                console.info('Invalidation process in progress (autoRefreshTokens is set to true)', rootStore.state.userTokenInvalidateAttemptsCount, rootStore.state.userTokenInvalidateLock)
+                rootStore.state.userTokenInvalidateAttemptsCount++
                 rootStore.dispatch('user/refresh').then((resp) => {
                   if (resp.code === 200) {
-                    global.$VS.userTokenInvalidateLock = 0
-                    global.$VS.userTokenInvalidated = resp.result
+                    rootStore.state.userTokenInvalidateLock = 0
+                    rootStore.state.userTokenInvalidated = resp.result
                     console.info('User token refreshed successfully', resp.result)
                   } else {
-                    global.$VS.userTokenInvalidateLock = -1
+                    rootStore.state.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
                     EventBus.$emit('modal-show', 'modal-signup')
                     rootStore.dispatch('sync/clearNotTransmited')
                     console.error('Error refreshing user token', resp.result)
                   }
                 }).catch((excp) => {
-                  global.$VS.userTokenInvalidateLock = -1
+                  rootStore.state.userTokenInvalidateLock = -1
                   rootStore.dispatch('user/logout', { silent: true })
                   EventBus.$emit('modal-show', 'modal-signup')
                   rootStore.dispatch('sync/clearNotTransmited')
@@ -93,7 +93,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
                 })
               }
             }
-            if (global.$VS.userTokenInvalidateAttemptsCount <= AUTO_REFRESH_MAX_ATTEMPTS) _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
+            if (rootStore.state.userTokenInvalidateAttemptsCount <= AUTO_REFRESH_MAX_ATTEMPTS) _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
           } else {
             console.info('Invalidation process is disabled (autoRefreshTokens is set to false)')
             rootStore.dispatch('user/logout', { silent: true })
@@ -119,7 +119,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
       if (task.callback_event) {
         EventBus.$emit(task.callback_event, task)
       }
-      if (!global.$VS.userTokenInvalidateLock) { // in case we're revalidaing the token - user must wait for it
+      if (!rootStore.state.userTokenInvalidateLock) { // in case we're revalidaing the token - user must wait for it
         resolve(task)
       }
     } else {

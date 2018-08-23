@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
-import { breadCrumbRoutes, productThumbnailPath, getThumbnailPath } from '../../helpers'
+import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
 import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync, getMediaGallery, configurableChildrenImages, attributeImages } from './helpers'
 import { entityKeyName } from '../../lib/entities'

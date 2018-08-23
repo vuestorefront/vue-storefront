@@ -23,5 +23,8 @@ export default interface RootState {
   stock: {
     cache: any
   },
-  storeView: any
+  storeView: any,
+  userTokenInvalidated: string | null,
+  userTokenInvalidateAttemptsCount: number,
+  userTokenInvalidateLock: number,
 }
