@@ -237,7 +237,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, skipCache = false }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.debug('Entity cache is enabled for productList')
@@ -253,7 +253,7 @@ const actions: ActionTree<ProductState, RootState> = {
         includeFields = config.entities.product.includeFields
       }
     }
-    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields, skipCache }).then((resp) => {
+    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
@@ -385,8 +385,7 @@ const actions: ActionTree<ProductState, RootState> = {
             .query('match', key, options[key])
             .build(),
           prefetchGroupProducts: false,
-          updateState: false,
-          skipCache: skipCache
+          updateState: false
         }).then((res) => {
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
