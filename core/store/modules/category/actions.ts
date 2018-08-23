@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
-import { quickSearchByQuery } from '../../lib/search/search'
+import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import config from '../../lib/config'
@@ -175,7 +175,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     let t0 = new Date().getTime()
 
-    let precachedQuery = searchProductQuery
+    const precachedQuery = searchProductQuery
     let productPromise = rootStore.dispatch('product/list', {
       query: precachedQuery,
       start: current,

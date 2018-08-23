@@ -8,7 +8,7 @@ import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVarian
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
-import { quickSearchByQuery, isOnline } from '../../lib/search/search'
+import { quickSearchByQuery, isOnline } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
