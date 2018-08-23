@@ -1,4 +1,4 @@
-import { removeFromWishlist, closeWishlist } from '@vue-storefront/core/api/wishlist'
+import { removeFromWishlist, closeWishlist } from '@vue-storefront/core/modules/wishlist'
 
 export default {
   name: 'Product',

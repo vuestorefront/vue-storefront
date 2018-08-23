@@ -11,7 +11,7 @@ import { execute } from '@vue-storefront/store/lib/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/core/lib/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
-import { onNetworkStatusChange } from '@vue-storefront/core/api/offline-order/helpers/onNetworkStatusChange'
+import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 
 require('@vue-storefront/core/service-worker-registration') // register the service worker
 

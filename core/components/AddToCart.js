@@ -1,4 +1,4 @@
-import { addToCart } from '@vue-storefront/core/api/cart'
+import { addToCart } from '@vue-storefront/core/modules/cart'
 
 export default {
   name: 'AddToCart',

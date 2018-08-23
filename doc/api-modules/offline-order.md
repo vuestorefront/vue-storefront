@@ -22,7 +22,7 @@ The offline order module as name suggests is a set of mixins responsible for sup
 import {
   confirmOrder,
   cancelOrder
-} from '@vue-storefront/core/api/wishlist'
+} from '@vue-storefront/core/modules/wishlist'
 
 export default {
   //...other properties
