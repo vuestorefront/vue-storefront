@@ -24,5 +24,6 @@ export default interface ProductState {
   current_bundle_options: any,
   custom_options_validators: any,
   productLoadStart: number,
-  productLoadPromise: Promise<any> | null
+  productLoadPromise: Promise<any> | null,
+  productGallery: any
 }

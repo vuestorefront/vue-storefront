@@ -1,6 +1,7 @@
 import hash from 'object-hash'
 import config from 'config'
 import SearchAdapterFactory from './search/adapter/factory'
+import rootStore from '../'
 
 const factory = new SearchAdapterFactory()
 let adapterName = config.server.api
@@ -8,7 +9,7 @@ let searchAdapter = factory.getSearchAdapter(adapterName)
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
-    return navigator.onLineß
+    return navigator.onLine
   } else {
     return true // SSR
   }
@@ -22,7 +23,7 @@ export function isOnline () {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null, skipCache = false }) {
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, index = null, excludeFields = null, includeFields = null }) {
   size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -39,41 +40,55 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
 
     if (excludeFields) Query._sourceExclude = excludeFields
     if (includeFields) Query._sourceInclude = includeFields
+
+    if (config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
+      Query.searchQuery.groupId = rootStore.state.user.groupId
+    }
+
     const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
     const cacheKey = hash(Query)
     let servedFromCache = false
     const benchmarkTime = new Date()
-    if (!skipCache) {
-      cache.getItem(cacheKey, (err, res) => {
-        if (err) console.log(err)
-        if (res !== null) {
-          res.cache = true
-          res.noresults = false
-          res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
-          resolve(res)
-          console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-          servedFromCache = true
-        } else {
-          if (!isOnline()) {
-            console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-            res = {
-              items: [],
-              total: 0,
-              start: 0,
-              perPage: 0,
-              aggregations: {},
-              offline: true,
-              cache: true,
-              noresults: true
-            }
-            servedFromCache = true
-            resolve(res)
+
+    cache.getItem(cacheKey, (err, res) => {
+      if (err) console.log(err)
+      if (res !== null) {
+        res.cache = true
+        res.noresults = false
+        res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
+        resolve(res)
+        console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        servedFromCache = true
+      } else {
+        if (!isOnline()) {
+          console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          res = {
+            items: [],
+            total: 0,
+            start: 0,
+            perPage: 0,
+            aggregations: {},
+            offline: true,
+            cache: true,
+            noresults: true
           }
+          servedFromCache = true
+          resolve(res)
         }
-      }).catch((err) => {
-        console.error('Cannot read cache for ' + cacheKey + ', ' + err)
-      })
+      }
+    }).catch((err) => {
+      console.error('Cannot read cache for ' + cacheKey + ', ' + err)
+    })
+
+    /* use only for cache */
+    if (Query.searchQuery.groupId) {
+      delete Query.searchQuery.groupId
     }
+
+    if (config.usePriceTiers && rootStore.state.user.groupToken) {
+      Query.searchQuery.groupToken = rootStore.state.user.groupToken
+    }
+
     searchAdapter.search(Query).then(resp => { // we're always trying to populate cache - when online
       const res = searchAdapter.handleResult(resp, Query.type, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })

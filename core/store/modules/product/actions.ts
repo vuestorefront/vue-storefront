@@ -2,9 +2,9 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import config from '../../lib/config'
 import * as types from '../../mutation-types'
-import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
+import { breadCrumbRoutes, productThumbnailPath, getThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
-import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync } from './helpers'
+import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync, getMediaGallery, configurableChildrenImages, attributeImages } from './helpers'
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
@@ -12,6 +12,7 @@ import { quickSearchByQuery, isOnline } from '../../lib/search'
 import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
+import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
@@ -237,7 +238,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, skipCache = false }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.debug('Entity cache is enabled for productList')
@@ -253,7 +254,7 @@ const actions: ActionTree<ProductState, RootState> = {
         includeFields = config.entities.product.includeFields
       }
     }
-    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields, skipCache }).then((resp) => {
+    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           product.errors = {} // this is an object to store validation result for custom options and others
@@ -386,8 +387,7 @@ const actions: ActionTree<ProductState, RootState> = {
           return context.dispatch('list', { // product list syncs the platform price on it's own
               query: searchQuery,
               prefetchGroupProducts: false,
-              updateState: false,
-              skipCache: skipCache
+              updateState: false
         }).then((res) => {
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
@@ -525,6 +525,9 @@ const actions: ActionTree<ProductState, RootState> = {
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
+      if (!config.products.gallery.mergeConfigurableChildren) {
+          context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
+      }
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
     } else console.debug('Unable to update current product.')
   },
@@ -576,6 +579,8 @@ const actions: ActionTree<ProductState, RootState> = {
           }))
         }
 
+        context.dispatch('setProductGallery', { product: product })
+
         if (config.products.preventConfigurableChildrenDirectAccess) {
           subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
         }
@@ -591,6 +596,24 @@ const actions: ActionTree<ProductState, RootState> = {
   addCustomOptionValidator (context, { validationRule, validatorFunction }) {
     context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
+
+  /**
+   * Set product gallery depending on product type
+   */
+
+  setProductGallery(context, { product }) {
+      if (product.type_id === 'configurable') {
+        if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
+           context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
+        } else {
+          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
+          context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+        }
+      } else {
+          context.commit(types.CATALOG_UPD_GALLERY, getMediaGallery(product))
+      }
+  },
+
   /**
    * Load the product data - async version for asyncData()
    */
