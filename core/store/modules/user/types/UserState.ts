@@ -1,6 +1,8 @@
 export default interface UserState {
   token: string,
   refreshToken: string,
+  groupToken: string,
+  groupId: null,
   current: {
     email: string
   } | null,
