@@ -28,7 +28,7 @@
       </div>
 
       <base-checkbox
-        class="col-xs-12 mb15"
+        class="col-xs-12 mb25"
         id="generalAgreement"
         v-model="user.isSubscribed"
         @click="isEdited ? user.isSubscribed = !user.isSubscribed : null"
