@@ -193,7 +193,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
 EventBus.$on('servercart-after-itemupdated', (event) => {
   if (event.resultCode !== 200) {
   // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
-    if (event.result.indexOf(i18n.t('avail')) >= 0 || event.result.indexOf(i18n.t('out of stock')) >= 0 || event.result.indexOf(i18n.t('required')) >= 0 || event.result.indexOf(i18n.t('choose options')) >= 0) { // product is not available
+    if (event.result.indexOf(i18n.t('have as many')) >= 0 || event.result.indexOf(i18n.t('most you may purchase')) >= 0 || event.result.indexOf(i18n.t('avail')) >= 0 || event.result.indexOf(i18n.t('out of stock')) >= 0 || event.result.indexOf(i18n.t('required')) >= 0 || event.result.indexOf(i18n.t('choose options')) >= 0) { // product is not available
       const originalCartItem = JSON.parse(event.payload.body).cartItem
       console.log('Removing product from the cart', originalCartItem)
       rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
