@@ -14,6 +14,17 @@ export function slugify (text) {
 }
 
 /**
+ * @param relativeUrl
+ * @param width
+ * @param height
+ * @returns {*}
+ */
+
+export function getThumbnailPath (relativeUrl, width, height) {
+  return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
+}
+
+/**
  * Re-format category path to be suitable for breadcrumb
  * @param {Array} categoryPath
  */

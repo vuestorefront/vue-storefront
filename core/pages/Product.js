@@ -1,7 +1,5 @@
 // 3rd party dependecies
 import { mapGetters } from 'vuex'
-import groupBy from 'lodash-es/groupBy'
-import uniqBy from 'lodash-es/uniqBy'
 
 // Core dependecies
 import i18n from '@vue-storefront/core/lib/i18n'
@@ -32,7 +30,8 @@ export default {
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
-      category: 'category/current'
+      category: 'category/current',
+      gallery: 'product/productGallery'
     }),
     productName () {
       return this.product ? this.product.name : ''
@@ -46,40 +45,6 @@ export default {
         error: this.getThumbnail(this.product.image, 310, 300),
         loading: this.getThumbnail(this.product.image, 310, 300)
       }
-    },
-    gallery () {
-      let images = []
-      if (this.product.media_gallery) {
-        for (let mediaItem of this.product.media_gallery) {
-          if (mediaItem.image) {
-            images.push({
-              'src': this.getThumbnail(mediaItem.image, 600, 744),
-              'loading': this.getThumbnail(this.product.image, 310, 300)
-            })
-          }
-        }
-      }
-      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
-        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
-          return child[variantsGroupBy]
-        })
-        Object.keys(groupedByAttribute).forEach(confChild => {
-          if (groupedByAttribute[confChild][0].image) {
-            images.push({
-              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
-              'loading': this.getThumbnail(this.product.image, 310, 300),
-              'id': confChild
-            })
-          }
-        })
-      } else {
-        images.push({
-          'src': this.getThumbnail(this.product.image, 600, 744),
-          'loading': this.getThumbnail(this.product.image, 310, 300)
-        })
-      }
-      return uniqBy(images, 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
     },
     image () {
       return this.gallery.length ? this.gallery[0] : false
