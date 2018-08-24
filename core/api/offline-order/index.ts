@@ -1,5 +1,5 @@
-import { confirmOrder } from './confirmOrder'
-import { cancelOrder } from './cancelOrder'
+import { confirmOrder } from './features/confirmOrder'
+import { cancelOrder } from './features/cancelOrder'
 
 export {
   confirmOrder,

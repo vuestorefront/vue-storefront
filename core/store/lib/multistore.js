@@ -4,7 +4,7 @@ import EventBus from './event-bus'
 import { loadLanguageAsync } from '@vue-storefront/core/lib/i18n'
 
 export function currentStoreView () {
-  return global.$VS.storeView
+  return store.state.storeView
 }
 
 export function prepareStoreView (storeCode, config, i18n = null, eventBus = null) {
@@ -24,8 +24,8 @@ export function prepareStoreView (storeCode, config, i18n = null, eventBus = nul
     storeView.storeCode = config.defaultStoreCode || ''
     store.state.user.current_storecode = config.defaultStoreCode || ''
   }
-  if (!global.$VS.storeView || global.$VS.storeView.storeCode !== storeCode) {
-    global.$VS.storeView = storeView
+  if (!store.state.storeView || store.state.storeView.storeCode !== storeCode) {
+    store.state.storeView = storeView
     loadLanguageAsync(storeView.i18n.defaultLocale)
     store.init(config, i18n || global.$VS.i18n, eventBus || EventBus)
   }

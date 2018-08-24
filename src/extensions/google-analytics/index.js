@@ -12,7 +12,7 @@ export default function (app, router, store, config) {
   store.registerModule(EXTENSION_KEY, extensionStore)
   console.log('Google Analytics extension registered')
 
-  if (config.analytics.id && !global.$VS.isSSR) {
+  if (config.analytics.id && !Vue.prototype.$isServer) {
     Vue.use(VueAnalytics, {
       id: config.analytics.id,
       router,

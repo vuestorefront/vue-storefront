@@ -27,7 +27,8 @@ const product: Module<ProductState, RootState> = {
     current_bundle_options: {},
     custom_options_validators: {},
     productLoadStart: 0,
-    productLoadPromise: null
+    productLoadPromise: null,
+    productGallery: []
   },
   getters,
   actions,

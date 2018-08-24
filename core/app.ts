@@ -28,7 +28,7 @@ declare var global: any
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.2'
+store.state.version = '1.3'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
@@ -38,7 +38,7 @@ for (const moduleName of Object.keys(storeModules)) {
 }
 
 const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
-global.$VS.storeView = storeView
+store.state.storeView = storeView
 store.state.shipping.methods = shippingMethods
 
 Vue.use(Vuelidate)

@@ -4,8 +4,9 @@ import { currentStoreView } from './multistore'
 import hash from 'object-hash'
 import config from 'config'
 import fetch from 'isomorphic-fetch'
+import rootStore from '../'
 
-function isOnline () {
+export function isOnline () {
   if (typeof navigator !== 'undefined') {
     return navigator.onLine
   } else {
@@ -110,15 +111,18 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
 
     if (excludeFields) esQuery._sourceExclude = excludeFields
     if (includeFields) esQuery._sourceInclude = includeFields
-    const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
-    const cacheKey = hash(esQuery)
-    let servedFromCache = false
-    const benchmarkTime = new Date()
-    cache.getItem(cacheKey, (err, res) => {
-      if (err) {
-        console.log(err)
-      }
 
+    if (config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
+      esQuery.body.groupId = rootStore.state.user.groupId
+    }
+
+    const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
+    let servedFromCache = false
+    const cacheKey = hash(esQuery)
+    const benchmarkTime = new Date()
+
+    cache.getItem(cacheKey, (err, res) => {
+      if (err) console.log(err)
       if (res !== null) {
         res.cache = true
         res.noresults = false
@@ -129,7 +133,6 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       } else {
         if (!isOnline()) {
           console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-
           res = {
             items: [],
             total: 0,
@@ -140,12 +143,23 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
             cache: true,
             noresults: true
           }
-
           servedFromCache = true
           resolve(res)
         }
       }
-    }).catch((err) => { console.error('Cannot read cache for ' + cacheKey + ', ' + err) })
+    }).catch((err) => {
+      console.error('Cannot read cache for ' + cacheKey + ', ' + err)
+    })
+
+    /* use only for cache */
+    if (esQuery.body.groupId) {
+      delete esQuery.body.groupId
+    }
+
+    if (config.usePriceTiers && rootStore.state.user.groupToken) {
+      esQuery.body.groupToken = rootStore.state.user.groupToken
+    }
+
     search(esQuery).then((resp) => { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
       cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })

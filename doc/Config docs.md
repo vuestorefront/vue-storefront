@@ -298,9 +298,32 @@ This is the `vue-storefront-api` endpoint for rendering the product lists.
 Here we have the sort field settings as they're displayed on the Category page.
 
 ```json
-      "galleryVariantsGroupAttribute": "color"
+  "gallery": {
+      "mergeConfigurableChildren": true
 ```
-Vue Storefront is feeding the Product page gallery with the combination of: `product.media_gallery`, `product.image` and the `product.configurable_children.image`. In some cases simple products attached to the configurable one have the same photos as the main one assigned. If this option is set to the name of any particullar attribute assigned with `configurable_children` - the images that Vue Storefront is getting will be grouped by the color (getting single color images from the `configurable_children` collection)
+
+Vue Storefront is feeding the Product page gallery with the combination of: `product.media_gallery`, `product.image` and the `product.configurable_children.image`, if false the Product page gallery shows the `product.media_gallery` of the selected variant.
+
+```json
+  "gallery": {
+      "variantsGroupAttribute": "color"
+```
+If "mergeConfigurableChildren" is set to true In some cases simple products attached to the configurable one have the same photos as the main one assigned. If this option is set to the name of any particullar attribute assigned with `configurable_children` - the images that Vue Storefront is getting will be grouped by the color (getting single color images from the `configurable_children` collection)
+
+```json
+   "gallery": {
+     "imageAttributes": ["image","thumbnail","small_image"]
+```
+
+The product attributes representing the images. Wee see it in the Product page gallery if `mergeConfigurableChildren` is set to false and the product is configured 
+
+```json
+  "gallery": {
+      "width": 600,
+      "height": 744
+```
+
+The dimensions of the images in the gallery
 
 ```json
     "orders": {
