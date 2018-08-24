@@ -1,7 +1,9 @@
-import { subscribe } from './subscribe'
-import { unsubscribe } from './unsubscribe'
+import { subscribe } from './features/subscribe'
+import { unsubscribe } from './features/unsubscribe'
+import { newsletterPreferences } from './features/newsletterPreferences'
 
 export {
   subscribe,
-  unsubscribe
+  unsubscribe,
+  newsletterPreferences
 }

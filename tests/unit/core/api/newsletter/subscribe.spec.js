@@ -22,11 +22,10 @@ describe('[newsletter] subscribe.ts', () => {
     expect(subscribeSpy).to.have.been.called
   })
 
-  it('passes correct email address to function\'s product property', () => {
+  it('passes correct email address to function\'s property', () => {
     const wrapper = shallowMount(TestInstance, { localVue })
     wrapper.find('button#subscribe').trigger('click')
-    console.log(subscribeSpy)
-    expect(subscribeSpy.args.email).to.equal(wrapper.vm.email)
+    expect(subscribeSpy.getCalls()[0].args[0].email).to.equal(wrapper.vm.email)
   })
 
 })

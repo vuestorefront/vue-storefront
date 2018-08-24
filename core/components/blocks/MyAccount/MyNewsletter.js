@@ -1,3 +1,5 @@
+import { newsletterPreferences } from '@vue-storefront/core/api/newsletter'
+
 export default {
   name: 'MyNewsletter',
   data () {
@@ -108,5 +110,6 @@ export default {
         }
       }
     }
-  }
+  },
+  mixins: [newsletterPreferences]
 }
