@@ -10,8 +10,8 @@ The newsletter module is a set of mixins responsible for interacting with newsle
 #### unsubscribe
 - [method] unsubscribe(email)
 
-#### newsletterPreferences
-- [computed] newsletterPreferences
+#### isSubscribed
+- [computed] isSubscribed
 
 ## Example
 
@@ -20,7 +20,7 @@ The newsletter module is a set of mixins responsible for interacting with newsle
 import {
   subscribe,
   unsubscribe,
-  newsletterPreferences
+  isSubscribed
 } from '@vue-storefront/core/api/newsletter'
 
 export default {
@@ -28,7 +28,7 @@ export default {
   mixins: [
     subscribe,
     unsubscribe,
-    newsletterPreferences
+    isSubscribed
   ]
 }
 ````

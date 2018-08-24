@@ -270,6 +270,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
   },
   refreshCurrentUser (context, userData) {
+    console.log(userData)
     context.commit(types.USER_INFO_LOADED, userData)
   },
   /**

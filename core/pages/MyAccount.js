@@ -4,12 +4,9 @@ import i18n from '@vue-storefront/core/lib/i18n'
 // Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
 
-// Core modules
-import { subscribe, unsubscribe } from '@vue-storefront/core/api/newsletter'
-
 export default {
   name: 'MyAccount',
-  mixins: [Composite, subscribe, unsubscribe],
+  mixins: [Composite],
   props: {
     activeBlock: {
       type: String,
@@ -25,12 +22,10 @@ export default {
   created () {
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
-    this.$bus.$on('myAccount-before-updatePreferences', this.onBeforeUpdatePreferences)
   },
   destroyed () {
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
-    this.$bus.$off('myAccount-before-updatePreferences', this.onBeforeUpdatePreferences)
   },
   mounted () {
     const usersCollection = global.$VS.db.usersCollection
@@ -44,17 +39,6 @@ export default {
     })
   },
   methods: {
-    onBeforeUpdatePreferences (updatedData) {
-      if (updatedData) {
-        if (updatedData.action === 'subscribe') {
-          this.subscribe(updatedData.email)
-          this.$store.dispatch('user/updatePreferences', updatedData.preferences)
-        } else {
-          this.unsubscribe(updatedData.email)
-          this.$store.dispatch('user/updatePreferences', null)
-        }
-      }
-    },
     onBeforeChangePassword (passwordData) {
       this.$store.dispatch('user/changePassword', passwordData)
     },

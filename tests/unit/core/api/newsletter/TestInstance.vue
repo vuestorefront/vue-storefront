@@ -10,7 +10,8 @@
 // Just import the features that you need in the view grouped in modules
 import {
   subscribe,
-  unsubscribe
+  unsubscribe,
+  isSubscribed
 } from '@vue-storefront/core/api/newsletter'
 
 export default {
@@ -22,7 +23,8 @@ export default {
   // And register them as a mixins
   mixins: [
     subscribe,
-    unsubscribe
+    unsubscribe,
+    isSubscribed
   ]
 }
 </script>
