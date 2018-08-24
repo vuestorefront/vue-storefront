@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import { openMicrocart, isMicrocartOpen } from '@vue-storefront/core/modules/cart'
+import { openMicrocart, isMicrocartOpen } from '@vue-storefront/core/modules/cart/features'
 
 export default {
   name: 'MicrocartIcon',
