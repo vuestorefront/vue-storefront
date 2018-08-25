@@ -19,7 +19,7 @@ const mutations: MutationTree<CartState> = {
       EventBus.$emit('cart-before-add', { product: item })
       state.cartItems.push(item)
     } else {
-      record.qty += (product.qty ? product.qty : 1)
+      record.qty += parseInt((product.qty ? product.qty : 1))
     }
   },
   [types.CART_SAVE] (state) {

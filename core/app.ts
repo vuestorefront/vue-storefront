@@ -28,7 +28,7 @@ declare var global: any
 
 if (!global.$VS) global.$VS = {}
 
-store.state.version = '1.2'
+store.state.version = '1.3'
 store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 
 const storeModules = Object.assign(coreModules, themeModules || {})
