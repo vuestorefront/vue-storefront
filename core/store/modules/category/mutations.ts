@@ -3,8 +3,9 @@ import * as types from '../../mutation-types'
 import { slugify, breadCrumbRoutes } from '../../helpers'
 import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
-import config from 'config'
 import CategoryState from './types/CategoryState'
+import rootStore from '../../'
+const config = rootStore.state.config
 
 declare var global: any
 

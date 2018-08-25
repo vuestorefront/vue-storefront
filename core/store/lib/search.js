@@ -2,9 +2,9 @@ import map from 'lodash-es/map'
 import { slugify } from '../helpers'
 import { currentStoreView } from './multistore'
 import hash from 'object-hash'
-import config from 'config'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
+const config = rootStore.state.config
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {

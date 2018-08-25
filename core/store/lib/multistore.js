@@ -1,4 +1,3 @@
-import config from 'config'
 import rootStore from '../'
 import EventBus from './event-bus'
 import { loadLanguageAsync } from '@vue-storefront/core/lib/i18n'
@@ -34,7 +33,7 @@ export function prepareStoreView (storeCode, config, i18n = null, eventBus = nul
 
 export function storeCodeFromRoute (matchedRoute) {
   if (matchedRoute) {
-    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
+    for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
       if (matchedRoute.path.indexOf('/' + storeCode + '/') === 0 || matchedRoute.path === '/' + storeCode) {
         return storeCode
       }
@@ -55,7 +54,7 @@ export function adjustMultistoreApiUrl (url) {
 }
 
 export function localizedRoute (routeObj, storeCode) {
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
+  if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name

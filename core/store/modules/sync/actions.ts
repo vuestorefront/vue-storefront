@@ -7,9 +7,9 @@ import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '../../lib/multistore'
 import rootStore from '../../'
-import config from 'config'
 import RootState from '../../types/RootState'
 import SyncState from './types/SyncState'
+const config = rootStore.state.config
 
 const actions: ActionTree<SyncState, RootState> = {
   /**
