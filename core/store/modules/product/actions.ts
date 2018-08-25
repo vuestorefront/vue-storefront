@@ -15,6 +15,7 @@ import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
 const bodybuilder = require('bodybuilder')
+const config = rootStore.state.config
 
 declare var global: any
 
@@ -84,7 +85,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return context.dispatch('sync/execute', { url: rootStore.state.config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
+    return context.dispatch('sync/execute', { url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -244,12 +245,12 @@ const actions: ActionTree<ProductState, RootState> = {
       console.debug('Entity cache is disabled for productList')
     }
 
-    if (rootStore.state.config.entities.optimize) {
+    if (config.entities.optimize) {
       if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        excludeFields = rootStore.state.config.entities.product.excludeFields
+        excludeFields = config.entities.product.excludeFields
       }
       if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        includeFields = rootStore.state.config.entities.product.includeFields
+        includeFields = config.entities.product.includeFields
       }
     }
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
@@ -260,7 +261,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (!product.parentSku) {
             product.parentSku = product.sku
           }
-          if (rootStore.state.config.products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
+          if (config.products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
             product.sku = product.configurable_children[0].sku
           }
           if (configuration) {
@@ -427,12 +428,12 @@ const actions: ActionTree<ProductState, RootState> = {
             console.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
             const _returnProductFromCacheHelper = (subresults) => {
               const cachedProduct = setupProduct(res)
-              if (rootStore.state.config.products.alwaysSyncPlatformPricesOver) {
+              if (config.products.alwaysSyncPlatformPricesOver) {
                 doPlatformPricesSync([cachedProduct]).then((products) => {
                     if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
                     resolve(products[0])
                 })
-                if (!rootStore.state.config.products.waitForPlatformSync) {
+                if (!config.products.waitForPlatformSync) {
                     if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                     resolve(cachedProduct)
                 }
@@ -522,7 +523,7 @@ const actions: ActionTree<ProductState, RootState> = {
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
-      if (!rootStore.state.config.products.gallery.mergeConfigurableChildren) {
+      if (!config.products.gallery.mergeConfigurableChildren) {
           context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
       }
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
@@ -578,7 +579,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
         context.dispatch('setProductGallery', { product: product })
 
-        if (rootStore.state.config.products.preventConfigurableChildrenDirectAccess) {
+        if (config.products.preventConfigurableChildrenDirectAccess) {
           subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
         }
       } else { // error or redirect
@@ -600,10 +601,10 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setProductGallery(context, { product }) {
       if (product.type_id === 'configurable') {
-        if (!rootStore.state.config.products.gallery.mergeConfigurableChildren && product.is_configured) {
+        if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
            context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
         } else {
-          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== rootStore.state.config.images.productPlaceholder })
+          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
           context.commit(types.CATALOG_UPD_GALLERY, productGallery)
         }
       } else {
@@ -626,7 +627,7 @@ const actions: ActionTree<ProductState, RootState> = {
           rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
             filterValues: [true],
             filterField: 'is_user_defined',
-            includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
+            includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
           }).then((attrs) => {
             context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
               Promise.all(subpromises).then(subresults => {

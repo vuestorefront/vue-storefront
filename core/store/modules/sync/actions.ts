@@ -6,7 +6,7 @@ import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '../../lib/multistore'
-import store from '../../'
+import rootStore from '../../'
 import config from 'config'
 import RootState from '../../types/RootState'
 import SyncState from './types/SyncState'
@@ -73,11 +73,11 @@ const actions: ActionTree<SyncState, RootState> = {
             if (err) {
               console.error(err)
             }
-            if (!currentCartId && store.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-              currentCartId = store.state.cart.cartServerToken
+            if (!currentCartId && rootStore.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentCartId = rootStore.state.cart.cartServerToken
             }
-            if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-              currentToken = store.state.user.token
+            if (!currentToken && rootStore.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentToken = rootStore.state.user.token
             }
             taskExecute(task, currentToken, currentCartId).then((result) => {
               resolve(result)

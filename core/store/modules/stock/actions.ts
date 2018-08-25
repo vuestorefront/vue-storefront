@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex'
 import RootState from '../../types/RootState'
 import StockState from './types/StockState'
 import rootStore from '../../'
+const config = rootStore.state.config
 
 const actions: ActionTree<StockState, RootState> = {
   /**
@@ -9,8 +10,8 @@ const actions: ActionTree<StockState, RootState> = {
    */
   check (context, { product, qty = 1 }) {
     return new Promise((resolve, reject) => {
-      if (rootStore.state.config.stock.synchronize) {
-        context.dispatch('sync/queue', { url: rootStore.state.config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
+      if (config.stock.synchronize) {
+        context.dispatch('sync/queue', { url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -31,8 +32,8 @@ const actions: ActionTree<StockState, RootState> = {
    */
   list (context, { skus }) {
     return new Promise((resolve, reject) => {
-      if (rootStore.state.config.stock.synchronize) {
-        context.dispatch('sync/execute', { url: rootStore.state.config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
+      if (config.stock.synchronize) {
+        context.dispatch('sync/execute', { url: config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },

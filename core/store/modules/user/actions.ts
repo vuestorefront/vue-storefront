@@ -2,13 +2,13 @@ import { ActionTree } from 'vuex'
 import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import rootStore from '../../'
-import store from '../../'
 import { ValidationError } from '../../lib/exceptions'
 import i18n from '../../lib/i18n'
 import { adjustMultistoreApiUrl } from '../../lib/multistore'
 import RootState from '../../types/RootState'
 import UserState from './types/UserState'
 const Ajv = require('ajv') // json validator
+const config = rootStore.state.config
 
 declare var global: any
 
@@ -26,7 +26,7 @@ const actions: ActionTree<UserState, RootState> = {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
         EventBus.$emit('session-after-authorized')
 
-        if (rootStore.state.config.usePriceTiers) {
+        if (config.usePriceTiers) {
           global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
             if (err) {
               console.error(err)
@@ -61,7 +61,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   resetPassword (context, { email }) {
     console.log({ email: email })
-    return context.dispatch('sync/execute', { url: rootStore.state.config.users.resetPassword_endpoint,
+    return context.dispatch('sync/execute', { url: config.users.resetPassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -79,8 +79,8 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   login (context, { username, password }) {
-    let url = rootStore.state.config.users.login_endpoint
-    if (rootStore.state.config.storeViews.multistore) {
+    let url = config.users.login_endpoint
+    if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
     return fetch(url, { method: 'POST',
@@ -105,8 +105,8 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   register (context, { email, firstname, lastname, password }) {
-    let url = rootStore.state.config.users.create_endpoint
-    if (rootStore.state.config.storeViews.multistore) {
+    let url = config.users.create_endpoint
+    if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
     return fetch(url, { method: 'POST',
@@ -136,8 +136,8 @@ const actions: ActionTree<UserState, RootState> = {
         if (err) {
           console.error(err)
         }
-        let url = rootStore.state.config.users.refresh_endpoint
-        if (rootStore.state.config.storeViews.multistore) {
+        let url = config.users.refresh_endpoint
+        if (config.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
         return fetch(url, { method: 'POST',
@@ -163,7 +163,7 @@ const actions: ActionTree<UserState, RootState> = {
    * @param userData
    */
   setUserGroup(context, userData) {
-    if (rootStore.state.config.usePriceTiers) {
+    if (config.usePriceTiers) {
       if (userData.groupToken) {
         context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
       }
@@ -208,7 +208,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        return context.dispatch('sync/execute', { url: rootStore.state.config.users.me_endpoint,
+        return context.dispatch('sync/execute', { url: config.users.me_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {
@@ -255,7 +255,7 @@ const actions: ActionTree<UserState, RootState> = {
       throw new ValidationError(validate.errors)
     } else {
       return new Promise((resolve, reject) => {
-        context.dispatch('sync/queue', { url: rootStore.state.config.users.me_endpoint,
+        context.dispatch('sync/queue', { url: config.users.me_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -277,7 +277,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   changePassword (context, passwordData) {
     console.log(context)
-    return context.dispatch('sync/execute', { url: rootStore.state.config.users.changePassword_endpoint,
+    return context.dispatch('sync/execute', { url: config.users.changePassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -292,7 +292,7 @@ const actions: ActionTree<UserState, RootState> = {
           action1: { label: i18n.t('OK'), action: 'close' }
         })
 
-        store.dispatch('user/login', {
+        rootStore.dispatch('user/login', {
           username: context.state.current.email,
           password: passwordData.newPassword
         })
@@ -368,7 +368,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        return context.dispatch('sync/execute', { url: rootStore.state.config.users.history_endpoint,
+        return context.dispatch('sync/execute', { url: config.users.history_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {
