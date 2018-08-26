@@ -7,18 +7,11 @@ Vue.use(VueI18n)
 const loadedLanguages = ['en-US']
 const i18n = new VueI18n({
   locale: 'en-US', // set locale
-  fallbackLocale: 'en-US'
+  fallbackLocale: 'en-US',
+  messages: {
+    'en-US': require('../resource/i18n/en-US.json')
+  }
 })
-
-i18n.setLocaleMessage('en-US', require('../resource/i18n/en-US.json'))
-
-declare var global: any
-
-if (!global.$VS) {
-  global.$VS = { i18n: i18n }
-} else {
-  global.$VS.i18n = i18n
-}
 
 function setI18nLanguage (lang: string): string {
   i18n.locale = lang
@@ -32,6 +25,9 @@ export function loadLanguageAsync (lang: string): Promise<string> {
         i18n.setLocaleMessage(lang, msgs.default)
         loadedLanguages.push(lang)
         return setI18nLanguage(lang)
+      }).catch(err => {
+        console.debug('Unable to load translation')
+        return ''
       })
     }
     return Promise.resolve(setI18nLanguage(lang))
@@ -41,4 +37,4 @@ export function loadLanguageAsync (lang: string): Promise<string> {
 
 loadLanguageAsync(config.i18n.defaultLocale)
 
-export default global.$VS.i18n
+export default i18n
