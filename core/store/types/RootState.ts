@@ -24,6 +24,9 @@ export default interface RootState {
     cache: any
   },
   storeView: any,
+  twoStageCachingDelta1: number,
+  twoStageCachingDelta2: number,
+  twoStageCachingDisabled: boolean,
   userTokenInvalidated: string | null,
   userTokenInvalidateAttemptsCount: number,
   userTokenInvalidateLock: number,

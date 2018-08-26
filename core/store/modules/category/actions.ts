@@ -158,14 +158,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
 
     let prefetchGroupProducts = true
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !global.$VS.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
       includeFields = rootStore.state.config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
       excludeFields = rootStore.state.config.entities.productListWithChildren.excludeFields
       prefetchGroupProducts = false
       console.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')
     } else {
       prefetchGroupProducts = true
-      if (global.$VS.twoStageCachingDisabled) {
+      if (rootStore.state.twoStageCachingDisabled) {
         console.log('Two stage caching is disabled runtime because of no performance gain')
       } else {
         console.log('Two stage caching is disabled by the config')
@@ -186,7 +186,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       prefetchGroupProducts: prefetchGroupProducts
     }).then((res) => {
       let t1 = new Date().getTime()
-      global.$VS.twoStageCachingDelta1 = t1 - t0
+      rootStore.state.twoStageCachingDelta1 = t1 - t0
 
       let subloaders = []
       if (!res || (res.noresults)) {
@@ -275,7 +275,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !global.$VS.twoStageCachingDisabled) { // second stage - request for caching entities
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
       console.log('Using two stage caching for performance optimization - executing second stage product caching') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize
       rootStore.dispatch('product/list', {
         query: precachedQuery,
@@ -289,10 +289,10 @@ const actions: ActionTree<CategoryState, RootState> = {
         console.info(err)
       }).then((res) => {
         let t2 = new Date().getTime()
-        global.$VS.twoStageCachingDelta2 = t2 - t0
-        console.log('Using two stage caching for performance optimization - Time comparison stage1 vs stage2', global.$VS.twoStageCachingDelta1, global.$VS.twoStageCachingDelta2)
-        if (global.$VS.twoStageCachingDelta1 > global.$VS.twoStageCachingDelta2) { // two stage caching is not making any good
-          global.$VS.twoStageCachingDisabled = true
+        rootStore.state.twoStageCachingDelta2 = t2 - t0
+        console.log('Using two stage caching for performance optimization - Time comparison stage1 vs stage2', rootStore.state.twoStageCachingDelta1, rootStore.state.twoStageCachingDelta2)
+        if (rootStore.state.twoStageCachingDelta1 > rootStore.state.twoStageCachingDelta2) { // two stage caching is not making any good
+          rootStore.state.twoStageCachingDisabled = true
           console.log('Disabling two stage caching')
         }
       })
