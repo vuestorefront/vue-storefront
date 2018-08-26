@@ -1,6 +1,5 @@
 import rootStore from '../'
-const bodybuilder = require('bodybuilder')
-const config = rootStore.state.config
+import bodybuilder from 'bodybuilder'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -22,7 +21,7 @@ export function slugify (text) {
  */
 
 export function getThumbnailPath (relativeUrl, width, height) {
-  return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
+  return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${rootStore.state.config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : rootStore.state.config.images.productPlaceholder || ''
 }
 
 /**
@@ -34,7 +33,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: (config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
+      route_link: (rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
     })
   }
 

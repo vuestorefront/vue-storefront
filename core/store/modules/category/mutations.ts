@@ -5,7 +5,6 @@ import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import CategoryState from './types/CategoryState'
 import rootStore from '../../'
-const config = rootStore.state.config
 
 declare var global: any
 
@@ -25,7 +24,7 @@ const mutations: MutationTree<CategoryState> = {
     for (let category of state.list) {
       let catSlugSetter = (category) => {
         for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
-          subcat = Object.assign(subcat, { slug: (subcat.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '') })
+          subcat = Object.assign(subcat, { slug: (subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '') })
           catSlugSetter(subcat)
         }
       }

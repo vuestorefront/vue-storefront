@@ -143,31 +143,12 @@ let rootStore = new Vuex.Store<RootState>({
   state,
   mutations,
   plugins
-}) as any
+})
 
-rootStore.eventBus = new Vue()
+export default rootStore
 
-rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init sub modules "context" with i18n + eventBus
-  if (config !== null) {
-    console.debug('Vuex VS store - using external config')
-    rootStore.state.config = Object.assign(rootStore.state.config, config)
-  }
-  if (i18n !== null) {
-    console.debug('Vuex VS store - using external i18n')
-    global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
-  } else {
-    global.$VS.i18n = {
-      t: function (key) {
-        return key
-      }
-    }
-  }
-  if (eventBus !== null) {
-    console.debug('Vuex VS store - using external event-bus')
-    this.eventBus = eventBus
-    global.$VS.eventBus = Object.assign(global.$VS.eventBus, eventBus)
-  }
-
+export function initStore () {
+  const config = rootStore.state.config
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
   Vue.prototype.$db = {
@@ -248,4 +229,3 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
   }
   global.$VS.db = Vue.prototype.$db // localForage instance
 }
-export default rootStore

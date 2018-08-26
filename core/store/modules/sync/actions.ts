@@ -9,7 +9,6 @@ import { currentStoreView } from '../../lib/multistore'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import SyncState from './types/SyncState'
-const config = rootStore.state.config
 
 const actions: ActionTree<SyncState, RootState> = {
   /**
@@ -35,7 +34,7 @@ const actions: ActionTree<SyncState, RootState> = {
     const syncTaskCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'syncTasks',
-      driver: localForage[config.localForage.defaultDrivers['syncTasks']]
+      driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
     }))
     syncTaskCollection.iterate((task, id, iterationNumber) => {
       if (!task.transmited) {
@@ -48,14 +47,14 @@ const actions: ActionTree<SyncState, RootState> = {
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
     task = _prepareTask(task)
     const usersCollection = new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+      name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'user',
-      driver: localForage[config.localForage.defaultDrivers['user']]
+      driver: localForage[rootStore.state.config.localForage.defaultDrivers['user']]
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+      name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'carts',
-      driver: localForage[config.localForage.defaultDrivers['carts']]
+      driver: localForage[rootStore.state.config.localForage.defaultDrivers['carts']]
     }))
     return new Promise((resolve, reject) => {
       if (Vue.prototype.$isServer) {

@@ -1,4 +1,3 @@
-import config from 'config'
 import { union } from 'lodash-es'
 
 import { createApp } from '@vue-storefront/core/app'
@@ -37,13 +36,13 @@ export default context => {
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      if (config.storeViews.multistore === true) {
+      if (store.state.config.storeViews.multistore === true) {
         let storeCode = context.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
           storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
-          prepareStoreView(storeCode, config)
+          prepareStoreView(storeCode)
         }
       }
       const matchedComponents = router.getMatchedComponents()

@@ -30,6 +30,9 @@ if (!global.$VS) global.$VS = {}
 
 store.state.version = '1.3'
 store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
+store.state.config = config
+global.$VS.i18n = i18n
+global.$VS.eventBus = EventBus
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
@@ -38,7 +41,7 @@ for (const moduleName of Object.keys(storeModules)) {
   store.registerModule(moduleName, storeModules[moduleName])
 }
 
-const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
+const storeView = prepareStoreView(null) // prepare the default storeView
 store.state.storeView = storeView
 store.state.shipping.methods = shippingMethods
 

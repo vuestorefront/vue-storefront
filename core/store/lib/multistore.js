@@ -1,12 +1,13 @@
-import rootStore from '../'
-import EventBus from './event-bus'
+import rootStore from '../' // eslint-disable-line import/no-duplicates
+import { initStore } from '../' // eslint-disable-line import/no-duplicates
 import { loadLanguageAsync } from '@vue-storefront/core/lib/i18n'
 
 export function currentStoreView () {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode, config, i18n = null, eventBus = null) {
+export function prepareStoreView (storeCode) {
+  const config = rootStore.state.config
   let storeView = { // current, default store
     tax: config.tax,
     i18n: config.i18n,
@@ -23,10 +24,10 @@ export function prepareStoreView (storeCode, config, i18n = null, eventBus = nul
     storeView.storeCode = config.defaultStoreCode || ''
     rootStore.state.user.current_storecode = config.defaultStoreCode || ''
   }
+  loadLanguageAsync(storeView.i18n.defaultLocale)
   if (!rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode) {
     rootStore.state.storeView = storeView
-    loadLanguageAsync(storeView.i18n.defaultLocale)
-    rootStore.init(config, i18n || global.$VS.i18n, eventBus || EventBus)
+    initStore()
   }
   return storeView
 }

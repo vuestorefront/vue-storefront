@@ -6,7 +6,6 @@ import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
-const config = rootStore.state.config
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -33,7 +32,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
     }
   }
   let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
-  if (config.storeViews.multistore) {
+  if (rootStore.state.config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
   }
   let silentMode = false
@@ -56,7 +55,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
 
           silentMode = true
-          if (config.users.autoRefreshTokens) {
+          if (rootStore.state.config.users.autoRefreshTokens) {
             if (!rootStore.state.userTokenInvalidateLock) {
               rootStore.state.userTokenInvalidateLock++
               if (rootStore.state.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {

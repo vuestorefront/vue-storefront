@@ -6,14 +6,13 @@ import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import RootState from '../../types/RootState'
 import StockState from './types/StockState'
-const config = rootStore.state.config
 
 EventBus.$on('stock-after-check', (event) => { // example stock check callback
   setTimeout(() => {
     rootStore.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
       if (cartItem && event.result.code !== 'ENOTFOUND') {
         if (!event.result.is_in_stock) {
-          if (!config.stock.allowOutOfStockInCart) {
+          if (!rootStore.state.config.stock.allowOutOfStockInCart) {
             console.log('Removing product from the cart', event.product_sku)
             rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: { sku: event.product_sku } }, {root: true})
           } else {
