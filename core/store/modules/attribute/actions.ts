@@ -4,7 +4,7 @@ import rootStore from '../../'
 import AttributeState from './types/AttributeState'
 import RootState from '../../types/RootState'
 import { ActionTree } from 'vuex'
-const bodybuilder = require('bodybuilder')
+import bodybuilder from 'bodybuilder'
 const config = rootStore.state.config
 
 const actions: ActionTree<AttributeState, RootState> = {

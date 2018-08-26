@@ -12,7 +12,7 @@ import toString from 'lodash-es/toString'
 import { optionLabel } from '../attribute/helpers'
 import RootState from '../../types/RootState'
 import CategoryState from './types/CategoryState'
-const bodybuilder = require('bodybuilder')
+import bodybuilder from 'bodybuilder'
 const config = rootStore.state.config
 
 declare var global: any

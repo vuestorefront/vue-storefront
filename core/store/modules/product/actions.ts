@@ -14,7 +14,7 @@ import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
-const bodybuilder = require('bodybuilder')
+import bodybuilder from 'bodybuilder'
 const config = rootStore.state.config
 
 declare var global: any
