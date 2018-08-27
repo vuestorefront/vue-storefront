@@ -1,5 +1,4 @@
-import rootStore from '../' // eslint-disable-line import/no-duplicates
-import { initStore } from '../' // eslint-disable-line import/no-duplicates
+import rootStore, { initStore } from '../'
 import { loadLanguageAsync } from '@vue-storefront/core/lib/i18n'
 
 export function currentStoreView () {
