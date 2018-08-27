@@ -6,12 +6,12 @@ export default {
   props: {
     labelsActive: {
       type: Boolean,
-      requred: false,
+      required: false,
       default: true
     },
     onlyImage: {
       type: Boolean,
-      requred: false,
+      required: false,
       default: false
     },
     product: {
