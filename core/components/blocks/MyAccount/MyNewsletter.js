@@ -1,112 +1,43 @@
+import { subscribe, unsubscribe, isSubscribed } from '@vue-storefront/core/api/newsletter'
+
 export default {
   name: 'MyNewsletter',
   data () {
     return {
-      newsletterPreferences: {
-        generalAgreement: false,
-        men: false,
-        women: false,
-        kids: false,
-        home: false
+      user: {
+        isSubscribed: false
       },
-      stateNewsletter: Object.assign(
-        {},
-        this.$store.state.user.newsletter
-          ? this.$store.state.user.newsletter
-          : this.getNewsletter()
-      ),
       isEdited: false
     }
   },
   created () {
-    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$on('user-after-loggedin', this.getNewsletter)
   },
   destroyed () {
-    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+    this.$bus.$off('user-after-loggedin', this.getNewsletter)
   },
   mounted () {
-    this.newsletterPreferences = this.getNewsletter()
+    this.getNewsletter()
   },
   methods: {
-    onLoggedIn () {
-      this.stateNewsletter = Object.assign(
-        {},
-        this.$store.state.user.newsletter
-          ? this.$store.state.user.newsletter
-          : this.getNewsletter()
-      )
-      this.newsletterPreferences = this.getNewsletter()
-    },
     edit () {
       this.isEdited = true
     },
-    objectsEqual (a, b) {
-      const aProps = Object.keys(a)
-      const bProps = Object.keys(b)
-
-      if (aProps.length !== bProps.length) {
-        return false
-      }
-
-      for (let i = 0; i < aProps.length; i++) {
-        let propName = aProps[i]
-        if (!b.hasOwnProperty(propName)) {
-          return false
-        } else {
-          if (a[propName] !== null && b[propName] !== null && a[propName] === 'object' && b[propName] === 'object') {
-            if (!this.objectsEqual(a[propName], b[propName])) {
-              return false
-            }
-          } else if (a[propName] !== b[propName]) {
-            return false
-          }
-        }
-      }
-      return true
-    },
     updateNewsletter () {
-      let updatedNewsletter
-      if (!this.objectsEqual(this.newsletterPreferences, (this.stateNewsletter ? this.stateNewsletter : {}))) {
-        updatedNewsletter = {
-          action: 'unsubscribe',
-          email: this.$store.state.user.current.email,
-          preferences: Object.assign({}, this.newsletterPreferences)
-        }
-        for (let pref in this.newsletterPreferences) {
-          if (this.newsletterPreferences[pref]) {
-            updatedNewsletter.action = 'subscribe'
-            break
-          }
-        }
+      if (this.user.isSubscribed) {
+        this.subscribe(this.$store.state.user.current.email)
+      } else {
+        this.unsubscribe(this.$store.state.user.current.email)
       }
-      this.exitSection(null, updatedNewsletter)
+      this.$store.dispatch('user/updatePreferences', { isSubscribed: this.user.isSubscribed })
+      this.exitSection()
     },
-    exitSection (event, updatedNewsletter) {
-      this.$bus.$emit('myAccount-before-updatePreferences', updatedNewsletter)
-      if (!updatedNewsletter) {
-        this.newsletterPreferences = this.getNewsletter()
-      }
+    exitSection () {
       this.isEdited = false
     },
     getNewsletter () {
-      this.stateNewsletter = Object.assign({}, this.$store.state.user.newsletter)
-      if (this.stateNewsletter) {
-        return {
-          generalAgreement: this.stateNewsletter.generalAgreement ? this.stateNewsletter.generalAgreement : false,
-          men: this.stateNewsletter.men ? this.stateNewsletter.men : false,
-          women: this.stateNewsletter.women ? this.stateNewsletter.women : false,
-          kids: this.stateNewsletter.kids ? this.stateNewsletter.kids : false,
-          home: this.stateNewsletter.home ? this.stateNewsletter.home : false
-        }
-      } else {
-        return {
-          generalAgreement: false,
-          men: false,
-          women: false,
-          kids: false,
-          home: false
-        }
-      }
+      this.user.isSubscribed = this.isSubscribed
     }
-  }
+  },
+  mixins: [subscribe, unsubscribe, isSubscribed]
 }

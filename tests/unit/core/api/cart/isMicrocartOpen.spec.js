@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('[cart] isMicrocartOpen.js', () => {
+describe('[cart] isMicrocartOpen.ts', () => {
   let store
   let state
 
