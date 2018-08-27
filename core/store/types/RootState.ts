@@ -1,4 +1,5 @@
 export default interface RootState {
+  version: string,
   attribute: string,
   category: {
     current_path: string
@@ -9,5 +10,6 @@ export default interface RootState {
   },
   stock: {
     cache: any
-  }
+  },
+  storeView: any
 }

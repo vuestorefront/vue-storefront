@@ -9,8 +9,11 @@ export default {
     return {
       products: [],
       search: '',
+      size: 18,
+      start: 0,
       placeholder: i18n.t('Type what you are looking for...'),
-      emptyResults: false
+      emptyResults: false,
+      readMore: true
     }
   },
   methods: {
@@ -22,17 +25,39 @@ export default {
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setSearchpanel', false)
     },
-    makeSearch: function () {
-      let queryText = this.search
-
-      if (queryText !== '' && queryText !== undefined) {
-        let start = 0
-        let size = 18
-        let searchQuery = prepareQuickSearchQuery(queryText)
-
-        this.$store.dispatch('product/list', { query: searchQuery, start, size, updateState: false }).then(resp => {
+    buildSearchQuery (queryText) {
+      let searchQuery = prepareQuickSearchQuery(queryText)
+      return searchQuery
+    },
+    makeSearch () {
+      if (this.search !== '' && this.search !== undefined) {
+        let query = this.buildSearchQuery(this.search)
+        this.start = 0
+        this.readMore = true
+        this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then(resp => {
           this.products = resp.items
+          this.start = this.start + this.size
           this.emptyResults = resp.items.length < 1
+        }).catch((err) => {
+          console.error(err)
+        })
+      } else {
+        this.products = []
+        this.emptyResults = 0
+      }
+    },
+    seeMore () {
+      if (this.search !== '' && this.search !== undefined) {
+        let query = this.buildSearchQuery(this.search)
+        this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
+          let page = Math.floor(resp.total / this.size)
+          let exceeed = resp.total - this.size * page
+          if (resp.start === resp.total - exceeed) {
+            this.readMore = false
+          }
+          this.products = this.products.concat(resp.items)
+          this.start = this.start + this.size
+          this.emptyResults = this.products.length < 1
         }).catch((err) => {
           console.error(err)
         })

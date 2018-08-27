@@ -12,6 +12,7 @@ if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
 
 const state = {
+  version: '',
   attribute: '',
   category: {
     current_path: '',
@@ -22,7 +23,8 @@ const state = {
   },
   stock: {
     cache: []
-  }
+  },
+  storeView: {}
 }
 
 const mutations = {

@@ -53,6 +53,9 @@ const mutations: MutationTree<ProductState> = {
     state.current_bundle_options = {}
     state.current_custom_options = {}
     EventBus.$emit('product-after-reset', { })
+  },
+  [types.CATALOG_UPD_GALLERY] (state, productGallery) {
+    state.productGallery = productGallery
   }
 }
 

@@ -13,6 +13,12 @@ const mutations: MutationTree<UserState> = {
   [types.USER_START_SESSION] (state) {
     state.session_started = new Date()
   },
+  [types.USER_GROUP_TOKEN_CHANGED] (state, token) {
+      state.groupToken = token
+  },
+  [types.USER_GROUP_CHANGED] (state, groupId) {
+      state.groupId = groupId
+  },
   [types.USER_INFO_LOADED] (state, currentUser) {
     state.current = currentUser
   },
