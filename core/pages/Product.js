@@ -12,7 +12,7 @@ import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 // Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
-import { addToWishlist, removeFromWishlist } from '@vue-storefront/core/modules/wishlist'
+import { addToWishlist, removeFromWishlist } from '@vue-storefront/core/modules/wishlist/features'
 
 export default {
   name: 'Product',
