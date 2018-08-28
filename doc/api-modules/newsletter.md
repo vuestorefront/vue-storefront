@@ -21,7 +21,7 @@ import {
   subscribe,
   unsubscribe,
   isSubscribed
-} from '@vue-storefront/core/api/newsletter'
+} from '@vue-storefront/core/modules/newsletter/features'
 
 export default {
   //...other properties
