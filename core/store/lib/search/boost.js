@@ -9,7 +9,7 @@ export default function getBoosts (attribute = '') {
   }
 
   if (boosts.hasOwnProperty(attribute)) {
-    return boosts.attribute
+    return boosts[attribute]
   }
 
   return 1
