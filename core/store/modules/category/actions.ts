@@ -48,7 +48,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
 
     if (skipCache || (!context.state.list || context.state.list.length === 0)) {
-      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields, skipCache }).then((resp) => {
+      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
         return resp
