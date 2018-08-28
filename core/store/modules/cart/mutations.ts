@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex'
+import rootStore from '../../'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
-import config from '../../lib/config'
 import CartState from './types/CartState'
 
 const mutations: MutationTree<CartState> = {
@@ -19,7 +19,7 @@ const mutations: MutationTree<CartState> = {
       EventBus.$emit('cart-before-add', { product: item })
       state.cartItems.push(item)
     } else {
-      record.qty += (product.qty ? product.qty : 1)
+      record.qty += parseInt((product.qty ? product.qty : 1))
     }
   },
   [types.CART_SAVE] (state) {
@@ -60,8 +60,8 @@ const mutations: MutationTree<CartState> = {
     state.cartIsLoaded = true
     state.cartSavedAt = Date.now()
 
-    EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
-    EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+    EventBus.$emit('order/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+    EventBus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
     EventBus.$emit('application-after-loaded')
     EventBus.$emit('cart-after-loaded')
   },

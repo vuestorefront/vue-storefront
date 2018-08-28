@@ -1,8 +1,7 @@
 import { ActionTree } from 'vuex'
 import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
-import config from '../../lib/config'
-import store from '../../'
+import rootStore from '../../'
 import { ValidationError } from '../../lib/exceptions'
 import i18n from '../../lib/i18n'
 import { adjustMultistoreApiUrl } from '../../lib/multistore'
@@ -25,6 +24,19 @@ const actions: ActionTree<UserState, RootState> = {
       if (res) {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
         EventBus.$emit('session-after-authorized')
+
+        if (rootStore.state.config.usePriceTiers) {
+          global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
+            if (err) {
+              console.error(err)
+              return
+            }
+
+            if (userData) {
+              context.dispatch('setUserGroup', userData)
+            }
+          })
+        }
       } else {
         EventBus.$emit('session-after-nonauthorized')
       }
@@ -48,7 +60,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   resetPassword (context, { email }) {
     console.log({ email: email })
-    return context.dispatch('sync/execute', { url: config.users.resetPassword_endpoint,
+    return context.dispatch('sync/execute', { url: rootStore.state.config.users.resetPassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -66,8 +78,8 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   login (context, { username, password }) {
-    let url = config.users.login_endpoint
-    if (config.storeViews.multistore) {
+    let url = rootStore.state.config.users.login_endpoint
+    if (rootStore.state.config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
     return fetch(url, { method: 'POST',
@@ -80,7 +92,7 @@ const actions: ActionTree<UserState, RootState> = {
     }).then(resp => { return resp.json() })
       .then((resp) => {
         if (resp.code === 200) {
-          global.$VS.userTokenInvalidateLock = 0
+          rootStore.state.userTokenInvalidateLock = 0
           context.commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
           context.dispatch('me', { refresh: true, useCache: false }).then(result => {})
           context.dispatch('getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
@@ -92,8 +104,8 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   register (context, { email, firstname, lastname, password }) {
-    let url = config.users.create_endpoint
-    if (config.storeViews.multistore) {
+    let url = rootStore.state.config.users.create_endpoint
+    if (rootStore.state.config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
     return fetch(url, { method: 'POST',
@@ -123,8 +135,8 @@ const actions: ActionTree<UserState, RootState> = {
         if (err) {
           console.error(err)
         }
-        let url = config.users.refresh_endpoint
-        if (config.storeViews.multistore) {
+        let url = rootStore.state.config.users.refresh_endpoint
+        if (rootStore.state.config.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
         return fetch(url, { method: 'POST',
@@ -144,7 +156,25 @@ const actions: ActionTree<UserState, RootState> = {
       })
     })
   },
+  /**
+   * Update user groupToken and groupId in state
+   * @param context
+   * @param userData
+   */
+  setUserGroup(context, userData) {
+    if (rootStore.state.config.usePriceTiers) {
+      if (userData.groupToken) {
+        context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
+      }
 
+      if (userData.group_id) {
+        context.commit(types.USER_GROUP_CHANGED, userData.group_id)
+      }
+    } else {
+      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
+      context.commit(types.USER_GROUP_CHANGED, null)
+    }
+  },
   /**
    * Load current user profile
    */
@@ -166,6 +196,7 @@ const actions: ActionTree<UserState, RootState> = {
 
           if (res) {
             context.commit(types.USER_INFO_LOADED, res)
+            context.dispatch('setUserGroup', res)
             EventBus.$emit('user-after-loggedin', res)
 
             resolve(res)
@@ -176,7 +207,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        return context.dispatch('sync/execute', { url: config.users.me_endpoint,
+        return context.dispatch('sync/execute', { url: rootStore.state.config.users.me_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {
@@ -188,6 +219,7 @@ const actions: ActionTree<UserState, RootState> = {
           .then((resp) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
+              context.dispatch('setUserGroup', resp.result)
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
               EventBus.$emit('user-after-loggedin', resp.result)
@@ -222,7 +254,7 @@ const actions: ActionTree<UserState, RootState> = {
       throw new ValidationError(validate.errors)
     } else {
       return new Promise((resolve, reject) => {
-        context.dispatch('sync/queue', { url: config.users.me_endpoint,
+        context.dispatch('sync/queue', { url: rootStore.state.config.users.me_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -244,7 +276,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   changePassword (context, passwordData) {
     console.log(context)
-    return context.dispatch('sync/execute', { url: config.users.changePassword_endpoint,
+    return context.dispatch('sync/execute', { url: rootStore.state.config.users.changePassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -259,7 +291,7 @@ const actions: ActionTree<UserState, RootState> = {
           action1: { label: i18n.t('OK'), action: 'close' }
         })
 
-        store.dispatch('user/login', {
+        rootStore.dispatch('user/login', {
           username: context.state.current.email,
           password: passwordData.newPassword
         })
@@ -272,14 +304,19 @@ const actions: ActionTree<UserState, RootState> = {
       }
     })
   },
+  clearCurrentUser (context) {
+      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
+      context.commit(types.USER_GROUP_CHANGED, null)
+      context.commit(types.USER_INFO_LOADED, null)
+  },
   /**
    * Logout user
    */
   logout (context, { silent = false }) {
     context.commit(types.USER_END_SESSION)
-    context.dispatch('cart/serverTokenClear', {}, { root: true }).then(() => {
-      EventBus.$emit('user-after-logout')
-    })
+    context.dispatch('cart/serverTokenClear', {}, { root: true })
+        .then(() => {context.dispatch('clearCurrentUser')})
+        .then(() => {EventBus.$emit('user-after-logout')})
     if (!silent) {
       EventBus.$emit('notification', {
         type: 'success',
@@ -330,7 +367,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        return context.dispatch('sync/execute', { url: config.users.history_endpoint,
+        return context.dispatch('sync/execute', { url: rootStore.state.config.users.history_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {

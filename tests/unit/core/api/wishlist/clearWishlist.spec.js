@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('[wishlist] clearWishlist.js', () => {
+describe('[wishlist] clearWishlist.ts', () => {
   let actions
   let store
 

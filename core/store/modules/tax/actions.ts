@@ -3,7 +3,7 @@ import * as types from '../../mutation-types'
 import { quickSearchByQuery } from '../../lib/search'
 import RootState from '../../types/RootState'
 import TaxState from './types/TaxState'
-const bodybuilder = require('bodybuilder')
+import bodybuilder from 'bodybuilder'
 
 const actions: ActionTree<TaxState, RootState> = {
   /**

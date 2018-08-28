@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { execute as taskExecute } from '../../lib/task'
@@ -5,12 +6,9 @@ import { _prepareTask } from './helpers'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '../../lib/multistore'
-import store from '../../'
-import config from 'config'
+import rootStore from '../../'
 import RootState from '../../types/RootState'
 import SyncState from './types/SyncState'
-
-declare var global: any
 
 const actions: ActionTree<SyncState, RootState> = {
   /**
@@ -36,7 +34,7 @@ const actions: ActionTree<SyncState, RootState> = {
     const syncTaskCollection = new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'syncTasks',
-      driver: localForage[config.localForage.defaultDrivers['syncTasks']]
+      driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
     }))
     syncTaskCollection.iterate((task, id, iterationNumber) => {
       if (!task.transmited) {
@@ -49,17 +47,17 @@ const actions: ActionTree<SyncState, RootState> = {
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
     task = _prepareTask(task)
     const usersCollection = new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+      name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'user',
-      driver: localForage[config.localForage.defaultDrivers['user']]
+      driver: localForage[rootStore.state.config.localForage.defaultDrivers['user']]
     }))
     const cartsCollection = new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+      name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'carts',
-      driver: localForage[config.localForage.defaultDrivers['carts']]
+      driver: localForage[rootStore.state.config.localForage.defaultDrivers['carts']]
     }))
     return new Promise((resolve, reject) => {
-      if (global.$VS.isSSR) {
+      if (Vue.prototype.$isServer) {
         taskExecute(task, null, null).then((result) => {
           resolve(result)
         }).catch(err => {
@@ -74,11 +72,11 @@ const actions: ActionTree<SyncState, RootState> = {
             if (err) {
               console.error(err)
             }
-            if (!currentCartId && store.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-              currentCartId = store.state.cart.cartServerToken
+            if (!currentCartId && rootStore.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentCartId = rootStore.state.cart.cartServerToken
             }
-            if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-              currentToken = store.state.user.token
+            if (!currentToken && rootStore.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+              currentToken = rootStore.state.user.token
             }
             taskExecute(task, currentToken, currentCartId).then((result) => {
               resolve(result)

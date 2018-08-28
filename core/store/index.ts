@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { Plugin } from 'vuex'
 import * as types from './mutation-types'
 import * as localForage from 'localforage'
 import UniversalStorage from './lib/storage'
@@ -12,17 +13,37 @@ if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
 
 const state = {
+  version: '',
+  __DEMO_MODE__: false,
+  config: {},
+  cart: {},
+  checkout: {},
+  cms: {},
+  compare: {},
+  product: {},
+  shipping: {},
+  user: {},
+  wishlist: {},
   attribute: '',
   category: {
     current_path: '',
+    current_product_query: {},
     current: {
       slug: '',
       name: ''
-    }
+    },
+    filters: {}
   },
   stock: {
     cache: []
-  }
+  },
+  storeView: {},
+  twoStageCachingDelta1: 0,
+  twoStageCachingDelta2: 0,
+  twoStageCachingDisabled: false,
+  userTokenInvalidated: null,
+  userTokenInvalidateAttemptsCount: 0,
+  userTokenInvalidateLock: 0
 }
 
 const mutations = {
@@ -39,7 +60,7 @@ const mutations = {
   }
 }
 
-const plugins = [
+const plugins: Plugin<RootState>[] = [
   store => {
     store.subscribe((mutation, state) => {
       let nameArray = mutation.type.split('/')
@@ -125,38 +146,12 @@ let rootStore = new Vuex.Store<RootState>({
   state,
   mutations,
   plugins
-}) as any
+})
 
-rootStore.i18n = {
-  t: function (key) {
-    return key
-  }
-}
-rootStore.eventBus = new Vue()
+export default rootStore
 
-rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init sub modules "context" with i18n + eventBus
-  if (config !== null) {
-    console.debug('Vuex VS store - using external config')
-    this.config = config
-    global.$VS.config = Object.assign(global.$VS.config, config)
-  }
-  if (i18n !== null) {
-    console.debug('Vuex VS store - using external i18n')
-    this.i18n = i18n
-    global.$VS.i18n = Object.assign(global.$VS.i18n, i18n)
-  } else {
-    global.$VS.i18n = {
-      t: function (key) {
-        return key
-      }
-    }
-  }
-  if (eventBus !== null) {
-    console.debug('Vuex VS store - using external event-bus')
-    this.eventBus = eventBus
-    global.$VS.eventBus = Object.assign(global.$VS.eventBus, eventBus)
-  }
-
+export function initStore () {
+  const config = rootStore.state.config
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
   Vue.prototype.$db = {
@@ -237,4 +232,3 @@ rootStore.init = function (config, i18n = null, eventBus = null) { // TODO: init
   }
   global.$VS.db = Vue.prototype.$db // localForage instance
 }
-export default rootStore

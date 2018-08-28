@@ -1,13 +1,8 @@
-import config from 'config'
 import { union } from 'lodash-es'
 
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
-
-declare var global: any
-
-global.$VS.isSSR = true
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -41,13 +36,13 @@ export default context => {
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      if (config.storeViews.multistore === true) {
+      if (store.state.config.storeViews.multistore === true) {
         let storeCode = context.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
           storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
-          prepareStoreView(storeCode, config)
+          prepareStoreView(storeCode)
         }
       }
       const matchedComponents = router.getMatchedComponents()

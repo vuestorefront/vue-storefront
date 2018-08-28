@@ -6,7 +6,7 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('[wishlist] openWishlist.js', () => {
+describe('[wishlist] openWishlist.ts', () => {
   let mutations
   let store
   let state

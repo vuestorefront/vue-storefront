@@ -44,7 +44,7 @@
   "dependencies": {
     "ajv": "^5.2.2",
     "app-root-path": "^2.0.1",
-    "bodybuilder": "^2.2.1",
+    "bodybuilder": "^2.2.13",
     "config": "^1.30.0",
     "d3-dsv": "^1.0.8",
     "detect-installed": "^2.0.4",

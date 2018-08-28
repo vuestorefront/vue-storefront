@@ -28,7 +28,11 @@ declare var global: any
 
 if (!global.$VS) global.$VS = {}
 
-global.$VS.version = '1.2'
+store.state.version = '1.3'
+store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
+store.state.config = config
+global.$VS.i18n = i18n
+global.$VS.eventBus = EventBus
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
@@ -37,8 +41,8 @@ for (const moduleName of Object.keys(storeModules)) {
   store.registerModule(moduleName, storeModules[moduleName])
 }
 
-const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
-global.$VS.storeView = storeView
+const storeView = prepareStoreView(null) // prepare the default storeView
+store.state.storeView = storeView
 store.state.shipping.methods = shippingMethods
 
 Vue.use(Vuelidate)
@@ -82,12 +86,6 @@ export function createApp (): { app: Vue, router: any, store: any } {
   registerTheme(config.theme, app, router, store)
 
   app.$emit('application-after-init', app)
-
-  if (config.demomode === true) {
-    global.$VS.__DEMO_MODE__ = true
-  } else {
-    global.$VS.__DEMO_MODE__ = false
-  }
 
   return { app, router, store }
 }
