@@ -45,7 +45,7 @@ export default {
     }
   },
   beforeMount () {
-    let inspirationsQuery = builder().query('match', 'category.name', this.category).build()
+    let inspirationsQuery = builder().query('match', 'category.name', this.category).andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
 
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,
