@@ -2,7 +2,6 @@ import map from 'lodash-es/map'
 import { slugify } from '../helpers'
 import { currentStoreView } from './multistore'
 import hash from 'object-hash'
-import config from 'config'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
 
@@ -69,7 +68,7 @@ function _handleEsResult (resp, start = 0, size = 50) {
   if (resp.hasOwnProperty('hits')) {
     return {
       items: map(resp.hits.hits, (hit) => {
-        return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
+        return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
       }), // TODO: add scoring information
       total: resp.hits.total,
       start: start,
@@ -112,7 +111,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
     if (excludeFields) esQuery._sourceExclude = excludeFields
     if (includeFields) esQuery._sourceInclude = includeFields
 
-    if (config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
+    if (rootStore.state.config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
       esQuery.body.groupId = rootStore.state.user.groupId
     }
 
@@ -156,7 +155,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       delete esQuery.body.groupId
     }
 
-    if (config.usePriceTiers && rootStore.state.user.groupToken) {
+    if (rootStore.state.config.usePriceTiers && rootStore.state.user.groupToken) {
       esQuery.body.groupToken = rootStore.state.user.groupToken
     }
 

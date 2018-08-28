@@ -9,11 +9,11 @@ class LocalForageCacheDriver {
   constructor (collection, useLocalCacheByDefault = true) {
     const collectionName = collection._config.storeName
     const dbName = collection._config.name
-    if (typeof global.$VS.cacheErrorsCount === 'undefined') {
-      global.$VS.cacheErrorsCount = {}
+    if (typeof this.cacheErrorsCount === 'undefined') {
+      this.cacheErrorsCount = {}
     }
-    if (typeof global.$VS.cacheErrorsCount[collectionName] === 'undefined') {
-      global.$VS.cacheErrorsCount[collectionName] = 0
+    if (typeof this.cacheErrorsCount[collectionName] === 'undefined') {
+      this.cacheErrorsCount[collectionName] = 0
     }
     if (typeof global.$VS.localCache === 'undefined') {
       global.$VS.localCache = {}
@@ -72,7 +72,7 @@ class LocalForageCacheDriver {
     }
 
     if (!Vue.prototype.$isServer) {
-      if (global.$VS.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
+      if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           console.error('Persistent cache disabled becasue of previous errors [get]', key)
           this._persistenceErrorNotified = true
@@ -113,11 +113,11 @@ class LocalForageCacheDriver {
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
-              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, global.$VS.cacheErrorsCount[this._collectionName])
+              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, this.cacheErrorsCount[this._collectionName])
               this._persistenceErrorNotified = true
               this.recreateDb()
             }
-            global.$VS.cacheErrorsCount[this._collectionName] = global.$VS.cacheErrorsCount[this._collectionName] ? global.$VS.cacheErrorsCount[this._collectionName] + 1 : 1
+            this.cacheErrorsCount[this._collectionName] = this.cacheErrorsCount[this._collectionName] ? this.cacheErrorsCount[this._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, typeof this._localCache[key] !== 'undefined' ? this._localCache[key] : null)
           }
         }, CACHE_TIMEOUT)
@@ -175,11 +175,11 @@ class LocalForageCacheDriver {
     setTimeout(() => {
       if (!isResolved) { // this is cache time out check
         if (!this._persistenceErrorNotified) {
-          console.error('Cache not responding within ' + CACHE_TIMEOUT_ITERATE + ' ms for [iterate]', global.$VS.cacheErrorsCount[this._collectionName])
+          console.error('Cache not responding within ' + CACHE_TIMEOUT_ITERATE + ' ms for [iterate]', this.cacheErrorsCount[this._collectionName])
           this._persistenceErrorNotified = true
           this.recreateDb()
         }
-        global.$VS.cacheErrorsCount[this._collectionName] = global.$VS.cacheErrorsCount[this._collectionName] ? global.$VS.cacheErrorsCount[this._collectionName] + 1 : 1
+        this.cacheErrorsCount[this._collectionName] = this.cacheErrorsCount[this._collectionName] ? this.cacheErrorsCount[this._collectionName] + 1 : 1
         if (isCallbackCallable) callback(null, null)
       }
     }, CACHE_TIMEOUT_ITERATE)
@@ -216,7 +216,7 @@ class LocalForageCacheDriver {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     this._localCache[key] = value
     if (!Vue.prototype.$isServer) {
-      if (global.$VS.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
+      if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           console.error('Persistent cache disabled becasue of previous errors [set]', key)
           this._persistenceErrorNotified = true
@@ -239,11 +239,11 @@ class LocalForageCacheDriver {
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
-              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, global.$VS.cacheErrorsCount[this._collectionName])
+              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, this.cacheErrorsCount[this._collectionName])
               this._persistenceErrorNotified = true
               this.recreateDb()
             }
-            global.$VS.cacheErrorsCount[this._collectionName] = global.$VS.cacheErrorsCount[this._collectionName] ? global.$VS.cacheErrorsCount[this._collectionName] + 1 : 1
+            this.cacheErrorsCount[this._collectionName] = this.cacheErrorsCount[this._collectionName] ? this.cacheErrorsCount[this._collectionName] + 1 : 1
             if (isCallbackCallable) callback(null, null)
           }
         }, CACHE_TIMEOUT)

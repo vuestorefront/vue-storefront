@@ -1489,9 +1489,9 @@ body-parser@^1.16.1:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-bodybuilder@^2.2.1, bodybuilder@^2.2.10, bodybuilder@^2.2.7:
-  version "2.2.11"
-  resolved "https://registry.yarnpkg.com/bodybuilder/-/bodybuilder-2.2.11.tgz#242a6ddf11c7b08e1673d1183c814b56f0998bfd"
+bodybuilder@^2.2.13:
+  version "2.2.13"
+  resolved "https://registry.yarnpkg.com/bodybuilder/-/bodybuilder-2.2.13.tgz#82ced1c2144bd9ddce97c5d89fa13f7e24c40f8e"
   dependencies:
     lodash "^4.9.0"
 
@@ -9340,10 +9340,6 @@ vue-eslint-parser@^2.0.3:
 vue-hot-reload-api@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
-
-vue-i18n@^7.4.2:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-7.8.1.tgz#2ce4b6efde679a1e05ddb5d907bfc1bc218803b2"
 
 vue-i18n@^8.0.0:
   version "8.0.0"

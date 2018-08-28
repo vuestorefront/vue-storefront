@@ -8,7 +8,6 @@ import * as types from '../../mutation-types'
 import i18n from '../../lib/i18n'
 import isString from 'lodash-es/isString'
 import toString from 'lodash-es/toString'
-import config from '../../lib/config'
 import RootState from '../../types/RootState'
 import CartState from './types/CartState'
 
@@ -21,7 +20,7 @@ EventBus.$on('servercart-after-created', (event) => { // example stock check cal
   if (event.resultCode === 200) {
     console.log(`Server cart token after created = ${cartToken}`)
     rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-    rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !config.cart.server_merge_by_default }, { root: true })
+    rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default }, { root: true })
   } else {
     let resultString = event.result ? toString(event.result) : null
     if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
@@ -108,7 +107,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
         if (!event.dry_run) {
           rootStore.dispatch('cart/serverUpdateItem', {
-            sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+            sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
             qty: clientItem.qty,
             product_option: clientItem.product_option
           }, { root: true }).then((event) => {
@@ -121,7 +120,7 @@ EventBus.$on('servercart-after-pulled', (event) => { // example stock check call
         diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
         if (!event.dry_run) {
           rootStore.dispatch('cart/serverUpdateItem', {
-            sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+            sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
             qty: clientItem.qty,
             item_id: serverItem.item_id,
             quoteId: serverItem.quote_id,
