@@ -202,18 +202,20 @@ The last proxy  is used for serving the product images. It's a proxy to [`vue-st
 In case you are already using the apache2 web-server in your environmen as well and can't  (or don'T want) to use nginx, you can also set up apache2 as an reverse proxy instead of nginx. This is done by adding this block to your apache2 vitual host.
 ```
 ProxyRequests off
- 
-ProxyPass /api http://localhost:8080/
-ProxyPassReverse /api http://localhost:8080/
- 
-ProxyPass /img http://localhost:8080/
-ProxyPassReverse /img http://localhost:8080/
- 
-ProxyPass /assets http://localhost:3000/
-ProxyPassReverse /assets http://localhost:3000/
- 
-ProxyPass / http://localhost:3000/
-ProxyPassReverse / http://localhost:3000/
+
+ProxyPass /api/ http://localhost:18080/api/ 
+ProxyPassReverse /api http://localhost:18080/api/
+
+ProxyPass /img/ http://localhost:18080/img/
+ProxyPassReverse /img http://localhost:18080/img/
+
+ProxyPass /assets/ http://localhost:13000/assets/ 
+ProxyPassReverse /assets http://localhost:13000/assets/
+
+ProxyPass / http://localhost:13000/
+ProxyPassReverse / http://localhost:13000/
+
+
 ```
 You also need to  enable [mod_proxy](https://httpd.apache.org/docs/current/mod/mod_proxy.html) for this.
 
