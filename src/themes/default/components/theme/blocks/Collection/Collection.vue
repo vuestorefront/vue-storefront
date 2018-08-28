@@ -8,7 +8,7 @@
 <script>
 
 import ProductsSlider from 'theme/components/core/ProductsSlider'
-import { prepareInspirationsQuery } from 'core/api/queries/components/theme/core/blocks/Inspirations/Inspirations'
+import { prepareInspirationsQuery } from 'core/api/product/queries/inspirations'
 
 export default {
   name: 'Collection',

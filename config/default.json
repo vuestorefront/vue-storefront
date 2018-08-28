@@ -3,7 +3,7 @@
       "host": "localhost",
       "port": 3000,
       "protocol": "http",
-      "api": "graphql",
+      "api": "api",
       "apiEngine": "elasticsearch"
     },
     "graphql":{
@@ -236,5 +236,14 @@
       "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
       "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
     },
-    "usePriceTiers": false
+    "usePriceTiers": false,
+    "boost": {
+      "name": 3,
+      "category.name": 1,
+      "short_description": 1,
+      "description": 1,
+      "sku": 1,
+      "configurable_children.sku": 1
+    }
+
 }

@@ -10,7 +10,7 @@
 
 <script>
 
-import { prepareInspirationsQuery } from 'core/api/queries/components/theme/core/blocks/Inspirations/Inspirations'
+import { prepareInspirationsQuery } from 'core/api/product/queries/inspirations'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
