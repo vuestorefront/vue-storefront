@@ -1,37 +1,18 @@
 <template>
-  <div :class="['media-gallery', { 'open fixed bg-cl-primary': isZoomOpen }]">
+  <div class="media-gallery">
+    <product-gallery-zoom
+      v-if="isZoomOpen"
+      :gallery="gallery"
+      :offline="offline"
+      :configuration="configuration"
+      :product="product"/>
     <div v-show="OfflineOnly">
       <transition name="fade" appear>
         <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
       </transition>
     </div>
-    <i
-      v-if="isZoomOpen"
-      v-show="OnlineOnly"
-      class="material-icons modal-close p15 cl-bg-tertiary pointer"
-      @click="toggleZoom"
-    >close</i>
-    <div
-      v-show="OnlineOnly"
-      :class="{ 'container product-zoom py40': isZoomOpen }"
-    >
-      <div :class="['relative', { row: isZoomOpen }]">
-        <div class="scroll col-md-2 p0" v-if="isZoomOpen">
-          <div class="thumbnails">
-            <div
-              class="bg-cl-secondary"
-              v-for="(images, key) in gallery"
-              :key="images.src">
-              <transition name="fade" appear>
-                <img
-                  v-lazy="images"
-                  class="mw-100 pointer" ref="images" @click="navigate(key)"
-                  :alt="product.name | htmlDecode"
-                >
-              </transition>
-            </div>
-          </div>
-        </div>
+    <div v-show="OnlineOnly">
+      <div class="relative">
         <div v-if="gallery.length === 1">
           <transition name="fade" appear>
             <img
@@ -44,7 +25,7 @@
             >
           </transition>
         </div>
-        <div v-else :class="{ 'col-md-10' : isZoomOpen}">
+        <div v-else>
           <no-ssr>
             <carousel
               :per-page="1"
@@ -74,7 +55,6 @@
             </carousel>
           </no-ssr>
           <i
-            v-if="isZoomOpen === false"
             class="zoom-in material-icons p15 cl-bgs-tertiary pointer"
             @click="toggleZoom"
           >zoom_in</i>
@@ -86,12 +66,14 @@
 
 <script>
 import ProductGallery from '@vue-storefront/core/components/ProductGallery'
+import ProductGalleryZoom from './ProductGalleryZoom'
 import NoSSR from 'vue-no-ssr'
 import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   components: {
-    'no-ssr': NoSSR
+    'no-ssr': NoSSR,
+    ProductGalleryZoom
   },
   mixins: [ProductGallery, VueOfflineMixin],
   watch: {
@@ -136,9 +118,6 @@ export default {
 .offline-image {
   width: 100%;
 }
-.product-zoom {
-  max-width: 750px;
-}
 .zoom-in {
   position: absolute;
   bottom: 0;
@@ -157,19 +136,6 @@ img[lazy=error] {
 }
 img[lazy=loading] {
   width: 100%;
-}
-.scroll {
-  height: 747px;
-  overflow: auto;
-  overflow: -moz-scrollbars-none;
-  -ms-overflow-style: none;
-  overflow: -moz-scrollbars-none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  @media (max-width: 767px) {
-    display: none;
-  }
 }
 
 .thumbnails {
