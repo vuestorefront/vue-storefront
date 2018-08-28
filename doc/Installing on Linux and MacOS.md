@@ -324,7 +324,7 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
     <br>
     "api": {
       <br>
-      "url": '**http://magento2.demo-1.divante.pl**/rest/', -- your Magento 2 URL
+      "url": '**http://magento2.demo-1.divante.pl/** rest/', -- your Magento 2 URL
       <br>
       "consumerKey": "**alva6h6hku9qxrpfe02c2jalopx7od1q**",
       <br>
