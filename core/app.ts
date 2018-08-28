@@ -68,7 +68,7 @@ Vue.use(VueApollo)
 
 if (!global.$VS) global.$VS = {}
 
-store.state.version = '1.2'
+store.state.version = '1.3'
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
