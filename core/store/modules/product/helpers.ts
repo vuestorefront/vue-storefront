@@ -33,11 +33,11 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
   if (config.products.filterUnavailableVariants) {
     if (product.type_id === 'configurable' && product.configurable_children) {
       for (const stockItem of stockItems) {
-        if (stockItem.is_in_stock === false) {
+        const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
+        if (stockItem.is_in_stock === false || (confChild && confChild.status >= 2/* conf child is disabled */)) {
           product.configurable_children = product.configurable_children.filter((p) => { return p.id !== stockItem.product_id })
           diffLog.push(stockItem.product_id)
         } else {
-          const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
           if (confChild) {
             confChild.stock = stockItem
           }
@@ -407,6 +407,9 @@ export function configureProductAsync (context, { product, configuration, select
     // find selected variant
     let desiredProductFound = false
     let selectedVariant = product.configurable_children.find((configurableChild) => {
+      if (configurableChild.status >= 2/**disabled product*/) {
+        return false
+      }
       if (configuration.sku) {
         return configurableChild.sku === configuration.sku // by sku or first one
       } else {

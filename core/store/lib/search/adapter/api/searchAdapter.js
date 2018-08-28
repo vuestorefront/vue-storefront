@@ -18,6 +18,13 @@ export class SearchAdapter {
       ElasticsearchQueryBody = Query.searchQuery
     }
 
+    if (Query.hasOwnProperty('groupId')) {
+      ElasticsearchQueryBody.groupId = Query.groupId
+    }
+    if (Query.hasOwnProperty('groupToken')) {
+      ElasticsearchQueryBody.groupToken = Query.groupToken
+    }
+
     const storeView = (Query.store === null) ? currentStoreView() : prepareStoreView(Query.store, config)
 
     Query.index = storeView.elasticsearch.index
