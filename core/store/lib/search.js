@@ -41,8 +41,9 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
     if (excludeFields) Query._sourceExclude = excludeFields
     if (includeFields) Query._sourceInclude = includeFields
 
+    Query.groupId = 10
     if (config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
-      Query.searchQuery.groupId = rootStore.state.user.groupId
+      Query.groupId = rootStore.state.user.groupId
     }
 
     const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
@@ -81,12 +82,12 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
     })
 
     /* use only for cache */
-    if (Query.searchQuery.groupId) {
-      delete Query.searchQuery.groupId
+    if (Query.groupId) {
+      delete Query.groupId
     }
 
     if (config.usePriceTiers && rootStore.state.user.groupToken) {
-      Query.searchQuery.groupToken = rootStore.state.user.groupToken
+      Query.groupToken = rootStore.state.user.groupToken
     }
 
     searchAdapter.search(Query).then(resp => { // we're always trying to populate cache - when online
