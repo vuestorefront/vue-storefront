@@ -203,17 +203,17 @@ In case you are already using the apache2 web-server in your environmen as well 
 ```
 ProxyRequests off
 
-ProxyPass /api/ http://localhost:18080/api/ 
-ProxyPassReverse /api http://localhost:18080/api/
+ProxyPass /api/ http://localhost:8080/api/ 
+ProxyPassReverse /api http://localhost:8080/api/
 
-ProxyPass /img/ http://localhost:18080/img/
-ProxyPassReverse /img http://localhost:18080/img/
+ProxyPass /img/ http://localhost:8080/img/
+ProxyPassReverse /img http://localhost:8080/img/
 
-ProxyPass /assets/ http://localhost:13000/assets/ 
-ProxyPassReverse /assets http://localhost:13000/assets/
+ProxyPass /assets/ http://localhost:3000/assets/ 
+ProxyPassReverse /assets http://localhost:3000/assets/
 
-ProxyPass / http://localhost:13000/
-ProxyPassReverse / http://localhost:13000/
+ProxyPass / http://localhost:3000/
+ProxyPassReverse / http://localhost:3000/
 
 
 ```
