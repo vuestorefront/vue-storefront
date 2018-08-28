@@ -6,6 +6,7 @@ export function prepareNewProductsQuery () {
     .applyFilter({key: 'category.name', value: {'eq': 'tees'}}) // Tees category
     // .applyFilter({key: 'category.category_id', value: {'in': [16, 25, 33]}}) // IDs of Tees category
     .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+    .applyFilter({key: 'status', value: {'in': [0, 1]}})
 
   return newProductsQuery
 }
@@ -16,6 +17,7 @@ export function prepareCoolBagsQuery () {
     .applyFilter({key: 'category.name', value: {'eq': 'women'}}) // Tees category
     // .applyFilter({key: 'category.category_id', value: {'in': [20, 30]}}) // IDs of Women category
     .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+    .applyFilter({key: 'status', value: {'in': [0, 1]}})
 
   return coolBagsQuery
 }
