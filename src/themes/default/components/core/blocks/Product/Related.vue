@@ -20,7 +20,7 @@
 import ProductListing from 'theme/components/core/ProductListing'
 import config from 'config'
 import i18n from '@vue-storefront/core/lib/i18n'
-import { prepareRelatedQuery } from 'core/api/queries/components/theme/core/blocks/Product/Related'
+import { prepareRelatedQuery } from 'core/api/product/queries/related'
 
 export default {
   name: 'Related',

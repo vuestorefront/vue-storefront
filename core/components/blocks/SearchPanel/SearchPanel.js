@@ -1,7 +1,7 @@
 import { mapState } from 'vuex'
 import i18n from '@vue-storefront/core/lib/i18n'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import { prepareQuickSearchQuery } from 'core/api/queries/components/core/blocks/SearchPanel/SearchPanel'
+import { prepareQuickSearchQuery } from 'core/api/product/queries/searchPanel'
 
 export default {
   name: 'SearchPanel',

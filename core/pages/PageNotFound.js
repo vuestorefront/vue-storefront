@@ -1,5 +1,5 @@
 // 3rd party dependecies
-import { preparePageNotFoundQuery } from 'core/api/queries/pages/PageNotFound'
+import { preparePageNotFoundQuery } from 'core/api/product/queries/pageNotFound'
 
 // Core dependecies
 import i18n from '@vue-storefront/core/lib/i18n'
