@@ -55,6 +55,7 @@ export default {
       }
       this.shipping.shippingMethod = shipping.method_code
     }
+    this.changeShippingMethod()
   },
   methods: {
     sendDataToCheckout () {
