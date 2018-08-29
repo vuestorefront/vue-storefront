@@ -1,4 +1,7 @@
 export class ValidationError {
+  public name: string
+  private _messages: any
+
   /**
      * ValidationError to be used with multiple validation errors return from Ajv or other validators
      * @param {Object} _validationMessages dictionary of validation errors

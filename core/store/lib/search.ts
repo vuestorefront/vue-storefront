@@ -1,9 +1,14 @@
 import map from 'lodash-es/map'
 import { slugify } from '../helpers'
 import { currentStoreView } from './multistore'
-import hash from 'object-hash'
+import { sha1 } from 'object-hash'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
+import HttpQuery from '../types/search/HttpQuery'
+import ESQuery from '../types/search/ESQuery'
+import ESResponse from '../types/search/ESResponse'
+
+declare var global: any
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -24,10 +29,10 @@ function search (elasticQuery) {
   if (!url.startsWith('/') && !url.startsWith('http')) {
     url = 'http://' + url
   }
-  const httpQuery = {
-    'size': elasticQuery.size,
-    'from': elasticQuery.from,
-    'sort': elasticQuery.sort
+  const httpQuery: HttpQuery = {
+    size: elasticQuery.size,
+    from: elasticQuery.from,
+    sort: elasticQuery.sort
   }
   if (elasticQuery._sourceExclude) {
     httpQuery._source_exclude = elasticQuery._sourceExclude.join(',')
@@ -61,7 +66,7 @@ function search (elasticQuery) {
  * @param {Int} start pagination data
  * @param {Int} size pagination data
  */
-function _handleEsResult (resp, start = 0, size = 50) {
+function _handleEsResult (resp, start = 0, size = 50): ESResponse {
   if (resp == null) {
     throw new Error('Invalid ES result - null not exepcted')
   }
@@ -92,15 +97,14 @@ function _handleEsResult (resp, start = 0, size = 50) {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', index = null, excludeFields = null, includeFields = null }) {
-  size = parseInt(size)
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', index = null, excludeFields = null, includeFields = null }): Promise<ESResponse> {
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
     const storeView = currentStoreView()
-    const esQuery = {
-      index: index || storeView.elasticsearch.index, // TODO: add grouped prodduct and bundled product support
+    const esQuery: ESQuery = {
+      index: index || storeView.elasticsearch.index, // TODO: add grouped product and bundled product support
       type: entityType,
       body: query,
       size: size,
@@ -117,7 +121,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
 
     const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
     let servedFromCache = false
-    const cacheKey = hash(esQuery)
+    const cacheKey = sha1(esQuery)
     const benchmarkTime = new Date()
 
     cache.getItem(cacheKey, (err, res) => {
@@ -184,7 +188,6 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
    * @return {Promise}
    */
 export function quickSearchByText ({ queryText, start = 0, size = 50 }) {
-  size = parseInt(size)
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
