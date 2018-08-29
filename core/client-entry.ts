@@ -22,8 +22,13 @@ const config = store.state.config
 
 let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
+  const storeView = store.state.storeView
+  const config = store.state.config
+
   store.replaceState(window.__INITIAL_STATE__)
+  
   store.state.config = config
+  store.state.storeView = storeView
 }
 if (config.storeViews.multistore === true) {
   if ((storeCode = store.state.user.current_storecode)) {
