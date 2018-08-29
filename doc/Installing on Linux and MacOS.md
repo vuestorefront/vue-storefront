@@ -105,7 +105,8 @@ The default config file should work perfectly fine for default purposes.
 
 
 
-<a name="ultimate-guide"></a># The Ultimate Vue Storefront Developer Installation for Mac OS
+<a name="ultimate-guide"></a>
+# The Ultimate Vue Storefront Developer Installation for Mac OS
 <br>
 
 **0. If you don't have it installed yet, do yourself a favour and install Homebrew - the ultimate package installer for Mac OS**
