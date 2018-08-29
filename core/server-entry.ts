@@ -3,7 +3,9 @@ import { union } from 'lodash-es'
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
+import rootStore from '@vue-storefront/store'
 import sizeof from 'object-sizeof'
+import omit from 'lodash-es/omit'
 
 declare var global: any
 if (!global.$VS) global.$VS = {}
@@ -25,7 +27,11 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       })
     }
   })).then(() => {
-    context.state = store.state
+    if (rootStore.state.config.ssr.initialStateFilter) {
+      context.state = omit(store.state, rootStore.state.config)
+    } else {
+      context.state = store.state
+    }
     resolve(app)
   }).catch(err => {
     _commonErrorHandler(err, reject)
