@@ -3,7 +3,7 @@ import { union } from 'lodash-es'
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
-import rootStore from '@vue-storefront/store'
+import config from 'config' // can not be obtained from rootStore as this entry is loaded erlier than app.ts
 import sizeof from 'object-sizeof'
 import omit from 'lodash-es/omit'
 
@@ -27,8 +27,8 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       })
     }
   })).then(() => {
-    if (rootStore.state.config.ssr.initialStateFilter) {
-      context.state = omit(store.state, rootStore.state.config)
+    if (config.ssr.useInitialStateFilter) {
+      context.state = omit(store.state, config.ssr.initialStateFilter)
     } else {
       context.state = store.state
     }
