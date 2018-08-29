@@ -1,3 +1,5 @@
+declare var global: any
+
 let i18n = global.$VS ? global.$VS.i18n : null // TODO: we should have translation support separated from the VS core
 if (!i18n) {
   global.$VS.i18n = {

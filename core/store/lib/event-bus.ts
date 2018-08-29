@@ -1,4 +1,7 @@
 import Vue from 'vue'
+
+declare var global: any
+
 let eventBus = global.$VS ? global.$VS.eventBus : null
 if (!eventBus) {
   eventBus = new Vue()

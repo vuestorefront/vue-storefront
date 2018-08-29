@@ -6,6 +6,7 @@ import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
 import rootStore from '../'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
+import Task from '../types/task/Task'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -13,7 +14,7 @@ function _sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
-function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
+function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
   if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
     console.log('Waiting for rootStore.state.userTokenInvalidateLock to release for', task.url)
     _sleep(1000).then(() => {
@@ -134,7 +135,7 @@ function _internalExecute (resolve, reject, task, currentToken, currentCartId) {
   })
 }
 
-export function execute (task, currentToken = null, currentCartId = null) {
+export function execute (task: Task, currentToken = null, currentCartId = null): Promise<Task> {
   const taskId = task.task_id
 
   console.debug('Pushing out task ' + taskId)

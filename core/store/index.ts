@@ -5,7 +5,7 @@ import * as types from './mutation-types'
 import * as localForage from 'localforage'
 import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
-import RootState from 'core/store/types/RootState'
+import RootState from './types/RootState'
 
 declare var global: any
 
