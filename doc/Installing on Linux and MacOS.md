@@ -293,7 +293,7 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
 
 4. Configure the API Credentials inside `[project-folder]/mage2vuestorefront/src/config.js` **(change the bolded text)**
 
-```json
+```js
   magento: {
     url: process.env.MAGENTO_URL || **"http://magento2.demo-1.divante.pl/** rest/", -- your Magento 2 URL
     consumerKey: process.env.MAGENTO_CONSUMER_KEY || "**alva6h6hku9qxrpfe02c2jalopx7od1q**",
@@ -309,7 +309,7 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
 
 5. Configure the  API Credentials inside `[project-folder]/vue-storefront-api/config/local.json` **(change the bolded text)**
 
-```json
+```js
   "magento2": {
     "url": "**http://magento2.demo-1.xyz.com**", -- your Magento 2 URL
     "imgUrl": "**http://localhost:8080**/media/catalog/product", -- your Magento 2 URL
