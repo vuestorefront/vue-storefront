@@ -1,12 +1,12 @@
 export const signIn = {
   methods: {
-    signIn (username, password, onSuccess, onError) {
-      this.$store.dispatch('user/login', { username: this.username, password: this.password })
+    signIn (username: string, password: string, onSuccess: any, onError: any) {
+      this.$store.dispatch('user/login', { username: username, password: this.password })
         .then((result) => {
-          result.code !== 200 ? this.onError() : this.onSuccess()
+          result.code !== 200 ? this.onError() : onSuccess()
         })
         .catch(err => {
-          this.onError()
+          onError()
           console.error(err)
         })
     }
