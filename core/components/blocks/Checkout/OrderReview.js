@@ -11,10 +11,16 @@ export default {
   data () {
     return {
       isFilled: false,
+      placeOrderVisible: true,
       orderReview: {
         terms: false
       }
     }
+  },
+  created () {
+    this.$bus.$on('place-order-button-visible', (val) => {
+      this.placeOrderVisible = val
+    })
   },
   methods: {
     placeOrder () {
