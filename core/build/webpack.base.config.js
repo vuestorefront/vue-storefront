@@ -74,7 +74,7 @@ module.exports = {
       // Core aliases
       'components': path.resolve(__dirname, '../../src/components'),
       // Ccre API Modules
-      'core/modules/': path.resolve(__dirname, '../modules/cart/features/index.js'),
+      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
