@@ -295,11 +295,11 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
 
 ```json
   magento: {
-    url: process.env.MAGENTO_URL || **'http://magento2.demo-1.divante.pl/** rest/', -- your Magento 2 URL
-    consumerKey: process.env.MAGENTO_CONSUMER_KEY || '**alva6h6hku9qxrpfe02c2jalopx7od1q**',
-    consumerSecret: process.env.MAGENTO_CONSUMER_SECRET || '**9tgfpgoojlx9tfy21b8kw7ssfu2aynpm**',
-    accessToken: process.env.MAGENTO_ACCESS_TOKEN || '**rw5w0si9imbu45h3m9hkyrfr4gjina8q**',
-    accessTokenSecret: process.env.MAGENTO_ACCESS_TOKEN_SECRET || '**00y9dl4vpxgcef3gn5mntbxtylowjcc9**',
+    url: process.env.MAGENTO_URL || **"http://magento2.demo-1.divante.pl/** rest/", -- your Magento 2 URL
+    consumerKey: process.env.MAGENTO_CONSUMER_KEY || "**alva6h6hku9qxrpfe02c2jalopx7od1q**",
+    consumerSecret: process.env.MAGENTO_CONSUMER_SECRET || "**9tgfpgoojlx9tfy21b8kw7ssfu2aynpm**",
+    accessToken: process.env.MAGENTO_ACCESS_TOKEN || "**rw5w0si9imbu45h3m9hkyrfr4gjina8q**",
+    accessTokenSecret: process.env.MAGENTO_ACCESS_TOKEN_SECRET || "**00y9dl4vpxgcef3gn5mntbxtylowjcc9**",
     storeId: process.env.MAGENTO_STORE_ID || 1,
     currencyCode: process.env.MAGENTO_CURRENCY_CODE || 'USD'\
   },
@@ -315,7 +315,7 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
     "imgUrl": "**http://localhost:8080**/media/catalog/product", -- your Magento 2 URL
     "assetPath": "/../var/magento2-sample-data/pub/media",
     "api": {
-      "url": '**http://magento2.demo-1.divante.pl/** rest/', -- your Magento 2 URL
+      "url": "**http://magento2.demo-1.divante.pl/** rest/", -- your Magento 2 URL
       "consumerKey": "**alva6h6hku9qxrpfe02c2jalopx7od1q**",
       "consumerSecret": "**9tgfpgoojlx9tfy21b8kw7ssfu2aynpm**",
       "accessToken": "**rw5w0si9imbu45h3m9hkyrfr4gjina8q**",
