@@ -43,7 +43,7 @@ import {
   openWishlist,
   closeWishlist,
   isWishlistOpen
-} from '@vue-storefront/core/api/wishlist'
+} from '@vue-storefront/core/modules/wishlist'
 
 export default {
   //...other properties

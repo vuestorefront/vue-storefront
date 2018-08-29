@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { confirmOrder, cancelOrder } from '@vue-storefront/core/api/offline-order'
+import { confirmOrder, cancelOrder } from '@vue-storefront/core/modules/offline-order/features'
 
 import Modal from 'theme/components/core/Modal'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
