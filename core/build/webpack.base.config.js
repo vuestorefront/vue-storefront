@@ -22,7 +22,7 @@ const translationPreprocessor = require('../lib/translation.preprocessor.js')
 translationPreprocessor([
   path.resolve(__dirname, '../resource/i18n/'),
   path.resolve(__dirname, themeResources + '/i18n/')
-])
+], config, true)
 
 const postcssConfig =  {
   loader: 'postcss-loader',

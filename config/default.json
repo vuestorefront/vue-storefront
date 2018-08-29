@@ -213,7 +213,8 @@
       "currencySign": "$",
       "dateFormat": "HH:mm D/M/YYYY",
       "fullCountryName": "United States",
-      "fullLanguageName": "English"
+      "fullLanguageName": "English",
+      "bundleAllStoreviewLanguages": true
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
