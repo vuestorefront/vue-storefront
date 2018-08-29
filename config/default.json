@@ -10,7 +10,7 @@
     },
     "ssr": {
       "executeMixedinAsyncData": true,
-      "initialStateFilter": ["config", "__DEMO_MODE__", "version"],
+      "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
       "useInitialStateFilter": true
     },
     "defaultStoreCode": "",

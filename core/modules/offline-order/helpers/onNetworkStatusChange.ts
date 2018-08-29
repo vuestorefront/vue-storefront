@@ -18,10 +18,8 @@ export function onNetworkStatusChange (store) {
     } else {
       const ordersToConfirm = []
       const storeView = currentStoreView()
-      const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
       const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: dbNamePrefix + 'shop',
+        name: 'shop',
         storeName: 'orders',
         driver: localForage[config.localForage.defaultDrivers['orders']]
       }))

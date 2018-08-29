@@ -129,7 +129,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
     const ordersCollection = new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: 'shop',
       storeName: 'orders',
       driver: localForage[config.localForage.defaultDrivers['orders']]
     }))
