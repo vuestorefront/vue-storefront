@@ -1,5 +1,5 @@
 import EventBus from './event-bus'
-import i18n from './i18n'
+import i18n from '@vue-storefront/i18n'
 import isNaN from 'lodash-es/isNaN'
 import isUndefined from 'lodash-es/isUndefined'
 import toString from 'lodash-es/toString'

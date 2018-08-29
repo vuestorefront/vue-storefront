@@ -164,6 +164,7 @@
   },
   "workspaces": [
     "core",
+    "core/i18n",
     "core/store",
     "src/extensions/*",
     "src/themes/*"

@@ -1,4 +1,4 @@
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   name: 'Login',

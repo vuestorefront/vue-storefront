@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex'
 
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'

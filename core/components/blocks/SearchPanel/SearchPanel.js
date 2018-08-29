@@ -1,6 +1,6 @@
 import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import config from 'config'
 

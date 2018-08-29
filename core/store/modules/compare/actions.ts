@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
 import { htmlDecode } from '../../lib/filters'
-import i18n from '../../lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import RootState from '../../types/RootState'
 import CompareState from './types/CompareState'
 

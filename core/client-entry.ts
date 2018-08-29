@@ -7,7 +7,7 @@ import EventBus from '@vue-storefront/core/plugins/event-bus'
 
 import { execute } from '@vue-storefront/store/lib/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 

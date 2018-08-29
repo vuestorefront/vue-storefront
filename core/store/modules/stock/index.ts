@@ -1,5 +1,5 @@
 import { Module } from 'vuex'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import actions from './actions'
 import rootStore from '../../'
 import EventBus from '../../lib/event-bus'

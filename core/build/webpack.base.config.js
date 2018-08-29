@@ -18,11 +18,11 @@ const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
-const translationPreprocessor = require('../lib/translation.preprocessor.js')
+const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
-  path.resolve(__dirname, '../resource/i18n/'),
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
   path.resolve(__dirname, themeResources + '/i18n/')
-], config, true)
+], config)
 
 const postcssConfig =  {
   loader: 'postcss-loader',
@@ -70,6 +70,7 @@ module.exports = {
       'config': path.resolve(__dirname, './config.json'),
       'core': '@vue-storefront/core',
       'src': path.resolve(__dirname, '../../src'),
+      '@vue-storefront/core/lib/i18n': '@vue-storefront/i18n',
 
       // Theme aliases
       'theme': themeRoot,

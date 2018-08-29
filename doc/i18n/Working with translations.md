@@ -9,7 +9,7 @@ Please be aware of i18n issues while writing your own themes/extensions and keep
 When you're working with plain JS module you can simply use the translation helper:
 
 ```js
-    import i18n from '@vue-storefront/core/lib/i18n'
+    import i18n from '@vue-storefront/i18n'
     EventBus.$emit('notification', {
         type: 'success',
         message: i18n.t('Product has been added to the cart!'),

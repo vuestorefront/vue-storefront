@@ -2,7 +2,7 @@
 import VueOfflineMixin from 'vue-offline/mixin'
 
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import config from 'config'
 
 // Core mixins

@@ -9,7 +9,7 @@ import groupBy from 'lodash-es/groupBy'
 import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
 import { optionLabel } from '../attribute/helpers'
-import i18n from '../../lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '../../lib/multistore'
 import { getThumbnailPath } from '../../helpers'
 

@@ -1,5 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
-import Countries from '@vue-storefront/core/resource/countries.json'
+import Countries from '@vue-storefront/i18n/resource/countries.json'
 
 export default {
   name: 'Shipping',

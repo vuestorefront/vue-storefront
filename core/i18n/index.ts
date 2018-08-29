@@ -8,8 +8,8 @@ const loadedLanguages = ['en-US']
 const i18n = new VueI18n({
   locale: config.i18n.bundleAllStoreviewLanguages ? config.i18n.defaultLocale : 'en-US', // set locale
   fallbackLocale: 'en-US',
-  messages: config.i18n.bundleAllStoreviewLanguages ? require('../resource/i18n/multistoreLanguages.json') : {
-    'en-US': require('../resource/i18n/en-US.json')
+  messages: config.i18n.bundleAllStoreviewLanguages ? require('./resource/i18n/multistoreLanguages.json') : {
+    'en-US': require('./resource/i18n/en-US.json')
   }
 })
 
@@ -22,7 +22,7 @@ export function loadLanguageAsync (lang: string): Promise<string> {
   if (!config.i18n.bundleAllStoreviewLanguages) {
     if (i18n.locale !== lang) {
       if (!loadedLanguages.includes(lang)) {
-        return import(/* webpackChunkName: "lang-[request]" */ `../resource/i18n/${lang}.json`).then(msgs => {
+        return import(/* webpackChunkName: "lang-[request]" */ `./resource/i18n/${lang}.json`).then(msgs => {
           i18n.setLocaleMessage(lang, msgs.default)
           loadedLanguages.push(lang)
           return setI18nLanguage(lang)
