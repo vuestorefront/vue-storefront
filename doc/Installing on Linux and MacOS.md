@@ -4,6 +4,8 @@ To make vue-storefront up and runing you need to have the latest version of node
 
 If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
 
+**If You need a step by step installation** guide please go to <a href="#ultimate-guide">Ultimate Installation Guide on MacOS X</a>
+
 Let's go:
 
 ## User-friendly installation
@@ -103,7 +105,7 @@ The default config file should work perfectly fine for default purposes.
 
 
 
-# The Ultimate Vue Storefront Developer Installation for Mac OS
+<a name="ultimate-guide"></a># The Ultimate Vue Storefront Developer Installation for Mac OS
 <br>
 
 **0. If you don't have it installed yet, do yourself a favour and install Homebrew - the ultimate package installer for Mac OS**
@@ -259,8 +261,8 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
 
 * Now there are 2 folders (apps) in the `[project-folder]`:
 
-      1. [project-folder]/vue-storefront/
-      2. [project-folder]/vue-storefront-api/
+      1. `[project-folder]/vue-storefront/`
+      2. `[project-folder]/vue-storefront-api/`
       
  <br>
 
@@ -290,7 +292,7 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
 
 4. Configure the API Credentials inside `[project-folder]/mage2vuestorefront/src/config.js` **(change the bolded text)**
 
-
+```json
   magento: {
   <br>
   url: process.env.MAGENTO_URL || **'http://magento2.demo-1.divante.pl/** rest/', -- your Magento 2 URL
@@ -308,12 +310,13 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
   currencyCode: process.env.MAGENTO_CURRENCY_CODE || 'USD'\
   <br>
   },
+```
 
 <br>
 
 5. Configure the  API Credentials inside `[project-folder]/vue-storefront-api/config/local.json` **(change the bolded text)**
 
-
+```json
   "magento2": {
   <br>
   "url": "**http://magento2.demo-1.xyz.com**", -- your Magento 2 URL
@@ -337,7 +340,7 @@ I'll call it `[project-folder]` in this tutorial. Basically it is a folder in wh
     }
   <br>
   },
-
+```
 
 <br>
 
