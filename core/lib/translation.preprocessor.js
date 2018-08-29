@@ -14,7 +14,7 @@ function convertToObject (array) {
   return obj
 }
 
-module.exports = function (csvDirectories) {
+module.exports = function (csvDirectories, config = null) {
   let messages = {}
   let languages = []
 
@@ -34,8 +34,21 @@ module.exports = function (csvDirectories) {
     })
   })
 
-  languages.forEach(function (language) {
+  languages.forEach((language) => {
     console.debug(`Writing JSON file: ${language}.json`)
     fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
   })
+
+  if (config && config.i18n.bundleAllStoreviewLanguages) {
+    const bundledLanguages = { 'en-US': messages['en-US'] }
+    Object.keys(config.storeViews).forEach((storeCode) => {
+      const store = config.storeViews[storeCode]
+      if (store.hasOwnProperty('storeCode')) {
+        if (!store.disabled && store.i18n) {
+          bundledLanguages[store.i18n.defaultLocale] = messages[store.i18n.defaultLocale]
+        }
+      }
+    })
+    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify(bundledLanguages))
+  }
 }
