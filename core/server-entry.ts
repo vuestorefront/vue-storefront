@@ -3,6 +3,10 @@ import { union } from 'lodash-es'
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
+import sizeof from 'object-sizeof'
+
+declare var global: any
+if (!global.$VS) global.$VS = {}
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -32,6 +36,8 @@ export default context => {
   return new Promise((resolve, reject) => {
     const { app, router, store } = createApp()
 
+    const sizeOfCache = sizeof(global.$VS.localCache) / 1024
+    console.log('Local cache size = ' + sizeOfCache + 'KB')
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
