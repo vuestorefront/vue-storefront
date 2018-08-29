@@ -68,13 +68,9 @@ module.exports = {
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
-      'core': path.resolve(__dirname, '../'),
-      'lib': path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
+      'core': '@vue-storefront/core',
       'src': path.resolve(__dirname, '../../src'),
-      // Core aliases
-      'components': path.resolve(__dirname, '../../src/components'),
-      // Ccre API Modules
-      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
+
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
