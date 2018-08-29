@@ -11,16 +11,12 @@ import config from 'config'
 
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export const cancelOrder = {
   methods: {
     cancelOrder () {
-      const storeView = currentStoreView()
-      const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
       const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: dbNamePrefix + 'shop',
+        name: 'shop',
         storeName: 'orders',
         driver: localForage[config.localForage.defaultDrivers['orders']]
       }))
