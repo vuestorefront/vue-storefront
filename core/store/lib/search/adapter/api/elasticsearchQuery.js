@@ -25,7 +25,6 @@ export function prepareElasticsearchQueryBody (searchQuery) {
           if (!Array.isArray(filter.value)) {
             filter.value = [filter.value]
           }
-          console.log('getMapping(filter.attribute) --------------------------: ', getMapping(filter.attribute))
           query = query.filter('terms', getMapping(filter.attribute), filter.value)
         }
       } else if (filter.scope === 'catalog') {
@@ -54,7 +53,6 @@ export function prepareElasticsearchQueryBody (searchQuery) {
               newValue = [newValue]
             }
             if (attrPostfix === '') {
-              console.log('getMapping(catalogfilter.attribute)--------------------------: ', getMapping(catalogfilter.attribute))
               filterQr = filterQr.andFilter('terms', getMapping(catalogfilter.attribute), newValue)
             } else {
               filterQr = filterQr.andFilter('terms', catalogfilter.attribute + attrPostfix, newValue)
@@ -77,7 +75,6 @@ export function prepareElasticsearchQueryBody (searchQuery) {
     for (let attrToFilter of allFilters) {
       if (attrToFilter.scope === 'catalog') {
         if (attrToFilter.field !== 'price') {
-          console.log('getMapping(attrToFilter.field) --------------------------: ', getMapping(attrToFilter.field))
           query = query.aggregation('terms', getMapping(attrToFilter.field))
           query = query.aggregation('terms', attrToFilter.field + optionsPrfeix)
         } else {
@@ -109,6 +106,5 @@ export function prepareElasticsearchQueryBody (searchQuery) {
 
   const queryBody = query.build()
 
-  console.log('queryBody--------------------------------------', JSON.stringify(queryBody))
   return queryBody
 }

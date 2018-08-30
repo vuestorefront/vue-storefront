@@ -1,9 +1,14 @@
-import config from 'config'
 import { union } from 'lodash-es'
 
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
+import config from 'config' // can not be obtained from rootStore as this entry is loaded erlier than app.ts
+import sizeof from 'object-sizeof'
+import omit from 'lodash-es/omit'
+
+declare var global: any
+if (!global.$VS) global.$VS = {}
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -22,7 +27,11 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       })
     }
   })).then(() => {
-    context.state = store.state
+    if (config.ssr.useInitialStateFilter) {
+      context.state = omit(store.state, config.ssr.initialStateFilter)
+    } else {
+      context.state = store.state
+    }
     resolve(app)
   }).catch(err => {
     _commonErrorHandler(err, reject)
@@ -33,17 +42,19 @@ export default context => {
   return new Promise((resolve, reject) => {
     const { app, router, store } = createApp()
 
+    const sizeOfCache = sizeof(global.$VS.localCache) / 1024
+    console.log('Local cache size = ' + sizeOfCache + 'KB')
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      if (config.storeViews.multistore === true) {
+      if (store.state.config.storeViews.multistore === true) {
         let storeCode = context.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
           storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
-          prepareStoreView(storeCode, config)
+          prepareStoreView(storeCode)
         }
       }
       const matchedComponents = router.getMatchedComponents()

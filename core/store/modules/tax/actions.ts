@@ -5,6 +5,7 @@ import SearchQuery from 'core/store/lib/search/searchQuery'
 import RootState from '../../types/RootState'
 import TaxState from './types/TaxState'
 
+
 const actions: ActionTree<TaxState, RootState> = {
   /**
    * Load the tax rules

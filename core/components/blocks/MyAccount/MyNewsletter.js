@@ -1,4 +1,4 @@
-import { subscribe, unsubscribe, isSubscribed } from '@vue-storefront/core/api/newsletter'
+import { subscribe, unsubscribe, isSubscribed } from '@vue-storefront/core/modules/newsletter/features'
 
 export default {
   name: 'MyNewsletter',

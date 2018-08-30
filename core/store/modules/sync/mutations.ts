@@ -2,8 +2,8 @@ import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { _prepareTask } from './helpers'
 import EventBus from '../../lib/event-bus'
-import config from '../../lib/config'
 import SyncState from './types/SyncState'
+import rootStore from '../../'
 
 declare var global: any
 
@@ -17,7 +17,7 @@ const mutations: MutationTree<SyncState> = {
     task = _prepareTask(task)
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) console.error(err)
-      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+      EventBus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
       console.log('Synchronization task added url = ' + task.url + ' taskId = ' + task.task_id)
     }).catch((reason) => {
       console.error(reason) // it doesn't work on SSR

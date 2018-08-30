@@ -17,7 +17,7 @@ import {
   closeMicrocart,
   openMicrocart,
   isMicrocartOpen
-} from '@vue-storefront/core/api/cart'
+} from '@vue-storefront/core/modules/cart/features'
 
 export default {
   data () {

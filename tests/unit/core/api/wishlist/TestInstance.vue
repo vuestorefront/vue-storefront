@@ -19,7 +19,7 @@ import {
   openWishlist,
   closeWishlist,
   isWishlistOpen
-} from '@vue-storefront/core/api/wishlist'
+} from '@vue-storefront/core/modules/wishlist/features'
 
 export default {
   data () {

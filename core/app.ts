@@ -11,7 +11,7 @@ import router from '@vue-storefront/core/router'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
 import registerExtensions from '@vue-storefront/core/lib/extensions'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 import store from '@vue-storefront/store'
 import coreModules from '@vue-storefront/store/modules'
@@ -22,7 +22,7 @@ import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
 
-const shippingMethods = require('@vue-storefront/core/resource/shipping_methods.json')
+const shippingMethods = require('@vue-storefront/i18n/resource/shipping_methods.json')
 
 declare var global: any
 
@@ -69,6 +69,9 @@ Vue.use(VueApollo)
 if (!global.$VS) global.$VS = {}
 
 store.state.version = '1.3'
+store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
+store.state.config = config
+global.$VS.eventBus = EventBus
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
@@ -77,7 +80,7 @@ for (const moduleName of Object.keys(storeModules)) {
   store.registerModule(moduleName, storeModules[moduleName])
 }
 
-const storeView = prepareStoreView(null, config, i18n, EventBus) // prepare the default storeView
+const storeView = prepareStoreView(null) // prepare the default storeView
 store.state.storeView = storeView
 store.state.shipping.methods = shippingMethods
 
@@ -123,12 +126,6 @@ export function createApp (): { app: Vue, router: any, store: any } {
   registerTheme(config.theme, app, router, store)
 
   app.$emit('application-after-init', app)
-
-  if (config.demomode === true) {
-    global.$VS.__DEMO_MODE__ = true
-  } else {
-    global.$VS.__DEMO_MODE__ = false
-  }
 
   return { app, router, store }
 }

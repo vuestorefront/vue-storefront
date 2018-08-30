@@ -1,17 +1,15 @@
 import * as localForage from 'localforage'
 import { union } from 'lodash-es'
 import sizeof from 'object-sizeof'
-import config from 'config'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 
-import rootStore from '@vue-storefront/store'
 import { execute } from '@vue-storefront/store/lib/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
-import { onNetworkStatusChange } from '@vue-storefront/core/api/offline-order/helpers/onNetworkStatusChange'
+import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 
 require('@vue-storefront/core/service-worker-registration') // register the service worker
 
@@ -20,13 +18,15 @@ declare var window: any
 
 const { app, router, store } = createApp()
 
+const config = store.state.config
+
 let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
-  store.replaceState(window.__INITIAL_STATE__)
+  store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__))
 }
 if (config.storeViews.multistore === true) {
-  if ((storeCode = rootStore.state.user.current_storecode)) {
-    prepareStoreView(storeCode, config)
+  if ((storeCode = store.state.user.current_storecode)) {
+    prepareStoreView(storeCode)
   }
 }
 
@@ -74,7 +74,7 @@ router.onReady(() => {
           if (storeCode !== currentStore.storeCode) {
             document.location = to.path // full reload
           } else {
-            prepareStoreView(storeCode, config)
+            prepareStoreView(storeCode)
           }
         }
       }
@@ -128,7 +128,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
     const ordersCollection = new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
+      name: 'shop',
       storeName: 'orders',
       driver: localForage[config.localForage.defaultDrivers['orders']]
     }))
@@ -314,8 +314,8 @@ EventBus.$on('user-before-logout', () => {
   }
 })
 
-rootStore.dispatch('cart/load')
-rootStore.dispatch('compare/load')
-rootStore.dispatch('user/startSession')
+store.dispatch('cart/load')
+store.dispatch('compare/load')
+store.dispatch('user/startSession')
 
 window.addEventListener('online', () => { onNetworkStatusChange(store) })

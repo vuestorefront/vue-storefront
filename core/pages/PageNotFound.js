@@ -2,7 +2,7 @@
 import { prepareQuery } from 'core/api/product/queries/common'
 
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 
 // Core mixins

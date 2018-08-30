@@ -1,5 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
-import Countries from '@vue-storefront/core/resource/countries.json'
+import Countries from '@vue-storefront/i18n/resource/countries.json'
 
 export default {
   name: 'Shipping',
@@ -54,7 +54,9 @@ export default {
         shipping = this.shippingMethods[0]
       }
       this.shipping.shippingMethod = shipping.method_code
+      this.shipping.shippingCarier = shipping.carrier_code
     }
+    this.changeShippingMethod()
   },
   methods: {
     sendDataToCheckout () {
