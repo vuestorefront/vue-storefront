@@ -136,6 +136,9 @@
       "setupVariantByAttributeCode": true,
       "endpoint": "http://localhost:8080/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
+      "filterFieldMapping": {
+        "category.name": "category.name.keyword"
+      },
       "sortByAttributes": {
         "Latest": "updated_at",
         "Price":"final_price"
@@ -244,6 +247,40 @@
       "description": 1,
       "sku": 1,
       "configurable_children.sku": 1
+    },
+    "query": {
+      "inspirations": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Performance Fabrics" }
+          }
+        ]
+      },
+      "newProducts": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ]
+      },
+      "coolBags": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Women" }
+          }
+        ]
+      },
+      "bestSellers": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ]
+      }
     }
 
 }

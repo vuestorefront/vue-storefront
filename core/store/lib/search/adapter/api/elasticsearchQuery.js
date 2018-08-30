@@ -1,5 +1,6 @@
 import bodybuilder from 'bodybuilder'
 import getBoosts from '../../boost'
+import getMapping from '../../mapping'
 
 export function prepareElasticsearchQueryBody (searchQuery) {
   const optionsPrfeix = '_options'
@@ -24,7 +25,8 @@ export function prepareElasticsearchQueryBody (searchQuery) {
           if (!Array.isArray(filter.value)) {
             filter.value = [filter.value]
           }
-          query = query.filter('terms', filter.attribute, filter.value)
+          console.log('getMapping(filter.attribute) --------------------------: ', getMapping(filter.attribute))
+          query = query.filter('terms', getMapping(filter.attribute), filter.value)
         }
       } else if (filter.scope === 'catalog') {
         hasCatalogFilters = true
@@ -51,7 +53,12 @@ export function prepareElasticsearchQueryBody (searchQuery) {
             if (!Array.isArray(newValue)) {
               newValue = [newValue]
             }
-            filterQr = filterQr.andFilter('terms', catalogfilter.attribute + attrPostfix, newValue)
+            if (attrPostfix === '') {
+              console.log('getMapping(catalogfilter.attribute)--------------------------: ', getMapping(catalogfilter.attribute))
+              filterQr = filterQr.andFilter('terms', getMapping(catalogfilter.attribute), newValue)
+            } else {
+              filterQr = filterQr.andFilter('terms', catalogfilter.attribute + attrPostfix, newValue)
+            }
           }
         }
       })
@@ -70,7 +77,8 @@ export function prepareElasticsearchQueryBody (searchQuery) {
     for (let attrToFilter of allFilters) {
       if (attrToFilter.scope === 'catalog') {
         if (attrToFilter.field !== 'price') {
-          query = query.aggregation('terms', attrToFilter.field)
+          console.log('getMapping(attrToFilter.field) --------------------------: ', getMapping(attrToFilter.field))
+          query = query.aggregation('terms', getMapping(attrToFilter.field))
           query = query.aggregation('terms', attrToFilter.field + optionsPrfeix)
         } else {
           query = query.aggregation('terms', attrToFilter.field)
@@ -100,5 +108,7 @@ export function prepareElasticsearchQueryBody (searchQuery) {
   }
 
   const queryBody = query.build()
+
+  console.log('queryBody--------------------------------------', JSON.stringify(queryBody))
   return queryBody
 }
