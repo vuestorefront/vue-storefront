@@ -2,10 +2,10 @@
   <div class="media-gallery">
     <product-gallery-zoom
       v-if="isZoomOpen"
+      :current="$refs.carousel.currentPage"
+      :title="product.name"
       :gallery="gallery"
-      :offline="offline"
-      :configuration="configuration"
-      :product="product"/>
+      @close="toggleZoom"/>
     <div v-show="OfflineOnly">
       <transition name="fade" appear>
         <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">

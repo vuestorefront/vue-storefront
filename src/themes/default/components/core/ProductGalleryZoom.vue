@@ -1,15 +1,17 @@
 <template>
   <div class="media-zoom">
+    <i
+      class="media-zoom__close material-icons p15 cl-bg-tertiary pointer"
+      @click="$emit('close')"
+    >close</i>
     <div class="media-zoom__container row flex">
-      <div class="h-100">
-        <ul class="media-zoom__thumbs m0 p0">
-          <li class="media-zoom__thumb" v-for="(images, key) in gallery" :key="images.src" :style="thumbStyle">
-            <span class="bg-cl-secondary block h-100">
-              <img v-lazy="images" ref="images" @click="navigate(key)" :alt="product.name | htmlDecode">
-            </span>
-          </li>
-        </ul>
-      </div>
+      <ul class="media-zoom__thumbs m0 p0">
+        <li class="media-zoom__thumb" v-for="(images, key) in gallery" :key="images.src">
+          <span class="bg-cl-secondary block">
+            <img :src="images.src" ref="images" @click="$refs.carousel.goToPage(key)" :alt="title | htmlDecode">
+          </span>
+        </li>
+      </ul>
       <div class="media-zoom__gallery">
         <no-ssr>
           <carousel
@@ -17,7 +19,7 @@
             :per-page="1" :mouse-drag="false" :navigation-enabled="true" pagination-active-color="#828282" pagination-color="transparent" navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>" navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>" ref="carousel">
             <slide v-for="images in gallery" :key="images.src">
               <div class="media-zoom__slide bg-cl-secondary">
-                <img class="product-image pointer mw-100" v-lazy="images" ref="images" @dblclick="toggleZoom" :alt="product.name | htmlDecode" data-testid="productGalleryImage" itemprop="image">
+                <img class="product-image pointer mw-100" :src="images.src" ref="images" :alt="title | htmlDecode" data-testid="productGalleryImage" itemprop="image">
               </div>
             </slide>
           </carousel>
@@ -27,22 +29,38 @@
   </div>
 </template>
 <script>
-import ProductGallery from '@vue-storefront/core/components/ProductGallery'
+import { Carousel, Slide } from 'vue-carousel'
 import NoSSR from 'vue-no-ssr'
 export default {
-  mixins: [ProductGallery],
-  components: {
-    'no-ssr': NoSSR
-  },
-  computed: {
-    thumbStyle () {
-      return {
-        height: `${100 / this.gallery.length}%`
-      }
+  props: {
+    current: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    gallery: {
+      type: Array,
+      required: true
+    },
+    title: {
+      type: String,
+      required: false,
+      default: ''
     }
+  },
+  components: {
+    'no-ssr': NoSSR,
+    Carousel,
+    Slide
   },
   mounted () {
     this.$store.commit('ui/setOverlay', true)
+    this.$nextTick(() => {
+      this.$refs.carousel.goToPage(this.current)
+    })
+  },
+  destroyed () {
+    this.$store.commit('ui/setOverlay', false)
   }
 }
 </script>
@@ -70,34 +88,66 @@ $z-index-gallery: map-get($z-index, overlay) + 1;
     bottom: 0;
     right: 0;
     margin: auto;
-    // max-height: 750px;
+    overflow: hidden;
+    padding: 20px;
     height: 750px;
     max-height: 100%;
     max-width: 750px;
+
+    @media (max-width: 767px) {
+      top: 50%;
+      transform: translateY(-50%);
+      bottom: auto;
+      height: auto;
+    }
   }
 
   &__thumbs {
-    margin: -10px 0;
     list-style: none;
     padding-right: 20px;
-    max-width: 160px;
+    max-width: 140px;
+    height: 100%;
+    overflow: auto;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 767px) {
+      display: none;
+    }
   }
 
   &__thumb {
-    padding: 10px 0;
+    margin-bottom: 20px;
     max-width: 100%;
-    // height: 100%;
-    // max-height: 150px;
+    cursor: pointer;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
 
     img {
-      height: 100%;
+      display: block;
+      max-width: 100%;
+      width: auto;
       mix-blend-mode: multiply;
+      opacity: 0.9;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 
   &__gallery {
     height: 100%;
     flex: 1;
+
+    @media (max-width: 767px) {
+      height: auto;
+    }
   }
 
   &__carousel,
@@ -110,7 +160,6 @@ $z-index-gallery: map-get($z-index, overlay) + 1;
   &__slide {
     height: 100%;
     max-height: 100%;
-    // display: inline-flex;
 
     img {
       max-height: 100%;
@@ -120,6 +169,13 @@ $z-index-gallery: map-get($z-index, overlay) + 1;
       align-self: center;
       margin: 0 auto;
     }
+  }
+
+  &__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
   }
 }
 </style>
