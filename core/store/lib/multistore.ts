@@ -1,5 +1,5 @@
 import rootStore, { initStore } from '../'
-import { loadLanguageAsync } from '@vue-storefront/core/lib/i18n'
+import { loadLanguageAsync } from '@vue-storefront/i18n'
 
 export function currentStoreView () {
   return rootStore.state.storeView

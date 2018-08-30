@@ -1,5 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
