@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/extension-payment-backend-methods",
-  "version": "1.3.0-alpha.1",
+  "version": "1.3.0-alpha.2",
   "description": "Extension payment backend methods for Vue Storefront",
   "license": "MIT",
   "main": "index.js",
