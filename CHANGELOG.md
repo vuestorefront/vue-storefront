@@ -4,13 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.3.0-alpha] - 2018.08.31
+
+### Added
+- TypeScript support - please check [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md) for details
+- New `core/modules` added regarding the [Refactor to modules plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md)
+- Price tier's support #1625
+- Qty field on product page #1617
+- Offline orders confirmation dialog has been added #1430
+- `pwa-compat` library has been added to support fully PWA manifests on legacy browsers
+- dynamic port allocation #1511
 
 ### Removed
 - unused `libs`, `components`, `core/api/cart` webpack aliases
+- `global.$VS` has been replaced with `rootStore` #1624
 
 ### Changed
 - `core` directory is now a `@vue-storefront/core` package, webpack alias and all related imports reflect this change [#1513]
+- `core/api` renamed to `core/modules`, mixin features moved to `core/modules/module_name/features`
+- `core/lib/i18n` moved into separate `@vue-storefront/i18n` package
+
+### Fixed
+- installer paths are now normalized (to support paths including spaces) #1645
+- status check added to the configurable_children products #1639
+- product info update when clicking the related products #1601
+- media gallery issues + mobile view
+- product slider fixes #1561
+- shipping carrier code is now passed with order #1520
+- SEO support fixes #1514
+- UX fixes
+- bundle size optimizations (translations)
+- password validation rules are now aligned (server/client) #1476
 
 ## [1.2.0] - 2018-08-01
 
