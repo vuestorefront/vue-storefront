@@ -1,8 +1,8 @@
 // 3rd party dependecies
-import { preparePageNotFoundQuery } from 'core/api/product/queries/pageNotFound'
+import { prepareQuery } from 'core/api/product/queries/common'
 
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 
 // Core mixins
@@ -14,7 +14,7 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
-      let ourBestsellersQuery = preparePageNotFoundQuery()
+      let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
       store.dispatch('category/list', {}).then(categories => {
         store.dispatch('product/list', {
           query: ourBestsellersQuery,

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import AccountIcon from '@vue-storefront/core/components/blocks/Header/AccountIcon'
 
 export default {

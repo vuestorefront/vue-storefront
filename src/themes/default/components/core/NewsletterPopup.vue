@@ -41,9 +41,9 @@
 </template>
 <script>
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
-import { subscribe } from '@vue-storefront/core/api/newsletter'
+import { subscribe } from '@vue-storefront/core/modules/newsletter/features'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'

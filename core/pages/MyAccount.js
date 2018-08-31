@@ -1,5 +1,5 @@
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 // Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'

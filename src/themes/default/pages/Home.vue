@@ -32,7 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import { prepareNewProductsQuery, prepareCoolBagsQuery } from 'core/api/product/queries/home'
+import { prepareQuery } from 'core/api/product/queries/common'
 
 // Core dependecies
 import config from 'config'
@@ -76,7 +76,7 @@ export default {
     this.$store.dispatch('checkout/load')
   },
   beforeMount () {
-    if (global.$VS.__DEMO_MODE__) {
+    if (this.$store.state.__DEMO_MODE__) {
       this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' }).then((onboardingClaim) => {
         if (!onboardingClaim) { // show onboarding info
           this.$bus.$emit('modal-toggle', 'modal-onboard')
@@ -89,8 +89,8 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
 
-      let newProductsQuery = prepareNewProductsQuery()
-      let coolBagsQuery = prepareCoolBagsQuery()
+      let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+      let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
 
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/list', {

@@ -16,7 +16,9 @@
       "index": "vue_storefront_catalog"
     },
     "ssr": {
-      "executeMixedinAsyncData": true
+      "executeMixedinAsyncData": true,
+      "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
+      "useInitialStateFilter": true
     },
     "defaultStoreCode": "",
     "storeViews": {
@@ -82,7 +84,7 @@
       "twoStageCaching": true,
       "optimizeShoppingCart": true,
       "category": {
-        "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count"]
+        "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
       },
       "attribute": {
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices" ]
@@ -136,6 +138,9 @@
       "setupVariantByAttributeCode": true,
       "endpoint": "http://localhost:8080/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
+      "filterFieldMapping": {
+        "category.name": "category.name.keyword"
+      },
       "sortByAttributes": {
         "Latest": "updated_at",
         "Price":"final_price"
@@ -220,7 +225,8 @@
       "currencySign": "$",
       "dateFormat": "HH:mm D/M/YYYY",
       "fullCountryName": "United States",
-      "fullLanguageName": "English"
+      "fullLanguageName": "English",
+      "bundleAllStoreviewLanguages": true
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
@@ -244,6 +250,40 @@
       "description": 1,
       "sku": 1,
       "configurable_children.sku": 1
+    },
+    "query": {
+      "inspirations": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Performance Fabrics" }
+          }
+        ]
+      },
+      "newProducts": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ]
+      },
+      "coolBags": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Women" }
+          }
+        ]
+      },
+      "bestSellers": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ]
+      }
     }
 
 }

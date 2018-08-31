@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- unused `libs`, `components`, `core/api/cart` webpack aliases
+
+### Changed
+- `core` directory is now a `@vue-storefront/core` package, webpack alias and all related imports reflect this change [#1513]
+
 ## [1.2.0] - 2018-08-01
 
 ### Fixed
@@ -139,7 +145,7 @@ Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-st
 - Google Analytics eCommerce extension
 - order_2_magento rebuilt from scratch, supporting customer accounts and authorized carts
 - Real-time cart synchronization with Magento - (last step before synchronizing the checkout promo rules with Magento!)
-- Product comparison 
+- Product comparison
 - Themes refactor
 - Lot of smaller tweaks
 
@@ -156,7 +162,7 @@ Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-st
 - Checkout tweaks and refactor,
 - Offline notification badge,
 - Wishlist,
-- Cookie notification bar 
+- Cookie notification bar
 - Security improvements (checksums for client-side processed data)
 - Lot of UI tweaks and refactors,
 - Updated installer with support for Linux and MacOSX

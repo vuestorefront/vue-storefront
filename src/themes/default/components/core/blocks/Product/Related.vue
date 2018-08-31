@@ -18,9 +18,10 @@
 
 <script>
 import ProductListing from 'theme/components/core/ProductListing'
-import config from 'config'
-import i18n from '@vue-storefront/core/lib/i18n'
+
 import { prepareRelatedQuery } from 'core/api/product/queries/related'
+import i18n from '@vue-storefront/i18n'
+import config from 'config'
 
 export default {
   name: 'Related',

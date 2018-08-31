@@ -10,14 +10,14 @@
 
 <script>
 
-import { prepareInspirationsQuery } from 'core/api/product/queries/inspirations'
+import { prepareQuery } from 'core/api/product/queries/common'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
   name: 'Inspirations',
 
   beforeMount () {
-    let inspirationsQuery = prepareInspirationsQuery()
+    let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 3,

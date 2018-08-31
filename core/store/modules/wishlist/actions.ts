@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
-import i18n from '../../lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import { htmlDecode } from '../../lib/filters'
 import RootState from '../../types/RootState'
 import WishlistState from './types/WishlistState'

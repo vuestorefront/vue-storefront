@@ -8,7 +8,7 @@
 <script>
 
 import ProductsSlider from 'theme/components/core/ProductsSlider'
-import { prepareInspirationsQuery } from 'core/api/product/queries/inspirations'
+import { prepareQuery } from 'core/api/product/queries/common'
 
 export default {
   name: 'Collection',
@@ -46,7 +46,7 @@ export default {
     }
   },
   beforeMount () {
-    let inspirationsQuery = prepareInspirationsQuery()
+    let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
 
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,
