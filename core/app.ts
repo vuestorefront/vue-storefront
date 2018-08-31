@@ -22,8 +22,6 @@ import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
 
-const shippingMethods = require('@vue-storefront/i18n/resource/shipping_methods.json')
-
 declare var global: any
 
 if (!global.$VS) global.$VS = {}
@@ -42,7 +40,7 @@ for (const moduleName of Object.keys(storeModules)) {
 
 const storeView = prepareStoreView(null) // prepare the default storeView
 store.state.storeView = storeView
-store.state.shipping.methods = shippingMethods
+// store.state.shipping.methods = shippingMethods
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})

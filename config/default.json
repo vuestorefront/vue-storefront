@@ -206,6 +206,19 @@
       "sourcePriceIncludesTax": false,
       "calculateServerSide": true
     },
+    "shipping": {
+      "methods": [
+        {
+          "method_title": "DPD Courier",
+          "method_code": "flatrate",
+          "carrier_code": "flatrate",
+          "amount": 4,
+          "price_incl_tax": 5,
+          "default": true,
+          "offline": true
+        }
+      ]
+    },
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
