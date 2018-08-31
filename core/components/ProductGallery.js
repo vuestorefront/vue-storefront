@@ -68,10 +68,7 @@ export default {
       }
     },
     toggleZoom () {
-      this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
-      setTimeout(() => {
-        this.navigate(this.$refs.carousel.currentPage)
-      }, 1)
+      this.isZoomOpen = !this.isZoomOpen
     },
     handleEscKey (event) {
       if (this.isZoomOpen && event.keyCode === 27) {
