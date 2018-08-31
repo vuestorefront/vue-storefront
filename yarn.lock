@@ -1489,7 +1489,7 @@ body-parser@^1.16.1:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-bodybuilder@^2.2.13:
+bodybuilder@2.2.13:
   version "2.2.13"
   resolved "https://registry.yarnpkg.com/bodybuilder/-/bodybuilder-2.2.13.tgz#82ced1c2144bd9ddce97c5d89fa13f7e24c40f8e"
   dependencies:

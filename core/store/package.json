@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "ajv": "^6.4.0",
-    "bodybuilder": "^2.2.13",
+    "bodybuilder": "2.2.13",
     "he": "^1.1.1",
     "isomorphic-fetch": "^2.2.1",
     "localforage": "^1.7.2",

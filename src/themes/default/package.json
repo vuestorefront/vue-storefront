@@ -10,7 +10,7 @@
   "author": "pkarw <pkarwatka@divante.pl> and contributors",
   "license": "MIT",
   "dependencies": {
-    "bodybuilder": "^2.2.13",
+    "bodybuilder": "2.2.13",
     "vue": "^2.5.13",
     "vue-carousel": "^0.6.9",
     "vue-no-ssr": "^0.2.2",
