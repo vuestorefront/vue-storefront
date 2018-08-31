@@ -17,3 +17,14 @@ yarn-error.log
 package-lock.json
 cypress/videos
 cypress/screenshots
+core/resource/i18n/de-DE.json
+core/resource/i18n/en-US.json
+core/resource/i18n/es-ES.json
+core/resource/i18n/fr-FR.json
+core/resource/i18n/it-IT.json
+core/resource/i18n/jp-JP.json
+core/resource/i18n/multistoreLanguages.json
+core/resource/i18n/nl-NL.json
+core/resource/i18n/pl-PL.json
+core/resource/i18n/pt-BR.json
+core/resource/i18n/ru-RU.json
