@@ -20,7 +20,7 @@
 import ProductListing from 'theme/components/core/ProductListing'
 
 import builder from 'bodybuilder'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import config from 'config'
 
 export default {
@@ -41,6 +41,17 @@ export default {
   },
   created () {
     this.$bus.$on('product-after-load', this.refreshList)
+
+    if (config.usePriceTiers) {
+      this.$bus.$on('user-after-loggedin', this.refreshList)
+      this.$bus.$on('user-after-logout', this.refreshList)
+    }
+  },
+  beforeDestroy () {
+    if (config.usePriceTiers) {
+      this.$bus.$off('user-after-loggedin', this.refreshList)
+      this.$bus.$off('user-after-logout', this.refreshList)
+    }
   },
   destroyed () {
     this.$bus.$off('product-after-load', this.refreshList)

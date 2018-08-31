@@ -12,8 +12,11 @@
         :autocomplete="autocomplete"
         :value="value"
         :autofocus="autofocus"
-        :ref="focus ? name : false"
-        v-on="listeners"
+        :ref="name"
+        @input="$emit('input', $event.target.value)"
+        @blur="$emit('blur')"
+        @keyup.enter="$emit('keyup.enter', $event.target.value)"
+        @keyup="$emit('keyup', $event)"
       >
       <label>{{ placeholder }}</label>
     </div>
@@ -26,6 +29,7 @@
       "
       @click="togglePassType()"
       :aria-label="$t('Toggle password visibility')"
+      :title="$t('Toggle password visibility')"
     >
       {{ icon }}
     </button>

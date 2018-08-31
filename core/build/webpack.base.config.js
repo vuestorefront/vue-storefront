@@ -18,11 +18,11 @@ const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 
-const translationPreprocessor = require('../lib/translation.preprocessor.js')
+const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
-  path.resolve(__dirname, '../resource/i18n/'),
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
   path.resolve(__dirname, themeResources + '/i18n/')
-])
+], config)
 
 const postcssConfig =  {
   loader: 'postcss-loader',
@@ -68,13 +68,10 @@ module.exports = {
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
-      'core': path.resolve(__dirname, '../'),
-      'lib': path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
+      'core': '@vue-storefront/core',
       'src': path.resolve(__dirname, '../../src'),
-      // Core aliases
-      'components': path.resolve(__dirname, '../../src/components'),
-      // Ccre API Modules
-      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
+      '@vue-storefront/core/lib/i18n': '@vue-storefront/i18n',
+
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
@@ -104,12 +101,17 @@ module.exports = {
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/]
-        }
+        },
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: ['@vue-storefront']
+        include: [
+          '@vue-storefront',
+          path.resolve(__dirname, '../../src'),
+          path.resolve(__dirname, '../../core')
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

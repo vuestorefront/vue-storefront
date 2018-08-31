@@ -1,5 +1,5 @@
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 // Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -22,12 +22,10 @@ export default {
   created () {
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
-    this.$bus.$on('myAccount-before-updatePreferences', this.onBeforeUpdatePreferences)
   },
   destroyed () {
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
-    this.$bus.$off('myAccount-before-updatePreferences', this.onBeforeUpdatePreferences)
   },
   mounted () {
     const usersCollection = global.$VS.db.usersCollection
@@ -41,17 +39,6 @@ export default {
     })
   },
   methods: {
-    onBeforeUpdatePreferences (updatedData) {
-      if (updatedData) {
-        if (updatedData.action === 'subscribe') {
-          this.$bus.$emit('newsletter-after-subscribe', { email: updatedData.email })
-          this.$store.dispatch('user/updatePreferences', updatedData.preferences)
-        } else {
-          this.$bus.$emit('newsletter-after-unsubscribe', { email: updatedData.email })
-          this.$store.dispatch('user/updatePreferences', null)
-        }
-      }
-    },
     onBeforeChangePassword (passwordData) {
       this.$store.dispatch('user/changePassword', passwordData)
     },

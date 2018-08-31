@@ -35,7 +35,7 @@
             </p>
             <p v-if="!isPermissionGranted && isNotificationSupported">
               <button-outline color="dark" @click.native="requestNotificationPermission()" >
-                Allow notification about the order
+                {{ $t('Allow notification about the order') }}
               </button-outline>
             </p>
             <div id="thank-you-extensions"/>
@@ -56,7 +56,7 @@
                 class="mb25"
                 type="text"
                 name="body"
-                value=""
+                v-model="feedback"
                 :placeholder="$t('Type your opinion')"
                 :autofocus="true"
               />
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Composite from '@vue-storefront/core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
@@ -81,23 +82,31 @@ import VueOfflineMixin from 'vue-offline/mixin'
 export default {
   name: 'ThankYouPage',
   mixins: [Composite, VueOfflineMixin],
+  data () {
+    return {
+      feedback: ''
+    }
+  },
   computed: {
     isNotificationSupported () {
-      if (global.$VS.isSSR || !('Notification' in window)) return false
+      if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return 'Notification' in window
     },
     isPermissionGranted () {
-      if (global.$VS.isSSR || !('Notification' in window)) return false
+      if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
     }
   },
   methods: {
     requestNotificationPermission () {
-      if (global.$VS.isSSR) return false
+      if (Vue.prototype.$isServer) return false
       if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission()
       }
     }
+  },
+  destroyed () {
+    this.$store.dispatch('checkout/setThankYouPage', false)
   },
   components: {
     BaseTextarea,

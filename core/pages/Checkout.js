@@ -2,7 +2,7 @@
 import VueOfflineMixin from 'vue-offline/mixin'
 
 // Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import config from 'config'
 
 // Core mixins
@@ -151,6 +151,7 @@ export default {
     },
     onAfterPlaceOrder (order) {
       this.orderPlaced = true
+      this.$store.dispatch('checkout/setThankYouPage', true)
       console.log(this.order)
     },
     onBeforeEdit (section) {
@@ -312,8 +313,8 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.method_code,
-          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.method_code,
+          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
+          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields

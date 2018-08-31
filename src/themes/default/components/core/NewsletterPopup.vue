@@ -4,7 +4,7 @@
       {{ $t('Newsletter') }}
     </p>
     <div slot="content">
-      <form @submit.prevent="subscribe" novalidate>
+      <form @submit.prevent="submit" novalidate>
         <div class="mb35">
           <p class="h4">
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
@@ -40,11 +40,14 @@
   </modal>
 </template>
 <script>
+import { required, email } from 'vuelidate/lib/validators'
+import i18n from '@vue-storefront/i18n'
+
+import { subscribe } from '@vue-storefront/core/modules/newsletter/features'
+
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
-import { required, email } from 'vuelidate/lib/validators'
-import i18n from '@vue-storefront/core/lib/i18n'
 
 export default {
   data () {
@@ -64,7 +67,7 @@ export default {
     }
   },
   methods: {
-    subscribe () {
+    submit () {
       if (this.$v.$invalid) {
         this.$bus.$emit('notification', {
           type: 'error',
@@ -74,8 +77,7 @@ export default {
         return
       }
 
-      // todo: add user email to newsletter list
-      this.$bus.$emit('newsletter-after-subscribe', { email: this.email })
+      this.subscribe(this.email)
 
       this.$bus.$emit('notification', {
         type: 'success',
@@ -90,6 +92,7 @@ export default {
     ButtonFull,
     Modal,
     BaseInput
-  }
+  },
+  mixins: [subscribe]
 }
 </script>

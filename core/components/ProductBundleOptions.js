@@ -1,7 +1,8 @@
 import { mapMutations } from 'vuex'
 import * as types from '@vue-storefront/store/mutation-types'
 import rootStore from '@vue-storefront/store'
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
+import config from 'config'
 
 function _defaultOptionValue (co, field = 'id') {
   if (co.product_links && co.product_links.length) {
@@ -47,7 +48,17 @@ export default {
         return { error: (value === null || value === '') || (value === false) || (value <= 0), message: i18n.t('Must be greater than 0') }
       }
     })
+
     this.setupInputFields()
+
+    if (config.usePriceTiers) {
+      this.$bus.$on('product-after-setup-associated', this.setupInputFields)
+    }
+  },
+  beforeDestroy () {
+    if (config.usePriceTiers) {
+      this.$bus.$off('product-after-setup-associated', this.setupInputFields)
+    }
   },
   methods: {
     ...mapMutations('product', {
