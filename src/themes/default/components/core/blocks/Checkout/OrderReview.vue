@@ -63,15 +63,16 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 px20">
-            <div v-show="!placeOrderVisible" id="place-order-container"/>
-            <button-full
-              @click.native="placeOrder"
-              v-show="placeOrderVisible"
-              data-testid="orderReviewSubmit"
-              :class="{ 'button-disabled' : $v.orderReview.$invalid }"
-            >
-              {{ $t('Place the order') }}
-            </button-full>
+            <slot name="placeOrderButton">
+              <button-full
+                @click.native="placeOrder"
+                data-testid="orderReviewSubmit"
+                class="place-order-btn"
+                :class="{ 'button-disabled' : $v.orderReview.$invalid }"
+              >
+                {{ $t('Place the order') }}
+              </button-full>
+            </slot>
           </div>
         </div>
       </div>
