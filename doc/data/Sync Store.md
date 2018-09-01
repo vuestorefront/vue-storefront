@@ -50,7 +50,7 @@ In this case some modules (cart.js for example) do use just some helper methods 
     },
     silent: true,
     force_client_state: forceClientState,
-    callback_event: 'servercart-after-pulled'
+    callback_event: 'cart/servercartAfterPulled'
   }, { root: true }).then(task => {
 
   })

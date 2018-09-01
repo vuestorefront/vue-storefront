@@ -7,7 +7,6 @@ import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVarian
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery, isOnline } from '../../lib/search'
-import EventBus from '../../lib/event-bus'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from  'lodash-es/uniqBy'
@@ -298,7 +297,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (updateState) {
           context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
         }
-        EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
+        Vue.prototype.$bus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
     }).catch((err) => {
@@ -318,7 +317,7 @@ const actions: ActionTree<ProductState, RootState> = {
         skipCache: true
       })
       .then(() => {context.dispatch('setCurrent', product)})
-      .then(() => {EventBus.$emit('product-after-setup-associated')})
+      .then(() => {Vue.prototype.$bus.$emit('product-after-setup-associated')})
   },
 
   /**
@@ -387,7 +386,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
             const _returnProductNoCacheHelper = (subresults) => {
-              if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+              Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
               resolve(setupProduct(prd))
             }
             if (setCurrentProduct || selectDefaultVariant) {
@@ -427,15 +426,15 @@ const actions: ActionTree<ProductState, RootState> = {
               const cachedProduct = setupProduct(res)
               if (rootStore.state.config.products.alwaysSyncPlatformPricesOver) {
                 doPlatformPricesSync([cachedProduct]).then((products) => {
-                    if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+                    Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
                     resolve(products[0])
                 })
                 if (!rootStore.state.config.products.waitForPlatformSync) {
-                    if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                    Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                     resolve(cachedProduct)
                 }
               } else {
-                if (EventBus.$emitFilter) EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                 resolve(cachedProduct)
               }
             }
@@ -619,7 +618,7 @@ const actions: ActionTree<ProductState, RootState> = {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
         context.state.productLoadStart = Date.now()
         console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
-        EventBus.$emit('product-before-load', { store: rootStore, route: route })
+        Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
           rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
             filterValues: [true],
@@ -628,7 +627,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }).then((attrs) => {
             context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
               Promise.all(subpromises).then(subresults => {
-                EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
+                Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
                   context.state.productLoadStart = null
                   return resolve()
                 }).catch((err) => {

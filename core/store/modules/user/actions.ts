@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
 import rootStore from '../../'
 import { ValidationError } from '../../lib/exceptions'
@@ -22,7 +21,7 @@ const actions: ActionTree<UserState, RootState> = {
 
       if (res) {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
-        EventBus.$emit('session-after-authorized')
+        context.dispatch('sessionAfterAuthorized')
 
         if (rootStore.state.config.usePriceTiers) {
           Vue.prototype.$db.usersCollection.getItem('current-user', (err, userData) => {
@@ -37,9 +36,9 @@ const actions: ActionTree<UserState, RootState> = {
           })
         }
       } else {
-        EventBus.$emit('session-after-nonauthorized')
+        Vue.prototype.$bus.$emit('session-after-nonauthorized')
       }
-      EventBus.$emit('session-after-started')
+      Vue.prototype.$bus.$emit('session-after-started')
     })
 
     const newsletterStorage = Vue.prototype.$db.newsletterPreferencesCollection
@@ -196,7 +195,8 @@ const actions: ActionTree<UserState, RootState> = {
           if (res) {
             context.commit(types.USER_INFO_LOADED, res)
             context.dispatch('setUserGroup', res)
-            EventBus.$emit('user-after-loggedin', res)
+            Vue.prototype.$bus.$emit('user-after-loggedin', res)
+            context.dispatch('cart/userAfterLoggedin')
 
             resolve(res)
             resolvedFromCache = true
@@ -221,7 +221,8 @@ const actions: ActionTree<UserState, RootState> = {
               context.dispatch('setUserGroup', resp.result)
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
-              EventBus.$emit('user-after-loggedin', resp.result)
+              Vue.prototype.$bus.$emit('user-after-loggedin', resp.result)
+              context.dispatch('cart/userAfterLoggedin')
               resolve(resp)
             } else {
               resolve(null)
@@ -245,7 +246,7 @@ const actions: ActionTree<UserState, RootState> = {
     const validate = ajv.compile(Object.assign(userProfileSchema, userProfileSchemaExtension))
 
     if (!validate(userData)) { // schema validation of user profile data
-      EventBus.$emit('notification', {
+      Vue.prototype.$bus.$emit('notification', {
         type: 'error',
         message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
         action1: { label: i18n.t('OK'), action: 'close' }
@@ -260,7 +261,7 @@ const actions: ActionTree<UserState, RootState> = {
             mode: 'cors',
             body: JSON.stringify(userData)
           },
-          callback_event: 'user-after-update'
+          callback_event: 'user/userAfterUpdate'
         }, { root: true }).then(task => {
           resolve()
         })
@@ -284,7 +285,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
     }, { root: true }).then((resp) => {
       if (resp.code === 200) {
-        EventBus.$emit('notification', {
+        Vue.prototype.$bus.$emit('notification', {
           type: 'success',
           message: 'Password has successfully been changed',
           action1: { label: i18n.t('OK'), action: 'close' }
@@ -295,7 +296,7 @@ const actions: ActionTree<UserState, RootState> = {
           password: passwordData.newPassword
         })
       } else {
-        EventBus.$emit('notification', {
+        Vue.prototype.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t(resp.result),
           action1: { label: i18n.t('OK'), action: 'close' }
@@ -315,9 +316,10 @@ const actions: ActionTree<UserState, RootState> = {
     context.commit(types.USER_END_SESSION)
     context.dispatch('cart/serverTokenClear', {}, { root: true })
         .then(() => {context.dispatch('clearCurrentUser')})
-        .then(() => {EventBus.$emit('user-after-logout')})
+        .then(() => {Vue.prototype.$bus.$emit('user-after-logout')})
+        .then(() => {context.dispatch('cart/clear', {}, { root: true })})
     if (!silent) {
-      EventBus.$emit('notification', {
+      Vue.prototype.$bus.$emit('notification', {
         type: 'success',
         message: i18n.t('You\'re logged out'),
         action1: { label: i18n.t('OK'), action: 'close' }
@@ -329,7 +331,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   updatePreferences (context, newsletterPreferences) {
     context.commit(types.USER_UPDATE_PREFERENCES, newsletterPreferences)
-    EventBus.$emit('notification', {
+    Vue.prototype.$bus.$emit('notification', {
       type: 'success',
       message: i18n.t('Newsletter preferences have successfully been updated'),
       action1: { label: i18n.t('OK'), action: 'close' }
@@ -356,7 +358,7 @@ const actions: ActionTree<UserState, RootState> = {
 
           if (res) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, res)
-            EventBus.$emit('user-after-loaded-orders', res)
+            Vue.prototype.$bus.$emit('user-after-loaded-orders', res)
 
             resolve(res)
             resolvedFromCache = true
@@ -377,8 +379,7 @@ const actions: ActionTree<UserState, RootState> = {
         }, { root: true }).then((resp) => {
           if (resp.code === 200) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-
-            EventBus.$emit('user-after-loaded-orders', resp.result)
+            Vue.prototype.$bus.$emit('user-after-loaded-orders', resp.result)
           }
           if (!resolvedFromCache) {
             resolve(resp.code === 200 ? resp : null)
@@ -391,6 +392,21 @@ const actions: ActionTree<UserState, RootState> = {
         }
       }
     })
+  },
+  userAfterUpdate(context, event) {
+    if (event.resultCode === 200) {
+      Vue.prototype.$bus.$emit('notification', {
+        type: 'success',
+        message: i18n.t('Account data has successfully been updated'),
+        action1: { label: i18n.t('OK'), action: 'close' }
+      })
+      rootStore.dispatch('user/refreshCurrentUser', event.result)
+    }
+  },
+  sessionAfterAuthorized (context, event) {
+    console.log('Loading user profile')
+    rootStore.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {}) // this will load user cart
+    rootStore.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
   }
 }
 

@@ -1,4 +1,7 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
+import i18n from '@vue-storefront/i18n'
+import * as types from '../../mutation-types'
 import RootState from '../../types/RootState'
 import StockState from './types/StockState'
 import rootStore from '../../'
@@ -17,7 +20,7 @@ const actions: ActionTree<StockState, RootState> = {
             mode: 'cors'
           },
           product_sku: product.sku,
-          callback_event: 'stock-after-check'
+          callback_event: 'stock/stockAfterCheck'
         }, { root: true }).then(task => {
           resolve({ qty: product.stock ? product.stock.qty : 0, status: product.stock ? (product.stock.is_in_stock ? 'ok' : 'out_of_stock') : 'ok', onlineCheckTaskId: task.task_id }) // if online we can return ok because it will be verified anyway
         })
@@ -57,6 +60,27 @@ const actions: ActionTree<StockState, RootState> = {
   },
   clearCache (context) {
     context.state.cache = {}
+  },
+  stockAfterCheck (context, event) {
+    setTimeout(() => {
+      rootStore.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
+        if (cartItem && event.result.code !== 'ENOTFOUND') {
+          if (!event.result.is_in_stock) {
+            if (!rootStore.state.config.stock.allowOutOfStockInCart) {
+              console.log('Removing product from the cart', event.product_sku)
+              rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: { sku: event.product_sku } }, {root: true})
+            } else {
+              rootStore.dispatch('cart/updateItem', { product: { errors: { stock: i18n.t('Out of the stock!') }, sku: event.product_sku, is_in_stock: false } })
+            }
+          } else {
+            rootStore.dispatch('cart/updateItem', { product: { info: { stock: i18n.t('In stock!') }, sku: event.product_sku, is_in_stock: true } })
+          }
+          Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })
+        }
+      })
+      console.debug('Stock quantity checked for ' + event.result.product_id + ', response time: ' + (event.transmited_at - event.created_at) + ' ms')
+      console.debug(event)
+    }, 500)
   }
 }
 
