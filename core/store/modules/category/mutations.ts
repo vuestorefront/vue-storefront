@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { slugify, breadCrumbRoutes } from '../../helpers'
@@ -5,8 +6,6 @@ import { entityKeyName } from '../../lib/entities'
 import EventBus from '../../lib/event-bus'
 import CategoryState from './types/CategoryState'
 import rootStore from '../../'
-
-declare var global: any
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
@@ -29,7 +28,7 @@ const mutations: MutationTree<CategoryState> = {
         }
       }
       catSlugSetter(category)
-      const catCollection = global.$VS.db.categoriesCollection
+      const catCollection = Vue.prototype.$db.categoriesCollection
       try {
         catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
           console.error(reason) // it doesn't work on SSR

@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
@@ -6,15 +7,13 @@ import { htmlDecode } from '../../lib/filters'
 import RootState from '../../types/RootState'
 import WishlistState from './types/WishlistState'
 
-declare var global: any
-
 const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
     context.commit(types.WISH_LOAD_WISH, [])
   },
   load (context) {
     const commit = context.commit
-    global.$VS.db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
+    Vue.prototype.$db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
     })

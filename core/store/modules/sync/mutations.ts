@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { _prepareTask } from './helpers'
@@ -13,7 +14,7 @@ const mutations: MutationTree<SyncState> = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.SYNC_ADD_TASK] (state, task) {
-    const tasksCollection = global.$VS.db.syncTaskCollection
+    const tasksCollection = Vue.prototype.$db.syncTaskCollection
     task = _prepareTask(task)
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) console.error(err)

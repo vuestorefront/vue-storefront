@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
@@ -10,8 +11,6 @@ import isString from 'lodash-es/isString'
 import toString from 'lodash-es/toString'
 import RootState from '../../types/RootState'
 import CartState from './types/CartState'
-
-declare var global: any
 
 const MAX_BYPASS_COUNT = 10
 
@@ -40,7 +39,7 @@ EventBus.$on('user-after-logout', () => {
 })
 
 EventBus.$on('user-after-loggedin', (event) => { // example stock check callback
-  global.$VS.db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
+  Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
     if (err) {
       console.error(err)
     }

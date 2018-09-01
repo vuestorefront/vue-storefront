@@ -16,8 +16,6 @@ import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
 import bodybuilder from 'bodybuilder'
 
-declare var global: any
-
 const PRODUCT_REENTER_TIMEOUT = 20000
 
 const actions: ActionTree<ProductState, RootState> = {
@@ -271,7 +269,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
-        const cache = global.$VS.db.elasticCacheCollection
+        const cache = Vue.prototype.$db.elasticCacheCollection
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
           if (prod.configurable_children) {
             for (let configurableChild of prod.configurable_children) {
@@ -349,7 +347,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = global.$VS.db.elasticCacheCollection
+      const cache = Vue.prototype.$db.elasticCacheCollection
 
       const setupProduct = (prod) => {
         // set product quantity to 1

@@ -1,11 +1,8 @@
-// 3rd party dependecies
 import { mapGetters } from 'vuex'
 
-// Core dependecies
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {

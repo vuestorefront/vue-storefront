@@ -1,11 +1,8 @@
-// 3rd party dependecies
-import VueOfflineMixin from 'vue-offline/mixin'
-
-// Core dependecies
+import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
+import VueOfflineMixin from 'vue-offline/mixin'
 
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
@@ -54,7 +51,7 @@ export default {
         for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
           if (product.onlineStockCheckid) {
             checkPromises.push(new Promise((resolve, reject) => {
-              global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+              Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
                 if (err || !item) {
                   if (err) console.error(err)
                   resolve(null)

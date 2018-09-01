@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import map from 'lodash-es/map'
 import { slugify } from '../helpers'
 import { currentStoreView } from './multistore'
@@ -7,8 +8,6 @@ import rootStore from '../'
 import HttpQuery from '../types/search/HttpQuery'
 import ESQuery from '../types/search/ESQuery'
 import ESResponse from '../types/search/ESResponse'
-
-declare var global: any
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -119,7 +118,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       esQuery.body.groupId = rootStore.state.user.groupId
     }
 
-    const cache = global.$VS.db.elasticCacheCollection // switch to appcache?
+    const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
     let servedFromCache = false
     const cacheKey = sha1(esQuery)
     const benchmarkTime = new Date()

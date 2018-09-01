@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import EventBus from '../../lib/event-bus'
@@ -6,12 +7,10 @@ import i18n from '@vue-storefront/i18n'
 import RootState from '../../types/RootState'
 import CompareState from './types/CompareState'
 
-declare var global: any
-
 const actions: ActionTree<CompareState, RootState> = {
   load (context) {
     const commit = context.commit
-    global.$VS.db.compareCollection.getItem('current-compare', (err, storedItems) => {
+    Vue.prototype.$db.compareCollection.getItem('current-compare', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
     })

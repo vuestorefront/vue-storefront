@@ -1,7 +1,6 @@
-// Core dependecies
+import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
@@ -28,7 +27,7 @@ export default {
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
   mounted () {
-    const usersCollection = global.$VS.db.usersCollection
+    const usersCollection = Vue.prototype.$db.usersCollection
     usersCollection.getItem('current-token', (err, token) => {
       if (err) {
         console.error(err)

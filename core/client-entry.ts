@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import * as localForage from 'localforage'
 import { union } from 'lodash-es'
 
@@ -12,7 +13,6 @@ import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-orde
 
 require('@vue-storefront/core/service-worker-registration') // register the service worker
 
-declare var global: any
 declare var window: any
 
 const { app, router, store } = createApp()
@@ -299,7 +299,7 @@ EventBus.$on('user-before-logout', () => {
     depth: 0
   })
 
-  const usersCollection = global.$VS.db.usersCollection
+  const usersCollection = Vue.prototype.$db.usersCollection
   usersCollection.setItem('current-token', '')
 
   if (store.state.route.path === '/my-account') {

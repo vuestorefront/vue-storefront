@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import EventBus from '../../lib/event-bus'
 import * as types from '../../mutation-types'
@@ -9,12 +10,10 @@ import RootState from '../../types/RootState'
 import UserState from './types/UserState'
 const Ajv = require('ajv') // json validator
 
-declare var global: any
-
 const actions: ActionTree<UserState, RootState> = {
   startSession (context) {
     context.commit(types.USER_START_SESSION)
-    const cache = global.$VS.db.usersCollection
+    const cache = Vue.prototype.$db.usersCollection
     cache.getItem('current-token', (err, res) => {
       if (err) {
         console.error(err)
@@ -26,7 +25,7 @@ const actions: ActionTree<UserState, RootState> = {
         EventBus.$emit('session-after-authorized')
 
         if (rootStore.state.config.usePriceTiers) {
-          global.$VS.db.usersCollection.getItem('current-user', (err, userData) => {
+          Vue.prototype.$db.usersCollection.getItem('current-user', (err, userData) => {
             if (err) {
               console.error(err)
               return
@@ -43,7 +42,7 @@ const actions: ActionTree<UserState, RootState> = {
       EventBus.$emit('session-after-started')
     })
 
-    const newsletterStorage = global.$VS.db.newsletterPreferencesCollection
+    const newsletterStorage = Vue.prototype.$db.newsletterPreferencesCollection
     newsletterStorage.getItem('newsletter-preferences', (err, res) => {
       if (err) {
         console.error(err)
@@ -130,7 +129,7 @@ const actions: ActionTree<UserState, RootState> = {
   */
   refresh (context) {
     return new Promise((resolve, reject) => {
-      const usersCollection = global.$VS.db.usersCollection
+      const usersCollection = Vue.prototype.$db.usersCollection
       usersCollection.getItem('current-refresh-token', (err, refreshToken) => {
         if (err) {
           console.error(err)
@@ -184,7 +183,7 @@ const actions: ActionTree<UserState, RootState> = {
         console.debug('No User token, user unathorized')
         return resolve(null)
       }
-      const cache = global.$VS.db.usersCollection
+      const cache = Vue.prototype.$db.usersCollection
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
@@ -345,7 +344,7 @@ const actions: ActionTree<UserState, RootState> = {
         console.debug('No User token, user unathorized')
         return resolve(null)
       }
-      const cache = global.$VS.db.ordersHistoryCollection
+      const cache = Vue.prototype.$db.ordersHistoryCollection
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user

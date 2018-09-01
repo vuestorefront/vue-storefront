@@ -10,8 +10,6 @@ import omit from 'lodash-es/omit'
 import RootState from '../../types/RootState'
 import CartState from './types/CartState'
 
-declare var global: any
-
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -91,7 +89,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         if (guestCart) {
-          global.$VS.db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
+          Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
         }
         const task = { url: guestCart ? rootStore.state.config.cart.create_endpoint.replace('{{token}}', '') : rootStore.state.config.cart.create_endpoint, // sync the cart
           payload: {
@@ -168,11 +166,11 @@ const actions: ActionTree<CartState, RootState> = {
         let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
         commit(types.CART_UPD_PAYMENT, paymentMethod)
       }
-      global.$VS.db.cartsCollection.getItem('current-cart', (err, storedItems) => {
+      Vue.prototype.$db.cartsCollection.getItem('current-cart', (err, storedItems) => {
         if (err) throw new Error(err)
 
         if (rootStore.state.config.cart.synchronize) {
-          global.$VS.db.cartsCollection.getItem('current-cart-token', (err, token) => {
+          Vue.prototype.$db.cartsCollection.getItem('current-cart-token', (err, token) => {
             if (err) throw new Error(err)
             // TODO: if token is null create cart server side and store the token!
             if (token) { // previously set token
