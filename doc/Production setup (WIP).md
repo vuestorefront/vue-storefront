@@ -360,7 +360,7 @@ yarn build
 
 #### Data import
 
-Vue Storefront need to have some data in the ElasticSearch to properly display products and categories. Of course You can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the ElasticSearch indeex whenever data is being changed in Magento. For purposes of this tutorial we'll just restore the data from the JSON file.
+Vue Storefront need to have some data in the ElasticSearch to properly display products and categories. Of course You can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the ElasticSearch index whenever data is being changed in Magento. For purposes of this tutorial we'll just restore the data from the JSON file.
 
 You can easily dump Your current VS index using the following command (Your local instalation):
 
