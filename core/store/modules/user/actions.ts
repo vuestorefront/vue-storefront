@@ -261,7 +261,7 @@ const actions: ActionTree<UserState, RootState> = {
             mode: 'cors',
             body: JSON.stringify(userData)
           },
-          callback_event: 'user/userAfterUpdate'
+          callback_event: 'store:user/userAfterUpdate'
         }, { root: true }).then(task => {
           resolve()
         })

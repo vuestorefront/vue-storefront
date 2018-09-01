@@ -119,7 +119,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       task.acknowledged = false
 
       if (task.callback_event) {
-        rootStore.dispatch(task.callback_event, task)
+        if (task.callback_event.startsWith('store:')) {
+          rootStore.dispatch(task.callback_event.split(':')[1], task)
+        } else {
+          Vue.prototype.$bus.$emit(task.callback_event, task)
+        }
       }
       if (!rootStore.state.userTokenInvalidateLock) { // in case we're revalidaing the token - user must wait for it
         resolve(task)

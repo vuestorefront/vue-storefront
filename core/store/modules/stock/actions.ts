@@ -20,7 +20,7 @@ const actions: ActionTree<StockState, RootState> = {
             mode: 'cors'
           },
           product_sku: product.sku,
-          callback_event: 'stock/stockAfterCheck'
+          callback_event: 'store:stock/stockAfterCheck'
         }, { root: true }).then(task => {
           resolve({ qty: product.stock ? product.stock.qty : 0, status: product.stock ? (product.stock.is_in_stock ? 'ok' : 'out_of_stock') : 'ok', onlineCheckTaskId: task.task_id }) // if online we can return ok because it will be verified anyway
         })

@@ -67,7 +67,7 @@ const actions: ActionTree<CartState, RootState> = {
           silent: true,
           force_client_state: forceClientState,
           dry_run: dryRun,
-          callback_event: 'cart/servercartAfterPulled'
+          callback_event: 'store:cart/servercartAfterPulled'
         }, { root: true }).then(task => {
           const storeView = currentStoreView()
           if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
@@ -99,7 +99,7 @@ const actions: ActionTree<CartState, RootState> = {
           },
           silent: true,
           force_client_state: forceClientState,
-          callback_event: 'cart/servercartAfterTotals'
+          callback_event: 'store:cart/servercartAfterTotals'
         }, { root: true }).then(task => {
 
         })
@@ -121,7 +121,7 @@ const actions: ActionTree<CartState, RootState> = {
             mode: 'cors'
           },
           silent: true,
-          callback_event: 'cart/servercartAfterCreated'
+          callback_event: 'store:cart/servercartAfterCreated'
         }
         context.dispatch('sync/execute', task, { root: true }).then(task => {})
         return task
@@ -141,7 +141,7 @@ const actions: ActionTree<CartState, RootState> = {
           cartItem: cartItem
         })
       },
-      callback_event: 'cart/servercartAfterItemUpdated'
+      callback_event: 'store:cart/servercartAfterItemUpdated'
     }, { root: true }).then(task => {
       // eslint-disable-next-line no-useless-return
       if (rootStore.state.config.cart.synchronize_totals && context.state.cartItems.length > 0) {
@@ -165,7 +165,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
       },
       silent: true,
-      callback_event: 'cart/servercartAfterItemDeleted'
+      callback_event: 'store:cart/servercartAfterItemDeleted'
     }, { root: true }).then(task => {
       // eslint-disable-next-line no-useless-return
       if (rootStore.state.config.cart.synchronize_totals && context.state.cartItems.length > 0) {
@@ -406,7 +406,7 @@ const actions: ActionTree<CartState, RootState> = {
             })
           },
           silent: true,
-          callback_event: 'cart/servercartAfterTotals'
+          callback_event: 'store:cart/servercartAfterTotals'
         }, { root: true }).catch(e => {
           console.error(e)
         })
