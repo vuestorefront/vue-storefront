@@ -1,6 +1,5 @@
 import * as localForage from 'localforage'
 import { union } from 'lodash-es'
-import sizeof from 'object-sizeof'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
@@ -281,12 +280,6 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
     })
   }
 })
-
-setInterval(() => {
-  const sizeOfCache = sizeof(global.$VS.localCache) / 1024
-  console.debug('Local cache size = ' + sizeOfCache + 'KB')
-  EventBus.$emit('cache-local-size', sizeOfCache)
-}, 30000)
 
 EventBus.$on('user-after-loggedin', receivedData => {
   store.dispatch('checkout/savePersonalDetails', {

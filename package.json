@@ -58,7 +58,6 @@
     "lru-cache": "^4.0.1",
     "mkdirp": "^0.5.1",
     "object-hash": "^1.2.0",
-    "object-sizeof": "^1.2.0",
     "pm2": "^2.10.4",
     "reflect-metadata": "^0.1.12",
     "scrollreveal": "^3.3.6",

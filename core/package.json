@@ -22,7 +22,6 @@
     "lodash-es": "^4.17.10",
     "lru-cache": "^4.0.1",
     "mkdirp": "^0.5.1",
-    "object-sizeof": "^1.2.0",
     "url-parse": "^1.2.0",
     "vue": "^2.5.17",
     "vue-carousel": "^0.6.9",

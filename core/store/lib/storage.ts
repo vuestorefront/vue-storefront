@@ -16,6 +16,7 @@ class LocalForageCacheDriver {
   private _persistenceErrorNotified: boolean;
   private _useLocalCacheByDefault: boolean;
   private cacheErrorsCount: any;
+  private localCache: any;
 
   constructor (collection, useLocalCacheByDefault = true) {
     const collectionName = collection._config.storeName
@@ -26,19 +27,19 @@ class LocalForageCacheDriver {
     if (typeof this.cacheErrorsCount[collectionName] === 'undefined') {
       this.cacheErrorsCount[collectionName] = 0
     }
-    if (typeof global.$VS.localCache === 'undefined') {
-      global.$VS.localCache = {}
+    if (typeof this.localCache === 'undefined') {
+      this.localCache = {}
     }
-    if (typeof global.$VS.localCache[dbName] === 'undefined') {
-      global.$VS.localCache[dbName] = {}
+    if (typeof this.localCache[dbName] === 'undefined') {
+      this.localCache[dbName] = {}
     }
-    if (typeof global.$VS.localCache[dbName][collectionName] === 'undefined') {
-      global.$VS.localCache[dbName][collectionName] = {}
+    if (typeof this.localCache[dbName][collectionName] === 'undefined') {
+      this.localCache[dbName][collectionName] = {}
     }
     this._collectionName = collectionName
     this._dbName = dbName
     this._useLocalCacheByDefault = useLocalCacheByDefault
-    this._localCache = global.$VS.localCache[dbName][collectionName]
+    this._localCache = this.localCache[dbName][collectionName]
     this._localForageCollection = collection
     this._lastError = null
     this._persistenceErrorNotified = false
