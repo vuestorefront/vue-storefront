@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
-import EventBus from '../../lib/event-bus'
 import i18n from '@vue-storefront/i18n'
 import RootState from '../../types/RootState'
 import CheckoutState from './types/CheckoutState'
@@ -23,7 +22,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
     } catch (e) {
       if (e.name === 'ValidationError') {
         console.error('Internal validation error; Order entity is not compliant with the schema', e.messages)
-        EventBus.$emit('notification', {
+        Vue.prototype.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
           action1: { label: i18n.t('OK'), action: 'close' }

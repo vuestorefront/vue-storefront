@@ -6,9 +6,6 @@ import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/
 import config from 'config' // can not be obtained from rootStore as this entry is loaded erlier than app.ts
 import omit from 'lodash-es/omit'
 
-declare var global: any
-if (!global.$VS) global.$VS = {}
-
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     reject(new HttpError(err.message, 404))

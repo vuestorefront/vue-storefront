@@ -4,8 +4,6 @@ import { entityKeyName } from '../../lib/entities'
 import * as types from '../../mutation-types'
 import AttributeState from './types/AttributeState'
 
-declare var global: any
-
 const mutations: MutationTree<AttributeState> = {
   /**
    * Store attributes by code in state and localForage

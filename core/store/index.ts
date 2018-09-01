@@ -7,9 +7,6 @@ import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
 import RootState from './types/RootState'
 
-declare var global: any
-
-if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
 
 const state = {
@@ -154,6 +151,7 @@ export function initStore () {
   const config = rootStore.state.config
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
   Vue.prototype.$db = {
     ordersCollection: new UniversalStorage(localForage.createInstance({
       name: 'shop',

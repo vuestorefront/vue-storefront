@@ -3,7 +3,6 @@ import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
 import { quickSearchByQuery } from '../../lib/search'
 import { entityKeyName } from '../../lib/entities'
-import EventBus from '../../lib/event-bus'
 import rootStore from '../../'
 import i18n from '@vue-storefront/i18n'
 import chunk from 'lodash-es/chunk'
@@ -14,8 +13,6 @@ import RootState from '../../types/RootState'
 import CategoryState from './types/CategoryState'
 import bodybuilder from 'bodybuilder'
 
-declare var global: any
-
 const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Reset current category and path
@@ -25,7 +22,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, [])
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY, {})
     rootStore.dispatch('stock/clearCache')
-    EventBus.$emit('category-after-reset', { })
+    Vue.prototype.$bus.$emit('category-after-reset', { })
   },
   /**
    * Load categories within specified parent
@@ -50,7 +47,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (skipCache || (!context.state.list || context.state.list.length === 0)) {
       return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
-        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        Vue.prototype.$bus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
         return resp
       }).catch((err) => {
         console.error(err)
@@ -58,7 +55,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
-        EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        Vue.prototype.$bus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
         resolve(resp)
       })
     }
@@ -97,7 +94,7 @@ const actions: ActionTree<CategoryState, RootState> = {
               dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
                 if (!sc) {
                   commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
-                  EventBus.$emit('category-after-single', { category: mainCategory })
+                  Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
                   return resolve(mainCategory)
                 }
                 currentPath.unshift(sc)
@@ -111,7 +108,7 @@ const actions: ActionTree<CategoryState, RootState> = {
               })
             } else {
               commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
-              EventBus.$emit('category-after-single', { category: mainCategory })
+              Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
               resolve(mainCategory)
             }
           }
@@ -119,7 +116,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             recurCatFinder(mainCategory) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
           }
         } else {
-          EventBus.$emit('category-after-single', { category: mainCategory })
+          Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
           resolve(mainCategory)
         }
       }
@@ -190,7 +187,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
       let subloaders = []
       if (!res || (res.noresults)) {
-        EventBus.$emit('notification', {
+        Vue.prototype.$bus.$emit('notification', {
           type: 'warning',
           message: i18n.t('No products synchronized for this category. Please come back while online!'),
           action1: { label: i18n.t('OK'), action: 'close' }
@@ -268,7 +265,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       return subloaders
     }).catch((err) => {
       console.info(err)
-      EventBus.$emit('notification', {
+      Vue.prototype.$bus.$emit('notification', {
         type: 'warning',
         message: i18n.t('No products synchronized for this category. Please come back while online!'),
         action1: { label: i18n.t('OK'), action: 'close' }

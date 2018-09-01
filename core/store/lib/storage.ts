@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
 
-declare var global: any
-
 const CACHE_TIMEOUT = 1600
 const CACHE_TIMEOUT_ITERATE = 3000
 const DISABLE_PERSISTANCE_AFTER = 3
@@ -267,6 +265,5 @@ class LocalForageCacheDriver {
   }
 }
 
-// The actual localForage object that we expose as a module or via a
-// global.$VS. It's extended by pulling in one of our other libraries.
+// The actual localForage object that we expose as a module. It's extended by pulling in one of our other libraries.
 export default LocalForageCacheDriver
