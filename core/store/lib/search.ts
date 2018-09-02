@@ -60,7 +60,7 @@ function search (elasticQuery) {
     },
     body: JSON.stringify(elasticQuery.body)
   }).then(resp => { return resp.json() }).catch(err => {
-    throw new Error('Invalid JSON response from Elastic')
+    throw new Error(err)
   })
 }
 /**
