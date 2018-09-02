@@ -32,7 +32,6 @@ export default {
         firstname: this.$store.state.checkout.personalDetails.firstName,
         lastname: this.$store.state.checkout.personalDetails.lastName
       }).then((result) => {
-        console.log(result)
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.$bus.$emit('notification', {

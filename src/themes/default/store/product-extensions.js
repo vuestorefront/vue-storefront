@@ -9,7 +9,7 @@ const state = {
 
 const actions = {
   example () {
-    console.log('Hello from example product Vuex action')
+    console.debug('Hello from example product Vuex action')
   }
 }
 

@@ -29,7 +29,7 @@ export function onNetworkStatusChange (store) {
           ordersToConfirm.push(order)
         }
       }).catch(err => {
-        console.log(err)
+        console.error(err)
       })
 
       if (ordersToConfirm.length > 0) {
