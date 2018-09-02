@@ -7,6 +7,7 @@ import rootStore from '../'
 import HttpQuery from '../types/search/HttpQuery'
 import ESQuery from '../types/search/ESQuery'
 import ESResponse from '../types/search/ESResponse'
+import Vue from 'vue'
 
 declare var global: any
 
@@ -58,7 +59,9 @@ function search (elasticQuery) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(elasticQuery.body)
-  }).then(resp => { return resp.json() })
+  }).then(resp => { return resp.json() }).catch(err => {
+    throw new Error('Invalid JSON response from Elastic')
+  })
 }
 /**
  * Helper function to handle ElasticSearch Results
@@ -173,9 +176,8 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         res.offline = false
         resolve(res)
       }
-    }).catch((err) => {
-      // reject(err)
-      console.error(err)
+    }).catch(err => {
+      reject(err)
     })
   })
 }
