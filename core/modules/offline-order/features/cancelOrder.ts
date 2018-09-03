@@ -26,8 +26,8 @@ export const cancelOrder = {
           ordersCollection.removeItem(id)
         }
       }).catch(err => {
-        console.log(err)
-        console.log('Not transmitted orders was deleted')
+        console.error(err)
+        console.log('Not transmitted orders have been deleted')
       })
 
       EventBus.$emit('modal-hide', 'modal-order-confirmation')

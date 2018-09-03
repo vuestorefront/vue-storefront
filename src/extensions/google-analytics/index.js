@@ -10,7 +10,7 @@ const EXTENSION_KEY = 'google-analytics'
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes)
   store.registerModule(EXTENSION_KEY, extensionStore)
-  console.log('Google Analytics extension registered')
+  console.debug('Google Analytics extension registered')
 
   if (config.analytics.id && !Vue.prototype.$isServer) {
     Vue.use(VueAnalytics, {

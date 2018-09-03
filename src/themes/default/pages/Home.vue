@@ -96,6 +96,8 @@ export default {
           size: 8,
           sort: 'created_at:desc',
           includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+        }).catch(err => {
+          reject(err)
         }).then((res) => {
           if (res) {
             store.state.homepage.new_collection = res.items
@@ -111,8 +113,14 @@ export default {
               store.state.homepage.coolbags_collection = res.items
             }
             return resolve()
+          }).catch(err => {
+            reject(err)
           })
+        }).catch(err => {
+          reject(err)
         })
+      }).catch(err => {
+        reject(err)
       })
     })
   }

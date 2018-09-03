@@ -19,8 +19,6 @@ const actions: ActionTree<TaxState, RootState> = {
       return quickSearchByQuery({ query: bodybuilder(), entityType }).then((resp) => {
         context.commit(types.TAX_UPDATE_RULES, resp)
         return resp
-      }).catch((err) => {
-        console.error(err)
       })
     }
   },
