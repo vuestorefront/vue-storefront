@@ -24,7 +24,8 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#configurable-filters">How to deal with Category filters based on configurable_children</a>
 * <a href="#seo-redirects">How to redirect original Magento2 urls to Vue Storefront</a>
 * <a href="#configurable-error">You need to choose options for your item message when I hit API for add to cart configrable product</a>
-*  <a href="https://www.evernote.com/shard/s251/sh/7f0e718d-3ec9-41ce-8641-3d082a4752df/2b8252926b091740">*images loading* issue on Magento 2 integration</a>
+* <a href="https://www.evernote.com/shard/s251/sh/7f0e718d-3ec9-41ce-8641-3d082a4752df/2b8252926b091740">*Images loading* issue on Magento 2 integration</a>
+* <a href="#adding-filter">Adding custom category filters</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -238,3 +239,14 @@ Please make sure that  `vue-storefront/config/local.json` setting of `useMagento
 ### <a name="configurable-error"></a>You need to choose options for your item message when I hit API for add to cart configrable product
 
 This is because the demo data dump works on the demo-magento2.vuestorefront.io instance's attribute ids. Please reimport all product data using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront)
+
+### <a name="adding-filters"></a>Adding custom category filters
+
+You need to add the attributes You'll like to have displayed to the `config/local.json` field name is: `products.defaultFilters`:
+
+```json
+      "defaultFilters": ["color", "size", "price", "erin_recommends"],
+```
+
+And then You can use proper controls for each individual filter in here:
+https://github.com/DivanteLtd/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue
