@@ -7,7 +7,7 @@ export default {
       }
     }
     document.addEventListener('keydown', keydownHandler)
-    this.$once('hook:desktroyed', () => {
+    this.$once('hook:destroyed', () => {
       document.removeEventListener('keydown', keydownHandler)
     })
   }
