@@ -8,7 +8,6 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 
 import router from '@vue-storefront/core/router'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
 import registerExtensions from '@vue-storefront/core/lib/extensions'
 import i18n from '@vue-storefront/i18n'
