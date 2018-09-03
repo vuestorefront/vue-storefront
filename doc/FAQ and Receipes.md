@@ -24,7 +24,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#configurable-filters">How to deal with Category filters based on configurable_children</a>
 * <a href="#seo-redirects">How to redirect original Magento2 urls to Vue Storefront</a>
 * <a href="#configurable-error">You need to choose options for your item message when I hit API for add to cart configrable product</a>
-* <a href="https://www.evernote.com/shard/s251/sh/7f0e718d-3ec9-41ce-8641-3d082a4752df/2b8252926b091740">*Images loading* issue on Magento 2 integration</a>
+* <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md">*Images loading* issue on Magento 2 integration</a>
 * <a href="#adding-filter">Adding custom category filters</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
