@@ -1,6 +1,6 @@
+import Vue from 'vue'
 import * as localForage from 'localforage'
 import { union } from 'lodash-es'
-import sizeof from 'object-sizeof'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
@@ -13,7 +13,6 @@ import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-orde
 
 require('@vue-storefront/core/service-worker-registration') // register the service worker
 
-declare var global: any
 declare var window: any
 
 const { app, router, store } = createApp()
@@ -282,12 +281,6 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }
 })
 
-setInterval(() => {
-  const sizeOfCache = sizeof(global.$VS.localCache) / 1024
-  console.debug('Local cache size = ' + sizeOfCache + 'KB')
-  EventBus.$emit('cache-local-size', sizeOfCache)
-}, 30000)
-
 EventBus.$on('user-after-loggedin', receivedData => {
   store.dispatch('checkout/savePersonalDetails', {
     firstName: receivedData.firstname,
@@ -306,7 +299,7 @@ EventBus.$on('user-before-logout', () => {
     depth: 0
   })
 
-  const usersCollection = global.$VS.db.usersCollection
+  const usersCollection = Vue.prototype.$db.usersCollection
   usersCollection.setItem('current-token', '')
 
   if (store.state.route.path === '/my-account') {

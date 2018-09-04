@@ -8,7 +8,6 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 
 import router from '@vue-storefront/core/router'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
 import registerExtensions from '@vue-storefront/core/lib/extensions'
 import i18n from '@vue-storefront/i18n'
@@ -22,14 +21,9 @@ import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
 
-declare var global: any
-
-if (!global.$VS) global.$VS = {}
-
 store.state.version = '1.3'
 store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 store.state.config = config
-global.$VS.eventBus = EventBus
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 

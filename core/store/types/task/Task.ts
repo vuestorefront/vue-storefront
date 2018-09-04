@@ -1,6 +1,6 @@
 export default interface Task {
   acknowledged: boolean
-  callback_event: any
+  callback_event: string
   code: number
   payload: any
   result: any

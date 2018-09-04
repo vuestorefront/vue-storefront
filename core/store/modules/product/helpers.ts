@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import rootStore from '../../'
-import EventBus from '../../lib/event-bus'
 import { calculateProductTax } from '../../lib/taxcalc'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
@@ -19,7 +18,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
     if (stockItem.is_in_stock === false) {
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
-      EventBus.$emit('product-after-removevariant', { product: product })
+      Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
       if (rootStore.state.config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned empty result'))
       }
@@ -52,7 +51,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
             const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
             if (!variant) {
               console.log('No variant for', opt)
-              EventBus.$emit('product-after-removevariant', { product: product })
+              Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
               removedOptions++
               return false
             } else {
@@ -68,7 +67,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
       if (totalOptions === 0) {
         product.errors.variants = i18n.t('No available product variants')
         context.state.current.errors = product.errors
-        EventBus.$emit('product-after-removevariant', { product: product })
+        Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
       }
     }
   }
@@ -150,7 +149,7 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
   } else {
     product.special_price = 0 // the same price as original; it's not a promotion
   }
-  EventBus.$emit('product-after-priceupdate', product)
+  Vue.prototype.$bus.$emit('product-after-priceupdate', product)
   // console.log(product.sku, product, backProduct)
   return product
 }
@@ -455,7 +454,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', selectedVariant)
       }
-      EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
+      Vue.prototype.$bus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     }
     return selectedVariant
   } else {

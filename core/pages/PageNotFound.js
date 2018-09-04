@@ -1,11 +1,8 @@
-// 3rd party dependecies
 import builder from 'bodybuilder'
 
-// Core dependecies
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
