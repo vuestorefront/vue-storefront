@@ -6,7 +6,9 @@
     "elasticsearch": {
       "httpAuth": "",
       "host": "localhost:8080/api/catalog",
-      "index": "vue_storefront_catalog"
+      "index": "vue_storefront_catalog",
+      "csrTimeout": 5000,
+      "ssrTimeout": 1000
     },
     "ssr": {
       "executeMixedinAsyncData": true,

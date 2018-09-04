@@ -149,7 +149,7 @@ export default {
     onAfterPlaceOrder (order) {
       this.orderPlaced = true
       this.$store.dispatch('checkout/setThankYouPage', true)
-      console.log(this.order)
+      console.debug(this.order)
     },
     onBeforeEdit (section) {
       this.activateSection(section)

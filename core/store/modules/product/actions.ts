@@ -300,8 +300,6 @@ const actions: ActionTree<ProductState, RootState> = {
         Vue.prototype.$bus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
-    }).catch((err) => {
-      console.error(err)
     })
   },
 
@@ -624,6 +622,8 @@ const actions: ActionTree<ProductState, RootState> = {
             filterValues: [true],
             filterField: 'is_user_defined',
             includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
+          }).catch(err => {
+            reject(err)
           }).then((attrs) => {
             context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
               Promise.all(subpromises).then(subresults => {
@@ -641,11 +641,9 @@ const actions: ActionTree<ProductState, RootState> = {
               })
             }).catch(err => {
               context.state.productLoadStart = null
-              console.error(err)
               reject(err)
             }).catch(err => {
               context.state.productLoadStart = null
-              console.error(err)
               reject(err)
             })
           })

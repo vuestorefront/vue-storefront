@@ -49,8 +49,6 @@ const actions: ActionTree<CategoryState, RootState> = {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
         Vue.prototype.$bus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
         return resp
-      }).catch((err) => {
-        console.error(err)
       })
     } else {
       return new Promise((resolve, reject) => {
@@ -264,7 +262,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
       return subloaders
     }).catch((err) => {
-      console.info(err)
+      console.error(err)
       Vue.prototype.$bus.$emit('notification', {
         type: 'warning',
         message: i18n.t('No products synchronized for this category. Please come back while online!'),

@@ -28,7 +28,7 @@ store.state.config = config
 const storeModules = Object.assign(coreModules, themeModules || {})
 
 for (const moduleName of Object.keys(storeModules)) {
-  console.log('Registering Vuex module', moduleName)
+  console.debug('Registering Vuex module', moduleName)
   store.registerModule(moduleName, storeModules[moduleName])
 }
 

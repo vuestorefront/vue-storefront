@@ -8,6 +8,7 @@ import rootStore from '../'
 import HttpQuery from '../types/search/HttpQuery'
 import ESQuery from '../types/search/ESQuery'
 import ESResponse from '../types/search/ESResponse'
+import Vue from 'vue'
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -57,7 +58,9 @@ function search (elasticQuery) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(elasticQuery.body)
-  }).then(resp => { return resp.json() })
+  }).then(resp => { return resp.json() }).catch(err => {
+    throw new Error(err)
+  })
 }
 /**
  * Helper function to handle ElasticSearch Results
@@ -172,9 +175,8 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         res.offline = false
         resolve(res)
       }
-    }).catch((err) => {
-      // reject(err)
-      console.error(err)
+    }).catch(err => {
+      reject(err)
     })
   })
 }

@@ -22,8 +22,6 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     return quickSearchByQuery({ entityType: 'attribute', query: qrObj.build(), includeFields: includeFields }).then((resp) => {
       commit(types.ATTRIBUTE_UPD_ATTRIBUTES, resp)
-    }).catch((err) => {
-      console.error(err)
     })
   }
 }

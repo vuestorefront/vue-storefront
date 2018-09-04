@@ -32,7 +32,7 @@ export default {
 
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
-        console.log(result)
+        console.debug(result)
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.$bus.$emit('notification', {

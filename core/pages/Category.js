@@ -86,6 +86,9 @@ export default {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
           includeFields: config.entities.optimize && Vue.prototype.$isServer ? config.entities.attribute.includeFields : null
+        }).catch(err => {
+          console.error(err)
+          reject(err)
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
             let query = store.state.category.current_product_query
@@ -100,13 +103,22 @@ export default {
                   console.error(err)
                   return resolve()
                 })
+              }).catch(err => {
+                console.error(err)
+                reject(err)
               })
+            }).catch(err => {
+              console.error(err)
+              reject(err)
             })
           }).catch(err => {
             console.error(err)
             reject(err)
           })
         })
+      }).catch(err => {
+        console.error(err)
+        reject(err)
       })
     })
   },
