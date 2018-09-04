@@ -8,7 +8,6 @@ import rootStore from '../'
 import HttpQuery from '../types/search/HttpQuery'
 import ESQuery from '../types/search/ESQuery'
 import ESResponse from '../types/search/ESResponse'
-import Vue from 'vue'
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
