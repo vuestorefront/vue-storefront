@@ -4,6 +4,9 @@ import { productsInCart } from './productsInCart'
 import { closeMicrocart } from './closeMicrocart'
 import { openMicrocart } from './openMicrocart'
 import { isMicrocartOpen } from './isMicrocartOpen'
+import { applyCoupon } from './applyCoupon'
+import { removeCoupon } from './removeCoupon'
+import { appliedCoupon } from './appliedCoupon'
 
 export {
   addToCart,
@@ -11,5 +14,8 @@ export {
   productsInCart,
   closeMicrocart,
   openMicrocart,
-  isMicrocartOpen
+  isMicrocartOpen,
+  applyCoupon,
+  removeCoupon,
+  appliedCoupon
 }

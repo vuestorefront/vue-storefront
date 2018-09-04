@@ -47,7 +47,7 @@
       <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
         <div class="col-xs">
           {{ segment.title }}
-          <button v-if="coupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="removeCoupon">
+          <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
             <i class="material-icons cl-accent">
               close
             </i>
@@ -72,7 +72,7 @@
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
             <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup="enterCoupon"/>
           </div>
-          <button-outline color="dark" :disabled="!couponCode" @click.native="applyCoupon">{{ $t('Add discount code') }}</button-outline>
+          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">{{ $t('Add discount code') }}</button-outline>
         </div>
       </div>
 
@@ -85,6 +85,7 @@
         </div>
       </div>
     </div>
+
     <div
       class="row py20 px40 middle-xs actions"
       v-if="productsInCart.length && !isCheckoutMode"
@@ -109,6 +110,7 @@
 </template>
 
 <script>
+import i18n from '@vue-storefront/i18n'
 import Microcart from '@vue-storefront/core/components/blocks/Microcart/Microcart'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
@@ -123,7 +125,44 @@ export default {
     ButtonOutline,
     BaseInput
   },
-  mixins: [Microcart]
+  mixins: [Microcart],
+  data () {
+    return {
+      addCouponPressed: false,
+      couponCode: ''
+    }
+  },
+  methods: {
+    addDiscountCoupon () {
+      this.addCouponPressed = true
+    },
+    clearCoupon () {
+      this.removeCoupon()
+      this.addCouponPressed = false
+    },
+    setCoupon () {
+      this.applyCoupon(this.couponCode).then(() => {
+        this.addCouponPressed = false
+        this.couponCode = ''
+      }).catch(() => {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('You\'ve entered an incorrect coupon code. Please try again.'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+      })
+    },
+    enterCoupon (e) {
+      if (e.keyCode === 13) {
+        this.setCoupon()
+      }
+    },
+    closeMicrocartExtend () {
+      this.closeMicrocart()
+      this.$store.commit('ui/setSidebar', false)
+      this.addCouponPressed = false
+    }
+  }
 }
 </script>
 

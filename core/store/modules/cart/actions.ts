@@ -416,46 +416,50 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   removeCoupon (context) {
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-      context.dispatch('sync/execute', { url: rootStore.state.config.cart.deletecoupon_endpoint,
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        },
-        silent: true
-      }, { root: true }).then(task => {
-        if (task.result) {
-          context.dispatch('refreshTotals')
-        }
-      }).catch(e => {
-        console.error(e)
-      })
-    }
+    return new Promise((resolve, reject) => {
+      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        context.dispatch('sync/execute', { url: rootStore.state.config.cart.deletecoupon_endpoint,
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          silent: true
+        }, { root: true }).then(task => {
+          if (task.result) {
+            context.dispatch('refreshTotals')
+            resolve(task.result)
+          }
+        }).catch(e => {
+          console.error(e)
+          reject(e)
+        })
+      }
+    });
   },
   applyCoupon (context, couponCode) {
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-      context.dispatch('sync/execute', { url: rootStore.state.config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        },
-        silent: true
-      }, { root: true }).then(task => {
-        if (task.result === true) {
-          context.dispatch('refreshTotals')
-        } else {
-          Vue.prototype.$bus.$emit('notification', {
-            type: 'warning',
-            message: i18n.t('You\'ve entered an incorrect coupon code. Please try again.'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-        }
-      }).catch(e => {
-        console.error(e)
-      })
-    }
+    return new Promise((resolve, reject) => {
+      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        context.dispatch('sync/execute', { url: rootStore.state.config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          silent: true
+        }, { root: true }).then(task => {
+          if (task.result === true) {
+            context.dispatch('refreshTotals')
+            resolve(task.result)
+          } else {
+            reject(false)
+          }
+        }).catch(e => {
+          console.log(e)
+          reject(e)
+        })
+      }
+    })
   },
   userAfterLoggedin () {
     Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
@@ -514,7 +518,7 @@ const actions: ActionTree<CartState, RootState> = {
         const serverItem = serverItems.find((itm) => {
           return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
         })
-  
+
         if (!serverItem) {
           console.log('No server item for ' + clientItem.sku)
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
@@ -551,7 +555,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         }
       }
-  
+
       for (const serverItem of serverItems) {
         if (serverItem) {
           const clientItem = clientItems.find((itm) => {
@@ -560,7 +564,7 @@ const actions: ActionTree<CartState, RootState> = {
           if (!clientItem) {
             console.log('No client item for ' + serverItem.sku)
             diffLog.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no_item' })
-  
+
             if (!event.dry_run) {
               if (event.force_client_state) {
                 console.log('Removing item', serverItem.sku, serverItem.item_id)
@@ -589,7 +593,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         }
       }
-  
+
       if (!event.dry_run) {
         if ((!serverCartUpdateRequired || clientCartUpdateRequired) && cartHasItems) {
           rootStore.dispatch('cart/refreshTotals')
