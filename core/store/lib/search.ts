@@ -58,7 +58,11 @@ function search (elasticQuery) {
     },
     body: JSON.stringify(elasticQuery.body)
   }).then(resp => { return resp.json() }).catch(err => {
-    throw new Error(err)
+    if (err.message.indexOf('fetch') >= 0 || !isOnline()) {
+      console.error('Offline mode ' + err.message)
+    } else {
+      throw new Error(err)
+    }
   })
 }
 /**
@@ -69,7 +73,11 @@ function search (elasticQuery) {
  */
 function _handleEsResult (resp, start = 0, size = 50): ESResponse {
   if (resp == null) {
-    throw new Error('Invalid ES result - null not exepcted')
+    if (isOnline()) {
+      throw new Error('Invalid ES result - null not exepcted')
+    } else {
+      return null // empty result but not exception raised - we're in offline mode
+    }
   }
   if (resp.hasOwnProperty('hits')) {
     return {
@@ -166,13 +174,16 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
 
     search(esQuery).then((resp) => { // we're always trying to populate cache - when online
       const res = _handleEsResult(resp, start, size)
-      cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
-      if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-        console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-        res.cache = false
-        res.noresults = false
-        res.offline = false
-        resolve(res)
+
+      if (res) { // otherwise it can be just a offline mode
+        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
+          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          res.cache = false
+          res.noresults = false
+          res.offline = false
+          resolve(res)
+        }
       }
     }).catch(err => {
       reject(err)

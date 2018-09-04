@@ -94,7 +94,7 @@ router.onReady(() => {
       })
       if (c.asyncData) {
         c.asyncData({ store, route: to }).then(result => { // always execute the asyncData() from the top most component first
-          console.log('Top-most asyncData executed')
+          console.debug('Top-most asyncData executed')
           _ssrHydrateSubcomponents(components, next, to)
         }).catch(next)
       } else {
