@@ -2,6 +2,22 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+## 1.2 -> 1.3
+
+### Modifications
+
+#### `global.$VS` replaced with `rootStore` and `config` was moved to `rootStore.state.config`
+
+To get access to rootStore import it by
+
+`import rootStore from '@vue-storefront/store'`
+
+#### cms extenstion was renamed to extension-magento2-cms 
+
+Import of CmsData must be changed in `CustomCmsPage.vue` component to:
+
+`import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'`
+
 ## 1.1 -> 1.2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.2.0))
 
 There were no breaking-changes introduced. No special treatment needed :) 
