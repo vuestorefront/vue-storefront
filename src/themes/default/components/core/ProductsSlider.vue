@@ -2,7 +2,7 @@
   <div class="collection">
     <div class="container">
       <div class="row center-xs">
-        <header class="col-md-12 pb15">
+        <header class="col-md-12">
           <h2 class="align-center cl-accent">
             {{ title }}
           </h2>
@@ -10,24 +10,26 @@
       </div>
     </div>
     <div class="bg-cl-secondary collection-slider">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="pb20 pt20 center-xs cool-stuff-collection">
-            <no-ssr>
-              <carousel v-bind="config" @pageChange="setMuted">
-                <slide
-                  v-for="(product, index) in products"
-                  :key="product.id"
-                >
-                  <product-tile
-                    class="collection-product"
-                    :product="product"
-                    :class="{'is-muted': (currentPage == index || index == currentPage + 5)}"
-                    :labels-active="false"
-                  />
-                </slide>
-              </carousel>
-            </no-ssr>
+      <div class="container px15">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="center-xs cool-stuff-collection">
+              <no-ssr>
+                <carousel v-bind="config" @pageChange="setMuted">
+                  <slide
+                    v-for="product in products"
+                    :key="product.id"
+                  >
+                    <product-tile
+                      class="collection-product"
+                      :product="product"
+                      :labels-active="false"
+                      :only-image="true"
+                    />
+                  </slide>
+                </carousel>
+              </no-ssr>
+            </div>
           </div>
         </div>
       </div>
@@ -39,7 +41,7 @@
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 
-import ProductsSlider from 'core/components/ProductsSlider'
+import ProductsSlider from '@vue-storefront/core/components/ProductsSlider'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
@@ -70,26 +72,47 @@ $color-product-bg: color(secondary, $colors-background);
 
 .collection-slider {
   overflow: hidden;
-}
+  .VueCarousel-wrapper {
+    overflow: visible!important;
+    &:before,
+    &:after {
+      content: "";
+      height: 100%;
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      display: none;
+      @media only screen and (min-width: 576px) {
+        display: block;
+        width: calc((100vw - (560px - 30px)) / 2);
+      }
 
-.cool-stuff-collection {
-  @media (min-width: 1024px) {
-    margin: 0 -130px;
-  }
+      @media only screen and (min-width: 768px) {
+        width: calc((100vw - (752px - 30px)) / 2);
+      }
 
-  @media (max-width: 767px) {
-    padding-top: 15px;
-    padding-bottom: 15px;
+      @media only screen and (min-width: 992px) {
+        width: calc((100vw - (976px - 30px)) / 2);
+      }
+
+      @media only screen and (min-width: 1200px) {
+        width: calc((100vw - (1184px - 30px)) / 2);
+      }
+    }
+    &:before {
+      right: 100%;
+      background: linear-gradient(to right, $color-product-bg 0%,$color-product-bg 40%,rgba($color-product-bg,0.2) 100%);
+    }
+    &:after {
+      left: 100%;
+      background: linear-gradient(to left, $color-product-bg 0%,$color-product-bg 40%,rgba($color-product-bg,0.2) 100%);
+    }
   }
 }
 
 .product {
   &.collection-product {
-    padding: 15px 0;
-  }
-
-  &.is-muted {
-    opacity: 0.5;
+    padding: 0;
   }
 }
 

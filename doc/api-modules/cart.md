@@ -28,21 +28,21 @@ The cart module as name suggests is a set of mixins responsible for interacting 
 
 ````javascript
 // Inside Vue component
-import { 
-  addToCart, 
-  removeFromCart, 
-  productsInCart, 
+import {
+  addToCart,
+  removeFromCart,
+  productsInCart,
   closeMicrocart,
   openMicrocart,
   isMicrocartOpen
-} from 'core/api/cart'
+} from '@vue-storefront/core/modules/cart/features'
 
 export default {
   //...other properties
   mixins: [
-    addToCart, 
-    removeFromCart, 
-    productsInCart, 
+    addToCart,
+    removeFromCart,
+    productsInCart,
     closeMicrocart,
     openMicrocart,
     isMicrocartOpen

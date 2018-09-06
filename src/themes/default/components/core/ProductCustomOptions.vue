@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import ProductCustomOptions from 'core/components/ProductCustomOptions'
+import ProductCustomOptions from '@vue-storefront/core/components/ProductCustomOptions'
 
 export default {
   mixins: [ProductCustomOptions]

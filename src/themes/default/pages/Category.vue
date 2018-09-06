@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import Category from 'core/pages/Category'
+import Category from '@vue-storefront/core/pages/Category'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'

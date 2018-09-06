@@ -34,7 +34,7 @@
 
 <script>
 import StaticContent from 'theme/components/theme/StaticContent'
-import Modal from 'core/components/Modal'
+import Modal from '@vue-storefront/core/components/Modal'
 
 export default {
   components: {
@@ -72,58 +72,58 @@ $z-index-modal: map-get($z-index, modal);
   overflow: auto;
   z-index: $z-index-modal;
   text-align: inherit;
-}
 
-.modal-wrapper {
-  display: table;
-  height: 100%;
-  width: 100%;
-  table-layout: fixed;
-  pointer-events: none;
-}
-
-.modal-center {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 945px;
-  margin: 0 auto;
-  max-width: 100%;
-  max-height: 100%;
-  z-index: $z-index-modal+1;
-  pointer-events: auto;
-
-  @media (max-width: 600px) {
-    min-height: 100%;
-    min-width: 100%;
-    margin: 0;
+  .modal-wrapper {
+    display: table;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    pointer-events: none;
   }
-}
 
-.modal-header {
-  position: relative;
+  .modal-center {
+    display: table-cell;
+    vertical-align: middle;
+  }
 
-  > * {
+  .modal-container {
+    width: 945px;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: $z-index-modal+1;
+    pointer-events: auto;
+
+    @media (max-width: 600px) {
+      min-height: 100%;
+      min-width: 100%;
       margin: 0;
+    }
   }
 
-  @media (max-width: 600px) {
-    padding: 25px 15px;
-  }
-}
+  .modal-header {
+    position: relative;
 
-.modal-content {
-  @media (max-width: 600px) {
-    padding: 30px 15px;
-  }
-}
+    > * {
+        margin: 0;
+    }
 
-.modal-close {
-  position: absolute;
-  cursor: pointer;
-  right: 0;
-  top: 0;
+    @media (max-width: 600px) {
+      padding: 25px 20px;
+    }
+  }
+
+  .modal-content {
+    @media (max-width: 600px) {
+      padding: 30px 20px;
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    top: 0;
+  }
 }
 </style>

@@ -1,4 +1,4 @@
-import Countries from 'core/resource/countries.json'
+import Countries from '@vue-storefront/i18n/resource/countries.json'
 
 export default {
   name: 'MyShippingDetails',

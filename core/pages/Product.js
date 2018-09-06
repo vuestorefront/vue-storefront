@@ -1,17 +1,13 @@
-// 3rd party dependecies
 import { mapGetters } from 'vuex'
-import groupBy from 'lodash-es/groupBy'
-import uniqBy from 'lodash-es/uniqBy'
 
-// Core dependecies
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import config from 'config'
-import EventBus from 'core/plugins/event-bus'
-import { htmlDecode } from 'core/filters/html-decode'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
+import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
-// Core mixins
-import Composite from 'core/mixins/composite'
-import { addToWishlist, removeFromWishlist } from 'core/api/wishlist'
+import Composite from '@vue-storefront/core/mixins/composite'
+import { addToWishlist, removeFromWishlist } from '@vue-storefront/core/modules/wishlist/features'
 
 export default {
   name: 'Product',
@@ -31,7 +27,8 @@ export default {
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
-      category: 'category/current'
+      category: 'category/current',
+      gallery: 'product/productGallery'
     }),
     productName () {
       return this.product ? this.product.name : ''
@@ -46,47 +43,12 @@ export default {
         loading: this.getThumbnail(this.product.image, 310, 300)
       }
     },
-    gallery () {
-      let images = []
-      if (this.product.media_gallery) {
-        for (let mediaItem of this.product.media_gallery) {
-          if (mediaItem.image) {
-            images.push({
-              'src': this.getThumbnail(mediaItem.image, 600, 744),
-              'loading': this.getThumbnail(this.product.image, 310, 300)
-            })
-          }
-        }
-      }
-      let variantsGroupBy = config.products.galleryVariantsGroupAttribute
-      if (this.product.configurable_children && this.product.configurable_children.length > 0 && this.product.configurable_children[0][variantsGroupBy]) {
-        let groupedByAttribute = groupBy(this.product.configurable_children, child => {
-          return child[variantsGroupBy]
-        })
-        Object.keys(groupedByAttribute).forEach((confChild) => {
-          if (groupedByAttribute[confChild][0].image) {
-            images.push({
-              'src': this.getThumbnail(groupedByAttribute[confChild][0].image, 600, 744),
-              'loading': this.getThumbnail(this.product.image, 310, 300),
-              'id': confChild
-            })
-          }
-        })
-      } else {
-        images.push({
-          'src': this.getThumbnail(this.product.image, 600, 744),
-          'loading': this.getThumbnail(this.product.image, 310, 300)
-        })
-      }
-      return uniqBy(images, 'src').filter((f) => { return f.src && f.src !== config.images.productPlaceholder })
-    },
     image () {
       return this.gallery.length ? this.gallery[0] : false
     },
     customAttributes () {
-      let inst = this
       return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && inst.product[a.attribute_code]
+        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && this.product[a.attribute_code]
       })
     },
     isOnWishlist () {
@@ -94,6 +56,9 @@ export default {
     },
     isOnCompare () {
       return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
+    },
+    currentStore () {
+      return currentStoreView()
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
@@ -101,7 +66,7 @@ export default {
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   watch: {
-    '$route': 'validateRoute'
+    '$route.params.parentSku': 'validateRoute'
   },
   beforeDestroy () {
     this.$bus.$off('product-after-removevariant')
@@ -109,6 +74,10 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
+    if (config.usePriceTiers) {
+      this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
+      this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
+    }
   },
   beforeMount () {
     this.onStateCheck()
@@ -119,19 +88,21 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
+    if (config.usePriceTiers) {
+      this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
+      this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
+    }
   },
   methods: {
     validateRoute () {
-      let inst = this
-      if (!inst.loading) {
-        inst.loading = true
-        inst.$store.dispatch('product/fetchAsync', { parentSku: inst.$route.params.parentSku, childSku: inst.$route && inst.$route.params && inst.$route.params.childSku ? inst.$route.params.childSku : null }).then((res) => {
-          inst.loading = false
-          inst.defaultOfflineImage = inst.product.image
+      if (!this.loading) {
+        this.loading = true
+        this.$store.dispatch('product/fetchAsync', { parentSku: this.$route.params.parentSku, childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null }).then(res => {
+          this.loading = false
+          this.defaultOfflineImage = this.product.image
           this.onStateCheck()
-          this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
         }).catch((err) => {
-          inst.loading = false
+          this.loading = false
           console.error(err)
           this.$bus.$emit('notification', {
             type: 'error',
@@ -211,6 +182,9 @@ export default {
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false
       }).then((selectedVariant) => {
+        if (config.products.setFirstVarianAsDefaultInURL) {
+          this.$router.push({params: { childSku: selectedVariant.sku }})
+        }
         if (!selectedVariant) {
           if (typeof prevOption !== 'undefined' && prevOption) {
             this.configuration[filterOption.attribute_code] = prevOption
@@ -227,12 +201,26 @@ export default {
         info: 'Dispatch product/configure in Product.vue',
         err
       }))
+    },
+    /**
+     * Reload product to get correct prices (including tier prices for group)
+     */
+    onUserPricesRefreshed () {
+      this.$store.dispatch('product/reset')
+      EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
+      this.$store.dispatch('product/single', {
+        options: {
+          sku: this.$route.params.parentSku,
+          childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null
+        },
+        skipCache: true
+      })
     }
   },
   metaInfo () {
     return {
       title: htmlDecode(this.$route.meta.title || this.productName),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
+      meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
     }
   }
 }

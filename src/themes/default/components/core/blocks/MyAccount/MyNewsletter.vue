@@ -28,59 +28,13 @@
       </div>
 
       <base-checkbox
-        class="col-xs-12 mb15"
+        class="col-xs-12 mb25"
         id="generalAgreement"
-        v-model="newsletterPreferences.generalAgreement"
-        @click="isEdited ? newsletterPreferences.generalAgreement = !newsletterPreferences.generalAgreement : null"
+        v-model="user.isSubscribed"
+        @click="isEdited ? user.isSubscribed = !user.isSubscribed : null"
         :disabled="!isEdited"
       >
         {{ $t('I want to receive a newsletter, and agree to its terms') }}
-      </base-checkbox>
-
-      <div class="col-xs-12">
-        <h4>
-          {{ $t('Preferences') }}
-        </h4>
-      </div>
-
-      <base-checkbox
-        class="col-xs-6 col-md-2 mb25"
-        id="men"
-        v-model="newsletterPreferences.men"
-        @click="isEdited ? newsletterPreferences.men = !newsletterPreferences.men : null"
-        :disabled="!isEdited"
-      >
-        {{ $t('Men') }}
-      </base-checkbox>
-
-      <base-checkbox
-        class="col-xs-6 col-md-2 mb25"
-        id="women"
-        v-model="newsletterPreferences.women"
-        @click="isEdited ? newsletterPreferences.women = !newsletterPreferences.women : null"
-        :disabled="!isEdited"
-      >
-        {{ $t('Women') }}
-      </base-checkbox>
-
-      <base-checkbox
-        class="col-xs-6 col-md-2 mb25"
-        id="kids"
-        v-model="newsletterPreferences.kids"
-        @click="isEdited ? newsletterPreferences.kids = !newsletterPreferences.kids : null"
-        :disabled="!isEdited"
-      >
-        {{ $t('Kids') }}
-      </base-checkbox>
-
-      <base-checkbox
-        class="col-xs-6 col-md-2 mb25"
-        id="home"
-        v-model="newsletterPreferences.home"
-        @click="isEdited ? newsletterPreferences.home = !newsletterPreferences.home : null"
-        :disabled="!isEdited"
-      >
-        {{ $t('Home') }}
       </base-checkbox>
 
       <div class="col-xs-12 col-sm-6" v-if="isEdited">
@@ -99,7 +53,7 @@
 </template>
 
 <script>
-import MyNewsletter from 'core/components/blocks/MyAccount/MyNewsletter'
+import MyNewsletter from '@vue-storefront/core/components/blocks/MyAccount/MyNewsletter'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 

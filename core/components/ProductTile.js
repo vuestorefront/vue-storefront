@@ -1,13 +1,18 @@
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
-import imgPlaceholder from 'core/directives/imgPlaceholder'
+import imgPlaceholder from '@vue-storefront/core/directives/imgPlaceholder'
 
 export default {
   name: 'ProductTile',
   props: {
     labelsActive: {
       type: Boolean,
-      requred: false,
+      required: false,
       default: true
+    },
+    onlyImage: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     product: {
       type: Object,

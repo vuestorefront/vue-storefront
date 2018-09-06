@@ -1,4 +1,4 @@
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   name: 'OrderReview',
@@ -32,7 +32,6 @@ export default {
         firstname: this.$store.state.checkout.personalDetails.firstName,
         lastname: this.$store.state.checkout.personalDetails.lastName
       }).then((result) => {
-        console.log(result)
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.$bus.$emit('notification', {
@@ -40,6 +39,14 @@ export default {
             message: i18n.t(result.result),
             action1: { label: i18n.t('OK'), action: 'close' }
           })
+          // If error includes a word 'password', emit event that eventually focuses on a corresponding field
+          if (result.result.includes(i18n.t('password'))) {
+            this.$bus.$emit('checkout-after-validationError', 'password')
+          }
+          // If error includes a word 'mail', emit event that eventually focuses on a corresponding field
+          if (result.result.includes(i18n.t('email'))) {
+            this.$bus.$emit('checkout-after-validationError', 'email-address')
+          }
         } else {
           this.$bus.$emit('notification', {
             type: 'success',

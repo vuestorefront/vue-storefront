@@ -1,4 +1,4 @@
-# Introduction 
+# Introduction
 
 Vue storefront uses two primary data sources:
 1. IndexedDb/WebSQL data store in the browser - using localForage (https://github.com/localForage/localForage)
@@ -6,9 +6,9 @@ Vue storefront uses two primary data sources:
 
 ## Local data store
 
-You can access localForage repositories thru `Vue.$db` or `global.$VS.db` objects anywhere in the code BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories thru `Vue.prototype.$db` object anywhere in the code BUT all data-related operations SHOULD be placed in Vuex stores.
 
-Details on localForage API: http://localforage.github.io/localForage/ 
+Details on localForage API: http://localforage.github.io/localForage/
 
 We basicaly have following data stores accesible in the browser (`/core/store/index.js`):
 
@@ -79,8 +79,6 @@ Vue.prototype.$db = {
     storeName: 'newsletterPreferences'
   }))
 }
-
-global.$VS.db = Vue.prototype.$db // localForage instance
 ```
 
 ## Example Vuex store
@@ -89,9 +87,9 @@ Here you have example on how to the Vuex store should be constructed. Please not
 
 ```js
 import * as types from '../mutation-types'
-import { ValidationError } from 'core/store/lib/exceptions'
+import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import * as entities from '../../lib/entities'
-import * as sw from 'core/lib/sw'
+import * as sw from '@vue-storefront/core/lib/sw'
 import config from '../../config'
 const Ajv = require('ajv') // json validator
 
@@ -129,7 +127,7 @@ const mutations = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.CHECKOUT_PLACE_ORDER] (state, order) {
-    const ordersCollection = global.$VS.db.ordersCollection
+    const ordersCollection = Vue.prototype.$db.ordersCollection
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
     order.order_id = orderId.toString()
     order.transmited = false
@@ -271,7 +269,7 @@ Here you have a validation schema for order: https://github.com/DivanteLtd/vue-s
 If category do have any child categories - you have access to them via "children_data" property.
 
 ```json
-{  
+{
   "id":13,
   "parent_id":11,
   "name":"Bottoms",
@@ -279,8 +277,8 @@ If category do have any child categories - you have access to them via "children
   "position":2,
   "level":3,
   "product_count":0,
-  "children_data":[  
-    {  
+  "children_data":[
+    {
       "id":18,
       "parent_id":13,
       "name":"Pants",
@@ -288,11 +286,11 @@ If category do have any child categories - you have access to them via "children
       "position":1,
       "level":4,
       "product_count":156,
-      "children_data":[  
+      "children_data":[
 
       ]
     },
-    {  
+    {
       "id":19,
       "parent_id":13,
       "name":"Shorts",
@@ -300,7 +298,7 @@ If category do have any child categories - you have access to them via "children
       "position":2,
       "level":4,
       "product_count":148,
-      "children_data":[  
+      "children_data":[
 
       ]
     }
@@ -316,8 +314,8 @@ Cart object is an array consit of Products with additional field `qty` in case w
 ![Carts data format as seen on Developers Tools](media/cart-localstorage.png)
 
 ```json
-[  
-  {  
+[
+  {
     "id":26,
     "qty":5,
     "sku":"24-WG081-blue",
@@ -329,17 +327,17 @@ Cart object is an array consit of Products with additional field `qty` in case w
     "type_id":"simple",
     "created_at":"2017-09-16 13:46:48",
     "updated_at":"2017-09-16 13:46:48",
-    "extension_attributes":[  
+    "extension_attributes":[
 
     ],
-    "product_links":[  
+    "product_links":[
 
     ],
-    "tier_prices":[  
+    "tier_prices":[
 
     ],
     "custom_attributes":null,
-    "category":[  
+    "category":[
 
     ],
     "tsk":1505573582376,

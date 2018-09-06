@@ -1,6 +1,6 @@
 import { mapState, mapGetters } from 'vuex'
-import i18n from 'core/lib/i18n'
-import Composite from 'core/mixins/composite'
+import i18n from '@vue-storefront/i18n'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Compare',

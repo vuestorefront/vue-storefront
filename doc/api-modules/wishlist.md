@@ -34,7 +34,7 @@ The wishlist module as name suggests is a set of mixins responsible for interact
 
 ````javascript
 // Inside Vue component
-import { 
+import {
   loadWishlist,
   addToWishlist,
   removeFromWishlist,
@@ -43,7 +43,7 @@ import {
   openWishlist,
   closeWishlist,
   isWishlistOpen
-} from 'core/api/wishlist'
+} from '@vue-storefront/core/modules/wishlist'
 
 export default {
   //...other properties

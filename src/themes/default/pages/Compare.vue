@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import Compare from 'core/pages/Compare'
+import Compare from '@vue-storefront/core/pages/Compare'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
 import ProductTile from '../components/core/ProductTile'

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
 
 import extensionStore from './store'
 import extensionRoutes from './router'
@@ -12,7 +12,7 @@ export default function (app, router, store, config) {
   store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
   // TODO: register module events here
   app.$on('application-after-init', () => {
-    console.log('Example custom-event added by template example')
+    console.debug('Example custom-event added by template example')
     store.dispatch('product/example')
   })
 

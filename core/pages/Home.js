@@ -1,12 +1,9 @@
-// 3rd party dependecies
 import { mapGetters } from 'vuex'
 
-// Core dependecies
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
+import i18n from '@vue-storefront/i18n'
 
-// Core mixins
-import Composite from 'core/mixins/composite'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Home',
@@ -23,7 +20,7 @@ export default {
         return resolve()
       }).catch((err) => {
         console.error(err)
-        return resolve()
+        reject(err)
       })
     })
   },

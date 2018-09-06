@@ -1,4 +1,4 @@
-import { openWishlist, closeWishlist, isWishlistOpen } from 'core/api/wishlist'
+import { openWishlist, closeWishlist, isWishlistOpen } from '@vue-storefront/core/modules/wishlist/features'
 
 export default {
   name: 'WishlistIcon',

@@ -63,13 +63,16 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 px20">
-            <button-full
-              @click.native="placeOrder"
-              data-testid="orderReviewSubmit"
-              :class="{ 'button-disabled' : $v.orderReview.$invalid }"
-            >
-              {{ $t('Place the order') }}
-            </button-full>
+            <slot name="placeOrderButton">
+              <button-full
+                @click.native="placeOrder"
+                data-testid="orderReviewSubmit"
+                class="place-order-btn"
+                :class="{ 'button-disabled' : $v.orderReview.$invalid }"
+              >
+                {{ $t('Place the order') }}
+              </button-full>
+            </slot>
           </div>
         </div>
       </div>
@@ -85,13 +88,13 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import Composite from 'core/mixins/composite'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
-import OrderReview from 'core/components/blocks/Checkout/OrderReview'
+import OrderReview from '@vue-storefront/core/components/blocks/Checkout/OrderReview'
 import ValidationError from 'theme/components/core/ValidationError'
 
 export default {

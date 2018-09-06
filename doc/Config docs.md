@@ -45,7 +45,7 @@ The SSR data is being completed in the `asyncData` static method. If this config
 `src/themes/default/pages/Product.vue` -> `asyncData`
 
 If it's set to false, then JUST THE `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
-This option is referenced in the [`core/client-entry.js`](../core/client-entry.js) line: 85.
+This option is referenced in the [`core/client-entry.ts`](../core/client-entry.ts) line: 85.
 
 ```json
     "defaultStoreCode": "",
@@ -59,7 +59,7 @@ This option is used only in the [Multistore setup](Multistore setup.md). By defa
 ```
 If the `storeViews.multistore` is set to true You'll see the LanguageSwitcher.vue included in the footer and all the [multistore operations](Multistore setup.md) will be included in the request flow.
 
-You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [`core/store/lib/multistore.js`](../core/store/lib/multistore.js) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accesing them You're [instructing Vue Storefront to switch the current store](../core/client-entry.js) settings (i18n, api requests with specific storeCode etc...
+You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [`core/store/lib/multistore.js`](../core/store/lib/multistore.js) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accesing them You're [instructing Vue Storefront to switch the current store](../core/client-entry.ts) settings (i18n, api requests with specific storeCode etc...
 
 `storeViews` section contains one or more additional store views configures to serve proper i18n translations, tax settings etc. Please find the docs for this section - below.
 
@@ -298,9 +298,32 @@ This is the `vue-storefront-api` endpoint for rendering the product lists.
 Here we have the sort field settings as they're displayed on the Category page.
 
 ```json
-      "galleryVariantsGroupAttribute": "color"
+  "gallery": {
+      "mergeConfigurableChildren": true
 ```
-Vue Storefront is feeding the Product page gallery with the combination of: `product.media_gallery`, `product.image` and the `product.configurable_children.image`. In some cases simple products attached to the configurable one have the same photos as the main one assigned. If this option is set to the name of any particullar attribute assigned with `configurable_children` - the images that Vue Storefront is getting will be grouped by the color (getting single color images from the `configurable_children` collection)
+
+Vue Storefront is feeding the Product page gallery with the combination of: `product.media_gallery`, `product.image` and the `product.configurable_children.image`, if false the Product page gallery shows the `product.media_gallery` of the selected variant.
+
+```json
+  "gallery": {
+      "variantsGroupAttribute": "color"
+```
+If "mergeConfigurableChildren" is set to true In some cases simple products attached to the configurable one have the same photos as the main one assigned. If this option is set to the name of any particullar attribute assigned with `configurable_children` - the images that Vue Storefront is getting will be grouped by the color (getting single color images from the `configurable_children` collection)
+
+```json
+   "gallery": {
+     "imageAttributes": ["image","thumbnail","small_image"]
+```
+
+The product attributes representing the images. Wee see it in the Product page gallery if `mergeConfigurableChildren` is set to false and the product is configured 
+
+```json
+  "gallery": {
+      "width": 600,
+      "height": 744
+```
+
+The dimensions of the images in the gallery
 
 ```json
     "orders": {
@@ -355,8 +378,8 @@ We're using `localForage` library for provide the persistance layer to Vue Store
       "autoRefreshTokens": true,
       "endpoint": "http://localhost:8080/api/user",
       "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-      "resetPassword_endpoint": "http://localhost:8080/api/user/resetPassword",
-      "changePassword_endpoint": "http://localhost:8080/api/user/changePassword?token={{token}}",
+      "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
+      "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
       "login_endpoint": "http://localhost:8080/api/user/login",
       "create_endpoint": "http://localhost:8080/api/user/create",
       "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",

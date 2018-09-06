@@ -198,6 +198,26 @@ The next proxy section is used for serving the API. It's a proxy to [`vue-storef
 ```
 The last proxy  is used for serving the product images. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app. running on `8080` port (default config). The `/img` endpoint. Images will be available under: https://prod.vuestorefront.io/img
 
+#### Apache2 configuration
+In case you are already using the apache2 web-server in your environmen as well and can't  (or don'T want) to use nginx, you can also set up apache2 as an reverse proxy instead of nginx. This is done by adding this block to your apache2 vitual host.
+```
+ProxyRequests off
+
+ProxyPass /api/ http://localhost:8080/api/ 
+ProxyPassReverse /api http://localhost:8080/api/
+
+ProxyPass /img/ http://localhost:8080/img/
+ProxyPassReverse /img http://localhost:8080/img/
+
+ProxyPass /assets/ http://localhost:3000/assets/ 
+ProxyPassReverse /assets http://localhost:3000/assets/
+
+ProxyPass / http://localhost:3000/
+ProxyPassReverse / http://localhost:3000/
+
+
+```
+You also need to  enable [mod_proxy](https://httpd.apache.org/docs/current/mod/mod_proxy.html) for this.
 
 ### Vue Storefront and Vue Storefront API
 

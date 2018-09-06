@@ -73,13 +73,13 @@
 </template>
 
 <script>
-import Login from 'core/components/blocks/Auth/Login'
+import Login from '@vue-storefront/core/components/blocks/Auth/Login'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   mixins: [Login],
@@ -138,3 +138,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .modal-content {
+    @media (max-width: 400px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+</style>

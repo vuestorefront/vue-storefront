@@ -4,21 +4,25 @@ addons:
 language: node_js
 node_js:
   - "8"
+  - "10"
 
 cache:
   yarn: true
   directories:
     - node_modules
+    
+install:
+  - yarn
+  
+script:
+  - yarn lint
+  - yarn build
 
 jobs:
   include:
-    - stage: lint
-      script:
-        - yarn lint
-        # - yarn unit
-        - yarn build
+    # - yarn test:unit
     - stage: e2e
       if: branch IN (master, develop)
       script:
         - yarn installer:ci
-        # - yarn tests:e2e:ci
+        # - yarn test:e2e:ci

@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import Microcart from 'core/components/blocks/Microcart/Microcart'
+import Microcart from '@vue-storefront/core/components/blocks/Microcart/Microcart'
 
 export default {
   name: 'CartSummary',

@@ -74,12 +74,12 @@ app.get('*', (req, res) => {
 
   const errorHandler = err => {
     if (err && err.code === 404) {
-      // res.status(404).end('404 | Page Not Found')
       res.redirect('/page-not-found')
     } else {
       // Render Error Page or Redirect
+      // TODO: Add error page handler
       res.status(500).end('500 | Internal Server Error')
-      console.error(`error during render : ${req.url}`)
+      console.error(`Error during render : ${req.url}`)
       console.error(err)
     }
   }
@@ -90,8 +90,19 @@ app.get('*', (req, res) => {
     .pipe(res)
 })
 
-const port = process.env.PORT || config.server.port
+let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
-app.listen(port, host, () => {
-  console.log(`Vue Storefront Server started at http://${host}:${port}`)
-})
+const start = () => {
+  app.listen(port, host)
+    .on('listening', () => {
+      console.log(`Vue Storefront Server started at http://${host}:${port}`)
+    })
+    .on('error', (e) => {
+      if (e.code === 'EADDRINUSE') {
+        console.log(`${port} already in use, trying ${port + 1}`)
+        port = port + 1
+        start()
+      }
+    })
+}
+start()

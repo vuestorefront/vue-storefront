@@ -12,7 +12,7 @@
         :autocomplete="autocomplete"
         :value="value"
         :autofocus="autofocus"
-        :ref="focus ? name : false"
+        :ref="name"
         @input="$emit('input', $event.target.value)"
         @blur="$emit('blur')"
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
@@ -29,6 +29,7 @@
       "
       @click="togglePassType()"
       :aria-label="$t('Toggle password visibility')"
+      :title="$t('Toggle password visibility')"
     >
       {{ icon }}
     </button>
@@ -52,7 +53,7 @@
 </template>
 
 <script>
-import baseInput from 'core/components/blocks/Form/BaseInput'
+import baseInput from '@vue-storefront/core/components/blocks/Form/BaseInput'
 
 export default {
   mixins: [baseInput]
