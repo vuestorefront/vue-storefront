@@ -19,6 +19,9 @@ The cart module as name suggests is a set of mixins responsible for interacting 
 #### productsInCart
 - [computed] productsInCart
 
+#### totals
+- [computed] totals
+
 #### appliedCoupon
 - [computed] appliedCoupon
 
@@ -44,6 +47,7 @@ import {
   removeCoupon,
   productsInCart,
   appliedCoupon,
+  totals,
   closeMicrocart,
   openMicrocart,
   isMicrocartOpen
@@ -58,6 +62,7 @@ export default {
     removeCoupon,
     productsInCart,
     appliedCoupon,
+    totals,
     closeMicrocart,
     openMicrocart,
     isMicrocartOpen

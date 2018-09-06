@@ -7,6 +7,7 @@ import { isMicrocartOpen } from './isMicrocartOpen'
 import { applyCoupon } from './applyCoupon'
 import { removeCoupon } from './removeCoupon'
 import { appliedCoupon } from './appliedCoupon'
+import { totals } from './totals'
 
 export {
   addToCart,
@@ -17,5 +18,6 @@ export {
   isMicrocartOpen,
   applyCoupon,
   removeCoupon,
-  appliedCoupon
+  appliedCoupon,
+  totals
 }

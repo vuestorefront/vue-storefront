@@ -1,8 +1,7 @@
-import { mapGetters } from 'vuex'
 import VueOfflineMixin from 'vue-offline/mixin'
 
 // Core dependecies
-import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart, applyCoupon, removeCoupon, appliedCoupon } from '@vue-storefront/core/modules/cart/features'
+import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart, applyCoupon, removeCoupon, appliedCoupon, totals } from '@vue-storefront/core/modules/cart/features'
 
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
@@ -17,6 +16,7 @@ export default {
     applyCoupon,
     removeCoupon,
     appliedCoupon,
+    totals,
     VueOfflineMixin
   ],
   props: {
@@ -27,9 +27,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      totals: 'cart/totals'
-    }),
     shipping () {
       return this.$store.state.cart.shipping
     },
