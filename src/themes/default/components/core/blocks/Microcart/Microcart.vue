@@ -70,7 +70,7 @@
         <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
-            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup="enterCoupon"/>
+            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon"/>
           </div>
           <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">{{ $t('Add discount code') }}</button-outline>
         </div>
@@ -152,15 +152,13 @@ export default {
         })
       })
     },
-    enterCoupon (e) {
-      if (e.keyCode === 13) {
-        this.setCoupon()
-      }
-    },
     closeMicrocartExtend () {
       this.closeMicrocart()
       this.$store.commit('ui/setSidebar', false)
       this.addCouponPressed = false
+    },
+    onEscapePress () {
+      this.closeMicrocart()
     }
   }
 }

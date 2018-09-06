@@ -41,10 +41,5 @@ export default {
     payment () {
       return this.$store.state.cart.payment
     }
-  },
-  methods: {
-    onEscapePress () {
-      this.closeMicrocart()
-    }
   }
 }
