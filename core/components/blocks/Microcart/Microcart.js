@@ -20,11 +20,6 @@ export default {
     VueOfflineMixin
   ],
   props: {
-    product: {
-      type: Object,
-      required: false,
-      default: () => { }
-    },
     isCheckoutMode: {
       type: Boolean,
       required: false,
