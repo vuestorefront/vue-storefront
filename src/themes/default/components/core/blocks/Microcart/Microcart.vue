@@ -112,6 +112,8 @@
 <script>
 import i18n from '@vue-storefront/i18n'
 import Microcart from '@vue-storefront/core/components/blocks/Microcart/Microcart'
+import VueOfflineMixin from 'vue-offline/mixin'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
@@ -125,7 +127,11 @@ export default {
     ButtonOutline,
     BaseInput
   },
-  mixins: [Microcart],
+  mixins: [
+    Microcart,
+    VueOfflineMixin,
+    onEscapePress
+  ],
   data () {
     return {
       addCouponPressed: false,
