@@ -1,6 +1,6 @@
 ## Introduction
 
-If You like to start developing sites using Vue Storefront, probably You need to start with the [Installation guide](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md). For the development purposes You'll probably be using `yarn install` / `npm run installer` sequence which will setup Vue Storefront locally using the automated installer and prepared Docker images for having Elastic Search and Redis support.
+If you like to start developing sites using Vue Storefront, probably You need to start with the [Installation guide](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md). For the development purposes You'll probably be using `yarn install` / `npm run installer` sequence which will setup Vue Storefront locally using the automated installer and prepared Docker images for having Elastic Search and Redis support.
 
 Development mode means You're using node.js based server as HTTP service and running the app on the `3000` TCP port. As it's great for local testing it's **not recommended** to use installer and direct user access to node.js in production configurations.
 
@@ -9,14 +9,14 @@ Development mode means You're using node.js based server as HTTP service and run
 To run Vue Storefront in the production mode without Docker/Kubernetes You'll need the Virtual Private Server with `root` access (for the setup purposes). We'll assume that You're using `Debian GNU Linux` in the following steps.
 
 Assumptions for the rest of this tutorial:
-- You're having root access to Debian Linux machine 
+- You're having root access to Debian Linux machine
 - We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/DivanteLtd/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api); the ports **should not be exposed** as they will be hidden behind **nginx proxy**
-- We're using **prod.vuestorefront.io** as a domain name - please replace it with Your host URL address. 
+- We're using **prod.vuestorefront.io** as a domain name - please replace it with Your host URL address.
 - We assume that You have SSL certificate for **prod.vuestorefront.io** (or Your domain of course). SSL encryption is required for PWA + service workers
 - That's all ;)
 
 General Solution Architecture:
-USER -> nginx proxy -> vue-storefront / vue-storefront-api 
+USER -> nginx proxy -> vue-storefront / vue-storefront-api
 
 We'll be hiding the `vue-storefront` and `vue-storefront-api` services behind nginx proxy. You can use nginx for caching proxy, but in our case it will be just forwarding the requests without cache (as VS is pretty fast and caching is not required). The key features we're using are: SSL encryption, gzip-encoding, url routing (to merge `vue-storefront` and `vue-storefront-api` services under one domain)
 
@@ -60,7 +60,7 @@ apt-get install nginx
 
 ### Nginx
 
-We decided to use **nginx** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as backend. 
+We decided to use **nginx** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as backend.
 
 This is a general rule of setting up production node.js app which gives You lot of flexibility regarding the SSL, gzip compression, URL routing and other techniques to be configured without additional hassle. You can use any other proxy server for this purpose - such as Varnish or Apache2 + mod_proxy.
 
@@ -70,7 +70,7 @@ Some additional materials:
 
 #### Nginx configuration
 
-[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/etc/nginx/sites-enabled). 
+[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/etc/nginx/sites-enabled).
 
 Create nginx config file from the template (please run as a root user):
 ```bash
@@ -98,7 +98,7 @@ Please find the full comments on the following sections of the file below:
 ```
 server {
 	listen 80;
-	server_name prod.vuestorefront.io; 
+	server_name prod.vuestorefront.io;
 	return 301 https://prod.vuestorefront.io$request_uri;
 }
 ```
@@ -127,7 +127,7 @@ We assume that the certificate related files are stored in the `/etc/nginx/ssl/`
 ```
 
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
-	ssl_prefer_server_ciphers on;	
+	ssl_prefer_server_ciphers on;
 	ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA;
 	ssl_ecdh_curve secp384r1;
 	ssl_session_timeout 10m;
@@ -136,7 +136,7 @@ We assume that the certificate related files are stored in the `/etc/nginx/ssl/`
 	ssl_stapling on;
 	ssl_stapling_verify on;
 	resolver 8.8.8.8 8.8.4.4 valid=300s;
-	resolver_timeout 5s; 
+	resolver_timeout 5s;
 
 	ssl_dhparam /etc/nginx/ssl/dhparam.pem;
 
@@ -144,12 +144,12 @@ We assume that the certificate related files are stored in the `/etc/nginx/ssl/`
 	add_header X-Frame-Options DENY;
 	add_header X-Content-Type-Options nosniff;
 	add_header X-XSS-Protection "1; mode=block";
-	add_header X-Robots-Tag none; 
+	add_header X-Robots-Tag none;
 ```
 
 Here we go with the SSL settings - based on our best experiences from the past ;) Please read details in the [nginx documentation if You like](http://nginx.org/en/docs/http/configuring_https_servers.html) ;)
 
-``` 
+```
 	gzip on;
 	gzip_proxied any;
 	gzip_types
@@ -173,7 +173,7 @@ Vue Storefront SSR responses contain the full markup + JSON objects included for
 ```
 
 We're using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) from the `ngx_http_proxy_module` to pull the content from the Vue Storefront nodejs server. Site will be available under https://prod.vuestorefront.io/
- 
+
 ```
 	location /assets/ {
 		proxy_pass http://localhost:3000/assets/;
@@ -380,7 +380,7 @@ yarn build
 
 #### Data import
 
-Vue Storefront need to have some data in the ElasticSearch to properly display products and categories. Of course You can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the ElasticSearch indeex whenever data is being changed in Magento. For purposes of this tutorial we'll just restore the data from the JSON file.
+Vue Storefront need to have some data in the ElasticSearch to properly display products and categories. Of course You can install [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and configure the data pump to synchronize and update the ElasticSearch index whenever data is being changed in Magento. For purposes of this tutorial we'll just restore the data from the JSON file.
 
 You can easily dump Your current VS index using the following command (Your local instalation):
 
@@ -417,7 +417,7 @@ cd vue-storefront
 yarn start
 ```
 
-Both applications are using [`PM2` process manager](http://pm2.keymetrics.io/) in the production mode (`start` commands) to manage and respawn the nodejs processess when neede.
+Both applications are using [`PM2` process manager](https://pm2.io/runtime) in the production mode (`start` commands) to manage and respawn the nodejs processess when neede.
 
 ## Production setup - using Docker / Kubernetes
 
