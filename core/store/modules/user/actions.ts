@@ -41,16 +41,25 @@ const actions: ActionTree<UserState, RootState> = {
       Vue.prototype.$bus.$emit('session-after-started')
     })
 
+    context.dispatch('loadNewsletterPreferences')
+  },
+  loadNewsletterPreferences (context) {
     const newsletterStorage = Vue.prototype.$db.newsletterPreferencesCollection
-    newsletterStorage.getItem('newsletter-preferences', (err, res) => {
-      if (err) {
-        console.error(err)
-        return
-      }
+    return new Promise((resolve, reject) => {
+      newsletterStorage.getItem('newsletter-preferences', (err, res) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        }
 
-      if (res) {
-        context.commit(types.USER_UPDATE_PREFERENCES, res)
-      }
+        if (res) {
+          context.commit(types.USER_UPDATE_PREFERENCES, res)
+          resolve(res)
+        } else {
+          resolve ({ isSubscribed: false })
+        }
+      })
     })
   },
   /**
