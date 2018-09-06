@@ -21,7 +21,7 @@ import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
 
-store.state.version = '1.3'
+store.state.version = '1.3.0'
 store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 store.state.config = config
 
