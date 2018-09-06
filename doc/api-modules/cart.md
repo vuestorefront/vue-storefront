@@ -10,8 +10,17 @@ The cart module as name suggests is a set of mixins responsible for interacting 
 #### removeFromCart
 - [method] removeFromCart(product)
 
+#### applyCoupon
+- [method] applyCoupon(code)
+
+#### removeCoupon
+- [method] removeCoupon()
+
 #### productsInCart
 - [computed] productsInCart
+
+#### appliedCoupon
+- [computed] appliedCoupon
 
 ## UI helpers
 
@@ -31,7 +40,10 @@ The cart module as name suggests is a set of mixins responsible for interacting 
 import {
   addToCart,
   removeFromCart,
+  applyCoupon,
+  removeCoupon,
   productsInCart,
+  appliedCoupon,
   closeMicrocart,
   openMicrocart,
   isMicrocartOpen
@@ -42,7 +54,10 @@ export default {
   mixins: [
     addToCart,
     removeFromCart,
+    applyCoupon,
+    removeCoupon,
     productsInCart,
+    appliedCoupon,
     closeMicrocart,
     openMicrocart,
     isMicrocartOpen
