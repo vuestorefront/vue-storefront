@@ -8,6 +8,8 @@ import { applyCoupon } from './applyCoupon'
 import { removeCoupon } from './removeCoupon'
 import { appliedCoupon } from './appliedCoupon'
 import { totals } from './totals'
+import { shipping } from './shipping'
+import { payment } from './payment'
 
 export {
   addToCart,
@@ -19,5 +21,7 @@ export {
   applyCoupon,
   removeCoupon,
   appliedCoupon,
-  totals
+  totals,
+  shipping,
+  payment
 }
