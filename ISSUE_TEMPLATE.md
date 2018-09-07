@@ -19,6 +19,9 @@ https://plnkr.co or similar (you can use this template as a starting point: http
 
 * **What is the motivation / use case for changing the behavior or adding new feature?**
 
+* **Acceptance criteria**
+- [ ] ...
+- [ ] ...
 
 * **Please write a task list of what should be done to complete this issue**
 - [ ] example task
