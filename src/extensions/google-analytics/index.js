@@ -37,7 +37,7 @@ export default function (app, router, store, config) {
       ecommerce.send()
     })
   } else {
-    console.log('Ensure google analytic account ID is defined in config')
+    console.log('Ensure Google Analytics account ID is defined in config')
   }
 
   return { EXTENSION_KEY, extensionRoutes, extensionStore }

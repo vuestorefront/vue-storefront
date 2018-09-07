@@ -8496,9 +8496,9 @@ vsf-payment-stripe@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/vsf-payment-stripe/-/vsf-payment-stripe-1.0.0.tgz#2657f17a993cd0cbb2dc2f4f2d8f09e5f95670b5"
 
-vue-analytics@^5.8.0:
-  version "5.12.3"
-  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.12.3.tgz#599bd05f9e69efd51645e9e74add81d8a26a88ea"
+vue-analytics@^5.16.0:
+  version "5.16.0"
+  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.0.tgz#82e88703a0678cba076d51acacd6569bc8f7d54c"
 
 vue-carousel@^0.6.9:
   version "0.6.15"
