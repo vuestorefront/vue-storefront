@@ -19,14 +19,14 @@ The cart module as name suggests is a set of mixins responsible for interacting 
 #### productsInCart
 - [computed] productsInCart
 
-#### totals
-- [computed] totals
+#### cartTotals
+- [computed] cartTotals
 
-#### shipping
-- [computed] shipping
+#### cartShipping
+- [computed] cartShipping
 
-#### payment
-- [computed] payment
+#### cartPayment
+- [computed] cartPayment
 
 #### appliedCoupon
 - [computed] appliedCoupon
