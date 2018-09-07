@@ -2,13 +2,13 @@
  * Functionality for returning payment method
  *
  * #### Computed properties
- * - **`shipping`** returns cart payment. Returns `cart/payment` Vuex state.
+ * - **`cartPayment`** returns cart payment. Returns `cart/payment` Vuex state.
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
-export const payment = {
+export const cartPayment = {
   computed: {
-    payment () : Object {
+    cartPayment () : Object {
       return this.$store.state.cart.payment
     }
   }

@@ -7,9 +7,9 @@ import {
   applyCoupon,
   removeCoupon,
   appliedCoupon,
-  totals,
-  shipping,
-  payment
+  cartTotals,
+  cartShipping,
+  cartPayment
 } from '@vue-storefront/core/modules/cart/features'
 
 export default {
@@ -22,9 +22,9 @@ export default {
     applyCoupon,
     removeCoupon,
     appliedCoupon,
-    totals,
-    shipping,
-    payment
+    cartTotals,
+    cartShipping,
+    cartPayment
   ],
   props: {
     isCheckoutMode: {
