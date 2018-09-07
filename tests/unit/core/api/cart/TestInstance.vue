@@ -22,7 +22,10 @@ import {
   isMicrocartOpen,
   applyCoupon,
   removeCoupon,
-  appliedCoupon
+  appliedCoupon,
+  cartTotals,
+  cartShipping,
+  cartPayment
 } from '@vue-storefront/core/modules/cart/features'
 
 export default {
@@ -43,7 +46,10 @@ export default {
     isMicrocartOpen,
     applyCoupon,
     removeCoupon,
-    appliedCoupon
+    appliedCoupon,
+    cartTotals,
+    cartShipping,
+    cartPayment
   ]
 }
 </script>
