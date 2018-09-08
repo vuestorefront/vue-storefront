@@ -2,7 +2,7 @@
  * Functionality for subscribing newsletter
  *
  * #### Methods
- * - **`subscribe(email)`** adds passed email to subscribtion list
+ * - **`subscribe(email)`** adds passed email to subscription list
  *
  * Part of [Newsletter API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
