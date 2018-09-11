@@ -54,9 +54,8 @@ export default {
         shipping = this.shippingMethods[0]
       }
       this.shipping.shippingMethod = shipping.method_code
-      this.shipping.shippingCarier = shipping.carrier_code
+      this.shipping.shippingCarrier = shipping.carrier_code
     }
-    this.changeShippingMethod()
   },
   methods: {
     sendDataToCheckout () {
@@ -97,7 +96,8 @@ export default {
           apartmentNumber: this.myAddressDetails.street[1],
           zipCode: this.myAddressDetails.postcode,
           phoneNumber: this.myAddressDetails.telephone,
-          shippingMethod: this.$store.state.checkout.shippingDetails.shippingMethod
+          shippingMethod: this.$store.state.checkout.shippingDetails.shippingMethod,
+          shippingCarrier: this.$store.state.checkout.shippingDetails.shippingCarrier
         }
       } else {
         this.shipping = this.$store.state.checkout.shippingDetails

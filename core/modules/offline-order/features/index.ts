@@ -1,7 +1,7 @@
-import { confirmOrder } from './confirmOrder'
-import { cancelOrder } from './cancelOrder'
+import { confirmOrders } from './confirmOrders'
+import { cancelOrders } from './cancelOrders'
 
 export {
-  confirmOrder,
-  cancelOrder
+  confirmOrders,
+  cancelOrders
 }

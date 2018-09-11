@@ -1,14 +1,11 @@
-// 3rd party dependecies
 import { mapGetters } from 'vuex'
 
-// Core dependecies
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
 import { addToWishlist, removeFromWishlist } from '@vue-storefront/core/modules/wishlist/features'
 

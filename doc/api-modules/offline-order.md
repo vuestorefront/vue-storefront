@@ -4,11 +4,11 @@ The offline order module as name suggests is a set of mixins responsible for sup
 
 ## Content
 
-#### confirmOrder
-- [method] confirmOrder()
+#### confirmOrders
+- [method] confirmOrders()
 
-#### cancelOrder
-- [method] cancelOrder()
+#### cancelOrders
+- [method] cancelOrders()
 
 ## Helpers
 
@@ -20,15 +20,15 @@ The offline order module as name suggests is a set of mixins responsible for sup
 ````javascript
 // Inside Vue component
 import {
-  confirmOrder,
-  cancelOrder
+  confirmOrders,
+  cancelOrders
 } from '@vue-storefront/core/api/offline-order'
 
 export default {
   //...other properties
   mixins: [
-    confirmOrder,
-    cancelOrder
+    confirmOrders,
+    cancelOrders
   ]
 }
 ````

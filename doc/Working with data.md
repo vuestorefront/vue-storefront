@@ -6,7 +6,7 @@ Vue storefront uses two primary data sources:
 
 ## Local data store
 
-You can access localForage repositories thru `Vue.$db` or `global.$VS.db` objects anywhere in the code BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories thru `Vue.prototype.$db` object anywhere in the code BUT all data-related operations SHOULD be placed in Vuex stores.
 
 Details on localForage API: http://localforage.github.io/localForage/
 
@@ -79,8 +79,6 @@ Vue.prototype.$db = {
     storeName: 'newsletterPreferences'
   }))
 }
-
-global.$VS.db = Vue.prototype.$db // localForage instance
 ```
 
 ## Example Vuex store
@@ -129,7 +127,7 @@ const mutations = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.CHECKOUT_PLACE_ORDER] (state, order) {
-    const ordersCollection = global.$VS.db.ordersCollection
+    const ordersCollection = Vue.prototype.$db.ordersCollection
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
     order.order_id = orderId.toString()
     order.transmited = false

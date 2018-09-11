@@ -1,11 +1,8 @@
-// 3rd party dependecies
 import { mapGetters } from 'vuex'
 import VueOfflineMixin from 'vue-offline/mixin'
 
-// Core dependecies
 import { productsInCart, closeMicrocart, isMicrocartOpen, removeFromCart } from '@vue-storefront/core/modules/cart/features'
 
-// Core mixins
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
 export default {

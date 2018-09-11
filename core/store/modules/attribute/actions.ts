@@ -21,8 +21,6 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     return quickSearchByQuery({ entityType: 'attribute', query: searchQuery, includeFields: includeFields }).then((resp) => {
       commit(types.ATTRIBUTE_UPD_ATTRIBUTES, resp)
-    }).catch((err) => {
-      console.error(err)
     })
   }
 }

@@ -7,6 +7,7 @@ import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import HttpQuery from 'core/store/types/search/HttpQuery'
 import Response from 'core/store/types/search/Response'
+import config from 'config'
 
 export class SearchAdapter {
   search (Request) {
@@ -24,6 +25,10 @@ export class SearchAdapter {
     }
     if (Request.hasOwnProperty('groupToken') && Request.groupToken !== null) {
       ElasticsearchQueryBody['groupToken'] = Request.groupToken
+    }
+
+    if (Request.searchQuery.getSearchText() !== '') {
+      ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
     }
 
     const storeView = (Request.store === null) ? currentStoreView() : prepareStoreView(Request.store)

@@ -4,11 +4,7 @@ import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
 import config from 'config' // can not be obtained from rootStore as this entry is loaded erlier than app.ts
-import sizeof from 'object-sizeof'
 import omit from 'lodash-es/omit'
-
-declare var global: any
-if (!global.$VS) global.$VS = {}
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -42,8 +38,6 @@ export default context => {
   return new Promise((resolve, reject) => {
     const { app, router, store } = createApp()
 
-    const sizeOfCache = sizeof(global.$VS.localCache) / 1024
-    console.log('Local cache size = ' + sizeOfCache + 'KB')
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
@@ -70,7 +64,7 @@ export default context => {
         })
         if (Component.asyncData) {
           Component.asyncData({ store, route: router.currentRoute }).then((result) => { // always execute the asyncData() from the top most component first
-            console.log('Top-most asyncData executed')
+            console.debug('Top-most asyncData executed')
             _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
           }).catch((err) => {
             _commonErrorHandler(err, reject)
