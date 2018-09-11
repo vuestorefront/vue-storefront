@@ -13,33 +13,35 @@ import { quickSearchByQuery } from '../../lib/search'
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc' }) {
+  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null }) {
     const commit = context.commit
-    let qrObj = bodybuilder()
+
+    let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
-      qrObj = qrObj.filter('term', 'parent_id', parent.id)
+      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parent.id}})
     }
 
     if (onlyActive === true) {
-      qrObj = qrObj.andFilter('term', 'is_active', true) // show only active cateogires
+      searchQuery = searchQuery.applyFilter({key: 'is_active', value: {'eq': true}})
     }
 
     if (onlyNotEmpty === true) {
-      qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
+      searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
     }
 
-    return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start }).then(function (resp) {
-      commit(types.CATEGORY_UPD_CATEGORIES, resp)
-      EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
-      return resp
-    }).catch(function (err) {
+    if (!context.state.list | context.state.list.length === 0) {
+      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then(function (resp) {
+        commit(types.CATEGORY_UPD_CATEGORIES, resp)
+        EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+        return resp
+      }).catch(function (err) {
       console.error(err)
     })
   }
 ```
 
-As You may see we're using [quickSearchByQuery](https://github.com/DivanteLtd/vue-storefront/blob/c954b96f6633a201e10bed1d2e4c0def1aeb3071/core/lib/search.js#L60) for executing the ES Search. This method is pretty interesting because:
-- it uses the [elasticsearch-js](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html) module to access ES cluser,
+As You may see we're using [quickSearchByQuery](https://github.com/DivanteLtd/vue-storefront/blob/c954b96f6633a201e10bed1d2e4c0def1aeb3071/core/lib/search/search.js#L60) for executing Search. This method is pretty interesting because:
+- it uses the searchQuery query object which has ability to apply filters in common way
 - it does cache the received data into `localForage` collection named `elasticCache`; the next call with the same queryObject will return the data directly from the browser storage, not hiting the server.
 
-For building the elasticsearch-js compliant ES queries we're using the powerfull bodybuilder package. Please take a look at the [reference docs for more options](https://github.com/danpaz/bodybuilder).
+We do not build elasticsearch query on this step more. We use search layer object conatinied  all necessary filters and seartch text. ES query builds using the powerfull bodybuilder package right before sending Elasticsearch request. Please take a look at the [reference docs for more options](https://github.com/danpaz/bodybuilder).

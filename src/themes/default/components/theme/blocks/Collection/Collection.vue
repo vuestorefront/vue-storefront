@@ -6,8 +6,9 @@
   />
 </template>
 <script>
-import builder from 'bodybuilder'
+
 import ProductsSlider from 'theme/components/core/ProductsSlider'
+import { prepareQuery } from 'core/api/product/queries/common'
 
 export default {
   name: 'Collection',
@@ -45,7 +46,7 @@ export default {
     }
   },
   beforeMount () {
-    let inspirationsQuery = builder().query('match', 'category.name', this.category).andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+    let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
 
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,
