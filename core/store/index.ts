@@ -7,9 +7,6 @@ import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
 import RootState from './types/RootState'
 
-declare var global: any
-
-if (!global.$VS) global.$VS = {}
 Vue.use(Vuex)
 
 const state = {
@@ -73,67 +70,67 @@ const plugins: Plugin<RootState>[] = [
       }
 
       if (actionName === types.CART_LOAD_CART || actionName === types.CART_ADD_ITEM || actionName === types.CART_DEL_ITEM || actionName === types.CART_UPD_ITEM || actionName === types.CART_UPD_ITEM_PROPS) { // check if this mutation is cart related
-        global.$VS.db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
+        Vue.prototype.$db.cartsCollection.setItem('current-cart', state.cart.cartItems).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
       if (actionName === types.CART_LOAD_CART_SERVER_TOKEN) {
-        global.$VS.db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
+        Vue.prototype.$db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
           console.error(reason)
         })
       }
       if (storeName === types.SN_WISHLIST) { // check if this mutation is wishlist related
-        global.$VS.db.wishlistCollection.setItem('current-wishlist', state.wishlist.items).catch((reason) => {
+        Vue.prototype.$db.wishlistCollection.setItem('current-wishlist', state.wishlist.items).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
       if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
-        global.$VS.db.compareCollection.setItem('current-compare', state.compare.items).catch((reason) => {
+        Vue.prototype.$db.compareCollection.setItem('current-compare', state.compare.items).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         })
       }
       if (actionName === types.USER_INFO_LOADED) { // check if this mutation is user related
-        global.$VS.db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
+        Vue.prototype.$db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
       if (actionName === types.USER_ORDERS_HISTORY_LOADED) { // check if this mutation is user related
-        global.$VS.db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
+        Vue.prototype.$db.ordersHistoryCollection.setItem('orders-history', state.user.orders_history).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
       if (actionName === types.USER_TOKEN_CHANGED) { // check if this mutation is user related
-        global.$VS.db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
+        Vue.prototype.$db.usersCollection.setItem('current-token', state.user.token).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
         if (state.user.refreshToken) {
-          global.$VS.db.usersCollection.setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
+          Vue.prototype.$db.usersCollection.setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
       }
       if (storeName === types.SN_CHECKOUT) {
         if (actionName === types.CHECKOUT_SAVE_PERSONAL_DETAILS) {
-          global.$VS.db.checkoutFieldsCollection.setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
+          Vue.prototype.$db.checkoutFieldsCollection.setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         } else if (actionName === types.CHECKOUT_SAVE_SHIPPING_DETAILS) {
-          global.$VS.db.checkoutFieldsCollection.setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
+          Vue.prototype.$db.checkoutFieldsCollection.setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         } else if (actionName === types.CHECKOUT_SAVE_PAYMENT_DETAILS) {
-          global.$VS.db.checkoutFieldsCollection.setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
+          Vue.prototype.$db.checkoutFieldsCollection.setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
       }
       if (actionName === types.USER_UPDATE_PREFERENCES) {
-        global.$VS.db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
+        Vue.prototype.$db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
           console.error(reason)
         })
       }
       if (actionName === 'setCmsBlock' || actionName === 'setCmsPage') {
-        global.$VS.db.cmsData.setItem('cms-data', state.cms).catch((reason) => {
+        Vue.prototype.$db.cmsData.setItem('cms-data', state.cms).catch((reason) => {
           console.error(reason)
         })
       }
@@ -154,6 +151,7 @@ export function initStore () {
   const config = rootStore.state.config
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
   Vue.prototype.$db = {
     ordersCollection: new UniversalStorage(localForage.createInstance({
       name: 'shop',
@@ -230,5 +228,4 @@ export function initStore () {
       storeName: 'cms'
     }))
   }
-  global.$VS.db = Vue.prototype.$db // localForage instance
 }

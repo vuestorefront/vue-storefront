@@ -1,5 +1,5 @@
+import Vue from 'vue'
 import * as types from '../../mutation-types'
-import EventBus from '../../lib/event-bus'
 import { ValidationError } from '../../lib/exceptions'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { ActionTree } from 'vuex'
@@ -27,9 +27,10 @@ const actions: ActionTree<OrderState, RootState> = {
     if (!validate(order)) { // schema validation of upcoming order
       throw new ValidationError(validate.errors)
     } else {
-      EventBus.$emit('order-before-placed', { order: order })
+      Vue.prototype.$bus.$emit('order-before-placed', { order: order })
       commit(types.ORDER_PLACE_ORDER, order)
-      EventBus.$emit('order-after-placed', { order: order })
+      Vue.prototype.$bus.$emit('order-after-placed', { order: order })
+
       return true
     }
   }

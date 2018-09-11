@@ -1,9 +1,8 @@
+import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import { entityKeyName } from '../../lib/entities'
 import * as types from '../../mutation-types'
 import AttributeState from './types/AttributeState'
-
-declare var global: any
 
 const mutations: MutationTree<AttributeState> = {
   /**
@@ -20,7 +19,7 @@ const mutations: MutationTree<AttributeState> = {
       attrHashByCode[attr.attribute_code] = attr
       attrHashById[attr.attribute_id] = attr
 
-      const attrCollection = global.$VS.db.attributesCollection
+      const attrCollection = Vue.prototype.$db.attributesCollection
       try {
         attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
           console.error(reason) // it doesn't work on SSR

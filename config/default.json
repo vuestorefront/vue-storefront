@@ -13,7 +13,9 @@
     "elasticsearch": {
       "httpAuth": "",
       "host": "localhost:8080/api/catalog",
-      "index": "vue_storefront_catalog"
+      "index": "vue_storefront_catalog",
+      "csrTimeout": 5000,
+      "ssrTimeout": 1000
     },
     "ssr": {
       "executeMixedinAsyncData": true,
@@ -215,6 +217,19 @@
       "defaultRegion": "",
       "sourcePriceIncludesTax": false,
       "calculateServerSide": true
+    },
+    "shipping": {
+      "methods": [
+        {
+          "method_title": "DPD Courier",
+          "method_code": "flatrate",
+          "carrier_code": "flatrate",
+          "amount": 4,
+          "price_incl_tax": 5,
+          "default": true,
+          "offline": true
+        }
+      ]
     },
     "i18n": {
       "defaultCountry": "US",

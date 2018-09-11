@@ -1,4 +1,4 @@
-import EventBus from './event-bus'
+import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import isNaN from 'lodash-es/isNaN'
 import isUndefined from 'lodash-es/isUndefined'
@@ -64,8 +64,8 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                 rootStore.state.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
                 rootStore.dispatch('sync/clearNotTransmited')
-                EventBus.$emit('modal-show', 'modal-signup')
-                EventBus.$emit('notification', {
+                Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+                Vue.prototype.$bus.$emit('notification', {
                   type: 'error',
                   message: i18n.t('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'),
                   action1: { label: i18n.t('OK'), action: 'close' }
@@ -82,14 +82,14 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                   } else {
                     rootStore.state.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
-                    EventBus.$emit('modal-show', 'modal-signup')
+                    Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
                     rootStore.dispatch('sync/clearNotTransmited')
                     console.error('Error refreshing user token', resp.result)
                   }
                 }).catch((excp) => {
                   rootStore.state.userTokenInvalidateLock = -1
                   rootStore.dispatch('user/logout', { silent: true })
-                  EventBus.$emit('modal-show', 'modal-signup')
+                  Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
                   rootStore.dispatch('sync/clearNotTransmited')
                   console.error('Error refreshing user token', excp)
                 })
@@ -99,11 +99,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           } else {
             console.info('Invalidation process is disabled (autoRefreshTokens is set to false)')
             rootStore.dispatch('user/logout', { silent: true })
-            EventBus.$emit('modal-show', 'modal-signup')
+            Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
           }
         }
         if (!task.silent && (jsonResponse.result && jsonResponse.result.code !== 'ENOTFOUND' && !silentMode)) {
-          EventBus.$emit('notification', {
+          Vue.prototype.$bus.$emit('notification', {
             type: 'error',
             message: i18n.t(jsonResponse.result),
             action1: { label: i18n.t('OK'), action: 'close' }
@@ -119,7 +119,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       task.acknowledged = false
 
       if (task.callback_event) {
-        EventBus.$emit(task.callback_event, task)
+        if (task.callback_event.startsWith('store:')) {
+          rootStore.dispatch(task.callback_event.split(':')[1], task)
+        } else {
+          Vue.prototype.$bus.$emit(task.callback_event, task)
+        }
       }
       if (!rootStore.state.userTokenInvalidateLock) { // in case we're revalidaing the token - user must wait for it
         resolve(task)

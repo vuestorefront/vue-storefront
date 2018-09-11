@@ -55,7 +55,7 @@ export default [
 
 ## Creating a Payment Extension
 
-Handling Payments are handled soley via a Payment Extension. This behaves and is created like the above base Extension, however it is also expected to catch and emit a few events for it to be a complete Payment Extension. Any of the payment handling logic, UI is handled soley via the Extension. For the most basic version of how a Payment Extension is the "src/extensions/cash-on-delivery".
+Payments are handled soley via a Payment Extension. This behaves and is created like the above base Extension, however it is also expected to catch and emit a few events for it to be a complete Payment Extension. Any of the payment handling logic, UI is handled soley via the Extension. For the most basic version of how a Payment Extension is the "src/extensions/cash-on-delivery".
 * The Payment Extension where applicable should catch the 'checkout-payment-method-changed' event, if the payment method code is the desired one, then you have the option to dynamically inject any components into the order review section on the checkout, (for example credit card input fields, payment method information etc).
 * You are required to catch the 'checkout-before-placeOrder' event and do any processing required for the payment method before placing the order.
 * You are required to emit the 'checkout-do-placeOrder' event with an optional payload to complete the placeorder process.

@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
 
-declare var global: any
-
 const CACHE_TIMEOUT = 1600
 const CACHE_TIMEOUT_ITERATE = 3000
 const DISABLE_PERSISTANCE_AFTER = 3
@@ -16,6 +14,7 @@ class LocalForageCacheDriver {
   private _persistenceErrorNotified: boolean;
   private _useLocalCacheByDefault: boolean;
   private cacheErrorsCount: any;
+  private localCache: any;
 
   constructor (collection, useLocalCacheByDefault = true) {
     const collectionName = collection._config.storeName
@@ -26,19 +25,19 @@ class LocalForageCacheDriver {
     if (typeof this.cacheErrorsCount[collectionName] === 'undefined') {
       this.cacheErrorsCount[collectionName] = 0
     }
-    if (typeof global.$VS.localCache === 'undefined') {
-      global.$VS.localCache = {}
+    if (typeof Vue.prototype.$localCache === 'undefined') {
+      Vue.prototype.$localCache = {}
     }
-    if (typeof global.$VS.localCache[dbName] === 'undefined') {
-      global.$VS.localCache[dbName] = {}
+    if (typeof Vue.prototype.$localCache[dbName] === 'undefined') {
+      Vue.prototype.$localCache[dbName] = {}
     }
-    if (typeof global.$VS.localCache[dbName][collectionName] === 'undefined') {
-      global.$VS.localCache[dbName][collectionName] = {}
+    if (typeof Vue.prototype.$localCache[dbName][collectionName] === 'undefined') {
+      Vue.prototype.$localCache[dbName][collectionName] = {}
     }
     this._collectionName = collectionName
     this._dbName = dbName
     this._useLocalCacheByDefault = useLocalCacheByDefault
-    this._localCache = global.$VS.localCache[dbName][collectionName]
+    this._localCache = Vue.prototype.$localCache[dbName][collectionName]
     this._localForageCollection = collection
     this._lastError = null
     this._persistenceErrorNotified = false
@@ -266,6 +265,5 @@ class LocalForageCacheDriver {
   }
 }
 
-// The actual localForage object that we expose as a module or via a
-// global.$VS. It's extended by pulling in one of our other libraries.
+// The actual localForage object that we expose as a module. It's extended by pulling in one of our other libraries.
 export default LocalForageCacheDriver

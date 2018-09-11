@@ -1,11 +1,12 @@
 import { Module } from 'vuex'
 import RootState from '../../types/RootState'
 import ShippingState from './types/ShippingState'
+import config from 'config'
 
 const shipping: Module<ShippingState, RootState> = {
   namespaced: true,
   state: {
-    methods: []
+    methods: config.shipping.methods
   },
   mutations: {
     addMethod (state, shippingMethods) {

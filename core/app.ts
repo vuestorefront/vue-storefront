@@ -8,7 +8,6 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 
 import router from '@vue-storefront/core/router'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
 import registerExtensions from '@vue-storefront/core/lib/extensions'
 import i18n from '@vue-storefront/i18n'
@@ -22,10 +21,6 @@ import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
 
-const shippingMethods = require('@vue-storefront/i18n/resource/shipping_methods.json')
-
-declare var global: any
-
 // Declare Apollo graphql client
 import ApolloClient from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
@@ -34,55 +29,52 @@ import VueApollo from 'vue-apollo'
 console.log('Add Vue-Apollo graphql client')
 
 const httpLink = new HttpLink({
-  uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
+    uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
 })
 
 const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache(),
-  connectToDevTools: true
+    link: httpLink,
+    cache: new InMemoryCache(),
+    connectToDevTools: true
 })
 
 let loading = 0
 
 const apolloProvider = new VueApollo({
-  clients: {
-    a: apolloClient
-  },
-  defaultClient: apolloClient,
-  defaultOptions: {
-    // $loadingKey: 'loading',
-  },
-  watchLoading (state, mod) {
-    loading += mod
-    console.log('Global loading', loading, mod)
-  },
-  errorHandler (error) {
-    console.log('Global error handler')
-    console.error(error)
-  }
+    clients: {
+        a: apolloClient
+    },
+    defaultClient: apolloClient,
+    defaultOptions: {
+        // $loadingKey: 'loading',
+    },
+    watchLoading (state, mod) {
+        loading += mod
+        console.log('Global loading', loading, mod)
+    },
+    errorHandler (error) {
+        console.log('Global error handler')
+        console.error(error)
+    }
 })
 
 Vue.use(VueApollo)
 // End declare Apollo graphql client
 
-if (!global.$VS) global.$VS = {}
-
-store.state.version = '1.3'
+store.state.version = '1.3.0'
 store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 store.state.config = config
-global.$VS.eventBus = EventBus
 
 const storeModules = Object.assign(coreModules, themeModules || {})
 
 for (const moduleName of Object.keys(storeModules)) {
-  console.log('Registering Vuex module', moduleName)
+  console.debug('Registering Vuex module', moduleName)
   store.registerModule(moduleName, storeModules[moduleName])
 }
 
 const storeView = prepareStoreView(null) // prepare the default storeView
 store.state.storeView = storeView
-store.state.shipping.methods = shippingMethods
+// store.state.shipping.methods = shippingMethods
 
 Vue.use(Vuelidate)
 Vue.use(VueLazyload, {attempt: 2})

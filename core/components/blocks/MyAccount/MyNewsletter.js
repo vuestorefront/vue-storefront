@@ -36,7 +36,9 @@ export default {
       this.isEdited = false
     },
     getNewsletter () {
-      this.user.isSubscribed = this.isSubscribed
+      this.$store.dispatch('user/loadNewsletterPreferences').then((res) => {
+        this.user.isSubscribed = res.isSubscribed
+      })
     }
   },
   mixins: [subscribe, unsubscribe, isSubscribed]

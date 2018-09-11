@@ -10,11 +10,12 @@ export function onNetworkStatusChange (store) {
   console.log('Are we online: ' + navigator.onLine)
 
   if (typeof navigator !== 'undefined' && navigator.onLine) {
+    EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+    store.dispatch('cart/load')
+
     if (config.orders.offline_orders.automatic_transmission_enabled || store.getters['checkout/isThankYouPage']) {
       EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
-      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
       // store.dispatch('cart/serverPull', { forceClientState: false })
-      store.dispatch('cart/load')
     } else {
       const ordersToConfirm = []
       const storeView = currentStoreView()
@@ -29,7 +30,7 @@ export function onNetworkStatusChange (store) {
           ordersToConfirm.push(order)
         }
       }).catch(err => {
-        console.log(err)
+        console.error(err)
       })
 
       if (ordersToConfirm.length > 0) {

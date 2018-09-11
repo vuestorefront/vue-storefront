@@ -9,7 +9,7 @@
 export const isSubscribed = {
   computed: {
     isSubscribed () {
-      return this.$store.state.user.newsletter.isSubscribed ? this.$store.state.user.newsletter.isSubscribed : false
+      return this.$store.state.user.newsletter ? (this.$store.state.user.newsletter.isSubscribed ? this.$store.state.user.newsletter.isSubscribed : false) : false
     }
   }
 }
