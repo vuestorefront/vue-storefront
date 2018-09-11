@@ -6,7 +6,8 @@
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
- import CartItem from '@vue-storefront/store/types/cart/CartItem'
+ import CartItem from '../types/CartItem'
+
  export const removeFromCart = {
   methods: {
     removeFromCart (item: CartItem) {
