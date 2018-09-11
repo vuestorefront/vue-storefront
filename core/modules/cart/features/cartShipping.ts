@@ -2,7 +2,7 @@
  * Functionality for returning shipping method
  *
  * #### Computed properties
- * - **`cartShipping`** returns cart shipping. Returns `cart/shipping` Vuex state.
+ * - **`cartShipping`** returns default cart shipping method. Returns `cart/shipping` Vuex state.
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */

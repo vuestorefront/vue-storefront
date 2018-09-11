@@ -2,7 +2,7 @@
  * Functionality for returning total segments array.
  *
  * #### Computed properties
- * - **`cartTotals`** returns cart totals array. Returns `cart/totals` Vuex getter.
+ * - **`cartTotals`** returns cart totals segments (like total, subtotal, shipping, tax, discount) as CartTotalSegments array of CartTotalSegmentsItem. Returns `cart/totals` Vuex getter.
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */

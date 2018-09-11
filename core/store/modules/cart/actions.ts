@@ -369,7 +369,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   refreshTotals (context, methodsData) {
     const storeView = currentStoreView()
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+    if (rootStore.state.config.cart.synchronize_totals) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']

@@ -2,7 +2,7 @@
  * Functionality for adding discount code.
  *
  * #### Methods
- * - **`applyCoupon(code)`** adds passed coupon code. Dispatches `cart/applyCoupon` Vuex action
+ * - **`applyCoupon(code)`** applies coupon with given code. Dispatches `cart/applyCoupon` Vuex action
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */

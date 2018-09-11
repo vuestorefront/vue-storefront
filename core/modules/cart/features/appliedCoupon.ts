@@ -1,8 +1,8 @@
 /**
- * Functionality for returning provided coupon code and discount value
+ * Functionality for returning currently applied coupon code and associated discount
  *
  * #### Computed properties
- * - **`appliedCoupon`** returns coupon code and provided discount.
+ * - **`appliedCoupon`** return currently applied coupon code and associated discount.
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
