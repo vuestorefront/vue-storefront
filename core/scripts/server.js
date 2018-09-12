@@ -99,8 +99,8 @@ const start = () => {
     })
     .on('error', (e) => {
       if (e.code === 'EADDRINUSE') {
-        console.log(`${port} already in use, trying ${port + 1}`)
-        port = port + 1
+        port = parseInt(port) + 1
+        console.log(`The port is already in use, trying ${port}`)
         start()
       }
     })
