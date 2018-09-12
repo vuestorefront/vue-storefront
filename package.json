@@ -39,7 +39,9 @@
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue core src",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "dependencies": {
     "ajv": "^6.4.0",
@@ -84,6 +86,7 @@
     "vue2-google-maps": "^0.8.4",
     "vue2-slugify": "0.0.1",
     "vuelidate": "^0.6.2",
+    "vuepress": "^0.14.2",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
   },
