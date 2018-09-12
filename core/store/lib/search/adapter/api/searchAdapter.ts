@@ -16,6 +16,9 @@ export class SearchAdapter {
     let ElasticsearchQueryBody = {}
     if (Request.searchQuery instanceof SearchQuery) {
       ElasticsearchQueryBody = prepareElasticsearchQueryBody(Request.searchQuery)
+      if (Request.searchQuery.getSearchText() !== '') {
+        ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
+      }      
     } else {
       // backward compatibility for old themes uses bodybuilder
       ElasticsearchQueryBody = Request.searchQuery
@@ -25,10 +28,6 @@ export class SearchAdapter {
     }
     if (Request.hasOwnProperty('groupToken') && Request.groupToken !== null) {
       ElasticsearchQueryBody['groupToken'] = Request.groupToken
-    }
-
-    if (Request.searchQuery.getSearchText() !== '') {
-      ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
     }
 
     const storeView = (Request.store === null) ? currentStoreView() : prepareStoreView(Request.store)

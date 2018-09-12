@@ -32,7 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import { prepareQuery } from 'core/api/product/queries/common'
+import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
 
 // Core dependecies
 import config from 'config'

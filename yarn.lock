@@ -1460,12 +1460,6 @@ bodybuilder@2.2.13:
   dependencies:
     lodash "^4.9.0"
 
-bodybuilder@^2.2.7:
-  version "2.2.15"
-  resolved "https://registry.yarnpkg.com/bodybuilder/-/bodybuilder-2.2.15.tgz#92acaeef095d7ecf32f4f353d39c40cee5ab1e70"
-  dependencies:
-    lodash "^4.9.0"
-
 boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
@@ -8728,11 +8722,11 @@ vue2-slugify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/vue2-slugify/-/vue2-slugify-0.0.1.tgz#f9bbd642fed9f520d08e61c0fdfbbb15cfddb3b2"
 
-vue@^2.5.13, vue@^2.5.17:
+vue@^2.5.17:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
-vuelidate@^0.6.1, vuelidate@^0.6.2:
+vuelidate@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.6.2.tgz#b417f5367407b047a2548119b25db56fe2bd5753"
 
