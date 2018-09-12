@@ -2,8 +2,9 @@ module.exports = {
   base: '/docs/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
+    repo: 'DivanteLtd/vue-storefront',
+    docsDir: 'docs',
     editLinks: true,
-    editLinkText: 'Help us improve this page!',
     nav: [],
     sidebar: {
       '/guide/': [
