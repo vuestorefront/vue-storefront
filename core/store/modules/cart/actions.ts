@@ -284,9 +284,10 @@ const actions: ActionTree<CartState, RootState> = {
           if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
             notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
           }
-          Vue.prototype.$bus.$emit('notification', notificationData)
           if (rootStore.state.config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
+          } else {
+            Vue.prototype.$bus.$emit('notification', notificationData)
           }
         }
         productIndex++
@@ -606,9 +607,9 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   servercartAfterItemUpdated (context, event) {
+    const originalCartItem = JSON.parse(event.payload.body).cartItem
     if (event.resultCode !== 200) {
       // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
-      const originalCartItem = JSON.parse(event.payload.body).cartItem
       if (originalCartItem.item_id) {
         rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
           if (cartItem) {
@@ -624,6 +625,20 @@ const actions: ActionTree<CartState, RootState> = {
       } else {
         console.log('Removing product from the cart', originalCartItem)
         rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
+      }
+    } else {
+      const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
+      if (isThisNewItemAddedToTheCart) {
+        let notificationData = {
+          type: 'success',
+          message: i18n.t('Product has been added to the cart!'),
+          action1: { label: i18n.t('OK'), action: 'close' },
+          action2: null
+        }
+        if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+          notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+        }
+        Vue.prototype.$bus.$emit('notification', notificationData)
       }
     }
   },
