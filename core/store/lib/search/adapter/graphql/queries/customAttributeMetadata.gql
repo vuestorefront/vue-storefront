@@ -1,0 +1,8 @@
+query customAttributeMetadata ($attributes: AttributeInput!) {
+  customAttributeMetadata(
+    attributes: $attributes
+  )
+  {
+    hits
+  }
+}
