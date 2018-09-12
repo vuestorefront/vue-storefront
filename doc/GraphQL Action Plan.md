@@ -47,8 +47,10 @@ this.$store.dispatch('product/list', {
 })
 ```
 
+[More information on how to query the data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+
 **bodybuilder** queries are still supported by our backward-compatibility mode so if You've used in You theme bodybuilder - it's fine as long as You're using the `api` mode for the backend queries.
 
-The **legacy queries** using bodybuilder will still work - and [here is the example]().
+The **legacy queries** using bodybuilder will still work - and [here is the example](https://github.com/pkarw/vue-storefront/blob/28feb8e5dc30ec216353ef87a859212379901c57/src/extensions/template/index.js#L36).
 
 You can also use direct **ApolloQuery** graphQL queries thanks to `vue-apollo` support. Please find the example [in here](https://github.com/DivanteLtd/vue-storefront/blob/4cbf866ca93f917b04461d3ae139a2d26ddf552a/src/themes/default/components/core/blocks/SearchPanel/SearchPanel.gql.vue#L21).
