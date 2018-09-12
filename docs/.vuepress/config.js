@@ -1,5 +1,6 @@
 module.exports = {
   base: '/docs/',
+  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
     editLinks: true,
     editLinkText: 'Help us improve this page!',
