@@ -1,4 +1,4 @@
-import { prepareQuery } from 'core/api/product/queries/common'
+import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
 
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
