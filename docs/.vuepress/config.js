@@ -12,7 +12,7 @@ module.exports = {
         {
           title: 'Installation',
           collapsable: false,
-          children: ['installation/linux-mac'],
+          children: ['installation/linux-mac', 'installation/windows'],
         },
         {
           title: 'Basics',
