@@ -48,9 +48,53 @@ Example call to clear all product, category and home pages:
 **WARNING:**
 We strongly recommend You to NOT USE Output cache in the development mode. By using it You won't be able to refresh the UI changes after modyfing the Vue components etc.
 
-**Cache invalidation:** Recent version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) do support output cache invalidation. Output cache is being tagged with the product and categories id (products and categories used on specific page). Mage2vuestorefront can invalidate cache of product and category pages if You set the following ENV variables:
+## CLI cache clear
+
+You can manualy clear Redis cache for specific tags by running the following command:
 
 ```bash
-export VS_INVALIDATE_CACHE_URL=http://localhost:3000/invalidate?tag=
+npm run cache clear
+npm run cache clear -- --tag=product,category
+npm run cache clear -- --tag=P198
+npm run cache clear -- --tag=*
+```
+
+Available tag keys are set in the `config.server.availableCacheTags` (by default: `"product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"`)
+
+**Dynamic cache invalidation:** Recent version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) do support output cache invalidation. Output cache is being tagged with the product and categories id (products and categories used on specific page). Mage2vuestorefront can invalidate cache of product and category pages if You set the following ENV variables:
+
+```bash
+export VS_INVALIDATE_CACHE_URL=http://localhost:3000/invalidate?key=SECRETKEY&tag=
 export VS_INVALIDATE_CACHE=1
 ```
+
+**SECURITY NOTE:** Please note that `key=SECRETKEY` should be equal to `vue-storefront/config/local.json` value of `server.invalidateCacheKey`
+
+## Adding new types / cache tags
+
+If You're adding new type of page (`core/pages`) and `config.server.useOutputCache=true` - You should also extend the `config.server.availableCacheTags` of new general purpose tag that will be connected with the URLs connected with this new page.
+
+After doing so, please add the `asyncData` method to Your page code assigning the right tag (please take a look at `core/pages/Home.js` for instance):
+
+```js
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      store.state.requestContext.outputCacheTags.add(`home`)
+      console.log('Entering asyncData for Home root ' + new Date())
+      EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
+        return resolve()
+      }).catch((err) => {
+        console.error(err)
+        reject(err)
+      })
+    })
+  },
+```
+
+This line:
+
+```js
+      store.state.requestContext.outputCacheTags.add(`home`)
+```
+
+... is in charge of assigning the specific tag with current HTTP request output.
