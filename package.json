@@ -29,6 +29,7 @@
     "installer": "node ./core/scripts/installer",
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
+    "cache": "node ./core/scripts/cache",
     "dev": "yarn build:sw && node ./core/scripts/server",
     "dev:inspect": "node --inspect ./core/scripts/server",
     "build:sw": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.prod.sw.config.js --mode production --progress --hide-modules",

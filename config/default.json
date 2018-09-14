@@ -6,7 +6,9 @@
       "api": "api",
       "useOutputCacheTagging": false,
       "useOutputCache": false,
-      "outputCacheDefaultTtl": 86400
+      "outputCacheDefaultTtl": 86400,
+      "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"],
+      "invalidateCacheKey": "aeSu7aip"
     },
     "redis": {
       "host": "localhost",
