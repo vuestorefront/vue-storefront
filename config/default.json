@@ -4,8 +4,15 @@
       "port": 3000,
       "protocol": "http",
       "api": "api",
-      "useOutputCacheTagging": false
+      "useOutputCacheTagging": false,
+      "useOutputCache": false,
+      "outputCacheDefaultTtl": 86400
     },
+    "redis": {
+      "host": "localhost",
+      "port": 6379,
+      "db": 0
+    },    
     "graphql":{
       "host": "localhost",
       "port": 8080

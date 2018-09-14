@@ -15,6 +15,7 @@ export default {
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
+      store.state.requestContext.outputCacheTags.add(`home`)
       console.log('Entering asyncData for Home root ' + new Date())
       EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
         return resolve()
