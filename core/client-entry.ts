@@ -63,6 +63,7 @@ function _ssrHydrateSubcomponents (components, next, to) {
 }
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
+    store.state.requestContext.outputCacheTags.clear()
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
     if (to) { // this is from url

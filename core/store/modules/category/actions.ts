@@ -68,7 +68,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true }) {
+  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true,  populateRequestCacheTags = true }) {
     const state = context.state
     const commit = context.commit
     const dispatch = context.dispatch
@@ -83,6 +83,9 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (setCurrentCategory) {
           commit(types.CATEGORY_UPD_CURRENT_CATEGORY, mainCategory)
         }
+        if (populateRequestCacheTags) {
+          rootStore.state.requestContext.outputCacheTags.add(`C${mainCategory.id}`)
+        }        
         if (setCurrentCategoryPath) {
           let currentPath = []
           let recurCatFinder = (category) => {

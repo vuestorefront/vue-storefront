@@ -40,7 +40,10 @@ const state = {
   twoStageCachingDisabled: false,
   userTokenInvalidated: null,
   userTokenInvalidateAttemptsCount: 0,
-  userTokenInvalidateLock: 0
+  userTokenInvalidateLock: 0,
+  requestContext: {
+    outputCacheTags: new Set<string>()
+  }
 }
 
 const mutations = {
