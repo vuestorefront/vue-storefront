@@ -62,7 +62,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))
 
-app.get('/invalidate', (req, res, next) => {
+app.get('/invalidate', (req, res) => {
   if (req.query.tag) { // clear cache pages for specific query tag
     console.log(`Clear cache request for [${req.query.tag}]`)
     let tags = []
@@ -78,10 +78,11 @@ app.get('/invalidate', (req, res, next) => {
       }))
     })
     Promise.all(subPromises).then(r => {
-      console.log('Tags invalidated successfully!')
       res.end(`Tags invalidated successfully [${req.query.tag}]`)
-      next()
-    }).catch(next)
+    }).catch(error => {
+      res.end(error)
+      console.error(error)
+    })
   }
 })
 
@@ -102,6 +103,7 @@ app.get('*', (req, res, next) => {
 
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
+      res.setHeader('Content-Type', 'text/html')
       res.end('<html lang="en">\n' +
           '    <head>\n' +
           '      <meta charset="utf-8">\n' +
@@ -119,6 +121,7 @@ app.get('*', (req, res, next) => {
       renderer.renderToString(context).then(output => {
         const tagsArray = Array.from(context.state.requestContext.outputCacheTags)
         const cacheTags = tagsArray.join(' ')
+        res.setHeader('Content-Type', 'text/html')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
         res.end(output)
         console.log(`cache tags for the request: ${cacheTags}`)
@@ -133,6 +136,7 @@ app.get('*', (req, res, next) => {
         next()
       }).catch(errorHandler)
     } else {
+      res.setHeader('Content-Type', 'text/html')
       renderer.renderToStream(context) // TODO: pass the store code from the headers
         .on('error', errorHandler)
         .on('end', () => {
@@ -143,20 +147,18 @@ app.get('*', (req, res, next) => {
     }
   }
 
-  if (!res.get('Content-Type')) {
-    res.append('Content-Type', 'text/html')
-  }
-
   if (config.server.useOutputCache && cache) {
     cache.get(
       'page:' + req.url
     ).then(output => {
       if (output !== null) {
+        res.setHeader('Content-Type', 'text/html')
         res.setHeader('X-VS-Cache', 'Hit')
         res.end(output)
         console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
         next()
       } else {
+        res.setHeader('Content-Type', 'text/html')
         res.setHeader('X-VS-Cache', 'Miss')
         console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
         dynamicRequestHandler(renderer) // render response
