@@ -11,6 +11,7 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
+      store.state.requestContext.outputCacheTags.add(`page-not-found`)
       let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
       store.dispatch('category/list', {}).then(categories => {
         store.dispatch('product/list', {
