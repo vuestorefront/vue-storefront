@@ -83,7 +83,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (setCurrentCategory) {
           commit(types.CATEGORY_UPD_CURRENT_CATEGORY, mainCategory)
         }
-        if (populateRequestCacheTags) {
+        if (populateRequestCacheTags && mainCategory) {
           rootStore.state.requestContext.outputCacheTags.add(`C${mainCategory.id}`)
         }        
         if (setCurrentCategoryPath) {

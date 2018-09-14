@@ -42,7 +42,7 @@ export default context => {
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      store.state.requestContext.outputCacheTags.clear()
+      store.state.requestContext.outputCacheTags = new Set<string>()
       if (store.state.config.storeViews.multistore === true) {
         let storeCode = context.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
