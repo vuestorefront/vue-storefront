@@ -470,10 +470,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
   <td align="center" valign="middle">
-        <a href="">
+        <a href="https://viaict.com/">
           <img
-            src=""
-            alt=""
+            src="https://www.viaict.com/img/viaict_flat_design_300.png"
+            alt="Viaict"
             height="50"
           >
         </a>
