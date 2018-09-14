@@ -25,7 +25,27 @@ yarn
 yarn installer
 ```
 
-It will take some time for installation and during the last step you will be asked some questions:
+It will take some time for installation and during the last step you will be asked some questions. First one is
+
+```
+Would you like to use https://demo.vuestorefront.io as the backend?
+```
+
+If you answer `Yes`, you will have remote backend at `https://demo.vuestorefront.io`. Otherwise, you will need to install `vue-storefront-api`.
+
+### Using Vue Storefront demo as a backend
+
+In this case you don't need to run Docker and you will be asked one additional question:
+
+```
+? Please provide path for images endpoint (https://demo.vuestorefront.io/img/)
+```
+
+You can simply proceed and as a result you will have a `vue-storefront` folder inside your project root and Storefront application running on `http://localhost:3000`. All images will be also hosted at `https://demo.vuestorefront.io/img/`.
+
+### Installing API locally
+
+If you answer `No` on the previous question, please be sure the Docker is running, otherwise you might get an error. You will be asked some more questions immediately:
 
 ```
 ? Would you like to use https://demo.vuestorefront.io as the backend? No
@@ -34,11 +54,9 @@ It will take some time for installation and during the last step you will be ask
 ? Choose path for images endpoint http://localhost:8080/img/
 ```
 
-::: warning
-If you chose `No` as an answer for the first question, please be sure to run Docker, otherwise you can get an error
-:::
+As for images endpoint: you can choose between `https://demo.vuestorefront.io/img/` again or host your images on localhost.
 
-After the successful installation you will get the following message:
+After you answered all the questions, the installation process will start (it might take some time to install all dependencies). When it's finished, you will get the following message:
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -56,7 +74,7 @@ After the successful installation you will get the following message:
 └────────────────────────────────────────────────────────────────┘
 ```
 
-You should also have Storefront running on your `http://localhost:3000`:
+Your project should contain 2 folders at this moment: `vue-storefront` and `vue-storefront-api`. Storefront should be running on `http://localhost:3000`:
 
 ![Storefront screenshot](/docs/storefront.png)
 
