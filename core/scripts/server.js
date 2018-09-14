@@ -84,10 +84,23 @@ app.get('*', (req, res) => {
     }
   }
 
-  renderer.renderToStream({ url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE }) // TODO: pass the store code from the headers
-    .on('error', errorHandler)
-    .on('end', () => console.log(`whole request: ${Date.now() - s}ms`))
-    .pipe(res)
+  const context = { url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE }
+  if (config.server.useOutputCacheTagging) {
+    renderer.renderToString(context).then(output => {
+      const cacheTags = Array.from(context.state.requestContext.outputCacheTags).join(' ')
+      res.setHeader('X-VS-Cache-Tags', cacheTags)
+      res.send(output).end()
+      console.log(`cache tags for the request: ${cacheTags}`)
+      console.log(`whole request: ${Date.now() - s}ms`)
+    })
+  } else {
+    renderer.renderToStream(context) // TODO: pass the store code from the headers
+      .on('error', errorHandler)
+      .on('end', () => {
+        console.log(`whole request: ${Date.now() - s}ms`)
+      })
+      .pipe(res)
+  }
 })
 
 let port = process.env.PORT || config.server.port
