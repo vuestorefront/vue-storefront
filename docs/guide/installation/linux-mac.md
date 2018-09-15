@@ -126,7 +126,10 @@ nano config/local.json
 ```
 
 The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
-We re using powerful node.js library for config files, check the docs to learn more on it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config).
+
+:::tip NOTE
+We're using powerful node.js library for config files, check the docs to learn more on it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config).
+:::
 
 To import these products we'll use `elasticdump` - which is provided by default with `package.json` dependencies and yarn command. Then, we need to update the structures in the database to the latest version (data migrations).
 
@@ -167,35 +170,38 @@ Now, it's the time to install the frontend itself.
 
 ### Install the vue-storefront
 
-You need to use https://github.com/DivanteLtd/vue-storefront.
+First step is to clone [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
 
-```
+```bash
 git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
 cd vue-storefront
 ```
 
-Next, you have to prepare the config:
-_(we re using powerfull node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config)_
+Next, you have to prepare the config
 
-```
+```bash
 cp config/default.json config/local.json
 nano config/local.json
 ```
 
 The default config file should work perfectly fine for default purposes.
 
-Finally, you have to choose between two modes of running the application (similarly as in the case of vue-storefront-api):
+Finally, you have to choose between two modes of running the application (similarly as in the case of vue-storefront-api).
+
+:::warning
+If you choose the **legacy** mode, be sure to run `yarn install` first!
+:::
 
 1. The **legacy** mode:
 
-   ```
+   ```bash
    yarn build
    yarn dev
    ```
 
 2. The **standard** mode (whole runtime environment inside the container):
-   ```
+   ```bash
    docker-compose up
    ```
 
-That's all - your frontend application is now up and running!
+That's all - your frontend application is now up and running! You can check it on `localhost:3000`
