@@ -1,8 +1,10 @@
-export default interface ESQuery {
-  index: any
+export default interface Request {
+  store: any
   type: string
-  body: any
+  searchQuery: any
   size: number
+  groupId: any
+  groupToken: any
   from: number
   sort: string
   _sourceExclude?: string

@@ -4,6 +4,7 @@ import * as types from '../../mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
 import { currentStoreView } from '../../lib/multistore'
 import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync, getMediaGallery, configurableChildrenImages, attributeImages } from './helpers'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 import { entityKeyName } from '../../lib/entities'
 import { optionLabel } from '../attribute/helpers'
 import { quickSearchByQuery, isOnline } from '../../lib/search'
@@ -13,7 +14,6 @@ import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '../../'
 import RootState from '../../types/RootState'
 import ProductState from './types/ProductState'
-import bodybuilder from 'bodybuilder'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -169,11 +169,11 @@ const actions: ActionTree<ProductState, RootState> = {
   checkConfigurableParent (context, {product}) {
     if (product.type_id === 'simple') {
       console.log('Checking configurable parent')
-      let query = bodybuilder()
-        .query('match', 'configurable_children.sku', context.state.current.sku)
-        .build()
 
-      return context.dispatch('list', {query, start: 0, size: 1, updateState: false}).then((resp) => {
+      let searchQuery = new SearchQuery()
+      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.state.current.sku}})
+
+      return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
@@ -225,15 +225,16 @@ const actions: ActionTree<ProductState, RootState> = {
   filterUnavailableVariants (context, { product }) {
     return filterOutUnavailableVariants(context, product)
   },
+
   /**
    * Search ElasticSearch catalog of products using simple text query
    * Use bodybuilder to build the query, aggregations etc: http://bodybuilder.js.org/
-   * @param {Object} query elasticSearch request body
+   * @param {Object} query is the object of searchQuery class
    * @param {Int} start start index
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       console.debug('Entity cache is enabled for productList')
@@ -252,6 +253,9 @@ const actions: ActionTree<ProductState, RootState> = {
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
+          if (populateRequestCacheTags) {
+            rootStore.state.requestContext.outputCacheTags.add(`P${product.id}`)
+          }
           product.errors = {} // this is an object to store validation result for custom options and others
           product.info = {}
           if (!product.parentSku) {
@@ -374,12 +378,13 @@ const actions: ActionTree<ProductState, RootState> = {
       }
 
       const syncProducts = () => {
-        return context.dispatch('list', { // product list syncs the platform price on it's own
-          query: bodybuilder()
-            .query('match', key, options[key])
-            .build(),
-          prefetchGroupProducts: false,
-          updateState: false
+          let searchQuery = new SearchQuery()
+          searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
+
+          return context.dispatch('list', { // product list syncs the platform price on it's own
+              query: searchQuery,
+              prefetchGroupProducts: false,
+              updateState: false
         }).then((res) => {
           if (res && res.items && res.items.length) {
             let prd = res.items[0]

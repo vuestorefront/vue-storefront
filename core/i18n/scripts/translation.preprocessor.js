@@ -40,7 +40,8 @@ module.exports = function (csvDirectories, config = null) {
   })
 
   if (config && config.i18n.bundleAllStoreviewLanguages) {
-    const bundledLanguages = { 'en-US': messages['en-US'] }
+    const bundledLanguages = { 'en-US': messages['en-US'] } // fallback locale
+    bundledLanguages[config.i18n.defaultLocale] = messages[config.i18n.defaultLocale] // default locale
     Object.keys(config.storeViews).forEach((storeCode) => {
       const store = config.storeViews[storeCode]
       if (store.hasOwnProperty('storeCode')) {
