@@ -1,6 +1,6 @@
 # Installing on Linux/MacOS
 
-The steps below are tested on MacOS and Linux environments. If you're on Windows please check [Windows Installation Tutorial](/guide/installation/windows.md).
+The steps below are tested on MacOS and Linux environments. If you're on Windows please check [Windows Installation Tutorial](windows.md).
 
 Let's go!
 

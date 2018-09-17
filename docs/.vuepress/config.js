@@ -16,6 +16,7 @@ module.exports = {
             'installation/linux-mac',
             'installation/windows',
             'installation/magento',
+            'installation/production-setup',
           ],
         },
         {

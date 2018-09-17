@@ -10,7 +10,7 @@ cd mage2vs/src
 yarn install
 ```
 
-The tool is using Magento2 API via Oauth authorization, so you need to prepare Magento Integration access at first. Go to your Magento2 admin panel and click: _System -> Integrations_
+The tool is using Magento2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento2 admin panel and click: _System -> Integrations_
 
 ![Magento Admin Panel](/docs/magento_1.png)
 
@@ -52,9 +52,9 @@ node cli.js productcategories
 node cli.js products
 ```
 
-It’s safe to run these commands over and over as they’re doing `upsert` operation — so inserts or updates the existing records.
+It’s safe to run these commands over and over as they’re doing `upsert` operation  - so inserts or updates the existing records.
 
-`cli.js` has a lot of other modes to be run in. Dynamic changes, queue support etc. You may experiment with them, but remember — the basic sequence for syncing the whole Magento2 database is like just shown.
+`cli.js` has a lot of other modes to be run in. Dynamic changes, queue support etc. You may experiment with them, but remember  -  the basic sequence for syncing the whole Magento2 database is like just shown.
 
 ## Synchronizing orders and Magento images
 
@@ -78,9 +78,9 @@ The code of this script is [located here](https://github.com/DivanteLtd/vue-stor
 
 ## Synchronizing shopping carts
 
-By default shopping carts are not synchronized in the real time — just after the order is places, Magento2 cart is created etc.
+By default shopping carts are not synchronized in the real time  -  just after the order is placed, Magento2 cart is created etc.
 
-This was limiting behavior because to get Magento2 shopping cart promotion rules into the action you need to keep the user cart most current all the time.
+This was limiting behavior because you need to keep the user cart most current all the time to get Magento2 shopping cart promotion rules into the action .
 
 We have option for that! If you have Magento2 API configured within the `vue-storefront-api` you just need to go to `vue-storefront/conf/local.json` and add
 

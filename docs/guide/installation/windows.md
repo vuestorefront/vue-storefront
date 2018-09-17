@@ -1,6 +1,6 @@
 # Installing on Windows
 
-Vue storefront is based on open source technologies which SHOULD (in theory ;)) work perfectly well on most of the leading operating systems. However, we're developing the project using MacOS and Linux machines.
+Vue Storefront is based on open source technologies which SHOULD (in theory ;)) work perfectly well on most of the leading operating systems. However, we're developing the project using MacOS and Linux machines.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ Vue storefront is based on open source technologies which SHOULD (in theory ;)) 
 git clone https://github.com/DivanteLtd/vue-storefront-api.git vue-storefront-api
 ```
 
-3. Go to vue-storefront-api in dir:
+3. Go to `vue-storefront-api` in dir:
 
 ```bash
 cd vue-storefront-api
@@ -31,7 +31,7 @@ cd vue-storefront-api
 yarn install
 ```
 
-5. Run Docker containers required by vue-storefront-api:
+5. Run Docker containers required by `vue-storefront-api`:
 
 ```bash
 docker-compose up
@@ -62,7 +62,7 @@ yarn dev
 git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
 ```
 
-3. Go to vue-storefront directory:
+3. Go to `vue-storefront` directory:
 
 ```
 cd vue-storefront
@@ -75,7 +75,7 @@ yarn install
 ```
 
 5. Copy `config/default.json` to `config/local.json`
-6. Images: because vue-storefront-api uses `imagemagick` and some nodejs cmdline bindings it can be dificult to run the image proxy on localhost/windows machine. Please point out the vue-storefront to image proxy provided by changing `config/local.json` images.baseUrl:
+6. Images: because `vue-storefront-api` uses `imagemagick` and some nodejs cmdline bindings it can be difficult to run the image proxy on localhost/windows machine. Please point out the `vue-storefront` to image proxy provided by changing `config/local.json` `images.baseUrl`:
 
 ```js
 export default {
