@@ -103,7 +103,7 @@ export function createApp (): { app: Vue, router: any, store: any } {
     router,
     store,
     i18n,
-    provide: apolloProvider.provide(),
+    provide: apolloProvider,
     render: h => h(App)
   })
 
