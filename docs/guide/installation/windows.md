@@ -1,8 +1,8 @@
-# Introduction
+# Installing on Windows
 
 Vue storefront is based on open source technologies which SHOULD (in theory ;)) work perfectly well on most of the leading operating systems. However, we're developing the project using MacOS and Linux machines.
 
-## Prerequsites
+## Requirements
 
 1. Please download [Docker for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows) and install it on your machine. [More Information](https://blog.jayway.com/2017/04/19/running-docker-on-bash-on-windows/)
 2. Install [LTS version of Node.js for Windows](https://nodejs.org/en/download/)
@@ -95,7 +95,7 @@ export default {
 ```
 
 :::tip NOTE
-We're using powerful node.js library for config files, check the docs to learn more on it: https://github.com/lorenwest/node-config
+We're using powerful node.js library for config files, check the docs to learn more on it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config)
 :::
 
 6. Run Vue Storefront Server:
