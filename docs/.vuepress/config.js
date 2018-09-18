@@ -17,6 +17,7 @@ module.exports = {
             'installation/windows',
             'installation/magento',
             'installation/production-setup',
+            'installation/configuration',
           ],
         },
         {
@@ -42,7 +43,7 @@ module.exports = {
         {
           title: 'Integrations',
           collapsable: false,
-          children: ['integrations/magento'],
+          children: ['integrations/magento', 'integrations/multistore'],
         },
         {
           title: 'Core API Modules docs',
