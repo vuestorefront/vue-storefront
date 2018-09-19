@@ -1,3 +1,5 @@
+import CartItem from '../types/CartItem'
+
 /**
  * Functionality for removing product from the cart.
  *
@@ -6,8 +8,6 @@
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
- import CartItem from '../types/CartItem'
-
  export const removeFromCart = {
   methods: {
     removeFromCart (item: CartItem) {
