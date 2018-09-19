@@ -215,7 +215,6 @@
 "Please configure product custom options and fix the validation errors","Per favore configura le opzioni personabilizzate del prodotto e verifica di aver compilato correttamente tutti i campi"
 "Error refreshing user token. User is not authorized to access the resource","Errore durante l'aggiornamento del token. L'utente non è autorizzato ad accedere alla risorsa"
 "Must be greater than 0","Deve essere maggiore di 0"
-"Please specify product option(s).","Specifica la/le opzioni del prodotto."
 "Order confirmation","Conferma ordine"
 "Sort By","Ordina per"
 "Latest","Più recenti"
