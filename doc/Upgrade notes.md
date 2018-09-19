@@ -27,6 +27,10 @@ We're trying to keep the upgrade process as easy as it's possible. Unfortunately
 
 1. We removed the default assets from `core/assets`. From now on, we only use the assets from `your-theme/assets`.
 
+#### Store
+
+1. We moved the socialTiles Vuex store from the core to the theme, because it's specific to the theme.
+
 ## 1.2 -> 1.3
 
 ### Changes
