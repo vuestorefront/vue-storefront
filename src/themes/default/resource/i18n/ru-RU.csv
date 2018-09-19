@@ -221,7 +221,6 @@
 "Unhandled error, wrong response format!","Необработанная ошибка, неверный формат ответа!"
 "Cash On Delivery","Оплата при доставке"
 "Fixed","Фиксированный"
-"The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.","Настоящие способы оплаты будут скоро реализованы. Пожалуйста взгляните на нашу дорожную карту тут: https://github.com/DivanteLtd/vue-storefront/issues"
 "Placing Order","Заказ обрабатывается"
 "Open my account","Открыть личный кабинет"
 "Open microcart","Открыть корзину"

@@ -221,7 +221,6 @@
 "Unhandled error, wrong response format!","処理不能エラー、レスポンスのフォーマットが間違っています!"
 "Cash On Delivery","代引き"
 "Fixed","確認済"
-"The real payment methods will be implemented soon. Please kindly take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap.","実際に使える決済方法は間もなく実装されます。こちらをさんしょうしてください https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap."
 "Placing Order","注文を入れる"
 "Open my account","自分のアカウントを開く"
 "Open microcart","小さなカートを開く"
