@@ -230,7 +230,6 @@
 "No such entity with cartId = null","Не существует сущности с cartId = null"
 "Tax ID must have at least 3 letters.","ИНН должен состоять из минимум 3 символов."
 "Country *","Страна *"
-"The password doesn't match this account.","Пароль не соответствует данной учетной записи."
 "Toggle password visibility","Переключить видимость пароля"
 "You've entered an incorrect coupon code. Please try again.","Вы ввели неверный код купона. Пожалуйста попробуйте еще раз."
 "Add a discount code","Ввести скидочный код"

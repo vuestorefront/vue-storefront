@@ -220,7 +220,6 @@
 "No such entity with cartId = null","No such entity with cartId = null"
 "Tax ID must have at least 3 letters.","Le numéro d'immatriculation fiscale doit comporter au moins 3 lettres."
 "Country *","Pays *"
-"The password doesn't match this account.","Le mot de passe ne correspond pas à ce compte."
 "Toggle password visibility","Afficher le mot de passe"
 "You've entered an incorrect coupon code. Please try again.","You've entered an incorrect coupon code. Veuillez réessayer."
 "Add a discount code","Ajouter un code de réduction"

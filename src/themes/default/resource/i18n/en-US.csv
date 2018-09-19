@@ -232,7 +232,6 @@
 "No such entity with cartId = null","No such entity with cartId = null"
 "Tax ID must have at least 3 letters.","Tax ID must have at least 3 letters."
 "Country *","Country *"
-"The password doesn't match this account.","The password doesn't match this account."
 "Toggle password visibility","Toggle password visibility"
 "You've entered an incorrect coupon code. Please try again.","You've entered an incorrect coupon code. Please try again."
 "Add a discount code","Add a discount code"
