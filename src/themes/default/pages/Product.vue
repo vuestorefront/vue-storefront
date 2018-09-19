@@ -231,6 +231,7 @@
         </div>
       </div>
     </section>
+    <product-reviews />
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
@@ -244,6 +245,7 @@
 import Product from '@vue-storefront/core/pages/Product'
 
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+import ProductReviews from 'theme/components/core/blocks/Product/Review.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
 import GenericSelector from 'theme/components/core/GenericSelector'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
@@ -272,6 +274,7 @@ export default {
     ProductTile,
     PromotedOffers,
     RelatedProducts,
+    ProductReviews,
     SizeSelector
   },
   mixins: [Product],
