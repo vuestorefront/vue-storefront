@@ -130,7 +130,6 @@
 "Search","Buscar"
 "Help","Ayuda"
 "Subtotal incl. tax","Subtotal incl. impuesto"
-"Cash on delivery","Contra reembolso"
 "DPD Courier","DPD Courier"
 "Grand total","Gran total"
 "I accept ","Acepto "
@@ -188,5 +187,4 @@
 "404 Page Not Found","404 Pagina no encontrada"
 "Error with response - bad content-type!","Error con la respuesta - ¡tipo de contenido incorrecto!"
 "Unhandled error, wrong response format!","¡Error no controlado, formato de respuesta incorrecto!"
-"Cash On Delivery","Pago contra entrega"
 "Fixed","Fijo"
