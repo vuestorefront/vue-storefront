@@ -1,12 +1,29 @@
 {
     "server": {
       "host": "localhost",
-      "port": 3000
+      "port": 3000,
+      "protocol": "http",
+      "api": "api",
+      "useOutputCacheTagging": false,
+      "useOutputCache": false,
+      "outputCacheDefaultTtl": 86400,
+      "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"],
+      "invalidateCacheKey": "aeSu7aip"
+    },
+    "redis": {
+      "host": "localhost",
+      "port": 6379,
+      "db": 0
+    },    
+    "graphql":{
+      "host": "localhost",
+      "port": 8080
     },
     "elasticsearch": {
       "httpAuth": "",
       "host": "localhost:8080/api/catalog",
       "index": "vue_storefront_catalog",
+      "min_score": 0.02,
       "csrTimeout": 5000,
       "ssrTimeout": 1000
     },
@@ -133,6 +150,9 @@
       "setupVariantByAttributeCode": true,
       "endpoint": "http://localhost:8080/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
+      "filterFieldMapping": {
+        "category.name": "category.name.keyword"
+      },
       "sortByAttributes": {
         "Latest": "updated_at",
         "Price":"final_price"
@@ -247,5 +267,48 @@
       "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
       "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
     },
-    "usePriceTiers": false
+    "usePriceTiers": false,
+    "boost": {
+      "name": 3,
+      "category.name": 1,
+      "short_description": 1,
+      "description": 1,
+      "sku": 1,
+      "configurable_children.sku": 1
+    },
+    "query": {
+      "inspirations": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Performance Fabrics" }
+          }
+        ]
+      },
+      "newProducts": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ]
+      },
+      "coolBags": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Women" }
+          }
+        ]
+      },
+      "bestSellers": {
+        "filter": [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ]
+      }
+    }
+
 }

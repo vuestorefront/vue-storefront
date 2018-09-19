@@ -21,6 +21,46 @@ import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
 
+// Declare Apollo graphql client
+import ApolloClient from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import VueApollo from 'vue-apollo'
+console.debug('Add Vue-Apollo graphql client')
+
+const httpLink = new HttpLink({
+    uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
+})
+
+const apolloClient = new ApolloClient({
+    link: httpLink,
+    cache: new InMemoryCache(),
+    connectToDevTools: true
+})
+
+let loading = 0
+
+const apolloProvider = new VueApollo({
+    clients: {
+        a: apolloClient
+    },
+    defaultClient: apolloClient,
+    defaultOptions: {
+        // $loadingKey: 'loading',
+    },
+    watchLoading (state, mod) {
+        loading += mod
+        console.log('Global loading', loading, mod)
+    },
+    errorHandler (error) {
+        console.log('Global error handler')
+        console.error(error)
+    }
+})
+
+Vue.use(VueApollo)
+// End declare Apollo graphql client
+
 store.state.version = '1.3.0'
 store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 store.state.config = config
@@ -63,6 +103,7 @@ export function createApp (): { app: Vue, router: any, store: any } {
     router,
     store,
     i18n,
+    provide: apolloProvider.provide(),
     render: h => h(App)
   })
 

@@ -1,4 +1,4 @@
-import builder from 'bodybuilder'
+import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
 
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
@@ -11,7 +11,8 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
-      let ourBestsellersQuery = builder().query('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      store.state.requestContext.outputCacheTags.add(`page-not-found`)
+      let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
       store.dispatch('category/list', {}).then(categories => {
         store.dispatch('product/list', {
           query: ourBestsellersQuery,

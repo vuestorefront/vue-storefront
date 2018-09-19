@@ -2,7 +2,7 @@
  * Functionality for unsubscribing newsletter
  *
  * #### Methods
- * - **`unsubscribe(email)`** removes passed email from subscribtion list
+ * - **`unsubscribe(email)`** removes passed email from subscription list
  *
  * Part of [Newsletter API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */

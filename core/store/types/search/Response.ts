@@ -1,4 +1,4 @@
-export default interface ESResponse {
+export default interface Response {
   items: any[]
   total: number
   start: number

@@ -284,9 +284,10 @@ const actions: ActionTree<CartState, RootState> = {
           if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
             notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
           }
-          Vue.prototype.$bus.$emit('notification', notificationData)
           if (rootStore.state.config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
+          } else {
+            Vue.prototype.$bus.$emit('notification', notificationData)
           }
         }
         productIndex++
@@ -369,7 +370,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   refreshTotals (context, methodsData) {
     const storeView = currentStoreView()
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+    if (rootStore.state.config.cart.synchronize_totals) {
       if (!methodsData) {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
@@ -416,46 +417,50 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   removeCoupon (context) {
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-      context.dispatch('sync/execute', { url: rootStore.state.config.cart.deletecoupon_endpoint,
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        },
-        silent: true
-      }, { root: true }).then(task => {
-        if (task.result) {
-          context.dispatch('refreshTotals')
-        }
-      }).catch(e => {
-        console.error(e)
-      })
-    }
+    return new Promise((resolve, reject) => {
+      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        context.dispatch('sync/execute', { url: rootStore.state.config.cart.deletecoupon_endpoint,
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          silent: true
+        }, { root: true }).then(task => {
+          if (task.result) {
+            context.dispatch('refreshTotals')
+            resolve(task.result)
+          }
+        }).catch(e => {
+          console.error(e)
+          reject(e)
+        })
+      }
+    });
   },
   applyCoupon (context, couponCode) {
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-      context.dispatch('sync/execute', { url: rootStore.state.config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        },
-        silent: true
-      }, { root: true }).then(task => {
-        if (task.result === true) {
-          context.dispatch('refreshTotals')
-        } else {
-          Vue.prototype.$bus.$emit('notification', {
-            type: 'warning',
-            message: i18n.t('You\'ve entered an incorrect coupon code. Please try again.'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-        }
-      }).catch(e => {
-        console.error(e)
-      })
-    }
+    return new Promise((resolve, reject) => {
+      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        context.dispatch('sync/execute', { url: rootStore.state.config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
+          payload: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors'
+          },
+          silent: true
+        }, { root: true }).then(task => {
+          if (task.result === true) {
+            context.dispatch('refreshTotals')
+            resolve(task.result)
+          } else {
+            reject(false)
+          }
+        }).catch(e => {
+          console.log(e)
+          reject(e)
+        })
+      }
+    })
   },
   userAfterLoggedin () {
     Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
@@ -514,7 +519,7 @@ const actions: ActionTree<CartState, RootState> = {
         const serverItem = serverItems.find((itm) => {
           return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
         })
-  
+
         if (!serverItem) {
           console.log('No server item for ' + clientItem.sku)
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
@@ -551,7 +556,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         }
       }
-  
+
       for (const serverItem of serverItems) {
         if (serverItem) {
           const clientItem = clientItems.find((itm) => {
@@ -560,7 +565,7 @@ const actions: ActionTree<CartState, RootState> = {
           if (!clientItem) {
             console.log('No client item for ' + serverItem.sku)
             diffLog.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no_item' })
-  
+
             if (!event.dry_run) {
               if (event.force_client_state) {
                 console.log('Removing item', serverItem.sku, serverItem.item_id)
@@ -589,7 +594,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         }
       }
-  
+
       if (!event.dry_run) {
         if ((!serverCartUpdateRequired || clientCartUpdateRequired) && cartHasItems) {
           rootStore.dispatch('cart/refreshTotals')
@@ -602,9 +607,9 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   servercartAfterItemUpdated (context, event) {
+    const originalCartItem = JSON.parse(event.payload.body).cartItem
     if (event.resultCode !== 200) {
       // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
-      const originalCartItem = JSON.parse(event.payload.body).cartItem
       if (originalCartItem.item_id) {
         rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
           if (cartItem) {
@@ -620,6 +625,20 @@ const actions: ActionTree<CartState, RootState> = {
       } else {
         console.log('Removing product from the cart', originalCartItem)
         rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
+      }
+    } else {
+      const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
+      if (isThisNewItemAddedToTheCart) {
+        let notificationData = {
+          type: 'success',
+          message: i18n.t('Product has been added to the cart!'),
+          action1: { label: i18n.t('OK'), action: 'close' },
+          action2: null
+        }
+        if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+          notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+        }
+        Vue.prototype.$bus.$emit('notification', notificationData)
       }
     }
   },
