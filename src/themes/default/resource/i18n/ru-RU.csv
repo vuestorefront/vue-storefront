@@ -1,5 +1,4 @@
 "Please do correct validation errors","Пожалуйста исправьте валидационные ошибки"
-"The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Система не может удостовериться в наличии необходимого количества (изменчиво). Товар добавлен в корзину для предварительного бронирования."
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Данная возможность пока не реализована! Пожалуйста ознакомьтесь с нашей дорожной картой тут: https://github.com/DivanteLtd/vue-storefront/issues"
 "The product is out of stock and cannot be added to the cart!","Товара нет в наличии и его нельзя добавить в корзину"
 "Product has been added to the cart!","Товар добавлен в корзину!"

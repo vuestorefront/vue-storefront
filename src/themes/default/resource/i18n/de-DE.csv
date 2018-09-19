@@ -1,5 +1,4 @@
 "Please do correct validation errors","Bitte korrigiere die Validierungsfehler"
-"The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Das System konnte den genauen Lagerbestand nicht ermitteln, da dieser sehr volatil ist. Das Produkt wurde zur Vorreservierung in den Warenkorb gelegt."
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Diese Funktion wurde noch nicht implementiert. Für weitere Details schau dir bitte auf https://github.com/DivanteLtd/vue-storefront/issues unsere Roadmap an!"
 "The product is out of stock and cannot be added to the cart!","Das Produkt ist nicht auf Lager und kann daher nicht zum Warenkorb hinzugefügt werden!"
 "Product has been added to the cart!","Produkt wurde zum Warenkorb hinzugefügt!"

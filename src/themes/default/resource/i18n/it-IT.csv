@@ -1,5 +1,4 @@
 "Please do correct validation errors","Verifica di aver compilato correttamente tutti i campi"
-"The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Il sistema non è sicuro della disponibilità del prodotto (volatile). Il prodotto è stato aggiunto al carrello per prenotazione"
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Questa funzionalità non è ancora stata implementata! Dai un'occhiata alla nostra roadmap qui https://github.com/DivanteLtd/vue-storefront/issues!"
 "The product is out of stock and cannot be added to the cart!","Il prodotto non è più disponibile e non può essere aggiunto al carrello"
 "Product has been added to the cart!","Il prodotto è stato aggiunto al carrello!"
