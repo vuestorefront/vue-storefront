@@ -28,9 +28,6 @@ Try out our open demo and if you like it **first give us some star on Github ★
         Magento 2.2 - Default theme
       </td>
       <td align="center" valign="middle">
-        B2B theme (beta)
-      </td align="center" valign="middle">
-      <td align="center" valign="middle">
         Magento 1.9 - Default theme
       </td align="center" valign="middle">
       <td align="center" valign="middle">
@@ -56,15 +53,6 @@ Try out our open demo and if you like it **first give us some star on Github ★
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://demo-magento1.vuestorefront.io">
-          <img
-            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-m1.png?raw=true"
-            alt="Magento 1.9 demo"
-            height="100"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://demo-magento-checkout.vuestorefront.io">
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-magento-checkout.png"
@@ -78,11 +66,6 @@ Try out our open demo and if you like it **first give us some star on Github ★
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
           demo.vuestorefront.io
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://demo-catalog.vuestorefront.io">
-          demo-catalog.vuestorefront.io
         </a>
       </td>
       <td align="center" valign="middle">
