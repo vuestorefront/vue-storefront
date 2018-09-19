@@ -185,8 +185,6 @@
 "Remake order","Repasser la commande"
 "No orders yet","Aucune commande"
 "Order #","Commande #"
-"Shipping address","Adresse d'expédition"
-"Billing address","Adresse de facturation"
 "not authorized","pas autorisé"
 "Internal Application error while refreshing the tokens. Please clear the storage and refresh page.","Une erreur interne est survenue. Veuillez nettoyer le stockage du site et rafraîchir la page."
 "Proceed to checkout","Passer la commande"
