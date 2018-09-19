@@ -30,7 +30,7 @@ Now please edit the `src/config.js` file in your `mage2vuestorefront` directory 
 
 ```js
 magento: {
-  url: process.env.MAGENTO_URL || 'http://magento2.demo-1.divante.pl/rest/',
+  url: process.env.MAGENTO_URL || "http://your-magento-url.com/rest/", <- change to your Magento 2 URL,
   consumerKey: process.env.MAGENTO_CONSUMER_KEY || 'alva6h6hku9qxrpfe02c2jalopx7od1q',
   consumerSecret: process.env.MAGENTO_CONSUMER_SECRET || '9tgfpgoojlx9tfy21b8kw7ssfu2aynpm',
   accessToken: process.env.MAGENTO_ACCESS_TOKEN || 'rw5w0si9imbu45h3m9hkyrfr4gjina8q',
@@ -60,9 +60,50 @@ It’s safe to run these commands over and over as they’re doing `upsert` oper
 
 As you should have the products and categories already synchronized you may want to send some orders back to Magento or synchronize the shopping carts in the real time.
 
-`vue-storefront-api` is responsible for this write access to Magento. You may want just edit your `conf/local.json` within `vue-storefront-api` directory to set the OAuth Magento API access (`magento2` section).
+`vue-storefront-api` is responsible for this write access to Magento. You may want just edit your `conf/local.json` within `vue-storefront-api` directory to set the OAuth Magento API access (`magento2` section):
+
+```json
+"magento2": {
+    "url": "http://your-magento-url.com",
+    "imgUrl": "http://your-magento-url.com/media/catalog/product",
+    "assetPath": "/../var/magento2-sample-data/pub/media",
+    "api": {
+      "url": "http://your-magento-url.com/rest/",
+      "consumerKey": "alva6h6hku9qxrpfe02c2jalopx7od1q",
+      "consumerSecret": "9tgfpgoojlx9tfy21b8kw7ssfu2aynpm",
+      "accessToken": "rw5w0si9imbu45h3m9hkyrfr4gjina8q",
+      "accessTokenSecret": "00y9dl4vpxgcef3gn5mntbxtylowjcc9"
+    }
+},
+```
 
 To allow `vue-storefront-api` to resize your Magento’s images, please edit the `imgUrl` property under `magento2` section and add your Magento’s domain to `imageable` -> `whitelist`.
+
+```json
+"imageable": {
+    "namespace": "",
+    "maxListeners": 512,
+    "imageSizeLimit": 1024,
+    "timeouts": {
+      "convert": 15000,
+      "identify": 300,
+      "download": 5000
+    },
+    "whitelist": {
+      "allowedHosts": [
+        ".*your-magento-url.com",
+        ".*divante.pl",
+        ".*vuestorefront.io",
+        "localhost"
+      ],
+      "trustedHosts": [
+        ".*your-magento-url.com",
+        ".*divante.pl",
+        ".*vuestorefront.io",
+        "localhost"
+      ]
+    },
+```
 
 :::tip NOTE
 After changing the config files you need to restart `yarn dev`
