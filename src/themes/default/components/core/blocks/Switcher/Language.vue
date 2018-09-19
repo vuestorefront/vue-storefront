@@ -41,7 +41,7 @@ export default {
       return config
     },
     enableColumns () {
-      var enableStoreViews = Object.keys(config.storeViews).filter(function (key) {
+      var enableStoreViews = Object.keys(config.storeViews).filter((key) => {
         var value = config.storeViews[key]
         return (typeof value === 'object' && value.disabled === false)
       })

@@ -1,13 +1,13 @@
 import extensionStore from './store'
 import extensionRoutes from './router'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
 
 const EXTENSION_KEY = 'mailchimp-subscribe'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
   store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
-  console.log('Mailchimp extension registered')
+  console.debug('Mailchimp extension registered')
   EventBus.$on('newsletter-after-unsubscribe', (payload) => {
     console.log('Mailchimp unsubscribe')
     store.dispatch('sync/queue', { url: config.mailchimp.endpoint,

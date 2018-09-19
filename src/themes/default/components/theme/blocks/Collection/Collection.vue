@@ -6,8 +6,9 @@
   />
 </template>
 <script>
-import builder from 'bodybuilder'
+
 import ProductsSlider from 'theme/components/core/ProductsSlider'
+import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
 
 export default {
   name: 'Collection',
@@ -29,8 +30,8 @@ export default {
     return {
       products: [],
       sliderConfig: {
-        perPage: 2,
-        perPageCustom: [[768, 6]],
+        perPage: 1,
+        perPageCustom: [[576, 2], [1024, 4]],
         paginationEnabled: false,
         loop: true
       }
@@ -45,16 +46,15 @@ export default {
     }
   },
   beforeMount () {
-    let self = this
-    let inspirationsQuery = builder().query('match', 'category.name', this.category).build()
+    let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
 
-    self.$store.dispatch('product/list', {
+    this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'
-    }).then(function (res) {
+    }).then(res => {
       if (res) {
-        self.products = res.items
+        this.products = res.items
       }
     })
   },

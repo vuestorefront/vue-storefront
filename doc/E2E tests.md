@@ -8,8 +8,8 @@ We don't yet have our guidelines for e2e tests, but we try to follow best practi
 
 To open cypress just run:
 
-`yarn tests:e2e`
+`yarn test:e2e`
 
 To run all test in background:
 
-`yarn tests:e2e:ci`
+`yarn test:e2e:ci`

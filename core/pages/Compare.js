@@ -1,6 +1,6 @@
 import { mapState, mapGetters } from 'vuex'
-import i18n from 'core/lib/i18n'
-import Composite from 'core/mixins/composite'
+import i18n from '@vue-storefront/i18n'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Compare',
@@ -26,7 +26,6 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('compare/load')
     this.$store.dispatch('attribute/list', {
       filterValues: [true],
       filterField: 'is_user_defined'
@@ -42,5 +41,11 @@ export default {
       title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
+  },
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      store.state.requestContext.outputCacheTags.add(`compare`)
+      resolve()
+    })
   }
 }

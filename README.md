@@ -130,12 +130,18 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Installing on Linux/MacOS](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md)
 * [Installing on Windows](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md)
 * [How to install and integrate with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2)
+* [Production setup](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Production%20setup%20(WIP).md)
+* [Configuration file explained](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Config%20docs.md)
 
 ### Basics
 * [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
 * [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
 * [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
+* [Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
+* [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
+* [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md)
+* [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
@@ -169,13 +175,18 @@ Tutorial series on creating themes for Vue Storefront:
 * [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
+* [Tier prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Tier%20prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)
 * [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
 * [Magento2 MultiStore support](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md)
 
+### Core API Modules docs (experimental feature, not safe to use right now)
+* [Cart Module](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md)
 ### 'Default theme' contribution rules
 * [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/default/Working%20with%20stylesheets.md)
 
+## Awesome projects related to Vue Storefront
+Check [Vue Storefront Awesome](https://github.com/frqnck/awesome-vue-storefront)
 ## The business challenges
 Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
 * The ultrafast front-end for the store - with the PWA approach we can now render the catalog of products within milliseconds;
@@ -422,11 +433,58 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-      <td align="center" valign="middle">
+     <td align="center" valign="middle">
+        <a href="https://upsidelab.io/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/upside-logo@4x.png"
+            alt="UpsideLab"
+            height="50"
+          >
+        </a>
+       </td>
+    </tr>
+     <tr>
+       <td align="center" valign="middle">
+        <a href="http://meigee.team/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/meigee.png"
+            alt="Meigee"
+            height="50"
+          >
+        </a>
+      </td>
+         <td align="center" valign="middle">
         <a href="https://webvisum.de/">
           <img
             src="https://divante.co/partners/Vue-Storefront/Webvisium-Logo.png"
             alt="WebVisum"
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.phoenix-media.eu/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/PHOENIX_MEDIA_Logo_transparent.png"
+            alt="Phoenix Media"
+            height="50"
+          >
+        </a>
+      </td>
+  <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+        <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
             height="50"
           >
         </a>

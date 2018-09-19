@@ -11,10 +11,10 @@
         </h2>
       </div>
     </header>
-    <div class="thank-you-content py40 pl20">
+    <div class="thank-you-content align-justify py40 pl20">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 pl20 pr20">
             <h3 v-if="OnlineOnly" >
               {{ $t('Your purchase') }}
             </h3>
@@ -35,7 +35,7 @@
             </p>
             <p v-if="!isPermissionGranted && isNotificationSupported">
               <button-outline color="dark" @click.native="requestNotificationPermission()" >
-                Allow notification about the order
+                {{ $t('Allow notification about the order') }}
               </button-outline>
             </p>
             <div id="thank-you-extensions"/>
@@ -45,9 +45,9 @@
             <p v-html="this.$t('You can log to your account using e-mail and password defined earlier. On your account you can <b>edit you\'r profile data,</b> check <b>history of transactions,</b> edit <b>subscription to newsletter.</b>')"/>
           </div>
           <div class="col-md-6 bg-cl-secondary thank-you-improvment">
-            <h4>
+            <h3>
               {{ $t('What we can improve?') }}
-            </h4>
+            </h3>
             <p class="mb25">
               {{ $t('Your feedback is important fo us. Let us know what we could improve.') }}
             </p>
@@ -56,7 +56,7 @@
                 class="mb25"
                 type="text"
                 name="body"
-                value=""
+                v-model="feedback"
                 :placeholder="$t('Type your opinion')"
                 :autofocus="true"
               />
@@ -72,7 +72,8 @@
 </template>
 
 <script>
-import Composite from 'core/mixins/composite'
+import Vue from 'vue'
+import Composite from '@vue-storefront/core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
@@ -81,23 +82,31 @@ import VueOfflineMixin from 'vue-offline/mixin'
 export default {
   name: 'ThankYouPage',
   mixins: [Composite, VueOfflineMixin],
+  data () {
+    return {
+      feedback: ''
+    }
+  },
   computed: {
     isNotificationSupported () {
-      if (global.$VS.isSSR || !('Notification' in window)) return false
+      if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return 'Notification' in window
     },
     isPermissionGranted () {
-      if (global.$VS.isSSR || !('Notification' in window)) return false
+      if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
     }
   },
   methods: {
     requestNotificationPermission () {
-      if (global.$VS.isSSR) return false
+      if (Vue.prototype.$isServer) return false
       if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission()
       }
     }
+  },
+  destroyed () {
+    this.$store.dispatch('checkout/setThankYouPage', false)
   },
   components: {
     BaseTextarea,
@@ -122,10 +131,10 @@ export default {
     }
   }
   .thank-you-improvment {
-    padding: 20px 10px;
+    padding: 0 20px 15px;
 
     @media (min-width: 64em) {
-      padding: 20px 40px;
+      padding: 0 40px 10px;
     }
 
     textarea {

@@ -21,6 +21,10 @@ export default {
     offline: {
       type: Object,
       required: true
+    },
+    product: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -54,18 +58,17 @@ export default {
       }
     },
     selectVariant () {
-      let option = this.configuration[config.products.galleryVariantsGroupAttribute]
-      if (typeof option !== 'undefined' && option !== null) {
-        let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
-        this.navigate(index)
+      if (config.products.gallery.mergeConfigurableChildren) {
+        let option = this.configuration[config.products.gallery.variantsGroupAttribute]
+        if (typeof option !== 'undefined' && option !== null) {
+          let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
+          this.navigate(index)
+        }
+        this.$forceUpdate()
       }
-      this.$forceUpdate()
     },
     toggleZoom () {
-      this.isZoomOpen ? this.isZoomOpen = false : this.isZoomOpen = true
-      setTimeout(() => {
-        this.navigate(this.$refs.carousel.currentPage)
-      }, 1)
+      this.isZoomOpen = !this.isZoomOpen
     },
     handleEscKey (event) {
       if (this.isZoomOpen && event.keyCode === 27) {

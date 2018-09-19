@@ -1,5 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
-import Countries from 'core/resource/countries.json'
+import Countries from '@vue-storefront/i18n/resource/countries.json'
 
 export default {
   name: 'Shipping',
@@ -54,6 +54,7 @@ export default {
         shipping = this.shippingMethods[0]
       }
       this.shipping.shippingMethod = shipping.method_code
+      this.shipping.shippingCarrier = shipping.carrier_code
     }
   },
   methods: {
@@ -95,7 +96,8 @@ export default {
           apartmentNumber: this.myAddressDetails.street[1],
           zipCode: this.myAddressDetails.postcode,
           phoneNumber: this.myAddressDetails.telephone,
-          shippingMethod: this.$store.state.checkout.shippingDetails.shippingMethod
+          shippingMethod: this.$store.state.checkout.shippingDetails.shippingMethod,
+          shippingCarrier: this.$store.state.checkout.shippingDetails.shippingCarrier
         }
       } else {
         this.shipping = this.$store.state.checkout.shippingDetails

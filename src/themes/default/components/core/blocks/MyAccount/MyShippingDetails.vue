@@ -137,32 +137,23 @@
           ]"
         />
 
-        <div class="col-xs-12 col-sm-6 mb25">
-          <select
-            name="countries"
-            autocomplete="country-name"
-            v-model="shippingDetails.country"
-            :class="{ 'cl-tertiary' : !shippingDetails.country || shippingDetails.country.length === 0 }"
-          >
-            <option value="" disabled selected hidden>
-              {{ `${$t('Country')} *` }}
-            </option>
-            <option
-              v-for="country in countries"
-              :key="country.code"
-              :value="country.code"
-              class="cl-black"
-            >
-              {{ country.name }}
-            </option>
-          </select>
-          <span
-            class="validation-error"
-            v-if="!$v.shippingDetails.country.required && $v.shippingDetails.country.$error"
-          >
-            {{ $t('Field is required') }}
-          </span>
-        </div>
+        <base-select
+          class="col-xs-12 col-sm-6 mb25"
+          name="countries"
+          :options="countryOptions"
+          :selected="shippingDetails.country"
+          :placeholder="$t('Country *')"
+          :validations="[
+            {
+              condition: $v.shippingDetails.country.$error && !$v.shippingDetails.country.required,
+              text: $t('Field is required')
+            }
+          ]"
+          v-model="shippingDetails.country"
+          autocomplete="country-name"
+          @blur="$v.shippingDetails.country.$touch()"
+          @change="$v.shippingDetails.country.$touch()"
+        />
 
         <base-input
           class="col-xs-12 col-sm-6 mb25"
@@ -233,21 +224,33 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import MyShippingDetails from 'core/components/blocks/MyAccount/MyShippingDetails'
+import MyShippingDetails from '@vue-storefront/core/components/blocks/MyAccount/MyShippingDetails'
 
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 
 export default {
   components: {
     ButtonFull,
     Tooltip,
     BaseCheckbox,
-    BaseInput
+    BaseInput,
+    BaseSelect
   },
   mixins: [MyShippingDetails],
+  computed: {
+    countryOptions () {
+      return this.countries.map((item) => {
+        return {
+          value: item.code,
+          label: item.name
+        }
+      })
+    }
+  },
   validations: {
     shippingDetails: {
       firstName: {

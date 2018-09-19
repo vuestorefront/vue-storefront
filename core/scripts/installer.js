@@ -1,5 +1,6 @@
 'use strict'
 
+const path = require('path')
 const shell = require('shelljs')
 const mkdirp = require('mkdirp')
 const exists = require('fs-exists-sync')
@@ -133,10 +134,13 @@ class Backend extends Abstract {
    */
   cloneRepository () {
     return new Promise((resolve, reject) => {
-      Message.info(`Cloning backend into '${this.answers.backend_dir}'...`)
+      const backendDir = path.normalize(this.answers.backend_dir)
+      const gitPath = path.normalize(this.answers.git_path)
 
-      if (shell.exec(`${this.answers.git_path} clone ${STOREFRONT_BACKEND_GIT_URL} ${this.answers.backend_dir} > ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(new Error(`Can't clone backend into '${this.answers.backend_dir}'.`))
+      Message.info(`Cloning backend into '${backendDir}'...`)
+
+      if (shell.exec(`${gitPath} clone ${STOREFRONT_BACKEND_GIT_URL} '${backendDir}' > ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error(`Can't clone backend into '${backendDir}'.`))
       }
 
       resolve()
@@ -150,11 +154,11 @@ class Backend extends Abstract {
    */
   goToDirectory (backendDir = null) {
     return new Promise((resolve, reject) => {
-      let dir = this.answers ? this.answers.backend_dir : backendDir
+      const dir = this.answers ? this.answers.backend_dir : backendDir
 
       Message.info(`Trying change directory to '${dir}'...`)
 
-      if (shell.cd(dir).code !== 0) {
+      if (shell.cd(path.normalize(dir)).code !== 0) {
         reject(new Error(`Can't change directory to '${dir}'.`))
       }
 
@@ -351,8 +355,8 @@ class Storefront extends Abstract {
         config.products.endpoint = `${backendPath}/api/product`
         config.users.endpoint = `${backendPath}/api/user`
         config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}`
-        config.users.resetPassword_endpoint = `${backendPath}/api/user/resetPassword`
-        config.users.changePassword_endpoint = `${backendPath}/api/user/changePassword?token={{token}}`
+        config.users.resetPassword_endpoint = `${backendPath}/api/user/reset-password`
+        config.users.changePassword_endpoint = `${backendPath}/api/user/change-password?token={{token}}`
         config.users.login_endpoint = `${backendPath}/api/user/login`
         config.users.create_endpoint = `${backendPath}/api/user/create`
         config.users.me_endpoint = `${backendPath}/api/user/me?token={{token}}`
@@ -373,6 +377,7 @@ class Storefront extends Abstract {
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.images.baseUrl = this.answers.images_endpoint
         config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
+        config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
 
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,

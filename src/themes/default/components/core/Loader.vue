@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Loader from 'core/components/Loader'
+import Loader from '@vue-storefront/core/components/Loader'
 
 export default {
   mixins: [Loader]

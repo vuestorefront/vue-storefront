@@ -1,8 +1,7 @@
-import bodybuilder from 'bodybuilder'
 import { mapState } from 'vuex'
-import i18n from 'core/lib/i18n'
-import onEscapePress from 'core/mixins/onEscapePress'
-import config from 'config'
+import i18n from '@vue-storefront/i18n'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/product/queries/searchPanel'
 
 export default {
   name: 'SearchPanel',
@@ -10,8 +9,11 @@ export default {
     return {
       products: [],
       search: '',
+      size: 18,
+      start: 0,
       placeholder: i18n.t('Type what you are looking for...'),
-      emptyResults: false
+      emptyResults: false,
+      readMore: true
     }
   },
   methods: {
@@ -23,33 +25,46 @@ export default {
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setSearchpanel', false)
     },
-    makeSearch: function () {
-      let queryText = this.search
-      let start = 0
-      let size = 18
-
-      let query = bodybuilder()
-        .query('range', 'visibility', { 'gte': 3, 'lte': 4 })
-        .andQuery('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */)
-
-      if (config.products.listOutOfStockProducts === false) {
-        query = query.andQuery('match', 'stock.is_in_stock', true)
+    buildSearchQuery (queryText) {
+      let searchQuery = prepareQuickSearchQuery(queryText)
+      return searchQuery
+    },
+    makeSearch () {
+      if (this.search !== '' && this.search !== undefined) {
+        let query = this.buildSearchQuery(this.search)
+        this.start = 0
+        this.readMore = true
+        this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then(resp => {
+          this.products = resp.items
+          this.start = this.start + this.size
+          this.emptyResults = resp.items.length < 1
+        }).catch((err) => {
+          console.error(err)
+        })
+      } else {
+        this.products = []
+        this.emptyResults = 0
       }
-
-      query = query.andQuery('bool', b => b.orQuery('match', 'name', { query: queryText, boost: 3 })
-        .orQuery('match', 'category.name', { query: queryText, boost: 1 })
-        .orQuery('match', 'sku', { query: queryText, boost: 1 })
-        .orQuery('match', 'configurable_children.sku', { query: queryText, boost: 1 })
-        .orQuery('match', 'short_description', { query: queryText, boost: 2 })
-        .orQuery('match', 'description', { query: queryText, boost: 1 }))
-      query = query.build()
-
-      this.$store.dispatch('product/list', { query, start, size, updateState: false }).then((resp) => {
-        this.products = resp.items
-        this.emptyResults = resp.items.length < 1
-      }).catch(function (err) {
-        console.error(err)
-      })
+    },
+    seeMore () {
+      if (this.search !== '' && this.search !== undefined) {
+        let query = this.buildSearchQuery(this.search)
+        this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
+          let page = Math.floor(resp.total / this.size)
+          let exceeed = resp.total - this.size * page
+          if (resp.start === resp.total - exceeed) {
+            this.readMore = false
+          }
+          this.products = this.products.concat(resp.items)
+          this.start = this.start + this.size
+          this.emptyResults = this.products.length < 1
+        }).catch((err) => {
+          console.error(err)
+        })
+      } else {
+        this.products = []
+        this.emptyResults = 0
+      }
     }
   },
   computed: {

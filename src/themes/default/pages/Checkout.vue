@@ -8,7 +8,11 @@
               {{ $t('Checkout') }}
             </h1>
           </div>
-          <personal-details class="line relative" :is-active="activeSection.personalDetails"/>
+          <personal-details
+            class="line relative"
+            :is-active="activeSection.personalDetails"
+            :focused-field="focusedField"
+          />
           <shipping class="line relative" :is-active="activeSection.shipping"/>
           <payment class="line relative" :is-active="activeSection.payment"/>
           <order-review class="line relative" :is-active="activeSection.orderReview"/>
@@ -24,7 +28,7 @@
 </template>
 
 <script>
-import Checkout from 'core/pages/Checkout'
+import Checkout from '@vue-storefront/core/pages/Checkout'
 
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping'

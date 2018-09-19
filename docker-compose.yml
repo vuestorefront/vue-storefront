@@ -16,6 +16,8 @@ services:
       - './.eslintignore:/var/www/.eslintignore'
       - './.eslintrc.js:/var/www/.eslintrc.js'
       - './lerna.json:/var/www/lerna.json'
+      - './tsconfig.json:/var/www/tsconfig.json'
+      - './shims.d.ts:/var/www/shims.d.ts'
       - './package.json:/var/www/package.json'
       - './src:/var/www/src'
       - './var:/var/www/var'

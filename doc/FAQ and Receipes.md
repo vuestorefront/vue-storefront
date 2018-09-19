@@ -23,6 +23,9 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#multi-website">How to support Multistore / Multiwebsite setup</a>
 * <a href="#configurable-filters">How to deal with Category filters based on configurable_children</a>
 * <a href="#seo-redirects">How to redirect original Magento2 urls to Vue Storefront</a>
+* <a href="#configurable-error">You need to choose options for your item message when I hit API for add to cart configrable product</a>
+* <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md">*Images loading* issue on Magento 2 integration</a>
+* <a href="#adding-filter">Adding custom category filters</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -38,7 +41,7 @@ In case You get the following error:
 ```
 Please check:
 - if there is `docker-compose` command available, if not please do install it
-- please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 644)
+- please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 755)
 
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
@@ -217,8 +220,7 @@ If the extensions are not playing with the User Interface, probably they will wo
 
 ### <a name="multi-website"></a>How to support Multistore / Multiwebsite setup
 
-Currently, the Multi Website support is possible by setting up few separate instances of Vue Storefront configured to use other API endpoints + have few ElasticSearch indexes (each for one storeView). Magento2 API allows the user to simply add the: http://magento-store.example.com/store_code/V1 ... to the endpoitns so You can just switch the store view by changing store_code - from "default" to any kind of "en", "de" ... 
-2
+Please check the [Multistore setup](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md) guide for details
 
 ### <a name="configurable-filters"></a>How to deal with Category filters based on configurable_children
 
@@ -233,3 +235,18 @@ There is a SEO redirects generator for nginx -> https://serverfault.com/a/441517
 - `oldFormat` - should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (oldFormat = !useShortCatalogUrls)
 
 Please make sure that  `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and You have ElasticSearch synchronised with the Magento2 instance using current version of https://github.com/DivanteLtd/mage2vuestorefront
+
+### <a name="configurable-error"></a>You need to choose options for your item message when I hit API for add to cart configrable product
+
+This is because the demo data dump works on the demo-magento2.vuestorefront.io instance's attribute ids. Please reimport all product data using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront)
+
+### <a name="adding-filters"></a>Adding custom category filters
+
+You need to add the attributes You'll like to have displayed to the `config/local.json` field name is: `products.defaultFilters`:
+
+```json
+      "defaultFilters": ["color", "size", "price", "erin_recommends"],
+```
+
+And then You can use proper controls for each individual filter in here:
+https://github.com/DivanteLtd/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue

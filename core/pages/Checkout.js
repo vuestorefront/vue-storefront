@@ -1,14 +1,14 @@
-// Core dependecies
-import i18n from 'core/lib/i18n'
+import Vue from 'vue'
+import i18n from '@vue-storefront/i18n'
 import config from 'config'
+import VueOfflineMixin from 'vue-offline/mixin'
 
-// Core mixins
-import Composite from 'core/mixins/composite'
+import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'Checkout',
-  mixins: [Composite],
+  mixins: [Composite, VueOfflineMixin],
   data () {
     return {
       stockCheckCompleted: false,
@@ -23,6 +23,7 @@ export default {
       order: {},
       personalDetails: {},
       shipping: {},
+      shippingMethod: {},
       payment: {},
       orderReview: {},
       cartSummary: {},
@@ -31,53 +32,56 @@ export default {
         shipping: { $invalid: true },
         payment: { $invalid: true }
       },
-      userId: null
+      userId: null,
+      focusedField: null
     }
   },
   beforeMount () {
-    if (this.$store.state.cart.cartItems.length === 0) {
-      this.$bus.$emit('notification', {
-        type: 'warning',
-        message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-        action1: { label: i18n.t('OK'), action: 'close' }
-      })
-      this.$router.push('/')
-    } else {
-      this.stockCheckCompleted = false
-      const checkPromises = []
-      for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
-        if (product.onlineStockCheckid) {
-          checkPromises.push(new Promise((resolve, reject) => {
-            global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, function (err, item) {
-              if (err || !item) {
-                if (err) console.error(err)
-                resolve(null)
-              } else {
-                product.stock = item.result
-                resolve(product)
-              }
-            })
-          }))
-        }
-      }
-      Promise.all(checkPromises).then(function (checkedProducts) {
-        this.stockCheckCompleted = true
-        this.stockCheckOK = true
-        for (let chp of checkedProducts) {
-          if (chp && chp.stock) {
-            if (!chp.stock.is_in_stock) {
-              this.stockCheckOK = false
-              chp.errors.stock = i18n.t('Out of stock!')
-              this.$bus.$emit('notification', {
-                type: 'error',
-                message: chp.name + i18n.t(' is out of the stock!'),
-                action1: { label: i18n.t('OK'), action: 'close' }
+    this.$store.dispatch('cart/load').then(() => {
+      if (this.$store.state.cart.cartItems.length === 0) {
+        this.$bus.$emit('notification', {
+          type: 'warning',
+          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
+          action1: { label: i18n.t('OK'), action: 'close' }
+        })
+        this.$router.push('/')
+      } else {
+        this.stockCheckCompleted = false
+        const checkPromises = []
+        for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
+          if (product.onlineStockCheckid) {
+            checkPromises.push(new Promise((resolve, reject) => {
+              Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                if (err || !item) {
+                  if (err) console.error(err)
+                  resolve(null)
+                } else {
+                  product.stock = item.result
+                  resolve(product)
+                }
               })
-            }
+            }))
           }
         }
-      }.bind(this))
-    }
+        Promise.all(checkPromises).then((checkedProducts) => {
+          this.stockCheckCompleted = true
+          this.stockCheckOK = true
+          for (let chp of checkedProducts) {
+            if (chp && chp.stock) {
+              if (!chp.stock.is_in_stock) {
+                this.stockCheckOK = false
+                chp.errors.stock = i18n.t('Out of stock!')
+                this.$bus.$emit('notification', {
+                  type: 'error',
+                  message: chp.name + i18n.t(' is out of the stock!'),
+                  action1: { label: i18n.t('OK'), action: 'close' }
+                })
+              }
+            }
+          }
+        })
+      }
+    })
     const storeView = currentStoreView()
     let country = this.$store.state.checkout.shippingDetails.country
     if (!country) country = storeView.i18n.defaultCountry
@@ -85,8 +89,6 @@ export default {
     this.$store.dispatch('cart/getPaymentMethods')
   },
   created () {
-    // TO-DO: Dont use event bus ad use v-on at components (?)
-    this.$bus.$on('network-before-checkStatus', this.onNetworkStatusCheck)
     // TO-DO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
@@ -100,11 +102,11 @@ export default {
     this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
+    this.$bus.$on('checkout-after-validationError', this.focusField)
   },
   destroyed () {
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
-    this.$bus.$off('network-before-checkStatus', this.onNetworkStatusCheck)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
     this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
@@ -115,9 +117,11 @@ export default {
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
+    this.$bus.$off('checkout-after-validationError', this.focusField)
   },
   watch: {
-    '$route': 'activateHashSection'
+    '$route': 'activateHashSection',
+    'OnlineOnly': 'onNetworkStatusCheck'
   },
   methods: {
     onCartAfterUpdate (payload) {
@@ -132,6 +136,7 @@ export default {
     },
     onAfterShippingMethodChanged (payload) {
       this.$store.dispatch('cart/refreshTotals', payload)
+      this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
       this.$store.dispatch('cart/getShippingMethods', {
@@ -143,7 +148,8 @@ export default {
     },
     onAfterPlaceOrder (order) {
       this.orderPlaced = true
-      console.log(this.order)
+      this.$store.dispatch('checkout/setThankYouPage', true)
+      console.debug(this.order)
     },
     onBeforeEdit (section) {
       this.activateSection(section)
@@ -189,9 +195,10 @@ export default {
       this.validationResults.personalDetails = validationResult
       this.activateSection('shipping')
       this.savePersonalDetails()
+      this.focusedField = null
     },
-    onNetworkStatusCheck (status) {
-      this.checkConnection(status)
+    onNetworkStatusCheck (isOnline) {
+      this.checkConnection(isOnline)
     },
     checkStocks () {
       let isValid = true
@@ -244,8 +251,8 @@ export default {
         }
       }
     },
-    checkConnection (status) {
-      if (!status.online) {
+    checkConnection (isOnline) {
+      if (!isOnline) {
         this.$bus.$emit('notification', {
           type: 'warning',
           message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
@@ -303,8 +310,8 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.shipping.shippingMethod,
-          shipping_carrier_code: this.shipping.shippingMethod,
+          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
+          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
@@ -332,6 +339,18 @@ export default {
     },
     savePaymentDetails () {
       this.$store.dispatch('checkout/savePaymentDetails', this.payment)
+    },
+    focusField (fieldName) {
+      if (fieldName === 'password') {
+        window.scrollTo(0, 0)
+        this.activateSection('personalDetails')
+        this.focusedField = fieldName
+      }
+      if (fieldName === 'email-address') {
+        window.scrollTo(0, 0)
+        this.activateSection('personalDetails')
+        this.focusedField = fieldName
+      }
     }
   },
   metaInfo () {
@@ -339,5 +358,11 @@ export default {
       title: this.$route.meta.title || i18n.t('Checkout'),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
+  },
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      store.state.requestContext.outputCacheTags.add(`checkout`)
+      resolve()
+    })
   }
 }

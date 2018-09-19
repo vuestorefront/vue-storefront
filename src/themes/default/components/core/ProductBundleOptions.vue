@@ -14,7 +14,7 @@
             :value="opval.id"
             v-model="inputValues[('bundleOption_' + option.option_id)]"
           >
-          <label class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
+          <label v-if="opval.product" class="pl10 lh20 h4 pointer" :for="('bundleOption_' + opval.id)" v-html="opval.product.name" />
         </div>
         <div>
           <label class="qty-label flex" :for="('bundleOptionQty_' + option.option_id)">{{ $t('Quantity') }}</label>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import ProductBundleOptions from 'core/components/ProductBundleOptions'
+import ProductBundleOptions from '@vue-storefront/core/components/ProductBundleOptions'
 
 export default {
   mixins: [ProductBundleOptions]
@@ -63,12 +63,7 @@ export default {
     font-weight: bold;
     margin-bottom: 10px;
   }
-  .custom-option > input.qty {
-    font-weight: bold;
-    margin-bottom: 10px;
-    margin: 5px;
-    width: 20px;
-  }
+
   .error {
     color: $color-error;
     padding-top: 5px;

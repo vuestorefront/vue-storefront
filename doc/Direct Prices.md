@@ -1,6 +1,6 @@
 # Direct prices sync
 
-As you may observed in our architecture we're synchronizing the whole product catalog with our Elastic Search data store. There are some edge casesamong industries when such kind of synchronization may lead to non-invalidated prices and stock quantity problems.
+As you may observed in our architecture we're synchronizing the whole product catalog with our Elastic Search data store. There are some edge cases among industries when such kind of synchronization may lead to non-invalidated prices and stock quantity problems.
 
 Regarding these challenges we've introduced a special mode which allows vue-storefront to download the prices (in)directly from CMS (Magento or other).
 

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import MicrocartIcon from 'core/components/blocks/Header/MicrocartIcon'
+import MicrocartIcon from '@vue-storefront/core/components/blocks/Header/MicrocartIcon'
 
 export default {
   mixins: [MicrocartIcon]
