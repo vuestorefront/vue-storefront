@@ -1,9 +1,3 @@
-// You can extend core UI store here
-// The good practise is to keep all ui-related states in this file
-
-import coreStore from '@vue-storefront/store/modules/product'
-import { extendStore } from '@vue-storefront/core/lib/themes'
-
 const state = {
   tiles: []
 }
@@ -26,9 +20,10 @@ const getters = {
   }
 }
 
-export default extendStore(coreStore, {
+export default {
+  namespaced: true,
   state,
   actions,
   getters,
   mutations
-})
+}
