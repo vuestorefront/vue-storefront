@@ -214,7 +214,6 @@
 "I accept terms and conditions","Eu aceito os termos e condições"
 "Use my company's address details","Usar dados de pessoa jurídica"
 "No such entity with cartId = null","Nenhuma entidade com cartId = null"
-"Tax ID must have at least 3 letters.","CPF/CNPJ deve possuir ao menos 3 caracteres."
 "Country *","País *"
 "The password doesn't match this account.","A senha não corresponde com essa conta."
 "Toggle password visibility","Alternar visibilidade da senha"

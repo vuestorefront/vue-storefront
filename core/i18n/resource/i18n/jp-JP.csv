@@ -214,7 +214,6 @@
 "I accept terms and conditions","利用規約に同意する"
 "Use my company's address details","自分の会社の住所の詳細を使う"
 "No such entity with cartId = null","cartId = nullは存在しません"
-"Tax ID must have at least 3 letters.","税金IDは3文字以上である必要があります"
 "Country *","国 *"
 "The password doesn't match this account.","無効なパスワードです"
 "Toggle password visibility","パスワードの見え方の切り替え"

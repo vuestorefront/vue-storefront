@@ -214,7 +214,6 @@
 "I accept terms and conditions","Я принимаю условия и положения"
 "Use my company's address details","Использовать адресные данные моей компании"
 "No such entity with cartId = null","Не существует сущности с cartId = null"
-"Tax ID must have at least 3 letters.","ИНН должен состоять из минимум 3 символов."
 "Country *","Страна *"
 "The password doesn't match this account.","Пароль не соответствует данной учетной записи."
 "Toggle password visibility","Переключить видимость пароля"
