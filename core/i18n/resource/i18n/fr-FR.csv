@@ -6,7 +6,6 @@
 "Some of the ordered products are not available!","Certains des produits commandés ne sont pas disponibles !"
 "Stock check in progress, please wait while available stock quantities are checked","Vérification du stock en cours, veuillez patienter pendant que les stocks disponibles sont vérifiés"
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Il n'y a pas de connexion Internet. Vous pouvez toujours passer votre commande. Nous vous informerons si l'un des produits commandés n'est pas disponible car nous ne pouvons pas le vérifier en mode hors ligne."
-"Please do correct validation errors","Veuillez corriger les erreurs de validation"
 "No such configuration for the product. Please do choose another combination of attributes.","Aucune configuration de ce type pour le produit. Veuillez choisir une autre combinaison d'attributs."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Le système n'est pas sûr de la quantité de stock (volatile). Le produit a été ajouté au panier pour la pré-réservation."
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Cette fonctionnalité n'est pas encore implémentée! Veuillez vous rendre sur https://github.com/DivanteLtd/vue-storefront/issues pour consulter notre Roadmap!"

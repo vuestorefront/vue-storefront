@@ -6,7 +6,6 @@
 "Some of the ordered products are not available!","Некоторые из заказанных товаров не доступны!"
 "Stock check in progress, please wait while available stock quantities are checked","Производится проверка товаров на наличие, пожалуйста дождитесь завершения процесса проверки доступного количества"
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Отсутствует соединение к интернету. Однако вы можете оформить заказ. Мы уведомим Вас об отсутствии какого-либо из заказанных товаров позднее, так как не можем проверить это в данный момент."
-"Please do correct validation errors","Пожалуйста исправьте валидационные ошибки"
 "No such configuration for the product. Please do choose another combination of attributes.","У товара отсутствует данная конфигурация. Пожалуйста выберите другие значения атрибутов."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Система не может удостовериться в наличии необходимого количества (изменчиво). Товар добавлен в корзину для предварительного бронирования."
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Данная возможность пока не реализована! Пожалуйста ознакомьтесь с нашей дорожной картой тут: https://github.com/DivanteLtd/vue-storefront/issues"
