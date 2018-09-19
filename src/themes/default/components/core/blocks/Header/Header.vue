@@ -8,11 +8,11 @@
         <div class="row between-xs middle-xs" v-if="!isCheckout">
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
-              <template v-if="!isProductPage">
-                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!isProductPage"/>
+              <template v-if="!canGoBack">
+                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!canGoBack"/>
               </template>
               <template v-else>
-                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="isProductPage"/>
+                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="canGoBack"/>
               </template>
             </div>
           </div>
@@ -97,7 +97,8 @@ export default {
         'simple-product',
         'configurable-product',
         'downloadable-product',
-        'grouped-product'
+        'grouped-product',
+        'virtual-product'
       ],
       isCheckout: false,
       isProductPage: false,
@@ -112,14 +113,15 @@ export default {
     ...mapState({
       isOpenLogin: state => state.ui.signUp,
       currentUser: state => state.user.current
-    })
-  },
-  beforeCreated () {
-    if (this.productPageRoutes.includes(this.$route.name)) {
-      this.isProductPage = true
+    }),
+    canGoBack () {
+      return !this.isHistoryEmpty() && this.isProductPage
     }
   },
   created () {
+    if (this.productPageRoutes.includes(this.$route.name)) {
+      this.isProductPage = true
+    }
     if (this.$route.name === 'checkout') {
       this.isCheckout = true
     }
@@ -165,6 +167,14 @@ export default {
         this.navVisible = true
       }
       this.lastScrollTop = this.scrollTop
+    },
+    // Check if history is empty
+    isHistoryEmpty () {
+      if (typeof window !== 'undefined') {
+        return window.history.length < 1
+      }
+
+      return false
     }
   }
 }
