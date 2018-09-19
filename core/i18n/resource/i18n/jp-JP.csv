@@ -201,7 +201,6 @@
 "No such entity with cartId = null","cartId = nullは存在しません"
 "Country *","国 *"
 "The password doesn't match this account.","無効なパスワードです"
-"Toggle password visibility","パスワードの見え方の切り替え"
 "You've entered an incorrect coupon code. Please try again.","クーポンコードが無効です。もう一度試してください。"
 "Add a discount code","ディスカウントコードを追加する"
 "Discount code","ディスカウントコード"
