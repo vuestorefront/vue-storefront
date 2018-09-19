@@ -1,5 +1,4 @@
 "Please do correct validation errors","間違った入力を修正してください"
-"No such configuration for the product. Please do choose another combination of attributes.","商品のこの組み合わせはありません。別の組み合わせを選んでください。"
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","現在在庫数を確認することはできません。カートに入った商品は予約商品としてこの後在庫チェックが行われます。"
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","この機能はまだ実装されていません! https://github.com/DivanteLtd/vue-storefront/issues から今後のロードマップを参照してください。"
 "The product is out of stock and cannot be added to the cart!","この商品の在庫はないのでカートに追加することができません!"

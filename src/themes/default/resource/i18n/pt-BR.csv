@@ -1,5 +1,4 @@
 "Please do correct validation errors","Por favor corrija os seguintes erros"
-"No such configuration for the product. Please do choose another combination of attributes.","Nenhuma configuração desse tipo para o produto. Por favor selecione outra configuração de opções."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","O sistema não tem certeza sobre a quantidade em estoque (volátil). O produto foi adicionado ao carrinho em pré-reserva."
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Essa funcionalidade não foi implementada ainda! Por favor dê uma olhada em https://github.com/DivanteLtd/vue-storefront/issues nosso planejamento!"
 "The product is out of stock and cannot be added to the cart!","Produto não possui estoque e não pode ser adicionado ao carrinho!"
