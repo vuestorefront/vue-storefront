@@ -18,7 +18,6 @@
 "Product {productName} has been removed from wishlit!","Le produit {productName} a été supprimé de la liste des souhaits !"
 "Account data has successfully been updated","Votre compte a été mis à jour avec succès"
 "Newsletter preferences have successfully been updated","Les préférences de la newsletter ont été mises à jour avec succès"
-"Error while sending reset password e-mail","Erreur lors de l'envoi de l'Email de réinitialisation du mot de passe"
 "Reset password feature does not work while offline!","La fonction de réinitialisation du mot de passe ne fonctionne pas en mode hors ligne !"
 "You are logged in!","Vous êtes authentifié !"
 "Please fix the validation errors","Veuillez corriger les erreurs de validation"
