@@ -23,6 +23,10 @@ We're trying to keep the upgrade process as easy as it's possible. Unfortunately
 3. We moved $emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself. 
 4. We moved VueOfflineMixin and onEscapePress mixins to theme component. Core component is clean from UI stuff now. 
 
+#### i18n
+
+1. We removed all the theme specific translations for the core.
+
 ## 1.2 -> 1.3
 
 ### Changes
