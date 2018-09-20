@@ -78,7 +78,6 @@
 "Error with response - bad content-type!","エラー：無効なcontent-type!"
 "Unhandled error, wrong response format!","処理不能エラー、レスポンスのフォーマットが間違っています!"
 "Placing Order","注文を入れる"
-"No such entity with cartId = null","cartId = nullは存在しません"
 "Country *","国 *"
 "Order ID","注文ID"
 "Date and time","日時"

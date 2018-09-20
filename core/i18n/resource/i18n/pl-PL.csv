@@ -78,7 +78,6 @@
 "Error with response - bad content-type!","Błąd odpowiedzi - bad content-type!"
 "Unhandled error, wrong response format!","Nieobsługiwany błąd, nieprawidłowy format odpowiedzi!"
 "Placing Order","Składanie zamówienia"
-"No such entity with cartId = null","Brak cartId = null"
 "Country *","Kraj *"
 "Order ID","ID zamówienia"
 "Date and time","Data i godzina"

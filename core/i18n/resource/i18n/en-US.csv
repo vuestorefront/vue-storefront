@@ -79,7 +79,6 @@
 "Error with response - bad content-type!","Error with response - bad content-type!"
 "Unhandled error, wrong response format!","Unhandled error, wrong response format!"
 "Placing Order","Placing Order"
-"No such entity with cartId = null","No such entity with cartId = null"
 "Country *","Country *"
 "Order ID","Order ID"
 "Date and time","Date and time"

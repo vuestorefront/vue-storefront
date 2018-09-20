@@ -79,7 +79,6 @@
 "Error with response - bad content-type!","Errore nella risposta - content-type non valido!"
 "Unhandled error, wrong response format!","Errore inatteso, formato della risposta non valido!"
 "Placing Order","Preparazione ordine"
-"No such entity with cartId = null","No such entity with cartId = null"
 "Country *","Paese*"
 "Order ID","Numero ordine"
 "Date and time","Data e ora"

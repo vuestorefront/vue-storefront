@@ -78,7 +78,6 @@
 "Error with response - bad content-type!","Fehler in der Antwort vom Server - Falscher content-type!"
 "Unhandled error, wrong response format!","Unbehandelter Fehler. Die Antwort vom Server ist falsch formatiert!"
 "Placing Order","Reihenfolge"
-"No such entity with cartId = null","Es wurde keine Objekt mit cartId = null gefunden"
 "Country *","Land *"
 "Order ID","ID der bestellung"
 "Date and time","Datum und Uhrzeit"
