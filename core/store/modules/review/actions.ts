@@ -1,11 +1,11 @@
-import {ActionTree} from "vuex";
-import ReviewState from "core/store/modules/review/types/ReviewState";
-import RootState from "core/store/types/RootState";
-import {quickSearchByQuery} from "core/store/lib/search";
-import * as types from '../../mutation-types'
-import EventBus from "core/store/lib/event-bus";
+import { ActionTree } from "vuex";
+import { quickSearchByQuery } from "core/store/lib/search";
 import { adjustMultistoreApiUrl } from '../../lib/multistore'
-import i18n from "core/store/lib/i18n";
+import RootState from "../../types/RootState";
+import ReviewState from "./types/ReviewState";
+import * as types from '../../mutation-types'
+import EventBus from "@vue-storefront/core/plugins/event-bus";
+import i18n from '@vue-storefront/i18n'
 import rootStore from "core/store";
 import {ValidationError} from "core/store/lib/exceptions";
 const Ajv = require('ajv') // json validator
@@ -76,8 +76,15 @@ const actions: ActionTree<ReviewState, RootState> = {
               message: i18n.t('You submitted your review for moderation.'),
               action1: { label: i18n.t('OK'), action: 'close' }
             })
+            EventBus.$emit('clear-add-review-form')
           }
-        })
+        }).catch(function() {
+          EventBus.$emit('notification', {
+            type: 'error',
+            message: i18n.t('Something went wrong. Try again in a few seconds.'),
+            action1: { label: i18n.t('OK'), action: 'close' }
+          })
+        });
     }
   }
 }

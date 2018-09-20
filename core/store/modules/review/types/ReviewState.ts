@@ -1,3 +1,3 @@
 export default interface ReviewState {
-  items: any
+  items: any[]
 }
