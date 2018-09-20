@@ -124,73 +124,72 @@ ssl_certificate_key /etc/nginx/ssl/prod.vuestorefront.io.key;
 We assume that the certificate related files are stored in the `/etc/nginx/ssl/`. Please point it to your certificate files.
 
 ```
-	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
-	ssl_prefer_server_ciphers on;
-	ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA;
-	ssl_ecdh_curve secp384r1;
-	ssl_session_timeout 10m;
-	ssl_session_cache shared:SSL:10m;
-	ssl_session_tickets off;
-	ssl_stapling on;
-	ssl_stapling_verify on;
-	resolver 8.8.8.8 8.8.4.4 valid=300s;
-	resolver_timeout 5s;
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+ssl_prefer_server_ciphers on;
+ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA;
+ssl_ecdh_curve secp384r1;
+ssl_session_timeout 10m;
+ssl_session_cache shared:SSL:10m;
+ssl_session_tickets off;
+ssl_stapling on;
+ssl_stapling_verify on;
+resolver 8.8.8.8 8.8.4.4 valid=300s;
+resolver_timeout 5s;
 
-	ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+ssl_dhparam /etc/nginx/ssl/dhparam.pem;
 
-	add_header Strict-Transport-Security "max-age=31536000" always;
-	add_header X-Frame-Options DENY;
-	add_header X-Content-Type-Options nosniff;
-	add_header X-XSS-Protection "1; mode=block";
-	add_header X-Robots-Tag none;
+add_header Strict-Transport-Security "max-age=31536000" always;
+add_header X-Frame-Options DENY;
+add_header X-Content-Type-Options nosniff;
+add_header X-XSS-Protection "1; mode=block";
+add_header X-Robots-Tag none;
 ```
 
 Here we go with the SSL settings - based on our best experiences from the past. Please read details in the [nginx documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) if you like ;)
 
 ```
-	gzip on;
-	gzip_proxied any;
-	gzip_types
-		text/css
-		text/javascript
-		text/xml
-		application/javascript
-		application/json
-		text/json
-		text/html;
-	}
+gzip on;
+gzip_proxied any;
+gzip_types
+  text/css
+  text/javascript
+  text/xml
+  application/javascript
+  application/json
+  text/json
+  text/html;
+}
 ```
 
 Vue Storefront SSR responses contain the full markup + JSON objects included for speed-up the first page view. Unfortunately - among with significant JS bundle sizes - it can generate a significant network load. We're optimizing it with using gzip compression server side.
 
 ```
-	location / {
-		proxy_pass http://localhost:3000/;
-	}
+location / {
+  proxy_pass http://localhost:3000/;
+}
 ```
 
 We're using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) from the `ngx_http_proxy_module` to pull the content from the Vue Storefront nodejs server. Site will be available under https://prod.vuestorefront.io/
 
 ```
-	location /assets/ {
-		proxy_pass http://localhost:3000/assets/;
-	}
+location /assets/ {
+  proxy_pass http://localhost:3000/assets/;
+}
 ```
 
 The same module is used for providing user with the static assets. Assets will be available under: https://prod.vuestorefront.io/assets
 
 ```
-	location /api/ {
-		proxy_pass http://localhost:8080/api/;
-	}
+location /api/ {
+  proxy_pass http://localhost:8080/api/;
+}
 ```
 
 The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under: https://prod.vuestorefront.io/api
 
 ```
-	location /img/ {
-		proxy_pass http://localhost:8080/img/;
-	}
+location /img/ {
+  proxy_pass http://localhost:8080/img/;
 }
 ```
 
@@ -268,54 +267,54 @@ curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/pro
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
 
 ```json
-    "elasticsearch": {
-        "httpAuth": "",
-        "host": "https://prod.vuestorefront.io/api/catalog",
-        "index": "vue_storefront_catalog"
-    },
-    "storeViews": {
-        "mapStoreUrlsFor": [
-            "de",
-            "it"
-        ],
-        "multistore": true,
-        "de": {
-            "disabled": false,
-            "elasticsearch": {
-                "httpAuth": "",
-                "host": "https://prod.vuestorefront.io/api/catalog",
-                "index": "vue_storefront_catalog_de"
-            }
-        },
-        "it": {
-            "disabled": false,
-            "elasticsearch": {
-                "httpAuth": "",
-                "host": "https://prod.vuestorefront.io/api/catalog",
-                "index": "vue_storefront_catalog_it"
-            }
+"elasticsearch": {
+    "httpAuth": "",
+    "host": "https://prod.vuestorefront.io/api/catalog",
+    "index": "vue_storefront_catalog"
+},
+"storeViews": {
+    "mapStoreUrlsFor": [
+        "de",
+        "it"
+    ],
+    "multistore": true,
+    "de": {
+        "disabled": false,
+        "elasticsearch": {
+            "httpAuth": "",
+            "host": "https://prod.vuestorefront.io/api/catalog",
+            "index": "vue_storefront_catalog_de"
         }
     },
+    "it": {
+        "disabled": false,
+        "elasticsearch": {
+            "httpAuth": "",
+            "host": "https://prod.vuestorefront.io/api/catalog",
+            "index": "vue_storefront_catalog_it"
+        }
+    }
+},
 ```
 
 We're setting up the product's endpoint to https://prod.vuestorefront.io/api/catalog (please use your domain accordingly of course). As you may notice, the `/api` url is proxied by the nginx to `localhost:8080` - our `vue-storefront-api` instance.
 
 ```json
- "cart": {
-        "synchronize": true,
-        "synchronize_totals": true,
-        "create_endpoint": "https://prod.vuestorefront.io/api/cart/create?token={{token}}",
-        "updateitem_endpoint": "https://prod.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
-        "deleteitem_endpoint": "https://prod.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
-        "pull_endpoint": "https://prod.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
-        "totals_endpoint": "https://prod.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
-        "paymentmethods_endpoint": "https://prod.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-        "shippingmethods_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-        "shippinginfo_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-        "collecttotals_endpoint": "https://prod.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-        "deletecoupon_endpoint": "https://prod.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-        "applycoupon_endpoint": "https://prod.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
-    },
+"cart": {
+      "synchronize": true,
+      "synchronize_totals": true,
+      "create_endpoint": "https://prod.vuestorefront.io/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "https://prod.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "https://prod.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "https://prod.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "https://prod.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "https://prod.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "https://prod.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "https://prod.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "https://prod.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  },
 ```
 
 There are 27 more instances of `prod.vuestorefront.io` to be replaced with your production URL address in this file - please just do so :)
@@ -327,37 +326,38 @@ The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vu
 The only lines you need to alter are:
 
 ```json
-    "imageable": {
-        "namespace": "",
-        "maxListeners": 512,
-        "imageSizeLimit": 1024,
-        "timeouts": {
-            "convert": 5000,
-            "identify": 100,
-            "download": 1000
-        },
-        "whitelist": {
-            "allowedHosts": [
-                ".*divante.pl",
-                ".*vuestorefront.io"
-            ],
-            "trustedHosts": [
-                ".*divante.pl",
-                ".*vuestorefront.io"
-            ]
-        },
-        "keepDownloads": true,
-        "maxDownloadCacheSize": 1000,
-        "tmpPathRoot": "/tmp"
+"imageable": {
+    "namespace": "",
+    "maxListeners": 512,
+    "imageSizeLimit": 1024,
+    "timeouts": {
+        "convert": 5000,
+        "identify": 100,
+        "download": 1000
     },
-    "elasticsearch": {
-        "host": "localhost",
-        "port": "9200",
-        "indices": [
-            "vue_storefront_catalog",
-            "vue_storefront_catalog_it",
-            "vue_storefront_catalog_de"
+    "whitelist": {
+        "allowedHosts": [
+            ".*divante.pl",
+            ".*vuestorefront.io"
+        ],
+        "trustedHosts": [
+            ".*divante.pl",
+            ".*vuestorefront.io"
         ]
+    },
+    "keepDownloads": true,
+    "maxDownloadCacheSize": 1000,
+    "tmpPathRoot": "/tmp"
+},
+"elasticsearch": {
+    "host": "localhost",
+    "port": "9200",
+    "indices": [
+        "vue_storefront_catalog",
+        "vue_storefront_catalog_it",
+        "vue_storefront_catalog_de"
+    ]
+}
 ```
 
 You should put here the `allowedHosts` and `trustedHosts` for the Imageable - to download the product images. The domain name points to the **Magento2** instance where images are sourced. In this example Magento2 is running under **http://demo-magento2.vuestorefront.io**.

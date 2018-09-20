@@ -1,6 +1,6 @@
 # Vue Storefront configuration
 
-Vue Storefront application uses the [node-config](https://github.com/lorenwest/node-config) npm module to manage the configuration files. Configuration is stored in the `/config` directory within the two JSON files:
+Vue Storefront application uses the [node-config](https://github.com/lorenwest/node-config) npm module to manage configuration files. Configuration is stored in the `/config` directory within two JSON files:
 
 - `default.json` is a configuration file provided along with the core Vue Storefront code and updated with any new release of Vue Storefront. It contains the default values only and therefore it shoulnd't be modified within your specific Vue Storefront instance.
 - `local.json` is the second configuration file which is `.gitignore`'d from repository. This is the place where you should store all instance-specific configuration variables.
@@ -12,7 +12,7 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever You apply some configuration changes You shall re-build the app - even when using the `yarn dev` mode.
+Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode.
 :::
 
 Please find the configuration properties reference below.
@@ -20,10 +20,10 @@ Please find the configuration properties reference below.
 ## Server
 
 ```json
-    "server": {
-      "host": "localhost",
-      "port": 3000
-    },
+"server": {
+  "host": "localhost",
+  "port": 3000
+},
 ```
 
 Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pages and static assets. It's node.js server located in the `core/scripts/server.js`. This is the host name and TCP port which Vue Storefront is being bind to.
@@ -31,11 +31,11 @@ Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pa
 ## ElasticSearch
 
 ```json
-    "elasticsearch": {
-      "httpAuth": "",
-      "host": "localhost:8080/api/catalog",
-      "index": "vue_storefront_catalog"
-    },
+"elasticsearch": {
+  "httpAuth": "",
+  "host": "localhost:8080/api/catalog",
+  "index": "vue_storefront_catalog"
+},
 ```
 
 Vue Storefront uses the Elastic Search Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog` endpoint which is kind of Elastic Search Proxy (dealing with the taxes, security itd.).
@@ -45,24 +45,24 @@ If your `vue-storefront-api` instance is running on the `localhost`, port `8080`
 ## SSR
 
 ```json
-    "ssr": {
-      "executeMixedinAsyncData": true
-    },
+"ssr": {
+  "executeMixedinAsyncData": true
+},
 ```
 
 By default, Vue Storefront themes are created by building set of components that "mixins" the core-components. For example, you have `/src/themes/default/pages/Product.vue` which inherits the `/core/pages/Product.js` by having this core component included in the `"mixins": [Product]` section.
 
-The SSR data is being completed in the `asyncData` static method. If this configuration parameter is set to true (which is default) Vue Storefront will run the `asyncData` methods in the following sequence:
+The SSR data is being completed in the `asyncData` static method. If this configuration parameter is set to `true` (which is default) Vue Storefront will run the `asyncData` methods in the following sequence:
 `core/pages/Product.js` -> `asyncData`
 `src/themes/default/pages/Product.vue` -> `asyncData`
 
-If it's set to false, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
+If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
 
 ## Default store code
 
 ```json
-    "defaultStoreCode": "",
+"defaultStoreCode": "",
 ```
 
 This option is used only in the [Multistore setup](/guide/integrations/multistore.md). By default it's `''` but if you're running for example multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend - please just set it so. This config variable is referenced in the [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts)
@@ -70,9 +70,9 @@ This option is used only in the [Multistore setup](/guide/integrations/multistor
 ## Store views
 
 ```json
-    "storeViews": {
-      "multistore": false,
-      "mapStoreUrlsFor": ["de", "it"],
+"storeViews": {
+  "multistore": false,
+  "mapStoreUrlsFor": ["de", "it"],
 ```
 
 If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](/guide/integrations/multistore.md) will be included in the request flow.
@@ -82,73 +82,69 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
 `storeViews` section contains one or more additional store views configured to serve proper i18n translations, tax settings etc. Please find the docs for this section below.
 
 ```json
-      "de": {
-        "storeCode": "de",
+  "de": {
+    "storeCode": "de",
 ```
 
 ```json
-        "disabled": true,
+    "disabled": true,
 ```
 
 If specific store is disabled it won't be used to populate the routing table and won't be displayed in the `Language/Switcher.vue`.
 
 ```json
-        "storeId": 3,
+    "storeId": 3,
 ```
 
 This is the `storeId` as set in the backend panel. This parameter is being used by some API calls to get the specific store currency and/or tax settings.
 
 ```json
-        "name": "German Store",
+    "name": "German Store",
 ```
 
 This is the store name as displayed in the `Language/Switcher.vue`.
 
 ```json
-        "url": "/de",
+    "url": "/de",
 ```
 
 This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have the different store views running as separate Vue Storefront instances; even under different URL addresses. This is the situation when this property comes into action. Just take a look on how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
 
 ```json
-        "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
-          "index": "vue_storefront_catalog_de"
-        },
+    "elasticsearch": {
+      "host": "localhost:8080/api/catalog",
+      "index": "vue_storefront_catalog_de"
+    },
 ```
 
 ElasticSearch settings can be overriden in the specific `storeView` config. You can use different ElasticSearch instance powering specific `storeView`.
 
-## Tax
-
 ```json
-        "tax": {
-          "sourcePriceIncludesTax": false,
-          "defaultCountry": "DE",
-          "defaultRegion": "",
-          "calculateServerSide": true
-        },
+    "tax": {
+      "sourcePriceIncludesTax": false,
+      "defaultCountry": "DE",
+      "defaultRegion": "",
+      "calculateServerSide": true
+    },
 ```
 
 Taxes section is used by the [core/store/lib/taxcalc.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/taxcalc.ts). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous unidentified user (which country is not set yet).
 
-## Internationalization
-
 ```json
-        "i18n": {
-          "fullCountryName": "Germany",
-          "fullLanguageName": "German",
-          "defaultLanguage": "DE",
-          "defaultCountry": "DE",
-          "defaultLocale": "de-DE",
-          "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
-        }
-      }
-    },
+    "i18n": {
+      "fullCountryName": "Germany",
+      "fullLanguageName": "German",
+      "defaultLanguage": "DE",
+      "defaultCountry": "DE",
+      "defaultLocale": "de-DE",
+      "currencyCode": "EUR",
+      "currencySign": "EUR",
+      "dateFormat": "HH:mm D-M-YYYY"
+    }
+  }
+},
 ```
 
 The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices mostly) and `currencySign` is being used for displaying the prices in the frontend.
@@ -156,18 +152,16 @@ The internationalization settings are used by the translation engine (`defautlLo
 ## Entities
 
 ```json
-    "entities": {
-      "optimize": true,
+"entities": {
+  "optimize": true,
 ```
 
 If this option is set to true, Vue Storefront will be limiting the data got from the API endpoints to the `includeFields` and remove all the `excludeFields` as set for all the specific entities below. This option is set to `true` by default as the JSON objects could ... be of significant size!
 
 This option property is referenced in the [`core/store/modules/product`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/product), [`core/store/modules/category`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category), [`core/store/modules/attribute`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/attribute)
 
-## Caching
-
 ```json
-      "twoStageCaching": true,
+  "twoStageCaching": true,
 ```
 
 Vue Storefront caches all the data entities got from `vue-storefront-api` into indexedDB local cache. This is a key feature for providing users with the offline mode. Unfortunately, when the `entities.optimize` option is set to `true`, we cannot cache the optimized entities as they don't contain all the required information.
@@ -177,7 +171,7 @@ In such a case we're using a strategy called `twoStageCaching` which works like 
 Please take a look at the [`core/store/modules/category`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category) for the reference.
 
 ```json
-      "optimizeShoppingCart": true,
+  "optimizeShoppingCart": true,
 ```
 
 Vue Storefront product objects can be quite large ones. They consist of `configurable_children`, `media_gallery` and other information. Quite significant for rendering the Product and Category pages but not so useful in the Shopping cart. To limit the shopping cart size (as it's transferred to the server while making an order) this option is being used.
@@ -185,36 +179,38 @@ Vue Storefront product objects can be quite large ones. They consist of `configu
 Please take a look at the [`core/store/modules/cart`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart).
 
 ```json
-      "category": {
-        "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
-      },
-      "attribute": {
-        "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable" ]
-      },
-      "productList": {
-        "sort": "",
-        "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
-        "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
-      },
-      "productListWithChildren": {
-        "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
-        "excludeFields": [ "description", "sgn"]
-      },
-      "product": {
-        "excludeFields": [ "updated_at", "created_at", "attribute_set_id", "tier_prices", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image"],
-        "includeFields": null
-      }
-    },
+  "category": {
+    "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
+  },
+  "attribute": {
+    "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable" ]
+  },
+  "productList": {
+    "sort": "",
+    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
+    "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
+  },
+  "productListWithChildren": {
+    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
+    "excludeFields": [ "description", "sgn"]
+  },
+  "product": {
+    "excludeFields": [ "updated_at", "created_at", "attribute_set_id", "tier_prices", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image"],
+    "includeFields": null
+  }
+},
 ```
 
-These settings are used just to configure the optimization strategy for different entitiy types. Please take a look that we have `productListWithChildren` and the `product` configuration separately. The former one is used in the Category page -> `core/pages/Category.js` and the ladder is used in the Product page ->`core/pages/Product.js`
+These settings are used just to configure the optimization strategy for different entity types. Please take a look that we have `productListWithChildren` and the `product` configuration separately. The former one is used in the Category page -> `core/pages/Category.js` and the latter is used in the Product page ->`core/pages/Product.js`
+
+## Cart
 
 ```json
-    "cart": {
-      "server_merge_by_default": true,
+"cart": {
+  "server_merge_by_default": true,
 ```
 
-Server cart is being synchronized with the client's cart in the Vue Storefront by default. When it's not set the Vue Storefront will execute the server cart merge algorithm anyway - but using the `dryRun` option which means that only the following event will be emited:
+Server cart is being synchronized with the client's cart in the Vue Storefront by default. When it's not set the Vue Storefront will execute the server cart merge algorithm anyway - but using the `dryRun` option which means that only the following event will be emitted:
 
 ```js
 EventBus.$emit('servercart-after-diff', {
@@ -226,87 +222,89 @@ EventBus.$emit('servercart-after-diff', {
 }); // send the difflog
 ```
 
-In the event handler one can handle the merge proess manually - for example displaing the proper information to the user before the real merge takes place.
+In the event handler one can handle the merge process manually - for example displaying the proper information to the user before the real merge takes place.
 
-Please take a look at the [`core/store/modules/cart`](../core/store/modules/cart) for a reference.
-
-```json
-      "synchronize": true,
-```
-
-If it's set to true the `serverPull` Vuex method will be executed whenever user adds, remove or edits any product in the shopping cart. This method syncs the client's side shopping cart with the server side one.
-
-Please take a look at the [`core/store/modules/cart`](../core/store/modules/cart) for a reference.
+Please have a look at the [`core/store/modules/cart`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart) for a reference.
 
 ```json
-      "synchronize_totals": true,
+  "synchronize": true,
 ```
 
-Similarly to the `synchronize` option You may wan't to disable or enable (the default behaviour) the shopping cart totals sync with the backend platform. If it's set to true the shopping cart totals will be overriden by the Magento, Pimcore or any other platform You're using totals whenever user will add, remove or change any item in the shopping cart.
+If it's set to `true` the `serverPull` Vuex method will be executed whenever user adds, removes or edits any product in the shopping cart. This method syncs the client's side shopping cart with the server side one.
+
+Please take a look at the [`core/store/modules/cart`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart) for a reference.
 
 ```json
-      "setCustomProductOptions": true,
+  "synchronize_totals": true,
 ```
 
-If this option is set to true, in case of custom-options supporting products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of custom options (for example selected dates, checkboxes, captions or other values).
+Similarly to the `synchronize` option you may want to disable or enable (the default behaviour) the shopping cart totals sync with the backend platform. If it's set to `true`, the shopping cart totals will be overriden by the Magento, Pimcore or any other platform you're using totals whenever user will add, remove or change any item in the shopping cart.
 
 ```json
-      "setConfigurableProductOptions": true,
+  "setCustomProductOptions": true,
 ```
 
-If this option is set to true, in case of configurable products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of configurable options (for example color and size). otherwise the simple product (accordingly to the selected configurable_options) will be added to the shopping cart instead.
+If this option is set to `true`, in case of custom-options supporting products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of custom options (for example, selected dates, checkboxes, captions or other values).
 
 ```json
-      "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-      "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-      "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-      "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-      "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-      "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  "setConfigurableProductOptions": true,
 ```
 
-These endpoints should point to the `vue-storefront-api` instance and typically You're chaning just the domain-name/base-url without touching the specific endpoint urls as it's related to the `vue-storefront-api` specifics.
+If this option is set to `true`, in case of configurable products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of configurable options (for example color and size). Otherwise the simple product (accordingly to the selected configurable_options) will be added to the shopping cart instead.
+
+```json
+  "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
+  "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
+  "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
+  "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
+  "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
+  "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+  "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+  "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+  "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+  "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+  "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+```
+
+These endpoints should point to the `vue-storefront-api` instance and typically you're changing just the domain-name/base-url without touching the specific endpoint urls as it's related to the `vue-storefront-api` specifics.
+
+## Products
 
 ```json
 "products": {
-      "useShortCatalogUrls": false,
+  "useShortCatalogUrls": false,
 ```
 
-When this option is set to true, Vue Storefront will use the alternative routing for products and categories - without the `/p/` and `/c/` prefixes. it may be usefull for the Search Engine Optimization purposes.
+When this option is set to `true`, Vue Storefront will use the alternative routing for products and categories - without the `/p/` and `/c/` prefixes. it may be useful for the Search Engine Optimization purposes.
 
 ```json
-      "useMagentoUrlKeys": false,
+  "useMagentoUrlKeys": false,
 ```
 
-When `useMagentoUrlKeys` is set to true the `product.url_key` value will be used for as for product and category slug's used in the URL building process. Otherwise the slug will be generated based on the product or category name.
-Please take a look at the [`core/store/lib/search.js`](../core/store/lib/search.js) and [`core/store/modules/category/mutations.js`](../core/store/modules/category/mutations.js) for reference
+When `useMagentoUrlKeys` is set to `true` the `product.url_key` value will be used for product and category slugs used in the URL building process. Otherwise the slug will be generated based on the product or category name.
+Please take a look at the [`core/store/lib/search.js`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/lib/search.ts) and [`core/store/modules/category/mutations.js`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category/mutations.ts) for reference
 
 ```json
-      "configurableChildrenStockPrefetchStatic": false,
-      "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
+    "configurableChildrenStockPrefetchStatic": false,
+    "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
 ```
 
-Vue Storefronts tries to dynamically get the stock quantities for simple products related to the configurable one's (products included in the `configurabe_children` array). If the `configurableChildrenStockPrefetchStatic` is set to true - the stock items are prefetched from the Category page level. Please take a look at the [`core/store/modules/category/actions.js`](../core/store/modules/category/actions.js). The second option - `configurableChildrenStockPrefetchStaticPrefetchCount` sets how many products in the category should be prefetched using this mechanism.
+Vue Storefront tries to dynamically get the stock quantities for simple products related to the configurable ones (products included in the `configurabe_children` array). If the `configurableChildrenStockPrefetchStatic` is set to `true`, the stock items are prefetched from the Category page level. Please take a look at the [`core/store/modules/category/actions.js`](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category/actions.ts). The second option - `configurableChildrenStockPrefetchStaticPrefetchCount` sets how many products in the category should be prefetched using this mechanism.
 
 ```json
-      "configurableChildrenStockPrefetchDynamic": false,
+    "configurableChildrenStockPrefetchDynamic": false,
 ```
 
-In oposite to the static prefetching Vue Storefront could also prefetch the configurable_children stock items just for the products that are visible on the category Page. This option is used from the theme level - for example [`src/themes/default/pages/Category.vue`](../src/themes/default/pages/Category.vue)
+In opposite to the static prefetching Vue Storefront could also prefetch the `configurable_children` stock items just for the products that are visible on the category Page. This option is used from the theme level - for example [`src/themes/default/pages/Category.vue`](https://github.com/DivanteLtd/vue-storefront/tree/master/src/themes/default/pages/Category.vue)
 
 ```json
-      "filterUnavailableVariants": false,
+  "filterUnavailableVariants": false,
 ```
 
-By default Vue Storefront displays all the variants assigned with the configurable product, no matter if they are visible or not. Then - by adding specific variant to the shopping cart the availability is being check. You can switch this setting to true to prefetch the variants availability (see the options described above) and hide unavailable options.
+By default Vue Storefront displays all the variants assigned with the configurable product, no matter if they are visible or not. Then - by adding specific variant to the shopping cart the availability is being check. You can switch this setting to `true` to prefetch the variants availability (see the options described above) and hide unavailable options.
 
 ```json
-      "listOutOfStockProducts": false,
+  "listOutOfStockProducts": false,
 ```
 
 By default Vue Storefront is not displaying the products with the stock availability = 'Out of the stock'. However it can be changed using this variable. Vue Storefront uses the `product.stock` object to access the product information availability. Please note that this information is updated just when the `mage2vuestorefront` updates the ElasticSearch index.
