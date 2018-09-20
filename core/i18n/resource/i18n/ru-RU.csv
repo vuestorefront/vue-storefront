@@ -18,7 +18,6 @@
 "Product {productName} has been removed from wishlit!","Товар {productName} удален из списка пожеланий!"
 "Account data has successfully been updated","Данные учетной записи успешно обновлены"
 "Newsletter preferences have successfully been updated","Предпочтения по новостям успешно обновлены"
-"Newsletter successfully subscribed. Thank you!","Подписка к новостям успешно завершена. Спасибо!"
 "You have already subscribed our newsletter","Вы уже подписаны к нашим новостям"
 "Error while sending reset password e-mail","Произошла ошибка при отправке письма для переустановки пароля"
 "Reset password feature does not work while offline!","Возможность переустановки пароля не работает при отсутствующем соединении к интернету!"
