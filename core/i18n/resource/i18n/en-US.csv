@@ -35,7 +35,6 @@
 "404 Page Not Found","404 Page Not Found"
 "Error with response - bad content-type!","Error with response - bad content-type!"
 "Unhandled error, wrong response format!","Unhandled error, wrong response format!"
-"Placing Order","Placing Order"
 "not authorized","not authorized"
 "Internal Application error while refreshing the tokens. Please clear the storage and refresh page.","Internal Application error while refreshing the tokens. Please clear the storage and refresh page."
 "Proceed to checkout","Proceed to checkout"

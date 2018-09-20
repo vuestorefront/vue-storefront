@@ -35,7 +35,6 @@
 "404 Page Not Found","404 Nie ma takiej strony"
 "Error with response - bad content-type!","Błąd odpowiedzi - bad content-type!"
 "Unhandled error, wrong response format!","Nieobsługiwany błąd, nieprawidłowy format odpowiedzi!"
-"Placing Order","Składanie zamówienia"
 "not authorized","nieautoryzowany"
 "Internal Application error while refreshing the tokens. Please clear the storage and refresh page.","Błąd odświeżania tokenów. Proszę wyczyścić pamięć podręczną przeglądarki."
 "Proceed to checkout","Przejdź do kasy"
