@@ -1,3 +1,4 @@
+import CartTotalSegments from '@vue-storefront/store/types/cart/CartTotalSegments'
 /**
  * Functionality for returning total segments array.
  *
@@ -6,7 +7,6 @@
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
-import CartTotalSegments from '@vue-storefront/store/types/cart/CartTotalSegments'
 export const cartTotals = {
   computed: {
     cartTotals () : CartTotalSegments {
