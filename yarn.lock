@@ -2044,7 +2044,7 @@ command-join@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/command-join/-/command-join-2.0.0.tgz#52e8b984f4872d952ff1bdc8b98397d27c7144cf"
 
-commander@2, commander@^2.15.1, commander@^2.9.0:
+commander@2, commander@^2.9.0:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
 
@@ -7563,10 +7563,6 @@ schema-utils@^1.0.0:
     ajv "^6.1.0"
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
-
-scrollreveal@^3.3.6:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/scrollreveal/-/scrollreveal-3.4.0.tgz#77ce77b383d1883f2aafebdfc6f17a105718a780"
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"
