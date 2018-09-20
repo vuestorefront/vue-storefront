@@ -55,8 +55,3 @@
 "Error with response - bad content-type!","エラー：無効なcontent-type!"
 "Unhandled error, wrong response format!","処理不能エラー、レスポンスのフォーマットが間違っています!"
 "Placing Order","注文を入れる"
-"Date and time","日時"
-"Author","書いた人"
-"Value","値"
-"Type","タイプ"
-"Status","ステータス"
