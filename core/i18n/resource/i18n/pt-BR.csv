@@ -58,8 +58,6 @@
 "Error with response - bad content-type!","Erro na resposta do servidor - bad content-type!"
 "Unhandled error, wrong response format!","Erro desconhecido, formato de retorno errado!"
 "Placing Order","Salvando Pedido"
-"Country *","País *"
-"Order ID","ID do Pedido"
 "Date and time","Data e hora"
 "Author","Autor"
 "Value","Valor"

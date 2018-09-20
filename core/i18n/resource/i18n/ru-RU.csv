@@ -58,8 +58,6 @@
 "Error with response - bad content-type!","Ошибка в ответе - плохой content-type!"
 "Unhandled error, wrong response format!","Необработанная ошибка, неверный формат ответа!"
 "Placing Order","Заказ обрабатывается"
-"Country *","Страна *"
-"Order ID","ID заказа"
 "Date and time","Дата и время"
 "Author","Автор"
 "Value","Значение"

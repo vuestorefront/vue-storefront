@@ -59,8 +59,6 @@
 "Error with response - bad content-type!","Error with response - bad content-type!"
 "Unhandled error, wrong response format!","Unhandled error, wrong response format!"
 "Placing Order","Placing Order"
-"Country *","Country *"
-"Order ID","Order ID"
 "Date and time","Date and time"
 "Author","Author"
 "Value","Value"
