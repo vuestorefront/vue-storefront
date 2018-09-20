@@ -31,6 +31,10 @@ We're trying to keep the upgrade process as easy as it's possible. Unfortunately
 
 1. We moved the socialTiles Vuex store from the core to the theme, because it's specific to the theme.
 
+#### i18n
+
+1. We removed all the theme specific translations for the core.
+
 ## 1.2 -> 1.3
 
 ### Changes
