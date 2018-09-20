@@ -192,6 +192,7 @@
 "Tax ID must have at least 3 letters.","CPF/CNPJ deve possuir ao menos 3 caracteres."
 "Country *","País *"
 "Toggle password visibility","Alternar visibilidade da senha"
+"You've entered an incorrect coupon code. Please try again.","Você informou um código de cupom inválido. Por favor tente novamente."
 "Add a discount code","Adicionar cupom de desconto"
 "Discount code","Código de desconto"
 "Add discount code","Aplicar"
