@@ -8751,7 +8751,7 @@ vsf-payment-stripe@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/vsf-payment-stripe/-/vsf-payment-stripe-1.0.0.tgz#2657f17a993cd0cbb2dc2f4f2d8f09e5f95670b5"
 
-vue-analytics@^5.16.0, vue-analytics@^5.8.0:
+vue-analytics@^5.16.0:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.0.tgz#82e88703a0678cba076d51acacd6569bc8f7d54c"
 
