@@ -183,7 +183,7 @@ We'll call it `[project-folder]` in this tutorial. Basically it is a folder wher
       
  <br>
 
-- **Right now, VERY IMPORTANT – Clone this repository to `[project-folder]` **
+- **Right now, VERY IMPORTANT – Clone this repository to `[project-folder]`**
 
   `$ git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data`
 
