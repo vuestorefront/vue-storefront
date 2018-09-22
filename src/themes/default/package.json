@@ -12,7 +12,7 @@
   "dependencies": {
     "bodybuilder": "2.2.13",
     "vue": "^2.5.17",
-    "vue-carousel": "^0.14.0",
+    "vue-carousel": "^0.6.9",
     "vue-no-ssr": "^0.2.2",
     "vue-progressbar": "^0.7.5",
     "vuelidate": "^0.6.2",
