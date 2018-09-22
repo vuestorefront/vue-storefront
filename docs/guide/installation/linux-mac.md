@@ -76,7 +76,7 @@ After you answered all the questions, the installation process will start (it mi
 
 Your project should contain 2 folders at this moment: `vue-storefront` and `vue-storefront-api`. Vue Storefront should be running on `http://localhost:3000`:
 
-![Storefront screenshot](/docs/storefront.png)
+![Storefront screenshot](/storefront.png)
 
 ## Manual installation
 
