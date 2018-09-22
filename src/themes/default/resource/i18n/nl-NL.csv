@@ -29,6 +29,9 @@ register an account,registreer een account
 Register an account,Registreer een account
 login to your account,log in op uw account
 Filter,Filter
+"color_filter","Kleur"
+"size_filter","Grootte"
+"price_filter","Prijs"
 Price,Prijs
 Order Summary,Besteloverzicht
 Safety,Veiligheid
