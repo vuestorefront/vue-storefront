@@ -28,6 +28,10 @@ Please find the configuration properties reference below.
 
 Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pages and static assets. It's node.js server located in the `core/scripts/server.js`. This is the host name and TCP port which Vue Storefront is being bind to.
 
+## GraphQL
+
+To be done
+
 ## ElasticSearch
 
 ```json
@@ -389,6 +393,8 @@ Product attributes representing the images. We'll see it in the Product page gal
 
 The dimensions of the images in the gallery.
 
+## Orders
+
 ```json
 "orders": {
   "endpoint": "http://localhost:8080/api/order",
@@ -590,3 +596,15 @@ Here you have the Stripe API key for being used with the `vsf-payment-stripe` ex
 ```
 
 This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be set when using the [src/extensions/cms](https://github.com/DivanteLtd/vue-storefront/tree/master/src/extensions/cms)
+
+## Use price tiers
+
+To be done
+
+## Boost
+
+To be done
+
+## Query
+
+To be done
