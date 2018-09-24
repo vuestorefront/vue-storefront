@@ -1,3 +1,4 @@
+import AppliedCoupon from '@vue-storefront/store/types/cart/AppliedCoupon'
 /**
  * Functionality for returning currently applied coupon code and associated discount
  *
@@ -6,7 +7,6 @@
  *
  * Part of [Cart API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
-import AppliedCoupon from '@vue-storefront/store/types/cart/AppliedCoupon'
 export const appliedCoupon = {
   computed: {
     appliedCoupon () : AppliedCoupon | false {

@@ -8,11 +8,11 @@
         <div class="row between-xs middle-xs" v-if="!isCheckoutPage">
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
-              <template v-if="!isProductPage">
-                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!isProductPage"/>
+              <template v-if="!canGoBack">
+                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!canGoBack"/>
               </template>
               <template v-else>
-                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="isProductPage"/>
+                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="canGoBack"/>
               </template>
             </div>
           </div>
