@@ -4,11 +4,21 @@ const express = require('express')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const config = require('config')
+const TagCache = require('redis-tag-cache').default
 
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
 const app = express()
+
+let cache
+if (config.server.useOutputCache) {
+  cache = new TagCache({
+    redis: config.redis,
+    defaultTimeout: config.server.outputCacheDefaultTtl // Expire records after a day (even if they weren't invalidated)
+  })
+  console.log('Redis cache set', config.redis)
+}
 
 let renderer
 if (isProd) {
@@ -47,31 +57,50 @@ const themeRoot = require('../build/theme-path')
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
-app.use('/assets', serve('core/assets', true))
 app.use('/service-worker.js', serve('dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))
 
-app.get('*', (req, res) => {
-  if (!res.get('Content-Type')) {
-    res.append('Content-Type', 'text/html')
+app.get('/invalidate', (req, res) => {
+  if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
+    if (req.query.key !== config.server.invalidateCacheKey) {
+      console.error('Invalid cache invalidation key')
+      res.end('Invalid cache invalidation key')
+      return
+    }
+    console.log(`Clear cache request for [${req.query.tag}]`)
+    let tags = []
+    if (req.query.tag === '*') {
+      tags = config.server.availableCacheTags
+    } else {
+      tags = req.query.tag.split(',')
+    }
+    const subPromises = []
+    tags.forEach(tag => {
+      if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
+        return tag.indexOf(t) === 0
+      })) {
+        subPromises.push(cache.invalidate(tag).then(() => {
+          console.log(`Tags invalidated successfully for [${tag}]`)
+        }))
+      } else {
+        console.error(`Invalid tag name ${tag}`)
+      }
+    })
+    Promise.all(subPromises).then(r => {
+      res.end(`Tags invalidated successfully [${req.query.tag}]`)
+    }).catch(error => {
+      res.end(error)
+      console.error(error)
+    })
+  } else {
+    res.end('GET Parameters key and tag are required')
+    console.error('Invalid parameters for Clear cache request')
   }
+})
 
-  if (!renderer) {
-    return res.end('<html lang="en">\n' +
-        '    <head>\n' +
-        '      <meta charset="utf-8">\n' +
-        '      <title>Loading</title>\n' +
-        '      <meta http-equiv="refresh" content="10">\n' +
-        '    </head>\n' +
-        '    <body>\n' +
-        '      Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!\n' +
-        '    </body>\n' +
-        '  </html>')
-  }
-
+app.get('*', (req, res, next) => {
   const s = Date.now()
-
   const errorHandler = err => {
     if (err && err.code === 404) {
       res.redirect('/page-not-found')
@@ -81,13 +110,76 @@ app.get('*', (req, res) => {
       res.status(500).end('500 | Internal Server Error')
       console.error(`Error during render : ${req.url}`)
       console.error(err)
+      next()
     }
   }
 
-  renderer.renderToStream({ url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE }) // TODO: pass the store code from the headers
-    .on('error', errorHandler)
-    .on('end', () => console.log(`whole request: ${Date.now() - s}ms`))
-    .pipe(res)
+  const dynamicRequestHandler = renderer => {
+    if (!renderer) {
+      res.setHeader('Content-Type', 'text/html')
+      res.end('<html lang="en">\n' +
+          '    <head>\n' +
+          '      <meta charset="utf-8">\n' +
+          '      <title>Loading</title>\n' +
+          '      <meta http-equiv="refresh" content="10">\n' +
+          '    </head>\n' +
+          '    <body>\n' +
+          '      Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!\n' +
+          '    </body>\n' +
+          '  </html>')
+      return next()
+    }
+    const context = { url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE }
+    if (config.server.useOutputCacheTagging) {
+      renderer.renderToString(context).then(output => {
+        const tagsArray = Array.from(context.state.requestContext.outputCacheTags)
+        const cacheTags = tagsArray.join(' ')
+        res.setHeader('Content-Type', 'text/html')
+        res.setHeader('X-VS-Cache-Tags', cacheTags)
+        res.end(output)
+        console.log(`cache tags for the request: ${cacheTags}`)
+        console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
+        if (config.server.useOutputCache && cache) {
+          cache.set(
+            'page:' + req.url,
+            output,
+            tagsArray
+          ).catch(errorHandler)
+        }
+        next()
+      }).catch(errorHandler)
+    } else {
+      res.setHeader('Content-Type', 'text/html')
+      renderer.renderToStream(context) // TODO: pass the store code from the headers
+        .on('error', errorHandler)
+        .on('end', () => {
+          console.log(`whole request: ${Date.now() - s}ms`)
+          next()
+        })
+        .pipe(res)
+    }
+  }
+
+  if (config.server.useOutputCache && cache) {
+    cache.get(
+      'page:' + req.url
+    ).then(output => {
+      if (output !== null) {
+        res.setHeader('Content-Type', 'text/html')
+        res.setHeader('X-VS-Cache', 'Hit')
+        res.end(output)
+        console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+        next()
+      } else {
+        res.setHeader('Content-Type', 'text/html')
+        res.setHeader('X-VS-Cache', 'Miss')
+        console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
+        dynamicRequestHandler(renderer) // render response
+      }
+    }).catch(errorHandler)
+  } else {
+    dynamicRequestHandler(renderer)
+  }
 })
 
 let port = process.env.PORT || config.server.port

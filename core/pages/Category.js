@@ -81,6 +81,7 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Category root ' + new Date())
+      store.state.requestContext.outputCacheTags.add(`category`)
       const defaultFilters = config.products.defaultFilters
       store.dispatch('category/list', { includeFields: config.entities.optimize && Vue.prototype.$isServer ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
@@ -145,7 +146,7 @@ export default {
   methods: {
     bottomVisible () {
       const scrollY = window.scrollY
-      const visible = document.documentElement.clientHeight
+      const visible = window.innerHeight
       const pageHeight = document.documentElement.scrollHeight
       const bottomOfPage = visible + scrollY >= pageHeight
       return bottomOfPage || pageHeight < visible
@@ -166,9 +167,9 @@ export default {
     onFilterChanged (filterOption) {
       this.pagination.current = 0
       if (this.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-        delete this.filters.chosen[filterOption.attribute_code]
+        Vue.delete(this.filters.chosen, filterOption.attribute_code)
       } else {
-        this.filters.chosen[filterOption.attribute_code] = filterOption
+        Vue.set(this.filters.chosen, filterOption.attribute_code, filterOption)
       }
 
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
