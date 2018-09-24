@@ -3,13 +3,10 @@ export function prepareGraphQlBody (Request) {
   // below is a simple demo test products search query
 
   let query = ``
-  let queryVariables = {}
-  const filters = typeof Request.searchQuery.getAppliedFilters !== 'undefined' ? Request.searchQuery.getAppliedFilters() : {}
-
+  let queryVariables = prepareQueryVars(Request)
   switch (Request.type) {
     case 'product':
       query = require('./queries/products.gql')
-      queryVariables.search = Request.searchQuery.getSearchText()
       break
     case 'attribute':
       query = require('./queries/customAttributeMetadata.gql')
@@ -22,6 +19,19 @@ export function prepareGraphQlBody (Request) {
       break
   }
 
+  const body = JSON.stringify({
+    query,
+    variables: queryVariables
+  })
+
+  return body
+}
+
+export function prepareQueryVars (Request) {
+  let queryVariables = {}
+  const filters = typeof Request.searchQuery.getAppliedFilters !== 'undefined' ? Request.searchQuery.getAppliedFilters() : {}
+
+  queryVariables.search = Request.searchQuery.getSearchText()
   queryVariables.sort = {}
   queryVariables.filter = {}
   queryVariables._sourceInclude = {}
@@ -58,12 +68,7 @@ export function prepareGraphQlBody (Request) {
   queryVariables._sourceInclude = Request._sourceInclude
   queryVariables._sourceExclude = Request._sourceExclude
 
-  const body = JSON.stringify({
-    query,
-    variables: queryVariables
-  })
-
-  return body
+  return queryVariables
 }
 
 function processNestedFieldFilter (filter) {
