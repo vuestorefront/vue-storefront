@@ -22,7 +22,12 @@ module.exports = {
         {
           title: 'Basics',
           collapsable: false,
-          children: ['basics/project-structure', 'basics/configuration'],
+          children: [
+            'basics/project-structure',
+            'basics/configuration',
+            'basics/contributing',
+            'basics/typescript',
+          ],
         },
         {
           title: 'Vue Storefront core and themes',
