@@ -4,9 +4,15 @@ import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
 import Response from 'core/store/types/search/Response'
 import {processESResponseType, processProductsType} from './processor/processType'
+import SearchQuery from 'core/store/lib/search/searchQuery'
 
 export class SearchAdapter {
   search (Request) {
+
+    if (!(Request.searchQuery instanceof SearchQuery)) {
+      throw new Error('SearchQuery instance has wrong class required to process with graphQl request.')
+    }
+
     const gqlQueryBody = prepareGraphQlBody(Request)
     const storeView = (Request.store === null) ? currentStoreView() : prepareStoreView(Request.store)
 
