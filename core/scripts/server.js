@@ -117,7 +117,7 @@ app.get('*', (req, res, next) => {
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
       res.setHeader('Content-Type', 'text/html')
-      res.end('<html lang="en">\n' +
+      res.status(202).end('<html lang="en">\n' +
           '    <head>\n' +
           '      <meta charset="utf-8">\n' +
           '      <title>Loading</title>\n' +
