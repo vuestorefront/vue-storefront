@@ -12,8 +12,6 @@
       })"
     >
       <transition appear>
-        <!-- Default palceholer is taken from core/assets/placeholder.png,
-             you can override it by adding same file in your theme's assets -->
         <img
           :alt="product.name"
           :src="thumbnailObj.loading"

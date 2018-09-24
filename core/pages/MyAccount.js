@@ -66,5 +66,11 @@ export default {
       title: this.$route.meta.title || i18n.t('My Account'),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
+  },
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      store.state.requestContext.outputCacheTags.add(`my-account`)
+      resolve()
+    })
   }
 }

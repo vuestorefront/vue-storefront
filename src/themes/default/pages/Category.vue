@@ -25,7 +25,7 @@
         <div class="col-md-3 start-xs category-filters">
           <sidebar :filters="filters.available"/>
         </div>
-        <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
+        <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>

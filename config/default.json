@@ -1,40 +1,102 @@
 {
-  "server": {
-    "host": "localhost",
-    "port": 3000,
-    "protocol": "http",
-    "api": "api"
-  },
-  "graphql": {
-    "host": "localhost",
-    "port": 8080
-  },
-  "elasticsearch": {
-    "httpAuth": "",
-    "host": "localhost:8080/api/catalog",
-    "index": "vue_storefront_catalog",
-    "min_score": 0.02,
-    "csrTimeout": 5000,
-    "ssrTimeout": 1000
-  },
-  "ssr": {
-    "executeMixedinAsyncData": true,
-    "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
-    "useInitialStateFilter": true
-  },
-  "defaultStoreCode": "",
-  "storeViews": {
-    "multistore": false,
-    "mapStoreUrlsFor": ["de", "it"],
-    "de": {
-      "storeCode": "de",
-      "disabled": true,
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
-      "elasticsearch": {
-        "host": "localhost:8080/api/catalog",
-        "index": "vue_storefront_catalog_de"
+    "server": {
+      "host": "localhost",
+      "port": 3000,
+      "protocol": "http",
+      "api": "api",
+      "useOutputCacheTagging": false,
+      "useOutputCache": false,
+      "outputCacheDefaultTtl": 86400,
+      "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"],
+      "invalidateCacheKey": "aeSu7aip"
+    },
+    "redis": {
+      "host": "localhost",
+      "port": 6379,
+      "db": 0
+    },    
+    "graphql":{
+      "host": "localhost",
+      "port": 8080
+    },
+    "elasticsearch": {
+      "httpAuth": "",
+      "host": "localhost:8080/api/catalog",
+      "index": "vue_storefront_catalog",
+      "min_score": 0.02,
+      "csrTimeout": 5000,
+      "ssrTimeout": 1000
+    },
+    "ssr": {
+      "executeMixedinAsyncData": true,
+      "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
+      "useInitialStateFilter": true
+    },
+    "defaultStoreCode": "",
+    "storeViews": {
+      "multistore": false,
+      "mapStoreUrlsFor": ["de", "it"],
+      "de": {
+        "storeCode": "de",
+        "disabled": true,
+        "storeId": 3,
+        "name": "German Store",
+        "url": "/de",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_de"
+        },
+        "tax": {
+          "sourcePriceIncludesTax": false,
+          "defaultCountry": "DE",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Germany",
+          "fullLanguageName": "German",
+          "defaultLanguage": "DE",
+          "defaultCountry": "DE",
+          "defaultLocale": "de-DE",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      },
+      "it": {
+        "storeCode": "it",
+        "disabled": true,
+        "storeId": 4,
+        "name": "Italian Store",
+        "url": "/it",
+        "elasticsearch": {
+          "host": "localhost:8080/api/catalog",
+          "index": "vue_storefront_catalog_it"
+        },
+        "tax": {
+          "sourcePriceIncludesTax": false,
+          "defaultCountry": "IT",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Italy",
+          "fullLanguageName": "Italian",
+          "defaultCountry": "IT",
+          "defaultLanguage": "IT",
+          "defaultLocale": "it-IT",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      }
+    },
+    "entities": {
+      "optimize": true,
+      "twoStageCaching": true,
+      "optimizeShoppingCart": true,
+      "category": {
+        "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
       },
       "tax": {
         "sourcePriceIncludesTax": false,

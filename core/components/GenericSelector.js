@@ -31,7 +31,7 @@ export default {
     this.$bus.$off('filter-reset', this.filterReset)
     this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
-  created () {
+  mounted () {
     this.$bus.$on('filter-reset', this.filterReset)
     this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
   },
@@ -39,11 +39,7 @@ export default {
     filterChanged (filterOption) {
       if (filterOption.attribute_code === this.code) {
         if (filterOption.id === this.id) {
-          if (this.active) {
-            this.active = false
-          } else {
-            this.active = true
-          }
+          this.active = !this.active
         } else {
           this.active = false
         }
