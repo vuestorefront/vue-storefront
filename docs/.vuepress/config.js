@@ -17,18 +17,25 @@ module.exports = {
             'installation/windows',
             'installation/magento',
             'installation/production-setup',
-            'installation/configuration',
           ],
         },
         {
           title: 'Basics',
           collapsable: false,
-          children: ['basics/project-structure'],
+          children: ['basics/project-structure', 'basics/configuration'],
         },
         {
           title: 'Vue Storefront core and themes',
           collapsable: false,
-          children: ['core-themes/themes'],
+          children: [
+            'core-themes/themes',
+            'core-themes/webpack',
+            'core-themes/core-components',
+            'core-themes/plugins',
+            'core-themes/vuex',
+            'core-themes/data',
+            'core-themes/extensions',
+          ],
         },
         {
           title: 'Data in Vue Storefront',

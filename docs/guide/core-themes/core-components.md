@@ -1,0 +1,1 @@
+# Vue Storefront component types
