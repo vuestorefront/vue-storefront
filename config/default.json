@@ -1,102 +1,33 @@
 {
-    "server": {
-      "host": "localhost",
-      "port": 3000,
-      "protocol": "http",
-      "api": "api",
-      "useOutputCacheTagging": false,
-      "useOutputCache": false,
-      "outputCacheDefaultTtl": 86400,
-      "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"],
-      "invalidateCacheKey": "aeSu7aip"
-    },
-    "redis": {
-      "host": "localhost",
-      "port": 6379,
-      "db": 0
-    },
-    "graphql":{
-      "host": "localhost",
-      "port": 8080
-    },
-    "elasticsearch": {
-      "httpAuth": "",
-      "host": "localhost:8080/api/catalog",
-      "index": "vue_storefront_catalog",
-      "min_score": 0.02,
-      "csrTimeout": 5000,
-      "ssrTimeout": 1000
-    },
-    "ssr": {
-      "executeMixedinAsyncData": true,
-      "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
-      "useInitialStateFilter": true
-    },
-    "defaultStoreCode": "",
-    "storeViews": {
-      "multistore": false,
-      "mapStoreUrlsFor": ["de", "it"],
-      "de": {
-        "storeCode": "de",
-        "disabled": true,
-        "storeId": 3,
-        "name": "German Store",
-        "url": "/de",
-        "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
-          "index": "vue_storefront_catalog_de"
-        },
-        "tax": {
-          "sourcePriceIncludesTax": false,
-          "defaultCountry": "DE",
-          "defaultRegion": "",
-          "calculateServerSide": true
-        },
-        "i18n": {
-          "fullCountryName": "Germany",
-          "fullLanguageName": "German",
-          "defaultLanguage": "DE",
-          "defaultCountry": "DE",
-          "defaultLocale": "de-DE",
-          "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
-        }
-      },
-      "it": {
-        "storeCode": "it",
-        "disabled": true,
-        "storeId": 4,
-        "name": "Italian Store",
-        "url": "/it",
-        "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
-          "index": "vue_storefront_catalog_it"
-        },
-        "tax": {
-          "sourcePriceIncludesTax": false,
-          "defaultCountry": "IT",
-          "defaultRegion": "",
-          "calculateServerSide": true
-        },
-        "i18n": {
-          "fullCountryName": "Italy",
-          "fullLanguageName": "Italian",
-          "defaultCountry": "IT",
-          "defaultLanguage": "IT",
-          "defaultLocale": "it-IT",
-          "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
-        }
-      }
-    },
-    "entities": {
-      "optimize": true,
-      "twoStageCaching": true,
-      "optimizeShoppingCart": true,
-      "category": {
-        "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
+  "server": {
+    "host": "localhost",
+    "port": 3000
+  },
+  "elasticsearch": {
+    "httpAuth": "",
+    "host": "localhost:8080/api/catalog",
+    "index": "vue_storefront_catalog",
+    "csrTimeout": 5000,
+    "ssrTimeout": 1000
+  },
+  "ssr": {
+    "executeMixedinAsyncData": true,
+    "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
+    "useInitialStateFilter": true
+  },
+  "defaultStoreCode": "",
+  "storeViews": {
+    "multistore": false,
+    "mapStoreUrlsFor": ["de", "it"],
+    "de": {
+      "storeCode": "de",
+      "disabled": true,
+      "storeId": 3,
+      "name": "German Store",
+      "url": "/de",
+      "elasticsearch": {
+        "host": "localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_de"
       },
       "tax": {
         "sourcePriceIncludesTax": false,
@@ -115,44 +46,15 @@
         "dateFormat": "HH:mm D-M-YYYY"
       }
     },
-    "cart": {
-      "bypassCartLoaderForAuthorizedUsers": true,
-      "multisiteCommonCart": true,
-      "server_merge_by_default": true,
-      "synchronize": true,
-      "synchronize_totals": true,
-      "setCustomProductOptions": true,
-      "setConfigurableProductOptions": true,
-      "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-      "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-      "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-      "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-      "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-      "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
-    },
-    "products": {
-      "useShortCatalogUrls": false,
-      "useMagentoUrlKeys": false,
-      "setFirstVarianAsDefaultInURL": false,
-      "configurableChildrenStockPrefetchStatic": false,
-      "configurableChildrenStockPrefetchDynamic": false,
-      "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
-      "filterUnavailableVariants": false,
-      "listOutOfStockProducts": false,
-      "preventConfigurableChildrenDirectAccess": true,
-      "alwaysSyncPlatformPricesOver": false,
-      "clearPricesBeforePlatformSync": false,
-      "waitForPlatformSync": false,
-      "setupVariantByAttributeCode": true,
-      "endpoint": "http://localhost:8080/api/product",
-      "defaultFilters": ["color", "size", "price", "erin_recommends"],
-      "filterFieldMapping": {
-        "category.name": "category.name.keyword"
+    "it": {
+      "storeCode": "it",
+      "disabled": true,
+      "storeId": 4,
+      "name": "Italian Store",
+      "url": "/it",
+      "elasticsearch": {
+        "host": "localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_it"
       },
       "tax": {
         "sourcePriceIncludesTax": false,
@@ -336,9 +238,6 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "http://localhost:8080/api/product",
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
-    "filterFieldMapping": {
-      "category.name": "category.name.keyword"
-    },
     "sortByAttributes": {
       "Latest": "updated_at",
       "Price": "final_price"
@@ -463,47 +362,5 @@
     "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
     "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
   },
-  "usePriceTiers": false,
-  "boost": {
-    "name": 3,
-    "category.name": 1,
-    "short_description": 1,
-    "description": 1,
-    "sku": 1,
-    "configurable_children.sku": 1
-  },
-  "query": {
-    "inspirations": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value": { "eq": "Performance Fabrics" }
-        }
-      ]
-    },
-    "newProducts": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value": { "eq": "Tees" }
-        }
-      ]
-    },
-    "coolBags": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value": { "eq": "Women" }
-        }
-      ]
-    },
-    "bestSellers": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value": { "eq": "Tees" }
-        }
-      ]
-    }
-  }
+  "usePriceTiers": false
 }
