@@ -1,4 +1,4 @@
-export default interface CategoryState {
+export default interface CheckoutState {
   order: any,
   personalDetails: {
     firstName: string,
