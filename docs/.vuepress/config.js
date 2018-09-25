@@ -26,6 +26,7 @@ module.exports = {
             'basics/project-structure',
             'basics/configuration',
             'basics/contributing',
+            'basics/modules',
             'basics/typescript',
           ],
         },

@@ -52,4 +52,4 @@ Here’s how to submit a pull request. **Pull request that dont meet this requir
 
 ## New features
 
-If you are making any new feature make sure it's adjusted to our new, modular approach. Read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
+If you are making any new feature make sure it's adjusted to our new, modular approach. Read more [here](modules.md)
