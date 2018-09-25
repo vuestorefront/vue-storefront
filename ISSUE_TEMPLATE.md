@@ -1,4 +1,4 @@
-**Note: for support questions, please use our <a href="https://slack.vuestorefront.io">Slack channel</a>**. This repository's issues are - reserved for feature requests and bug reports.
+**Note: for support questions, please use our <a href="https://slack.vuestorefront.io">Slack channel</a>** and [**FAQ**](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md). This repository's issues are - reserved for feature requests and bug reports.
 - Please do not submit support request here, see note at the top of this template.
 - Please use appropiate labels `feature request` or `bug`
 
