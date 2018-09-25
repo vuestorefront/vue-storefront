@@ -1,23 +1,22 @@
-**Note: for support questions, please use our <a href="https://slack.vuestorefront.io">Slack channel</a>**. This repository's issues are reserved for feature requests and bug reports.
-
-Please do not submit support request here, see note at the top of this template.
-
-Please use appropiate labels `feature request` or `bug`
+**Note: for support questions, please use our <a href="https://slack.vuestorefront.io">Slack channel</a>**. This repository's issues are - reserved for feature requests and bug reports.
+- Please do not submit support request here, see note at the top of this template.
+- Please use appropiate labels `feature request` or `bug`
 
 -----------------------------------
-* [bug] **What is the current behavior?**
 
-* [bug] **What is the expected behavior?**
+* **What is the motivation / use case for changing the behavior or adding new feature?**
 
-* [bug] **Please provide the steps to reproduce and if possible a minimal demo of the problem** via
+* **What is the current behavior?**
+
+* **What is the expected behavior?**
+
+* **Please provide the steps to reproduce and if possible a minimal demo of the problem** via
 https://plnkr.co or similar (you can use this template as a starting point: http://plnkr.co/edit/tpl:AvJOMERrnz94ekVua0u5).
 
-* [bug] **Please tell us about your environment:**
+* **Please tell us about your environment:**
   - Version: 
   - Browser: [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ]
   - Language: [all | TypeScript X.X | ES6/7 | ES5 | Dart]
-
-* **What is the motivation / use case for changing the behavior or adding new feature?**
 
 * **Acceptance criteria**
 - [ ] ...
