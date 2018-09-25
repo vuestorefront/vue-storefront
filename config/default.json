@@ -116,6 +116,7 @@
       }
     },
     "cart": {
+      "bypassCartLoaderForAuthorizedUsers": true,
       "multisiteCommonCart": true,
       "server_merge_by_default": true,
       "synchronize": true,

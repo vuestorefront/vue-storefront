@@ -111,9 +111,6 @@ const actions: ActionTree<CartState, RootState> = {
   serverCreate (context, { guestCart = false }) {
     if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
-        if (guestCart) {
-          Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
-        }
         const task = { url: guestCart ? rootStore.state.config.cart.create_endpoint.replace('{{token}}', '') : rootStore.state.config.cart.create_endpoint, // sync the cart
           payload: {
             method: 'POST',
@@ -467,7 +464,7 @@ const actions: ActionTree<CartState, RootState> = {
       if (err) {
         console.error(err)
       }
-      if ((Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
+      if (!rootStore.state.config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
         rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
       }
     })
