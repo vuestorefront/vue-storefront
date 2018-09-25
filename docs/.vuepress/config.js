@@ -27,6 +27,7 @@ module.exports = {
             'basics/configuration',
             'basics/contributing',
             'basics/modules',
+            'basics/feature-list',
             'basics/typescript',
           ],
         },

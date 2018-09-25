@@ -1,4 +1,4 @@
-# Vue Storefront configuration
+# Configuration file explained
 
 Vue Storefront application uses the [node-config](https://github.com/lorenwest/node-config) npm module to manage configuration files. Configuration is stored in the `/config` directory within two JSON files:
 

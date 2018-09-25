@@ -13,7 +13,7 @@ You should fork the project or create branch for new features.The main branches 
 
 Please use `develop` for development purposes as the `master` can be merged just as the new release is coming out (about once a month).
 
-## Issue reporting guidelines:
+## Issue reporting guidelines
 
 Always define type of issue:
 
