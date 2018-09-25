@@ -79,127 +79,22 @@
     "twoStageCaching": true,
     "optimizeShoppingCart": true,
     "category": {
-      "includeFields": [
-        "children_data",
-        "id",
-        "children_count",
-        "sku",
-        "name",
-        "is_active",
-        "parent_id",
-        "level",
-        "url_key",
-        "product_count"
-      ]
+      "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
     },
     "attribute": {
-      "includeFields": [
-        "attribute_code",
-        "id",
-        "entity_type_id",
-        "options",
-        "default_value",
-        "is_user_defined",
-        "frontend_label",
-        "attribute_id",
-        "default_frontend_label",
-        "is_visible_on_front",
-        "is_visible",
-        "is_comparable",
-        "tier_prices"
-      ]
+      "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices" ]
     },
     "productList": {
       "sort": "",
-      "includeFields": [
-        "type_id",
-        "sku",
-        "product_links",
-        "tax_class_id",
-        "special_price",
-        "special_to_date",
-        "special_from_date",
-        "name",
-        "price",
-        "priceInclTax",
-        "originalPriceInclTax",
-        "originalPrice",
-        "specialPriceInclTax",
-        "id",
-        "image",
-        "sale",
-        "new",
-        "url_key",
-        "status",
-        "tier_prices"
-      ],
-      "excludeFields": [
-        "configurable_children",
-        "description",
-        "configurable_options",
-        "sgn"
-      ]
+      "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status", "tier_prices" ],
+      "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
     },
     "productListWithChildren": {
-      "includeFields": [
-        "type_id",
-        "sku",
-        "name",
-        "tax_class_id",
-        "special_price",
-        "special_to_date",
-        "special_from_date",
-        "price",
-        "priceInclTax",
-        "originalPriceInclTax",
-        "originalPrice",
-        "specialPriceInclTax",
-        "id",
-        "image",
-        "sale",
-        "new",
-        "configurable_children.image",
-        "configurable_children.sku",
-        "configurable_children.price",
-        "configurable_children.special_price",
-        "configurable_children.priceInclTax",
-        "configurable_children.specialPriceInclTax",
-        "configurable_children.originalPrice",
-        "configurable_children.originalPriceInclTax",
-        "configurable_children.color",
-        "configurable_children.size",
-        "configurable_children.id",
-        "configurable_children.tier_prices",
-        "product_links",
-        "url_key",
-        "status",
-        "tier_prices"
-      ],
-      "excludeFields": ["description", "sgn"]
+      "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_key", "status", "tier_prices"],
+      "excludeFields": [ "description", "sgn"]
     },
     "product": {
-      "excludeFields": [
-        "updated_at",
-        "created_at",
-        "attribute_set_id",
-        "options_container",
-        "msrp_display_actual_price_type",
-        "has_options",
-        "stock.manage_stock",
-        "stock.use_config_min_qty",
-        "stock.use_config_notify_stock_qty",
-        "stock.stock_id",
-        "stock.use_config_backorders",
-        "stock.use_config_enable_qty_inc",
-        "stock.enable_qty_increments",
-        "stock.use_config_manage_stock",
-        "stock.use_config_min_sale_qty",
-        "stock.notify_stock_qty",
-        "stock.use_config_max_sale_qty",
-        "stock.use_config_max_sale_qty",
-        "stock.qty_increments",
-        "small_image"
-      ],
+      "excludeFields": [ "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image"],
       "includeFields": null
     }
   },
@@ -240,24 +135,25 @@
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
     "sortByAttributes": {
       "Latest": "updated_at",
-      "Price": "final_price"
+      "Price":"final_price"
     },
     "gallery": {
       "variantsGroupAttribute": "color",
       "mergeConfigurableChildren": true,
-      "imageAttributes": ["image", "thumbnail", "small_image"],
+      "imageAttributes": ["image","thumbnail","small_image"],
       "width": 600,
       "height": 744
     }
   },
   "orders": {
     "endpoint": "http://localhost:8080/api/order",
-    "payment_methods_mapping": {},
+    "payment_methods_mapping": {
+    },
     "offline_orders": {
       "automatic_transmission_enabled": false,
-      "notification": {
+      "notification" : {
         "enabled": true,
-        "title": "Order waiting!",
+        "title" : "Order waiting!",
         "message": "Click here to confirm the order that you made offline.",
         "icon": "/assets/logo.png"
       }
@@ -328,18 +224,7 @@
   "i18n": {
     "defaultCountry": "US",
     "defaultLanguage": "EN",
-    "availableLocale": [
-      "en-US",
-      "de-DE",
-      "fr-FR",
-      "es-ES",
-      "nl-NL",
-      "jp-JP",
-      "ru-RU",
-      "it-IT",
-      "pt-BR",
-      "pl-PL"
-    ],
+    "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL"],
     "defaultLocale": "en-US",
     "currencyCode": "USD",
     "currencySign": "$",
