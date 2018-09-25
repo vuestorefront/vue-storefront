@@ -15,7 +15,7 @@ The project is in the **production ready** phase.
 
 <p style="text-align: center;">
   <a href="https://www.youtube.com/watch?v=L4K-mq9JoaQ" target="_blank">
-    <img src="/vs-video.png" alt="See how it works">
+    <img :src="$withBase('/vs-video.png')" alt="See how it works">
   </a>
 </p>
 
@@ -23,7 +23,7 @@ The project is in the **production ready** phase.
 
 <p style="text-align: center;">
   <a href="https://www.youtube.com/watch?v=sRSmEP4jva0&feature=youtu.be" target="_blank">
-    <img src="/video-webcast-1.png" alt="Demo and the architecture of Vue Storefront">
+    <img :src="$withBase('/video-webcast-1.png')" alt="Demo and the architecture of Vue Storefront">
   </a>
 </p>
 

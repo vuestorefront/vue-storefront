@@ -12,7 +12,7 @@ yarn install
 
 The tool is using Magento2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento2 admin panel and click: _System -> Integrations_
 
-![Magento Admin Panel](/magento_1.png)
+![Magento Admin Panel](/vue-storefront/magento_1.png)
 
 Then click _Add new integration_ and just fill:
 
@@ -20,11 +20,11 @@ Then click _Add new integration_ and just fill:
 - your password to confirm the changes,
 - check Catalog, Sales, My Account and Carts on API permissions tab — save
 
-![Magento API](/magento_2.png)
+![Magento API](/vue-storefront/magento_2.png)
 
 In the result you’ll click _Activate_ and get some oauth access tokens:
 
-![Magento tokens](/magento_3.png)
+![Magento tokens](/vue-storefront/magento_3.png)
 
 Now please edit the `src/config.js` file in your `mage2vuestorefront` directory to set the following section:
 
