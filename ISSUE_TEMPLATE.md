@@ -4,25 +4,26 @@
 
 -----------------------------------
 
-* **What is the motivation / use case for changing the behavior or adding new feature?**
+### What is the motivation / use case for changing the behavior or adding new feature?
 
-* **What is the current behavior?**
+### What is the current behavior?
 
-* **What is the expected behavior?**
+### What is the expected behavior?
 
-* **Please provide the steps to reproduce and if possible a minimal demo of the problem** via
-https://plnkr.co or similar (you can use this template as a starting point: http://plnkr.co/edit/tpl:AvJOMERrnz94ekVua0u5).
+### Please provide the steps to reproduce and if possible a minimal demo of the problem
+via https://plnkr.co or similar (you can use this template as a starting point: http://plnkr.co/edit/tpl:AvJOMERrnz94ekVua0u5).
 
-* **Please tell us about your environment:**
+### Please tell us about your environment:
   - Version: 
   - Browser: [all | Chrome XX | Firefox XX | IE XX | Safari XX | Mobile Chrome XX | Android X.X Web Browser | iOS XX Safari | iOS XX UIWebView | iOS XX WKWebView ]
   - Language: [all | TypeScript X.X | ES6/7 | ES5 | Dart]
 
-* **Acceptance criteria**
+### Acceptance criteria
 - [ ] ...
 - [ ] ...
 
-* **Please write a task list of what should be done to complete this issue**
+### Please write a task list of what should be done to complete this issue
 - [ ] example task
 
-* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
+### Other information
+(e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
