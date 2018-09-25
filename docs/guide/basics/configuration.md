@@ -211,6 +211,13 @@ These settings are used just to configure the optimization strategy for differen
 
 ```json
 "cart": {
+  "bypassCartLoaderForAuthorizedUsers": true,,
+```
+
+The cart loader bypass feature is there because we're posting orders to Magento asynchronously - it may happen that directly after placing an order, the Magento’s user still have the same quote id and after browsing thrpugh VS Store old items will be restored to the shopping cart. Now uou can disable this behaviour by setting `bypassCartLoaderForAuthorizedUsers` option to `false`
+
+```json
+"cart": {
   "server_merge_by_default": true,
 ```
 

@@ -14,7 +14,7 @@
       "host": "localhost",
       "port": 6379,
       "db": 0
-    },    
+    },
     "graphql":{
       "host": "localhost",
       "port": 8080
@@ -115,15 +115,44 @@
         "dateFormat": "HH:mm D-M-YYYY"
       }
     },
-    "it": {
-      "storeCode": "it",
-      "disabled": true,
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
-      "elasticsearch": {
-        "host": "localhost:8080/api/catalog",
-        "index": "vue_storefront_catalog_it"
+    "cart": {
+      "bypassCartLoaderForAuthorizedUsers": true,
+      "multisiteCommonCart": true,
+      "server_merge_by_default": true,
+      "synchronize": true,
+      "synchronize_totals": true,
+      "setCustomProductOptions": true,
+      "setConfigurableProductOptions": true,
+      "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    },
+    "products": {
+      "useShortCatalogUrls": false,
+      "useMagentoUrlKeys": false,
+      "setFirstVarianAsDefaultInURL": false,
+      "configurableChildrenStockPrefetchStatic": false,
+      "configurableChildrenStockPrefetchDynamic": false,
+      "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
+      "filterUnavailableVariants": false,
+      "listOutOfStockProducts": false,
+      "preventConfigurableChildrenDirectAccess": true,
+      "alwaysSyncPlatformPricesOver": false,
+      "clearPricesBeforePlatformSync": false,
+      "waitForPlatformSync": false,
+      "setupVariantByAttributeCode": true,
+      "endpoint": "http://localhost:8080/api/product",
+      "defaultFilters": ["color", "size", "price", "erin_recommends"],
+      "filterFieldMapping": {
+        "category.name": "category.name.keyword"
       },
       "tax": {
         "sourcePriceIncludesTax": false,
