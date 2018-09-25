@@ -14,6 +14,11 @@
 
 (run `yarn tests:e2e` and paste the results. If you are not using our standard backend setup or demo.vuestorefront.io you can ommit this step) 
 
+### Upgrade Notes and Changelog
+
+[x] No upgrade steps necessary (100% backward compatibility)
+[ ] I've updated the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Upgrade%20notes.md) and [Changelog](https://github.com/DivanteLtd/vue-storefront/blob/develop/CHANGELOG.md) on how to port existing VS sites with this new feature
+
 ### Contribution and curently important rules acceptance
 
 - [ ] I read and followed [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
