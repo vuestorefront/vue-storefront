@@ -5,7 +5,16 @@ module.exports = {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
     editLinks: true,
-    nav: [],
+    nav: [
+      {
+        text: 'YouTube',
+        link: 'https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg',
+      },
+      {
+        text: 'Medium',
+        link: 'https://medium.com/the-vue-storefront-journal',
+      },
+    ],
     sidebar: {
       '/guide/': [
         '',
@@ -28,6 +37,7 @@ module.exports = {
             'basics/contributing',
             'basics/modules',
             'basics/feature-list',
+            'basics/recipes',
             'basics/typescript',
           ],
         },

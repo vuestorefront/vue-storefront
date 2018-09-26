@@ -42,5 +42,7 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 ## Roadmap
 
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
+
 [See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
-[Check the feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md).
+
+[Check the feature list of 1.0](../basics/feature-list.md).

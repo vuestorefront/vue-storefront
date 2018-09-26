@@ -28,6 +28,18 @@ Please find the configuration properties reference below.
 
 Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pages and static assets. It's node.js server located in the `core/scripts/server.js`. This is the host name and TCP port which Vue Storefront is being bind to.
 
+## Redis
+
+```json
+"redis": {
+  "host": "localhost",
+  "port": 6379,
+  "db": 0
+},
+```
+
+This is redis configuration for the output cache. See additional information [here](../data/ssr-cache.md)
+
 ## GraphQL
 
 ```json
@@ -76,7 +88,7 @@ This option is referenced in the [core/client-entry.ts](https://github.com/Divan
 "defaultStoreCode": "",
 ```
 
-This option is used only in the [Multistore setup](/guide/integrations/multistore.md). By default it's `''` but if you're running for example multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend - please just set it so. This config variable is referenced in the [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts)
+This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running for example multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend - please just set it so. This config variable is referenced in the [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts)
 
 ## Store views
 
@@ -86,7 +98,7 @@ This option is used only in the [Multistore setup](/guide/integrations/multistor
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
-If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](/guide/integrations/multistore.md) will be included in the request flow.
+If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](../integrations/multistore.md) will be included in the request flow.
 
 You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accesing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, api requests with specific storeCode etc...)
 

@@ -31,7 +31,7 @@ Below you can find the Vue Storefront project structure with explanations and co
   - `router` - Core Vue Router setup. The definition of routes happens in `{themeroot}/index.js`
   - `scripts` - Core scripts like app installer, extension installer etc.
   - `service-worker` - Core service worker. It's merged with `sw-precache` data from `build` and `{theme}/service-worker-ext.js`
-  - `store` - Core Vuex stores (related: [Working with Vuex](../core-themes/vuex.md), [Working with data](../core-themes/data.md))
+  - `store` - Core Vuex stores (related: [Working with Vuex](../data/vuex.md), [Working with data](../core-themes/data.md))
 
 - `src` - Main project folder containing Vue Storefront core and themes. This is your app playground so you can modify this folder.
   - `extensions` - Custom extensions made for Vue Storefront like integration with MailChimp or support for Google Analytics) (see: [Working with extensions](../core-themes/extensions.md))
