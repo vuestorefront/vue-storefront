@@ -6,11 +6,7 @@
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
             {{ $t('Reviews') + ' (' + reviews.length + ')' }}
           </h2>
-          <div class="mt50" v-for="(review) in reviews" :key="review.id" v-if="review.review_status">
-            <h4 class="weight-400 m0">{{ review.title }}</h4>
-            <p class="cl-tertiary mt10 mb20 fs-medium-small">{{ review.nickname }}, {{ review.created_at | date }}</p>
-            <p class="cl-gray lh25">{{ review.detail }}</p>
-          </div>
+          <reviews-list :per-page="4" :items="reviews" />
         </div>
         <div class="col-xs-12 col-md-5 pt50">
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
@@ -105,14 +101,17 @@ import Reviews from '@vue-storefront/core/components/blocks/Reviews/Reviews'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonFull from 'theme/components/theme/ButtonFull'
+import ReviewsList from 'theme/components/theme/blocks/Reviews/ReviewsList'
 
 export default {
-  components: {
-    ButtonFull,
-    BaseInput,
-    BaseTextarea
+  methods: {
+    validate () {
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        this.submit()
+      }
+    }
   },
-  mixins: [Reviews],
   validations: {
     formData: {
       name: {
@@ -130,13 +129,12 @@ export default {
       }
     }
   },
-  methods: {
-    validate () {
-      this.$v.$touch()
-      if (!this.$v.$invalid) {
-        this.submit()
-      }
-    }
+  mixins: [Reviews],
+  components: {
+    ButtonFull,
+    BaseInput,
+    BaseTextarea,
+    ReviewsList
   }
 }
 </script>
