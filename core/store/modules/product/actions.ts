@@ -41,36 +41,43 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
     }
-    // TODO: Fix it when product is enterd from outside the category page
-    let currentPath = context.rootState.category.current_path
-    let currentCat = context.rootState.category.current
 
-    if (currentPath.length > 0 && currentCat) {
-      setbrcmb(currentPath)
-    } else {
-      if (product.category && product.category.length > 0) {
-        subloaders.push(
-          context.dispatch('category/list', {}, { root: true }).then((categories) => {
-            for (let cat of product.category.reverse()) {
-              let category = categories.items.find((itm) => { return itm['id'] === cat.category_id })
-              if (category) {
-                context.dispatch('category/single', { key: 'id', value: category.id }, { root: true }).then((category) => { // this sets up category path and current category
-                  setbrcmb(context.rootState.category.current_path)
-                }).catch(err => {
-                  setbrcmb(context.rootState.category.current_path)
-                  console.error(err)
-                })
-                break
-              }
+    if (product.category && product.category.length > 0) {
+      const categoryIds = product.category.reverse().map((cat => cat.category_id))
+
+      subloaders.push(
+        context.dispatch('category/list', {}, { root: true }).then((categories) => {
+          const catList = []
+
+          for (let catId of categoryIds) {
+            let category = categories.items.find((itm) => { return itm['id'] === parseInt(catId) })
+            if (category) {
+              catList.push(category)
             }
+          }
+
+          const rootCat = catList.shift()
+          let catForBreadcrumbs = rootCat
+
+          for (let cat of catList) {
+            const catPath = cat.path
+            if (catPath && catPath.includes(rootCat.path) && (catPath.split('/').length > catForBreadcrumbs.path.split('/').length)) {
+              catForBreadcrumbs = cat
+            }
+          }
+
+          context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+            setbrcmb(context.rootState.category.current_path)
           }).catch(err => {
+            setbrcmb(context.rootState.category.current_path)
             console.error(err)
           })
-        )
-      }
+        }).catch(err => {
+          console.error(err)
+        })
+      )
     }
     context.state.breadcrumbs.name = product.name
-
     return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {
