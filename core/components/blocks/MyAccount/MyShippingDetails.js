@@ -22,7 +22,7 @@ export default {
       remainInEditMode: false
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
     this.$bus.$on('myAccount-before-remainInEditMode', block => {
       if (block === 'MyShippingDetails') {
@@ -30,7 +30,7 @@ export default {
       }
     })
   },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
     this.$bus.$off('myAccount-before-remainInEditMode')
   },

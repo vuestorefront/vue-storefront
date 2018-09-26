@@ -32,7 +32,7 @@ export default {
       isZoomOpen: false
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
   },
@@ -44,6 +44,8 @@ export default {
     document.addEventListener('keydown', this.handleEscKey)
   },
   beforeDestroy () {
+    this.$bus.$off('filter-changed-product', this.selectVariant)
+    this.$bus.$off('product-after-load', this.selectVariant)
     document.removeEventListener('keydown', this.handleEscKey)
   },
   computed: {

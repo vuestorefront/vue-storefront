@@ -41,7 +41,7 @@ export default {
       }
     }
   },
-  created () {
+  beforeMount () {
     rootStore.dispatch('product/addCustomOptionValidator', {
       validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme
       validatorFunction: (value) => {

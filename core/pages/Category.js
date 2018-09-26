@@ -123,9 +123,9 @@ export default {
       })
     })
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
-    this.$bus.$on('list-change-sort', (param) => { this.onSortOrderChanged(param) })
+    this.$bus.$on('list-change-sort', this.onSortOrderChanged)
     if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
@@ -137,6 +137,7 @@ export default {
     }
   },
   beforeDestroy () {
+    this.$bus.$off('list-change-sort', this.onSortOrderChanged)
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
     if (config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
