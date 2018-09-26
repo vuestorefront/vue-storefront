@@ -30,7 +30,14 @@ Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pa
 
 ## GraphQL
 
-To be done
+```json
+"graphql":{
+  "host": "localhost",
+  "port": 8080
+},
+```
+
+This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md) and this section is being used when `server.api` is set to `graphql` (default is "api")
 
 ## ElasticSearch
 
@@ -535,7 +542,23 @@ The `defaultCountry` and the `defaultRegion` settings are being used for finding
 
 ## Shipping
 
-To be done
+```json
+"shipping": {
+  "methods": [
+    {
+      "method_title": "DPD Courier",
+      "method_code": "flatrate",
+      "carrier_code": "flatrate",
+      "amount": 4,
+      "price_incl_tax": 5,
+      "default": true,
+      "offline": true
+    }
+  ]
+},
+```
+
+Available shipping methods when backend platform is not providing the dynamic list / or for the offline scenarios.
 
 ## Internationalization
 
@@ -606,12 +629,64 @@ This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be se
 
 ## Use price tiers
 
-To be done
+```json
+"usePriceTiers": false,
+```
+
+When set to `true` we're using Magento2 feature of tiered prices (individual prices set for client's groups). The prices are set in `product.tier_prices` property.
 
 ## Boost
 
-To be done
+```json
+"boost": {
+  "name": 3,
+  "category.name": 1,
+  "short_description": 1,
+  "description": 1,
+  "sku": 1,
+  "configurable_children.sku": 1
+},
+```
+
+This is a list of priorities for search feature (higher boost = more important search field).
 
 ## Query
 
-To be done
+```json
+"query": {
+    "inspirations": {
+      "filter": [
+        {
+          "key": "category.name",
+          "value" : { "eq": "Performance Fabrics" }
+        }
+      ]
+    },
+    "newProducts": {
+      "filter": [
+        {
+          "key": "category.name",
+          "value" : { "eq": "Tees" }
+        }
+      ]
+    },
+    "coolBags": {
+      "filter": [
+        {
+          "key": "category.name",
+          "value" : { "eq": "Women" }
+        }
+      ]
+    },
+    "bestSellers": {
+      "filter": [
+        {
+          "key": "category.name",
+          "value" : { "eq": "Tees" }
+        }
+      ]
+    }
+  }
+```
+
+Search queries used by specific components (for example Related products); the format of the query has been described [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md)
