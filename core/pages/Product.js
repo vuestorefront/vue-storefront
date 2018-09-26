@@ -81,9 +81,6 @@ export default {
     }
   },
   beforeMount () {
-    this.onStateCheck()
-  },
-  created () {
     this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
@@ -93,6 +90,7 @@ export default {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
+    this.onStateCheck()
   },
   methods: {
     validateRoute () {

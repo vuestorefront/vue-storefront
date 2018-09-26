@@ -9,17 +9,13 @@ export default {
       required: true
     }
   },
-  created () {
-    this.$bus.$on('checkout-after-personalDetails', (receivedData) => {
-      if (!this.isFilled) {
-        this.$store.dispatch('checkout/updatePropValue', ['firstName', receivedData.firstName])
-        this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
-      }
-    })
-    this.$bus.$on('checkout-after-shippingset', (receivedData) => {
-      this.shipping = receivedData
-      this.isFilled = true
-    })
+  beforeDestroy () {
+    this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    this.$bus.$off('checkout-after-shippingset', this.onAfterShippingSet)
+  },
+  beforeMount () {
+    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    this.$bus.$on('checkout-after-shippingset', this.onAfterShippingSet)
   },
   data () {
     return {
@@ -58,6 +54,16 @@ export default {
     }
   },
   methods: {
+    onAfterShippingSet (receivedData) {
+      this.shipping = receivedData
+      this.isFilled = true
+    },
+    onAfterPersonalDetails (receivedData) {
+      if (!this.isFilled) {
+        this.$store.dispatch('checkout/updatePropValue', ['firstName', receivedData.firstName])
+        this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
+      }
+    },
     sendDataToCheckout () {
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true

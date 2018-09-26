@@ -10,10 +10,10 @@ export default {
       isEdited: false
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('user-after-loggedin', this.getNewsletter)
   },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('user-after-loggedin', this.getNewsletter)
   },
   mounted () {
