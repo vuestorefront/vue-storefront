@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
 
-const CACHE_TIMEOUT = 500
+const CACHE_TIMEOUT = 800
 const CACHE_TIMEOUT_ITERATE = 2000
 const DISABLE_PERSISTANCE_AFTER = 2
 
