@@ -71,6 +71,11 @@ export default {
     }
   },
   methods: {
+    onProductPriceUpdate (product) {
+      if (product.sku === this.product.sku) {
+        Object.assign(this.product, product)
+      }
+    },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
         if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
@@ -90,12 +95,11 @@ export default {
       }
     }
   },
-  created () {
-    this.$bus.$on('product-after-priceupdate', (product) => {
-      if (product.sku === this.product.sku) {
-        Object.assign(this.product, product)
-      }
-    })
+  beforeMount () {
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
 </script>

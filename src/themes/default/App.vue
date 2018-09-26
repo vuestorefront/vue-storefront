@@ -58,7 +58,13 @@ export default {
       overlayActive: state => state.ui.overlay
     })
   },
-  created () {
+  methods: {
+    onOrderConfirmation (payload) {
+      this.ordersData = payload
+      EventBus.$emit('modal-show', 'modal-order-confirmation')
+    }
+  },
+  beforeMount () {
     // Progress bar on top of the page
     this.$router.beforeEach((to, from, next) => {
       this.$Progress.start()
@@ -68,10 +74,10 @@ export default {
     this.$router.afterEach((to, from) => {
       this.$Progress.finish()
     })
-    EventBus.$on('offline-order-confirmation', (payload) => {
-      this.ordersData = payload
-      EventBus.$emit('modal-show', 'modal-order-confirmation')
-    })
+    EventBus.$on('offline-order-confirmation', this.onOrderConfirmation)
+  },
+  beforeDestroy () {
+    EventBus.$off('offline-order-confirmation', this.onOrderConfirmation)
   },
   metaInfo: Head,
   components: {

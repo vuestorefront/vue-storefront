@@ -14,7 +14,6 @@ import checkout from './checkout'
 import homepage from './homepage'
 import stock from './stock'
 import tax from './tax'
-import social from './social-tiles'
 import claims from './claims'
 import sync from './sync'
 import promoted from './promoted-offers'
@@ -36,7 +35,6 @@ export default {
   homepage,
   stock,
   tax,
-  social,
   claims,
   sync,
   promoted

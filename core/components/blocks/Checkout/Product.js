@@ -11,11 +11,17 @@ export default {
       return this.getThumbnail(this.product.image, 150, 150)
     }
   },
-  created () {
-    this.$bus.$on('cart-after-itemchanged', (event) => {
+  methods: {
+    onProductChanged (event) {
       if (event.item.sku === this.product.sku) {
         this.$forceUpdate()
       }
-    })
+    }
+  },
+  beforeMount () {
+    this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
+  },
+  beforeDestroy () {
+    this.$bus.$off('cart-after-itemchanged', this.onProductChanged)
   }
 }

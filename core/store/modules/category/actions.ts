@@ -12,6 +12,7 @@ import { optionLabel } from '../attribute/helpers'
 import RootState from '../../types/RootState'
 import CategoryState from './types/CategoryState'
 import SearchQuery from 'core/store/lib/search/searchQuery'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -223,7 +224,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (populateAggregations === true && res.aggregations) { // populate filter aggregates
           for (let attrToFilter of filters) { // fill out the filter options
-            rootStore.state.category.filters.available[attrToFilter] = []
+            Vue.set(rootStore.state.category.filters.available, attrToFilter, [])
 
             let uniqueFilterValues = new Set<string>()
             if (attrToFilter !== 'price') {
@@ -248,6 +249,8 @@ const actions: ActionTree<CategoryState, RootState> = {
                 }
               });
             } else { // special case is range filter for prices
+              const storeView = currentStoreView()
+              const currencySign = storeView.i18n.currencySign
               if (res.aggregations['agg_range_' + attrToFilter]) {
                 let index = 0
                 let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
@@ -256,7 +259,7 @@ const actions: ActionTree<CategoryState, RootState> = {
                     id: option.key,
                     from: option.from,
                     to: option.to,
-                    label: (index === 0 || (index === count - 1)) ? (option.to ? '< $' + option.to : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
+                    label: (index === 0 || (index === count - 1)) ? (option.to ? '< ' + currencySign + option.to : '> ' + currencySign + option.from) : currencySign + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
                   })
                   index++
                 }

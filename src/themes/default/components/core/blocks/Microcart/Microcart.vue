@@ -153,7 +153,7 @@ export default {
       }).catch(() => {
         this.$bus.$emit('notification', {
           type: 'warning',
-          message: i18n.t('You\'ve entered an incorrect coupon code. Please try again.'),
+          message: i18n.t("You've entered an incorrect coupon code. Please try again."),
           action1: { label: i18n.t('OK'), action: 'close' }
         })
       })

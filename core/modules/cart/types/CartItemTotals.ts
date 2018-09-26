@@ -1,5 +1,6 @@
 
 import CartItemOption from './CartItemOption'
+
 export default interface CartItemTotals {
   base_discount_amount: number,
   base_price: number,

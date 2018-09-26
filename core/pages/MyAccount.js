@@ -18,7 +18,7 @@ export default {
       returnEditMode: false
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
   },

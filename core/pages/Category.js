@@ -123,9 +123,9 @@ export default {
       })
     })
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
-    this.$bus.$on('list-change-sort', (param) => { this.onSortOrderChanged(param) })
+    this.$bus.$on('list-change-sort', this.onSortOrderChanged)
     if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
@@ -137,6 +137,7 @@ export default {
     }
   },
   beforeDestroy () {
+    this.$bus.$off('list-change-sort', this.onSortOrderChanged)
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
     if (config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
@@ -146,7 +147,7 @@ export default {
   methods: {
     bottomVisible () {
       const scrollY = window.scrollY
-      const visible = document.documentElement.clientHeight
+      const visible = window.innerHeight
       const pageHeight = document.documentElement.scrollHeight
       const bottomOfPage = visible + scrollY >= pageHeight
       return bottomOfPage || pageHeight < visible
@@ -167,9 +168,9 @@ export default {
     onFilterChanged (filterOption) {
       this.pagination.current = 0
       if (this.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-        delete this.filters.chosen[filterOption.attribute_code]
+        Vue.delete(this.filters.chosen, filterOption.attribute_code)
       } else {
-        this.filters.chosen[filterOption.attribute_code] = filterOption
+        Vue.set(this.filters.chosen, filterOption.attribute_code, filterOption)
       }
 
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
