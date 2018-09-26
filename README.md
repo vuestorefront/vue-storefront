@@ -462,11 +462,11 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
         <td align="center" valign="middle">
-        <a href="">
+        <a href="https://bemeir.com/vue-storefront">
           <img
-            src=""
-            alt=""
-            height="50"
+            src="https://divante.co/partners/Vue-Storefront/bemeir.png"
+            alt="Bemeir"
+            height="40"
           >
         </a>
       </td>
