@@ -1,4 +1,4 @@
-import builder from 'bodybuilder'
+import { reviews, addReview } from '@vue-storefront/core/modules/review/features'
 
 export default {
   name: 'Reviews',
@@ -18,46 +18,22 @@ export default {
     },
     currentUser () {
       return this.$store.state.user.current
-    },
-    reviews () {
-      return this.$store.state.review.items
     }
   },
   methods: {
     refreshList () {
-      let productId = this.product.current.id
-
-      if (productId) {
-        let query = builder().query('match', 'product_id', productId)
-          .filter('term', 'review_status', 1)
-
-        // review_status 1 - approved
-        // stores
-        query = query.build()
-
-        this.$store.dispatch('review/list', {
-          query,
-          size: 4
-        }).then((res) => {
-          this.$store.dispatch('review/setReviews', res.items)
-        })
-      }
+      this.$store.dispatch('review/list', { productId: this.product.current.id })
     },
-    addReview () {
-      const review = {
+    submit () {
+      this.addReview({
         'product_id': this.product.current.id,
         'title': this.formData.summary,
         'detail': this.formData.review,
         'nickname': this.formData.name,
         'review_entity': 'product',
-        'review_status': 2
-      }
-
-      if (this.currentUser) {
-        review.customer_id = this.currentUser.id
-      }
-
-      this.$store.dispatch('review/add', review)
+        'review_status': 2,
+        'customer_id': this.currentUser.id || null
+      })
     },
     clearReviewForm () {
       this.formData.name = ''
@@ -76,7 +52,7 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.$bus.$on('product-after-load', this.refreshList)
     this.$bus.$on('clear-add-review-form', this.clearReviewForm)
     this.$bus.$on('user-after-loggedin', this.fillInUserData)
@@ -89,5 +65,6 @@ export default {
   beforeMount () {
     this.refreshList()
     this.fillInUserData()
-  }
+  },
+  mixins: [ reviews, addReview ]
 }

@@ -134,7 +134,7 @@ export default {
     validate () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.addReview()
+        this.submit()
       }
     }
   }
