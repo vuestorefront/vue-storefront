@@ -2040,7 +2040,7 @@ command-join@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/command-join/-/command-join-2.0.0.tgz#52e8b984f4872d952ff1bdc8b98397d27c7144cf"
 
-commander@2, commander@^2.15.1, commander@^2.9.0:
+commander@2, commander@^2.9.0:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
 
@@ -7524,10 +7524,6 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-scrollreveal@^3.3.6:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/scrollreveal/-/scrollreveal-3.4.0.tgz#77ce77b383d1883f2aafebdfc6f17a105718a780"
-
 scss-tokenizer@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
@@ -8584,7 +8580,7 @@ url-parse-lax@^1.0.0:
   dependencies:
     prepend-http "^1.0.1"
 
-url-parse@^1.2.0:
+url-parse@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.3.tgz#bfaee455c889023219d757e045fa6a684ec36c15"
   dependencies:
@@ -8703,7 +8699,7 @@ vsf-payment-stripe@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/vsf-payment-stripe/-/vsf-payment-stripe-1.0.0.tgz#2657f17a993cd0cbb2dc2f4f2d8f09e5f95670b5"
 
-vue-analytics@^5.16.0, vue-analytics@^5.8.0:
+vue-analytics@^5.16.0:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.0.tgz#82e88703a0678cba076d51acacd6569bc8f7d54c"
 
@@ -8763,9 +8759,9 @@ vue-no-ssr@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-0.2.2.tgz#e1a0ef0ba39fc54972edd71a2ae11a7988312b19"
 
-vue-observe-visibility@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.3.1.tgz#e7cad37893da42858c086196da9acdb0fd85340b"
+vue-observe-visibility@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.1.tgz#741dfc6c7894f4f41abab9efa1a86b1eb5012b18"
 
 vue-offline@^1.0.8:
   version "1.0.204"
@@ -8817,16 +8813,12 @@ vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
-vue2-google-maps@^0.8.4:
-  version "0.8.12"
-  resolved "https://registry.yarnpkg.com/vue2-google-maps/-/vue2-google-maps-0.8.12.tgz#71100265dbbd4a02da2d94aac803abe02afff21e"
+vue2-google-maps@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/vue2-google-maps/-/vue2-google-maps-0.10.2.tgz#2a6d2942e8a37103fa0707f8b3cb052a7a372bab"
   dependencies:
     babel-runtime "^5.8.0"
     marker-clusterer-plus "^2.1.4"
-
-vue2-slugify@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/vue2-slugify/-/vue2-slugify-0.0.1.tgz#f9bbd642fed9f520d08e61c0fdfbbb15cfddb3b2"
 
 vue@^2.5.17:
   version "2.5.17"
