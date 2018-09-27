@@ -1,7 +1,7 @@
 <template>
-  <div>
-    This page is using empty layout set in routes
-  </div>
+  <raw-content>
+    This page is using empty layout set in routes + no html template
+  </raw-content>
 </template>
 
 <script>
@@ -9,6 +9,7 @@ export default {
   name: 'RawOutputExample',
   asyncData ({ store, route, context }) {
     context.response.setHeader('Content-Type', 'text/xml')
+    context.serverOutputTemplate = ''
     return new Promise((resolve, reject) => {
       resolve()
     })

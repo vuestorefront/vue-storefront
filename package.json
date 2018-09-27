@@ -58,6 +58,7 @@
     "he": "^1.1.1",
     "isomorphic-fetch": "^2.2.1",
     "localforage": "^1.7.2",
+    "lodash-template": "^1.0.0",
     "lru-cache": "^4.0.1",
     "object-hash": "^1.2.0",
     "pm2": "^2.10.4",
