@@ -144,7 +144,7 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
-    const context = { url: req.url, serverOutputTemplate: 'default', meta: null, currentRoute: null /** will be set by Vue */, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE,  app: app, response: res, request: req }
+    const context = { url: req.url, serverOutputTemplate: 'default', meta: null, currentRoute: null/** will be set by Vue */, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, app: app, response: res, request: req }
     renderer.renderToString(context).then(output => {
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
