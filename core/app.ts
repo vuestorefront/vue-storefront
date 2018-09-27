@@ -99,7 +99,7 @@ Object.keys(filtersObject).forEach(key => {
   Vue.filter(key, filtersObject[key])
 })
 
-export function createApp (): { app: Vue, router: any, store: any } {
+export function createApp (serverContext = null): { app: Vue, router: any, store: any } {
   sync(store, router)
   const app = new Vue({
     router,
@@ -114,7 +114,8 @@ export function createApp (): { app: Vue, router: any, store: any } {
     app,
     router,
     store,
-    config
+    config,
+    serverContext
   )
 
   registerTheme(config.theme, app, router, store)

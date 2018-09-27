@@ -8,7 +8,7 @@ export function takeOverConsole (level = 'no-console') {
   function intercept (method) {
     const original = console[method]
     console[method] = function () {
-      let filterMethods = ['warn', 'debug', 'log']
+      let filterMethods = []
 
       if (level === 'no-console') {
         filterMethods = ['warn', 'debug', 'log', 'error']

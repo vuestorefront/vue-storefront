@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html data-vue-meta-server-rendered {{{ meta.inject().htmlAttrs.text() }}}>
+	<head><!-- index for default theme -->
+		<script async src="https://cdn.ampproject.org/v0.js"></script>
+  	{{{ meta.inject().title.text() }}}
+  	{{{ meta.inject().meta.text() }}}
+		{{{ meta.inject().link.text() }}}
+			
+    <% for (var chunk of webpack.chunks) {
+        for (var file of chunk.files) {
+          if (file.match(/\.(css)$/)) { %>
+    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+  </head>
+  <body>
+    <!--vue-ssr-outlet-->
+  </body>
+</html>
