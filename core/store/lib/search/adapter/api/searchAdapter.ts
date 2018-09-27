@@ -162,5 +162,14 @@ export class SearchAdapter {
       }
     })
 
+    this.registerEntityType('review', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'review', start, size)
+      }
+    })
   }
 }
