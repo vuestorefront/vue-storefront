@@ -21,6 +21,7 @@ if (config.server.useOutputCache) {
   console.log('Redis cache set', config.redis)
 }
 
+const templatesCache = {}
 let renderer
 if (isProd) {
   // In production: create server renderer using server bundle and index HTML
@@ -30,19 +31,20 @@ if (isProd) {
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
   const template = fs.readFileSync(resolve('dist/index.html'), 'utf-8')
-  renderer = createRenderer(bundle, template)
+  templatesCache['default'] = template
+  renderer = createRenderer(bundle)
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
-    renderer = createRenderer(bundle, template)
+    templatesCache['default'] = template
+    renderer = createRenderer(bundle)
   })
 }
 
 function createRenderer (bundle, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return require('vue-server-renderer').createBundleRenderer(bundle, {
-    template,
     cache: require('lru-cache')({
       max: 1000,
       maxAge: 1000 * 60 * 15
@@ -137,16 +139,15 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
-    const context = { url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, server: { app: app, res: res, req: req } }
-    if (config.server.useOutputCacheTagging) {
-      renderer.renderToString(context).then(output => {
+    const context = { url: req.url, serverOutputTemplate: 'default', currentRoute: null /** will be set by Vue */, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, server: { app: app, res: res, req: req } }
+    renderer.renderToString(context).then(output => {
+      if (!res.get('content-type')) {
+        res.setHeader('Content-Type', 'text/html')
+      }
+      if (config.server.useOutputCacheTagging) {
         const tagsArray = Array.from(context.state.requestContext.outputCacheTags)
         const cacheTags = tagsArray.join(' ')
-        res.setHeader('Content-Type', 'text/html')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
-        res.end(output)
-        console.log(`cache tags for the request: ${cacheTags}`)
-        console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
         if (config.server.useOutputCache && cache) {
           cache.set(
             'page:' + req.url,
@@ -154,18 +155,17 @@ app.get('*', (req, res, next) => {
             tagsArray
           ).catch(errorHandler)
         }
-        next()
-      }).catch(errorHandler)
-    } else {
-      res.setHeader('Content-Type', 'text/html')
-      renderer.renderToStream(context) // TODO: pass the store code from the headers
-        .on('error', errorHandler)
-        .on('end', () => {
-          console.log(`whole request: ${Date.now() - s}ms`)
-          next()
-        })
-        .pipe(res)
-    }
+        console.log(`cache tags for the request: ${cacheTags}`)
+      }
+      if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
+        if (templatesCache[context.serverOutputTemplate]) {
+          output = templatesCache[context.serverOutputTemplate].replace('<!--vue-ssr-outlet-->', output)
+        }
+      }
+      res.end(output)
+      console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
+      next()
+    }).catch(errorHandler)
   }
 
   if (config.server.useOutputCache && cache) {
