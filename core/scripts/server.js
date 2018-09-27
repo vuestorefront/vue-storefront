@@ -137,7 +137,7 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
-    const context = { url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, serverApp: app }
+    const context = { url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, server: { app: app, res: res, req: req } }
     if (config.server.useOutputCacheTagging) {
       renderer.renderToString(context).then(output => {
         const tagsArray = Array.from(context.state.requestContext.outputCacheTags)
