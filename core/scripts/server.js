@@ -6,7 +6,11 @@ const resolve = file => path.resolve(rootPath, file)
 const config = require('config')
 const TagCache = require('redis-tag-cache').default
 const utils = require('./server/utils')
-
+const compile = require('lodash.template')
+const compileOptions = {
+  escape: /{{([^{][\s\S]+?[^}])}}/g,
+  interpolate: /{{{([\s\S]+?)}}}/g
+}
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
@@ -31,20 +35,19 @@ if (isProd) {
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
   const template = fs.readFileSync(resolve('dist/index.html'), 'utf-8')
-  templatesCache['default'] = template
-  renderer = createRenderer(bundle)
+  renderer = createRenderer(bundle, template)
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
-    templatesCache['default'] = template
-    renderer = createRenderer(bundle)
+    renderer = createRenderer(bundle, template)
   })
 }
 
 function createRenderer (bundle, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return require('vue-server-renderer').createBundleRenderer(bundle, {
+    template,
     cache: require('lru-cache')({
       max: 1000,
       maxAge: 1000 * 60 * 15
@@ -139,7 +142,7 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
-    const context = { url: req.url, serverOutputTemplate: 'default', currentRoute: null /** will be set by Vue */, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, server: { app: app, res: res, req: req } }
+    const context = { url: req.url, meta: null, currentRoute: null /** will be set by Vue */, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, app: app, response: res, request: req }
     renderer.renderToString(context).then(output => {
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
@@ -156,11 +159,6 @@ app.get('*', (req, res, next) => {
           ).catch(errorHandler)
         }
         console.log(`cache tags for the request: ${cacheTags}`)
-      }
-      if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
-        if (templatesCache[context.serverOutputTemplate]) {
-          output = templatesCache[context.serverOutputTemplate].replace('<!--vue-ssr-outlet-->', output)
-        }
       }
       res.end(output)
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)

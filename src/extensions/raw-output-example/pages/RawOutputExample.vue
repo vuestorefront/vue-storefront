@@ -8,8 +8,8 @@
 export default {
   name: 'RawOutputExample',
   asyncData ({ store, route, context }) {
-    context.server.res.setHeader('Content-Type', 'text/xml')
-    context.serverOutputTemplate = ''
+    context.response.setHeader('Content-Type', 'text/xml')
+    context.rawOutput = true
 
     return new Promise((resolve, reject) => {
       resolve()
