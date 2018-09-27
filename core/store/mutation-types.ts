@@ -11,6 +11,9 @@ export const CART_UPD_TOTALS = SN_CART + '/UPD_TOTALS'
 export const CART_LOAD_CART_SERVER_TOKEN = SN_CART + '/SRV_TOKEN'
 export const CART_UPD_PAYMENT = SN_CART + '/UPD_PAYMENT'
 
+export const SN_REVIEW = 'review'
+export const REVIEW_UPD_REVIEWS = SN_REVIEW + 'UPD_REVIEWS'
+
 export const SN_WISHLIST = 'wishlist'
 export const WISH_ADD_ITEM = SN_WISHLIST + '/ADD'
 export const WISH_DEL_ITEM = SN_WISHLIST + '/DEL'
