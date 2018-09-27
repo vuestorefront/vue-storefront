@@ -10,6 +10,9 @@
       "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"],
       "invalidateCacheKey": "aeSu7aip"
     },
+    "console": {
+      "verbosityLevel": "only-errors"
+    },
     "redis": {
       "host": "localhost",
       "port": 6379,

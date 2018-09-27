@@ -4,7 +4,7 @@
       <div class="row between-xs">
         <div class="col-xs-12 col-md-6 pt50">
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
-            {{ $t('Reviews') + ' (' + reviews.length + ')' }}
+            {{ $t('Reviews') }}
           </h2>
           <reviews-list :per-page="4" :items="reviews" />
         </div>

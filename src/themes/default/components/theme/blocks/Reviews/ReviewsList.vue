@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="mt50 h5" v-if="!itemsPerPage || itemsPerPage.length === 0">
+      {{ $t('No reviews have been posted yet. Please don\'t hesitate to share Your opinion and write the first review!') }}
+    </div>
     <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" v-if="item.review_status">
       <h4 class="weight-400 m0">{{ item.title }}</h4>
       <p class="cl-tertiary mt10 mb20 fs-medium-small">{{ item.nickname }}, {{ item.created_at | date }}</p>

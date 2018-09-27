@@ -36,7 +36,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
 
 export default context => {
   return new Promise((resolve, reject) => {
-    const { app, router, store } = createApp()
+    const { app, router, store } = createApp(context)
 
     const meta = (app as any).$meta()
     router.push(context.url)
