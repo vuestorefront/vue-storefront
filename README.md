@@ -44,9 +44,9 @@ Try out our open demo and if you like it **first give us some star on Github ★
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://demo-catalog.vuestorefront.io">
+        <a href="https://demo-magento1.vuestorefront.io">
           <img
-            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true"
+            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-magento1.png?raw=true"
             alt="B2B Theme demo"
             height="100"
           >
