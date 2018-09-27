@@ -5,6 +5,7 @@ const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const config = require('config')
 const TagCache = require('redis-tag-cache').default
+const utils = require('./server/utils')
 
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
@@ -66,7 +67,7 @@ app.get('/invalidate', (req, res) => {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
         console.error('Invalid cache invalidation key')
-        res.end('Invalid cache invalidation key')
+        utils.apiStatus(res, 'Invalid cache invalidation key', 500)
         return
       }
       console.log(`Clear cache request for [${req.query.tag}]`)
@@ -89,18 +90,17 @@ app.get('/invalidate', (req, res) => {
         }
       })
       Promise.all(subPromises).then(r => {
-        res.end({ message: `Tags invalidated successfully [${req.query.tag}]`, code: 0 })
+        utils.apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
-        res.end(error)
+        utils.apiStatus(res, error, 500)
         console.error(error)
       })
     } else {
-      res.end({ message: 'GET Parameters key and tag are required', code: -1 })
+      utils.apiStatus(res, 'Invalid parameters for Clear cache request', 500)
       console.error('Invalid parameters for Clear cache request')
     }
   } else {
-    res.end({ message: 'Cache invalidation is not required, output cache is disabled', code: 0 })
-    console.error('Output cache is disabled')
+    utils.apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
   }
 })
 

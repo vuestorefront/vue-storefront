@@ -26,7 +26,9 @@ import ApolloClient from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
-console.debug('Add Vue-Apollo graphql client')
+
+import { takeOverConsole } from '@vue-storefront/core/helpers/log'
+takeOverConsole(config.console.verbosityLevel)
 
 const httpLink = new HttpLink({
     uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
