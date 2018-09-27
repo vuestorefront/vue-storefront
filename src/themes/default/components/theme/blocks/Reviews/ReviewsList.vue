@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style lang="scss" soped>
+<style lang="scss" scoped>
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $mine-shaft: color(mine-shaft);
