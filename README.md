@@ -1,7 +1,7 @@
-# Vue Storefront - headless PWA for eCommerce 
-<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
-![version](https://img.shields.io/badge/node-v8.x-blue.svg) 
-![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
+# Vue Storefront - headless PWA for eCommerce
+<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
+![version](https://img.shields.io/badge/node-v8.x-blue.svg)
+![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg)
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
@@ -72,7 +72,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
         <a href="https://demo-magento1.vuestorefront.io">
           demo-magento1.vuestorefront.io
         </a>
-      </td>      
+      </td>
       <td align="center" valign="middle">
         <a href="https://demo-magento-checkout.vuestorefront.io">
           demo-magento-checkout.vuestorefront.io
@@ -124,6 +124,7 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
 * [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
 * [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md)
+* [Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
 * [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md)
 
 ### Vue Storefront core and themes

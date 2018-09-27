@@ -107,7 +107,7 @@ export function createApp (serverContext = null): { app: Vue, router: any, store
     router,
     store,
     i18n,
-    provide: apolloProvider.provide(),
+    provide: apolloProvider,
     render: h => h(App)
   })
 

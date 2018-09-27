@@ -95,8 +95,12 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         Request.groupToken = rootStore.state.user.groupToken
     }
 
+    if (!searchAdapter.entities[Request.type]) {
+      throw new Error('No entity type registered for ' + Request.type )
+    }
+
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
-      const res = searchAdapter.handleResult(resp, Request.type, start, size)
+      const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
         cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })

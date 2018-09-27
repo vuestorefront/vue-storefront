@@ -10,7 +10,18 @@ import Response from 'core/store/types/search/Response'
 import config from 'config'
 
 export class SearchAdapter {
+  public entities: any
+
+  constructor () {
+    this.entities = []
+    this.initBaseTypes()
+  }
+
   search (Request) {
+    if (!this.entities[Request.type]) {
+      throw new Error('No entity type registered for ' + Request.type )
+    }
+
     const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIComponent).join('=')).join('&')
 
     let ElasticsearchQueryBody = {}
@@ -38,6 +49,11 @@ export class SearchAdapter {
     if (!url.startsWith('http')) {
       url = 'http://' + url
     }
+
+    if (this.entities[Request.type].url) {
+      url = this.entities[Request.type].url
+    }
+
     const httpQuery: HttpQuery = {
       size: Request.size,
       from: Request.from,
@@ -89,8 +105,62 @@ export class SearchAdapter {
       if (resp.error) {
         throw new Error(JSON.stringify(resp.error))
       } else {
-        throw new Error('Unknown error with ES result in handleResult')
+        throw new Error('Unknown error with elasticsearch result in resultPorcessor for entity type \''+type+'\'')
       }
     }
+  }
+
+  registerEntityType (entityType, { url = '', queryProcessor, resultPorcessor }) {
+    this.entities[entityType] = {
+      queryProcessor: queryProcessor,
+      resultPorcessor: resultPorcessor
+    }
+    if (url !== '') {
+      this.entities[entityType]['url'] = url
+    }
+    return this
+  }
+
+  initBaseTypes() {
+    this.registerEntityType('product', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'product', start, size)
+      }
+    })
+
+    this.registerEntityType('attribute', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'attribute', start, size)
+      }
+    })
+
+    this.registerEntityType('category', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'category', start, size)
+      }
+    })
+
+    this.registerEntityType('taxrule', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'taxrule', start, size)
+      }
+    })
+
   }
 }
