@@ -28,7 +28,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
 
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
-takeOverConsole(config.console.verbosityLevel)
+if (config.console.verbosityLevel !== 'display-everything') {
+  takeOverConsole(config.console.verbosityLevel)
+}
 
 const httpLink = new HttpLink({
     uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
