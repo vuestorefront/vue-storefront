@@ -11,10 +11,6 @@ export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
   store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
 
-  app.$on('application-after-init', () => {
-    console.debug(EXTENSION_KEY + ' extension initialised')
-  })
-
   // Add this payment method to the config.
   let paymentMethodConfig = {
     'title': 'Cash on delivery',
@@ -27,21 +23,23 @@ export default function (app, router, store, config) {
 
   app.$store.dispatch('payment/addMethod', paymentMethodConfig)
 
-  // Mount the info component when required.
-  EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
-    if (paymentMethodCode === 'cashondelivery') {
-      // Register the handler for what happens when they click the place order button.
-      EventBus.$on('checkout-before-placeOrder', placeOrder)
+  if (!Vue.prototype.$isServer) {
+    // Mount the info component when required.
+    EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
+      if (paymentMethodCode === 'cashondelivery') {
+        // Register the handler for what happens when they click the place order button.
+        EventBus.$on('checkout-before-placeOrder', placeOrder)
 
-      // Dynamically inject a component into the order review section (optional)
-      const Component = Vue.extend(InfoComponent)
-      const componentInstance = (new Component())
-      componentInstance.$mount('#checkout-order-review-additional')
-    } else {
-      // unregister the extensions placeorder handler
-      EventBus.$off('checkout-before-placeOrder', placeOrder)
-    }
-  })
+        // Dynamically inject a component into the order review section (optional)
+        const Component = Vue.extend(InfoComponent)
+        const componentInstance = (new Component())
+        componentInstance.$mount('#checkout-order-review-additional')
+      } else {
+        // unregister the extensions placeorder handler
+        EventBus.$off('checkout-before-placeOrder', placeOrder)
+      }
+    })
+  }
 
   return { EXTENSION_KEY, extensionRoutes, extensionStore }
 }
