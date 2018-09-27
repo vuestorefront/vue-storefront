@@ -10,9 +10,6 @@
       "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"],
       "invalidateCacheKey": "aeSu7aip"
     },
-    "amphtml": {
-      "enabled": false
-    },
     "console": {
       "verbosityLevel": "only-errors"
     },

@@ -6,7 +6,6 @@ const path = require('path')
 const fs = require('fs')
 const themeRoot = require('./theme-path')
 const themedIndex = path.join(themeRoot, 'index.template.html')
-const themedIndexAmphtml = path.join(themeRoot, 'index.template.html')
 
 const config = merge(base, {
   output: {
@@ -40,10 +39,6 @@ const config = merge(base, {
     // generate output HTML
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
-    }),
-    // generate output HTML for AMPHTML
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndexAmphtml) ? themedIndexAmphtml : 'src/index.template.amphtml.html'
     })
   ]
 })
