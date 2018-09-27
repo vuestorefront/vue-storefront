@@ -13,7 +13,11 @@ export class SearchAdapter {
     this.entities = []
     this.initBaseTypes()
   }
-
+  /**
+   * register entit type using registerEntityTypeByQuery
+   * @param {Request} Request request object
+   * @return {Promise}
+  */
   search (Request) {
     if (!(Request.searchQuery instanceof SearchQuery)) {
       throw new Error('SearchQuery instance has wrong class required to process with graphQl request.')
@@ -59,6 +63,14 @@ export class SearchAdapter {
       })
   }
 
+  /**
+   * register entit type using registerEntityTypeByQuery
+   * @param {string} gql gql file path
+   * @param {String} url server url
+   * @param {function} queryProcessor some function which can update query if needed
+   * @param {function} resultPorcessor process results of response
+   * @return {Object}
+  */
   registerEntityType (entityType, { url = '', gql, queryProcessor, resultPorcessor }) {
     this.entities[entityType] = {
       query: require(`${gql}`),
@@ -71,6 +83,27 @@ export class SearchAdapter {
     return this
   }
 
+  /**
+   * register entit type using registerEntityTypeByQuery
+   * @param {graphQl} query is the graphql query
+   * @param {String} url server url
+   * @param {function} queryProcessor some function which can update query if needed
+   * @param {function} resultPorcessor process results of response
+   * @return {Object}
+  */
+  registerEntityTypeByQuery (entityType, { url = '', query, queryProcessor, resultPorcessor }) {
+    this.entities[entityType] = {
+      query: query,
+      queryProcessor: queryProcessor,
+      resultPorcessor: resultPorcessor
+    }
+    if (url !== '') {
+      this.entities[entityType]['url'] = url
+    }
+    return this
+  }
+
+  // initialise default entitypes
   initBaseTypes() {
     this.registerEntityType('product', {
       gql: './queries/products.gql',
