@@ -108,7 +108,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [
-          '@vue-storefront',
+          path.resolve(__dirname, '../../node_modules/@vue-storefront'),
           path.resolve(__dirname, '../../src'),
           path.resolve(__dirname, '../../core')
         ]
