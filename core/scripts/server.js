@@ -6,11 +6,6 @@ const resolve = file => path.resolve(rootPath, file)
 const config = require('config')
 const TagCache = require('redis-tag-cache').default
 const utils = require('./server/utils')
-const compile = require('lodash.template')
-const compileOptions = {
-  escape: /{{([^{][\s\S]+?[^}])}}/g,
-  interpolate: /{{{([\s\S]+?)}}}/g
-}
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
@@ -25,7 +20,6 @@ if (config.server.useOutputCache) {
   console.log('Redis cache set', config.redis)
 }
 
-const templatesCache = {}
 let renderer
 if (isProd) {
   // In production: create server renderer using server bundle and index HTML
@@ -35,12 +29,12 @@ if (isProd) {
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
   const template = fs.readFileSync(resolve('dist/index.html'), 'utf-8')
-  renderer = createRenderer(bundle, template)
+  renderer = createRenderer(bundle, process.env.DISABLE_HTML_TEMPLATE ? template : null)
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
-    renderer = createRenderer(bundle, template)
+    renderer = createRenderer(bundle, process.env.DISABLE_HTML_TEMPLATE ? template : null)
   })
 }
 
