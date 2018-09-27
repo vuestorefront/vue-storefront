@@ -62,40 +62,45 @@ app.use('/service-worker.js', serve('dist/service-worker.js', {
 }))
 
 app.get('/invalidate', (req, res) => {
-  if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
-    if (req.query.key !== config.server.invalidateCacheKey) {
-      console.error('Invalid cache invalidation key')
-      res.end('Invalid cache invalidation key')
-      return
-    }
-    console.log(`Clear cache request for [${req.query.tag}]`)
-    let tags = []
-    if (req.query.tag === '*') {
-      tags = config.server.availableCacheTags
-    } else {
-      tags = req.query.tag.split(',')
-    }
-    const subPromises = []
-    tags.forEach(tag => {
-      if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
-        return tag.indexOf(t) === 0
-      })) {
-        subPromises.push(cache.invalidate(tag).then(() => {
-          console.log(`Tags invalidated successfully for [${tag}]`)
-        }))
-      } else {
-        console.error(`Invalid tag name ${tag}`)
+  if (config.server.useOutputCache) {
+    if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
+      if (req.query.key !== config.server.invalidateCacheKey) {
+        console.error('Invalid cache invalidation key')
+        res.end('Invalid cache invalidation key')
+        return
       }
-    })
-    Promise.all(subPromises).then(r => {
-      res.end(`Tags invalidated successfully [${req.query.tag}]`)
-    }).catch(error => {
-      res.end(error)
-      console.error(error)
-    })
+      console.log(`Clear cache request for [${req.query.tag}]`)
+      let tags = []
+      if (req.query.tag === '*') {
+        tags = config.server.availableCacheTags
+      } else {
+        tags = req.query.tag.split(',')
+      }
+      const subPromises = []
+      tags.forEach(tag => {
+        if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
+          return tag.indexOf(t) === 0
+        })) {
+          subPromises.push(cache.invalidate(tag).then(() => {
+            console.log(`Tags invalidated successfully for [${tag}]`)
+          }))
+        } else {
+          console.error(`Invalid tag name ${tag}`)
+        }
+      })
+      Promise.all(subPromises).then(r => {
+        res.end({ message: `Tags invalidated successfully [${req.query.tag}]`, code: 0 })
+      }).catch(error => {
+        res.end(error)
+        console.error(error)
+      })
+    } else {
+      res.end({ message: 'GET Parameters key and tag are required', code: -1 })
+      console.error('Invalid parameters for Clear cache request')
+    }
   } else {
-    res.end('GET Parameters key and tag are required')
-    console.error('Invalid parameters for Clear cache request')
+    res.end({ message: 'Cache invalidation is not required, output cache is disabled', code: 0 })
+    console.error('Output cache is disabled')
   }
 })
 
