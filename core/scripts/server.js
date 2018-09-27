@@ -34,6 +34,7 @@ if (isProd) {
   const bundle = require(resolve('dist/vue-ssr-bundle.json'))
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
+  // TODO: Add dynamic templates loading from (config based?) list
   const template = fs.readFileSync(resolve('dist/index.html'), 'utf-8')
   templatesCache['default'] = compile(template, compileOptions)
   renderer = createRenderer(bundle)
