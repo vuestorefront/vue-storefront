@@ -28,9 +28,6 @@ Try out our open demo and if you like it **first give us some star on Github ★
         Magento 2.2 - Default theme
       </td>
       <td align="center" valign="middle">
-        B2B theme (beta)
-      </td align="center" valign="middle">
-      <td align="center" valign="middle">
         Magento 1.9 - Default theme
       </td align="center" valign="middle">
       <td align="center" valign="middle">
@@ -47,19 +44,10 @@ Try out our open demo and if you like it **first give us some star on Github ★
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://demo-catalog.vuestorefront.io">
-          <img
-            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true"
-            alt="B2B Theme demo"
-            height="100"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://demo-magento1.vuestorefront.io">
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-m1.png?raw=true"
-            alt="Magento 1.9 demo"
+            alt="B2B Theme demo"
             height="100"
           >
         </a>
@@ -78,11 +66,6 @@ Try out our open demo and if you like it **first give us some star on Github ★
       <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
           demo.vuestorefront.io
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://demo-catalog.vuestorefront.io">
-          demo-catalog.vuestorefront.io
         </a>
       </td>
       <td align="center" valign="middle">
@@ -473,20 +456,20 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
   <td align="center" valign="middle">
-        <a href="">
+        <a href="https://viaict.com/">
           <img
-            src=""
-            alt=""
+            src="https://www.viaict.com/img/viaict_flat_design_300.png"
+            alt="Viaict"
             height="50"
           >
         </a>
       </td>
         <td align="center" valign="middle">
-        <a href="">
+        <a href="https://bemeir.com/vue-storefront">
           <img
-            src=""
-            alt=""
-            height="50"
+            src="https://divante.co/partners/Vue-Storefront/bemeir.png"
+            alt="Bemeir"
+            height="40"
           >
         </a>
       </td>
