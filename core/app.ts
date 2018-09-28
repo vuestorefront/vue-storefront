@@ -110,9 +110,6 @@ export function createApp (serverContext = null): { app: Vue, router: any, store
     provide: apolloProvider,
     render: h => h(App)
   })
-  
-  Vue.prototype.$serverContext = serverContext // this is context passed from Expressjs
-
   registerExtensions(
     union(extensionEntryPoints, themeExtensionEntryPoints),
     app,
