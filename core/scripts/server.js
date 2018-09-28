@@ -27,6 +27,14 @@ if (config.server.useOutputCache) {
 
 const templatesCache = {}
 let renderer
+for (const tplName of Object.keys(config.ssr.templates)) {
+  const fileName = resolve(config.ssr.templates[tplName])
+  if (fs.existsSync(fileName)) {
+    const template = fs.readFileSync(fileName, 'utf-8')
+    templatesCache[tplName] = compile(template, compileOptions)
+  }
+}
+
 if (isProd) {
   // In production: create server renderer using server bundle and index HTML
   // template from real fs.
@@ -35,14 +43,12 @@ if (isProd) {
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
   // TODO: Add dynamic templates loading from (config based?) list
-  const template = fs.readFileSync(resolve('dist/index.html'), 'utf-8')
-  templatesCache['default'] = compile(template, compileOptions)
   renderer = createRenderer(bundle)
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
-    templatesCache['default'] = compile(template, compileOptions)
+    templatesCache['default'] = compile(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
     renderer = createRenderer(bundle)
   })
 }
@@ -144,7 +150,18 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
-    const context = { url: req.url, serverOutputTemplate: 'default', meta: null, currentRoute: null/** will be set by Vue */, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE, app: app, response: res, request: req }
+    const context = {
+      url: req.url,
+      renderPrepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: renderPrepend() { return context.renderStyles() } to attach styles 
+      renderAppend: (context) => { return '' },
+      serverOutputTemplate: 'default',
+      meta: null,
+      currentRoute: null/** will be set by Vue */,
+      storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE,
+      app: app,
+      response: res,
+      request: req
+    }
     renderer.renderToString(context).then(output => {
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
@@ -155,13 +172,17 @@ app.get('*', (req, res, next) => {
         res.setHeader('X-VS-Cache-Tags', cacheTags)
         if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
           if (templatesCache[context.serverOutputTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
-            output = templatesCache[context.serverOutputTemplate](context).replace('<!--vue-ssr-outlet-->', output)
+            const contentPrepend = (context.renderPrepend instanceof Function) ? context.renderPrepend(context) : ''
+            const contentAppend = (context.renderAppend instanceof Function) ? context.renderAppend(context) : ''
+            output = contentPrepend + templatesCache[context.serverOutputTemplate](context).replace('<!--vue-ssr-outlet-->', output) + contentAppend
+          } else {
+            throw new Error(`The given template name ${context.serverOutputTemplate} does not exist`)
           }
         }
         if (config.server.useOutputCache && cache) {
           cache.set(
             'page:' + req.url,
-            output,
+            { headers: res.getHeaders(), body: output },
             tagsArray
           ).catch(errorHandler)
         }
@@ -178,8 +199,18 @@ app.get('*', (req, res, next) => {
       'page:' + req.url
     ).then(output => {
       if (output !== null) {
-        res.setHeader('Content-Type', 'text/html')
+        if (output.headers) {
+          for (const header of Object.keys(output.headers)) {
+            res.setHeader(header, output.headers[header])
+          }
+        }
         res.setHeader('X-VS-Cache', 'Hit')
+        if (output.body) {
+          res.end(output.body)
+        } else {
+          res.setHeader('Content-Type', 'text/html')
+          res.end(output.body)
+        }
         res.end(output)
         console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
         next()
