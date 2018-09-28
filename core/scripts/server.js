@@ -152,7 +152,7 @@ app.get('*', (req, res, next) => {
     }
     const context = {
       url: req.url,
-      renderPrepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: renderPrepend() { return context.renderStyles() } to attach styles 
+      renderPrepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: renderPrepend() { return context.renderStyles() } to attach styles
       renderAppend: (context) => { return '' },
       serverOutputTemplate: 'default',
       meta: null,
@@ -174,7 +174,6 @@ app.get('*', (req, res, next) => {
         const contentAppend = (typeof context.renderAppend === 'function') ? context.renderAppend(context) : ''
 
         output = contentPrepend + output + contentAppend
-        
         if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
           if (templatesCache[context.serverOutputTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
             output = templatesCache[context.serverOutputTemplate](context).replace('<!--vue-ssr-outlet-->', output)
