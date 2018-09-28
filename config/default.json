@@ -33,7 +33,8 @@
     "ssr": {
       "templates": {
         "default": "dist/index.html",
-        "minimal": "dist/index.minimal.html"
+        "minimal": "dist/index.minimal.html",
+        "basic": "dist/index.basic.html"
       },
       "executeMixedinAsyncData": true,
       "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
