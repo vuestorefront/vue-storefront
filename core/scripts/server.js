@@ -172,8 +172,8 @@ app.get('*', (req, res, next) => {
         res.setHeader('X-VS-Cache-Tags', cacheTags)
         if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
           if (templatesCache[context.serverOutputTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
-            const contentPrepend = (context.renderPrepend instanceof Function) ? context.renderPrepend(context) : ''
-            const contentAppend = (context.renderAppend instanceof Function) ? context.renderAppend(context) : ''
+            const contentPrepend = (typeof context.renderPrepend === 'function') ? context.renderPrepend(context) : ''
+            const contentAppend = (typeof context.renderAppend === 'function') ? context.renderAppend(context) : ''
             output = contentPrepend + templatesCache[context.serverOutputTemplate](context).replace('<!--vue-ssr-outlet-->', output) + contentAppend
           } else {
             throw new Error(`The given template name ${context.serverOutputTemplate} does not exist`)
