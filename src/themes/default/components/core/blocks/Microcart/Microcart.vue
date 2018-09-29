@@ -115,6 +115,7 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   components: {
@@ -123,7 +124,13 @@ export default {
     ButtonOutline,
     BaseInput
   },
-  mixins: [Microcart]
+  mixins: [Microcart],
+  methods: {
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
+    }
+  }
 }
 </script>
 

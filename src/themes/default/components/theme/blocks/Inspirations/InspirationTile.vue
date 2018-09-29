@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
+
 export default {
   name: 'Inspirations',
   props: {
@@ -22,6 +24,12 @@ export default {
   computed: {
     thumbnail () {
       return this.getThumbnail(this.product.image, 310, 300)
+    }
+  },
+  methods: {
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }

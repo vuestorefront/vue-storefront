@@ -29,6 +29,7 @@
 <script>
 import i18n from '@vue-storefront/i18n'
 import AccountIcon from '@vue-storefront/core/components/blocks/Header/AccountIcon'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   mixins: [AccountIcon],
@@ -42,6 +43,12 @@ export default {
         { title: i18n.t('My loyalty card'), link: '#' },
         { title: i18n.t('My product reviews'), link: '#' }
       ]
+    }
+  },
+  methods: {
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }

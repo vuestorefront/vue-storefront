@@ -42,15 +42,15 @@ Vue.use(Meta)
 Vue.use(VueObserveVisibility)
 
 require('theme/plugins')
-const pluginsObject = plugins()
-Object.keys(pluginsObject).forEach(key => {
-  Vue.use(pluginsObject[key])
-})
+// const pluginsObject = plugins()
+// Object.keys(pluginsObject).forEach(key => {
+//   Vue.use(pluginsObject[key])
+// })
 
-const mixinsObject = mixins()
-Object.keys(mixinsObject).forEach(key => {
-  Vue.mixin(mixinsObject[key])
-})
+// const mixinsObject = mixins()
+// Object.keys(mixinsObject).forEach(key => {
+//   Vue.mixin(mixinsObject[key])
+// })
 
 const filtersObject = filters()
 Object.keys(filtersObject).forEach(key => {

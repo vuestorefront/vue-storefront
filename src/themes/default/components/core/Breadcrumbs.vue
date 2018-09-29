@@ -13,8 +13,15 @@
 
 <script>
 import Breadcrumbs from '@vue-storefront/core/components/Breadcrumbs'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
-  mixins: [Breadcrumbs]
+  mixins: [Breadcrumbs],
+  methods: {
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
+    }
+  }
 }
 </script>

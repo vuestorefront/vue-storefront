@@ -13,9 +13,9 @@ export default {
       isOpen: state => state.ui.sidebar
     })
   },
-  created () {
-    this.$store.dispatch('category/list', {})
-  },
+  // created () {
+  //   this.$store.dispatch('category/list', {})
+  // },
   methods: {
     onEscapePress () {
       this.closeMenu()

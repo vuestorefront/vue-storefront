@@ -45,8 +45,16 @@
 <script>
 import ProductTile from '@vue-storefront/core/components/ProductTile'
 import AddToCart from 'theme/components/AddToCart'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
+
 export default {
   mixins: [ProductTile],
-  components: { AddToCart }
+  components: { AddToCart },
+  methods: {
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
+    }
+  }
 }
 </script>

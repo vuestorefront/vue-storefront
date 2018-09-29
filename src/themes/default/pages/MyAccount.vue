@@ -40,6 +40,7 @@ import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 import i18n from '@vue-storefront/i18n'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   data () {
@@ -62,7 +63,13 @@ export default {
     MyOrders,
     MyOrder
   },
-  mixins: [MyAccount]
+  mixins: [MyAccount],
+  methods: {
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
+    }
+  }
 }
 </script>
 

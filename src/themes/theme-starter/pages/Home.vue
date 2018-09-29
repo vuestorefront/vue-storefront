@@ -26,9 +26,17 @@
 </template>
 
 <script>
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
+
 export default {
   components: {
     // Place page-specific components here
+  },
+  methods: {
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
+    }
   }
 }
 </script>

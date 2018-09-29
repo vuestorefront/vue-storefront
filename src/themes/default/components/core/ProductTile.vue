@@ -60,6 +60,7 @@
 import config from 'config'
 import rootStore from '@vue-storefront/store'
 import ProductTile from '@vue-storefront/core/components/ProductTile'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   mixins: [ProductTile],
@@ -88,6 +89,10 @@ export default {
           }
         }
       }
+    },
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   },
   created () {

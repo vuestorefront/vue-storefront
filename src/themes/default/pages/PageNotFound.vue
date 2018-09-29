@@ -51,6 +51,7 @@
 <script>
 import PageNotFound from '@vue-storefront/core/pages/PageNotFound'
 import ProductTile from '../components/core/ProductTile.vue'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'PageNotFound',
@@ -66,6 +67,10 @@ export default {
     toggleSearchpanel () {
       this.$bus.$emit('focusSearchInput')
       this.$store.commit('ui/setSearchpanel', true)
+    },
+    localizedRoute (routeObj) {
+      const storeView = currentStoreView()
+      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   },
   mixins: [PageNotFound]
