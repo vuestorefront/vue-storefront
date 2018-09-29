@@ -15,6 +15,10 @@ The offline order module as name suggests is a set of mixins responsible for sup
 #### onNetworkStatusChange
 - [function] onNetworkStatusChange(store)
 
+## Extends
+
+- `service-worker.js` - for offline notifications
+
 ## Example
 
 ````javascript
