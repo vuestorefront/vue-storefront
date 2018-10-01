@@ -38,13 +38,8 @@ export default {
         this.$forceUpdate()
       }
     },
-    updateQuantity () {
-      this.qty = parseInt(this.qty)
-      if (this.qty <= 0) {
-        this.qty = this.product.qty
-      }
-      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: this.qty })
-      this.isEditing = !this.isEditing
+    updateQuantity (product, quantity) {
+      this.$store.dispatch('cart/updateQuantity', { product: product, qty: quantity })
     },
     switchEdit () {
       this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
