@@ -23,7 +23,7 @@ export default {
       if (this.qty <= 0) {
         this.qty = this.product.qty
       }
-      Product.methods.updateQuantity.call(this, this.product, this.qty)
+      Product.methods.updateQuantity.call(this, this.qty)
       this.isEditing = !this.isEditing
     },
     onProductChanged (event) {

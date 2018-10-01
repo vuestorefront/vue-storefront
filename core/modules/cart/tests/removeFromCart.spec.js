@@ -28,6 +28,7 @@ describe('[cart] removeFromCart.ts', () => {
 
   it('dispatches cart/removeItem action after calling removeFromCart', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
+    console.info(TestInstance.mixins)
     wrapper.find('button#remove-from-cart').trigger('click')
     expect(actions.removeItem).to.have.been.called
   })

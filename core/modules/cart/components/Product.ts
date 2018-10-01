@@ -17,11 +17,11 @@ export default {
     }
   },
   methods: {
-    removeItem () {
+    removeFromCart () {
       this.$store.dispatch('cart/removeItem', this.product)
     },
-    updateQuantity (product, quantity) {
-      this.$store.dispatch('cart/updateQuantity', { product: product, qty: quantity })
+    updateQuantity (quantity) {
+      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
     }
   }
 }

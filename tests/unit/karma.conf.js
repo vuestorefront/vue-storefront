@@ -20,9 +20,10 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless'],
     frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec'],
-    files: ['./test-context.js'],
+    files: ['./test-context.js', '../../core/modules/cart/tests/test-context.js'],
     preprocessors: {
-      './test-context.js': ['webpack', 'sourcemap']
+      './test-context.js': ['webpack', 'sourcemap'],
+      '../../core/modules/cart/tests/test-context.js': ['webpack', 'sourcemap']   
     },
     webpack: webpackConfig,
     webpackMiddleware: {
