@@ -1,20 +1,19 @@
-import { mapGetters } from 'vuex'
-import { openMicrocart, isMicrocartOpen } from '@vue-storefront/core/modules/cart/features'
+import MicrocartIcon from '@vue-storefront/core/modules/cart/components/MicrocartIcon.ts'
 
 export default {
-  name: 'MicrocartIcon',
+  methods: {
+    openMicrocart () {
+      // Method renamed to 'toggleMicrocart'
+      this.toggleMicrocart()
+    }
+  },
   computed: {
-    totalItems () {
-      // return this.$store.getters.totals.quantity
-      return 3
-    },
-    ...mapGetters({
-      totals: 'cart/totals',
-      totalQuantity: 'cart/totalQuantity'
-    })
+    totalQuantity () {
+      // Data field renamed to 'quantity'
+      return this.quantity
+    }
   },
   mixins: [
-    openMicrocart,
-    isMicrocartOpen
+    MicrocartIcon
   ]
 }

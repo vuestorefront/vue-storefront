@@ -38,6 +38,6 @@ describe('[cart] cartTotals.ts', () => {
 
   it('returns expected cartTotals from store', () => {
     const wrapper = shallowMount(TestInstance, {store, localVue})
-    expect(wrapper.vm.cartTotals).to.equal(store.state.cart.platformTotalSegments)
+    expect(wrapper.vm.totals).to.equal(store.state.cart.platformTotalSegments)
   })
 })

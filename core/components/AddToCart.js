@@ -1,12 +1,6 @@
-import { addToCart } from '@vue-storefront/core/modules/cart/features'
+import AddToCart from '@vue-storefront/core/modules/cart/components/AddToCart.ts'
 
 export default {
   name: 'AddToCart',
-  props: {
-    product: {
-      type: Object,
-      required: true
-    }
-  },
-  mixins: [ addToCart ]
+  mixins: [ AddToCart ]
 }

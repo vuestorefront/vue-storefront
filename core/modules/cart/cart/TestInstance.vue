@@ -13,20 +13,6 @@
 <script>
 import microcart from '@vue-storefront/core/components/blocks/Microcart/Microcart'
 // Just import the features that you need in the view grouped in modules
-import {
-  addToCart,
-  removeFromCart,
-  productsInCart,
-  closeMicrocart,
-  openMicrocart,
-  isMicrocartOpen,
-  applyCoupon,
-  removeCoupon,
-  appliedCoupon,
-  cartTotals,
-  cartShipping,
-  cartPayment
-} from '@vue-storefront/core/modules/cart/features'
 
 export default {
   data () {
@@ -37,19 +23,7 @@ export default {
   },
   // And register them as a mixins
   mixins: [
-    microcart,
-    addToCart,
-    removeFromCart,
-    productsInCart,
-    closeMicrocart,
-    openMicrocart,
-    isMicrocartOpen,
-    applyCoupon,
-    removeCoupon,
-    appliedCoupon,
-    cartTotals,
-    cartShipping,
-    cartPayment
+    microcart
   ]
 }
 </script>
