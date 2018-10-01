@@ -9,16 +9,16 @@ export default {
     }
   },
   beforeMount () {
-    // depreciated, will be partially moved to theme in the near future
+    // deprecated, will be moved to theme or removed in the near future #1742
     this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
   },
   beforeDestroy () {
-    // depreciated, will be partially moved to theme in the near future
+    // deprecated, will be moved to theme or removed in the near future #1742
     this.$bus.$off('cart-after-itemchanged', this.onProductChanged)
   },
   methods: {
     updateQuantity () {
-      // Method cleared from additional stuff, now it's only dispatching an action
+      // additional logic will be moved to theme
       this.qty = parseInt(this.qty)
       if (this.qty <= 0) {
         this.qty = this.product.qty
@@ -27,13 +27,13 @@ export default {
       this.isEditing = !this.isEditing
     },
     onProductChanged (event) {
-      // depreciated
+      // deprecated, will be moved to theme or removed in the near future #1742
       if (event.item.sku === this.product.sku) {
         this.$forceUpdate()
       }
     },
     switchEdit () {
-      // depreciated, will be partially moved to theme in the near future
+      // will be moved to default theme in the near future
       this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
       this.isEditing = !this.isEditing
     }
