@@ -3,12 +3,6 @@ import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
 export default {
   name: 'Product-cart',
-  data () {
-    return {
-      qty: 0,
-      isEditing: false
-    }
-  },
   props: {
     product: {
       type: Object,
