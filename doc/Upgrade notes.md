@@ -2,6 +2,10 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+
+## 1.3 -> 1.4
+
+`Microcart` - `cartTotals` -> `totals`
 ## 1.2 -> 1.3
 
 ### Changes
