@@ -110,7 +110,6 @@ export function createApp (serverContext = null): { app: Vue, router: any, store
     provide: apolloProvider,
     render: h => h(App)
   })
-
   registerExtensions(
     union(extensionEntryPoints, themeExtensionEntryPoints),
     app,

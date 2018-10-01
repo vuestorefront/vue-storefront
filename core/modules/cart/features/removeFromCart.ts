@@ -11,7 +11,7 @@ import CartItem from '../types/CartItem'
  export const removeFromCart = {
   methods: {
     removeFromCart (item: CartItem) {
-      this.$store.dispatch('cart/removeItem', item)
+      this.$store.dispatch('cart/removeItem', { product: item })
     }
   }
 }

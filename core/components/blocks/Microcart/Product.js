@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     removeItem () {
-      this.$store.dispatch('cart/removeItem', this.product)
+      this.$store.dispatch('cart/removeItem', { product: this.product })
     },
     onProductChanged (event) {
       if (event.item.sku === this.product.sku) {

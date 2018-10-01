@@ -19,7 +19,8 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
     if (SubComponent.asyncData) {
       return SubComponent.asyncData({
         store,
-        route: router.currentRoute
+        route: router.currentRoute,
+        context
       })
     }
   })).then(() => {
@@ -46,6 +47,7 @@ export default context => {
       if (store.state.config.storeViews.multistore === true) {
         let storeCode = context.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
+          context.currentRoute = router.currentRoute
           storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
@@ -64,7 +66,7 @@ export default context => {
           }
         })
         if (Component.asyncData) {
-          Component.asyncData({ store, route: router.currentRoute }).then((result) => { // always execute the asyncData() from the top most component first
+          Component.asyncData({ store, route: router.currentRoute, context: context }).then((result) => { // always execute the asyncData() from the top most component first
             console.debug('Top-most asyncData executed')
             _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
           }).catch((err) => {

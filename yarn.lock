@@ -5345,6 +5345,10 @@ lodash-es@^4.17.10:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
 
+lodash-template@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lodash-template/-/lodash-template-1.0.0.tgz#8d08d9301473aaa861e3a2673794383f183fcad9"
+
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
