@@ -1,4 +1,3 @@
-// whole to refactor, ideally should be functional
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
 export default {
@@ -23,10 +22,6 @@ export default {
     },
     updateQuantity (product, quantity) {
       this.$store.dispatch('cart/updateQuantity', { product: product, qty: quantity })
-    },
-    switchEdit () {
-      this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
-      this.isEditing = !this.isEditing
     }
   }
 }

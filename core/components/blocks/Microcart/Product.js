@@ -15,6 +15,7 @@ export default {
   },
   methods: {
     updateQuantity () {
+      // Method cleared from additional stuff, now it's only dispatching an action
       this.qty = parseInt(this.qty)
       if (this.qty <= 0) {
         this.qty = this.product.qty
@@ -26,6 +27,10 @@ export default {
       if (event.item.sku === this.product.sku) {
         this.$forceUpdate()
       }
+    },
+    switchEdit () {
+      this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
+      this.isEditing = !this.isEditing
     }
   },
   mixins: [
