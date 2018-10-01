@@ -17,20 +17,9 @@ export default {
       } else return this.getThumbnail(thumbnail, 150, 150)
     }
   },
-  beforeDestroy () {
-    this.$bus.$off('cart-after-itemchanged', this.onProductChanged)
-  },
-  beforeMount () {
-    this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
-  },
   methods: {
     removeItem () {
       this.$store.dispatch('cart/removeItem', this.product)
-    },
-    onProductChanged (event) {
-      if (event.item.sku === this.product.sku) {
-        this.$forceUpdate()
-      }
     },
     updateQuantity (product, quantity) {
       this.$store.dispatch('cart/updateQuantity', { product: product, qty: quantity })
