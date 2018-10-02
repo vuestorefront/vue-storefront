@@ -63,7 +63,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     EventBus.$emit('product-before-load', { store: store, route: route })
-    context.ssrCacheTags.add(`product`)
+    if (context) context.ssrCacheTags.add(`product`)
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   watch: {

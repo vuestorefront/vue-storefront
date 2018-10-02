@@ -44,7 +44,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      context.ssrCacheTags.add(`compare`)
+      if (context) context.ssrCacheTags.add(`compare`)
       resolve()
     })
   }

@@ -359,7 +359,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      context.ssrCacheTags.add(`checkout`)
+      if (context) context.ssrCacheTags.add(`checkout`)
       resolve()
     })
   }
