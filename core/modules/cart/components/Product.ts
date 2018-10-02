@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     removeFromCart () {
-      this.$store.dispatch('cart/removeItem', this.product)
+      this.$store.dispatch('cart/removeItem', { product: this.product })
     },
     updateQuantity (quantity) {
       this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
