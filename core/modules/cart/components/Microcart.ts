@@ -3,7 +3,7 @@ import Product from '@vue-storefront/store/types/product/Product'
 import CartTotalSegments from '@vue-storefront/store/types/cart/CartTotalSegments'
 
 export default {
-  name: 'Microcart-cart',
+  name: 'Microcart-CART',
   computed: {
     productsInCart () : Product[] {
       return this.$store.state.cart.cartItems

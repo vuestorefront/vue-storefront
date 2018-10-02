@@ -1,7 +1,7 @@
 import Product from '@vue-storefront/store/types/product/Product'
 
 export default {
-  name: 'AddToCart-cart',
+  name: 'AddToCart-CART',
   props: {
     product: {
       required: true,

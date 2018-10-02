@@ -1,6 +1,6 @@
 
 export default {
-  name: 'MicrocartIcon-cart',
+  name: 'MicrocartButton',
   methods: {
     toggleMicrocart () {
       this.$store.dispatch('ui/toggleMicrocart')

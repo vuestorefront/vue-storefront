@@ -1,4 +1,4 @@
-import MicrocartIcon from '@vue-storefront/core/modules/cart/components/MicrocartIcon.ts'
+import MicrocartBtn from '@vue-storefront/core/modules/cart/components/MicrocartButton.ts'
 
 export default {
   methods: {
@@ -14,6 +14,6 @@ export default {
     }
   },
   mixins: [
-    MicrocartIcon
+    MicrocartBtn
   ]
 }
