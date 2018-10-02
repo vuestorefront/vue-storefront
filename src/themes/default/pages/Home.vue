@@ -35,7 +35,7 @@
 // import builder from 'bodybuilder'
 
 // Core dependecies
-// import config from 'config'
+import config from 'config'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
@@ -84,46 +84,49 @@ export default {
         }
       })
     }
+  },
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      console.log('Entering asyncData for Home ' + new Date())
+      // let newProductsQuery = builder().query('match', 'category.name', 'Tees').andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      // let coolBagsQuery = builder().query('match', 'category.name', 'Women').andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+
+      store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
+        resolve()
+        // store.dispatch('product/list', {
+        //   query: newProductsQuery,
+        //   size: 8,
+        //   sort: 'created_at:desc',
+        //   includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+        // }).catch(err => {
+        //   reject(err)
+        // }).then((res) => {
+        //   if (res) {
+        //     store.state.homepage.new_collection = res.items
+        //   }
+        //
+        //   store.dispatch('product/list', {
+        //     query: coolBagsQuery,
+        //     size: 4,
+        //     sort: 'created_at:desc',
+        //     includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+        //   }).then((res) => {
+        //     if (res) {
+        //       store.state.homepage.coolbags_collection = res.items
+        //     }
+        //     console.log(store)
+        //     return resolve()
+        //   }).catch(err => {
+        //     reject(err)
+        //   })
+        // }).catch(err => {
+        //   reject(err)
+        // })
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
-  // asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-  //   return new Promise((resolve, reject) => {
-  //     console.log('Entering asyncData for Home ' + new Date())
-  //     let newProductsQuery = builder().query('match', 'category.name', 'Tees').andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-  //     let coolBagsQuery = builder().query('match', 'category.name', 'Women').andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-  //     store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
-  //       store.dispatch('product/list', {
-  //         query: newProductsQuery,
-  //         size: 8,
-  //         sort: 'created_at:desc',
-  //         includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
-  //       }).catch(err => {
-  //         reject(err)
-  //       }).then((res) => {
-  //         if (res) {
-  //           store.state.homepage.new_collection = res.items
-  //         }
-  //
-  //         store.dispatch('product/list', {
-  //           query: coolBagsQuery,
-  //           size: 4,
-  //           sort: 'created_at:desc',
-  //           includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
-  //         }).then((res) => {
-  //           if (res) {
-  //             store.state.homepage.coolbags_collection = res.items
-  //           }
-  //           return resolve()
-  //         }).catch(err => {
-  //           reject(err)
-  //         })
-  //       }).catch(err => {
-  //         reject(err)
-  //       })
-  //     }).catch(err => {
-  //       reject(err)
-  //     })
-  //   })
-  // }
 }
 </script>
 
