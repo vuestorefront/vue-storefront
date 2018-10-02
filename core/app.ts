@@ -20,13 +20,13 @@ import App from 'theme/App.vue'
 import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
+import { once } from './helpers'
 
 store.state.version = '1.3.0'
 store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 store.state.config = config
 
 const storeModules = Object.assign(coreModules, themeModules || {})
-const process: any = global.process
 
 for (const moduleName of Object.keys(storeModules)) {
   console.debug('Registering Vuex module', moduleName)
@@ -42,10 +42,7 @@ Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
 Vue.use(VueObserveVisibility)
 
-// If the process doesn't exist, we don't verify the __VUE_EXTEND_ONCE__ property, cause we have CSR
-if (!process || !process.hasOwnProperty('__VUE_EXTEND_ONCE__')) {
-  process && (process.__VUE_EXTEND_ONCE__ = true)
-
+once('__VUE_EXTEND__', () => {
   console.debug('Registering Vue plugins')
   require('theme/plugins')
   const pluginsObject = plugins()
@@ -58,7 +55,7 @@ if (!process || !process.hasOwnProperty('__VUE_EXTEND_ONCE__')) {
   Object.keys(mixinsObject).forEach(key => {
     Vue.mixin(mixinsObject[key])
   })
-}
+})
 
 const filtersObject = filters()
 Object.keys(filtersObject).forEach(key => {
