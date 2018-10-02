@@ -166,29 +166,30 @@ app.get('*', (req, res, next) => {
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
       }
+      let tagsArray = []
       if (config.server.useOutputCacheTagging) {
-        const tagsArray = Array.from(context.state.requestContext.outputCacheTags)
+        tagsArray = Array.from(context.state.requestContext.outputCacheTags)
         const cacheTags = tagsArray.join(' ')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
-        const contentPrepend = (typeof context.renderPrepend === 'function') ? context.renderPrepend(context) : ''
-        const contentAppend = (typeof context.renderAppend === 'function') ? context.renderAppend(context) : ''
-
-        output = contentPrepend + output + contentAppend
-        if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
-          if (templatesCache[context.serverOutputTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
-            output = templatesCache[context.serverOutputTemplate](context).replace('<!--vue-ssr-outlet-->', output)
-          } else {
-            throw new Error(`The given template name ${context.serverOutputTemplate} does not exist`)
-          }
-        }
-        if (config.server.useOutputCache && cache) {
-          cache.set(
-            'page:' + req.url,
-            { headers: res.getHeaders(), body: output },
-            tagsArray
-          ).catch(errorHandler)
-        }
         console.log(`cache tags for the request: ${cacheTags}`)
+      }
+      const contentPrepend = (typeof context.renderPrepend === 'function') ? context.renderPrepend(context) : ''
+      const contentAppend = (typeof context.renderAppend === 'function') ? context.renderAppend(context) : ''
+
+      output = contentPrepend + output + contentAppend
+      if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
+        if (templatesCache[context.serverOutputTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
+          output = templatesCache[context.serverOutputTemplate](context).replace('<!--vue-ssr-outlet-->', output)
+        } else {
+          throw new Error(`The given template name ${context.serverOutputTemplate} does not exist`)
+        }
+      }
+      if (config.server.useOutputCache && cache) {
+        cache.set(
+          'page:' + req.url,
+          { headers: res.getHeaders(), body: output },
+          tagsArray
+        ).catch(errorHandler)
       }
       res.end(output)
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
