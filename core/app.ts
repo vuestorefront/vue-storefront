@@ -101,7 +101,7 @@ Object.keys(filtersObject).forEach(key => {
   Vue.filter(key, filtersObject[key])
 })
 
-export function createApp (serverContext = null): { app: Vue, router: any, store: any } {
+export function createApp (ssrContext = null): { app: Vue, router: any, store: any } {
   sync(store, router)
   const app = new Vue({
     router,
@@ -116,9 +116,9 @@ export function createApp (serverContext = null): { app: Vue, router: any, store
     router,
     store,
     config,
-    serverContext
+    ssrContext
   )
-
+  Vue.prototype.$ssrRequestContext = ssrContext
   registerTheme(config.theme, app, router, store)
 
   app.$emit('application-after-init', app)

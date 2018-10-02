@@ -152,9 +152,10 @@ app.get('*', (req, res, next) => {
     }
     const context = {
       url: req.url,
-      renderPrepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: renderPrepend() { return context.renderStyles() } to attach styles
-      renderAppend: (context) => { return '' },
-      serverOutputTemplate: 'default',
+      ssrRenderPrepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: ssrRenderPrepend() { return context.renderStyles() } to attach styles
+      ssrRenderAppend: (context) => { return '' },
+      ssrTemplate: 'default',
+      ssrCacheTags: null,
       meta: null,
       currentRoute: null/** will be set by Vue */,
       storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE,
@@ -167,21 +168,21 @@ app.get('*', (req, res, next) => {
         res.setHeader('Content-Type', 'text/html')
       }
       let tagsArray = []
-      if (config.server.useOutputCacheTagging) {
-        tagsArray = Array.from(context.state.requestContext.outputCacheTags)
+      if (config.server.useOutputCacheTagging && context.ssrCacheTags !== null) {
+        tagsArray = Array.from(context.ssrCacheTags)
         const cacheTags = tagsArray.join(' ')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
         console.log(`cache tags for the request: ${cacheTags}`)
       }
-      const contentPrepend = (typeof context.renderPrepend === 'function') ? context.renderPrepend(context) : ''
-      const contentAppend = (typeof context.renderAppend === 'function') ? context.renderAppend(context) : ''
+      const contentPrepend = (typeof context.ssrRenderPrepend === 'function') ? context.ssrRenderPrepend(context) : ''
+      const contentAppend = (typeof context.ssrRenderAppend === 'function') ? context.ssrRenderAppend(context) : ''
 
       output = contentPrepend + output + contentAppend
-      if (context.serverOutputTemplate) { // case when we've got the template name back from vue app
-        if (templatesCache[context.serverOutputTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
-          output = templatesCache[context.serverOutputTemplate](context).replace('<!--vue-ssr-outlet-->', output)
+      if (context.ssrTemplate) { // case when we've got the template name back from vue app
+        if (templatesCache[context.ssrTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
+          output = templatesCache[context.ssrTemplate](context).replace('<!--vue-ssr-outlet-->', output)
         } else {
-          throw new Error(`The given template name ${context.serverOutputTemplate} does not exist`)
+          throw new Error(`The given template name ${context.ssrTemplate} does not exist`)
         }
       }
       if (config.server.useOutputCache && cache) {

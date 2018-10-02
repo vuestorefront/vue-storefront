@@ -22,7 +22,6 @@ const config = store.state.config
 let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
   store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__))
-  store.state.requestContext.outputCacheTags = new Set<string>()
 }
 if (config.storeViews.multistore === true) {
   if ((storeCode = store.state.user.current_storecode)) {
@@ -64,7 +63,7 @@ function _ssrHydrateSubcomponents (components, next, to) {
 }
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
-    store.state.requestContext.outputCacheTags = new Set<string>()
+    if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.ssrCacheTags = new Set<string>()
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
     if (to) { // this is from url

@@ -67,9 +67,9 @@ export default {
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      store.state.requestContext.outputCacheTags.add(`my-account`)
+      context.ssrCacheTags.add(`my-account`)
       resolve()
     })
   }

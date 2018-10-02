@@ -6,11 +6,11 @@
 export default {
   name: 'NoJSExample',
   asyncData ({ store, route, context }) {
-    context.serverOutputTemplate = ''
-    context.renderAppend = (context) => {
+    context.ssrTemplate = ''
+    context.ssrRenderAppend = (context) => {
       return '<div>This content has been dynamically appended</div>'
     }
-    context.renderPrepend = (context) => {
+    context.ssrRenderPrepend = (context) => {
       return '<div>this content has been dynamically prepended</div>'
     }
     return new Promise((resolve, reject) => {

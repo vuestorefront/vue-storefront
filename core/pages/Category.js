@@ -78,10 +78,10 @@ export default {
       append: false
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Category root ' + new Date())
-      store.state.requestContext.outputCacheTags.add(`category`)
+      context.ssrCacheTags.add(`category`)
       const defaultFilters = config.products.defaultFilters
       store.dispatch('category/list', { includeFields: config.entities.optimize && Vue.prototype.$isServer ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category

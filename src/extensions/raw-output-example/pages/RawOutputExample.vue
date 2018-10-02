@@ -9,7 +9,7 @@ export default {
   name: 'RawOutputExample',
   asyncData ({ store, route, context }) {
     context.response.setHeader('Content-Type', 'text/xml')
-    context.serverOutputTemplate = ''
+    context.ssrTemplate = ''
     return new Promise((resolve, reject) => {
       resolve()
     })
