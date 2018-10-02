@@ -129,6 +129,7 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
+* [Layouts and advanced output operations](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md)
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 * [Working with UI Store (interface state)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
 * [Working with translations](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md)
@@ -147,11 +148,13 @@ Tutorial series on creating themes for Vue Storefront:
 * [Data Migrations for ElasticSearch](https://github.com/DivanteLtd/vue-storefront-api/blob/master/doc/1.%20Data%20schema%20and%20migrations.md)
 * [ElasticSearch Queries](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/ElasticSearch%20Queries.md)
 * [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
+* [Adding Custom Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
 
 ### Working with Vue Storefront Extensions
 * [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
 * [Adding custom Server API methods](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md)
 * [Extending UI from extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Extending%20UI%20from%20extensions.md)
+* [Adding Express routes and middlewares](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20Express.js%20server%20side%20routes.md)
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)

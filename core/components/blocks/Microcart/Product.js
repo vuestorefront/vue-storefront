@@ -17,6 +17,10 @@ export default {
     this.$bus.$off('cart-after-itemchanged', this.onProductChanged)
   },
   methods: {
+    removeItem () {
+      // renamed to removefromCart
+      this.removeFromCart()
+    },
     updateQuantity () {
       // additional logic will be moved to theme
       this.qty = parseInt(this.qty)

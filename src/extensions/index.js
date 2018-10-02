@@ -10,6 +10,7 @@ if (!Vue.prototype.$isServer) { // extensions that are not required in the SSR m
   extensionList.push(require('@vue-storefront/extension-mailchimp-subscribe/index.js'))
   extensionList.push(require('@vue-storefront/extension-template/index.js'))
 }
+extensionList.push(require('@vue-storefront/raw-output-example/index.js'))
 extensionList.push(require('@vue-storefront/extension-payment-backend-methods/index.js'))
 extensionList.push(require('@vue-storefront/extension-payment-cash-on-delivery/index.js'))
 extensionList.push(require('vsf-payment-stripe/index.js'))

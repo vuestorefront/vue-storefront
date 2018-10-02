@@ -291,13 +291,9 @@ const actions: ActionTree<CartState, RootState> = {
       })
     }
   },
-  removeItem ({ commit, dispatch }, product) {
-    commit(types.CART_DEL_ITEM, { product })
+  removeItem ({ commit, dispatch }, { product, removeByParentSku = true }) {
+    commit(types.CART_DEL_ITEM, { product, removeByParentSku })
     if (rootStore.state.config.cart.synchronize && product.server_item_id) {
-      /* dispatch('serverDeleteItem', {
-        sku: product.sku,
-        item_id: product.server_item_id
-      }) */
       dispatch('serverPull', { forceClientState: true })
     }
   },
@@ -615,13 +611,13 @@ const actions: ActionTree<CartState, RootState> = {
               rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
               Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })
             } else {
-              rootStore.dispatch('cart/removeItem', { product: cartItem }, { root: true }) // update the server_id reference
+              rootStore.dispatch('cart/removeItem', { product: cartItem, removeByParentSku: false }, { root: true }) // update the server_id reference
             }
           }
         })
       } else {
         console.log('Removing product from the cart', originalCartItem)
-        rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem }, {root: true})
+        rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem, removeByParentSku: false }, {root: true})
       }
     } else {
       const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
