@@ -1,7 +1,7 @@
 import { mapGetters } from 'vuex'
 
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
@@ -63,7 +63,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     EventBus.$emit('product-before-load', { store: store, route: route })
-    if (context) context.ssrCacheTags.add(`product`)
+    if (context) context.output.cacheTags.add(`product`)
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   watch: {
@@ -75,7 +75,7 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    if (config.usePriceTiers) {
+    if (store.state.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -86,7 +86,7 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -181,7 +181,7 @@ export default {
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false
       }).then((selectedVariant) => {
-        if (config.products.setFirstVarianAsDefaultInURL) {
+        if (store.state.config.products.setFirstVarianAsDefaultInURL) {
           this.$router.push({params: { childSku: selectedVariant.sku }})
         }
         if (!selectedVariant) {

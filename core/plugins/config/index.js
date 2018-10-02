@@ -1,4 +1,5 @@
-import config from 'config'
+import store from '@vue-storefront/store'
+const config = store.state.config
 
 const ConfigPlugin = {
   install (Vue) {

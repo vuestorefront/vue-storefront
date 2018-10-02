@@ -168,7 +168,7 @@ export default {
   },
   asyncData ({ store, route, context }) {
     console.log('DUPIKA')
-    context.ssrTemplate = 'basic'
+    context.output.template = 'basic'
     context.renderHead = (context) => {
       return '<script async src="https://cdn.ampproject.org/v0.js"><' + '/script>'
     }

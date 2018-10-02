@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import store from '@vue-storefront/store'
 import VueOfflineMixin from 'vue-offline/mixin'
 
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -268,8 +268,8 @@ export default {
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
       let paymentMethod = this.payment.paymentMethod
-      if (config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
-        paymentMethod = config.orders.payment_methods_mapping[paymentMethod]
+      if (store.state.config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = store.state.config.orders.payment_methods_mapping[paymentMethod]
       }
       return paymentMethod
     },
@@ -359,7 +359,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      if (context) context.ssrCacheTags.add(`checkout`)
+      if (context) context.output.cacheTags.add(`checkout`)
       resolve()
     })
   }

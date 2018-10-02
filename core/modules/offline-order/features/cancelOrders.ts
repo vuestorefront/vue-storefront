@@ -7,7 +7,7 @@
  * Part of [Offline order API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
 import * as localForage from 'localforage'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
@@ -18,7 +18,7 @@ export const cancelOrders = {
       const ordersCollection = new UniversalStorage(localForage.createInstance({
         name: 'shop',
         storeName: 'orders',
-        driver: localForage[config.localForage.defaultDrivers['orders']]
+        driver: localForage[store.state.config.localForage.defaultDrivers['orders']]
       }))
 
       ordersCollection.iterate((order, id, iterationNumber) => {

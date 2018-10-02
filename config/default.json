@@ -7,8 +7,9 @@
       "useOutputCacheTagging": false,
       "useOutputCache": false,
       "outputCacheDefaultTtl": 86400,
-      "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"],
-      "invalidateCacheKey": "aeSu7aip"
+      "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error"],
+      "invalidateCacheKey": "aeSu7aip",
+      "dynamicConfigReload": true
     },
     "console": {
       "verbosityLevel": "only-errors"
@@ -37,7 +38,7 @@
         "basic": "dist/index.basic.html"
       },
       "executeMixedinAsyncData": true,
-      "initialStateFilter": ["config", "__DEMO_MODE__", "version", "storeView"],
+      "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
       "useInitialStateFilter": true
     },
     "defaultStoreCode": "",

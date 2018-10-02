@@ -79,7 +79,7 @@ After doing so, please add the `asyncData` method to Your page code assigning th
 ```js
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      if (context) context.ssrCacheTags.add(`home`)
+      if (context) context.output.cacheTags.add(`home`)
       console.log('Entering asyncData for Home root ' + new Date())
       EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
         return resolve()
@@ -94,7 +94,7 @@ After doing so, please add the `asyncData` method to Your page code assigning th
 This line:
 
 ```js
-     if (context) context.ssrCacheTags.add(`home`)
+     if (context) context.output.cacheTags.add(`home`)
 ```
 
 ... is in charge of assigning the specific tag with current HTTP request output.

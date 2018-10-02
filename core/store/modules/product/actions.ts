@@ -261,7 +261,7 @@ const actions: ActionTree<ProductState, RootState> = {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           if (populateRequestCacheTags && Vue.prototype.$ssrRequestContext) {
-            Vue.prototype.$ssrRequestContext.ssrCacheTags.add(`P${product.id}`)
+            Vue.prototype.$ssrRequestContext.output.cacheTags.add(`P${product.id}`)
           }
           product.errors = {} // this is an object to store validation result for custom options and others
           product.info = {}

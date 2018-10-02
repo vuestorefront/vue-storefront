@@ -34,9 +34,6 @@
 // 3rd party dependecies
 import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
 
-// Core dependecies
-import config from 'config'
-
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
 
@@ -86,6 +83,7 @@ export default {
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    const config = store.state.config
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
 

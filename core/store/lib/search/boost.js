@@ -1,11 +1,11 @@
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export default function getBoosts (attribute = '') {
   let boosts = [
   ]
 
-  if (config.boost) {
-    boosts = config.boost
+  if (store.state.boost) {
+    boosts = store.state.config.boost
   }
 
   if (boosts.hasOwnProperty(attribute)) {

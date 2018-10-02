@@ -40,7 +40,7 @@ export default {
     }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    context.ssrTemplate = 'basic'
+    context.output.template = 'basic'
     return new Promise((resolve, reject) => {
       store.state.category.current_product_query = Object.assign(store.state.category.current_product_query, { // this is just an example how can you modify the search criteria in child components
         sort: 'updated_at:desc'

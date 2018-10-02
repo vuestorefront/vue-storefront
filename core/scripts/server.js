@@ -3,7 +3,7 @@ const path = require('path')
 const express = require('express')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
-const config = require('config')
+let config = require('config')
 const TagCache = require('redis-tag-cache').default
 const utils = require('./server/utils')
 const compile = require('lodash.template')
@@ -126,9 +126,7 @@ app.get('*', (req, res, next) => {
     if (err && err.code === 404) {
       res.redirect('/page-not-found')
     } else {
-      // Render Error Page or Redirect
-      // TODO: Add error page handler
-      res.status(500).end('500 | Internal Server Error. Check Server console for details.')
+      res.redirect('/error')
       console.error(`Error during render : ${req.url}`)
       console.error(err)
       next()
@@ -150,39 +148,49 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
+    if (config.server.dynamicConfigReload) {
+      delete require.cache[require.resolve('config')]
+      config = require('config') // reload config
+    }
     const context = {
       url: req.url,
-      ssrRenderPrepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: ssrRenderPrepend() { return context.renderStyles() } to attach styles
-      ssrRenderAppend: (context) => { return '' },
-      ssrTemplate: 'default',
-      ssrCacheTags: null,
+      output: {
+        prepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: output.prepend() { return context.renderStyles() } to attach styles
+        append: (context) => { return '' },
+        template: 'default',
+        cacheTags: null
+      },
+      server: {
+        app: app,
+        response: res,
+        request: req
+      },
       meta: null,
-      currentRoute: null/** will be set by Vue */,
-      storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE,
-      app: app,
-      response: res,
-      request: req
+      vs: {
+        config: config,
+        storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE
+      }
     }
     renderer.renderToString(context).then(output => {
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
       }
       let tagsArray = []
-      if (config.server.useOutputCacheTagging && context.ssrCacheTags !== null) {
-        tagsArray = Array.from(context.ssrCacheTags)
+      if (config.server.useOutputCacheTagging && context.output.cacheTags !== null) {
+        tagsArray = Array.from(context.output.cacheTags)
         const cacheTags = tagsArray.join(' ')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
         console.log(`cache tags for the request: ${cacheTags}`)
       }
-      const contentPrepend = (typeof context.ssrRenderPrepend === 'function') ? context.ssrRenderPrepend(context) : ''
-      const contentAppend = (typeof context.ssrRenderAppend === 'function') ? context.ssrRenderAppend(context) : ''
+      const contentPrepend = (typeof context.output.prepend === 'function') ? context.output.prepend(context) : ''
+      const contentAppend = (typeof context.output.append === 'function') ? context.output.append(context) : ''
 
       output = contentPrepend + output + contentAppend
-      if (context.ssrTemplate) { // case when we've got the template name back from vue app
-        if (templatesCache[context.ssrTemplate]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
-          output = templatesCache[context.ssrTemplate](context).replace('<!--vue-ssr-outlet-->', output)
+      if (context.output.template) { // case when we've got the template name back from vue app
+        if (templatesCache[context.output.template]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
+          output = templatesCache[context.output.template](context).replace('<!--vue-ssr-outlet-->', output)
         } else {
-          throw new Error(`The given template name ${context.ssrTemplate} does not exist`)
+          throw new Error(`The given template name ${context.output.template} does not exist`)
         }
       }
       if (config.server.useOutputCache && cache) {

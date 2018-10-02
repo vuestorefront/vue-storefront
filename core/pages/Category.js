@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import toString from 'lodash-es/toString'
 
-import config from 'config'
+import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
@@ -71,22 +71,22 @@ export default {
       route: route,
       current: 0,
       perPage: 50,
-      sort: config.entities.productList.sort,
-      filters: config.products.defaultFilters,
-      includeFields: config.entities.optimize && Vue.prototype.$isServer ? config.entities.productList.includeFields : null,
-      excludeFields: config.entities.optimize && Vue.prototype.$isServer ? config.entities.productList.excludeFields : null,
+      sort: store.state.config.entities.productList.sort,
+      filters: store.state.config.products.defaultFilters,
+      includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.productList.includeFields : null,
+      excludeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.productList.excludeFields : null,
       append: false
     }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Category root ' + new Date())
-      if (context) context.ssrCacheTags.add(`category`)
-      const defaultFilters = config.products.defaultFilters
-      store.dispatch('category/list', { includeFields: config.entities.optimize && Vue.prototype.$isServer ? config.entities.category.includeFields : null }).then((categories) => {
+      if (context) context.output.cacheTags.add(`category`)
+      const defaultFilters = store.state.config.products.defaultFilters
+      store.dispatch('category/list', { includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-          includeFields: config.entities.optimize && Vue.prototype.$isServer ? config.entities.attribute.includeFields : null
+          includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.attribute.includeFields : null
         }).catch(err => {
           console.error(err)
           reject(err)
@@ -126,7 +126,7 @@ export default {
   beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
     this.$bus.$on('list-change-sort', this.onSortOrderChanged)
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -139,7 +139,7 @@ export default {
   beforeDestroy () {
     this.$bus.$off('list-change-sort', this.onSortOrderChanged)
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -216,7 +216,7 @@ export default {
           this.$router.push('/')
         } else {
           this.pagination.current = 0
-          let searchProductQuery = baseFilterProductsQuery(this.$store.state.category.current, config.products.defaultFilters)
+          let searchProductQuery = baseFilterProductsQuery(this.$store.state.category.current, store.state.config.products.defaultFilters)
           this.$bus.$emit('current-category-changed', this.$store.state.category.current_path)
           let query = this.$store.state.category.current_product_query
           query = Object.assign(query, { // base prototype from the asyncData is being used here
@@ -236,7 +236,7 @@ export default {
       })
     },
     onUserPricesRefreshed () {
-      const defaultFilters = config.products.defaultFilters
+      const defaultFilters = store.state.config.products.defaultFilters
       this.$store.dispatch('category/single', {
         key: 'slug',
         value: this.$route.params.slug

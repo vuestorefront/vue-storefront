@@ -3,8 +3,8 @@ import { union } from 'lodash-es'
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
-import config from 'config' // can not be obtained from rootStore as this entry is loaded erlier than app.ts
 import omit from 'lodash-es/omit'
+import buildTimeConfig from 'config'
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -24,10 +24,13 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       })
     }
   })).then(() => {
-    if (config.ssr.useInitialStateFilter) {
-      context.state = omit(store.state, config.ssr.initialStateFilter)
+    if (store.state.config.ssr.useInitialStateFilter) {
+      context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
     } else {
       context.state = store.state
+    }
+    if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
+      context.state = omit(store.state, ['config'])
     }
     resolve(app)
   }).catch(err => {
@@ -37,17 +40,16 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
 
 export default context => {
   return new Promise((resolve, reject) => {
-    const { app, router, store } = createApp(context)
+    const { app, router, store } = createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
 
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      context.ssrCacheTags = new Set<string>()
+      context.output.cacheTags = new Set<string>()
       if (store.state.config.storeViews.multistore === true) {
-        let storeCode = context.storeCode // this is from http header or env variable
+        let storeCode = context.vs.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
-          context.currentRoute = router.currentRoute
           storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
