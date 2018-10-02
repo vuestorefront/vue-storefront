@@ -8,7 +8,6 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Error page ' + new Date())
       if (context) {
-        contextserver.response.status(500)
         context.output.cacheTags.add(`error`)
       }
     })

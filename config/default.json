@@ -9,7 +9,7 @@
       "outputCacheDefaultTtl": 86400,
       "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error"],
       "invalidateCacheKey": "aeSu7aip",
-      "dynamicConfigReload": true
+      "dynamicConfigReload": false
     },
     "console": {
       "verbosityLevel": "only-errors"
