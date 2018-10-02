@@ -123,7 +123,6 @@ import i18n from '@vue-storefront/i18n'
 import SidebarMenu from '@vue-storefront/core/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   components: {
@@ -183,10 +182,6 @@ export default {
     login () {
       this.$bus.$emit('modal-show', 'modal-signup')
       this.$store.commit('ui/setOpenMyAccount', true)
-    },
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }

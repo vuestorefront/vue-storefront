@@ -77,7 +77,6 @@ import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   components: {
@@ -130,10 +129,6 @@ export default {
         this.navVisible = true
       }
       this.lastScrollTop = this.scrollTop
-    },
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }

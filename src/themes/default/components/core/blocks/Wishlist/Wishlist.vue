@@ -27,19 +27,12 @@
 <script>
 import Wishlist from '@vue-storefront/core/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   components: {
     Product
   },
-  mixins: [Wishlist],
-  methods: {
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
-    }
-  }
+  mixins: [Wishlist]
 }
 </script>
 

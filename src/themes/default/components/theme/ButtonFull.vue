@@ -15,7 +15,6 @@
 
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'ButtonFull',
@@ -35,12 +34,6 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
-  },
-  methods: {
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }

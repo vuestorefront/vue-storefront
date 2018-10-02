@@ -18,7 +18,6 @@
 
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'ButtonOutline',
@@ -32,12 +31,6 @@ export default {
       type: String,
       default: null,
       required: false
-    }
-  },
-  methods: {
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }

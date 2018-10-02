@@ -189,19 +189,12 @@ import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Footer from '@vue-storefront/core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   mixins: [Footer, CurrentPage],
   components: {
     Newsletter,
     LanguageSwitcher
-  },
-  methods: {
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
-    }
   }
 }
 </script>

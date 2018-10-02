@@ -56,16 +56,9 @@
 
 <script>
 import MyOrders from '@vue-storefront/core/components/blocks/MyAccount/MyOrders'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
-  mixins: [MyOrders],
-  methods: {
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
-    }
-  }
+  mixins: [MyOrders]
 }
 </script>
 

@@ -30,7 +30,6 @@
 import i18n from '@vue-storefront/i18n'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import StaticContent from 'theme/components/theme/StaticContent'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   components: {
@@ -64,12 +63,6 @@ export default {
         { title: i18n.t('Privacy policy'), link: '/privacy' },
         { title: i18n.t('Contact us'), link: '/contact' }
       ]
-    }
-  },
-  methods: {
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }

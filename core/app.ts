@@ -26,6 +26,7 @@ store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 store.state.config = config
 
 const storeModules = Object.assign(coreModules, themeModules || {})
+const process: any = global.process
 
 for (const moduleName of Object.keys(storeModules)) {
   console.debug('Registering Vuex module', moduleName)
@@ -41,16 +42,23 @@ Vue.use(VueLazyload, {attempt: 2})
 Vue.use(Meta)
 Vue.use(VueObserveVisibility)
 
-require('theme/plugins')
-// const pluginsObject = plugins()
-// Object.keys(pluginsObject).forEach(key => {
-//   Vue.use(pluginsObject[key])
-// })
+// If the process doesn't exist, we don't verify the __VUE_EXTEND_ONCE__ property, cause we have CSR
+if (!process || !process.hasOwnProperty('__VUE_EXTEND_ONCE__')) {
+  process && (process.__VUE_EXTEND_ONCE__ = true)
 
-// const mixinsObject = mixins()
-// Object.keys(mixinsObject).forEach(key => {
-//   Vue.mixin(mixinsObject[key])
-// })
+  console.debug('Registering Vue plugins')
+  require('theme/plugins')
+  const pluginsObject = plugins()
+  Object.keys(pluginsObject).forEach(key => {
+    Vue.use(pluginsObject[key])
+  })
+
+  console.debug('Registering Vue mixins')
+  const mixinsObject = mixins()
+  Object.keys(mixinsObject).forEach(key => {
+    Vue.mixin(mixinsObject[key])
+  })
+}
 
 const filtersObject = filters()
 Object.keys(filtersObject).forEach(key => {

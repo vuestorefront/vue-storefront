@@ -28,7 +28,6 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   props: {
@@ -57,10 +56,6 @@ export default {
     },
     setVisited () {
       this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
-    },
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   },
   created () {

@@ -38,19 +38,12 @@
 <script>
 import Product from '@vue-storefront/core/components/blocks/Wishlist/Product'
 import RemoveButton from './RemoveButton'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   components: {
     RemoveButton
   },
-  mixins: [Product],
-  methods: {
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
-    }
-  }
+  mixins: [Product]
 }
 </script>
 

@@ -68,7 +68,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import promotedOffers from 'theme/resource/promoted_offers.json'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'PromotedOffers',
@@ -90,11 +89,7 @@ export default {
   methods: {
     ...mapActions({
       updatePromotedOffers: 'promoted/updatePromotedOffers'
-    }),
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
-    }
+    })
   }
 }
 </script>

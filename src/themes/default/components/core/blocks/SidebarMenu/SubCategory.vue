@@ -73,7 +73,6 @@
 import { mapState } from 'vuex'
 import SubBtn from './SubBtn.vue'
 import i18n from '@vue-storefront/i18n'
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'SubCategory',
@@ -124,10 +123,6 @@ export default {
           action1: { label: i18n.t('OK'), action: 'close' }
         })
       }
-    },
-    localizedRoute (routeObj) {
-      const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
     }
   }
 }
