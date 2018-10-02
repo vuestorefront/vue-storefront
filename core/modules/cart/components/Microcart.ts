@@ -2,8 +2,8 @@ import AppliedCoupon from '@vue-storefront/store/types/cart/AppliedCoupon'
 import Product from '@vue-storefront/store/types/product/Product'
 import CartTotalSegments from '@vue-storefront/store/types/cart/CartTotalSegments'
 
-export default {
-  name: 'Microcart-CART',
+export const Microcart = {
+  name: 'Microcart',
   computed: {
     productsInCart () : Product[] {
       return this.$store.state.cart.cartItems

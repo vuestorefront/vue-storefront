@@ -1,5 +1,5 @@
 // Core dependecies
-import Microcart from '@vue-storefront/core/modules/cart/components/Microcart.ts'
+import { Microcart } from '@vue-storefront/core/modules/cart/components/Microcart.ts'
 
 export default {
   methods: {

@@ -1,4 +1,4 @@
-import Product from '@vue-storefront/core/modules/cart/components/Product.ts'
+import { MicrocartProduct } from '@vue-storefront/core/modules/cart/components/Product.ts'
 
 export default {
   data () {
@@ -43,6 +43,6 @@ export default {
     }
   },
   mixins: [
-    Product
+    MicrocartProduct
   ]
 }

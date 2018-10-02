@@ -1,5 +1,5 @@
 
-export default {
+export const MicrocartButton = {
   name: 'MicrocartButton',
   methods: {
     toggleMicrocart () {

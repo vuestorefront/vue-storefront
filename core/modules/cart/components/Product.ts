@@ -1,7 +1,7 @@
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
-export default {
-  name: 'MicrocartProduct-CART',
+export const MicrocartProduct = {
+  name: 'MicrocartProduct',
   props: {
     product: {
       type: Object,
