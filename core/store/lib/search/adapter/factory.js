@@ -1,10 +1,10 @@
 'use strict'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export default class SearchAdapterFactory {
   getSearchAdapter (adapterName = '') {
     if (adapterName === '') {
-      adapterName = config.server.api
+      adapterName = store.state.config.server.api
     }
 
     const {SearchAdapter} = require(`./${adapterName}/searchAdapter`)

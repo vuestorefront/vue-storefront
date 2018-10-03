@@ -6,11 +6,11 @@
 export default {
   name: 'NoJSExample',
   asyncData ({ store, route, context }) {
-    context.serverOutputTemplate = 'basic'
-    context.renderAppend = (context) => {
+    context.output.template = 'basic'
+    context.output.append = (context) => {
       return '<div>This content has been dynamically appended</div>'
     }
-    context.renderPrepend = (context) => {
+    context.output.prepend = (context) => {
       return '<div>this content has been dynamically prepended</div>'
     }
     return new Promise((resolve, reject) => {

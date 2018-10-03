@@ -7,7 +7,6 @@ import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from 'core/store/lib/search/searchQuery'
 import HttpQuery from 'core/store/types/search/HttpQuery'
 import Response from 'core/store/types/search/Response'
-import config from 'config'
 
 export class SearchAdapter {
   public entities: any
@@ -28,7 +27,7 @@ export class SearchAdapter {
     if (Request.searchQuery instanceof SearchQuery) {
       ElasticsearchQueryBody = prepareElasticsearchQueryBody(Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
-        ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
+        ElasticsearchQueryBody['min_score'] = rootStore.state.config.elasticsearch.min_score
       }      
     } else {
       // backward compatibility for old themes uses bodybuilder

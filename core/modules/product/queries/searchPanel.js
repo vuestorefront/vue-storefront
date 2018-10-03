@@ -1,5 +1,5 @@
 import SearchQuery from 'core/store/lib/search/searchQuery'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export function prepareQuickSearchQuery (queryText) {
   let searchQuery = new SearchQuery()
@@ -9,7 +9,7 @@ export function prepareQuickSearchQuery (queryText) {
     .applyFilter({key: 'visibility', value: {'in': [3, 4]}})
     .applyFilter({key: 'status', value: {'in': [0, 1]}})/* 2 = disabled, 3 = out of stock */
 
-  if (config.products.listOutOfStockProducts === false) {
+  if (store.state.config.products.listOutOfStockProducts === false) {
     searchQuery = searchQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
   }
 
