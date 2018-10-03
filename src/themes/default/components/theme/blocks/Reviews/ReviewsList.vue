@@ -9,18 +9,18 @@
       <p class="cl-gray lh25">{{ item.detail }}</p>
     </div>
     <div class="row middle-xs center-xs mt50" v-if="pageCount > 1">
-      <a href="#" class="mr10" :class="{ inactive: currentPage === 1 }" @click.prevent="prevPage" >
+      <a href="#" class="mr10 no-underline" :class="{ inactive: currentPage === 1 }" @click.prevent="prevPage" >
         <i class="material-icons">chevron_left</i>
       </a>
       <span class="mx10 pagination-page" v-for="pageNumber in pageList" :key="pageNumber">
-        <span class="fs-medium py15 px20 bg-cl-mine-shaft cl-white" v-if="pageNumber === currentPage" >
+        <span class="fs-medium block py15 px20 bg-cl-mine-shaft cl-white" v-if="pageNumber === currentPage" >
           {{ pageNumber }}
         </span>
-        <a href="#" class="fs-medium py15 px20 bg-cl-secondary pointer" v-else @click.prevent="changePage(pageNumber)" >
+        <a href="#" class="fs-medium block py15 px20 bg-cl-secondary pointer" v-else @click.prevent="changePage(pageNumber)" >
           {{ pageNumber }}
         </a>
       </span>
-      <a href="#" class="ml10" :class="{ inactive: currentPage === pageCount }" @click.prevent="nextPage" >
+      <a href="#" class="ml10 no-underline" :class="{ inactive: currentPage === pageCount }" @click.prevent="nextPage" >
         <i class="material-icons">chevron_right</i>
       </a>
     </div>
