@@ -205,15 +205,17 @@ export default {
      * Reload product to get correct prices (including tier prices for group)
      */
     onUserPricesRefreshed () {
-      this.$store.dispatch('product/reset')
-      EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
-      this.$store.dispatch('product/single', {
-        options: {
-          sku: this.$route.params.parentSku,
-          childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null
-        },
-        skipCache: true
-      })
+      if (this.$route.params.parentSku) {
+        this.$store.dispatch('product/reset')
+        EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
+        this.$store.dispatch('product/single', {
+          options: {
+            sku: this.$route.params.parentSku,
+            childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null
+          },
+          skipCache: true
+        })
+      }
     }
   },
   metaInfo () {
