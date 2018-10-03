@@ -10,6 +10,7 @@ export default {
       if (context) {
         context.output.cacheTags.add(`error`)
       }
+      resolve()
     })
   },
   metaInfo () {
