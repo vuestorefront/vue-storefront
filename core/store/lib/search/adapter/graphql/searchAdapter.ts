@@ -148,7 +148,27 @@ export class SearchAdapter {
         }
       }
     })
-
+    this.registerEntityType('review', {
+      gql: './queries/reviews.gql',
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        if (resp === null) {
+          throw new Error('Invalid graphQl result - null not exepcted')
+        }
+        if (resp.hasOwnProperty('data')) {
+          return processESResponseType(resp.data.reviews, start, size)
+        } else {
+          if (resp.error) {
+            throw new Error(JSON.stringify(resp.error))
+          } else {
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'review\'')
+          }
+        }
+      }
+    })
     this.registerEntityType('category', {
       gql: './queries/categories.gql',
       queryProcessor: (query) => {

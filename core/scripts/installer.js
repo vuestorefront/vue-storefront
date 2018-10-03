@@ -343,13 +343,19 @@ class Storefront extends Abstract {
         config = jsonFile.readFileSync(SOURCE_FRONTEND_CONFIG_FILE)
 
         let backendPath
+        let graphQlHost
+        let graphQlPort = 8080
 
         if (Abstract.wasLocalBackendInstalled) {
+          graphQlHost = 'localhost'
           backendPath = 'http://localhost:8080'
         } else {
           backendPath = STOREFRONT_REMOTE_BACKEND_URL
+          graphQlHost = backendPath.replace('https://', '').replace('http://', '')
         }
 
+        config.graphql.host = graphQlHost
+        config.graphql.port = graphQlPort
         config.elasticsearch.host = `${backendPath}/api/catalog`
         config.orders.endpoint = `${backendPath}/api/order`
         config.products.endpoint = `${backendPath}/api/product`
