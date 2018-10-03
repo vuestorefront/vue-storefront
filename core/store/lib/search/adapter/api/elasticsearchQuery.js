@@ -1,6 +1,7 @@
 import bodybuilder from 'bodybuilder'
 import getBoosts from '../../boost'
 import getMapping from '../../mapping'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 export function prepareElasticsearchQueryBody (searchQuery) {
   const optionsPrfeix = '_options'
@@ -9,7 +10,7 @@ export function prepareElasticsearchQueryBody (searchQuery) {
   let query = bodybuilder()
 
   // process applied filters
-  const appliedFilters = searchQuery.getAppliedFilters()
+  const appliedFilters = cloneDeep(searchQuery.getAppliedFilters()) // copy as function below modifies the object
   if (appliedFilters.length > 0) {
     let hasCatalogFilters = false
 
