@@ -1,9 +1,7 @@
 import i18n from '@vue-storefront/i18n'
-import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Error',
-  mixins: [Composite],
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Error page ' + new Date())

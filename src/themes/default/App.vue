@@ -8,6 +8,7 @@
 import { mapState } from 'vuex'
 import DefaultLayout from './layouts/Default'
 import EmptyLayout from './layouts/Empty'
+import MinimalLayout from './layouts/Minimal'
 
 export default {
   data () {
@@ -25,7 +26,8 @@ export default {
   },
   components: {
     DefaultLayout,
-    EmptyLayout
+    EmptyLayout,
+    MinimalLayout
   }
 }
 </script>
