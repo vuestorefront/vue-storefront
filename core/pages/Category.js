@@ -28,7 +28,7 @@ export default {
       return this.$store.state.product.list.items
     },
     productsCounter () {
-      return this.$store.state.product.list.items.length
+      return this.$store.state.product.list.items ? this.$store.state.product.list.items.length : 0
     },
     productsTotal () {
       return this.$store.state.product.list.total
@@ -97,17 +97,23 @@ export default {
               query = Object.assign(query, { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters) })
             }
             store.dispatch('category/products', query).then((subloaders) => {
-              Promise.all(subloaders).then((results) => {
-                EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
-                  return resolve()
-                }).catch((err) => {
+              if (subloaders) {
+                Promise.all(subloaders).then((results) => {
+                  EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
+                    return resolve()
+                  }).catch((err) => {
+                    console.error(err)
+                    return resolve()
+                  })
+                }).catch(err => {
                   console.error(err)
-                  return resolve()
+                  reject(err)
                 })
-              }).catch(err => {
+              } else {
+                const err = new Error('Category query returned empty result')
                 console.error(err)
                 reject(err)
-              })
+              }
             }).catch(err => {
               console.error(err)
               reject(err)

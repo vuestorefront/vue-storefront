@@ -15,13 +15,9 @@
           </p>
           <p>
             {{ $t('If you need an assistance you can drop us a line on') }}
-            <router-link :to="localizedRoute('/')" class="cl-secondary no-underline">
-              {{ $t('a chat') }}
-            </router-link>
-            {{ $t('or write to us through') }}
-            <router-link :to="localizedRoute('/contact')" class="cl-secondary no-underline">
+            <a href="mailto:contributors@vuestorefront.io" class="cl-secondary no-underline">
               {{ $t('a contact page') }}
-            </router-link>.
+            </a>
           </p>
         </div>
       </div>

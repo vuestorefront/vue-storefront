@@ -1,0 +1,15 @@
+query ReviewList (
+    $filter: ReviewFilterInput,
+    $pageSize: Int,
+    $currentPage: Int
+  ) {
+  reviews(
+    filter: $filter
+    pageSize: $pageSize
+    currentPage: $currentPage
+  )
+  {
+    hits
+    suggest
+  }
+}
