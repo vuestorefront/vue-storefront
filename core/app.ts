@@ -36,7 +36,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   sync(store, router)
   store.state.version = '1.4.0'
   store.state.config = config
-  store.state.__DEMO_MODE__ = (buildTimeConfig.demomode === true) ? true : false
+  store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
 

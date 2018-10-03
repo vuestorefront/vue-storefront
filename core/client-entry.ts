@@ -16,12 +16,12 @@ require('@vue-storefront/core/service-worker-registration') // register the serv
 
 declare var window: any
 
-const config = window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig
+const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
 const { app, router, store } = createApp(null, config)
 
 let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
-  store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__))
+  store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
 }
 if (config.storeViews.multistore === true) {
   if ((storeCode = store.state.user.current_storecode)) {

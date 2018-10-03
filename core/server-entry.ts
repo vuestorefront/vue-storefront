@@ -4,6 +4,7 @@ import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
 import omit from 'lodash-es/omit'
+import pick from 'lodash-es/pick'
 import buildTimeConfig from 'config'
 
 function _commonErrorHandler (err, reject) {
@@ -24,13 +25,23 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       })
     }
   })).then(() => {
-    if (store.state.config.ssr.useInitialStateFilter) {
+    if (buildTimeConfig.ssr.useInitialStateFilter) {
       context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
     } else {
       context.state = store.state
     }
     if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
       context.state = omit(store.state, ['config'])
+    } else {
+      const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
+      const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
+      console.log(excludeFromConfig, includeFromConfig)
+      if (includeFromConfig && includeFromConfig.length > 0) {
+        context.state.config = pick(context.state.config, includeFromConfig)
+      }
+      if (excludeFromConfig && excludeFromConfig.length > 0) {
+        context.state.config = omit(context.state.config, excludeFromConfig)
+      }
     }
     resolve(app)
   }).catch(err => {
