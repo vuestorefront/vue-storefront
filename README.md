@@ -19,20 +19,14 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 **Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that don't meet this requirements will not be merged**
 ## See it in action
 
-Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
-
 <table>
   <tbody>
     <tr>
       <td align="center" valign="middle">
         Magento 2.2 - Default theme
       </td>
-      <td align="center" valign="middle">
-        Magento 1.9 - Default theme
-      </td align="center" valign="middle">
-      <td align="center" valign="middle">
-        Magento 2.2 - External checkout <a href="https://medium.com/@piotrkarwatka/vue-storefront-new-feature-magento2-checkout-fallback-option-af415843ac86">see details</a>
-      </td align="center" valign="middle">
+      <td align="left" valign="top">
+      </td>
 </tr>
     <tr>
       <td align="center" valign="middle">
@@ -43,23 +37,9 @@ Try out our open demo and if you like it **first give us some star on Github ★
             height="100">
         </a>
       </td>
-      <td align="center" valign="middle">
-        <a href="https://demo-magento1.vuestorefront.io">
-          <img
-            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-m1.png?raw=true"
-            alt="B2B Theme demo"
-            height="100"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://demo-magento-checkout.vuestorefront.io">
-          <img
-            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-magento-checkout.png"
-            alt="Magento 2 external checkout"
-            height="100"
-          >
-        </a>
+      <td align="left" valign="top">
+Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
+
       </td>
 </tr>
     <tr>
@@ -69,15 +49,7 @@ Try out our open demo and if you like it **first give us some star on Github ★
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://demo-magento1.vuestorefront.io">
-          demo-magento1.vuestorefront.io
-        </a>
       </td>      
-      <td align="center" valign="middle">
-        <a href="https://demo-magento-checkout.vuestorefront.io">
-          demo-magento-checkout.vuestorefront.io
-        </a>
-      </td>
 </tr>
   </tbody>
 </table>
