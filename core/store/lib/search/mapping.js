@@ -1,11 +1,11 @@
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export default function getMapping (attribute, entityType = 'products') {
   let mapping = [
   ]
 
-  if (config.hasOwnProperty(entityType) && config[entityType].hasOwnProperty('filterFieldMapping')) {
-    mapping = config[entityType].filterFieldMapping
+  if (store.state.config.hasOwnProperty(entityType) && store.state.config[entityType].hasOwnProperty('filterFieldMapping')) {
+    mapping = store.state.config[entityType].filterFieldMapping
   }
 
   if (mapping.hasOwnProperty(attribute)) {

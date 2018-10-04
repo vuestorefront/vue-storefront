@@ -26,6 +26,8 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#configurable-error">You need to choose options for your item message when I hit API for add to cart configrable product</a>
 * <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md">*Images loading* issue on Magento 2 integration</a>
 * <a href="#adding-filter">Adding custom category filters</a>
+* <a href="#reviews">I'm adding review and nothing happened</a>
+* <a href="#verbosity">I have wrong line numbers in Chrome developer's console by the error/info messages</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -250,3 +252,13 @@ You need to add the attributes You'll like to have displayed to the `config/loca
 
 And then You can use proper controls for each individual filter in here:
 https://github.com/DivanteLtd/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue
+
+
+### <a name="reviews"></a>I'm adding product review and nothing is displayed
+
+We've added the Reviews support, however Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
+
+### <a name="#verbosity"></a>I have wrong line numbers in Chrome developer's console by the error/info messages
+
+We've added [console filter](https://github.com/DivanteLtd/vue-storefront/issues/1752) and it changes the original source code position in dev's console. Please set `config.console.verbosityLevel=display-everything` to disable the filter and bring back the original dev. console
+

@@ -1,9 +1,16 @@
-query CategoryList ($filter: CategoryFilterInput, $pageSize: Int, $currentPage: Int, $sort: CategorySortInput) {
+query CategoryList (
+    $filter: CategoryFilterInput,
+    $pageSize: Int,
+    $currentPage: Int,
+    $sort: CategorySortInput,
+    $_sourceInclude: [String]
+  ) {
   categories(
     filter: $filter
     pageSize: $pageSize
     currentPage: $currentPage
     sort: $sort
+    _sourceInclude: $_sourceInclude
   )
   {
     hits

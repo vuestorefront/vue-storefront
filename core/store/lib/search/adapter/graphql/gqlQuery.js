@@ -1,15 +1,12 @@
-export function prepareGraphQlBody (Query) {
+export function prepareGraphQlBody (Request) {
   // @TODO Create graphQl query builder uses gqlQuery.body params
   // below is a simple demo test products search query
 
   let query = ``
-  let queryVariables = {}
-  const filters = Query.searchQuery.getAppliedFilters()
-
-  switch (Query.type) {
+  let queryVariables = prepareQueryVars(Request)
+  switch (Request.type) {
     case 'product':
       query = require('./queries/products.gql')
-      queryVariables.search = Query.searchQuery.getSearchText()
       break
     case 'attribute':
       query = require('./queries/customAttributeMetadata.gql')
@@ -22,11 +19,26 @@ export function prepareGraphQlBody (Query) {
       break
   }
 
+  const body = JSON.stringify({
+    query,
+    variables: queryVariables
+  })
+
+  return body
+}
+
+export function prepareQueryVars (Request) {
+  let queryVariables = {}
+  const filters = typeof Request.searchQuery.getAppliedFilters !== 'undefined' ? Request.searchQuery.getAppliedFilters() : {}
+
+  queryVariables.search = Request.searchQuery.getSearchText()
   queryVariables.sort = {}
   queryVariables.filter = {}
+  queryVariables._sourceInclude = {}
+  queryVariables._sourceExclude = {}
 
   // Add aggregations for filters
-  const allFilters = Query.searchQuery.getAvailableFilters()
+  const allFilters = Request.searchQuery.getAvailableFilters()
   if (allFilters.length > 0) {
     for (let attrToFilter of allFilters) {
       queryVariables.filter[attrToFilter.field] = {}
@@ -45,21 +57,18 @@ export function prepareGraphQlBody (Query) {
     queryVariables.filter = Object.assign(queryVariables.filter, processedFilter)
   }
 
-  if (Query.sort !== '') {
-    const sortParse = Query.sort.split(':')
+  if (Request.sort !== '') {
+    const sortParse = Request.sort.split(':')
     queryVariables.sort[sortParse[0]] = sortParse[1].toUpperCase()
   }
 
-  queryVariables.pageSize = Query.size
-  queryVariables.currentPage = Query.from / Query.size + 1
+  queryVariables.pageSize = Request.size
+  queryVariables.currentPage = Request.from / Request.size + 1
   queryVariables.attributes = queryVariables.filter
+  queryVariables._sourceInclude = Request._sourceInclude
+  queryVariables._sourceExclude = Request._sourceExclude
 
-  const body = JSON.stringify({
-    query,
-    variables: queryVariables
-  })
-
-  return body
+  return queryVariables
 }
 
 function processNestedFieldFilter (filter) {

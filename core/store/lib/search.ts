@@ -2,14 +2,15 @@ import Vue from 'vue'
 import { currentStoreView } from './multistore'
 import { sha1 } from 'object-hash'
 import rootStore from '../'
-import config from 'config'
 import SearchAdapterFactory from './search/adapter/factory'
 import Request from '../types/search/Request'
 import Response from '../types/search/Response'
 
-const factory = new SearchAdapterFactory()
-let adapterName = config.server.api
-let searchAdapter = factory.getSearchAdapter(adapterName)
+function getSearchAdapter(config) {
+  const factory = new SearchAdapterFactory()
+  let adapterName = config.server.api
+  return factory.getSearchAdapter(adapterName)
+}
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -28,6 +29,7 @@ export function isOnline () {
  * @return {Promise}
  */
 export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<Response> {
+  const searchAdapter = getSearchAdapter(rootStore.state.config)
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
@@ -95,8 +97,12 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
         Request.groupToken = rootStore.state.user.groupToken
     }
 
+    if (!searchAdapter.entities[Request.type]) {
+      throw new Error('No entity type registered for ' + Request.type )
+    }
+
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
-      const res = searchAdapter.handleResult(resp, Request.type, start, size)
+      const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
         cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })

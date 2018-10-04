@@ -4,6 +4,7 @@ const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const autoprefixer = require('autoprefixer')
+const HTMLPlugin = require('html-webpack-plugin')
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -17,6 +18,9 @@ const themeRoot = require('./theme-path')
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
+const themedIndex = path.join(themeRoot, 'index.template.html')
+const themedIndexMinimal = path.join(themeRoot, 'index.minimal.template.html')
+const themedIndexBasic= path.join(themeRoot, 'index.basic.template.html')
 
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
@@ -40,7 +44,19 @@ const postcssConfig =  {
 module.exports = {
   plugins: [
     new CaseSensitivePathsPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    // generate output HTML
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndexMinimal : 'src/index.minimal.template.html',
+      filename: 'index.minimal.html'
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndexBasic: 'src/index.basic.template.html',
+      filename: 'index.basic.html'
+    })    
   ],
   devtool: 'source-map',
   entry: {
@@ -108,7 +124,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [
-          '@vue-storefront',
+          path.resolve(__dirname, '../../node_modules/@vue-storefront'),
           path.resolve(__dirname, '../../src'),
           path.resolve(__dirname, '../../core')
         ]

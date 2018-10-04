@@ -1,7 +1,7 @@
-# Vue Storefront - headless PWA for eCommerce 
-<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
-![version](https://img.shields.io/badge/node-v8.x-blue.svg) 
-![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
+# Vue Storefront - headless PWA for eCommerce
+<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
+![version](https://img.shields.io/badge/node-v8.x-blue.svg)
+![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg)
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
@@ -28,9 +28,6 @@ Try out our open demo and if you like it **first give us some star on Github ★
         Magento 2.2 - Default theme
       </td>
       <td align="center" valign="middle">
-        B2B theme (beta)
-      </td align="center" valign="middle">
-      <td align="center" valign="middle">
         Magento 1.9 - Default theme
       </td align="center" valign="middle">
       <td align="center" valign="middle">
@@ -47,19 +44,10 @@ Try out our open demo and if you like it **first give us some star on Github ★
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://demo-catalog.vuestorefront.io">
-          <img
-            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2b.png?raw=true"
-            alt="B2B Theme demo"
-            height="100"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://demo-magento1.vuestorefront.io">
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-m1.png?raw=true"
-            alt="Magento 1.9 demo"
+            alt="B2B Theme demo"
             height="100"
           >
         </a>
@@ -81,15 +69,10 @@ Try out our open demo and if you like it **first give us some star on Github ★
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://demo-catalog.vuestorefront.io">
-          demo-catalog.vuestorefront.io
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://demo-magento1.vuestorefront.io">
           demo-magento1.vuestorefront.io
         </a>
-      </td>      
+      </td>
       <td align="center" valign="middle">
         <a href="https://demo-magento-checkout.vuestorefront.io">
           demo-magento-checkout.vuestorefront.io
@@ -141,10 +124,12 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
 * [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
 * [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md)
+* [Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
 * [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
+* [Layouts and advanced output operations](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md)
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 * [Working with UI Store (interface state)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
 * [Working with translations](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md)
@@ -163,17 +148,21 @@ Tutorial series on creating themes for Vue Storefront:
 * [Data Migrations for ElasticSearch](https://github.com/DivanteLtd/vue-storefront-api/blob/master/doc/1.%20Data%20schema%20and%20migrations.md)
 * [ElasticSearch Queries](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/ElasticSearch%20Queries.md)
 * [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
+* [Adding Custom Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
 
 ### Working with Vue Storefront Extensions
 * [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
 * [Adding custom Server API methods](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md)
 * [Extending UI from extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Extending%20UI%20from%20extensions.md)
+* [Adding Express routes and middlewares](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20Express.js%20server%20side%20routes.md)
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 * [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 * [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
+* [Magento2 Product Reviews](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Reviews.md)
+* [PayPal Payments integration](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/PayPal%20payments%20support.md)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [Tier prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Tier%20prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)
@@ -472,20 +461,20 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
   <td align="center" valign="middle">
-        <a href="">
+        <a href="https://viaict.com/">
           <img
-            src=""
-            alt=""
+            src="https://www.viaict.com/img/viaict_flat_design_300.png"
+            alt="Viaict"
             height="50"
           >
         </a>
       </td>
         <td align="center" valign="middle">
-        <a href="">
+        <a href="https://bemeir.com/vue-storefront">
           <img
-            src=""
-            alt=""
-            height="50"
+            src="https://divante.co/partners/Vue-Storefront/bemeir.png"
+            alt="Bemeir"
+            height="40"
           >
         </a>
       </td>

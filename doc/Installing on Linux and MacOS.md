@@ -1,37 +1,213 @@
-# Installation
+# Installing Vue Storefront on Linux and Mac OS
+
+<br><br>
+
+## Preparing the environment
 
 The steps below are tested on MacOS and Linux environments. If you're on Windows please check [Windows Installation Tutorial](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Windows.md).
 
-Let's go!
+<br>
+<br>
 
-## Requirements
-- Docker (with ['docker-compose'](https://docs.docker.com/compose/install/) installed)
+**If you don't have it installed yet, do yourself a favour and install Homebrew - the ultimate package installer for Mac OS**
 
-Already included in `vue-storefront` and `vue-storefront-api` Docker images (required locally, if you do not use containerization):
-- Node.js [Active LTS](https://github.com/nodejs/Release) (>=8.0.0)
-- [Yarn](https://yarnpkg.com/en/docs/install) (>=1.0.0)
-- [ImageMagick](https://www.imagemagick.org/script/index.php) (to fit, resize and crop images)
+- https://brew.sh/
 
-**If You need a step by step installation** guide please go to <a href="#ultimate-guide">Ultimate Installation Guide on MacOS X</a>
+<br>
 
-**If You like to setup Magento2 integration** please check [this YouTube video](https://www.youtube.com/watch?v=CtDXddsyxvM).
+Done? Ok! Let's proceed!
 
-Let's go:
+<br>
 
-## User-friendly installation
+**Make sure you have all of the required software installed locally on your computer:**
 
-If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
+- **Node.js + NPM**
+  <br> 
+  `$ brew install node`
+  
+  
+- **Yarn**
+  <br> 
+  `$ brew install yarn`
 
-You need to use https://github.com/DivanteLtd/vue-storefront.
+- **Docker + Docker Compose**
+  <br>
+  Regular Installaton: https://docs.docker.com/docker-for-mac/install/ + https://docs.docker.com/compose/install/
+  <br>
+  Using Homebrew `$ brew install docker docker-compose docker-machine xhyve docker-machine-driver-xhyve`
 
-```
-git clone https://github.com/DivanteLtd/vue-storefront.git vue-storefront
-cd vue-storefront
-yarn
-yarn installer
-```
+- **ImageMagick**
+  <br> 
+  `$ brew install imagemagick`
+  
+<br>
 
-After answering some questions the process will start automatically. Enjoy :)
+To test if the software is installed, run these commands in Terminal:
+
+- **for Node.js:** `node -v`
+- **for NPM:** `npm -v`
+- **for Docker:** `docker version` or simply Check your `/Applications/` directory and look for the `Docker.app` and `Docker Quickstart Terminal.app`
+- **for ImageMagick**: ` convert -version`
+
+<br>
+
+### TROUBLESHOOTING REQUIRED SOFTWARE INSTALLATION
+
+<br>
+
+  - **Node** https://changelog.com/posts/install-node-js-with-homebrew-on-os-x
+
+  - **Docker** https://docs.docker.com/docker-for-mac/install/
+
+  - **Docker Compose** https://docs.docker.com/compose/install/
+
+  - **ImageMagick** http://www.besavvy.com/documentation/4-5/Editor/031350_installimgk.htm
+
+<br>
+<br>
+
+## Installing with Vue Storefront CLI Installer
+
+<br>
+<br>
+
+### 1. Create a folder for a whole project in your preferred location.
+
+<br>
+
+We'll call it `[project-folder]` in this tutorial. Basically it is a folder where you keep all repositories you need for the development.
+
+<br>
+
+### 2. Open Terminal and run commands:
+
+<br>
+
+* First go to `[project-folder]`
+
+  `$ cd /path/to/[project-folder]`
+
+<br>
+
+* Then clone the Vue Storefront repository from GitHub
+
+  `$ git clone https://github.com/DivanteLtd/vue-storefront.git`
+
+<br>
+
+
+* Go to the cloned repository
+
+  `$ cd vue-storefront`
+
+<br>
+
+
+* Install and lock the dependencies
+
+  `$ yarn install`
+
+<br>
+
+
+* Run the CLI Installer provided by Vue Storefront
+
+  `$ yarn installer`
+
+<br>
+
+  ```
+  yarn run v1.6.0
+  $ node ./core/scripts/installer
+  ┌─────────────────────────────────────────────────┐
+  │ Hi, welcome to the vue-storefront installation. │
+  │ Let's configure it together :)                  │
+  └─────────────────────────────────────────────────┘
+  ? Would you like to use https://demo.vuestorefront.io as the backend? No
+  
+  ? Please provide Git path (if it's not globally installed) git
+  
+  ? Please provide path for installing backend locally ../vue-storefront-api
+  
+  ? Choose path for images endpoint http://localhost:8080/img/
+  
+   Trying to create log files... 
+   Cloning backend into '../vue-storefront-api'... 
+   Trying change directory to '../vue-storefront-api'... 
+   Working in directory '/Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront-api'... 
+   Installing backend npm... 
+   Creating backend config 'config/local.json'... 
+   Starting docker in background... 
+   Restoring data for ElasticSearch... 
+   Migrating data into ElasticSearch... 
+   Cloning Magento 2 Sample Data into 'var/magento2-sample-data'... 
+   Starting backend server... 
+   Trying change directory to '/Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront'... 
+   Working in directory '/Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront'... 
+   Creating storefront config 'config/local.json'... 
+   Build storefront npm... 
+   Starting storefront server... 
+  ┌────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Congratulations!                                                                       │
+  │                                                                                        │
+  │ You've just successfully installed vue-storefront.                                     │
+  │ All required servers are running in background                                         │
+  │                                                                                        │
+  │ Storefront: http://localhost:3000                                                      │
+  │ Backend: http://localhost:8080                                                         │
+  │                                                                                        │
+  │ Logs: /Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront/var/log/ │
+  │                                                                                        │
+  │ Good Luck!                                                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────┘
+  ```
+<br>
+
+* To be sure that everything is ready for next steps, **kill all node processes**
+
+  `$ killall node`
+
+<br>
+
+* Then go up to `[project-folder]`
+
+  `$ cd ..`
+
+
+<br>
+
+* Now there are 2 folders (apps) in the `[project-folder]`:
+
+      1. `[project-folder]/vue-storefront/`
+      2. `[project-folder]/vue-storefront-api/`
+      
+ <br>
+
+- **Right now, VERY IMPORTANT – Clone this repository to `[project-folder]`**
+
+  `$ git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data`
+
+<br>
+
+- **After cloning sample data repo, it’s time to clone the mage2vuestorefront app, which imports all the data from Magento 2**
+
+  `$ git clone https://github.com/DivanteLtd/mage2vuestorefront.git`
+
+  This creates [project-folder]/mage2vuestorefront/
+
+<br>
+
+- Go to the `mage2vuestorefront` folder
+
+  `$ cd mage2vuestorefront/src`
+
+  and install and lock dependencies
+
+  `$ yarn install`
+
+<br>
+<br>
+<br>
 
 ## Manual installation
 
@@ -149,255 +325,109 @@ Finally, you have to choose between two modes of running the application (simila
 That's all - your frontend application is now up and running!
 
 
-<a name="ultimate-guide"></a>
-# The Ultimate Vue Storefront Developer Installation for Mac OS
 <br>
-
-**0. If you don't have it installed yet, do yourself a favour and install Homebrew - the ultimate package installer for Mac OS**
-
-- https://brew.sh/
-
-<br>
-
-Done? Ok! Let's proceed!
-
-<br>
-
-**1. Make sure you have all of the required software installed locally on your computer:**
-
-- **Node.js + NPM**
-  <br> 
-  `$ brew install node`
-
-- **Docker + Docker Compose**
-  <br>
-  Regular Installaton: https://docs.docker.com/docker-for-mac/install/ + https://docs.docker.com/compose/install/
-  <br>
-  Using Homebrew `brew install docker docker-compose docker-machine xhyve docker-machine-driver-xhyve`
-
-- **ImageMagick**
-  <br> 
-  `$ brew install imagemagick`
-  
-<br>
-
-To test if the software is installed, run these commands in Terminal:
-
-- **for Node.js:** `node -v`
-- **for NPM:** `npm -v`
-- **for Docker:** `docker version` or simply Check your `/Applications/` directory and look for the `Docker.app` and `Docker Quickstart Terminal.app`
-- **for ImageMagick**: ` convert -version`
-
-<br>
-
-    TROUBLESHOOTING REQUIRED SOFTWARE INSTALLATION
-
-  - **Node** https://changelog.com/posts/install-node-js-with-homebrew-on-os-x
-
-  - **Docker** https://docs.docker.com/docker-for-mac/install/
-
-  - **Docker Compose** https://docs.docker.com/compose/install/
-
-  - **ImageMagick** http://www.besavvy.com/documentation/4-5/Editor/031350_installimgk.htm
-
 <br>
 <br>
 
-**2. Create a folder for a whole project in your preferred location.**
-
-<br>
-
-I'll call it `[project-folder]` in this tutorial. Basically it is a folder in which you keep all packages you need for the development.
-
-<br>
-
-**3. Open Terminal and run commands:**
-
-<br>
-
-* First go to `[project-folder]`
-
-  `$ cd /path/to/[project-folder]`
-
-<br>
-
-* Then clone the Vue Storefront repository from GitHub
-
-  `$ git clone https://github.com/DivanteLtd/vue-storefront.git`
-
-<br>
+## Importing Products from Magento 2
 
 
-* Go to the cloned repository
-
-  `$ cd vue-storefront`
-
-<br>
-
-
-* Install and lock the dependencies
-
-  `$ yarn install`
-
-<br>
-
-
-* Run the CLI Installer provided by Vue Storefront
-
-  `$ yarn installer`
-
-<br>
-
-  ```
-  yarn run v1.6.0
-  $ node ./core/scripts/installer
-  ┌─────────────────────────────────────────────────┐
-  │ Hi, welcome to the vue-storefront installation. │
-  │ Let's configure it together :)                  │
-  └─────────────────────────────────────────────────┘
-  ? Would you like to use https://demo.vuestorefront.io as the backend? No
-  ? Please provide Git path (if it's not globally installed) git
-  ? Please provide path for installing backend locally ../vue-storefront-api
-  ? Choose path for images endpoint http://localhost:8080/img/
-   Trying to create log files... 
-   Cloning backend into '../vue-storefront-api'... 
-   Trying change directory to '../vue-storefront-api'... 
-   Working in directory '/Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront-api'... 
-   Installing backend npm... 
-   Creating backend config 'config/local.json'... 
-   Starting docker in background... 
-   Restoring data for ElasticSearch... 
-   Migrating data into ElasticSearch... 
-   Cloning Magento 2 Sample Data into 'var/magento2-sample-data'... 
-   Starting backend server... 
-   Trying change directory to '/Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront'... 
-   Working in directory '/Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront'... 
-   Creating storefront config 'config/local.json'... 
-   Build storefront npm... 
-   Starting storefront server... 
-  ┌────────────────────────────────────────────────────────────────────────────────────────┐
-  │ Congratulations!                                                                       │
-  │                                                                                        │
-  │ You've just successfully installed vue-storefront.                                     │
-  │ All required servers are running in background                                         │
-  │                                                                                        │
-  │ Storefront: http://localhost:3000                                                      │
-  │ Backend: http://localhost:8080                                                         │
-  │                                                                                        │
-  │ Logs: /Users/aleksandergrygier/git/fcgroup/flyn-vue-storefront/vue-storefront/var/log/ │
-  │                                                                                        │
-  │ Good Luck!                                                                             │
-  └────────────────────────────────────────────────────────────────────────────────────────┘
-  ```
-<br>
-
-* To be sure that everything is ready for next steps, **kill all node processes**
-
-  `$ killall node`
-
-<br>
-
-* Then go up to `[project-folder]`
-
-  `$ cd ..`
-
-
-<br>
-
-* Now there are 2 folders (apps) in the `[project-folder]`:
-
-      1. `[project-folder]/vue-storefront/`
-      2. `[project-folder]/vue-storefront-api/`
-      
- <br>
-
-- **Right now, VERY IMPORTANT – Clone this repository to `[project-folder]` **
-
-  `$ git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data`
-
-<br>
-
-- **After cloning sample data repo, it’s time to clone the mage2vuestorefront app, which imports all the data from Magento 2**
-
-  `$ git clone https://github.com/DivanteLtd/mage2vuestorefront.git`
-
-  This creates [project-folder]/mage2vuestorefront/
-
-<br>
-
-- Go to the `mage2vuestorefront` folder
-
-  `$ cd mage2vuestorefront/src`
-
-  and install and lock dependencies
-
-  `$ yarn install`
-
-<br>
-
-4. Configure the API Credentials inside `[project-folder]/mage2vuestorefront/src/config.js` **(change the bolded text)**
+### 1. Configure the API Credentials inside `[project-folder]/mage2vuestorefront/src/config.js`
 
 ```js
-  magento: {
-    url: process.env.MAGENTO_URL || **"http://magento2.demo-1.divante.pl/** rest/",
-    consumerKey: process.env.MAGENTO_CONSUMER_KEY || "**alva6h6hku9qxrpfe02c2jalopx7od1q**",
-    consumerSecret: process.env.MAGENTO_CONSUMER_SECRET || "**9tgfpgoojlx9tfy21b8kw7ssfu2aynpm**",
-    accessToken: process.env.MAGENTO_ACCESS_TOKEN || "**rw5w0si9imbu45h3m9hkyrfr4gjina8q**",
-    accessTokenSecret: process.env.MAGENTO_ACCESS_TOKEN_SECRET || "**00y9dl4vpxgcef3gn5mntbxtylowjcc9**",
+magento: {
+    url: process.env.MAGENTO_URL || "http://your-magento-url.com/rest/",  - change to your Magento 2 URL
+    consumerKey: process.env.MAGENTO_CONSUMER_KEY || "alva6h6hku9qxrpfe02c2jalopx7od1q",
+    consumerSecret: process.env.MAGENTO_CONSUMER_SECRET || "9tgfpgoojlx9tfy21b8kw7ssfu2aynpm",
+    accessToken: process.env.MAGENTO_ACCESS_TOKEN || "rw5w0si9imbu45h3m9hkyrfr4gjina8q",
+    accessTokenSecret: process.env.MAGENTO_ACCESS_TOKEN_SECRET || "00y9dl4vpxgcef3gn5mntbxtylowjcc9",
     storeId: process.env.MAGENTO_STORE_ID || 1,
     currencyCode: process.env.MAGENTO_CURRENCY_CODE || 'USD'
   },
 ```
+<br>
 
 <br>
 
-5. Configure the  API Credentials inside `[project-folder]/vue-storefront-api/config/local.json` **(change the bolded text)**
+### 2. Configure the  API Credentials inside `[project-folder]/vue-storefront-api/config/local.json`
 
 ```js
-  "magento2": {
-    "url": "**http://magento2.demo-1.xyz.com**", -- your Magento 2 URL
-    "imgUrl": "**http://localhost:8080**/media/catalog/product",
+"magento2": {
+    "url": "http://your-magento-url.com",
+    "imgUrl": "http://your-magento-url.com/media/catalog/product",
     "assetPath": "/../var/magento2-sample-data/pub/media",
     "api": {
-      "url": "**http://magento2.demo-1.divante.pl/** rest/",
-      "consumerKey": "**alva6h6hku9qxrpfe02c2jalopx7od1q**",
-      "consumerSecret": "**9tgfpgoojlx9tfy21b8kw7ssfu2aynpm**",
-      "accessToken": "**rw5w0si9imbu45h3m9hkyrfr4gjina8q**",
-      "accessTokenSecret": "**00y9dl4vpxgcef3gn5mntbxtylowjcc9**"
+      "url": "http://your-magento-url.com/rest/",
+      "consumerKey": "alva6h6hku9qxrpfe02c2jalopx7od1q",
+      "consumerSecret": "9tgfpgoojlx9tfy21b8kw7ssfu2aynpm",
+      "accessToken": "rw5w0si9imbu45h3m9hkyrfr4gjina8q",
+      "accessTokenSecret": "00y9dl4vpxgcef3gn5mntbxtylowjcc9"
     }
   },
 ```
+<br>
+
+also **remember to whitelist your Magento domain**
+
+```js
+"imageable": {
+    "namespace": "",
+    "maxListeners": 512,
+    "imageSizeLimit": 1024,
+    "timeouts": {
+      "convert": 15000,
+      "identify": 300,
+      "download": 5000
+    },
+    "whitelist": {
+      "allowedHosts": [
+        ".*your-magento-url.com",
+        ".*divante.pl",
+        ".*vuestorefront.io",
+        "localhost"
+      ],
+      "trustedHosts": [
+        ".*your-magento-url.com",
+        ".*divante.pl",
+        ".*vuestorefront.io",
+        "localhost"
+      ]
+    },
+```
+<br>
+
+  SAVE THE CHANGES
 
 <br>
 
-6. **Open Docker** (just like an normal Mac OS App, for example Cmd + Space and type "Docker" in Spotlight Search)
+### 3. **Open Docker** (just like an normal Mac OS App, for example Cmd + Space and type "Docker" in Spotlight Search)
 
 <br>
 
-7. **In Terminal in `[project-folder]/vue-storefront-api/` run:**
+### 4. **In Terminal in `[project-folder]/vue-storefront-api/` run:**
 
   `$ docker-compose up`
 
 <br>
 
-8. **In Terminal in `[project-folder]/mage2vuestorefront/src/` run:**
+### 5. **In Terminal in `[project-folder]/mage2vuestorefront/src/` run:**
 
   `$ node —harmony cli.js fullreindex`
 
 <br>
 
-9. **In Terminal in `[project-folder]/vue-storefront-api/` run:**
+### 6. **In Terminal in `[project-folder]/vue-storefront-api/` run:**
 
   `$ yarn o2m`
 
 <br>
 
-9. **In Terminal in `[project-folder]/vue-storefront-api/` run:**
+### 7. **In Terminal in `[project-folder]/vue-storefront-api/` run:**
 
   `$ yarn dev`
 
 <br>
 
-10. In Terminal in [project-folder]/vue-storefront/ run
+### 8. In Terminal in [project-folder]/vue-storefront/ run
 
   `$ yarn dev`

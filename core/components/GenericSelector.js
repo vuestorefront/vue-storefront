@@ -27,13 +27,13 @@ export default {
       active: false
     }
   },
-  destroyed () {
-    this.$bus.$off('filter-reset', this.filterReset)
-    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
-  },
-  mounted () {
+  beforeMount () {
     this.$bus.$on('filter-reset', this.filterReset)
     this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
+  },
+  beforeDestroy () {
+    this.$bus.$off('filter-reset', this.filterReset)
+    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
   methods: {
     filterChanged (filterOption) {

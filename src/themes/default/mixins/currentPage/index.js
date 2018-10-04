@@ -35,7 +35,6 @@ export default {
     // Check if history is empty
     isHistoryEmpty () {
       if (typeof window !== 'undefined') {
-        console.log('window', window.history.length)
         return window.history.length <= 1
       }
 

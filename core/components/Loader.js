@@ -19,10 +19,12 @@ export default {
   computed: mapState({
     isVisible: state => state.ui.loader
   }),
-  mounted () {
-    this.$bus.$on('notification-progress-start', (message) => {
-      this.show(message)
-    })
+  beforeMount () {
+    this.$bus.$on('notification-progress-start', this.show)
     this.$bus.$on('notification-progress-stop', this.hide)
+  },
+  beforeDestroy () {
+    this.$bus.$off('notification-progress-start', this.show)
+    this.$bus.$off('notification-progress-stop', this.hide)
   }
 }

@@ -77,9 +77,9 @@ If You're adding new type of page (`core/pages`) and `config.server.useOutputCac
 After doing so, please add the `asyncData` method to Your page code assigning the right tag (please take a look at `core/pages/Home.js` for instance):
 
 ```js
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      store.state.requestContext.outputCacheTags.add(`home`)
+      if (context) context.output.cacheTags.add(`home`)
       console.log('Entering asyncData for Home root ' + new Date())
       EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
         return resolve()
@@ -94,7 +94,7 @@ After doing so, please add the `asyncData` method to Your page code assigning th
 This line:
 
 ```js
-      store.state.requestContext.outputCacheTags.add(`home`)
+     if (context) context.output.cacheTags.add(`home`)
 ```
 
 ... is in charge of assigning the specific tag with current HTTP request output.

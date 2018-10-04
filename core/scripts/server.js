@@ -3,9 +3,14 @@ const path = require('path')
 const express = require('express')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
-const config = require('config')
+let config = require('config')
 const TagCache = require('redis-tag-cache').default
-
+const utils = require('./server/utils')
+const compile = require('lodash.template')
+const compileOptions = {
+  escape: /{{([^{][\s\S]+?[^}])}}/g,
+  interpolate: /{{{([\s\S]+?)}}}/g
+}
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
@@ -20,7 +25,16 @@ if (config.server.useOutputCache) {
   console.log('Redis cache set', config.redis)
 }
 
+const templatesCache = {}
 let renderer
+for (const tplName of Object.keys(config.ssr.templates)) {
+  const fileName = resolve(config.ssr.templates[tplName])
+  if (fs.existsSync(fileName)) {
+    const template = fs.readFileSync(fileName, 'utf-8')
+    templatesCache[tplName] = compile(template, compileOptions)
+  }
+}
+
 if (isProd) {
   // In production: create server renderer using server bundle and index HTML
   // template from real fs.
@@ -28,20 +42,20 @@ if (isProd) {
   const bundle = require(resolve('dist/vue-ssr-bundle.json'))
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
-  const template = fs.readFileSync(resolve('dist/index.html'), 'utf-8')
-  renderer = createRenderer(bundle, template)
+  // TODO: Add dynamic templates loading from (config based?) list
+  renderer = createRenderer(bundle)
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
-    renderer = createRenderer(bundle, template)
+    templatesCache['default'] = compile(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
+    renderer = createRenderer(bundle)
   })
 }
 
 function createRenderer (bundle, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return require('vue-server-renderer').createBundleRenderer(bundle, {
-    template,
     cache: require('lru-cache')({
       max: 1000,
       maxAge: 1000 * 60 * 15
@@ -61,41 +75,48 @@ app.use('/service-worker.js', serve('dist/service-worker.js', {
   setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
 }))
 
+const serverExtensions = require(resolve('src/server'))
+serverExtensions.registerUserServerRoutes(app)
+
 app.get('/invalidate', (req, res) => {
-  if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
-    if (req.query.key !== config.server.invalidateCacheKey) {
-      console.error('Invalid cache invalidation key')
-      res.end('Invalid cache invalidation key')
-      return
-    }
-    console.log(`Clear cache request for [${req.query.tag}]`)
-    let tags = []
-    if (req.query.tag === '*') {
-      tags = config.server.availableCacheTags
-    } else {
-      tags = req.query.tag.split(',')
-    }
-    const subPromises = []
-    tags.forEach(tag => {
-      if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
-        return tag.indexOf(t) === 0
-      })) {
-        subPromises.push(cache.invalidate(tag).then(() => {
-          console.log(`Tags invalidated successfully for [${tag}]`)
-        }))
-      } else {
-        console.error(`Invalid tag name ${tag}`)
+  if (config.server.useOutputCache) {
+    if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
+      if (req.query.key !== config.server.invalidateCacheKey) {
+        console.error('Invalid cache invalidation key')
+        utils.apiStatus(res, 'Invalid cache invalidation key', 500)
+        return
       }
-    })
-    Promise.all(subPromises).then(r => {
-      res.end(`Tags invalidated successfully [${req.query.tag}]`)
-    }).catch(error => {
-      res.end(error)
-      console.error(error)
-    })
+      console.log(`Clear cache request for [${req.query.tag}]`)
+      let tags = []
+      if (req.query.tag === '*') {
+        tags = config.server.availableCacheTags
+      } else {
+        tags = req.query.tag.split(',')
+      }
+      const subPromises = []
+      tags.forEach(tag => {
+        if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
+          return tag.indexOf(t) === 0
+        })) {
+          subPromises.push(cache.invalidate(tag).then(() => {
+            console.log(`Tags invalidated successfully for [${tag}]`)
+          }))
+        } else {
+          console.error(`Invalid tag name ${tag}`)
+        }
+      })
+      Promise.all(subPromises).then(r => {
+        utils.apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
+      }).catch(error => {
+        utils.apiStatus(res, error, 500)
+        console.error(error)
+      })
+    } else {
+      utils.apiStatus(res, 'Invalid parameters for Clear cache request', 500)
+      console.error('Invalid parameters for Clear cache request')
+    }
   } else {
-    res.end('GET Parameters key and tag are required')
-    console.error('Invalid parameters for Clear cache request')
+    utils.apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
   }
 })
 
@@ -105,9 +126,7 @@ app.get('*', (req, res, next) => {
     if (err && err.code === 404) {
       res.redirect('/page-not-found')
     } else {
-      // Render Error Page or Redirect
-      // TODO: Add error page handler
-      res.status(500).end('500 | Internal Server Error')
+      res.redirect('/error')
       console.error(`Error during render : ${req.url}`)
       console.error(err)
       next()
@@ -129,35 +148,62 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
-    const context = { url: req.url, storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE }
-    if (config.server.useOutputCacheTagging) {
-      renderer.renderToString(context).then(output => {
-        const tagsArray = Array.from(context.state.requestContext.outputCacheTags)
-        const cacheTags = tagsArray.join(' ')
-        res.setHeader('Content-Type', 'text/html')
-        res.setHeader('X-VS-Cache-Tags', cacheTags)
-        res.end(output)
-        console.log(`cache tags for the request: ${cacheTags}`)
-        console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
-        if (config.server.useOutputCache && cache) {
-          cache.set(
-            'page:' + req.url,
-            output,
-            tagsArray
-          ).catch(errorHandler)
-        }
-        next()
-      }).catch(errorHandler)
-    } else {
-      res.setHeader('Content-Type', 'text/html')
-      renderer.renderToStream(context) // TODO: pass the store code from the headers
-        .on('error', errorHandler)
-        .on('end', () => {
-          console.log(`whole request: ${Date.now() - s}ms`)
-          next()
-        })
-        .pipe(res)
+    if (config.server.dynamicConfigReload) {
+      delete require.cache[require.resolve('config')]
+      config = require('config') // reload config
     }
+    const context = {
+      url: req.url,
+      output: {
+        prepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: output.prepend() { return context.renderStyles() } to attach styles
+        append: (context) => { return '' },
+        template: 'default',
+        cacheTags: null
+      },
+      server: {
+        app: app,
+        response: res,
+        request: req
+      },
+      meta: null,
+      vs: {
+        config: config,
+        storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE
+      }
+    }
+    renderer.renderToString(context).then(output => {
+      if (!res.get('content-type')) {
+        res.setHeader('Content-Type', 'text/html')
+      }
+      let tagsArray = []
+      if (config.server.useOutputCacheTagging && context.output.cacheTags !== null) {
+        tagsArray = Array.from(context.output.cacheTags)
+        const cacheTags = tagsArray.join(' ')
+        res.setHeader('X-VS-Cache-Tags', cacheTags)
+        console.log(`cache tags for the request: ${cacheTags}`)
+      }
+      const contentPrepend = (typeof context.output.prepend === 'function') ? context.output.prepend(context) : ''
+      const contentAppend = (typeof context.output.append === 'function') ? context.output.append(context) : ''
+
+      output = contentPrepend + output + contentAppend
+      if (context.output.template) { // case when we've got the template name back from vue app
+        if (templatesCache[context.output.template]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
+          output = templatesCache[context.output.template](context).replace('<!--vue-ssr-outlet-->', output)
+        } else {
+          throw new Error(`The given template name ${context.output.template} does not exist`)
+        }
+      }
+      if (config.server.useOutputCache && cache) {
+        cache.set(
+          'page:' + req.url,
+          { headers: res.getHeaders(), body: output },
+          tagsArray
+        ).catch(errorHandler)
+      }
+      res.end(output)
+      console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
+      next()
+    }).catch(errorHandler)
   }
 
   if (config.server.useOutputCache && cache) {
@@ -165,8 +211,18 @@ app.get('*', (req, res, next) => {
       'page:' + req.url
     ).then(output => {
       if (output !== null) {
-        res.setHeader('Content-Type', 'text/html')
+        if (output.headers) {
+          for (const header of Object.keys(output.headers)) {
+            res.setHeader(header, output.headers[header])
+          }
+        }
         res.setHeader('X-VS-Cache', 'Hit')
+        if (output.body) {
+          res.end(output.body)
+        } else {
+          res.setHeader('Content-Type', 'text/html')
+          res.end(output.body)
+        }
         res.end(output)
         console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
         next()

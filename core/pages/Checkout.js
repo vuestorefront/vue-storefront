@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import store from '@vue-storefront/store'
 import VueOfflineMixin from 'vue-offline/mixin'
 
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -37,6 +37,20 @@ export default {
     }
   },
   beforeMount () {
+    // TO-DO: Use one event with name as apram
+    this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
+    this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
+    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
+    this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
+    this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
+    this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
+    this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
+    this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
+    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
+    this.$bus.$on('checkout-after-validationError', this.focusField)
     this.$store.dispatch('cart/load').then(() => {
       if (this.$store.state.cart.cartItems.length === 0) {
         this.$bus.$emit('notification', {
@@ -88,23 +102,7 @@ export default {
     this.$bus.$emit('checkout-before-shippingMethods', country)
     this.$store.dispatch('cart/getPaymentMethods')
   },
-  created () {
-    // TO-DO: Use one event with name as apram
-    this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
-    this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
-    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
-    this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
-    this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
-    this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
-    this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
-    this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
-    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
-    this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
-    this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
-    this.$bus.$on('checkout-after-validationError', this.focusField)
-  },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
@@ -270,8 +268,8 @@ export default {
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
       let paymentMethod = this.payment.paymentMethod
-      if (config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
-        paymentMethod = config.orders.payment_methods_mapping[paymentMethod]
+      if (store.state.config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = store.state.config.orders.payment_methods_mapping[paymentMethod]
       }
       return paymentMethod
     },
@@ -359,9 +357,9 @@ export default {
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      store.state.requestContext.outputCacheTags.add(`checkout`)
+      if (context) context.output.cacheTags.add(`checkout`)
       resolve()
     })
   }

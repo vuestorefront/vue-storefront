@@ -26,9 +26,9 @@ const mutations: MutationTree<CartState> = {
     Vue.prototype.$bus.$emit('cart-before-save', { items: state.cartItems })
     state.cartSavedAt = Date.now()
   },
-  [types.CART_DEL_ITEM] (state, { product }) {
+  [types.CART_DEL_ITEM] (state, { product, removeByParentSku = true }) {
     Vue.prototype.$bus.$emit('cart-before-delete', { items: state.cartItems })
-    state.cartItems = state.cartItems.filter(p => p.sku !== product.sku && p.parentSku !== product.sku)
+    state.cartItems = state.cartItems.filter(p => p.sku !== product.sku && (p.parentSku !== product.sku || removeByParentSku === false))
     Vue.prototype.$bus.$emit('cart-after-delete', { items: state.cartItems })
     state.cartSavedAt = Date.now()
   },

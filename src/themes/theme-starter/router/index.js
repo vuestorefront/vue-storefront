@@ -3,13 +3,13 @@
 import Home from 'theme/pages/Home.vue'
 import Product from 'theme/pages/Product.vue'
 import Category from 'theme/pages/Category.vue'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 let routes = [
   { path: '/', component: Home, name: 'home' }
 ]
 
-if (!config.products.useShortCatalogUrls) {
+if (!store.state.config.products.useShortCatalogUrls) {
   routes = routes.concat([{ name: 'virtual-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'bundle-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'simple-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site

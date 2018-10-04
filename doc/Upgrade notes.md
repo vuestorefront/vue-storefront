@@ -5,6 +5,11 @@ We're trying to keep the upgrade process as easy as it's possible. Unfortunately
 ## 1.3 -> 1.4
 
 ### Modifications
+
+#### Reviews
+
+We've added the Reviews support, however Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
+
 #### Microcart
 
 1. We moved core functionalities of coupon codes to API modules:

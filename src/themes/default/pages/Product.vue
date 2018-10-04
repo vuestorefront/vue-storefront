@@ -197,7 +197,7 @@
         </section>
       </div>
     </section>
-    <section class="container pt50 pb20 px20 cl-accent details">
+    <section class="container px15 pt50 pb35 cl-accent details">
       <h2 class="h3 m0 mb10 serif lh20 details-title">
         {{ $t('Product details') }}
       </h2>
@@ -231,6 +231,7 @@
         </div>
       </div>
     </section>
+    <reviews v-show="OnlineOnly"/>
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
@@ -242,8 +243,9 @@
 
 <script>
 import Product from '@vue-storefront/core/pages/Product'
-
+import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
 import GenericSelector from 'theme/components/core/GenericSelector'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
@@ -272,9 +274,10 @@ export default {
     ProductTile,
     PromotedOffers,
     RelatedProducts,
+    Reviews,
     SizeSelector
   },
-  mixins: [Product],
+  mixins: [Product, VueOfflineMixin],
   data () {
     return {
       detailsOpen: false
