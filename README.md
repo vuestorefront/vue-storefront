@@ -23,13 +23,6 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        Magento 2.2 - Default theme
-      </td>
-      <td align="left" valign="top">
-      </td>
-</tr>
-    <tr>
-      <td align="center" valign="middle">
         <a href="https://demo.vuestorefront.io">
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"
@@ -39,17 +32,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
       </td>
       <td align="left" valign="top">
 Try out our open demo and if you like it **first give us some star on Github ★** and then contact us on [Slack](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg) or via contributors@vuestorefront.io
-
       </td>
-</tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://demo.vuestorefront.io">
-          demo.vuestorefront.io
-        </a>
-      </td>
-      <td align="center" valign="middle">
-      </td>      
 </tr>
   </tbody>
 </table>
