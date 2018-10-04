@@ -27,7 +27,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"
             alt="B2C Theme demo"
-            width="100">
+            style="width: 100px;">
         </a>
       </td>
       <td align="left" valign="top">
