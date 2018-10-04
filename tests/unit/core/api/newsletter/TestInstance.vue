@@ -12,7 +12,7 @@ import {
   subscribe,
   unsubscribe,
   isSubscribed
-} from '@vue-storefront/core/modules/newsletter/features'
+} from '@vue-storefront/core/modules/newsletter-mailchimp/features'
 
 export default {
   data () {

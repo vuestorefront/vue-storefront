@@ -25,7 +25,7 @@ export const Microcart = {
     removeCoupon () : Promise<boolean> {
       return this.$store.dispatch('cart/removeCoupon')
     },
-    toggleMicrocart () {
+    toggleMicrocart () : void {
       this.$store.dispatch('ui/toggleMicrocart')
     }
   }
