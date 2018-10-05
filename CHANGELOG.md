@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.4.0] - 2018.10.05
 
 ### Added
-- GraphQL support - #1616 - Yuri Boyko @yuriboyko, Vladimir Plastovets @VladimirPlastovets
+- GraphQL support - #1616 - Yuri Boyko @yuriboyko, Vladimir Plastovets @VladimirPlastovets => [PHOENIX MEDIA](https://www.phoenix-media.eu/)
 - Layout switching + Advanced output mechanisms - #1787 - Piotr Karwatka @pkarw
 - Dynamic config reload - #1800 - Piotr Karwatka @pkarw
 - VuePress based docs - #1728 - Natalia Tepluhina - @NataliaTepluhina
