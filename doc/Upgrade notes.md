@@ -6,6 +6,14 @@ We're trying to keep the upgrade process as easy as it's possible. Unfortunately
 
 ### Modifications
 
+#### GraphQL
+
+We've added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release **bodybuilder** package is **deprecated**. You should use **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+
+#### SSR - Advanced output + cache
+
+However, this change is not involving any required actions to port the code but please just be aware that we're supporting [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md) + [dynamic layout changes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md) etc. If You're using modified version of the theme - You can hardly use these without updating `themes/YourTheme/App.vue` to the new format (check the default theme for details).
+
 #### Reviews
 
 We've added the Reviews support, however Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
