@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/core",
-  "version": "1.4.0",
-  "description": "Vue Storefront core",
+  "version": "1.4.1",
+  "description": "Vue Storefront Core",
   "license": "MIT",
   "main": "app.js",
   "scripts": {
