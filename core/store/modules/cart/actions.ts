@@ -303,6 +303,18 @@ const actions: ActionTree<CartState, RootState> = {
       dispatch('serverPull', { forceClientState: true })
     }
   },
+  removeNonConfirmedVariants ({ commit, dispatch }, payload) {
+    let removeByParentSku = true // backward compatibility call format
+    let product = payload
+    if(payload.product) { // new call format since 1.4
+      product = payload.product
+      removeByParentSku = payload.removeByParentSku
+    }
+    commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product })
+    if (rootStore.state.config.cart.synchronize && product.server_item_id) {
+      dispatch('serverPull', { forceClientState: true })
+    }
+  },  
   updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (rootStore.state.config.cart.synchronize && product.server_item_id && !forceServerSilence) {
@@ -618,7 +630,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
       } else {
         console.log('Removing product from the cart', originalCartItem)
-        rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: originalCartItem, removeByParentSku: false }, {root: true})
+        rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
       const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
