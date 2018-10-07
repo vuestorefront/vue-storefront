@@ -14,7 +14,7 @@ import i18n from '@vue-storefront/i18n'
 export const SubscriptionForm = {
   data () {
     return {
-      email: ''
+      email: '1234'
     }
   },
   validations: {
@@ -29,11 +29,13 @@ export const SubscriptionForm = {
     }
   },
   methods: {
-    subscribe () {
-      if (this.$v.$invalid) {
-        this.$store.dispatch('newsletter-mailchimp/subscribe')
-        this.$emit('subscribed')
-      } else {
+    submit () {
+      if (!this.$v.$invalid) {
+        this.$store.dispatch('mailchimp/subscribe').then(res => {
+          this.$emit('subscribed', res)
+        }).catch(err => 
+          this.$emit('subscription-error', err)
+        )} else {
         this.$emit('validation-error')
       }
     }

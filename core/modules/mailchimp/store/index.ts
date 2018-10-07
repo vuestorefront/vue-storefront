@@ -18,23 +18,27 @@ export default {
   actions: {
     subscribe ({ commit, state, dispatch }, email) {
       if (!state.isSubscribed) {
-        dispatch('sync/queue', 
-          { url: config.mailchimp.endpoint,
-            payload: {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              mode: 'cors',
-              body: JSON.stringify(email)
-            }
-          }, { root: true }).then(task => {
-          console.log('Mailchimp subscription added ')
-          console.log(task)
+        return new Promise((resolve, reject) => {
+          dispatch('sync/queue', 
+            { url: config.mailchimp.endpoint,
+              payload: {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors',
+                body: JSON.stringify(email)
+              }
+            }, { root: true }).then(task => {
+            commit(TYPES.NEWSLETTER_SUBSCRIBE)
+            resolve(task)
+          }).catch(err => {
+            reject(err)
+          })
         })
-        commit(TYPES.NEWSLETTER_SUBSCRIBE)
       }
     },
     unsubscribe ({ commit, state, dispatch }, email) {
       if (!state.isSubscribed) {
+        return new Promise((resolve, reject) => {
         dispatch('sync/queue', { url: config.mailchimp.endpoint,
           payload: {
             method: 'DELETE',
@@ -43,10 +47,12 @@ export default {
             body: JSON.stringify(email)
           }
         }, { root: true }).then(task => {
-          console.log('Mailchimp subscription removed ')
-          console.log(task)
+          commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
+          resolve(task)
+        }).catch(err => {
+          reject(err)
         })
-        commit(TYPES.NEWSLETTER_SUBSCRIBE)
+      })
       }
     }
   }

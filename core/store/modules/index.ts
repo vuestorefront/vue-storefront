@@ -18,6 +18,9 @@ import claims from './claims'
 import sync from './sync'
 import promoted from './promoted-offers'
 
+// MODULES_ENTRY
+import mailchimp from '@vue-storefront/core/modules/mailchimp/store/index'
+
 export default {
   order,
   product,
@@ -37,5 +40,6 @@ export default {
   tax,
   claims,
   sync,
-  promoted
+  promoted,
+  mailchimp
 }

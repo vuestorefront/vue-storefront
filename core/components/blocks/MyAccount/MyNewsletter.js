@@ -1,4 +1,4 @@
-import { subscribe, unsubscribe, isSubscribed } from '@vue-storefront/core/modules/newsletter-mailchimp/features'
+import { subscribe, unsubscribe, isSubscribed } from '@vue-storefront/core/modules/mailchimp/features'
 
 export default {
   name: 'MyNewsletter',
