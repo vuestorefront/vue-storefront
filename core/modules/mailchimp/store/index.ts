@@ -16,6 +16,7 @@ export default {
     }
   },
   actions: {
+    // TODO: Don't send it while offline, it's redundant
     subscribe ({ commit, state, dispatch }, email) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
