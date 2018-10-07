@@ -22,11 +22,21 @@
 </template>
 
 <script>
-import Newsletter from '@vue-storefront/core/components/blocks/Footer/Newsletter'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import { mapState } from 'vuex'
 
 export default {
-  mixins: [Newsletter],
+  name: 'Newsletter',
+  computed: {
+    ...mapState({
+      isOpen: state => state.ui.newsletterPopup
+    })
+  },
+  methods: {
+    newsletterClick () {
+      this.$store.commit('ui/setNewsletterPopup', !this.isOpen)
+    }
+  },
   components: {
     ButtonOutline
   }
