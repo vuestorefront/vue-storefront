@@ -8,7 +8,7 @@ export default {
   },
   methods: {
     sortById (filters) {
-      return filters.sort((a, b) => { return a.id - b.id })
+      return [...filters].sort((a, b) => { return a.id - b.id })
     }
   }
 }
