@@ -41,6 +41,7 @@ module.exports = {
             'basics/typescript',
             'basics/graphql',
             'basics/entity',
+            'basics/ssr-cache',
           ],
         },
         // {
