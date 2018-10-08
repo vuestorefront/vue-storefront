@@ -3,7 +3,7 @@
     <div class="relative">
       <textarea
         class="
-          py10 w-100 border-box brdr-none brdr-bottom-1
+          mt10 pb10 w-100 border-box brdr-none brdr-bottom-1
           brdr-cl-primary h4 sans-serif
         "
         :class="{empty: value === ''}"
