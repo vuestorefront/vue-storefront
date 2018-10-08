@@ -27,23 +27,19 @@ export default {
       active: false
     }
   },
-  destroyed () {
-    this.$bus.$off('filter-reset', this.filterReset)
-    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
-  },
-  created () {
+  beforeMount () {
     this.$bus.$on('filter-reset', this.filterReset)
     this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
+  },
+  beforeDestroy () {
+    this.$bus.$off('filter-reset', this.filterReset)
+    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
   methods: {
     filterChanged (filterOption) {
       if (filterOption.attribute_code === this.code) {
         if (filterOption.id === this.id) {
-          if (this.active) {
-            this.active = false
-          } else {
-            this.active = true
-          }
+          this.active = !this.active
         } else {
           this.active = false
         }

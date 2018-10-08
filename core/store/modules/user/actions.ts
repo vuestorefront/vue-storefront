@@ -66,7 +66,6 @@ const actions: ActionTree<UserState, RootState> = {
    * Send password reset link for specific e-mail
    */
   resetPassword (context, { email }) {
-    console.log({ email: email })
     return context.dispatch('sync/execute', { url: rootStore.state.config.users.resetPassword_endpoint,
       payload: {
         method: 'POST',
@@ -284,7 +283,6 @@ const actions: ActionTree<UserState, RootState> = {
    * Change user password
    */
   changePassword (context, passwordData) {
-    console.log(context)
     return context.dispatch('sync/execute', { url: rootStore.state.config.users.changePassword_endpoint,
       payload: {
         method: 'POST',
@@ -330,7 +328,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (!silent) {
       Vue.prototype.$bus.$emit('notification', {
         type: 'success',
-        message: i18n.t('You\'re logged out'),
+        message: i18n.t("You're logged out"),
         action1: { label: i18n.t('OK'), action: 'close' }
       })
     }

@@ -22,16 +22,20 @@ export default {
       } else return this.getThumbnail(thumbnail, 150, 150)
     }
   },
-  created () {
-    this.$bus.$on('cart-after-itemchanged', (event) => {
-      if (event.item.sku === this.product.sku) {
-        this.$forceUpdate()
-      }
-    })
+  beforeDestroy () {
+    this.$bus.$off('cart-after-itemchanged', this.onProductChanged)
+  },
+  beforeMount () {
+    this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
   },
   methods: {
     removeItem () {
-      this.$store.dispatch('cart/removeItem', this.product)
+      this.$store.dispatch('cart/removeItem', { product: this.product })
+    },
+    onProductChanged (event) {
+      if (event.item.sku === this.product.sku) {
+        this.$forceUpdate()
+      }
     },
     updateQuantity () {
       this.qty = parseInt(this.qty)

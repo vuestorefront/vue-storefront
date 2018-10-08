@@ -343,13 +343,19 @@ class Storefront extends Abstract {
         config = jsonFile.readFileSync(SOURCE_FRONTEND_CONFIG_FILE)
 
         let backendPath
+        let graphQlHost
+        let graphQlPort = 8080
 
         if (Abstract.wasLocalBackendInstalled) {
+          graphQlHost = 'localhost'
           backendPath = 'http://localhost:8080'
         } else {
           backendPath = STOREFRONT_REMOTE_BACKEND_URL
+          graphQlHost = backendPath.replace('https://', '').replace('http://', '')
         }
 
+        config.graphql.host = graphQlHost
+        config.graphql.port = graphQlPort
         config.elasticsearch.host = `${backendPath}/api/catalog`
         config.orders.endpoint = `${backendPath}/api/order`
         config.products.endpoint = `${backendPath}/api/product`
@@ -372,7 +378,8 @@ class Storefront extends Abstract {
         config.cart.shippinginfo_endpoint = `${backendPath}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}`
         config.cart.collecttotals_endpoint = `${backendPath}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}`
         config.cart.deletecoupon_endpoint = `${backendPath}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}`
-        config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}`
+        config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
+        config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`
 
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.images.baseUrl = this.answers.images_endpoint

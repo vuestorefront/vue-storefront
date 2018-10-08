@@ -26,10 +26,10 @@ export default {
       stateOrdersHistory: Object.assign({}, this.$store.state.user.orders_history)
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('user-after-loaded-orders', this.onOrdersLoaded)
   },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('user-after-loaded-orders', this.onOrdersLoaded)
   },
   mounted () {

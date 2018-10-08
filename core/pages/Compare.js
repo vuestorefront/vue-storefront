@@ -41,5 +41,11 @@ export default {
       title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
+  },
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      if (context) context.output.cacheTags.add(`compare`)
+      resolve()
+    })
   }
 }

@@ -1,7 +1,7 @@
-# Vue Storefront - headless PWA for eCommerce 
-<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a> 
-![version](https://img.shields.io/badge/node-v8.x-blue.svg) 
-![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg) 
+# Vue Storefront - headless PWA for eCommerce
+<a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
+![version](https://img.shields.io/badge/node-v8.x-blue.svg)
+![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg)
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
@@ -60,7 +60,9 @@ We are planning 1-2 milestones ahead. Our milestones are based on requirements f
 [Check the feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md).
 
 ## Documentation + table of contents
-The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc
+The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc. There is also new, updated `/docs` folder with original documentation migrated to VuePress (Work in Progress).
+
+**Please try out our NEW DOCS:** [available on Github Pages](https://divanteltd.github.io/vue-storefront/). Please note that new docs are still Work In Progress and will be successfully updated.
 
 You can find some tutorials and explainations on our [YouTube channel](https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg)
 
@@ -78,9 +80,13 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
 * [Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
 * [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
+* [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md)
+* [Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
+* [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md)
 
 ### Vue Storefront core and themes
 * [Working with themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md)
+* [Layouts and advanced output operations](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md)
 * [Working with Vue Storefront core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md)
 * [Working with UI Store (interface state)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md)
 * [Working with translations](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md)
@@ -99,17 +105,21 @@ Tutorial series on creating themes for Vue Storefront:
 * [Data Migrations for ElasticSearch](https://github.com/DivanteLtd/vue-storefront-api/blob/master/doc/1.%20Data%20schema%20and%20migrations.md)
 * [ElasticSearch Queries](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/ElasticSearch%20Queries.md)
 * [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
+* [Adding Custom Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
 
 ### Working with Vue Storefront Extensions
 * [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
 * [Adding custom Server API methods](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md)
 * [Extending UI from extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Extending%20UI%20from%20extensions.md)
+* [Adding Express routes and middlewares](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20Express.js%20server%20side%20routes.md)
 
 ### Integrations
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 * [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 * [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 * [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
+* [Magento2 Product Reviews](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Reviews.md)
+* [PayPal Payments integration](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/PayPal%20payments%20support.md)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
 * [Tier prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Tier%20prices.md)
 * [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)

@@ -5,6 +5,7 @@ import { union } from 'lodash-es'
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 
+import buildTimeConfig from 'config'
 import { execute } from '@vue-storefront/store/lib/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
@@ -15,13 +16,12 @@ require('@vue-storefront/core/service-worker-registration') // register the serv
 
 declare var window: any
 
-const { app, router, store } = createApp()
-
-const config = store.state.config
+const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
+const { app, router, store } = createApp(null, config)
 
 let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
 if (window.__INITIAL_STATE__) {
-  store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__))
+  store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
 }
 if (config.storeViews.multistore === true) {
   if ((storeCode = store.state.user.current_storecode)) {
@@ -63,6 +63,7 @@ function _ssrHydrateSubcomponents (components, next, to) {
 }
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
+    if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
     if (to) { // this is from url

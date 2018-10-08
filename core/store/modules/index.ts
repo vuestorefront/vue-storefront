@@ -4,6 +4,7 @@ import category from './category'
 import attribute from './attribute'
 import cart from './cart'
 import wishlist from './wishlist'
+import review from './review'
 import compare from './compare'
 import user from './user'
 import payment from './payment'
@@ -13,7 +14,6 @@ import checkout from './checkout'
 import homepage from './homepage'
 import stock from './stock'
 import tax from './tax'
-import social from './social-tiles'
 import claims from './claims'
 import sync from './sync'
 import promoted from './promoted-offers'
@@ -25,6 +25,7 @@ export default {
   attribute,
   cart,
   wishlist,
+  review,
   compare,
   user,
   payment,
@@ -34,7 +35,6 @@ export default {
   homepage,
   stock,
   tax,
-  social,
   claims,
   sync,
   promoted

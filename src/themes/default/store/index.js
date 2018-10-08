@@ -6,8 +6,10 @@
 
 import ui from './ui-store'
 import product from './product-extensions'
+import social from './social-tiles'
 
 export default {
   ui,
-  product
+  product,
+  social
 }

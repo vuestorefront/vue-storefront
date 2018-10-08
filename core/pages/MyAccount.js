@@ -18,7 +18,7 @@ export default {
       returnEditMode: false
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
@@ -66,5 +66,11 @@ export default {
       title: this.$route.meta.title || i18n.t('My Account'),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
+  },
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      if (context) context.output.cacheTags.add(`my-account`)
+      resolve()
+    })
   }
 }

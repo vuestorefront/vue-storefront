@@ -34,7 +34,7 @@
       {{ icon }}
     </button>
     <template v-if="validation">
-      <span class="block cl-error h6" v-if="validation.condition">
+      <span class="block cl-error h6 mt8" v-if="validation.condition">
         {{ validation.text }}
       </span>
     </template>
@@ -43,7 +43,7 @@
         v-for="(validation, index) in validations"
         :key="index"
         v-if="validation.condition"
-        class="block cl-error h6"
+        class="block cl-error h6 mt8"
         data-testid="errorMessage"
       >
         {{ validation.text }}
@@ -89,7 +89,7 @@ export default {
     position:absolute;
     pointer-events:none;
     user-select: none;
-    left:5px;
+    left: 0;
     top: 10px;
     transition:0.2s ease all;
     -moz-transition:0.2s ease all;

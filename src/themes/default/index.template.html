@@ -24,8 +24,12 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-  </head>
+		{{{ renderResourceHints() }}}
+    {{{ renderStyles() }}}
+	</head>
   <body>
-    <!--vue-ssr-outlet-->
+		<!--vue-ssr-outlet-->
+    {{{ renderState() }}}
+    {{{ renderScripts() }}}		
   </body>
 </html>
