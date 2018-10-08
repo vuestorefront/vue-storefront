@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Vue Storefront Core",
   "license": "MIT",
   "main": "app.js",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@vue-storefront/store": "^1.4.1",
+    "@vue-storefront/store": "^1.4.2",
     "app-root-path": "^2.0.1",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
