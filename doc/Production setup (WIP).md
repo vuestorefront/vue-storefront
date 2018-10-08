@@ -221,6 +221,9 @@ ProxyRequests off
 ProxyPass /api/ http://localhost:8080/api/ 
 ProxyPassReverse /api http://localhost:8080/api/
 
+ProxyPass /graphql http://localhost:8080/graphql
+ProxyPassReverse /graphql http://localhost:8080/graphql
+
 ProxyPass /img/ http://localhost:8080/img/
 ProxyPassReverse /img http://localhost:8080/img/
 
@@ -284,11 +287,18 @@ curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/pro
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
 
 ```json
+    "server" : {
+       "protocol": "https"
+    },
     "elasticsearch": {
         "httpAuth": "",
         "host": "https://prod.vuestorefront.io/api/catalog",
         "index": "vue_storefront_catalog"
     },
+    "graphql": {
+        "host": "prod.vuestorefront.io",
+        "port": 80
+    },    
     "storeViews": {
         "mapStoreUrlsFor": [
             "de",
