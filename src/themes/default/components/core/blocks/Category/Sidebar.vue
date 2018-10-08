@@ -26,7 +26,7 @@
           :attribute_code="size"
           code="size"
           class="size-select mr10 mb10"
-          v-for="(size, index) in filter"
+          v-for="(size, index) in sortById(filter)"
           :key="index"
           :id="size.id"
           :label="size.label"

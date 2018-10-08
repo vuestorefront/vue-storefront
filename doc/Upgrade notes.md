@@ -35,6 +35,7 @@ We've added the Reviews support, however Magento2 is still lacking Reviews suppo
    + **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
 3. We moved $emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself. 
 4. We moved VueOfflineMixin and onEscapePress mixins to theme component. Core component is clean from UI stuff now. 
+5. We've replaced one method `Microcart` - `cartTotals` -> `totals`
 
 #### Assets
 

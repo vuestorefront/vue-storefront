@@ -21,6 +21,8 @@ services:
       - './package.json:/var/www/package.json'
       - './src:/var/www/src'
       - './var:/var/www/var'
+      - './tsconfig.json:/var/www/tsconfig.json'
+      - './shims.d.ts:/var/www/shims.d.ts'
     tmpfs:
       - /var/www/dist
     ports:

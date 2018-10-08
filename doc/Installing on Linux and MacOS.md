@@ -412,7 +412,7 @@ also **remember to whitelist your Magento domain**
 
 ### 5. **In Terminal in `[project-folder]/mage2vuestorefront/src/` run:**
 
-  `$ node —harmony cli.js fullreindex`
+  `$ node --harmony cli.js fullreindex`
 
 <br>
 
