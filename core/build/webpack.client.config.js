@@ -5,6 +5,11 @@ const path = require('path')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const config = merge(base, {
+  output: {
+    path: path.resolve(__dirname, '../../dist'),
+    publicPath: '/dist/',
+    filename: '[name].js'
+  },
   optimization: {
     splitChunks:  {
       cacheGroups: {
