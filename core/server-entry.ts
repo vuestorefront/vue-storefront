@@ -23,6 +23,8 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
         route: router.currentRoute,
         context
       })
+    } else {
+      return Promise.resolve(null)
     }
   })).then(() => {
     if (buildTimeConfig.ssr.useInitialStateFilter) {
