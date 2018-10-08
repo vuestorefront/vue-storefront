@@ -39,6 +39,8 @@ module.exports = {
             'basics/feature-list',
             'basics/recipes',
             'basics/typescript',
+            'basics/graphql',
+            'basics/entity',
           ],
         },
         // {
