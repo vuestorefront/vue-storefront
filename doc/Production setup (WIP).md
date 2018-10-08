@@ -297,7 +297,7 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
     },
     "graphql": {
         "host": "prod.vuestorefront.io",
-        "port": 80
+        "port": 443
     },    
     "storeViews": {
         "mapStoreUrlsFor": [
