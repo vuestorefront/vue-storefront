@@ -151,8 +151,8 @@ export function initStore () {
   const config = rootStore.state.config
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
   Vue.prototype.$db = {
+    currentStoreCode: storeView.storeCode,
     ordersCollection: new UniversalStorage(localForage.createInstance({
       name: 'shop',
       storeName: 'orders',
