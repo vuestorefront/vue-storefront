@@ -47,7 +47,8 @@ module.exports = {
     new VueLoaderPlugin(),
     // generate output HTML
     new HTMLPlugin({
-      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
+      filename: 'index.html'
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndexMinimal : 'src/index.minimal.template.html',
