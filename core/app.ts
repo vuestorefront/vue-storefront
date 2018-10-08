@@ -73,7 +73,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     Vue.filter(key, filtersObject[key])
   })
     const httpLink = new HttpLink({
-      uri: store.state.config.graphql.host.indexOf('://') >== 0 ? store.state.config.graphql.host : (store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql')
+      uri: store.state.config.graphql.host.indexOf('://') >= 0 ? store.state.config.graphql.host : (store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql')
     })
   
   const apolloClient = new ApolloClient({
