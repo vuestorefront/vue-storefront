@@ -31,10 +31,9 @@ for (const tplName of Object.keys(config.ssr.templates)) {
   const fileName = resolve(config.ssr.templates[tplName])
   if (fs.existsSync(fileName)) {
     const template = fs.readFileSync(fileName, 'utf-8')
-    templatesCache[tplName] = compile(template, compileOptions)
+    templatesCache[tplName] = template
   }
 }
-const clientManifest = require(resolve('dist/vue-ssr-client-manifest.json'))
 
 if (isProd) {
   // In production: create server renderer using server bundle and index HTML
@@ -49,7 +48,7 @@ if (isProd) {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
-    templatesCache['default'] = compile(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
+    templatesCache['default'] = template // Important Notice: template switching doesn't work with dev server because of the HMR
     renderer = createRenderer(bundle)
   })
 }
@@ -57,7 +56,6 @@ if (isProd) {
 function createRenderer (bundle, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return require('vue-server-renderer').createBundleRenderer(bundle, {
-    clientManifest,
     cache: require('lru-cache')({
       max: 1000,
       maxAge: 1000 * 60 * 15
@@ -190,8 +188,7 @@ app.get('*', (req, res, next) => {
       output = contentPrepend + output + contentAppend
       if (context.output.template) { // case when we've got the template name back from vue app
         if (templatesCache[context.output.template]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
-          console.log(context.renderScripts())
-          output = templatesCache[context.output.template](context).replace('<!--vue-ssr-outlet-->', output)
+          output = compile(templatesCache[context.output.template], compileOptions)(context).replace('<!--vue-ssr-outlet-->', output)
         } else {
           throw new Error(`The given template name ${context.output.template} does not exist`)
         }
