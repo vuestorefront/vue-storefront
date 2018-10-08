@@ -153,17 +153,12 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(orderData)
             }).then(response => {
-            if (response.status === 200) {
-              const contentType = response.headers.get('content-type')
-              if (contentType && contentType.includes('application/json')) {
-                return response.json()
-              } else {
-                orderMutex[id] = false
-                console.error('Error with response - bad content-type!')
-              }
+            const contentType = response.headers.get('content-type')
+            if (contentType && contentType.includes('application/json')) {
+              return response.json()
             } else {
               orderMutex[id] = false
-              console.error('Bad response status: ' + response.status)
+              console.error('Error with response - bad content-type!')
             }
           })
             .then(jsonResponse => {

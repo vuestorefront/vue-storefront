@@ -1,5 +1,6 @@
 import rootStore, { initStore } from '../'
 import { loadLanguageAsync } from '@vue-storefront/i18n'
+import Vue from 'vue'
 
 export function currentStoreView () {
   return rootStore.state.storeView
@@ -14,6 +15,7 @@ export function prepareStoreView (storeCode) {
     storeCode: '',
     storeId: 0
   }
+  const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
   if (storeCode) { // current store code
     if ((storeView = config.storeViews[storeCode])) {
       storeView.storeCode = storeCode
@@ -24,8 +26,10 @@ export function prepareStoreView (storeCode) {
     rootStore.state.user.current_storecode = config.defaultStoreCode || ''
   }
   loadLanguageAsync(storeView.i18n.defaultLocale)
-  if (!rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode) {
+  if (storeViewHasChanged) {
     rootStore.state.storeView = storeView
+  }
+  if (storeViewHasChanged || Vue.prototype.$db.currentStoreCode !== storeCode) {
     initStore()
   }
   return storeView
