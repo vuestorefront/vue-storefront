@@ -225,8 +225,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (populateAggregations === true && res.aggregations) { // populate filter aggregates
           for (let attrToFilter of filters) { // fill out the filter options
-            rootStore.state.category.filters.available[attrToFilter] = []
-            //Vue.set(rootStore.state.category.filters.available, attrToFilter, [])
+            Vue.set(rootStore.state.category.filters.available, attrToFilter, [])
 
             let uniqueFilterValues = new Set<string>()
             if (attrToFilter !== 'price') {
