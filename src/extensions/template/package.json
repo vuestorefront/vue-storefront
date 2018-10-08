@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/extension-template",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Extension template for Vue Storefront",
   "license": "MIT",
   "main": "index.js",
