@@ -173,7 +173,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
                 orderData.transmited_at = new Date()
                 ordersCollection.setItem(orderId.toString(), orderData)
               } else {
-                console.error(jsonResponse.result)
+                console.error(jsonResponse)
               }
               orderMutex[id] = false
             }).catch(err => {
