@@ -223,11 +223,10 @@ class Backend extends Abstract {
         }
 
         config.imageable.whitelist.allowedHosts.push(host)
-        config.imageable.whitelist.trustedHosts.push(host)
 
         jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
-        reject(new Error('Can\'t create backend config.'))
+        reject(new Error('Can\'t create backend config. Original error: ' + e))
       }
 
       resolve()
