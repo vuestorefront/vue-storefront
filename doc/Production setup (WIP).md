@@ -456,7 +456,7 @@ Some usefull commands:
 - `yarn pm2 monit` - to monit the process statuses
 - `yarn pm2 logs server` - to get the logs from SSR server (in the vue-storefront)
 - `yarn pm2 logs api` - to get the logs from SSR server (in the vue-storefront-api)
-- `yarn build; yarn pm2 reload` - after pulling the latest version from git You typically want to run this sequence to apply the changes
+- `yarn build; yarn pm2 reload all` - after pulling the latest version from git You typically want to run this sequence to apply the changes
 
 ## Production setup - using Docker / Kubernetes
 
