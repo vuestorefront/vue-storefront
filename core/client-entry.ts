@@ -54,6 +54,8 @@ function _ssrHydrateSubcomponents (components, next, to) {
         store,
         route: to
       })
+    } else {
+      return Promise.resolve(null)
     }
   })).then(() => {
     next()
