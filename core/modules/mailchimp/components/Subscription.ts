@@ -1,6 +1,6 @@
 export const Unsubscribe = {
   methods: {
-    unsubscrive () {
+    unsubscribe () {
       this.$store.dispatch('mailchimp/unsubscribe', this.email).then(res => {
         this.$emit('unsubscribed', res)
       }).catch(err => 
