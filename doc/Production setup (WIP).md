@@ -189,6 +189,21 @@ The same module is used for providing user with the static assets. Assets will b
 
 The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app. running on `8080` port (default config). API will be available under: https://prod.vuestorefront.io/api
 
+If Your `vue-storefront` app is configured to use `config.server.api=graphql` then You also need to configure proper graphql endpoint:
+
+```
+	location /graphql {
+		proxy_pass http://localhost:8080/graphql/;
+	}
+```
+
+**Note:** Please remember to set `config.server.protocol=https` in order to use graphQL as the graphQL endpoint URL is constructed like this:
+```js
+  const httpLink = new HttpLink({
+    uri: store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql'
+  })
+```
+
 ```
 	location /img/ {
 		proxy_pass http://localhost:8080/img/;
@@ -205,6 +220,9 @@ ProxyRequests off
 
 ProxyPass /api/ http://localhost:8080/api/ 
 ProxyPassReverse /api http://localhost:8080/api/
+
+ProxyPass /graphql http://localhost:8080/graphql
+ProxyPassReverse /graphql http://localhost:8080/graphql
 
 ProxyPass /img/ http://localhost:8080/img/
 ProxyPassReverse /img http://localhost:8080/img/
@@ -269,11 +287,18 @@ curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/pro
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
 
 ```json
+    "server" : {
+       "protocol": "https"
+    },
     "elasticsearch": {
         "httpAuth": "",
         "host": "https://prod.vuestorefront.io/api/catalog",
         "index": "vue_storefront_catalog"
     },
+    "graphql": {
+        "host": "prod.vuestorefront.io",
+        "port": 443
+    },    
     "storeViews": {
         "mapStoreUrlsFor": [
             "de",

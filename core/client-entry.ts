@@ -54,6 +54,8 @@ function _ssrHydrateSubcomponents (components, next, to) {
         store,
         route: to
       })
+    } else {
+      return Promise.resolve(null)
     }
   })).then(() => {
     next()
@@ -153,17 +155,12 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(orderData)
             }).then(response => {
-            if (response.status === 200) {
-              const contentType = response.headers.get('content-type')
-              if (contentType && contentType.includes('application/json')) {
-                return response.json()
-              } else {
-                orderMutex[id] = false
-                console.error('Error with response - bad content-type!')
-              }
+            const contentType = response.headers.get('content-type')
+            if (contentType && contentType.includes('application/json')) {
+              return response.json()
             } else {
               orderMutex[id] = false
-              console.error('Bad response status: ' + response.status)
+              console.error('Error with response - bad content-type!')
             }
           })
             .then(jsonResponse => {
@@ -173,7 +170,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
                 orderData.transmited_at = new Date()
                 ordersCollection.setItem(orderId.toString(), orderData)
               } else {
-                console.error(jsonResponse.result)
+                console.error(jsonResponse)
               }
               orderMutex[id] = false
             }).catch(err => {
