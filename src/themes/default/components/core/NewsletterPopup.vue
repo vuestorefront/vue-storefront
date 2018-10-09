@@ -40,7 +40,7 @@
   </modal>
 </template>
 <script>
-import { SubscriptionForm } from '@vue-storefront/core/modules/mailchimp/components/SubscriptionForm'
+import { Subscribe } from '@vue-storefront/core/modules/mailchimp/components/Subscribe'
 import i18n from '@vue-storefront/i18n'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -49,9 +49,6 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 
 export default {
   mounted () {
-    if (this.$store.state.user.current) {
-      this.email = this.$store.state.user.current.email
-    }
     this.$on('subscribed', () => {
       this.$bus.$emit('notification', {
         type: 'success',
@@ -78,7 +75,7 @@ export default {
     BaseInput
   },
   mixins: [
-    SubscriptionForm
+    Subscribe
   ]
 }
 </script>

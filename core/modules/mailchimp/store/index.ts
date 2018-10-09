@@ -1,10 +1,29 @@
 import * as TYPES from './mutation-types'
 import config from 'config'
+import Vue from 'vue'
+import * as localForage from 'localforage'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+
+const cacheStorage = new UniversalStorage(localForage.createInstance({
+  name: 'shop',
+  storeName: 'mailchimpModule'
+}))
+
+let defaultSubscription = (() => {
+  cacheStorage.getItem('subscribed', (err, subscription) => {
+    if (!err) {
+      console.info(subscription)
+      return subscription
+    } else {
+      return 'dupa'
+    }
+  })
+})()
 
 export default {
   namespaced: true,
   state: {
-    isSubscribed: false,
+    isSubscribed: defaultSubscription,
     subscription: null
   },
   mutations: {
@@ -16,43 +35,39 @@ export default {
     }
   },
   actions: {
-    // TODO: Don't send it while offline, it's redundant
     subscribe ({ commit, state, dispatch }, email) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
-          dispatch('sync/queue', 
-            { url: config.mailchimp.endpoint,
-              payload: {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                mode: 'cors',
-                body: JSON.stringify(email)
-              }
-            }, { root: true }).then(task => {
+          fetch(config.mailchimp.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            body: JSON.stringify({ email })
+          }).then(res => {
             commit(TYPES.NEWSLETTER_SUBSCRIBE)
-            resolve(task)
+            cacheStorage.setItem('subscribed', true)
+            resolve(res)
           }).catch(err => {
             reject(err)
           })
         })
       }
     },
-    unsubscribe ({ commit, state, dispatch }, email) {
+    unsubscribe ({ commit, state }, email) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
-        dispatch('sync/queue', { url: config.mailchimp.endpoint,
-          payload: {
+          fetch(config.mailchimp.endpoint, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
-            body: JSON.stringify(email)
-          }
-        }, { root: true }).then(task => {
-          commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
-          resolve(task)
-        }).catch(err => {
-          reject(err)
-        })
+            body: JSON.stringify({ email })
+          }).then(res => {
+            commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
+            // cacheStorage.setItem('subscribed', false)
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
       })
       }
     }
