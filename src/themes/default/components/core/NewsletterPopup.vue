@@ -57,7 +57,7 @@ export default {
       })
       this.$bus.$emit('modal-hide', 'modal-newsletter')
     })
-    this.$on('validation-error', () => {
+    this.$on('validation-error', (e) => {
       this.$bus.$emit('notification', {
         type: 'error',
         message: i18n.t('Please fix the validation errors'),

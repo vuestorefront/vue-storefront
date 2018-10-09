@@ -19,7 +19,8 @@ import { required, email } from 'vuelidate/lib/validators'
 export const Subscribe = {
   data () {
     return {
-      email: ''
+      email: '',
+      saveInCache: false
     }
   },
   validations: {
@@ -30,26 +31,23 @@ export const Subscribe = {
   },
   mounted () {
     this.$store.dispatch('mailchimp/loadStateFromCache')
-    if (this.$store.state.user.current) {
-      this.email = this.$store.state.user.current.email
-    }
   },
   methods: {
     submit () {
       // argument omitted for validation purposes
       if (!this.$v.$invalid) {
-        this.$store.dispatch('mailchimp/subscribe', this.email).then(res => {
+        this.$store.dispatch('mailchimp/subscribe', { email: this.email, saveInCache: this.saveInCache }).then(res => {
           this.$emit('subscribed', res)
         }).catch(err => 
           this.$emit('subscription-error', err)
-        )} else {
+      )} else {
         this.$emit('validation-error')
       }
     }
   },
   computed: {
     isSubscribed () {
-      return this.$store.state.mailchimp.isSubscribed
+      return this.$store.state.mailchimp.subscribed
     }
-  }
+  },
 }

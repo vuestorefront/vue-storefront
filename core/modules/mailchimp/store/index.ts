@@ -26,7 +26,7 @@ export default {
     }
   },
   actions: {
-    loadStateFromCache ({ commit }) {
+    loadStateFromCache ({ commit, state }) {
       return new Promise((resolve, reject) => {
         cacheStorage.getItem('subscription', (err, subscription) => {
           if (!err) {
@@ -34,12 +34,12 @@ export default {
             commit(TYPES.SET_EMAIL, subscription.email)
             resolve(subscription)
           } else {
-            resolve(false)
+            resolve(state)
           }
         })
       })
     },
-    subscribe ({ commit, state }, email) {
+    subscribe ({ commit, state }, { email, saveInCache = false }) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -50,10 +50,12 @@ export default {
           }).then(res => {
             commit(TYPES.NEWSLETTER_SUBSCRIBE)
             commit(TYPES.SET_EMAIL, email)
-            cacheStorage.setItem('subscription', {
-              isSubscribed: true,
-              email: email 
-            })
+            if (saveInCache) {
+              cacheStorage.setItem('subscription', {
+                isSubscribed: true,
+                email: email 
+              })
+            }
             resolve(res)
           }).catch(err => {
             reject(err)
@@ -61,7 +63,7 @@ export default {
         })
       }
     },
-    unsubscribe ({ commit, state }, email) {
+    unsubscribe ({ commit, state }, { email, saveInCache = false }) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -71,10 +73,12 @@ export default {
             body: JSON.stringify({ email })
           }).then(res => {
             commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
-            cacheStorage.setItem('subscription', {
-              isSubscribed: true,
-              email: null 
-            })
+            if (saveInCache) {
+              cacheStorage.setItem('subscription', {
+                isSubscribed: false,
+                email: null 
+              })
+            }
             resolve(res)
           }).catch(err => {
             reject(err)

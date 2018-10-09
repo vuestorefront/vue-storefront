@@ -62,6 +62,19 @@ export default {
     ButtonFull,
     BaseCheckbox
   },
+  data () {
+    return {
+      isEdited: false
+    }
+  },
+  methods: {
+    exitSection () {
+      this.isEdited = false
+    },
+    edit () {
+      this.isEdited = true
+    }
+  },
   mixins: [MyNewsletter]
 }
 </script>

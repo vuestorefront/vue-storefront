@@ -29,7 +29,8 @@ export default {
   name: 'Newsletter',
   computed: {
     ...mapState({
-      isOpen: state => state.ui.newsletterPopup
+      isOpen: state => state.ui.newsletterPopup,
+      isSubscribed: state => state.mailchimp.isSubscribed
     })
   },
   methods: {
