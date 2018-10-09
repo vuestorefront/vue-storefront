@@ -26,20 +26,8 @@ export default {
     }
   },
   actions: {
-    loadStateFromCache ({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        cacheStorage.getItem('subscription', (err, subscription) => {
-          if (!err) {
-            subscription.isSubscribed ? commit(TYPES.NEWSLETTER_SUBSCRIBE) : commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
-            commit(TYPES.SET_EMAIL, subscription.email)
-            resolve(subscription)
-          } else {
-            resolve(state)
-          }
-        })
-      })
-    },
-    subscribe ({ commit, state }, { email, saveInCache = false }) {
+
+    subscribe ({ commit, state }, email) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -50,12 +38,6 @@ export default {
           }).then(res => {
             commit(TYPES.NEWSLETTER_SUBSCRIBE)
             commit(TYPES.SET_EMAIL, email)
-            if (saveInCache) {
-              cacheStorage.setItem('subscription', {
-                isSubscribed: true,
-                email: email 
-              })
-            }
             resolve(res)
           }).catch(err => {
             reject(err)
@@ -63,7 +45,7 @@ export default {
         })
       }
     },
-    unsubscribe ({ commit, state }, { email, saveInCache = false }) {
+    unsubscribe ({ commit, state }, email) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -73,12 +55,6 @@ export default {
             body: JSON.stringify({ email })
           }).then(res => {
             commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
-            if (saveInCache) {
-              cacheStorage.setItem('subscription', {
-                isSubscribed: false,
-                email: null 
-              })
-            }
             resolve(res)
           }).catch(err => {
             reject(err)

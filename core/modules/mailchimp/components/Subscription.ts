@@ -1,7 +1,4 @@
 export const Unsubscribe = {
-  mounted () {
-    this.$store.dispatch('mailchimp/loadStateFromCache')
-  },
   methods: {
     unsubscrive () {
       this.$store.dispatch('mailchimp/unsubscribe', this.email).then(res => {

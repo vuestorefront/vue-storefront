@@ -9,11 +9,6 @@ export default {
       }
     }
   },
-  mounted () {
-    this.$store.dispatch('mailchimp/loadStateFromCache').then(subscription => {
-      this.isSubscribed = subscription.isSubscribed
-    })
-  },
   methods: {
     updateNewsletter () {
       if (this.user.isSubscribed) {
