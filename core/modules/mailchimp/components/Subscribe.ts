@@ -19,7 +19,7 @@ import { required, email } from 'vuelidate/lib/validators'
 export const Subscribe = {
   data () {
     return {
-      email: '1234'
+      email: ''
     }
   },
   validations: {
@@ -29,6 +29,7 @@ export const Subscribe = {
     }
   },
   mounted () {
+    this.$store.dispatch('mailchimp/loadStateFromCache')
     if (this.$store.state.user.current) {
       this.email = this.$store.state.user.current.email
     }
@@ -44,6 +45,11 @@ export const Subscribe = {
         )} else {
         this.$emit('validation-error')
       }
+    }
+  },
+  computed: {
+    isSubscribed () {
+      return this.$store.state.mailchimp.isSubscribed
     }
   }
 }

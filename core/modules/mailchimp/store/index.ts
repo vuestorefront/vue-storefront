@@ -1,6 +1,5 @@
 import * as TYPES from './mutation-types'
 import config from 'config'
-import Vue from 'vue'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 
@@ -9,33 +8,38 @@ const cacheStorage = new UniversalStorage(localForage.createInstance({
   storeName: 'mailchimpModule'
 }))
 
-let defaultSubscription = (() => {
-  cacheStorage.getItem('subscribed', (err, subscription) => {
-    if (!err) {
-      console.info(subscription)
-      return subscription
-    } else {
-      return 'dupa'
-    }
-  })
-})()
-
 export default {
   namespaced: true,
   state: {
-    isSubscribed: defaultSubscription,
-    subscription: null
+    isSubscribed: null,
+    email: null
   },
   mutations: {
     [TYPES.NEWSLETTER_SUBSCRIBE] (state) {
       state.isSubscribed = true
     },
     [TYPES.NEWSLETTER_UNSUBSCRIBE] (state) {
-      state.isSubscribed = true
+      state.isSubscribed = false
+    },
+    [TYPES.SET_EMAIL] (state, payload) {
+      state.email = payload
     }
   },
   actions: {
-    subscribe ({ commit, state, dispatch }, email) {
+    loadStateFromCache ({ commit }) {
+      return new Promise((resolve, reject) => {
+        cacheStorage.getItem('subscription', (err, subscription) => {
+          if (!err) {
+            subscription.isSubscribed ? commit(TYPES.NEWSLETTER_SUBSCRIBE) : commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
+            commit(TYPES.SET_EMAIL, subscription.email)
+            resolve(subscription)
+          } else {
+            resolve(false)
+          }
+        })
+      })
+    },
+    subscribe ({ commit, state }, email) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -45,7 +49,11 @@ export default {
             body: JSON.stringify({ email })
           }).then(res => {
             commit(TYPES.NEWSLETTER_SUBSCRIBE)
-            cacheStorage.setItem('subscribed', true)
+            commit(TYPES.SET_EMAIL, email)
+            cacheStorage.setItem('subscription', {
+              isSubscribed: true,
+              email: email 
+            })
             resolve(res)
           }).catch(err => {
             reject(err)
@@ -63,7 +71,10 @@ export default {
             body: JSON.stringify({ email })
           }).then(res => {
             commit(TYPES.NEWSLETTER_UNSUBSCRIBE)
-            // cacheStorage.setItem('subscribed', false)
+            cacheStorage.setItem('subscription', {
+              isSubscribed: true,
+              email: null 
+            })
             resolve(res)
           }).catch(err => {
             reject(err)
