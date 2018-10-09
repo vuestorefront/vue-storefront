@@ -44,19 +44,11 @@ module.exports = {
             'basics/ssr-cache',
           ],
         },
-        // {
-        //   title: 'Vue Storefront core and themes',
-        //   collapsable: false,
-        //   children: [
-        //     'core-themes/themes',
-        //     'core-themes/webpack',
-        //     'core-themes/core-components',
-        //     'core-themes/plugins',
-        //     'core-themes/vuex',
-        //     'core-themes/data',
-        //     'core-themes/extensions',
-        //   ],
-        // },
+        {
+          title: 'Core and themes',
+          collapsable: false,
+          children: ['core-themes/themes'],
+        },
         // {
         //   title: 'Data in Vue Storefront',
         //   collapsable: false,
