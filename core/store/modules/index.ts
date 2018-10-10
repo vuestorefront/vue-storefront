@@ -4,7 +4,6 @@ import category from './category'
 import attribute from './attribute'
 import cart from './cart'
 import wishlist from './wishlist'
-import review from './review'
 import compare from './compare'
 import user from './user'
 import payment from './payment'
@@ -20,6 +19,7 @@ import promoted from './promoted-offers'
 
 // MODULES_ENTRY
 import mailchimp from '@vue-storefront/core/modules/mailchimp/store/index'
+import review from '@vue-storefront/core/modules/review/store/index'
 
 export default {
   order,
