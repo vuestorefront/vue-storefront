@@ -19,14 +19,6 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
-    this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
-  },
-  destroyed () {
-    this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
-    this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
-  },
-  mounted () {
     const usersCollection = Vue.prototype.$db.usersCollection
     usersCollection.getItem('current-token', (err, token) => {
       if (err) {
@@ -36,6 +28,12 @@ export default {
         this.$router.push('/')
       }
     })
+    this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
+    this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
+  },
+  destroyed () {
+    this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
+    this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
   methods: {
     onBeforeChangePassword (passwordData) {
@@ -70,6 +68,7 @@ export default {
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`my-account`)
+      if (context) context.server.response.redirect('/')
       resolve()
     })
   }
