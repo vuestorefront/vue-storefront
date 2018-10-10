@@ -60,6 +60,16 @@ export default {
       default: () => []
     }
   },
+  methods: {
+    confirmOrders () {
+      ConfirmOrders.methods.confirmOrders.call(this)
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
+    },
+    cancelOrders () {
+      CancelOrders.methods.cancelOrders.call(this)
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
+    }
+  },
   components: {
     Modal,
     ButtonFull

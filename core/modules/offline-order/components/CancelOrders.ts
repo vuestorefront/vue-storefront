@@ -20,8 +20,6 @@ export const CancelOrders = {
         console.error(err)
         console.log('Not transmitted orders have been deleted')
       })
-
-      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
     }
   }
 }
