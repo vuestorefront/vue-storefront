@@ -1,14 +1,6 @@
-/**
- * Functionality for confirming orders placed offline
- *
- * #### Methods
- * - **`confirmOrders()`** emits event to send orders placed offline to server
- *
- * Part of [Offline order API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
- */
 import config from 'config'
 
-export const confirmOrders = {
+export const ConfirmOrders = {
   methods: {
     confirmOrders () {
       this.$bus.$emit('order/PROCESS_QUEUE', { config: config })
