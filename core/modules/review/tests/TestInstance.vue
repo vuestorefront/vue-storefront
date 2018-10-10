@@ -1,15 +1,12 @@
 <template>
-  <!-- Examples of usage -->
   <div>
     <button id="add-review" @click="addReview(review)">add review</button>
   </div>
 </template>
 
 <script>
-import {
-  addReview,
-  reviews
-} from '@vue-storefront/core/modules/review/features'
+import { Reviews } from '../components/Reviews'
+import { AddReview } from '../components/AddReview'
 
 export default {
   data () {
@@ -26,8 +23,8 @@ export default {
   },
   // And register them as a mixins
   mixins: [
-    reviews,
-    addReview
+    Reviews,
+    AddReview
   ]
 }
 </script>
