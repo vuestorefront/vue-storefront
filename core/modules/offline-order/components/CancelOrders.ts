@@ -1,17 +1,9 @@
-/**
- * Functionality for cancelling orders placed offline
- *
- * #### Methods
- * - **`cancelOrders()`** removes not transmitted orders from Local Storage
- *
- * Part of [Offline order API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
- */
 import * as localForage from 'localforage'
 import config from 'config'
 
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 
-export const cancelOrders = {
+export const CancelOrders = {
   methods: {
     cancelOrders () {
       const ordersCollection = new UniversalStorage(localForage.createInstance({

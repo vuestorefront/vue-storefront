@@ -7,7 +7,7 @@ import RootState from "@vue-storefront/store/types/RootState"
 import ReviewState from "../types/ReviewState"
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
-import rootStore from "core/store"
+import rootStore from "@vue-storefront/store"
 import { ValidationError } from "core/store/lib/exceptions";
 import Review from '@vue-storefront/core/modules/review/types/Review'
 const Ajv = require('ajv') // json validator
