@@ -58,7 +58,6 @@ dpkg -i elasticsearch-5.6.9.deb
 /etc/init.d/elasticsearch start
 
 
-apt-get install imagemagick
 apt-get install nginx
 ```
 
