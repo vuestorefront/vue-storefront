@@ -47,7 +47,7 @@ module.exports = {
         {
           title: 'Core and themes',
           collapsable: false,
-          children: ['core-themes/themes'],
+          children: ['core-themes/themes', 'core-themes/layouts'],
         },
         // {
         //   title: 'Data in Vue Storefront',
