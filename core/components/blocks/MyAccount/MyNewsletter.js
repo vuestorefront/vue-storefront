@@ -1,4 +1,4 @@
-// whole component is depreciated
+// this component is depreciated
 export default {
   name: 'MyNewsletter',
   data () {
