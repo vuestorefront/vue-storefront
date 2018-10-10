@@ -1,3 +1,4 @@
+// whole component is depreciated
 export default {
   name: 'MyNewsletter',
   data () {
@@ -28,9 +29,7 @@ export default {
       } else {
         this.unsubscribe(this.$store.state.user.current.email)
       }
-      this.$store.dispatch('user/updatePreferences', { isSubscribed: this.user.isSubscribed })
       this.exitSection()
     }
-  },
-  mixins: [subscribe, unsubscribe, isSubscribed]
+  }
 }
