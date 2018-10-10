@@ -211,11 +211,6 @@ export function initStore () {
       storeName: 'checkoutFieldValues',
       driver: localForage[config.localForage.defaultDrivers['checkoutFieldValues']]
     })),
-    newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'newsletterPreferences',
-      driver: localForage[config.localForage.defaultDrivers['newsletterPreferences']]
-    })),
     ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
       name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'ordersHistory',
