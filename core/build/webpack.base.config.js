@@ -40,6 +40,7 @@ const postcssConfig =  {
     ]
   }
 };
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   plugins: [
@@ -49,17 +50,17 @@ module.exports = {
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
       filename: 'index.html',
-      inject: false
+      inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndexMinimal : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
-      inject: false
+      inject: isProd == false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndexBasic: 'src/index.basic.template.html',
       filename: 'index.basic.html',
-      inject: false
+      inject: isProd == false
     })    
   ],
   devtool: 'source-map',
