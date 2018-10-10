@@ -13,14 +13,14 @@ export default {
     unsubscribe () {
       this.$store.dispatch('mailchimp/unsubscribe', this.email).then(res => {
         this.user.isSubscribed = false
-      }).catch(err => 
+      }).catch(err =>
         this.$emit('unsubscription-error', err)
       )
     },
     subscribe () {
       this.$store.dispatch('mailchimp/subscribe', this.email).then(res => {
         this.user.isSubscribed = true
-      }).catch(err => 
+      }).catch(err =>
         this.$emit('subscription-error', err)
       )
     },
