@@ -9,7 +9,6 @@
 import * as localForage from 'localforage'
 import config from 'config'
 
-import EventBus from '@vue-storefront/core/plugins/event-bus'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 
 export const cancelOrders = {
@@ -30,7 +29,7 @@ export const cancelOrders = {
         console.log('Not transmitted orders have been deleted')
       })
 
-      EventBus.$emit('modal-hide', 'modal-order-confirmation')
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
     }
   }
 }

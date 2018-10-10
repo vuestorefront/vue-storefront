@@ -6,16 +6,15 @@
  *
  * Part of [Offline order API Module](https://github.com/DivanteLtd/vue-storefront/tree/master/doc/api-modules)
  */
-import EventBus from '@vue-storefront/core/plugins/event-bus'
 import config from 'config'
 
 export const confirmOrders = {
   methods: {
     confirmOrders () {
-      EventBus.$emit('order/PROCESS_QUEUE', { config: config })
-      EventBus.$emit('sync/PROCESS_QUEUE', { config: config })
+      this.$bus.$emit('order/PROCESS_QUEUE', { config: config })
+      this.$bus.$emit('sync/PROCESS_QUEUE', { config: config })
       this.$store.dispatch('cart/load')
-      EventBus.$emit('modal-hide', 'modal-order-confirmation')
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
     }
   }
 }
