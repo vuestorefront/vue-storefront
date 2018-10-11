@@ -224,17 +224,17 @@ class Backend extends Abstract {
 
         config.imageable.whitelist.allowedHosts.push(host)
 
-        let api_url = urlParser(this.answers.m2_api_url).href
+        let apiUrl = urlParser(this.answers.m2_api_url).href
 
-        if (!api_url.length) {
+        if (!apiUrl.length) {
           throw new Error()
         }
 
-        config.magento2.api.url = api_url;
-        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key;
-        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret;
-        config.magento2.api.accessToken = this.answers.m2_api_access_token;
-        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret;
+        config.magento2.api.url = apiUrl
+        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key
+        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret
+        config.magento2.api.accessToken = this.answers.m2_api_access_token
+        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret
 
         jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
