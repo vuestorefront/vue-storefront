@@ -280,6 +280,23 @@ class Backend extends Abstract {
   }
 
   /**
+   * Run 'yarn mage2vs import'
+   *
+   * @returns {Promise}
+   */
+  importElasticSearch () {
+    return new Promise((resolve, reject) => {
+      Message.info('Importing data from magento into ElasticSearch...')
+
+      if (shell.exec(`yarn mage2vs import >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t import data into ElasticSearch.'))
+      }
+
+      resolve()
+    })
+  }
+
+  /**
    * Cloning magento sample data
    *
    * @returns {Promise}
@@ -505,15 +522,26 @@ class Manager extends Abstract {
     if (this.answers.is_remote_backend === false) {
       Abstract.wasLocalBackendInstalled = true
 
-      return this.backend.cloneRepository()
-        .then(this.backend.goToDirectory.bind(this.backend))
-        .then(this.backend.npmInstall.bind(this.backend))
-        .then(this.backend.createConfig.bind(this.backend))
-        .then(this.backend.dockerComposeUp.bind(this.backend))
-        .then(this.backend.restoreElasticSearch.bind(this.backend))
-        .then(this.backend.migrateElasticSearch.bind(this.backend))
-        .then(this.backend.cloneMagentoSampleData.bind(this.backend))
-        .then(this.backend.runDevEnvironment.bind(this.backend))
+      if (this.answers.m2_api_oauth2 === true) {
+        return this.backend.cloneRepository()
+          .then(this.backend.goToDirectory.bind(this.backend))
+          .then(this.backend.npmInstall.bind(this.backend))
+          .then(this.backend.createConfig.bind(this.backend))
+          .then(this.backend.dockerComposeUp.bind(this.backend))
+          .then(this.backend.importElasticSearch.bind(this.backend))
+          .then(this.backend.cloneMagentoSampleData.bind(this.backend))
+          .then(this.backend.runDevEnvironment.bind(this.backend))
+      } else {
+        return this.backend.cloneRepository()
+          .then(this.backend.goToDirectory.bind(this.backend))
+          .then(this.backend.npmInstall.bind(this.backend))
+          .then(this.backend.createConfig.bind(this.backend))
+          .then(this.backend.dockerComposeUp.bind(this.backend))
+          .then(this.backend.restoreElasticSearch.bind(this.backend))
+          .then(this.backend.migrateElasticSearch.bind(this.backend))
+          .then(this.backend.cloneMagentoSampleData.bind(this.backend))
+          .then(this.backend.runDevEnvironment.bind(this.backend))
+      }
     } else {
       return Promise.resolve()
     }
