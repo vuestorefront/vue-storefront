@@ -224,6 +224,18 @@ class Backend extends Abstract {
 
         config.imageable.whitelist.allowedHosts.push(host)
 
+        let api_url = urlParser(this.answers.m2_api_url).href
+
+        if (!api_url.length) {
+          throw new Error()
+        }
+
+        config.magento2.api.url = api_url;
+        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key;
+        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret;
+        config.magento2.api.accessToken = this.answers.m2_api_access_token;
+        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret;
+
         jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
         reject(new Error('Can\'t create backend config. Original error: ' + e))
@@ -655,6 +667,73 @@ let questions = [
       // add extra slash as suffix if was not set
       return url.slice(-1) === '/' ? url : `${url}/`
     }
+  },
+  {
+      type: 'confirm',
+      name: 'm2_api_oauth2',
+      message: `Would You like to perform initial data import from Magento2 instance?`,
+      default: false,
+      when: function (answers) {
+          return answers.is_remote_backend === false
+      }
+  },
+  {
+      type: 'input',
+      name: 'm2_api_url',
+      message: 'Please provide the url to your magento rest api',
+      default: 'http://demo-magento2.vuestorefront.io/rest',
+      when: function (answers) {
+          return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      },
+      filter: function (url) {
+          let prefix = 'http://'
+          let prefixSsl = 'https://'
+
+          url = url.trim()
+
+          // add http:// if no protocol set
+          if (url.substr(0, prefix.length) !== prefix && url.substr(0, prefixSsl.length) !== prefixSsl) {
+              url = prefix + url
+          }
+
+          return url;
+      }
+  },
+  {
+      type: 'input',
+      name: 'm2_api_consumer_key',
+      message: 'Please provide your consumer key',
+      default: 'byv3730rhoulpopcq64don8ukb8lf2gq',
+      when: function (answers) {
+          return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      }
+  },
+  {
+      type: 'input',
+      name: 'm2_api_consumer_secret',
+      message: 'Please provide your consumer secret',
+      default: 'u9q4fcobv7vfx9td80oupa6uhexc27rb',
+      when: function (answers) {
+          return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      }
+  },
+  {
+      type: 'input',
+      name: 'm2_api_access_token',
+      message: 'Please provide your access token',
+      default: '040xx3qy7s0j28o3q0exrfop579cy20m',
+      when: function (answers) {
+          return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      }
+  },
+  {
+      type: 'input',
+      name: 'm2_api_access_token_secret',
+      message: 'Please provide your access secret',
+      default: '7qunl3p505rubmr7u1ijt7odyialnih9',
+      when: function (answers) {
+          return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      }
   }
 ]
 
