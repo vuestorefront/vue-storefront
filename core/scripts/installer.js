@@ -683,7 +683,7 @@ let questions = [
     message: 'Please provide the url to your magento rest api',
     default: 'http://demo-magento2.vuestorefront.io/rest',
     when: function (answers) {
-      return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      return answers.m2_api_oauth2 === true
     },
     filter: function (url) {
       let prefix = 'http://'
@@ -705,7 +705,7 @@ let questions = [
     message: 'Please provide your consumer key',
     default: 'byv3730rhoulpopcq64don8ukb8lf2gq',
     when: function (answers) {
-      return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      return answers.m2_api_oauth2 === true
     }
   },
   {
@@ -714,7 +714,7 @@ let questions = [
     message: 'Please provide your consumer secret',
     default: 'u9q4fcobv7vfx9td80oupa6uhexc27rb',
     when: function (answers) {
-      return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      return answers.m2_api_oauth2 === true
     }
   },
   {
@@ -723,16 +723,16 @@ let questions = [
     message: 'Please provide your access token',
     default: '040xx3qy7s0j28o3q0exrfop579cy20m',
     when: function (answers) {
-      return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      return answers.m2_api_oauth2 === true
     }
   },
   {
     type: 'input',
     name: 'm2_api_access_token_secret',
-    message: 'Please provide your access secret',
+    message: 'Please provide your access token secret',
     default: '7qunl3p505rubmr7u1ijt7odyialnih9',
     when: function (answers) {
-      return answers.is_remote_backend === false && answers.m2_api_oauth2 === true
+      return answers.m2_api_oauth2 === true
     }
   }
 ]
