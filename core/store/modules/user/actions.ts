@@ -40,8 +40,6 @@ const actions: ActionTree<UserState, RootState> = {
       }
       Vue.prototype.$bus.$emit('session-after-started')
     })
-
-    context.dispatch('loadNewsletterPreferences')
   },
   /**
    * Send password reset link for specific e-mail
