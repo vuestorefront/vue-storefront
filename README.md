@@ -49,7 +49,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 
 ## Is it production ready?
 
-Yes! There are more than 10 implementations happening right now and one live shop.
+Yes! There are more than 10 implementations happening right now and many live shops (check [awesome Vue Storefront list](https://github.com/frqnck/awesome-vue-storefront)).
 
 ## Join the community on Slack
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)

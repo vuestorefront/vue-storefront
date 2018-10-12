@@ -43,7 +43,14 @@ const mutations = {
   }
 }
 
+const actions = {
+  toggleMicrocart ({ commit, state }) {
+    commit('setMicrocart', !state.microcart)
+  }
+}
+
 export default extendStore(coreStore, {
   state,
+  actions,
   mutations
 })

@@ -4,26 +4,3 @@ The review module as name suggests is a set of mixins responsible for interactin
 
 ## Content
 
-#### addReview
-- [method] addReview(review)
-
-#### reviews
-- [computed] reviews
-
-## Example
-
-````javascript
-// Inside Vue component
-import {
-  reviews,
-  addReview
-} from '@vue-storefront/core/modules/review/features'
-
-export default {
-  //...other properties
-  mixins: [
-    reviews,
-    addReview
-  ]
-}
-````

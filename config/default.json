@@ -207,7 +207,6 @@
         "claims": "LOCALSTORAGE",
         "compare": "INDEXEDDB",
         "syncTasks": "INDEXEDDB",
-        "newsletterPreferences": "INDEXEDDB",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"
       }

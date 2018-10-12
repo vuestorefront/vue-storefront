@@ -124,11 +124,6 @@ const plugins: Plugin<RootState>[] = [
           }) // populate cache
         }
       }
-      if (actionName === types.USER_UPDATE_PREFERENCES) {
-        Vue.prototype.$db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
-          console.error(reason)
-        })
-      }
       if (actionName === 'setCmsBlock' || actionName === 'setCmsPage') {
         Vue.prototype.$db.cmsData.setItem('cms-data', state.cms).catch((reason) => {
           console.error(reason)
@@ -212,11 +207,6 @@ export function initStore () {
       name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'checkoutFieldValues',
       driver: localForage[config.localForage.defaultDrivers['checkoutFieldValues']]
-    })),
-    newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'newsletterPreferences',
-      driver: localForage[config.localForage.defaultDrivers['newsletterPreferences']]
     })),
     ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
       name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',

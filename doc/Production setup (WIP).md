@@ -4,6 +4,10 @@ If you like to start developing sites using Vue Storefront, probably You need to
 
 Development mode means You're using node.js based server as HTTP service and running the app on the `3000` TCP port. As it's great for local testing it's **not recommended** to use installer and direct user access to node.js in production configurations.
 
+## Note on caching
+
+This tutorial is not describing how to setup proper caching strategy for Vue Storefront SSR renderer. Please read the [SSR Output cache](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/SSR%20Cache.md) docs or/and check [nginx caching guide](https://www.nginx.com/blog/nginx-caching-guide/).
+
 ## Production setup - bare VPS
 
 To run Vue Storefront in the production mode without Docker/Kubernetes You'll need the Virtual Private Server with `root` access (for the setup purposes). We'll assume that You're using `Debian GNU Linux` in the following steps.
@@ -54,7 +58,6 @@ dpkg -i elasticsearch-5.6.9.deb
 /etc/init.d/elasticsearch start
 
 
-apt-get install imagemagick
 apt-get install nginx
 ```
 
@@ -443,6 +446,16 @@ yarn start
 ```
 
 Both applications are using [`PM2` process manager](https://pm2.io/runtime) in the production mode (`start` commands) to manage and respawn the nodejs processess when neede.
+
+## Note on deployments and log tracking
+
+Vue Storefront is using the `pm2` for process management. You can leverage on most features it offers for both `vue-storefront` and `vue-storefront-api`.
+
+Some usefull commands:
+- `yarn pm2 monit` - to monit the process statuses
+- `yarn pm2 logs server` - to get the logs from SSR server (in the vue-storefront)
+- `yarn pm2 logs api` - to get the logs from SSR server (in the vue-storefront-api)
+- `yarn build; yarn pm2 reload all` - after pulling the latest version from git You typically want to run this sequence to apply the changes
 
 ## Production setup - using Docker / Kubernetes
 

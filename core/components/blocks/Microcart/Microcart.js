@@ -1,36 +1,14 @@
 // Core dependecies
-import {
-  productsInCart,
-  closeMicrocart,
-  isMicrocartOpen,
-  removeFromCart,
-  applyCoupon,
-  removeCoupon,
-  appliedCoupon,
-  cartTotals,
-  cartShipping,
-  cartPayment
-} from '@vue-storefront/core/modules/cart/features'
+import { Microcart } from '@vue-storefront/core/modules/cart/components/Microcart.ts'
 
 export default {
-  name: 'Microcart',
-  mixins: [
-    productsInCart,
-    isMicrocartOpen,
-    closeMicrocart,
-    removeFromCart,
-    applyCoupon,
-    removeCoupon,
-    appliedCoupon,
-    cartTotals,
-    cartShipping,
-    cartPayment
-  ],
-  props: {
-    isCheckoutMode: {
-      type: Boolean,
-      required: false,
-      default: () => false
+  methods: {
+    closeMicrocart () {
+      // Method renamed to 'toggleMicrocart'
+      this.toggleMicrocart()
     }
-  }
+  },
+  mixins: [
+    Microcart
+  ]
 }
