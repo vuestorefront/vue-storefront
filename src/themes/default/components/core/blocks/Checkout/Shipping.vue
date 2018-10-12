@@ -204,7 +204,7 @@
             <button-full
               data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
-              :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
+              :disabled="$v.shipping.$invalid"
             >
               {{ $t('Continue to payment') }}
             </button-full>
