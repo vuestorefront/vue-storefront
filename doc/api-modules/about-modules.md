@@ -88,7 +88,7 @@ export const Microcart = {
 }
 ````
 3. Don't use EventBus. 
-4. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event . Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
+4. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event. Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
 ````js 
 addToCart(product, success, failure) {
   this.$store.dispatch('cart/addToCart').then(res => 
@@ -98,7 +98,8 @@ addToCart(product, success, failure) {
   ) 
 }
 ````
-Try to choose method basing on use case.
+
+Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
 
 5. Create pure functions that can be easly called with different argument. Rely on `data` properties instead of arguments only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28)
 
