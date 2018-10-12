@@ -29,7 +29,7 @@ export default {
     }
   },
   actions: {
-    subscribe ({ commit, state }, email) {
+    subscribe ({ commit, state }, email): Promise<Response> {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -48,7 +48,7 @@ export default {
         })
       }
     },
-    unsubscribe ({ commit, state }, email) {
+    unsubscribe ({ commit, state }, email): Promise<Response> {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
