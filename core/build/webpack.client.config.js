@@ -2,13 +2,9 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
 const path = require('path')
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const config = merge(base, {
-  output: {
-    path: path.resolve(__dirname, '../../dist'),
-    publicPath: '/dist/',
-    filename: '[name].js'
-  },
   optimization: {
     splitChunks:  {
       cacheGroups: {
@@ -18,8 +14,10 @@ const config = merge(base, {
           chunks: 'all',
         },
       },
-    },
-    runtimeChunk: 'single',
+    },    
+    runtimeChunk: {
+      name: "manifest",
+    }
   },
   mode: 'development',
   resolve: {
@@ -31,7 +29,8 @@ const config = merge(base, {
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'
-    })
+    }),
+    new VueSSRClientPlugin()
   ]
 })
 

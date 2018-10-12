@@ -2,7 +2,6 @@ import { mapMutations } from 'vuex'
 import * as types from '@vue-storefront/store/mutation-types'
 import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
 
 function _defaultOptionValue (co, field = 'id') {
   if (co.product_links && co.product_links.length) {
@@ -51,12 +50,12 @@ export default {
 
     this.setupInputFields()
 
-    if (config.usePriceTiers) {
+    if (rootStore.state.config.usePriceTiers) {
       this.$bus.$on('product-after-setup-associated', this.setupInputFields)
     }
   },
   beforeDestroy () {
-    if (config.usePriceTiers) {
+    if (rootStore.state.usePriceTiers) {
       this.$bus.$off('product-after-setup-associated', this.setupInputFields)
     }
   },

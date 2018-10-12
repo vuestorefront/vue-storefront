@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
 import VueObserveVisibility from 'vue-observe-visibility'
 import { union } from 'lodash-es'
-import config from 'config'
+import buildTimeConfig from 'config'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
@@ -28,23 +28,63 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
 
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
-if (config.console.verbosityLevel !== 'display-everything') {
-  takeOverConsole(config.console.verbosityLevel)
+if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
+  takeOverConsole(buildTimeConfig.console.verbosityLevel)
 }
 
-const httpLink = new HttpLink({
-    uri: config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
-})
+export function createApp (ssrContext, config): { app: Vue, router: any, store: any } {
+  sync(store, router)
+  store.state.version = '1.4.0'
+  store.state.config = config
+  store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 
-const apolloClient = new ApolloClient({
+  if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
+
+  if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
+  const storeModules = Object.assign(coreModules, themeModules || {})
+  
+  for (const moduleName of Object.keys(storeModules)) {
+    console.debug('Registering Vuex module', moduleName)
+    store.registerModule(moduleName, storeModules[moduleName])
+  }
+  
+  const storeView = prepareStoreView(null) // prepare the default storeView
+  store.state.storeView = storeView
+  // store.state.shipping.methods = shippingMethods
+  
+  Vue.use(Vuelidate)
+  Vue.use(VueLazyload, {attempt: 2})
+  Vue.use(Meta)
+  Vue.use(VueObserveVisibility)
+  
+  require('theme/plugins')
+  const pluginsObject = plugins()
+  Object.keys(pluginsObject).forEach(key => {
+    Vue.use(pluginsObject[key])
+  })
+  
+  const mixinsObject = mixins()
+  Object.keys(mixinsObject).forEach(key => {
+    Vue.mixin(mixinsObject[key])
+  })
+  
+  const filtersObject = filters()
+  Object.keys(filtersObject).forEach(key => {
+    Vue.filter(key, filtersObject[key])
+  })
+    const httpLink = new HttpLink({
+      uri: store.state.config.graphql.host.indexOf('://') >= 0 ? store.state.config.graphql.host : (store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql')
+    })
+  
+  const apolloClient = new ApolloClient({
     link: httpLink,
     cache: new InMemoryCache(),
     connectToDevTools: true
-})
-
-let loading = 0
-
-const apolloProvider = new VueApollo({
+  })
+  
+  let loading = 0
+  
+  const apolloProvider = new VueApollo({
     clients: {
         a: apolloClient
     },
@@ -60,49 +100,10 @@ const apolloProvider = new VueApollo({
         console.log('Global error handler')
         console.error(error)
     }
-})
-
-Vue.use(VueApollo)
-// End declare Apollo graphql client
-
-store.state.version = '1.3.0'
-store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
-store.state.config = config
-
-const storeModules = Object.assign(coreModules, themeModules || {})
-
-for (const moduleName of Object.keys(storeModules)) {
-  console.debug('Registering Vuex module', moduleName)
-  store.registerModule(moduleName, storeModules[moduleName])
-}
-
-const storeView = prepareStoreView(null) // prepare the default storeView
-store.state.storeView = storeView
-// store.state.shipping.methods = shippingMethods
-
-Vue.use(Vuelidate)
-Vue.use(VueLazyload, {attempt: 2})
-Vue.use(Meta)
-Vue.use(VueObserveVisibility)
-
-require('theme/plugins')
-const pluginsObject = plugins()
-Object.keys(pluginsObject).forEach(key => {
-  Vue.use(pluginsObject[key])
-})
-
-const mixinsObject = mixins()
-Object.keys(mixinsObject).forEach(key => {
-  Vue.mixin(mixinsObject[key])
-})
-
-const filtersObject = filters()
-Object.keys(filtersObject).forEach(key => {
-  Vue.filter(key, filtersObject[key])
-})
-
-export function createApp (serverContext = null): { app: Vue, router: any, store: any } {
-  sync(store, router)
+  })
+  
+  Vue.use(VueApollo)
+  // End declare Apollo graphql client    
   const app = new Vue({
     router,
     store,
@@ -115,11 +116,10 @@ export function createApp (serverContext = null): { app: Vue, router: any, store
     app,
     router,
     store,
-    config,
-    serverContext
+    store.state.config,
+    ssrContext
   )
-
-  registerTheme(config.theme, app, router, store)
+  registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
 
   app.$emit('application-after-init', app)
 

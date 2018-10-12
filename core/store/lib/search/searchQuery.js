@@ -5,7 +5,6 @@ class SearchQuery {
     this._availableFilters = []
     this._appliedFilters = []
     this._searchText = ''
-    console.debug('create SearchQuery object')
   }
 
   /**

@@ -3,8 +3,9 @@ import { union } from 'lodash-es'
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
-import config from 'config' // can not be obtained from rootStore as this entry is loaded erlier than app.ts
 import omit from 'lodash-es/omit'
+import pick from 'lodash-es/pick'
+import buildTimeConfig from 'config'
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -22,12 +23,27 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
         route: router.currentRoute,
         context
       })
+    } else {
+      return Promise.resolve(null)
     }
   })).then(() => {
-    if (config.ssr.useInitialStateFilter) {
-      context.state = omit(store.state, config.ssr.initialStateFilter)
+    if (buildTimeConfig.ssr.useInitialStateFilter) {
+      context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
     } else {
       context.state = store.state
+    }
+    if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
+      context.state = omit(store.state, ['config'])
+    } else {
+      const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
+      const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
+      console.log(excludeFromConfig, includeFromConfig)
+      if (includeFromConfig && includeFromConfig.length > 0) {
+        context.state.config = pick(context.state.config, includeFromConfig)
+      }
+      if (excludeFromConfig && excludeFromConfig.length > 0) {
+        context.state.config = omit(context.state.config, excludeFromConfig)
+      }
     }
     resolve(app)
   }).catch(err => {
@@ -37,17 +53,16 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
 
 export default context => {
   return new Promise((resolve, reject) => {
-    const { app, router, store } = createApp(context)
+    const { app, router, store } = createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
 
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      store.state.requestContext.outputCacheTags = new Set<string>()
+      context.output.cacheTags = new Set<string>()
       if (store.state.config.storeViews.multistore === true) {
-        let storeCode = context.storeCode // this is from http header or env variable
+        let storeCode = context.vs.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
-          context.currentRoute = router.currentRoute
           storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {

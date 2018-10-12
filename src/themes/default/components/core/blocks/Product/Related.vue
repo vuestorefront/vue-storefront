@@ -21,7 +21,7 @@ import ProductListing from 'theme/components/core/ProductListing'
 
 import { prepareRelatedQuery } from '@vue-storefront/core/modules/product/queries/related'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export default {
   name: 'Related',
@@ -42,13 +42,13 @@ export default {
   created () {
     this.$bus.$on('product-after-load', this.refreshList)
 
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.refreshList)
       this.$bus.$on('user-after-logout', this.refreshList)
     }
   },
   beforeDestroy () {
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.refreshList)
       this.$bus.$off('user-after-logout', this.refreshList)
     }

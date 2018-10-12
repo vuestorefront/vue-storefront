@@ -1,10 +1,10 @@
-import config from 'config'
+import rootStore from '@vue-storefront/store'
 
 export default {
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {
-      return config.storeViews.multistore
+      return rootStore.state.config.storeViews.multistore
     }
   }
 }

@@ -21,9 +21,9 @@ What we've changed is **You can now select which html template + layout Your app
 ## Changelog
 
 The changes we've introduced: 
-- now distinct routes can set `context.serverOutputTemplate` in `asyncData` method. By doing so You can skip using `dist/index.html` (which contains typical HTML5 elements - like `<head ...`). This is important when we're going to generate AMPHTML pages (that can not contain any `<script>` tags) - either xml files - You name it
+- now distinct routes can set `context.output.template` in `asyncData` method. By doing so You can skip using `dist/index.html` (which contains typical HTML5 elements - like `<head ...`). This is important when we're going to generate AMPHTML pages (that can not contain any `<script>` tags) - either xml files - You name it
 - distinct routes can set `meta.layout` and by doing so switch the previously constant App.vue layout file - this is what @mercs600 proposed some time ago in slightly changed form
-- You've got access to server `context` object in `asyncData` and two new features - `renderPrepend` and `renderAppend` have been created to allow You control the rendering flow of the template
+- You've got access to server `context` object in `asyncData` and two new features - `output.prepend` and `output.append` have been created to allow You control the rendering flow of the template
 
 ## Templates
 
@@ -75,8 +75,8 @@ Vue component to render the XML:
 export default {
   name: 'RawOutputExample',
   asyncData ({ store, route, context }) {
-    context.response.setHeader('Content-Type', 'text/xml')
-    context.serverOutputTemplate = ''
+    contextserver.response.setHeader('Content-Type', 'text/xml')
+    context.output.template = ''
     return new Promise((resolve, reject) => {
       resolve()
     })
@@ -95,11 +95,11 @@ export default {
 The key part is:
 
 ```js
-    context.response.setHeader('Content-Type', 'text/xml')
-    context.serverOutputTemplate = ''
+    contextserver.response.setHeader('Content-Type', 'text/xml')
+    context.output.template = ''
 ```
 These two statements:
-- set the HTTP header (by accessing ExpressJS response object - `context.response`. There is also `context.request` and `context.app` - the ExpressJS application)- set `serverOutputTemplate` to none which will cause to skip the HTML template rendering at all.
+- set the HTTP header (by accessing ExpressJS response object - `contextserver.response`. There is also `contextserver.request` and `context.app` - the ExpressJS application)- set `output.template` to none which will cause to skip the HTML template rendering at all.
 
 ### Switching off layout + injecting dynamic content
 Example URL: `http://localhost:3000/append-prepend.html`
@@ -120,11 +120,11 @@ Vue component to render the XML:
 export default {
   name: 'NoJSExample',
   asyncData ({ store, route, context }) {
-    context.serverOutputTemplate = ''
-    context.renderAppend = (context) => {
+    context.output.template = ''
+    context.output.append = (context) => {
       return '<div>This content has been dynamically appended</div>'
     }
-    context.renderPrepend = (context) => {
+    context.output.prepend = (context) => {
       return '<div>this content has been dynamically prepended</div>'
     }
     return new Promise((resolve, reject) => {
@@ -145,22 +145,22 @@ export default {
 The key part is:
 
 ```js
-    context.serverOutputTemplate = ''
-    context.renderAppend = (context) => {
+    context.output.template = ''
+    context.output.append = (context) => {
       return '<div>This content has been dynamically appended</div>'
     }
-    context.renderPrepend = (context) => {
+    context.output.prepend = (context) => {
       return '<div>this content has been dynamically prepended</div>'
     }    
 ```
 These two statements:
-- set `serverOutputTemplate` to none which will cause to skip the HTML template rendering at all.
-- adds the `renderAppend` and `renderPrepend` methods to the server context.
+- set `output.template` to none which will cause to skip the HTML template rendering at all.
+- adds the `output.append` and `output.prepend` methods to the server context.
 
 The output will be generated with this logic:
 ```js
-    const contentPrepend = (typeof context.renderPrepend === 'function') ? context.renderPrepend(context) : ''
-    const contentAppend = (typeof context.renderAppend === 'function') ? context.renderAppend(context) : ''
+    const contentPrepend = (typeof context.output.prepend === 'function') ? context.output.prepend(context) : ''
+    const contentAppend = (typeof context.output.append === 'function') ? context.output.append(context) : ''
     output = contentPrepend + output + contentAppend
 ```
 

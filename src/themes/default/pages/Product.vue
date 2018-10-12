@@ -231,7 +231,7 @@
         </div>
       </div>
     </section>
-    <reviews />
+    <reviews v-show="OnlineOnly"/>
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
@@ -243,7 +243,7 @@
 
 <script>
 import Product from '@vue-storefront/core/pages/Product'
-
+import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
@@ -277,7 +277,7 @@ export default {
     Reviews,
     SizeSelector
   },
-  mixins: [Product],
+  mixins: [Product, VueOfflineMixin],
   data () {
     return {
       detailsOpen: false

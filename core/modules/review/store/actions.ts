@@ -40,7 +40,7 @@ const actions: ActionTree<ReviewState, RootState> = {
     quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       context.commit(types.REVIEW_UPD_REVIEWS, resp)
     }).catch(err => {
-      console.log(err)
+      console.error(err)
     })
   },
 

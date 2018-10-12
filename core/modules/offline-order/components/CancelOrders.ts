@@ -1,5 +1,5 @@
 import * as localForage from 'localforage'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 
@@ -9,7 +9,7 @@ export const CancelOrders = {
       const ordersCollection = new UniversalStorage(localForage.createInstance({
         name: 'shop',
         storeName: 'orders',
-        driver: localForage[config.localForage.defaultDrivers['orders']]
+        driver: localForage[store.state.config.localForage.defaultDrivers['orders']]
       }))
 
       ordersCollection.iterate((order, id, iterationNumber) => {

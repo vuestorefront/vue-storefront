@@ -1,4 +1,4 @@
-import config from 'config'
+import store from '@vue-storefront/store'
 export default {
   name: 'SortBy',
   data () {
@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     sortByAttribute () {
-      return config.products.sortByAttributes
+      return store.state.config.products.sortByAttributes
     }
   }
 }

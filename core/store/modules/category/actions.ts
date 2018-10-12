@@ -84,8 +84,8 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (setCurrentCategory) {
           commit(types.CATEGORY_UPD_CURRENT_CATEGORY, mainCategory)
         }
-        if (populateRequestCacheTags && mainCategory) {
-          rootStore.state.requestContext.outputCacheTags.add(`C${mainCategory.id}`)
+        if (populateRequestCacheTags && mainCategory && Vue.prototype.$ssrRequestContext) {
+          Vue.prototype.$ssrRequestContext.output.cacheTags.add(`C${mainCategory.id}`)
         }        
         if (setCurrentCategoryPath) {
           let currentPath = []
@@ -199,6 +199,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (!append) rootStore.dispatch('product/reset')
         rootStore.state.product.list = { items: [] } // no products to show TODO: refactor to rootStore.state.category.reset() and rootStore.state.product.reset()
         // rootStore.state.category.filters = { color: [], size: [], price: [] }
+        return []
       } else {
         if (rootStore.state.config.products.filterUnavailableVariants && rootStore.state.config.products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
           const skus = []

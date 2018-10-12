@@ -40,10 +40,7 @@ const state = {
   twoStageCachingDisabled: false,
   userTokenInvalidated: null,
   userTokenInvalidateAttemptsCount: 0,
-  userTokenInvalidateLock: 0,
-  requestContext: {
-    outputCacheTags: new Set<string>()
-  }
+  userTokenInvalidateLock: 0
 }
 
 const mutations = {
@@ -149,8 +146,8 @@ export function initStore () {
   const config = rootStore.state.config
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
   Vue.prototype.$db = {
+    currentStoreCode: storeView.storeCode,
     ordersCollection: new UniversalStorage(localForage.createInstance({
       name: 'shop',
       storeName: 'orders',

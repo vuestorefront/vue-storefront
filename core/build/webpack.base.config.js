@@ -40,6 +40,7 @@ const postcssConfig =  {
     ]
   }
 };
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   plugins: [
@@ -47,15 +48,19 @@ module.exports = {
     new VueLoaderPlugin(),
     // generate output HTML
     new HTMLPlugin({
-      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
+      filename: 'index.html',
+      inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndexMinimal : 'src/index.minimal.template.html',
-      filename: 'index.minimal.html'
+      filename: 'index.minimal.html',
+      inject: isProd == false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndexBasic: 'src/index.basic.template.html',
-      filename: 'index.basic.html'
+      filename: 'index.basic.html',
+      inject: isProd == false
     })    
   ],
   devtool: 'source-map',
@@ -107,7 +112,6 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          optimizeSSR: false,
           preserveWhitespace: false,
           postcss: [autoprefixer()],
         }

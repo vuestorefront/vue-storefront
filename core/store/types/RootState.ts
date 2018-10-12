@@ -29,8 +29,5 @@ export default interface RootState {
   twoStageCachingDisabled: boolean,
   userTokenInvalidated: string | null,
   userTokenInvalidateAttemptsCount: number,
-  userTokenInvalidateLock: number,
-  requestContext: {
-    outputCacheTags: Set<string>
-  }
+  userTokenInvalidateLock: number
 }

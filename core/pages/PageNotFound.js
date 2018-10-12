@@ -8,10 +8,10 @@ import Composite from '@vue-storefront/core/mixins/composite'
 export default {
   name: 'PageNotFound',
   mixins: [Composite],
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for PageNotFound ' + new Date())
-      store.state.requestContext.outputCacheTags.add(`page-not-found`)
+      if (context) context.output.cacheTags.add(`page-not-found`)
       let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
       store.dispatch('category/list', {}).then(categories => {
         store.dispatch('product/list', {

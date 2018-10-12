@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import config from 'config'
 import rootStore from '@vue-storefront/store'
 import ProductTile from '@vue-storefront/core/components/ProductTile'
 
@@ -78,7 +77,7 @@ export default {
     },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
+        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
           const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
