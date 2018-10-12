@@ -16,17 +16,7 @@ export interface VueStorefrontModuleConfig {
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
   beforeRegistration?: () => void,
   afterRegistration?: () => void,
-  clientSideOnly?: boolean
 }
-
-// export class ExtendedWebpackBuild {
-//   constructor (
-//     private _builds: Object[]
-//   ) {}
-//   public addBuild (build) {
-//     this._builds.push(build)
-//   }
-// }
 
 export class VueStorefrontModule {
   constructor (
@@ -34,7 +24,6 @@ export class VueStorefrontModule {
   ) { }
 
   public register(): void {
-    if (this._c.clientSideOnly && Vue.prototype.$isServer)
     if (this._c.beforeRegistration) this._c.beforeRegistration()
     if (this._c.store) rootStore.registerModule(this._c.key, this._c.store)
     if (this._c.router) extendRouter(this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
