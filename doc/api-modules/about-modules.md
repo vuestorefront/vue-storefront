@@ -55,9 +55,39 @@ Normally module can (but not must) contain following folders:
 # Rules and good practices
 
 1. Try not to rely on any other data sources than `config`. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes.
-2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. [Here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/cart/components/Microcart.ts) is a good example of such externalisation.
+2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
+````js
+export const Microcart = {
+  name: 'Microcart',
+  computed: {
+    productsInCart () : Product[] {
+      return this.$store.state.cart.cartItems
+    },
+    appliedCoupon () : AppliedCoupon | false {
+      return this.$store.getters['cart/coupon']
+    },
+    totals () : CartTotalSegments {
+      return this.$store.getters['cart/totals']
+    },
+    isMicrocartOpen () : boolean {
+      return this.$store.state.ui.microcart
+    }
+  },
+  methods: {
+    applyCoupon (code: String) : Promise<boolean> {
+      return this.$store.dispatch('cart/applyCoupon', code)
+    },
+    removeCoupon () : Promise<boolean> {
+      return this.$store.dispatch('cart/removeCoupon')
+    },
+    toggleMicrocart () : void {
+      this.$store.dispatch('ui/toggleMicrocart')
+    }
+  }
+}
+````
 3. Don't use EventBus. 
-4. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event ([here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L35) is an example of events usage). Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
+4. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event . Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
 ````js 
 addToCart(product, success, failure) {
   this.$store.dispatch('cart/addToCart').then(res => 
