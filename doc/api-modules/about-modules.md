@@ -51,6 +51,7 @@ Normally module can (but not must) contain following folders:
 - `types` - TypeScript types associated with module
 - `test` - folder with unit tests which is *required* for every new or rewritten module. 
 - `extends` - code that you need to include into core files such as client/server entry, app entry, webpack config or service worker. If you need to extend, let's say `client-entry.js`just create a file with the same name.
+- `queries` - GraphQL queries
 
 # Rules and good practices
 
