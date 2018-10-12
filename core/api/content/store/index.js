@@ -1,31 +1,45 @@
+// Set to unique param name from elasticsearch if it's not 'id'.
+const uniqueIdentifierParamName = 'id'
+
 const actions = {
-  fetchContent ({ commit }, id, param = 'id') {
-    fetch('https://jsonplaceholder.typicode.com/todos/' + id)
+  fetchBlock ({ commit }, config) {
+    // Make it use ES with proper params from config
+    fetch(`https://jsonplaceholder.typicode.com/${config.type}/${config.id}`)
       .then(response => response.json())
       .then(content => {
-        return new Promise((resolve, reject) => {
-          if (content) {
-            commit('addBlock', content)
-          } else {
-            reject(new Error('error while fetching CMS data'))
-          }
+        return new Promise((resolve) => {
+          commit('addBlock', content)
+          resolve()
         })
       })
+  },
+  // Checks if block is already in a store, if not - fetches it
+  getBlock ({commit}, config) {
   }
 }
 
 const mutations = {
-  addBlock (state, entity) {
-    state.content.push(entity)
+  addBlock (state, block) {
+    state.content.push(block)
   },
-  removeBlock (state, id, param = 'id') {
+  removeBlock (state, identifier) {
     state.content = state.content.filter(block =>
-      block[param] !== id)
+      block[uniqueIdentifierParamName] !== identifier
+    )
+  },
+  // TODO: store in 1 obj with blocks
+  addToVisibleContent (state, block) {
+    state.visibleContent.push(block)
+  },
+  removeFromVisibleContent (state, identifier) {
+    state.content = state.content.filter(block =>
+      block[uniqueIdentifierParamName] !== identifier
+    )
   }
 }
 
 const getters = {
-  findBlock: (state) => (value, param = 'id') => {
+  find: (state) => (value, param = 'id') => {
     return state.content.find(block =>
       block[param] === value
     )
@@ -35,6 +49,7 @@ const getters = {
 export default {
   namespaced: true,
   state: {
+    visibleContent: [],
     content: []
   },
   mutations,
