@@ -1,4 +1,3 @@
-
 import { required, email } from 'vuelidate/lib/validators'
 
 /**
