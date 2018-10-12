@@ -69,7 +69,7 @@ addToCart(product, success, failure) {
 ````
 Try to choose method basing on use case.
 
-5. Try to rely on `props` instead of `data` properties which means that you should create pure functions that can be easly called with different argument. Rely on data properties only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28)
+5. Create pure functions that can be easly called with different argument. Rely on `data` properties instead of arguments only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28)
 
 
 # Contributions
