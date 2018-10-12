@@ -4,7 +4,7 @@
       {{ $t('Newsletter') }}
     </p>
     <div slot="content">
-      <form @submit.prevent="submit" novalidate>
+      <form @submit.prevent="submit(onSuccesfulSubmission)" novalidate>
         <div class="mb35">
           <p class="h4">
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
@@ -31,6 +31,7 @@
         <button-full
           class="mb35"
           type="submit"
+          :disabled="this.$v.$invalid"
           @click.native="$v.email.$touch"
         >
           {{ $t('Subscribe') }}
@@ -48,26 +49,18 @@ import Modal from 'theme/components/core/Modal'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 
 export default {
-  mounted () {
-    this.$on('subscribed', () => {
+  beforeDestroy () {
+    this.$off('validation-error')
+  },
+  methods: {
+    onSuccesfulSubmission () {
       this.$bus.$emit('notification', {
         type: 'success',
         message: i18n.t('You have been successfully subscribed to our newsletter!'),
         action1: { label: i18n.t('OK'), action: 'close' }
       })
       this.$bus.$emit('modal-hide', 'modal-newsletter')
-    })
-    this.$on('validation-error', (e) => {
-      this.$bus.$emit('notification', {
-        type: 'error',
-        message: i18n.t('Please fix the validation errors'),
-        action1: { label: i18n.t('OK'), action: 'close' }
-      })
-    })
-  },
-  beforeDestroy () {
-    this.$off('subscribed')
-    this.$off('validation-error')
+    }
   },
   components: {
     ButtonFull,

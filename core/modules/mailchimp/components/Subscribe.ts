@@ -32,16 +32,15 @@ export const Subscribe = {
     }
   },
   methods: {
-    submit () {
+    submit (success, failure) {
       // argument omitted for validation purposes
       if (!this.$v.$invalid) {
         this.$store.dispatch('mailchimp/subscribe', this.email).then(res => {
-          this.$emit('subscribed', res)
-        }).catch(err => 
-          this.$emit('subscription-error', err)
-      )} else {
-        this.$emit('validation-error')
-      }
+          if (success) success()
+        }).catch(err => {
+          if (failure) failure()
+        }
+      )}
     }
   },
   computed: {
