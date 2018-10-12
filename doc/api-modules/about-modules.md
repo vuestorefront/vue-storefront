@@ -101,7 +101,9 @@ addToCart(product, success, failure) {
 
 Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
 
-5. Create pure functions that can be easly called with different argument. Rely on `data` properties instead of arguments only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28)
+5. Create pure functions that can be easly called with different argument. Rely on `data` properties instead of arguments only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28).
+6. Document exported compoennts like in example: https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts
+7. If your module core functionality is an integration with external service better name it the same as this service (for example `mailchimp`)
 
 
 # Contributions
