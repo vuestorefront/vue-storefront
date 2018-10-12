@@ -1,8 +1,10 @@
 ***Important*** Modules are under heavy development. Only a few parts of Vue Storefront are rewritten to modular architecture but we are aiming to rewrite everything soon along with adding TypeScript support and Unit tests to each of them. Some concepts may change over time before we introduce the final version of VS Modules.
 
+
+TL;DR; Start with `How module should look like` section if you are interested only in technical details 
 # What are VS modules?
 
-You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself so it should be a module. Wishlist or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features. If you still have troubles with understanding what exactly they are at this point, don't worry - you can find a better explaination below. 
+You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features. 
 
 # Motivation
 
@@ -18,7 +20,7 @@ Cool, but there is one problem - since we have all our bricks in one box they lo
 
 When we want to replace the green bricks with, let's say, the black ones we need to look for each green brick separately among all the others which can take a lot of time... and there is still a chance that we will miss some of them! Not to mention that finding the particular green brick that we need to finish the palm tree we are building ([this one!](https://www.thedailybrick.co.uk/media/catalog/product/cache/1/image/700x700/9df78eab33525d08d6e5fb8d27136e95/l/e/lego_small_palm_leaf_8_x_3__6148__lego-green-small-palm-leaf-8-x-3-6148-30-257873-61.jpg)) will require looking for it among all the other bricks which can make this task extremely difficult and time-consuming.
 
-This is obviously not a situation that we want to end up in with our small lego empire. Neither we want it with Vue Storefront since it's meant to be easly extendable so you can replace your green bricks (or current user cart feature) with the black ones (different cart feature with multiple carts) without looking for each of them among all the bricks and without worrying that you will miss some of them and EU will confiscate all the bricks . that you have! We also want to make it easier to find the exact brick that we want right now to finish this damn palm tree! 
+This is obviously not a situation that we want to end up in with our small lego empire. Neither we want it with Vue Storefront since it's meant to be easly extendable so you can replace your green bricks (or current user cart feature/cms provider/cms content provider) with the black ones (different cart feature with multiple carts, wordpress instead of prismic for content etc) without looking for each of them among all the bricks and without worrying that you will miss some of them and EU will confiscate all the bricks that you have! We also want to make it easier to find the exact brick that we want right now to finish this damn palm tree! 
 
 So how we make this horrible situation better?
 
@@ -28,7 +30,7 @@ Introducing... (drums in the background) ***bricks grouped by colors***! (wows i
   
 When we have our bricks grouped by their colors (and in a separate boxes - modules) it's much easier to find this green brick that we needed for a palm tree since we only need to search in a small subset of all bricks. Moreover when we want to replace green bricks with the black ones then instead of looking for all the grren represenattives one by one we are just replacing their box with the one containing black bricks. We also don't need to worry that something was left since we know that all the green bricks were in the box.
 
-This is the kind of modularity and extendibility we want in Vue Storefront. If you think about each small feature (or user story) like signing in or adding product to a cart as a brick then we can group them by their common denominator which in case of bricks is a color but in case of user stories it can be some particular subset of data/features that we are interacting with (like a Cart, Acoount etc).
+This is the kind of modularity and extendibility we want in Vue Storefront and architecture we are currently rewriting it into.
 
 # What is the purpose of VS modules?
 
@@ -43,16 +45,32 @@ Module by it's definition should encapsulate all logic required for the feature 
 
 Normally module can (but not must) contain following folders:
 
-- `features` - Atomic, almost undividable features related to this module that can be used to build your components. Each of this features can be treated as one user story. Examples of such features are: Adding product to the cart, signing in, signing out, removing product from the wishlist, getting products that are in a cart etc. We can use this features in components by importing the ones that we need from the module `import { addToCart, removeFromCart } from 'module/cart/features`*
-- `components` - components related to this module (eg. Microcart for Cart module)
+- `components` - components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
 - `store` - Vuex store associated to module
 - `helpers` - everything else that is meant to support modules behavior
 - `types` - TypeScript types associated with module
-- `test` - folder with unit tests which is *required* for every new or rewritten module. This folder can be placed outside of the module in 'tests' folder.
-- `extends` - code that you need to include into core files such as client/server entry, app entry, webpack config or service worker. If you need to extend, let's say `client-entry.js`just create a file with the same name and import it in the core `client-entry.js` by invoking files content with `import core/module/module-name/extends/client-entry.js
+- `test` - folder with unit tests which is *required* for every new or rewritten module. 
+- `extends` - code that you need to include into core files such as client/server entry, app entry, webpack config or service worker. If you need to extend, let's say `client-entry.js`just create a file with the same name.
 
+# Rules and good practices
 
-[*] currently we are using `core/api/module_name` instead of `module/module_name` but it's about to change soon
+1. Try not to rely on any other data sources than `config`. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes.
+2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. [Here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/cart/components/Microcart.ts) is a good example of such externalisation.
+3. Don't use EventBus. 
+4. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event ([here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L35) is an example of events usage). Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
+````js 
+addToCart(product, success, failure) {
+  this.$store.dispatch('cart/addToCart').then(res => 
+    success(res)
+  ).catch(err =>
+    failure(err)
+  ) 
+}
+````
+Try to choose method basing on use case.
+
+5. Try to rely on `props` instead of `data` properties which means that you should create pure functions that can be easly called with different argument. Rely on data properties only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28)
+
 
 # Contributions
 
