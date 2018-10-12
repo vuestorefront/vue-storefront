@@ -1,9 +1,13 @@
 import store from './store'
-import { VueStorefrontModule } from '@vue-storefront/core/modules'
+import beforeRegistration from './extends/beforeRegistration'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/modules'
 
-function beforeRegistration (Vue, config) {
-  if (!Vue.prototype.$isServer) console.info(config)
+export const KEY = 'mailchimp'
+
+const moduleConfig: VueStorefrontModuleConfig = {
+  key: KEY,
+  store,
+  beforeRegistration
 }
 
-export const mailchimp = 
-  new VueStorefrontModule('mailchimp', store, null, beforeRegistration)
+export const Mailchimp = new VueStorefrontModule(moduleConfig)

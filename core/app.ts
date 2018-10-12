@@ -29,7 +29,7 @@ import VueApollo from 'vue-apollo'
 
 // core modules registration that'll be completely moved to theme TODO: move to accesibel entry point when ready
 import { registerModules } from '@vue-storefront/core/modules'
-import { mailchimp } from '@vue-storefront/core/modules/mailchimp'
+import { Mailchimp } from '@vue-storefront/core/modules/mailchimp'
 
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
 
@@ -47,7 +47,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
 
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
   const storeModules = Object.assign(coreModules, themeModules || {})
-  const VSModules = [mailchimp]
+  const VSModules = [Mailchimp]
 
   for (const moduleName of Object.keys(storeModules)) {
     console.debug('Registering Vuex module', moduleName)

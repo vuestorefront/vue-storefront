@@ -1,29 +1,44 @@
 import { Module } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
-import Vue, { VueConstructor } from 'vue'
+import Vue from 'vue'
 import rootStore from '@vue-storefront/store'
 import router from '@vue-storefront/core/router'
 
-function extendRouter (routes?, beforeEach?, afterEach?) {
+function extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard) {
   if (routes) router.addRoutes(routes)
-  if (beforeEach)router.beforeEach(beforeEach)
+  if (beforeEach) router.beforeEach(beforeEach)
   if (afterEach) router.afterEach(afterEach)
 }
 
+export interface VueStorefrontModuleConfig {
+  key: string;
+  store?: Module<any, any>;
+  router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
+  beforeRegistration?: () => void,
+  afterRegistration?: () => void,
+  clientSideOnly?: boolean
+}
+
+// export class ExtendedWebpackBuild {
+//   constructor (
+//     private _builds: Object[]
+//   ) {}
+//   public addBuild (build) {
+//     this._builds.push(build)
+//   }
+// }
+
 export class VueStorefrontModule {
   constructor (
-    private _key: string, 
-    private _store?: Module<any, any>,
-    private _router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-    private _beforeRegistration?: (Vue?: VueConstructor<Vue>, config?: Object) => void,
-    private _afterRegistration?: (Vue?: VueConstructor<Vue>, config?: Object) => void,
+    private _c: VueStorefrontModuleConfig
   ) { }
 
   public register(): void {
-    if (this._beforeRegistration) this._beforeRegistration(Vue)
-    if (this._store) rootStore.registerModule(this._key, this._store)
-    if (this._router) extendRouter(this._router.routes, this._router.beforeEach, this._router.afterEach)
-    if (this._afterRegistration) this._afterRegistration(Vue, rootStore.state)
+    if (this._c.clientSideOnly && Vue.prototype.$isServer)
+    if (this._c.beforeRegistration) this._c.beforeRegistration()
+    if (this._c.store) rootStore.registerModule(this._c.key, this._c.store)
+    if (this._c.router) extendRouter(this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
+    if (this._c.afterRegistration) this._c.afterRegistration()
   }
 }
 
