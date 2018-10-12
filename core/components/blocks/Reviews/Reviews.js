@@ -1,4 +1,5 @@
-import { reviews, addReview } from '@vue-storefront/core/modules/review/features'
+import { Reviews } from '@vue-storefront/core/modules/review/components/Reviews'
+import { AddReview } from '@vue-storefront/core/modules/review/components/AddReview'
 
 export default {
   name: 'Reviews',
@@ -66,5 +67,5 @@ export default {
     this.refreshList()
     this.fillInUserData()
   },
-  mixins: [ reviews, addReview ]
+  mixins: [ Reviews, AddReview ]
 }

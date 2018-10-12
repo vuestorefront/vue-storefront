@@ -3,6 +3,7 @@ import sumBy from 'lodash-es/sumBy'
 import i18n from '@vue-storefront/i18n'
 import CartState from './types/CartState'
 import RootState from '../../types/RootState'
+import AppliedCoupon from '@vue-storefront/store/types/cart/AppliedCoupon'
 
 const getters: GetterTree<CartState, RootState> = {
   totals (state) {
@@ -47,6 +48,15 @@ const getters: GetterTree<CartState, RootState> = {
     return sumBy(state.cartItems, (p) => {
       return p.qty
     })
+  },
+  coupon (state) : AppliedCoupon | false {
+    if (!(state.platformTotals && state.platformTotals.hasOwnProperty('coupon_code'))) {
+      return false
+    }
+    return {
+      code: state.platformTotals.coupon_code,
+      discount: state.platformTotals.discount_amount
+    }
   }
 }
 

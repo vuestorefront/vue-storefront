@@ -365,7 +365,6 @@ Please check the [`core/service-worker/order.js`](../core/service-worker/order.j
         "claims": "LOCALSTORAGE",        
         "compare": "INDEXEDDB",        
         "syncTasks": "INDEXEDDB",        
-        "newsletterPreferences": "INDEXEDDB",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"
       }
