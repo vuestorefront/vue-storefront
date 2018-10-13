@@ -1,9 +1,15 @@
-$motion-main: cubic-bezier(0.54, 0.02, 0.35, 0.88);
-$duration-main: .3s;
+$motion-main: cubic-bezier(0.4, 0.0, 0.2, 1);
+$duration-main: .25s;
 
-.fade-enter-active,
-.fade-leave-active {
+$motion-exit: cubic-bezier(0.4, 0.0, 1, 1);
+$duration-exit: .2s;
+
+.fade-enter-active {
   transition: opacity $duration-main;
+}
+
+.fade-leave-active {
+  transition: opacity $duration-exit;
 }
 
 .fade-enter,
@@ -13,10 +19,13 @@ $duration-main: .3s;
 
 .fade-in {
   &-down-enter-active,
-  &-down-leave-active,
-  &-up-enter-active,
-  &-up-leave-active {
+  &-up-enter-active{
     transition: all $duration-main $motion-main;
+  }
+
+  &-down-leave-active,
+  &-up-leave-active {
+    transition: all $duration-exit $motion-exit;
   }
 
   &-down-enter,
