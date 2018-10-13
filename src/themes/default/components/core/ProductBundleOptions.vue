@@ -28,8 +28,8 @@
             focus
             v-model="inputValues[('bundleOptionQty_' + option.option_id)]"
           >
-          <span class="error" v-if="validation.results[('bundleOptionQty_' + option.option_id)].error">{{ validation.results[('bundleOptionQty_' + option.option_id)].message }}</span>
-          <span class="error" v-if="validation.results[('bundleOption_' + option.option_id)].error">{{ validation.results[('bundleOption_' + option.option_id)].message }}</span>
+          <span class="error" v-if="errorMessages['bundleOptionQty_' + option.option_id]">{{ errorMessages['bundleOptionQty_' + option.option_id] }}</span>
+          <span class="error" v-if="errorMessages['bundleOption_' + option.option_id]">{{ errorMessages['bundleOption_' + option.option_id] }}</span>
         </div>
       </div>
     </div>
