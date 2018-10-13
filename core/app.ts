@@ -28,8 +28,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
 
 // core modules registration that'll be completely moved to theme TODO: move to accesibel entry point when ready
-import { registerModules } from '@vue-storefront/core/modules'
-import modulesToRegister from './modules-entry'
+import { enabledModules } from './modules-entry'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
 
 if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
@@ -46,7 +45,6 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
 
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
   const storeModules = Object.assign(coreModules, themeModules || {})
-  const VSModules = [...modulesToRegister]
 
   for (const moduleName of Object.keys(storeModules)) {
     console.debug('Registering Vuex module', moduleName)
@@ -125,7 +123,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     ssrContext
   )
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
-  registerModules(VSModules)
+  enabledModules.forEach(m => m.registerInApp())
   app.$emit('application-after-init', app)
   return { app, router, store }
 }

@@ -1,5 +1,8 @@
+
+import { VueStorefrontModule } from './modules'
 import { Mailchimp } from './modules/mailchimp'
 
-export default [
+
+export const enabledModules: VueStorefrontModule[] = [
   Mailchimp
 ]
