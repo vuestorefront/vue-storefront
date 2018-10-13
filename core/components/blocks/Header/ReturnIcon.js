@@ -1,8 +1,18 @@
 export default {
   name: 'ReturnIcon',
+  props: {
+    to: {
+      type: String | Object,
+      default: null
+    }
+  },
   methods: {
     goBack () {
-      this.$router.back()
+      if (this.to) {
+        this.$router.push(this.to)
+      } else {
+        this.$router.back()
+      }
     }
   }
 }
