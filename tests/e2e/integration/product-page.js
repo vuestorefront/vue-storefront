@@ -54,6 +54,7 @@ describe('product page', () => {
 
   it('should add product to cart', () => {
     cy.get('[data-testid=addToCart]').click()
+    cy.wait(200)
     cy.get('[data-testid=notificationMessage]').contains(
       'Product has been added to the cart!'
     )
