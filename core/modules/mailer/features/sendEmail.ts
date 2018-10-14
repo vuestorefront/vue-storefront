@@ -1,4 +1,3 @@
-import config from 'config'
 import fetch from 'isomorphic-fetch'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
@@ -6,7 +5,7 @@ import MailItem from '../types/MailItem'
 
 export const sendEmail = {
   methods: {
-    sendEmail (letter: MailItem) {
+    sendEmail (letter: MailItem, callback) {
       fetch(this.$store.state.config.mailer.endpoint, {
         method: 'POST',
         headers: {
@@ -17,32 +16,20 @@ export const sendEmail = {
       })
       .then(res => {
         if (res.ok) {
-          EventBus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('Email has successfully been sent'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
+          callback('success', i18n.t('Email has successfully been sent'))
 
           if (this.$store.state.config.mailer.sendConfirmation) {
             this.sendConfirmation(letter)
           }
         } else {
           res.json().then(jsonResponse => {
-            EventBus.$emit('notification', {
-              type: 'error',
-              message: i18n.t(jsonResponse.result),
-              action1: { label: i18n.t('OK'), action: 'close' }
-            })
+            callback('error', i18n.t(jsonResponse.result))
           })
         }
       })
       .catch(error => {
         console.error(error)
-        EventBus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Could not send an email. Please try again later.'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        callback('error', i18n.t('Could not send an email. Please try again later.'))
       })
     },
     sendConfirmation (letter: MailItem) {

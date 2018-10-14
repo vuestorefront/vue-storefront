@@ -106,11 +106,21 @@ export default {
       }
     },
     sendFeedback () {
-      this.sendEmail({
-        sourceAddress: this.$store.state.checkout.personalDetails.emailAddress,
-        targetAddress: this.$store.state.config.mailer.contactAddress,
-        subject: this.$t('What we can improve?'),
-        emailText: this.feedback
+      this.sendEmail(
+        {
+          sourceAddress: this.$store.state.checkout.personalDetails.emailAddress,
+          targetAddress: this.$store.state.config.mailer.contactAddress,
+          subject: this.$t('What we can improve?'),
+          emailText: this.feedback
+        },
+        notifyResult
+      )
+    },
+    notifyResult (type, message) {
+      this.$bus.$emit('notification', {
+        type,
+        message,
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
     }
   },
