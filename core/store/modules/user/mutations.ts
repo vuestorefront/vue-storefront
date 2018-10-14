@@ -29,9 +29,6 @@ const mutations: MutationTree<UserState> = {
     state.token = ''
     state.current = null
     state.session_started = null
-  },
-  [types.USER_UPDATE_PREFERENCES] (state, newsletterPreferences) {
-    state.newsletter = newsletterPreferences
   }
 }
 
