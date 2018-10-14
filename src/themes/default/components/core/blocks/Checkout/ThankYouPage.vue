@@ -78,11 +78,11 @@ import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
-import { sendEmail } from '@vue-storefront/core/modules/mailer/features'
+import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 
 export default {
   name: 'ThankYouPage',
-  mixins: [Composite, VueOfflineMixin, sendEmail],
+  mixins: [Composite, VueOfflineMixin, EmailForm],
   data () {
     return {
       feedback: ''
@@ -113,14 +113,14 @@ export default {
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
-        notifyResult
+        this.notifyResult
       )
     },
     notifyResult (type, message) {
       this.$bus.$emit('notification', {
         type,
         message,
-        action1: { label: i18n.t('OK'), action: 'close' }
+        action1: { label: this.$t('OK'), action: 'close' }
       })
     }
   },
