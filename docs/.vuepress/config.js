@@ -53,6 +53,7 @@ module.exports = {
             'core-themes/core-components',
             'core-themes/ui-store',
             'core-themes/service-workers',
+            'core-themes/webpack',
           ],
         },
         {
