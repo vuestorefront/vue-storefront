@@ -214,8 +214,12 @@ class Backend extends Abstract {
 
       Message.info(`Validating magento integration configuration...`)
 
+      let m2Url = urlParser(this.answers.m2_url).href
       let apiUrl = urlParser(this.answers.m2_api_url).href
 
+      if (!m2Url.length) {
+        reject(new Error('Invalid magento url supplied.'))
+      }
       if (!apiUrl.length) {
         reject(new Error('Invalid magento rest api url supplied.'))
       }
@@ -259,13 +263,8 @@ class Backend extends Abstract {
 
         config.imageable.whitelist.allowedHosts.push(host)
 
-        let apiUrl = urlParser(this.answers.m2_api_url).href
-
-        if (!apiUrl.length) {
-          throw new Error()
-        }
-
-        config.magento2.api.url = apiUrl
+        config.magento2.url = urlParser(this.answers.m2_url).href
+        config.magento2.api.url = urlParser(this.answers.m2_api_url).href
         config.magento2.api.consumerKey = this.answers.m2_api_consumer_key
         config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret
         config.magento2.api.accessToken = this.answers.m2_api_access_token
@@ -737,6 +736,15 @@ let questions = [
     default: false,
     when: function (answers) {
       return answers.is_remote_backend === false
+    }
+  },
+  {
+    type: 'input',
+    name: 'm2_url',
+    message: 'Please provide your magento url',
+    default: 'http://magento2.demo-1.xyz.com',
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
     }
   },
   {
