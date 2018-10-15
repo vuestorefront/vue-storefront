@@ -45,7 +45,6 @@
 <script>
 import ProductTile from '@vue-storefront/core/components/ProductTile'
 import AddToCart from 'theme/components/AddToCart'
-
 export default {
   mixins: [ProductTile],
   components: { AddToCart }

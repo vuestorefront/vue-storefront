@@ -28,7 +28,6 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
-
 export default {
   props: {
     detailsLinkText: {
