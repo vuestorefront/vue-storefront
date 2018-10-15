@@ -40,6 +40,22 @@ export default {
       }
     }
   },
+  computed: {
+    /**
+     * Error messages map for validation options.
+     * TODO: Each option should be a separate component to avoid such complex logic.
+     */
+    errorMessages () {
+      let messages = {}
+      Object.keys(this.validation.results).map(optionKey => {
+        const validationResult = this.validation.results[optionKey]
+        if (validationResult.error) {
+          messages[optionKey] = validationResult.message
+        }
+      })
+      return messages
+    }
+  },
   beforeMount () {
     rootStore.dispatch('product/addCustomOptionValidator', {
       validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme

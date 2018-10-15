@@ -9,7 +9,7 @@
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template>
-                <return-icon class="p15 icon bg-cl-secondary pointer" />
+                <return-icon class="p15 icon bg-cl-secondary pointer" to="/" />
               </template>
             </div>
           </div>
@@ -38,12 +38,16 @@
 import CurrentPage from 'theme/mixins/currentPage'
 import Header from '@vue-storefront/core/components/blocks/Header/Header'
 import Logo from 'theme/components/core/Logo'
-import ReturnToMainIcon from 'theme/components/core/blocks/Header/ReturnToMainIcon'
+import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
+import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
 export default {
   components: {
+    WishlistIcon,
+    SearchIcon,
     Logo,
-    ReturnToMainIcon
+    ReturnIcon
   },
   mixins: [Header, CurrentPage]
 }

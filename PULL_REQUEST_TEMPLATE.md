@@ -12,7 +12,7 @@
 
 ### Screenshot of passed e2e tests (if you are using our standard setup as a backend)
 
-(run `yarn tests:e2e` and paste the results. If you are not using our standard backend setup or demo.vuestorefront.io you can ommit this step) 
+(run `yarn test:e2e` and paste the results. If you are not using our standard backend setup or demo.vuestorefront.io you can ommit this step) 
 
 ### Upgrade Notes and Changelog
 
