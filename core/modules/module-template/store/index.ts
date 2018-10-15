@@ -1,9 +1,10 @@
+import ExampleState from '../types/ExampleState'
 import { Module } from 'vuex'
 import { mutations } from './mutations'
 import { getters } from './getters'
 import { actions } from './actions'
 
-export const store: Module<any, any> = {
+export const store: Module<ExampleState, any> = {
   namespaced: true,
   mutations,
   actions,

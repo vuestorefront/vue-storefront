@@ -4,5 +4,5 @@ import { Mailchimp } from './modules/mailchimp'
 
 
 export const enabledModules: VueStorefrontModule[] = [
-  Mailchimp
+  Mailchimp,
 ]

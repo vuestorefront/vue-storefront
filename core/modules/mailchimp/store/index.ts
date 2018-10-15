@@ -17,7 +17,7 @@ export const store: Module<any, any> ={
   namespaced: true,
   state: {
     isSubscribed: null,
-    email: null
+    email: null,
   },
   mutations: {
     [TYPES.NEWSLETTER_SUBSCRIBE] (state) {

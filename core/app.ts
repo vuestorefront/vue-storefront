@@ -123,7 +123,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     ssrContext
   )
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
-  enabledModules.forEach(m => m.registerInApp())
+  enabledModules.forEach(m => m.register())
   app.$emit('application-after-init', app)
   return { app, router, store }
 }
