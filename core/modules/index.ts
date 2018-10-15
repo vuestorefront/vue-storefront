@@ -20,7 +20,6 @@ export interface VueStorefrontModuleConfig {
   key: string;
   store?: Module<any, any>;
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  serviceWorker?: (self: ServiceWorkerRegistration) => void,
   beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
   afterRegistration?: (Vue: VueConstructor, config: Object) => void,
 }
@@ -39,9 +38,5 @@ export class VueStorefrontModule {
     if (this._c.store) rootStore.registerModule(this._c.key, this._c.store)
     if (this._c.router) extendRouter(this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
     if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config)
-  }
-
-  public registerInServiceWorker (): void {
-    // TBD
   }
 }

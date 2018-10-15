@@ -4,6 +4,7 @@ import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { KEY } from '../'
+import { Module } from 'vuex'
 
 const storeView = currentStoreView()
 const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
@@ -12,7 +13,7 @@ const cacheStorage = new UniversalStorage(localForage.createInstance({
   storeName: KEY
 }))
 
-export default {
+export const store: Module<any, any> ={
   namespaced: true,
   state: {
     isSubscribed: null,
