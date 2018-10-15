@@ -5,12 +5,6 @@ import rootStore from '@vue-storefront/store'
 import router from '@vue-storefront/core/router'
 import { merge } from 'lodash-es'
 
-/**
- * Extends VS router configuration.
- * @param routes routes that'll be added to router config
- * @param beforeEach function executed before entering each route
- * @param afterEach function executed after entering each route
- */
 function extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
   if (routes) router.addRoutes(routes)
   if (beforeEach) router.beforeEach(beforeEach)
@@ -19,13 +13,13 @@ function extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, aft
 
 function extendStore (key, store) {
   let registeredStores: any = rootStore
+  // Merge Vuex modules inc ase of conflicting keys with existing ones
   if (registeredStores._modules.root._children[key]) {
     rootStore.registerModule(key, merge(store, registeredStores._modules.root._children[key]._rawModule))
   } else {
     rootStore.registerModule(key, store)
   }
 }
-
 
 export interface VueStorefrontModuleConfig {
   key: string;
@@ -39,7 +33,6 @@ export class VueStorefrontModule {
   constructor (
     private _c: VueStorefrontModuleConfig
   ) { }
-  
   /**
    * Registers module in app with before/after hooks, store and router.
    * Should be called inside an apps entry point available for both server and client.
