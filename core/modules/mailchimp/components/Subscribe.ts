@@ -1,4 +1,3 @@
-
 import { required, email } from 'vuelidate/lib/validators'
 
 /**
@@ -11,10 +10,7 @@ import { required, email } from 'vuelidate/lib/validators'
  * - `isSubscribed` - returns true if user subscribed to the newsletter in this session
  * 
  * #### Methods
- * - `submit()` dispatches `newsletter-mailchimp/subscribe` with `email` data property and emits event with subscription result you can listen to in your component
- *  - `subscribed` if action was dispatched succesfully
- *  - `subscription-error` if dispatched action fails
- *  - `validation-error` in case of validation error
+ * - `submit(success, failure)` dispatches `newsletter-mailchimp/subscribe` with `email` data property. `success(res)` and `failure(err)` are callback functions called depending on subscription result and contain response info or error.
  * 
  * ### Hooks
  * - `mounted` - if user is logged in sets it's email to `email` data property
@@ -32,16 +28,15 @@ export const Subscribe = {
     }
   },
   methods: {
-    submit () {
+    submit (success, failure) {
       // argument omitted for validation purposes
       if (!this.$v.$invalid) {
         this.$store.dispatch('mailchimp/subscribe', this.email).then(res => {
-          this.$emit('subscribed', res)
-        }).catch(err => 
-          this.$emit('subscription-error', err)
-      )} else {
-        this.$emit('validation-error')
-      }
+          if (success) success(res)
+        }).catch(err => {
+          if (failure) failure(err)
+        }
+      )}
     }
   },
   computed: {

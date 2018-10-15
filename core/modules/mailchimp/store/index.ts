@@ -2,10 +2,13 @@ import * as TYPES from './mutation-types'
 import config from 'config'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
+const storeView = currentStoreView()
+const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 const cacheStorage = new UniversalStorage(localForage.createInstance({
-  name: 'shop',
-  storeName: 'mailchimpModule'
+  name: dbNamePrefix + 'shop',
+  storeName: 'mailchimp'
 }))
 
 export default {
@@ -26,7 +29,6 @@ export default {
     }
   },
   actions: {
-
     subscribe ({ commit, state }, email) {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
@@ -38,6 +40,7 @@ export default {
           }).then(res => {
             commit(TYPES.NEWSLETTER_SUBSCRIBE)
             commit(TYPES.SET_EMAIL, email)
+            cacheStorage.setItem('email', email)
             resolve(res)
           }).catch(err => {
             reject(err)
