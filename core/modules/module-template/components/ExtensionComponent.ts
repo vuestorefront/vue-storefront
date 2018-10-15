@@ -7,7 +7,7 @@
  * #### Methods
  * - `addUser(name: Function, success?: Function, failure?: Function)` adds new user to the list, calls failure if user with the same name is already on list
  */
-export const ExampleComponent = {
+export const ExtensionComponent = {
   data () {
     return {
       users: []

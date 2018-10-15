@@ -6,7 +6,7 @@
 
 
 <script>
-export default {
+export const ExtensionPage = {
   name: 'ExtensionPage'
 }
 </script>

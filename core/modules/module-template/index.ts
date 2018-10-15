@@ -1,4 +1,4 @@
-import store from './store'
+import { store } from './store'
 import beforeRegistration from './hooks/beforeRegistration'
 import afterRegistration from './hooks/afterRegistration'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/modules'
