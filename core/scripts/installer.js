@@ -208,7 +208,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  validateM2Integration() {
+  validateM2Integration () {
     return new Promise((resolve, reject) => {
       const Magento2Client = require('magento2-rest-client').Magento2Client
 
@@ -230,7 +230,7 @@ class Backend extends Abstract {
       let client = Magento2Client(options)
 
       client.categories.list()
-        .then(function (categories) {
+        .then((categories) => {
           resolve()
         }).catch((e) => {
           reject(new Error('Invalid magento integration settings. Original error: ' + e))
