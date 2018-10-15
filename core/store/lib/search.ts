@@ -128,20 +128,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       esQuery.body.groupId = rootStore.state.user.groupId
     }
 
-    // const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
-    // @todo: only for debugging
-    const cache = {
-      getItem(key, fn) {
-        return new Promise((resolve, reject) => {
-          resolve(fn(false, null))
-        })
-      },
-      setItem(key, content) {
-        return new Promise((resolve, reject) => {
-          resolve()
-        })
-      }
-    }
+    const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
     let servedFromCache = false
     const cacheKey = sha1(esQuery)
     const benchmarkTime = new Date()
