@@ -1,3 +1,4 @@
-export const mutations = {
+import { MutationTree } from 'vuex'
+export const mutations: MutationTree<any> = {
 
 }
