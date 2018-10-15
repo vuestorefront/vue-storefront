@@ -563,6 +563,7 @@ class Manager extends Abstract {
           .then(this.backend.npmInstall.bind(this.backend))
           .then(this.backend.createConfig.bind(this.backend))
           .then(this.backend.dockerComposeUp.bind(this.backend))
+          .then(this.backend.importElasticSearch.bind(this.backend))
           .then(this.backend.runDevEnvironment.bind(this.backend))
       } else {
         return this.backend.cloneRepository()
