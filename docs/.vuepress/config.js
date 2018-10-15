@@ -52,8 +52,11 @@ module.exports = {
             'core-themes/layouts',
             'core-themes/core-components',
             'core-themes/ui-store',
+            'core-themes/translations',
             'core-themes/service-workers',
             'core-themes/webpack',
+            'core-themes/plugins',
+            'core-themes/core-components-api',
           ],
         },
         {
