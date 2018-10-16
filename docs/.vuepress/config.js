@@ -72,7 +72,12 @@ module.exports = {
         {
           title: 'Data in Vue Storefront',
           collapsable: false,
-          children: ['data/data', 'data/vuex'],
+          children: ['data/data', 'data/elasticsearch'],
+        },
+        {
+          title: 'Working with Vuex',
+          collapsable: false,
+          children: ['vuex/introduction', 'vuex/product-store'],
         },
         // {
         //   title: 'Working with extensions',
