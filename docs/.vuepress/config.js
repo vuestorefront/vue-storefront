@@ -40,7 +40,6 @@ module.exports = {
             'basics/recipes',
             'basics/typescript',
             'basics/graphql',
-            'basics/entity',
             'basics/ssr-cache',
           ],
         },
@@ -78,7 +77,7 @@ module.exports = {
             'data/data-migrations',
             'data/elastic-queries',
             'data/database-tool',
-            'data/ssr-cache',
+            'data/entity-types',
           ],
         },
         {
