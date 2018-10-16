@@ -77,6 +77,8 @@ module.exports = {
             'data/elasticsearch',
             'data/data-migrations',
             'data/elastic-queries',
+            'data/database-tool',
+            'data/ssr-cache',
           ],
         },
         {
