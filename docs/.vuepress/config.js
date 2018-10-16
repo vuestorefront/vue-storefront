@@ -69,11 +69,11 @@ module.exports = {
             'components/modal',
           ],
         },
-        // {
-        //   title: 'Data in Vue Storefront',
-        //   collapsable: false,
-        //   children: ['data/data'],
-        // },
+        {
+          title: 'Data in Vue Storefront',
+          collapsable: false,
+          children: ['data/data', 'data/vuex'],
+        },
         // {
         //   title: 'Working with extensions',
         //   collapsable: false,
