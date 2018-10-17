@@ -11,6 +11,7 @@ TL;DR; Start with `How module should look like` section if you are interested on
 - [What are VS Modules]()
 - [Motivation]()
 - [What is the purpose of VS modules?]()
+
 **Technical part**
 - [Module config and capabilities]()
 - [Module file structure]()
