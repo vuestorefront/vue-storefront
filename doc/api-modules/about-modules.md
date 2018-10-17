@@ -2,6 +2,20 @@
 
 
 TL;DR; Start with `How module should look like` section if you are interested only in technical details 
+
+# Table of contents
+
+(under costruction)
+
+**Introduction and motivation**
+- [What are VS Modules]()
+- [Motivation]()
+- [What is the purpose of VS modules?]()
+**Technical part**
+- [Module config and capabilities]()
+- [Module file structure]()
+- [Good practices when designing modules]()
+  
 # What are VS modules?
 
 You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features. 
@@ -39,21 +53,63 @@ The purpose is well described in [this discussion](https://github.com/DivanteLtd
 - **Better developer experience**: Along with the modules we are introducing many features focused on delivering better, easier to jump in and more predictable developer experience. We changed the way you can compose components with features, added unit tests, TypeScript interfaces etc.
 - **Better upgradability**: Each module is a separate NPM pacage therefore can be upgraded independently and since it have all the logic encapsulated it shouldn't break any other parts of the application when detached, modified or replaced.
 
-# How module should look like
 
-Module by it's definition should encapsulate all logic required for the feature it represents. You can think about each module as a micro application that exposes it's parts to the outside world (Vue Storefront).
+# Module config and capabilities
 
-Normally module can (but not must) contain following folders:
+Module config is the object that is required to instantiate VS module. The config object you'll provide is later used to extend and hook into different parts of the application (like router, Vuex etc). 
+Please use this object as the only part that is responsible for extending Vue Storefront. Otherwise it may stop working after some breaking core updates.
+
+This is how the signature of Vue Storefront Module looks like:
+```js
+interface VueStorefrontModuleConfig {
+  key: string;
+  store?: Module<any, any>;
+  router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
+  beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
+  afterRegistration?: (Vue: VueConstructor, config: Object) => void,
+}
+```
+#### `key` (required)
+
+Key is an ID of your module. It's used to identify your module and to set keys in all key-based extendings that module is doing (like creating namespaced store). This key should be unique. You can duplicate the keys of some other modules only if you want to extend them. Modules with the same keys will be merged.
+
+#### `store`
+
+Vuex module that'll be registered in the application. 
+
+####  `router`
+
+Extension point for vue-router. You can provide additional routes and [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html).
+
+#### `beforeRegistration`
+
+Function that'll be called before registering the module both on server and client side. You have access to `Vue` and `config` objects inside.
+
+#### `afterRegistration`
+
+Function that'll be called after registering the module both on server and client side. You have access to `Vue` and `config` objects inside.
+
+# Module file structure
+
+Below you can see recommended file structure for VS module. All of the core ones are organised in this way.
+Try to have similar file structure inside modules that you create If all of them will implement similar architeture it'll be easier to maintain and understand them. If there is no purpose in organising some of it's parts differently try to avoid it.
+
+Not all of this folders and files needs to be in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 
 - `components` - components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
+- `pages` - if you want to provide full pages with your module palce them here. It's also a good practice to extend router configuration for this pages
 - `store` - Vuex store associated to module
-- `helpers` - everything else that is meant to support modules behavior
+  - `index.ts` - default export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file
+  - `mutation-types.ts` - mutation strings represented by variables to use instead of plain strings
+  - `cache-storage` - good place to instantiate offline storage if you want to make use of it in your module
 - `types` - TypeScript types associated with module
 - `test` - folder with unit tests which is *required* for every new or rewritten module. 
-- `extends` - code that you need to include into core files such as client/server entry, app entry, webpack config or service worker. If you need to extend, let's say `client-entry.js`just create a file with the same name.
+- `hooks` - before/after hooks that are called before and after registration of module
 - `queries` - GraphQL queries
-
+- `helpers` - everything else that is meant to support modules behavior
 # Rules and good practices
+
+First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
 
 1. Try not to rely on any other data sources than `config`. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes.
 2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
