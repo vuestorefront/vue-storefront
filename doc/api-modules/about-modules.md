@@ -94,7 +94,7 @@ Not all of this folders and files needs to be in every module. The only mandator
 
 - `components` - Components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
 - `pages` - If you want to provide full pages with your module palce them here. It's also a good practice to extend router configuration for this pages
-- `store` - Vuex store associated to module. 
+- `store` - Vuex Module associated to this module
   - `index.ts` - Entry point and main export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
   - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
   - `cache-storage` - Good place to instantiate offline storage if you want to make use of it in your module
@@ -103,6 +103,10 @@ Not all of this folders and files needs to be in every module. The only mandator
 - `hooks` - before/after hooks that are called before and after registration of module.
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
   - `bafterRegistration.ts` - Should be used in `afterRegistration` config property.
+`router` - routes and navigation guards associated to this module
+ - `routes`
+ - `beforeEach`
+ - `afterEach`
 - `queries` - GraphQL queries
 - `helpers` - everything else that is meant to support modules behavior
 
