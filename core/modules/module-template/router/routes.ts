@@ -1,7 +1,7 @@
 import { RouteConfig } from 'vue-router'
-import ExamplePage from '../pages/ExamplePage.vue'
+import ExtensionPage from '../pages/ExtensionPage.vue'
 
 export const routes: RouteConfig[] = [
-  { path: 'extension-route', component: ExamplePage }
+  { path: '/extension', component: ExtensionPage }
 ]
 

@@ -4,9 +4,8 @@
   </div>
 </template>
 
-
 <script>
-export const ExtensionPage = {
+export default {
   name: 'ExtensionPage'
 }
 </script>
