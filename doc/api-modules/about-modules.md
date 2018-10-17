@@ -1,21 +1,14 @@
-***Important*** Modules are under heavy development. Only a few parts of Vue Storefront are rewritten to modular architecture but we are aiming to rewrite everything soon along with adding TypeScript support and Unit tests to each of them. Some concepts may change over time before we introduce the final version of VS Modules.
-
-
-TL;DR; Start with `How module should look like` section if you are interested only in technical details 
-
 # Table of contents
 
-(under costruction)
-
 **Introduction and motivation**
-- [What are VS Modules]()
-- [Motivation]()
-- [What is the purpose of VS modules?]()
+- [What are VS Modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#what-are-vs-modules)
+- [Motivation](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#motivation)
+- [What is the purpose of VS modules?](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#what-is-the-purpose-of-vs-modules)
 
 **Technical part**
-- [Module config and capabilities]()
-- [Module file structure]()
-- [Good practices when designing modules]()
+- [Module config and it's capabilities](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-config-and-capabilities)
+- [Module file structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-file-structure)
+- [Rules and best practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#rules-and-good-practices)
   
 # What are VS modules?
 
