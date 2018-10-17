@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-
 // 3rd party dependecies
 import builder from 'bodybuilder'
 
@@ -88,11 +86,6 @@ export default {
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    if (Vue.prototype.$isServer) {
-      return new Promise((resolve, reject) => {
-        resolve()
-      })
-    }
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
       let newProductsQuery = builder().query('match', 'category.name', 'Tees').andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()

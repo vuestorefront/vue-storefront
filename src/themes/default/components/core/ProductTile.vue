@@ -90,7 +90,7 @@ export default {
       }
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('product-after-priceupdate', (product) => {
       if (product.sku === this.product.sku) {
         Object.assign(this.product, product)
