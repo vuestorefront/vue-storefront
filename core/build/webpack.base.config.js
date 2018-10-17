@@ -4,6 +4,7 @@ const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const autoprefixer = require('autoprefixer')
+const HTMLPlugin = require('html-webpack-plugin')
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -17,6 +18,9 @@ const themeRoot = require('./theme-path')
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
+const themedIndex = path.join(themeRoot, 'index.template.html')
+const themedIndexMinimal = path.join(themeRoot, 'index.minimal.template.html')
+const themedIndexBasic= path.join(themeRoot, 'index.basic.template.html')
 
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
@@ -36,11 +40,28 @@ const postcssConfig =  {
     ]
   }
 };
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   plugins: [
     new CaseSensitivePathsPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    // generate output HTML
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
+      filename: 'index.html',
+      inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndexMinimal : 'src/index.minimal.template.html',
+      filename: 'index.minimal.html',
+      inject: isProd == false
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndexBasic: 'src/index.basic.template.html',
+      filename: 'index.basic.html',
+      inject: isProd == false
+    })    
   ],
   devtool: 'source-map',
   entry: {
@@ -64,7 +85,7 @@ module.exports = {
       path.resolve(__dirname, extensionsRoot),
       path.resolve(__dirname, themesRoot)
     ],
-    extensions: ['.js', '.vue', '.ts'],
+    extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
@@ -91,7 +112,6 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          optimizeSSR: false,
           preserveWhitespace: false,
           postcss: [autoprefixer()],
         }
@@ -166,6 +186,11 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
         loader: 'url-loader?importLoaders=1&limit=10000'
+      },
+      {
+        test: /\.(graphqls|gql)$/,
+        exclude: /node_modules/,
+        loader: ['graphql-tag/loader']
       }
     ]
   }

@@ -266,8 +266,8 @@ Depending on the selected mode, execute the following commands:
   ```
 - **standard** mode:
   ```
-  docker exec -it vue-storefront-api_app_1 yarn restore
-  docker exec -it vue-storefront-api_app_1 yarn migrate
+  docker exec -it vuestorefrontapi_app_1 yarn restore
+  docker exec -it vuestorefrontapi_app_1 yarn migrate
   ```
 
 Clone the image files for default product database (we're using Magento2 example products dataset: https://github.com/magento/magento2-sample-data). Please execute the following command in **the root folder of vue-storefront-api project**:
@@ -412,7 +412,7 @@ also **remember to whitelist your Magento domain**
 
 ### 5. **In Terminal in `[project-folder]/mage2vuestorefront/src/` run:**
 
-  `$ node —harmony cli.js fullreindex`
+  `$ node --harmony cli.js fullreindex`
 
 <br>
 

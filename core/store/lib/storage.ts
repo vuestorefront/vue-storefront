@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
 
-const CACHE_TIMEOUT = 1600
-const CACHE_TIMEOUT_ITERATE = 3000
-const DISABLE_PERSISTANCE_AFTER = 3
+const CACHE_TIMEOUT = 800
+const CACHE_TIMEOUT_ITERATE = 2000
+const DISABLE_PERSISTANCE_AFTER = 2
+const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
 class LocalForageCacheDriver {
   private _collectionName: string;
@@ -230,7 +231,7 @@ class LocalForageCacheDriver {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     this._localCache[key] = value
     if (!Vue.prototype.$isServer) {
-      if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
+      if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER_SAVE && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           console.error('Persistent cache disabled becasue of previous errors [set]', key)
           this._persistenceErrorNotified = true

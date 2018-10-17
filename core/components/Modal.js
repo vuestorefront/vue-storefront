@@ -20,17 +20,28 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('modal-toggle', (name, state, params) => {
+    this.$bus.$on('modal-toggle', this.onToggle)
+    this.$bus.$on('modal-show', this.onShow)
+    this.$bus.$on('modal-hide', this.onHide)
+  },
+  beforeDestroy () {
+    this.$bus.$off('modal-toggle', this.onToggle)
+    this.$bus.$off('modal-show', this.onShow)
+    this.$bus.$off('modal-hide', this.onHide)
+  },
+  methods: {
+    onHide (name, state, params) {
+      return name === this.name ? this.toggle(false) : false
+    },
+    onShow (name, state, params) {
+      return name === this.name ? this.toggle(true) : false
+    },
+    onToggle (name, state, params) {
       if (name === this.name) {
         state = typeof state === 'undefined' ? !this.isVisible : state
         this.toggle(state)
       }
-    })
-
-    this.$bus.$on('modal-show', (name, state, params) => name === this.name ? this.toggle(true) : false)
-    this.$bus.$on('modal-hide', (name, state, params) => name === this.name ? this.toggle(false) : false)
-  },
-  methods: {
+    },
     onEscapePress () {
       this.close()
     },

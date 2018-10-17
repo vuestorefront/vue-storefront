@@ -6,7 +6,13 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('notification', data => {
+    this.$bus.$on('notification', this.onNotification)
+  },
+  beforeDestroy () {
+    this.$bus.$off('notification', this.onNotification)
+  },
+  methods: {
+    onNotification (data) {
       if (this.notifications.length > 0 && this.notifications[this.notifications.length - 1].message === data.message) {
         return
       }
@@ -15,9 +21,7 @@ export default {
       setTimeout(() => {
         this.action('close', this.notifications.length - 1)
       }, data.timeToLive || 5000)
-    })
-  },
-  methods: {
+    },
     action (action, id) {
       this.$bus.$emit('notification-after-' + action, id)
       switch (action) {

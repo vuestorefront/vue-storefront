@@ -9,15 +9,15 @@
 </template>
 
 <script>
-import builder from 'bodybuilder'
+
+import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
 
 import InspirationTile from './InspirationTile.vue'
 export default {
   name: 'Inspirations',
 
   beforeMount () {
-    let inspirationsQuery = builder().query('match', 'category.name', 'Performance Fabrics').build()
-
+    let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
     this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 3,

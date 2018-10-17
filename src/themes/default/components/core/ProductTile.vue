@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import config from 'config'
 import rootStore from '@vue-storefront/store'
 import ProductTile from '@vue-storefront/core/components/ProductTile'
 
@@ -71,9 +70,14 @@ export default {
     }
   },
   methods: {
+    onProductPriceUpdate (product) {
+      if (product.sku === this.product.sku) {
+        Object.assign(this.product, product)
+      }
+    },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
+        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
           const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
@@ -91,11 +95,10 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('product-after-priceupdate', (product) => {
-      if (product.sku === this.product.sku) {
-        Object.assign(this.product, product)
-      }
-    })
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
 </script>
