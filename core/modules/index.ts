@@ -5,28 +5,28 @@ import rootStore from '@vue-storefront/store'
 import router from '@vue-storefront/core/router'
 import { merge } from 'lodash-es'
 
-function extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
-  if (routes) router.addRoutes(routes)
-  if (beforeEach) router.beforeEach(beforeEach)
-  if (afterEach) router.afterEach(afterEach)
-}
-
-function extendStore (key, store) {
-  let registeredStores: any = rootStore
-  // Merge Vuex modules inc ase of conflicting keys with existing ones
-  if (registeredStores._modules.root._children[key]) {
-    rootStore.registerModule(key, merge(store, registeredStores._modules.root._children[key]._rawModule))
-  } else {
-    rootStore.registerModule(key, store)
-  }
-}
-
 export interface VueStorefrontModuleConfig {
   key: string;
   store?: Module<any, any>;
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
   beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
   afterRegistration?: (Vue: VueConstructor, config: Object) => void,
+}
+
+function extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
+  if (routes) router.addRoutes(routes)
+  if (beforeEach) router.beforeEach(beforeEach)
+  if (afterEach) router.afterEach(afterEach)
+}
+
+function extendStore (key: string, store: Module<any, any>) : void {
+  let registeredStores: any = rootStore
+  // Merge stores with conflicting keys
+  if (registeredStores._modules.root._children[key]) {
+    rootStore.registerModule(key, merge(store, registeredStores._modules.root._children[key]._rawModule))
+  } else {
+    rootStore.registerModule(key, store)
+  }
 }
 
 export class VueStorefrontModule {
