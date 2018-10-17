@@ -1,3 +1,5 @@
+// This is VS modules entry point.
+// Read more about modules: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md
 import { store } from './store'
 import { beforeRegistration } from './hooks/beforeRegistration'
 import { afterRegistration } from './hooks/afterRegistration'
@@ -6,10 +8,11 @@ import { routes } from './router/routes'
 import { beforeEach } from './router/beforeEach'
 import { afterEach } from './router/afterEach'
 
-// This key will be used for creating extension keys in vuex and other key-based plugins
+// This key will be used for creating extension keys in vuex and other key-based plugins. 
+// In case of conflicting keys across modules they'll be merged in favor of the least recently registered one
 export const KEY = 'example'
 
-// Pass everything that we want to extend the app to moduleConfig. Only key is required, rest is optional.
+// Put everything that should extend the base app here so it can be later registered as VS module
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   store,
@@ -18,5 +21,4 @@ const moduleConfig: VueStorefrontModuleConfig = {
   router: { routes, beforeEach, afterEach }
 }
 
-// ...and export VueStorefrontModule with provided config so it can be registered in modules entry
 export const Example = new VueStorefrontModule(moduleConfig)

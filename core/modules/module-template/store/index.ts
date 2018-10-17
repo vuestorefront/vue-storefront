@@ -1,5 +1,5 @@
-import ExampleState from '../types/ExampleState'
 import { Module } from 'vuex'
+import { ExampleState } from '../types/ExampleState'
 import { mutations } from './mutations'
 import { getters } from './getters'
 import { actions } from './actions'
