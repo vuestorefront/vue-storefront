@@ -444,6 +444,7 @@ class Storefront extends Abstract {
         config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`
 
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
+        config.mailer.endpoint = `${backendPath}/api/ext/mail-service/send-email`
         config.images.baseUrl = this.answers.images_endpoint
         config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
         config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`

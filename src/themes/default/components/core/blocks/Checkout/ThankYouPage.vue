@@ -51,7 +51,7 @@
             <p class="mb25">
               {{ $t('Your feedback is important fo us. Let us know what we could improve.') }}
             </p>
-            <form action="mailto:contributors@vuestorefront.io">
+            <form @submit.prevent="sendFeedback">
               <base-textarea
                 class="mb25"
                 type="text"
@@ -78,10 +78,11 @@ import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
+import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 
 export default {
   name: 'ThankYouPage',
-  mixins: [Composite, VueOfflineMixin],
+  mixins: [Composite, VueOfflineMixin, EmailForm],
   data () {
     return {
       feedback: ''
@@ -103,6 +104,24 @@ export default {
       if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission()
       }
+    },
+    sendFeedback () {
+      this.sendEmail(
+        {
+          sourceAddress: this.$store.state.checkout.personalDetails.emailAddress,
+          targetAddress: this.$store.state.config.mailer.contactAddress,
+          subject: this.$t('What we can improve?'),
+          emailText: this.feedback
+        },
+        this.notifyResult
+      )
+    },
+    notifyResult (type, message) {
+      this.$bus.$emit('notification', {
+        type,
+        message,
+        action1: { label: this.$t('OK'), action: 'close' }
+      })
     }
   },
   destroyed () {
