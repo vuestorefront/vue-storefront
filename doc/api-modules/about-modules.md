@@ -53,6 +53,8 @@ The purpose is well described in [this discussion](https://github.com/DivanteLtd
 Module config is the object that is required to instantiate VS module. The config object you'll provide is later used to extend and hook into different parts of the application (like router, Vuex etc). 
 Please use this object as the only part that is responsible for extending Vue Storefront. Otherwise it may stop working after some breaking core updates.
 
+Vue Storefront module object with provided config should be exported in `index.ts` entry point. Ideally it should be a named export named the same as modules key.
+
 This is how the signature of Vue Storefront Module looks like:
 ```js
 interface VueStorefrontModuleConfig {
@@ -69,11 +71,11 @@ Key is an ID of your module. It's used to identify your module and to set keys i
 
 #### `store`
 
-Vuex module that'll be registered in the application. 
+Vuex module that'll be registered in the application. In case of conflicting module keys they are deep merged in favour of most recent instantiated one.
 
 ####  `router`
 
-Extension point for vue-router. You can provide additional routes and [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html).
+Extension point for vue-router. You can provide additional routes and [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) here.
 
 #### `beforeRegistration`
 
@@ -90,17 +92,20 @@ Try to have similar file structure inside modules that you create If all of them
 
 Not all of this folders and files needs to be in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 
-- `components` - components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
-- `pages` - if you want to provide full pages with your module palce them here. It's also a good practice to extend router configuration for this pages
-- `store` - Vuex store associated to module
-  - `index.ts` - default export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file
-  - `mutation-types.ts` - mutation strings represented by variables to use instead of plain strings
-  - `cache-storage` - good place to instantiate offline storage if you want to make use of it in your module
+- `components` - Components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
+- `pages` - If you want to provide full pages with your module palce them here. It's also a good practice to extend router configuration for this pages
+- `store` - Vuex store associated to module. 
+  - `index.ts` - Entry point and main export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
+  - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
+  - `cache-storage` - Good place to instantiate offline storage if you want to make use of it in your module
 - `types` - TypeScript types associated with module
-- `test` - folder with unit tests which is *required* for every new or rewritten module. 
-- `hooks` - before/after hooks that are called before and after registration of module
+- `test` - Folder with unit tests which is *required* for every new or rewritten module. 
+- `hooks` - before/after hooks that are called before and after registration of module.
+  - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
+  - `bafterRegistration.ts` - Should be used in `afterRegistration` config property.
 - `queries` - GraphQL queries
 - `helpers` - everything else that is meant to support modules behavior
+
 # Rules and good practices
 
 First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
@@ -154,6 +159,7 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 5. Create pure functions that can be easly called with different argument. Rely on `data` properties instead of arguments only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28).
 6. Document exported compoennts like in example: https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts
 7. If your module core functionality is an integration with external service better name it the same as this service (for example `mailchimp`)
+8. Use named exports and typecheck.
 
 
 # Contributions
