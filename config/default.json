@@ -20,7 +20,7 @@
       "host": "localhost",
       "port": 6379,
       "db": 0
-    },    
+    },
     "graphql":{
       "host": "localhost",
       "port": 8080
@@ -272,6 +272,11 @@
     },
     "mailchimp": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+    },
+    "mailer": {
+      "endpoint": "http://localhost:8080/api/ext/mail-service/send-email",
+      "contactAddress": "contributors@vuestorefront.io",
+      "sendConfirmation": true
     },
     "theme": "@vue-storefront/theme-default",
     "analytics": {

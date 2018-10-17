@@ -19,6 +19,7 @@ import promoted from './promoted-offers'
 
 // MODULES_ENTRY
 // import mailchimp from '@vue-storefront/core/modules/mailchimp/store/index'
+import mailer from '@vue-storefront/core/modules/mailer/store/index'
 import review from '@vue-storefront/core/modules/review/store/index'
 
 export default {
@@ -41,4 +42,5 @@ export default {
   claims,
   sync,
   promoted,
+  mailer
 }
