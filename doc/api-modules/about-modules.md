@@ -103,10 +103,10 @@ Not all of this folders and files needs to be in every module. The only mandator
 - `hooks` - before/after hooks that are called before and after registration of module.
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
   - `bafterRegistration.ts` - Should be used in `afterRegistration` config property.
-`router` - routes and navigation guards associated to this module
- - `routes`
- - `beforeEach`
- - `afterEach`
+- `router` - routes and navigation guards associated to this module
+ - `routes`- array of route objects that will be added to current router configuration. Should be used in `router.routes` config property.
+ - `beforeEach` - beforEeach navigation guard. Should be used in `router.beforeEach` config property.
+ - `afterEach`- afterEach navigation guard. Should be used in `router.afterEach` config property.
 - `queries` - GraphQL queries
 - `helpers` - everything else that is meant to support modules behavior
 
