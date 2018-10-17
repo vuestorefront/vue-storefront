@@ -4,16 +4,14 @@ import { required, email } from 'vuelidate/lib/validators'
  * Newsletter subscription form component.
  *
  * #### Data
- * - `email` - email that will be used for subscription, validated with vuelidate (email, required)
+ * - `email: String` - email that will be used for subscription, validated with vuelidate (email, required)
  * 
  * ### Computed
- * - `isSubscribed` - returns true if user subscribed to the newsletter in this session
+ * - `isSubscribed: boolean` - returns true if user subscribed to the newsletter in this session
  * 
  * #### Methods
- * - `submit(success, failure)` dispatches `newsletter-mailchimp/subscribe` with `email` data property. `success(res)` and `failure(err)` are callback functions called depending on subscription result and contain response info or error.
+ * - `submit(success?: Function, failure?: Function)` dispatches `newsletter-mailchimp/subscribe` with `email` data property. `success(res)` and `failure(err)` are callback functions called depending on subscription result and contain response info or error.
  * 
- * ### Hooks
- * - `mounted` - if user is logged in sets it's email to `email` data property
  */
 export const Subscribe = {
   data () {
@@ -28,7 +26,7 @@ export const Subscribe = {
     }
   },
   methods: {
-    submit (success, failure) {
+    submit (success?: Function, failure?: Function) {
       // argument omitted for validation purposes
       if (!this.$v.$invalid) {
         this.$store.dispatch('mailchimp/subscribe', this.email).then(res => {
@@ -40,7 +38,7 @@ export const Subscribe = {
     }
   },
   computed: {
-    isSubscribed () {
+    isSubscribed (): boolean {
       return this.$store.state.mailchimp.subscribed
     }
   },

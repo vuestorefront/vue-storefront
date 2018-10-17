@@ -18,7 +18,7 @@ import sync from './sync'
 import promoted from './promoted-offers'
 
 // MODULES_ENTRY
-import mailchimp from '@vue-storefront/core/modules/mailchimp/store/index'
+// import mailchimp from '@vue-storefront/core/modules/mailchimp/store/index'
 import mailer from '@vue-storefront/core/modules/mailer/store/index'
 import review from '@vue-storefront/core/modules/review/store/index'
 
@@ -42,6 +42,5 @@ export default {
   claims,
   sync,
   promoted,
-  mailchimp,
   mailer
 }
