@@ -8,19 +8,18 @@
  * - `addUser(name: Function, success?: Function, failure?: Function)` adds new user to the list, calls failure if user with the same name is already on list
  */
 export const ExtensionComponent = {
-  data () {
-    return {
-      users: []
+  computed: {
+    users () {
+      return this.$store.state.example.user
     }
   },
   methods: {
-    addUser(name: string, success: () => void, failure: () => void): void {
-      if(!this.users.includes[name]) {
-        this.users.push(name)
-        if (success) success()
-      } else {
-        if (failure) failure()
-      }
+    addUser(user: Object, success: (res: Object) => void, failure: (err: Error) => void): void {
+      this.$store.dispatch('example/addUser', user).then(res => {
+        success(res)
+      }).catch(err => {
+        failure(err)
+      })
     }
   }
 }
