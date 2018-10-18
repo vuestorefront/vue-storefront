@@ -1,6 +1,6 @@
 import Product from '@vue-storefront/store/types/product/Product'
 
-export const addToWishlist = {
+export const AddToWishlist = {
   name: 'AddToCart',
   props: {
     product: {
