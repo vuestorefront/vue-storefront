@@ -7,11 +7,10 @@ import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 import Composite from '@vue-storefront/core/mixins/composite'
-import { addToWishlist, removeFromWishlist } from '@vue-storefront/core/modules/wishlist/features'
 
 export default {
   name: 'Product',
-  mixins: [ Composite, addToWishlist, removeFromWishlist ],
+  mixins: [ Composite ],
   data () {
     return {
       loading: false
@@ -113,6 +112,12 @@ export default {
       } else {
         console.error('Error with loading = true in Product.vue; Reload page')
       }
+    },
+    addToWishlist (product) {
+      return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/addItem', product) : false
+    },
+    removeFromWishlist (product) {
+      return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/removeItem', product) : false
     },
     addToList (list) {
       return this.$store.state[list] ? this.$store.dispatch(`${list}/addItem`, this.product) : false
