@@ -11,7 +11,7 @@ export function slugify (text) {
 }
 
 export function once (key, fn) {
-  const { process = {} } = global
+  const { process = {} } = global || window
   const processKey = key + '__ONCE__'
   if (!process.hasOwnProperty(processKey)) {
     console.debug(`Once ${key}`)

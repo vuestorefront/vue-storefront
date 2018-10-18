@@ -17,7 +17,6 @@ export default {
         return
       }
       this.notifications.push(data)
-      // @todo: add clearTimeout
       setTimeout(() => {
         this.action('close', this.notifications.length - 1)
       }, data.timeToLive || 5000)
