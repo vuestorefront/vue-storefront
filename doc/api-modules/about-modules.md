@@ -97,7 +97,6 @@ Not all of this folders and files needs to be in every module. The only mandator
 - `store` - Vuex Module associated to this module
   - `index.ts` - Entry point and main export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
   - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
-  - `cache-storage`.ts - Good place to instantiate offline storage if you want to make use of it in your module
   - `plugins.ts` - Good place to put vuex plugin. Should be used in `store.plugins` config object
 - `types` - TypeScript types associated with module
 - `test` - Folder with unit tests which is *required* for every new or rewritten module. 
@@ -110,6 +109,7 @@ Not all of this folders and files needs to be in every module. The only mandator
   - `afterEach.ts`- afterEach navigation guard. Should be used in `router.afterEach` config property.
 - `queries` - GraphQL queries
 - `helpers` - everything else that is meant to support modules behavior
+- `index.js` - entry point for the module. Should export VueStorefrontModule. It's also a good palce to instantiate cache storage.
 
 # Rules and good practices
 
