@@ -71,7 +71,7 @@ Key is an ID of your module. It's used to identify your module and to set keys i
 
 #### `store`
 
-Vuex module that'll be registered in the application. In case of conflicting module keys they are deep merged in favour of most recent instantiated one. It can be provided with vuex module and Vuex plugin object to subscribe for mutations.
+Extension point for Vuex. It can be provided with vuex module and Vuex plugin object to subscribe for mutations. In case of conflicting module keys they are deep merged in favour of most recent instantiated one. 
 
 ####  `router`
 
