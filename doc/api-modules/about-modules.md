@@ -59,7 +59,7 @@ This is how the signature of Vue Storefront Module looks like:
 ```js
 interface VueStorefrontModuleConfig {
   key: string;
-  store?: Module<any, any>;
+  store?: { module?: Module<any, any>, plugin?: Function };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
   beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
   afterRegistration?: (Vue: VueConstructor, config: Object) => void,
@@ -71,7 +71,7 @@ Key is an ID of your module. It's used to identify your module and to set keys i
 
 #### `store`
 
-Vuex module that'll be registered in the application. In case of conflicting module keys they are deep merged in favour of most recent instantiated one.
+Vuex module that'll be registered in the application. In case of conflicting module keys they are deep merged in favour of most recent instantiated one. It can be provided with vuex module and Vuex plugin object to subscribe for mutations.
 
 ####  `router`
 
