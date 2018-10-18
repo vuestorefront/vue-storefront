@@ -8,7 +8,7 @@ export const EmailForm = {
     }
   },
   methods: {
-    sendEmail (letter: MailItem, callback) {
+    sendEmail (letter: MailItem, success, failure) {
       this.$store.dispatch('mailer/getToken')
       .then(res => {
         if (res.ok) {
@@ -22,7 +22,7 @@ export const EmailForm = {
       })
       .then(res => {
         if (res.ok) {
-          callback('success', i18n.t('Email has successfully been sent'))
+          success(i18n.t('Email has successfully been sent'))
           this.$store.dispatch('mailer/sendConfirmation', { ...letter, token: this.token })
         } else {
           return res.json()
@@ -31,11 +31,11 @@ export const EmailForm = {
       .then(errorResponse => {
         if (errorResponse) {
           const errorMessage = errorResponse.result
-          callback('error', i18n.t(errorMessage))
+          failure(i18n.t(errorMessage))
         }
       })
       .catch(() => {
-        callback('error', i18n.t('Could not send an email. Please try again later.'))
+        failure(i18n.t('Could not send an email. Please try again later.'))
       })
     }
   }

@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import TestInstance from './TestInstance.vue'
 import Vuex from 'vuex'
-import getters from '@vue-storefront/store/modules/cart/getters'
+import getters from '../store/getters'
 
 const localVue = createLocalVue()
 

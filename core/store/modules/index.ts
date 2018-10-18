@@ -2,7 +2,6 @@ import order from './order'
 import product from './product'
 import category from './category'
 import attribute from './attribute'
-import cart from './cart'
 import wishlist from './wishlist'
 import compare from './compare'
 import user from './user'
@@ -17,19 +16,12 @@ import claims from './claims'
 import sync from './sync'
 import promoted from './promoted-offers'
 
-// MODULES_ENTRY
-// import mailchimp from '@vue-storefront/core/modules/mailchimp/store/index'
-import mailer from '@vue-storefront/core/modules/mailer/store/index'
-import review from '@vue-storefront/core/modules/review/store/index'
-
 export default {
   order,
   product,
   category,
   attribute,
-  cart,
   wishlist,
-  review,
   compare,
   user,
   payment,
@@ -41,6 +33,5 @@ export default {
   tax,
   claims,
   sync,
-  promoted,
-  mailer
+  promoted
 }

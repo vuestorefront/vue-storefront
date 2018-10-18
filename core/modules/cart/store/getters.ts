@@ -1,8 +1,8 @@
 import { GetterTree } from 'vuex'
 import sumBy from 'lodash-es/sumBy'
 import i18n from '@vue-storefront/i18n'
-import CartState from './types/CartState'
-import RootState from '../../types/RootState'
+import CartState from '../types/CartState'
+import RootState from '@vue-storefront/store/types/RootState'
 import AppliedCoupon from '@vue-storefront/store/types/cart/AppliedCoupon'
 
 const getters: GetterTree<CartState, RootState> = {
