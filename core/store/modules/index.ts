@@ -16,17 +16,12 @@ import claims from './claims'
 import sync from './sync'
 import promoted from './promoted-offers'
 
-// MODULES_ENTRY
-// import mailchimp from '@vue-storefront/core/modules/mailchimp/store/index'
-import review from '@vue-storefront/core/modules/review/store/index'
-
 export default {
   order,
   product,
   category,
   attribute,
   wishlist,
-  review,
   compare,
   user,
   payment,

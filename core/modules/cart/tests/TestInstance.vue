@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import Microcart from '../components/Microcart.ts'
-import AddToCart from '../components/AddToCart.ts'
-import Product from '../components/Product.ts'
+import { Microcart } from '../components/Microcart.ts'
+import { AddToCart } from '../components/AddToCart.ts'
+import { MicrocartProduct } from '../components/Product.ts'
 
 export default {
   data () {
@@ -23,7 +23,7 @@ export default {
   mixins: [
     Microcart,
     AddToCart,
-    Product
+    MicrocartProduct
   ]
 }
 </script>
