@@ -2,10 +2,9 @@ import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import RootState from '../../types/RootState'
-import CartState from './types/CartState'
+import CartState from '../types/CartState'
 
-const cart: Module<CartState, RootState> = {
+export const store: Module<CartState, any> = {
   namespaced: true,
   state: {
     itemsAfterPlatformTotals: {},
@@ -31,4 +30,3 @@ const cart: Module<CartState, RootState> = {
   mutations
 }
 
-export default cart
