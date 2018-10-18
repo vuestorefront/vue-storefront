@@ -114,7 +114,7 @@ Not all of this folders and files needs to be in every module. The only mandator
 
 First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
 
-1. Try not to rely on any other data sources than `config`. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes.
+1. **Try not to rely on any other data sources than `config`**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves
 2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
 ````js
 export const Microcart = {
