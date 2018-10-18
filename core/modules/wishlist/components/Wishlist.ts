@@ -1,13 +1,19 @@
-import { loadWishlist, productsInWishlist, closeWishlist, isWishlistOpen } from '@vue-storefront/core/modules/wishlist/features'
-
 export const Wishlist = {
   name: 'Wishlist',
-  props: {
-    product: {
-      type: Object,
-      required: false,
-      default: () => { }
+  created () {
+    this.$store.dispatch('wishlist/load')
+  },
+  computed: {
+    isWishlistOpen () {
+      return this.$store.state.ui.wishlist
+    },
+    productsInWishlist () {
+      return this.$store.state.wishlist.items
     }
   },
-  mixins: [ loadWishlist, productsInWishlist, closeWishlist, isWishlistOpen ]
+  methods: {
+    closeWishlist () {
+      this.$store.commit('ui/setWishlist', false)
+    }
+  }
 }
