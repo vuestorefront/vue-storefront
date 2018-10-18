@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '../../mutation-types'
+import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
-import { htmlDecode } from '../../lib/filters'
-import RootState from '../../types/RootState'
-import WishlistState from './types/WishlistState'
+import { htmlDecode } from '@vue-storefront/store/lib/filters'
+import RootState from '@vue-storefront/store/types/RootState'
+import WishlistState from '../types/WishlistState'
 
 const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {

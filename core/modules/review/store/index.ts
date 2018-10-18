@@ -4,7 +4,7 @@ import mutations from "./mutations";
 import RootState from "@vue-storefront/store/types/RootState";
 import ReviewState from "../types/ReviewState";
 
-export const store: Module<ReviewState, RootState> = {
+export const module: Module<ReviewState, RootState> = {
   namespaced: true,
   state: {
     items: [],

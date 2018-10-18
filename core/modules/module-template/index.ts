@@ -1,6 +1,7 @@
 // This is VS module entry point.
 // Read more about modules: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md
-import { store } from './store'
+import { module } from './store'
+import { plugin } from './store/plugin'
 import { beforeRegistration } from './hooks/beforeRegistration'
 import { afterRegistration } from './hooks/afterRegistration'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/modules'
@@ -15,7 +16,7 @@ export const KEY = 'example'
 // Put everything that should extend the base app here so it can be later registered as VS module
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store,
+  store: { module, plugin },
   beforeRegistration,
   afterRegistration,
   router: { routes, beforeEach, afterEach }

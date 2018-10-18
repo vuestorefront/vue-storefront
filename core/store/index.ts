@@ -56,7 +56,7 @@ const mutations = {
     state.count--
   }
 }
-
+// @TODO move into modules
 const plugins: Plugin<RootState>[] = [
   store => {
     store.subscribe((mutation, state) => {

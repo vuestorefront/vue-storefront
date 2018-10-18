@@ -4,7 +4,7 @@ import getters from './getters'
 import mutations from './mutations'
 import CartState from '../types/CartState'
 
-export const store: Module<CartState, any> = {
+export const module: Module<CartState, any> = {
   namespaced: true,
   state: {
     itemsAfterPlatformTotals: {},
@@ -27,6 +27,6 @@ export const store: Module<CartState, any> = {
   },
   getters,
   actions,
-  mutations
+  mutations,
 }
 

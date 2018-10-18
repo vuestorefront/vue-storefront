@@ -2,7 +2,6 @@ import order from './order'
 import product from './product'
 import category from './category'
 import attribute from './attribute'
-import wishlist from './wishlist'
 import compare from './compare'
 import user from './user'
 import payment from './payment'
@@ -21,7 +20,6 @@ export default {
   product,
   category,
   attribute,
-  wishlist,
   compare,
   user,
   payment,

@@ -3,7 +3,7 @@ import i18n from '@vue-storefront/i18n'
 import MailItem from '../types/MailItem'
 import { Module } from 'vuex'
 
-export const store: Module<any, any> = {
+export const module: Module<any, any> = {
   namespaced: true,
   actions: {
     getToken ({}) {
