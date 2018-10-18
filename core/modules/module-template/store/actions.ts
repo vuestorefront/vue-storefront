@@ -2,7 +2,7 @@ import { ExampleState } from '../types/ExampleState'
 import { ActionTree } from 'vuex';
 import * as types from './mutation-types'
 // you can use this storage if you want to enable offline capabilities
-import { cacheStorage } from './cache-storage'
+import { cacheStorage } from '../'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<ExampleState, any> = {

@@ -5,6 +5,7 @@ import i18n from '@vue-storefront/i18n'
 import { htmlDecode } from '@vue-storefront/store/lib/filters'
 import RootState from '@vue-storefront/store/types/RootState'
 import WishlistState from '../types/WishlistState'
+import { cacheStorage } from '../'
 
 const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
@@ -12,7 +13,7 @@ const actions: ActionTree<WishlistState, RootState> = {
   },
   load (context) {
     const commit = context.commit
-    Vue.prototype.$db.wishlistCollection.getItem('current-wishlist', (err, storedItems) => {
+    cacheStorage.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
     })

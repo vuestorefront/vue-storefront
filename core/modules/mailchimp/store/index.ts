@@ -2,7 +2,7 @@ import * as types from './mutation-types'
 import config from 'config'
 import { Module } from 'vuex'
 import { mailchimpState } from '../types/mailchimpState'
-import { cacheStorage } from './cache-storage'
+import { cacheStorage } from '../'
 
 export const module: Module<mailchimpState, any> ={
   namespaced: true,
