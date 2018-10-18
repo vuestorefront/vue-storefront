@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
-import * as types from '../../mutation-types'
-import WishlistState from './types/WishlistState'
+import * as types from './mutation-types'
+import WishlistState from '../types/WishlistState'
 
 const mutations: MutationTree<WishlistState> = {
   /**

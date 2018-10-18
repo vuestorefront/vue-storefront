@@ -4,7 +4,7 @@ import { mutations } from './mutations'
 import { getters } from './getters'
 import { actions } from './actions'
 
-export const store: Module<ExampleState, any> = {
+export const module: Module<ExampleState, any> = {
   namespaced: true,
   mutations,
   actions,

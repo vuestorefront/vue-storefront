@@ -4,7 +4,7 @@ import { Module } from 'vuex'
 import { mailchimpState } from '../types/mailchimpState'
 import { cacheStorage } from './cache-storage'
 
-export const store: Module<mailchimpState, any> ={
+export const module: Module<mailchimpState, any> ={
   namespaced: true,
   state: {
     isSubscribed: null,

@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
-import RootState from '../../types/RootState'
-import WishlistState from './types/WishlistState'
+import RootState from '@vue-storefront/store/types/RootState'
+import WishlistState from '../types/WishlistState'
 
 const getters: GetterTree<WishlistState, RootState> = {
   isActive (state) {
