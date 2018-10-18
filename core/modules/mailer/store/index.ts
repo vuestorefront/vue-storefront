@@ -1,8 +1,9 @@
 import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import MailItem from '../types/MailItem'
+import { Module } from 'vuex'
 
-export default {
+export const store: Module<any, any> = {
   namespaced: true,
   actions: {
     getToken ({}) {
