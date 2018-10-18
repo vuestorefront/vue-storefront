@@ -97,16 +97,17 @@ Not all of this folders and files needs to be in every module. The only mandator
 - `store` - Vuex Module associated to this module
   - `index.ts` - Entry point and main export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
   - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
-  - `cache-storage` - Good place to instantiate offline storage if you want to make use of it in your module
+  - `cache-storage`.ts - Good place to instantiate offline storage if you want to make use of it in your module
+  - `plugins.ts` - Good place to put vuex plugin. Should be used in `store.plugins` config object
 - `types` - TypeScript types associated with module
 - `test` - Folder with unit tests which is *required* for every new or rewritten module. 
 - `hooks` - before/after hooks that are called before and after registration of module.
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
   - `bafterRegistration.ts` - Should be used in `afterRegistration` config property.
 - `router` - routes and navigation guards associated to this module
-  - `routes`- array of route objects that will be added to current router configuration. Should be used in `router.routes` config property.
-  - `beforeEach` - beforEeach navigation guard. Should be used in `router.beforeEach` config property.
-  - `afterEach`- afterEach navigation guard. Should be used in `router.afterEach` config property.
+  - `routes.ts`- array of route objects that will be added to current router configuration. Should be used in `router.routes` config property.
+  - `beforeEach.ts` - beforEeach navigation guard. Should be used in `router.beforeEach` config property.
+  - `afterEach.ts`- afterEach navigation guard. Should be used in `router.afterEach` config property.
 - `queries` - GraphQL queries
 - `helpers` - everything else that is meant to support modules behavior
 
