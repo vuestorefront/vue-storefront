@@ -88,7 +88,7 @@ Function that'll be called after registering the module both on server and clien
 # Module file structure
 
 Below you can see recommended file structure for VS module. All of the core ones are organised in this way.
-Try to have similar file structure inside modules that you create If all of them will implement similar architeture it'll be easier to maintain and understand them. If there is no purpose in organising some of it's parts differently try to avoid it.
+Try to have similar file structure inside the ones that you create. If all of modules will implement similar architeture it'll be easier to maintain and understand them. If there is no purpose in organising some of it's parts differently try to avoid it.
 
 Not all of this folders and files needs to be in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 
