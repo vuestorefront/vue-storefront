@@ -30,7 +30,9 @@ import VueApollo from 'vue-apollo'
 
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
 if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
-  takeOverConsole(buildTimeConfig.console.verbosityLevel)
+  once('__TAKE_OVER_CONSOLE__', () => {
+    takeOverConsole(buildTimeConfig.console.verbosityLevel)
+  })
 }
 
 export function createApp (ssrContext, config): { app: Vue, router: any, store: any } {

@@ -13,7 +13,7 @@ export default {
       isOpen: state => state.ui.sidebar
     })
   },
-  beforeMount () {
+  created () {
     this.$store.dispatch('category/list', {})
   },
   methods: {
