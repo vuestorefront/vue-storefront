@@ -6,42 +6,32 @@ import { Module } from 'vuex'
 export const module: Module<any, any> = {
   namespaced: true,
   actions: {
-    getToken ({}) {
-      return fetch(config.mailer.endpoint.token)
-    },
     sendEmail ({}, letter: MailItem) {
-      return fetch(config.mailer.endpoint.send, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(letter)
-      })
-    },
-    sendConfirmation ({}, letter: MailItem) {
-      if (config.mailer.sendConfirmation) {
-        const confirmationLetter = {
-          sourceAddress: letter.targetAddress,
-          targetAddress: letter.sourceAddress,
-          subject: i18n.t('Confirmation of receival'),
-          emailText: i18n.t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
-          token: letter.token,
-          confirmation: true
-        }
-
-        fetch(config.mailer.endpoint.send, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(confirmationLetter)
+      return new Promise((resolve, reject) => {
+        fetch(config.mailer.endpoint.token)
+        .then(res => res.json())
+        .then(res => {
+          if (res.code === 200) {
+            fetch(config.mailer.endpoint.send, {
+              method: 'POST',
+              mode: 'cors',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                ...letter,
+                token: res.result
+              })
+            })
+            .then(res => resolve(res))
+            .catch(() => reject())
+          } else {
+            reject()
+          }
         })
-        .catch(error => console.error(error))
-      }
+        .catch(() => reject())
+      })
     }
   }
 }
