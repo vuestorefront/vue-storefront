@@ -3,5 +3,5 @@ export default interface MailItem {
     targetAddress: string,
     subject: string,
     emailText: string,
-    token?: string
+    confirmation?: boolean
 }

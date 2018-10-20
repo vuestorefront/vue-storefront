@@ -113,12 +113,31 @@ export default {
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
-        this.notifyResult
+        this.notifySuccess,
+        this.notifyFailure
       )
     },
-    notifyResult (type, message) {
+    notifySuccess (message) {
       this.$bus.$emit('notification', {
-        type,
+        type: 'success',
+        message,
+        action1: { label: this.$t('OK'), action: 'close' }
+      })
+      if (this.$store.state.config.mailer.sendConfirmation) {
+        this.sendEmail(
+          {
+            sourceAddress: this.$store.state.config.mailer.contactAddress,
+            targetAddress: this.$store.state.checkout.personalDetails.emailAddress,
+            subject: this.$t('Confirmation of receival'),
+            emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
+            confirmation: true
+          }
+        )
+      }
+    },
+    notifyFailure (message) {
+      this.$bus.$emit('notification', {
+        type: 'error',
         message,
         action1: { label: this.$t('OK'), action: 'close' }
       })
