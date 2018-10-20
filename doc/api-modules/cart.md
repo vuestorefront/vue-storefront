@@ -1,81 +1,49 @@
 # Cart module
 
-The cart module as name suggests is a set of mixins responsible for interacting with Cart. You can find methods responsible for adding/removing/getting cart items along with optional UI interactions for microcart.
+Cart
 
-## Content
+## Components
 
-#### addToCart
-- [method] addToCart(product)
+#### AddToCart
+Component responsible for adding product to the cart
 
-#### removeFromCart
-- [method] removeFromCart(product)
+**Props**
+- `product` - product that'll be added to cart
 
-#### applyCoupon
-- [method] applyCoupon(code)
+**Methods**
+- `addToCart(product)` - adds passed product to the cart. By default correlates with `product` prop
 
-#### removeCoupon
-- [method] removeCoupon()
+#### Microcart
+Misrocart component.
 
-#### productsInCart
-- [computed] productsInCart
+**Computed**
+- `productsInCart` - array of products that are currently in the cart
+- `appliedCoupon` - return applied cart coupon or false if no coupon was applied
+-` totals` - cart totals
+- `isMicrocartOpen` - returns true if microcart is open
 
-#### cartTotals
-- [computed] cartTotals
+**Methods**
+- `applyCoupon(code)` - appies cart coupon
+- `removeCoupon()` removes currently applied cart coupon
+- 'toggleMicrocart' - open/close microcart
 
-#### cartShipping
-- [computed] cartShipping
+#### MicrocartButton
+Component responsible for opening/closing Microcart
 
-#### cartPayment
-- [computed] cartPayment
+**Computed**
+- `quantity` - number of products in cart
 
-#### appliedCoupon
-- [computed] appliedCoupon
+**Methods**
+- `toggleMicrocart` - open/close microcart
 
-## UI helpers
+#### Product
+Component representing product in microcart. Allows to modify it's quantity or remove from cart. 
 
-#### openMicrocart
-- [method] openMicrocart()
+**Compued**
+- `thumbnail` - returns src of products thumbnail
 
-#### closeMicrocart
-- [method] openMicrocart()
+**Methods**
+- `removeFromCart` - removes current product (data property `product`) from cart
+- 'updateQuantity' - updates cart quantity for current product (data property `product`)
 
-#### isMicrocartOpen
-- [computed] isMicrocartOpen
 
-## Example
-
-````javascript
-// Inside Vue component
-import {
-  addToCart,
-  removeFromCart,
-  applyCoupon,
-  removeCoupon,
-  productsInCart,
-  appliedCoupon,
-  totals,
-  shipping,
-  payment,
-  closeMicrocart,
-  openMicrocart,
-  isMicrocartOpen
-} from '@vue-storefront/core/modules/cart/features'
-
-export default {
-  //...other properties
-  mixins: [
-    addToCart,
-    removeFromCart,
-    applyCoupon,
-    removeCoupon,
-    productsInCart,
-    appliedCoupon,
-    totals,
-    shipping,
-    payment,
-    closeMicrocart,
-    openMicrocart,
-    isMicrocartOpen
-  ]
-}
-````
