@@ -1,6 +1,6 @@
 # Cart module
 
-Cart
+This module contains all logic and components related to cart operations.
 
 ## Components
 
@@ -44,6 +44,6 @@ Component representing product in microcart. Allows to modify it's quantity or r
 
 **Methods**
 - `removeFromCart` - removes current product (data property `product`) from cart
-- 'updateQuantity' - updates cart quantity for current product (data property `product`)
+- `updateQuantity` - updates cart quantity for current product (data property `product`)
 
 
