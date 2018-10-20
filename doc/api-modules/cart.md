@@ -4,7 +4,7 @@ Cart
 
 ## Components
 
-#### AddToCart
+### AddToCart
 Component responsible for adding product to the cart
 
 **Props**
@@ -13,8 +13,8 @@ Component responsible for adding product to the cart
 **Methods**
 - `addToCart(product)` - adds passed product to the cart. By default correlates with `product` prop
 
-#### Microcart
-Misrocart component.
+### Microcart
+Microcart component.
 
 **Computed**
 - `productsInCart` - array of products that are currently in the cart
@@ -27,7 +27,7 @@ Misrocart component.
 - `removeCoupon()` removes currently applied cart coupon
 - 'toggleMicrocart' - open/close microcart
 
-#### MicrocartButton
+### MicrocartButton
 Component responsible for opening/closing Microcart
 
 **Computed**
@@ -36,7 +36,7 @@ Component responsible for opening/closing Microcart
 **Methods**
 - `toggleMicrocart` - open/close microcart
 
-#### Product
+### Product
 Component representing product in microcart. Allows to modify it's quantity or remove from cart. 
 
 **Compued**
