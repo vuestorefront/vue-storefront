@@ -34,7 +34,7 @@ if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
 
 export function createApp (ssrContext, config): { app: Vue, router: any, store: any } {
   sync(store, router)
-  store.state.version = '1.4.0'
+  store.state.version = '1.5.0'
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
 
