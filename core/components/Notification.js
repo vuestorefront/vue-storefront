@@ -24,13 +24,12 @@ export default {
     action (action, id, notification) {
       this.$bus.$emit('notification-after-' + action, notification)
       switch (action) {
-        case 'close':
-          this.notifications.splice(id, 1)
-          break
         case 'goToCheckout':
           this.$router.push(this.localizedRoute('/checkout'))
           this.notifications.splice(id, 1)
           break
+        default:
+          this.notifications.splice(id, 1)
       }
     }
   }
