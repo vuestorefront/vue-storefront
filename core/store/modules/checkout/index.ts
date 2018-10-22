@@ -24,7 +24,7 @@ const checkout: Module<CheckoutState, RootState> = {
       apartmentNumber: '',
       city: '',
       state: '',
-      region_id: 12,
+      region_id: 0,
       zipCode: '',
       phoneNumber: '',
       shippingMethod: ''
@@ -38,7 +38,7 @@ const checkout: Module<CheckoutState, RootState> = {
       apartmentNumber: '',
       city: '',
       state: '',
-      region_id: 12,
+      region_id: 0,
       zipCode: '',
       phoneNumber: '',
       taxId: '',
