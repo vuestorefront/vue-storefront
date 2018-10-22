@@ -137,7 +137,7 @@ export default {
     },
     getCurrentShippingMethod () {
       let shippingCode = this.shipping.shippingMethod
-      let currentMethod = this.shippingMethods.find(item => item.method_code === shippingCode)
+      let currentMethod = this.shippingMethods ? this.shippingMethods.find(item => item.method_code === shippingCode) : {}
       return currentMethod
     },
     changeShippingMethod () {
