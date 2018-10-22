@@ -13,11 +13,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import GenericSelector from '@vue-storefront/core/components/GenericSelector'
 
 export default {
-  name: 'SizeSelector',
-  mixins: [coreComponent('GenericSelector')]
+  mixins: [GenericSelector]
 }
 </script>
 

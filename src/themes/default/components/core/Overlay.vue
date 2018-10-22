@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Overlay from '@vue-storefront/core/components/Overlay'
 
 export default {
+  mixins: [Overlay],
   beforeCreate () {
     document.documentElement.classList.add('no-scroll')
   },
@@ -20,21 +21,22 @@ export default {
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
     }
-  },
-  mixins: [coreComponent('Overlay')]
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
+@import '~theme/css/base/global_vars';
 $color-bg: color(black);
+$z-index-overlay: map-get($z-index, overlay);
 
 .overlay {
   height: 100vh;
   top: 0;
   left: 0;
   background-color: rgba($color-bg, 0.4);
-  z-index: 3;
+  z-index: $z-index-overlay;
 }
 </style>

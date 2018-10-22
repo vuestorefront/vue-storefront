@@ -112,7 +112,7 @@
             :placeholder="$t('City *')"
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
-            autocomplete="city"
+            autocomplete="address-level2"
             :validation="{
               condition: $v.shipping.city.$error && !$v.shipping.city.required,
               text: $t('Field is required')
@@ -125,7 +125,7 @@
             name="state"
             :placeholder="$t('State / Province')"
             v-model.trim="shipping.state"
-            autocomplete="state"
+            autocomplete="address-level1"
           />
 
           <base-input
@@ -148,21 +148,23 @@
             ]"
           />
 
-          <div class="col-xs-12 col-sm-6 mb25">
-            <select
-              name="countries"
-              :class="{'cl-tertiary' : shipping.country.length === 0}"
-              v-model="shipping.country"
-              @change="$v.shipping.country.$touch(); changeCountry();"
-              autocomplete="country"
-            >
-              <option value="" disabled selected hidden>{{ $t('Country') }} *</option>
-              <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
-            </select>
-            <span class="validation-error" v-if="$v.shipping.country.$error && !$v.shipping.country.required">
-              {{ $t('Field is required') }}
-            </span>
-          </div>
+          <base-select
+            class="col-xs-12 col-sm-6 mb25"
+            name="countries"
+            :options="countryOptions"
+            :selected="shipping.country"
+            :placeholder="$t('Country *')"
+            :validations="[
+              {
+                condition: $v.shipping.country.$error && !$v.shipping.country.required,
+                text: $t('Field is required')
+              }
+            ]"
+            v-model="shipping.country"
+            autocomplete="country-name"
+            @blur="$v.shipping.country.$touch()"
+            @change="$v.shipping.country.$touch(); changeCountry();"
+          />
 
           <base-input
             class="col-xs-12 mb25"
@@ -170,7 +172,7 @@
             name="phone-number"
             :placeholder="$t('Phone Number')"
             v-model.trim="shipping.phoneNumber"
-            autocomplete="phone-number"
+            autocomplete="tel"
           />
 
           <h4 class="col-xs-12">
@@ -200,8 +202,9 @@
         <div class="row">
           <div class="col-xs-12 col-md-8 my30 px20">
             <button-full
+              data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
-              :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
+              :disabled="$v.shipping.$invalid"
             >
               {{ $t('Continue to payment') }}
             </button-full>
@@ -213,7 +216,7 @@
       <div class="hidden-xs col-sm-2 col-md-1"/>
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
-          <div class="col-xs-12 h4">
+          <div class="col-xs-12 h4" data-testid="shippingAddressSummary">
             <p>
               {{ shipping.firstName }} {{ shipping.lastName }}
             </p>
@@ -250,16 +253,34 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tooltip from 'theme/components/core/Tooltip.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
 import { required, minLength } from 'vuelidate/lib/validators'
+import shipping from '@vue-storefront/core/components/blocks/Checkout/Shipping'
 
-// https://monterail.github.io/vuelidate/#sub-contextified-validators
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
+  components: {
+    ButtonFull,
+    Tooltip,
+    BaseCheckbox,
+    BaseInput,
+    BaseSelect
+  },
+  mixins: [shipping],
+  computed: {
+    countryOptions () {
+      return this.countries.map((item) => {
+        return {
+          value: item.code,
+          label: item.name
+        }
+      })
+    }
+  },
   validations: {
     shipping: {
       firstName: {
@@ -289,13 +310,6 @@ export default {
         required
       }
     }
-  },
-  components: {
-    ButtonFull,
-    Tooltip,
-    BaseCheckbox,
-    BaseInput
-  },
-  mixins: [coreComponent('blocks/Checkout/Shipping')]
+  }
 }
 </script>

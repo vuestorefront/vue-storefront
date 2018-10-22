@@ -16,9 +16,17 @@ $border-radius: (
       border-top-width: #{$i}px;
       border-top-style: solid;
     }
-    .brdr-bottom {
+    .brdr-bottom-#{$i} {
       border-bottom-width: #{$i}px;
       border-bottom-style: solid;
+    }
+    .brdr-left-#{$i} {
+      border-left-width: #{$i}px;
+      border-left-style: solid;
+    }
+    .brdr-right-#{$i} {
+      border-right-width: #{$i}px;
+      border-right-style: solid;
     }
   }
   @each $name, $value in $border-radius {

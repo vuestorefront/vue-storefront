@@ -21,7 +21,7 @@
           </p>
           <input
             type="number"
-            class="product-qty py10 brdr-cl-primary bg-cl-transparent h4 weight-300"
+            class="product-qty py10 brdr-cl-primary bg-cl-transparent h4"
             min="1"
             autofocus
             v-model.number="productLink.product.qty"
@@ -33,10 +33,9 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import ProductLinks from '@vue-storefront/core/components/ProductLinks'
 export default {
-  name: 'ProductLinks',
-  mixins: [coreComponent('ProductLinks')]
+  mixins: [ProductLinks]
 }
 </script>
 

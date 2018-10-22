@@ -26,7 +26,7 @@
           :attribute_code="size"
           code="size"
           class="size-select mr10 mb10"
-          v-for="(size, index) in filter"
+          v-for="(size, index) in sortById(filter)"
           :key="index"
           :id="size.id"
           :label="size.label"
@@ -78,12 +78,12 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Sidebar from '@vue-storefront/core/components/blocks/Category/Sidebar'
 
-import ColorSelector from '../../ColorSelector.vue'
-import SizeSelector from '../../SizeSelector.vue'
-import PriceSelector from '../../PriceSelector.vue'
-import GenericSelector from 'core/components/GenericSelector.vue'
+import ColorSelector from 'theme/components/core/ColorSelector'
+import SizeSelector from 'theme/components/core/SizeSelector'
+import PriceSelector from 'theme/components/core/PriceSelector'
+import GenericSelector from 'theme/components/core/GenericSelector'
 
 export default {
   components: {
@@ -92,6 +92,6 @@ export default {
     PriceSelector,
     GenericSelector
   },
-  mixins: [coreComponent('blocks/Category/Sidebar')]
+  mixins: [Sidebar]
 }
 </script>

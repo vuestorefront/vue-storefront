@@ -8,7 +8,11 @@
               {{ $t('Checkout') }}
             </h1>
           </div>
-          <personal-details class="line relative" :is-active="activeSection.personalDetails"/>
+          <personal-details
+            class="line relative"
+            :is-active="activeSection.personalDetails"
+            :focused-field="focusedField"
+          />
           <shipping class="line relative" :is-active="activeSection.shipping"/>
           <payment class="line relative" :is-active="activeSection.payment"/>
           <order-review class="line relative" :is-active="activeSection.orderReview"/>
@@ -18,24 +22,20 @@
           <cart-summary />
         </div>
       </div>
-      <div class="row" v-show="orderPlaced">
-        <div class="col-xs-12">
-          <thank-you-page />
-        </div>
-      </div>
     </div>
+    <thank-you-page v-show="orderPlaced" />
   </div>
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Checkout from '@vue-storefront/core/pages/Checkout'
 
-import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails.vue'
-import Shipping from 'theme/components/core/blocks/Checkout/Shipping.vue'
-import Payment from 'theme/components/core/blocks/Checkout/Payment.vue'
-import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview.vue'
-import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary.vue'
-import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage.vue'
+import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
+import Shipping from 'theme/components/core/blocks/Checkout/Shipping'
+import Payment from 'theme/components/core/blocks/Checkout/Payment'
+import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
+import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
+import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
 
 export default {
   components: {
@@ -46,7 +46,7 @@ export default {
     CartSummary,
     ThankYouPage
   },
-  mixins: [corePage('Checkout')]
+  mixins: [Checkout]
 }
 </script>
 
@@ -62,17 +62,6 @@ export default {
   $color-black: color(black);
 
   #checkout {
-    select {
-      @extend .h4;
-      padding: 10px 0;
-      border: none;
-      border-bottom: 1px solid $color-tertiary;
-      width: 100%;
-      -moz-appearance: none;
-      -webkit-appearance: none;
-      border-radius: 0;
-      background-color: transparent;
-    }
     .number-circle {
       width: 35px;
       height: 35px;

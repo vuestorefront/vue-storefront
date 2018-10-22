@@ -1,10 +1,13 @@
 {
   "name": "@vue-storefront/extension-payment-cash-on-delivery",
-  "version": "1.0.0-rc.0",
+  "version": "1.4.1",
   "description": "Extension payment cash on delivery for Vue Storefront",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

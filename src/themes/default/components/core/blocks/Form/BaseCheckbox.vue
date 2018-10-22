@@ -23,6 +23,7 @@
       <span
         class="block cl-error h6"
         v-if="validation.condition"
+        data-testid="errorMessage"
       >
         {{ validation.text }}
       </span>
@@ -31,9 +32,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import baseCheckbox from '@vue-storefront/core/components/blocks/Form/BaseCheckbox'
+
 export default {
-  mixins: [coreComponent('blocks/Form/BaseCheckbox')]
+  mixins: [baseCheckbox]
 }
 </script>
 
@@ -45,6 +47,7 @@ export default {
   $color-white: color(white);
 
   label {
+    user-select: none;
     &:before {
       content: '';
       position: absolute;
@@ -62,6 +65,7 @@ export default {
     position: absolute;
     top: 3px;
     left: 0;
+    opacity: 0;
     &:checked + label {
       &:before {
         background-color: $color-silver;
@@ -92,6 +96,8 @@ export default {
     }
     &:disabled + label {
       cursor: not-allowed;
+      opacity: 0.5;
+      pointer-events: none;
       &:hover,
       &:focus {
         &:before {
@@ -102,4 +108,3 @@ export default {
     }
   }
 </style>
-

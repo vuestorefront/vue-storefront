@@ -1,13 +1,20 @@
 <template>
   <section class="main-slider w-100 bg-cl-th-accent cl-white">
     <no-ssr>
-      <carousel :per-page="1" pagination-active-color="transparent" pagination-color="#F2F2F2">
+      <carousel :per-page="1" pagination-active-color="#ffffff" pagination-color="#e0e0e0">
         <slide v-for="(slide, index) in slides" :key="index">
-          <div class="container w-100" :style="{ backgroundImage: 'url(' + slide.image + ')' }">
+          <div class="container w-100" v-lazy:background-image="slide.image">
             <div class="row middle-xs center-xs">
               <div class="col-md-12 px10p">
-                <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
-                <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
+                <p
+                  class="subtitle mb0 serif uppercase h3 align-center"
+                  data-testid="mainSliderSubtitle"
+                >
+                  {{ slide.subtitle }}
+                </p>
+                <h1 class="title mt0 mb30 align-center" data-testid="mainSliderTitle">
+                  {{ slide.title }}
+                </h1>
                 <div class="align-center inline-flex">
                   <button-outline :link="slide.link" color="light">
                     {{ slide.button_text }}
@@ -24,22 +31,23 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-import { coreComponent } from 'core/lib/themes'
 import { Carousel, Slide } from 'vue-carousel'
-import ButtonOutline from '../../../theme/ButtonOutline.vue'
 import sliderData from 'theme/resource/slider.json'
 
+import MainSlider from '@vue-storefront/core/components/blocks/MainSlider/MainSlider'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
+
 export default {
-  created () {
-    this.updateSliderData(sliderData)
-  },
   components: {
     ButtonOutline,
     Carousel,
     Slide,
     'no-ssr': NoSSR
   },
-  mixins: [coreComponent('blocks/MainSlider/MainSlider')]
+  mixins: [MainSlider],
+  created () {
+    this.updateSliderData(sliderData)
+  }
 }
 </script>
 <style lang="scss">
@@ -47,6 +55,11 @@ export default {
 @import '~theme/css/helpers/functions/color';
 $color-white: color(white);
 .main-slider {
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
   .VueCarousel-pagination {
     position: absolute;
     bottom: 15px;

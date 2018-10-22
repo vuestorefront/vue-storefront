@@ -3,25 +3,29 @@
     <header class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
-        <h1 class="category-title mb10"> {{ category.name }} </h1>
+        <div class="row middle-sm">
+          <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
+          <div class="sorting col-sm-3 align-right"><SortBy /></div>
+        </div>
       </div>
       <div class="container">
         <div class="row m0">
           <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 weight-300 sans-serif fs-medium-small"
+            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
             @click="openFilters"
           >
             {{ $t('Filters') }}
           </button>
+          <div class="mobile-sorting col-xs-6 mt25"><SortBy /></div>
         </div>
       </div>
     </header>
     <div class="container pb60">
-      <div class="row m0 pt15 center-md">
+      <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
           <sidebar :filters="filters.available"/>
         </div>
-        <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
+        <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
@@ -30,7 +34,8 @@
         <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsCounter }} items</p>
         <div class="col-md-9 pt20 px10 border-box products-list">
           <div v-if="isCategoryEmpty" class="hidden-xs">
-            {{ $t('No products found!') }}
+            <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
+            <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
           <product-listing columns="3" :products="products" />
         </div>
@@ -40,21 +45,33 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Category from '@vue-storefront/core/pages/Category'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
+import SortBy from '../components/core/SortBy.vue'
+// import builder from 'bodybuilder'
 
 export default {
   components: {
     ProductListing,
     Breadcrumbs,
-    Sidebar
+    Sidebar,
+    SortBy
   },
   data () {
     return {
       mobileFilters: false
     }
+  },
+  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    return new Promise((resolve, reject) => {
+      store.state.category.current_product_query = Object.assign(store.state.category.current_product_query, { // this is just an example how can you modify the search criteria in child components
+        sort: 'updated_at:desc'
+        // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
+      })
+      resolve()
+    })
   },
   methods: {
     openFilters () {
@@ -64,7 +81,7 @@ export default {
       this.mobileFilters = false
     }
   },
-  mixins: [corePage('Category')]
+  mixins: [Category]
 }
 </script>
 
@@ -82,6 +99,14 @@ export default {
     display: none;
   }
 
+  .mobile-sorting {
+    display: none;
+  }
+
+  .category-title {
+    line-height: 65px;
+  }
+
   @media (max-width: 64em) {
     .products-list {
       max-width: 530px;
@@ -92,6 +117,7 @@ export default {
     .category-title {
       margin: 0;
       font-size: 36px;
+      line-height: 40px;
     }
 
     .products-list {
@@ -106,6 +132,14 @@ export default {
     .mobile-filters-button {
       display: block;
       height: 45px;
+    }
+
+    .sorting {
+      display: none;
+    }
+
+    .mobile-sorting {
+      display: block;
     }
 
     .category-filters {

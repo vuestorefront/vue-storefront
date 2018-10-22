@@ -17,10 +17,8 @@ No props
 `options` - a computed property that represents an object that shows what attributes (like size and color) with what values are available on the product. Gets its value from *'product/currentOptions'* Vuex store getter.  
 `category` - a computed property that represents a category object of the current product. Gets its value from *'category/current'* Vuex store getter.  
 `productName` - a computed property that represents a product name. Gets its value from *'category/current'* Vuex store getter.  
-`productId` - a computed property that represents a product id. Gets its value from *'category/current'* Vuex store getter.  
-
-`wishlistCheck` - a computed property that represents an object that includes a function (isOnWishlist) that checks if a given product is in the wishlist. Gets its value from *'wishlist/check'* Vuex store getter.  
-`compareCheck` - a computed property that represents an object that includes a function (isOnCompare) that checks if a given product is in compare list. Gets its value from *'compare/check'* Vuex store getter.  
+`productId` - a computed property that represents a product id. Gets its value from *'category/current'* Vuex store getter.
+`isOnCompare` - a computed property that checks if a given product is in compare list.
 `image` - a computed property that defines an image (thumbnail) that will be shown on the page and its size.  
 `customAttributes` - this is a subset of *attributesByCode* list of attributes that the current product has.  
 
@@ -48,13 +46,13 @@ No parameters
 **Parameters**  
 No Parameters  
 
-`addToFavorite` - adds or removes the current product from the wishlist by dispatching *'wishlist/addItem'* or *'wishlist/removeItem'* actions accordingly.  
-**Parameters**  
-No Parameters  
+`addToList` - adds the current product to the compare by dispatching *'compare/addItem'* actions accordingly.
+**Parameters**
+*list* - compare
 
-`addToCompare` - adds or removes the current product from the compare list by dispatching *'compare/addItem'* or *'compare/removeItem'* actions accordingly.  
-**Parameters**  
-No Parameters  
+`removeFromList` - remove the current product from the compare by dispatching *'compare/removeItem'* actions accordingly.
+**Parameters**
+*list* - compare
 
 ### Hooks
 #### asyncData

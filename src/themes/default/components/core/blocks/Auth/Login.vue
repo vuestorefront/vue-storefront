@@ -18,6 +18,7 @@
           name="email"
           focus
           v-model="email"
+          @blur="$v.email.$touch()"
           :placeholder="$t('E-mail address *')"
           :validations="[
             {
@@ -35,6 +36,7 @@
           type="password"
           name="password"
           v-model="password"
+          @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
           :validation="{
             condition: !$v.password.required && $v.password.$error,
@@ -56,12 +58,12 @@
             </a>
           </div>
         </div>
-        <button-full class="mb20" type="submit">
+        <button-full class="mb20" type="submit" data-testid="loginSubmit">
           {{ $t('Log in to your account') }}
         </button-full>
         <div class="center-xs">
           {{ $t('or') }}
-          <a href="#" @click.prevent="switchElem">
+          <a href="#" @click.prevent="switchElem" data-testid="registerLink">
             {{ $t('register an account') }}
           </a>
         </div>
@@ -71,22 +73,16 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Login from '@vue-storefront/core/components/blocks/Auth/Login'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 export default {
-  data () {
-    return {
-      remember: false,
-      email: '',
-      password: ''
-    }
-  },
+  mixins: [Login],
   validations: {
     email: {
       required,
@@ -96,24 +92,9 @@ export default {
       required
     }
   },
-  mixins: [coreComponent('blocks/Auth/Login')],
   methods: {
-    switchElem () {
-      this.$store.commit('ui/setAuthElem', 'register')
-    },
     close () {
       this.$bus.$emit('modal-hide', 'modal-signup')
-    },
-    remindPassword () {
-      if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Reset password feature does not work while offline!'),
-          action1: { label: 'OK', action: 'close' }
-        })
-      } else {
-        this.$store.commit('ui/setAuthElem', 'forgot-pass')
-      }
     },
     login () {
       if (this.$v.$invalid) {
@@ -121,7 +102,7 @@ export default {
         this.$bus.$emit('notification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
-          action1: { label: 'OK', action: 'close' }
+          action1: { label: i18n.t('OK'), action: 'close' }
         })
         return
       }
@@ -134,13 +115,13 @@ export default {
           this.$bus.$emit('notification', {
             type: 'error',
             message: i18n.t(result.result),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
         } else {
           this.$bus.$emit('notification', {
             type: 'success',
             message: i18n.t('You are logged in!'),
-            action1: { label: 'OK', action: 'close' }
+            action1: { label: i18n.t('OK'), action: 'close' }
           })
           this.close()
         }
@@ -157,3 +138,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .modal-content {
+    @media (max-width: 400px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+</style>

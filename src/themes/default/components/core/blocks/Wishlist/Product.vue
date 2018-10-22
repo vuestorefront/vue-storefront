@@ -1,14 +1,19 @@
 <template>
   <li class="row pr55 py20">
-    <div>
-      <img v-lazy="thumbnail" >
+    <div @click="closeWishlist">
+      <router-link :to="localizedRoute({
+        name: product.type_id + '-product',
+        params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
+      })">
+        <img v-lazy="thumbnail" >
+      </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
-      <div>
-        <router-link :to="{
+      <div @click="closeWishlist">
+        <router-link :to="localizedRoute({
           name: product.type_id + '-product',
           params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
-        }">
+        })">
           {{ product.name | htmlDecode }}
         </router-link>
         <div class="h6 cl-bg-secondary pt5">{{ product.sku }}</div>
@@ -24,31 +29,21 @@
         </span>
       </div>
       <div>
-        <div class="mt5"><span @click="removeItem"><remove-button class="cl-accent" /></span></div>
+        <div class="mt5"><span @click="removeFromWishlist(product)"><remove-button class="cl-accent" /></span></div>
       </div>
     </div>
   </li>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Product from '@vue-storefront/core/components/blocks/Wishlist/Product'
 import RemoveButton from './RemoveButton'
 
 export default {
-  data () {
-    return {
-      qty: 1
-    }
-  },
-  methods: {
-    removeItem () {
-      this.$store.dispatch('wishlist/removeItem', this.product)
-    }
-  },
   components: {
     RemoveButton
   },
-  mixins: [coreComponent('blocks/Wishlist/Product')]
+  mixins: [Product]
 }
 </script>
 

@@ -1,8 +1,18 @@
 <template>
-  <div class="searchpanel fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isOpen }">
+  <div
+    class="searchpanel fixed mw-100 bg-cl-primary cl-accent"
+    :class="{ active: isOpen }"
+    data-testid="searchPanel"
+  >
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 pointer cl-accent" @click="closeSearchpanel">close</i>
+        <i
+          class="material-icons p15 pointer cl-accent"
+          @click="closeSearchpanel"
+          data-testid="closeSearchPanel"
+        >
+          close
+        </i>
       </div>
     </div>
     <div class="col-md-12 end-xs">
@@ -14,7 +24,7 @@
         id="search"
         v-model="search"
         @input="makeSearch"
-        class="mr20 py10 brdr-none brdr-bottom brdr-cl-primary no-outline h4"
+        class="mr20 py10 brdr-none brdr-bottom-1 brdr-cl-primary no-outline h4"
         :placeholder="$t('Type what you are looking for...')"
         type="text"
       >
@@ -27,33 +37,38 @@
         </div>
       </transition>
     </div>
+    <div v-show="OnlineOnly" v-if="products.length >= 18" class="buttons-set align-center py35 mt20 px40">
+      <button @click="seeMore" v-if="readMore"
+              class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
+              type="button">
+        {{ $t('Load more') }}
+      </button>
+      <button @click="closeSearchpanel"
+              class="no-outline brdr-none p15 fs-medium-small close-button"
+              type="button">
+        {{ $t('Close') }}
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import ProductTile from '../../ProductTile.vue'
+import SearchPanel from '@vue-storefront/core/components/blocks/SearchPanel/SearchPanel'
+import ProductTile from 'theme/components/core/ProductTile'
+import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
-  data () {
-    return {
-      emptyResults: false,
-      search: ''
-    }
-  },
   components: {
     ProductTile
   },
-  methods: {
-  },
+  mixins: [SearchPanel, VueOfflineMixin],
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
       if (!this.$store.state.ui.searchpanel) {
         this.$refs.search.focus()
       }
     })
-  },
-  mixins: [coreComponent('blocks/SearchPanel/SearchPanel')]
+  }
 }
 </script>
 
@@ -98,9 +113,18 @@ i:hover {
   opacity: 1;
 }
 
+.close-button {
+  background: #fff;
+}
+
 @media only screen and (max-width:50em) {
   .searchpanel .product {
-    width: auto;
+    width: 50%;
+    box-sizing: border-box;
+  }
+  button {
+    width: 100%;
+    margin-bottom: 15px;
   }
 }
 </style>

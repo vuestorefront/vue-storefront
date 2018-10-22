@@ -18,7 +18,7 @@ context.dispatch('sync/queue', { url: config.stock.endpoint + '/check/' + encode
     mode: 'cors'
   },
   product_sku: product.sku,
-  callback_event: 'stock-after-check'
+  callback_event: 'store:stock/stockAfterCheck'
 }, { root: true }).then(task => {
   resolve({ qty: product.stock.qty, status: product.stock.is_in_stock ? 'ok' : 'out_of_stock', onlineCheckTaskId: task.task_id }) // if not online, cannot check the source of true here
 })
@@ -50,7 +50,7 @@ In this case some modules (cart.js for example) do use just some helper methods 
     },
     silent: true,
     force_client_state: forceClientState,
-    callback_event: 'servercart-after-pulled'
+    callback_event: 'store:cart/servercartAfterPulled'
   }, { root: true }).then(task => {
 
   })

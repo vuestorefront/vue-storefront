@@ -14,10 +14,20 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 * <a href="#no-products-found-after-node---harmony-clijs-fullreindex">No products found! after node --harmony cli.js fullreindex</a>
 * <a href="#how-to-sync-the-products-cart-with-magento-to-get-the-cart-promo-rules-up-and-runnig">How to sync the products cart with Magento to get the Cart Promo Rules up and runnig</a>
 * <a href="#how-to-prevent-error-cant-build-storefront-npm">How to prevent an error "Can’t build storefront npm"</a>
-* <a href="#legacy-software">Do you think it could be used with a legacy bespoke PHP eCommerce?</a>
+* <a href="#legacy-software">How to integrate 3rd party platform? Do you think it could be used with a legacy bespoke PHP eCommerce?</a>
 * <a href="#payment-gateways">Is there any documentation on integrating payment gateways?</a>
 * <a href="#i18n-support">Is there any internationalisation support?</a>
 * <a href="#caching-strategy">If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device</a>
+* <a href="#how-to-modify-schema">How to add/remove/change field types in the ElasticSearch index</a>
+* <a href="#magento-extensions">How to integrate 3rd party Magento extensions?</a>
+* <a href="#multi-website">How to support Multistore / Multiwebsite setup</a>
+* <a href="#configurable-filters">How to deal with Category filters based on configurable_children</a>
+* <a href="#seo-redirects">How to redirect original Magento2 urls to Vue Storefront</a>
+* <a href="#configurable-error">You need to choose options for your item message when I hit API for add to cart configrable product</a>
+* <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Installing%20on%20Linux%20and%20MacOS.md">*Images loading* issue on Magento 2 integration</a>
+* <a href="#adding-filter">Adding custom category filters</a>
+* <a href="#reviews">I'm adding review and nothing happened</a>
+* <a href="#verbosity">I have wrong line numbers in Chrome developer's console by the error/info messages</a>
 
 ### <a name="problem-docker-installer"></a>Problem starting docker while installing the vue-storefront
 
@@ -33,7 +43,7 @@ In case You get the following error:
 ```
 Please check:
 - if there is `docker-compose` command available, if not please do install it
-- please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 644)
+- please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 755)
 
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
@@ -179,7 +189,7 @@ npm run build # check if no errors
 npm run installer
 ```
 
-### <a name="legacy-software"></a>Do you think it could be used with a legacy bespoke PHP eCommerce?
+### <a name="legacy-software"></a>How to integrate 3rd party platform? Do you think it could be used with a legacy bespoke PHP eCommerce?
 
 Yes I believe it could. You should expose the API accordingly to our spec: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md and the second step is to create a data bridge to fill out the ElasticSearch with the current catalog data: https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6
 
@@ -189,10 +199,66 @@ We're working on kind of boilerplate for payment modules. Right now please just 
 
 ### <a name="i18n-support"></a>Is there any internationalisation support? 
 
-es, we already have 7 languages supported by default (EN, FR, ES, RU, JP, NL, DE) and the docs: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md
+Yes, we already have 7 languages supported by default (EN, FR, ES, RU, JP, NL, DE) and the docs: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/i18n/Working%20with%20translations.md
 The currency is set in the local.json configuration file and it's (along with the language) set per instance - so if You have few languages and countries supported You need to run (as for now) few separate instances
 
 ### <a name="caching-strategy"></a>If 10k products are on the site will it create a high bandwith download when you navigate on the site for the first time on a mobile device
 
 Not necessarily. VS is caching the products from the categories browsed. This is default solution which can be changed by modifying 'core/store/lib/search.js'
+
+### <a name="how-to-modify-schema"></a>How to add/remove/change field types in the ElasticSearch schema
+
+It's done via Database Tool schema changes. Please follow the instructions from the <a href="https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Database%20tool.md#chaning-the-index-structure--adding-new-fields--chaning-the-types">Database Tool Manual</a>
+
+### <a name="magento-extensions"></a>How to integrate 3rd party Magento extensions
+
+Unofrtunatelly Magento extensions are not compilant with any PWA available solution yet. So if You like to integrate some existing extensions the simplest way is to: 
+
+a) expose the data via some Magento2 rest api endpoints; 
+b) consume the endpoints in the VS using Vuex stores; <a href="https://github.com/DivanteLtd/vue-storefront#data-in-vue-storefront">Read more on Vuex in Vue Storefront</a>
+c) implement the UI in VS
+
+If the extensions are not playing with the User Interface, probably they will work with VS out of the box, as we're using the standard Magento2 API calls for the integration part.
+
+### <a name="multi-website"></a>How to support Multistore / Multiwebsite setup
+
+Please check the [Multistore setup](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md) guide for details
+
+### <a name="configurable-filters"></a>How to deal with Category filters based on configurable_children
+
+If You like to have Category filter working with configurable products - You need to expand the `product.configurable_children.attrName` to `product.attrName_options` array. This is automatically done by [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) for all attributes set as `product.configurable_options` (by default: color, size). If You like to add additional fields like `manufacturer` to the filters You need to expand `product.manufacturer_options` field. The easiest way to do so is to set `config.product.expandConfigurableFilters` to `['manufacturer']` and re-run the `mage2vuestorefront` indexer.
+
+### <a name="seo-redirects"></a>How to redirect original Magento2 urls to Vue Storefront
+
+There is a SEO redirects generator for nginx -> https://serverfault.com/a/441517 available within the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api/commit/2c7e10b4c4294f222f7a1aae96627d6a0e23f30e). Now You can generate SEO map redirecting users from the original Magento urls to Vue Storefront URLs by running:
+
+`npm run seo redirects — —oldFormat=true | false`
+
+- `oldFormat` - should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (oldFormat = !useShortCatalogUrls)
+
+Please make sure that  `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and You have ElasticSearch synchronised with the Magento2 instance using current version of https://github.com/DivanteLtd/mage2vuestorefront
+
+### <a name="configurable-error"></a>You need to choose options for your item message when I hit API for add to cart configrable product
+
+This is because the demo data dump works on the demo-magento2.vuestorefront.io instance's attribute ids. Please reimport all product data using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront)
+
+### <a name="adding-filters"></a>Adding custom category filters
+
+You need to add the attributes You'll like to have displayed to the `config/local.json` field name is: `products.defaultFilters`:
+
+```json
+      "defaultFilters": ["color", "size", "price", "erin_recommends"],
+```
+
+And then You can use proper controls for each individual filter in here:
+https://github.com/DivanteLtd/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue
+
+
+### <a name="reviews"></a>I'm adding product review and nothing is displayed
+
+We've added the Reviews support, however Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
+
+### <a name="#verbosity"></a>I have wrong line numbers in Chrome developer's console by the error/info messages
+
+We've added [console filter](https://github.com/DivanteLtd/vue-storefront/issues/1752) and it changes the original source code position in dev's console. Please set `config.console.verbosityLevel=display-everything` to disable the filter and bring back the original dev. console
 

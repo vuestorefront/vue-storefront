@@ -1,83 +1,98 @@
 <template>
-  <div>
-    <section
-      v-if="related.by_erin && related.by_erin.length > 0"
-      class="new-collection container pt15 px15"
-    >
-      <div>
-        <header class="col-md-12">
-          <h2 class="align-center cl-accent">
-            {{ $t('Erin Recommends') }}
-          </h2>
-        </header>
-      </div>
-      <div class="row center-xs">
-        <product-listing columns="4" :products="related.by_erin" />
-      </div>
-    </section>
-
-    <promoted-offers single-banner />
-
-    <section
-      v-if="related.by_category && related.by_category.length > 0"
-      class="new-collection container py30 px15"
-    >
-      <div>
-        <header class="col-md-12">
-          <h2 class="align-center cl-accent">
-            {{ $t('Similar products') }}
-          </h2>
-        </header>
-      </div>
-      <div class="row center-xs">
-        <product-listing columns="4" :products="related.by_category" />
-      </div>
-    </section>
-  </div>
+  <section
+    class="py20 new-collection container px15"
+    v-if="product.related[type] && product.related[type].length > 0"
+  >
+    <div>
+      <header class="col-md-12">
+        <h2 class="align-center cl-accent">
+          {{ heading }}
+        </h2>
+      </header>
+    </div>
+    <div class="row center-xs">
+      <product-listing columns="4" :products="product.related[type]" />
+    </div>
+  </section>
 </template>
 
 <script>
-import builder from 'bodybuilder'
-import ProductListing from '../../ProductListing.vue'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers.vue'
+import ProductListing from 'theme/components/core/ProductListing'
+
+import { prepareRelatedQuery } from '@vue-storefront/core/modules/product/queries/related'
+import i18n from '@vue-storefront/i18n'
+import store from '@vue-storefront/store'
 
 export default {
-  beforeMount () {
-    let store = this.$store
-    let inst = this
-    let byErinRecommends = builder().query('match', 'erin_recommends', '1').andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).build()
-    let byCategoryQuery = builder().query('terms', 'category.category_id', this.product.category.map((cat) => { return cat.category_id })).andFilter('range', 'visibility', { 'gte': 3, 'lte': 4 }/** Magento visibility in search & categories */).build()
-    store.dispatch('product/list', {
-      query: byErinRecommends,
-      size: 8,
-      sort: 'created_at:desc'
-    }).then(function (res) {
-      if (res) {
-        store.dispatch('product/related', { key: 'by_erin', items: res.items })
-        inst.$forceUpdate()
-      }
-    })
-    this.$store.dispatch('product/list', {
-      query: byCategoryQuery,
-      size: 8,
-      sort: 'created_at:desc'
-    }).then(function (res) {
-      if (res) {
-        store.dispatch('product/related', { key: 'by_category', items: res.items })
-        inst.$forceUpdate()
-      }
-    })
+  name: 'Related',
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    heading: {
+      type: String,
+      required: false,
+      default: i18n.t('Similar products')
+    }
   },
   components: {
-    ProductListing,
-    PromotedOffers
+    ProductListing
+  },
+  beforeMount () {
+    this.$bus.$on('product-after-load', this.refreshList)
+
+    if (store.state.config.usePriceTiers) {
+      this.$bus.$on('user-after-loggedin', this.refreshList)
+      this.$bus.$on('user-after-logout', this.refreshList)
+    }
+
+    this.refreshList()
+  },
+  beforeDestroy () {
+    if (store.state.config.usePriceTiers) {
+      this.$bus.$off('user-after-loggedin', this.refreshList)
+      this.$bus.$off('user-after-logout', this.refreshList)
+    }
+  },
+  destroyed () {
+    this.$bus.$off('product-after-load', this.refreshList)
+  },
+  methods: {
+    refreshList () {
+      let sku = this.productLinks
+        .filter(pl => pl.link_type === this.type)
+        .map(pl => pl.linked_product_sku)
+
+      let key = 'sku'
+      if (!(sku.length > 0)) {
+        sku = this.product.current.category.map(cat => cat.category_id)
+        key = 'category_ids'
+      }
+      let relatedProductsQuery = prepareRelatedQuery(key, sku)
+
+      this.$store.dispatch('product/list', {
+        query: relatedProductsQuery,
+        size: 8,
+        prefetchGroupProducts: false,
+        updateState: false
+      }).then((response) => {
+        if (response) {
+          this.$store.dispatch('product/related', {
+            key: this.type,
+            items: response.items
+          })
+          this.$forceUpdate()
+        }
+      })
+    }
   },
   computed: {
     product () {
-      return this.$store.state.product.current
+      return this.$store.state.product
     },
-    related () {
-      return this.$store.state.product.related
+    productLinks () {
+      return this.product.current.product_links
     }
   }
 }

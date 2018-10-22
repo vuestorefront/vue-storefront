@@ -6,72 +6,60 @@
         <h2>{{ title }}</h2>
       </div>
     </div>
-
-    <div class="py35 px20">
-      <div class="container">
+    <div class="py35">
+      <div class="row" v-if="items.length">
+        <div class="col-xs-12">
+          <div class="compare__products-table">
+            <div class="compare__features">
+              <div class="compare__top-info">
+                {{ $t('Products') }}
+              </div>
+              <ul class="compare__features-list">
+                <li class="compare__features-item">{{ $t('SKU') }}</li>
+                <li v-for="(attr, index) in all_comparable_attributes" :key="index" class="compare__features-item">
+                  {{ attr.default_frontend_label }}
+                </li>
+              </ul>
+            </div>
+            <div class="compare__products-wrapper">
+              <ul class="compare__products-columns">
+                <li v-for="(product, index) in items" :key="index" class="compare__product" data-testid="comparedProduct">
+                  <div class="compare__top-info">
+                    <div class="check"/>
+                    <product-tile class="col-md-12 collection-product" :product="product"/>
+                    <span class="compare__remove" @click="removeFromCompare(product)">
+                      <remove-button/>
+                    </span>
+                  </div>
+                  <ul class="compare__features-list">
+                    <li class="compare__features-item">
+                      {{ product.sku }}
+                    </li>
+                    <li
+                      v-for="(attr, attIndex) in all_comparable_attributes"
+                      :key="attIndex"
+                      class="compare__features-item"
+                    >
+                      <product-attribute
+                        :key="attr.attribute_code"
+                        :product="product"
+                        :attribute="attr"
+                        empty-placeholder="N/A"
+                      />
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container" v-else>
         <div class="row">
           <div class="col-xs-12">
-            <div v-if="items.length">
-              <div class="py10 align-right">
-                <a href="javascript:window.print()" title="Print This Page">
-                  {{ $t('Print This Page') }}
-                </a>
-              </div>
-              <div class="compare-wrapper">
-                <table class="w-100 mw-100">
-                  <thead>
-                    <tr>
-                      <th/>
-                      <td v-for="(product, index) in items" :key="index" class="align-right">
-                        <span @click="removeFromCompare(product)">
-                          <remove-button/>
-                        </span>
-                      </td>
-                    </tr>
-                  </thead>
-                  <tbody class="brdr-bottom brdr-cl-secondary">
-                    <tr>
-                      <th/>
-                      <td v-for="(product, index) in items" :key="index" class="p5">
-                        <product-tile class="col-md-12 collection-product" :product="product"/>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody class="brdr-bottom brdr-cl-secondary">
-                    <tr>
-                      <th class="p15 align-left">SKU</th>
-                      <td v-for="(product, index) in items" :key="index" class="p15">
-                        {{ product.sku }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th class="p15 align-left">Description</th>
-                      <td v-for="(product, index) in items" :key="index" class="p15">
-                        <div v-html="product.description"/>
-                      </td>
-                    </tr>
-                    <tr v-for="(attr, index) in all_comparable_attributes" :key="index">
-                      <th class="p15 align-left">
-                        {{ attr.default_frontend_label }}
-                      </th>
-                      <td v-for="(product, index) in items" :key="index" class="p15">
-                        <product-attribute
-                          :key="attr.attribute_code"
-                          :product="product"
-                          :attribute="attr"
-                          empty-placeholder="N/A"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <template v-else>
-              <h4 class="cl-accent ml30">
-                {{ $t('You have no items to compare.') }}
-              </h4>
-            </template>
+            <h4 class="cl-accent ml30">
+              {{ $t('You have no items to compare.') }}
+            </h4>
           </div>
         </div>
       </div>
@@ -80,7 +68,7 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import Compare from '@vue-storefront/core/pages/Compare'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
 import ProductTile from '../components/core/ProductTile'
@@ -93,35 +81,155 @@ export default {
     RemoveButton,
     ProductAttribute
   },
-  mixins: [corePage('Compare')]
+  mixins: [Compare]
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
-$border-secondary: color(secondary, $colors-border);
 
-.compare-wrapper {
-  overflow-x: auto;
+$color-white: color(white);
+$border: mix(#000, $color-white, 10%);
+$color-product-bg: color(secondary, $colors-background);
+
+$products-column-width-mobile: 140px;
+$products-column-width: 280px;
+$features-column-width-mobile: 110px;
+$features-column-width: 210px;
+
+$screen-l: 1170px;
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
-table {
-  table-layout: fixed;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
+.compare {
 
-th {
-  border-right: 1px solid $border-secondary;
-}
+  &__products-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-style: solid;
+    border-color: $border;
+    border-width: 1px 0 1px 0;
+  }
 
-td,
-th {
-  width: 180px;
+  &__products-columns {
+    margin: 0 0 0 $features-column-width-mobile;
+    padding: 0;
+    display: flex;
 
-  &:last-child {
-    border-right: 1px solid $border-secondary;
+    @media (min-width: $screen-l) {
+      margin-left: $features-column-width;
+    }
+  }
+
+  &__products-table {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__features {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: $features-column-width-mobile;
+    border-style: solid;
+    border-color: $border;
+    border-width: 1px 0 1px 0;
+    background-color: mix(#000, $color-white, 2%);
+    opacity: .95;
+
+    @media (min-width: $screen-l) {
+      width: $features-column-width;
+    }
+  }
+
+  &__product {
+    list-style: none;
+    position: relative;
+    float: left;
+    width: $products-column-width-mobile;
+    text-align: center;
+    transition: opacity .3s, visibility .3s, transform .3s;
+
+    @media (min-width: $screen-l) {
+      width: $products-column-width;
+    }
+  }
+
+  &__attributes {
+    font-weight: bold;
+    font-size: 0.6rem;
+    line-height: 14px;
+    padding: 15px 5px;
+    text-align: left;
+
+    @media (min-width: $screen-l) {
+      padding: 25px 10px;
+      line-height: 16px;
+      font-size: 0.7rem;
+    }
+  }
+
+  &__top-info {
+    position: relative;
+    height: 250px;
+    width: $products-column-width-mobile;
+    text-align: center;
+    border-color: $border;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    transition: height .3s;
+    cursor: pointer;
+    background: $color-product-bg;
+    overflow: hidden;
+
+    @media (min-width: $screen-l) {
+      height: 385px;
+      width: $products-column-width;
+    }
+
+    .compare__features & {
+      @extend .compare__attributes;
+      width: $features-column-width-mobile;
+      cursor: auto;
+      background: mix(#000, $color-white, 2%);
+
+      @media (min-width: $screen-l) {
+        width: $features-column-width;
+      }
+    }
+  }
+
+  &__features-list {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__features-item {
+    @extend .compare__attributes;
+    border-color: $border;
+    border-style: solid;
+    border-width: 1px 1px 0 0;
+    list-style: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    .compare__products-columns & {
+      font-weight: normal;
+      text-align: center;
+    }
+  }
+
+  &__remove {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 </style>

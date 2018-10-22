@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Loader from '@vue-storefront/core/components/Loader'
 
 export default {
-  mixins: [coreComponent('Loader')]
+  mixins: [Loader]
 }
 </script>
 

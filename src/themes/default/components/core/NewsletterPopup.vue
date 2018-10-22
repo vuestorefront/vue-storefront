@@ -4,7 +4,7 @@
       {{ $t('Newsletter') }}
     </p>
     <div slot="content">
-      <form @submit.prevent="subscribe" novalidate>
+      <form @submit.prevent="submit(onSuccesfulSubmission)" novalidate>
         <div class="mb35">
           <p class="h4">
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
@@ -31,6 +31,7 @@
         <button-full
           class="mb35"
           type="submit"
+          :disabled="this.$v.$invalid"
           @click.native="$v.email.$touch"
         >
           {{ $t('Subscribe') }}
@@ -40,49 +41,24 @@
   </modal>
 </template>
 <script>
+import { Subscribe } from '@vue-storefront/core/modules/mailchimp/components/Subscribe'
+import i18n from '@vue-storefront/i18n'
+
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Modal from 'theme/components/core/Modal'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
-import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'core/lib/i18n'
 
 export default {
-  data () {
-    return {
-      email: ''
-    }
-  },
-  validations: {
-    email: {
-      required,
-      email
-    }
-  },
-  mounted () {
-    if (this.$store.state.user.current) {
-      this.email = this.$store.state.user.current.email
-    }
+  beforeDestroy () {
+    this.$off('validation-error')
   },
   methods: {
-    subscribe () {
-      if (this.$v.$invalid) {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Please fix the validation errors'),
-          action1: { label: 'OK', action: 'close' }
-        })
-        return
-      }
-
-      // todo: add user email to newsletter list
-      this.$bus.$emit('newsletter-after-subscribe', { email: this.email })
-
+    onSuccesfulSubmission () {
       this.$bus.$emit('notification', {
         type: 'success',
         message: i18n.t('You have been successfully subscribed to our newsletter!'),
-        action1: { label: 'OK', action: 'close' }
+        action1: { label: i18n.t('OK'), action: 'close' }
       })
-
       this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },
@@ -90,6 +66,9 @@ export default {
     ButtonFull,
     Modal,
     BaseInput
-  }
+  },
+  mixins: [
+    Subscribe
+  ]
 }
 </script>

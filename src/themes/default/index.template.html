@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html data-vue-meta-server-rendered {{{ meta.inject().htmlAttrs.text() }}}>
+  <head><!-- index for default theme -->
+  	{{{ meta.inject().title.text() }}}
+  	{{{ meta.inject().meta.text() }}}
+		{{{ meta.inject().link.text() }}}
+		{{{ meta.inject().script.text() }}}
+			
+		<script type="text/javascript">
+			WebFontConfig = {
+				google: { families: [ 'Playfair+Display:400,700', 'Roboto:400,700' ] }
+			};
+			(function() {
+				var wf = document.createElement('script');
+				wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+				'://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
+				wf.type = 'text/javascript';
+				wf.async = 'true';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(wf, s);
+			})(); 
+		</script>
+		{{{ renderResourceHints() }}}
+    {{{ renderStyles() }}}
+	</head>
+  <body>
+		<!--vue-ssr-outlet-->
+    {{{ renderState() }}}
+    {{{ renderScripts() }}}		
+  </body>
+</html>

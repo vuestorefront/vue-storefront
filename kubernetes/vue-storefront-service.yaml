@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue-storefront
+  labels:
+    app: vue-storefront
+spec:
+  selector:
+    app: vue-storefront
+  ports:
+  - port: 3000
+    targetPort: 3000

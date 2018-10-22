@@ -4,15 +4,16 @@
     :aria-label="$t('Open search panel')"
     class="bg-cl-transparent brdr-none inline-flex"
     @click="toggleSearchpanel"
+    data-testid="openSearchPanel"
   >
     <i class="material-icons">search</i>
   </button>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import SearchIcon from '@vue-storefront/core/components/blocks/Header/SearchIcon'
 
 export default {
-  mixins: [coreComponent('blocks/Header/SearchIcon')]
+  mixins: [SearchIcon]
 }
 </script>

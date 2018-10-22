@@ -1,9 +1,10 @@
 <template>
-  <div class="inline-flex relative dropdown">
+  <div class="inline-flex relative dropdown"
+       data-testid="accountButton"
+       @click.self="goToAccount">
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
-      @click="goToAccount();"
       :aria-label="$t('Open my account')"
     >
       <i class="material-icons block">account_circle</i>
@@ -11,7 +12,7 @@
     <div v-if="currentUser" class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400">
       <div class="py5">
         <div v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-          <router-link class="no-underline block py10 px15" :to="page.link">
+          <router-link class="no-underline block py10 px15" :to="localizedRoute(page.link)">
             {{ page.title }}
           </router-link>
         </div>
@@ -26,10 +27,11 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
+import AccountIcon from '@vue-storefront/core/components/blocks/Header/AccountIcon'
 
 export default {
+  mixins: [AccountIcon],
   data () {
     return {
       navigation: [
@@ -41,8 +43,7 @@ export default {
         { title: i18n.t('My product reviews'), link: '#' }
       ]
     }
-  },
-  mixins: [coreComponent('blocks/Header/AccountIcon')]
+  }
 }
 </script>
 
@@ -53,6 +54,10 @@ export default {
 $color-icon-hover: color(secondary, $colors-background);
 
 .dropdown {
+
+  button {
+    pointer-events: none;
+  }
 
   .dropdown-content {
     display: none;

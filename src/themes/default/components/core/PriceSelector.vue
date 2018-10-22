@@ -12,11 +12,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import PriceSelector from '@vue-storefront/core/components/PriceSelector'
 
-export default { // TODO: move logic to parent component
-  name: 'PriceSelector',
-  mixins: [coreComponent('PriceSelector')]
+export default {
+  mixins: [PriceSelector]
 }
 </script>
 
@@ -30,8 +29,7 @@ export default { // TODO: move logic to parent component
     width: 20px;
     height: 20px;
 
-    &:hover,
-    &:focus {
+    &:hover {
       .square {
         background-color: $color-event;
       }

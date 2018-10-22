@@ -1,9 +1,9 @@
 <template>
-  <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckout }">
-    <newsletter class=" flex brdr-bottom brdr-cl-secondary" v-if="!isCheckout"/>
+  <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckoutPage }">
+    <newsletter class=" flex brdr-bottom-1 brdr-cl-secondary" v-if="!isCheckoutPage"/>
     <div
       class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
-      v-if="!isCheckout"
+      v-if="!isCheckoutPage"
     >
       <div class="container">
         <div class="row m0 center-xs between-md">
@@ -15,22 +15,22 @@
                 {{ $t('Departments') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/c/women-20" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/c/women-20')" exact>
                   {{ $t('Women fashion') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/c/men-11" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/c/men-11')" exact>
                   {{ $t("Men's fashion") }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
                   {{ $t('Kidswear') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
                   {{ $t('Home') }}
                 </router-link>
               </div>
@@ -40,22 +40,22 @@
                 {{ $t('Orders') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/order-tracking" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/order-tracking')" exact>
                   {{ $t('Track my order') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/my-account" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/my-account')" exact>
                   {{ $t('My account') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/delivery" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
                   {{ $t('Delivery') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/returns" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/returns')" exact>
                   {{ $t('Return policy') }}
                 </router-link>
               </div>
@@ -65,17 +65,17 @@
                 {{ $t('Help') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/customer-service" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/customer-service')" exact>
                   {{ $t('Customer service') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/size-guide" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/size-guide')" exact>
                   {{ $t('Size guide') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/contact" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/contact')" exact>
                   {{ $t('Contact us') }}
                 </router-link>
               </div>
@@ -85,13 +85,25 @@
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/about-us" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
                   {{ $t('About us') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" to="/store-locator" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
+                </router-link>
+              </div>
+              <div class="mt15">
+                <!-- Link to custom Magento Cms Page -->
+                <router-link class="cl-secondary" :to="localizedRoute('/custom-cms-page')" exact>
+                  {{ $t('Custom Cms Page') }}
+                </router-link>
+              </div>
+              <div class="mt15">
+                <!-- Link to synced Magento Cms Page -->
+                <router-link class="cl-secondary" :to="localizedRoute('/cms-page-sync')" exact>
+                  {{ $t('Cms Page Sync') }}
                 </router-link>
               </div>
             </div>
@@ -143,10 +155,10 @@
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
         <div class="col-xs-5 col-sm-3 cl-tertiary">
-          {{ $t('United States (US)') }}
+          <language-switcher v-if="multistoreEnabled" />
         </div>
         <div class="col-xs col-sm-9 end-xs">
-          <ul class="pl0 links">
+          <ul class="pl0 links" data-testid="bottomLinks">
             <li class="inline-flex">
               <router-link
                 class="cl-tertiary mr10 underline"
@@ -173,33 +185,17 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import Newsletter from './Newsletter.vue'
+import CurrentPage from 'theme/mixins/currentPage'
+import LanguageSwitcher from '../../LanguageSwitcher.vue'
+import Footer from '@vue-storefront/core/components/blocks/Footer/Footer'
+import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
 export default {
-  data () {
-    return {
-      isCheckout: false
-    }
-  },
-  created () {
-    if (this.$route.path === '/checkout') {
-      this.isCheckout = true
-    }
-  },
-  watch: {
-    '$route.path': function () {
-      if (this.$route.path === '/checkout') {
-        this.isCheckout = true
-      } else {
-        this.isCheckout = false
-      }
-    }
-  },
+  mixins: [Footer, CurrentPage],
   components: {
-    Newsletter
-  },
-  mixins: [coreComponent('blocks/Footer/Footer')]
+    Newsletter,
+    LanguageSwitcher
+  }
 }
 </script>
 

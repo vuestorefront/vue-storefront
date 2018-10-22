@@ -1,32 +1,26 @@
 [
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig01.jpg"
+    "image": "/assets/ig/ig01.jpg",
+    "alt": "Woman practicing on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig02.jpg"
+    "image": "/assets/ig/ig02.jpg",
+    "alt": "Man practicing on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig03.jpg"
+    "image": "/assets/ig/ig03.jpg",
+    "alt": "Woman drinks water form the bottle on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig04.jpg"
+    "image": "/assets/ig/ig04.jpg",
+    "alt": "Man rests on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig05.jpg"
+    "image": "/assets/ig/ig05.jpg",
+    "alt": "Woman practicing on the beach"
   },
   {
-    "account_name": "instagram",
-    "account_link": "http://instagram.com",
-    "background_image": "/assets/ig/ig06.jpg"
+    "image": "/assets/ig/ig06.jpg",
+    "alt": "Man is holding a watter bottle"
   }
 ]

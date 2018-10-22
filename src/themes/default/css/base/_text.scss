@@ -1,12 +1,8 @@
-// @todo: serve font locally
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,900');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700');
-
 // Global styles for text
 body {
-  font-size: 14px;
+  font-size: 16px;
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 h1,
@@ -68,13 +64,10 @@ h6,
 .align-left {
   text-align: left;
 }
+.align-justify {
+  text-align: justify;
+}
 
-.weight-200 {
-  font-weight: 200;
-}
-.weight-300 {
-  font-weight: 300;
-}
 .weight-400 {
   font-weight: 400;
 }

@@ -18,7 +18,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-                <router-link :to="page.link" class="cl-accent">{{ page.title }}</router-link>
+                <router-link :to="localizedRoute(page.link)" class="cl-accent">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
@@ -32,14 +32,14 @@
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
+import MyAccount from '@vue-storefront/core/pages/MyAccount'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   data () {
@@ -62,7 +62,7 @@ export default {
     MyOrders,
     MyOrder
   },
-  mixins: [corePage('MyAccount')]
+  mixins: [MyAccount]
 }
 </script>
 
@@ -71,20 +71,6 @@ export default {
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $color-tertiary: color(tertiary);
-
-#my_account {
-  select {
-    @extend .h4;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid $color-tertiary;
-    width: 100%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    background-color: transparent;
-  }
-}
 
 .static-menu {
   ul {

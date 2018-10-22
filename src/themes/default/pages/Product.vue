@@ -1,108 +1,124 @@
 <template>
-  <div id="product">
-    <section class="bg-cl-secondary py30 px20 product-top-section">
+  <div id="product" itemscope itemtype="http://schema.org/Product">
+    <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
-        <div class="hidden-xs">
-          <breadcrumbs :routes="breadcrumbs.routes" :active-route="breadcrumbs.name"/>
-        </div>
-        <section class="row py35 m0 data-wrapper">
-          <div class="col-xs-12 col-md-7 center-xs middle-xs image">
-            <transition name="fade" appear>
-              <img class="product-image inline-flex mw-100" v-lazy="image" ref="image">
-            </transition>
+        <section class="row m0 between-xs">
+          <div class="col-xs-12 col-md-6 center-xs middle-xs image">
+            <product-gallery
+              :gallery="gallery"
+              :offline="offlineImage"
+              :configuration="configuration"
+              :product="product"
+            />
           </div>
-          <div class="col-md-5 col-xs-12 px15 data">
-            <div class="uppercase cl-secondary">
-              sku: {{ product.sku }}
-            </div>
-            <h1 class="mb20 mt0 cl-accent product-name">
+          <div class="col-xs-12 col-md-5 data">
+            <breadcrumbs
+              class="pt40 pb20 hidden-xs"
+              :routes="breadcrumbs.routes"
+              :active-route="breadcrumbs.name"
+            />
+            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
             </h1>
-            <div class="mb30 price" v-if="product.type_id !== 'grouped'">
-              <div
-                class="h3 cl-secondary"
-                v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
-              >
-                <span class="cl-error">
-                  {{ product.priceInclTax | price }}
-                </span>&nbsp;
-                <span class="price-original h4">
-                  {{ product.originalPriceInclTax | price }}
-                </span>
-              </div>
-              <div
-                class="h3 cl-bg-tertiary"
-                v-if="!product.special_price && product.priceInclTax"
-              >
-                {{ product.priceInclTax | price }}
-              </div>
+            <div class="mb20 uppercase cl-secondary">
+              sku: {{ product.sku }}
             </div>
-            <div
-              class="cl-primary variants"
-              v-if="product.type_id =='configurable' && !loading"
-            >
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
+              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
               <div
-                class="h4"
-                v-for="(option, index) in product.configurable_options"
-                :key="index"
+                class="mb40 price serif"
+                v-if="product.type_id !== 'grouped'"
               >
-                <div class="variants-label">
-                  {{ option.label }}
-                  <span class="weight-700">
-                    {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
+                <div
+                  class="h3 cl-secondary"
+                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                >
+                  <span class="h2 cl-mine-shaft weight-700">
+                    {{ product.priceInclTax * product.qty | price }}
+                  </span>&nbsp;
+                  <span class="price-original h3">
+                    {{ product.originalPriceInclTax * product.qty | price }}
                   </span>
                 </div>
-                <div class="row top-xs m0 pt15 pb40 variants-wrapper">
-                  <div v-if="option.label == 'Color'">
-                    <color-selector
-                      v-for="(c, i) in options.color"
-                      :key="i"
-                      :id="c.id"
-                      :label="c.label"
-                      context="product"
-                      code="color"
-                      :class="{ active: c.id == configuration.color.id }"
-                    />
-                  </div>
-                  <div class="sizes" v-else-if="option.label == 'Size'">
-                    <size-selector
-                      v-for="(s, i) in options.size"
-                      :key="i"
-                      :id="s.id"
-                      :label="s.label"
-                      context="product"
-                      code="size"
-                      class="mr10 mb10"
-                      :class="{ active: s.id == configuration.size.id }"
-                      v-focus-clean
-                    />
-                  </div>
-                  <div :class="option.attribute_code" v-else>
-                    <generic-selector
-                      v-for="(s, i) in options[option.attribute_code]"
-                      :key="i"
-                      :id="s.id"
-                      :label="s.label"
-                      context="product"
-                      :code="option.attribute_code"
-                      class="mr10 mb10"
-                      :class="{ active: s.id == configuration[option.attribute_code].id }"
-                      v-focus-clean
-                    />
-                  </div>
-                  <router-link
-                    to="/size-guide"
-                    v-if="option.label == 'Size'"
-                    class="
-                      p0 ml30 inline-flex middle-xs weight-700 uppercase
-                      no-underline action size-guide pointer cl-tertiary
-                    "
-                  >
-                    <i class="pr5 material-icons">accessibility</i>
-                    <span>
-                      {{ $t('Size guide') }}
+                <div
+                  class="h2 cl-mine-shaft weight-700"
+                  v-if="!product.special_price && product.priceInclTax"
+                >
+                  {{ product.priceInclTax * product.qty | price }}
+                </div>
+              </div>
+              <div
+                class="cl-primary variants"
+                v-if="product.type_id =='configurable' && !loading"
+              >
+                <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
+                  {{ product.errors | formatProductMessages }}
+                </div>
+                <div
+                  class="h5"
+                  v-for="(option, index) in product.configurable_options"
+                  v-if="(!product.errors || Object.keys(product.errors).length === 0) && Object.keys(configuration).length > 0"
+                  :key="index"
+                >
+                  <div class="variants-label" data-testid="variantsLabel">
+                    {{ option.label }}
+                    <span class="weight-700">
+                      {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
                     </span>
-                  </router-link>
+                  </div>
+                  <div class="row top-xs m0 pt15 pb40 variants-wrapper">
+                    <div v-if="option.label == 'Color'">
+                      <color-selector
+                        v-for="(c, i) in options.color"
+                        :key="i"
+                        :id="c.id"
+                        :label="c.label"
+                        context="product"
+                        code="color"
+                        :class="{ active: c.id == configuration.color.id }"
+                      />
+                    </div>
+                    <div class="sizes" v-else-if="option.label == 'Size'">
+                      <size-selector
+                        v-for="(s, i) in options.size"
+                        :key="i"
+                        :id="s.id"
+                        :label="s.label"
+                        context="product"
+                        code="size"
+                        class="mr10 mb10"
+                        :class="{ active: s.id == configuration.size.id }"
+                        v-focus-clean
+                      />
+                    </div>
+                    <div :class="option.attribute_code" v-else>
+                      <generic-selector
+                        v-for="(s, i) in options[option.attribute_code]"
+                        :key="i"
+                        :id="s.id"
+                        :label="s.label"
+                        context="product"
+                        :code="option.attribute_code"
+                        class="mr10 mb10"
+                        :class="{ active: s.id == configuration[option.attribute_code].id }"
+                        v-focus-clean
+                      />
+                    </div>
+                    <router-link
+                      to="/size-guide"
+                      v-if="option.label == 'Size'"
+                      class="
+                        p0 ml30 inline-flex middle-xs no-underline h5
+                        action size-guide pointer cl-secondary
+                      "
+                    >
+                      <i class="pr5 material-icons">accessibility</i>
+                      <span>
+                        {{ $t('Size guide') }}
+                      </span>
+                    </router-link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -110,24 +126,46 @@
               v-if="product.type_id =='grouped' && !loading"
               :products="product.product_links"
             />
+            <product-bundle-options
+              v-if="product.bundle_options && product.bundle_options.length > 0 && !loading"
+              :product="product"
+            />
+            <product-custom-options
+              v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
+              :product="product"
+            />
+            <div class="row m0 mb15" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+              <div>
+                <label class="qty-label flex" for="quantity">{{ $t('Quantity') }}</label>
+                <input
+                  type="number"
+                  min="0"
+                  class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
+                  id="quantity"
+                  focus
+                  v-model="product.qty"
+                >
+              </div>
+            </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
-            <div class="row pt45 add-to-buttons">
-              <div class="col-xs-12 col-sm-5">
+            <div class="row py40 add-to-buttons">
+              <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
-                  @click="addToFavorite"
+                  @click="isOnWishlist ? removeFromWishlist(product) : addToWishlist(product)"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action weight-700 h5 uppercase pointer cl-tertiary
+                    action h5 pointer cl-secondary
                   "
                   type="button"
+                  data-testid="addToWishlist"
                 >
-                  <i class="pr5 material-icons">{{ favorite.icon }}</i>
-                  <template v-if="!favorite.isFavorite">
+                  <i class="pr5 material-icons">{{ favoriteIcon }}</i>
+                  <template v-if="!isOnWishlist">
                     {{ $t('Add to favorite') }}
                   </template>
                   <template v-else>
@@ -135,17 +173,18 @@
                   </template>
                 </button>
               </div>
-              <div class="hidden-xs col-md-7">
+              <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
-                  @click="addToCompare"
+                  @click="isOnCompare ? removeFromList('compare') : addToList('compare')"
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action weight-700 h5 uppercase pointer cl-tertiary
+                    action h5 pointer cl-secondary
                   "
                   type="button"
+                  data-testid="addToCompare"
                 >
                   <i class="pr5 material-icons">compare</i>
-                  <template v-if="!compare.isCompare">
+                  <template v-if="!isOnCompare">
                     {{ $t('Add to compare') }}
                   </template>
                   <template v-else>
@@ -158,20 +197,24 @@
         </section>
       </div>
     </section>
-    <section class="container pt50 pb20 px20 cl-accent details">
-      <h2 class="h3 m0 mb10 sans-serif">
+    <section class="container px15 pt50 pb35 cl-accent details">
+      <h2 class="h3 m0 mb10 serif lh20 details-title">
         {{ $t('Product details') }}
       </h2>
-      <div class="h4 details-wrapper" ref="details">
+      <div
+        class="h4 details-wrapper"
+        :class="{'details-wrapper--open': detailsOpen}"
+      >
         <div class="row between-md m0">
-          <div class="col-md-5">
+          <div class="col-xs-12 col-sm-6">
             <div
-              class="lh30 cl-secondary"
+              class="lh30 h5"
+              itemprop="description"
               v-html="product.description"
             />
           </div>
-          <div class="col-md-6">
-            <ul class="attributes p0 pt10 m0">
+          <div class="col-xs-12 col-sm-5">
+            <ul class="attributes p0 pt5 m0">
               <product-attribute
                 :key="attr.attribute_code"
                 v-for="attr in customAttributes"
@@ -188,48 +231,70 @@
         </div>
       </div>
     </section>
-    <related-products/>
+    <reviews v-show="OnlineOnly"/>
+    <related-products
+      type="upsell"
+      :heading="$t('We found other products you might like')"
+    />
+    <promoted-offers single-banner />
+    <related-products type="related" />
   </div>
 </template>
 
 <script>
-import { corePage } from 'core/lib/themes'
-
-import RelatedProducts from '../components/core/blocks/Product/Related.vue'
-import AddToCart from '../components/core/AddToCart.vue'
-import GenericSelector from 'core/components/GenericSelector.vue'
-import ColorSelector from '../components/core/ColorSelector.vue'
-import SizeSelector from '../components/core/SizeSelector.vue'
-import Breadcrumbs from '../components/core/Breadcrumbs.vue'
-import ProductAttribute from '../components/core/ProductAttribute.vue'
-import ProductTile from '../components/core/ProductTile.vue'
-import ProductLinks from '../components/core/ProductLinks.vue'
+import Product from '@vue-storefront/core/pages/Product'
+import VueOfflineMixin from 'vue-offline/mixin'
+import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
+import AddToCart from 'theme/components/core/AddToCart.vue'
+import GenericSelector from 'theme/components/core/GenericSelector'
+import ColorSelector from 'theme/components/core/ColorSelector.vue'
+import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
+import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import ProductTile from 'theme/components/core/ProductTile.vue'
+import ProductLinks from 'theme/components/core/ProductLinks.vue'
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
+import ProductGallery from 'theme/components/core/ProductGallery'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
-  asyncData ({ store, route }) {
-    // this is for SSR purposes to prefetch data
-  },
-  directives: { focusClean },
-  methods: {
-    showDetails (event) {
-      const details = this.$refs.details
-      details.style.maxHeight = `${details.children[0].offsetHeight}px`
-      event.target.classList.add('hidden')
-    }
-  },
   components: {
     AddToCart,
-    GenericSelector,
-    ColorSelector,
-    SizeSelector,
     Breadcrumbs,
+    ColorSelector,
+    GenericSelector,
     ProductAttribute,
+    ProductBundleOptions,
+    ProductCustomOptions,
+    ProductGallery,
+    ProductLinks,
     ProductTile,
+    PromotedOffers,
     RelatedProducts,
-    ProductLinks
+    Reviews,
+    SizeSelector
   },
-  mixins: [corePage('Product')]
+  mixins: [Product, VueOfflineMixin],
+  data () {
+    return {
+      detailsOpen: false
+    }
+  },
+  directives: { focusClean },
+  computed: {
+    favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    }
+  },
+  methods: {
+    showDetails (event) {
+      this.detailsOpen = true
+      event.target.classList.add('hidden')
+    }
+  }
 }
 </script>
 
@@ -242,12 +307,18 @@ $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
 
-.data-wrapper {
+.breadcrumbs {
   @media (max-width: 767px) {
-    padding: 0;
+    margin: 15px 0;
+    padding: 15px 0 0 15px;
   }
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+  padding-bottom: 15px;
+}
 .data {
   @media (max-width: 767px) {
     border-bottom: 1px solid $bg-secondary;
@@ -257,14 +328,11 @@ $bg-secondary: color(secondary, $colors-background);
 .image {
   @media (max-width: 1023px) {
     margin-bottom: 20px;
-    padding: 20px 0 30px 0;
-    background-color: $bg-secondary;
   }
 }
 
 .product-name {
   @media (max-width: 767px) {
-    margin-top: 10px;
     font-size: 36px;
   }
 }
@@ -288,14 +356,14 @@ $bg-secondary: color(secondary, $colors-background);
 
  .sizes {
     @media (max-width: 767px) {
-      width: 60%;
+      width: 100%;
     }
   }
 
   .size-guide {
     height: 40px;
     @media (max-width: 767px) {
-      width: 40%;
+      width: 100%;
       margin-left: 0;
     }
   }
@@ -321,6 +389,15 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
+.details-title {
+  padding: 0 8px;
+
+  @media (max-width: 767px) {
+    font-size: 18px;
+    margin: 0;
+  }
+}
+
 .details-wrapper {
   @media (max-width: 767px) {
     position: relative;
@@ -328,6 +405,10 @@ $bg-secondary: color(secondary, $colors-background);
     overflow: hidden;
     transition: all 0.3s ease;
     font-size: 14px;
+  }
+
+  &--open {
+    max-height: none;
   }
 }
 
@@ -353,7 +434,7 @@ $bg-secondary: color(secondary, $colors-background);
 
 .action {
   &:hover {
-    color: $color-secondary;
+    color: $color-tertiary;
   }
 }
 
@@ -375,4 +456,17 @@ $bg-secondary: color(secondary, $colors-background);
   mix-blend-mode: multiply;
   width: 460px;
 }
+
+.qty-input {
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  width: 90px;
+}
+
+.qty-label {
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 </style>

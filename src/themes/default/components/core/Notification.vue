@@ -5,21 +5,34 @@
         class="notification mt30 border-box cl-white"
         v-for="(notification, index) in notifications"
         :key="index"
-        :class="{
-          info : notification.type == 'info',
-          success: notification.type == 'success',
-          error: notification.type == 'error',
-          warning: notification.type == 'warning'
-        }"
+        :class="notification.type"
       >
-        <div class="message p20">
+        <div
+          @click="action(notification.action1.action, index)"
+          class="message p20"
+          data-testid="notificationMessage"
+        >
           {{ notification.message }}
         </div>
-        <div
-          class="actions py10 px20 pointer weight-400 uppercase"
-          @click="action(notification.action1.action, index)"
-        >
-          {{ notification.action1.label }}
+        <div class="actions">
+          <div
+            class="py10 px20 pointer weight-400 action-border notification-action uppercase"
+            :class="`border-${notification.type}`"
+            id="notificationAction1"
+            data-testid="notificationAction1"
+            @click="action(notification.action1.action, index, notification)"
+          >
+            {{ notification.action1.label }}
+          </div>
+          <div
+            class="py10 px20 pointer weight-400 notification-action uppercase"
+            id="notificationAction2"
+            data-testid="notificationAction2"
+            @click="action(notification.action2.action, index, notification)"
+            v-if="notification.action2"
+          >
+            {{ notification.action2.label }}
+          </div>
         </div>
       </div>
     </transition-group>
@@ -27,10 +40,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import Notification from '@vue-storefront/core/components/Notification'
 
 export default {
-  mixins: [coreComponent('Notification')]
+  mixins: [Notification]
 }
 </script>
 
@@ -71,8 +84,18 @@ $color-action: color(black);
     margin-top: 0;
   }
 }
+
 .actions {
-  background: rgba($color-action, .2);
+  display: flex;
+  justify-content: space-between;
+
+  .notification-action {
+    background: rgba($color-action, .2);
+  }
+
+  #notificationAction2 {
+    width: 100%;
+  }
 }
 .success {
   background: $color-success;
@@ -85,5 +108,20 @@ $color-action: color(black);
 }
 .info {
   background: $color-info;
+}
+.action-border {
+  border-right: 2px solid transparent;
+  &.border-success {
+    border-right-color: $color-success;
+  }
+  &.border-error {
+    border-color: $color-error;
+  }
+  &.border-warning {
+    border-color: $color-warning;
+  }
+  &.border-info {
+    border-color: $color-info;
+  }
 }
 </style>

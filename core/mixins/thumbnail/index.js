@@ -1,4 +1,4 @@
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export const thumbnail = {
   methods: {
@@ -9,7 +9,7 @@ export const thumbnail = {
      * @param {Int} height
      */
     getThumbnail (relativeUrl, width, height) {
-      return relativeUrl ? `${config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : config.images.productPlaceholder || ''
+      return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${store.state.config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : store.state.config.images.productPlaceholder || ''
     }
   }
 }

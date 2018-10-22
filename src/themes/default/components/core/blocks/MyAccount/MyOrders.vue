@@ -10,7 +10,7 @@
     </div>
     <!-- My orders body -->
     <div class="row">
-      <div class="col-xs-12" v-if="ordersHistory">
+      <div class="col-xs-12" v-if="ordersHistory && ordersHistory.length > 0">
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
@@ -35,10 +35,10 @@
                 <span class="relative dropdown">
                   <i class="material-icons cl-secondary pointer">more_horiz</i>
                   <div class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400 fs-medium-small py5">
-                    <router-link class="no-underline block py10 px15" :to="`/my-account/orders/${order.entity_id}`">
+                    <router-link class="no-underline block py10 px15" :to="localizedRoute(`/my-account/orders/${order.entity_id}`)">
                       {{ $t('View order') }}
                     </router-link>
-                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(order.items)">{{ $t('Remake order') }}</a>
+                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
                   </div>
                 </span>
               </td>
@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import MyOrders from '@vue-storefront/core/components/blocks/MyAccount/MyOrders'
 
 export default {
-  mixins: [coreComponent('blocks/MyAccount/MyOrders')]
+  mixins: [MyOrders]
 }
 </script>
 

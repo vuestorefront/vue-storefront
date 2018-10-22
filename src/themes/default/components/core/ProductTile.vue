@@ -1,115 +1,104 @@
 <template>
-  <div class="product align-center p15">
-    <div>
-      <router-link
-        class="no-underline"
-        :to="{
-          name: product.type_id + '-product',
-          params: {
-            parentSku: product.parentSku ? product.parentSku : product.sku,
-            slug: product.slug,
-            childSku: product.sku
-          }
-        }"
+  <div
+    class="product align-center w-100 pb20"
+    v-observe-visibility="visibilityChanged"
+  >
+    <router-link
+      class="block no-underline product-link"
+      :to="localizedRoute({
+        name: product.type_id + '-product',
+        params: {
+          parentSku: product.parentSku ? product.parentSku : product.sku,
+          slug: product.slug,
+          childSku: product.sku
+        }
+      })"
+      data-testid="productLink"
+    >
+      <div
+        class="product-image relative bg-cl-secondary"
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
+        <img
+          :alt="product.name"
+          :src="thumbnailObj.loading"
+          v-lazy="thumbnailObj"
+          height="300"
+          width="310"
+          data-testid="productImage"
+        >
+      </div>
+
+      <p class="mb0 cl-accent mt10" v-if="!onlyImage">
+        {{ product.name | htmlDecode }}
+      </p>
+
+      <span
+        class="price-original mr5 lh30 cl-secondary"
+        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
       >
-        <div
-          class="product-image relative bg-cl-secondary"
-          :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
-        >
-          <transition name="fade" appear>
-            <img
-              class="mw-100"
-              v-if="instant"
-              :src="thumbnail"
-              :key="thumbnail"
-              v-img-placeholder="placeholder"
-              :alt="product.name"
-            >
-            <img
-              class="mw-100"
-              v-if="!instant"
-              v-lazy="thumbnailObj"
-              :key="thumbnail"
-              :alt="product.name"
-            >
-          </transition>
-        </div>
-        <p class="mb0 cl-accent">{{ product.name | htmlDecode }}</p>
-        <span
-          class="price-original mr5 lh30 cl-secondary"
-          v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
-        >
-          {{ product.originalPriceInclTax | price }}
-        </span>
-        <span
-          class="price-special lh30 cl-accent weight-700"
-          v-if="product.special_price && parseFloat(product.special_price) > 0"
-        >
-          {{ product.priceInclTax | price }}
-        </span>
-        <span class="lh30 cl-secondary" v-if="!product.special_price && parseFloat(product.priceInclTax) > 0">
-          {{ product.priceInclTax | price }}
-        </span>
-      </router-link>
-    </div>
+        {{ product.originalPriceInclTax | price }}
+      </span>
+
+      <span
+        class="price-special lh30 cl-accent weight-700"
+        v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
+      >
+        {{ product.priceInclTax | price }}
+      </span>
+
+      <span
+        class="lh30 cl-secondary"
+        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
+      >
+        {{ product.priceInclTax | price }}
+      </span>
+    </router-link>
   </div>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
-import imgPlaceholder from 'theme/components/theme/directives/imgPlaceholder'
+import rootStore from '@vue-storefront/store'
+import ProductTile from '@vue-storefront/core/components/ProductTile'
 
 export default {
+  mixins: [ProductTile],
   props: {
-    instant: {
-      type: Boolean,
-      required: false,
-      default: () => false
-    },
     labelsActive: {
       type: Boolean,
       requred: false,
       default: true
     }
   },
-  mixins: [coreComponent('ProductTile')],
-  directives: { imgPlaceholder },
-  created () {
-    this.$bus.$on('product-after-priceupdate', (product) => {
+  methods: {
+    onProductPriceUpdate (product) {
       if (product.sku === this.product.sku) {
         Object.assign(this.product, product)
       }
-    })
-    this.$bus.$on('product-after-configured', (config) => {
-      this.$store.dispatch('product/configure', { product: this.product, configuration: config.configuration, selectDefaultVariant: false }).then((selectedVariant) => {
-        if (selectedVariant) {
-          this.product.parentSku = this.product.sku
-          Object.assign(this.product, selectedVariant)
-          this.$store.dispatch('product/doPlatformPricesSync', { products: [this.product] }, { root: true }).then((syncResult) => { // TODO: queue all these tasks to one
-          })
+    },
+    visibilityChanged (isVisible, entry) {
+      if (isVisible) {
+        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
+          const skus = [this.product.sku]
+          if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
+            for (const confChild of this.product.configurable_children) {
+              const cachedItem = rootStore.state.stock.cache[confChild.id]
+              if (typeof cachedItem === 'undefined' || cachedItem === null) {
+                skus.push(confChild.sku)
+              }
+            }
+            if (skus.length > 0) {
+              rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
+            }
+          }
         }
-      })
-    })
-  },
-  data () {
-    return {
-      clicks: 0,
-      placeholder: '/assets/placeholder.jpg'
-    }
-  },
-  computed: {
-    thumbnailObj () {
-      return {
-        src: this.thumbnail,
-        loading: this.placeholder
       }
-    },
-    isOnSale () {
-      return this.product.sale === '1' ? 'sale' : ''
-    },
-    isNew () {
-      return this.product.new === '1' ? 'new' : ''
     }
+  },
+  beforeMount () {
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
 </script>
@@ -124,8 +113,8 @@ $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
 .product {
-  @media (max-width: 700px) {
-    padding: 0;
+  @media (max-width: 767px) {
+    padding-bottom: 10px;
   }
 }
 
@@ -143,25 +132,20 @@ $color-white: color(white);
   width: 40px;
   height: 40px;
   background-color: $border-secondary;
-  transition: 0.3s all $motion-main;
   text-transform: uppercase;
   color: $color-white;
   font-size: 12px;
-  font-weight: 400;
 }
 
 .product-image {
   width: 100%;
-  mix-blend-mode: multiply;
   overflow: hidden;
-  transition: 0.3s all $motion-main;
+  max-height: 300px;
 
   &:hover {
-    background-color: rgba($bg-secondary, .3);
-
-    > img {
-      transform: scale(1.1);
+    img {
       opacity: 1;
+      transform: scale(1.1);
     }
 
     &.sale::after,
@@ -170,13 +154,30 @@ $color-white: color(white);
     }
   }
 
-  > img {
+  img {
     max-height: 100%;
+    max-width: 100%;
     width: auto;
     height: auto;
+    margin: auto;
+    mix-blend-mode: darken;
     opacity: 0.8;
-    transition: 0.3s all $motion-main;
-    mix-blend-mode: multiply;
+    transform: scale(1);
+    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
+
+    &[lazy="loaded"] {
+      animation: products-loaded;
+      animation-duration: 0.3s;
+    }
+
+    @keyframes products-loaded {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 0.8;
+      }
+    }
   }
 
   &.sale {

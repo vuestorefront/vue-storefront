@@ -4,15 +4,16 @@
     class="bg-cl-transparent brdr-none inline-flex"
     @click="openSidebarMenu"
     :aria-label="$t('Open menu')"
+    data-testid="menuButton"
   >
     <i class="material-icons">dehaze</i>
   </button>
 </template>
 
 <script>
-import { coreComponent } from 'core/lib/themes'
+import HamburgerIcon from '@vue-storefront/core/components/blocks/Header/HamburgerIcon'
 
 export default {
-  mixins: [coreComponent('blocks/Header/HamburgerIcon')]
+  mixins: [HamburgerIcon]
 }
 </script>

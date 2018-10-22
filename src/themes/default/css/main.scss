@@ -1,4 +1,5 @@
-// Base
+@import 'vendor/flexboxgrid2';
+
 @import 'variables/variables';
 @import 'helpers/mixins';
 @import 'helpers/functions';
@@ -7,20 +8,17 @@
 @import 'base/global_vars';
 @import 'base/text';
 @import 'base/color';
+@import 'base/icons';
 
-// Layout
 @import 'layout/layout';
 @import 'layout/border';
 @import 'layout/margin';
 @import 'layout/padding';
 
-// Components
 @import 'components/buttons';
 
-// Utilities
 @import 'utilities/utilities';
 @import 'utilities/visibility';
 
-// Animations
 @import 'animations/animations';
 @import 'animations/transitions';
