@@ -8,7 +8,9 @@ export function initCacheStorage(key, localised = true) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
   const config = rootStore.state.config
-  const cacheDriver = config.localForage && config.localForage.defaultDrivers['orders'] || 'LOCALSTORAGE'
+  const cacheDriver = config.localForage && config.localForage.defaultDrivers['orders'] ? 
+    config.localForage.defaultDrivers['orders'] : 
+    'LOCALSTORAGE'
 
   if (localised) {
     const cacheStorage = new UniversalStorage(localForage.createInstance({
