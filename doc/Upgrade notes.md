@@ -2,6 +2,22 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+## 1.4 -> 1.5
+
+### Modifications
+
+#### New Modules API
+
+With 1.5.0 we've introduced new hevily refactored modules API. We've tried to keep the old theme components backward compatible - so now You can few some "mock" components in the `/core/components` just referencing to the `/modules/{{module}}/components` original. Please read [how modules work and are structured](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) to check if it's implies any changes to Your theme. As it may seem like massive changes (lot of files added/removed/renamed) - It should not impact Your custom code. 
+
+#### New Newsletter module
+
+The exsiting newsletter integration module was pretty chaotic and messy. @filrak has rewritten it from scratch. If You've relied on exisitng newsletter module logic / events / etc. it could have affected Your code (low probability).
+
+#### Memory leaks fixed
+
+We've fixed SSR memory leaks with #1882. It should not affect Your custom code - but if You've modified any SSR features please just make sure that everything still works just fine. 
+
 ## 1.3 -> 1.4
 
 ### Modifications
