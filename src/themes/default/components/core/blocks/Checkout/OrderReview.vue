@@ -68,7 +68,7 @@
                 @click.native="placeOrder"
                 data-testid="orderReviewSubmit"
                 class="place-order-btn"
-                :class="{ 'button-disabled' : $v.orderReview.$invalid }"
+                :disabled="$v.orderReview.$invalid"
               >
                 {{ $t('Place the order') }}
               </button-full>

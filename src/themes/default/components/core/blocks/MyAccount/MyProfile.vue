@@ -284,7 +284,7 @@
       <div class="col-xs-12 col-sm-6">
         <button-full
           @click.native="updateProfile"
-          :class="{ 'button-disabled': checkValidation() }"
+          :disabled="checkValidation()"
         >
           {{ $t('Update my profile') }}
         </button-full>

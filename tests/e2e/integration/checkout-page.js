@@ -7,7 +7,7 @@ describe('checkout page', () => {
     cy.get('#remember').check({ force: true })
     cy.get('[data-testid=loginSubmit]').click()
     cy.get('[data-testid=notificationMessage]').contains('You are logged in!')
-    cy.get('[data-testid=productLink]').eq(10).click()
+    cy.get('[data-testid=productLink]').eq(3).click()
     cy.get('[data-testid=addToCart]').click()
     cy.get('[data-testid=notificationAction2]').click()
     cy.get('[data-testid=personalDetailsSubmit]').click()
