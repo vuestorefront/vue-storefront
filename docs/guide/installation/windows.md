@@ -39,6 +39,8 @@ docker-compose up
 
 This step can take some minutes.
 
+Note: If it appears that docker-compose is hanging, try opening a new terminal and continue to the next step using that terminal. Allow docker-compose to continue running in the background.
+
 6. Restore products database and run latest migrations
 
 ```bash
