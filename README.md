@@ -448,10 +448,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
          <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.badger.blue/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/BlueBadger-Logo.png"
+            alt="Badger Blue"
             height="50"
           >
         </a>
