@@ -23,7 +23,7 @@ export default {
       return formatProductMessages(product.errors) !== ''
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
   },
   beforeDestroy () {

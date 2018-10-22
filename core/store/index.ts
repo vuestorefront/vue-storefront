@@ -57,6 +57,19 @@ const mutations = {
   }
 }
 
+export function getMutationData (mutation) {
+  let nameArray = mutation.split('/')
+  let storeName, actionName
+  if (nameArray.length) {
+    storeName = nameArray[0]
+    actionName = nameArray.slice(1).join('/')
+    return { actionName, storeName }
+  } else {
+    console.error('Store mutation name is incorrectly formed')
+  }
+}
+
+// @TODO move into modules
 const plugins: Plugin<RootState>[] = [
   store => {
     store.subscribe((mutation, state) => {
@@ -77,11 +90,6 @@ const plugins: Plugin<RootState>[] = [
       if (actionName === types.CART_LOAD_CART_SERVER_TOKEN) {
         Vue.prototype.$db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
           console.error(reason)
-        })
-      }
-      if (storeName === types.SN_WISHLIST) { // check if this mutation is wishlist related
-        Vue.prototype.$db.wishlistCollection.setItem('current-wishlist', state.wishlist.items).catch((reason) => {
-          console.error(reason) // it doesn't work on SSR
         })
       }
       if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
@@ -123,11 +131,6 @@ const plugins: Plugin<RootState>[] = [
             console.error(reason) // it doesn't work on SSR
           }) // populate cache
         }
-      }
-      if (actionName === types.USER_UPDATE_PREFERENCES) {
-        Vue.prototype.$db.newsletterPreferencesCollection.setItem('newsletter-preferences', state.user.newsletter).catch((reason) => {
-          console.error(reason)
-        })
       }
       if (actionName === 'setCmsBlock' || actionName === 'setCmsPage') {
         Vue.prototype.$db.cmsData.setItem('cms-data', state.cms).catch((reason) => {
@@ -188,11 +191,6 @@ export function initStore () {
       storeName: 'claims',
       driver: localForage[config.localForage.defaultDrivers['claims']]
     })),
-    wishlistCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'wishlist',
-      driver: localForage[config.localForage.defaultDrivers['wishlist']]
-    })),
     compareCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'compare',
@@ -212,11 +210,6 @@ export function initStore () {
       name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
       storeName: 'checkoutFieldValues',
       driver: localForage[config.localForage.defaultDrivers['checkoutFieldValues']]
-    })),
-    newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'newsletterPreferences',
-      driver: localForage[config.localForage.defaultDrivers['newsletterPreferences']]
     })),
     ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
       name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',

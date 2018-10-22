@@ -72,11 +72,6 @@ Vue.prototype.$db = {
   checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'checkoutFieldValues'
-  })),
-
-  newsletterPreferencesCollection: new UniversalStorage(localForage.createInstance({
-    name: 'shop',
-    storeName: 'newsletterPreferences'
   }))
 }
 ```

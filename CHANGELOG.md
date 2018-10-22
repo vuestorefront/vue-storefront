@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2018.10.22
+
+### Added
+- Contact form mailer - #1875 - Akbar Abdrakhmanov @akbarik
+- oauth2 configuration in setup - #1865 - Krister Andersson @Cyclonecode
+
+### Changed
+- New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
+
+### Fixed
+- The `regionId` field added to Order interface - #1258 - Jim Hil @jimcreate78
+- SSR Memory leaks fixed - #1882 Tomasz Duda @tomasz-duda
+- E2E tests fixed - #1861 - Patryk Tomczyk @patzik
+- UI animations - #1857 - Javier Villanueva @jahvi
+- Disabled buttons fixed - #1852 - Patryk Tomczyk @patzik
+- Mailchimp / Newsletter modules rebuilt - Filip Rakowski @filrak
+- Search component UX fixes - #1862 - Adrian Cagaanan @diboy2
+
 ## [1.4.0] - 2018.10.05
 
 ### Added

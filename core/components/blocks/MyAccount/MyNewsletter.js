@@ -1,45 +1,35 @@
-import { subscribe, unsubscribe, isSubscribed } from '@vue-storefront/core/modules/newsletter/features'
-
+// this component is depreciated
 export default {
   name: 'MyNewsletter',
   data () {
     return {
       user: {
         isSubscribed: false
-      },
-      isEdited: false
+      }
     }
   },
-  beforeMount () {
-    this.$bus.$on('user-after-loggedin', this.getNewsletter)
-  },
-  beforeDestroy () {
-    this.$bus.$off('user-after-loggedin', this.getNewsletter)
-  },
-  mounted () {
-    this.getNewsletter()
-  },
   methods: {
-    edit () {
-      this.isEdited = true
+    unsubscribe () {
+      this.$store.dispatch('mailchimp/unsubscribe', this.$store.state.user.current.email).then(res => {
+        this.user.isSubscribed = false
+      }).catch(err =>
+        this.$emit('unsubscription-error', err)
+      )
+    },
+    subscribe () {
+      this.$store.dispatch('mailchimp/subscribe', this.$store.state.user.current.email).then(res => {
+        this.user.isSubscribed = true
+      }).catch(err =>
+        this.$emit('subscription-error', err)
+      )
     },
     updateNewsletter () {
       if (this.user.isSubscribed) {
-        this.subscribe(this.$store.state.user.current.email)
+        this.subscribe()
       } else {
-        this.unsubscribe(this.$store.state.user.current.email)
+        this.unsubscribe()
       }
-      this.$store.dispatch('user/updatePreferences', { isSubscribed: this.user.isSubscribed })
       this.exitSection()
-    },
-    exitSection () {
-      this.isEdited = false
-    },
-    getNewsletter () {
-      this.$store.dispatch('user/loadNewsletterPreferences').then((res) => {
-        this.user.isSubscribed = res.isSubscribed
-      })
     }
-  },
-  mixins: [subscribe, unsubscribe, isSubscribed]
+  }
 }

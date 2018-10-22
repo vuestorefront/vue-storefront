@@ -120,9 +120,6 @@ Tries to change the user password to `passwordData.newPassword`.
 ### `logout (context)`
 This is used to log out the user, close the session and clear the user token. Please notice - the current shopping cart is closed after this call.
 
-### `updatePreferences (context, newsletterPreferences)`
-This action is used update the current newsletter preferences.
-
 ## Getters 
 
 All state members should have been accessed only by getters. Please take a look at the state reference for data formats

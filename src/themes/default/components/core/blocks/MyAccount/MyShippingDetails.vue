@@ -169,7 +169,7 @@
         <div class="col-xs-12 col-sm-6">
           <button-full
             @click.native="updateDetails"
-            :class="{ 'button-disabled': $v.$invalid }"
+            :disabled="$v.$invalid"
           >
             {{ $t('Update my shipping details') }}
           </button-full>
