@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Contact form mailer - #1875 - Akbar Abdrakhmanov @akbarik
 - oauth2 configuration in setup - #1865 - Krister Andersson @Cyclonecode
+- GraphQL schema extendibility in the API - Yoann Vié
 
 ### Changed
 - New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
