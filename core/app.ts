@@ -20,6 +20,7 @@ import App from 'theme/App.vue'
 import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
+import { once } from './helpers'
 
 // Declare Apollo graphql client
 import ApolloClient from 'apollo-client'
@@ -32,7 +33,9 @@ import { enabledModules } from './modules-entry'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
 
 if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
-  takeOverConsole(buildTimeConfig.console.verbosityLevel)
+  once('__TAKE_OVER_CONSOLE__', () => {
+    takeOverConsole(buildTimeConfig.console.verbosityLevel)
+  })
 }
 
 
@@ -50,27 +53,31 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     console.debug('Registering Vuex module', moduleName)
     store.registerModule(moduleName, storeModules[moduleName])
   }
-  
+
   const storeView = prepareStoreView(null) // prepare the default storeView
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
-  
+
   Vue.use(Vuelidate)
   Vue.use(VueLazyload, {attempt: 2})
   Vue.use(Meta)
   Vue.use(VueObserveVisibility)
-  
-  require('theme/plugins')
-  const pluginsObject = plugins()
-  Object.keys(pluginsObject).forEach(key => {
-    Vue.use(pluginsObject[key])
+
+  once('__VUE_EXTEND__', () => {
+    console.debug('Registering Vue plugins')
+    require('theme/plugins')
+    const pluginsObject = plugins()
+    Object.keys(pluginsObject).forEach(key => {
+      Vue.use(pluginsObject[key])
+    })
+
+    console.debug('Registering Vue mixins')
+    const mixinsObject = mixins()
+    Object.keys(mixinsObject).forEach(key => {
+      Vue.mixin(mixinsObject[key])
+    })
   })
-  
-  const mixinsObject = mixins()
-  Object.keys(mixinsObject).forEach(key => {
-    Vue.mixin(mixinsObject[key])
-  })
-  
+
   const filtersObject = filters()
   Object.keys(filtersObject).forEach(key => {
     Vue.filter(key, filtersObject[key])
@@ -78,15 +85,15 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     const httpLink = new HttpLink({
       uri: store.state.config.graphql.host.indexOf('://') >= 0 ? store.state.config.graphql.host : (store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql')
     })
-  
+
   const apolloClient = new ApolloClient({
     link: httpLink,
     cache: new InMemoryCache(),
     connectToDevTools: true
   })
-  
+
   let loading = 0
-  
+
   const apolloProvider = new VueApollo({
     clients: {
         a: apolloClient
@@ -104,9 +111,9 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
         console.error(error)
     }
   })
-  
+
   Vue.use(VueApollo)
-  // End declare Apollo graphql client    
+  // End declare Apollo graphql client
   const app = new Vue({
     router,
     store,
