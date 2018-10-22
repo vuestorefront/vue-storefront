@@ -39,13 +39,15 @@ export default {
   components: {
     ProductListing
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('product-after-load', this.refreshList)
 
     if (store.state.config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.refreshList)
       this.$bus.$on('user-after-logout', this.refreshList)
     }
+
+    this.refreshList()
   },
   beforeDestroy () {
     if (store.state.config.usePriceTiers) {
@@ -55,9 +57,6 @@ export default {
   },
   destroyed () {
     this.$bus.$off('product-after-load', this.refreshList)
-  },
-  beforeMount () {
-    this.refreshList()
   },
   methods: {
     refreshList () {

@@ -9,3 +9,13 @@ export function slugify (text) {
     .replace(/[^\w-]+/g, '') // Remove all non-word chars
     .replace(/--+/g, '-') // Replace multiple - with single -
 }
+
+export function once (key, fn) {
+  const { process = {} } = global || window
+  const processKey = key + '__ONCE__'
+  if (!process.hasOwnProperty(processKey)) {
+    console.debug(`Once ${key}`)
+    process[processKey] = true
+    fn()
+  }
+}

@@ -26,19 +26,23 @@ class LocalForageCacheDriver {
     if (typeof this.cacheErrorsCount[collectionName] === 'undefined') {
       this.cacheErrorsCount[collectionName] = 0
     }
-    if (typeof Vue.prototype.$localCache === 'undefined') {
-      Vue.prototype.$localCache = {}
-    }
-    if (typeof Vue.prototype.$localCache[dbName] === 'undefined') {
-      Vue.prototype.$localCache[dbName] = {}
-    }
-    if (typeof Vue.prototype.$localCache[dbName][collectionName] === 'undefined') {
-      Vue.prototype.$localCache[dbName][collectionName] = {}
+    if (Vue.prototype.$isServer) {
+      this._localCache = {}
+    } else {
+      if (typeof Vue.prototype.$localCache === 'undefined') {
+        Vue.prototype.$localCache = {}
+      }
+      if (typeof Vue.prototype.$localCache[dbName] === 'undefined') {
+        Vue.prototype.$localCache[dbName] = {}
+      }
+      if (typeof Vue.prototype.$localCache[dbName][collectionName] === 'undefined') {
+        Vue.prototype.$localCache[dbName][collectionName] = {}
+      }
+      this._localCache = Vue.prototype.$localCache[dbName][collectionName]
     }
     this._collectionName = collectionName
     this._dbName = dbName
     this._useLocalCacheByDefault = useLocalCacheByDefault
-    this._localCache = Vue.prototype.$localCache[dbName][collectionName]
     this._localForageCollection = collection
     this._lastError = null
     this._persistenceErrorNotified = false
