@@ -1,15 +1,5 @@
 # Integration with Magento 2
 
-## Integrating Magento2 with your local instance
-
-As a first step, you need to to install [mage2vuestorefront ](https://github.com/DivanteLtd/mage2vuestorefront):
-
-```bash
-git clone https://github.com/DivanteLtd/mage2vuestorefront.git mage2vs
-cd mage2vs/src
-yarn install
-```
-
 The tool is using Magento2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento2 admin panel and click: _System -> Integrations_
 
 ![Magento Admin Panel](/vue-storefront/magento_1.png)
@@ -25,6 +15,55 @@ Then click _Add new integration_ and just fill:
 In the result you’ll click _Activate_ and get some oauth access tokens:
 
 ![Magento tokens](/vue-storefront/magento_3.png)
+
+## Integrating Magento2 with your local instance
+
+### Fast integration
+
+Magento2 data import is now integrated into `vue-storefront-api` for simplicity. It's still managed by the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) - added as a dependency to `vue-storefront-api`.
+
+After setting the `config.magento2.api` section using yours Magento2 oauth credentials:
+
+```json
+ "magento2": {
+   "url": "http://magento2.demo-1.xyz.com",
+   "imgUrl": "http://localhost:8080/media/catalog/product",
+   "assetPath": "/../var/magento2-sample-data/pub/media",
+   "magentoUserName": "",
+   "magentoUserPassword": "",
+   "httpUserName": "",
+   "httpUserPassword": "",
+   "api": {
+     "url": "http://demo-magento2.vuestorefront.io/rest",
+     "consumerKey": "byv3730rhoulpopcq64don8ukb8lf2gq",
+     "consumerSecret": "u9q4fcobv7vfx9td80oupa6uhexc27rb",
+     "accessToken": "040xx3qy7s0j28o3q0exrfop579cy20m",
+     "accessTokenSecret": "7qunl3p505rubmr7u1ijt7odyialnih9"
+   }
+ },
+```
+
+You can run the following command to execute the full import of all the Products, Categories and other important stuff to your Elastic Search instance:
+
+```bash
+yarn mage2vs import
+```
+
+... or in multistore setup you can run the same command with specified `store-code` parameter
+
+```bash
+ yarn mage2vs import --store-code=de
+```
+
+### Manual integration
+
+As a first step, you need to to install [mage2vuestorefront ](https://github.com/DivanteLtd/mage2vuestorefront):
+
+```bash
+git clone https://github.com/DivanteLtd/mage2vuestorefront.git mage2vs
+cd mage2vs/src
+yarn install
+```
 
 Now please edit the `src/config.js` file in your `mage2vuestorefront` directory to set the following section:
 
@@ -42,7 +81,7 @@ As you can see, you can override the defaults by ENV variables as well.
 
 The rest of config.js entries points out to your `vue-storefront-api` based Docker and Redis instances which are required by `mage2nosql` to work.
 
-To import all the Products, Categories and other important stuff to your Elastic Search instance you should run the following commands (the sequence of commands is important  -  as for example `node cli.js categories` populates Redis cache for the further use of `node cli.js` products and so on)
+To make the full import, you should run the following commands (the sequence of commands is important  -  as for example `node cli.js categories` populates Redis cache for the further use of `node cli.js` products and so on)
 
 ```bash
 node cli.js taxrule
