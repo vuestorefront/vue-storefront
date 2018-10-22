@@ -744,7 +744,7 @@ let questions = [
     type: 'input',
     name: 'm2_url',
     message: 'Please provide your magento url',
-    default: 'http://magento2.demo-1.xyz.com',
+    default: 'http://demo-magento2.vuestorefront.io',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
     }
