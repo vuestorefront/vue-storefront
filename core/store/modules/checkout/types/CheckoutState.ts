@@ -15,6 +15,7 @@ export default interface CheckoutState {
     apartmentNumber: string,
     city: string,
     state: string,
+    region_id: number,
     zipCode: string,
     phoneNumber: string,
     shippingMethod: string
@@ -27,6 +28,7 @@ export default interface CheckoutState {
     streetAddress: string,
     apartmentNumber: string,
     city: string,
+    region_id: number,
     state: string,
     zipCode: string,
     phoneNumber: string,
