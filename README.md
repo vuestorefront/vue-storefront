@@ -23,7 +23,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://demo.vuestorefront.io">
+        <a href="https://demo.storefrontcloud.io">
           <img
             src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"
             alt="B2C Theme demo"
