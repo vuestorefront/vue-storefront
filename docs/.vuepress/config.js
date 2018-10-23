@@ -83,7 +83,11 @@ module.exports = {
         {
           title: 'Working with Vuex',
           collapsable: false,
-          children: ['vuex/introduction', 'vuex/product-store'],
+          children: [
+            'vuex/introduction',
+            'vuex/product-store',
+            'vuex/category-store',
+          ],
         },
         // {
         //   title: 'Working with extensions',

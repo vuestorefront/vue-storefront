@@ -87,7 +87,9 @@ This is the key method to load the product list. It returns the `Promise` that c
 
 **Events**: this method emits product list as `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })`
 
-**Important**: This method synchronizes products for offline usage by: storing the whole query results object into `localForage` and by caching each product individually (to be used on the Product page for example)
+:::warning Important
+This method synchronizes products for offline usage by: storing the whole query results object into `localForage` and by caching each product individually (to be used on the Product page for example)
+:::
 
 - `query` - this is the `bodybuilder` ElasticSearch query (please check `bodybuilder` package or for example `Home.vue` for a reference how to use it)
 
