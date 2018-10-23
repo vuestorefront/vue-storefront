@@ -216,7 +216,7 @@ It's done via Database Tool schema changes. Please follow the instructions from 
 Unfortunately, Magento extensions are not compliant with any PWA available solution yet. So if you would like to integrate some existing extensions, the simplest way is to:
 
 - expose the data via some Magento2 REST api endpoints;
-- consume the endpoints in the VS using Vuex stores; [read more](../data/vuex.md) about Vuex in Vue Storefront;
+- consume the endpoints in the VS using Vuex stores; [read more](../vuex/introduction.md) about Vuex in Vue Storefront;
 - implement the UI in VS
 
 If the extensions are not playing with the User Interface, probably they will work with VS out of the box, as we're using the standard Magento2 API calls for the integration part.

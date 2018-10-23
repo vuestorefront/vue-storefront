@@ -274,7 +274,10 @@
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
     "mailer": {
-      "endpoint": "http://localhost:8080/api/ext/mail-service/send-email",
+      "endpoint": {
+        "send": "http://localhost:8080/api/ext/mail-service/send-email",
+        "token": "http://localhost:8080/api/ext/mail-service/get-token"
+      },
       "contactAddress": "contributors@vuestorefront.io",
       "sendConfirmation": true
     },

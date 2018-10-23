@@ -444,7 +444,8 @@ class Storefront extends Abstract {
         config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`
 
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
-        config.mailer.endpoint = `${backendPath}/api/ext/mail-service/send-email`
+        config.mailer.endpoint.send = `${backendPath}/api/ext/mail-service/send-email`
+        config.mailer.endpoint.token = `${backendPath}/api/ext/mail-service/get-token`
         config.images.baseUrl = this.answers.images_endpoint
         config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
         config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
@@ -743,7 +744,7 @@ let questions = [
     type: 'input',
     name: 'm2_url',
     message: 'Please provide your magento url',
-    default: 'http://magento2.demo-1.xyz.com',
+    default: 'http://demo-magento2.vuestorefront.io',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
     }

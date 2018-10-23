@@ -9,21 +9,10 @@ export const EmailForm = {
   },
   methods: {
     sendEmail (letter: MailItem, success, failure) {
-      this.$store.dispatch('mailer/getToken')
+      this.$store.dispatch('mailer/sendEmail', letter)
       .then(res => {
         if (res.ok) {
-          return res.json()
-        }
-        throw new Error()
-      })
-      .then(tokenResponse => {
-        this.token = tokenResponse.result
-        return this.$store.dispatch('mailer/sendEmail', { ...letter, token: this.token })
-      })
-      .then(res => {
-        if (res.ok) {
-          success(i18n.t('Email has successfully been sent'))
-          this.$store.dispatch('mailer/sendConfirmation', { ...letter, token: this.token })
+          if (success) success(i18n.t('Email has successfully been sent'))
         } else {
           return res.json()
         }
@@ -31,11 +20,11 @@ export const EmailForm = {
       .then(errorResponse => {
         if (errorResponse) {
           const errorMessage = errorResponse.result
-          failure(i18n.t(errorMessage))
+          if (failure) failure(i18n.t(errorMessage))
         }
       })
       .catch(() => {
-        failure(i18n.t('Could not send an email. Please try again later.'))
+        if (failure) failure(i18n.t('Could not send an email. Please try again later.'))
       })
     }
   }

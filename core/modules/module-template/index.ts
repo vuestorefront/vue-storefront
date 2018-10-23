@@ -1,4 +1,4 @@
-// This is VS modules entry point.
+// This is VS module entry point.
 // Read more about modules: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md
 import { module } from './store'
 import { plugin } from './store/plugin'

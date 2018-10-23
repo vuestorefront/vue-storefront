@@ -205,9 +205,9 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="https://divante.co/">
           <img
-            src="https://divante.co/static/img/logo.svg"
+            src="https://divante.co/about us/LOGO.png"
             alt="Divante"
-            height="50"
+            width="120"
           >
         </a>
       </td>
@@ -432,6 +432,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
             src="https://divante.co/partners/Vue-Storefront/bemeir.png"
             alt="Bemeir"
             height="40"
+          >
+        </a>
+      </td>
+    </tr>
+     <tr>
+       <td align="center" valign="middle">
+        <a href="http://copex.io/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/copex-io-logo.png"
+            alt="Copex.io"
+            height="50"
+          >
+        </a>
+      </td>
+         <td align="center" valign="middle">
+        <a href="https://www.badger.blue/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/BlueBadger-Logo.png"
+            alt="Badger Blue"
+            height="50"
+          >
+        </a>
+      </td>
+        <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+    <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+         <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
           >
         </a>
       </td>

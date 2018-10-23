@@ -1,8 +1,8 @@
 # Internationalization (i18n) of Vue Storefront
 
-Vue Storefront allows you to translate the whole UI using powerful [vue-i18n](http://kazupon.github.io/vue-i18n/api/#methods) library.
+Vue Storefront allows you to translate the whole UI using powerful [vue-i18n](http://kazupon.github.io/vue-i18n/) library.
 
-Please be aware of i18n issues while writing your own themes/extensions and keep the i18n support in mind, especially when creating Pull Requests to the core
+Please be aware of i18n issues while writing your own themes/extensions and keep the i18n support in mind, especially when creating Pull Requests to the core.
 
 ## Using i18n in code
 
@@ -17,7 +17,7 @@ EventBus.$emit('notification', {
 });
 ```
 
-If you're working with \*.vue components the matter is even simpler with Vue directive `$t`:
+If you're working with `.vue` components the matter is even simpler with Vue directive `$t`:
 
 ```html
     <span>
@@ -25,18 +25,18 @@ If you're working with \*.vue components the matter is even simpler with Vue dir
     </span>
 ```
 
-For all helper methods and directives along with available parameters please do check the [vue-i18n documentation](http://kazupon.github.io/vue-i18n/api/#methods).
+For all helper methods and directives along with available parameters please do check the [vue-i18n documentation](http://kazupon.github.io/vue-i18n/introduction.html).
 
 ## Working with translations
 
-Translations are provided in `resource/i18n/en-US.csv` file and can be extended / overriden in `theme/resource/i18n/en-US.csv` accordingly.
+Translations are provided in `i18n/resource/i18n/en-US.csv` file and can be extended / overriden in `theme/resource/i18n/en-US.csv` accordingly.
 
 Here's an example of `en-US.csv` for `en-US` locale:
 
 ```csv
 "customMessage","You can define or override translation messages here."
 "welcomeMessage", "Welcome to Vue Storefront theme starter!",
-"In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack", "In case of any problems please take a look at the docs. If you havn't find what you were looking for in docs feel free to ask your question on our Slack",
+"In case of any problems please take a look at the docs. If you haven't find what you were looking for in docs feel free to ask your question on our Slack", "In case of any problems please take a look at the docs. If you haven't find what you were looking for in docs feel free to ask your question on our Slack",
 "Here are some links that can help you with developing your own theme", "Here are some links that can help you with developing your own theme",
 "Project structure", "Project structure",
 "Working with themes", "Working with themes",
