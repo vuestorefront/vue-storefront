@@ -87,6 +87,7 @@ module.exports = {
             'vuex/introduction',
             'vuex/product-store',
             'vuex/category-store',
+            'vuex/cart-store',
           ],
         },
         // {
