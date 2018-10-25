@@ -21,11 +21,9 @@ function extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, aft
 
 function extendStore (key: string, store: Module<any, any>, plugin: any, extend: { key: string, module: Module<any, any> }[]) : void {
   const registeredStores: any = rootStore
-  console.info(extend)
   if (store) {
     // in case of conflicting keys throw warning 
     if (registeredStores._modules.root._children[key]) {
-      // rootStore.registerModule(key, merge(store, registeredStores._modules.root._children[key]._rawModule))
       throw new Error('Error during VS Module registration. Module with key "' + key + '" that you are trying to register already exists. If you are trying to extend currently existing module use store.extend property.')
     } else {
       rootStore.registerModule(key, store)
@@ -34,12 +32,10 @@ function extendStore (key: string, store: Module<any, any>, plugin: any, extend:
   if (plugin) rootStore.subscribe(plugin)
   if (extend) {
     extend.forEach(extendStore => {
-      console.info(extendStore)
       if (registeredStores._modules.root._children[extendStore.key]) {
         const newStore = merge(registeredStores._modules.root._children[extendStore.key]._rawModule, extendStore.module)
         rootStore.unregisterModule(extendStore.key)
         rootStore.registerModule(extendStore.key, newStore)
-        console.info(rootStore)
       } else {
         throw new Error('Error during VS Module registration. Module with key "' + key + '" that you are trying to extend already exists. If you want to register new Vuex store use store.module property.')
       }
