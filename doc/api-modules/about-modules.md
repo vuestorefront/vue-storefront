@@ -13,7 +13,7 @@
 ** Patterns and good practices for common use cases
 - [General rules and good practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#rules-and-good-practices)
 - [Adding new features as VS modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#adding-new-features-as-vs-modules)
-- [Extending currently existing features with modules]()
+- [Extending currently existing features with modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-currently-existing-features-with-modules)
 - [Extending module from theme before registration[()
   
 # What are VS modules?
@@ -187,16 +187,40 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 # Extending currently existing features with modules
 
-You can extend Vuex stores from any other VS module. Good practice is to create a folder with the same name as module you want to extend inside `store` folder of your module. Mutations/actions/state properties will be merged to currently existing module. In case of conflicting names the old ones will be overwritten. You can find an example of mailchimp module extension here: https://github.com/DivanteLtd/vue-storefront/tree/develop/core/modules/module-template/store/mailchimp.
+You can extend Vuex stores from any other VS module. Good practice is to create a folder with the same name as module you want to extend inside `store` folder of your module. Mutations/actions/state properties will be merged to currently existing module. In case of conflicting names the old ones will be overwritten. You can find an example of mailchimp module extension [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/modules/module-template/store/mailchimp).
 
-Once the extension is ready register it under `store.extend` module property with a key of module you wish to extend. in this example we are extending `mailchimp` module with `extendMailchimp` object.
+Once the extension is ready register it under `store.extend` module property with a key of module you wish to extend. 
 
-````
+In the example below we are extending `mailchimp` module with `extendMailchimp` object.
+
+````js
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   // other properties
   store: { extend: [{ key: 'mailchimp', module: extendMailchimp}] },
 }
+````
+# Extending module from theme before registration
+
+All modules are registered from your theme. before registration you can easly modify their config object and extend/replace any part of it. if you want to make any application-specific modifications of the core this is the best way. In the example below we are modifying the `example` module. The config object you provide to `extend()` will be deep merged with currently existing one. conflicting keys in Vuex modules will be overwritten.
+
+````js
+import { Example } from './modules/module-template'
+
+
+const extendedExample: VueStorefrontModuleConfig = {
+  key: 'extend',
+  afterRegistration: function(Vue, config) {
+    console.info('Hello, im extended now')
+  }
+}
+
+Example.extend(extendedExample)
+
+export const enabledModules: VueStorefrontModule[] = [
+  // other modules
+  Example
+]
 ````
 
 # Contributions
