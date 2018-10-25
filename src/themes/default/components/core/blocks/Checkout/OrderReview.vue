@@ -96,6 +96,7 @@ import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
 import OrderReview from '@vue-storefront/core/components/blocks/Checkout/OrderReview'
 import ValidationError from 'theme/components/core/ValidationError'
+import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
   components: {
@@ -105,12 +106,28 @@ export default {
     Modal,
     ValidationError
   },
-  mixins: [OrderReview, Composite],
+  mixins: [OrderReview, Composite, Notification],
   validations: {
     orderReview: {
       terms: {
         required
       }
+    }
+  },
+  methods: {
+    notifySuccess () {
+      this.showNotification({
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    notifyFailure (result) {
+      this.showNotification({
+        type: 'error',
+        message: this.$t(result.result),
+        action1: { label: this.$t('OK') }
+      })
     }
   }
 }

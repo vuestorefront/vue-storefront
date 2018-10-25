@@ -135,6 +135,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
   validations: {
@@ -160,11 +161,39 @@ export default {
       required
     }
   },
-  mixins: [Register],
+  mixins: [Register, Notification],
   components: {
     ButtonFull,
     BaseCheckbox,
     BaseInput
+  },
+  methods: {
+    register () {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        this.showNotification({
+          type: 'error',
+          message: this.$t('Please fix the validation errors'),
+          action1: { label: this.$t('OK') }
+        })
+        return
+      }
+      this.callRegister()
+    },
+    notifySuccess () {
+      this.showNotification({
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    notifyFailure (result) {
+      this.showNotification({
+        type: 'error',
+        message: result.result,
+        action1: { label: this.$t('OK') }
+      })
+    }
   }
 }
 </script>

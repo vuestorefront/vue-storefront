@@ -79,10 +79,11 @@ import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
+import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
   name: 'ThankYouPage',
-  mixins: [Composite, VueOfflineMixin, EmailForm],
+  mixins: [Composite, VueOfflineMixin, EmailForm, Notification],
   data () {
     return {
       feedback: ''
@@ -118,10 +119,10 @@ export default {
       )
     },
     notifySuccess (message) {
-      this.$bus.$emit('notification', {
+      this.showNotification({
         type: 'success',
         message,
-        action1: { label: this.$t('OK'), action: 'close' }
+        action1: { label: this.$t('OK') }
       })
       if (this.$store.state.config.mailer.sendConfirmation) {
         this.sendEmail(
@@ -136,10 +137,10 @@ export default {
       }
     },
     notifyFailure (message) {
-      this.$bus.$emit('notification', {
+      this.showNotification({
         type: 'error',
         message,
-        action1: { label: this.$t('OK'), action: 'close' }
+        action1: { label: this.$t('OK') }
       })
     }
   },

@@ -259,6 +259,7 @@ import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue
 import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
+import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
   components: {
@@ -277,7 +278,7 @@ export default {
     Reviews,
     SizeSelector
   },
-  mixins: [Product, VueOfflineMixin],
+  mixins: [Product, VueOfflineMixin, Notification],
   data () {
     return {
       detailsOpen: false
@@ -293,6 +294,20 @@ export default {
     showDetails (event) {
       this.detailsOpen = true
       event.target.classList.add('hidden')
+    },
+    notifyOutStock () {
+      this.showNotification({
+        type: 'error',
+        message: this.$t('The product is out of stock and cannot be added to the cart!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    notifyWrongAttributes () {
+      this.showNotification({
+        type: 'warning',
+        message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
+        action1: { label: this.$t('OK') }
+      })
     }
   }
 }
