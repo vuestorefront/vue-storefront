@@ -8,8 +8,9 @@
 **Technical part**
 - [Module config and it's capabilities](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-config-and-capabilities)
 - [Module file structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-file-structure)
+- [Module registration](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-registration)
 
-** Patterns and good practices for common use cases
+**Patterns and good practices for common use cases**
 - [General rules and good practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#rules-and-good-practices)
 - [Adding new features as VS modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#adding-new-features-as-vs-modules)
 - [Extending currently existing features with modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-currently-existing-features-with-modules)
@@ -121,7 +122,16 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 - `helpers` - everything else that is meant to support modules behavior
 - `index.js` - entry point for the module. Should export VueStorefrontModule. It's also a good palce to instantiate cache storage.
 
+# Module registration
+
+All modules including the core ones are registered in `theme/modules.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
+
+All VS modules from `registerModules` will be registered during shop initialisation.
+
+
 -----------------------------------
+
+
 
 # General rules and good practices
 
