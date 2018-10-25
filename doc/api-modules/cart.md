@@ -1,51 +1,49 @@
 # Cart module
 
-The cart module as name suggests is a set of mixins responsible for interacting with Cart. You can find methods responsible for adding/removing/getting cart items along with optional UI interactions for microcart.
+This module contains all logic and components related to cart operations.
 
-## Content
+## Components
 
-#### addToCart
-- [method] addToCart(product)
+### AddToCart
+Component responsible for adding product to the cart
 
-#### removeFromCart
-- [method] removeFromCart(product)
+**Props**
+- `product` - product that'll be added to cart
 
-#### productsInCart
-- [computed] productsInCart
+**Methods**
+- `addToCart(product)` - adds passed product to the cart. By default correlates with `product` prop
 
-## UI helpers
+### Microcart
+Microcart component.
 
-#### openMicrocart
-- [method] openMicrocart()
+**Computed**
+- `productsInCart` - array of products that are currently in the cart
+- `appliedCoupon` - return applied cart coupon or false if no coupon was applied
+-` totals` - cart totals
+- `isMicrocartOpen` - returns true if microcart is open
 
-#### closeMicrocart
-- [method] openMicrocart()
+**Methods**
+- `applyCoupon(code)` - appies cart coupon
+- `removeCoupon()` removes currently applied cart coupon
+- 'toggleMicrocart' - open/close microcart
 
-#### isMicrocartOpen
-- [computed] isMicrocartOpen
+### MicrocartButton
+Component responsible for opening/closing Microcart
 
-## Example
+**Computed**
+- `quantity` - number of products in cart
 
-````javascript
-// Inside Vue component
-import {
-  addToCart,
-  removeFromCart,
-  productsInCart,
-  closeMicrocart,
-  openMicrocart,
-  isMicrocartOpen
-} from '@vue-storefront/core/modules/cart/features'
+**Methods**
+- `toggleMicrocart` - open/close microcart
 
-export default {
-  //...other properties
-  mixins: [
-    addToCart,
-    removeFromCart,
-    productsInCart,
-    closeMicrocart,
-    openMicrocart,
-    isMicrocartOpen
-  ]
-}
-````
+### Product
+Component representing product in microcart. Allows to modify it's quantity or remove from cart. 
+
+**Compued**
+- `thumbnail` - returns src of products thumbnail
+
+**Methods**
+- `removeFromCart` - removes current product (data property `product`) from cart
+- `updateQuantity` - updates cart quantity for current product (data property `product`)
+
+

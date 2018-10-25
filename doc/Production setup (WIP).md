@@ -4,6 +4,10 @@ If you like to start developing sites using Vue Storefront, probably You need to
 
 Development mode means You're using node.js based server as HTTP service and running the app on the `3000` TCP port. As it's great for local testing it's **not recommended** to use installer and direct user access to node.js in production configurations.
 
+## Note on caching
+
+This tutorial is not describing how to setup proper caching strategy for Vue Storefront SSR renderer. Please read the [SSR Output cache](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/SSR%20Cache.md) docs or/and check [nginx caching guide](https://www.nginx.com/blog/nginx-caching-guide/).
+
 ## Production setup - bare VPS
 
 To run Vue Storefront in the production mode without Docker/Kubernetes You'll need the Virtual Private Server with `root` access (for the setup purposes). We'll assume that You're using `Debian GNU Linux` in the following steps.
@@ -54,7 +58,6 @@ dpkg -i elasticsearch-5.6.9.deb
 /etc/init.d/elasticsearch start
 
 
-apt-get install imagemagick
 apt-get install nginx
 ```
 
@@ -189,6 +192,21 @@ The same module is used for providing user with the static assets. Assets will b
 
 The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app. running on `8080` port (default config). API will be available under: https://prod.vuestorefront.io/api
 
+If Your `vue-storefront` app is configured to use `config.server.api=graphql` then You also need to configure proper graphql endpoint:
+
+```
+	location /graphql {
+		proxy_pass http://localhost:8080/graphql/;
+	}
+```
+
+**Note:** Please remember to set `config.server.protocol=https` in order to use graphQL as the graphQL endpoint URL is constructed like this:
+```js
+  const httpLink = new HttpLink({
+    uri: store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql'
+  })
+```
+
 ```
 	location /img/ {
 		proxy_pass http://localhost:8080/img/;
@@ -205,6 +223,9 @@ ProxyRequests off
 
 ProxyPass /api/ http://localhost:8080/api/ 
 ProxyPassReverse /api http://localhost:8080/api/
+
+ProxyPass /graphql http://localhost:8080/graphql
+ProxyPassReverse /graphql http://localhost:8080/graphql
 
 ProxyPass /img/ http://localhost:8080/img/
 ProxyPassReverse /img http://localhost:8080/img/
@@ -269,11 +290,18 @@ curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/pro
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
 
 ```json
+    "server" : {
+       "protocol": "https"
+    },
     "elasticsearch": {
         "httpAuth": "",
         "host": "https://prod.vuestorefront.io/api/catalog",
         "index": "vue_storefront_catalog"
     },
+    "graphql": {
+        "host": "prod.vuestorefront.io",
+        "port": 443
+    },    
     "storeViews": {
         "mapStoreUrlsFor": [
             "de",
@@ -418,6 +446,16 @@ yarn start
 ```
 
 Both applications are using [`PM2` process manager](https://pm2.io/runtime) in the production mode (`start` commands) to manage and respawn the nodejs processess when neede.
+
+## Note on deployments and log tracking
+
+Vue Storefront is using the `pm2` for process management. You can leverage on most features it offers for both `vue-storefront` and `vue-storefront-api`.
+
+Some usefull commands:
+- `yarn pm2 monit` - to monit the process statuses
+- `yarn pm2 logs server` - to get the logs from SSR server (in the vue-storefront)
+- `yarn pm2 logs api` - to get the logs from SSR server (in the vue-storefront-api)
+- `yarn build; yarn pm2 reload all` - after pulling the latest version from git You typically want to run this sequence to apply the changes
 
 ## Production setup - using Docker / Kubernetes
 

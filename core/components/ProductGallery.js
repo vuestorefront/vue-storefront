@@ -1,6 +1,6 @@
 import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export default {
   name: 'ProductGallery',
@@ -32,7 +32,7 @@ export default {
       isZoomOpen: false
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
   },
@@ -44,6 +44,8 @@ export default {
     document.addEventListener('keydown', this.handleEscKey)
   },
   beforeDestroy () {
+    this.$bus.$off('filter-changed-product', this.selectVariant)
+    this.$bus.$off('product-after-load', this.selectVariant)
     document.removeEventListener('keydown', this.handleEscKey)
   },
   computed: {
@@ -58,8 +60,8 @@ export default {
       }
     },
     selectVariant () {
-      if (config.products.gallery.mergeConfigurableChildren) {
-        let option = this.configuration[config.products.gallery.variantsGroupAttribute]
+      if (store.state.config.products.gallery.mergeConfigurableChildren) {
+        let option = this.configuration[store.state.config.products.gallery.variantsGroupAttribute]
         if (typeof option !== 'undefined' && option !== null) {
           let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
           this.navigate(index)

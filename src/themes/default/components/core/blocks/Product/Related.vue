@@ -19,9 +19,9 @@
 <script>
 import ProductListing from 'theme/components/core/ProductListing'
 
-import builder from 'bodybuilder'
+import { prepareRelatedQuery } from '@vue-storefront/core/modules/product/queries/related'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import store from '@vue-storefront/store'
 
 export default {
   name: 'Related',
@@ -39,16 +39,18 @@ export default {
   components: {
     ProductListing
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('product-after-load', this.refreshList)
 
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.refreshList)
       this.$bus.$on('user-after-logout', this.refreshList)
     }
+
+    this.refreshList()
   },
   beforeDestroy () {
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.refreshList)
       this.$bus.$off('user-after-logout', this.refreshList)
     }
@@ -56,31 +58,21 @@ export default {
   destroyed () {
     this.$bus.$off('product-after-load', this.refreshList)
   },
-  beforeMount () {
-    this.refreshList()
-  },
   methods: {
     refreshList () {
       let sku = this.productLinks
         .filter(pl => pl.link_type === this.type)
         .map(pl => pl.linked_product_sku)
 
-      let query = builder().query('terms', 'sku', sku)
-      if (sku.length === 0) {
+      let key = 'sku'
+      if (!(sku.length > 0)) {
         sku = this.product.current.category.map(cat => cat.category_id)
-        query = builder().query('terms', 'category.category_id', sku)
-          .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
-          .andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 })
+        key = 'category_ids'
       }
-      query = query.andFilter('range', 'status', { 'gte': 0, 'lt': 2 }/* 2 = disabled, 4 = out of stock */)
-      if (config.products.listOutOfStockProducts === false) {
-        query = query.andFilter('match', 'stock.is_in_stock', true)
-      }
-
-      query = query.build()
+      let relatedProductsQuery = prepareRelatedQuery(key, sku)
 
       this.$store.dispatch('product/list', {
-        query,
+        query: relatedProductsQuery,
         size: 8,
         prefetchGroupProducts: false,
         updateState: false

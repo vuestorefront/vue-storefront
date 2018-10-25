@@ -1,17 +1,16 @@
 import { mapGetters } from 'vuex'
 
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 import Composite from '@vue-storefront/core/mixins/composite'
-import { addToWishlist, removeFromWishlist } from '@vue-storefront/core/modules/wishlist/features'
 
 export default {
   name: 'Product',
-  mixins: [ Composite, addToWishlist, removeFromWishlist ],
+  mixins: [ Composite ],
   data () {
     return {
       loading: false
@@ -61,8 +60,9 @@ export default {
       return currentStoreView()
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     EventBus.$emit('product-before-load', { store: store, route: route })
+    if (context) context.output.cacheTags.add(`product`)
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   watch: {
@@ -74,24 +74,22 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    if (config.usePriceTiers) {
+    if (store.state.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
   },
   beforeMount () {
-    this.onStateCheck()
-  },
-  created () {
     this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (config.usePriceTiers) {
+    if (store.state.config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
+    this.onStateCheck()
   },
   methods: {
     validateRoute () {
@@ -114,6 +112,12 @@ export default {
       } else {
         console.error('Error with loading = true in Product.vue; Reload page')
       }
+    },
+    addToWishlist (product) {
+      return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/addItem', product) : false
+    },
+    removeFromWishlist (product) {
+      return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/removeItem', product) : false
     },
     addToList (list) {
       return this.$store.state[list] ? this.$store.dispatch(`${list}/addItem`, this.product) : false
@@ -182,7 +186,7 @@ export default {
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false
       }).then((selectedVariant) => {
-        if (config.products.setFirstVarianAsDefaultInURL) {
+        if (store.state.config.products.setFirstVarianAsDefaultInURL) {
           this.$router.push({params: { childSku: selectedVariant.sku }})
         }
         if (!selectedVariant) {
@@ -206,15 +210,17 @@ export default {
      * Reload product to get correct prices (including tier prices for group)
      */
     onUserPricesRefreshed () {
-      this.$store.dispatch('product/reset')
-      EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
-      this.$store.dispatch('product/single', {
-        options: {
-          sku: this.$route.params.parentSku,
-          childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null
-        },
-        skipCache: true
-      })
+      if (this.$route.params.parentSku) {
+        this.$store.dispatch('product/reset')
+        EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
+        this.$store.dispatch('product/single', {
+          options: {
+            sku: this.$route.params.parentSku,
+            childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null
+          },
+          skipCache: true
+        })
+      }
     }
   },
   metaInfo () {

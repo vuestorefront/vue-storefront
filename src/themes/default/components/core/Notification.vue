@@ -20,7 +20,7 @@
             :class="`border-${notification.type}`"
             id="notificationAction1"
             data-testid="notificationAction1"
-            @click="action(notification.action1.action, index)"
+            @click="action(notification.action1.action, index, notification)"
           >
             {{ notification.action1.label }}
           </div>
@@ -28,7 +28,7 @@
             class="py10 px20 pointer weight-400 notification-action uppercase"
             id="notificationAction2"
             data-testid="notificationAction2"
-            @click="action(notification.action2.action, index)"
+            @click="action(notification.action2.action, index, notification)"
             v-if="notification.action2"
           >
             {{ notification.action2.label }}

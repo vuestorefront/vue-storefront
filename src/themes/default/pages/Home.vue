@@ -32,10 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import builder from 'bodybuilder'
-
-// Core dependecies
-import config from 'config'
+import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
@@ -86,10 +83,13 @@ export default {
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    const config = store.state.config
     return new Promise((resolve, reject) => {
       console.log('Entering asyncData for Home ' + new Date())
-      let newProductsQuery = builder().query('match', 'category.name', 'Tees').andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      let coolBagsQuery = builder().query('match', 'category.name', 'Women').andQuery('range', 'status', { 'gte': 0, 'lt': 2 }).andQuery('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+
+      let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+      let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
+
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/list', {
           query: newProductsQuery,

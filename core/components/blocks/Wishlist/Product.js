@@ -1,17 +1,11 @@
-import { removeFromWishlist, closeWishlist } from '@vue-storefront/core/modules/wishlist/features'
-
+import { WishlistProduct } from '@vue-storefront/core/modules/wishlist/components/Product'
 export default {
   name: 'Product',
-  props: {
-    product: {
-      type: Object,
-      required: true
+  methods: {
+    // depreciated
+    closeWishlist () {
+      this.$store.commit('ui/setWishlist', false)
     }
   },
-  computed: {
-    thumbnail () {
-      return this.getThumbnail(this.product.image, 150, 150)
-    }
-  },
-  mixins: [ removeFromWishlist, closeWishlist ]
+  mixins: [WishlistProduct]
 }

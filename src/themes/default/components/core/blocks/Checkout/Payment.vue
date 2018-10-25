@@ -264,7 +264,7 @@
             <button-full
               @click.native="sendDataToCheckout"
               data-testid="paymentSubmit"
-              :class="{ 'button-disabled' : $v.payment.$invalid }"
+              :disabled="$v.payment.$invalid"
             >
               {{ $t('Go review the order') }}
             </button-full>

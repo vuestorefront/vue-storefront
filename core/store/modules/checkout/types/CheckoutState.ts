@@ -1,4 +1,4 @@
-export default interface CategoryState {
+export default interface CheckoutState {
   order: any,
   personalDetails: {
     firstName: string,
@@ -15,6 +15,7 @@ export default interface CategoryState {
     apartmentNumber: string,
     city: string,
     state: string,
+    region_id: number,
     zipCode: string,
     phoneNumber: string,
     shippingMethod: string
@@ -27,6 +28,7 @@ export default interface CategoryState {
     streetAddress: string,
     apartmentNumber: string,
     city: string,
+    region_id: number,
     state: string,
     zipCode: string,
     phoneNumber: string,

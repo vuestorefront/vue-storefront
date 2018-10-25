@@ -40,33 +40,11 @@ const actions: ActionTree<UserState, RootState> = {
       }
       Vue.prototype.$bus.$emit('session-after-started')
     })
-
-    context.dispatch('loadNewsletterPreferences')
-  },
-  loadNewsletterPreferences (context) {
-    const newsletterStorage = Vue.prototype.$db.newsletterPreferencesCollection
-    return new Promise((resolve, reject) => {
-      newsletterStorage.getItem('newsletter-preferences', (err, res) => {
-        if (err) {
-          console.error(err)
-          reject(err)
-          return
-        }
-
-        if (res) {
-          context.commit(types.USER_UPDATE_PREFERENCES, res)
-          resolve(res)
-        } else {
-          resolve ({ isSubscribed: false })
-        }
-      })
-    })
   },
   /**
    * Send password reset link for specific e-mail
    */
   resetPassword (context, { email }) {
-    console.log({ email: email })
     return context.dispatch('sync/execute', { url: rootStore.state.config.users.resetPassword_endpoint,
       payload: {
         method: 'POST',
@@ -284,7 +262,6 @@ const actions: ActionTree<UserState, RootState> = {
    * Change user password
    */
   changePassword (context, passwordData) {
-    console.log(context)
     return context.dispatch('sync/execute', { url: rootStore.state.config.users.changePassword_endpoint,
       payload: {
         method: 'POST',
@@ -330,21 +307,10 @@ const actions: ActionTree<UserState, RootState> = {
     if (!silent) {
       Vue.prototype.$bus.$emit('notification', {
         type: 'success',
-        message: i18n.t('You\'re logged out'),
+        message: i18n.t("You're logged out"),
         action1: { label: i18n.t('OK'), action: 'close' }
       })
     }
-  },
-  /**
-   * Save user's newsletter preferences
-   */
-  updatePreferences (context, newsletterPreferences) {
-    context.commit(types.USER_UPDATE_PREFERENCES, newsletterPreferences)
-    Vue.prototype.$bus.$emit('notification', {
-      type: 'success',
-      message: i18n.t('Newsletter preferences have successfully been updated'),
-      action1: { label: i18n.t('OK'), action: 'close' }
-    })
   },
   /**
    * Load user's orders history

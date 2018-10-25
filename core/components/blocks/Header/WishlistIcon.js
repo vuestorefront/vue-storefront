@@ -1,8 +1,7 @@
-import { openWishlist, closeWishlist, isWishlistOpen } from '@vue-storefront/core/modules/wishlist/features'
-
+import { WishlistButton } from '@vue-storefront/core/modules/wishlist/components/WishlistButton'
 export default {
   name: 'WishlistIcon',
-  mixins: [ openWishlist, closeWishlist, isWishlistOpen ],
+  mixins: [ WishlistButton ],
   props: {
     product: {
       type: Object,
@@ -10,9 +9,24 @@ export default {
       default: () => { }
     }
   },
+  computed: {
+    // depreciated in this component
+    isWishlistOpen () {
+      return this.$store.state.ui.wishlist
+    }
+  },
   methods: {
+    // depreciated
+    closeWishlist () {
+      this.$store.commit('ui/setWishlist', false)
+    },
+    // depreciated
+    openWishlist () {
+      this.$store.commit('ui/setWishlist', true)
+    },
+    // method renamed to toggleWishlist
     toggleWishlistPanel () {
-      return this.isWishlistOpen ? this.closeWishlist() : this.openWishlist()
+      this.toggleWishlist()
     }
   }
 }

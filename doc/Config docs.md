@@ -8,7 +8,7 @@ The structure of these files is exactly the same! Vue Storefront does kind of `O
 
 **Note:** Please take a look at the `node-config` docs as the library is open for some other ways to modify the configuration (using for example the `ENV` variables).
 
-**Note:** Currently, the configuration files are being processed by the webpack during the build process. This means that whenever You apply some configuration changes You shall re-build the app - even when using the `yarn dev` mode. 
+**Note:** By default the configuration is being bundled by webpack and can not be modified without re-compiling Vue Storefront. This limitation can by however solved with VS 1.4 - special config variable. Now the config can be reloaded on-fly with each server request if `config.server.dynamicConfigReload` is set to true. However in that case the config is added to `window.__INITIAL_STATE__` with the responses.
 
 ## Vue Storefront configuration file - explained
 
@@ -365,7 +365,6 @@ Please check the [`core/service-worker/order.js`](../core/service-worker/order.j
         "claims": "LOCALSTORAGE",        
         "compare": "INDEXEDDB",        
         "syncTasks": "INDEXEDDB",        
-        "newsletterPreferences": "INDEXEDDB",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"
       }

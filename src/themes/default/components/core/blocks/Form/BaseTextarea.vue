@@ -3,7 +3,7 @@
     <div class="relative">
       <textarea
         class="
-          py10 w-100 border-box brdr-none brdr-bottom
+          mt10 pb10 w-100 border-box brdr-none brdr-bottom-1
           brdr-cl-primary h4 sans-serif
         "
         :class="{empty: value === ''}"
@@ -25,7 +25,7 @@
 
     <template v-if="validation">
       <span
-        class="block cl-error h6"
+        class="block cl-error h6 mt5"
         v-if="validation.condition"
       >
         {{ validation.text }}
@@ -37,7 +37,7 @@
         v-for="(validation, index) in validations"
         :key="index"
         v-if="validation.condition"
-        class="block cl-error h6"
+        class="block cl-error h6 mt5"
       >
         {{ validation.text }}
       </span>
@@ -70,13 +70,14 @@ export default {
     }
     resize: none;
     background: inherit;
+    min-height: 100px;
   }
 
   label {
     color: #999;
     position: absolute;
     pointer-events: none;
-    left: 5px;
+    left: 0;
     top: 10px;
     transition: 0.2s ease all;
   }

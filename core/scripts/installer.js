@@ -204,6 +204,45 @@ class Backend extends Abstract {
   }
 
   /**
+   * Validate magento integration settings.
+   *
+   * @returns {Promise}
+   */
+  validateM2Integration () {
+    return new Promise((resolve, reject) => {
+      const Magento2Client = require('magento2-rest-client').Magento2Client
+
+      Message.info(`Validating magento integration configuration...`)
+
+      let m2Url = urlParser(this.answers.m2_url).href
+      let apiUrl = urlParser(this.answers.m2_api_url).href
+
+      if (!m2Url.length) {
+        reject(new Error('Invalid magento url supplied.'))
+      }
+      if (!apiUrl.length) {
+        reject(new Error('Invalid magento rest api url supplied.'))
+      }
+
+      let options = {
+        'url': apiUrl,
+        'consumerKey': this.answers.m2_api_consumer_key,
+        'consumerSecret': this.answers.m2_api_consumer_secret,
+        'accessToken': this.answers.m2_api_access_token,
+        'accessTokenSecret': this.answers.m2_api_access_token_secret
+      }
+      let client = Magento2Client(options)
+
+      client.categories.list()
+        .then((categories) => {
+          resolve()
+        }).catch((e) => {
+          reject(new Error('Invalid magento integration settings. Original error: ' + e))
+        })
+    })
+  }
+
+  /**
    * Creating backend config/local.json
    *
    * @returns {Promise}
@@ -223,11 +262,17 @@ class Backend extends Abstract {
         }
 
         config.imageable.whitelist.allowedHosts.push(host)
-        config.imageable.whitelist.trustedHosts.push(host)
+
+        config.magento2.url = urlParser(this.answers.m2_url).href
+        config.magento2.api.url = urlParser(this.answers.m2_api_url).href
+        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key
+        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret
+        config.magento2.api.accessToken = this.answers.m2_api_access_token
+        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret
 
         jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
-        reject(new Error('Can\'t create backend config.'))
+        reject(new Error('Can\'t create backend config. Original error: ' + e))
       }
 
       resolve()
@@ -262,6 +307,23 @@ class Backend extends Abstract {
 
       if (shell.exec(`npm run migrate >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
         reject(new Error('Can\'t migrate data into ElasticSearch.'))
+      }
+
+      resolve()
+    })
+  }
+
+  /**
+   * Run 'yarn mage2vs import'
+   *
+   * @returns {Promise}
+   */
+  importElasticSearch () {
+    return new Promise((resolve, reject) => {
+      Message.info('Importing data from magento into ElasticSearch...')
+
+      if (shell.exec(`yarn mage2vs import >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t import data into ElasticSearch.'))
       }
 
       resolve()
@@ -343,13 +405,19 @@ class Storefront extends Abstract {
         config = jsonFile.readFileSync(SOURCE_FRONTEND_CONFIG_FILE)
 
         let backendPath
+        let graphQlHost
+        let graphQlPort = 8080
 
         if (Abstract.wasLocalBackendInstalled) {
+          graphQlHost = 'localhost'
           backendPath = 'http://localhost:8080'
         } else {
           backendPath = STOREFRONT_REMOTE_BACKEND_URL
+          graphQlHost = backendPath.replace('https://', '').replace('http://', '')
         }
 
+        config.graphql.host = graphQlHost
+        config.graphql.port = graphQlPort
         config.elasticsearch.host = `${backendPath}/api/catalog`
         config.orders.endpoint = `${backendPath}/api/order`
         config.products.endpoint = `${backendPath}/api/product`
@@ -372,9 +440,12 @@ class Storefront extends Abstract {
         config.cart.shippinginfo_endpoint = `${backendPath}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}`
         config.cart.collecttotals_endpoint = `${backendPath}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}`
         config.cart.deletecoupon_endpoint = `${backendPath}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}`
-        config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}`
+        config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
+        config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`
 
         config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
+        config.mailer.endpoint.send = `${backendPath}/api/ext/mail-service/send-email`
+        config.mailer.endpoint.token = `${backendPath}/api/ext/mail-service/get-token`
         config.images.baseUrl = this.answers.images_endpoint
         config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
         config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
@@ -486,16 +557,26 @@ class Manager extends Abstract {
   initBackend () {
     if (this.answers.is_remote_backend === false) {
       Abstract.wasLocalBackendInstalled = true
-
-      return this.backend.cloneRepository()
-        .then(this.backend.goToDirectory.bind(this.backend))
-        .then(this.backend.npmInstall.bind(this.backend))
-        .then(this.backend.createConfig.bind(this.backend))
-        .then(this.backend.dockerComposeUp.bind(this.backend))
-        .then(this.backend.restoreElasticSearch.bind(this.backend))
-        .then(this.backend.migrateElasticSearch.bind(this.backend))
-        .then(this.backend.cloneMagentoSampleData.bind(this.backend))
-        .then(this.backend.runDevEnvironment.bind(this.backend))
+      if (this.answers.m2_api_oauth2 === true) {
+        return this.backend.validateM2Integration()
+          .then(this.backend.cloneRepository.bind(this.backend))
+          .then(this.backend.goToDirectory.bind(this.backend))
+          .then(this.backend.npmInstall.bind(this.backend))
+          .then(this.backend.createConfig.bind(this.backend))
+          .then(this.backend.dockerComposeUp.bind(this.backend))
+          .then(this.backend.importElasticSearch.bind(this.backend))
+          .then(this.backend.runDevEnvironment.bind(this.backend))
+      } else {
+        return this.backend.cloneRepository()
+          .then(this.backend.goToDirectory.bind(this.backend))
+          .then(this.backend.npmInstall.bind(this.backend))
+          .then(this.backend.createConfig.bind(this.backend))
+          .then(this.backend.dockerComposeUp.bind(this.backend))
+          .then(this.backend.restoreElasticSearch.bind(this.backend))
+          .then(this.backend.migrateElasticSearch.bind(this.backend))
+          .then(this.backend.cloneMagentoSampleData.bind(this.backend))
+          .then(this.backend.runDevEnvironment.bind(this.backend))
+      }
     } else {
       return Promise.resolve()
     }
@@ -648,6 +729,82 @@ let questions = [
 
       // add extra slash as suffix if was not set
       return url.slice(-1) === '/' ? url : `${url}/`
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'm2_api_oauth2',
+    message: `Would You like to perform initial data import from Magento2 instance?`,
+    default: false,
+    when: function (answers) {
+      return answers.is_remote_backend === false
+    }
+  },
+  {
+    type: 'input',
+    name: 'm2_url',
+    message: 'Please provide your magento url',
+    default: 'http://demo-magento2.vuestorefront.io',
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
+    }
+  },
+  {
+    type: 'input',
+    name: 'm2_api_url',
+    message: 'Please provide the url to your magento rest api',
+    default: 'http://demo-magento2.vuestorefront.io/rest',
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
+    },
+    filter: function (url) {
+      let prefix = 'http://'
+      let prefixSsl = 'https://'
+
+      url = url.trim()
+
+      // add http:// if no protocol set
+      if (url.substr(0, prefix.length) !== prefix && url.substr(0, prefixSsl.length) !== prefixSsl) {
+        url = prefix + url
+      }
+
+      return url
+    }
+  },
+  {
+    type: 'input',
+    name: 'm2_api_consumer_key',
+    message: 'Please provide your consumer key',
+    default: 'byv3730rhoulpopcq64don8ukb8lf2gq',
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
+    }
+  },
+  {
+    type: 'input',
+    name: 'm2_api_consumer_secret',
+    message: 'Please provide your consumer secret',
+    default: 'u9q4fcobv7vfx9td80oupa6uhexc27rb',
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
+    }
+  },
+  {
+    type: 'input',
+    name: 'm2_api_access_token',
+    message: 'Please provide your access token',
+    default: '040xx3qy7s0j28o3q0exrfop579cy20m',
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
+    }
+  },
+  {
+    type: 'input',
+    name: 'm2_api_access_token_secret',
+    message: 'Please provide your access token secret',
+    default: '7qunl3p505rubmr7u1ijt7odyialnih9',
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
     }
   }
 ]

@@ -34,10 +34,10 @@
       </div>
       <div class="row between-xs middle-xs mt40">
         <div class="col-xs-12 col-sm-6 cancel-order">
-          <a href="#" @click.prevent="cancelOrder()">{{ $t('Cancel') }}</a>
+          <a href="#" @click.prevent="cancelOrders()">{{ $t('Cancel') }}</a>
         </div>
         <div class="col-xs-12 col-sm-6">
-          <button-full @click.native="confirmOrder()">
+          <button-full @click.native="confirmOrders()">
             {{ $t('Confirm your order') }}
           </button-full>
         </div>
@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import { confirmOrder, cancelOrder } from '@vue-storefront/core/modules/offline-order/features'
-
+import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/components/ConfirmOrders'
+import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders'
 import Modal from 'theme/components/core/Modal'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
@@ -60,11 +60,21 @@ export default {
       default: () => []
     }
   },
+  methods: {
+    confirmOrders () {
+      ConfirmOrders.methods.confirmOrders.call(this)
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
+    },
+    cancelOrders () {
+      CancelOrders.methods.cancelOrders.call(this)
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
+    }
+  },
   components: {
     Modal,
     ButtonFull
   },
-  mixins: [ confirmOrder, cancelOrder ]
+  mixins: [ ConfirmOrders, CancelOrders ]
 }
 </script>
 

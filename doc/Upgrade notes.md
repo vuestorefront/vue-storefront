@@ -2,10 +2,69 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+## 1.4 -> 1.5
+
+### Modifications
+
+#### New Modules API
+
+With 1.5.0 we've introduced new hevily refactored modules API. We've tried to keep the old theme components backward compatible - so now You can few some "mock" components in the `/core/components` just referencing to the `/modules/{{module}}/components` original. Please read [how modules work and are structured](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) to check if it's implies any changes to Your theme. As it may seem like massive changes (lot of files added/removed/renamed) - It should not impact Your custom code. 
+
+#### New Newsletter module
+
+The exsiting newsletter integration module was pretty chaotic and messy. @filrak has rewritten it from scratch. If You've relied on exisitng newsletter module logic / events / etc. it could have affected Your code (low probability).
+
+#### Memory leaks fixed
+
+We've fixed SSR memory leaks with #1882. It should not affect Your custom code - but if You've modified any SSR features please just make sure that everything still works just fine. 
 
 ## 1.3 -> 1.4
 
-`Microcart` - `cartTotals` -> `totals`
+### Modifications
+
+#### GraphQL
+
+We've added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release **bodybuilder** package is **deprecated**. You should use **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+
+#### SSR - Advanced output + cache
+
+However, this change is not involving any required actions to port the code but please just be aware that we're supporting [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md) + [dynamic layout changes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md) etc. If You're using modified version of the theme - You can hardly use these without updating `themes/YourTheme/App.vue` to the new format (check the default theme for details).
+
+#### Reviews
+
+We've added the Reviews support, however Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
+
+#### Microcart
+
+1. We moved core functionalities of coupon codes to API modules:
+   + **coupon** computed value is now **appliedCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   + **removeCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   + **applyCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   + **totals** -> **cartTotals** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   + **shipping** -> **cartShipping** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   + **payment** -> **cartPayment** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   
+2. We moved/renamed methods responsible for UI to default theme:
+   + **addDiscountCoupon** - toggle coupon form
+   + **removeCoupon** -> **clearCoupon** - removing coupon by dispatch removeCoupon API method and toggle coupon form
+   + **applyCoupon** -> **setCoupon** - submit coupon form by dispatch applyCoupon API method
+   + **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
+3. We moved $emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself. 
+4. We moved VueOfflineMixin and onEscapePress mixins to theme component. Core component is clean from UI stuff now. 
+5. We've replaced one method `Microcart` - `cartTotals` -> `totals`
+
+#### Assets
+
+1. We removed the default assets from `core/assets`. From now on, we only use the assets from `your-theme/assets`.
+
+#### Store
+
+1. We moved the socialTiles Vuex store from the core to the theme, because it's specific to the theme.
+
+#### i18n
+
+1. We removed all the theme specific translations for the core.
+
 ## 1.2 -> 1.3
 
 ### Changes

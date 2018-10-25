@@ -2,7 +2,6 @@ import { mapMutations } from 'vuex'
 import * as types from '@vue-storefront/store/mutation-types'
 import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
 
 function _defaultOptionValue (co, field = 'id') {
   if (co.product_links && co.product_links.length) {
@@ -41,7 +40,23 @@ export default {
       }
     }
   },
-  created () {
+  computed: {
+    /**
+     * Error messages map for validation options.
+     * TODO: Each option should be a separate component to avoid such complex logic.
+     */
+    errorMessages () {
+      let messages = {}
+      Object.keys(this.validation.results).map(optionKey => {
+        const validationResult = this.validation.results[optionKey]
+        if (validationResult.error) {
+          messages[optionKey] = validationResult.message
+        }
+      })
+      return messages
+    }
+  },
+  beforeMount () {
     rootStore.dispatch('product/addCustomOptionValidator', {
       validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme
       validatorFunction: (value) => {
@@ -51,12 +66,12 @@ export default {
 
     this.setupInputFields()
 
-    if (config.usePriceTiers) {
+    if (rootStore.state.config.usePriceTiers) {
       this.$bus.$on('product-after-setup-associated', this.setupInputFields)
     }
   },
   beforeDestroy () {
-    if (config.usePriceTiers) {
+    if (rootStore.state.usePriceTiers) {
       this.$bus.$off('product-after-setup-associated', this.setupInputFields)
     }
   },

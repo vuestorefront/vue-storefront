@@ -1,5 +1,5 @@
 import EventBus from '@vue-storefront/core/plugins/event-bus'
-
+import Vue from 'vue'
 import extensionStore from './store'
 import extensionRoutes from './router'
 
@@ -9,21 +9,18 @@ export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
   store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
 
-  app.$on('application-after-init', () => {
-    console.debug(EXTENSION_KEY + ' extension initialised')
-  })
-
-  // Mount the info component when required.
-  EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
-    if (app.$store.state['payment-backend-methods'].methods.find(item => item.code === paymentMethodCode)) {
-      // Register the handler for what happens when they click the place order button.
-      EventBus.$on('checkout-before-placeOrder', placeOrder)
-    } else {
-      // unregister the extensions placeorder handler
-      EventBus.$off('checkout-before-placeOrder', placeOrder)
-    }
-  })
-
+  if (!Vue.prototype.$isServer) {
+    // Mount the info component when required.
+    EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
+      if (app.$store.state['payment-backend-methods'].methods.find(item => item.code === paymentMethodCode)) {
+        // Register the handler for what happens when they click the place order button.
+        EventBus.$on('checkout-before-placeOrder', placeOrder)
+      } else {
+        // unregister the extensions placeorder handler
+        EventBus.$off('checkout-before-placeOrder', placeOrder)
+      }
+    })
+  }
   return { EXTENSION_KEY, extensionRoutes, extensionStore }
 }
 

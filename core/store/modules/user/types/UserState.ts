@@ -8,6 +8,5 @@ export default interface UserState {
   } | null,
   current_storecode: string,
   session_started: Date,
-  newsletter: any,
   orders_history: any
 }

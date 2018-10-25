@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
 
-const CACHE_TIMEOUT = 1600
-const CACHE_TIMEOUT_ITERATE = 3000
-const DISABLE_PERSISTANCE_AFTER = 3
+const CACHE_TIMEOUT = 800
+const CACHE_TIMEOUT_ITERATE = 2000
+const DISABLE_PERSISTANCE_AFTER = 2
+const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
 class LocalForageCacheDriver {
   private _collectionName: string;
@@ -25,19 +26,23 @@ class LocalForageCacheDriver {
     if (typeof this.cacheErrorsCount[collectionName] === 'undefined') {
       this.cacheErrorsCount[collectionName] = 0
     }
-    if (typeof Vue.prototype.$localCache === 'undefined') {
-      Vue.prototype.$localCache = {}
-    }
-    if (typeof Vue.prototype.$localCache[dbName] === 'undefined') {
-      Vue.prototype.$localCache[dbName] = {}
-    }
-    if (typeof Vue.prototype.$localCache[dbName][collectionName] === 'undefined') {
-      Vue.prototype.$localCache[dbName][collectionName] = {}
+    if (Vue.prototype.$isServer) {
+      this._localCache = {}
+    } else {
+      if (typeof Vue.prototype.$localCache === 'undefined') {
+        Vue.prototype.$localCache = {}
+      }
+      if (typeof Vue.prototype.$localCache[dbName] === 'undefined') {
+        Vue.prototype.$localCache[dbName] = {}
+      }
+      if (typeof Vue.prototype.$localCache[dbName][collectionName] === 'undefined') {
+        Vue.prototype.$localCache[dbName][collectionName] = {}
+      }
+      this._localCache = Vue.prototype.$localCache[dbName][collectionName]
     }
     this._collectionName = collectionName
     this._dbName = dbName
     this._useLocalCacheByDefault = useLocalCacheByDefault
-    this._localCache = Vue.prototype.$localCache[dbName][collectionName]
     this._localForageCollection = collection
     this._lastError = null
     this._persistenceErrorNotified = false
@@ -226,7 +231,7 @@ class LocalForageCacheDriver {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     this._localCache[key] = value
     if (!Vue.prototype.$isServer) {
-      if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
+      if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER_SAVE && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           console.error('Persistent cache disabled becasue of previous errors [set]', key)
           this._persistenceErrorNotified = true

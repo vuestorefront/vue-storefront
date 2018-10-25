@@ -4,7 +4,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.0-alpha] - 2018.08.31
+## [1.5.0] - 2018.10.22
+
+### Added
+- Contact form mailer - #1875 - Akbar Abdrakhmanov @akbarik
+- oauth2 configuration in setup - #1865 - Krister Andersson @Cyclonecode
+- GraphQL schema extendibility in the API - Yoann Vié
+- A lot of new docs - Natalia Tepluhina @NataliTepluhina
+- Magento2 integrated importer 
+
+### Changed
+- New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
+
+### Fixed
+- The `regionId` field added to Order interface - #1258 - Jim Hil @jimcreate78
+- SSR Memory leaks fixed - #1882 Tomasz Duda @tomasz-duda
+- E2E tests fixed - #1861 - Patryk Tomczyk @patzik
+- UI animations - #1857 - Javier Villanueva @jahvi
+- Disabled buttons fixed - #1852 - Patryk Tomczyk @patzik
+- Mailchimp / Newsletter modules rebuilt - Filip Rakowski @filrak
+- Search component UX fixes - #1862 - Adrian Cagaanan @diboy2
+
+## [1.4.0] - 2018.10.05
+
+### Added
+- GraphQL support - #1616 - Yuri Boyko @yuriboyko, Vladimir Plastovets @VladimirPlastovets => [PHOENIX MEDIA](https://www.phoenix-media.eu/)
+- Layout switching + Advanced output mechanisms - #1787 - Piotr Karwatka @pkarw
+- Dynamic config reload - #1800 - Piotr Karwatka @pkarw
+- VuePress based docs - #1728 - Natalia Tepluhina - @NataliaTepluhina
+- Output Cache - #1664, #1641 - Piotr Karwatka - @pkarw
+- Instalation docs improvements - #1735 - Aleksander Grygier - @allozaur
+- Magento Product Reviews support - Agata Firlejczyk @afirlejczyk, Tomek Kikowski @qiqqq
+- Console silent mode (disabled by default) - #1752 - Piotr Karwatka - @pkarw
+
+### Changed
+- Please check the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Upgrade%20notes.md) for the full list
+
+### Fixed
+- `docker-compose.yml` files updated - @kovinka
+- Non-core translations moved to theme resource files (i18n) - #1747 - David Rouyer @DavidRouyer
+- Non-core assets moved to the theme - #1739, #1740 - David Rouyer @DavidRouyer
+- Bug fixes: #1715, #1718, #1670
+- NPM packages cleanup - #1748 - David Rouyer @DavidRouyer
+- Filters were not updating - #1649 - Kacper Wierzbicki @vue-kacper
+- Breadcrumbs on the product page - #1745 - Agata Firlejczyk @afirlejczyk
+- Infinite scroll on mobile browsers - #1755 - Kacper Wierzbicki @vue-kacper
+- Coupon codes - #1759 - Tomek Kikowski @qiqqq
+
+## [1.3.0] - 2018.08.31
 
 ### Added
 - TypeScript support - please check [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md) for details

@@ -68,7 +68,7 @@ export default {
       }
     }
   },
-  created () {
+  beforeMount () {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   destroyed () {

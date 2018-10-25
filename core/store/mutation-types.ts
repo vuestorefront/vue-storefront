@@ -2,6 +2,7 @@
 export const SN_CART = 'cart'
 export const CART_ADD_ITEM = SN_CART + '/ADD'
 export const CART_DEL_ITEM = SN_CART + '/DEL'
+export const CART_DEL_NON_CONFIRMED_ITEM = SN_CART + '/DEL_NONCONFIRMED'
 export const CART_UPD_ITEM = SN_CART + '/UPD'
 export const CART_LOAD_CART = SN_CART + '/LOAD'
 export const CART_UPD_SHIPPING = SN_CART + '/SHIPPING'

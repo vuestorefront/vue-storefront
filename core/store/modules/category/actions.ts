@@ -11,7 +11,8 @@ import toString from 'lodash-es/toString'
 import { optionLabel } from '../attribute/helpers'
 import RootState from '../../types/RootState'
 import CategoryState from './types/CategoryState'
-import bodybuilder from 'bodybuilder'
+import SearchQuery from 'core/store/lib/search/searchQuery'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -31,29 +32,30 @@ const actions: ActionTree<CategoryState, RootState> = {
    */
   list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.includeFields : null, skipCache = false }) {
     const commit = context.commit
-    let qrObj = bodybuilder()
+
+    let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
-      qrObj = qrObj.filter('term', 'parent_id', parent.id)
+      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parent.id}})
     }
 
     if (onlyActive === true) {
-      qrObj = qrObj.andFilter('term', 'is_active', true) // show only active cateogires
+      searchQuery = searchQuery.applyFilter({key: 'is_active', value: {'eq': true}})
     }
 
     if (onlyNotEmpty === true) {
-      qrObj = qrObj.andFilter('range', 'product_count', {'gt': 0}) // show only active cateogires
+      searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
     }
 
     if (skipCache || (!context.state.list || context.state.list.length === 0)) {
-      return quickSearchByQuery({ entityType: 'category', query: qrObj.build(), sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
+      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
         commit(types.CATEGORY_UPD_CATEGORIES, resp)
-        Vue.prototype.$bus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         return resp
       })
     } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
-        Vue.prototype.$bus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })
+        Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         resolve(resp)
       })
     }
@@ -67,7 +69,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true }) {
+  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true,  populateRequestCacheTags = true }) {
     const state = context.state
     const commit = context.commit
     const dispatch = context.dispatch
@@ -82,6 +84,9 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (setCurrentCategory) {
           commit(types.CATEGORY_UPD_CURRENT_CATEGORY, mainCategory)
         }
+        if (populateRequestCacheTags && mainCategory && Vue.prototype.$ssrRequestContext) {
+          Vue.prototype.$ssrRequestContext.output.cacheTags.add(`C${mainCategory.id}`)
+        }        
         if (setCurrentCategoryPath) {
           let currentPath = []
           let recurCatFinder = (category) => {
@@ -167,7 +172,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     }
     let t0 = new Date().getTime()
-    let precachedQuery = searchProductQuery.build()
+
+    const precachedQuery = searchProductQuery
     let productPromise = rootStore.dispatch('product/list', {
       query: precachedQuery,
       start: current,
@@ -193,6 +199,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (!append) rootStore.dispatch('product/reset')
         rootStore.state.product.list = { items: [] } // no products to show TODO: refactor to rootStore.state.category.reset() and rootStore.state.product.reset()
         // rootStore.state.category.filters = { color: [], size: [], price: [] }
+        return []
       } else {
         if (rootStore.state.config.products.filterUnavailableVariants && rootStore.state.config.products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
           const skus = []
@@ -218,7 +225,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (populateAggregations === true && res.aggregations) { // populate filter aggregates
           for (let attrToFilter of filters) { // fill out the filter options
-            rootStore.state.category.filters.available[attrToFilter] = []
+            Vue.set(rootStore.state.category.filters.available, attrToFilter, [])
 
             let uniqueFilterValues = new Set<string>()
             if (attrToFilter !== 'price') {
@@ -243,6 +250,8 @@ const actions: ActionTree<CategoryState, RootState> = {
                 }
               });
             } else { // special case is range filter for prices
+              const storeView = currentStoreView()
+              const currencySign = storeView.i18n.currencySign
               if (res.aggregations['agg_range_' + attrToFilter]) {
                 let index = 0
                 let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
@@ -251,7 +260,7 @@ const actions: ActionTree<CategoryState, RootState> = {
                     id: option.key,
                     from: option.from,
                     to: option.to,
-                    label: (index === 0 || (index === count - 1)) ? (option.to ? '< $' + option.to : '> $' + option.from) : '$' + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
+                    label: (index === 0 || (index === count - 1)) ? (option.to ? '< ' + currencySign + option.to : '> ' + currencySign + option.from) : currencySign + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
                   })
                   index++
                 }
