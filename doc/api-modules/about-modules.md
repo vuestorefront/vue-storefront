@@ -196,6 +196,8 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 # Extending currently existing features with modules
 
+If you want to create reusable extension the best approach si to introduce it as a VS module. If you want to extend some of currently existing modules with application-specific logic you can extend it directly before registration instead of creating whole new module.
+
 You can extend Vuex stores from any other VS module. Good practice is to create a folder with the same name as module you want to extend inside `store` folder of your module. Mutations/actions/state properties will be merged to currently existing module. In case of conflicting names the old ones will be overwritten. You can find an example of mailchimp module extension [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/modules/module-template/store/mailchimp).
 
 Once the extension is ready register it under `store.extend` module property with a key of module you wish to extend. 
