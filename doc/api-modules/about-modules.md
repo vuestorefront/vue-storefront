@@ -8,13 +8,12 @@
 **Technical part**
 - [Module config and it's capabilities](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-config-and-capabilities)
 - [Module file structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-file-structure)
-- [Rules and best practices]()
 
 ** Patterns and good practices for common use cases
 - [General rules and good practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#rules-and-good-practices)
 - [Adding new features as VS modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#adding-new-features-as-vs-modules)
 - [Extending currently existing features with modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-currently-existing-features-with-modules)
-- [Extending module from theme before registration[()
+- [Extending module from theme before registration](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)
   
 # What are VS modules?
 
