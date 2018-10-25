@@ -12,7 +12,7 @@
 
 ** Patterns and good practices for common use cases
 - [General rules and good practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#rules-and-good-practices)
-- [Adding new features as VS modules]()
+- [Adding new features as VS modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#adding-new-features-as-vs-modules)
 - [Extending currently existing features with modules]()
 - [Extending module from theme before registration[()
   
@@ -185,7 +185,7 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 - Provide unique key that should represent the feature or 3rd party system name (if the module is an integration)
 - Try not to rely on data and logic from other modules if your module is not directlky extending it. It'll be more reusable and remain working even after extensive VS core updates.
 
-# Extending currently existing features with modules (guide under construction)
+# Extending currently existing features with modules
 
 You can extend Vuex stores from any other VS module. Good practice is to create a folder with the same name as module you want to extend inside `store` folder of your module. Mutations/actions/state properties will be merged to currently existing module. In case of conflicting names the old ones will be overwritten. You can find an example of mailchimp module extension here: https://github.com/DivanteLtd/vue-storefront/tree/develop/core/modules/module-template/store/mailchimp.
 
