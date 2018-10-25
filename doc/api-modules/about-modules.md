@@ -59,7 +59,7 @@ This is how the signature of Vue Storefront Module looks like:
 ```js
 interface VueStorefrontModuleConfig {
   key: string;
-  store?: { module?: Module<any, any>, plugin?: Function };
+  store?: { module?: Module<any, any>, plugin?: Function, extend?: { key: string, module: Module<any, any> }[] };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
   beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
   afterRegistration?: (Vue: VueConstructor, config: Object) => void,
@@ -71,11 +71,14 @@ Key is an ID of your module. It's used to identify your module and to set keys i
 
 #### `store`
 
-Extension point for Vuex. It can be provided with vuex module and Vuex plugin object to subscribe for mutations. In case of conflicting module keys they are deep merged in favour of most recent instantiated one. 
+Entry point for Vuex. 
+- `module` - if your extension requires new vuex module registration put it in here. Use this property only to create new modules. If you want to extend currently existing ones use `extend` property
+- `plugin` - you can provide your own Vuex plugin here
+- `extend` - extends currently existing Vuex module with provided `key`. Given modules will be merged in favour of the extending one (actions/mutations with the same name will be overwritten)
 
 ####  `router`
 
-Extension point for vue-router. You can provide additional routes and [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) here.
+Entry point for vue-router. You can provide additional routes and [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) here.
 
 #### `beforeRegistration`
 
@@ -92,9 +95,11 @@ Try to have similar file structure inside the ones that you create. If all of mo
 
 Not all of this folders and files needs to be in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 
+You can take a look at [module template](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/module-template) with example implementation of all features listed in config.
+
 - `components` - Components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
 - `pages` - If you want to provide full pages with your module palce them here. It's also a good practice to extend router configuration for this pages
-- `store` - Vuex Module associated to this module
+- `store` - Vuex Module associated to this module. You can also place Vuex modules extensions in here
   - `index.ts` - Entry point and main export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
   - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
   - `plugins.ts` - Good place to put vuex plugin. Should be used in `store.plugins` config object
