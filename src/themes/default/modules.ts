@@ -2,7 +2,6 @@ import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/
 import { Cart } from '@vue-storefront/core/modules/cart'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
-import { Shipping } from '@vue-storefront/core/modules/shipping'
 import { Mailchimp } from '@vue-storefront/core/modules/mailchimp'
 import { Example } from '@vue-storefront/core/modules/module-template'
 
@@ -21,7 +20,6 @@ export const registerModules: VueStorefrontModule[] = [
   Cart,
   Review,
   Mailer,
-  Shipping,
   Mailchimp
   // Example
 ]
