@@ -252,9 +252,9 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://macopedia.com/pl">
           <img
-            src="doc/media/partners/macopedia.png"
+            src="doc/media/partners/macopedia.svg"
             alt="Macopedia"
-            width="50"
+            width="150"
           >
         </a>
       </td>
@@ -348,7 +348,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/38415925-4a31e358-3993-11e8-9bee-b2b9af95d305.png"
             alt="MageDirect"
-            width="150"
+            width="100"
           >
         </a>
       </td>
