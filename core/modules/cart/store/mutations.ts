@@ -37,7 +37,7 @@ const mutations: MutationTree<CartState> = {
     state.cartItems = state.cartItems.filter(p => (p.sku !== product.sku && (p.parentSku !== product.sku || removeByParentSku === false)) || p.server_item_id/* it's confirmed if server_item_id is set */)
     Vue.prototype.$bus.$emit('cart-after-delete', { items: state.cartItems })
     state.cartSavedAt = Date.now()
-  },  
+  },
   [types.CART_UPD_ITEM] (state, { product, qty }) {
     const record = state.cartItems.find(p => p.sku === product.sku)
 
@@ -83,6 +83,9 @@ const mutations: MutationTree<CartState> = {
   [types.CART_UPD_PAYMENT] (state, paymentMethod) {
     state.payment = paymentMethod
     state.cartSavedAt = Date.now()
+  },
+  [types.CART_SET_MICROCART] (state, action) {
+    state.microCartOpen = action === true
   }
 }
 

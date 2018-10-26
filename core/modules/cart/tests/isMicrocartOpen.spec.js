@@ -12,8 +12,8 @@ describe('[cart] isMicrocartOpen.ts', () => {
 
   beforeEach(() => {
     state = {
-      ui: {
-       microcart: 'microcartVal'
+      cart: {
+        microCartOpen: 'microcartVal'
       }
     }
 
@@ -24,7 +24,7 @@ describe('[cart] isMicrocartOpen.ts', () => {
 
   it('returns expected value from store', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
-    expect(wrapper.vm.isMicrocartOpen).to.equal(state.ui.microcart)
+    expect(wrapper.vm.isMicrocartOpen).to.equal(state.cart.microCartOpen)
   })
   // TODO: Check the returned value adter state changes
 })

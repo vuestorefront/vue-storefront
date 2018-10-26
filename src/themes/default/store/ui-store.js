@@ -44,9 +44,6 @@ const mutations = {
 }
 
 const actions = {
-  toggleMicrocart ({ commit, state }) {
-    commit('setMicrocart', !state.microcart)
-  },
   toggleWishlist ({ commit, state }) {
     commit('setWishlist', !state.microcart)
   }

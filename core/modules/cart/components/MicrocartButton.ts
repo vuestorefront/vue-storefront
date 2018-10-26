@@ -2,8 +2,8 @@
 export const MicrocartButton = {
   name: 'MicrocartButton',
   methods: {
-    toggleMicrocart () {
-      this.$store.dispatch('ui/toggleMicrocart')
+    toggleMicrocart () : void {
+      this.$store.dispatch('cart/toggleMicrocart')
     }
   },
   computed: {

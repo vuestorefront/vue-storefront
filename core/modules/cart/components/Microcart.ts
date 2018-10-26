@@ -15,7 +15,7 @@ export const Microcart = {
       return this.$store.getters['cart/totals']
     },
     isMicrocartOpen () : boolean {
-      return this.$store.state.ui.microcart
+      return this.$store.state.cart.microCartOpen
     }
   },
   methods: {
@@ -26,7 +26,7 @@ export const Microcart = {
       return this.$store.dispatch('cart/removeCoupon')
     },
     toggleMicrocart () : void {
-      this.$store.dispatch('ui/toggleMicrocart')
+      this.$store.dispatch('cart/toggleMicrocart')
     }
   }
 }

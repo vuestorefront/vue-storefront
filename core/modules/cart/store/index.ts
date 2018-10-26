@@ -23,7 +23,8 @@ export const module: Module<CartState, any> = {
     payment: [],
     cartItemsHash: '',
     bypassCount: 0,
-    cartItems: [] // TODO: check if it's properly namespaced
+    cartItems: [], // TODO: check if it's properly namespaced,
+    microCartOpen: false
   },
   getters,
   actions,
