@@ -17,9 +17,12 @@ export default {
         return
       }
       this.notifications.push(data)
-      setTimeout(() => {
-        this.action('close', this.notifications.length - 1)
-      }, data.timeToLive || 5000)
+
+      if (!data.hasNoTimeout) {
+        setTimeout(() => {
+          this.action('close', this.notifications.length - 1)
+        }, data.timeToLive || 5000)
+      }
     },
     action (action, id, notification) {
       this.$bus.$emit('notification-after-' + action, notification)
