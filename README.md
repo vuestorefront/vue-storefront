@@ -214,7 +214,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="https://snow.dog">
           <img
-            src="https://snow.dog/wp-content/themes/snowwptheme/assets/images/logo.png"
+            src="doc/media/partners/snowdog.png"
             alt="Snow.dog"
             height="50"
           >
@@ -252,7 +252,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://macopedia.com/pl">
           <img
-            src="doc/media/logo_light-kopia.png"
+            src="doc/media/partners/macopedia.png"
             alt="Macopedia"
             height="50"
           >
@@ -261,7 +261,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://www.develodesign.co.uk/">
           <img
-            src="doc/media/develo_logo.png"
+            src="doc/media/partners/develo.png"
             alt="Macopedia"
             height="50"
           >
