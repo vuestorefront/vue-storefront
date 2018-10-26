@@ -181,13 +181,13 @@ export default {
 
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
 
-      const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+      const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
       this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
         populateAggregations: false,
         searchProductQuery: filterQr,
         current: this.pagination.current,
         perPage: this.pagination.perPage,
-        configuration: fsC,
+        configuration: filtersConfig,
         append: false,
         includeFields: null,
         excludeFields: null
@@ -196,12 +196,19 @@ export default {
       }) // because already aggregated
     },
     onSortOrderChanged (param) {
+      this.pagination.current = 0
       if (param.attribute) {
+        const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
         let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
         this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
           sort: param.attribute,
           searchProductQuery: filterQr,
-          append: false
+          current: this.pagination.current,
+          perPage: this.pagination.perPage,
+          configuration: filtersConfig,
+          append: false,
+          includeFields: null,
+          excludeFields: null
         })
         this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
         })
