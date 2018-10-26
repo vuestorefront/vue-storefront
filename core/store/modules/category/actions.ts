@@ -11,7 +11,7 @@ import toString from 'lodash-es/toString'
 import { optionLabel } from '../attribute/helpers'
 import RootState from '../../types/RootState'
 import CategoryState from './types/CategoryState'
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 const actions: ActionTree<CategoryState, RootState> = {
@@ -86,7 +86,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (populateRequestCacheTags && mainCategory && Vue.prototype.$ssrRequestContext) {
           Vue.prototype.$ssrRequestContext.output.cacheTags.add(`C${mainCategory.id}`)
-        }        
+        }
         if (setCurrentCategoryPath) {
           let currentPath = []
           let recurCatFinder = (category) => {

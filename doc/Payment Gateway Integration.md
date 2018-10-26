@@ -89,7 +89,7 @@ Looking at the Stripe integration You may seen that the main extension code look
 import extensionStore from './lib/store'
 import extensionRoutes from './lib/router'
 import StripeComponent from './lib/components/PaymentStripe'
-import EventBus from 'core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/plugins/event-bus'
 import Vue from 'vue'
 
 const EXTENSION_KEY = 'vsf-payment-stripe'
@@ -194,7 +194,7 @@ The core of this integration, however, may be found in the `lib/components/Payme
 </style>
 
 <script>
-import i18n from 'core/lib/i18n'
+import i18n from '@vue-storefront/core/lib/i18n'
 
 export default {
   name: 'PaymentStripe',
@@ -379,7 +379,7 @@ export default ({ config, db }) => {
 
 	let syncApi = Router();
 
-	/** 
+	/**
 	 * GET get stock item
 	 */
 	syncApi.get('/order/:order_id', (req, res) => {
@@ -389,7 +389,7 @@ export default ({ config, db }) => {
 		redisClient.on('error', function (err) { // workaround for https://github.com/NodeRedis/node_redis/issues/713
 			redisClient = Redis.createClient(config.redis); // redis client
 		});
-		
+
 		redisClient.get('order$$id$$' + req.param('order_id'), function (err, reply) {
 			const orderMetaData = JSON.parse(reply)
 			if (orderMetaData) {
@@ -423,9 +423,9 @@ import { Router } from 'express';
 module.exports = ({ config, db }) => {
 
 	let mcApi = Router();
-	
 
-	/** 
+
+	/**
 	 * POST create an user
 	 */
 	mcApi.post('/status', (req, res) => {
@@ -437,12 +437,12 @@ module.exports = ({ config, db }) => {
         // getting the data from Redis - the original order
         const Redis = require('redis');
         const Magento2Client = require('magento2-rest-client').Magento2Client
-        
+
 		let redisClient = Redis.createClient(config.redis); // redis client
 		redisClient.on('error', function (err) { // workaround for https://github.com/NodeRedis/node_redis/issues/713
 			redisClient = Redis.createClient(config.redis); // redis client
 		});
-		
+
 		redisClient.get('order$$id$$' + order_id, function (err, reply) {
 			const orderMetaData = JSON.parse(reply)
 			if (orderMetaData) {
@@ -450,7 +450,7 @@ module.exports = ({ config, db }) => {
                 const client = Magento2Client(config.magento2.api);
                 client.addMethods('invoice', function (restClient) {
                     var module = {};
-                    
+
                     module.create = function () {
                         return restClient.post('/invoice/create'); // the real Magento2 endpoint should be here - this is just an example
                     }
@@ -460,10 +460,10 @@ module.exports = ({ config, db }) => {
                     apiStatus(res, result, 200); // just dump it to the browser, result = JSON object
                 }).catch(err=> {
                     apiStatus(res, err, 500);
-                })				
-                                
+                })
+
             }
-		})        
+		})
 	})
 	return mcApi
 }
