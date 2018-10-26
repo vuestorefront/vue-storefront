@@ -6,6 +6,7 @@ If you solved any new issues by yourself please let us know on [slack](http://vu
 # Questions
 
 * <a href="#problem-docker-installer">Problem starting docker while installing the vue-storefront</a>
+* <a href="#internal-server-error-500-on-frontend">After finishing installation with Production Setup i see "Something went wrong" or "Internal Server error 500"</a>
 * <a href="#product-not-displayed-illegal_argument_exception">Product not displayed (illegal_argument_exception)</a>
 * <a href="#custom-variants">How to add custom configurable attributes to Product page</a>
 * <a href="#git-strategy">What's the recommended way to use git on custom development</a>
@@ -44,6 +45,47 @@ In case You get the following error:
 Please check:
 - if there is `docker-compose` command available, if not please do install it
 - please check the output of runnig `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production enviroments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permisions to be changed (for example to 755)
+
+### <a name="internal-server-error-500-on-frontend"></a>After finishing installation with Production Setup i see "Something went wrong" or "Internal Server error 500"
+
+Steps to debug:
+
+- Check webserver error log
+- Check pm2 logs
+- Check if all services are running (i.e elasticsearch) and are responding to requests
+
+This error is sometimes caused by memory overload which makes ElasticSearch stop working
+
+You can check it with `sudo service elasticsearch status`
+
+Also if you have the Production Setup on your VPS, you can run these commands to restart the ElasticSearch and Redis instances:
+
+```bash
+sudo /etc/init.d/redis-server stop
+sudo /etc/init.d/redis-server start
+sudo service elasticsearch restart
+```
+
+and after restarting the services, rebuild the database
+
+```bash
+cd vue-storefront-api
+npm run db new;
+npm run restore2main
+npm run db rebuild
+yarn build
+yarn start
+```
+
+and finally reindex the database
+
+```bash
+node --harmony cli.js categories --removeNonExistent=true
+node --harmony cli.js productcategories --partitions=1
+node --harmony cli.js attributes --removeNonExistent=true
+node --harmony cli.js taxrule --removeNonExistent=true
+node --harmony cli.js products --removeNonExistent=true
+```
 
 ### <a name="products-not-displayed"></a>Product not displayed (illegal_argument_exception)
 
