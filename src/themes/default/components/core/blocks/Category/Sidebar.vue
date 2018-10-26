@@ -3,8 +3,22 @@
     <h4>
       {{ $t('Filter') }}
     </h4>
-    <div v-for="(filter, filterIndex) in filters"
-         :key="filterIndex" v-if="filter.length">
+    <button
+      class="visible-xs no-outline brdr-none mr10 py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+    >
+      {{ $t('Apply') }}
+    </button>
+    <button
+      class="visible-xs no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+      @click="resetAllFilters"
+    >
+      {{ $t('Clear') }}
+    </button>
+    <div
+      v-for="(filter, filterIndex) in filters"
+      :key="filterIndex"
+      v-if="filter.length"
+    >
       <h5>
         {{ $t(filterIndex + '_filter') }}
       </h5>

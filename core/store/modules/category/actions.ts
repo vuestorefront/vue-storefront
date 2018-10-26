@@ -86,7 +86,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (populateRequestCacheTags && mainCategory && Vue.prototype.$ssrRequestContext) {
           Vue.prototype.$ssrRequestContext.output.cacheTags.add(`C${mainCategory.id}`)
-        }        
+        }
         if (setCurrentCategoryPath) {
           let currentPath = []
           let recurCatFinder = (category) => {
@@ -302,6 +302,10 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     }
     return productPromise
+  },
+
+  resetFilters (context) {
+    context.commit(types.CATEGORY_REMOVE_FILTERS)
   }
 }
 
