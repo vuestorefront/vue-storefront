@@ -2,6 +2,25 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+## 1.5 -> current
+
+### Modifications
+
+#### Sort order refactor
+
+Issue #1533.
+Sort order is now more intuitive (like in classic e-commerce).
+You can now add sort direction directly in ``sortByAttributes`` using colon.
+
+```    
+"sortByAttributes": {
+  "Latest": "updated_at",
+  "Price: Low to high":"final_price",
+  "Price: High to low":"final_price:desc"
+}
+```
+We deprecated separate button for sort direction change.
+
 ## 1.4 -> 1.5
 
 ### Modifications

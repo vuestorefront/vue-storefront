@@ -170,7 +170,8 @@
       },
       "sortByAttributes": {
         "Latest": "updated_at",
-        "Price":"final_price"
+        "Price: Low to high":"final_price",
+        "Price: High to low":"final_price:desc"
       },
       "gallery": {
         "variantsGroupAttribute": "color",

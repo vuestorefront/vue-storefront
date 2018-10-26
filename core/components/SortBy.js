@@ -3,17 +3,12 @@ export default {
   name: 'SortBy',
   data () {
     return {
-      sortby: '',
-      direction: 'asc'
+      sortby: ''
     }
   },
   methods: {
     changeOrder () {
-      this.$bus.$emit('list-change-sort', { attribute: this.sortby, direction: this.direction })
-    },
-    changeDirection () {
-      this.direction = this.direction === 'asc' ? this.direction = 'desc' : this.direction = 'asc'
-      this.$bus.$emit('list-change-sort', { attribute: this.sortby, direction: this.direction })
+      this.$bus.$emit('list-change-sort', { attribute: this.sortby })
     }
   },
   computed: {
