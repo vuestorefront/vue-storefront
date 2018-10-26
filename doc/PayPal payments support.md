@@ -16,7 +16,6 @@ Add `vsf-payment-paypal` to the  `extensions/index.js`
 ```js
 export default [
   require('@vue-storefront/extension-droppoint-shipping/index.js'),
-  require('@vue-storefront/extension-google-analytics/index.js'),
   require('@vue-storefront/extension-mailchimp-subscribe/index.js'),
   require('@vue-storefront/extension-payment-backend-methods/index.js'),
   require('@vue-storefront/extension-payment-cash-on-delivery/index.js'),

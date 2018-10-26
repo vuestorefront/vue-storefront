@@ -87,8 +87,7 @@
     },
     "registeredExtensions": [
         "custom_extension",
-        "mailchimp-subscribe",
-        "google-analytics"
+        "mailchimp-subscribe"
     ],
     "demomode": true,
     "analytics": {
