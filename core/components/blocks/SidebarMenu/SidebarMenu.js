@@ -22,7 +22,6 @@ export default {
     },
     closeMenu () {
       this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setMicrocart', false)
     }
   },
   mixins: [onEscapePress]

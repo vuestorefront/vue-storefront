@@ -15,10 +15,6 @@ const mutations = {
   setCheckoutMode (state, action) {
     state.checkoutMode = action === true
   },
-  setMicrocart (state, action) {
-    state.microcart = action === true
-    state.overlay = action === true
-  },
   setSidebar (state, action) {
     state.sidebar = action === true
     state.overlay = action === true
