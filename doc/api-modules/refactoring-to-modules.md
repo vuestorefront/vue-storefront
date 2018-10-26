@@ -24,4 +24,6 @@ export default {
 }
 ````
 
-As you can see we are importing new Microcart component from module and porting it's API to the old one. If you are changing the API during refactoring to modules please take care of this porting
+As you can see we are importing new Microcart component from module and porting it's API to the old one. With this approach people using old API in their themes can still take advantage of all updates and new features.
+
+If you are changing the API during refactoring to modules please take care of this porting
