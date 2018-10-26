@@ -199,7 +199,7 @@ export default {
       if (param.attribute) {
         let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
         this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
-          sort: param.attribute + ':' + param.direction,
+          sort: param.attribute,
           searchProductQuery: filterQr,
           append: false
         })
