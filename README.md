@@ -33,7 +33,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
       <td align="left" valign="top">
         Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unofrtunatelly won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
       </td>
-</tr>
+    </tr>
   </tbody>
 </table>
 
@@ -207,7 +207,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/about us/LOGO.png"
             alt="Divante"
-            width="120"
+            width="150"
           >
         </a>
       </td>
@@ -216,7 +216,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="doc/media/partners/snowdog.png"
             alt="Snow.dog"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -225,7 +225,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"
             alt="Wagento"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -234,7 +234,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg"
             alt="Summa Solutions"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -243,7 +243,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"
             alt="Acid Green"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -254,7 +254,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="doc/media/partners/macopedia.png"
             alt="Macopedia"
-            height="50"
+            width="50"
           >
         </a>
       </td>
@@ -262,8 +262,8 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         <a href="http://www.develodesign.co.uk/">
           <img
             src="doc/media/partners/develo.png"
-            alt="Macopedia"
-            height="50"
+            alt="Develo design"
+            width="150"
           >
         </a>
       </td>
@@ -272,7 +272,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/37145068-3326bdf8-22c0-11e8-9bc1-0b9b2377129f.png"
             alt="Magenest"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -281,7 +281,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/37145348-ea9c8ba2-22c0-11e8-9a91-d1a1da9af782.png"
             alt="ECOMMBITS"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -290,7 +290,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/37145626-9d48077c-22c1-11e8-82fd-dda1268d05e9.png"
             alt="Optiweb"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -301,7 +301,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/38270766-b0bc4fc0-3784-11e8-9463-99d88950ca9a.png"
             alt="Bitbull"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -310,7 +310,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/vendic-rood.png"
             alt="Vendic"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -319,7 +319,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/38860463-87a9fff4-4230-11e8-8017-e5ffb73e77f9.png"
             alt="Get.Noticed"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -328,7 +328,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/39051246-62220fae-44a8-11e8-92d3-3bbe02644313.png"
             alt="Novatize"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -337,7 +337,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/39051477-0c46c1aa-44a9-11e8-8f53-0adabe3e66a4.png"
             alt="Imagination Media"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -348,7 +348,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/38415925-4a31e358-3993-11e8-9bee-b2b9af95d305.png"
             alt="MageDirect"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -357,7 +357,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/edmonds-ecommerce.png"
             alt="Edmonds Commerce"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -366,7 +366,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/kt.team.png"
             alt="KT Team"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -375,19 +375,19 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/Magebit_150px.png"
             alt="MageBit"
-            height="50"
+            width="150"
           >
         </a>
       </td>
-     <td align="center" valign="middle">
+      <td align="center" valign="middle">
         <a href="https://upsidelab.io/">
           <img
             src="https://divante.co/partners/Vue-Storefront/upside-logo@4x.png"
             alt="UpsideLab"
-            height="50"
+            width="150"
           >
         </a>
-       </td>
+      </td>
     </tr>
      <tr>
        <td align="center" valign="middle">
@@ -395,7 +395,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/meigee.png"
             alt="Meigee"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -404,7 +404,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/Webvisium-Logo.png"
             alt="WebVisum"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -413,7 +413,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/PHOENIX_MEDIA_Logo_transparent.png"
             alt="Phoenix Media"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -422,7 +422,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://www.viaict.com/img/viaict_flat_design_300.png"
             alt="Viaict"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -431,7 +431,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/bemeir.png"
             alt="Bemeir"
-            height="40"
+            width="150"
           >
         </a>
       </td>
@@ -442,7 +442,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/copex-io-logo.png"
             alt="Copex.io"
-            height="50"
+            width="150"
           >
         </a>
       </td>
@@ -464,7 +464,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-    <td align="center" valign="middle">
+      <td align="center" valign="middle">
         <a href="">
           <img
             src=""
@@ -473,7 +473,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-         <td align="center" valign="middle">
+      <td align="center" valign="middle">
         <a href="">
           <img
             src=""
