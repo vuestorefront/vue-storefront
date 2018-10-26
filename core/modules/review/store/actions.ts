@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from "vuex"
 import { quickSearchByQuery } from "core/store/lib/search"
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 import RootState from "@vue-storefront/store/types/RootState"
 import ReviewState from "../types/ReviewState"
