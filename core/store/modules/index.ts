@@ -5,7 +5,6 @@ import attribute from './attribute'
 import compare from './compare'
 import user from './user'
 import payment from './payment'
-import shipping from './shipping'
 import ui from './ui-store'
 import checkout from './checkout'
 import homepage from './homepage'
@@ -23,7 +22,6 @@ export default {
   compare,
   user,
   payment,
-  shipping,
   ui,
   checkout,
   homepage,
