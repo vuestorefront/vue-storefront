@@ -39,6 +39,7 @@ import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDet
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
+import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
 import i18n from '@vue-storefront/i18n'
 
 export default {
@@ -50,7 +51,8 @@ export default {
         { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
         { title: i18n.t('My orders'), link: '/my-account/orders' },
         { title: i18n.t('My loyalty card'), link: '#' },
-        { title: i18n.t('My product reviews'), link: '#' }
+        { title: i18n.t('My product reviews'), link: '#' },
+        { title: i18n.t('My Recently viewed products'), link: '/my-account/recently-viewed' }
       ]
     }
   },
@@ -60,7 +62,8 @@ export default {
     MyShippingDetails,
     MyNewsletter,
     MyOrders,
-    MyOrder
+    MyOrder,
+    MyRecentlyViewed
   },
   mixins: [MyAccount]
 }

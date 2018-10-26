@@ -307,6 +307,7 @@ EventBus.$on('user-before-logout', () => {
 
 store.dispatch('cart/load')
 store.dispatch('compare/load')
+store.dispatch('recently-viewed/load')
 store.dispatch('user/startSession')
 
 window.addEventListener('online', () => { onNetworkStatusChange(store) })

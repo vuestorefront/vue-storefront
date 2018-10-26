@@ -90,6 +90,7 @@ export default {
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
     this.onStateCheck()
+    this.$store.dispatch('recently-viewed/addItem', this.product)
   },
   methods: {
     validateRoute () {
@@ -99,6 +100,7 @@ export default {
           this.loading = false
           this.defaultOfflineImage = this.product.image
           this.onStateCheck()
+          this.$store.dispatch('recently-viewed/addItem', this.product)
         }).catch((err) => {
           this.loading = false
           console.error(err)

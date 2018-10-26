@@ -40,7 +40,8 @@ export default {
         { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
         { title: i18n.t('My orders'), link: '/my-account/orders' },
         { title: i18n.t('My loyalty card'), link: '#' },
-        { title: i18n.t('My product reviews'), link: '#' }
+        { title: i18n.t('My product reviews'), link: '#' },
+        { title: i18n.t('My Recently viewed products'), link: '/my-account/recently-viewed' }
       ]
     }
   }
