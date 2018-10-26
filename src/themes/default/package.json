@@ -10,13 +10,11 @@
   "author": "pkarw <pkarwatka@divante.pl> and contributors",
   "license": "MIT",
   "dependencies": {
-    "bodybuilder": "2.2.13",
-    "vue": "^2.5.17",
-    "vue-carousel": "^0.6.9",
     "vue-no-ssr": "^0.2.2",
-    "vue-progressbar": "^0.7.5",
-    "vuelidate": "^0.6.2",
-    "vuex": "^3.0.1"
+    "vue-progressbar": "^0.7.5"
+  },
+  "peerDependencies": {
+    "@vue-storefront/core": "^1.5.0"
   },
   "publishConfig": {
     "access": "public"

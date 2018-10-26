@@ -7,10 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "@vue-storefront/store": "^1.4.3",
-    "config": "^1.30.0",
-    "isomorphic-fetch": "^2.2.1"
+  "peerDependencies": {
+    "@vue-storefront/core": "^1.5.0"
   },
   "publishConfig": {
     "access": "public"
