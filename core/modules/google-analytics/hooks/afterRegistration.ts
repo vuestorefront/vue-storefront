@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+
 
 export function afterRegistration (app, config) {
   console.debug('Google Analytics extension registered')
@@ -13,7 +13,7 @@ export function afterRegistration (app, config) {
         enhanced: true
       }
     })
-    EventBus.$on('order/ORDER_PLACED', event => {
+    Vue.prototype.bus.$on('order/ORDER_PLACED', event => {
       const order = event.order
       const ecommerce = app.$ga.ecommerce
       order.products.forEach(product => {
