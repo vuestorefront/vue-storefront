@@ -7,7 +7,6 @@ const uiStore: Module<UiStoreState, RootState> = {
   namespaced: true,
   state: {
     sidebar: false,
-    microcart: false,
     wishlist: false,
     searchpanel: false,
     newsletterPopup: false,

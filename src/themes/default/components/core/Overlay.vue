@@ -16,10 +16,10 @@ export default {
   methods: {
     close () {
       this.$store.commit('ui/setOverlay', false)
-      this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setWishlist', false)
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
+      this.$store.dispatch('cart/toggleMicrocart')
     }
   }
 }

@@ -1,6 +1,5 @@
 export default interface UiStoreState {
   sidebar: boolean,
-  microcart: boolean,
   wishlist: boolean,
   searchpanel: boolean,
   newsletterPopup: boolean,

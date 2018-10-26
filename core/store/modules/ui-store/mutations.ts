@@ -8,9 +8,6 @@ const mutations: MutationTree<UiStoreState> = {
   setLoader (state, action) {
     state.loader = action === true
   },
-  setMicrocart (state, action) {
-    state.microcart = action === true
-  },
   setSidebar (state, action) {
     state.sidebar = action === true
   },
