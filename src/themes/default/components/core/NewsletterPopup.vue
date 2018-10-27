@@ -54,10 +54,10 @@ export default {
   },
   methods: {
     onSuccesfulSubmission () {
-      this.$bus.$emit('notification', {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('You have been successfully subscribed to our newsletter!'),
-        action1: { label: i18n.t('OK'), action: 'close' }
+        action1: { label: i18n.t('OK') }
       })
       this.$bus.$emit('modal-hide', 'modal-newsletter')
     }

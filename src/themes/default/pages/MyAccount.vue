@@ -39,7 +39,6 @@ import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDet
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
-import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
   data () {
@@ -62,11 +61,11 @@ export default {
     MyOrders,
     MyOrder
   },
-  mixins: [MyAccount, Notification],
+  mixins: [MyAccount],
   methods: {
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
-        this.showNotification({
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           message: this.$t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
           action1: { label: this.$t('OK') }

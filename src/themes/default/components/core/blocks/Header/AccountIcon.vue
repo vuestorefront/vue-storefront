@@ -28,10 +28,9 @@
 
 <script>
 import AccountIcon from '@vue-storefront/core/components/blocks/Header/AccountIcon'
-import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
-  mixins: [AccountIcon, Notification],
+  mixins: [AccountIcon],
   data () {
     return {
       navigation: [
@@ -47,7 +46,7 @@ export default {
   methods: {
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
-        this.showNotification({
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           message: this.$t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
           action1: { label: this.$t('OK') }

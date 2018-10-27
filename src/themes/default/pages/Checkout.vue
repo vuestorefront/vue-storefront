@@ -36,7 +36,6 @@ import Payment from 'theme/components/core/blocks/Checkout/Payment'
 import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
-import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
   components: {
@@ -47,38 +46,38 @@ export default {
     CartSummary,
     ThankYouPage
   },
-  mixins: [Checkout, Notification],
+  mixins: [Checkout],
   methods: {
     notifyEmptyCart () {
-      this.showNotification({
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t('Shopping cart is empty. Please add some products before entering Checkout'),
         action1: { label: this.$t('OK') }
       })
     },
     notifyOutStock (chp) {
-      this.showNotification({
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: chp.name + this.$t(' is out of the stock!'),
         action1: { label: this.$t('OK') }
       })
     },
     notifyNotAvailable () {
-      this.showNotification({
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t('Some of the ordered products are not available!'),
         action1: { label: this.$t('OK') }
       })
     },
     notifyStockCheck () {
-      this.showNotification({
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t('Stock check in progress, please wait while available stock quantities are checked'),
         action1: { label: this.$t('OK') }
       })
     },
     notifyNoConnection () {
-      this.showNotification({
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
         action1: { label: this.$t('OK') }

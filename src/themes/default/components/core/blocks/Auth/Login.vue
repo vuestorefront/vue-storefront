@@ -79,10 +79,9 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
-  mixins: [Login, Notification],
+  mixins: [Login],
   validations: {
     email: {
       required,
@@ -96,7 +95,7 @@ export default {
     login () {
       if (this.$v.$invalid) {
         this.$v.$touch()
-        this.showNotification({
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Please fix the validation errors'),
           action1: { label: this.$t('OK') }
@@ -107,7 +106,7 @@ export default {
     },
     remindPassword () {
       if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
-        this.showNotification({
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Reset password feature does not work while offline!'),
           action1: { label: this.$t('OK') }
@@ -116,15 +115,15 @@ export default {
         this.callForgotPassword()
       }
     },
-    notifySuccess () {
-      this.showNotification({
+    onSuccess () {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: this.$t('You are logged in!'),
         action1: { label: this.$t('OK') }
       })
     },
-    notifyFailure (result) {
-      this.showNotification({
+    onFailure (result) {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(result.result),
         action1: { label: this.$t('OK') }

@@ -19,9 +19,9 @@ export default {
         this.$bus.$emit('notification-progress-stop', {})
 
         if (result.code !== 200) {
-          this.notifyFailure(result)
+          this.onFailure(result)
         } else {
-          this.notifySuccess()
+          this.onSuccess()
           this.close()
         }
       }).catch(err => {

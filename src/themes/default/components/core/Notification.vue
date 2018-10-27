@@ -48,9 +48,8 @@ export default {
     execAction (action, index) {
       if (action.action) {
         action.action()
-      } else {
-        this.hideNotification(index)
       }
+      this.$store.dispatch('notification/removeNotification', index)
     }
   }
 }

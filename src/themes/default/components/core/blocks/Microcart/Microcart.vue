@@ -158,10 +158,10 @@ export default {
         this.addCouponPressed = false
         this.couponCode = ''
       }).catch(() => {
-        this.$bus.$emit('notification', {
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           message: i18n.t("You've entered an incorrect coupon code. Please try again."),
-          action1: { label: i18n.t('OK'), action: 'close' }
+          action1: { label: i18n.t('OK') }
         })
       })
     },

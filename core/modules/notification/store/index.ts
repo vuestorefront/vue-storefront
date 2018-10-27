@@ -1,7 +1,8 @@
 import { Module } from 'vuex'
 import NotificationItem from '../types/NotificationItem'
+import NotificationState from '../types/NotificationState'
 
-export const module: Module<any, any> = {
+export const module: Module<NotificationState, any> = {
   namespaced: true,
   state: {
     notifications: []
@@ -18,7 +19,7 @@ export const module: Module<any, any> = {
     }
   },
   actions: {
-    addNotification ({ commit, state, dispatch }, notification: NotificationItem) {
+    spawnNotification ({ commit, state, dispatch }, notification: NotificationItem) {
       if (state.notifications.length > 0
         && state.notifications[state.notifications.length - 1].message === notification.message
       ) {

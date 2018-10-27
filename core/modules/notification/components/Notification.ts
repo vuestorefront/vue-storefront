@@ -5,13 +5,5 @@ export const Notification = {
     notifications () {
       return this.$store.getters['notification/notifications']
     }
-  },
-  methods: {
-    showNotification (notification: NotificationItem) {
-      this.$store.dispatch('notification/addNotification', notification)
-    },
-    hideNotification (index: number) {
-      this.$store.dispatch('notification/removeNotification', index)
-    }
   }
 }

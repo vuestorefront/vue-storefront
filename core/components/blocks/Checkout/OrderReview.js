@@ -34,7 +34,7 @@ export default {
       }).then((result) => {
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
-          this.notifyFailure(result)
+          this.onFailure(result)
           // If error includes a word 'password', emit event that eventually focuses on a corresponding field
           if (result.result.includes(i18n.t('password'))) {
             this.$bus.$emit('checkout-after-validationError', 'password')
@@ -44,7 +44,7 @@ export default {
             this.$bus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
-          this.notifySuccess()
+          this.onSuccess()
           this.$bus.$emit('modal-hide', 'modal-signup')
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
         }

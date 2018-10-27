@@ -3,6 +3,7 @@ import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
 import { htmlDecode } from '@vue-storefront/store/lib/filters'
+import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import WishlistState from '../types/WishlistState'
 import { cacheStorage } from '../'
@@ -20,18 +21,18 @@ const actions: ActionTree<WishlistState, RootState> = {
   },
   addItem ({ commit }, product) {
     commit(types.WISH_ADD_ITEM, { product })
-    Vue.prototype.$bus.$emit('notification', {
+    rootStore.dispatch('notification/spawnNotification', {
       type: 'success',
       message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
-      action1: { label: i18n.t('OK'), action: 'close' }
+      action1: { label: i18n.t('OK') }
     })
   },
   removeItem ({ commit }, product) {
     commit(types.WISH_DEL_ITEM, { product })
-    Vue.prototype.$bus.$emit('notification', {
+    rootStore.dispatch('notification/spawnNotification', {
       type: 'success',
       message: i18n.t('Product {productName} has been removed from wishlit!', { productName: htmlDecode(product.name) }),
-      action1: { label: i18n.t('OK'), action: 'close' }
+      action1: { label: i18n.t('OK') }
     })
   }
 }

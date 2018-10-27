@@ -50,7 +50,6 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
-import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 // import builder from 'bodybuilder'
 
 export default {
@@ -82,14 +81,14 @@ export default {
       this.mobileFilters = false
     },
     notify () {
-      this.showNotification({
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t('Please select the field which You like to sort by'),
         action1: { label: this.$t('OK') }
       })
     }
   },
-  mixins: [Category, Notification]
+  mixins: [Category]
 }
 </script>
 

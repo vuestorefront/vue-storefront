@@ -25,7 +25,7 @@ export default {
         console.debug(result)
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
-          this.notifyFailure(result)
+          this.onFailure(result)
           // If error includes a word 'password', focus on a corresponding field
           if (result.result.includes('password')) {
             this.$refs['password'].setFocus('password')
@@ -33,7 +33,7 @@ export default {
             this.rPassword = ''
           }
         } else {
-          this.notifySuccess()
+          this.onSuccess()
           this.close()
         }
       }).catch(err => {
