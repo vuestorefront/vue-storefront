@@ -79,6 +79,13 @@ export default {
     },
     closeFilters () {
       this.mobileFilters = false
+    },
+    notify () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t('Please select the field which You like to sort by'),
+        action1: { label: this.$t('OK') }
+      })
     }
   },
   mixins: [Category]
