@@ -13,7 +13,7 @@ import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 
-require('@vue-storefront/core/service-worker-registration') // register the service worker
+require('@vue-storefront/core/service-worker/registration') // register the service worker
 
 declare var window: any
 

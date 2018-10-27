@@ -5,6 +5,7 @@ import { Mailer } from '@vue-storefront/core/modules/mailer'
 import { Mailchimp } from '@vue-storefront/core/modules/mailchimp'
 import { Example } from '@vue-storefront/core/modules/module-template'
 import { Notification } from '@vue-storefront/core/modules/notification'
+import { DroppointShipping } from '@vue-storefront/core/modules/droppoint-shipping'
 
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
@@ -22,6 +23,7 @@ export const registerModules: VueStorefrontModule[] = [
   Review,
   Mailer,
   Mailchimp,
-  Notification
+  Notification,
+  DroppointShipping
   // Example
 ]
