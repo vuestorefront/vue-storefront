@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from '../../mutation-types'
-import rootStore from '../../'
+import rootStore from '@vue-storefront/store'
 import { ValidationError } from '../../lib/exceptions'
 import i18n from '@vue-storefront/i18n'
 import { adjustMultistoreApiUrl } from '../../lib/multistore'
@@ -233,10 +233,10 @@ const actions: ActionTree<UserState, RootState> = {
     const validate = ajv.compile(Object.assign(userProfileSchema, userProfileSchemaExtension))
 
     if (!validate(userData)) { // schema validation of user profile data
-      Vue.prototype.$bus.$emit('notification', {
+      rootStore.dispatch('notification/spawnNotification', {
         type: 'error',
         message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
-        action1: { label: i18n.t('OK'), action: 'close' }
+        action1: { label: i18n.t('OK') }
       })
       throw new ValidationError(validate.errors)
     } else {
@@ -271,10 +271,10 @@ const actions: ActionTree<UserState, RootState> = {
       }
     }, { root: true }).then((resp) => {
       if (resp.code === 200) {
-        Vue.prototype.$bus.$emit('notification', {
+        rootStore.dispatch('notification/spawnNotification', {
           type: 'success',
           message: 'Password has successfully been changed',
-          action1: { label: i18n.t('OK'), action: 'close' }
+          action1: { label: i18n.t('OK') }
         })
 
         rootStore.dispatch('user/login', {
@@ -282,10 +282,10 @@ const actions: ActionTree<UserState, RootState> = {
           password: passwordData.newPassword
         })
       } else {
-        Vue.prototype.$bus.$emit('notification', {
+        rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t(resp.result),
-          action1: { label: i18n.t('OK'), action: 'close' }
+          action1: { label: i18n.t('OK') }
         })
       }
     })
@@ -305,10 +305,10 @@ const actions: ActionTree<UserState, RootState> = {
         .then(() => {Vue.prototype.$bus.$emit('user-after-logout')})
         .then(() => {context.dispatch('cart/clear', {}, { root: true })})
     if (!silent) {
-      Vue.prototype.$bus.$emit('notification', {
+      rootStore.dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t("You're logged out"),
-        action1: { label: i18n.t('OK'), action: 'close' }
+        action1: { label: i18n.t('OK') }
       })
     }
   },
@@ -370,10 +370,10 @@ const actions: ActionTree<UserState, RootState> = {
   },
   userAfterUpdate(context, event) {
     if (event.resultCode === 200) {
-      Vue.prototype.$bus.$emit('notification', {
+      rootStore.dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('Account data has successfully been updated'),
-        action1: { label: i18n.t('OK'), action: 'close' }
+        action1: { label: i18n.t('OK') }
       })
       rootStore.dispatch('user/refreshCurrentUser', event.result)
     }

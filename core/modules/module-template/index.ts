@@ -2,6 +2,7 @@
 // Read more about modules: https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md
 import { module } from './store'
 import { plugin } from './store/plugin'
+import { extendMailchimp } from './store/mailchimp'
 import { beforeRegistration } from './hooks/beforeRegistration'
 import { afterRegistration } from './hooks/afterRegistration'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/modules'
@@ -17,7 +18,7 @@ export const cacheStorage = initCacheStorage(KEY)
 // Put everything that should extend the base app here so it can be later registered as VS module
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { module, plugin },
+  store: { module, plugin, extend: [{ key: 'mailchimp', module: extendMailchimp}] },
   beforeRegistration,
   afterRegistration,
   router: { routes, beforeEach, afterEach }
