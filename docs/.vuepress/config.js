@@ -91,6 +91,7 @@ module.exports = {
             'vuex/checkout-store',
             'vuex/order-store',
             'vuex/stock-store',
+            'vuex/sync-store',
           ],
         },
         // {
