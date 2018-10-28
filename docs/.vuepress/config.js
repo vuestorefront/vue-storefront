@@ -94,6 +94,7 @@ module.exports = {
             'vuex/sync-store',
             'vuex/user-store',
             'vuex/attribute-store',
+            'vuex/ui-store',
           ],
         },
         // {

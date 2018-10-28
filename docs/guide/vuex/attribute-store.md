@@ -37,15 +37,15 @@ The attribute store provides following public actions:
 
 ### `list (context, { filterValues = null, filterField = 'attribute_code', size = 150, start = 0 })``
 
-This method is used to load the attributes meta-data. `filterValues` is an array of multiple values like: `['color', 'size']` and the `filterField` is the attribute field to compare the `filterValues` against. Usually is a `attribute_code` or `attribute_id`. The `size` and `start` are just used to limit the list.
+This method is used to load the attributes metadata. `filterValues` is an array of multiple values like: `['color', 'size']` and the `filterField` is the attribute field to compare the `filterValues` against. Usually is a `attribute_code` or `attribute_id`. The `size` and `start` are just used to limit the list.
 
 ## Helpers
 
-Attribue module exports one, very popular helper method:
+Attribute module exports one, very popular helper method:
 
 ### `export function optionLabel (state, { attributeKey, searchBy = 'code', optionId })`
 
-This is used to get the Label for specfic optionId. For example, when the user filters products and uses the 165 attribute_value we can call `optionLabel( { attributeKey: 'color', optionId: 165 })` to get back 'Red' label.
+This is used to get the Label for specific `optionId`. For example, when the user filters products and uses the 165 attribute_value we can call `optionLabel( { attributeKey: 'color', optionId: 165 })` to get back 'Red' label.
 
 ## Getters
 
