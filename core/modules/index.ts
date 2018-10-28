@@ -14,11 +14,13 @@ export interface VueStorefrontModuleConfig {
 }
 
 export class VueStorefrontModule {
+  public static _registeredModules: VueStorefrontModuleConfig[]
+
   constructor (
-    private _c: VueStorefrontModuleConfig
+    private _c: VueStorefrontModuleConfig,
   ) { }
 
-  private static extendStore (key: string, store: Module<any, any>, plugin: any, extend: { key: string, module: Module<any, any> }[]) : void {
+  private static _extendStore (key: string, store: Module<any, any>, plugin: any, extend: { key: string, module: Module<any, any> }[]) : void {
     const registeredStores: any = rootStore
     if (store) {
       // in case of conflicting keys throw warning 
@@ -42,20 +44,25 @@ export class VueStorefrontModule {
     }
   }
 
-  private static extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
+  private static _extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
     if (routes) router.addRoutes(routes)
     if (beforeEach) router.beforeEach(beforeEach)
     if (afterEach) router.afterEach(afterEach)
   }
-
+  /**
+   * With this method you can extend currently existing VSModule config object with deep merge strategy (leafs with same names are oevrwritten). 
+   * You can't extend already registered module. Do it before registration.
+   * @param extendedConfig config object that will be merged into currently existing one
+   */
   public extend (extendedConfig: VueStorefrontModuleConfig) {
     this._c = merge(this._c, extendedConfig)
   }
 
   public register (): void {
     if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config)
-    if (this._c.store) VueStorefrontModule.extendStore(this._c.key, this._c.store.module, this._c.store.plugin, this._c.store.extend)
-    if (this._c.router) VueStorefrontModule.extendRouter(this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
+    if (this._c.store) VueStorefrontModule._extendStore(this._c.key, this._c.store.module, this._c.store.plugin, this._c.store.extend)
+    if (this._c.router) VueStorefrontModule._extendRouter(this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
+    VueStorefrontModule._registeredModules.push(this._c)
     if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config)
   }
 }
