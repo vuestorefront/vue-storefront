@@ -14,17 +14,16 @@ export interface VueStorefrontModuleConfig {
 }
 
 export class VueStorefrontModule {
-  public static _registeredModules: VueStorefrontModuleConfig[]
-
   constructor (
     private _c: VueStorefrontModuleConfig,
   ) { }
 
+  private static _registeredModules: VueStorefrontModuleConfig[] = []
+
   private static _extendStore (key: string, store: Module<any, any>, plugin: any, extend: { key: string, module: Module<any, any> }[]) : void {
     const registeredStores: any = rootStore
     if (store) {
-      // in case of conflicting keys throw warning 
-      if (registeredStores._modules.root._children[key]) {
+      if (VueStorefrontModule._registeredModules.some(m => m.key === key)) {
         throw new Error('Error during VS Module registration. Module with key "' + key + '" that you are trying to register already exists. If you are trying to extend currently existing module use store.extend property.')
       } else {
         rootStore.registerModule(key, store)
