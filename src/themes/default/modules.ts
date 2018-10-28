@@ -24,6 +24,6 @@ export const registerModules: VueStorefrontModule[] = [
   Mailer,
   Mailchimp,
   Notification,
-  DroppointShipping
-  // Example
+  DroppointShipping,
+  Example
 ]
