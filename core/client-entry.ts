@@ -4,6 +4,7 @@ import { union } from 'lodash-es'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
+import rootStore from '@vue-storefront/store'
 
 import buildTimeConfig from 'config'
 import { execute } from '@vue-storefront/store/lib/task'
@@ -31,17 +32,17 @@ if (config.storeViews.multistore === true) {
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
-    EventBus.$emit('notification', {
+    rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
       message: i18n.t('No available product variants'),
-      action1: { label: i18n.t('OK'), action: 'close' }
+      action1: { label: i18n.t('OK') }
     })
     router.back()
   } else {
-    EventBus.$emit('notification', {
+    rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
       message: i18n.t(err.message),
-      action1: { label: i18n.t('OK'), action: 'close' }
+      action1: { label: i18n.t('OK') }
     })
     reject()
   }

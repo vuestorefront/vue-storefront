@@ -5,7 +5,6 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-import i18n from '@vue-storefront/i18n'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
@@ -213,11 +212,7 @@ export default {
         this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
         })
       } else {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Please select the field which You like to sort by'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notify()
       }
     },
     validateRoute () {
