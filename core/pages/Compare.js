@@ -1,10 +1,10 @@
-import { mapState, mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-import Composite from '@vue-storefront/core/mixins/composite'
+import { mapGetters } from 'vuex'
+import { Compare } from '@vue-storefront/core/modules/compare/components/Compare.ts'
 
 export default {
   name: 'Compare',
-  mixins: [Composite],
+  mixins: [Compare],
   props: {
     title: {
       type: String,
@@ -13,27 +13,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      attributesByCode: 'attribute/attributeListByCode',
-      attributesById: 'attribute/attributeListById'
+      attributesByCode: 'attribute/attributeListByCode'
     }),
-    ...mapState('compare', [
-      'items'
-    ]),
     all_comparable_attributes () {
-      return Object.values(this.attributesByCode).filter(a => {
-        return parseInt(a.is_comparable)
-      })
-    }
-  },
-  created () {
-    this.$store.dispatch('attribute/list', {
-      filterValues: [true],
-      filterField: 'is_user_defined'
-    })
-  },
-  methods: {
-    removeFromCompare (product) {
-      this.$store.dispatch('compare/removeItem', product)
+      return Object
+        .values(this.attributesByCode)
+        .filter(a => parseInt(a.is_comparable))
     }
   },
   metaInfo () {
@@ -41,11 +26,5 @@ export default {
       title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
-  },
-  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      if (context) context.output.cacheTags.add(`compare`)
-      resolve()
-    })
   }
 }

@@ -1,17 +1,12 @@
-import { mapGetters } from 'vuex'
+import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts'
 
 export default {
   name: 'CompareIcon',
-  props: {
-    product: {
-      type: Object,
-      required: false,
-      default: () => { }
-    }
-  },
+  mixins: [CompareButton],
   computed: {
-    ...mapGetters('compare', [
-      'isActive'
-    ])
+    isActive () {
+      // Computed Property renamed to 'compareIsActive'
+      return this.compareIsActive
+    }
   }
 }

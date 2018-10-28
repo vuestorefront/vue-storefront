@@ -4,12 +4,13 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { Product } from '@vue-storefront/core/modules/compare/components/Product.ts'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Product',
-  mixins: [ Composite ],
+  mixins: [Composite, Product],
   data () {
     return {
       loading: false
@@ -51,9 +52,6 @@ export default {
     },
     isOnWishlist () {
       return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
-    },
-    isOnCompare () {
-      return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
     },
     currentStore () {
       return currentStoreView()
@@ -115,10 +113,10 @@ export default {
       return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/removeItem', product) : false
     },
     addToList (list) {
-      return this.$store.state[list] ? this.$store.dispatch(`${list}/addItem`, this.product) : false
+      Product.methods.addToCompare.call(this, this.product)
     },
     removeFromList (list) {
-      return this.$store.state[list] ? this.$store.dispatch(`${list}/removeItem`, this.product) : false
+      Product.methods.removeFromCompare.call(this, this.product)
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
