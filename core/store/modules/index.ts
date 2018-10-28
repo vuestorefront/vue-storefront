@@ -3,7 +3,6 @@ import product from './product'
 import category from './category'
 import attribute from './attribute'
 import compare from './compare'
-import user from './user'
 import payment from './payment'
 import shipping from './shipping'
 import ui from './ui-store'
@@ -21,7 +20,6 @@ export default {
   category,
   attribute,
   compare,
-  user,
   payment,
   shipping,
   ui,

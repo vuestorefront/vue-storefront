@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
-import RootState from '../../types/RootState'
-import UserState from './types/UserState'
+import RootState from '@vue-storefront/store/types/RootState'
+import UserState from '../types/UserState'
 
 const getters: GetterTree<UserState, RootState> = {
   isLoggedIn (state) {
