@@ -1,7 +1,7 @@
 
 import { VueStorefrontModule } from './modules'
 import { Wishlist } from './modules/wishlist'
-import { registerModules } from 'theme/modules/index.ts'
+import { registerModules } from 'src/modules'
 
 export const enabledModules: VueStorefrontModule[] = [
   Wishlist,
