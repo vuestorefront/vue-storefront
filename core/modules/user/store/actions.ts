@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '../../mutation-types'
+import * as types from '@vue-storefront/store/mutation-types'
 import rootStore from '@vue-storefront/store'
-import { ValidationError } from '../../lib/exceptions'
+import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import i18n from '@vue-storefront/i18n'
-import { adjustMultistoreApiUrl } from '../../lib/multistore'
-import RootState from '../../types/RootState'
-import UserState from './types/UserState'
+import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
+import RootState from '@vue-storefront/store/types/RootState'
+import UserState from '../types/UserState'
 const Ajv = require('ajv') // json validator
 
 const actions: ActionTree<UserState, RootState> = {
