@@ -88,6 +88,7 @@ module.exports = {
             'vuex/product-store',
             'vuex/category-store',
             'vuex/cart-store',
+            'vuex/checkout-store',
           ],
         },
         // {
