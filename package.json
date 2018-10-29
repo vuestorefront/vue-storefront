@@ -61,11 +61,13 @@
     "localforage": "^1.7.2",
     "lodash-template": "^1.0.0",
     "lru-cache": "^4.0.1",
+    "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "object-hash": "^1.2.0",
     "pm2": "^2.10.4",
     "reflect-metadata": "^0.1.12",
     "vsf-payment-stripe": "^1.0.0",
     "vue": "^2.5.17",
+    "vue-analytics": "^5.16.0",
     "vue-apollo": "^3.0.0-beta.19",
     "vue-carousel": "^0.6.9",
     "vue-i18n": "^8.0.0",
@@ -78,8 +80,7 @@
     "vue-server-renderer": "^2.5.17",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.1",
-    "vuex-router-sync": "^5.0.0",
-    "magento2-rest-client": "github:DivanteLtd/magento2-rest-client"
+    "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
     "@types/object-hash": "^1.2.0",
