@@ -85,10 +85,10 @@ export default {
 
       if (this.$v.$invalid) {
         this.$v.$touch()
-        this.$bus.$emit('notification', {
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
-          action1: { label: i18n.t('OK'), action: 'close' }
+          action1: { label: i18n.t('OK') }
         })
         return
       }
@@ -99,7 +99,7 @@ export default {
         if (response.code === 200) {
           this.passwordSent = true
         } else {
-          this.$bus.$emit('notification', {
+          this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t(response.result) || i18n.t('Error while sending reset password e-mail'),
             action1: { label: i18n.t('OK'), action: 'close' }

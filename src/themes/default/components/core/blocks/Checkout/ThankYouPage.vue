@@ -113,15 +113,15 @@ export default {
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
-        this.notifySuccess,
-        this.notifyFailure
+        this.onSuccess,
+        this.onFailure
       )
     },
-    notifySuccess (message) {
-      this.$bus.$emit('notification', {
+    onSuccess (message) {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message,
-        action1: { label: this.$t('OK'), action: 'close' }
+        action1: { label: this.$t('OK') }
       })
       if (this.$store.state.config.mailer.sendConfirmation) {
         this.sendEmail(
@@ -135,11 +135,11 @@ export default {
         )
       }
     },
-    notifyFailure (message) {
-      this.$bus.$emit('notification', {
+    onFailure (message) {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message,
-        action1: { label: this.$t('OK'), action: 'close' }
+        action1: { label: this.$t('OK') }
       })
     }
   },

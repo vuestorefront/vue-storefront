@@ -1,6 +1,5 @@
 import { mapGetters } from 'vuex'
 
-import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
@@ -102,11 +101,7 @@ export default {
         }).catch((err) => {
           this.loading = false
           console.error(err)
-          this.$bus.$emit('notification', {
-            type: 'error',
-            message: i18n.t('The product is out of stock and cannot be added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
+          this.notifyOutStock()
           this.$router.back()
         })
       } else {
@@ -195,11 +190,7 @@ export default {
           } else {
             delete this.configuration[filterOption.attribute_code]
           }
-          this.$bus.$emit('notification', {
-            type: 'warning',
-            message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
+          this.notifyWrongAttributes()
         }
       }).catch(err => console.error({
         info: 'Dispatch product/configure in Product.vue',
