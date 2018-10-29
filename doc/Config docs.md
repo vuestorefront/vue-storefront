@@ -2,7 +2,7 @@
 
 Vue Storefront application uses the [node-config]() npm module to manage the configuration files. Configuration is stored in the `/config` directory within the two JSON files:
 - `default.json` is a configuration file provided along with the core Vue Storefront code and updated with any new release of Vue Storefront. It contains the default values only and therefore it shoulnd't be modified within Your specific Vue Storefront instance.
-- `local.json` is the second configuration file which is `.gitignore`'d from repository. This is the place where You should store all instance-specific configuration variables. 
+- `local.json` is the second configuration file which is `.gitignore`'d from repository. This is the place where You should store all instance-specific configuration variables.
 
 The structure of these files is exactly the same! Vue Storefront does kind of `Object.assign(default, local)` (but with the deep-merge!). This means that the `local.json` overrides the `default.json` properties.
 
@@ -38,7 +38,7 @@ If Your `vue-storefront-api` instance is running on the `localhost`, port `8080`
       "executeMixedinAsyncData": true
     },
 ```
-By default Vue Storefront themes are created by building set of components that "mixins" the core-components. For example You have `/src/themes/default/pages/Product.vue` which component inherits the `/core/pages/Product.js` by having this core componnt included in the `"mixins": [Product]` section. 
+By default Vue Storefront themes are created by building set of components that "mixins" the core-components. For example You have `/src/themes/default/pages/Product.vue` which component inherits the `/core/pages/Product.js` by having this core componnt included in the `"mixins": [Product]` section.
 
 The SSR data is being completed in the `asyncData` static method. If this configuration parameter is set to true (which is default) Vue Storefront will run the `asyncData` methods in the following sequence:
 `core/pages/Product.js` -> `asyncData`
@@ -67,7 +67,7 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
       "de": {
         "storeCode": "de",
 ```
-```json        
+```json
         "disabled": true,
 ```
 If specific store is disabled it won't be used to puplate the routing table and won't be displayed in the `Language/Switcher.vue`.
@@ -77,7 +77,7 @@ If specific store is disabled it won't be used to puplate the routing table and 
 ```
 This is the `storeId` as set in the backend panel. This parameter is being used by some API calls to get the specific store currency and/or tax settings.
 
-```json  
+```json
         "name": "German Store",
 ```
 This is the store name as displayed in the `Language/Switcher.vue`.
@@ -97,7 +97,7 @@ ElasticSearch settings can be overriden in the specific storeView config. That's
 
 ```json
         "tax": {
-          "sourcePriceIncludesTax": false,          
+          "sourcePriceIncludesTax": false,
           "defaultCountry": "DE",
           "defaultRegion": "",
           "calculateServerSide": true
@@ -127,7 +127,7 @@ The internationalization settings are used by the translation engine (`defautlLo
     "entities": {
       "optimize": true,
 ```
-If this option is set to true, Vue Storefront will be limiting the data got from the API endpoints to the `includeFields` and remove all the `excludeFields` as set for all the specific entities below. This option is set to true by default as the JSON objects could ... be of significant size! 
+If this option is set to true, Vue Storefront will be limiting the data got from the API endpoints to the `includeFields` and remove all the `excludeFields` as set for all the specific entities below. This option is set to true by default as the JSON objects could ... be of significant size!
 
 This option property is referenced in the [`core/store/modules/product`](../core/store/module/product), [`core/store/modules/category`](../core/store/module/category), [`core/store/modules/attribute`](../core/store/module/attribute)
 
@@ -143,7 +143,7 @@ Please take a look at the [`core/store/modules/category`](../core/store/modules/
 ```json
       "optimizeShoppingCart": true,
 ```
-Vue Storefront product objects can be quite large ones. They consist of `configurable_children`, `media_gallery` and other information. Quite significant for renderinf the product and category pages but not so usefull in the shooping cart. To limit the shopping cart size (as it's transfered to the server while making an order) this option is being used. 
+Vue Storefront product objects can be quite large ones. They consist of `configurable_children`, `media_gallery` and other information. Quite significant for renderinf the product and category pages but not so usefull in the shooping cart. To limit the shopping cart size (as it's transfered to the server while making an order) this option is being used.
 
 Please take a look at the [`core/store/modules/cart`](../core/store/modules/cart).
 
@@ -175,7 +175,7 @@ These settings are used just to configure the optimization strategy for differen
     "cart": {
       "server_merge_by_default": true,
 ```
-Server cart is being synchronized with the client's cart in the Vue Storefront by default. When it's not set the Vue Storefront will execute the server cart merge algorithm anyway - but using the `dryRun` option which means that only the following event will be emited: 
+Server cart is being synchronized with the client's cart in the Vue Storefront by default. When it's not set the Vue Storefront will execute the server cart merge algorithm anyway - but using the `dryRun` option which means that only the following event will be emited:
 
 ```js
     EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
@@ -197,7 +197,7 @@ Please take a look at the [`core/store/modules/cart`](../core/store/modules/cart
 ```
 Similarly to the `synchronize` option You may wan't to disable or enable (the default behaviour) the shopping cart totals sync with the backend platform. If it's set to true the shopping cart totals will be overriden by the Magento, Pimcore or any other platform You're using totals whenever user will add, remove or change any item in the shopping cart.
 
-```json      
+```json
       "setCustomProductOptions": true,
 ```
 If this option is set to true, in case of custom-options supporting products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of custom options (for example selected dates, checkboxes, captions or other values).
@@ -219,7 +219,7 @@ If this option is set to true, in case of configurable products, Vue Storefront 
       "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
       "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
       "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
-```      
+```
 These endpoints should point to the `vue-storefront-api` instance and typically You're chaning just the domain-name/base-url without touching the specific endpoint urls as it's related to the `vue-storefront-api` specifics.
 
 ```json
@@ -234,7 +234,7 @@ When this option is set to true, Vue Storefront will use the alternative routing
 When `useMagentoUrlKeys` is set to true the `product.url_key` value will be used for as for product and category slug's used in the URL building process. Otherwise the slug will be generated based on the product or category name.
 Please take a look at the [`core/store/lib/search.js`](../core/store/lib/search.js) and [`core/store/modules/category/mutations.js`](../core/store/modules/category/mutations.js) for reference
 
-```json      
+```json
       "configurableChildrenStockPrefetchStatic": false,
       "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
 ```
@@ -259,7 +259,7 @@ By default Vue Storefront is not displaying the products with the stock availabi
 ```
 If this option is set to true (default) Vue Storefront will prevent accesing the simple products assigned with the configurable one. User will be redirected to the main configurable product in such a case.
 
-```json      
+```json
       "alwaysSyncPlatformPricesOver": false,
 ```
 This property is used in the [`core/store/modules/product/actions.js`](../core/store/modules/product/actions.js); if it's set to true Vue Storefront will query the `vue-storefront-api` endpoint (`/api/products/render-list`) to render the product prices for currently displayed product(s) EACH TIME user is about to display the product or category page.
@@ -315,7 +315,7 @@ If "mergeConfigurableChildren" is set to true In some cases simple products atta
      "imageAttributes": ["image","thumbnail","small_image"]
 ```
 
-The product attributes representing the images. Wee see it in the Product page gallery if `mergeConfigurableChildren` is set to false and the product is configured 
+The product attributes representing the images. Wee see it in the Product page gallery if `mergeConfigurableChildren` is set to false and the product is configured
 
 ```json
   "gallery": {
@@ -331,10 +331,10 @@ The dimensions of the images in the gallery
 ```
 This property sets the URL of the order endpoint. Orders will be placed to this specific URL as soon as the interenet is available.
 
-```json      
+```json
       "payment_methods_mapping": {
       },
-```     
+```
 This is simple map used in the [`core/pages/Checkout.js`](../core/pages/Checkout.js) to map the payment methods provided by the backend service with the one's available to the Vue storefront. Each payment method is a separate Vue Storefront extension and not all methods provided by the backend should necesserly be supported by the frontend.
 
 ```json
@@ -346,7 +346,7 @@ This is simple map used in the [`core/pages/Checkout.js`](../core/pages/Checkout
           "icon": "/assets/logo.png"
         }
       }
-```      
+```
 When user places order in the Offline mode an agrees to get the push notifications, these variables are used to determine the look and feel of the notification.
 
 Please check the [`core/service-worker/order.js`](../core/service-worker/order.js) for reference
@@ -362,9 +362,9 @@ Please check the [`core/service-worker/order.js`](../core/service-worker/order.j
         "attributes": "INDEXEDDB",
         "products": "INDEXEDDB",
         "elasticCache": "INDEXEDDB",
-        "claims": "LOCALSTORAGE",        
-        "compare": "INDEXEDDB",        
-        "syncTasks": "INDEXEDDB",        
+        "claims": "LOCALSTORAGE",
+        "compare": "INDEXEDDB",
+        "syncTasks": "INDEXEDDB",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"
       }
@@ -421,7 +421,7 @@ When `demomode` is set to true, Vue Storefront will display the "Welcome to Vue 
 
 ```json
         "tax": {
-          "sourcePriceIncludesTax": false,          
+          "sourcePriceIncludesTax": false,
           "defaultCountry": "DE",
           "defaultRegion": "",
           "calculateServerSide": true
@@ -459,19 +459,12 @@ This property is used by the mailchimp extension (See [`src/extensions`](../src/
 ```
 This is the currently applied theme path. After changing it Vue Storefront need to be rebuilded.
 
-```json    
+```json
     "analytics": {
       "id": false
     },
-``` 
-You can put Your Google Analytics ID in here as to be used by the analytics extension.
-
-```json    
-    "stripe": {
-      "api_key": "my_example_api_key"
-    },
 ```
-Here You have the Stripe API key for being used with the `vsf-payment-stripe` extension.
+You can put Your Google Analytics ID in here as to be used by the analytics extension.
 
 ```json
     "cms": {
