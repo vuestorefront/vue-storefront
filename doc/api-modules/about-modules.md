@@ -71,6 +71,8 @@ interface VueStorefrontModuleConfig {
   afterRegistration?: (Vue: VueConstructor, config: Object) => void,
 }
 ```
+
+See code [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/index.ts)
 #### `key` (required)
 
 Key is an ID of your module. It's used to identify your module and to set keys in all key-based extendings that module is doing (like creating namespaced store). This key should be unique. You can duplicate the keys of some other modules only if you want to extend them. Modules with the same keys will be merged.
