@@ -4,9 +4,9 @@ import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '../../../../helpers'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
-import SearchQuery from 'core/store/lib/search/searchQuery'
-import HttpQuery from 'core/store/types/search/HttpQuery'
-import Response from 'core/store/types/search/Response'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import HttpQuery from '@vue-storefront/store/types/search/HttpQuery'
+import Response from '@vue-storefront/store/types/search/Response'
 
 export class SearchAdapter {
   public entities: any
@@ -28,7 +28,7 @@ export class SearchAdapter {
       ElasticsearchQueryBody = prepareElasticsearchQueryBody(Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
         ElasticsearchQueryBody['min_score'] = rootStore.state.config.elasticsearch.min_score
-      }      
+      }
     } else {
       // backward compatibility for old themes uses bodybuilder
       ElasticsearchQueryBody = Request.searchQuery

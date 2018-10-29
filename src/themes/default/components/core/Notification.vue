@@ -8,7 +8,7 @@
         :class="notification.type"
       >
         <div
-          @click="action(notification.action1.action, index)"
+          @click="execAction(notification.action1, index)"
           class="message p20"
           data-testid="notificationMessage"
         >
@@ -20,7 +20,7 @@
             :class="`border-${notification.type}`"
             id="notificationAction1"
             data-testid="notificationAction1"
-            @click="action(notification.action1.action, index, notification)"
+            @click="execAction(notification.action1, index)"
           >
             {{ notification.action1.label }}
           </div>
@@ -28,7 +28,7 @@
             class="py10 px20 pointer weight-400 notification-action uppercase"
             id="notificationAction2"
             data-testid="notificationAction2"
-            @click="action(notification.action2.action, index, notification)"
+            @click="execAction(notification.action2, index)"
             v-if="notification.action2"
           >
             {{ notification.action2.label }}
@@ -40,10 +40,18 @@
 </template>
 
 <script>
-import Notification from '@vue-storefront/core/components/Notification'
+import { Notification } from '@vue-storefront/core/modules/notification/components/Notification'
 
 export default {
-  mixins: [Notification]
+  mixins: [Notification],
+  methods: {
+    execAction (action, index) {
+      if (action.action) {
+        action.action()
+      }
+      this.$store.dispatch('notification/removeNotification', index)
+    }
+  }
 }
 </script>
 

@@ -1,5 +1,5 @@
 import rootStore from '../'
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text

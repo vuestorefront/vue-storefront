@@ -3,7 +3,7 @@ import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType} from './processor/processType'
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 
 export class SearchAdapter {
 
