@@ -5,12 +5,13 @@ import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
+import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Product',
-  mixins: [Composite, CompareProduct],
+  mixins: [Composite, AddToCompare, CompareProduct],
   data () {
     return {
       loading: false
@@ -113,9 +114,11 @@ export default {
       return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/removeItem', product) : false
     },
     addToList (list) {
-      CompareProduct.methods.addToCompare.call(this, this.product)
+      // Method renamed to 'addToCompare(product)', product is an Object
+      AddToCompare.methods.addToCompare.call(this, this.product)
     },
     removeFromList (list) {
+      // Method renamed to 'removeFromCompare(product)', product is an Object
       CompareProduct.methods.removeFromCompare.call(this, this.product)
     },
     onAfterCustomOptionsChanged (payload) {
