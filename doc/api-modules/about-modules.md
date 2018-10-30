@@ -67,8 +67,8 @@ interface VueStorefrontModuleConfig {
   key: string;
   store?: { module?: Module<any, any>, plugin?: Function, extend?: { key: string, module: Module<any, any> }[] };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
-  afterRegistration?: (Vue: VueConstructor, config: Object) => void,
+  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
+  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
 }
 ```
 
@@ -90,11 +90,11 @@ Entry point for vue-router. You can provide additional routes and [navigation gu
 
 #### `beforeRegistration`
 
-Function that'll be called before registering the module both on server and client side. You have access to `Vue` and `config` objects inside.
+Function that'll be called before registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
 
 #### `afterRegistration`
 
-Function that'll be called after registering the module both on server and client side. You have access to `Vue` and `config` objects inside.
+Function that'll be called after registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
 
 # Module file structure
 
