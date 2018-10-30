@@ -1,38 +1,18 @@
-import { mapState } from 'vuex'
-import i18n from '@vue-storefront/i18n'
+import { AccountButton } from '@vue-storefront/core/modules/user/components/AccountButton'
 
 export default {
   name: 'AccountIcon',
   data () {
+    // theme-specific, depreciated
     return {
       navigation: []
     }
   },
   computed: {
-    ...mapState({
-      currentUser: state => state.user.current
-    })
-  },
-  methods: {
-    goToAccount () {
-      if (this.currentUser) {
-        this.$router.push('/my-account')
-      } else {
-        this.$bus.$emit('modal-show', 'modal-signup')
-      }
-    },
-    logout () {
-      this.$bus.$emit('user-before-logout')
-      this.$router.push('/')
-    },
-    notify (title) {
-      if (title === 'My loyalty card' || title === 'My product reviews') {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-      }
+    currentUser () {
+      // renamed to 'user'
+      return this.user
     }
-  }
+  },
+  mixins: [AccountButton]
 }

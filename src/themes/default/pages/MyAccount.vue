@@ -40,19 +40,18 @@ import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
-import i18n from '@vue-storefront/i18n'
 
 export default {
   data () {
     return {
       navigation: [
-        { title: i18n.t('My profile'), link: '/my-account' },
-        { title: i18n.t('My shipping details'), link: '/my-account/shipping-details' },
-        { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
-        { title: i18n.t('My orders'), link: '/my-account/orders' },
-        { title: i18n.t('My loyalty card'), link: '#' },
-        { title: i18n.t('My product reviews'), link: '#' },
-        { title: i18n.t('My Recently viewed products'), link: '/my-account/recently-viewed' }
+        { title: this.$t('My profile'), link: '/my-account' },
+        { title: this.$t('My shipping details'), link: '/my-account/shipping-details' },
+        { title: this.$t('My newsletter'), link: '/my-account/newsletter' },
+        { title: this.$t('My orders'), link: '/my-account/orders' },
+        { title: this.$t('My loyalty card'), link: '#' },
+        { title: this.$t('My product reviews'), link: '#' },
+        { title: this.$t('My Recently viewed products'), link: '/my-account/recently-viewed' }
       ]
     }
   },
@@ -65,7 +64,18 @@ export default {
     MyOrder,
     MyRecentlyViewed
   },
-  mixins: [MyAccount]
+  mixins: [MyAccount],
+  methods: {
+    notify (title) {
+      if (title === 'My loyalty card' || title === 'My product reviews') {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'warning',
+          message: this.$t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
+          action1: { label: this.$t('OK') }
+        })
+      }
+    }
+  }
 }
 </script>
 

@@ -61,7 +61,7 @@ module.exports = {
       template: fs.existsSync(themedIndex) ? themedIndexBasic: 'src/index.basic.template.html',
       filename: 'index.basic.html',
       inject: isProd == false
-    })    
+    })
   ],
   devtool: 'source-map',
   entry: {
@@ -89,9 +89,7 @@ module.exports = {
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
-      'core': '@vue-storefront/core',
       'src': path.resolve(__dirname, '../../src'),
-      '@vue-storefront/core/lib/i18n': '@vue-storefront/i18n',
 
       // Theme aliases
       'theme': themeRoot,

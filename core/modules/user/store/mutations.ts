@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
-import * as types from '../../mutation-types'
-import UserState from './types/UserState'
+import * as types from './mutation-types'
+import UserState from '../types/UserState'
 
 const mutations: MutationTree<UserState> = {
   [types.USER_TOKEN_CHANGED] (state, payload) {

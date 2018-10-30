@@ -137,6 +137,7 @@
       "synchronize_totals": true,
       "setCustomProductOptions": true,
       "setConfigurableProductOptions": true,
+      "askBeforeRemoveProduct": true,
       "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
       "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
       "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
@@ -170,7 +171,8 @@
       },
       "sortByAttributes": {
         "Latest": "updated_at",
-        "Price":"final_price"
+        "Price: Low to high":"final_price",
+        "Price: High to low":"final_price:desc"
       },
       "gallery": {
         "variantsGroupAttribute": "color",
@@ -284,9 +286,6 @@
     "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
-    },
-    "stripe": {
-      "api_key": "my_example_api_key"
     },
     "cms": {
       "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",

@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types'
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { quickSearchByQuery } from '../../lib/search'
 import AttributeState from './types/AttributeState'
 import RootState from '../../types/RootState'

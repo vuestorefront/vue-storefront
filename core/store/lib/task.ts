@@ -65,10 +65,10 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                 rootStore.dispatch('user/logout', { silent: true })
                 rootStore.dispatch('sync/clearNotTransmited')
                 Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
-                Vue.prototype.$bus.$emit('notification', {
+                rootStore.dispatch('notification/spawnNotification', {
                   type: 'error',
                   message: i18n.t('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'),
-                  action1: { label: i18n.t('OK'), action: 'close' }
+                  action1: { label: i18n.t('OK') }
                 })
                 rootStore.state.userTokenInvalidateAttemptsCount = 0
               } else {
@@ -103,10 +103,10 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           }
         }
         if (!task.silent && (jsonResponse.result && jsonResponse.result.code !== 'ENOTFOUND' && !silentMode)) {
-          Vue.prototype.$bus.$emit('notification', {
+          rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t(jsonResponse.result),
-            action1: { label: i18n.t('OK'), action: 'close' }
+            action1: { label: i18n.t('OK') }
           })
         }
       }

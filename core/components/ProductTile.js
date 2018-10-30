@@ -1,5 +1,4 @@
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
-import imgPlaceholder from '@vue-storefront/core/directives/imgPlaceholder'
 
 export default {
   name: 'ProductTile',
@@ -44,6 +43,5 @@ export default {
     isNew () {
       return this.product.new === '1' ? 'new' : ''
     }
-  },
-  directives: { imgPlaceholder }
+  }
 }

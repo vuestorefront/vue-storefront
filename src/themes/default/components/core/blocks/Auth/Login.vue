@@ -79,7 +79,6 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from '@vue-storefront/i18n'
 
 export default {
   mixins: [Login],
@@ -93,41 +92,41 @@ export default {
     }
   },
   methods: {
-    close () {
-      this.$bus.$emit('modal-hide', 'modal-signup')
-    },
     login () {
       if (this.$v.$invalid) {
         this.$v.$touch()
-        this.$bus.$emit('notification', {
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: i18n.t('Please fix the validation errors'),
-          action1: { label: i18n.t('OK'), action: 'close' }
+          message: this.$t('Please fix the validation errors'),
+          action1: { label: this.$t('OK') }
         })
         return
       }
-
-      this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
-      this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
-        this.$bus.$emit('notification-progress-stop', {})
-
-        if (result.code !== 200) {
-          this.$bus.$emit('notification', {
-            type: 'error',
-            message: i18n.t(result.result),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-        } else {
-          this.$bus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('You are logged in!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-          this.close()
-        }
-      }).catch(err => {
-        console.error(err)
-        this.$bus.$emit('notification-progress-stop')
+      this.callLogin()
+    },
+    remindPassword () {
+      if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Reset password feature does not work while offline!'),
+          action1: { label: this.$t('OK') }
+        })
+      } else {
+        this.callForgotPassword()
+      }
+    },
+    onSuccess () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    onFailure (result) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t(result.result),
+        action1: { label: this.$t('OK') }
       })
     }
   },

@@ -4,6 +4,7 @@ import { union } from 'lodash-es'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
+import rootStore from '@vue-storefront/store'
 
 import buildTimeConfig from 'config'
 import { execute } from '@vue-storefront/store/lib/task'
@@ -12,7 +13,7 @@ import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 
-require('@vue-storefront/core/service-worker-registration') // register the service worker
+require('@vue-storefront/core/service-worker/registration') // register the service worker
 
 declare var window: any
 
@@ -31,17 +32,17 @@ if (config.storeViews.multistore === true) {
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
-    EventBus.$emit('notification', {
+    rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
       message: i18n.t('No available product variants'),
-      action1: { label: i18n.t('OK'), action: 'close' }
+      action1: { label: i18n.t('OK') }
     })
     router.back()
   } else {
-    EventBus.$emit('notification', {
+    rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
       message: i18n.t(err.message),
-      action1: { label: i18n.t('OK'), action: 'close' }
+      action1: { label: i18n.t('OK') }
     })
     reject()
   }
@@ -291,23 +292,8 @@ EventBus.$on('user-after-loggedin', receivedData => {
   }
 })
 
-EventBus.$on('user-before-logout', () => {
-  store.dispatch('user/logout', { silent: false })
-  store.commit('ui/setSubmenu', {
-    depth: 0
-  })
-
-  const usersCollection = Vue.prototype.$db.usersCollection
-  usersCollection.setItem('current-token', '')
-
-  if (store.state.route.path === '/my-account') {
-    router.push('/')
-  }
-})
-
 store.dispatch('cart/load')
 store.dispatch('compare/load')
 store.dispatch('recently-viewed/load')
-store.dispatch('user/startSession')
 
 window.addEventListener('online', () => { onNetworkStatusChange(store) })

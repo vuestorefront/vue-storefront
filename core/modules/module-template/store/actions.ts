@@ -19,7 +19,7 @@ export const actions: ActionTree<ExampleState, any> = {
   addUser ({ commit }, { user, useCache = false }) {
     return new Promise ((resolve, reject) => {
       commit(types.ADD_USER, user)
-      if (useCache) cacheStorage.getItem('user', user)
+      if (useCache) cacheStorage.setItem('user', user)
       resolve(user)
     })
   }
