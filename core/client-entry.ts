@@ -292,7 +292,6 @@ EventBus.$on('user-after-loggedin', receivedData => {
   }
 })
 
-store.dispatch('cart/load')
 store.dispatch('compare/load')
 
 window.addEventListener('online', () => { onNetworkStatusChange(store) })
