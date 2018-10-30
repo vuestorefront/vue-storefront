@@ -26,6 +26,7 @@ let routes = [
   { name: 'my-newsletter', path: '/my-account/newsletter', component: MyAccount, props: {activeBlock: 'MyNewsletter'} },
   { name: 'my-orders', path: '/my-account/orders', component: MyAccount, props: {activeBlock: 'MyOrders'} },
   { name: 'my-order', path: '/my-account/orders/:orderId', component: MyAccount, props: {activeBlock: 'MyOrder'} },
+  { name: 'my-recently-viewed', path: '/my-account/recently-viewed', component: MyAccount, props: {activeBlock: 'MyRecentlyViewed'} },
   { name: 'about-us', path: '/about-us', component: Static, props: {page: 'about', title: 'About us'} },
   { name: 'customer-service', path: '/customer-service', component: Static, props: {page: 'lorem', title: 'Customer service'} },
   { name: 'store-locator', path: '/store-locator', component: Static, props: {page: 'lorem', title: 'Store locator'} },
