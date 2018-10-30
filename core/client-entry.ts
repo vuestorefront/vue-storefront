@@ -280,19 +280,6 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }
 })
 
-EventBus.$on('user-after-loggedin', receivedData => {
-  store.dispatch('checkout/savePersonalDetails', {
-    firstName: receivedData.firstname,
-    lastName: receivedData.lastname,
-    emailAddress: receivedData.email
-  })
-  if (store.state.ui.openMyAccount) {
-    router.push({ name: 'my-account' })
-    store.commit('ui/setOpenMyAccount', false)
-  }
-})
-
-store.dispatch('cart/load')
 store.dispatch('compare/load')
 store.dispatch('recently-viewed/load')
 
