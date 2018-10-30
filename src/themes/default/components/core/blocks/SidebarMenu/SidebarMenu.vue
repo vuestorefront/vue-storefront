@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 
 import SidebarMenu from '@vue-storefront/core/components/blocks/SidebarMenu/SidebarMenu'
@@ -173,9 +173,6 @@ export default {
     ...mapState({
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
-    }),
-    ...mapGetters('compare', {
-      compareIsActive: 'isActive'
     })
   },
   methods: {

@@ -4,15 +4,10 @@ export const CompareProduct = {
   name: 'CompareProduct',
   computed: {
     isOnCompare () : boolean {
-      return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
+      return this.$store.getters['compare/isOnCompare'](this.product)
     }
   },
   methods: {
-    addToCompare (product: Product) {
-      return this.$store.state['compare']
-        ? this.$store.dispatch('compare/addItem', product)
-        : false
-    },
     removeFromCompare (product: Product) {
       return this.$store.state['compare']
         ? this.$store.dispatch('compare/removeItem', product)

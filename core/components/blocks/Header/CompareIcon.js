@@ -5,8 +5,8 @@ export default {
   mixins: [CompareButton],
   computed: {
     isActive () {
-      // Computed Property renamed to 'compareIsActive'
-      return this.compareIsActive
+      // Computed Property renamed to 'isEmpty'
+      return !this.isEmpty
     }
   }
 }

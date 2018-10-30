@@ -1,20 +1,7 @@
-import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/store/types/product/Product'
 
 export const Compare = {
   name: 'Compare',
-  props: {
-    title: {
-      type: String,
-      required: true
-    }
-  },
-  metaInfo () {
-    return {
-      title: this.$route.meta.title || this.$props.title || i18n.t('Compare Products'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
-    }
-  },
   computed: {
     items () : Product[] {
       return this.$store.state.compare.items
