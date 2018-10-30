@@ -1,16 +1,17 @@
-import { Module } from 'vuex'
+import { Module, Store } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
 import rootStore from '@vue-storefront/store'
 import router from '@vue-storefront/core/router'
 import { merge } from 'lodash-es'
+import RootState from '@vue-storefront/store/types/RootState';
 
 export interface VueStorefrontModuleConfig {
   key: string;
   store?: { module?: Module<any, any>, plugin?: Function, extend?: { key: string, module: Module<any, any> }[] };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
-  afterRegistration?: (Vue: VueConstructor, config: Object) => void,
+  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
+  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
 }
 
 export class VueStorefrontModule {
@@ -70,10 +71,10 @@ export class VueStorefrontModule {
   }
 
   public register (): void {
-    if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config)
+    if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore)
     if (this._c.store) VueStorefrontModule._extendStore(this._c.key, this._c.store.module, this._c.store.plugin, this._c.store.extend)
     if (this._c.router) VueStorefrontModule._extendRouter(this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
     VueStorefrontModule._registeredModules.push(this._c)
-    if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config)
+    if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config, rootStore)
   }
 }
