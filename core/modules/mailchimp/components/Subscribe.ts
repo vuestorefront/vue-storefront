@@ -14,6 +14,7 @@ import { required, email } from 'vuelidate/lib/validators'
  * 
  */
 export const Subscribe = {
+  name: 'MailchimpSubscribe',
   data () {
     return {
       email: ''

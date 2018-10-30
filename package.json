@@ -172,6 +172,7 @@
     "core/store",
     "src/extensions/*",
     "src/themes/*",
-    "docs"
+    "docs",
+    "core/modules/*"
   ]
 }

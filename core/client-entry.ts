@@ -292,22 +292,7 @@ EventBus.$on('user-after-loggedin', receivedData => {
   }
 })
 
-EventBus.$on('user-before-logout', () => {
-  store.dispatch('user/logout', { silent: false })
-  store.commit('ui/setSubmenu', {
-    depth: 0
-  })
-
-  const usersCollection = Vue.prototype.$db.usersCollection
-  usersCollection.setItem('current-token', '')
-
-  if (store.state.route.path === '/my-account') {
-    router.push('/')
-  }
-})
-
 store.dispatch('cart/load')
 store.dispatch('compare/load')
-store.dispatch('user/startSession')
 
 window.addEventListener('online', () => { onNetworkStatusChange(store) })
