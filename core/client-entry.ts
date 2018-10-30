@@ -297,13 +297,6 @@ EventBus.$on('user-before-logout', () => {
   store.commit('ui/setSubmenu', {
     depth: 0
   })
-
-  const usersCollection = Vue.prototype.$db.usersCollection
-  usersCollection.setItem('current-token', '')
-
-  if (store.state.route.path === '/my-account') {
-    router.push('/')
-  }
 })
 
 store.dispatch('cart/load')

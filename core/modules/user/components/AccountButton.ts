@@ -1,13 +1,11 @@
 
 export const AccountButton = {
-  name: 'AccountIcon',
-  data () {
-    return {
-      navigation: []
-    }
-  },
+  name: 'AccountButton',
   computed: {
-    currentUser () {
+    isLoggedIn () {
+      return this.$store.getters['user/isLoggedIn']
+    },
+    user () {
       return this.$store.state.user.current
     }
   },
