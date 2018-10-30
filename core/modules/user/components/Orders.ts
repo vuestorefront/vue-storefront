@@ -1,5 +1,5 @@
 export const UserOrders = {
-  name: 'userOrders',
+  name: 'UserOrders',
   computed: {
     ordersHistory () {
       return this.$store.state.user.orders_history.items
