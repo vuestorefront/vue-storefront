@@ -113,10 +113,10 @@ export default {
       return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/removeItem', product) : false
     },
     addToList (list) {
-      Product.methods.addToCompare.call(this, this.product)
+      CompareProduct.methods.addToCompare.call(this, this.product)
     },
     removeFromList (list) {
-      Product.methods.removeFromCompare.call(this, this.product)
+      CompareProduct.methods.removeFromCompare.call(this, this.product)
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
