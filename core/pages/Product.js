@@ -4,13 +4,13 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
-import { Product } from '@vue-storefront/core/modules/compare/components/Product.ts'
+import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Product',
-  mixins: [Composite, Product],
+  mixins: [Composite, CompareProduct],
   data () {
     return {
       loading: false
