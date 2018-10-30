@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '../../mutation-types'
+import * as types from '@vue-storefront/store/mutation-types'
 import rootStore from '@vue-storefront/store'
-import { ValidationError } from '../../lib/exceptions'
+import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import i18n from '@vue-storefront/i18n'
-import { adjustMultistoreApiUrl } from '../../lib/multistore'
-import RootState from '../../types/RootState'
-import UserState from './types/UserState'
+import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
+import RootState from '@vue-storefront/store/types/RootState'
+import UserState from '../types/UserState'
 const Ajv = require('ajv') // json validator
+import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<UserState, RootState> = {
   startSession (context) {
@@ -310,6 +311,12 @@ const actions: ActionTree<UserState, RootState> = {
         message: i18n.t("You're logged out"),
         action1: { label: i18n.t('OK') }
       })
+    }
+    const usersCollection = Vue.prototype.$db.usersCollection
+    usersCollection.setItem('current-token', '')
+  
+    if (rootStore.state.route.path === '/my-account') {
+      router.push('/')
     }
   },
   /**

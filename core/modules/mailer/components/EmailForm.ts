@@ -2,6 +2,7 @@ import i18n from '@vue-storefront/i18n'
 import MailItem from '../types/MailItem'
 
 export const EmailForm = {
+  name: 'EmailForm',
   data () {
     return {
       token: null

@@ -1,4 +1,5 @@
 export const Unsubscribe = {
+  name: 'MailchimpUnsubscribe',
   methods: {
     unsubscribe () {
       this.$store.dispatch('mailchimp/unsubscribe', this.email).then(res => {

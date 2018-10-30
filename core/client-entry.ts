@@ -280,34 +280,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }
 })
 
-EventBus.$on('user-after-loggedin', receivedData => {
-  store.dispatch('checkout/savePersonalDetails', {
-    firstName: receivedData.firstname,
-    lastName: receivedData.lastname,
-    emailAddress: receivedData.email
-  })
-  if (store.state.ui.openMyAccount) {
-    router.push({ name: 'my-account' })
-    store.commit('ui/setOpenMyAccount', false)
-  }
-})
-
-EventBus.$on('user-before-logout', () => {
-  store.dispatch('user/logout', { silent: false })
-  store.commit('ui/setSubmenu', {
-    depth: 0
-  })
-
-  const usersCollection = Vue.prototype.$db.usersCollection
-  usersCollection.setItem('current-token', '')
-
-  if (store.state.route.path === '/my-account') {
-    router.push('/')
-  }
-})
-
-store.dispatch('cart/load')
 store.dispatch('compare/load')
-store.dispatch('user/startSession')
+store.dispatch('recently-viewed/load')
 
 window.addEventListener('online', () => { onNetworkStatusChange(store) })
