@@ -1,7 +1,7 @@
 export const CompareButton = {
   name: 'CompareButton',
   computed: {
-    compareIsActive () {
+    compareIsActive () : boolean {
       return this.$store.getters['compare/isActive']
     }
   }
