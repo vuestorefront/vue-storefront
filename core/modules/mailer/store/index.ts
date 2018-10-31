@@ -6,7 +6,7 @@ import { Module } from 'vuex'
 export const module: Module<any, any> = {
   namespaced: true,
   actions: {
-    sendEmail ({}, letter: MailItem) {
+    sendEmail (context, letter: MailItem) {
       return new Promise((resolve, reject) => {
         fetch(config.mailer.endpoint.token)
         .then(res => res.json())
