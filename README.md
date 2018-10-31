@@ -25,7 +25,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
       <td align="center" valign="middle">
         <a href="https://demo.storefrontcloud.io">
           <img
-            src="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/media/demo-b2c.png?raw=true"
+            src="https://divante.co/open-graph/vuestorefront/GitHub-Readme-Try-Demo.png"
             alt="B2C Theme demo"
             style="width: 100px;">
         </a>
@@ -38,7 +38,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 </table>
 
  ## Video demo
- [![See how it works!](doc/media/vs-video.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
+ [![See how it works!](doc/media/Fil-Rakowski-VS-Demo-Youtube.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
 
  ## Technical Webcast #1 - demo and the architecture
  [![Demo and the architecture of Vue Storefront](doc/media/video-webcast-1.png)](https://www.youtube.com/watch?v=sRSmEP4jva0&feature=youtu.be)
@@ -149,7 +149,7 @@ Here you can read more about the proof of concept for [Vue Storefront connected 
 Besides a big improvement for the shopping experience, we also want to create a great code base for every developer who needs to work on a front-end application for the eCommerce.
 
 ## The architecture
-![Architecture diagram](doc/media/arch.png)
+![Architecture diagram](doc/media/GitHub-Architecture-VS.png)
 
 ## The design
 The application is prepared to be fully customized in design through theming system.
