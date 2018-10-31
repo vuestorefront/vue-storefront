@@ -1,4 +1,3 @@
-import order from './order'
 import product from './product'
 import category from './category'
 import attribute from './attribute'
@@ -15,7 +14,6 @@ import sync from './sync'
 import promoted from './promoted-offers'
 
 export default {
-  order,
   product,
   category,
   attribute,

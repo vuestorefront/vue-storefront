@@ -1,3 +1,5 @@
+
+// Should be in orders module
 export const UserOrders = {
   name: 'UserOrders',
   computed: {

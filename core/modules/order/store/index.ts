@@ -1,10 +1,10 @@
 import { Module } from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
-import RootState from '../../types/RootState'
+import RootState from '@vue-storefront/store/types/RootState'
 import OrderState from './types/OrderState'
 
-const order: Module<OrderState, RootState> = {
+export const module: Module<OrderState, RootState> = {
   namespaced: true,
   state: {
   },
@@ -12,4 +12,3 @@ const order: Module<OrderState, RootState> = {
   mutations
 }
 
-export default order
