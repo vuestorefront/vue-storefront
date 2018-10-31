@@ -4,7 +4,7 @@ import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/store/types/RootState'
-import OrderState from './types/OrderState'
+import OrderState from '../types/OrderState'
 const Ajv = require('ajv') // json validator
 
 const actions: ActionTree<OrderState, RootState> = {
