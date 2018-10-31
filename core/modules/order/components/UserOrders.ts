@@ -1,5 +1,7 @@
 
-// Should be in orders module
+/**
+ * Component responsible for displaying user orders. Requires User module.
+ */
 export const UserOrders = {
   name: 'UserOrders',
   computed: {
