@@ -5,7 +5,7 @@ export const KEY = 'review'
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { module }
+  store: { modules: [{ key: KEY, module }] },
 }
 
 export const Review = new VueStorefrontModule(moduleConfig)

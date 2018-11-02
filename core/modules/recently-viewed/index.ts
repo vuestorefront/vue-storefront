@@ -8,7 +8,7 @@ export const cacheStorage = initCacheStorage(KEY)
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { module, plugin},
+  store: { modules: [{ key: KEY, module }], plugin },
 }
 
 export const RecentlyViewed = new VueStorefrontModule(moduleConfig)
