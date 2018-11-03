@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import SearchPanel from 'core/components/blocks/SearchPanel/SearchPanel'
+import SearchPanel from '@vue-storefront/core/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {

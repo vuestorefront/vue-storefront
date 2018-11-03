@@ -53,11 +53,7 @@ export default {
     this.$bus.$on('checkout-after-validationError', this.focusField)
     this.$store.dispatch('cart/load').then(() => {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notifyEmptyCart()
         this.$router.push('/')
       } else {
         this.stockCheckCompleted = false
@@ -85,11 +81,7 @@ export default {
               if (!chp.stock.is_in_stock) {
                 this.stockCheckOK = false
                 chp.errors.stock = i18n.t('Out of stock!')
-                this.$bus.$emit('notification', {
-                  type: 'error',
-                  message: chp.name + i18n.t(' is out of the stock!'),
-                  action1: { label: i18n.t('OK'), action: 'close' }
-                })
+                this.notifyOutStock(chp)
               }
             }
           }
@@ -124,11 +116,7 @@ export default {
   methods: {
     onCartAfterUpdate (payload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notifyEmptyCart()
         this.$router.push('/')
       }
     },
@@ -162,11 +150,7 @@ export default {
     },
     onDoPlaceOrder (additionalPayload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notifyEmptyCart()
         this.$router.push('/')
       } else {
         this.payment.paymentMethodAdditional = additionalPayload
@@ -222,18 +206,10 @@ export default {
         if (this.stockCheckCompleted) {
           if (!this.stockCheckOK) {
             isValid = false
-            this.$bus.$emit('notification', {
-              type: 'error',
-              message: i18n.t('Some of the ordered products are not available!'),
-              action1: { label: i18n.t('OK'), action: 'close' }
-            })
+            this.notifyNotAvailable()
           }
         } else {
-          this.$bus.$emit('notification', {
-            type: 'warning',
-            message: i18n.t('Stock check in progress, please wait while available stock quantities are checked'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
+          this.notifyStockCheck()
           isValid = false
         }
       }
@@ -251,11 +227,7 @@ export default {
     },
     checkConnection (isOnline) {
       if (!isOnline) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notifyNoConnection()
       }
     },
     activateSection (sectionToActivate) {
@@ -322,11 +294,7 @@ export default {
       if (this.checkStocks()) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       } else {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Some of the ordered products are not available!'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notifyNotAvailable()
       }
     },
     savePersonalDetails () {

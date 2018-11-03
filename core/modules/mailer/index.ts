@@ -5,7 +5,7 @@ export const KEY = 'mailer'
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { module }
+  store: { modules: [{ key: KEY, module }] },
 }
 
 export const Mailer = new VueStorefrontModule(moduleConfig)

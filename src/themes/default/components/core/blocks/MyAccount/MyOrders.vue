@@ -10,7 +10,7 @@
     </div>
     <!-- My orders body -->
     <div class="row">
-      <div class="col-xs-12" v-if="ordersHistory && ordersHistory.length > 0">
+      <div class="col-xs-12" v-show="!isHistoryEmpty">
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
@@ -46,7 +46,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-xs-12 h4" v-else>
+      <div class="col-xs-12 h4" v-show="isHistoryEmpty">
         <p>{{ $t('No orders yet') }}</p>
       </div>
     </div>

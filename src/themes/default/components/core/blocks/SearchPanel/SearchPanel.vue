@@ -83,10 +83,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/animations/transitions";
+@import "~theme/css/variables/grid";
+@import "~theme/css/variables/typography";
 
 .searchpanel {
   height: 100vh;
-  width: 800px;
+  width: 928px;
   top: 0;
   right: 0;
   z-index: 3;
@@ -94,6 +96,7 @@ export default {
   transition: transform 300ms $motion-main;
   overflow-y: auto;
   overflow-x: hidden;
+
   .close-icon-row {
     display: flex;
     justify-content: flex-end;
@@ -102,16 +105,31 @@ export default {
   .container {
     padding-left: 40px;
     padding-right: 40px;
+
+    @media #{$media-xs} {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
   }
 
   .row {
-    margin-left: -15px;
-    margin-right: -15px;
+    margin-left: - map-get($grid-gutter-widths, lg) / 2;
+    margin-right: - map-get($grid-gutter-widths, lg) / 2;
+
+    @media #{$media-xs} {
+      margin-right: - map-get($grid-gutter-widths, xs) / 2;
+      margin-left: - map-get($grid-gutter-widths, xs) / 2;
+    }
   }
 
   .col-md-12 {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: map-get($grid-gutter-widths, lg) / 2;
+    padding-right: map-get($grid-gutter-widths, lg) / 2;
+
+    @media #{$media-xs} {
+      padding-left: map-get($grid-gutter-widths, xs) / 2;
+      padding-right: map-get($grid-gutter-widths, xs) / 2;
+    }
   }
 
   .product-listing {
@@ -121,12 +139,18 @@ export default {
   .product {
     box-sizing: border-box;
     width: 33.33%;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: map-get($grid-gutter-widths, lg) / 2;
+    padding-right: map-get($grid-gutter-widths, lg) / 2;
+
+    @media #{$media-xs} {
+      width: 50%;
+      padding-left: map-get($grid-gutter-widths, xs) / 2;
+      padding-right: map-get($grid-gutter-widths, xs) / 2;
+    }
   }
 
   &.active {
-    transform: translateX(0)
+    transform: translateX(0);
   }
 
   .close-icon {
@@ -147,12 +171,18 @@ export default {
   }
 
   .search-panel-input {
-    border: none;
     width: 100%;
-    padding-bottom: 0px;
-    padding-top: 0px;
-    outline: 0;
     height: 60px;
+    padding-bottom: 0;
+    padding-top: 0;
+    border: none;
+    outline: 0;
+    font-size: 18px;
+    font-family: map-get($font-families, secondary);
+
+    @media #{$media-xs} {
+      font-size: 16px;
+    }
   }
 
   .no-results {
@@ -171,33 +201,9 @@ export default {
   .close-button {
     background: #fff;
   }
-}
 
-@media only screen and (max-width:575.98px) {
-  .searchpanel {
-
-     .container {
-      padding-left: 30px;
-      padding-right: 30px;
-    }
-
-    .row {
-      margin-right: -10px;
-      margin-left: -10px;
-    }
-
-    .col-md-12 {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-
-    .product {
-      width: 50%;
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-
-    button {
+  button {
+    @media #{$media-xs} {
       width: 100%;
       margin-bottom: 15px;
     }
