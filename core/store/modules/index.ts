@@ -6,7 +6,6 @@ import payment from './payment'
 import shipping from './shipping'
 import ui from './ui-store'
 import checkout from './checkout'
-import homepage from './homepage'
 import stock from './stock'
 import tax from './tax'
 import claims from './claims'
@@ -22,7 +21,6 @@ export default {
   shipping,
   ui,
   checkout,
-  homepage,
   stock,
   tax,
   claims,
