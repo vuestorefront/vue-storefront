@@ -12,8 +12,8 @@ export default {
     category () {
       return this.$store.state.category.current
     },
-    vuexFilters () {
-      return this.$store.state.category.filters
+    activeFilters () {
+      return this.$store.state.category.filters.chosen
     }
   },
   methods: {
@@ -23,7 +23,7 @@ export default {
     resetAllFilters () {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
-      const filterQr = buildFilterProductsQuery(this.category, this.vuexFilters.chosen)
+      const filterQr = buildFilterProductsQuery(this.category, this.activeFilters)
       this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
         searchProductQuery: filterQr
       })
