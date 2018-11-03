@@ -1,7 +1,7 @@
 import * as Countries from '@vue-storefront/core/i18n/resource/countries.json'
 
-export default {
-  name: 'MyProfile',
+export const UserAccount = {
+  name: 'UserAccount',
   data () {
     return {
       currentUser: Object.assign({}, this.$store.state.user.current),
