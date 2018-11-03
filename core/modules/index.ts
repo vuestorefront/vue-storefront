@@ -20,6 +20,10 @@ export class VueStorefrontModule {
     private _c: VueStorefrontModuleConfig,
   ) { }
 
+  public get config () {
+    return this._c
+  }
+  
   private static _registeredModules: VueStorefrontModuleConfig[] = []
 
   private static _doesStoreAlreadyExists (key: string) : boolean {
@@ -62,8 +66,8 @@ export class VueStorefrontModule {
     if (afterEach) router.afterEach(afterEach)
   }
 
-  public extend (extendedConfig: VueStorefrontModuleConfig) {
-    this._c = merge(this._c, extendedConfig)
+  public extend (extendedConfig: VueStorefrontModule) {
+    this._c = merge(this._c, extendedConfig.config)
   }
 
   public register (): void {

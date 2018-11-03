@@ -9,12 +9,12 @@ import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
-const extendedExample: VueStorefrontModuleConfig = {
+const extendedExample = new VueStorefrontModule({
   key: 'extend',
   afterRegistration: function(Vue, config) {
     console.info('Hello, im extended now!')
   }
-}
+})
 
 Example.extend(extendedExample)
 
