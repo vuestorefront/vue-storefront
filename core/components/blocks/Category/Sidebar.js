@@ -24,10 +24,8 @@ export default {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
       const filterQr = buildFilterProductsQuery(this.category, this.vuexFilters.chosen)
-      const fsC = Object.assign({}, this.vuexFilters.chosen)
       this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
-        searchProductQuery: filterQr,
-        configuration: fsC
+        searchProductQuery: filterQr
       })
       this.$store.dispatch('category/products', this.$store.state.category.current_product_query)
     }
