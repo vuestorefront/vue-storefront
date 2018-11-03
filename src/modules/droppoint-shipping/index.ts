@@ -4,7 +4,7 @@ import { module } from './store'
 export const KEY = 'droppoint-shipping'
 const moduleConfig: VueStorefrontModuleConfig = {
     key: KEY,
-    store: { module: module },
+    store: { modules: [{ key: KEY, module }] },
 }
 
 export const DroppointShipping = new VueStorefrontModule(moduleConfig)

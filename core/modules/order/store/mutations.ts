@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import * as types from '../../mutation-types'
-import * as entities from '../../lib/entities'
-import OrderState from './types/OrderState'
-import rootStore from '../../'
+import * as types from './mutation-types'
+import * as entities from '@vue-storefront/store/lib/entities'
+import OrderState from '../types/OrderState'
+import rootStore from '@vue-storefront/store'
 
 const mutations: MutationTree<OrderState> = {
   /**

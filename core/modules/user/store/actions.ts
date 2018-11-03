@@ -323,6 +323,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Load user's orders history
    */
   getOrdersHistory (context, { refresh = true, useCache = true }) {
+    // TODO: Make it as an extension from users module
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
         console.debug('No User token, user unathorized')

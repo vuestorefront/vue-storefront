@@ -1,4 +1,4 @@
-import { UserOrders } from '@vue-storefront/core/modules/user/components/Orders'
+import { UserOrders } from '@vue-storefront/core/modules/order/components/UserOrders'
 
 // component fully depreciated. Use user/components/Orders instead
 export default {

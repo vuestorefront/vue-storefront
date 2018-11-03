@@ -6,7 +6,7 @@ export const KEY = 'cart'
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { module },
+  store: { modules: [{ key: KEY, module }] },
   afterRegistration
 }
 

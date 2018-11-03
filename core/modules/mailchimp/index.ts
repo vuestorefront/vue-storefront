@@ -7,7 +7,7 @@ export const cacheStorage = initCacheStorage(KEY)
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { module }
+  store: { modules: [{ key: KEY, module }] },
 }
 
 export const Mailchimp = new VueStorefrontModule(moduleConfig)
