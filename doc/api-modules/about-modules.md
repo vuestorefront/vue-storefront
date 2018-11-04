@@ -200,7 +200,7 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 You can extend and modify all parts of any of Vue Storefront modules before it's registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
 
-Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to extend module A with module B before the registration inside `src/modules/index.ts`. The sytax for this purpose is extremely simple.
+Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The sytax for this purpose is extremely simple.
 
 We need to import both modules, use `extendedExample` to extend `Example` and export them so they can be registered in VS core.
 
