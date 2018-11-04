@@ -1,5 +1,5 @@
 
-**Extensiosn are depreciated, use [modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) instead**
+**!!! Extensions are depreciated, use [modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) instead**
 # Working with extensions
 
 Vue Storefront Core provides basic eCommerce features. Everything else should be available via extensions.
