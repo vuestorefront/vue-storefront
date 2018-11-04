@@ -1,4 +1,5 @@
 
+**Extensiosn are depreciated, use [modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) instead
 # Working with extensions
 
 Vue Storefront Core provides basic eCommerce features. Everything else should be available via extensions.
@@ -39,7 +40,8 @@ If you want to provide some components for the themes please think of them as a 
 ## How to install the extension
 The enabled extensions must be declared within `src/extensions/index.js` file. You can also declare theme-specific extensions in `src/{your_theme}/extensions/index.js`.
 
-You should just instantionate your extension adding it to the list:
+You should just instantionate your extension adding it to the list:.
+
 
 ```js
 export default [
