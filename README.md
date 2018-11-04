@@ -74,7 +74,8 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Configuration file explained](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Config%20docs.md)
 
 ### Basics
-* [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction
+* [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction (outdated, we are workiung on interactive explorer :) )
+* [Vue Storefront Modules(https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
 * [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
 * [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
