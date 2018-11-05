@@ -1,16 +1,17 @@
 import Vue from 'vue'
-import rootStore from '../../'
-import { calculateProductTax } from '../../lib/taxcalc'
+import rootStore from '@vue-storefront/store'
+import { calculateProductTax } from '@vue-storefront/store/lib/taxcalc'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
 import groupBy from 'lodash-es/groupBy'
 import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
-import { optionLabel } from '../attribute/helpers'
+// TODO: Remove this dep
+import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
 import i18n from '@vue-storefront/i18n'
-import { currentStoreView } from '../../lib/multistore'
-import { getThumbnailPath } from '../../helpers'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { getThumbnailPath } from '@vue-storefront/store/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {

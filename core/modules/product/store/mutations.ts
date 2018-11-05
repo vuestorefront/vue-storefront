@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import * as types from '../../mutation-types'
-import ProductState, { PagedProductList } from './types/ProductState'
+import * as types from './mutation-types'
+import ProductState, { PagedProductList } from '../types/ProductState'
 
 const mutations: MutationTree<ProductState> = {
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {

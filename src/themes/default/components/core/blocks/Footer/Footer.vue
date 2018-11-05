@@ -187,7 +187,7 @@
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
-import Footer from '@vue-storefront/core/components/blocks/Footer/Footer'
+import Footer from '@vue-storefront/core/compatibility/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
 export default {

@@ -129,8 +129,8 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     store.state.config,
     ssrContext
   )
-  registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
   enabledModules.forEach(m => m.register())
+  registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
   app.$emit('application-after-init', app)
   return { app, router, store }
 }
