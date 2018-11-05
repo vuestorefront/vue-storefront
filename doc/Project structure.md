@@ -13,12 +13,15 @@ Below you can find the Vue Storefront project structure with explainations and c
   * `local.json` (optional) - your custom Vue Storefront config
 * `doc` - Project documentation
 * `core` - Vue Storefront core <b>(don't modify this directory on your project if you want to receive core updates)</b>
+  * `compatibility` - depreciated yet supported APIs (mostly replaced by modules)
   * `assets` - Global assets used in project like logo, app icons, placeholders and manifest.json, eventually will be removed and moved to themes. You can place your theme-specific assets in `{themeroot}/assets`
   * `build/` -  It contains `config.json` generated from files in `/config` folder and webpack build,. Its made from vue-cli webpack tempate. You can extend core webpack build in '{themeroot}/webpack.config.js' (related: [Working with Webpack](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md)).
   * `components` Vue Storefront core components (related: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
   * `filters` - Global Vue filters for the project. You can add your own filters in `{themeroot}/filters`
   * `helpers` - Global methods for the project.
   * `lib` - Core libraries allowing functionalities like theme support, extensions or filters
+  * `module` - Lerna package with logic responsible for VS Modules
+  * `modules` - core VS modules
   * `mixins` - Global mixins for the project. You can add your own mixins in `{themeroot}/mixins`
   * `models` - Data models for things like orders or notifications, eventually will be moved to documentation
   * `pages` - Vue Storefront core pages (related: [Working with core components](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Working%20with%20components.md))
