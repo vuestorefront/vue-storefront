@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import Wishlist from '@vue-storefront/core/components/blocks/Wishlist/Wishlist'
-import Product from 'theme/components/core/blocks/Wishlist/Product'
+import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
+import Product from 'theme/components/core/compatibility/blocks/Wishlist/Product'
 
 export default {
   props: {

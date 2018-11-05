@@ -17,7 +17,7 @@ import MinimalFooter from 'theme/components/core/blocks/Footer/MinimalFooter.vue
 
 import Head from 'theme/resource/head'
 import SearchPanel from '../components/core/blocks/SearchPanel/SearchPanel'
-import Wishlist from '../components/core/blocks/Wishlist/Wishlist'
+import Wishlist from '../components/core/compatibility/blocks/Wishlist/Wishlist'
 
 export default {
   data () {

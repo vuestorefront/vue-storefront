@@ -1,0 +1,1 @@
+Outdated VS APIs that shouldn't be used in new projects. they are safe to use in current ones tho since we are providing backward support for them
