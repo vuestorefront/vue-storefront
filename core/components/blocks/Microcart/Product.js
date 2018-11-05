@@ -23,11 +23,11 @@ export default {
   methods: {
     removeItem () {
       if (rootStore.state.config.cart.askBeforeRemoveProduct) {
-        this.$bus.$emit('notification', {
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           item: this.product,
           message: i18n.t('Are you sure you would like to remove this item from the shopping cart?'),
-          action2: { label: i18n.t('OK'), action: 'itemremoved' },
+          action2: { label: i18n.t('OK'), action: this.removeFromCart },
           action1: { label: i18n.t('Cancel'), action: 'close' },
           hasNoTimeout: true
         })
