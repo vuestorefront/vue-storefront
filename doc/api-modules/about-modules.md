@@ -126,7 +126,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 
 # Module registration
 
-All modules including the core ones are registered in `theme/modules.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
+All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
 
 All VS modules from `registerModules` will be registered during shop initialisation.
 
