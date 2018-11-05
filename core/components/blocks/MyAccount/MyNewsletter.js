@@ -1,4 +1,4 @@
-// this component is depreciated
+// this component is depreciated and is now in Newsletter module
 export default {
   name: 'MyNewsletter',
   data () {
