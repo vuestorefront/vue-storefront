@@ -47,7 +47,11 @@ export default {
   methods: {
     execAction (action, index) {
       if (action.action) {
-        action.action()
+        if (action.action === 'close') {
+          this.$store.dispatch('notification/removeNotification', index)
+        } else {
+          action.action()
+        }
       }
       this.$store.dispatch('notification/removeNotification', index)
     }
