@@ -1,4 +1,6 @@
-# Vue Storefront - headless PWA for eCommerce
+<img src="https://d9hhrg4mnvzow.cloudfront.net/www.vuestorefront.io/280b19d0-logo-vs_0by02c0by02c000000.jpg"></img>
+
+# Vue Storefront - headless backend-agnostic PWA for eCommerce
 <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
 ![version](https://img.shields.io/badge/node-v8.x-blue.svg)
 ![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg)
