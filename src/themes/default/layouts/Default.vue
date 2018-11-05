@@ -29,7 +29,7 @@ import EventBus from '@vue-storefront/core/plugins/event-bus'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 
-import Wishlist from 'theme/components/core/compatibility/blocks/Wishlist/Wishlist.vue'
+import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
 import Microcart from 'theme/components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from 'theme/components/core/blocks/SearchPanel/SearchPanel.vue'

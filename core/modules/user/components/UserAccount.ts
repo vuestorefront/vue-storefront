@@ -1,4 +1,4 @@
-import * as Countries from '@vue-storefront/core/i18n/resource/countries.json'
+const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
 
 export const UserAccount = {
   name: 'UserAccount',

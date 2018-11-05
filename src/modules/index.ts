@@ -6,7 +6,7 @@ import { Mailchimp } from '../modules/mailchimp'
 import { Example } from '@vue-storefront/core/modules/module-template'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
-
+import { Homepage } from "./homepage"
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
 const extendedExample = new VueStorefrontModule({
@@ -24,6 +24,7 @@ export const registerModules: VueStorefrontModule[] = [
   Mailer,
   Mailchimp,
   Notification,
-  RecentlyViewed
+  RecentlyViewed,
+  Homepage
   // Example
 ]

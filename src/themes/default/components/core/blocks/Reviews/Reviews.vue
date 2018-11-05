@@ -6,7 +6,7 @@
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
             {{ $t('Reviews') }}
           </h2>
-          <reviews-list :per-page="4" :items="reviews" />
+          <reviews-list :per-page="4" :items="reviews ? reviews : []" />
         </div>
         <div class="col-xs-12 col-md-5 pt50">
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
@@ -141,7 +141,7 @@ export default {
         'nickname': this.formData.name,
         'review_entity': 'product',
         'review_status': 2,
-        'customer_id': this.currentUser.id || null
+        'customer_id': this.currentUser ? this.currentUser.id : null
       })
     },
     clearReviewForm () {

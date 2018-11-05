@@ -5,7 +5,10 @@ import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/
 const KEY = 'homepage'
 
 const store = {
-  namespaced: true
+  namespaced: true,
+  state: {
+    new_collection: []
+  }
 }
 
 
