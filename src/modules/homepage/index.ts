@@ -1,4 +1,4 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/modules'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
 
 // TODO: Move the logic to appropiate modules and depreciate this one
 

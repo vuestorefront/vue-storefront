@@ -1,4 +1,4 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/modules'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
 import { Cart } from '@vue-storefront/core/modules/cart'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
