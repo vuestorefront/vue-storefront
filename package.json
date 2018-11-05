@@ -173,6 +173,7 @@
     "src/extensions/*",
     "src/themes/*",
     "docs",
-    "core/modules/*"
+    "core/modules/*",
+    "core/module"
   ]
 }

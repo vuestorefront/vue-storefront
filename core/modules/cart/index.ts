@@ -1,5 +1,5 @@
 import { module } from './store'
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/modules'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
 import { afterRegistration } from './hooks/afterRegistration'
 
 export const KEY = 'cart'
