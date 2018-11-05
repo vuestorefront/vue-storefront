@@ -41,7 +41,7 @@
   </modal>
 </template>
 <script>
-import { Subscribe } from '@vue-storefront/core/modules/mailchimp/components/Subscribe'
+import { Subscribe } from 'src/modules/mailchimp/components/Subscribe'
 import i18n from '@vue-storefront/i18n'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'

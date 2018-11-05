@@ -1,4 +1,4 @@
-import { VueStorefrontModuleConfig, VueStorefrontModule } from '@vue-storefront/core/modules'
+import { VueStorefrontModuleConfig, VueStorefrontModule } from '@vue-storefront/module'
 import { module } from './store'
 
 export const KEY = 'order'

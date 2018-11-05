@@ -1,5 +1,5 @@
 
-import { VueStorefrontModule } from './modules'
+import { VueStorefrontModule } from '@vue-storefront/module'
 import { Wishlist } from './modules/wishlist'
 import { Order } from './modules/order'
 import { User } from './modules/user'

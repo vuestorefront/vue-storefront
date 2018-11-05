@@ -5,7 +5,6 @@ import rootStore from '@vue-storefront/store'
 import router from '@vue-storefront/core/router'
 import { merge } from 'lodash-es'
 import RootState from '@vue-storefront/store/types/RootState';
-import { KEY } from './recently-viewed';
 
 export interface VueStorefrontModuleConfig {
   key: string;

@@ -1,0 +1,14 @@
+{
+  "name": "@vue-storefront/module",
+  "version": "1.5.0",
+  "description": "Vue Storefront Modules",
+  "license": "MIT",
+  "main": "index.ts",
+  "peerDependencies": {
+    "@vue-storefront/store" : "^1.5.0",
+    "localforage" : "^1.7.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
