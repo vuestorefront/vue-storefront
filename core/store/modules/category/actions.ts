@@ -302,6 +302,10 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     }
     return productPromise
+  },
+
+  resetFilters (context) {
+    context.commit(types.CATEGORY_REMOVE_FILTERS)
   }
 }
 

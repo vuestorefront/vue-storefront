@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GraphQL schema extendibility in the API - Yoann Vié
 - A lot of new docs - Natalia Tepluhina @NataliTepluhina
 - Magento2 integrated importer
+- 'Apply' filters button on mobile category - #1709 - Damian Fiałkiewicz @Aekal
 
 ### Changed
 - New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
