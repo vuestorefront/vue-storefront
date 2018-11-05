@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
-import RootState from '../../types/RootState'
-import ProductState from './types/ProductState'
+import RootState from '@vue-storefront/store/types/RootState'
+import ProductState from '../types/ProductState'
 
 const getters: GetterTree<ProductState, RootState> = {
   productParent: (state) => state.parent,

@@ -2,10 +2,10 @@ import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import RootState from '../../types/RootState'
-import ProductState from './types/ProductState'
+import RootState from '@vue-storefront/store/types/RootState'
+import ProductState from '../types/ProductState'
 
-const product: Module<ProductState, RootState> = {
+export const module: Module<ProductState, RootState> = {
   namespaced: true,
   state: {
     breadcrumbs: {
@@ -34,5 +34,3 @@ const product: Module<ProductState, RootState> = {
   actions,
   mutations
 }
-
-export default product

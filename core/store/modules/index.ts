@@ -1,4 +1,3 @@
-import product from './product'
 import category from './category'
 import attribute from './attribute'
 import compare from './compare'
@@ -13,7 +12,6 @@ import sync from './sync'
 import promoted from './promoted-offers'
 
 export default {
-  product,
   category,
   attribute,
   compare,

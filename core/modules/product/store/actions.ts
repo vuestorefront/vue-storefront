@@ -1,19 +1,28 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '../../mutation-types'
-import { breadCrumbRoutes, productThumbnailPath } from '../../helpers'
-import { currentStoreView } from '../../lib/multistore'
-import { configureProductAsync, doPlatformPricesSync, filterOutUnavailableVariants, calculateTaxes, populateProductConfigurationAsync, setCustomProductOptionsAsync, setBundleProductOptionsAsync, getMediaGallery, configurableChildrenImages, attributeImages } from './helpers'
+import * as types from './mutation-types'
+import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/store/helpers'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { configureProductAsync, 
+  doPlatformPricesSync, 
+  filterOutUnavailableVariants, 
+  calculateTaxes, 
+  populateProductConfigurationAsync, 
+  setCustomProductOptionsAsync, 
+  setBundleProductOptionsAsync, 
+  getMediaGallery, 
+  configurableChildrenImages, 
+  attributeImages } from '../helpers'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import { entityKeyName } from '../../lib/entities'
-import { optionLabel } from '../attribute/helpers'
-import { quickSearchByQuery, isOnline } from '../../lib/search'
+import { entityKeyName } from '@vue-storefront/store/lib/entities'
+import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
+import { quickSearchByQuery, isOnline } from '@vue-storefront/store/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from  'lodash-es/uniqBy'
-import rootStore from '../../'
-import RootState from '../../types/RootState'
-import ProductState from './types/ProductState'
+import rootStore from '@vue-storefront/store'
+import RootState from '@vue-storefront/store/types/RootState'
+import ProductState from '../types/ProductState'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
