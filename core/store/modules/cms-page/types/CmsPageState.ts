@@ -1,3 +1,3 @@
 export default interface CmsPageState {
-  items: any[]
+  cmsPages: any[]
 }

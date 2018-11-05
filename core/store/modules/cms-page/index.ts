@@ -6,7 +6,7 @@ import CmsPageState from "./types/CmsPageState"
 const cms_page: Module<CmsPageState, RootState> = {
   namespaced: true,
   state: {
-    items: [],
+    cmsPages: [],
   },
   actions
 }
