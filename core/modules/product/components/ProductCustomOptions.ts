@@ -15,7 +15,7 @@ function _fieldName (co) {
   return 'customOption_' + co.option_id
 }
 
-export default {
+export const ProductCustomOptions = {
   name: 'ProductCustomOptions',
   props: {
     product: {

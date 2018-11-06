@@ -5,6 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const autoprefixer = require('autoprefixer')
 const HTMLPlugin = require('html-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -44,6 +45,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   plugins: [
+    // new BundleAnalyzerPlugin(),
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     // generate output HTML

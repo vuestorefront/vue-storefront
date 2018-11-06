@@ -41,17 +41,30 @@
 import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 
-import ProductsSlider from '@vue-storefront/core/components/ProductsSlider'
 import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
+  name: 'ProductsSlider',
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    products: {
+      type: Array,
+      required: true
+    },
+    config: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     Slide,
     Carousel,
     ProductTile,
     'no-ssr': NoSSR
   },
-  mixins: [ProductsSlider],
   data () {
     return {
       currentPage: 0
