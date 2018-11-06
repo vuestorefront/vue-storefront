@@ -2,9 +2,10 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
+// import router from '@vue-storefront/core/router'
 import i18n from '@vue-storefront/i18n'
 import { sha1 } from 'object-hash'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import omit from 'lodash-es/omit'
 import RootState from '@vue-storefront/store/types/RootState'
 import CartState from '../types/CartState'
@@ -212,6 +213,9 @@ const actions: ActionTree<CartState, RootState> = {
   getItem ({ commit, dispatch, state }, sku) {
     return state.cartItems.find(p => p.sku === sku)
   },
+  goToCheckout (context) {
+    // router.push(localizedRoute('/checkout', currentStoreView().storeCode))
+  },
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
     if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
@@ -224,10 +228,10 @@ const actions: ActionTree<CartState, RootState> = {
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
       if (product.priceInclTax <= 0) {
-        Vue.prototype.$bus.$emit('notification', {
+        rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
-          action1: { label: i18n.t('OK'), action: 'close' }
+          action1: { label: i18n.t('OK') }
         })
         continue
       }
@@ -239,10 +243,10 @@ const actions: ActionTree<CartState, RootState> = {
         for (let errKey in product.errors) {
           if (product.errors[errKey]) {
             productCanBeAdded = false
-            Vue.prototype.$bus.$emit('notification', {
+            rootStore.dispatch('notification/spawnNotification', {
               type: 'error',
               message: product.errors[errKey],
-              action1: { label: i18n.t('OK'), action: 'close' }
+              action1: { label: i18n.t('OK') }
             })
           }
         }
@@ -254,17 +258,17 @@ const actions: ActionTree<CartState, RootState> = {
       dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
         product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
         if (result.status === 'volatile') {
-          Vue.prototype.$bus.$emit('notification', {
+          rootStore.dispatch('notification/spawnNotification', {
             type: 'warning',
             message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
-            action1: { label: i18n.t('OK'), action: 'close' }
+            action1: { label: i18n.t('OK') }
           })
         }
         if (result.status === 'out_of_stock') {
-          Vue.prototype.$bus.$emit('notification', {
+          rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t('The product is out of stock and cannot be added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
+            action1: { label: i18n.t('OK') }
           })
         }
         if (result.status === 'ok' || result.status === 'volatile') {
@@ -275,16 +279,18 @@ const actions: ActionTree<CartState, RootState> = {
           let notificationData = {
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' },
+            action1: { label: i18n.t('OK') },
             action2: null
           }
           if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-            notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+            notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
+              dispatch('goToCheckout')
+            }}
           }
           if (rootStore.state.config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
           } else {
-            Vue.prototype.$bus.$emit('notification', notificationData)
+            rootStore.dispatch('notification/spawnNotification', notificationData)
           }
         }
         productIndex++
@@ -314,7 +320,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (rootStore.state.config.cart.synchronize && product.server_item_id) {
       dispatch('serverPull', { forceClientState: true })
     }
-  },  
+  },
   updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (rootStore.state.config.cart.synchronize && product.server_item_id && !forceServerSilence) {
@@ -609,7 +615,7 @@ const actions: ActionTree<CartState, RootState> = {
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
       console.log('Server sync diff', diffLog)
     } else {
-      console.error(event.result) // override with guest cart   
+      console.error(event.result) // override with guest cart
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
         console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
         rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
@@ -644,13 +650,15 @@ const actions: ActionTree<CartState, RootState> = {
         let notificationData = {
           type: 'success',
           message: i18n.t('Product has been added to the cart!'),
-          action1: { label: i18n.t('OK'), action: 'close' },
+          action1: { label: i18n.t('OK') },
           action2: null
         }
         if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-          notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: 'goToCheckout' }
+          notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
+            context.dispatch('goToCheckout')
+          }}
         }
-        Vue.prototype.$bus.$emit('notification', notificationData)
+        rootStore.dispatch('notification/spawnNotification', notificationData)
       }
     }
   },

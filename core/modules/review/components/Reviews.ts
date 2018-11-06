@@ -1,7 +1,10 @@
+import Review from '../types/Review'
+
 export const Reviews = {
+  name: 'Reviews',
   computed: {
-    reviews () : any[] {
-      return this.$store.state.review.items.items || []
+    reviews () : Review[] {
+      return this.$store.state.review.items.items
     }
   }
 }

@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import ProductBundleOptions from '@vue-storefront/core/components/ProductBundleOptions'
+import { ProductBundleOptions } from '@vue-storefront/core/modules/product/components/ProductBundleOptions.ts'
 
 export default {
   mixins: [ProductBundleOptions]

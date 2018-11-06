@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Lazy loading for SSR routes
+### Removed
+- `vsf-payment-stripe` module integration removed from core
+
+### Changed
+- ProductSlider, ProductLinks, ProductListing moved to theme. Other Product-related components are now served directly fro module
 ## [1.5.0] - 2018.10.22
 
 ### Added
@@ -11,7 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - oauth2 configuration in setup - #1865 - Krister Andersson @Cyclonecode
 - GraphQL schema extendibility in the API - Yoann Vié
 - A lot of new docs - Natalia Tepluhina @NataliTepluhina
-- Magento2 integrated importer 
+- Magento2 integrated importer
+- 'Apply' filters button on mobile category - #1709 - Damian Fiałkiewicz @Aekal
 
 ### Changed
 - New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak

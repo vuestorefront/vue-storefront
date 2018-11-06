@@ -41,7 +41,7 @@
   </modal>
 </template>
 <script>
-import { Subscribe } from '@vue-storefront/core/modules/mailchimp/components/Subscribe'
+import { Subscribe } from 'src/modules/mailchimp/components/Subscribe'
 import i18n from '@vue-storefront/i18n'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -54,10 +54,10 @@ export default {
   },
   methods: {
     onSuccesfulSubmission () {
-      this.$bus.$emit('notification', {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('You have been successfully subscribed to our newsletter!'),
-        action1: { label: i18n.t('OK'), action: 'close' }
+        action1: { label: i18n.t('OK') }
       })
       this.$bus.$emit('modal-hide', 'modal-newsletter')
     }

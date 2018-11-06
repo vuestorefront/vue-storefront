@@ -2,13 +2,36 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
+## 1.5 -> current
+
+### Modifications
+
+#### Sort order refactor
+
+Issue #1533.
+Sort order is now more intuitive (like in classic e-commerce).
+You can now add sort direction directly in ``sortByAttributes`` using colon.
+
+```
+"sortByAttributes": {
+  "Latest": "updated_at",
+  "Price: Low to high":"final_price",
+  "Price: High to low":"final_price:desc"
+}
+```
+We deprecated separate button for sort direction change.
+
+### Webpack aliasses
+- `core` is removed, you should use `@vue-storefront/core` instead
+- `@vue-storefront/core/lib/i18n` is removed, translations feature is now in `@vue-storefront/i18n` package
+
 ## 1.4 -> 1.5
 
 ### Modifications
 
 #### New Modules API
 
-With 1.5.0 we've introduced new hevily refactored modules API. We've tried to keep the old theme components backward compatible - so now You can few some "mock" components in the `/core/components` just referencing to the `/modules/{{module}}/components` original. Please read [how modules work and are structured](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) to check if it's implies any changes to Your theme. As it may seem like massive changes (lot of files added/removed/renamed) - It should not impact Your custom code. 
+With 1.5.0 we've introduced new hevily refactored modules API. We've tried to keep the old theme components backward compatible - so now You can few some "mock" components in the `/core/components` just referencing to the `/modules/{{module}}/components` original. Please read [how modules work and are structured](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) to check if it's implies any changes to Your theme. As it may seem like massive changes (lot of files added/removed/renamed) - It should not impact Your custom code.
 
 #### New Newsletter module
 
@@ -16,7 +39,7 @@ The exsiting newsletter integration module was pretty chaotic and messy. @filrak
 
 #### Memory leaks fixed
 
-We've fixed SSR memory leaks with #1882. It should not affect Your custom code - but if You've modified any SSR features please just make sure that everything still works just fine. 
+We've fixed SSR memory leaks with #1882. It should not affect Your custom code - but if You've modified any SSR features please just make sure that everything still works just fine.
 
 ## 1.3 -> 1.4
 
@@ -43,14 +66,14 @@ We've added the Reviews support, however Magento2 is still lacking Reviews suppo
    + **totals** -> **cartTotals** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
    + **shipping** -> **cartShipping** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
    + **payment** -> **cartPayment** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   
+
 2. We moved/renamed methods responsible for UI to default theme:
    + **addDiscountCoupon** - toggle coupon form
    + **removeCoupon** -> **clearCoupon** - removing coupon by dispatch removeCoupon API method and toggle coupon form
    + **applyCoupon** -> **setCoupon** - submit coupon form by dispatch applyCoupon API method
    + **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
-3. We moved $emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself. 
-4. We moved VueOfflineMixin and onEscapePress mixins to theme component. Core component is clean from UI stuff now. 
+3. We moved $emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself.
+4. We moved VueOfflineMixin and onEscapePress mixins to theme component. Core component is clean from UI stuff now.
 5. We've replaced one method `Microcart` - `cartTotals` -> `totals`
 
 #### Assets
@@ -79,7 +102,7 @@ To get access to rootStore import it by
 
 `import rootStore from '@vue-storefront/store'`
 
-#### cms extenstion was renamed to extension-magento2-cms 
+#### cms extenstion was renamed to extension-magento2-cms
 
 Import of CmsData must be changed in `CustomCmsPage.vue` component to:
 

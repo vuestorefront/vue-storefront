@@ -7,7 +7,7 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 
-import router from '@vue-storefront/core/router'
+import { createRouter } from '@vue-storefront/core/router'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
 import registerExtensions from '@vue-storefront/core/lib/extensions'
 import i18n from '@vue-storefront/i18n'
@@ -38,8 +38,10 @@ if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
   })
 }
 
+export let router = null
 
 export function createApp (ssrContext, config): { app: Vue, router: any, store: any } {
+  router = createRouter()
   sync(store, router)
   store.state.version = '1.5.0'
   store.state.config = config
@@ -114,6 +116,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
 
   Vue.use(VueApollo)
   // End declare Apollo graphql client
+  
   const app = new Vue({
     router,
     store,
@@ -129,8 +132,8 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     store.state.config,
     ssrContext
   )
+  enabledModules.forEach(m => m.register(router))
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
-  enabledModules.forEach(m => m.register())
   app.$emit('application-after-init', app)
   return { app, router, store }
 }

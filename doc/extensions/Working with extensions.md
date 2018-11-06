@@ -5,13 +5,13 @@
 Vue Storefront Core provides basic eCommerce features. Everything else should be available via extensions.
 
 ## How to write your own extension in Vue Storefront
-If you would like to extend your Vue Storefront instance with additional functionality you can certainly do that via adding your own extensions.  
+If you would like to extend your Vue Storefront instance with additional functionality you can certainly do that via adding your own extensions.
 
-All extenstions are located in /src/extensions folder, each in its own directory.  
+All extenstions are located in /src/extensions folder, each in its own directory.
 
 If you want to make your own extension you should publish it as standalone npm package. The naming convention for Vue Storefront npm extensions is `vsf-{extension_name}` (see [example](https://www.npmjs.com/package/vsf-external-checkout?activeTab=readme) )
 
-In each extension folder there need to be an *index.js* file that serves as an entry point of your extension.  
+In each extension folder there need to be an *index.js* file that serves as an entry point of your extension.
 
 *index.js* file needs to export a default function that receives 4 parameters - references to application instance, global router object, Vuex store and configuration file - like the following:
 ```
@@ -24,12 +24,12 @@ Inside of this function you can introduce your functionality and also extend app
   router.addRoutes(extensionRoutes)
   store.registerModule(EXTENSION_KEY, extensionStore)
 ```
-, where  
-`extensionRoutes` is a list of routes that can be defined in a separate file in your extension folder;  
-`extensionStore` is an object that consists of Vuex store components - state, getters, actions and mutations;  
-`EXTENSION_KEY` a string variable that defines a name of your extension's Vuex store enrty in a global Vuex store object.  
+, where
+`extensionRoutes` is a list of routes that can be defined in a separate file in your extension folder;
+`extensionStore` is an object that consists of Vuex store components - state, getters, actions and mutations;
+`EXTENSION_KEY` a string variable that defines a name of your extension's Vuex store enrty in a global Vuex store object.
 
-`config` parameter that a default function receives refers to a *local.json* file in root /config folder. You can define all your extension settings in that configuration file and access them through this parameter. 
+`config` parameter that a default function receives refers to a *local.json* file in root /config folder. You can define all your extension settings in that configuration file and access them through this parameter.
 
 Custom extensions usually do use Events for hooking in some additional actions. If you don't find event that's suitable for your action please don't hesitate to contribute a PR to the core adding this particular event.
 
@@ -50,8 +50,6 @@ export default [
   require('src/extensions/payment-backend-methods/index.js').default,
   require('src/extensions/mailchimp-subscribe/index.js').default,
   require('src/extensions/google-analytics/index.js').default,
-
-  require('vue-storefront-stripe/index.js').default
 ]
 ```
 
@@ -66,7 +64,6 @@ Payments are handled soley via a Payment Extension. This behaves and is created 
 * For clarity in growing extensions, payment extensions should be named clearly 'payment-{VENDOR}-{PAYMENT_METHOD}'
 
 ## Extensions list (docs for it under construction)
-* Stripe Payments
 * Cash On Delivery (a minimal but working payment extension demo)
 * Mailchimp Integration
 * Google Analytics Integration

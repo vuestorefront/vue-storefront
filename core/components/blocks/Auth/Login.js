@@ -10,19 +10,30 @@ export default {
     }
   },
   methods: {
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
+    callLogin () {
+      this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
+      this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
+        this.$bus.$emit('notification-progress-stop', {})
+
+        if (result.code !== 200) {
+          this.onFailure(result)
+        } else {
+          this.onSuccess()
+          this.close()
+        }
+      }).catch(err => {
+        console.error(err)
+        this.$bus.$emit('notification-progress-stop')
+      })
+    },
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'register')
     },
-    remindPassword () {
-      if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Reset password feature does not work while offline!'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-      } else {
-        this.$store.commit('ui/setAuthElem', 'forgot-pass')
-      }
+    callForgotPassword () {
+      this.$store.commit('ui/setAuthElem', 'forgot-pass')
     }
   }
 }

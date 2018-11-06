@@ -15,7 +15,6 @@ const mutations: MutationTree<CategoryState> = {
     state.current_path = path // TODO: store to cache
     state.breadcrumbs.routes = breadCrumbRoutes(state.current_path)
   },
-
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
     state.list = categories.items
 
@@ -39,6 +38,10 @@ const mutations: MutationTree<CategoryState> = {
         console.error(e)
       }
     }
+  },
+  [types.CATEGORY_REMOVE_FILTERS] (state) {
+    state.filters.chosen = {}
+    state.current_product_query.configuration = {}
   }
 }
 
