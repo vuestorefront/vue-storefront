@@ -20,7 +20,7 @@ function _fieldName (co) {
   return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
 }
 
-export default {
+export const ProductBundleOptions = {
   name: 'ProductBundleOptions',
   props: {
     product: {
@@ -71,7 +71,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (rootStore.state.usePriceTiers) {
+    if (rootStore.state.config.usePriceTiers) {
       this.$bus.$off('product-after-setup-associated', this.setupInputFields)
     }
   },

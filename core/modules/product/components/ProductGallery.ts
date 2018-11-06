@@ -2,7 +2,7 @@ import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
 import store from '@vue-storefront/store'
 
-export default {
+export const ProductGallery = {
   name: 'ProductGallery',
   components: {
     Slide,

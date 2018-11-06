@@ -58,7 +58,7 @@
 
 <script>
 import rootStore from '@vue-storefront/store'
-import ProductTile from '@vue-storefront/core/components/ProductTile'
+import { ProductTile } from '@vue-storefront/core/modules/product/components/ProductTile.ts'
 
 export default {
   mixins: [ProductTile],
@@ -67,6 +67,11 @@ export default {
       type: Boolean,
       requred: false,
       default: true
+    },
+    onlyImage: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   methods: {

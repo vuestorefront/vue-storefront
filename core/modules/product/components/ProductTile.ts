@@ -1,18 +1,8 @@
 import { productThumbnailPath } from '@vue-storefront/store/helpers'
 
-export default {
+export const ProductTile = {
   name: 'ProductTile',
   props: {
-    labelsActive: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    onlyImage: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     product: {
       type: Object,
       required: true

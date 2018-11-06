@@ -47,6 +47,7 @@ export default {
   methods: {
     execAction (action, index) {
       if (action.action) {
+        // for backward compatibility
         if (action.action === 'close') {
           this.$store.dispatch('notification/removeNotification', index)
         } else {

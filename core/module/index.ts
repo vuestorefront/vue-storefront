@@ -2,7 +2,6 @@ import { Module, Store } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
 import rootStore from '@vue-storefront/store'
-import router from '@vue-storefront/core/router'
 import { merge } from 'lodash-es'
 import RootState from '@vue-storefront/store/types/RootState';
 
@@ -59,20 +58,20 @@ export class VueStorefrontModule {
     if (plugin) rootStore.subscribe(plugin)
   }
 
-  private static _extendRouter (routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
-    if (routes) router.addRoutes(routes)
-    if (beforeEach) router.beforeEach(beforeEach)
-    if (afterEach) router.afterEach(afterEach)
+  private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
+    if (routes) routerInstance.addRoutes(routes)
+    if (beforeEach) routerInstance.beforeEach(beforeEach)
+    if (afterEach) routerInstance.afterEach(afterEach)
   }
 
   public extend (extendedConfig: VueStorefrontModule) {
     this._c = merge(this._c, extendedConfig.config)
   }
 
-  public register (): void {
+  public register (routerInstance): void {
     if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore)
     if (this._c.store) VueStorefrontModule._extendStore(this._c.store.modules, this._c.store.plugin)
-    if (this._c.router) VueStorefrontModule._extendRouter(this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
+    if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
     VueStorefrontModule._registeredModules.push(this._c)
     if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config, rootStore)
   }
