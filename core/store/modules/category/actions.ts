@@ -115,8 +115,10 @@ const actions: ActionTree<CategoryState, RootState> = {
               resolve(mainCategory)
             }
           }
-          if (typeof mainCategory !== 'undefined' && mainCategory.parent_id) {
+          if (typeof mainCategory !== 'undefined') {
             recurCatFinder(mainCategory) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
+          } else {
+            reject(new Error('Category query returned empty result ' + key + ' = ' + value))
           }
         } else {
           Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
