@@ -1,18 +1,8 @@
-// import router from '@vue-storefront/core/router'
-// uncomment if you want to modify the router e.g. add before/after hooks
 import Home from 'theme/pages/Home.vue'
 import PageNotFound from 'theme/pages/PageNotFound.vue'
-import CustomCmsPage from 'theme/pages/CustomCmsPage.vue'
-import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'
 import ErrorPage from 'theme/pages/Error.vue'
 import store from '@vue-storefront/store'
-
-const Category = () => import('theme/pages/Category.vue')
-const Compare = () => import('theme/pages/Compare.vue')
-const Checkout = () => import('theme/pages/Checkout.vue')
-const MyAccount = () => import('theme/pages/MyAccount.vue')
-const Static = () => import('theme/pages/Static.vue')
-const Product = () => import('theme/pages/Product.vue')
+import { Category, Compare, Checkout, MyAccount, Static, Product, CustomCmsPage, CmsData } from './asyncRoutes'
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
