@@ -12,17 +12,17 @@ import { configureProductAsync,
   setBundleProductOptionsAsync, 
   getMediaGallery, 
   configurableChildrenImages, 
-  attributeImages } from '../helpers'
+  attributeImages } from '../../helpers'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { entityKeyName } from '@vue-storefront/store/lib/entities'
-import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
+import { optionLabel } from '../../helpers/optionLabel'
 import { quickSearchByQuery, isOnline } from '@vue-storefront/store/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
-import ProductState from '../types/ProductState'
+import ProductState from '../../types/ProductState'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 

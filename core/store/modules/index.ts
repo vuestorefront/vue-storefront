@@ -1,5 +1,4 @@
 import category from './category'
-import attribute from './attribute'
 import compare from './compare'
 import payment from './payment'
 import shipping from './shipping'
@@ -13,7 +12,6 @@ import promoted from './promoted-offers'
 
 export default {
   category,
-  attribute,
   compare,
   payment,
   shipping,

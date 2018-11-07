@@ -8,7 +8,7 @@ import groupBy from 'lodash-es/groupBy'
 import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
 // TODO: Remove this dep
-import { optionLabel } from '@vue-storefront/store/modules/attribute/helpers'
+import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/store/helpers'
