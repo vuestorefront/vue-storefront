@@ -3,9 +3,9 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 import RootState from '@vue-storefront/store/types/RootState'
-import ProductState from '../types/ProductState'
+import ProductState from '../../types/ProductState'
 
-export const module: Module<ProductState, RootState> = {
+export const productModule: Module<ProductState, RootState> = {
   namespaced: true,
   state: {
     breadcrumbs: {

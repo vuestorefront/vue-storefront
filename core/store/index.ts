@@ -43,20 +43,6 @@ const state = {
   userTokenInvalidateLock: 0
 }
 
-const mutations = {
-  TOPICS_LIST: (state, topics) => {
-    state.topics = topics
-  },
-
-  INCREMENT: (state) => {
-    state.count++
-  },
-
-  DECREMENT: (state) => {
-    state.count--
-  }
-}
-
 export function getMutationData (mutation) {
   let nameArray = mutation.split('/')
   let storeName, actionName
@@ -144,7 +130,6 @@ const plugins: Plugin<RootState>[] = [
 let rootStore = new Vuex.Store<RootState>({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state,
-  mutations,
   plugins
 })
 

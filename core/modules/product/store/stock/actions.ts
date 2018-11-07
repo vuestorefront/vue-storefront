@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-import * as types from '../../mutation-types'
-import RootState from '../../types/RootState'
-import StockState from './types/StockState'
-import rootStore from '../../'
-
+// requires cart module
+import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
+import RootState from '@vue-storefront/store/types/RootState'
+import StockState from '../../types/StockState'
+import rootStore from '@vue-storefront/store'
 const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
@@ -63,6 +63,7 @@ const actions: ActionTree<StockState, RootState> = {
   },
   stockAfterCheck (context, event) {
     setTimeout(() => {
+      // TODO: Move to cart module
       rootStore.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
         if (cartItem && event.result.code !== 'ENOTFOUND') {
           if (!event.result.is_in_stock) {

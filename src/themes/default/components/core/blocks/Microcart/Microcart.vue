@@ -111,7 +111,7 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
-import Microcart from '@vue-storefront/core/components/blocks/Microcart/Microcart'
+import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 

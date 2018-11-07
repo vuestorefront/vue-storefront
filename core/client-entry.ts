@@ -281,6 +281,4 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
 })
 
 store.dispatch('compare/load')
-store.dispatch('recently-viewed/load')
-
 window.addEventListener('online', () => { onNetworkStatusChange(store) })
