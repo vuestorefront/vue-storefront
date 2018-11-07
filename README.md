@@ -327,7 +327,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://novatize.com/">
           <img
-            src="https://user-images.githubusercontent.com/18116406/39051246-62220fae-44a8-11e8-92d3-3bbe02644313.png"
+            src="https://divante.co/partners/Vue-Storefront/Novatize_Logo_K.png"
             alt="Novatize"
             width="150"
           >
