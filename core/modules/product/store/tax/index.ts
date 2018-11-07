@@ -1,10 +1,10 @@
 import { Module } from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
-import RootState from '../../types/RootState'
-import TaxState from './types/TaxState'
+import RootState from '@vue-storefront/store/types/RootState'
+import TaxState from '../../types/TaxState'
 
-const tax: Module<TaxState, RootState> = {
+export const taxModule: Module<TaxState, RootState> = {
   namespaced: true,
   state: {
     rules: []
@@ -12,5 +12,3 @@ const tax: Module<TaxState, RootState> = {
   actions,
   mutations
 }
-
-export default tax
