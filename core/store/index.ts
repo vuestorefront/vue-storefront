@@ -130,7 +130,6 @@ const plugins: Plugin<RootState>[] = [
 let rootStore = new Vuex.Store<RootState>({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state,
-  mutations,
   plugins
 })
 
