@@ -43,20 +43,6 @@ const state = {
   userTokenInvalidateLock: 0
 }
 
-const mutations = {
-  TOPICS_LIST: (state, topics) => {
-    state.topics = topics
-  },
-
-  INCREMENT: (state) => {
-    state.count++
-  },
-
-  DECREMENT: (state) => {
-    state.count--
-  }
-}
-
 export function getMutationData (mutation) {
   let nameArray = mutation.split('/')
   let storeName, actionName
