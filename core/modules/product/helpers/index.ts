@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import rootStore from '@vue-storefront/store'
-import { calculateProductTax } from '@vue-storefront/store/lib/taxcalc'
+import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
@@ -239,7 +239,7 @@ export function doPlatformPricesSync (products) {
     }
   })
 }
-
+// TODO: should be moved to tax
 /**
  * Calculate taxes for specific product collection
  */

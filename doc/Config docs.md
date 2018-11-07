@@ -103,7 +103,7 @@ ElasticSearch settings can be overriden in the specific storeView config. That's
           "calculateServerSide": true
         },
 ```
-Taxes section is used by the [`core/store/lib/taxcalc.js`](..core/store/lib/taxcalc.js). When `sourcePricesIncludesTax` is set to true it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to false the taxes will be calculated runtime.
+Taxes section is used by the [`core/store/modules/product/helpers/tax.js`](..core/store/modules/product/helpers/tax.js). When `sourcePricesIncludesTax` is set to true it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to false the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anynomous unidentified user (which country is not set yet).
 
@@ -427,7 +427,7 @@ When `demomode` is set to true, Vue Storefront will display the "Welcome to Vue 
           "calculateServerSide": true
         },
 ```
-Taxes section is used by the [`core/store/lib/taxcalc.js`](..core/store/lib/taxcalc.js). When `sourcePricesIncludesTax` is set to true it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to false the taxes will be calculated runtime.
+Taxes section is used by the [`core/store/modules/product/helpers/tax.js`](..core/store/modules/product/helpers/tax.js). When `sourcePricesIncludesTax` is set to true it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to false the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anynomous unidentified user (which country is not set yet).
 
