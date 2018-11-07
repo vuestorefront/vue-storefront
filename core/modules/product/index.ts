@@ -1,4 +1,4 @@
-import { productModule } from './store'
+import { productModule } from './store/product'
 import { attributeModule } from './store/attribute'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
 
