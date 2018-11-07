@@ -1,6 +1,6 @@
 import rootStore from '@vue-storefront/store'
 import { MicrocartProduct } from '@vue-storefront/core/modules/cart/components/Product.ts'
-import i18n from '../../../i18n'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   data () {

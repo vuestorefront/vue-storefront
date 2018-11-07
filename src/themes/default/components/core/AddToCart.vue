@@ -9,10 +9,10 @@ import Product from '@vue-storefront/store/types/product/Product'
 import { formatProductMessages } from '@vue-storefront/core/filters/product-messages/typed'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import addToCart from '@vue-storefront/core/components/AddToCart'
+import { AddToCart } from '@vue-storefront/core/modules/cart/components/AddToCart'
 
 export default {
-  mixins: [addToCart],
+  mixins: [AddToCart],
   directives: { focusClean },
   components: { ButtonFull },
   methods: {

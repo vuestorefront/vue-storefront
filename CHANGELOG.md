@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Lazy loading for SSR routes
+- Lazy loading for SSR and non-SSR routes
+- Many modules
+
 ### Removed
 - `vsf-payment-stripe` module integration removed from core
 
 ### Changed
-- ProductSlider, ProductLinks, ProductListing moved to theme. Other Product-related components are now served directly fro module
+- ProductSlider, ProductLinks, ProductListing moved to theme. Other Product-related components are now served directly from module
+- Many theme-related logic moved to theme (d+ eleted empty core components just with `name`)
+- Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
+- Better Vuex extensibility with modules 
+
 ## [1.5.0] - 2018.10.22
 
 ### Added
