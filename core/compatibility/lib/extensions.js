@@ -1,3 +1,4 @@
+// depreciated
 export default function registerExtensions (extensions, app, router, store, config, ssrContext = null) {
   for (let extEntryPoint of extensions) {
     if (extEntryPoint !== null) {

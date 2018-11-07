@@ -9,7 +9,7 @@ import Meta from 'vue-meta'
 
 import { createRouter } from '@vue-storefront/core/router'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
-import registerExtensions from '@vue-storefront/core/lib/extensions'
+import registerExtensions from '@vue-storefront/core/compatibility/lib/extensions'
 import i18n from '@vue-storefront/i18n'
 
 import store from '@vue-storefront/store'
