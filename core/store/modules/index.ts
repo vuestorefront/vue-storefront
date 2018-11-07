@@ -4,7 +4,6 @@ import payment from './payment'
 import shipping from './shipping'
 import ui from './ui-store'
 import checkout from './checkout'
-import stock from './stock'
 import tax from './tax'
 import claims from './claims'
 import sync from './sync'
@@ -17,7 +16,6 @@ export default {
   shipping,
   ui,
   checkout,
-  stock,
   tax,
   claims,
   sync,
