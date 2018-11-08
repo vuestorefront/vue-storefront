@@ -217,7 +217,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
-            let lb = optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
+            let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
             if (trim(lb) !== '') {
               let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
               if (!context.state.current_options[optionKey]) {
