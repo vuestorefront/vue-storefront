@@ -13,8 +13,8 @@
 **Patterns and good practices for common use cases**
 - [General rules and good practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#general-rules-and-good-practices)
 - [Adding new features as VS modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#adding-new-features-as-vs-modules)
-- [Extending currently existing features with modules / Creating extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-currently-existing-features-with-modules)
-- [Extending module from theme before registration](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)
+- [Extending and overriding Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-and-overriding-vue-storefront-modules)
+
   
 # What are VS modules?
 
@@ -65,22 +65,24 @@ This is how the signature of Vue Storefront Module looks like:
 ```js
 interface VueStorefrontModuleConfig {
   key: string;
-  store?: { module?: Module<any, any>, plugin?: Function, extend?: { key: string, module: Module<any, any> }[] };
+  store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (Vue: VueConstructor, config: Object) => void,
-  afterRegistration?: (Vue: VueConstructor, config: Object) => void,
+  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
+  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
 }
 ```
+
+See code [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/index.ts)
 #### `key` (required)
 
-Key is an ID of your module. It's used to identify your module and to set keys in all key-based extendings that module is doing (like creating namespaced store). This key should be unique. You can duplicate the keys of some other modules only if you want to extend them. Modules with the same keys will be merged.
+Key is an ID of your module. It's used to identify your module and to set keys in all key-based extendings that module is doing (like creating namespaced store). This key should be unique.
 
 #### `store`
 
 Entry point for Vuex. 
-- `module` - if your extension requires new vuex module registration put it in here. Use this property only to create new modules. If you want to extend currently existing ones use `extend` property
+- `modules` - array of Vuyex modules to register under given keys
 - `plugin` - you can provide your own Vuex plugin here
-- `extend` - extends currently existing Vuex module with provided `key`. Given modules will be merged in favour of the extending one (actions/mutations with the same name will be overwritten)
+
 
 ####  `router`
 
@@ -88,11 +90,11 @@ Entry point for vue-router. You can provide additional routes and [navigation gu
 
 #### `beforeRegistration`
 
-Function that'll be called before registering the module both on server and client side. You have access to `Vue` and `config` objects inside.
+Function that'll be called before registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
 
 #### `afterRegistration`
 
-Function that'll be called after registering the module both on server and client side. You have access to `Vue` and `config` objects inside.
+Function that'll be called after registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
 
 # Module file structure
 
@@ -124,7 +126,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 
 # Module registration
 
-All modules including the core ones are registered in `theme/modules.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
+All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
 
 All VS modules from `registerModules` will be registered during shop initialisation.
 
@@ -137,7 +139,7 @@ All VS modules from `registerModules` will be registered during shop initialisat
 
 First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
 
-1. **Try not to rely on any other data sources than `config`**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves
+1. **Try not to rely on any other data sources than provided ones and `@vue-storefront/store` package.**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves. Try to think about each module as a standalone npm package.
 2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
 ````js
 export const Microcart = {
@@ -194,45 +196,48 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 - Provide unique key that should represent the feature or 3rd party system name (if the module is an integration)
 - Try not to rely on data and logic from other modules if your module is not directlky extending it. It'll be more reusable and remain working even after extensive VS core updates.
 
-# Extending currently existing features with modules
+# Extending and overriding Vue Storefront Modules
 
-If you want to create an extension the best approach is to introduce it as a VS module. If you want to extend some of currently existing modules with application-specific logic you can extend it directly before registration instead of creating whole new module.
+You can extend and modify all parts of any of Vue Storefront modules before it's registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
 
-You can extend Vuex stores from any other VS module. Good practice is to create a folder with the same name as module you want to extend inside `store` folder of your module. Mutations/actions/state properties will be merged to currently existing module. In case of conflicting names the old ones will be overwritten. You can find an example of mailchimp module extension [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/modules/module-template/store/mailchimp).
+Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The sytax for this purpose is extremely simple.
 
-Once the extension is ready register it under `store.extend` module property with a key of module you wish to extend. 
-
-In the example below we are extending `mailchimp` module with `extendMailchimp` object.
+We need to import both modules, use `extendedExample` to extend `Example` and export them so they can be registered in VS core.
 
 ````js
-const moduleConfig: VueStorefrontModuleConfig = {
-  key: KEY,
-  // other properties
-  store: { extend: [{ key: 'mailchimp', module: extendMailchimp}] },
-}
-````
-# Extending module from theme before registration
-
-All modules are registered from your theme. before registration you can easly modify their config object and extend/replace any part of it. if you want to make any application-specific modifications of the core this is the best way. In the example below we are modifying the `example` module. The config object you provide to `extend()` will be deep merged with currently existing one. conflicting keys in Vuex modules will be overwritten.
-
-````js
-import { Example } from './modules/module-template'
-
-
-const extendedExample: VueStorefrontModuleConfig = {
-  key: 'extend',
-  afterRegistration: function(Vue, config) {
-    console.info('Hello, im extended now')
-  }
-}
+import { Example } from 'example-module'
+import { extendedExample } from 'extended-example-module'
 
 Example.extend(extendedExample)
 
-export const enabledModules: VueStorefrontModule[] = [
-  // other modules
+export const registerModules: VueStorefrontModule[] = [
   Example
 ]
 ````
+
+If you want to make complex changes with your own app-specific VS module (which is not a npm package) it's a good practice to keep this module inside `src/modules/{module-name}`.If you want to make small changes it's perfectly fine to create extening module in the registration file:
+
+````js
+import { Example } from '@vue-storefront/core/modules/module-template'
+
+const extendedExample = new VueStorefrontModule({
+  key: 'extend',
+  afterRegistration: function(Vue, config) {
+    console.info('Hello, im extended now!')
+  }
+})
+
+Example.extend(extendedExample)
+
+export const registerModules: VueStorefrontModule[] = [
+  Example
+]
+````
+The `extend()` method of VS module will work like this:
+
+- All Vuex stores with the same keys will be merged (conflicting actions/mutations will be overwritten, other will be added)
+- Leafs linke before/after hooks, store plugins or router object properties will be overwritten by the new ones if provided.
+
 
 # Contributions
 

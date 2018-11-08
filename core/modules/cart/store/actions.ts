@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
-import router from '@vue-storefront/core/router'
+// import router from '@vue-storefront/core/router'
 import i18n from '@vue-storefront/i18n'
 import { sha1 } from 'object-hash'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
@@ -214,7 +214,7 @@ const actions: ActionTree<CartState, RootState> = {
     return state.cartItems.find(p => p.sku === sku)
   },
   goToCheckout (context) {
-    router.push(localizedRoute('/checkout', currentStoreView().storeCode))
+    // router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []

@@ -3,8 +3,19 @@
     <h4>
       {{ $t('Filter') }}
     </h4>
-    <div v-for="(filter, filterIndex) in filters"
-         :key="filterIndex" v-if="filter.length">
+    <button
+      class="visible-xs no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+      @click="resetAllFilters"
+      :class="{'button-disabled': Object.keys(activeFilters).length === 0}"
+      :disabled="Object.keys(activeFilters).length === 0"
+    >
+      {{ $t('Clear') }}
+    </button>
+    <div
+      v-for="(filter, filterIndex) in filters"
+      :key="filterIndex"
+      v-if="filter.length"
+    >
       <h5>
         {{ $t(filterIndex + '_filter') }}
       </h5>

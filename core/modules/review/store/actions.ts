@@ -1,14 +1,14 @@
 import Vue from 'vue'
-import { ActionTree } from "vuex"
-import { quickSearchByQuery } from "core/store/lib/search"
+import { ActionTree } from 'vuex'
+import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
-import RootState from "@vue-storefront/store/types/RootState"
-import ReviewState from "../types/ReviewState"
+import RootState from '@vue-storefront/store/types/RootState'
+import ReviewState from '../types/ReviewState'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
-import rootStore from "@vue-storefront/store"
-import { ValidationError } from "core/store/lib/exceptions";
+import rootStore from '@vue-storefront/store'
+import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import Review from '@vue-storefront/core/modules/review/types/Review'
 const Ajv = require('ajv') // json validator
 

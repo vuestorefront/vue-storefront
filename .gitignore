@@ -10,7 +10,6 @@ build/config.json
 core/build/config.json
 theme.js
 desktop.ini
-*.extension.json
 src/themes/catalog/resource/i18n.json
 src/themes/default/resource/i18n.json
 yarn-error.log

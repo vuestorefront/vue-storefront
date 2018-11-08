@@ -1,3 +1,6 @@
+
+**!!! Extensions are depreciated, use [modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) instead**
+
 # Extending UI from extensions
 
 Although the general rule is that all the UI modifications [should be done with Themes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/Working%20with%20themes.md) there are several use cases when the extensions developer need to modify the UI:
