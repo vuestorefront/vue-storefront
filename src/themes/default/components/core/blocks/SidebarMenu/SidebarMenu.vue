@@ -181,7 +181,7 @@ export default {
   methods: {
     login () {
       this.$bus.$emit('modal-show', 'modal-signup')
-      this.$store.commit('ui/setOpenMyAccount', true)
+      this.$router.push({ name: 'my-account' })
     }
   }
 }

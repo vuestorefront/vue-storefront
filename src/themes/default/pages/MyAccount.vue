@@ -39,6 +39,7 @@ import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDet
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
+import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
 
 export default {
   data () {
@@ -49,7 +50,8 @@ export default {
         { title: this.$t('My newsletter'), link: '/my-account/newsletter' },
         { title: this.$t('My orders'), link: '/my-account/orders' },
         { title: this.$t('My loyalty card'), link: '#' },
-        { title: this.$t('My product reviews'), link: '#' }
+        { title: this.$t('My product reviews'), link: '#' },
+        { title: this.$t('My Recently viewed products'), link: '/my-account/recently-viewed' }
       ]
     }
   },
@@ -59,7 +61,8 @@ export default {
     MyShippingDetails,
     MyNewsletter,
     MyOrders,
-    MyOrder
+    MyOrder,
+    MyRecentlyViewed
   },
   mixins: [MyAccount],
   methods: {

@@ -22,9 +22,6 @@ const mutations: MutationTree<UiStoreState> = {
   },
   setWishlist (state, action) {
     state.wishlist = action === true
-  },
-  setOpenMyAccount (state, action) {
-    state.openMyAccount = action === true
   }
 }
 

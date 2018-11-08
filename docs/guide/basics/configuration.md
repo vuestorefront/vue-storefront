@@ -619,16 +619,6 @@ This is the currently applied theme path. After changing it Vue Storefront need 
 
 You can put your Google Analytics ID in here as to be used by the analytics extension.
 
-## Stripe
-
-```json
-"stripe": {
-  "api_key": "my_example_api_key"
-},
-```
-
-Here you have the Stripe API key for being used with the `vsf-payment-stripe` extension.
-
 ## CMS
 
 ```json

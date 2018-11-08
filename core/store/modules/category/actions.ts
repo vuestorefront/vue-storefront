@@ -8,7 +8,7 @@ import i18n from '@vue-storefront/i18n'
 import chunk from 'lodash-es/chunk'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
-import { optionLabel } from '../attribute/helpers'
+import { optionLabel } from '@vue-storefront/core/modules/product/helpers/optionLabel'
 import RootState from '../../types/RootState'
 import CategoryState from './types/CategoryState'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
@@ -115,8 +115,10 @@ const actions: ActionTree<CategoryState, RootState> = {
               resolve(mainCategory)
             }
           }
-          if (typeof mainCategory !== 'undefined' && mainCategory.parent_id) {
+          if (typeof mainCategory !== 'undefined') {
             recurCatFinder(mainCategory) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
+          } else {
+            reject(new Error('Category query returned empty result ' + key + ' = ' + value))
           }
         } else {
           Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
@@ -302,6 +304,10 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     }
     return productPromise
+  },
+
+  resetFilters (context) {
+    context.commit(types.CATEGORY_REMOVE_FILTERS)
   }
 }
 

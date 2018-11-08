@@ -182,7 +182,7 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
-import Footer from '@vue-storefront/core/components/blocks/Footer/Footer'
+import Footer from '@vue-storefront/core/compatibility/components/blocks/Footer/Footer'
 
 export default {
   mixins: [Footer, CurrentPage]
