@@ -55,7 +55,6 @@ module.exports = {
             'core-themes/service-workers',
             'core-themes/webpack',
             'core-themes/plugins',
-            'core-themes/core-components-api',
           ],
         },
         {
