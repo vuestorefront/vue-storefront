@@ -23,13 +23,14 @@ User cart with a products list and price summary.
 **Computed**
 
 - `productsInCart` - array of products that are currently in the cart
-- `appliedCoupon` - return applied cart coupon or false if no coupon was applied -`totals` - cart totals
-- `isMicrocartOpen` - returns true if microcart is open
+- `appliedCoupon` - return applied cart coupon or `false` if no coupon was applied
+- `totals` - cart totals
+- `isMicrocartOpen` - returns `true` if microcart is open
 
 **Methods**
 
-- `applyCoupon(code)` - appies cart coupon
-- `removeCoupon()` removes currently applied cart coupon
+- `applyCoupon(code)` - applies cart coupon
+- `removeCoupon` - removes currently applied cart coupon
 - 'toggleMicrocart' - open/close microcart
 
 ### MicrocartButton
@@ -48,7 +49,7 @@ Component responsible for opening/closing Microcart
 
 Component representing product in microcart. Allows to modify it's quantity or remove from cart.
 
-**Compued**
+**Computed**
 
 - `thumbnail` - returns src of products thumbnail
 
@@ -57,7 +58,7 @@ Component representing product in microcart. Allows to modify it's quantity or r
 - `removeFromCart` - removes current product (data property `product`) from cart
 - `updateQuantity` - updates cart quantity for current product (data property `product`)
 
-## Cart Vuex Store
+## Store
 
 Cart Store is designed to handle all actions related the shopping cart.
 
@@ -72,11 +73,15 @@ Cart Store is designed to handle all actions related the shopping cart.
     cartServerPullAt: 0,
     cartServerTotalsAt: 0,
     cartServerCreatedAt: 0,
+    cartServerMethodsRefreshAt: 0,
+    cartServerBypassAt: 0,
     cartSavedAt: new Date(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: [],
     payment: [],
+    cartItemsHash: '',
+    bypassCount: 0,
     cartItems: [] // TODO: check if it's properly namespaced
   },
 ```
@@ -159,9 +164,17 @@ This action is used to add the `productToAdd` to the cart, if `config.cart.synch
 
 As you may imagine :) This action simply removes the product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
 
+#### `removeNonConfirmedVariants ({ commit, dispatch }, product)`
+
+This action simply removes the non-confirmed product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
+
 #### `updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false })`
 
 This method is called whenever user changes the quantity of product in the cart (called from `Microcart.vue`). The parameter `qty` is the new quantity of product and by using `forceServerSilence` you may control if the server cart synchronization is being executed or not.
+
+#### `updateItem ({ commit }, { product })`
+
+Updates item properties.
 
 #### `getPaymentMethods (context)`
 

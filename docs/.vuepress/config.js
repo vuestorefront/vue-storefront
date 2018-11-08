@@ -97,6 +97,11 @@ module.exports = {
           ],
         },
         {
+          title: 'Modules',
+          collapsable: false,
+          children: ['modules/cart'],
+        },
+        {
           title: 'Working with extensions',
           collapsable: false,
           children: ['extensions/extensions', 'extensions/extending-api'],
