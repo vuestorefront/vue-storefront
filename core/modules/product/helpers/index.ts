@@ -373,11 +373,16 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         })
       } else {
         selectedOption = {
-          label: option.label,
           attribute_code: attribute_code,
           value: selectedVariant[attribute_code]
         }
       }
+      const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
+      if (selectedOptionMeta) {
+        selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
+        selectedOption.value_data = selectedOptionMeta.value_data
+      }
+
       const confVal = {
         attribute_code: attribute_code,
         id: selectedOption.value,
