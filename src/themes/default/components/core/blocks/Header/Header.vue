@@ -79,6 +79,7 @@ import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
 export default {
+  name: 'Header',
   components: {
     AccountIcon,
     CompareIcon,

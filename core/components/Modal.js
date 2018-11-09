@@ -1,6 +1,6 @@
 import { mapMutations } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-
+// should be in theme
 export default {
   name: 'Modal',
   data () {
