@@ -37,8 +37,11 @@
           </div>
         </div>
       </div>
+      <div v-if="products.length > 0" class="categories">
+        <category-panel :product-categories="categories"/>
+      </div>
       <div class="product-listing row">
-        <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in products" :product="product"/>
+        <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in allProducts" :product="product"/>
         <transition name="fade">
           <div v-if="emptyResults" class="no-results relative center-xs h4 col-md-12">
             {{ $t('No results were found.') }}
@@ -64,11 +67,45 @@
 <script>
 import SearchPanel from '@vue-storefront/core/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
+import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
 import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   components: {
-    ProductTile
+    ProductTile,
+    CategoryPanel
+  },
+  computed: {
+    categories () {
+      return this.products.map(product => {
+        return product.category
+      })
+    },
+    selectedCategory () {
+      return this.$store.state.category.sidebar_selected_categories
+    }
+  },
+  data () {
+    return {
+      allProducts: this.products
+    }
+  },
+  watch: {
+    selectedCategory (filteredCategories) {
+      const filtered = this.products.filter(product => {
+        if (product.category.length > 0) {
+          return !!product.category.find(oneCategory => (
+            !!filteredCategories.find(category => (category.category_id === oneCategory.category_id))
+          ))
+        }
+      })
+
+      if (filtered.length > 0) {
+        this.allProducts = filtered
+      } else {
+        this.allProducts = this.products
+      }
+    }
   },
   mixins: [SearchPanel, VueOfflineMixin],
   mounted () {
