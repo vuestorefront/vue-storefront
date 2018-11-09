@@ -3,7 +3,7 @@ import * as localForage from 'localforage'
 
 const CACHE_TIMEOUT = 800
 const CACHE_TIMEOUT_ITERATE = 2000
-const DISABLE_PERSISTANCE_AFTER = 2
+const DISABLE_PERSISTANCE_AFTER = 1
 const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
 class LocalForageCacheDriver {

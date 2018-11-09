@@ -2,10 +2,10 @@ import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import RootState from '../../types/RootState'
-import CompareState from './types/CompareState'
+import RootState from "@vue-storefront/store/types/RootState"
+import CompareState from '../types/CompareState'
 
-const compare: Module<CompareState, RootState> = {
+export const module: Module<CompareState, RootState> = {
   namespaced: true,
   state: {
     items: []
@@ -14,5 +14,3 @@ const compare: Module<CompareState, RootState> = {
   actions,
   mutations
 }
-
-export default compare
