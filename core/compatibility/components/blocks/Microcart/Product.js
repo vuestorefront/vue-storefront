@@ -10,6 +10,11 @@ export default {
       isEditing: false
     }
   },
+  computed: {
+    askBeforeRemoveProduct () {
+      return rootStore.state.config.cart.askBeforeRemoveProduct
+    }
+  },
   beforeMount () {
     // deprecated, will be moved to theme or removed in the near future #1742
     this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
@@ -22,7 +27,7 @@ export default {
   },
   methods: {
     removeItem () {
-      if (rootStore.state.config.cart.askBeforeRemoveProduct) {
+      if (this.askBeforeRemoveProduct) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           item: this.product,

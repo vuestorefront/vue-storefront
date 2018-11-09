@@ -45,9 +45,14 @@ export default {
     ProductTile
   },
   mixins: [SearchPanel],
+  computed: {
+    isSearchPanel () {
+      return this.$store.state.ui.searchpanel
+    }
+  },
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
-      if (!this.$store.state.ui.searchpanel) {
+      if (!this.isSearchPanel) {
         this.$refs.search.focus()
       }
     })
