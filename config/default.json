@@ -233,7 +233,7 @@
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
-      "useExactUrlsNoProxy": true,
+      "useExactUrlsNoProxy": false,
       "baseUrl": "https://demo.vuestorefront.io/img/",
       "productPlaceholder": "/assets/placeholder.jpg"
     },
