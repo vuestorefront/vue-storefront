@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '../../mutation-types'
-import { htmlDecode } from '../../lib/filters'
+import * as types from './mutation-types'
+import { htmlDecode } from '@vue-storefront/store/lib/filters'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/store'
-import RootState from '../../types/RootState'
-import CompareState from './types/CompareState'
+import RootState from '@vue-storefront/store/types/RootState'
+import CompareState from '../types/CompareState'
 
 const actions: ActionTree<CompareState, RootState> = {
   load (context) {
