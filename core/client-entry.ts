@@ -280,5 +280,4 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }
 })
 
-store.dispatch('compare/load')
 window.addEventListener('online', () => { onNetworkStatusChange(store) })
