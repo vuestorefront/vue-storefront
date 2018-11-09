@@ -457,10 +457,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
         <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.mediact.nl/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Logo-MediaCT-XL.png"
+            alt="MediaCT"
             height="50"
           >
         </a>
