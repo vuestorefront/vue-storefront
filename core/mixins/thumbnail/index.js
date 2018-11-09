@@ -9,8 +9,18 @@ export const thumbnail = {
      * @param {Int} height
      */
     getThumbnail (relativeUrl, width, height) {
-      if (relativeUrl && relativeUrl.indexOf('://') > 0) return relativeUrl
-      return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${store.state.config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : store.state.config.images.productPlaceholder || ''
+      if (store.state.config.images.useExactUrlsNoProxy) {
+        return relativeUrl // this is exact url mode
+      } else {
+        if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
+        let baseUrl = store.state.config.images.baseUrl
+        if (baseUrl.indexOf('{{') >= 0) {
+          baseUrl = baseUrl.replace('{{url}}', relativeUrl)
+          baseUrl = baseUrl.replace('{{width}}', width)
+          baseUrl = baseUrl.replace('{{height}}', height)
+        }
+        return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : store.state.config.images.productPlaceholder || ''
+      }
     }
   }
 }
