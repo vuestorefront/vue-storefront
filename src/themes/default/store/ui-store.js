@@ -49,6 +49,9 @@ const actions = {
   },
   toggleWishlist ({ commit, state }) {
     commit('setWishlist', !state.microcart)
+  },
+  setSelectedCategory ({ commit, state }) {
+    commit('setSelectedCategory', state)
   }
 }
 
