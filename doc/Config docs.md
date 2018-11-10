@@ -440,12 +440,15 @@ The `defaultCountry` and the `defaultRegion` settings are being used for finding
           "defaultLocale": "de-DE",
           "currencyCode": "EUR",
           "currencySign": "EUR",
+          "currencySignPlacement": "append", // v1.6+
           "dateFormat": "HH:mm D-M-YYYY"
         }
       }
     },
 ```
-The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](../src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices mostly) and `currencySign` is being used for displaying the prices in the frontend.
+The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](../src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices mostly) and `currencySign` is being used for displaying the prices in the frontend. From v1.6 you can use `currencySignPlacement` to define the position of currency sign to either "append" or "prepend".
+
+
 
 ```json
     "mailchimp": {
