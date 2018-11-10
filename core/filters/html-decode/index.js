@@ -1,4 +1,4 @@
-import { decode } from 'he'
+import decode from 'lean-he/decode'
 
 /**
  * Decodes any named and numerical character references in text

@@ -56,12 +56,12 @@
     "express": "^4.14.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
-    "he": "^1.1.1",
     "isomorphic-fetch": "^2.2.1",
+    "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "lodash-template": "^1.0.0",
     "lru-cache": "^4.0.1",
-    "object-hash": "^1.2.0",
+    "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "pm2": "^2.10.4",
     "reflect-metadata": "^0.1.12",
     "vue": "^2.5.17",
@@ -77,11 +77,9 @@
     "vue-server-renderer": "^2.5.17",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.1",
-    "vuex-router-sync": "^5.0.0",
-    "magento2-rest-client": "github:DivanteLtd/magento2-rest-client"
+    "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@types/object-hash": "^1.2.0",
     "@vue/test-utils": "^1.0.0-beta.19",
     "autoprefixer": "^8.6.2",
     "babel-core": "^6.26.0",
@@ -148,6 +146,7 @@
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
+    "webpack-bundle-analyzer": "^3.0.3",
     "webpack-dev-middleware": "^3.2.0",
     "webpack-hot-middleware": "^2.23.0",
     "webpack-merge": "^4.1.4"
