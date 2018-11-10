@@ -1,4 +1,5 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
+import { VueStorefrontModule } from '@vue-storefront/module'
+import { Category } from '@vue-storefront/core/modules/category'
 import { Product } from "@vue-storefront/core/modules/product"
 import { Cart } from '@vue-storefront/core/modules/cart'
 import { Compare } from '@vue-storefront/core/modules/compare'
