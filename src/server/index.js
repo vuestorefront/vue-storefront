@@ -5,7 +5,7 @@ module.exports.registerUserServerRoutes = (expressApp) => {
 
 // Use can use dynamic config by using this function below:
 // (Needs to return a Promise)
-// module.exports.loadConfig = (req) => {
+// module.exports.configProvider = (req) => {
 //   const axios = require('axios')
 //   return new Promise((resolve, reject) => axios.get('myapi.com/config', {
 //     params: {

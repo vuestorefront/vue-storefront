@@ -240,7 +240,7 @@ app.get('*', (req, res, next) => {
   if (config.server.dynamicConfigReload) {
     delete require.cache[require.resolve('config')]
     if (typeof serverExtensions.loadConfig === 'function') {
-      serverExtensions.loadConfig(req).then(loadedConfig => {
+      serverExtensions.configProvider(req).then(loadedConfig => {
         config = Object.assign(require('config'), loadedConfig) // merge loaded conf with build time conf
         dynamicCacheHandler()
       })
