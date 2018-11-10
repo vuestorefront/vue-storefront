@@ -150,6 +150,10 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
+    if (config.server.dynamicConfigReload) {
+      delete require.cache[require.resolve('config')]
+      config = require('config') // reload config
+    }
     const context = {
       url: req.url,
       output: {
@@ -204,52 +208,35 @@ app.get('*', (req, res, next) => {
     }).catch(errorHandler)
   }
 
-  const dynamicCacheHandler = () => {
-    if (config.server.useOutputCache && cache) {
-      cache.get(
-        'page:' + req.url
-      ).then(output => {
-        if (output !== null) {
-          if (output.headers) {
-            for (const header of Object.keys(output.headers)) {
-              res.setHeader(header, output.headers[header])
-            }
+  if (config.server.useOutputCache && cache) {
+    cache.get(
+      'page:' + req.url
+    ).then(output => {
+      if (output !== null) {
+        if (output.headers) {
+          for (const header of Object.keys(output.headers)) {
+            res.setHeader(header, output.headers[header])
           }
-          res.setHeader('X-VS-Cache', 'Hit')
-          if (output.body) {
-            res.end(output.body)
-          } else {
-            res.setHeader('Content-Type', 'text/html')
-            res.end(output.body)
-          }
-          res.end(output)
-          console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
-          next()
+        }
+        res.setHeader('X-VS-Cache', 'Hit')
+        if (output.body) {
+          res.end(output.body)
         } else {
           res.setHeader('Content-Type', 'text/html')
-          res.setHeader('X-VS-Cache', 'Miss')
-          console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
-          dynamicRequestHandler(renderer) // render response
+          res.end(output.body)
         }
-      }).catch(errorHandler)
-    } else {
-      dynamicRequestHandler(renderer)
-    }
-  }
-
-  if (config.server.dynamicConfigReload) {
-    delete require.cache[require.resolve('config')]
-    if (typeof serverExtensions.loadConfig === 'function') {
-      serverExtensions.loadConfig(req).then(loadedConfig => {
-        config = Object.assign(require('config'), loadedConfig) // merge loaded conf with build time conf
-        dynamicCacheHandler()
-      })
-    } else {
-      config = require('config') // reload config
-      dynamicCacheHandler()
-    }
+        res.end(output)
+        console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+        next()
+      } else {
+        res.setHeader('Content-Type', 'text/html')
+        res.setHeader('X-VS-Cache', 'Miss')
+        console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
+        dynamicRequestHandler(renderer) // render response
+      }
+    }).catch(errorHandler)
   } else {
-    dynamicCacheHandler()
+    dynamicRequestHandler(renderer)
   }
 })
 
