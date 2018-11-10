@@ -1,3 +1,4 @@
+// should be in theme
 export default {
   name: 'ValidationError',
   props: {
