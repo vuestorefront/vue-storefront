@@ -1,396 +1,258 @@
-import Vue from 'vue'
-import { ActionTree } from 'vuex'
-import * as types from '@vue-storefront/store/mutation-types'
-import rootStore from '@vue-storefront/store'
-import { ValidationError } from '@vue-storefront/store/lib/exceptions'
-import i18n from '@vue-storefront/i18n'
-import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
-import RootState from '@vue-storefront/store/types/RootState'
-import UserState from '../types/UserState'
-const Ajv = require('ajv') // json validator
-// import router from '@vue-storefront/core/router'
+const fs = require('fs')
+const path = require('path')
+const express = require('express')
+const rootPath = require('app-root-path').path
+const resolve = file => path.resolve(rootPath, file)
+let config = require('config')
+const TagCache = require('redis-tag-cache').default
+const utils = require('./server/utils')
+const compile = require('lodash.template')
+const compileOptions = {
+  escape: /{{([^{][\s\S]+?[^}])}}/g,
+  interpolate: /{{{([\s\S]+?)}}}/g
+}
+const isProd = process.env.NODE_ENV === 'production'
+process.noDeprecation = true
 
-const actions: ActionTree<UserState, RootState> = {
-  startSession (context) {
-    context.commit(types.USER_START_SESSION)
-    const cache = Vue.prototype.$db.usersCollection
-    cache.getItem('current-token', (err, res) => {
-      if (err) {
-        console.error(err)
-        return
-      }
+const app = express()
 
-      if (res) {
-        context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
-        context.dispatch('sessionAfterAuthorized')
-
-        if (rootStore.state.config.usePriceTiers) {
-          Vue.prototype.$db.usersCollection.getItem('current-user', (err, userData) => {
-            if (err) {
-              console.error(err)
-              return
-            }
-
-            if (userData) {
-              context.dispatch('setUserGroup', userData)
-            }
-          })
-        }
-      } else {
-        Vue.prototype.$bus.$emit('session-after-nonauthorized')
-      }
-      Vue.prototype.$bus.$emit('session-after-started')
-    })
-  },
-  /**
-   * Send password reset link for specific e-mail
-   */
-  resetPassword (context, { email }) {
-    return context.dispatch('sync/execute', { url: rootStore.state.config.users.resetPassword_endpoint,
-      payload: {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: email })
-      }
-    }, { root: true }).then((response) => {
-      return response
-    })
-  },
-  /**
-   * Login user and return user profile and current token
-   */
-  login (context, { username, password }) {
-    let url = rootStore.state.config.users.login_endpoint
-    if (rootStore.state.config.storeViews.multistore) {
-      url = adjustMultistoreApiUrl(url)
-    }
-    return fetch(url, { method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username: username, password: password })
-    }).then(resp => { return resp.json() })
-      .then((resp) => {
-        if (resp.code === 200) {
-          rootStore.state.userTokenInvalidateLock = 0
-          context.commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-          context.dispatch('me', { refresh: true, useCache: false }).then(result => {})
-          context.dispatch('getOrdersHistory', { refresh: true, useCache: false }).then(result => {})
-        }
-        return resp
-      })
-  },
-  /**
-   * Login user and return user profile and current token
-   */
-  register (context, { email, firstname, lastname, password }) {
-    let url = rootStore.state.config.users.create_endpoint
-    if (rootStore.state.config.storeViews.multistore) {
-      url = adjustMultistoreApiUrl(url)
-    }
-    return fetch(url, { method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ customer: { email: email, firstname: firstname, lastname: lastname }, password: password })
-    }).then(resp => { return resp.json() })
-      .then((resp) => {
-        if (resp.code === 200) {
-          context.dispatch('login', { username: email, password: password }).then(result => { // login user
-          })
-        }
-        return resp
-      })
-  },
-
-  /**
-  * Invalidate user token
-  */
-  refresh (context) {
-    return new Promise((resolve, reject) => {
-      const usersCollection = Vue.prototype.$db.usersCollection
-      usersCollection.getItem('current-refresh-token', (err, refreshToken) => {
-        if (err) {
-          console.error(err)
-        }
-        let url = rootStore.state.config.users.refresh_endpoint
-        if (rootStore.state.config.storeViews.multistore) {
-          url = adjustMultistoreApiUrl(url)
-        }
-        return fetch(url, { method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ refreshToken: refreshToken })
-        }).then(resp => { return resp.json() })
-          .then((resp) => {
-            if (resp.code === 200) {
-              context.commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta ? resp.meta : null }) // TODO: handle the "Refresh-token" header
-            }
-            resolve(resp)
-          }).catch((exc) => reject(exc))
-      })
-    })
-  },
-  /**
-   * Update user groupToken and groupId in state
-   * @param context
-   * @param userData
-   */
-  setUserGroup(context, userData) {
-    if (rootStore.state.config.usePriceTiers) {
-      if (userData.groupToken) {
-        context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
-      }
-
-      if (userData.group_id) {
-        context.commit(types.USER_GROUP_CHANGED, userData.group_id)
-      }
-    } else {
-      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
-      context.commit(types.USER_GROUP_CHANGED, null)
-    }
-  },
-  /**
-   * Load current user profile
-   */
-  me (context, { refresh = true, useCache = true }) {
-    return new Promise((resolve, reject) => {
-      if (!context.state.token) {
-        console.debug('No User token, user unathorized')
-        return resolve(null)
-      }
-      const cache = Vue.prototype.$db.usersCollection
-      let resolvedFromCache = false
-
-      if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
-        cache.getItem('current-user', (err, res) => {
-          if (err) {
-            console.error(err)
-            return
-          }
-
-          if (res) {
-            context.commit(types.USER_INFO_LOADED, res)
-            context.dispatch('setUserGroup', res)
-            Vue.prototype.$bus.$emit('user-after-loggedin', res)
-            rootStore.dispatch('cart/userAfterLoggedin')
-
-            resolve(res)
-            resolvedFromCache = true
-            console.log('Current user served from cache')
-          }
-        })
-      }
-
-      if (refresh) {
-        return context.dispatch('sync/execute', { url: rootStore.state.config.users.me_endpoint,
-          payload: { method: 'GET',
-            mode: 'cors',
-            headers: {
-              'Accept': 'application/json, text/plain, */*',
-              'Content-Type': 'application/json'
-            }
-          }
-        }, { root: true })
-          .then((resp) => {
-            if (resp.resultCode === 200) {
-              context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
-              context.dispatch('setUserGroup', resp.result)
-            }
-            if (!resolvedFromCache && resp.resultCode === 200) {
-              Vue.prototype.$bus.$emit('user-after-loggedin', resp.result)
-              rootStore.dispatch('cart/userAfterLoggedin')
-              resolve(resp)
-            } else {
-              resolve(null)
-            }
-            return resp
-          })
-      } else {
-        if (!resolvedFromCache) {
-          resolve(null)
-        }
-      }
-    })
-  },
-  /**
-   * Update user profile with data from My Account page
-   */
-  update (context, userData) {
-    const ajv = new Ajv()
-    const userProfileSchema = require('./userProfile.schema.json')
-    const userProfileSchemaExtension = require('./userProfile.schema.extension.json')
-    const validate = ajv.compile(Object.assign(userProfileSchema, userProfileSchemaExtension))
-
-    if (!validate(userData)) { // schema validation of user profile data
-      rootStore.dispatch('notification/spawnNotification', {
-        type: 'error',
-        message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
-        action1: { label: i18n.t('OK') }
-      })
-      throw new ValidationError(validate.errors)
-    } else {
-      return new Promise((resolve, reject) => {
-        context.dispatch('sync/queue', { url: rootStore.state.config.users.me_endpoint,
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors',
-            body: JSON.stringify(userData)
-          },
-          callback_event: 'store:user/userAfterUpdate'
-        }, { root: true }).then(task => {
-          resolve()
-        })
-      })
-    }
-  },
-  refreshCurrentUser (context, userData) {
-    context.commit(types.USER_INFO_LOADED, userData)
-  },
-  /**
-   * Change user password
-   */
-  changePassword (context, passwordData) {
-    return context.dispatch('sync/execute', { url: rootStore.state.config.users.changePassword_endpoint,
-      payload: {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(passwordData)
-      }
-    }, { root: true }).then((resp) => {
-      if (resp.code === 200) {
-        rootStore.dispatch('notification/spawnNotification', {
-          type: 'success',
-          message: 'Password has successfully been changed',
-          action1: { label: i18n.t('OK') }
-        })
-
-        rootStore.dispatch('user/login', {
-          username: context.state.current.email,
-          password: passwordData.newPassword
-        })
-      } else {
-        rootStore.dispatch('notification/spawnNotification', {
-          type: 'error',
-          message: i18n.t(resp.result),
-          action1: { label: i18n.t('OK') }
-        })
-      }
-    })
-  },
-  clearCurrentUser (context) {
-      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
-      context.commit(types.USER_GROUP_CHANGED, null)
-      context.commit(types.USER_INFO_LOADED, null)
-  },
-  /**
-   * Logout user
-   */
-  logout (context, { silent = false }) {
-    context.commit(types.USER_END_SESSION)
-    context.dispatch('cart/serverTokenClear', {}, { root: true })
-        .then(() => {context.dispatch('clearCurrentUser')})
-        .then(() => {Vue.prototype.$bus.$emit('user-after-logout')})
-        .then(() => {context.dispatch('cart/clear', {}, { root: true })})
-    if (!silent) {
-      rootStore.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t("You're logged out"),
-        action1: { label: i18n.t('OK') }
-      })
-    }
-    const usersCollection = Vue.prototype.$db.usersCollection
-    usersCollection.setItem('current-token', '')
-  
-    // if (rootStore.state.route.path === '/my-account') {
-      // router.push('/')
-    // }
-  },
-  /**
-   * Load user's orders history
-   */
-  getOrdersHistory (context, { refresh = true, useCache = true }) {
-    // TODO: Make it as an extension from users module
-    return new Promise((resolve, reject) => {
-      if (!context.state.token) {
-        console.debug('No User token, user unathorized')
-        return resolve(null)
-      }
-      const cache = Vue.prototype.$db.ordersHistoryCollection
-      let resolvedFromCache = false
-
-      if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
-        cache.getItem('orders-history', (err, res) => {
-          if (err) {
-            console.error(err)
-            return
-          }
-
-          if (res) {
-            context.commit(types.USER_ORDERS_HISTORY_LOADED, res)
-            Vue.prototype.$bus.$emit('user-after-loaded-orders', res)
-
-            resolve(res)
-            resolvedFromCache = true
-            console.log('Current user order history served from cache')
-          }
-        })
-      }
-
-      if (refresh) {
-        return context.dispatch('sync/execute', { url: rootStore.state.config.users.history_endpoint,
-          payload: { method: 'GET',
-            mode: 'cors',
-            headers: {
-              'Accept': 'application/json, text/plain, */*',
-              'Content-Type': 'application/json'
-            }
-          }
-        }, { root: true }).then((resp) => {
-          if (resp.code === 200) {
-            context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-            Vue.prototype.$bus.$emit('user-after-loaded-orders', resp.result)
-          }
-          if (!resolvedFromCache) {
-            resolve(resp.code === 200 ? resp : null)
-          }
-          return resp
-        })
-      } else {
-        if (!resolvedFromCache) {
-          resolve(null)
-        }
-      }
-    })
-  },
-  userAfterUpdate(context, event) {
-    if (event.resultCode === 200) {
-      rootStore.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t('Account data has successfully been updated'),
-        action1: { label: i18n.t('OK') }
-      })
-      rootStore.dispatch('user/refreshCurrentUser', event.result)
-    }
-  },
-  sessionAfterAuthorized (context, event) {
-    console.log('Loading user profile')
-    rootStore.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {}) // this will load user cart
-    rootStore.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
-  }
+let cache
+if (config.server.useOutputCache) {
+  cache = new TagCache({
+    redis: config.redis,
+    defaultTimeout: config.server.outputCacheDefaultTtl // Expire records after a day (even if they weren't invalidated)
+  })
+  console.log('Redis cache set', config.redis)
 }
 
-export default actions
+const templatesCache = {}
+let renderer
+for (const tplName of Object.keys(config.ssr.templates)) {
+  const fileName = resolve(config.ssr.templates[tplName])
+  if (fs.existsSync(fileName)) {
+    const template = fs.readFileSync(fileName, 'utf-8')
+    templatesCache[tplName] = compile(template, compileOptions)
+  }
+}
+if (isProd) {
+  // In production: create server renderer using server bundle and index HTML
+  // template from real fs.
+  // The server bundle is generated by vue-ssr-webpack-plugin.
+  const clientManifest = require(resolve('dist/vue-ssr-client-manifest.json'))
+  const bundle = require(resolve('dist/vue-ssr-bundle.json'))
+  // src/index.template.html is processed by html-webpack-plugin to inject
+  // build assets and output as dist/index.html.
+  // TODO: Add dynamic templates loading from (config based?) list
+  renderer = createRenderer(bundle, clientManifest)
+} else {
+  // In development: setup the dev server with watch and hot-reload,
+  // and create a new renderer on bundle / index template update.
+  require(resolve('core/build/dev-server'))(app, (bundle, template) => {
+    templatesCache['default'] = compile(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
+    renderer = createRenderer(bundle)
+  })
+}
+
+function createRenderer (bundle, clientManifest, template) {
+  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
+  return require('vue-server-renderer').createBundleRenderer(bundle, {
+    clientManifest,
+    // runInNewContext: false,
+    cache: require('lru-cache')({
+      max: 1000,
+      maxAge: 1000 * 60 * 15
+    })
+  })
+}
+
+const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
+  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+}, options))
+
+const themeRoot = require('../build/theme-path')
+
+app.use('/dist', serve('dist', true))
+app.use('/assets', serve(themeRoot + '/assets', true))
+app.use('/service-worker.js', serve('dist/service-worker.js', {
+  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
+}))
+
+const serverExtensions = require(resolve('src/server'))
+serverExtensions.registerUserServerRoutes(app)
+
+app.get('/invalidate', (req, res) => {
+  if (config.server.useOutputCache) {
+    if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
+      if (req.query.key !== config.server.invalidateCacheKey) {
+        console.error('Invalid cache invalidation key')
+        utils.apiStatus(res, 'Invalid cache invalidation key', 500)
+        return
+      }
+      console.log(`Clear cache request for [${req.query.tag}]`)
+      let tags = []
+      if (req.query.tag === '*') {
+        tags = config.server.availableCacheTags
+      } else {
+        tags = req.query.tag.split(',')
+      }
+      const subPromises = []
+      tags.forEach(tag => {
+        if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
+          return tag.indexOf(t) === 0
+        })) {
+          subPromises.push(cache.invalidate(tag).then(() => {
+            console.log(`Tags invalidated successfully for [${tag}]`)
+          }))
+        } else {
+          console.error(`Invalid tag name ${tag}`)
+        }
+      })
+      Promise.all(subPromises).then(r => {
+        utils.apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
+      }).catch(error => {
+        utils.apiStatus(res, error, 500)
+        console.error(error)
+      })
+    } else {
+      utils.apiStatus(res, 'Invalid parameters for Clear cache request', 500)
+      console.error('Invalid parameters for Clear cache request')
+    }
+  } else {
+    utils.apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
+  }
+})
+
+app.get('*', (req, res, next) => {
+  const s = Date.now()
+  const errorHandler = err => {
+    if (err && err.code === 404) {
+      res.redirect('/page-not-found')
+    } else {
+      res.redirect('/error')
+      console.error(`Error during render : ${req.url}`)
+      console.error(err)
+      next()
+    }
+  }
+
+  const dynamicRequestHandler = renderer => {
+    if (!renderer) {
+      res.setHeader('Content-Type', 'text/html')
+      res.status(202).end('<html lang="en">\n' +
+          '    <head>\n' +
+          '      <meta charset="utf-8">\n' +
+          '      <title>Loading</title>\n' +
+          '      <meta http-equiv="refresh" content="10">\n' +
+          '    </head>\n' +
+          '    <body>\n' +
+          '      Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!\n' +
+          '    </body>\n' +
+          '  </html>')
+      return next()
+    }
+    if (config.server.dynamicConfigReload) {
+      delete require.cache[require.resolve('config')]
+      config = require('config') // reload config
+    }
+    const context = {
+      url: req.url,
+      output: {
+        prepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: output.prepend() { return context.renderStyles() } to attach styles
+        append: (context) => { return '' },
+        template: 'default',
+        cacheTags: null
+      },
+      server: {
+        app: app,
+        response: res,
+        request: req
+      },
+      meta: null,
+      vs: {
+        config: config,
+        storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE
+      }
+    }
+    renderer.renderToString(context).then(output => {
+      if (!res.get('content-type')) {
+        res.setHeader('Content-Type', 'text/html')
+      }
+      let tagsArray = []
+      if (config.server.useOutputCacheTagging && context.output.cacheTags !== null) {
+        tagsArray = Array.from(context.output.cacheTags)
+        const cacheTags = tagsArray.join(' ')
+        res.setHeader('X-VS-Cache-Tags', cacheTags)
+        console.log(`cache tags for the request: ${cacheTags}`)
+      }
+      const contentPrepend = (typeof context.output.prepend === 'function') ? context.output.prepend(context) : ''
+      const contentAppend = (typeof context.output.append === 'function') ? context.output.append(context) : ''
+
+      output = contentPrepend + output + contentAppend
+      if (context.output.template) { // case when we've got the template name back from vue app
+        if (templatesCache[context.output.template]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
+          output = templatesCache[context.output.template](context).replace('<!--vue-ssr-outlet-->', output)
+        } else {
+          throw new Error(`The given template name ${context.output.template} does not exist`)
+        }
+      }
+      if (config.server.useOutputCache && cache) {
+        cache.set(
+          'page:' + req.url,
+          { headers: res.getHeaders(), body: output },
+          tagsArray
+        ).catch(errorHandler)
+      }
+      res.end(output)
+      console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
+      next()
+    }).catch(errorHandler)
+  }
+
+  if (config.server.useOutputCache && cache) {
+    cache.get(
+      'page:' + req.url
+    ).then(output => {
+      if (output !== null) {
+        if (output.headers) {
+          for (const header of Object.keys(output.headers)) {
+            res.setHeader(header, output.headers[header])
+          }
+        }
+        res.setHeader('X-VS-Cache', 'Hit')
+        if (output.body) {
+          res.end(output.body)
+        } else {
+          res.setHeader('Content-Type', 'text/html')
+          res.end(output.body)
+        }
+        res.end(output)
+        console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+        next()
+      } else {
+        res.setHeader('Content-Type', 'text/html')
+        res.setHeader('X-VS-Cache', 'Miss')
+        console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
+        dynamicRequestHandler(renderer) // render response
+      }
+    }).catch(errorHandler)
+  } else {
+    dynamicRequestHandler(renderer)
+  }
+})
+
+let port = process.env.PORT || config.server.port
+const host = process.env.HOST || config.server.host
+const start = () => {
+  app.listen(port, host)
+    .on('listening', () => {
+      console.log(`Vue Storefront Server started at http://${host}:${port}`)
+    })
+    .on('error', (e) => {
+      if (e.code === 'EADDRINUSE') {
+        port = parseInt(port) + 1
+        console.log(`The port is already in use, trying ${port}`)
+        start()
+      }
+    })
+}
+start()
