@@ -16,7 +16,7 @@ export function price (value) {
   }
 
   const appendCurrency = (price) => {
-    return formattedVal + storeView.i18n.currencySign
+    return price + storeView.i18n.currencySign
   }
 
   if (storeView.i18n.currencySignBehind) {
