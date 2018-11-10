@@ -472,3 +472,21 @@ You can put Your Google Analytics ID in here as to be used by the analytics exte
     }
 ```
 This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be set when using the [`src/extensions/cms`](../Psrc/extensions/cms)
+
+### Config Provider
+From v1.6 you can use dynamic config provider to, for example, prefetch config from other API.
+
+It is simple as exporting `configProvider` function within `src/server/index.js`
+```javascript
+module.exports.configProvider = (req) => {
+  const axios = require('axios')
+  return new Promise((resolve, reject) => axios.get('myapi.com/config', {
+    params: {
+      domain: req.headers.host
+    }
+  }).then(res => {
+    resolve(res.data)
+  }).catch(error => reject(error)))
+}
+```
+This function receives the request as a first parameter so you can decide how to load the config by yourself. This function needs to return a Promise. The confing is then passed within `resolve(loadedConfig)`.
