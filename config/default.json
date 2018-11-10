@@ -267,7 +267,7 @@
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",
-      "currencySignBehind": false,
+      "currencySignPlacement": "append",
       "dateFormat": "HH:mm D/M/YYYY",
       "fullCountryName": "United States",
       "fullLanguageName": "English",

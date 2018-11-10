@@ -19,7 +19,7 @@ export function price (value) {
     return price + storeView.i18n.currencySign
   }
 
-  if (storeView.i18n.currencySignBehind) {
+  if (storeView.i18n.currencySignPlacement === 'append') {
     formattedVal = appendCurrency(formattedVal)
   } else {
     formattedVal = prependCurrency(formattedVal)
