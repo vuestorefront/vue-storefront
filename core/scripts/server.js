@@ -243,6 +243,10 @@ app.get('*', (req, res, next) => {
       serverExtensions.configProvider(req).then(loadedConfig => {
         config = Object.assign(require('config'), loadedConfig) // merge loaded conf with build time conf
         dynamicCacheHandler()
+      }).catch(error => {
+        console.log(error)
+        config = require('config') // reload config
+        dynamicCacheHandler()
       })
     } else {
       config = require('config') // reload config
