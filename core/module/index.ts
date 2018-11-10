@@ -2,7 +2,7 @@ import { Module, Store } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
 import rootStore from '@vue-storefront/store'
-import { merge } from 'lodash-es'
+import merge from 'lodash-es/merge'
 import RootState from '@vue-storefront/store/types/RootState';
 
 export interface VueStorefrontModuleConfig {

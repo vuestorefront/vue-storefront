@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
 import VueObserveVisibility from 'vue-observe-visibility'
-import { union } from 'lodash-es'
+import union from 'lodash-es/union'
 import buildTimeConfig from 'config'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
