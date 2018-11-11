@@ -1,4 +1,4 @@
-import { union } from 'lodash-es'
+import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'

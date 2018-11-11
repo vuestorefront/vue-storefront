@@ -8,11 +8,26 @@ export function price (value) {
   if (isNaN(value)) {
     return value
   }
-  const formattedVal = parseFloat(value).toFixed(2)
+  let formattedVal = parseFloat(value).toFixed(2)
   const storeView = currentStoreView()
-  if (value >= 0) {
-    return storeView.i18n.currencySign + formattedVal
+
+  const prependCurrency = (price) => {
+    return storeView.i18n.currencySign + price
+  }
+
+  const appendCurrency = (price) => {
+    return price + storeView.i18n.currencySign
+  }
+
+  if (storeView.i18n.currencySignPlacement === 'append') {
+    formattedVal = appendCurrency(formattedVal)
   } else {
-    return '-' + storeView.i18n.currencySign + Math.abs(formattedVal)
+    formattedVal = prependCurrency(formattedVal)
+  }
+
+  if (value >= 0) {
+    return formattedVal
+  } else {
+    return '-' + formattedVal
   }
 }

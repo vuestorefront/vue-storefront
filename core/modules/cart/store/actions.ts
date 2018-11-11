@@ -4,8 +4,8 @@ import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
 // import router from '@vue-storefront/core/router'
 import i18n from '@vue-storefront/i18n'
-import { sha1 } from 'object-hash'
-import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
+import { sha3_224 } from 'js-sha3'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import omit from 'lodash-es/omit'
 import RootState from '@vue-storefront/store/types/RootState'
 import CartState from '../types/CartState'
@@ -55,7 +55,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
-      const newItemsHash = sha1({ items: context.state.cartItems, token: context.state.cartServerToken })
+      const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
         context.state.cartItemsHash = newItemsHash

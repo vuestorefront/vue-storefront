@@ -10,10 +10,7 @@ export default interface ProductState {
     name: string
   },
   current: any,
-  current_options: {
-    color: any[],
-    size: any[]
-  },
+  current_options: any,
   current_configuration: any,
   parent: any,
   list: any[] | PagedProductList,

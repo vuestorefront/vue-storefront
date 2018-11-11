@@ -7,6 +7,7 @@ const autoprefixer = require('autoprefixer')
 const HTMLPlugin = require('html-webpack-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const webpack = require('webpack')
+
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)

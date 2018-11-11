@@ -205,14 +205,21 @@ const actions: ActionTree<ProductState, RootState> = {
   setupVariants (context, { product }) {
     let subloaders = []
     if (product.type_id === 'configurable') {
-      const configurableAttrIds = product.configurable_options.map(opt => opt.attribute_id)
+      let attributeKey = 'attribute_id'
+      const configurableAttrKeys = product.configurable_options.map(opt => {
+        if (opt.attribute_id) {
+          attributeKey = 'attribute_id'
+          return opt.attribute_id
+        } else {
+          attributeKey = 'attribute_code'
+          return opt.attribute_code
+        }        
+      })
       subloaders.push(context.dispatch('attribute/list', {
-        filterValues: configurableAttrIds,
-        filterField: 'attribute_id'
+        filterValues: configurableAttrKeys,
+        filterField: attributeKey
       }, { root: true }).then((attributes) => {
         context.state.current_options = {
-          color: [],
-          size: []
         }
 
         for (let option of product.configurable_options) {
@@ -230,6 +237,7 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
         }
+        Vue.set(context.state, 'current_options', context.state.current_options)
         let selectedVariant = context.state.current
         populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
       }).catch(err => {

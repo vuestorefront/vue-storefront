@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { currentStoreView } from './multistore'
-import { sha1 } from 'object-hash'
+import { sha3_224 } from 'js-sha3'
 import rootStore from '../'
 import SearchAdapterFactory from './search/adapter/factory'
 import Request from '../types/search/Request'
@@ -55,7 +55,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
 
     const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
     let servedFromCache = false
-    const cacheKey = sha1(Request)
+    const cacheKey = sha3_224(JSON.stringify(Request))
     const benchmarkTime = new Date()
 
     cache.getItem(cacheKey, (err, res) => {
