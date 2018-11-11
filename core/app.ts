@@ -7,10 +7,10 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 
-import { createRouter } from '@vue-storefront/core/router'
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
 import registerExtensions from '@vue-storefront/core/compatibility/lib/extensions'
 import i18n from '@vue-storefront/i18n'
+import VueRouter from 'vue-router'
 
 import store from '@vue-storefront/store'
 import coreModules from '@vue-storefront/store/modules'
@@ -38,10 +38,33 @@ if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
   })
 }
 
+function createRouter () {
+  return new VueRouter({
+    mode: 'history',
+    base: __dirname,
+    scrollBehavior: (to, from, savedPosition) => {
+      if (to.hash) {
+        return {
+          selector: to.hash
+        }
+      }
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return {x: 0, y: 0}
+      }
+    }
+  })
+}
+
+// vs router instance
 export let router = null
+
+Vue.use(VueRouter)
 
 export function createApp (ssrContext, config): { app: Vue, router: any, store: any } {
   router = createRouter()
+  // sync router with vuex 'router' store
   sync(store, router)
   store.state.version = '1.5.0'
   store.state.config = config
@@ -49,8 +72,11 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
 
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
+
+  // depreciated
   const storeModules = Object.assign(coreModules, themeModules || {})
 
+  // depreciated
   for (const moduleName of Object.keys(storeModules)) {
     console.debug('Registering Vuex module', moduleName)
     store.registerModule(moduleName, storeModules[moduleName])
@@ -65,6 +91,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   Vue.use(Meta)
   Vue.use(VueObserveVisibility)
 
+  // to depreciate in near future
   once('__VUE_EXTEND__', () => {
     console.debug('Registering Vue plugins')
     require('theme/plugins')
@@ -124,6 +151,8 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     provide: apolloProvider,
     render: h => h(App)
   })
+
+  // depreciated
   registerExtensions(
     union(extensionEntryPoints, themeExtensionEntryPoints),
     app,
@@ -132,6 +161,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     store.state.config,
     ssrContext
   )
+  
   enabledModules.forEach(m => m.register(router))
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
   app.$emit('application-after-init', app)
