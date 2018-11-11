@@ -10,6 +10,7 @@
       "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error"],
       "invalidateCacheKey": "aeSu7aip",
       "dynamicConfigReload": false,
+      "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
       "dynamicConfigInclude": []
     },
