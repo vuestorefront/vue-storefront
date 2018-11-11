@@ -239,10 +239,21 @@ app.get('*', (req, res, next) => {
 
   if (config.server.dynamicConfigReload) {
     delete require.cache[require.resolve('config')]
-    if (typeof serverExtensions.loadConfig === 'function') {
-      serverExtensions.loadConfig(req).then(loadedConfig => {
-        config = Object.assign(require('config'), loadedConfig) // merge loaded conf with build time conf
+    config = require('config') // reload config
+    if (typeof serverExtensions.configProvider === 'function') {
+      serverExtensions.configProvider(req).then(loadedConfig => {
+        config = Object.assign(config, loadedConfig) // merge loaded conf with build time conf
         dynamicCacheHandler()
+      }).catch(error => {
+        if (config.server.dynamicConfigContinueOnError) {
+          dynamicCacheHandler()
+        } else {
+          console.log('config provider error:', error)
+          if (req.url !== '/error') {
+            res.redirect('/error')
+          }
+          dynamicCacheHandler()
+        }
       })
     } else {
       config = require('config') // reload config
