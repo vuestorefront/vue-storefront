@@ -43,7 +43,7 @@ const postcssConfig =  {
   }
 };
 const isProd = process.env.NODE_ENV === 'production'
-
+// todo: usemultipage-webpack-plugin for multistore
 module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
