@@ -10,7 +10,7 @@ export default {
   },
   computed: {
     sortByAttribute () {
-      // renamed to soringOptions
+      // renamed to sortingOptions
       return this.$store.state.config.products.sortByAttributes
     }
   },
