@@ -23,10 +23,7 @@ export default {
     resetAllFilters () {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
-      const filterQr = buildFilterProductsQuery(this.category, this.activeFilters)
-      this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
-        searchProductQuery: filterQr
-      })
+      this.$store.dispatch('category/searchProductQuery', buildFilterProductsQuery(this.category, this.activeFilters))
       this.$store.dispatch('category/products', this.$store.state.category.current_product_query)
     }
   }
