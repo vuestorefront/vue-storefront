@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
-import { union } from 'lodash-es'
+import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
@@ -280,5 +280,4 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }
 })
 
-store.dispatch('compare/load')
 window.addEventListener('online', () => { onNetworkStatusChange(store) })

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import rootStore from '@vue-storefront/store'
-import { calculateProductTax } from '@vue-storefront/store/lib/taxcalc'
+import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
@@ -239,7 +239,7 @@ export function doPlatformPricesSync (products) {
     }
   })
 }
-
+// TODO: should be moved to tax
 /**
  * Calculate taxes for specific product collection
  */
@@ -346,31 +346,52 @@ function _internalMapOptions (productOption) {
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
-      let attr = context.rootState.attribute.list_by_id[option.attribute_id]
-      if (!attr) {
-        console.error('Wrong attribute given in configurable_options', option)
-        continue
+      let attribute_code
+      let attribute_label
+      if (option.attribute_id) { 
+        let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+        if (!attr) {
+          console.error('Wrong attribute given in configurable_options - can not find by attribute_id', option)
+          continue
+        } else {
+          attribute_code = attr.attribute_code
+          attribute_label = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+        }
+      } else {
+        if (!option.attribute_code) {
+          console.error('Wrong attribute given in configurable_options - no attribute_code', option)
+          continue        
+        } else { // we do have attribute_code!
+          attribute_code = option.attribute_code
+          attribute_label = option.frontend_label ? option.frontend_label : option.default_frontend_label
+        }
       }
       let selectedOption = null
       if (selectedVariant.custom_attributes) {
-        selectedOption = selectedVariant.custom_attributes.find((a) => {
-          return (a.attribute_code === attr.attribute_code)
+        selectedOption = selectedVariant.custom_attributes.find((a) => { // this is without the "label"
+          return (a.attribute_code === attribute_code)
         })
       } else {
         selectedOption = {
-          attribute_code: attr.attribute_code,
-          value: selectedVariant[attr.attribute_code]
+          attribute_code: attribute_code,
+          value: selectedVariant[attribute_code]
         }
       }
-      const confVal = {
-        attribute_code: attr.attribute_code,
-        id: selectedOption.value,
-        label: optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+      const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
+      if (selectedOptionMeta) {
+        selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
+        selectedOption.value_data = selectedOptionMeta.value_data
       }
-      context.state.current_configuration[attr.attribute_code] = confVal
+
+      const confVal = {
+        attribute_code: attribute_code,
+        id: selectedOption.value,
+        label: selectedOption.label ? selectedOption.label : /*if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+      }
+      context.state.current_configuration[attribute_code] = confVal
       // @deprecated fallback for VS <= 1.0RC
       if (!('setupVariantByAttributeCode' in rootStore.state.config.products) || rootStore.state.config.products.setupVariantByAttributeCode === false) {
-        const fallbackKey = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+        const fallbackKey = attribute_label
         context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
       }
     }

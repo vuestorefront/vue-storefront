@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
-import * as types from '../../mutation-types'
-import CompareState from './types/CompareState'
+import * as types from './mutation-types'
+import CompareState from '../types/CompareState'
 
 const mutations: MutationTree<CompareState> = {
   /**

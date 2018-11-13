@@ -1,5 +1,4 @@
-import category from './category'
-import compare from './compare'
+// import category from './category'
 import payment from './payment'
 import shipping from './shipping'
 import ui from './ui-store'
@@ -9,8 +8,7 @@ import sync from './sync'
 import promoted from './promoted-offers'
 
 export default {
-  category,
-  compare,
+  // category,
   payment,
   shipping,
   ui,
