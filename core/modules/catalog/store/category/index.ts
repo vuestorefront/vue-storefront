@@ -3,9 +3,9 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 import RootState from '@vue-storefront/store/types/RootState'
-import CategoryState from '../types/CategoryState'
+import CategoryState from '../../types/CategoryState'
 
-export const module: Module<CategoryState, RootState> = {
+export const categoryModule: Module<CategoryState, RootState> = {
   namespaced: true,
   state: {
     list: [],

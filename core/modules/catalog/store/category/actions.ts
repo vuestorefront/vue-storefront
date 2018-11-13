@@ -8,9 +8,9 @@ import i18n from '@vue-storefront/i18n'
 import chunk from 'lodash-es/chunk'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
-import { optionLabel } from '@vue-storefront/core/modules/product/helpers/optionLabel'
+import { optionLabel } from '../../helpers/optionLabel'
 import RootState from '@vue-storefront/store/types/RootState'
-import CategoryState from '../types/CategoryState'
+import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
@@ -305,9 +305,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     return productPromise
   },
-
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)
+  },
+  searchProductQuery (context, productQuery) {
+    context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
   }
 }
 

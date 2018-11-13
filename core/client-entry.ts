@@ -209,6 +209,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 })
 
 // Process the background tasks
+// todo rewrite and split across modules
 const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
