@@ -71,14 +71,9 @@ export default {
     ProductTile
   },
   mixins: [SearchPanel, VueOfflineMixin],
-  computed: {
-    isSearchPanel () {
-      return this.$store.state.ui.searchpanel
-    }
-  },
   mounted () {
     this.$bus.$on('focusSearchInput', () => {
-      if (!this.isSearchPanel) {
+      if (!this.$store.state.ui.searchpanel) {
         this.$refs.search.focus()
       }
     })
