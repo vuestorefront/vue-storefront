@@ -1,5 +1,4 @@
-import store from '@vue-storefront/store'
-export default {
+export const CategorySort = {
   name: 'SortBy',
   data () {
     return {
@@ -7,13 +6,14 @@ export default {
     }
   },
   methods: {
-    changeOrder () {
+    // emit to category, todo: move all logic inside
+    sort () {
       this.$bus.$emit('list-change-sort', { attribute: this.sortby })
     }
   },
   computed: {
-    sortByAttribute () {
-      return store.state.config.products.sortByAttributes
+    soringOptions () {
+      return this.$store.state.config.products.sortByAttributes
     }
   }
 }
