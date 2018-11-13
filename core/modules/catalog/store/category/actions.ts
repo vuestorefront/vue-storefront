@@ -305,9 +305,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     return productPromise
   },
-
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)
+  },
+  searchProductQuery (context, productQuery) {
+    context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
   }
 }
 
