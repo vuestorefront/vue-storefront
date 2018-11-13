@@ -41,7 +41,13 @@ export default {
     }),
     ...mapGetters({
       shippingMethods: 'shipping/shippingMethods'
-    })
+    }),
+    checkoutShippingDetails () {
+      return this.$store.state.checkout.shippingDetails
+    },
+    paymentMethod () {
+      return this.$store.state.payment.methods
+    }
   },
   mounted () {
     if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
@@ -102,11 +108,11 @@ export default {
           apartmentNumber: this.myAddressDetails.street[1],
           zipCode: this.myAddressDetails.postcode,
           phoneNumber: this.myAddressDetails.telephone,
-          shippingMethod: this.$store.state.checkout.shippingDetails.shippingMethod,
-          shippingCarrier: this.$store.state.checkout.shippingDetails.shippingCarrier
+          shippingMethod: this.checkoutShippingDetails.shippingMethod,
+          shippingCarrier: this.checkoutShippingDetails.shippingCarrier
         }
       } else {
-        this.shipping = this.$store.state.checkout.shippingDetails
+        this.shipping = this.checkoutShippingDetails
       }
       this.changeCountry()
     },
@@ -147,7 +153,7 @@ export default {
           country: this.shipping.country,
           method_code: currentShippingMethod.method_code,
           carrier_code: currentShippingMethod.carrier_code,
-          payment_method: this.$store.state.payment.methods[0].code
+          payment_method: this.paymentMethod[0].code
         })
       }
     },

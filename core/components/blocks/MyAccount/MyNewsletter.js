@@ -10,14 +10,14 @@ export default {
   },
   methods: {
     unsubscribe () {
-      this.$store.dispatch('mailchimp/unsubscribe', this.$store.state.user.current.email).then(res => {
+      this.$store.dispatch('mailchimp/unsubscribe', this.$store.state.user.current.email).then(() => {
         this.user.isSubscribed = false
       }).catch(err =>
         this.$emit('unsubscription-error', err)
       )
     },
     subscribe () {
-      this.$store.dispatch('mailchimp/subscribe', this.$store.state.user.current.email).then(res => {
+      this.$store.dispatch('mailchimp/subscribe', this.$store.state.user.current.email).then(() => {
         this.user.isSubscribed = true
       }).catch(err =>
         this.$emit('subscription-error', err)

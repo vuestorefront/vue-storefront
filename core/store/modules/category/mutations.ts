@@ -42,6 +42,9 @@ const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_REMOVE_FILTERS] (state) {
     state.filters.chosen = {}
     state.current_product_query.configuration = {}
+  },
+  [types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY] (state, newQuery) {
+    state.current_product_query = newQuery
   }
 }
 
