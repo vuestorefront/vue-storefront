@@ -1,6 +1,5 @@
 import { VueStorefrontModule } from '@vue-storefront/module'
-import { Category } from '@vue-storefront/core/modules/category'
-import { Product } from "@vue-storefront/core/modules/product"
+import { Catalog } from "@vue-storefront/core/modules/catalog"
 import { Cart } from '@vue-storefront/core/modules/cart'
 import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
@@ -23,8 +22,7 @@ const extendedExample = new VueStorefrontModule({
 Example.extend(extendedExample)
 
 export const registerModules: VueStorefrontModule[] = [
-  Category,
-  Product,
+  Catalog,
   Cart,
   Compare,
   Review,
@@ -32,6 +30,7 @@ export const registerModules: VueStorefrontModule[] = [
   Mailchimp,
   Notification,
   RecentlyViewed,
-  Homepage
+  Homepage,
+  Claims
   // Example
 ]

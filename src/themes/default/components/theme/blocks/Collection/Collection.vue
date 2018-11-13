@@ -8,7 +8,7 @@
 <script>
 
 import ProductsSlider from 'theme/components/core/ProductsSlider'
-import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 export default {
   name: 'Collection',
