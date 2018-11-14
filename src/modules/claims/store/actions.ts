@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import RootState from '../../types/RootState'
-import ClaimsState from './types/ClaimsState'
+import RootState from '@vue-storefront/store/types/RootState'
+import ClaimsState from '../types/ClaimsState'
 
 const actions: ActionTree<ClaimsState, RootState> = {
   set (context, { claimCode, value, description }) {

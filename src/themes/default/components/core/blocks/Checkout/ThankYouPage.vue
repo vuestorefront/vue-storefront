@@ -96,6 +96,12 @@ export default {
     isPermissionGranted () {
       if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
+    },
+    checkoutPersonalEmailAddress () {
+      return this.$store.state.checkout.personalDetails.emailAddress
+    },
+    mailerElements () {
+      return this.$store.state.config.mailer.contactAddress
     }
   },
   methods: {
@@ -108,8 +114,8 @@ export default {
     sendFeedback () {
       this.sendEmail(
         {
-          sourceAddress: this.$store.state.checkout.personalDetails.emailAddress,
-          targetAddress: this.$store.state.config.mailer.contactAddress,
+          sourceAddress: this.checkoutPersonalEmailAddress,
+          targetAddress: this.mailerElements.contactAddress,
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
@@ -123,11 +129,11 @@ export default {
         message,
         action1: { label: this.$t('OK') }
       })
-      if (this.$store.state.config.mailer.sendConfirmation) {
+      if (this.mailerElements.sendConfirmation) {
         this.sendEmail(
           {
-            sourceAddress: this.$store.state.config.mailer.contactAddress,
-            targetAddress: this.$store.state.checkout.personalDetails.emailAddress,
+            sourceAddress: this.mailerElements.contactAddress,
+            targetAddress: this.checkoutPersonalEmailAddress,
             subject: this.$t('Confirmation of receival'),
             emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
             confirmation: true

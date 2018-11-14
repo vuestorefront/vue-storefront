@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import * as types from '../../mutation-types'
-import { slugify, breadCrumbRoutes } from '../../helpers'
-import { entityKeyName } from '../../lib/entities'
-import CategoryState from './types/CategoryState'
-import rootStore from '../../'
+import * as types from './mutation-types'
+import { slugify, breadCrumbRoutes } from '@vue-storefront/store/helpers'
+import { entityKeyName } from '@vue-storefront/store/lib/entities'
+import CategoryState from '../../types/CategoryState'
+import rootStore from '@vue-storefront/store'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
@@ -42,6 +42,9 @@ const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_REMOVE_FILTERS] (state) {
     state.filters.chosen = {}
     state.current_product_query.configuration = {}
+  },
+  [types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY] (state, newQuery) {
+    state.current_product_query = newQuery
   }
 }
 

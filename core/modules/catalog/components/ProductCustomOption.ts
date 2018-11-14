@@ -1,5 +1,5 @@
-export default {
-  name: 'GenericSelector',
+export const ProductCustomOption = {
+  name: 'ProductCustomOption',
   props: {
     label: {
       type: String,

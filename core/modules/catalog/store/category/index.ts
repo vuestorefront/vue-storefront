@@ -2,10 +2,10 @@ import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import RootState from '../../types/RootState'
-import CategoryState from './types/CategoryState'
+import RootState from '@vue-storefront/store/types/RootState'
+import CategoryState from '../../types/CategoryState'
 
-const category: Module<CategoryState, RootState> = {
+export const categoryModule: Module<CategoryState, RootState> = {
   namespaced: true,
   state: {
     list: [],
@@ -24,5 +24,3 @@ const category: Module<CategoryState, RootState> = {
   actions,
   mutations
 }
-
-export default category

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
-import { union } from 'lodash-es'
+import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
@@ -209,6 +209,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 })
 
 // Process the background tasks
+// todo rewrite and split across modules
 const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
@@ -280,5 +281,4 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }
 })
 
-store.dispatch('compare/load')
 window.addEventListener('online', () => { onNetworkStatusChange(store) })

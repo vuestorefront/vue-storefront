@@ -2,18 +2,20 @@ import { productModule } from './store/product'
 import { attributeModule } from './store/attribute'
 import { stockModule } from './store/stock'
 import { taxModule } from './store/tax'
+import { categoryModule } from './store/category'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
 
-export const KEY = 'product'
+export const KEY = 'catalog'
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   store: { modules: [
-    { key: KEY, module: productModule },
+    { key: 'product', module: productModule },
     { key: 'attribute', module: attributeModule },
     { key: 'stock', module: stockModule },
-    { key: 'tax', module: taxModule }
+    { key: 'tax', module: taxModule },
+    { key: 'category', module: categoryModule }
   ] },
 }
 
-export const Product = new VueStorefrontModule(moduleConfig)
+export const Catalog = new VueStorefrontModule(moduleConfig)

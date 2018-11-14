@@ -1,3 +1,4 @@
+// theme-specific component
 export default {
   name: 'ValidationError',
   props: {
