@@ -2,10 +2,10 @@ import { Module } from 'vuex'
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
-import RootState from '../../types/RootState'
-import PromotedOffersState from './types/PromotedOffersState'
+import RootState from '@vue-storefront/store/types/RootState'
+import PromotedOffersState from '../types/PromotedOffersState'
 
-const promotedOffers: Module<PromotedOffersState, RootState> = {
+export const module: Module<PromotedOffersState, RootState> = {
   namespaced: true,
   state: {
     banners: {
@@ -18,5 +18,3 @@ const promotedOffers: Module<PromotedOffersState, RootState> = {
   actions,
   mutations
 }
-
-export default promotedOffers

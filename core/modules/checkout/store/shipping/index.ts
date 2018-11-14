@@ -1,9 +1,9 @@
 import { Module } from 'vuex'
-import RootState from '../../types/RootState'
-import ShippingState from './types/ShippingState'
+import RootState from '@vue-storefront/store/types/RootState'
+import ShippingState from '../../types/ShippingState'
 import buildTimeConfig from 'config'
 
-const shipping: Module<ShippingState, RootState> = {
+export const shippingModule: Module<ShippingState, RootState> = {
   namespaced: true,
   state: {
     methods: buildTimeConfig.shipping.methods
@@ -30,5 +30,3 @@ const shipping: Module<ShippingState, RootState> = {
     }
   }
 }
-
-export default shipping

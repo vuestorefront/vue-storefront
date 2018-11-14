@@ -5,7 +5,7 @@ import PaymentState from '../../types/PaymentState'
 export const paymentModule: Module<PaymentState, RootState> = {
   namespaced: true,
   state: {
-    methods: []
+    methods: [{"code":"cashondelivery","title":"Cash On Delivery","is_server_method":true}]
   },
   mutations: {
     addMethod (state, paymentMethod) {

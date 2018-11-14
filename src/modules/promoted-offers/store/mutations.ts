@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import PromotedOffersState from './types/PromotedOffersState'
+import PromotedOffersState from '../types/PromotedOffersState'
 
 const mutations: MutationTree<PromotedOffersState> = {
   updatePromotedOffers (state, data) {

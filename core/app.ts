@@ -7,8 +7,8 @@ import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 
+// TODO simplify by removing global mixins, plugins and filters - it can be done in normal 'vue' way
 import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
-import registerExtensions from '@vue-storefront/core/compatibility/lib/extensions'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
 
@@ -17,9 +17,13 @@ import coreModules from '@vue-storefront/store/modules'
 import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
 
 import App from 'theme/App.vue'
+
+// TODO depreciated and moved to modules functionality. Will be removed in 1.7
+import registerExtensions from '@vue-storefront/core/compatibility/lib/extensions'
 import themeModules from 'theme/store'
 import themeExtensionEntryPoints from 'theme/extensions'
 import extensionEntryPoints from 'src/extensions'
+
 import { once } from './helpers'
 
 // Declare Apollo graphql client
@@ -163,8 +167,8 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     store.state.config,
     ssrContext
   )
-  
-  enabledModules.forEach(m => m.register(router))
+  // 
+  enabledModules.forEach(m => m.register(store, router))
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
   app.$emit('application-after-init', app)
   return { app, router, store }
