@@ -204,7 +204,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setupVariants (context, { product }) {
     let subloaders = []
-    if (product.type_id === 'configurable') {
+    if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
       let attributeKey = 'attribute_id'
       const configurableAttrKeys = product.configurable_options.map(opt => {
         if (opt.attribute_id) {
@@ -623,7 +623,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
 
   setProductGallery(context, { product }) {
-      if (product.type_id === 'configurable') {
+      if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
         if (!rootStore.state.config.products.gallery.mergeConfigurableChildren && product.is_configured) {
            context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
         } else {
