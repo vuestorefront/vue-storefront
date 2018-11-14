@@ -7,11 +7,11 @@ Vue Storefront application uses the [node-config](https://github.com/lorenwest/n
 
 The structure of these files is exactly the same! Vue Storefront does kind of `Object.assign(default, local)` (but with the deep-merge). This means that the `local.json` overrides the `default.json` properties.
 
-::: tip
+:::tip NOTE
 Please take a look at the `node-config` docs as the library is open for some other ways to modify the configuration (using for example the `ENV` variables).
 :::
 
-::: tip
+:::tip NOTE
 Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode.
 :::
 
