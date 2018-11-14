@@ -9,8 +9,8 @@ export const KEY = 'checkout'
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   store: { modules: [
-    { key: 'payment', module: paymentModule },
     { key: 'shipping', module: shippingModule },
+    { key: 'payment', module: paymentModule },
     { key: 'checkout', module: checkoutModule },
   ] },
 }
