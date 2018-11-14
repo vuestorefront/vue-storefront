@@ -8,7 +8,7 @@ export function price (value) {
   if (isNaN(value)) {
     return value
   }
-  let formattedVal = Math.abs(parseFloat(value).toFixed(2))
+  let formattedVal = Math.abs(parseFloat(value)).toFixed(2)
   const storeView = currentStoreView()
 
   const prependCurrency = (price) => {
