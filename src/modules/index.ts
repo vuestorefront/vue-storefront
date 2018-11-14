@@ -23,9 +23,9 @@ const extendedExample = new VueStorefrontModule({
 Example.extend(extendedExample)
 
 export const registerModules: VueStorefrontModule[] = [
+  Checkout,
   Catalog,
   Cart,
-  Checkout,
   Compare,
   Review,
   Mailer,
