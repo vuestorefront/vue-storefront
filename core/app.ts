@@ -32,7 +32,9 @@ import VueApollo from 'vue-apollo'
 import { enabledModules } from './modules-entry'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
 
-if (buildTimeConfig.console.verbosityLevel !== 'display-everything') {
+const isProd = process.env.NODE_ENV === 'production'
+
+if (buildTimeConfig.console.verbosityLevel !== 'display-everything' && isProd) {
   once('__TAKE_OVER_CONSOLE__', () => {
     takeOverConsole(buildTimeConfig.console.verbosityLevel)
   })
