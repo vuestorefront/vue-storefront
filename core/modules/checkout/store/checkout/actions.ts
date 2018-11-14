@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '../../mutation-types'
+import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/store'
-import RootState from '../../types/RootState'
-import CheckoutState from './types/CheckoutState'
+import RootState from '@vue-storefront/store/types/RootState'
+import CheckoutState from '../../types/CheckoutState'
 
 const actions: ActionTree<CheckoutState, RootState> = {
   /**
@@ -35,12 +35,15 @@ const actions: ActionTree<CheckoutState, RootState> = {
     }
   },
   savePersonalDetails ({ commit }, personalDetails) {
+    // todo: create and move perdonal details vuex
     commit(types.CHECKOUT_SAVE_PERSONAL_DETAILS, personalDetails)
   },
   saveShippingDetails ({ commit }, shippingDetails) {
+    // todo: move to shipping vuex
     commit(types.CHECKOUT_SAVE_SHIPPING_DETAILS, shippingDetails)
   },
   savePaymentDetails ({ commit }, paymentDetails) {
+    // todo: move to payment vuex
     commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
   },
   load ({ commit }) {
