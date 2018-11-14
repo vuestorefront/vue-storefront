@@ -34,10 +34,10 @@ function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
-      message: i18n.t('No available product variants'),
+      message: i18n.t('The product or category is not available in Offline mode. Redirecting to Home.'),
       action1: { label: i18n.t('OK') }
     })
-    router.back()
+    router.push('/')
   } else {
     rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
