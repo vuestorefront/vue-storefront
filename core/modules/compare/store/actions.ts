@@ -6,11 +6,12 @@ import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import CompareState from '../types/CompareState'
+import { cacheStorage } from '../'
 
 const actions: ActionTree<CompareState, RootState> = {
   load (context) {
     const commit = context.commit
-    Vue.prototype.$db.compareCollection.getItem('current-compare', (err, storedItems) => {
+    cacheStorage.getItem('current-compare', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
     })
