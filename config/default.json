@@ -208,7 +208,6 @@
         "products": "INDEXEDDB",
         "elasticCache": "INDEXEDDB",
         "claims": "LOCALSTORAGE",
-        "compare": "INDEXEDDB",
         "syncTasks": "INDEXEDDB",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"

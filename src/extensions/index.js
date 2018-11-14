@@ -9,5 +9,4 @@ if (!Vue.prototype.$isServer) { // extensions that are not required in the SSR m
 extensionList.push(require('@vue-storefront/extension-magento2-cms/index.js'))
 extensionList.push(require('@vue-storefront/raw-output-example/index.js'))
 extensionList.push(require('@vue-storefront/extension-payment-backend-methods/index.js'))
-extensionList.push(require('@vue-storefront/extension-payment-cash-on-delivery/index.js'))
 export default extensionList

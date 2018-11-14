@@ -1,6 +1,7 @@
 import { VueStorefrontModule } from '@vue-storefront/module'
 import { Catalog } from "@vue-storefront/core/modules/catalog"
 import { Cart } from '@vue-storefront/core/modules/cart'
+import { Checkout } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
@@ -22,6 +23,7 @@ const extendedExample = new VueStorefrontModule({
 Example.extend(extendedExample)
 
 export const registerModules: VueStorefrontModule[] = [
+  Checkout,
   Catalog,
   Cart,
   Compare,

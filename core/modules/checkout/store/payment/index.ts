@@ -1,8 +1,8 @@
 import { Module } from 'vuex'
-import RootState from '../../types/RootState'
-import PaymentState from './types/PaymentState'
+import RootState from '@vue-storefront/store/types/RootState'
+import PaymentState from '../../types/PaymentState'
 
-const payment: Module<PaymentState, RootState> = {
+export const paymentModule: Module<PaymentState, RootState> = {
   namespaced: true,
   state: {
     methods: []
@@ -29,5 +29,3 @@ const payment: Module<PaymentState, RootState> = {
     }
   }
 }
-
-export default payment

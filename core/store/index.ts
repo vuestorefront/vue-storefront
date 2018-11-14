@@ -78,11 +78,6 @@ const plugins: Plugin<RootState>[] = [
           console.error(reason)
         })
       }
-      if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
-        Vue.prototype.$db.compareCollection.setItem('current-compare', state.compare.items).catch((reason) => {
-          console.error(reason) // it doesn't work on SSR
-        })
-      }
       if (actionName === types.USER_INFO_LOADED) { // check if this mutation is user related
         Vue.prototype.$db.usersCollection.setItem('current-user', state.user.current).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
