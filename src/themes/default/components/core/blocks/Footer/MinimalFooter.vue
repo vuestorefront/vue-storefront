@@ -182,10 +182,15 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
-import Footer from '@vue-storefront/core/compatibility/components/blocks/Footer/Footer'
 
 export default {
-  mixins: [Footer, CurrentPage]
+  name: 'MainFooter',
+  computed: {
+    multistoreEnabled () {
+      return this.$store.state.config.storeViews.multistore
+    }
+  },
+  mixins: [CurrentPage]
 }
 </script>
 
