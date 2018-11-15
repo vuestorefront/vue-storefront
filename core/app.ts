@@ -8,7 +8,8 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 
 // TODO simplify by removing global mixins, plugins and filters - it can be done in normal 'vue' way
-import { registerTheme, plugins, mixins, filters } from '@vue-storefront/core/lib/themes'
+import { registerTheme } from '@vue-storefront/core/lib/themes'
+import { plugins, mixins, filters } from '@vue-storefront/core/compatibility/lib/themes'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
 
