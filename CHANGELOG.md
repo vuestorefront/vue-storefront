@@ -8,17 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Lazy loading for SSR and non-SSR routes
-- Many modules
+- app splitted into modules
 
 ### Removed
 - `vsf-payment-stripe` module integration removed from core
 
 ### Changed
-- ProductSlider, ProductLinks, ProductListing moved to theme. Other Product-related components are now served directly from module
-- Many theme-related logic moved to theme (d+ eleted empty core components just with `name`)
+- ProductSlider, ProductLinks, ProductListing moved to theme. 
+- Many theme-related logic moved to theme (+ deleted empty core components just with `name`)
 - Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
 - Better Vuex extensibility with modules 
-
+- VSModule `store` object changed to fulfil need of multiple vuex modules (see modules docs)
+- UI Store logic for Microcart moved to cart module
+- Extensions are now depreciated, theme-level extensions removed and src-level extension to be depreciated in 1.7
+- Theme-starter depreciated and removed (will be replaced with theme 2.0  )
 ## [1.5.0] - 2018.10.22
 
 ### Added
