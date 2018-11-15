@@ -21,7 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - VSModule `store` object changed to fulfil need of multiple vuex modules (see modules docs)
 - UI Store logic for Microcart moved to cart module
 - Extensions are now depreciated, theme-level extensions removed and src-level extension to be depreciated in 1.7
-- Theme-starter depreciated and removed (will be replaced with theme 2.0  )
+- Theme-starter depreciated and removed (will be replaced with theme 2.0)
+- Form components, (baseCheckbox, BaseInput, BaseRadioButton, BaseSelect, Basetextarea) Loader, MainSlider and Modal core components moved to theme
+
 ## [1.5.0] - 2018.10.22
 
 ### Added
