@@ -1,6 +1,7 @@
 import { mapState } from 'vuex'
+import RootState from '@vue-storefront/store/types/RootState'
 
-export default {
+export const PersonalDetails = {
   name: 'PersonalDetails',
   props: {
     isActive: {
@@ -25,7 +26,7 @@ export default {
   },
   computed: {
     ...mapState({
-      currentUser: state => state.user.current
+      currentUser: (state: RootState) => state.user.current
     })
   },
   methods: {

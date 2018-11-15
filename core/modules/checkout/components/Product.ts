@@ -1,4 +1,4 @@
-export default {
+export const Product = {
   name: 'Product',
   props: {
     product: {
