@@ -5,27 +5,22 @@ import * as coreFilters from '@vue-storefront/core/filters'
 import * as themeMixins from 'theme/mixins'
 import * as themeFilters from 'theme/filters'
 
-/**
- * Return plugins load from core/plugins. Theme ones are ommited due to config that needs to be passed
- */
+/** DEPRECIATED will be removed in 1.7 */
 export function plugins () {
   return corePlugins
 }
 
-/**
- * Return mixins load from both: core/mixins and theme/mixins
- */
+/** DEPRECIATED will be removed in 1.7 */
 export function mixins () {
   return merge(coreMixins, themeMixins)
 }
 
-/**
- * Return filters load from both: core/filters and theme/filters
- */
+/** DEPRECIATED will be removed in 1.7 */
 export function filters () {
   return merge(themeFilters, coreFilters)
 }
 
+/** DEPRECIATED will be removed in 1.7 */
 export function extendStore (coreStore, extendStore) {
   return merge(coreStore, extendStore)
 }
