@@ -14,8 +14,8 @@ export const Microcart = {
     totals () : CartTotalSegments {
       return this.$store.getters['cart/totals']
     },
-    isMicrocartOpen () : boolean {
-      return this.$store.state.ui.microcart
+    isOpen () : boolean {
+      return this.$store.state.cart.isMicrocartOpen
     }
   },
   methods: {
