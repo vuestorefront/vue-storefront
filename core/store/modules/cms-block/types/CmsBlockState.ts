@@ -1,3 +1,3 @@
 export default interface CmsBlockState {
-  items: any[]
+  cmsBlocks: any[]
 }

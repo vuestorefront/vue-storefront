@@ -2,11 +2,13 @@ import Vue from 'vue'
 import { ActionTree } from "vuex"
 import { quickSearchByQuery } from "core/store/lib/search"
 import * as types from '../../mutation-types'
-// import rootStore from '../../'
 import SearchQuery from "core/store/lib/search/searchQuery"
 import RootState from "../../types/RootState"
 import { entityKeyName } from '../../lib/entities'
 import CmsPageState from "./types/CmsPageState"
+import store from '@vue-storefront/store'
+import { HttpError } from '@vue-storefront/core/lib/exceptions'
+import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<CmsPageState, RootState> = {
 
@@ -24,26 +26,24 @@ const actions: ActionTree<CmsPageState, RootState> = {
    */
   list (context, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
     let query = new SearchQuery()
-    const commit = context.commit
 
     if (filterValues) {
       query = query.applyFilter({key: filterField, value: {'like': filterValues}})
     }
-
     if (skipCache || (!context.state.cmsPages || context.state.cmsPages.length === 0)) {
       return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
       .then((resp) => {
-        commit(types.CMSPAGE_UPDATE_CMSPAGES, resp)
-        Vue.prototype.$bus.$emit('cmspage-after-list', { query, size: size, start: start, list: resp })
-        return resp
+        context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
+        Vue.prototype.$bus.$emit('cmspage-after-list', { query, size: size, start: start, cmsPages: resp.items })
+        return resp.items
       })
       .catch(err => {
         console.error(err)
       })
     } else {
       return new Promise((resolve, reject) => {
-        let resp = { items: context.state.cmsPages, total: context.state.cmsPages.length }
-        Vue.prototype.$bus.$emit('cmspage-after-list', { query, size: size, start: start, list: resp })
+        let resp = context.state.cmsPages
+        Vue.prototype.$bus.$emit('cmspage-after-list', { query, size: size, start: start, cmsPages: resp })
         resolve(resp)
       })
     }
@@ -60,21 +60,52 @@ const actions: ActionTree<CmsPageState, RootState> = {
    * @returns {Promise<T> & Promise<any>}
    */
   single (context, { key = 'identifier', value, excludeFields = null, includeFields = null }) {
+    const state = context.state
+    const dispatch = context.dispatch
+    return new Promise((resolve, reject) => {
+      if (state.cmsPages.length > 0) {
+        // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
+        let cmsPage = state.cmsPages.find((itm) => { return itm[key] === value })
 
-    // const commit = context.commit
-    console.log('------------------enter cms page load-------------')
-    let query = new SearchQuery()
-    if (value) {
-      query = query.applyFilter({key: key, value: {'like': value}})
-      return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
-      .then((resp) => {
-        return resp
-      }).catch(err => {
-        console.error(err)
-      })
-    } else {
-      throw new Error('No Key/Value was provided to retrieve single CMS page' )
-    }
+        if (cmsPage) {
+          resolve(cmsPage)
+        } else {
+          reject(new Error('CMS page query returned empty result ' + key + ' = ' + value))
+        }
+      } else  {
+        if (Object.keys(Vue.prototype.$db.cmsPagesCollection._localCache).length > 0) {
+          Vue.prototype.$db.cmsPagesCollection.getItem(entityKeyName(key, value), (error, cmsPage) => {
+            if (error) {
+              console.error(error)
+              reject(error)
+            }
+            if (cmsPage) {
+              resolve(cmsPage)
+            } else {
+              throw new Error('CMS page query returned empty results' + key + ' = ' + value)
+            }
+          }).catch(err => {
+            console.error(err)
+            reject(err)
+          })
+        }
+        else {
+          console.log('GET CMS PAGE LIST ---------------------------- size ', store.state.config.cms_page.max_count)
+          dispatch('list', { size: store.state.config.cms_page.max_count, excludeFields, includeFields }).then(cmspages => {
+            let cmsPage = cmspages.find((itm) => { return itm[key] === value })
+            if(cmsPage) {
+              return resolve(cmsPage)
+            } else {
+              return reject(new HttpError('page not found', 404))
+            }
+          }).catch(err => {
+            console.error(err)
+            reject(err)
+          })
+        }
+
+      }
+    })
 
   }
 }

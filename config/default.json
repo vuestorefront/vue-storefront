@@ -293,6 +293,12 @@
       "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
       "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
     },
+    "cms_block": {
+      "max_count": 500
+    },
+    "cms_page": {
+      "max_count": 500
+    },
     "usePriceTiers": false,
     "boost": {
       "name": 3,

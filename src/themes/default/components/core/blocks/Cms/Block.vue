@@ -1,7 +1,12 @@
+<template>
+  <div
+    :class="['cms-content', { 'container': sync }]"
+    v-if="data"
+    v-html="data.content"
+  />
+</template>
 
-import store from '@vue-storefront/store'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
-
+<script>
 export default {
   name: 'CmsBlock',
   props: {
@@ -43,3 +48,4 @@ export default {
     }
   }
 }
+</script>

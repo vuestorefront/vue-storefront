@@ -4,6 +4,7 @@ import ErrorPage from 'theme/pages/Error.vue'
 import store from '@vue-storefront/store'
 import { Category, Compare, Checkout, MyAccount, Static, Product, CustomCmsPage, CmsData } from './asyncRoutes'
 import CmsPage from 'theme/pages/CmsPage.vue'
+import CmsBlockDemoPageSsr from 'theme/pages/CmsBlockDemoPageSsr.vue'
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -32,6 +33,7 @@ let routes = [
   { name: 'page-not-found', path: '/page-not-found', component: PageNotFound },
   { name: 'error', path: '/error', component: ErrorPage, meta: { layout: 'minimal' } },
   { name: 'custom-cms-page', path: '/custom-cms-page', component: CustomCmsPage },
+  { name: 'cms-block-demo-page-ssr', path: '/cms-block-demo-page-ssr', component: CmsBlockDemoPageSsr },
   { name: 'cms-page-sync', path: '/cms-page-sync', component: CmsData, props: {identifier: 'about-us', type: 'Page', sync: true} }
 ]
 if (!store.state.config.products.useShortCatalogUrls) {
@@ -43,7 +45,7 @@ if (!store.state.config.products.useShortCatalogUrls) {
     { name: 'configurable-product', path: '/p/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'product', path: '/p/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'category', path: '/c/:slug', component: Category },
-    { name: 'cms-page', path: '/cms-page/:slug', component: CmsPage }])
+    { name: 'cms-page', path: '/:slug', component: CmsPage }])
 } else {
   routes = routes.concat([{ name: 'virtual-product', path: '/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'bundle-product', path: '/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
@@ -52,6 +54,7 @@ if (!store.state.config.products.useShortCatalogUrls) {
     { name: 'grouped-product', path: '/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'configurable-product', path: '/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'product', path: '/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
+    { name: 'cms-page', path: '/info/:slug', component: CmsPage },
     { name: 'category', path: '/:slug', component: Category }])
 }
 export default routes
