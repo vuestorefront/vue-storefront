@@ -1,5 +1,6 @@
 import { mapState } from 'vuex'
 
+// depreciated as theme specific
 export default {
   name: 'HamburgerIcon',
   computed: mapState({

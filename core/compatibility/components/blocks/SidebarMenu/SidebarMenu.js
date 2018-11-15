@@ -2,6 +2,7 @@ import { mapState } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts'
 
+// depreciated as theme-specific
 export default {
   name: 'SidebarMenu',
   mixins: [onEscapePress, CompareButton],

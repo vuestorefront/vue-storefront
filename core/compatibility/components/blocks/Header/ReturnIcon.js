@@ -1,3 +1,4 @@
+// depreciated as theme-specific
 export default {
   name: 'ReturnIcon',
   props: {
