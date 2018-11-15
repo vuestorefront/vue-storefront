@@ -8,6 +8,11 @@ export default {
       this.toggleMicrocart()
     }
   },
+  computed: {
+    isMicrocartOpen () {
+      return this.$store.state.ui.microcart
+    }
+  },
   mixins: [
     Microcart
   ]

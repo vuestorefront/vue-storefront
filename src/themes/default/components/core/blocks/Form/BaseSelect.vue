@@ -37,10 +37,46 @@
 </template>
 
 <script>
-import BaseSelect from '@vue-storefront/core/components/blocks/Form/BaseSelect'
 
 export default {
-  mixins: [BaseSelect]
+  name: 'BaseSelect',
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    name: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    options: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    selected: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    autocomplete: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    validations: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  }
 }
 </script>
 

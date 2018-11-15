@@ -662,6 +662,9 @@ const actions: ActionTree<CartState, RootState> = {
       }
     }
   },
+  toggleMicrocart ({ commit }) {
+    commit(types.CART_TOGGLE_MICROCART)
+  },
   servercartAfterItemDeleted (context, event) {
   }
 }

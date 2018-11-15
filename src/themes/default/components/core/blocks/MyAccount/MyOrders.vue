@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import MyOrders from '@vue-storefront/core/components/blocks/MyAccount/MyOrders'
+import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
 
 export default {
   mixins: [MyOrders]

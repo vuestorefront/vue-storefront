@@ -1,3 +1,4 @@
+// replaced with generic ProductCustomOption
 export default {
   name: 'PriceSelector',
   props: {

@@ -3,6 +3,7 @@ import i18n from '@vue-storefront/i18n'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
 
+// TODO: Search module + search ui state
 export default {
   name: 'SearchPanel',
   data () {

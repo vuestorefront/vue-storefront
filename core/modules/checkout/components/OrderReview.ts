@@ -1,6 +1,6 @@
 import i18n from '@vue-storefront/i18n'
 
-export default {
+export const OrderReview ={
   name: 'OrderReview',
   props: {
     isActive: {

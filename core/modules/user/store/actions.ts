@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '@vue-storefront/store/mutation-types'
+import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
 import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import i18n from '@vue-storefront/i18n'
