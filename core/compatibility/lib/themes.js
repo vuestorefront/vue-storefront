@@ -5,6 +5,8 @@ import * as coreFilters from '@vue-storefront/core/filters'
 import * as themeMixins from 'theme/mixins'
 import * as themeFilters from 'theme/filters'
 
+// STILL USED IN CORE
+
 /** DEPRECIATED will be removed in 1.7 */
 export function plugins () {
   return corePlugins

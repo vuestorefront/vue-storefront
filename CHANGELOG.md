@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - UI Store logic for Microcart moved to cart module
 - Extensions are now depreciated, theme-level extensions removed and src-level extension to be depreciated in 1.7
 - Theme-starter depreciated and removed (will be replaced with theme 2.0)
-- Header, Form components, (baseCheckbox, BaseInput, BaseRadioButton, BaseSelect, Basetextarea) Loader, MainSlider, Footer, SearchIcon and Modal core components moved to theme
+- Header, Form components, (baseCheckbox, BaseInput, BaseRadioButton, BaseSelect, Basetextarea) Loader, MainSlider, Footer, SearchIcon, ForgotPass, SignUp and Modal core components moved to theme
 - extendStore deprecaiated and moved to compatibility folder
 ## [1.5.0] - 2018.10.22
 

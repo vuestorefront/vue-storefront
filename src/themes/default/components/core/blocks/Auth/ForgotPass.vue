@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import ForgotPass from '@vue-storefront/core/components/blocks/Auth/ForgotPass'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseInput from '../Form/BaseInput.vue'
@@ -109,9 +108,18 @@ export default {
         console.error(err)
         this.$bus.$emit('notification-progress-stop')
       })
+    },
+    switchElem () {
+      this.$store.commit('ui/setAuthElem', 'login')
     }
   },
-  mixins: [ForgotPass],
+  name: 'ForgotPass',
+  data () {
+    return {
+      email: '',
+      passwordSent: false
+    }
+  },
   components: {
     ButtonFull,
     BaseInput
