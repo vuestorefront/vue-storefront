@@ -11,8 +11,8 @@ export default {
     }
   },
   methods: {
+    /** used to sort filters descending by id */
     sortById (filters) {
-      // used to sort filters descending by id
       return [...filters].sort((a, b) => { return a.id - b.id })
     },
     resetAllFilters () {

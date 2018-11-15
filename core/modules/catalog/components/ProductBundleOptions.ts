@@ -1,5 +1,5 @@
 import { mapMutations } from 'vuex'
-import * as types from '@vue-storefront/store/mutation-types'
+import * as types from '@vue-storefront/core/modules/catalog/store/product/mutation-types'
 import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
 
