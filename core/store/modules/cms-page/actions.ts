@@ -8,7 +8,6 @@ import { entityKeyName } from '../../lib/entities'
 import CmsPageState from "./types/CmsPageState"
 import store from '@vue-storefront/store'
 import { HttpError } from '@vue-storefront/core/lib/exceptions'
-import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<CmsPageState, RootState> = {
 
@@ -26,7 +25,6 @@ const actions: ActionTree<CmsPageState, RootState> = {
    */
   list (context, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
     let query = new SearchQuery()
-
     if (filterValues) {
       query = query.applyFilter({key: filterField, value: {'like': filterValues}})
     }
@@ -66,7 +64,6 @@ const actions: ActionTree<CmsPageState, RootState> = {
       if (state.cmsPages.length > 0) {
         // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
         let cmsPage = state.cmsPages.find((itm) => { return itm[key] === value })
-
         if (cmsPage) {
           resolve(cmsPage)
         } else {
@@ -90,7 +87,6 @@ const actions: ActionTree<CmsPageState, RootState> = {
           })
         }
         else {
-          console.log('GET CMS PAGE LIST ---------------------------- size ', store.state.config.cms_page.max_count)
           dispatch('list', { size: store.state.config.cms_page.max_count, excludeFields, includeFields }).then(cmspages => {
             let cmsPage = cmspages.find((itm) => { return itm[key] === value })
             if(cmsPage) {
