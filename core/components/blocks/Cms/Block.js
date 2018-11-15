@@ -1,7 +1,3 @@
-
-import store from '@vue-storefront/store'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
-
 export default {
   name: 'CmsBlock',
   props: {
