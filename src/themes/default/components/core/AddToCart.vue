@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import { formatProductMessages } from '@vue-storefront/core/filters/product-messages'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
