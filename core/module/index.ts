@@ -1,8 +1,7 @@
 import { Module, Store } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
-import rootStore from '@vue-storefront/store'
-import { merge } from 'lodash-es'
+import merge from 'lodash-es/merge'
 import RootState from '@vue-storefront/store/types/RootState';
 
 export interface VueStorefrontModuleConfig {
@@ -40,7 +39,7 @@ export class VueStorefrontModule {
     throw new Error('Store with key' + key + ' does not exist.')
   }
 
-  private static _extendStore (modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
+  private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
     if (modules) {
       modules.forEach(store => {
         if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
@@ -48,14 +47,14 @@ export class VueStorefrontModule {
             VueStorefrontModule._getRegisteredStore(store.key),
             store.module
           )
-          rootStore.unregisterModule(store.key)
-          rootStore.registerModule(store.key, mergedStore)
+          storeInstance.unregisterModule(store.key)
+          storeInstance.registerModule(store.key, mergedStore)
         } else {
-          rootStore.registerModule(store.key, store.module)
+          storeInstance.registerModule(store.key, store.module)
         }
       })
     }
-    if (plugin) rootStore.subscribe(plugin)
+    if (plugin) storeInstance.subscribe(plugin)
   }
 
   private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
@@ -68,11 +67,11 @@ export class VueStorefrontModule {
     this._c = merge(this._c, extendedConfig.config)
   }
 
-  public register (routerInstance): void {
-    if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore)
-    if (this._c.store) VueStorefrontModule._extendStore(this._c.store.modules, this._c.store.plugin)
+  public register (storeInstance, routerInstance): void {
+    if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, storeInstance.state.config, storeInstance)
+    if (this._c.store) VueStorefrontModule._extendStore(storeInstance, this._c.store.modules, this._c.store.plugin)
     if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
     VueStorefrontModule._registeredModules.push(this._c)
-    if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config, rootStore)
+    if (this._c.afterRegistration) this._c.afterRegistration(Vue, storeInstance.state.config, storeInstance)
   }
 }

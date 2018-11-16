@@ -83,6 +83,9 @@ const mutations: MutationTree<CartState> = {
   [types.CART_UPD_PAYMENT] (state, paymentMethod) {
     state.payment = paymentMethod
     state.cartSavedAt = Date.now()
+  },
+  [types.CART_TOGGLE_MICROCART] (state) {
+    state.isMicrocartOpen = !state.isMicrocartOpen
   }
 }
 

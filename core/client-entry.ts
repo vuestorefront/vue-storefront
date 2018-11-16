@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
-import { union } from 'lodash-es'
+import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import rootStore from '@vue-storefront/store'
 
 import buildTimeConfig from 'config'
@@ -34,10 +34,10 @@ function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
-      message: i18n.t('No available product variants'),
+      message: i18n.t('The product or category is not available in Offline mode. Redirecting to Home.'),
       action1: { label: i18n.t('OK') }
     })
-    router.back()
+    router.push('/')
   } else {
     rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
@@ -209,6 +209,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 })
 
 // Process the background tasks
+// todo rewrite and split across modules
 const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
@@ -280,5 +281,4 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
   }
 })
 
-store.dispatch('compare/load')
 window.addEventListener('online', () => { onNetworkStatusChange(store) })

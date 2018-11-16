@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import SortBy from '@vue-storefront/core/components/SortBy'
+import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
 export default {
   mixins: [SortBy]
 }

@@ -1,4 +1,4 @@
-// depreciated
+// depreciated but still used in core
 export default function registerExtensions (extensions, app, router, store, config, ssrContext = null) {
   for (let extEntryPoint of extensions) {
     if (extEntryPoint !== null) {

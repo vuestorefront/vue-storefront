@@ -20,7 +20,7 @@ By this single mixin the "Thank You page" component starts emiting the component
 
 Here is the list of available events to hook:
 ```js
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export default {
   beforeCreated () {

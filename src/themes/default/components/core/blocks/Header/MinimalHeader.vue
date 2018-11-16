@@ -36,7 +36,6 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
-import Header from '@vue-storefront/core/components/blocks/Header/Header'
 import Logo from 'theme/components/core/Logo'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
@@ -49,7 +48,7 @@ export default {
     Logo,
     ReturnIcon
   },
-  mixins: [Header, CurrentPage]
+  mixins: [CurrentPage]
 }
 </script>
 

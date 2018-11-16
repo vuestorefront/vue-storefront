@@ -4,10 +4,9 @@
 
 // Below you can find commented exaple for additional theme store
 
-import ui from './ui-store'
+// DEPRECIATED, will be removed in 1.7, use module.extend() instead
 import social from './social-tiles'
 
 export default {
-  ui,
   social
 }

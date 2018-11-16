@@ -1,3 +1,4 @@
+// depreciated moved to store
 export default {
   name: 'Notification',
   data () {

@@ -31,10 +31,28 @@
 </template>
 
 <script>
-import BaseRadiobutton from '@vue-storefront/core/components/blocks/Form/BaseRadiobutton'
-
 export default {
-  mixins: [BaseRadiobutton]
+  name: 'BaseRadiobutton',
+  props: {
+    id: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: Boolean,
+      required: true
+    },
+    validation: {
+      type: Object,
+      required: false,
+      default: () => { }
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  }
 }
 </script>
 

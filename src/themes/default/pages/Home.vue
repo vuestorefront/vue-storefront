@@ -32,7 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
