@@ -14,6 +14,11 @@ The project is in the **production ready** phase.
 
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take alook at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
+If you're new and need some guidance feel free to reach anyone from core team on our slack:
+`@Filip Rakowski` `@pkarw` `@Bartek Igielski` `@David Rouyer` `Gearge`
+
+Want to invest some time in building future of eCommerce? we are looking for core team members willing us to help make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
+
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
 See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakowski/vue-storefront-basics)
