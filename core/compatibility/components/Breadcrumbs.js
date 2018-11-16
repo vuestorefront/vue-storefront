@@ -1,3 +1,4 @@
+// breadcrumbs functionality will be rewritten, and this component is theme-specific
 export default {
   name: 'Breadcrumbs',
   props: {

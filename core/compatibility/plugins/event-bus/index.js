@@ -1,5 +1,5 @@
 import Vue from 'vue'
-
+// will be replaced with new mechanism with code-completion (via modules), don't use if you don't need to
 /**
  * Filter extension is for running async data filters as event handlers
  * Example:

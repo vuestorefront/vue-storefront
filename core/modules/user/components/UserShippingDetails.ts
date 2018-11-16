@@ -1,6 +1,6 @@
-import Countries from '@vue-storefront/i18n/resource/countries.json'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
-export default {
+export const UserShippingDetails = {
   name: 'MyShippingDetails',
   data () {
     return {

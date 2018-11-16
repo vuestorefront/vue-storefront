@@ -4,9 +4,8 @@
   </button-full>
 </template>
 
-<script lang="ts">
-import Product from '@vue-storefront/store/types/product/Product'
-import { formatProductMessages } from '@vue-storefront/core/filters/product-messages/typed'
+<script>
+import { formatProductMessages } from '@vue-storefront/core/filters/product-messages'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { AddToCart } from '@vue-storefront/core/modules/cart/components/AddToCart'
@@ -19,7 +18,7 @@ export default {
     onAfterRemovedVariant () {
       this.$forceUpdate()
     },
-    canBeAdded (product: Product): boolean {
+    canBeAdded (product) {
       return formatProductMessages(product.errors) !== ''
     }
   },

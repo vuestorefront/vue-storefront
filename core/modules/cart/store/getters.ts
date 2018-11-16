@@ -3,7 +3,7 @@ import sumBy from 'lodash-es/sumBy'
 import i18n from '@vue-storefront/i18n'
 import CartState from '../types/CartState'
 import RootState from '@vue-storefront/store/types/RootState'
-import AppliedCoupon from '@vue-storefront/store/types/cart/AppliedCoupon'
+import AppliedCoupon from '../types/AppliedCoupon'
 
 const getters: GetterTree<CartState, RootState> = {
   totals (state) {

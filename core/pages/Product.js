@@ -1,7 +1,7 @@
 import { mapGetters } from 'vuex'
 
 import store from '@vue-storefront/store'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'

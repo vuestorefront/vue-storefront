@@ -1,5 +1,6 @@
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
+// to be depreciated
 export default {
   beforeCreated () {
     const eventName = this.$options.name.toLowerCase() + '-before-created'

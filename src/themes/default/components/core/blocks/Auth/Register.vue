@@ -130,7 +130,7 @@
   </div>
 </template>
 <script>
-import Register from '@vue-storefront/core/components/blocks/Auth/Register'
+import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'

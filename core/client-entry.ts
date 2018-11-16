@@ -3,7 +3,7 @@ import * as localForage from 'localforage'
 import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import rootStore from '@vue-storefront/store'
 
 import buildTimeConfig from 'config'

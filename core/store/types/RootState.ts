@@ -11,6 +11,7 @@ export default interface RootState {
   user: any,
   wishlist: any,
   attribute: string,
+  ui: any,
   category: {
     current_path: string,
     current_product_query: any,
