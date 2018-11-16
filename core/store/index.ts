@@ -25,6 +25,7 @@ const state = {
   product: {},
   shipping: {},
   user: {},
+  ui: {},
   wishlist: {},
   attribute: '',
   category: {

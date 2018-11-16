@@ -2,9 +2,9 @@ import { mapState } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
+import RootState from '@vue-storefront/store/types/RootState'
 
-// TODO: Search module + search ui state
-export default {
+export const Search = {
   name: 'SearchPanel',
   data () {
     return {
@@ -73,7 +73,7 @@ export default {
       return this.$store.state.search
     },
     ...mapState({
-      isOpen: state => state.ui.searchpanel
+      isOpen: (state: RootState) => state.ui.searchpanel
     })
   },
   mixins: [onEscapePress]
