@@ -61,6 +61,8 @@ We are planning 1-2 milestones ahead. Our milestones are based on requirements f
 [See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
 [Check the feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md).
 
+If youd like to take part in roadmap planning feel free to join #roadmap-planning channel on our slack
+
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc. There is also new, updated `/docs` folder with original documentation migrated to VuePress (Work in Progress).
 
