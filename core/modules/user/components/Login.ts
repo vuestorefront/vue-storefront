@@ -1,6 +1,6 @@
 import i18n from '@vue-storefront/i18n'
 
-export default {
+export const Login = {
   name: 'Login',
   data () {
     return {
@@ -11,6 +11,7 @@ export default {
   },
   methods: {
     close () {
+      // TODO Move to theme
       this.$bus.$emit('modal-hide', 'modal-signup')
     },
     callLogin () {
@@ -26,13 +27,16 @@ export default {
         }
       }).catch(err => {
         console.error(err)
+        // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
       })
     },
     switchElem () {
+      // TODO Move to theme
       this.$store.commit('ui/setAuthElem', 'register')
     },
     callForgotPassword () {
+      // TODO Move to theme
       this.$store.commit('ui/setAuthElem', 'forgot-pass')
     }
   }

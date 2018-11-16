@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import Login from '@vue-storefront/core/components/blocks/Auth/Login'
+import Login from '@vue-storefront/core/compatibility/components/blocks/Auth/Login'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
