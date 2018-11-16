@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import { entityKeyName } from '../../lib/entities'
-import * as types from '../../mutation-types'
-import CmsBlockState from './types/CmsBlockState'
+import { entityKeyName } from '@vue-storefront/store/lib/entities'
+import * as types from './mutation-types'
+import CmsBlockState from '../../types/CmsBlockState'
 
 const mutations: MutationTree<CmsBlockState> = {
   /**

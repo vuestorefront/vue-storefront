@@ -9,6 +9,7 @@ import { Mailchimp } from '../modules/mailchimp'
 import { Example } from '@vue-storefront/core/modules/module-template'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
+import { Cms } from '@vue-storefront/core/modules/cms'
 import { Homepage } from "./homepage"
 import { Claims } from './claims'
 import { PromotedOffers } from './promoted-offers'
@@ -38,6 +39,7 @@ export const registerModules: VueStorefrontModule[] = [
   RecentlyViewed,
   Homepage,
   Claims,
+  Cms,
   PromotedOffers
   // Example
 ]

@@ -1,8 +1,8 @@
 import { ActionTree } from "vuex"
-import { quickSearchByQuery } from "core/store/lib/search"
-import SearchQuery from "core/store/lib/search/searchQuery"
-import RootState from "../../types/RootState"
-import CmsHierarchyState from "./types/CmsHierarchyState"
+import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import RootState from '@vue-storefront/store/types/RootState';
+import CmsHierarchyState from "../../types/CmsHierarchyState"
 
 const actions: ActionTree<CmsHierarchyState, RootState> = {
   /**

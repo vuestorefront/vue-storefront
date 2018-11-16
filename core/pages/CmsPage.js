@@ -1,4 +1,4 @@
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import Composite from '@vue-storefront/core/mixins/composite'
 

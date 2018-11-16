@@ -2,10 +2,10 @@ import { Module } from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
-import RootState from "../../types/RootState"
-import CmsBlockState from "./types/CmsBlockState"
+import RootState from '@vue-storefront/store/types/RootState'
+import CmsBlockState from '../../types/CmsBlockState'
 
-const cms_block: Module<CmsBlockState, RootState> = {
+export const cmsBlockModule: Module<CmsBlockState, RootState> = {
   namespaced: true,
   state: {
     cmsBlocks: [],
@@ -14,5 +14,3 @@ const cms_block: Module<CmsBlockState, RootState> = {
   actions,
   mutations
 }
-
-export default cms_block
