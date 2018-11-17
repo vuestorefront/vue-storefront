@@ -13,6 +13,7 @@ import { Homepage } from "./homepage"
 import { Claims } from './claims'
 import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
+import { GoogleAnalytics } from './google-analytics';
 
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
@@ -38,6 +39,7 @@ export const registerModules: VueStorefrontModule[] = [
   RecentlyViewed,
   Homepage,
   Claims,
-  PromotedOffers
+  PromotedOffers,
+  GoogleAnalytics
   // Example
 ]
