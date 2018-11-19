@@ -14,6 +14,11 @@ The project is in the **production ready** phase.
 
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take alook at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
+If you're new and need some guidance feel free to reach anyone from core team on our slack:
+`@Filip Rakowski` `@pkarw` `@Bartek Igielski` `@David Rouyer` `@George`
+
+Want to invest some time in building future of eCommerce? we are looking for core team members willing us to help make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
+
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
 See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakowski/vue-storefront-basics)
@@ -61,6 +66,8 @@ We are planning 1-2 milestones ahead. Our milestones are based on requirements f
 [See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
 [Check the feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md).
 
+If youd like to take part in roadmap planning feel free to join #roadmap-planning channel on our slack
+
 ## Documentation + table of contents
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc. There is also new, updated `/docs` folder with original documentation migrated to VuePress (Work in Progress).
 
@@ -76,12 +83,11 @@ You can find some tutorials and explainations on our [YouTube channel](https://w
 * [Configuration file explained](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Config%20docs.md)
 
 ### Basics
-* [Project structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Project%20structure.md) - good for introduction (outdated, we are workiung on interactive explorer :) )
-* [Vue Storefront Modules(https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
+
 * [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
 * [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
 * [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
-* [Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
+* [Vue Storefront Modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
 * [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
 * [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md)
 * [Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
@@ -327,7 +333,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://novatize.com/">
           <img
-            src="https://user-images.githubusercontent.com/18116406/39051246-62220fae-44a8-11e8-92d3-3bbe02644313.png"
+            src="https://divante.co/partners/Vue-Storefront/Novatize_Logo_K.png"
             alt="Novatize"
             width="150"
           >
@@ -457,10 +463,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
         <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.mediact.nl/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Logo-MediaCT-XL.png"
+            alt="MediaCT"
             height="50"
           >
         </a>
