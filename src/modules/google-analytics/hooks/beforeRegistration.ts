@@ -1,10 +1,11 @@
 import VueAnalytics from 'vue-analytics'
+import { router } from '@vue-storefront/core/app'
 
-export function beforeRegistration(Vue, config) {
+export function beforeRegistration(Vue, config, store) {
     if (config.analytics.id && !Vue.prototype.$isServer) {
         Vue.use(VueAnalytics, {
             id: config.analytics.id,
-            router: Vue.$router,
+            router: store.router,
             ecommerce: {
                 enabled: true,
                 enhanced: true

@@ -1,9 +1,8 @@
 import VueAnalytics from 'vue-analytics'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export function afterRegistration(Vue, config) {
     if (config.analytics.id && !Vue.prototype.$isServer) {
-        EventBus.$on('order/ORDER_PLACED', event => {
+        Vue.prototype.$bus.$on('order/ORDER_PLACED', event => {
             const order = event.order
             const ecommerce = Vue.$ga.ecommerce
             order.products.forEach(product => {
