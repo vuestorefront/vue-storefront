@@ -1,4 +1,3 @@
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import Composite from '@vue-storefront/core/mixins/composite'
 
@@ -21,12 +20,7 @@ export default {
       }).then(res => {
         if (res) {
           store.state.cms_page.current = res
-          EventBus.$emitFilter('cms_page-after-load', { store: store, route: route }).then(results => {
-            return resolve()
-          }).catch(err => {
-            console.error(err)
-            reject(err)
-          })
+          return resolve(res)
         }
       }).catch(err => {
         console.error(err)
@@ -39,9 +33,6 @@ export default {
       this.$store.dispatch('cms_page/single', { key: 'slug', value: this.$route.params.slug }).then(cmsPage => {
         if (!cmsPage) {
           this.$router.push('/')
-        } else {
-          this.$bus.$emit('cms_page-changed', this.$store.state.cms_page.current_path)
-          EventBus.$emitFilter('cms_page-after-load', { store: this.$store, route: this.$route })
         }
       })
     }
