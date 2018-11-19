@@ -171,6 +171,7 @@
     "core/i18n",
     "core/store",
     "src/extensions/*",
+    "src/modules/*",
     "src/themes/*",
     "docs",
     "core/modules/*",
