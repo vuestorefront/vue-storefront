@@ -39,6 +39,8 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setupBreadcrumbs (context, { product }) {
     let subloaders = []
+    let breadcrumbRoutes = null
+    let breadcrumbsName = null
     let setbrcmb = (path) => {
       if (path.findIndex(itm => {
         return itm.slug === context.rootState.category.current.slug
@@ -48,7 +50,8 @@ const actions: ActionTree<ProductState, RootState> = {
           name: context.rootState.category.current.name
         }) // current category at the end
       }
-      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
+      // depreciated, TODO: base on breadcrumbs module 
+      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?     
     }
 
     if (product.category && product.category.length > 0) {
@@ -86,7 +89,14 @@ const actions: ActionTree<ProductState, RootState> = {
         })
       )
     }
+    // TODO: To repreciate and use breadcrumbs module
     context.state.breadcrumbs.name = product.name
+    breadcrumbsName = product.name
+    const breadcrumbs = {
+      routes: breadCrumbRoutes,
+      current: breadcrumbsName
+    }
+    context.dispatch('breadcrumbs/set', breadcrumbs, { root: true })
     return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {
