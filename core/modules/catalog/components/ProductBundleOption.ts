@@ -59,6 +59,7 @@ export const ProductBundleOption = {
       if(this.option.product_links) {
         const defaultOption = this.option.product_links.find(pl => { return pl.is_default })
         this.productOptionId = defaultOption ? defaultOption.id : this.option.product_links[0].id
+        this.quantity = defaultOption ? defaultOption.qty : 1
       }
     },
     bundleOptionChanged() {
