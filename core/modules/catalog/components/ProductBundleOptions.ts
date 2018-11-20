@@ -3,19 +3,6 @@ import * as types from '../store/product/mutation-types'
 import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
 
-function _defaultOptionValue (co, field = 'id') {
-  if (co.product_links && co.product_links.length) {
-    const defaultOption = co.product_links.find(pl => { return pl.is_default })
-    if (defaultOption) {
-      return field === '*' ? defaultOption : defaultOption[field]
-    } else {
-      return field === '*' ? co.product_links[0] : co.product_links[0][field]
-    }
-  } else {
-    return field === '*' ? null : 0
-  }
-}
-
 function _fieldName (co) {
   return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
 }
@@ -30,25 +17,19 @@ export const ProductBundleOptions = {
   },
   data () {
     return {
-      inputValues: {
-      },
-      selectedOptions: {
-      },
-      validation: {
-        rules: {},
-        results: {}
-      }
+      selectedOptions: {},
+      validationRules: {},
+      validationResults: {}
     }
   },
   computed: {
     /**
      * Error messages map for validation options.
-     * TODO: Each option should be a separate component to avoid such complex logic.
      */
     errorMessages () {
       let messages = {}
-      Object.keys(this.validation.results).map(optionKey => {
-        const validationResult = this.validation.results[optionKey]
+      Object.keys(this.validationResults).map(optionKey => {
+        const validationResult = this.validationResults[optionKey]
         if (validationResult.error) {
           messages[optionKey] = validationResult.message
         }
@@ -57,83 +38,69 @@ export const ProductBundleOptions = {
     }
   },
   beforeMount () {
-    rootStore.dispatch('product/addCustomOptionValidator', {
-      validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme
-      validatorFunction: (value) => {
-        return { error: (value === null || value === '') || (value === false) || (value <= 0), message: i18n.t('Must be greater than 0') }
-      }
-    })
-
-    this.setupInputFields()
-
-    if (rootStore.state.config.usePriceTiers) {
-      this.$bus.$on('product-after-setup-associated', this.setupInputFields)
-    }
-  },
-  beforeDestroy () {
-    if (rootStore.state.config.usePriceTiers) {
-      this.$bus.$off('product-after-setup-associated', this.setupInputFields)
-    }
+    this.setupValidationRules()
   },
   methods: {
     ...mapMutations('product', {
       setBundleOptionValue: types.CATALOG_UPD_BUNDLE_OPTION // map `this.add()` to `this.$store.commit('increment')`
     }),
-    setupInputFields () {
+    setupValidationRules () {
+      rootStore.dispatch('product/addCustomOptionValidator', {
+        validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme
+        validatorFunction: (value) => {
+          return { error: (value === null || value === '') || (value === false) || (value <= 0), message: i18n.t('Must be greater than 0') }
+        }
+      })
+
       for (let co of this.product.bundle_options) {
         for (let fieldName of _fieldName(co)) {
-          this['inputValues'][fieldName] = _defaultOptionValue(co, fieldName.indexOf('Qty') > 0 ? 'qty' : 'id')
           if (co.required) { // validation rules are very basic
-            this.validation.rules[fieldName] = 'gtzero' // TODO: add custom validators for the custom options
+            this.validationRules[fieldName] = 'gtzero' // TODO: add custom validators for the custom options
           }
         }
-        this.optionChanged(co, _defaultOptionValue(co, '*'))
       }
     },
-    optionChanged (option, opval = null) {
-      const fieldName = _fieldName(option)[0]
-      if (opval === null) {
-        const existingField = this.selectedOptions[fieldName]
-        if (existingField && existingField.hasOwnProperty('value') && typeof existingField.value === 'object') {
-          opval = existingField.value
-        }
-      }
-      const fieldNameQty = _fieldName(option)[1]
-      const value = opval === null ? this.inputValues[fieldName] : opval.id
-      this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(this.inputValues[fieldNameQty]), optionSelections: [value] })
+    optionChanged({fieldName, option, qty, value}) {
+      if (!fieldName) return
+      this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(qty), optionSelections: [value.id] })
       this.$store.dispatch('product/setBundleOptions', { product: this.product, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
-      this.selectedOptions[fieldName] = { value: (opval === null ? value : opval), qty: parseInt(this.inputValues[fieldNameQty]) }
-      if (this.validateField(option)) {
+      this.selectedOptions[fieldName] = {qty, value}
+      const valueId = value ? value.id : null
+      if (this.validateField(option, qty, valueId)) {
         this.$bus.$emit('product-after-bundleoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
       }
     },
     isValid () {
       let isValid = true
-      this.validation.results.map((res) => { if (res.error) isValid = false })
+      this.validationResults.map((res) => { if (res.error) isValid = false })
       return isValid
     },
-    validateField (option) {
+    validateField (option, qty, optionId) {
       let result = true
+      let validationResult = { error: false, message: '' }
       for (let fieldName of _fieldName(option)) {
-        const validationRule = this.validation.rules[fieldName]
+        const validationRule = this.validationRules[fieldName]
         this.product.errors.custom_options = null
         if (validationRule) {
           const validator = this.$store.state.product.custom_options_validators[validationRule]
           if (typeof validator === 'function') {
-            const validationResult = validator(this['inputValues'][fieldName])
-            this.validation.results[fieldName] = validationResult
+            const quantityValidationResult = validator(qty)
+            if(quantityValidationResult.error) validationResult = quantityValidationResult
+            const optionValidationResult = validator(optionId)
+            if(optionValidationResult.error) validationResult = optionValidationResult
+            this.$set(this.validationResults, fieldName, validationResult)
             if (validationResult.error) {
-              this.product.errors['bundle_options_' + fieldName] = i18n.t('Please configure product bundle options and fix the validation errors')
+              this.product.errors['bundle_options_' + fieldName] = i18n.t('Please configure product custom options and fix the validation errors')
               result = false
             } else {
               this.product.errors['bundle_options_' + fieldName] = null
             }
           } else {
             console.error('No validation rule found for ', validationRule)
-            this.validation.results[fieldName] = { error: false, message: '' }
+            this.$set(this.validationResults, fieldName, validationResult)
           }
         } else {
-          this.validation.results[fieldName] = { error: false, message: '' }
+          this.$set(this.validationResults, fieldName, validationResult)
         }
       }
       return result
