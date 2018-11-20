@@ -172,6 +172,6 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
-    "core/module"
+    "module"
   ]
 }

@@ -4,9 +4,11 @@
   "description": "Vue Storefront Modules",
   "license": "MIT",
   "main": "index.ts",
+  "types": "./index.d.ts",
   "peerDependencies": {
     "@vue-storefront/store" : "^1.5.0",
-    "localforage" : "^1.7.3"
+    "localforage" : "^1.7.3",
+    "lodash-es": "^4.17.10"
   },
   "publishConfig": {
     "access": "public"
