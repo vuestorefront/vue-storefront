@@ -115,7 +115,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 - `test` - Folder with unit tests which is *required* for every new or rewritten module. 
 - `hooks` - before/after hooks that are called before and after registration of module.
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
-  - `bafterRegistration.ts` - Should be used in `afterRegistration` config property.
+  - `afterRegistration.ts` - Should be used in `afterRegistration` config property.
 - `router` - routes and navigation guards associated to this module
   - `routes.ts`- array of route objects that will be added to current router configuration. Should be used in `router.routes` config property.
   - `beforeEach.ts` - beforEeach navigation guard. Should be used in `router.beforeEach` config property.
