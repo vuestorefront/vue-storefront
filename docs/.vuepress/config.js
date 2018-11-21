@@ -109,6 +109,7 @@ module.exports = {
             'integrations/paypal-payments',
             'integrations/direct-prices-sync',
             'integrations/tier-prices-sync',
+            'integrations/totals-sync',
             'integrations/multistore',
           ],
         },
