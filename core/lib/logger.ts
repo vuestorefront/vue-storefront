@@ -1,7 +1,4 @@
-// dynamic import on dev, never load on prod
-let StackTrace: any = {
-  get () { return new Promise(res => {}) }
-}
+import StackTrace from 'stacktrace-js'
 
 class VueStorefrontLogger {
   private mode: string;
@@ -9,9 +6,6 @@ class VueStorefrontLogger {
   constructor () {
     this.mode = process.env.NODE_ENV
     this.showStackTrace = false
-    if ( this.mode !== 'production') {
-      StackTrace = import('stacktrace-js')
-    }
   }
   
   public info (value, tag?, context?) {
