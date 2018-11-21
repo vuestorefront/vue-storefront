@@ -8,12 +8,7 @@ services:
     env_file: docker/vue-storefront/default.env
     environment:
       VS_ENV: dev
-    external_links:
-      - vue-storefront-api_app_1:vue-storefront-api
-      - vue-storefront-api_redis_1:redis
-    networks:
-      - default
-      - vuestorefrontapi_default
+    network_mode: host
     volumes:
       - '.babelrc:/var/www/.babelrc'
       - './config:/var/www/config'
@@ -31,20 +26,3 @@ services:
       - /var/www/dist
     ports:
       - '3000:3000'
-  nginx:
-    image: nginx:alpine
-    links:
-      - app:vue-storefront
-    external_links:
-      - vue-storefront-api_app_1:vue-storefront-api
-    networks:
-      - default
-      - vuestorefrontapi_default
-    volumes:
-      - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
-    ports:
-      - '80:80'
-
-networks:
-  vuestorefrontapi_default:
-    external: true
