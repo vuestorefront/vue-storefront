@@ -27,7 +27,11 @@ class VueStorefrontLogger {
     if (this.mode !== 'production') {
       if (!tag) tag = ''
       StackTrace.get().then(trace => {
-        console.warn('%cVSF%c %c' + tag +'%c ' + value + ' ', 'color: white; background: orange; padding: 4px; font-weight: bold; font-size: 0.8em', 'color: inherit', 'color: white; background: gray; padding: 4px; font-weight: bold; font-size: 0.8em', 'color: inherit', 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber)
+        console.warn('%cVSF%c %c' + tag +'%c ' + value + ' ', 
+        'color: white; background: orange; padding: 4px; font-weight: bold; font-size: 0.8em', 
+        'color: inherit', 'color: white; background: gray; padding: 4px; font-weight: bold; font-size: 0.8em', 
+        'color: inherit', 
+        'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber)
       })
     }
   }
