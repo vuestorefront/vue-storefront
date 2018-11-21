@@ -103,7 +103,13 @@ module.exports = {
         {
           title: 'Integrations',
           collapsable: false,
-          children: ['integrations/integrations', 'integrations/multistore'],
+          children: [
+            'integrations/integrations',
+            'integrations/reviews',
+            'integrations/paypal-payments',
+            'integrations/prices-sync',
+            'integrations/multistore',
+          ],
         },
       ],
     },

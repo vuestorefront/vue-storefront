@@ -4,9 +4,9 @@ Vue Storefront is supporting PayPal payments with PayPal Payment extension for [
 
 ## The architecture
 
-![Architecture diagram](https://raw.githubusercontent.com/develodesign/vsf-payment-paypal/master/docs/executing-paypal-payment-server-integration.svg)
+![Architecture diagram](/vue-storefront/paypal.svg)
 
-## Installation using NPM:
+## Installation using NPM
 
 Add the extension to your Vue Storefront `package.json` using:
 
@@ -60,7 +60,7 @@ in your `local.json` file you should register the extension:
 
 And need add the `paypal` settings to `extensions` key in `local.json`:
 
-```
+```json
   "extensions": {
     "mailchimp": {
       ...
