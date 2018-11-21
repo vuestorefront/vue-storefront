@@ -51,7 +51,7 @@ This is the kind of modularity and extendibility we want in Vue Storefront and a
 The purpose is well described in [this discussion](https://github.com/DivanteLtd/vue-storefront/issues/1213). It can be sumamrized to:
 - **Better extensibility**: We can extend each module or replace it completely with the new one. For example we may want to replace our Cart module with the one that allows to have multiple carts. With modules we can just detach current Cart module and repalce it with our new one. Another example can be using different modules for different content CMSes integration etc. 
 - **Better developer experience**: Along with the modules we are introducing many features focused on delivering better, easier to jump in and more predictable developer experience. We changed the way you can compose components with features, added unit tests, TypeScript interfaces etc.
-- **Better upgradability**: Each module is a separate NPM pacage therefore can be upgraded independently and since it have all the logic encapsulated it shouldn't break any other parts of the application when detached, modified or replaced.
+- **Better upgradability**: Each module is a separate NPM package therefore can be upgraded independently and since it have all the logic encapsulated it shouldn't break any other parts of the application when detached, modified or replaced.
 
 
 # Module config and capabilities
@@ -108,21 +108,21 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 - `components` - Components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
 - `pages` - If you want to provide full pages with your module palce them here. It's also a good practice to extend router configuration for this pages
 - `store` - Vuex Module associated to this module. You can also place Vuex modules extensions in here
-  - `index.ts` - Entry point and main export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
+  - `index.ts` - Entry point and main export of your Vuex Module. Actions/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
   - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
   - `plugins.ts` - Good place to put vuex plugin. Should be used in `store.plugins` config object
 - `types` - TypeScript types associated with module
 - `test` - Folder with unit tests which is *required* for every new or rewritten module. 
 - `hooks` - before/after hooks that are called before and after registration of module.
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
-  - `bafterRegistration.ts` - Should be used in `afterRegistration` config property.
+  - `afterRegistration.ts` - Should be used in `afterRegistration` config property.
 - `router` - routes and navigation guards associated to this module
   - `routes.ts`- array of route objects that will be added to current router configuration. Should be used in `router.routes` config property.
   - `beforeEach.ts` - beforEeach navigation guard. Should be used in `router.beforeEach` config property.
   - `afterEach.ts`- afterEach navigation guard. Should be used in `router.afterEach` config property.
 - `queries` - GraphQL queries
 - `helpers` - everything else that is meant to support modules behavior
-- `index.js` - entry point for the module. Should export VueStorefrontModule. It's also a good palce to instantiate cache storage.
+- `index.js` - entry point for the module. Should export VueStorefrontModule. It's also a good place to instantiate cache storage.
 
 # Module registration
 
@@ -187,7 +187,7 @@ addToCart(product, success, failure) {
 Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
 
 5. Create pure functions that can be easly called with different argument. Rely on `data` properties instead of arguments only if it's required (for example they are validated like [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28).
-6. Document exported compoennts like in example: https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts
+6. Document exported components like in example: https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts
 7. If your module core functionality is an integration with external service better name it the same as this service (for example `mailchimp`)
 8. Use named exports and typecheck.
 
@@ -195,13 +195,13 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 - If you are creating a new feature first think if it's not just extending currently existing one . If you are sure that feature you want to provide is completely new then it should be introduced as new VS module. 
 - Provide unique key that should represent the feature or 3rd party system name (if the module is an integration)
-- Try not to rely on data and logic from other modules if your module is not directlky extending it. It'll be more reusable and remain working even after extensive VS core updates.
+- Try not to rely on data and logic from other modules if your module is not directly extending it. It'll be more reusable and remain working even after extensive VS core updates.
 
 # Extending and overriding Vue Storefront Modules
 
 You can extend and modify all parts of any of Vue Storefront modules before it's registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
 
-Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The sytax for this purpose is extremely simple.
+Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The syntax for this purpose is extremely simple.
 
 We need to import both modules, use `extendedExample` to extend `Example` and export them so they can be registered in VS core.
 
