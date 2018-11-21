@@ -1,0 +1,53 @@
+{
+  "redis": {
+    "host": "redis"
+  },
+  "elasticsearch": {
+    "host": "http://vue-storefront-api:8080/api/catalog"
+  },
+  "graphql": {
+    "host": "http://{{ domain }}/graphql"
+  },
+  "cart": {
+    "create_endpoint": "http://vue-storefront-api:8080/api/cart/create?token={{token}}",
+    "updateitem_endpoint": "http://vue-storefront-api:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
+    "deleteitem_endpoint": "http://vue-storefront-api:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
+    "pull_endpoint": "http://vue-storefront-api:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
+    "totals_endpoint": "http://vue-storefront-api:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
+    "paymentmethods_endpoint": "http://vue-storefront-api:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+    "shippingmethods_endpoint": "http://vue-storefront-api:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+    "shippinginfo_endpoint": "http://vue-storefront-api:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+    "collecttotals_endpoint": "http://vue-storefront-api:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+    "deletecoupon_endpoint": "http://vue-storefront-api:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+    "applycoupon_endpoint": "http://vue-storefront-api:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  },
+  "products": {
+    "endpoint": "http://vue-storefront-api:8080/api/product"
+  },
+  "orders": {
+    "endpoint": "http://vue-storefront-api:8080/api/order"
+  },
+  "users": {
+    "endpoint": "http://vue-storefront-api:8080/api/user",
+    "history_endpoint": "http://vue-storefront-api:8080/api/user/order-history?token={{token}}",
+    "resetPassword_endpoint": "http://vue-storefront-api:8080/api/user/resetPassword",
+    "changePassword_endpoint": "http://vue-storefront-api:8080/api/user/changePassword?token={{token}}",
+    "login_endpoint": "http://vue-storefront-api:8080/api/user/login",
+    "create_endpoint": "http://vue-storefront-api:8080/api/user/create",
+    "me_endpoint": "http://vue-storefront-api:8080/api/user/me?token={{token}}",
+    "refresh_endpoint": "http://vue-storefront-api:8080/api/user/refresh"
+  },
+  "stock": {
+    "endpoint": "http://vue-storefront-api:8080/api/stock"
+  },
+  "mailchimp": {
+    "endpoint": "http://vue-storefront-api:8080/api/ext/mailchimp-subscribe/subscribe"
+  },
+  "mailer": {
+    "endpoint": {
+      "send": "http://vue-storefront-api:8080/api/ext/mail-service/send-email",
+      "token": "http://vue-storefront-api:8080/api/ext/mail-service/get-token"
+    }
+  }
+}
+
