@@ -195,7 +195,7 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 - If you are creating a new feature first think if it's not just extending currently existing one . If you are sure that feature you want to provide is completely new then it should be introduced as new VS module. 
 - Provide unique key that should represent the feature or 3rd party system name (if the module is an integration)
-- Try not to rely on data and logic from other modules if your module is not directlky extending it. It'll be more reusable and remain working even after extensive VS core updates.
+- Try not to rely on data and logic from other modules if your module is not directly extending it. It'll be more reusable and remain working even after extensive VS core updates.
 
 # Extending and overriding Vue Storefront Modules
 
