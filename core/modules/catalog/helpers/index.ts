@@ -27,6 +27,21 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
   }
 }
 
+export function isOptionAvailableAsync (context, { product, configuration }) {
+  const variant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
+  if (variant) {
+    if (variant.status >= 2) { // disabled product
+      return false
+    }
+    if (variant.stock && !rootStore.state.config.products.listOutOfStockProducts) {
+      return variant.is_in_stock
+    }
+    return true
+  } else {
+    return false
+  }
+}
+
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
   if (rootStore.state.config.products.filterUnavailableVariants) {
     if (product.type_id === 'configurable' && product.configurable_children) {

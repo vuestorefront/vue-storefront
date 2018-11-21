@@ -243,7 +243,8 @@ const actions: ActionTree<ProductState, RootState> = {
               }
               context.state.current_options[optionKey].push({
                 label: lb,
-                id: ov.value_index
+                id: ov.value_index,
+                attribute_code: option.attribute_code
               })
             }
           }
