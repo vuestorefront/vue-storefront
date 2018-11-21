@@ -90,7 +90,7 @@ export const ProductBundleOptions = {
             if(optionValidationResult.error) validationResult = optionValidationResult
             this.$set(this.validationResults, fieldName, validationResult)
             if (validationResult.error) {
-              this.product.errors['bundle_options_' + fieldName] = i18n.t('Please configure product custom options and fix the validation errors')
+              this.product.errors['bundle_options_' + fieldName] = i18n.t('Please configure product bundle options and fix the validation errors')
               result = false
             } else {
               this.product.errors['bundle_options_' + fieldName] = null
