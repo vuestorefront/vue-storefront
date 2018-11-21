@@ -7,6 +7,7 @@ import OrderState from '../types/OrderState'
 export const module: Module<OrderState, RootState> = {
   namespaced: true,
   state: {
+    last_order_confirmation: null
   },
   actions,
   mutations

@@ -77,7 +77,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
-
+  Vue.prototype.$coreRouter = router
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
 
   // depreciated
