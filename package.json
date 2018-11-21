@@ -181,11 +181,11 @@
   "bundlesize": [
     {
       "path": "./dist/app.*.js",
-      "maxSize": "95 kB"
+      "maxSize": "100 kB"
     },
     {
       "path": "./dist/vendor.*.js",
-      "maxSize": "180 kB"
+      "maxSize": "200 kB"
     },
     {
       "path": "./dist/manifest.*.js",
