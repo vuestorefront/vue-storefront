@@ -122,7 +122,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
   - `afterEach.ts`- afterEach navigation guard. Should be used in `router.afterEach` config property.
 - `queries` - GraphQL queries
 - `helpers` - everything else that is meant to support modules behavior
-- `index.js` - entry point for the module. Should export VueStorefrontModule. It's also a good palce to instantiate cache storage.
+- `index.js` - entry point for the module. Should export VueStorefrontModule. It's also a good place to instantiate cache storage.
 
 # Module registration
 
