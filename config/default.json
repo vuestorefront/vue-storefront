@@ -181,6 +181,11 @@
         "imageAttributes": ["image","thumbnail","small_image"],
         "width": 600,
         "height": 744
+      },
+      "filterAggregationSize": {
+        "default": 10,
+        "size": 10,
+        "color": 10
       }
     },
     "orders": {
