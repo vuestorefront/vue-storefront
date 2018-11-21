@@ -184,6 +184,7 @@
       }
     },
     "orders": {
+      "directBackendSync": true,
       "endpoint": "http://localhost:8080/api/order",
       "payment_methods_mapping": {
       },
