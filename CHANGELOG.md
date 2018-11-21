@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `vsf-payment-stripe` module integration removed from core
 
 ### Changed
+- There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read  [more on this change](https://github.com/DivanteLtd/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/DivanteLtd/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
 - ProductSlider, ProductLinks, ProductListing moved to theme. 
 - Many theme-related logic moved to theme (+ deleted empty core components just with `name`)
 - Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
@@ -24,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Theme-starter depreciated and removed (will be replaced with theme 2.0)
 - Header, Form components, (baseCheckbox, BaseInput, BaseRadioButton, BaseSelect, Basetextarea) Loader, MainSlider, Footer, SearchIcon, ForgotPass, SignUp and Modal core components moved to theme
 - extendStore deprecaiated and moved to compatibility folder
+
 ## [1.5.0] - 2018.10.22
 
 ### Added
