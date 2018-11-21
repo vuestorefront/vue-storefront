@@ -108,7 +108,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 - `components` - Components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the compoennt to work out of the box.
 - `pages` - If you want to provide full pages with your module palce them here. It's also a good practice to extend router configuration for this pages
 - `store` - Vuex Module associated to this module. You can also place Vuex modules extensions in here
-  - `index.ts` - Entry point and main export of your Vuex Module. Ations/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
+  - `index.ts` - Entry point and main export of your Vuex Module. Actions/getters/mutations can be splitted into different files if logic is too complex to keep it in one file. Should be used in `store` config property.
   - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
   - `plugins.ts` - Good place to put vuex plugin. Should be used in `store.plugins` config object
 - `types` - TypeScript types associated with module
