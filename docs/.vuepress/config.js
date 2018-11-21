@@ -101,20 +101,10 @@ module.exports = {
           collapsable: false,
           children: ['modules/cart'],
         },
-        {
-          title: 'Working with extensions',
-          collapsable: false,
-          children: ['extensions/extensions', 'extensions/extending-api'],
-        },
         // {
         //   title: 'Integrations',
         //   collapsable: false,
         //   children: ['integrations/magento', 'integrations/multistore'],
-        // },
-        // {
-        //   title: 'Core API Modules docs',
-        //   collapsable: false,
-        //   children: ['api-modules/cart-module'],
         // },
       ],
     },
