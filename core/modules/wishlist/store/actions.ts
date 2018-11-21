@@ -7,6 +7,7 @@ import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import WishlistState from '../types/WishlistState'
 import { cacheStorage } from '../'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
@@ -17,6 +18,7 @@ const actions: ActionTree<WishlistState, RootState> = {
     cacheStorage.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
+      Logger.info('Wishlist state loaded from local storage cache: ', 'cache')
     })
   },
   addItem ({ commit }, product) {

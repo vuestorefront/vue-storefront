@@ -23,6 +23,7 @@ import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import ProductState from '../../types/ProductState'
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -654,7 +655,7 @@ const actions: ActionTree<ProductState, RootState> = {
     } else {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
         context.state.productLoadStart = Date.now()
-        console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
+        Logger.info('Calling fetchAsync for Product Page (core)' , null, { parentSku, childSku })
         Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
           rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details

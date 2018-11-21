@@ -7,6 +7,7 @@
   "types": "./index.d.ts",
   "peerDependencies": {
     "@vue-storefront/store" : "^1.5.0",
+    "@vue-storefront/core" : "^1.5.0",
     "localforage" : "^1.7.3",
     "lodash-es": "^4.17.10"
   },

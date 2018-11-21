@@ -38,6 +38,6 @@ export const registerModules: VueStorefrontModule[] = [
   RecentlyViewed,
   Homepage,
   Claims,
-  PromotedOffers
-  // Example
+  PromotedOffers,
+  Example
 ]

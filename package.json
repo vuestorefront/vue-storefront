@@ -62,6 +62,7 @@
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "pm2": "^2.10.4",
     "reflect-metadata": "^0.1.12",
+    "stacktrace-js": "^2.0.0",
     "vue": "^2.5.17",
     "vue-apollo": "^3.0.0-beta.19",
     "vue-carousel": "^0.6.9",
