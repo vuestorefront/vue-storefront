@@ -35,7 +35,6 @@ module.exports = {
             'basics/project-structure',
             'basics/configuration',
             'basics/contributing',
-            'basics/modules',
             'basics/feature-list',
             'basics/recipes',
             'basics/typescript',
@@ -99,7 +98,7 @@ module.exports = {
         {
           title: 'Modules',
           collapsable: false,
-          children: ['modules/cart'],
+          children: ['modules/introduction', 'modules/cart'],
         },
         {
           title: 'Integrations',
