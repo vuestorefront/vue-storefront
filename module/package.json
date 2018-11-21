@@ -4,7 +4,6 @@
   "description": "Vue Storefront Modules",
   "license": "MIT",
   "main": "index.ts",
-  "types": "./index.d.ts",
   "peerDependencies": {
     "@vue-storefront/store" : "^1.5.0",
     "@vue-storefront/core" : "^1.5.0",
