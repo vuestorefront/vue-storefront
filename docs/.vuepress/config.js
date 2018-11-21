@@ -101,11 +101,11 @@ module.exports = {
           collapsable: false,
           children: ['modules/cart'],
         },
-        // {
-        //   title: 'Integrations',
-        //   collapsable: false,
-        //   children: ['integrations/magento', 'integrations/multistore'],
-        // },
+        {
+          title: 'Integrations',
+          collapsable: false,
+          children: ['integrations/integrations', 'integrations/multistore'],
+        },
       ],
     },
   },
