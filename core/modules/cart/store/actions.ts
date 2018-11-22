@@ -10,7 +10,7 @@ import RootState from '@vue-storefront/store/types/RootState'
 import CartState from '../types/CartState'
 import isString from 'lodash-es/isString'
 import toString from 'lodash-es/toString'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -174,7 +174,6 @@ const actions: ActionTree<CartState, RootState> = {
   load (context) {
     return new Promise((resolve, reject) => {
       if (Vue.prototype.$isServer) return
-      console.log('Loading cart ...')
       const commit = context.commit
       const state = context.state
 
@@ -195,10 +194,10 @@ const actions: ActionTree<CartState, RootState> = {
             // TODO: if token is null create cart server side and store the token!
             if (token) { // previously set token
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-              console.log('Existing cart token = ' + token)
+              Logger.info('Current server cart token: ' + token, 'cart')
               context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default })
             } else {
-              console.log('Creating server cart ...')
+              Logger.info('Sreating server cart token', 'cart')
               context.dispatch('serverCreate', { guestCart: false })
             }
           })
@@ -486,7 +485,7 @@ const actions: ActionTree<CartState, RootState> = {
   servercartAfterCreated (context, event) {
     const cartToken = event.result
     if (event.resultCode === 200) {
-      console.log(`Server cart token after created = ${cartToken}`)
+      Logger.info('Server cart token created: ' + cartToken, 'cart')
       rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
       rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default }, { root: true })
     } else {
@@ -504,7 +503,8 @@ const actions: ActionTree<CartState, RootState> = {
   servercartAfterTotals (context, event) {
     if (event.resultCode === 200) {
       const totalsObj = event.result.totals ? event.result.totals : event.result
-      console.log('Overriding server totals', totalsObj)
+      Logger.info('Overriding server totals ' + totalsObj, 'cart')
+
       let itemsAfterTotal = {}
       let platformTotalSegments = totalsObj.total_segments
       for (let item of totalsObj.items) {
@@ -532,7 +532,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
 
         if (!serverItem) {
-          console.log('No server item for ' + clientItem.sku)
+          Logger.warn('No server item with sku: ' + clientItem.sku, 'cart')
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
             rootStore.dispatch('cart/serverUpdateItem', {
@@ -560,8 +560,8 @@ const actions: ActionTree<CartState, RootState> = {
             serverCartUpdateRequired = true
           }
         } else {
-          console.log('Server and client items synced for ' + clientItem.sku) // here we need just update local item_id
-          console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })
+          Logger.info('Server and client cart item with SKU ' + clientItem.sku + ' synced. Updating server ID', 'cart')
+          // console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })
           if (!event.dry_run) {
             rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } }, { root: true })
           }
@@ -612,7 +612,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
-      console.log('Server sync diff', diffLog)
+       Logger.info('Client/Server cart sync diff: ', 'cart', diffLog)
     } else {
       console.error(event.result) // override with guest cart
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
@@ -640,7 +640,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         })
       } else {
-        console.log('Removing product from the cart', originalCartItem)
+        Logger.warn('Removing product from the cart', 'cart', originalCartItem)
         rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
