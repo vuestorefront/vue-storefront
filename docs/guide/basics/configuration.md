@@ -38,7 +38,7 @@ Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pa
 },
 ```
 
-This is redis configuration for the output cache. See additional information [here](../data/ssr-cache.md)
+This is redis configuration for the output cache. See additional information [here](../basics/ssr-cache.md)
 
 ## GraphQL
 

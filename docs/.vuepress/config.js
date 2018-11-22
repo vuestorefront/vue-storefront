@@ -40,6 +40,7 @@ module.exports = {
             'basics/typescript',
             'basics/graphql',
             'basics/ssr-cache',
+            'basics/amp',
           ],
         },
         {
