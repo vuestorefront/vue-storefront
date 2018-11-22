@@ -38,7 +38,8 @@
       "templates": {
         "default": "dist/index.html",
         "minimal": "dist/index.minimal.html",
-        "basic": "dist/index.basic.html"
+        "basic": "dist/index.basic.html",
+        "amp": "dist/index.amp.html"
       },
       "executeMixedinAsyncData": true,
       "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
@@ -184,6 +185,7 @@
       }
     },
     "orders": {
+      "directBackendSync": true,
       "endpoint": "http://localhost:8080/api/order",
       "payment_methods_mapping": {
       },
@@ -265,7 +267,7 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",

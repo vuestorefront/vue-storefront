@@ -1,0 +1,33 @@
+/// Generate colors values
+/// @name color-selectors
+/// @param {Map} $map [$colors] - Map with color values
+/// @param {String} $selector ['.cl'] - Selector to css class, .#{$selector}-#{$name-of-color}
+/// @param {String} $property ['color'] - CSS property
+@mixin color-selectors($map: $colors, $selector: 'cl', $property: 'color') {
+  @each $name, $value in $map {
+    // in case when color value is map with hover, focus variants
+    @if type-of($value) == map {
+      @if map_has_key($value, default) {
+        .#{$selector}-#{$name} {
+          #{$property}: map-get($value, default);
+        }
+      }
+
+      @if map_has_key($value, hover) {
+        .\:#{$selector}-#{$name}:hover {
+          #{$property}: map-get($value, hover);
+        }
+      }
+
+      @if map_has_key($value, focus) {
+        .\:#{$selector}-#{$name}:focus {
+          #{$property}: map-get($value, focus);
+        }
+      }
+    } @else {
+      .#{$selector}-#{$name} {
+        #{$property}: #{$value};
+      }
+    }
+  }
+}

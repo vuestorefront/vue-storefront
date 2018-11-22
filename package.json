@@ -171,6 +171,7 @@
     "core/i18n",
     "core/store",
     "src/extensions/*",
+    "src/modules/*",
     "src/themes/*",
     "docs",
     "core/modules/*",
@@ -179,7 +180,7 @@
   "bundlesize": [
     {
       "path": "./dist/app.*.js",
-      "maxSize": "95 kB"
+      "maxSize": "120 kB"
     },
     {
       "path": "./dist/vendor.*.js",

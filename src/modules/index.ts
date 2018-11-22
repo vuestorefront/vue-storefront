@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { VueStorefrontModule } from '@vue-storefront/module'
 import { Catalog } from "@vue-storefront/core/modules/catalog"
 import { Cart } from '@vue-storefront/core/modules/cart'
@@ -13,6 +14,8 @@ import { Homepage } from "./homepage"
 import { Claims } from './claims'
 import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
+import { GoogleAnalytics } from './google-analytics';
+import { AmpRenderer } from './amp-renderer';
 
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
@@ -38,6 +41,11 @@ export const registerModules: VueStorefrontModule[] = [
   RecentlyViewed,
   Homepage,
   Claims,
-  PromotedOffers
+  PromotedOffers,
+  GoogleAnalytics
   // Example
 ]
+
+if (Vue.prototype.$isServer) { // extensions that are not required in the SSR mode
+  registerModules.push(AmpRenderer)
+}

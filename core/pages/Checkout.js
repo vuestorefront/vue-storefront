@@ -14,6 +14,7 @@ export default {
       stockCheckCompleted: false,
       stockCheckOK: false,
       orderPlaced: false,
+      confirmation: null, // order confirmation from server
       activeSection: {
         personalDetails: true,
         shipping: false,
@@ -132,10 +133,11 @@ export default {
         this.$forceUpdate()
       })
     },
-    onAfterPlaceOrder (order) {
+    onAfterPlaceOrder (payload) {
+      this.confirmation = payload.confirmation
       this.orderPlaced = true
       this.$store.dispatch('checkout/setThankYouPage', true)
-      console.debug(this.order)
+      console.debug(payload.order)
     },
     onBeforeEdit (section) {
       this.activateSection(section)

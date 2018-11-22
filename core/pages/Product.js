@@ -3,9 +3,10 @@ import { mapGetters } from 'vuex'
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
+import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
@@ -123,6 +124,11 @@ export default {
       // Method renamed to 'removeFromCompare(product)', product is an Object
       CompareProduct.methods.removeFromCompare.call(this, this.product)
     },
+    isOptionAvailable (option) { // check if the option is available
+      let currentConfig = Object.assign({}, this.configuration)
+      currentConfig[option.attribute_code] = option
+      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
+    },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
       let priceDeltaInclTax = 0
@@ -178,6 +184,7 @@ export default {
       EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption
+      this.$forceUpdate() // this is to update the available options regarding current selection
       this.$store.dispatch('product/configure', {
         product: this.product,
         configuration: this.configuration,
@@ -220,6 +227,18 @@ export default {
   metaInfo () {
     return {
       title: htmlDecode(this.$route.meta.title || this.productName),
+      link: [
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
+            name: this.product.type_id + '-product-amp',
+            params: {
+              parentSku: this.product.parentSku ? this.product.parentSku : this.product.sku,
+              slug: this.product.slug,
+              childSku: this.product.sku
+            }
+          })).href
+        }
+      ],
       meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
     }
   }
