@@ -260,7 +260,7 @@ export default {
       })
     }
   },
-  metaInfo () {this.$route
+  metaInfo () {
     return {
       link: [
         { rel: 'amphtml',
@@ -269,7 +269,7 @@ export default {
             params: {
               slug: this.category.slug
             }
-          }))
+          })).href
         }
       ],
       title: htmlDecode(this.$route.meta.title || this.categoryName),

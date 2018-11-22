@@ -79,14 +79,14 @@
               :product="product"
             />
             <div class="row m0">
-              <a class="button-full text-center block w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6" :href="localizedRoute({
+              <router-link class="button-full text-center block w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6" :to="localizedRoute({
                 name: product.type_id + '-product',
                 params: {
                   parentSku: product.parentSku ? product.parentSku : product.sku,
                   slug: product.slug,
                   childSku: product.sku
                 }
-              })">Check available sizes</a>
+              })">Check available sizes</router-link>
             </div>
           </div>
         </section>

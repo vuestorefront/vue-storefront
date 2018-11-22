@@ -236,7 +236,7 @@ export default {
               slug: this.product.slug,
               childSku: this.product.sku
             }
-          }))
+          })).href
         }
       ],
       meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
