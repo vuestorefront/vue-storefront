@@ -472,10 +472,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.improving.dk/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Improving_sh_logo.png"
+            alt="Improving"
             height="50"
           >
         </a>
