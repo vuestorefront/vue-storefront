@@ -184,6 +184,7 @@
       }
     },
     "orders": {
+      "directBackendSync": true,
       "endpoint": "http://localhost:8080/api/order",
       "payment_methods_mapping": {
       },
@@ -264,7 +265,7 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",

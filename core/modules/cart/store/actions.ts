@@ -2,10 +2,9 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
-// import router from '@vue-storefront/core/router'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute} from '@vue-storefront/store/lib/multistore'
 import omit from 'lodash-es/omit'
 import RootState from '@vue-storefront/store/types/RootState'
 import CartState from '../types/CartState'
@@ -178,11 +177,11 @@ const actions: ActionTree<CartState, RootState> = {
       const commit = context.commit
       const state = context.state
 
-      if (!state.shipping.method_code) {
+      if (!state.shipping || !state.shipping.method_code) {
         let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
         commit(types.CART_UPD_SHIPPING, shippingMethod)
       }
-      if (!state.payment.code) {
+      if (!state.payment || !state.payment.code) {
         let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
         commit(types.CART_UPD_PAYMENT, paymentMethod)
       }
@@ -213,7 +212,7 @@ const actions: ActionTree<CartState, RootState> = {
     return state.cartItems.find(p => p.sku === sku)
   },
   goToCheckout (context) {
-    // router.push(localizedRoute('/checkout', currentStoreView().storeCode))
+    Vue.prototype.$coreRouter.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
