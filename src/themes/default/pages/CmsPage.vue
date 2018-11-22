@@ -16,7 +16,7 @@ import CmsPage from '@vue-storefront/core/pages/CmsPage'
 export default {
   computed: {
     cmsPageContent () {
-      return this.$store.state.cms_page.current
+      return this.$store.state.cmsPage.current
     }
   },
   mixins: [CmsPage]

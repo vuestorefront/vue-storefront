@@ -1,6 +1,4 @@
-import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import { entityKeyName } from '@vue-storefront/store/lib/entities'
 import * as types from './mutation-types'
 import CmsPageState from '../../types/CmsPageState'
 
@@ -11,18 +9,12 @@ const mutations: MutationTree<CmsPageState> = {
    * @param {Array} cmsPages
    */
   [types.CMS_PAGE_UPDATE_CMS_PAGES] (state, cmsPages) {
-    // save cmsPagesList data to the state and DB
-    state.cmsPages = cmsPages
-
-    for (let cmsPage of cmsPages) {
-      const cmsPagesCollection = Vue.prototype.$db.cmsPagesCollection
-      try {
-        cmsPagesCollection.setItem(entityKeyName('identifier', cmsPage.identifier.toLowerCase()), cmsPage).catch((reason) => {
-          console.error(reason) // it doesn't work on SSR
-        }) // populate cache by slug
-      } catch (e) {
-        console.error(e)
-      }
+    state.items = cmsPages || []
+  },
+  [types.CMS_PAGE_ADD_CMS_PAGE] (state, cmsPage ) {
+    const record = state.items.find(c => c.id === cmsPage.id)
+    if (!record) {
+      state.items.push(cmsPage)
     }
   }
 }

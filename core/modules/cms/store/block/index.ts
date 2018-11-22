@@ -5,10 +5,12 @@ import mutations from './mutations'
 import RootState from '@vue-storefront/store/types/RootState'
 import CmsBlockState from '../../types/CmsBlockState'
 
+export const cmsBlockStorageKey = 'cms-blocks'
+
 export const cmsBlockModule: Module<CmsBlockState, RootState> = {
   namespaced: true,
   state: {
-    cmsBlocks: [],
+    items: [],
   },
   getters,
   actions,

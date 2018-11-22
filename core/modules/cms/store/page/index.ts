@@ -5,10 +5,12 @@ import mutations from './mutations'
 import RootState from '@vue-storefront/store/types/RootState'
 import CmsPageState from '../../types/CmsPageState'
 
+export const cmsPagesStorageKey = 'cms-page'
+
 export const cmsPageModule: Module<CmsPageState, RootState> = {
   namespaced: true,
   state: {
-    cmsPages: [],
+    items: []
   },
   getters,
   actions,

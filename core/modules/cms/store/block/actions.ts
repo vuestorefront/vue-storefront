@@ -7,6 +7,8 @@ import RootState from '@vue-storefront/store/types/RootState';
 import { entityKeyName } from '@vue-storefront/store/lib/entities'
 import CmsBlockState from "../../types/CmsBlockState"
 import store from '@vue-storefront/store'
+import { cmsBlockStorageKey } from './'
+import { cacheStorage } from '../../'
 
 const actions: ActionTree<CmsBlockState, RootState> = {
 
@@ -24,15 +26,13 @@ const actions: ActionTree<CmsBlockState, RootState> = {
    */
   list (context, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
     let query = new SearchQuery()
-
     if (filterValues) {
       query = query.applyFilter({key: filterField, value: {'like': filterValues}})
     }
-    if (skipCache || (!context.state.cmsBlocks || context.state.cmsBlocks.length === 0)) {
+    if (skipCache || (!context.state.items || context.state.items.length === 0)) {
       return quickSearchByQuery({ query, entityType: 'cms_block', excludeFields, includeFields })
       .then((resp) => {
         context.commit(types.CMS_BLOCK_UPDATE_CMS_BLOCKS, resp.items)
-        Vue.prototype.$bus.$emit('cmsblock-after-list', { query, size: size, start: start, cmsBlocks: resp.items })
         return resp.items
       })
       .catch(err => {
@@ -40,8 +40,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
       })
     } else {
       return new Promise((resolve, reject) => {
-        let resp = context.state.cmsBlocks
-        Vue.prototype.$bus.$emit('cmsblock-after-list', { query, size: size, start: start, cmsBlocks: resp })
+        let resp = context.state.items
         resolve(resp)
       })
     }
@@ -57,44 +56,39 @@ const actions: ActionTree<CmsBlockState, RootState> = {
    * @param {any} includeFields
    * @returns {Promise<T> & Promise<any>}
    */
-  single (context, { key = 'identifier', value, excludeFields = null, includeFields = null }) {
+  single (context, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false }) {
     const state = context.state
-    const dispatch = context.dispatch
-    return new Promise((resolve, reject) => {
-      if (value == undefined) {
-        if (state.cmsBlocks.length == 0 || Object.keys(Vue.prototype.$db.cmsPagesCollection._localCache).length == 0 ) {
-          dispatch('list', { size: store.state.config.cms_block.max_count, excludeFields, includeFields }).then(cmsblocks => {
-            return resolve(cmsblocks)
-          })
-        }
-      } else {
-        if (state.cmsBlocks.length > 0) {
-          // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
-          let cmsBlock = state.cmsBlocks.find((itm) => { return itm[key] === value })
+    if (skipCache || (!state.items || state.items.length === 0)) {
+      let query = new SearchQuery()
+      if (value) {
+        query = query.applyFilter({key: key, value: {'like': value}})
+      }
+      return quickSearchByQuery({ query, entityType: 'cms_block', excludeFields, includeFields })
+      .then((resp) => {
+        context.commit(types.CMS_BLOCK_ADD_CMS_BLOCK, resp.items[0])
+        return resp.items[0]
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        if (state.items.length > 0) {
+          let cmsBlock = state.items.find((itm) => { return itm[key] === value })
           if (cmsBlock) {
             resolve(cmsBlock)
           } else {
             reject(new Error('CMS block query returned empty result ' + key + ' = ' + value))
           }
         } else {
-          Vue.prototype.$db.cmsBlocksCollection.getItem(entityKeyName(key, value), (error, cmsBlock) => {
-            if (error) {
-              console.error(error)
-              reject(error)
-            }
-            if (cmsBlock) {
-              resolve(cmsBlock)
-            } else {
-              // Assuming CMS data will not contain too much records we load all collection and save it to DB and state for further usage
-              dispatch('list', { size: store.state.config.cms_block.max_count, excludeFields, includeFields }).then(cmsblocks => {
-                let cmsBlock = cmsblocks.find((itm) => { return itm[key] === value })
-                return resolve(cmsBlock)
-              })
-            }
-          })
+          resolve()
         }
-      }
-    })
+      })
+    }
+  },
+
+  addItem ({ commit }, block) {
+    commit(types.CMS_BLOCK_ADD_CMS_BLOCK, block )
   }
 }
 

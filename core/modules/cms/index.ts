@@ -2,16 +2,19 @@ import { cmsPageModule } from './store/page'
 import { cmsBlockModule } from './store/block'
 import { cmsHierarchyModule } from './store/hierarchy'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
+import { plugin } from './store/plugin'
+import { initCacheStorage } from '@vue-storefront/module/helpers/initCacheStorage'
 
 export const KEY = 'cms'
+export const cacheStorage = initCacheStorage(KEY)
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   store: { modules: [
-    { key: 'cms_page', module: cmsPageModule },
-    { key: 'cms_block', module: cmsBlockModule },
-    { key: 'cms_hierarchy', module: cmsHierarchyModule }
-  ] },
+    { key: 'cmsPage', module: cmsPageModule },
+    { key: 'cmsBlock', module: cmsBlockModule },
+    { key: 'cmsHierarchy', module: cmsHierarchyModule }
+  ], plugin },
 }
 
 export const Cms = new VueStorefrontModule(moduleConfig)

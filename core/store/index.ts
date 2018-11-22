@@ -202,16 +202,6 @@ export function initStore () {
       storeName: 'ordersHistory',
       driver: localForage[config.localForage.defaultDrivers['ordersHistory']]
     })),
-    cmsPagesCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'cmsPages',
-      driver: localForage[config.localForage.defaultDrivers['cmsPages']]
-    })),
-    cmsBlocksCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'cmsBlocks',
-      driver: localForage[config.localForage.defaultDrivers['cmsBlocks']]
-    })),
     cmsData: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'cms'
