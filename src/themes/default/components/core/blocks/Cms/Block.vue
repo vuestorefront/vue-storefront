@@ -50,18 +50,10 @@ export default {
       queryValue = this.identifier
     }
     if (queryKey && queryValue) {
-      this.$store.dispatch('dataManager/registerFetch',
-        this.$store.dispatch('cmsBlock/single', {
-          key: queryKey,
-          value: queryValue
-        }).then(res => {
-          return res
-        })
-      )
-      // this.$store.dispatch('cmsBlock/single', {
-      //   key: queryKey,
-      //   value: queryValue
-      // })
+      this.$store.dispatch('cmsBlock/single', {
+        key: queryKey,
+        value: queryValue
+      })
     }
   },
   computed: {
