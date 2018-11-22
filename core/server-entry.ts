@@ -17,6 +17,7 @@ function _commonErrorHandler (err, reject) {
 
 function _ssrHydrateSubcomponents (components, store, router, resolve, reject, app, context) {
   Promise.all(components.map(SubComponent => {
+    store.dispatch('dataManager/fetchAll')
     if (SubComponent.asyncData) {
       return SubComponent.asyncData({
         store,
