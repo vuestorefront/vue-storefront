@@ -155,6 +155,7 @@ app.get('*', (req, res, next) => {
       output: {
         prepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: output.prepend() { return context.renderStyles() } to attach styles
         append: (context) => { return '' },
+        appendHead: (context) => { return '' },
         template: 'default',
         cacheTags: null
       },
