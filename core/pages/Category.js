@@ -260,17 +260,18 @@ export default {
       })
     }
   },
-  metaInfo () {
+  metaInfo () {this.$route
     return {
       link: [
-        { rel: 'amphtml', href: localizedRoute({
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
             name: 'category-amp',
             params: {
               slug: this.category.slug
             }
-          })
+          }))
         }
-      ],      
+      ],
       title: htmlDecode(this.$route.meta.title || this.categoryName),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
     }

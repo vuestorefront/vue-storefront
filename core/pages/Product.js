@@ -3,11 +3,10 @@ import { mapGetters } from 'vuex'
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
-import { localizedRoute } from '@vue-storefront/store/lib/multistore'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
@@ -229,14 +228,15 @@ export default {
     return {
       title: htmlDecode(this.$route.meta.title || this.productName),
       link: [
-        { rel: 'amphtml', href: localizedRoute({
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
             name: this.product.type_id + '-product-amp',
             params: {
               parentSku: this.product.parentSku ? this.product.parentSku : this.product.sku,
               slug: this.product.slug,
               childSku: this.product.sku
             }
-          })
+          }))
         }
       ],
       meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]

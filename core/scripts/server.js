@@ -186,6 +186,7 @@ app.get('*', (req, res, next) => {
 
       output = contentPrepend + output + contentAppend
       if (context.output.template) { // case when we've got the template name back from vue app
+        if (!isProd) context.output.template = 'default' // in dev mode we can not use pre-rendered HTML templates
         if (templatesCache[context.output.template]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
           output = templatesCache[context.output.template](context).replace('<!--vue-ssr-outlet-->', output)
         } else {
