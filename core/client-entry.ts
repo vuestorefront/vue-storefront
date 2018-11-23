@@ -64,6 +64,7 @@ function _ssrHydrateSubcomponents (components, next, to) {
     _commonErrorHandler(err, next)
   })
 }
+
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
