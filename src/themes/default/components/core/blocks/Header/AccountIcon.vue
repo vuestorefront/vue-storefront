@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import AccountIcon from '@vue-storefront/core/components/blocks/Header/AccountIcon'
+import AccountIcon from '@vue-storefront/core/compatibility/components/blocks/Header/AccountIcon'
 
 export default {
   mixins: [AccountIcon],

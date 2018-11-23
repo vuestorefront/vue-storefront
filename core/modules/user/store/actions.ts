@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
-import * as types from '@vue-storefront/store/mutation-types'
+import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
 import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import i18n from '@vue-storefront/i18n'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 import RootState from '@vue-storefront/store/types/RootState'
 import UserState from '../types/UserState'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
 const Ajv = require('ajv') // json validator
 // import router from '@vue-storefront/core/router'
 
@@ -167,7 +169,7 @@ const actions: ActionTree<UserState, RootState> = {
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.debug('No User token, user unathorized')
+        Logger.info('No User token, user unauthorized')
         return resolve(null)
       }
       const cache = Vue.prototype.$db.usersCollection

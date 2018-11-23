@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CompareIcon from '@vue-storefront/core/components/blocks/Header/CompareIcon'
+import CompareIcon from '@vue-storefront/core/compatibility/components/blocks/Header/CompareIcon'
 
 export default {
   mixins: [CompareIcon]

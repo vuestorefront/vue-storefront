@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import SearchPanel from '@vue-storefront/core/components/blocks/SearchPanel/SearchPanel'
+import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
 import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
 import VueOfflineMixin from 'vue-offline/mixin'

@@ -187,11 +187,16 @@
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
-import Footer from '@vue-storefront/core/compatibility/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
 export default {
-  mixins: [Footer, CurrentPage],
+  mixins: [CurrentPage],
+  name: 'MainFooter',
+  computed: {
+    multistoreEnabled () {
+      return this.$store.state.config.storeViews.multistore
+    }
+  },
   components: {
     Newsletter,
     LanguageSwitcher

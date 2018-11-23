@@ -10,6 +10,7 @@
       "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error"],
       "invalidateCacheKey": "aeSu7aip",
       "dynamicConfigReload": false,
+      "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
       "dynamicConfigInclude": []
     },
@@ -37,7 +38,8 @@
       "templates": {
         "default": "dist/index.html",
         "minimal": "dist/index.minimal.html",
-        "basic": "dist/index.basic.html"
+        "basic": "dist/index.basic.html",
+        "amp": "dist/index.amp.html"
       },
       "executeMixedinAsyncData": true,
       "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
@@ -183,6 +185,7 @@
       }
     },
     "orders": {
+      "directBackendSync": true,
       "endpoint": "http://localhost:8080/api/order",
       "payment_methods_mapping": {
       },
@@ -207,7 +210,6 @@
         "products": "INDEXEDDB",
         "elasticCache": "INDEXEDDB",
         "claims": "LOCALSTORAGE",
-        "compare": "INDEXEDDB",
         "syncTasks": "INDEXEDDB",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"
@@ -233,7 +235,7 @@
       "endpoint": "http://localhost:8080/api/stock"
     },
     "images": {
-      "useExactUrlsNoProxy": true,
+      "useExactUrlsNoProxy": false,
       "baseUrl": "https://demo.vuestorefront.io/img/",
       "productPlaceholder": "/assets/placeholder.jpg"
     },
@@ -264,10 +266,11 @@
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
-      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL"],
+      "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
       "defaultLocale": "en-US",
       "currencyCode": "USD",
       "currencySign": "$",
+      "currencySignPlacement": "preppend",
       "dateFormat": "HH:mm D/M/YYYY",
       "fullCountryName": "United States",
       "fullLanguageName": "English",

@@ -1,6 +1,6 @@
-import AppliedCoupon from '@vue-storefront/store/types/cart/AppliedCoupon'
-import Product from '@vue-storefront/store/types/product/Product'
-import CartTotalSegments from '@vue-storefront/store/types/cart/CartTotalSegments'
+import AppliedCoupon from '../types/AppliedCoupon'
+import Product from '@vue-storefront/core/modules/catalog/types/Product'
+import CartTotalSegments from '../types/CartTotalSegments'
 
 export const Microcart = {
   name: 'Microcart',
@@ -14,8 +14,8 @@ export const Microcart = {
     totals () : CartTotalSegments {
       return this.$store.getters['cart/totals']
     },
-    isMicrocartOpen () : boolean {
-      return this.$store.state.ui.microcart
+    isOpen () : boolean {
+      return this.$store.state.cart.isMicrocartOpen
     }
   },
   methods: {

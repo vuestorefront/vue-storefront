@@ -1,4 +1,4 @@
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import Vue from 'vue'
 import extensionStore from './store'
 import extensionRoutes from './router'

@@ -55,7 +55,6 @@ module.exports = {
             'core-themes/service-workers',
             'core-themes/webpack',
             'core-themes/plugins',
-            'core-themes/core-components-api',
           ],
         },
         {
@@ -83,13 +82,30 @@ module.exports = {
         {
           title: 'Working with Vuex',
           collapsable: false,
-          children: ['vuex/introduction', 'vuex/product-store'],
+          children: [
+            'vuex/introduction',
+            'vuex/product-store',
+            'vuex/category-store',
+            'vuex/cart-store',
+            'vuex/checkout-store',
+            'vuex/order-store',
+            'vuex/stock-store',
+            'vuex/sync-store',
+            'vuex/user-store',
+            'vuex/attribute-store',
+            'vuex/ui-store',
+          ],
         },
-        // {
-        //   title: 'Working with extensions',
-        //   collapsable: false,
-        //   children: ['extensions/'],
-        // },
+        {
+          title: 'Modules',
+          collapsable: false,
+          children: ['modules/cart'],
+        },
+        {
+          title: 'Working with extensions',
+          collapsable: false,
+          children: ['extensions/extensions', 'extensions/extending-api'],
+        },
         // {
         //   title: 'Integrations',
         //   collapsable: false,
