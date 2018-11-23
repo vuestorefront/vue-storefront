@@ -1,4 +1,5 @@
 import VueAnalytics from 'vue-analytics'
+import * as types from './../store/mutation-types'
 
 export function afterRegistration(Vue, config, store) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
@@ -7,6 +8,11 @@ export function afterRegistration(Vue, config, store) {
   }
 
   if (!Vue.prototype.$isServer) {
+    // Update the methods
+    Vue.prototype.$bus.$on('set-unique-payment-methods', methods => {
+      store.commit(types.SET_BACKEND_PAYMENT_METHODS, methods)
+    })
+
     // Mount the info component when required.
     Vue.prototype.$bus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
       if (store.state['payment-backend-methods'].methods.find(item => item.code === paymentMethodCode)) {

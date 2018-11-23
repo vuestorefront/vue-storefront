@@ -351,7 +351,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         }
         rootStore.dispatch('payment/replaceMethods', paymentMethods, { root: true })
-        rootStore.commit('setBackendPaymentMethods', uniqueBackendMethods)
+        Vue.prototype.$bus.$emit('set-unique-payment-methods', uniqueBackendMethods)
       }).catch(e => {
         console.error(e)
       })
