@@ -1,26 +1,24 @@
 <template>
   <div class="categories">
     <div
-      v-if="activeCategories.length > 0"
+      v-if="activeCategory"
       class="categories__handler"
     >
       <h4 class="categories__heading">
-        {{ $t('Active filters') }}
+        {{ $t('Active filter') }}
       </h4>
 
       <div
-        v-for="(category, index) in activeCategories"
-        :key="index"
         class="categories__button--active"
-        @click="deleteFilter(category)"
+        @click="deleteFilter"
       >
-        {{ category.name }}
+        {{ activeCategory.name }}
       </div>
     </div>
 
     <div class="categories__handler">
       <h4 class="categories__heading">
-        {{ $t('Filter categories') }}
+        {{ $t('Filter by categories') }}
       </h4>
 
       <button
