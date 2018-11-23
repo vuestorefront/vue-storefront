@@ -311,11 +311,11 @@ const actions: ActionTree<CategoryState, RootState> = {
   searchProductQuery (context, productQuery) {
     context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
   },
-  addSidebarSelectedCategory (context, categoryToAdd) {
-    context.commit(types.CATEGORY_UPD_SIDEBAR_SELECTED_CATEGORY, categoryToAdd)
+  addSidebarSelectedCategory (context, choosenCategory) {
+    context.commit(types.CATEGORY_UPD_SIDEBAR_SELECTED_CATEGORY, choosenCategory)
   },
-  deleteSidebarSelectedCategory (context, categoryToDelete) {
-    context.commit(types.CATEGORY_REMOVE_SIDEBAR_SELECTED_CATEGORY, categoryToDelete)
+  deleteSidebarSelectedCategory (context) {
+    context.commit(types.CATEGORY_REMOVE_SIDEBAR_SELECTED_CATEGORY)
   }
 }
 

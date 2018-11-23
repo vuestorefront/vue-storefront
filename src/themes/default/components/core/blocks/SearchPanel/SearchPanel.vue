@@ -82,7 +82,7 @@ export default {
       })
     },
     selectedCategory () {
-      return this.$store.state.category.sidebar_selected_categories
+      return this.$store.state.category.sidebar_selected_category
     }
   },
   data () {
@@ -91,12 +91,10 @@ export default {
     }
   },
   watch: {
-    selectedCategory (filteredCategories) {
+    selectedCategory (categoryToFilter) {
       const filtered = this.products.filter(product => {
         if (product.category.length > 0) {
-          return !!product.category.find(oneCategory => (
-            !!filteredCategories.find(category => (category.category_id === oneCategory.category_id))
-          ))
+          return !!product.category.find(oneCategory => (categoryToFilter.category_id === oneCategory.category_id))
         }
       })
 

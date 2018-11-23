@@ -19,7 +19,7 @@ export const categoryModule: Module<CategoryState, RootState> = {
     },
     current_product_query: null,
     current_path: [], // list of categories from root to current
-    sidebar_selected_categories: []
+    sidebar_selected_category: false
   },
   getters,
   actions,

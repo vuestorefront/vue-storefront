@@ -10,5 +10,5 @@ export default interface CategoryState {
   },
   current_product_query: any,
   current_path: any,
-  sidebar_selected_categories: any
+  sidebar_selected_category: any
 }

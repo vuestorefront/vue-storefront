@@ -45,8 +45,8 @@ export default {
     }
   },
   computed: {
-    activeCategories () {
-      return this.$store.state.category.sidebar_selected_categories
+    activeCategory () {
+      return this.$store.state.category.sidebar_selected_category
     },
     categories () {
       const flatArray = []
@@ -72,8 +72,8 @@ export default {
     filterProducts (category) {
       this.$store.dispatch('category/addSidebarSelectedCategory', category)
     },
-    deleteFilter (categoryToDelete) {
-      this.$store.dispatch('category/deleteSidebarSelectedCategory', categoryToDelete)
+    deleteFilter () {
+      this.$store.dispatch('category/deleteSidebarSelectedCategory')
     }
   }
 }

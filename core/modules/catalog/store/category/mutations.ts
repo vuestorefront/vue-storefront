@@ -46,15 +46,11 @@ const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY] (state, newQuery) {
     state.current_product_query = newQuery
   },
-  [types.CATEGORY_UPD_SIDEBAR_SELECTED_CATEGORY] (state, categoryToAdd) {
-    state.sidebar_selected_categories.push(categoryToAdd)
+  [types.CATEGORY_UPD_SIDEBAR_SELECTED_CATEGORY] (state, choosenCategory) {
+    state.sidebar_selected_category = choosenCategory
   },
-  [types.CATEGORY_REMOVE_SIDEBAR_SELECTED_CATEGORY] (state, categoryToDelete) {
-    state.sidebar_selected_categories.find((item, index) => {
-      if (item.category_id === categoryToDelete.category_id) {
-        state.sidebar_selected_categories.splice(index, 1)
-      }
-    })
+  [types.CATEGORY_REMOVE_SIDEBAR_SELECTED_CATEGORY] (state) {
+    state.sidebar_selected_category = false
   }
 }
 
