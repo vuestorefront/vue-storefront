@@ -2326,8 +2326,6 @@ braces@^2.3.0, braces@^2.3.1:
 brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
-<<<<<<< HEAD
-=======
 
 brotli-size@0.0.1:
   version "0.0.1"
@@ -2335,7 +2333,6 @@ brotli-size@0.0.1:
   dependencies:
     duplexer "^0.1.1"
     iltorb "^1.0.9"
->>>>>>> upstream/develop
 
 browser-stdout@1.3.1:
   version "1.3.1"
@@ -2466,8 +2463,6 @@ builtin-modules@^1.0.0:
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
-<<<<<<< HEAD
-=======
 
 bundlesize@^0.17.0:
   version "0.17.0"
@@ -2483,7 +2478,6 @@ bundlesize@^0.17.0:
     gzip-size "^4.0.0"
     prettycli "^1.4.3"
     read-pkg-up "^3.0.0"
->>>>>>> upstream/develop
 
 byline@^5.0.0:
   version "5.0.0"
@@ -3740,15 +3734,12 @@ decamelize@^2.0.0:
 decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
-<<<<<<< HEAD
-=======
 
 decompress-response@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/decompress-response/-/decompress-response-3.3.0.tgz#80a4dd323748384bfa248083622aedec982adff3"
   dependencies:
     mimic-response "^1.0.0"
->>>>>>> upstream/develop
 
 dedent@^0.7.0:
   version "0.7.0"
@@ -4202,15 +4193,12 @@ error-ex@^1.2.0, error-ex@^1.3.1:
 error-inject@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/error-inject/-/error-inject-1.0.0.tgz#e2b3d91b54aed672f309d950d154850fa11d4f37"
-<<<<<<< HEAD
 
 error-stack-parser@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/error-stack-parser/-/error-stack-parser-2.0.2.tgz#4ae8dbaa2bf90a8b450707b9149dcabca135520d"
   dependencies:
     stackframe "^1.0.4"
-=======
->>>>>>> upstream/develop
 
 es-abstract@^1.5.1:
   version "1.12.0"
@@ -5393,8 +5381,6 @@ gray-matter@^4.0.1:
 growl@1.10.5:
   version "1.10.5"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
-<<<<<<< HEAD
-=======
 
 gzip-size@^4.0.0:
   version "4.1.0"
@@ -5402,7 +5388,6 @@ gzip-size@^4.0.0:
   dependencies:
     duplexer "^0.1.1"
     pify "^3.0.0"
->>>>>>> upstream/develop
 
 gzip-size@^5.0.0:
   version "5.0.0"
@@ -5788,8 +5773,6 @@ ignore-walk@^3.0.1:
 ignore@^3.3.3, ignore@^3.3.5, ignore@^3.3.6:
   version "3.3.10"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
-<<<<<<< HEAD
-=======
 
 iltorb@^1.0.9:
   version "1.3.10"
@@ -5799,7 +5782,6 @@ iltorb@^1.0.9:
     nan "^2.6.2"
     node-gyp "^3.6.2"
     prebuild-install "^2.3.0"
->>>>>>> upstream/develop
 
 immediate@^3.2.3:
   version "3.2.3"
@@ -7386,13 +7368,10 @@ mime@^2.0.3, mime@^2.1.0, mime@^2.3.1:
 mimic-fn@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
-<<<<<<< HEAD
-=======
 
 mimic-response@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.1.tgz#4923538878eef42063cb8a3e3b0798781487ab1b"
->>>>>>> upstream/develop
 
 min-document@^2.19.0:
   version "2.19.0"
@@ -8827,15 +8806,12 @@ pretty-error@^2.0.2:
 pretty-time@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
-<<<<<<< HEAD
-=======
 
 prettycli@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/prettycli/-/prettycli-1.4.3.tgz#b28ec2aad9de07ae1fd75ef294fb54cbdee07ed5"
   dependencies:
     chalk "2.1.0"
->>>>>>> upstream/develop
 
 print-message@^2.1.0:
   version "2.1.0"
@@ -9826,8 +9802,6 @@ shimmer@^1.0.0, shimmer@^1.1.0, shimmer@^1.2.0:
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
-<<<<<<< HEAD
-=======
 
 simple-concat@^1.0.0:
   version "1.0.0"
@@ -9840,7 +9814,6 @@ simple-get@^2.7.0:
     decompress-response "^3.3.0"
     once "^1.3.1"
     simple-concat "^1.0.0"
->>>>>>> upstream/develop
 
 sinon-chai@^3.2.0:
   version "3.2.0"
@@ -10138,7 +10111,6 @@ stack-trace@0.0.x:
 stack-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/stack-utils/-/stack-utils-1.0.1.tgz#d4f33ab54e8e38778b0ca5cfd3b3afb12db68620"
-<<<<<<< HEAD
 
 stackframe@^1.0.4:
   version "1.0.4"
@@ -10158,8 +10130,6 @@ stacktrace-js@^2.0.0:
     error-stack-parser "^2.0.1"
     stack-generator "^2.0.1"
     stacktrace-gps "^3.0.1"
-=======
->>>>>>> upstream/develop
 
 standard-as-callback@^1.0.0:
   version "1.0.1"
@@ -10471,8 +10441,6 @@ table@^4.0.3:
 tapable@^1.0.0, tapable@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-1.1.0.tgz#0d076a172e3d9ba088fd2272b2668fb8d194b78c"
-<<<<<<< HEAD
-=======
 
 tar-fs@^1.13.0:
   version "1.16.3"
@@ -10494,7 +10462,6 @@ tar-stream@^1.1.2:
     readable-stream "^2.3.0"
     to-buffer "^1.1.1"
     xtend "^4.0.0"
->>>>>>> upstream/develop
 
 tar@^2.0.0:
   version "2.2.1"
@@ -10636,13 +10603,10 @@ to-array@0.1.4:
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
-<<<<<<< HEAD
-=======
 
 to-buffer@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/to-buffer/-/to-buffer-1.1.1.tgz#493bd48f62d7c43fcded313a03dcadb2e1213a80"
->>>>>>> upstream/develop
 
 to-factory@^1.0.0:
   version "1.0.0"
@@ -11524,13 +11488,10 @@ which-module@^1.0.0:
 which-module@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/which-module/-/which-module-2.0.0.tgz#d9ef07dce77b9902b8a3a8fa4b31c3e3f7e6e87a"
-<<<<<<< HEAD
-=======
 
 which-pm-runs@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/which-pm-runs/-/which-pm-runs-1.0.0.tgz#670b3afbc552e0b55df6b7780ca74615f23ad1cb"
->>>>>>> upstream/develop
 
 which@1, which@^1.2.1, which@^1.2.10, which@^1.2.14, which@^1.2.9:
   version "1.3.1"
