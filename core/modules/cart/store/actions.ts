@@ -194,10 +194,10 @@ const actions: ActionTree<CartState, RootState> = {
             // TODO: if token is null create cart server side and store the token!
             if (token) { // previously set token
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-              Logger.info('Current server cart token: ' + token, 'cart')
+              Logger.info('Cart token received from cache. Pulling cart from server.', { tag: 'cart', context: { label: 'Cart token', value: token} })
               context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default })
             } else {
-              Logger.info('Sreating server cart token', 'cart')
+              Logger.info('Creating server cart token', { tag: 'cart' })
               context.dispatch('serverCreate', { guestCart: false })
             }
           })
@@ -485,7 +485,7 @@ const actions: ActionTree<CartState, RootState> = {
   servercartAfterCreated (context, event) {
     const cartToken = event.result
     if (event.resultCode === 200) {
-      Logger.info('Server cart token created: ' + cartToken, 'cart')
+      Logger.info('Server cart token created: ' + cartToken, { tag: 'cart' })
       rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
       rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default }, { root: true })
     } else {
@@ -503,7 +503,7 @@ const actions: ActionTree<CartState, RootState> = {
   servercartAfterTotals (context, event) {
     if (event.resultCode === 200) {
       const totalsObj = event.result.totals ? event.result.totals : event.result
-      Logger.info('Overriding server totals ' + totalsObj, 'cart')
+      Logger.info('Overriding server totals ' + totalsObj, { tag: 'cart' })
 
       let itemsAfterTotal = {}
       let platformTotalSegments = totalsObj.total_segments
@@ -532,7 +532,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
 
         if (!serverItem) {
-          Logger.warn('No server item with sku: ' + clientItem.sku, 'cart')
+          Logger.warn('No server item with sku: ' + clientItem.sku, { tag: 'cart' })
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
             rootStore.dispatch('cart/serverUpdateItem', {
@@ -560,7 +560,7 @@ const actions: ActionTree<CartState, RootState> = {
             serverCartUpdateRequired = true
           }
         } else {
-          Logger.info('Server and client cart item with SKU ' + clientItem.sku + ' synced. Updating server ID', 'cart')
+          Logger.info('Server and client cart item with SKU ' + clientItem.sku + ' synced. Updating server ID', { tag: 'cart' })
           // console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })
           if (!event.dry_run) {
             rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } }, { root: true })
@@ -612,7 +612,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
-       Logger.info('Client/Server cart sync diff: ', 'cart', diffLog)
+       Logger.info('Client/Server cart synchronised ', { tag: 'cart', context: { label: 'Differences: ', value: diffLog } })
     } else {
       console.error(event.result) // override with guest cart
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
@@ -640,7 +640,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         })
       } else {
-        Logger.warn('Removing product from the cart', 'cart', originalCartItem)
+        Logger.warn('Removing product from the cart', { tag: 'cart', context: { label: 'Original cart item', value: originalCartItem }})
         rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
