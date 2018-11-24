@@ -3,6 +3,7 @@ import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
 import merge from 'lodash-es/merge'
 import RootState from '@vue-storefront/store/types/RootState';
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export interface VueStorefrontModuleConfig {
   key: string;
@@ -24,36 +25,15 @@ export class VueStorefrontModule {
   private static _registeredModules: VueStorefrontModuleConfig[] = []
 
   private static _doesStoreAlreadyExists (key: string) : boolean {
+    let imoduleExists = false
     VueStorefrontModule._registeredModules.forEach(m => {
-      if (m.store.modules.some(m => m.key === key)) return true
+      if (m.store.modules.some(m => m.key === key)) imoduleExists = true
     })
-    return false
-  }
-
-  private static _getRegisteredStore (key: string) : { key: string, module: Module<any, any> } {
-    VueStorefrontModule._registeredModules.forEach(m => {
-      m.store.modules.forEach(store => {
-        if (store.key === key ) return store
-      })
-    })
-    throw new Error('Store with key' + key + ' does not exist.')
+    return imoduleExists
   }
 
   private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
-    if (modules) {
-      modules.forEach(store => {
-        if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
-          const mergedStore = merge(
-            VueStorefrontModule._getRegisteredStore(store.key),
-            store.module
-          )
-          storeInstance.unregisterModule(store.key)
-          storeInstance.registerModule(store.key, mergedStore)
-        } else {
-          storeInstance.registerModule(store.key, store.module)
-        }
-      })
-    }
+    if (modules) modules.forEach(store => storeInstance.registerModule(store.key, store.module))
     if (plugin) storeInstance.subscribe(plugin)
   }
 
@@ -64,14 +44,27 @@ export class VueStorefrontModule {
   }
 
   public extend (extendedConfig: VueStorefrontModule) {
+    const key = this._c.key
     this._c = merge(this._c, extendedConfig.config)
+    Logger.info('Module "' + key + '" has been succesfully extended.', 'module')
   }
 
   public register (storeInstance, routerInstance): void {
-    if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, storeInstance.state.config, storeInstance)
-    if (this._c.store) VueStorefrontModule._extendStore(storeInstance, this._c.store.modules, this._c.store.plugin)
-    if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
-    VueStorefrontModule._registeredModules.push(this._c)
-    if (this._c.afterRegistration) this._c.afterRegistration(Vue, storeInstance.state.config, storeInstance)
+    let isUnique = true
+    this._c.store.modules.forEach(store => {
+      if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
+        Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')
+        isUnique = false
+      }
+    })
+
+    if (isUnique) {
+      if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, storeInstance.state.config, storeInstance)
+      if (this._c.store) VueStorefrontModule._extendStore(storeInstance, this._c.store.modules, this._c.store.plugin)
+      if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
+      VueStorefrontModule._registeredModules.push(this._c)
+      if (this._c.afterRegistration) this._c.afterRegistration(Vue, storeInstance.state.config, storeInstance)
+      Logger.info('Module "' + this._c.key + '" has been succesfully registered.', 'module')
+    }
   }
 }
