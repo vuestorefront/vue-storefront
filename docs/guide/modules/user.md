@@ -6,6 +6,18 @@ This module contains all the logic, components and store related to the user acc
 
 ### AccountButton
 
+A component to handle redirects to user account page and user logout.
+
+**Computed**
+
+- `isLoggedIn` - represents if user is logged in;
+- `user` - current user.
+
+**Methods**
+
+- `goToAccount` - is user is logged in, redirects user to account page. Otherwise shows sign-up modal
+- `logout` - emits `user-before-logout` event and redirects user to home page
+
 ### Login
 
 ### Register

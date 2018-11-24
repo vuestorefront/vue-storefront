@@ -99,7 +99,7 @@ module.exports = {
         {
           title: 'Modules',
           collapsable: false,
-          children: ['modules/introduction', 'modules/cart'],
+          children: ['modules/introduction', 'modules/cart', 'modules/user'],
         },
         {
           title: 'Integrations',
