@@ -20,6 +20,13 @@ A component to handle redirects to user account page and user logout. Usually us
 
 ### Login
 
+**Methods**
+
+- `close` - closes signup modal
+- `callLogin` - starts authentication process with emitting `notification-progress-start`, calls `user/login` action with user's email and password.
+- `switchElem` - triggers `setAuthElem` mutation with `register` parameter
+- `callForgotPassword` - triggers `setAuthElem` mutation with `forgot-pass` parameter
+
 ### Register
 
 ### UserAccount
