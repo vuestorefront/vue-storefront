@@ -15,7 +15,7 @@ class VueStorefrontLogger {
     tag?: string
     context?: { label: string, value: any }
   }) : void {
-    if (this.mode !== 'production') {
+    if (this.mode !== 'production' && typeof window !== 'undefined') {
       StackTrace.get().then(trace => {
         trace.shift() // remove unnecessary stack frame to logger
         if (properties && properties.tag) {
@@ -28,7 +28,7 @@ class VueStorefrontLogger {
         console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
         console.log('%cStack trace:', 'font-weight: bold', trace)
         if (properties && properties.context) {
-          console.log('%c' + properties.context.label + ' ', properties.context.value, 'font-weight: bold')
+          console.log('%c' + properties.context.label + ' ', 'font-weight: bold', properties.context.value)
         }
         console.groupEnd()
       })
@@ -43,7 +43,7 @@ class VueStorefrontLogger {
     tag?: string
     context?: { label: string, value: any }
   }) : void {
-    if (this.mode !== 'production') {
+    if (this.mode !== 'production' && typeof window !== 'undefined') {
       StackTrace.get().then(trace => {
         trace.shift() // remove unnecessary stack frame to logger
         if (properties && properties.tag) {
@@ -56,7 +56,7 @@ class VueStorefrontLogger {
         console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
         console.log('%cStack trace:', 'font-weight: bold', trace)
         if (properties && properties.context) {
-          console.log('%c' + properties.context.label + ' ', properties.context.value, 'font-weight: bold')
+          console.log('%c' + properties.context.label + ' ', 'font-weight: bold', properties.context.value)
         }
         console.groupEnd()
       })
@@ -66,7 +66,7 @@ class VueStorefrontLogger {
     tag?: string
     context?: { label: string, value: any }
   }) : void {
-    if (this.mode !== 'production') {
+    if (this.mode !== 'production' && typeof window !== 'undefined') {
       StackTrace.get().then(trace => {
         trace.shift() // remove unnecessary stack frame to logger
         if (properties && properties.tag) {
@@ -79,7 +79,7 @@ class VueStorefrontLogger {
         console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
         console.log('%cStack trace:', 'font-weight: bold', trace)
         if (properties && properties.context) {
-          console.log('%c' + properties.context.label + ' ', properties.context.value, 'font-weight: bold')
+          console.log('%c' + properties.context.label + ' ', 'font-weight: bold', properties.context.value)
         }
         console.groupEnd()
       })
