@@ -14,11 +14,13 @@ const actions: ActionTree<CheckoutState, RootState> = {
    */
   placeOrder (context, { order }) {
     try {
-      context.dispatch('order/placeOrder', order, {root: true}).then(result => {
-        Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
-        context.dispatch('cart/clear', {}, {root: true})
-        if (context.state.personalDetails.createAccount) {
-          context.commit(types.CHECKOUT_DROP_PASSWORD)
+      return context.dispatch('order/placeOrder', order, {root: true}).then(result => {
+        if (!result.resultCode || result.resultCode === 200) {
+          Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
+          context.dispatch('cart/clear', {}, {root: true})
+          if (context.state.personalDetails.createAccount) {
+            context.commit(types.CHECKOUT_DROP_PASSWORD)
+          }
         }
       })
     } catch (e) {

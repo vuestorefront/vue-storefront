@@ -5,7 +5,7 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-
+import { localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -263,6 +263,16 @@ export default {
   },
   metaInfo () {
     return {
+      link: [
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
+            name: 'category-amp',
+            params: {
+              slug: this.category.slug
+            }
+          })).href
+        }
+      ],
       title: htmlDecode(this.$route.meta.title || this.categoryName),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
     }
