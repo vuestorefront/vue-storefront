@@ -1,45 +1,87 @@
 import StackTrace from 'stacktrace-js'
 
+const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
+
 class VueStorefrontLogger {
   private mode: string;
-  private showStackTrace;
   constructor () {
     this.mode = process.env.NODE_ENV
-    this.showStackTrace = false
   }
-  
-  public info (value, tag?, context?) {
+  /** 
+   * Inform about something that happened in the app (for example client/server/cache itneractions). 
+   * Provide meaningful data into `context` for easier debugging
+   */
+  public info (message: string, properties?:  {
+    tag?: string
+    context?: { label: string, value: any }
+  }) : void {
     if (this.mode !== 'production') {
-      if (!tag) tag = ''
       StackTrace.get().then(trace => {
-        console.log(
-          '%cVSF%c %c' + tag +'%c ' + value, 
-          'color: white; background: green; padding: 4px; font-weight: bold; font-size: 0.8em', 
-          'color: inherit', 'color: white; background: gray; padding: 4px; font-weight: bold; font-size: 0.8em', 
-          'color: inherit', 
-          context ? context : '', 
-          'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 
-          this.showStackTrace ? trace : '')
+        trace.shift() // remove unnecessary stack frame to logger
+        if (properties && properties.tag) {
+          console.groupCollapsed('%cVSF%c %c' + properties.tag +'%c ' + message,
+          bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'color: inherit')
+        } else {
+          console.groupCollapsed('%cVSF%c ' + message,
+          bgColorStyle('green'), 'color: inherit')
+        }
+        console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+        console.log('%cStack trace:', 'font-weight: bold', trace)
+        if (properties && properties.context) {
+          console.log('%c' + properties.context.label + ' ', properties.context.value, 'font-weight: bold')
+        }
+        console.groupEnd()
       })
     }
   }
-  public warn (value, tag?, context?) {
+
+  /** 
+   * Warn develoeprs about things that may cause some problems 
+   * Provide meaningful data into `context` for easier debugging
+  * */
+  public warn (message: string, properties?:  {
+    tag?: string
+    context?: { label: string, value: any }
+  }) : void {
     if (this.mode !== 'production') {
-      if (!tag) tag = ''
       StackTrace.get().then(trace => {
-        console.warn('%cVSF%c %c' + tag +'%c ' + value + ' ', 
-        'color: white; background: orange; padding: 4px; font-weight: bold; font-size: 0.8em', 
-        'color: inherit', 'color: white; background: gray; padding: 4px; font-weight: bold; font-size: 0.8em', 
-        'color: inherit', 
-        'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber)
+        trace.shift() // remove unnecessary stack frame to logger
+        if (properties && properties.tag) {
+          console.groupCollapsed('%cVSF%c %c' + properties.tag +'%c ' + message,
+          bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'color: inherit')
+        } else {
+          console.groupCollapsed('%cVSF%c ' + message,
+          bgColorStyle('orange'), 'color: inherit')
+        }
+        console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+        console.log('%cStack trace:', 'font-weight: bold', trace)
+        if (properties && properties.context) {
+          console.log('%c' + properties.context.label + ' ', properties.context.value, 'font-weight: bold')
+        }
+        console.groupEnd()
       })
     }
   }
-  public error (value, tag?, context?) {
+  public error (message: string, properties?:  {
+    tag?: string
+    context?: { label: string, value: any }
+  }) : void {
     if (this.mode !== 'production') {
-      if (!tag) tag = ''
       StackTrace.get().then(trace => {
-        console.error('%cVSF%c %c' + tag +'%c ' + value + ' ', 'color: white; background: red; padding: 4px; font-weight: bold; font-size: 0.8em', 'color: inherit', 'color: white; background: gray; padding: 4px; font-weight: bold; font-size: 0.8em', 'color: inherit', 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber)
+        trace.shift() // remove unnecessary stack frame to logger
+        if (properties && properties.tag) {
+          console.groupCollapsed('%cVSF%c %c' + properties.tag +'%c ' + message,
+          bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'color: inherit')
+        } else {
+          console.groupCollapsed('%cVSF%c ' + message,
+          bgColorStyle('red'), 'color: inherit')
+        }
+        console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+        console.log('%cStack trace:', 'font-weight: bold', trace)
+        if (properties && properties.context) {
+          console.log('%c' + properties.context.label + ' ', properties.context.value, 'font-weight: bold')
+        }
+        console.groupEnd()
       })
     }
   }

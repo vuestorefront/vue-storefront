@@ -46,14 +46,14 @@ export class VueStorefrontModule {
   public extend (extendedConfig: VueStorefrontModule) {
     const key = this._c.key
     this._c = merge(this._c, extendedConfig.config)
-    Logger.info('Module "' + key + '" has been succesfully extended.', 'module')
+    Logger.info('Module "' + key + '" has been succesfully extended.', { tag: 'module'})
   }
 
   public register (storeInstance, routerInstance): void {
     let isUnique = true
     this._c.store.modules.forEach(store => {
       if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
-        Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')
+        Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', { tag: 'module'})
         isUnique = false
       }
     })
@@ -64,7 +64,7 @@ export class VueStorefrontModule {
       if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
       VueStorefrontModule._registeredModules.push(this._c)
       if (this._c.afterRegistration) this._c.afterRegistration(Vue, storeInstance.state.config, storeInstance)
-      Logger.info('Module "' + this._c.key + '" has been succesfully registered.', 'module')
+      Logger.info('Module "' + this._c.key + '" has been succesfully registered.', { tag: 'module'})
     }
   }
 }

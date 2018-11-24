@@ -18,7 +18,7 @@ const actions: ActionTree<WishlistState, RootState> = {
     cacheStorage.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
-      Logger.info('Wishlist state loaded from local storage cache: ', 'cache')
+      Logger.info('Wishlist state loaded from local storage cache: ', { tag: 'cache' })
     })
   },
   addItem ({ commit }, product) {
