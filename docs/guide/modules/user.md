@@ -6,7 +6,7 @@ This module contains all the logic, components and store related to the user acc
 
 ### AccountButton
 
-A component to handle redirects to user account page and user logout.
+A component to handle redirects to user account page and user logout. Usually used in header.
 
 **Computed**
 
