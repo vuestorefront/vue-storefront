@@ -23,6 +23,7 @@ import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import ProductState from '../../types/ProductState'
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -39,6 +40,8 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setupBreadcrumbs (context, { product }) {
     let subloaders = []
+    let breadcrumbRoutes = null
+    let breadcrumbsName = null
     let setbrcmb = (path) => {
       if (path.findIndex(itm => {
         return itm.slug === context.rootState.category.current.slug
@@ -48,7 +51,8 @@ const actions: ActionTree<ProductState, RootState> = {
           name: context.rootState.category.current.name
         }) // current category at the end
       }
-      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
+      // depreciated, TODO: base on breadcrumbs module 
+      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?     
     }
 
     if (product.category && product.category.length > 0) {
@@ -86,7 +90,14 @@ const actions: ActionTree<ProductState, RootState> = {
         })
       )
     }
+    // TODO: To repreciate and use breadcrumbs module
     context.state.breadcrumbs.name = product.name
+    breadcrumbsName = product.name
+    const breadcrumbs = {
+      routes: breadCrumbRoutes,
+      current: breadcrumbsName
+    }
+    context.dispatch('breadcrumbs/set', breadcrumbs, { root: true })
     return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {
@@ -645,7 +656,7 @@ const actions: ActionTree<ProductState, RootState> = {
     } else {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
         context.state.productLoadStart = Date.now()
-        console.log('Entering fetchAsync for Product root ' + new Date(), parentSku, childSku)
+        Logger.info('Fetching product data asynchronously' ,  { tag: 'product', context: { label: 'Parent and child SKUs', value: {parentSku, childSku} }})
         Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
           rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details

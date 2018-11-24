@@ -55,7 +55,6 @@ module.exports = {
             'core-themes/service-workers',
             'core-themes/webpack',
             'core-themes/plugins',
-            'core-themes/core-components-api',
           ],
         },
         {
@@ -96,6 +95,11 @@ module.exports = {
             'vuex/attribute-store',
             'vuex/ui-store',
           ],
+        },
+        {
+          title: 'Modules',
+          collapsable: false,
+          children: ['modules/cart'],
         },
         {
           title: 'Working with extensions',

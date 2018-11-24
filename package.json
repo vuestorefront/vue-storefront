@@ -63,6 +63,7 @@
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "pm2": "^2.10.4",
     "reflect-metadata": "^0.1.12",
+    "stacktrace-js": "^2.0.0",
     "vue": "^2.5.17",
     "vue-apollo": "^3.0.0-beta.19",
     "vue-carousel": "^0.6.9",
@@ -175,16 +176,16 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
-    "core/module"
+    "module"
   ],
   "bundlesize": [
     {
       "path": "./dist/app.*.js",
-      "maxSize": "120 kB"
+      "maxSize": "130 kB"
     },
     {
       "path": "./dist/vendor.*.js",
-      "maxSize": "180 kB"
+      "maxSize": "200 kB"
     },
     {
       "path": "./dist/manifest.*.js",
