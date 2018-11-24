@@ -656,7 +656,7 @@ const actions: ActionTree<ProductState, RootState> = {
     } else {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
         context.state.productLoadStart = Date.now()
-        Logger.info('Calling fetchAsync for Product Page (core)' ,  { tag: 'cart', context: { label: 'Original cart item', value: {parentSku, childSku} }})
+        Logger.info('Fetching product data asynchronously' ,  { tag: 'product', context: { label: 'Parent and child SKUs', value: {parentSku, childSku} }})
         Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
           rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
