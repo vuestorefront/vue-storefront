@@ -63,7 +63,6 @@
     "inquirer": "^3.3.0",
     "is-windows": "^1.0.1",
     "jsonfile": "^4.0.0",
-    "markdown-to-vue-loader": "^1.0.0",
     "memory-fs": "^0.4.1",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.9.3",
