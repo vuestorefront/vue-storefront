@@ -124,7 +124,6 @@
     "karma-spec-reporter": "0.0.32",
     "karma-webpack": "^3.0.0",
     "lerna": "^2.9.0",
-    "markdown-to-vue-loader": "^1.0.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
     "node-sass": "^4.9.3",
