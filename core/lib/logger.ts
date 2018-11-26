@@ -25,8 +25,10 @@ class VueStorefrontLogger {
           console.groupCollapsed('%cVSF%c ' + message,
           bgColorStyle('green'), 'color: inherit')
         }
-        console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
-        console.log('%cStack trace:', 'font-weight: bold', trace)
+        if (trace.length > 1) {
+          console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+          console.log('%cStack trace:', 'font-weight: bold', trace)
+        }
         if (properties && properties.context) {
           console.log('%c' + properties.context.label + ' ', 'font-weight: bold', properties.context.value)
         }
@@ -53,8 +55,10 @@ class VueStorefrontLogger {
           console.groupCollapsed('%cVSF%c ' + message,
           bgColorStyle('orange'), 'color: inherit')
         }
-        console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
-        console.log('%cStack trace:', 'font-weight: bold', trace)
+        if (trace.length > 1) {
+          console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+          console.log('%cStack trace:', 'font-weight: bold', trace)
+        }
         if (properties && properties.context) {
           console.log('%c' + properties.context.label + ' ', 'font-weight: bold', properties.context.value)
         }
@@ -76,8 +80,10 @@ class VueStorefrontLogger {
           console.groupCollapsed('%cVSF%c ' + message,
           bgColorStyle('red'), 'color: inherit')
         }
-        console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
-        console.log('%cStack trace:', 'font-weight: bold', trace)
+        if (trace.length > 1) {
+          console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+          console.log('%cStack trace:', 'font-weight: bold', trace)
+        }
         if (properties && properties.context) {
           console.log('%c' + properties.context.label + ' ', 'font-weight: bold', properties.context.value)
         }
