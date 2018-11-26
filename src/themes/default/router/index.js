@@ -56,6 +56,6 @@ if (!store.state.config.products.useShortCatalogUrls) {
     { name: 'category', path: '/:slug', component: Category }])
 }
 
-routes.concat(AmpThemeRouting)
+routes = routes.concat(AmpThemeRouting)
 
 export default routes

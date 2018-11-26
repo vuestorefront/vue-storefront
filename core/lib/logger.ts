@@ -71,7 +71,7 @@ class VueStorefrontLogger {
         trace.shift() // remove unnecessary stack frame to logger
         if (properties && properties.tag) {
           console.groupCollapsed('%cVSF%c %c' + properties.tag +'%c ' + message,
-          bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'color: inherit')
+          bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'color: red')
         } else {
           console.groupCollapsed('%cVSF%c ' + message,
           bgColorStyle('red'), 'color: inherit')
