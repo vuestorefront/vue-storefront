@@ -67,8 +67,8 @@ interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
   router?: { beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
-  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
+  beforeRegistration?: (isServer?: boolean, config?: Object, store?: Store<RootState>) => void,
+  afterRegistration?: (isServer?: boolean, config?: Object, store?: Store<RootState>) => void,
 }
 ```
 
@@ -222,7 +222,7 @@ import { Example } from '@vue-storefront/core/modules/module-template'
 
 const extendedExample = new VueStorefrontModule({
   key: 'extend',
-  afterRegistration: function(Vue, config) {
+  afterRegistration: function(isServer, config) {
     console.info('Hello, im extended now!')
   }
 })
