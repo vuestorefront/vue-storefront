@@ -34,17 +34,33 @@ import NoSSR from 'vue-no-ssr'
 import { Carousel, Slide } from 'vue-carousel'
 import sliderData from 'theme/resource/slider.json'
 
-import MainSlider from '@vue-storefront/core/components/blocks/MainSlider/MainSlider'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 
 export default {
+  data () {
+    return {
+      currentSlide: 1,
+      slides: [],
+      totalSlides: 1
+    }
+  },
   components: {
     ButtonOutline,
     Carousel,
     Slide,
     'no-ssr': NoSSR
   },
-  mixins: [MainSlider],
+  methods: {
+    updateSliderData (data) {
+      this.slides = data.slides
+      this.totalSlides = data.total
+    }
+  },
+  mounted () {
+    setInterval(() => {
+      this.currentSlide = (this.currentSlide + 1) % (this.totalSlides)
+    }, 5000)
+  },
   created () {
     this.updateSliderData(sliderData)
   }

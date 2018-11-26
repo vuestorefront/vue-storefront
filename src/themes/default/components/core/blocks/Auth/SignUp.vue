@@ -7,20 +7,25 @@
 </template>
 
 <script>
-import SignUp from '@vue-storefront/core/components/blocks/Auth/SignUp'
+import { mapState } from 'vuex'
 import Modal from 'theme/components/core/Modal'
 import Login from 'theme/components/core/blocks/Auth/Login'
 import Register from 'theme/components/core/blocks/Auth/Register'
 import ForgotPass from 'theme/components/core/blocks/Auth/ForgotPass'
 
 export default {
+  name: 'SignUp',
+  computed: {
+    ...mapState({
+      activeElem: state => state.ui.authElem
+    })
+  },
   components: {
     Modal,
     Login,
     Register,
     ForgotPass
-  },
-  mixins: [SignUp]
+  }
 }
 </script>
 

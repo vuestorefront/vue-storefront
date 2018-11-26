@@ -11,12 +11,12 @@
     <div class="container pb60">
       <div class="row m0 pt15">
         <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsCounter }} items</p>
-        <div class="col-md-9 pt20 px10 border-box products-list">
+        <div class="col-md-9 pt20 px10 border-box products-list block-center">
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing columns="3" :products="products" />
+          <product-listing columns="4" :products="products" />
         </div>
       </div>
     </div>
@@ -25,9 +25,11 @@
 
 <script>
 import Category from '@vue-storefront/core/pages/Category' // theme = default/base theme
-import ProductListing from 'theme/components/core/ProductListing.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 // import builder from 'bodybuilder'
+
+// temporary(?) relative path
+import ProductListing from '../components/core/ProductListing.vue'
 
 export default {
   components: {
@@ -40,7 +42,10 @@ export default {
     }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    context.output.template = 'basic'
+    context.output.template = 'amp'
+    context.output.appendHead = (context) => {
+      return '<script async src="https://cdn.ampproject.org/v0.js"><' + '/script>'
+    }
     return new Promise((resolve, reject) => {
       store.state.category.current_product_query = Object.assign(store.state.category.current_product_query, { // this is just an example how can you modify the search criteria in child components
         sort: 'updated_at:desc'
@@ -149,5 +154,9 @@ export default {
 
   .close {
     margin-left: auto;
+  }
+
+  .block-center {
+    margin: 0 auto;
   }
 </style>

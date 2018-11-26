@@ -2,11 +2,12 @@ import Vue from 'vue'
 import toString from 'lodash-es/toString'
 
 import store from '@vue-storefront/store'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-
+import { localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Category',
@@ -79,7 +80,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Category root ' + new Date())
+      Logger.info('Entering asyncData in Category Page (core)')
       if (context) context.output.cacheTags.add(`category`)
       const defaultFilters = store.state.config.products.defaultFilters
       store.dispatch('category/list', { includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
@@ -262,6 +263,16 @@ export default {
   },
   metaInfo () {
     return {
+      link: [
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
+            name: 'category-amp',
+            params: {
+              slug: this.category.slug
+            }
+          })).href
+        }
+      ],
       title: htmlDecode(this.$route.meta.title || this.categoryName),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
     }

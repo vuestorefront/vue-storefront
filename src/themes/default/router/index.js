@@ -2,7 +2,10 @@ import Home from 'theme/pages/Home.vue'
 import PageNotFound from 'theme/pages/PageNotFound.vue'
 import ErrorPage from 'theme/pages/Error.vue'
 import store from '@vue-storefront/store'
-import { Category, Compare, Checkout, MyAccount, Static, Product, CustomCmsPage, CmsData } from './asyncRoutes'
+import Product from 'theme/pages/Product.vue'
+import Category from 'theme/pages/Category.vue'
+import { Compare, Checkout, MyAccount, Static, CustomCmsPage, CmsData } from './asyncRoutes'
+import AmpThemeRouting from 'src/themes/default-amp/router'
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -13,7 +16,7 @@ let routes = [
   { name: 'sale', path: '/sale', component: Static, props: {page: 'lorem', title: 'Sale'} },
   { name: 'order-tracking', path: '/order-tracking', component: Static, props: {page: 'lorem', title: 'Track my Order'} },
   { name: 'my-account', path: '/my-account', component: MyAccount },
-  { name: 'my-shipping-details', path: '/my-account/shipping-details', omponent: MyAccount, props: {activeBlock: 'MyShippingDetails'} },
+  { name: 'my-shipping-details', path: '/my-account/shipping-details', component: MyAccount, props: {activeBlock: 'MyShippingDetails'} },
   { name: 'my-newsletter', path: '/my-account/newsletter', component: MyAccount, props: {activeBlock: 'MyNewsletter'} },
   { name: 'my-orders', path: '/my-account/orders', component: MyAccount, props: {activeBlock: 'MyOrders'} },
   { name: 'my-order', path: '/my-account/orders/:orderId', component: MyAccount, props: {activeBlock: 'MyOrder'} },
@@ -52,4 +55,7 @@ if (!store.state.config.products.useShortCatalogUrls) {
     { name: 'product', path: '/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'category', path: '/:slug', component: Category }])
 }
+
+routes.concat(AmpThemeRouting)
+
 export default routes

@@ -19,6 +19,7 @@
     "paths": {
       "core/*": ["core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
+      "core/modules/*": ["./core/modules/*"],
     },
     "lib": ["es2017", "dom"]
   },
@@ -28,7 +29,8 @@
     "src/**/*.vue",
     "core/**/*.ts",
     "core/**/*.vue",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "module/**/*.ts"
   ],
   "exclude": [
     "node_modules"

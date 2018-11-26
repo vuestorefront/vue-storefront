@@ -10,7 +10,7 @@
 
 <script>
 
-import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 import InspirationTile from './InspirationTile.vue'
 export default {

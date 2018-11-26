@@ -4,12 +4,21 @@
       <div class="container">
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
-            <product-gallery
-              :gallery="gallery"
-              :offline="offlineImage"
-              :configuration="configuration"
-              :product="product"
-            />
+            <amp-carousel
+              class="product-gallery"
+              width="450"
+              height="500"
+              layout="responsive"
+              type="slides">
+              <amp-img
+                class="product-image"
+                layout="responsive"
+                v-for="image in gallery"
+                :key="image.src"
+                :src="image.src"
+                :width="450"
+                :height="500"/>
+            </amp-carousel>
           </div>
           <div class="col-xs-12 col-md-5 data">
             <breadcrumbs
@@ -70,9 +79,14 @@
               :product="product"
             />
             <div class="row m0">
-              <a
-                class="col-xs-12 col-sm-4 col-md-6"
-              >{{ $t('Add to cart') }}</a>
+              <router-link class="button-full text-center block w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6" :to="localizedRoute({
+                name: product.type_id + '-product',
+                params: {
+                  parentSku: product.parentSku ? product.parentSku : product.sku,
+                  slug: product.slug,
+                  childSku: product.sku
+                }
+              })">Check available sizes</router-link>
             </div>
           </div>
         </section>
@@ -108,17 +122,11 @@
         </div>
       </div>
     </section>
-    <related-products
-      type="upsell"
-      :heading="$t('We found other products you might like')"
-    />
-    <related-products type="related" />
   </div>
 </template>
 
 <script>
 import Product from '@vue-storefront/core/pages/Product'
-
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import GenericSelector from 'theme/components/core/GenericSelector'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
@@ -167,11 +175,15 @@ export default {
     }
   },
   asyncData ({ store, route, context }) {
-    console.log('DUPIKA')
-    context.output.template = 'basic'
-    context.renderHead = (context) => {
-      return '<script async src="https://cdn.ampproject.org/v0.js"><' + '/script>'
+    context.output.template = 'amp'
+    context.output.appendHead = (context) => {
+      return '<script async src="https://cdn.ampproject.org/v0.js"><' + '/script>' +
+      '<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"><' + '/script>'
     }
+    // const oldRenderer = context.renderStyles
+    // context.renderStyles = (context) => {
+    //   return oldRenderer().replace('<style>', '<style amp-custom>')
+    // }
     return new Promise((resolve, reject) => {
       resolve()
     })
@@ -187,6 +199,8 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
+$color-mine-shaft: color(mine-shaft);
+$color-suva-gray: color(suva-gray);
 
 .breadcrumbs {
   @media (max-width: 767px) {
@@ -200,6 +214,7 @@ $bg-secondary: color(secondary, $colors-background);
   font-weight: bold;
   padding-bottom: 15px;
 }
+
 .data {
   @media (max-width: 767px) {
     border-bottom: 1px solid $bg-secondary;
@@ -348,6 +363,72 @@ $bg-secondary: color(secondary, $colors-background);
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 14px;
+}
+
+.button-full {
+  min-width: 250px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.product-gallery .product-image {
+  opacity: 0.9;
+  mix-blend-mode: multiply;
+  vertical-align: top;
+}
+
+</style>
+
+<style lang="scss">
+
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-suva-gray: color(suva-gray);
+
+.amp-carousel-button-prev, .amp-carousel-button-next {
+  background: none;
+  outline: 0;
+  display: none;
+  cursor: pointer;
+  &:before {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    height: 100%;
+    line-height: 34px;
+    -webkit-font-smoothing: antialiased;
+    color: $color-suva-gray;
+  }
+}
+
+.product-gallery {
+  &:hover {
+      .amp-carousel-button-prev, .amp-carousel-button-next {
+        display: initial;
+      }
+  }
+}
+
+.amp-carousel-button-prev {
+  &:before {
+    content: 'keyboard_arrow_left';
+  }
+}
+
+.amp-carousel-button-next {
+  &:before {
+    content: 'keyboard_arrow_right';
+  }
 }
 
 </style>
