@@ -90,11 +90,11 @@ Entry point for vue-router. You can provide [navigation guards](https://router.v
 
 #### `beforeRegistration`
 
-Function that'll be called before registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
+Function that'll be called before registering the module both on server and client side. You have access to `isServer`, `store` and `config` instances inside.
 
 #### `afterRegistration`
 
-Function that'll be called after registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
+Function that'll be called after registering the module both on server and client side. You have access to `isServer`, `store` and `config` instances inside.
 
 # Module file structure
 
