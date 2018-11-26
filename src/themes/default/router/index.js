@@ -2,7 +2,9 @@ import Home from 'theme/pages/Home.vue'
 import PageNotFound from 'theme/pages/PageNotFound.vue'
 import ErrorPage from 'theme/pages/Error.vue'
 import store from '@vue-storefront/store'
-import { Category, Compare, Checkout, MyAccount, Static, Product, CustomCmsPage, CmsData } from './asyncRoutes'
+import Product from 'theme/pages/Product.vue'
+import Category from 'theme/pages/Category.vue'
+import { Compare, Checkout, MyAccount, Static, CustomCmsPage, CmsData } from './asyncRoutes'
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },

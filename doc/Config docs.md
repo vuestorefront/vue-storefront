@@ -326,6 +326,14 @@ The product attributes representing the images. Wee see it in the Product page g
 The dimensions of the images in the gallery
 
 ```json
+  "filterAggregationSize": {
+      "default": 10,
+      "size": 10
+```
+
+Maximum number of options for each filter
+
+```json
     "orders": {
       "endpoint": "http://localhost:8080/api/order",
 ```
