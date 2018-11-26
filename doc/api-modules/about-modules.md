@@ -138,7 +138,7 @@ All VS modules from `registerModules` will be registered during shop initialisat
 
 First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
 
-0. **MOST IMPORTANT RULE** Try to encapsulate all the logic required for module to work inside the module. You can import it in other parts of the app but the logic itself should be in a module
+0. **MOST IMPORTANT RULE** Try to encapsulate all the logic required for module to work inside the module. You can import it in other parts of the app but the logic itself should be in a module Also we are planning to make VS core framework agnostic . Don;t rely on`vue` object (use only Vuex) inside your modules if you want them to work in other frameworks
 1. **Try not to rely on any other data sources than provided ones and `@vue-storefront/store` package.**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves. Try to think about each module as a standalone npm package.
 2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
 ````js
