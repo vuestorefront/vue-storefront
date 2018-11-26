@@ -12,7 +12,7 @@ about: Create a report to help us improve
 
 ## Steps to reproduce the issue
 <!--
-Please provide the steps to reproduce and if possible a *MINIMAL DEMO* of the problem via
+Please provide the steps to reproduce and if possible a *minimal reproducible example* of the problem via
 https://stackblitz.com or with a screenshot if it's more accurate.
  -->
 
@@ -21,14 +21,14 @@ https://stackblitz.com or with a screenshot if it's more accurate.
 
 # Can you handle fixing this bug by yourself?
 <!-- 
-If you can handle fixing this bug by yourself and later propose a Pull Request with the solution please answer YES. otehrwise answer NO.
+If you can handle fixing this bug by yourself and later propose a Pull Request with the solution please answer YES. otherwise answer NO.
 -->
 
-## Enviroment details
-<!-- Please provide all the information required below. -->
+## Environment details
+<!-- Please provide all the informations required below. -->
 - Browser: <!-- Your browser, version -->
 - OS: <!-- Your operating system, version -->
-- Node: <!-- Version of Node JS used to run the project -->
+- Node: <!-- Version of Node.js used to run the project -->
 
 ## Additional information
-<!-- If you think that any additional information would be useful please provide them here. -->
+<!-- If you think that any additional information would be useful, please provide them here. -->
