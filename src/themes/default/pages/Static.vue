@@ -68,8 +68,7 @@ export default {
         { title: i18n.t('Delivery'), link: '/delivery', component: StaticExample },
         { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
         { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticExample },
-        { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticExample },
-        { title: i18n.t('Size  guide'), link: '/size-guide', component: StaticExample },
+        { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
         { title: i18n.t('Contact us'), link: '/contact', component: StaticExample }
       ],
       activeComponent: null
