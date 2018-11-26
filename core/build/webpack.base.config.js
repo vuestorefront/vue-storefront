@@ -180,18 +180,6 @@ module.exports = {
         ]
       },
       {
-        test: /\.md$/,
-        use: [
-          'vue-loader',
-          {
-            loader: 'markdown-to-vue-loader',
-            options: {
-              componentWrapper: 'div'
-            }
-          }
-        ]
-      },
-      {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
         loader: 'url-loader?importLoaders=1&limit=10000'
       },
