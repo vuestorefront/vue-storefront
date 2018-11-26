@@ -66,7 +66,7 @@ This is how the signature of Vue Storefront Module looks like:
 interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
-  router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
+  router?: { beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
   beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
   afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
 }
@@ -86,7 +86,7 @@ Entry point for Vuex.
 
 ####  `router`
 
-Entry point for vue-router. You can provide additional routes and [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) here.
+Entry point for vue-router. You can provide [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) here.
 
 #### `beforeRegistration`
 
@@ -116,8 +116,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 - `hooks` - before/after hooks that are called before and after registration of module.
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
   - `afterRegistration.ts` - Should be used in `afterRegistration` config property.
-- `router` - routes and navigation guards associated to this module
-  - `routes.ts`- array of route objects that will be added to current router configuration. Should be used in `router.routes` config property.
+- `router` -  navigation guards associated to this module
   - `beforeEach.ts` - beforEeach navigation guard. Should be used in `router.beforeEach` config property.
   - `afterEach.ts`- afterEach navigation guard. Should be used in `router.afterEach` config property.
 - `queries` - GraphQL queries
