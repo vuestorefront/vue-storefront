@@ -58,7 +58,7 @@ export class VueStorefrontModule {
     })
 
     if (isUnique) {
-      const isServer = typeof window !== undefined
+      const isServer = typeof window === undefined
       if (this._c.beforeRegistration) this._c.beforeRegistration(isServer, storeInstance.state.config, storeInstance)
       if (this._c.store) VueStorefrontModule._extendStore(storeInstance, this._c.store.modules, this._c.store.plugin)
       if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.beforeEach, this._c.router.afterEach)
