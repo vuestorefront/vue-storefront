@@ -2,6 +2,7 @@ import bodybuilder from 'bodybuilder'
 import getBoosts from '../../boost'
 import getMapping from '../../mapping'
 import cloneDeep from 'lodash-es/cloneDeep'
+import config from 'config'
 
 export function prepareElasticsearchQueryBody (searchQuery) {
   const optionsPrfeix = '_options'
@@ -76,8 +77,9 @@ export function prepareElasticsearchQueryBody (searchQuery) {
     for (let attrToFilter of allFilters) {
       if (attrToFilter.scope === 'catalog') {
         if (attrToFilter.field !== 'price') {
-          query = query.aggregation('terms', getMapping(attrToFilter.field))
-          query = query.aggregation('terms', attrToFilter.field + optionsPrfeix)
+          let aggregationSize = { size: config.products.filterAggregationSize[attrToFilter.field] || config.products.filterAggregationSize.default }
+          query = query.aggregation('terms', getMapping(attrToFilter.field), aggregationSize)
+          query = query.aggregation('terms', attrToFilter.field + optionsPrfeix, aggregationSize)
         } else {
           query = query.aggregation('terms', attrToFilter.field)
           query.aggregation('range', 'price', {
