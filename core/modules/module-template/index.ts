@@ -6,7 +6,6 @@ import { extendMailchimp } from './store/mailchimp'
 import { beforeRegistration } from './hooks/beforeRegistration'
 import { afterRegistration } from './hooks/afterRegistration'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
-import { routes } from './router/routes'
 import { beforeEach } from './router/beforeEach'
 import { afterEach } from './router/afterEach'
 import { initCacheStorage } from '@vue-storefront/module/helpers/initCacheStorage'
@@ -21,7 +20,7 @@ const moduleConfig: VueStorefrontModuleConfig = {
   store: { modules: [{ key: KEY, module }, { key: 'mailchimp', module: extendMailchimp }], plugin },
   beforeRegistration,
   afterRegistration,
-  router: { routes, beforeEach, afterEach }
+  router: { beforeEach, afterEach }
 }
 
 export const Example = new VueStorefrontModule(moduleConfig)
