@@ -7,6 +7,8 @@ import i18n from '@vue-storefront/i18n'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 import RootState from '@vue-storefront/store/types/RootState'
 import UserState from '../types/UserState'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
 const Ajv = require('ajv') // json validator
 // import router from '@vue-storefront/core/router'
 
@@ -167,7 +169,7 @@ const actions: ActionTree<UserState, RootState> = {
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.debug('No User token, user unathorized')
+        Logger.info('No User token, user unauthorized', { tag: 'user'})
         return resolve(null)
       }
       const cache = Vue.prototype.$db.usersCollection

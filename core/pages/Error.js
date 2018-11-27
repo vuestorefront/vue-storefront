@@ -4,7 +4,7 @@ export default {
   name: 'Error',
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Error page ' + new Date())
+      console.log('Calling asyncData for Error page ' + new Date())
       if (context) {
         context.output.cacheTags.add(`error`)
       }

@@ -1,12 +1,8 @@
 
 // Always prefetch for offline capabilities
-export const Category = () => import(/* webpackChunkName: "category"  */ 'theme/pages/Category.vue')
-export const Product = () => import(/* webpackChunkName: "product" */ 'theme/pages/Product.vue')
 export const Checkout = () => import(/* webpackChunkName: "checkout"  */ 'theme/pages/Checkout.vue')
 if (typeof window !== 'undefined') {
   window.addEventListener('load', () => {
-    Category()
-    Product()
     Checkout()
   })
 }

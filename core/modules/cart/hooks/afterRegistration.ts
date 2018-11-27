@@ -1,3 +1,3 @@
-export function afterRegistration(Vue, config, store) {
-  if (!Vue.prototype.$isServer) store.dispatch('cart/load')
+export function afterRegistration(isServer, config, store) {
+  if (isServer) store.dispatch('cart/load')
 }
