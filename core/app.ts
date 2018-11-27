@@ -36,6 +36,7 @@ import VueApollo from 'vue-apollo'
 // core modules registration that'll be completely moved to theme TODO: move to accesibel entry point when ready
 import { enabledModules } from './modules-entry'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -169,7 +170,15 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     ssrContext
   )
   // 
-  enabledModules.forEach(m => m.register(store, router))
+  let registeredModules = []
+  enabledModules.forEach(m => registeredModules.push(m.register(store, router)))
+  Logger.info('VS Modules registration finished.', { 
+    tag: 'module',
+    context: { label: 'Summary', value: {
+      succesfulyRegistered: registeredModules.length + ' / ' + enabledModules.length,
+      registrationOrder: registeredModules
+    }}
+  })
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
   app.$emit('application-after-init', app)
   return { app, router, store }

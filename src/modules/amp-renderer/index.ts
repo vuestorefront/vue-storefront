@@ -1,5 +1,5 @@
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
-// import moduleRoutes from './router'
+import moduleRoutes from './router'
 
 const store = {
   namespaced: true,
@@ -12,7 +12,7 @@ const KEY = 'amp-renderer'
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  // router: { routes: moduleRoutes },
+  router: { routes: moduleRoutes },
   store: { modules: [{ key: KEY, module: store }] }
 }
 

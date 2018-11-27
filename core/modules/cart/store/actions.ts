@@ -194,7 +194,8 @@ const actions: ActionTree<CartState, RootState> = {
             // TODO: if token is null create cart server side and store the token!
             if (token) { // previously set token
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-              Logger.info('Cart token received from cache. Pulling cart from server.', { tag: 'cart', context: { label: 'Cart token', value: token} })
+              Logger.info('Cart token received from cache.', { tag: 'cache', context: { label: 'Cart token', value: token} })
+              Logger.info('Pulling cart from server.', { tag: 'cart' })
               context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default })
             } else {
               Logger.info('Creating server cart token', { tag: 'cart' })
