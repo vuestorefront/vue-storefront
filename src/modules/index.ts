@@ -16,6 +16,7 @@ import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 import { GoogleAnalytics } from './google-analytics';
 import { AmpRenderer } from './amp-renderer';
+import { PaymentBackendMethods } from './payment-backend-methods';
 
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
@@ -42,7 +43,8 @@ export const registerModules: VueStorefrontModule[] = [
   Homepage,
   Claims,
   PromotedOffers,
-  GoogleAnalytics
+  GoogleAnalytics,
+  PaymentBackendMethods,
   // Example
 ]
 
