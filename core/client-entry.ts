@@ -12,7 +12,7 @@ import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 require('@vue-storefront/core/service-worker/registration') // register the service worker
 
 declare var window: any
@@ -214,7 +214,6 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
-    console.log('Executing task queue')
     // event.data.config - configuration, endpoints etc
     const storeView = currentStoreView()
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''

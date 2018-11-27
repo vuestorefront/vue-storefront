@@ -641,7 +641,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         })
       } else {
-        Logger.warn('Removing product from the cart', { tag: 'cart', context: { label: 'Original cart item', value: originalCartItem }})
+        Logger.warn('Removing product from cart', { tag: 'cart', context: { label: 'Original cart item', value: originalCartItem }})
         rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
