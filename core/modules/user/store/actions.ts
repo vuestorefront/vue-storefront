@@ -389,7 +389,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
   },
   sessionAfterAuthorized (context, event) {
-    console.log('Loading user profile')
+    Logger.info('User session authorised ', { tag: 'user' })
     rootStore.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {}) // this will load user cart
     rootStore.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
   }
