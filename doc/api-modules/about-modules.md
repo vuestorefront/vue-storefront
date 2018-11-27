@@ -66,7 +66,7 @@ This is how the signature of Vue Storefront Module looks like:
 interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
-  router?: { beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
+  router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
   beforeRegistration?: (isServer?: boolean, config?: Object, store?: Store<RootState>) => void,
   afterRegistration?: (isServer?: boolean, config?: Object, store?: Store<RootState>) => void,
 }
@@ -86,7 +86,7 @@ Entry point for Vuex.
 
 ####  `router`
 
-Entry point for vue-router. You can provide [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) here.
+Entry point for vue-router. You can provide [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) and additional routes here.
 
 #### `beforeRegistration`
 
@@ -117,6 +117,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
   - `afterRegistration.ts` - Should be used in `afterRegistration` config property.
 - `router` -  navigation guards associated to this module
+  - `routes.ts`- array of route objects that will be added to current router configuration. Should be used in `router.routes` config property.
   - `beforeEach.ts` - beforEeach navigation guard. Should be used in `router.beforeEach` config property.
   - `afterEach.ts`- afterEach navigation guard. Should be used in `router.afterEach` config property.
 - `queries` - GraphQL queries
@@ -138,7 +139,7 @@ All VS modules from `registerModules` will be registered during shop initialisat
 
 First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
 
-0. **MOST IMPORTANT RULE** Try to encapsulate all the logic required for module to work inside the module. You can import it in other parts of the app but the logic itself should be in a module Also we are planning to make VS core framework agnostic . Don;t rely on`vue` object (use only Vuex) inside your modules if you want them to work in other frameworks
+0. **MOST IMPORTANT RULE** Try to encapsulate all the logic required for module to work inside the module. You can import it in other parts of the app but the logic itself should be in a module.
 1. **Try not to rely on any other data sources than provided ones and `@vue-storefront/store` package.**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves. Try to think about each module as a standalone npm package.
 2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
 ````js
