@@ -1,4 +1,3 @@
-import VueAnalytics from 'vue-analytics'
 import * as types from './../store/mutation-types'
 
 export function afterRegistration(Vue, config, store) {
