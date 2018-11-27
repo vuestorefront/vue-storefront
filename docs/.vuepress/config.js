@@ -96,11 +96,11 @@ module.exports = {
             'vuex/ui-store',
           ],
         },
-        {
-          title: 'Modules',
-          collapsable: false,
-          children: ['modules/introduction', 'modules/cart', 'modules/user'],
-        },
+        // {
+        //   title: 'Modules',
+        //   collapsable: false,
+        //   children: ['modules/introduction', 'modules/cart', 'modules/user'],
+        // },
         {
           title: 'Integrations',
           collapsable: false,
