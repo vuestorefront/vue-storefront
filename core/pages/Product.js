@@ -6,7 +6,6 @@ import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
-import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
@@ -31,6 +30,7 @@ export default {
       category: 'category/current',
       gallery: 'product/productGallery'
     }),
+    ...mapGetters('product', ['getAvailableProductOptions']),
     productName () {
       return this.product ? this.product.name : ''
     },
@@ -123,11 +123,6 @@ export default {
     removeFromList (list) {
       // Method renamed to 'removeFromCompare(product)', product is an Object
       CompareProduct.methods.removeFromCompare.call(this, this.product)
-    },
-    isOptionAvailable (option) { // check if the option is available
-      let currentConfig = Object.assign({}, this.configuration)
-      currentConfig[option.attribute_code] = option
-      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0

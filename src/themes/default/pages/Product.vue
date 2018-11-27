@@ -70,8 +70,7 @@
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
                       <color-selector
-                        v-for="(c, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(c)"
+                        v-for="(c, i) in getAvailableProductOptions[option.attribute_code]"
                         :key="i"
                         :id="c.id"
                         :label="c.label"
@@ -82,8 +81,7 @@
                     </div>
                     <div class="sizes" v-else-if="option.label == 'Size'">
                       <size-selector
-                        v-for="(s, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(s)"
+                        v-for="(s, i) in getAvailableProductOptions[option.attribute_code]"
                         :key="i"
                         :id="s.id"
                         :label="s.label"
@@ -96,8 +94,7 @@
                     </div>
                     <div :class="option.attribute_code" v-else>
                       <generic-selector
-                        v-for="(s, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(s)"
+                        v-for="(s, i) in getAvailableProductOptions[option.attribute_code]"
                         :key="i"
                         :id="s.id"
                         :label="s.label"
