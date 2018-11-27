@@ -1,7 +1,7 @@
 import { module } from './store'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
 import { afterRegistration } from './hooks/afterRegistration'
-import { initCacheStorage } from '@vue-storefront/module/helpers/initCacheStorage';
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
 import { plugin } from './store/plugin'
 
 export const KEY = 'compare'
