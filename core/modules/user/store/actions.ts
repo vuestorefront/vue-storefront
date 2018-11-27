@@ -169,7 +169,7 @@ const actions: ActionTree<UserState, RootState> = {
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        Logger.info('No User token, user unauthorized')
+        Logger.info('No User token, user unauthorized', { tag: 'user'})
         return resolve(null)
       }
       const cache = Vue.prototype.$db.usersCollection

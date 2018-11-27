@@ -20,9 +20,8 @@
               </i>
               <slot name="header"/>
             </header>
-            <div class="modal-content pt30 pb60 px65" v-if="$slots.content || staticData">
+            <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
               <slot name="content"/>
-              <static-content :file="staticData" v-if="staticData"/>
             </div>
             <slot/>
           </div>
@@ -33,7 +32,6 @@
 </template>
 
 <script>
-import StaticContent from 'theme/components/theme/StaticContent'
 import { mapMutations } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
@@ -43,9 +41,6 @@ export default {
     return {
       isVisible: false
     }
-  },
-  components: {
-    StaticContent
   },
   methods: {
     onHide (name, state, params) {
@@ -94,10 +89,6 @@ export default {
       required: false,
       type: Number,
       default: 300
-    },
-    staticData: {
-      type: String,
-      default: ''
     },
     width: {
       type: Number,
