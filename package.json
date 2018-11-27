@@ -175,8 +175,7 @@
     "src/modules/*",
     "src/themes/*",
     "docs",
-    "core/modules/*",
-    "module"
+    "core/modules/*"
   ],
   "bundlesize": [
     {

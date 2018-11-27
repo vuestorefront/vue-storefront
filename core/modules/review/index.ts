@@ -1,5 +1,5 @@
 import { module } from './store'
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
 
 export const KEY = 'review'
 

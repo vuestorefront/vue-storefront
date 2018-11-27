@@ -1,5 +1,5 @@
 {
-    "name": "@vue-storefront/module-amp-renderer",
+    "name": "@vue-storefront/core/lib/module-amp-renderer",
     "version": "1.0.0",
     "description": "Google AMP Renderer for Vue Storefront",
     "license": "MIT",

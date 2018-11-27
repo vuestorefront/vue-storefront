@@ -1,5 +1,5 @@
 {
-    "name": "@vue-storefront/module-google-analytics",
+    "name": "@vue-storefront/core/lib/module-google-analytics",
     "version": "1.4.1",
     "description": "Google Analytics extension for Vue Storefront",
     "license": "MIT",
