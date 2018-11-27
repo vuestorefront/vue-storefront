@@ -55,7 +55,7 @@ const mutations = {
   }
 }
 
-export default {
+export const store = {
   namespaced: true,
   state,
   getters,

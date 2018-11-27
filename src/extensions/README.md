@@ -1,0 +1,1 @@
+Extensions are depreciate from VS 1.6. Use VS modules instead.

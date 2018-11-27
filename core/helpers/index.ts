@@ -19,3 +19,5 @@ export function once (key, fn) {
     fn()
   }
 }
+
+export const isServer: boolean = typeof window === 'undefined'

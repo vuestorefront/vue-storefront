@@ -20,10 +20,10 @@ import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
 import App from 'theme/App.vue'
 
 // TODO depreciated and moved to modules functionality. Will be removed in 1.7
-import registerExtensions from '@vue-storefront/core/compatibility/lib/extensions'
+// import registerExtensions from '@vue-storefront/core/compatibility/lib/extensions'
 import themeModules from 'theme/store'
-import themeExtensionEntryPoints from 'theme/extensions'
-import extensionEntryPoints from 'src/extensions'
+// import themeExtensionEntryPoints from 'theme/extensions'
+// import extensionEntryPoints from 'src/extensions'
 
 import { once } from './helpers'
 
@@ -161,15 +161,16 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   })
 
   // depreciated
-  registerExtensions(
-    union(extensionEntryPoints, themeExtensionEntryPoints),
-    app,
-    router,
-    store,
-    store.state.config,
-    ssrContext
-  )
+  // registerExtensions(
+  //   union(extensionEntryPoints, themeExtensionEntryPoints),
+  //   app,
+  //   router,
+  //   store,
+  //   store.state.config,
+  //   ssrContext
+  // )
   // 
+
   let registeredModules = []
   enabledModules.forEach(m => registeredModules.push(m.register(store, router)))
   Logger.info('VS Modules registration finished.', { 
@@ -179,6 +180,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
       registrationOrder: registeredModules
     }}
   })
+  
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
   app.$emit('application-after-init', app)
   return { app, router, store }

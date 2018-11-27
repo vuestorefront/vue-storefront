@@ -13,7 +13,6 @@ fs.writeFileSync(
   JSON.stringify(config)
 )
 
-const extensionsRoot = '../../src/extensions'
 const themesRoot = '../../src/themes'
 
 const themeRoot = require('./theme-path')
@@ -85,14 +84,12 @@ module.exports = {
   resolveLoader: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, extensionsRoot),
       path.resolve(__dirname, themesRoot)
     ],
   },
   resolve: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, extensionsRoot),
       path.resolve(__dirname, themesRoot)
     ],
     extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
