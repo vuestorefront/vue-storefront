@@ -111,20 +111,13 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### Data in Vue Storefront
 
-- [Working with data](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20data.md)
-- [Working with Vuex](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/Working%20with%20Vuex.md)
-- [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md)
-- [Data Migrations for ElasticSearch](https://github.com/DivanteLtd/vue-storefront-api/blob/master/doc/1.%20Data%20schema%20and%20migrations.md)
-- [ElasticSearch Queries](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/data/ElasticSearch%20Queries.md)
-- [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
-- [Adding Custom Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
-
-### Working with Vue Storefront Extensions (depreciated, use modules instead)
-
-- [Working with extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/extensions/Working%20with%20extensions.md)
-- [Adding custom Server API methods](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20vue-storefront-api.md)
-- [Extending UI from extensions](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/components/Extending%20UI%20from%20extensions.md)
-- [Adding Express routes and middlewares](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Extending%20Express.js%20server%20side%20routes.md)
+- [Working with data](https://divanteltd.github.io/vue-storefront/guide/data/data.html#local-data-store)
+- [Working with Vuex](https://divanteltd.github.io/vue-storefront/guide/vuex/introduction.html)
+- [ElasticSearch data formats](https://divanteltd.github.io/vue-storefront/guide/data/elasticsearch.html)
+- [Data Migrations for ElasticSearch](https://divanteltd.github.io/vue-storefront/guide/data/data-migrations.html)
+- [ElasticSearch Queries](https://divanteltd.github.io/vue-storefront/guide/data/elastic-queries.html)
+- [Database tool](https://divanteltd.github.io/vue-storefront/guide/data/database-tool.html)
+- [Adding Custom Entity Types](https://divanteltd.github.io/vue-storefront/guide/data/entity-types.html)
 
 ### Integrations
 
@@ -132,13 +125,13 @@ Tutorial series on creating themes for Vue Storefront:
 - [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 - [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 - [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
-- [Magento2 Product Reviews](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Reviews.md)
-- [PayPal Payments integration](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/PayPal%20payments%20support.md)
-- [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
-- [Tier prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Tier%20prices.md)
-- [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)
+- [Magento2 Product Reviews](https://divanteltd.github.io/vue-storefront/guide/integrations/reviews.html)
+- [PayPal Payments integration](https://divanteltd.github.io/vue-storefront/guide/integrations/paypal-payments.html)
+- [Direct prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/direct-prices-sync.html)
+- [Tier prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/tier-prices-sync.html)
+- [Shopping carts, totals and orders sync](https://divanteltd.github.io/vue-storefront/guide/integrations/totals-sync.html)
 - [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
-- [Magento2 MultiStore support](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md)
+- [Magento2 MultiStore support](https://divanteltd.github.io/vue-storefront/guide/integrations/multistore.html)
 
 ### 'Default theme' contribution rules
 
