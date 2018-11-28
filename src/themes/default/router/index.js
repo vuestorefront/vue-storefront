@@ -5,7 +5,6 @@ import store from '@vue-storefront/store'
 import Product from 'theme/pages/Product.vue'
 import Category from 'theme/pages/Category.vue'
 import { Compare, Checkout, MyAccount, Static, CustomCmsPage, CmsData } from './asyncRoutes'
-import AmpThemeRouting from 'src/themes/default-amp/router'
 import CmsPage from 'theme/pages/CmsPage.vue'
 import CmsBlockDemoPageSsr from 'theme/pages/CmsBlockDemoPageSsr.vue'
 
@@ -60,7 +59,5 @@ if (!store.state.config.products.useShortCatalogUrls) {
     { name: 'cms-page', path: '/info/:slug', component: CmsPage },
     { name: 'category', path: '/:slug', component: Category }])
 }
-
-routes.concat(AmpThemeRouting)
 
 export default routes

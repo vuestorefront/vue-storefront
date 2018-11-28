@@ -156,6 +156,8 @@ yarn o2m
 
 The code of this script is [located here](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) -  so you can easily check how it’s working.
 
+Starting from Vue Storefront v1.6 now we have a special switch in `vue-storefront-api`: `config.orders.useServerQueue` which is set to `false` by default. With this option disabled the `order_2_magento` process is no longer needed as the incoming orders are directly send to Magento2. If it's set to `true` then - the old behavior of server-based Redis queued used to stack the orders first is being used.
+
 ## Synchronizing shopping carts
 
 By default shopping carts are not synchronized in the real time  -  just after the order is placed, Magento2 cart is created etc.

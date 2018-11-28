@@ -1,10 +1,10 @@
-# Modules
+# Introduction
 
 ## What are VS modules?
 
 You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencies inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features.
 
-# Motivation
+## Motivation
 
 I believe that some neat metaphor can clearly describe the problem as well as a solution.
 
@@ -30,7 +30,7 @@ When we have our bricks grouped by their colors (and in a separate boxes - modul
 
 This is the kind of modularity and extendibility we want in Vue Storefront and architecture we are currently rewriting it into.
 
-# What is the purpose of VS modules?
+## What is the purpose of VS modules?
 
 The purpose is well described in [this discussion](https://github.com/DivanteLtd/vue-storefront/issues/1213). It can be summarized to:
 
