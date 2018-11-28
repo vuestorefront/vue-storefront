@@ -6,6 +6,7 @@ import { execute as taskExecute, _prepareTask } from './task'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 function queue (task) {
   const tasksCollection = Vue.prototype.$db.syncTaskCollection
@@ -14,11 +15,15 @@ function queue (task) {
     label: 'Task',
     value: task
   }})
-  tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
-    console.error(err)
-    Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
-  }).catch((reason) => {
-    console.error(reason) // it doesn't work on SSR
+  return new Promise((resolve, reject) => {
+    tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
+      if (err) console.error(err)
+      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+      resolve(task)
+    }).catch((reason) => {
+      console.error(reason) // it doesn't work on SSR
+      reject(reason)
+    })
   })
 }
 
@@ -73,6 +78,7 @@ function execute (task) { // not offline task
     }
   })
 }
+
 /** Clear sync tasks that were not transmitted yet */
 function clearNotTransmited () {
   const storeView = currentStoreView()

@@ -503,7 +503,10 @@ const actions: ActionTree<CartState, RootState> = {
   servercartAfterTotals (context, event) {
     if (event.resultCode === 200) {
       const totalsObj = event.result.totals ? event.result.totals : event.result
-      Logger.info('Overriding server totals ' + totalsObj, { tag: 'cart' })
+      Logger.info('Overriding server totals. ', { tag: 'cart', context: {
+        label: 'Totals',
+        value: totalsObj
+      }})
 
       let itemsAfterTotal = {}
       let platformTotalSegments = totalsObj.total_segments

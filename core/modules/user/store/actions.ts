@@ -244,7 +244,7 @@ const actions: ActionTree<UserState, RootState> = {
       throw new ValidationError(validate.errors)
     } else {
       return new Promise((resolve, reject) => {
-        context.dispatch('sync/queue', { url: rootStore.state.config.users.me_endpoint,
+        TaskQueue.queue({ url: rootStore.state.config.users.me_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -252,7 +252,7 @@ const actions: ActionTree<UserState, RootState> = {
             body: JSON.stringify(userData)
           },
           callback_event: 'store:user/userAfterUpdate'
-        }, { root: true }).then(task => {
+        }).then(task => {
           resolve()
         })
       })
