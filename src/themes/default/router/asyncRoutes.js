@@ -11,4 +11,4 @@ export const Compare = () => import(/* webpackChunkName: "lazy-routes" */ 'theme
 export const MyAccount = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/MyAccount.vue')
 export const Static = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/Static.vue')
 export const CustomCmsPage = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/CustomCmsPage.vue')
-export const CmsData = () => import(/* webpackChunkName: "lazy-routes" */ '@vue-storefront/extension-magento2-cms/components/CmsData')
+export const CmsData = () => import(/* webpackChunkName: "lazy-routes" */ 'src/modules/magento-2-cms/components/CmsData')

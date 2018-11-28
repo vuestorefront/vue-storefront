@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'
+import CmsData from 'src/modules/magento-2-cms/components/CmsData'
 
 export default {
   components: {

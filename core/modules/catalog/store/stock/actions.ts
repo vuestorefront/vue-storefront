@@ -68,7 +68,7 @@ const actions: ActionTree<StockState, RootState> = {
         if (cartItem && event.result.code !== 'ENOTFOUND') {
           if (!event.result.is_in_stock) {
             if (!rootStore.state.config.stock.allowOutOfStockInCart) {
-              console.log('Removing product from the cart', event.product_sku)
+              console.log('Removing product from cart', event.product_sku)
               rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: { sku: event.product_sku } }, {root: true})
             } else {
               rootStore.dispatch('cart/updateItem', { product: { errors: { stock: i18n.t('Out of the stock!') }, sku: event.product_sku, is_in_stock: false } })

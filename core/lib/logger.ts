@@ -26,7 +26,7 @@ class VueStorefrontLogger {
           bgColorStyle('green'), 'color: inherit')
         }
         if (trace.length > 1) {
-          console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+          console.log('%cSource:%c ' + 'webpack:///.'+trace[0].fileName.substring(10) + ':' + trace[0].lineNumber, 'font-weight: bold', 'font-weight: normal')
           console.log('%cStack trace:', 'font-weight: bold', trace)
         }
         if (properties && properties.context) {
@@ -50,13 +50,13 @@ class VueStorefrontLogger {
         trace.shift() // remove unnecessary stack frame to logger
         if (properties && properties.tag) {
           console.groupCollapsed('%cVSF%c %c' + properties.tag +'%c ' + message,
-          bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'color: inherit')
+          bgColorStyle('#ff6600'), 'color: inherit', bgColorStyle('gray'), 'color: #ff6600')
         } else {
           console.groupCollapsed('%cVSF%c ' + message,
-          bgColorStyle('orange'), 'color: inherit')
+          bgColorStyle('#ff6600'), 'color: inherit')
         }
         if (trace.length > 1) {
-          console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+          console.log('%cSource:%c ' + 'webpack:///.'+trace[0].fileName.substring(10) + ':' + trace[0].lineNumber, 'font-weight: bold', 'font-weight: normal')
           console.log('%cStack trace:', 'font-weight: bold', trace)
         }
         if (properties && properties.context) {
@@ -81,7 +81,7 @@ class VueStorefrontLogger {
           bgColorStyle('red'), 'color: inherit')
         }
         if (trace.length > 1) {
-          console.log('%cSource:%c ' + 'webpack:///.'+trace[1].fileName.substring(10) + ':' + trace[1].lineNumber, 'font-weight: bold', 'font-weight: normal')
+          console.log('%cSource:%c ' + 'webpack:///.'+trace[0].fileName.substring(10) + ':' + trace[0].lineNumber, 'font-weight: bold', 'font-weight: normal')
           console.log('%cStack trace:', 'font-weight: bold', trace)
         }
         if (properties && properties.context) {
