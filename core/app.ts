@@ -35,7 +35,7 @@ import { takeOverConsole } from '@vue-storefront/core/helpers/log'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
-import { registerExtensions as extensions } from 'src/modules'
+import { registerExtensions as extensions } from 'src/extensions'
 
 const isProd = process.env.NODE_ENV === 'production'
 
