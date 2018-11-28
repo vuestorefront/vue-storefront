@@ -7,7 +7,7 @@ To display Cms data:
 ## Cms Block
 To display Cms Block import CmsData component and use it in template:
 
-`import CmsData from '@vue-storefront/extension-magento2-cms/components/CmsData'`
+`import CmsData from 'src/modules/magento-2-cms/components/CmsData'`
 
 we have to options to get Cms Block data:
 1. by Magento `identifier`:

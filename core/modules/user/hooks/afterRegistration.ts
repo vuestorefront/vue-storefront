@@ -1,5 +1,5 @@
 import Vue from 'vue'
-export function afterRegistration(isServer, config, store) {
+export function afterRegistration(Vue, config, store, isServer){
   if (!isServer) {
     store.dispatch('user/startSession')
 

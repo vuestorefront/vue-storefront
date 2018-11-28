@@ -1,5 +1,4 @@
-import extensionStore from './store'
-import extensionRoutes from './router'
+
 import SearchAdapterFactory from '@vue-storefront/store/lib/search/adapter/factory'
 import { processESResponseType } from '@vue-storefront/store/lib/search/adapter/graphql/processor/processType'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
@@ -8,11 +7,8 @@ import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
-export default function (app, router, store, config) {
-  router.addRoutes(extensionRoutes) // add custom routes
-  store.registerModule(EXTENSION_KEY, extensionStore) // add custom store
-
-  app.$on('application-after-init', () => {
+export function afterRegistration (Vue, config, store, isServer) {
+  Vue.$on('application-after-init', () => {
     console.debug('Example of custom entity graphql extension')
 
     // load Search adapter factory to handle graphql search adapter
@@ -66,6 +62,4 @@ export default function (app, router, store, config) {
       console.log('Testentity response: ', res)
     })
   })
-
-  return { EXTENSION_KEY, extensionRoutes, extensionStore }
 }

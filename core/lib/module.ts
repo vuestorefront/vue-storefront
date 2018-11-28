@@ -9,8 +9,8 @@ export interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (isServer: boolean, config?: Object, store?: Store<RootState>) => void,
-  afterRegistration?: (isServer: boolean, config?: Object, store?: Store<RootState>) => void,
+  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean,) => void,
+  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
 }
 
 export class VueStorefrontModule {
@@ -25,11 +25,13 @@ export class VueStorefrontModule {
   private static _registeredModules: VueStorefrontModuleConfig[] = []
 
   private static _doesStoreAlreadyExists (key: string) : boolean {
-    let imoduleExists = false
+    let moduleExists = false
     VueStorefrontModule._registeredModules.forEach(m => {
-      if (m.store.modules.some(m => m.key === key)) imoduleExists = true
+      if (m.store) {
+        if (m.store.modules.some(m => m.key === key)) moduleExists = true
+      }
     })
-    return imoduleExists
+    return moduleExists
   }
 
   private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
@@ -51,20 +53,22 @@ export class VueStorefrontModule {
 
   public register (storeInstance, routerInstance): VueStorefrontModuleConfig | void {
     let isUnique = true
-    this._c.store.modules.forEach(store => {
-      if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
-        Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', { tag: 'module'})
-        isUnique = false
-      }
-    })
+    if ( this._c.store) {
+      this._c.store.modules.forEach(store => {
+        if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
+          Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', { tag: 'module'})
+          isUnique = false
+        }
+      })
+    }
 
     if (isUnique) {
       const isServer = typeof window === undefined
-      if (this._c.beforeRegistration) this._c.beforeRegistration(isServer, storeInstance.state.config, storeInstance)
+      if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, storeInstance.state.config, storeInstance, isServer)
       if (this._c.store) VueStorefrontModule._extendStore(storeInstance, this._c.store.modules, this._c.store.plugin)
       if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
       VueStorefrontModule._registeredModules.push(this._c)
-      if (this._c.afterRegistration) this._c.afterRegistration(isServer, storeInstance.state.config, storeInstance)
+      if (this._c.afterRegistration) this._c.afterRegistration(Vue, storeInstance.state.config, storeInstance, isServer)
       return this._c
     }
   }

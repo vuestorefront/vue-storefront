@@ -2,7 +2,7 @@ import { checkoutModule } from './store/checkout'
 import { paymentModule } from './store/payment'
 import { shippingModule } from './store/shipping'
 
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
 
 export const KEY = 'checkout'
 

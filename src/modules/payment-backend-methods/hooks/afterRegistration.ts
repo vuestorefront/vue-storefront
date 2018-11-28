@@ -1,6 +1,6 @@
 import * as types from './../store/mutation-types'
 
-export function afterRegistration(Vue, config, store) {
+export function afterRegistration(Vue, config, store, isServer) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   const placeOrder = function () {
     Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
@@ -9,7 +9,7 @@ export function afterRegistration(Vue, config, store) {
   if (!Vue.prototype.$isServer) {
     // Update the methods
     Vue.prototype.$bus.$on('set-unique-payment-methods', methods => {
-      store.commit(types.SET_BACKEND_PAYMENT_METHODS, methods)
+      store.commit('payment-backend-methods/' + types.SET_BACKEND_PAYMENT_METHODS, methods)
     })
 
     // Mount the info component when required.

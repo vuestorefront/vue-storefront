@@ -4,6 +4,7 @@ import * as types from '../../mutation-types'
 import { _prepareTask } from './helpers'
 import SyncState from './types/SyncState'
 import rootStore from '../../'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const mutations: MutationTree<SyncState> = {
   /**
@@ -16,7 +17,7 @@ const mutations: MutationTree<SyncState> = {
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) console.error(err)
       Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
-      console.log('Synchronization task added url = ' + task.url + ' taskId = ' + task.task_id)
+      Logger.info('Request added to sync queue: '+ task.url, { tag: 'sync', context: { label: 'Task ID', value: task.task_ud }})
     }).catch((reason) => {
       console.error(reason) // it doesn't work on SSR
     })
