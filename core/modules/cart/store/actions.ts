@@ -532,7 +532,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
 
         if (!serverItem) {
-          Logger.warn('No server item with sku: ' + clientItem.sku, { tag: 'cart' })
+          Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', { tag: 'cart' })
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
             rootStore.dispatch('cart/serverUpdateItem', {
