@@ -1,8 +1,6 @@
 
 ## Multistore Magento2 support
 
-Vue Storefront support for the Multistore installations is work in progress (https://github.com/DivanteLtd/vue-storefront/issues/1135). 
-
 ### Multiwebsite indexing
 
 Multiwebsite support starts with the ElasticSearch indexing. Basically - each store has it's own ElasticSearch index and should be populated separately using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) tool.
