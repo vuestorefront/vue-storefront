@@ -7,13 +7,14 @@ import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import CompareState from '../types/CompareState'
 import { cacheStorage } from '../'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 const actions: ActionTree<CompareState, RootState> = {
   load (context) {
     const commit = context.commit
     cacheStorage.getItem('current-compare', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
+      Logger.info('Compare state loaded from browser cache: ', { tag: 'cache', context: { label: 'Loaded data', value: storedItems } })
     })
   },
   addItem ({commit}, product) {

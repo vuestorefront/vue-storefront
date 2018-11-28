@@ -1,5 +1,5 @@
 import { Module, Store } from 'vuex'
-import { NavigationGuard } from 'vue-router'
+import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
 import merge from 'lodash-es/merge'
 import RootState from '@vue-storefront/store/types/RootState';
@@ -8,7 +8,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 export interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
-  router?: { beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
+  router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
   beforeRegistration?: (isServer: boolean, config?: Object, store?: Store<RootState>) => void,
   afterRegistration?: (isServer: boolean, config?: Object, store?: Store<RootState>) => void,
 }
@@ -37,7 +37,8 @@ export class VueStorefrontModule {
     if (plugin) storeInstance.subscribe(plugin)
   }
 
-  private static _extendRouter (routerInstance, beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
+  private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
+    if (routes) routerInstance.addRoutes(routes)
     if (beforeEach) routerInstance.beforeEach(beforeEach)
     if (afterEach) routerInstance.afterEach(afterEach)
   }
@@ -48,7 +49,7 @@ export class VueStorefrontModule {
     Logger.info('Module "' + key + '" has been succesfully extended.', { tag: 'module'})
   }
 
-  public register (storeInstance, routerInstance): void {
+  public register (storeInstance, routerInstance): VueStorefrontModuleConfig | void {
     let isUnique = true
     this._c.store.modules.forEach(store => {
       if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
@@ -58,13 +59,13 @@ export class VueStorefrontModule {
     })
 
     if (isUnique) {
-      const isServer = typeof window !== undefined
+      const isServer = typeof window === undefined
       if (this._c.beforeRegistration) this._c.beforeRegistration(isServer, storeInstance.state.config, storeInstance)
       if (this._c.store) VueStorefrontModule._extendStore(storeInstance, this._c.store.modules, this._c.store.plugin)
-      if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.beforeEach, this._c.router.afterEach)
+      if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
       VueStorefrontModule._registeredModules.push(this._c)
       if (this._c.afterRegistration) this._c.afterRegistration(isServer, storeInstance.state.config, storeInstance)
-      Logger.info('Module "' + this._c.key + '" has been succesfully registered.', { tag: 'module'})
+      return this._c
     }
   }
 }
