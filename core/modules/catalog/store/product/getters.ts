@@ -1,7 +1,6 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/store/types/RootState'
 import ProductState from '../../types/ProductState'
-import { debug } from 'util';
 
 enum ProductStatus {
   Enabled = 1,
