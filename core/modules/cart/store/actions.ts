@@ -560,7 +560,7 @@ const actions: ActionTree<CartState, RootState> = {
             serverCartUpdateRequired = true
           }
         } else {
-          Logger.info('Server and client cart item with SKU ' + clientItem.sku + ' synced. Updating server ID', { tag: 'cart' })
+          Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', { tag: 'cart' })
           // console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })
           if (!event.dry_run) {
             rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } }, { root: true })
