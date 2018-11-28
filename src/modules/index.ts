@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import { VueStorefrontModule } from '@vue-storefront/module'
+import { isServer } from '@vue-storefront/core/helpers'
+import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Catalog } from "@vue-storefront/core/modules/catalog"
 import { Cart } from '@vue-storefront/core/modules/cart'
 import { Checkout } from '@vue-storefront/core/modules/checkout'
@@ -16,12 +16,15 @@ import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 import { GoogleAnalytics } from './google-analytics';
 import { AmpRenderer } from './amp-renderer';
+import { PaymentBackendMethods } from './payment-backend-methods';
+import { RawOutputExample } from './raw-output-example'
+import { Magento2CMS } from './magento-2-cms'
 
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
 const extendedExample = new VueStorefrontModule({
   key: 'extend',
-  afterRegistration: function(Vue, config) {
+  afterRegistration: function(isServer, config) {
     console.info('Hello, im extended now!')
   }
 })
@@ -42,10 +45,13 @@ export const registerModules: VueStorefrontModule[] = [
   Homepage,
   Claims,
   PromotedOffers,
-  GoogleAnalytics
+  Magento2CMS,
+  GoogleAnalytics,
+  PaymentBackendMethods,
+  RawOutputExample
   // Example
 ]
 
-if (Vue.prototype.$isServer) { // extensions that are not required in the SSR mode
+if (!isServer) { // extensions that are not required in the SSR mode
   registerModules.push(AmpRenderer)
 }

@@ -7,6 +7,7 @@ import fetch from 'isomorphic-fetch'
 import rootStore from '../'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 import Task from '../types/task/Task'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -15,6 +16,7 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
+  
   if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
     console.log('Waiting for rootStore.state.userTokenInvalidateLock to release for', task.url)
     _sleep(1000).then(() => {
@@ -37,6 +39,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     url = adjustMultistoreApiUrl(url)
   }
   let silentMode = false
+  Logger.info('Executing sync task ' + url, { tag: 'sync', context: { label: 'Task', value: task }})
   return fetch(url, task.payload).then((response) => {
     const contentType = response.headers.get('content-type')
     if (contentType && contentType.includes('application/json')) {
@@ -142,7 +145,6 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
 export function execute (task: Task, currentToken = null, currentCartId = null): Promise<Task> {
   const taskId = task.task_id
 
-  console.debug('Pushing out task ' + taskId)
   return new Promise((resolve, reject) => {
     _internalExecute(resolve, reject, task, currentToken, currentCartId)
   })

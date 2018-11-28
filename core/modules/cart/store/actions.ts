@@ -194,7 +194,8 @@ const actions: ActionTree<CartState, RootState> = {
             // TODO: if token is null create cart server side and store the token!
             if (token) { // previously set token
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-              Logger.info('Cart token received from cache. Pulling cart from server.', { tag: 'cart', context: { label: 'Cart token', value: token} })
+              Logger.info('Cart token received from cache.', { tag: 'cache', context: { label: 'Cart token', value: token} })
+              Logger.info('Pulling cart from server.', { tag: 'cart' })
               context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default })
             } else {
               Logger.info('Creating server cart token', { tag: 'cart' })
@@ -351,7 +352,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         }
         rootStore.dispatch('payment/replaceMethods', paymentMethods, { root: true })
-        rootStore.commit('setBackendPaymentMethods', uniqueBackendMethods)
+        Vue.prototype.$bus.$emit('set-unique-payment-methods', uniqueBackendMethods)
       }).catch(e => {
         console.error(e)
       })
@@ -640,7 +641,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         })
       } else {
-        Logger.warn('Removing product from the cart', { tag: 'cart', context: { label: 'Original cart item', value: originalCartItem }})
+        Logger.warn('Removing product from cart', { tag: 'cart', context: { label: 'Original cart item', value: originalCartItem }})
         rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
