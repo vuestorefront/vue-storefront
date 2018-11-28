@@ -1,7 +1,6 @@
 import VueAnalytics from 'vue-analytics'
-import Vue from 'vue'
-export function afterRegistration(isServer, config) {
-    if (config.analytics.id && !isServer) {
+export function afterRegistration(Vue, config, store, isServer){
+  if (config.analytics.id && !isServer) {
         Vue.prototype.$bus.$on('order/ORDER_PLACED', event => {
             const order = event.order
             const ecommerce = (Vue as any).$ga.ecommerce

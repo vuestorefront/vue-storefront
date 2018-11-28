@@ -1,8 +1,7 @@
 import VueAnalytics from 'vue-analytics'
 import { router } from '@vue-storefront/core/app'
-import Vue from 'vue'
 
-export function beforeRegistration(isServer, config, store) {
+export function beforeRegistration(Vue, config, store, isServer) {
     if (config.analytics.id && !isServer) {
         Vue.use(VueAnalytics, {
             id: config.analytics.id,
