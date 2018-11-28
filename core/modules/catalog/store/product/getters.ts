@@ -15,9 +15,17 @@ const getters: GetterTree<ProductState, RootState> = {
   currentOptions: (state) => state.current_options,
   breadcrumbs: (state) => state.breadcrumbs,
   productGallery: (state) => state.productGallery,
-  getCurrentAttributeNames: (state) => {
+  getCurrentAttributeNames: (state):Array<String> => {
     return Object.keys(state.current_configuration)
   },
+  /**
+   * Gets available product variants.
+   * 
+   * Every product has a `configurable_children` list with productVariants.
+   * Product option (combination of product attributes like color, size) is available if:
+   * - variant status is Enabled
+   * - variant has a `stock` and flag `is_in_stock` and product config disables showing outOfStock product
+   */
   getAvailableProductOptions: (state, getters, rootState) => {
     let availableOptions = {}
     getters.getCurrentAttributeNames.map(attributeName => {
