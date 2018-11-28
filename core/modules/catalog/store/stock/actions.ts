@@ -6,6 +6,7 @@ import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import RootState from '@vue-storefront/store/types/RootState'
 import StockState from '../../types/StockState'
 import rootStore from '@vue-storefront/store'
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
 const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
@@ -35,14 +36,14 @@ const actions: ActionTree<StockState, RootState> = {
   list (context, { skus }) {
     return new Promise((resolve, reject) => {
       if (rootStore.state.config.stock.synchronize) {
-        context.dispatch('sync/execute', { url: rootStore.state.config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
+        TaskQueue.execute({ url: rootStore.state.config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors'
           },
           skus: skus
-        }, { root: true }).then(task => {
+        }).then((task: any) => {
           if (task.resultCode === 200) {
             for (const si of task.result) {
               context.state.cache[si.product_id] = { is_in_stock: si.is_in_stock, qty: si.qty, product_id: si.product_id } // TODO: should be moved to mutation

@@ -27,21 +27,21 @@ const actions: ActionTree<SyncState, RootState> = {
     commit(types.SYNC_ADD_TASK, task)
     return task
   },
-  clearNotTransmited ({ commit }) {
-    const storeView = currentStoreView()
-    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+  // clearNotTransmited ({ commit }) {
+  //   const storeView = currentStoreView()
+  //   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-    const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'syncTasks',
-      driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
-    }))
-    syncTaskCollection.iterate((task, id, iterationNumber) => {
-      if (!task.transmited) {
-        syncTaskCollection.removeItem(id)
-      }
-    })
-  },
+  //   const syncTaskCollection = new UniversalStorage(localForage.createInstance({
+  //     name: dbNamePrefix + 'shop',
+  //     storeName: 'syncTasks',
+  //     driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
+  //   }))
+  //   syncTaskCollection.iterate((task, id, iterationNumber) => {
+  //     if (!task.transmited) {
+  //       syncTaskCollection.removeItem(id)
+  //     }
+  //   })
+  // },
   execute ({ commit }, task) { // not offline task
     const storeView = currentStoreView()
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
