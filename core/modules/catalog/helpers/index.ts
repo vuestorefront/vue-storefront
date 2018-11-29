@@ -214,33 +214,36 @@ export function doPlatformPricesSync (products) {
         const childSkus = flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
         skus = union(skus, childSkus)
       }
-      console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
+      if (skus && skus.length > 0) {
+        console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
+        rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
+          if (syncResult) {
+            syncResult = syncResult.items
 
-      rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
-        if (syncResult) {
-          syncResult = syncResult.items
+            for (let product of products) {
+              const backProduct = syncResult.find((itm) => { return itm.id === product.id })
+              if (backProduct) {
+                product.price_is_current = true // in case we're syncing up the prices we should mark if we do have current or not
+                product.price_refreshed_at = new Date()
+                product = syncProductPrice(product, backProduct)
 
-          for (let product of products) {
-            const backProduct = syncResult.find((itm) => { return itm.id === product.id })
-            if (backProduct) {
-              product.price_is_current = true // in case we're syncing up the prices we should mark if we do have current or not
-              product.price_refreshed_at = new Date()
-              product = syncProductPrice(product, backProduct)
-
-              if (product.configurable_children) {
-                for (let configurableChild of product.configurable_children) {
-                  const backProductChild = syncResult.find((itm) => { return itm.id === configurableChild.id })
-                  if (backProductChild) {
-                    configurableChild = syncProductPrice(configurableChild, backProductChild)
+                if (product.configurable_children) {
+                  for (let configurableChild of product.configurable_children) {
+                    const backProductChild = syncResult.find((itm) => { return itm.id === configurableChild.id })
+                    if (backProductChild) {
+                      configurableChild = syncProductPrice(configurableChild, backProductChild)
+                    }
                   }
                 }
+                // TODO: shall we update local storage here for the main product?
               }
-              // TODO: shall we update local storage here for the main product?
             }
           }
-        }
+          resolve(products)
+        })
+      } else { // empty list of products
         resolve(products)
-      })
+      }
       if (!rootStore.state.config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
         console.log('Returning products, the prices yet to come from backend!')
         for (let product of products) {
