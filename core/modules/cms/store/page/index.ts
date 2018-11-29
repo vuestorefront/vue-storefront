@@ -10,7 +10,8 @@ export const cmsPagesStorageKey = 'cms-page'
 export const cmsPageModule: Module<CmsPageState, RootState> = {
   namespaced: true,
   state: {
-    items: []
+    items: [],
+    current: null
   },
   getters,
   actions,
