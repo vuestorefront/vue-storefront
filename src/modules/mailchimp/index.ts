@@ -1,6 +1,6 @@
 import { module } from './store'
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
-import { initCacheStorage } from '@vue-storefront/module/helpers/initCacheStorage'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
 export const KEY = 'mailchimp'
 export const cacheStorage = initCacheStorage(KEY)

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
 import VueObserveVisibility from 'vue-observe-visibility'
-import union from 'lodash-es/union'
 import buildTimeConfig from 'config'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
@@ -9,23 +8,18 @@ import Meta from 'vue-meta'
 
 // TODO simplify by removing global mixins, plugins and filters - it can be done in normal 'vue' way
 import { registerTheme } from '@vue-storefront/core/lib/themes'
+import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
 import { plugins, mixins, filters } from '@vue-storefront/core/compatibility/lib/themes'
-import i18n from '@vue-storefront/i18n'
-import VueRouter from 'vue-router'
 
 import store from '@vue-storefront/store'
-import coreModules from '@vue-storefront/store/modules'
-import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
 
 import App from 'theme/App.vue'
 
-// TODO depreciated and moved to modules functionality. Will be removed in 1.7
-import registerExtensions from '@vue-storefront/core/compatibility/lib/extensions'
+// Will be depreciated in 1.7
 import themeModules from 'theme/store'
-import themeExtensionEntryPoints from 'theme/extensions'
-import extensionEntryPoints from 'src/extensions'
 
-import { once } from './helpers'
+import i18n from '@vue-storefront/i18n'
+import VueRouter from 'vue-router'
 
 // Declare Apollo graphql client
 import ApolloClient from 'apollo-client'
@@ -33,9 +27,14 @@ import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import VueApollo from 'vue-apollo'
 
-// core modules registration that'll be completely moved to theme TODO: move to accesibel entry point when ready
 import { enabledModules } from './modules-entry'
+
+import { once } from '@vue-storefront/core/helpers'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
+import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
+import { registerExtensions as extensions } from 'src/extensions'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -81,7 +80,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
 
   // depreciated
-  const storeModules = Object.assign(coreModules, themeModules || {})
+  const storeModules = themeModules || {} 
 
   // depreciated
   for (const moduleName of Object.keys(storeModules)) {
@@ -149,7 +148,6 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   })
 
   Vue.use(VueApollo)
-  // End declare Apollo graphql client
   
   const app = new Vue({
     router,
@@ -159,17 +157,18 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
     render: h => h(App)
   })
 
-  // depreciated
-  registerExtensions(
-    union(extensionEntryPoints, themeExtensionEntryPoints),
-    app,
-    router,
-    store,
-    store.state.config,
-    ssrContext
-  )
-  // 
-  enabledModules.forEach(m => m.register(store, router))
+
+  let registeredModules = []
+  enabledModules.forEach(m => registeredModules.push(m.register(store, router)))
+  Logger.info('VS Modules registration finished.', 'module', {
+      succesfulyRegistered: registeredModules.length + ' / ' + enabledModules.length,
+      registrationOrder: registeredModules
+    }
+  )()
+
+  
+  registerExtensions(extensions, app, router, store, config, ssrContext)
+
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
   app.$emit('application-after-init', app)
   return { app, router, store }

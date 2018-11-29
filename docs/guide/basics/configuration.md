@@ -38,7 +38,7 @@ Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pa
 },
 ```
 
-This is redis configuration for the output cache. See additional information [here](../data/ssr-cache.md)
+This is redis configuration for the output cache. See additional information [here](../basics/ssr-cache.md)
 
 ## GraphQL
 
@@ -450,6 +450,8 @@ When user places the order in the Offline mode and agrees to receive push notifi
 
 Please check the [core/service-worker/order.js](https://github.com/DivanteLtd/vue-storefront/tree/master/core/service-worker/order.js) for reference
 
+Starting with Vue Storefront v1.6 we changed the default order-placing behaviour. Currently the `config.orders.directBackendSync` is set to `true` be default. With this option enabled - if the user is online, Vue Storefront tries to pass the order immediately and synchronously (waiting for result) to the eCommerce backend. This option gives immediate and direct feedback to the user. If there is an app-level error (for example validation error on Magento side) user will be notified immediately. If there is transmission issue (no connection, servers are down etc) the order is being put into queue (as it was prior to 1.6). If `config.orders.directBackendSync` is set to false - then the legacy behaviour with queuing all the orders is being used. With `directBackendSync` set to true we do have access to the server confirmation (with backend orderId) in `store.state.order.last_order_confirmation`
+
 ## Local Forage
 
 ```json
@@ -493,7 +495,7 @@ We're using [localForage](https://github.com/localForage/localForage) library fo
 
 In the `users` section we can set the API endpoints for specific use-related operations. Most of the times you need just to change the basic url.
 
-When the `autoRefreshTokens` property is set to `true` (default) Vue Storefront will be trying to refresh the user tokens automatically when the session ends up. Please take a look at the [core/store/lib/task.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/lib/task.ts) for reference.
+When the `autoRefreshTokens` property is set to `true` (default) Vue Storefront will be trying to refresh the user tokens automatically when the session ends up. Please take a look at the [core/lib/sync/task.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/lib/sync/task.ts) for reference.
 
 ## Stock
 

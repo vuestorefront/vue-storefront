@@ -2,7 +2,7 @@ import rootStore from '../../../../'
 import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
-import {processESResponseType, processProductsType} from './processor/processType'
+import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 
 export class SearchAdapter {
@@ -203,6 +203,72 @@ export class SearchAdapter {
         }
         if (resp.hasOwnProperty('data')) {
           return processESResponseType(resp.data.taxrule, start, size)
+        } else {
+          if (resp.error) {
+            throw new Error(JSON.stringify(resp.error))
+          } else {
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+          }
+        }
+      }
+    })
+
+    this.registerEntityType('cms_page', {
+      gql: './queries/cmsPage.gql',
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        if (resp === null) {
+          throw new Error('Invalid graphQl result - null not exepcted')
+        }
+        if (resp.hasOwnProperty('data')) {
+          return processCmsType(resp.data.cmsPages, start, size)
+        } else {
+          if (resp.error) {
+            throw new Error(JSON.stringify(resp.error))
+          } else {
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+          }
+        }
+      }
+    })
+
+    this.registerEntityType('cms_block', {
+      gql: './queries/cmsBlock.gql',
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        if (resp === null) {
+          throw new Error('Invalid graphQl result - null not exepcted')
+        }
+        if (resp.hasOwnProperty('data')) {
+          return processCmsType(resp.data.cmsBlocks, start, size)
+        } else {
+          if (resp.error) {
+            throw new Error(JSON.stringify(resp.error))
+          } else {
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+          }
+        }
+      }
+    })
+
+    this.registerEntityType('cms_hierarchy', {
+      gql: './queries/cmsHierarchy.gql',
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        if (resp === null) {
+          throw new Error('Invalid graphQl result - null not exepcted')
+        }
+        if (resp.hasOwnProperty('data')) {
+          return processCmsType(resp.data.cmsHierarchies, start, size)
         } else {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
