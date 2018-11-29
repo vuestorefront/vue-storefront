@@ -206,6 +206,7 @@
     },
     "localForage": {
       "defaultDrivers": {
+        "user": "LOCALSTORAGE",
         "cmspage": "INDEXEDDB",
         "cmsblock": "INDEXEDDB",
         "carts": "LOCALSTORAGE",
