@@ -64,7 +64,7 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
 [See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
-[Check the feature list of 1.0](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md).
+[Check the feature list of 1.0](https://divanteltd.github.io/vue-storefront/guide/basics/feature-list.html).
 
 ## Documentation + table of contents
 
@@ -161,7 +161,7 @@ Besides a big improvement for the shopping experience, we also want to create a 
 
 ## The architecture
 
-![Architecture diagram](doc/media/GitHub-Architecture-VS.png)
+![Architecture diagram](docs/.vuepress/public/GitHub-Architecture-VS.png)
 
 ## The design
 
@@ -234,7 +234,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="https://snow.dog">
           <img
-            src="doc/media/partners/snowdog.png"
+            src="docs/.vuepress/public/partners/snowdog.png"
             alt="Snow.dog"
             width="150"
           >
@@ -272,7 +272,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://macopedia.com/pl">
           <img
-            src="doc/media/partners/macopedia.svg"
+            src="docs/.vuepress/public/partners/macopedia.svg"
             alt="Macopedia"
             width="150"
           >
@@ -281,7 +281,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://www.develodesign.co.uk/">
           <img
-            src="doc/media/partners/develo.png"
+            src="docs/.vuepress/public/partners/develo.png"
             alt="Develo design"
             width="150"
           >
