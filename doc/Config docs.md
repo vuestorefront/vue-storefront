@@ -395,7 +395,7 @@ We're using `localForage` library for provide the persistance layer to Vue Store
 ```
 In the `users` section we can set the API endpoints for specific use-related operations. Most of the times You need to just change the basic url.
 
-When the `autoRefreshTokens` property is set to true (default) Vue Storefront will be trying to refresh the user tokens automatically when the session ends up. Please take a look at the [`core/store/lib/task.js`](../core/store/lib/task.js) for reference.
+When the `autoRefreshTokens` property is set to true (default) Vue Storefront will be trying to refresh the user tokens automatically when the session ends up. Please take a look at the [`core/lib/sync/task.js`](../core/lib/sync/task.js) for reference.
 
 ```json
     "stock": {

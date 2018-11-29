@@ -7,7 +7,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index
 import rootStore from '@vue-storefront/store'
 
 import buildTimeConfig from 'config'
-import { execute } from '@vue-storefront/store/lib/task'
+import { execute } from '@vue-storefront/core/lib/sync/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'

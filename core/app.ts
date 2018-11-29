@@ -17,7 +17,6 @@ import App from 'theme/App.vue'
 
 // Will be depreciated in 1.7
 import themeModules from 'theme/store'
-import coreModules from '@vue-storefront/store/modules'
 
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
@@ -81,7 +80,7 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
 
   // depreciated
-  const storeModules = Object.assign(coreModules, themeModules || {})
+  const storeModules = themeModules || {} 
 
   // depreciated
   for (const moduleName of Object.keys(storeModules)) {

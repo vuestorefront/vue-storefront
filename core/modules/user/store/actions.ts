@@ -8,7 +8,7 @@ import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 import RootState from '@vue-storefront/store/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
-
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
 const Ajv = require('ajv') // json validator
 // import router from '@vue-storefront/core/router'
 
@@ -48,7 +48,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Send password reset link for specific e-mail
    */
   resetPassword (context, { email }) {
-    return context.dispatch('sync/execute', { url: rootStore.state.config.users.resetPassword_endpoint,
+    TaskQueue.execute({ url: rootStore.state.config.users.resetPassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -58,7 +58,7 @@ const actions: ActionTree<UserState, RootState> = {
         },
         body: JSON.stringify({ email: email })
       }
-    }, { root: true }).then((response) => {
+    }).then((response) => {
       return response
     })
   },
@@ -196,7 +196,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        return context.dispatch('sync/execute', { url: rootStore.state.config.users.me_endpoint,
+        TaskQueue.execute({ url: rootStore.state.config.users.me_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {
@@ -204,8 +204,8 @@ const actions: ActionTree<UserState, RootState> = {
               'Content-Type': 'application/json'
             }
           }
-        }, { root: true })
-          .then((resp) => {
+        })
+          .then((resp: any) => {
             if (resp.resultCode === 200) {
               context.commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
               context.dispatch('setUserGroup', resp.result)
@@ -244,7 +244,7 @@ const actions: ActionTree<UserState, RootState> = {
       throw new ValidationError(validate.errors)
     } else {
       return new Promise((resolve, reject) => {
-        context.dispatch('sync/queue', { url: rootStore.state.config.users.me_endpoint,
+        TaskQueue.queue({ url: rootStore.state.config.users.me_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -252,7 +252,7 @@ const actions: ActionTree<UserState, RootState> = {
             body: JSON.stringify(userData)
           },
           callback_event: 'store:user/userAfterUpdate'
-        }, { root: true }).then(task => {
+        }).then(task => {
           resolve()
         })
       })
@@ -265,14 +265,14 @@ const actions: ActionTree<UserState, RootState> = {
    * Change user password
    */
   changePassword (context, passwordData) {
-    return context.dispatch('sync/execute', { url: rootStore.state.config.users.changePassword_endpoint,
+    return TaskQueue.execute({ url: rootStore.state.config.users.changePassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(passwordData)
       }
-    }, { root: true }).then((resp) => {
+    }).then((resp: any) => {
       if (resp.code === 200) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'success',
@@ -353,7 +353,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        return context.dispatch('sync/execute', { url: rootStore.state.config.users.history_endpoint,
+        return TaskQueue.execute({ url: rootStore.state.config.users.history_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {
@@ -361,7 +361,7 @@ const actions: ActionTree<UserState, RootState> = {
               'Content-Type': 'application/json'
             }
           }
-        }, { root: true }).then((resp) => {
+        }).then((resp: any) => {
           if (resp.code === 200) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
             Vue.prototype.$bus.$emit('user-after-loaded-orders', resp.result)

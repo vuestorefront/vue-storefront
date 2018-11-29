@@ -9,7 +9,7 @@ const Ajv = require('ajv') // json validator
 import rootStore from '@vue-storefront/store'
 import { isOnline } from '@vue-storefront/store/lib/search'
 import i18n from '@vue-storefront/i18n'
-
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
 const actions: ActionTree<OrderState, RootState> = {
   /**
    * Place order - send it to service worker queue
@@ -38,14 +38,14 @@ const actions: ActionTree<OrderState, RootState> = {
         return Promise.resolve(true)
       } else {
         Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
-        return rootStore.dispatch('sync/execute', { url: rootStore.state.config.orders.endpoint, // sync the order
+        return TaskQueue.execute({ url: rootStore.state.config.orders.endpoint, // sync the order
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify(order)
           },
-        }, { root: true }).then(task => {
+        }).then((task: any) => {
           Vue.prototype.$bus.$emit('notification-progress-stop')
           if (task.resultCode !== 500) {
             order.transmited = true
