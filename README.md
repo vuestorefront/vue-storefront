@@ -43,11 +43,11 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 
 ## Video demo
 
-[![See how it works!](doc/media/Fil-Rakowski-VS-Demo-Youtube.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
+[![See how it works!](docs/.vuepress/public/Fil-Rakowski-VS-Demo-Youtube.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
 
 ## Technical Webcast #1 - demo and the architecture
 
-[![Demo and the architecture of Vue Storefront](doc/media/video-webcast-1.png)](https://www.youtube.com/watch?v=sRSmEP4jva0&feature=youtu.be)
+[![Demo and the architecture of Vue Storefront](docs/.vuepress/public/video-webcast-1.png)](https://www.youtube.com/watch?v=sRSmEP4jva0&feature=youtu.be)
 
 - [Read on how to integrate it with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2), [Read how to create Vue Storefront theme](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593),
 - [Read the interviews with authors of first production deployments](https://medium.com/@piotrkarwatka/vue-storefront-on-production-interview-with-gogetgold-com-developers-71e4b48ef996)
@@ -68,11 +68,11 @@ We are planning 1-2 milestones ahead. Our milestones are based on requirements f
 
 ## Documentation + table of contents
 
-The documentation is always THE HARDEST PART of each open source project! But we're trying hard. Please find out what we've already managed to prepare under /doc folder: https://github.com/DivanteLtd/vue-storefront/tree/master/doc. There is also new, updated `/docs` folder with original documentation migrated to VuePress (Work in Progress).
+The documentation is always THE HARDEST PART of each open source project! But we're trying hard.
 
-**Please try out our NEW DOCS:** [available on Github Pages](https://divanteltd.github.io/vue-storefront/). Please note that new docs are still Work In Progress and will be successfully updated.
+**Please find out what we've already managed to prepare:** [available on Github Pages](https://divanteltd.github.io/vue-storefront/). Please note that new docs are still Work In Progress and will be successfully updated. You can find them also under the `docs` folder.
 
-You can find some tutorials and explainations on our [YouTube channel](https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg)
+You can find some tutorials and explanations on our [YouTube channel](https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg)
 
 ### Installation
 
@@ -135,7 +135,7 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### 'Default theme' contribution rules
 
-- [Working with stylesheets (CSS)](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/themes/default/Working%20with%20stylesheets.md)
+- [Working with stylesheets (CSS)](https://divanteltd.github.io/vue-storefront/guide/core-themes/stylesheets.html)
 
 ## Awesome projects related to Vue Storefront
 
