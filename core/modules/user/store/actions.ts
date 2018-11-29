@@ -169,7 +169,7 @@ const actions: ActionTree<UserState, RootState> = {
   me (context, { refresh = true, useCache = true }) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        Logger.info('No User token, user unauthorized', { tag: 'user'})
+        Logger.warn('No User token, user unauthorized', 'user')()
         return resolve(null)
       }
       const cache = Vue.prototype.$db.usersCollection
@@ -389,7 +389,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
   },
   sessionAfterAuthorized (context, event) {
-    Logger.info('User session authorised ', { tag: 'user' })
+    Logger.info('User session authorised ', 'user')()
     rootStore.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {}) // this will load user cart
     rootStore.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
   }

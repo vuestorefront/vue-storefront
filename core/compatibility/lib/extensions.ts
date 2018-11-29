@@ -6,7 +6,7 @@ export function registerExtensions (extensions, app, router, store, config, ssrC
       if (extEntryPoint.default) extEntryPoint = extEntryPoint.default	
       let extDescriptor = extEntryPoint(app, router, store, config, ssrContext) // register module	
       if (extDescriptor != null) {	
-        Logger.warn('Extension' + extDescriptor.EXTENSION_KEY + ' registered. Extensions are depreciated and will be removed from VS core. Use modules instead')
+        Logger.warn('Extension' + extDescriptor.EXTENSION_KEY + ' registered. Extensions are depreciated and will be removed from VS core. Use modules instead')()
         app.$emit('application-after-registerExtensions', extDescriptor)	
       }	
     }	

@@ -48,7 +48,7 @@ export class VueStorefrontModule {
   public extend (extendedConfig: VueStorefrontModule) {
     const key = this._c.key
     this._c = merge(this._c, extendedConfig.config)
-    Logger.info('Module "' + key + '" has been succesfully extended.', { tag: 'module'})
+    Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
   }
 
   public register (storeInstance, routerInstance): VueStorefrontModuleConfig | void {
@@ -56,7 +56,7 @@ export class VueStorefrontModule {
     if ( this._c.store) {
       this._c.store.modules.forEach(store => {
         if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
-          Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', { tag: 'module'})
+          Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')()
           isUnique = false
         }
       })

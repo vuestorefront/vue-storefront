@@ -160,13 +160,11 @@ export function createApp (ssrContext, config): { app: Vue, router: any, store: 
 
   let registeredModules = []
   enabledModules.forEach(m => registeredModules.push(m.register(store, router)))
-  Logger.info('VS Modules registration finished.', { 
-    tag: 'module',
-    context: { label: 'Summary', value: {
+  Logger.info('VS Modules registration finished.', 'module', {
       succesfulyRegistered: registeredModules.length + ' / ' + enabledModules.length,
       registrationOrder: registeredModules
-    }}
-  })
+    }
+  )()
 
   
   registerExtensions(extensions, app, router, store, config, ssrContext)

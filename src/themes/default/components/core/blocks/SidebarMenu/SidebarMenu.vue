@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: isOpen }">
+  <div class="sidebar-menu absolute mw-100 bg-cl-secondary" :class="{ active: isOpen }">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
+          <li @click="closeMenu" clatasss="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
             <router-link
               class="block px25 py20 cl-accent no-underline"
               :to="localizedRoute('/')"
