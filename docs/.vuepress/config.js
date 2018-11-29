@@ -90,7 +90,6 @@ module.exports = {
             'vuex/checkout-store',
             'vuex/order-store',
             'vuex/stock-store',
-            'vuex/sync-store',
             'vuex/user-store',
             'vuex/attribute-store',
           ],
