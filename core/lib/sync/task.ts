@@ -4,12 +4,23 @@ import isNaN from 'lodash-es/isNaN'
 import isUndefined from 'lodash-es/isUndefined'
 import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
-import rootStore from '../'
+import rootStore from '@vue-storefront/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
-import Task from '../types/task/Task'
+import Task from '@vue-storefront/store/types/task/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import * as entities from '@vue-storefront/store/lib/entities'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
+
+export function _prepareTask (task) {
+  const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
+  task.task_id = taskId.toString()
+  task.transmited = false
+  task.created_at = new Date()
+  task.updated_at = new Date()
+  return task
+}
 
 function _sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
@@ -66,7 +77,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                 console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
                 rootStore.state.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
-                rootStore.dispatch('sync/clearNotTransmited')
+                TaskQueue.clearNotTransmited()
                 Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
                 rootStore.dispatch('notification/spawnNotification', {
                   type: 'error',
@@ -86,14 +97,14 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                     rootStore.state.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
                     Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
-                    rootStore.dispatch('sync/clearNotTransmited')
+                    TaskQueue.clearNotTransmited()
                     console.error('Error refreshing user token', resp.result)
                   }
                 }).catch((excp) => {
                   rootStore.state.userTokenInvalidateLock = -1
                   rootStore.dispatch('user/logout', { silent: true })
                   Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
-                  rootStore.dispatch('sync/clearNotTransmited')
+                  TaskQueue.clearNotTransmited()
                   console.error('Error refreshing user token', excp)
                 })
               }

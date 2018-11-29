@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { Plugin } from 'vuex'
-import * as baseTypes from './mutation-types'
 import * as localForage from 'localforage'
 import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
@@ -10,7 +9,7 @@ import * as userTypes from '@vue-storefront/core/modules/user/store/mutation-typ
 import * as checkoutTypes from '@vue-storefront/core/modules/checkout/store/checkout/mutation-types'
 import * as cartTypes from '@vue-storefront/core/modules/cart/store/mutation-types'
 
-const types = { ...baseTypes, ...userTypes, ...checkoutTypes, ...cartTypes }
+const types = {...userTypes, ...checkoutTypes, ...cartTypes }
 
 Vue.use(Vuex)
 

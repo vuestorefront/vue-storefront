@@ -2,7 +2,7 @@
   <div>
     <ul
       v-if="categoryLinks"
-      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
+      class="sidebar-submenu fixed w-100 p0 bg-cl-primary"
       :style="styles"
     >
       <li
@@ -45,7 +45,7 @@
     </ul>
     <ul
       v-if="myAccountLinks"
-      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
+      class="sidebar-submenu fixed w-100 p0 bg-cl-primary"
       :style="styles"
     >
       <li

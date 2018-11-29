@@ -24,7 +24,7 @@ import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
-
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
 const PRODUCT_REENTER_TIMEOUT = 20000
 
 const actions: ActionTree<ProductState, RootState> = {
@@ -108,14 +108,14 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return context.dispatch('sync/execute', { url: rootStore.state.config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
+    return TaskQueue.execute({ url: rootStore.state.config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         mode: 'cors'
       },
       callback_event: 'prices-after-sync'
-    }, { root: true }).then(task => {
+    }).then((task: any) => {
       return task.result
     })
   },
