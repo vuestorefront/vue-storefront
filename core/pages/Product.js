@@ -225,6 +225,7 @@ export default {
     }
   },
   metaInfo () {
+    const storeView = currentStoreView()
     return {
       title: htmlDecode(this.$route.meta.title || this.productName),
       link: [
@@ -236,7 +237,7 @@ export default {
               slug: this.product.slug,
               childSku: this.product.sku
             }
-          })).href
+          }, storeView.storeCode)).href
         }
       ],
       meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]

@@ -52,7 +52,3 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer
   // Example
 ]
-
-if (!isServer) { // extensions that are not required in the SSR mode
-  registerModules.push(AmpRenderer)
-}

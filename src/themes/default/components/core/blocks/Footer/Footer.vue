@@ -85,7 +85,7 @@
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/i/about-us')" exact>
                   {{ $t('About us (Magento CMS)') }}
                 </router-link>
               </div>

@@ -262,6 +262,7 @@ export default {
     }
   },
   metaInfo () {
+    const storeView = currentStoreView()
     return {
       link: [
         { rel: 'amphtml',
@@ -270,7 +271,7 @@ export default {
             params: {
               slug: this.category.slug
             }
-          })).href
+          }, storeView.storeCode)).href
         }
       ],
       title: htmlDecode(this.$route.meta.title || this.categoryName),
