@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     lastOrderConfirmation () {
-      return this.$store.state.order.last_order_confirmation.confirmation
+      return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
     },
     isNotificationSupported () {
       if (Vue.prototype.$isServer || !('Notification' in window)) return false

@@ -2,8 +2,10 @@ import { Module, Store } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
 import merge from 'lodash-es/merge'
-import RootState from '@vue-storefront/store/types/RootState';
+import RootState from '@vue-storefront/store/types/RootState'
+import rootStore from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 
 export interface VueStorefrontModuleConfig {
   key: string;
@@ -40,7 +42,10 @@ export class VueStorefrontModule {
   }
 
   private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
-    if (routes) routerInstance.addRoutes(routes)
+    if (routes) {
+      setupMultistoreRoutes(rootStore.state.config, routerInstance, routes)
+      routerInstance.addRoutes(routes)
+    }
     if (beforeEach) routerInstance.beforeEach(beforeEach)
     if (afterEach) routerInstance.afterEach(afterEach)
   }

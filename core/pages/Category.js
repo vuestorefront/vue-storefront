@@ -5,7 +5,7 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-import { localizedRoute } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -262,6 +262,7 @@ export default {
     }
   },
   metaInfo () {
+    const storeView = currentStoreView()
     return {
       link: [
         { rel: 'amphtml',
@@ -270,7 +271,7 @@ export default {
             params: {
               slug: this.category.slug
             }
-          })).href
+          }, storeView.storeCode)).href
         }
       ],
       title: htmlDecode(this.$route.meta.title || this.categoryName),

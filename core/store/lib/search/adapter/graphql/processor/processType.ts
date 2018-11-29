@@ -45,3 +45,15 @@ export function processProductsType (resp, start, size): Response {
 
   return response
 }
+
+export function processCmsType (resp, start, size): Response {
+  const response = {
+    items: resp.items,
+    total: resp.total_count,
+    start: start,
+    perPage: size,
+    aggregations: resp.aggregations
+  }
+
+  return response
+}

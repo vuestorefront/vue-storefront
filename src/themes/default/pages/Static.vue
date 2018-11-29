@@ -42,7 +42,7 @@ export default {
     }
   },
   created () {
-    this.activeComponent = this.navigation.find(nav => nav.link === this.$route.path).component
+    this.activeComponent = this.navigation.find(nav => nav.link === this.$route.path) ? this.navigation.find(nav => nav.link === this.$route.path).component : null
   },
   props: {
     title: {

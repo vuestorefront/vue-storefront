@@ -48,10 +48,7 @@ export const registerModules: VueStorefrontModule[] = [
   Magento2CMS,
   GoogleAnalytics,
   PaymentBackendMethods,
-  RawOutputExample
+  RawOutputExample,
+  AmpRenderer
   // Example
 ]
-
-if (!isServer) { // extensions that are not required in the SSR mode
-  registerModules.push(AmpRenderer)
-}
