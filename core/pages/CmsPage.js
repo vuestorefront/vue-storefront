@@ -16,27 +16,19 @@ export default {
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`cmsPage`)
       store.dispatch('cmsPage/single', {
-        value: route.params.slug
-      }).then(res => {
-        if (res) {
-          store.state.cmsPage.current = res
-          return resolve(res)
-        }
+        value: route.params.slug,
+        setCurrent: true
+      }).then(page => {
+        resolve(page)
       }).catch(err => {
         console.error(err)
         reject(err)
       })
     })
   },
-  mounted () {
-    this.savePage(this.$store.state.cmsPage.current)
-  },
   methods: {
-    savePage (page) {
-      return this.$store.state['cmsPage'] && Object.keys(page).length > 0 ? this.$store.dispatch('cmsPage/addItem', page) : false
-    },
     validateRoute () {
-      this.$store.dispatch('cmsPage/single', { key: 'slug', value: this.$route.params.slug }).then(cmsPage => {
+      this.$store.dispatch('cmsPage/single', { value: this.$route.params.slug, setCurrent: true }).then(cmsPage => {
         if (!cmsPage) {
           this.$router.push('/')
         }

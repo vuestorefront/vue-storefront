@@ -213,11 +213,11 @@
         "orders": "LOCALSTORAGE",
         "wishlist": "INDEXEDDB",
         "categories": "INDEXEDDB",
-        "attributes": "INDEXEDDB",
+        "attributes": "LOCALSTORAGE",
         "products": "INDEXEDDB",
         "elasticCache": "INDEXEDDB",
         "claims": "LOCALSTORAGE",
-        "syncTasks": "INDEXEDDB",
+        "syncTasks": "LOCALSTORAGE",
         "ordersHistory": "INDEXEDDB",
         "checkoutFieldValues": "LOCALSTORAGE"
       }

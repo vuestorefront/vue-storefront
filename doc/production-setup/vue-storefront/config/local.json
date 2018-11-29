@@ -44,8 +44,8 @@
     },
     "products": {
         "preventConfigurableChildrenDirectAccess": true,
-        "alwaysSyncPlatformPricesOver": false,
-        "clearPricesBeforePlatformSync": false,
+        "alwaysSyncPlatformPricesOver": true,
+        "clearPricesBeforePlatformSync": true,
         "waitForPlatformSync": false,
         "endpoint": "https://prod.vuestorefront.io/api/product",
         "defaultFilters": [

@@ -86,24 +86,12 @@
               </h3>
               <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
-                  {{ $t('About us') }}
+                  {{ $t('About us (Magento CMS)') }}
                 </router-link>
               </div>
               <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to custom Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/custom-cms-page')" exact>
-                  {{ $t('Custom Cms Page') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to synced Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/cms-page-sync')" exact>
-                  {{ $t('Cms Page Sync') }}
                 </router-link>
               </div>
             </div>

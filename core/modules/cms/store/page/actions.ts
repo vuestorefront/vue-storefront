@@ -53,19 +53,24 @@ const actions: ActionTree<CmsPageState, RootState> = {
    * @param {any} includeFields
    * @returns {Promise<T> & Promise<any>}
    */
-  single (context, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false }) {
+  single (context, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false, setCurrent = true }) {
     let query = new SearchQuery()
     if (value) {
-      query = query.applyFilter({key: key, value: {'like': value}})
+      query = query.applyFilter({key: key, value: { 'like': value }})
     }
     if (skipCache || (!context.state.items || context.state.items.length === 0) || !context.state.items.find(p => p[key] === value)) {
       return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
       .then((resp) => {
-        context.commit(types.CMS_PAGE_ADD_CMS_PAGE, resp.items[0])
-        return resp.items[0]
+        if (resp && resp.items && resp.items.length > 0) {
+          context.commit(types.CMS_PAGE_ADD_CMS_PAGE, resp.items[0])
+          if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp.items[0])
+          return resp.items[0]
+        } else {
+          throw new Error('CMS query returned empty result')
+        }
       })
       .catch(err => {
-        console.error(err)
+        throw err
       })
     } else {
       cacheStorage.getItem(cmsPagesStorageKey, (err, storedItems) => {
@@ -77,6 +82,8 @@ const actions: ActionTree<CmsPageState, RootState> = {
       })
       return new Promise((resolve, reject) => {
         let resp = context.state.items.find(p => p[key])
+        if (!resp) reject(new Error('CMS query returned empty result'))
+        if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
         resolve(resp)
       })
     }

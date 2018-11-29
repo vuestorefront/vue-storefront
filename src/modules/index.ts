@@ -48,7 +48,8 @@ export const registerModules: VueStorefrontModule[] = [
   Magento2CMS,
   GoogleAnalytics,
   PaymentBackendMethods,
-  RawOutputExample
+  RawOutputExample,
+  AmpRenderer
   // Example
 ]
 
