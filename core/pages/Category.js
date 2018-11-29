@@ -80,7 +80,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      Logger.info('Entering asyncData in Category Page (core)')
+      Logger.info('Entering asyncData in Category Page (core)')()
       if (context) context.output.cacheTags.add(`category`)
       const defaultFilters = store.state.config.products.defaultFilters
       store.dispatch('category/list', { includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {

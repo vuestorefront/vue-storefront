@@ -11,10 +11,7 @@ import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 function queue (task) {
   const tasksCollection = Vue.prototype.$db.syncTaskCollection
   task = _prepareTask(task)
-  Logger.info('New sync task [queue] ' + task.url, { tag: 'sync', context: {
-    label: 'Task',
-    value: task
-  }})
+  Logger.info('Sync task queued ' + task.url, 'sync', { task })()
   return new Promise((resolve, reject) => {
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) console.error(err)
@@ -32,10 +29,7 @@ function execute (task) { // not offline task
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
   task = _prepareTask(task)
-  Logger.info('New sync task [execute] ' + task.url, { tag: 'sync', context: {
-    label: 'Task',
-    value: task
-  }})
+  // Logger.info('New sync task [execute] ' + task.url, 'sync', task)()
   const usersCollection = new UniversalStorage(localForage.createInstance({
     name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
     storeName: 'user',

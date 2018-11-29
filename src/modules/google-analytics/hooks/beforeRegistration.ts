@@ -1,6 +1,6 @@
 import VueAnalytics from 'vue-analytics'
 import { router } from '@vue-storefront/core/app'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 export function beforeRegistration(Vue, config, store, isServer) {
     if (config.analytics.id && !isServer) {
         Vue.use(VueAnalytics, {
@@ -12,6 +12,6 @@ export function beforeRegistration(Vue, config, store, isServer) {
             }
         })
     } else {
-        console.log('Ensure Google Analytics account ID is defined in config')
+        Logger.info('Ensure Google Analytics account ID is defined in config', 'GA')()
     }
 }

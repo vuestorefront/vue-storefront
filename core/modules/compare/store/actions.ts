@@ -14,7 +14,7 @@ const actions: ActionTree<CompareState, RootState> = {
     cacheStorage.getItem('current-compare', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
-      Logger.info('Compare state loaded from browser cache: ', { tag: 'cache', context: { label: 'Loaded data', value: storedItems } })
+      Logger.info('Compare state loaded from browser cache: ',  'cache', storedItems)()
     })
   },
   addItem ({commit}, product) {

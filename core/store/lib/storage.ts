@@ -129,12 +129,7 @@ class LocalForageCacheDriver {
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
-              Logger.error('Cache not responding for ' + key + '.', {
-                tag: 'cache',
-                context: {
-                  label: 'Additional information:', value: { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] }
-                 }
-              })
+              Logger.error('Cache not responding for ' + key + '.', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
               this._persistenceErrorNotified = true
               this.recreateDb()
             }
@@ -196,12 +191,7 @@ class LocalForageCacheDriver {
     setTimeout(() => {
       if (!isResolved) { // this is cache time out check
         if (!this._persistenceErrorNotified) {
-          Logger.error('Cache not responding.', {
-            tag: 'cache',
-            context: {
-              label: 'Additional information:', value: { action: 'Iterate', timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] }
-             }
-          })
+          Logger.error('Cache not responding. (iterate)', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
           this._persistenceErrorNotified = true
           this.recreateDb()
         }
@@ -265,12 +255,7 @@ class LocalForageCacheDriver {
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
-              Logger.error('Cache not responding for ' + key + '.', {
-                tag: 'cache',
-                context: {
-                  label: 'Additional information:', value: { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] }
-                 }
-              })
+              Logger.error('Cache not responding for ' + key + '.', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
               this._persistenceErrorNotified = true
               this.recreateDb()
             }

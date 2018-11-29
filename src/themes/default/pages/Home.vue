@@ -85,7 +85,7 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     const config = store.state.config
     return new Promise((resolve, reject) => {
-      Logger.info('Calling asyncData in Home (theme)')
+      Logger.info('Calling asyncData in Home (theme)')()
 
       let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
       let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })

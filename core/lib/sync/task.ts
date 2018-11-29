@@ -50,7 +50,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     url = adjustMultistoreApiUrl(url)
   }
   let silentMode = false
-  Logger.info('Executing sync task ' + url, { tag: 'sync', context: { label: 'Task', value: task }})
+  Logger.info('Executing sync task ' + url, 'sync', task)()
   return fetch(url, task.payload).then((response) => {
     const contentType = response.headers.get('content-type')
     if (contentType && contentType.includes('application/json')) {

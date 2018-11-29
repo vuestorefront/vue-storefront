@@ -18,7 +18,7 @@ const actions: ActionTree<WishlistState, RootState> = {
     cacheStorage.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
-      Logger.info('Wishlist state loaded from browser cache: ', { tag: 'cache', context: { label: 'Loaded data', value: storedItems } })
+      Logger.info('Wishlist state loaded from browser cache. ', 'cache', storedItems)()
     })
   },
   addItem ({ commit }, product) {
