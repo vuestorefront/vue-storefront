@@ -24,12 +24,6 @@ const themedIndexMinimal = path.join(themeRoot, 'index.minimal.template.html')
 const themedIndexBasic = path.join(themeRoot, 'index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, 'index.amp.template.html')
 
-const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
-translationPreprocessor([
-  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
-  path.resolve(__dirname, themeResources + '/i18n/')
-], config)
-
 const postcssConfig =  {
   loader: 'postcss-loader',
   options: {

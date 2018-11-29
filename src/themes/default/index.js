@@ -1,5 +1,9 @@
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import routes from './router'
+import i18n from '@vue-storefront/i18n'
+
+// Set default language
+i18n.setLocaleMessage('en-US', require('theme/resource/i18n/en-US.json'))
 
 export default function (app, router, store, config, ssrContext) {
   // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
