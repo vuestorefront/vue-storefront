@@ -12,6 +12,8 @@ import isString from 'lodash-es/isString'
 import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { router } from '@vue-storefront/core/app'
+
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -211,7 +213,7 @@ const actions: ActionTree<CartState, RootState> = {
     return state.cartItems.find(p => p.sku === sku)
   },
   goToCheckout (context) {
-    Vue.prototype.$coreRouter.push(localizedRoute('/checkout', currentStoreView().storeCode))
+    router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
