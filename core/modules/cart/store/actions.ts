@@ -20,7 +20,6 @@ const MAX_BYPASS_COUNT = 10
 
 function _updateClientItem (event, clientItem) {
   if (typeof event.result.item_id !== 'undefined') {
-    console.log('Updating server id to ', clientItem.sku, event.result.item_id)
     rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }, { root: true }) // update the server_id reference
     Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: clientItem })
   }
