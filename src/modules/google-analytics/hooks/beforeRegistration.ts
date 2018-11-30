@@ -12,6 +12,6 @@ export function beforeRegistration(Vue, config, store, isServer) {
             }
         })
     } else {
-        Logger.info('Ensure Google Analytics account ID is defined in config', 'GA')()
+        Logger.warn('Google Analytics extensions is not working. Ensure Google Analytics account ID is defined in config', 'GA')()
     }
 }
