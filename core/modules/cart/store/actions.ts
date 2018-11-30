@@ -573,11 +573,13 @@ const actions: ActionTree<CartState, RootState> = {
             return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') === 0 /* bundle products */
           })
           if (!clientItem) {
-            console.log('No client item for ' + serverItem.sku)
+            Logger.info('No client item for' + serverItem.sku, 'cart')()
             diffLog.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no_item' })
 
             if (!event.dry_run) {
               if (event.force_client_state) {
+                Logger.info('Removing product from cart', 'cart', serverItem)()
+
                 console.log('Removing item', serverItem.sku, serverItem.item_id)
                 serverCartUpdateRequired = true
                 rootStore.dispatch('cart/serverDeleteItem', {
