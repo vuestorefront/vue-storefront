@@ -73,7 +73,7 @@ export default context => {
       if (!matchedComponents.length) {
         return reject(new HttpError('No components matched', 404))
       }
-      Promise.all(matchedComponents.map(Component => {
+      Promise.all(matchedComponents.map((Component: any) => {
         const components = Component.mixins ? Array.from(Component.mixins) : []
         union(components, [Component]).map(SubComponent => {
           if (SubComponent.preAsyncData) {

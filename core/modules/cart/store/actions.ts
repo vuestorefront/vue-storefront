@@ -12,6 +12,8 @@ import isString from 'lodash-es/isString'
 import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { router } from '@vue-storefront/core/app'
+
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
@@ -20,7 +22,6 @@ const MAX_BYPASS_COUNT = 10
 
 function _updateClientItem (event, clientItem) {
   if (typeof event.result.item_id !== 'undefined') {
-    console.log('Updating server id to ', clientItem.sku, event.result.item_id)
     rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }, { root: true }) // update the server_id reference
     Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: clientItem })
   }
@@ -212,7 +213,7 @@ const actions: ActionTree<CartState, RootState> = {
     return state.cartItems.find(p => p.sku === sku)
   },
   goToCheckout (context) {
-    Vue.prototype.$coreRouter.push(localizedRoute('/checkout', currentStoreView().storeCode))
+    router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
@@ -573,11 +574,13 @@ const actions: ActionTree<CartState, RootState> = {
             return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') === 0 /* bundle products */
           })
           if (!clientItem) {
-            console.log('No client item for ' + serverItem.sku)
+            Logger.info('No client item for' + serverItem.sku, 'cart')()
             diffLog.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no_item' })
 
             if (!event.dry_run) {
               if (event.force_client_state) {
+                Logger.info('Removing product from cart', 'cart', serverItem)()
+
                 console.log('Removing item', serverItem.sku, serverItem.item_id)
                 serverCartUpdateRequired = true
                 rootStore.dispatch('cart/serverDeleteItem', {

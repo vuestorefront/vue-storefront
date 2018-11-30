@@ -75,7 +75,7 @@ router.onReady(() => {
         const currentStore = currentStoreView()
         if (storeCode !== '' && storeCode !== null) {
           if (storeCode !== currentStore.storeCode) {
-            document.location = to.path // full reload
+            (document as any).location = to.path // full reload
           } else {
             prepareStoreView(storeCode)
           }
@@ -89,7 +89,7 @@ router.onReady(() => {
     if (!activated.length) {
       return next()
     }
-    Promise.all(activated.map(c => { // TODO: update me for mixins support
+    Promise.all(activated.map((c: any) => { // TODO: update me for mixins support
       const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
       union(components, [c]).map(SubComponent => {
         if (SubComponent.preAsyncData) {
@@ -208,7 +208,7 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 })
 
 // Process the background tasks
-// todo rewrite and split across modules
+// todo rewrite and split across modules and move to task lib
 const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
