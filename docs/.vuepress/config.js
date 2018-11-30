@@ -82,6 +82,14 @@ module.exports = {
           ],
         },
         {
+          title: 'Extensions',
+          collapsable: false,
+          children: [
+            'extensions/extending-api',
+            'extensions/extending-server-side-routes',
+          ],
+        },
+        {
           title: 'Working with Vuex',
           collapsable: false,
           children: [
