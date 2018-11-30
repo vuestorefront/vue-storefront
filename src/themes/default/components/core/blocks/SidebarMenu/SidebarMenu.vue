@@ -39,6 +39,7 @@
               :id="category.id"
               :name="category.name"
               v-if="category.children_data.length > 0"
+              @click.native="activeSubMenu = category.id"
             />
             <router-link
               v-else
@@ -49,6 +50,7 @@
             </router-link>
 
             <sub-category
+              v-show="activeSubMenu === category.id"
               :category-links="category.children_data"
               :id="category.id"
               :parent-slug="category.slug"
@@ -132,6 +134,7 @@ export default {
   mixins: [SidebarMenu],
   data () {
     return {
+      activeSubMenu: null,
       myAccountLinks: [
         {
           id: 1,
