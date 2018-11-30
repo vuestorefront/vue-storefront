@@ -18,6 +18,7 @@ module.exports = {
     sidebar: {
       '/guide/': [
         '',
+        'upgrade-notes/',
         {
           title: 'Installation',
           collapsable: false,
