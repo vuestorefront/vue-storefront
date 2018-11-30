@@ -41,6 +41,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
+            'basics/e2e',
           ],
         },
         {
