@@ -115,6 +115,7 @@ module.exports = {
           children: [
             'integrations/integrations',
             'integrations/reviews',
+            'integrations/payment-gateway',
             'integrations/paypal-payments',
             'integrations/direct-prices-sync',
             'integrations/tier-prices-sync',
