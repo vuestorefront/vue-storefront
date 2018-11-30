@@ -33,7 +33,7 @@ function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
-      message: i18n.t('The product or category is not available in Offline mode. Redirecting to Home.'),
+      message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
       action1: { label: i18n.t('OK') }
     })
     router.push('/')
@@ -252,7 +252,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
         console.debug('Current User token = ' + currentToken)
         console.debug('Current Cart token = ' + currentCartId)
         syncTaskCollection.iterate((task, id, iterationNumber) => {
-          if (!task.transmited && !mutex[id]) { // not sent to the server yet
+          if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
             mutex[id] = true // mark this task as being processed
             fetchQueue.push(() => {
               return execute(task, currentToken, currentCartId).then(executedTask => {

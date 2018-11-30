@@ -170,5 +170,32 @@ export class SearchAdapter {
         return this.handleResult(resp, 'review', start, size)
       }
     })
+    this.registerEntityType('cms_page', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_page', start, size)
+      }
+    })
+    this.registerEntityType('cms_block', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_block', start, size)
+      }
+    })
+    this.registerEntityType('cms_hierarchy', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_hierarchy', start, size)
+      }
+    })
   }
 }
