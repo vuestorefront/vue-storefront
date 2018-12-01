@@ -29,6 +29,8 @@ A component to handle redirects to user account page and user logout. Usually us
 
 ### Register
 
+_Work in progress_
+
 ### UserAccount
 
 ### UserShippingDetails
