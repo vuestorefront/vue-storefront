@@ -9,4 +9,26 @@ export default function (app, router, store, config, ssrContext) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
   router.addRoutes(routes)
+  router.beforeEach((to, from, next) => {
+    if (to.matched.some(route => route.meta.requiresAuth)) {
+      const usersCollection = app.$db.usersCollection
+      usersCollection.getItem('current-token', (err, token) => {
+        if (err) {
+          next(err)
+        }
+        if (!token) {
+          next('/')
+          app.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: app.$t('You need to be logged in to see this page'),
+            action1: { label: app.$t('OK') }
+          })
+        } else {
+          next()
+        }
+      })
+    } else {
+      next()
+    }
+  })
 }

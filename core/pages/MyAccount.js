@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -19,15 +18,6 @@ export default {
     }
   },
   beforeMount () {
-    const usersCollection = Vue.prototype.$db.usersCollection
-    usersCollection.getItem('current-token', (err, token) => {
-      if (err) {
-        console.error(err)
-      }
-      if (!token) {
-        this.$router.push('/')
-      }
-    })
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
