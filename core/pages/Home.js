@@ -10,9 +10,10 @@ export default {
   name: 'Home',
   mixins: [Composite],
   computed: {
-    ...mapGetters({
-      rootCategories: 'category/list'
-    })
+    ...mapGetters('category', ['getCategories']),
+    rootCategories () {
+      return this.getCategories
+    }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {

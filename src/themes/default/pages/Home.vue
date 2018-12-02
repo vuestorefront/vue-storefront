@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     categories () {
-      return this.$store.state.category.list
+      return this.getCategories
     },
     everythingNewCollection () {
       return this.$store.state.homepage.new_collection
