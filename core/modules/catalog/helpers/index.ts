@@ -28,7 +28,16 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
 }
 
 export function isOptionAvailableAsync (context, { product, configuration }) {
-  const variant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
+  const variant = configureProductAsync(
+    context, 
+    { 
+      product: product, 
+      configuration: configuration, 
+      selectDefaultVariant: false, 
+      fallbackToDefaultWhenNoAvailable: false, 
+      immutableProduct: true 
+    }
+  )
   if (variant) {
     if (variant.status >= 2) { // disabled product
       return false
@@ -424,10 +433,10 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
+export function configureProductAsync(context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, immutableProduct = false }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
-  product = JSON.parse(JSON.stringify(product))
+  if (immutableProduct) product = JSON.parse(JSON.stringify(product))
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
 
   if (hasConfigurableChildren) {
