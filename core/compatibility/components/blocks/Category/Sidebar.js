@@ -10,12 +10,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category', ['getCurrentCategory', 'getCategoryActiveFilters', 'getCategorySearchOptions']),
+    ...mapGetters('category', ['getCurrentCategory', 'getActiveCategoryFilters', 'getCategorySearchOptions']),
     category () {
       return this.getCurrentCategory
     },
     activeFilters () {
-      return this.getCategoryActiveFilters
+      return this.getActiveCategoryFilters
     }
   },
   methods: {

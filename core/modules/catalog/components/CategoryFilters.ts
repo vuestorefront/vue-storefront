@@ -4,12 +4,12 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'CategoryFilters',
   computed: {
-    ...mapGetters('category', ['getCategoryActiveFilters', 'getCategorySearchOptions', 'getAllCategoryFilters']),
+    ...mapGetters('category', ['getActiveCategoryFilters', 'getCategorySearchOptions', 'getAllCategoryFilters']),
     filters () {
       return this.getAllCategoryFilters
     },
     activeFilters () {
-      return this.getCategoryActiveFilters
+      return this.getActiveCategoryFilters
     }
   },
   methods: {
