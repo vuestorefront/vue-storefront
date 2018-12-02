@@ -7,10 +7,14 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategoryActiveFilters: state => state.filters.chosen,
   getCategoryAvailableFilters: state => state.filters.available,
   getCategorySearchOptions: state => state.current_product_query,
+  getCategories: state => state.list,
   /**
-   * @deprecated use getCurrentCategory
+   * @deprecated use getCurrentCategory instead
    */
   current: (state) => state.current,
+  /**
+   * @deprecated use getCaterories instead
+   */
   list: (state) => state.list
 }
 

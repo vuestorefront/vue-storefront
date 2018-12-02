@@ -1,4 +1,4 @@
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts'
 
@@ -7,8 +7,9 @@ export default {
   name: 'SidebarMenu',
   mixins: [onEscapePress, CompareButton],
   computed: {
+    ...mapGetters('category', ['getCategories']),
     categories () {
-      return this.$store.state.category.list.filter((op) => {
+      return this.getCategories.filter((op) => {
         return op.level === 2 // display only the root level (level =1 => Default Category)
       })
     },
