@@ -52,6 +52,12 @@ A component to handle redirects to user account page and user logout. Usually us
 **Methods**
 
 - `onLoggedIn` - sets `currentUser` and `shippingDetails`. This method is called on `user-after-loggedin` bus event
+- `edit` - sets `isEdited` flag to `true`
+- `updateDetails` - updates shipping details with new data. Calls a method `updatedShippingDetails`
+- `exitSection` - emits `myAccount-before-updateUser` bus event with updated shipping details. Resets component user data to default values
+- `fillCompanyAddress` - finds shipping details
+- `getCountryName` - finds country name
+- `hasBillingAddres` - returns `true` if user has a billing address
 
 ## Store
 
