@@ -49,6 +49,10 @@ A component to handle redirects to user account page and user logout. Usually us
 
 ### UserShippingDetails
 
+**Methods**
+
+- `onLoggedIn` - sets `currentUser` and `shippingDetails`. This method is called on `user-after-loggedin` bus event
+
 ## Store
 
 User Store is designed to handle all actions related to the user account.

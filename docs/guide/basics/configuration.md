@@ -57,13 +57,23 @@ This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog
 "elasticsearch": {
   "httpAuth": "",
   "host": "localhost:8080/api/catalog",
-  "index": "vue_storefront_catalog"
+  "index": "vue_storefront_catalog",
+  "min_score": 0.02,
+  "csrTimeout": 5000,
+  "ssrTimeout": 1000,
+  "queryMethod": "POST"
 },
 ```
 
 Vue Storefront uses the Elastic Search Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog` endpoint which is kind of Elastic Search Proxy (dealing with the taxes, security itd.).
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
+
+Starting from Vue Storefront v1.6 user may set the: `config.elasticsearch.queryMethod` to either "POST" (default) / "GET". When "GET" is set, the ElasticSearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so Service Worker will now able to cache the results from ElasticSearch. Service Workers can not cache any POST requests currently.
+
+:::tip Notice
+Service worker is not caching the /api requests on development envs. (localhost) as the vue-storefront-api by default runs on different port (8080)
+:::
 
 ## SSR
 
