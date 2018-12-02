@@ -8,7 +8,7 @@ import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Category',
@@ -155,6 +155,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('category', ['mergeSearchOptions']),
     bottomVisible () {
       const scrollY = window.scrollY
       const visible = window.innerHeight
@@ -163,16 +164,20 @@ export default {
       return bottomOfPage || pageHeight < visible
     },
     pullMoreProducts () {
-      let currentQuery = this.currentQuery
-      currentQuery.append = true
-      currentQuery.route = this.$route
-      currentQuery.store = this.$store
-      currentQuery.current = currentQuery.current + currentQuery.perPage
-      this.pagination.current = currentQuery.current
-      this.pagination.perPage = currentQuery.perPage
-      if (currentQuery.current <= this.productsTotal) {
-        currentQuery.searchProductQuery = buildFilterProductsQuery(this.category, this.filters.chosen)
-        return this.$store.dispatch('category/products', currentQuery)
+      let current = this.getCategorySearchOptions.current + this.getCategorySearchOptions.perPage
+      this.mergeSearchOptions({
+        append: true,
+        route: this.$route,
+        store: this.$store,
+        current
+      })
+      this.pagination.current = this.getCategorySearchOptions.current
+      this.pagination.perPage = this.getCategorySearchOptions.perPage
+      if (this.getCategorySearchOptions.current <= this.productsTotal) {
+        this.mergeSearchOptions({
+          searchProductQuery: buildFilterProductsQuery(this.category, this.filters.chosen)
+        })
+        return this.$store.dispatch('category/products', this.getCategorySearchOptions)
       }
     },
     onFilterChanged (filterOption) {
@@ -186,7 +191,7 @@ export default {
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
 
       const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-      this.getCategorySearchOptions = Object.assign(this.getCategorySearchOptions, {
+      this.mergeSearchOptions({
         populateAggregations: false,
         searchProductQuery: filterQr,
         current: this.pagination.current,
@@ -204,7 +209,7 @@ export default {
       if (param.attribute) {
         const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
         let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
-        this.getCategorySearchOptions = Object.assign(this.getCategorySearchOptions, {
+        this.mergeSearchOptions({
           sort: param.attribute,
           searchProductQuery: filterQr,
           current: this.pagination.current,
@@ -231,8 +236,7 @@ export default {
           this.pagination.current = 0
           let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, store.state.config.products.defaultFilters)
           this.$bus.$emit('current-category-changed', this.getCurrentCategoryPath)
-          let query = this.getCategorySearchOptions
-          query = Object.assign(query, { // base prototype from the asyncData is being used here
+          this.mergeSearchOptions({ // base prototype from the asyncData is being used here
             current: this.pagination.current,
             perPage: this.pagination.perPage,
             store: this.$store,
@@ -240,8 +244,10 @@ export default {
             append: false,
             populateAggregations: true
           })
-          if (!query.searchProductQuery) {
-            query.searchProductQuery = searchProductQuery
+          if (!this.getCategorySearchOptions.searchProductQuery) {
+            this.mergeSearchOptions({
+              searchProductQuery
+            })
           }
           this.$store.dispatch('category/products', this.getCategorySearchOptions)
           EventBus.$emitFilter('category-after-load', { store: this.$store, route: this.$route })
@@ -254,14 +260,13 @@ export default {
         key: 'slug',
         value: this.$route.params.slug
       }).then((parentCategory) => {
-        let query = this.getCategorySearchOptions
-        if (!query.searchProductQuery) {
-          query = Object.assign(query, {
+        if (!this.getCategorySearchOptions.searchProductQuery) {
+          this.mergeSearchOptions({
             searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
             skipCache: true
           })
         }
-        this.$store.dispatch('category/products', query)
+        this.$store.dispatch('category/products', this.getCategorySearchOptions)
       })
     }
   },
