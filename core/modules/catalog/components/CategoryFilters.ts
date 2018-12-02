@@ -1,13 +1,15 @@
 import { buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'CategoryFilters',
   computed: {
+    ...mapGetters('category', ['getCategoryActiveFilters', 'getCategorySearchOptions']),
     filters () {
       return this.$store.state.category.filters
     },
     activeFilters () {
-      return this.$store.state.category.filters.chosen
+      return this.getCategoryActiveFilters
     }
   },
   methods: {
@@ -20,7 +22,7 @@ export default {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
       this.$store.dispatch('category/searchProductQuery', buildFilterProductsQuery(this.category, this.activeFilters))
-      this.$store.dispatch('category/products', this.$store.state.category.current_product_query)
+      this.$store.dispatch('category/products', this.getCategorySearchOptions)
     }
   }
 }
