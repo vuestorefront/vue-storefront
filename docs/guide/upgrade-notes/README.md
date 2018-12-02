@@ -2,40 +2,17 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
 
-## 1.5 -> current
-
-### Modifications
-
-#### Sort order refactor
-
-Issue #1533.
-Sort order is now more intuitive (like in classic e-commerce).
-You can now add sort direction directly in ``sortByAttributes`` using colon.
-
-```
-"sortByAttributes": {
-  "Latest": "updated_at",
-  "Price: Low to high":"final_price",
-  "Price: High to low":"final_price:desc"
-}
-```
-We deprecated separate button for sort direction change.
-
-### Webpack aliasses
-- `core` is removed, you should use `@vue-storefront/core` instead
-- `@vue-storefront/core/lib/i18n` is removed, translations feature is now in `@vue-storefront/i18n` package
-
 ## 1.4 -> 1.5
 
 ### Modifications
 
 #### New Modules API
 
-With 1.5.0 we've introduced new hevily refactored modules API. We've tried to keep the old theme components backward compatible - so now You can few some "mock" components in the `/core/components` just referencing to the `/modules/{{module}}/components` original. Please read [how modules work and are structured](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) to check if it's implies any changes to Your theme. As it may seem like massive changes (lot of files added/removed/renamed) - It should not impact Your custom code.
+With 1.5.0 we've introduced new heavily refactored modules API. We've tried to keep the old theme components backward compatible - so now You can few some "mock" components in the `/core/components` just referencing to the `/modules/<module>/components` original. Please read [how modules work and are structured](../modules/introduction.md) to check if it's implies any changes to Your theme. As it may seem like massive changes (lot of files added/removed/renamed) - It should not impact Your custom code.
 
 #### New Newsletter module
 
-The exsiting newsletter integration module was pretty chaotic and messy. @filrak has rewritten it from scratch. If You've relied on exisitng newsletter module logic / events / etc. it could have affected Your code (low probability).
+The existing newsletter integration module was pretty chaotic and messy. @filrak has rewritten it from scratch. If You've relied on existing newsletter module logic / events / etc. it could have affected Your code (low probability).
 
 #### Memory leaks fixed
 
@@ -60,19 +37,20 @@ We've added the Reviews support, however Magento2 is still lacking Reviews suppo
 #### Microcart
 
 1. We moved core functionalities of coupon codes to API modules:
-   + **coupon** computed value is now **appliedCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   + **removeCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   + **applyCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   + **totals** -> **cartTotals** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   + **shipping** -> **cartShipping** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
-   + **payment** -> **cartPayment** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+
+   - **coupon** computed value is now **appliedCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **removeCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **applyCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **totals** -> **cartTotals** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **shipping** -> **cartShipping** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **payment** -> **cartPayment** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
 
 2. We moved/renamed methods responsible for UI to default theme:
-   + **addDiscountCoupon** - toggle coupon form
-   + **removeCoupon** -> **clearCoupon** - removing coupon by dispatch removeCoupon API method and toggle coupon form
-   + **applyCoupon** -> **setCoupon** - submit coupon form by dispatch applyCoupon API method
-   + **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
-3. We moved $emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself.
+   - **addDiscountCoupon** - toggle coupon form
+   - **removeCoupon** -> **clearCoupon** - removing coupon by dispatch removeCoupon API method and toggle coupon form
+   - **applyCoupon** -> **setCoupon** - submit coupon form by dispatch applyCoupon API method
+   - **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
+3. We moved \$emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself.
 4. We moved VueOfflineMixin and onEscapePress mixins to theme component. Core component is clean from UI stuff now.
 5. We've replaced one method `Microcart` - `cartTotals` -> `totals`
 
@@ -91,6 +69,7 @@ We've added the Reviews support, however Magento2 is still lacking Reviews suppo
 ## 1.2 -> 1.3
 
 ### Changes
+
 1. We've removed event emit from client-entry.js with online status information. Instead of this we are using now [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
 2. We've removed isOnline variable from Microcart.js, instead of this we are using now variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
 
@@ -125,6 +104,7 @@ Instead of exporting an object in `{theme}/plugins/index.js` just use `Vue.use(p
 Starting from the Microcart we are moving most of the logic to core modules along with unit testing them [read more](https://github.com/DivanteLtd/vue-storefront/issues/1213).
 
 Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme
+
 - `closeMicrocart` renamed to `closeMicrocartExtend`
 - `items` renamed to `productsInCart`
 - `removeFromCart`method added to core Microcart
@@ -156,6 +136,7 @@ However non-breaking changes - lot of improvements have been added to the [mage2
 We added [`vue-progressbar`](https://github.com/hilongjw/vue-progressbar) to default theme which can be found in `App.vue` file
 
 ## 1.0RC-3 -> 1.0([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0))
+
 This is official, stable release of Vue Storefront.
 
 1. We've renamed `the core/components/*.vue` -> `the core/components/*.js`
@@ -166,30 +147,30 @@ You should replace the mixin declarations from the previous version:
 
 ```vue
 <script>
-import { coreComponent } from '@vue-storefront/core/lib/themes'
+import { coreComponent } from '@vue-storefront/core/lib/themes';
 
 export default {
-  mixins: [coreComponent('blocks/MyAccount/MyOrders')]
-}
+  mixins: [coreComponent('blocks/MyAccount/MyOrders')],
+};
 </script>
 ```
 
 to
 
-
 ```vue
 <script>
-import MyOrders from '@vue-storefront/core/components/blocks/MyAccount/MyOrders'
+import MyOrders from '@vue-storefront/core/components/blocks/MyAccount/MyOrders';
 
 export default {
-  mixins: [MyOrders]
-}
+  mixins: [MyOrders],
+};
 </script>
 ```
+
 4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled). More info on that: <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md">How to setup Multistore mode</a>.
 
-
 ## 1.0RC-2 -> 1.0RC-3 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.3))
+
 This release contains three important refactoring efforts:
 
 1. We've changed the user-account endpoints and added the token-reneval mechanism which is configured by `config.users.autoRefreshTokens`; if set to true and user token will expire - VS will try to refresh it.
@@ -249,8 +230,8 @@ If `optimize` is set to false - it's a fallback to the previous behaviour (getti
 
 7. Product and Category pages got refactored - and it's a massive refactoring moving all the logic to the Vuex stores. So If You played with the core - `fetchData`/`loadData` functions probably Your code will be affected by this change.
 
-
 ## 1.0RC -> 1.0RC-2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.2))
+
 This release brings some cool new features (Magento 1.x support, Magento 2 external checkout, My Orders, Discount codes) together with some minor refactors.
 
 Unfortunately with the refactors there comes two manual changes that need to be applied to Your custom themes after the update.

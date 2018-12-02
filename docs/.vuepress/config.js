@@ -18,6 +18,7 @@ module.exports = {
     sidebar: {
       '/guide/': [
         '',
+        'upgrade-notes/',
         {
           title: 'Installation',
           collapsable: false,
@@ -41,6 +42,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
+            'basics/e2e',
           ],
         },
         {
@@ -55,6 +57,7 @@ module.exports = {
             'core-themes/service-workers',
             'core-themes/webpack',
             'core-themes/plugins',
+            'core-themes/stylesheets',
           ],
         },
         {
@@ -80,6 +83,14 @@ module.exports = {
           ],
         },
         {
+          title: 'Extensions',
+          collapsable: false,
+          children: [
+            'extensions/extending-api',
+            'extensions/extending-server-side-routes',
+          ],
+        },
+        {
           title: 'Working with Vuex',
           collapsable: false,
           children: [
@@ -90,22 +101,22 @@ module.exports = {
             'vuex/checkout-store',
             'vuex/order-store',
             'vuex/stock-store',
-            'vuex/sync-store',
             'vuex/user-store',
             'vuex/attribute-store',
           ],
         },
-        // {
-        //   title: 'Modules',
-        //   collapsable: false,
-        //   children: ['modules/introduction', 'modules/cart', 'modules/user'],
-        // },
+        {
+          title: 'Modules',
+          collapsable: false,
+          children: ['modules/introduction', 'modules/cart'],
+        },
         {
           title: 'Integrations',
           collapsable: false,
           children: [
             'integrations/integrations',
             'integrations/reviews',
+            'integrations/payment-gateway',
             'integrations/paypal-payments',
             'integrations/direct-prices-sync',
             'integrations/tier-prices-sync',
