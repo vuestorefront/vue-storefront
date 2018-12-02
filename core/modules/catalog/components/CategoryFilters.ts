@@ -4,9 +4,9 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'CategoryFilters',
   computed: {
-    ...mapGetters('category', ['getCategoryActiveFilters', 'getCategorySearchOptions']),
+    ...mapGetters('category', ['getCategoryActiveFilters', 'getCategorySearchOptions', 'getAllCategoryFilters']),
     filters () {
-      return this.$store.state.category.filters
+      return this.getAllCategoryFilters
     },
     activeFilters () {
       return this.getCategoryActiveFilters
