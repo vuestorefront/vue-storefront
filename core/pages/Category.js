@@ -8,6 +8,7 @@ import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Category',
@@ -24,6 +25,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('category', ['getCurrentCategory', 'getCategorySearchOptions', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath']),
     products () {
       return this.$store.state.product.list.items
     },
@@ -34,25 +36,25 @@ export default {
       return this.$store.state.product.list.total
     },
     currentQuery () {
-      return this.$store.state.category.current_product_query
+      return this.getCategorySearchOptions
     },
     isCategoryEmpty () {
       return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)
     },
     category () {
-      return this.$store.state.category.current
+      return this.getCurrentCategory
     },
     categoryName () {
-      return this.$store.state.category.current ? this.$store.state.category.current.name : ''
+      return this.getCurrentCategory ? this.getCurrentCategory.name : ''
     },
     categoryId () {
-      return this.$store.state.category.current ? this.$store.state.category.current.id : ''
+      return this.getCurrentCategory ? this.getCurrentCategory.id : ''
     },
     filters () {
-      return this.$store.state.category.filters
+      return this.getAllCategoryFilters
     },
     breadcrumbs () {
-      return this.$store.state.category.breadcrumbs
+      return this.getCategoryBreadcrumbs
     }
   },
   watch: {
@@ -182,7 +184,7 @@ export default {
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
 
       const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-      this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
+      this.getCategorySearchOptions = Object.assign(this.getCategorySearchOptions, {
         populateAggregations: false,
         searchProductQuery: filterQr,
         current: this.pagination.current,
@@ -192,7 +194,7 @@ export default {
         includeFields: null,
         excludeFields: null
       })
-      this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
+      this.$store.dispatch('category/products', this.getCategorySearchOptions).then((res) => {
       }) // because already aggregated
     },
     onSortOrderChanged (param) {
@@ -200,7 +202,7 @@ export default {
       if (param.attribute) {
         const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
         let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
-        this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
+        this.getCategorySearchOptions = Object.assign(this.getCategorySearchOptions, {
           sort: param.attribute,
           searchProductQuery: filterQr,
           current: this.pagination.current,
@@ -210,7 +212,7 @@ export default {
           includeFields: null,
           excludeFields: null
         })
-        this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
+        this.$store.dispatch('category/products', this.getCategorySearchOptions).then((res) => {
         })
       } else {
         this.notify()
@@ -225,9 +227,9 @@ export default {
           this.$router.push('/')
         } else {
           this.pagination.current = 0
-          let searchProductQuery = baseFilterProductsQuery(this.$store.state.category.current, store.state.config.products.defaultFilters)
-          this.$bus.$emit('current-category-changed', this.$store.state.category.current_path)
-          let query = this.$store.state.category.current_product_query
+          let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, store.state.config.products.defaultFilters)
+          this.$bus.$emit('current-category-changed', this.getCurrentCategoryPath)
+          let query = this.getCategorySearchOptions
           query = Object.assign(query, { // base prototype from the asyncData is being used here
             current: this.pagination.current,
             perPage: this.pagination.perPage,
@@ -239,7 +241,7 @@ export default {
           if (!query.searchProductQuery) {
             query.searchProductQuery = searchProductQuery
           }
-          this.$store.dispatch('category/products', this.$store.state.category.current_product_query)
+          this.$store.dispatch('category/products', this.getCategorySearchOptions)
           EventBus.$emitFilter('category-after-load', { store: this.$store, route: this.$route })
         }
       })
@@ -250,7 +252,7 @@ export default {
         key: 'slug',
         value: this.$route.params.slug
       }).then((parentCategory) => {
-        let query = this.$store.state.category.current_product_query
+        let query = this.getCategorySearchOptions
         if (!query.searchProductQuery) {
           query = Object.assign(query, {
             searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
