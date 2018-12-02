@@ -227,7 +227,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (populateAggregations === true && res.aggregations) { // populate filter aggregates
           for (let attrToFilter of filters) { // fill out the filter options
-            Vue.set(rootStore.state.category.filters.available, attrToFilter, [])
+            let filterOptions = []
 
             let uniqueFilterValues = new Set<string>()
             if (attrToFilter !== 'price') {
@@ -245,7 +245,7 @@ const actions: ActionTree<CategoryState, RootState> = {
               uniqueFilterValues.forEach(key => {
                 const label = optionLabel(rootStore.state.attribute, { attributeKey: attrToFilter, optionId: key })
                 if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
-                  rootStore.state.category.filters.available[attrToFilter].push({
+                  filterOptions.push({
                     id: key,
                     label: label
                   })
@@ -258,7 +258,7 @@ const actions: ActionTree<CategoryState, RootState> = {
                 let index = 0
                 let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
                 for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
-                  rootStore.state.category.filters.available[attrToFilter].push({
+                  filterOptions.push({
                     id: option.key,
                     from: option.from,
                     to: option.to,
@@ -268,6 +268,10 @@ const actions: ActionTree<CategoryState, RootState> = {
                 }
               }
             }
+            context.dispatch('addAvailableFilter', {
+              key: attrToFilter,
+              options: filterOptions
+            })
           }
         }
       }
@@ -304,6 +308,9 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     }
     return productPromise
+  },
+  addAvailableFilter ({commit}, {key, options} = {}) {
+    if(key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
   },
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)

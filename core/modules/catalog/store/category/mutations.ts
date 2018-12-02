@@ -39,6 +39,9 @@ const mutations: MutationTree<CategoryState> = {
       }
     }
   },
+  [types.CATEGORY_ADD_AVAILABLE_FILTER] (state, {key, options = []}) {
+    Vue.set(state.filters.available, key, options)
+  },
   [types.CATEGORY_REMOVE_FILTERS] (state) {
     state.filters.chosen = {}
     state.current_product_query.configuration = {}
