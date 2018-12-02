@@ -405,7 +405,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (prod.type_id === 'configurable' && hasConfigurableChildren) {
           // set first available configuration
           // todo: probably a good idea is to change this [0] to specific id
-          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant })
+          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
         } else if (!skipCache || ('simple' === prod.type_id || 'downloadable' === prod.type_id)) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
         }
@@ -525,6 +525,11 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
 
+  setCurrentErrors (context, errors) {
+    if (errors && typeof errors === 'object') {
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { errors: errors }))
+    }
+  },  
   /**
    * Assign the custom options object to the currentl product
    */
