@@ -7,6 +7,7 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/mult
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import omit from 'lodash-es/omit'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
@@ -170,7 +171,7 @@ export default {
     onAfterPriceUpdate (product) {
       if (product.sku === this.product.sku) {
         // join selected variant object to the store
-        this.$store.dispatch('product/setCurrent', product)
+        this.$store.dispatch('product/setCurrent', omit(product, ['name']))
           .catch(err => console.error({
             info: 'Dispatch product/setCurrent in Product.vue',
             err
