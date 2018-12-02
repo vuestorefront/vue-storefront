@@ -44,11 +44,11 @@ const actions: ActionTree<ProductState, RootState> = {
     let breadcrumbsName = null
     let setbrcmb = (path) => {
       if (path.findIndex(itm => {
-        return itm.slug === context.rootState.category.current.slug
+        return itm.slug === context.getters['category/getCurrentCategory'].slug
       }) < 0) {
         path.push({
-          slug: context.rootState.category.current.slug,
-          name: context.rootState.category.current.name
+          slug: context.getters['category/getCurrentCategory'].slug,
+          name: context.getters['category/getCurrentCategory'].name
         }) // current category at the end
       }
       // depreciated, TODO: base on breadcrumbs module 
@@ -80,9 +80,9 @@ const actions: ActionTree<ProductState, RootState> = {
           }
 
           context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
-            setbrcmb(context.rootState.category.current_path)
+            setbrcmb(context.getters['category/getCurrentCategoryPath'])
           }).catch(err => {
-            setbrcmb(context.rootState.category.current_path)
+            setbrcmb(context.getters['category/getCurrentCategoryPath'])
             console.error(err)
           })
         }).catch(err => {

@@ -45,6 +45,13 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY] (state, newQuery) {
     state.current_product_query = newQuery
+  },
+  [types.CATEGORY_SET_SEARCH_OPTIONS] (state, searchOptions) {
+    state.current_product_query = searchOptions || null
+  },
+  [types.CATEGORY_MERGE_SEARCH_OPTIONS] (state, searchOptions = {}) {
+    let currentOptions = state.current_product_query || {}
+    state.current_product_query = Object.assign(currentOptions, searchOptions)
   }
 }
 

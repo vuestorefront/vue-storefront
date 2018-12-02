@@ -67,7 +67,7 @@ export default {
   },
   preAsyncData ({ store, route }) {
     console.log('preAsyncData query setup')
-    store.state.category.current_product_query = {
+    store.dispatch('category/setSearchOptions', {
       populateAggregations: true,
       store: store,
       route: route,
@@ -78,7 +78,7 @@ export default {
       includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.productList.includeFields : null,
       excludeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.productList.excludeFields : null,
       append: false
-    }
+    })
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
@@ -94,9 +94,11 @@ export default {
           reject(err)
         }).then((attrs) => {
           store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
-            let query = store.state.category.current_product_query
+            let query = store.getters['category/getCategorySearchOptions']
             if (!query.searchProductQuery) {
-              query = Object.assign(query, { searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters) })
+              store.dispatch('category/mergeSearchOptions', {
+                searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
+              })
             }
             store.dispatch('category/products', query).then((subloaders) => {
               if (subloaders) {

@@ -147,7 +147,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Filter category products
    */
   products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false }) {
-    rootStore.state.category.current_product_query = {
+    context.dispatch('setSearchOptions', {
       populateAggregations,
       filters,
       current,
@@ -157,7 +157,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration,
       append,
       sort
-    }
+    })
 
     let prefetchGroupProducts = true
     if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
@@ -310,6 +310,12 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   searchProductQuery (context, productQuery) {
     context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
+  },
+  setSearchOptions ({commit}, searchOptions) {
+    commit(types.CATEGORY_SET_SEARCH_OPTIONS, searchOptions)
+  },
+  mergeSearchOptions ({commit}, searchOptions) {
+    commit(types.CATEGORY_MERGE_SEARCH_OPTIONS, searchOptions)
   }
 }
 
