@@ -7,7 +7,7 @@
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
-Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/pimcore2vuestorefront">Pimcore</a>,  Prestashop or Shopware) through the API.
+Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore</a>,  Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
@@ -126,7 +126,7 @@ Tutorial series on creating themes for Vue Storefront:
 * [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 * [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 * [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
-* [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
+* [Vue Storefront + Pimcore](https://github.com/DivanteLtd/coreshop-vsbridge)
 * [Magento2 Product Reviews](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Reviews.md)
 * [PayPal Payments integration](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/PayPal%20payments%20support.md)
 * [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
@@ -172,7 +172,7 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## Other platforms
-Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/pimcore2vuestorefront) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
+Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
 ## The license
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
