@@ -316,7 +316,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
     const usersCollection = Vue.prototype.$db.usersCollection
     usersCollection.setItem('current-token', '')
-  
+
     if (rootStore.state.route.path === '/my-account') {
       // router.push('/')
     }
@@ -362,12 +362,20 @@ const actions: ActionTree<UserState, RootState> = {
             }
           }
         }).then((resp: any) => {
-          if (resp.code === 200) {
-            context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-            Vue.prototype.$bus.$emit('user-after-loaded-orders', resp.result)
+          const { code, result } = resp
+
+          if (code === 200) {
+            // Now let's change date if this not in property format
+            const fixedResult = Object.assign({}, result)
+            fixedResult.items.forEach(item => {
+              let { created_at } = item
+              item.created_at = created_at.replace(/-/gi, '/')
+            })
+            context.commit(types.USER_ORDERS_HISTORY_LOADED, fixedResult) // this also stores the current user to localForage
+            Vue.prototype.$bus.$emit('user-after-loaded-orders', fixedResult)
           }
           if (!resolvedFromCache) {
-            resolve(resp.code === 200 ? resp : null)
+            resolve(code === 200 ? resp : null)
           }
           return resp
         })
