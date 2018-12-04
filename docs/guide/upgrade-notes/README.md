@@ -31,7 +31,7 @@ to:
 rootStore.dispatch('notification/spawnNotification',
 ````
 and make sure you are importing `rootStore`.
-- Lazy loading for non-SSR routes is nwo available
+- Lazy loading for non-SSR routes is now available
 
 You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from default theme [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/src/themes/default/router)
 
