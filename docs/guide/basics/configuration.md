@@ -12,7 +12,7 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode.
+Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode. This limitation can by however solved with VS 1.4 special config variable. Now the config can be reloaded on-fly with each server request if config.server.dynamicConfigReload is set to true. However in that case the config is added to window.**INITIAL_STATE** with the responses.
 :::
 
 Please find the configuration properties reference below.
