@@ -39,7 +39,7 @@ You can now [use dynamic imports to lazy load non-SSR routes](https://router.vue
 
 If you havn't modified any extensions directly you don't need to change anything. If you made such changes you'd probably need to rewrite your extension to module.
 
-- Old event bus is removed to compatibility folder. From now we are trying to create new features without it and slowly depreciate event bus whwnever it's possible.
+- Old event bus is removed to compatibility folder. From now we are trying to create new features without it and slowly depreciate event bus whenever it's possible. It'll be repalced with some enhanced module-based mechanism with event autosugesstion support.
 
 change all `@vue-storefront/core/plugins/event-bus` imports to `@vue-storefront/core/compatibility/plugins/event-bus`
 
