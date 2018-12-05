@@ -6,7 +6,7 @@
     >
       <div class="container px15">
         <div class="row between-xs middle-xs" v-if="!isCheckoutPage">
-          <div class="col-sm-4 col-xs-2 middle-xs">
+          <div class="col-md-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!canGoBack">
                 <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!canGoBack"/>
@@ -19,7 +19,7 @@
           <div class="col-xs-2 visible-xs">
             <search-icon class="p15 icon pointer" />
           </div>
-          <div class="col-sm-4 col-xs-4 center-xs pt5">
+          <div class="col-md-4 col-xs-4 center-xs pt5">
             <div>
               <logo width="auto" height="41px"/>
             </div>
@@ -27,7 +27,7 @@
           <div class="col-xs-2 visible-xs">
             <wishlist-icon class="p15 icon pointer" />
           </div>
-          <div class="col-sm-4 col-xs-2 end-xs">
+          <div class="col-md-4 col-xs-2 end-xs">
             <div class="inline-flex right-icons">
               <search-icon class="p15 icon hidden-xs pointer" />
               <wishlist-icon class="p15 icon hidden-xs pointer" />
@@ -68,7 +68,6 @@
 <script>
 import { mapState } from 'vuex'
 import CurrentPage from 'theme/mixins/currentPage'
-import Header from '@vue-storefront/core/components/blocks/Header/Header'
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
 import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
 import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
@@ -79,6 +78,7 @@ import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
 export default {
+  name: 'Header',
   components: {
     AccountIcon,
     CompareIcon,
@@ -89,7 +89,7 @@ export default {
     SearchIcon,
     WishlistIcon
   },
-  mixins: [Header, CurrentPage],
+  mixins: [CurrentPage],
   data () {
     return {
       navVisible: true,

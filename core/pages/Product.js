@@ -1,18 +1,22 @@
 import { mapGetters } from 'vuex'
 
-import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/store'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
+import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
+import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
+import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import omit from 'lodash-es/omit'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'Product',
-  mixins: [ Composite ],
+  mixins: [Composite, AddToCompare, CompareProduct],
   data () {
     return {
+      unavailableOptionsCount: 0,
       loading: false
     }
   },
@@ -53,9 +57,6 @@ export default {
     isOnWishlist () {
       return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
     },
-    isOnCompare () {
-      return !!this.$store.state.compare.items.find(p => p.sku === this.product.sku)
-    },
     currentStore () {
       return currentStoreView()
     }
@@ -90,6 +91,7 @@ export default {
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
     this.onStateCheck()
+    this.$store.dispatch('recently-viewed/addItem', this.product)
   },
   methods: {
     validateRoute () {
@@ -99,14 +101,11 @@ export default {
           this.loading = false
           this.defaultOfflineImage = this.product.image
           this.onStateCheck()
+          this.$store.dispatch('recently-viewed/addItem', this.product)
         }).catch((err) => {
           this.loading = false
           console.error(err)
-          this.$bus.$emit('notification', {
-            type: 'error',
-            message: i18n.t('The product is out of stock and cannot be added to the cart!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
+          this.notifyOutStock()
           this.$router.back()
         })
       } else {
@@ -120,10 +119,17 @@ export default {
       return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/removeItem', product) : false
     },
     addToList (list) {
-      return this.$store.state[list] ? this.$store.dispatch(`${list}/addItem`, this.product) : false
+      // Method renamed to 'addToCompare(product)', product is an Object
+      AddToCompare.methods.addToCompare.call(this, this.product)
     },
     removeFromList (list) {
-      return this.$store.state[list] ? this.$store.dispatch(`${list}/removeItem`, this.product) : false
+      // Method renamed to 'removeFromCompare(product)', product is an Object
+      CompareProduct.methods.removeFromCompare.call(this, this.product)
+    },
+    isOptionAvailable (option) { // check if the option is available
+      let currentConfig = Object.assign({}, this.configuration)
+      currentConfig[option.attribute_code] = option
+      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
@@ -166,7 +172,7 @@ export default {
     onAfterPriceUpdate (product) {
       if (product.sku === this.product.sku) {
         // join selected variant object to the store
-        this.$store.dispatch('product/setCurrent', product)
+        this.$store.dispatch('product/setCurrent', omit(product, ['name']))
           .catch(err => console.error({
             info: 'Dispatch product/setCurrent in Product.vue',
             err
@@ -180,11 +186,13 @@ export default {
       EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption
+      this.$forceUpdate() // this is to update the available options regarding current selection
       this.$store.dispatch('product/configure', {
         product: this.product,
         configuration: this.configuration,
         selectDefaultVariant: true,
-        fallbackToDefaultWhenNoAvailable: false
+        fallbackToDefaultWhenNoAvailable: false,
+        setProductErorrs: true
       }).then((selectedVariant) => {
         if (store.state.config.products.setFirstVarianAsDefaultInURL) {
           this.$router.push({params: { childSku: selectedVariant.sku }})
@@ -195,11 +203,7 @@ export default {
           } else {
             delete this.configuration[filterOption.attribute_code]
           }
-          this.$bus.$emit('notification', {
-            type: 'warning',
-            message: i18n.t('No such configuration for the product. Please do choose another combination of attributes.'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
+          this.notifyWrongAttributes()
         }
       }).catch(err => console.error({
         info: 'Dispatch product/configure in Product.vue',
@@ -224,8 +228,21 @@ export default {
     }
   },
   metaInfo () {
+    const storeView = currentStoreView()
     return {
       title: htmlDecode(this.$route.meta.title || this.productName),
+      link: [
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
+            name: this.product.type_id + '-product-amp',
+            params: {
+              parentSku: this.product.parentSku ? this.product.parentSku : this.product.sku,
+              slug: this.product.slug,
+              childSku: this.product.sku
+            }
+          }, storeView.storeCode)).href
+        }
+      ],
       meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
     }
   }

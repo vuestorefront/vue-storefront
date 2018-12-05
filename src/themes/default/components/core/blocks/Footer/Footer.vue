@@ -85,25 +85,13 @@
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
-                  {{ $t('About us') }}
+                <router-link class="cl-secondary" :to="localizedRoute('/i/about-us')" exact>
+                  {{ $t('About us (Magento CMS)') }}
                 </router-link>
               </div>
               <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to custom Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/custom-cms-page')" exact>
-                  {{ $t('Custom Cms Page') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to synced Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/cms-page-sync')" exact>
-                  {{ $t('Cms Page Sync') }}
                 </router-link>
               </div>
             </div>
@@ -187,11 +175,16 @@
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
-import Footer from '@vue-storefront/core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
 export default {
-  mixins: [Footer, CurrentPage],
+  mixins: [CurrentPage],
+  name: 'MainFooter',
+  computed: {
+    multistoreEnabled () {
+      return this.$store.state.config.storeViews.multistore
+    }
+  },
   components: {
     Newsletter,
     LanguageSwitcher

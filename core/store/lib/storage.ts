@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const CACHE_TIMEOUT = 800
 const CACHE_TIMEOUT_ITERATE = 2000
-const DISABLE_PERSISTANCE_AFTER = 2
+const DISABLE_PERSISTANCE_AFTER = 1
 const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
 class LocalForageCacheDriver {
@@ -128,7 +129,7 @@ class LocalForageCacheDriver {
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
-              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [get]', key, this.cacheErrorsCount[this._collectionName])
+              Logger.error('Cache not responding for ' + key + '.', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
               this._persistenceErrorNotified = true
               this.recreateDb()
             }
@@ -190,7 +191,7 @@ class LocalForageCacheDriver {
     setTimeout(() => {
       if (!isResolved) { // this is cache time out check
         if (!this._persistenceErrorNotified) {
-          console.error('Cache not responding within ' + CACHE_TIMEOUT_ITERATE + ' ms for [iterate]', this.cacheErrorsCount[this._collectionName])
+          Logger.error('Cache not responding. (iterate)', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
           this._persistenceErrorNotified = true
           this.recreateDb()
         }
@@ -254,7 +255,7 @@ class LocalForageCacheDriver {
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
-              console.error('Cache not responding within ' + CACHE_TIMEOUT + ' ms for [set]', key, this.cacheErrorsCount[this._collectionName])
+              Logger.error('Cache not responding for ' + key + '.', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
               this._persistenceErrorNotified = true
               this.recreateDb()
             }

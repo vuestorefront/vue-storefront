@@ -130,7 +130,7 @@
   </div>
 </template>
 <script>
-import Register from '@vue-storefront/core/components/blocks/Auth/Register'
+import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
@@ -165,6 +165,34 @@ export default {
     ButtonFull,
     BaseCheckbox,
     BaseInput
+  },
+  methods: {
+    register () {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Please fix the validation errors'),
+          action1: { label: this.$t('OK') }
+        })
+        return
+      }
+      this.callRegister()
+    },
+    onSuccess () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    onFailure (result) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: result.result,
+        action1: { label: this.$t('OK') }
+      })
+    }
   }
 }
 </script>

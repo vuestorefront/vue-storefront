@@ -1,0 +1,14 @@
+query cmsPages ($filter: CmsInput) {
+  cmsPages(
+    filter: $filter
+  )
+  {
+    items {
+      title
+      identifier
+      content
+      meta_description
+      meta_keywords
+    }
+  }
+}

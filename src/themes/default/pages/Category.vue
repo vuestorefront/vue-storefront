@@ -5,7 +5,7 @@
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
-          <div class="sorting col-sm-3 align-right"><SortBy /></div>
+          <div class="sorting col-sm-3 align-right"><sort-by /></div>
         </div>
       </div>
       <div class="container">
@@ -16,7 +16,7 @@
           >
             {{ $t('Filters') }}
           </button>
-          <div class="mobile-sorting col-xs-6 mt25"><SortBy /></div>
+          <div class="mobile-sorting col-xs-6 mt25"><sort-by /></div>
         </div>
       </div>
     </header>
@@ -79,6 +79,13 @@ export default {
     },
     closeFilters () {
       this.mobileFilters = false
+    },
+    notify () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t('Please select the field which You like to sort by'),
+        action1: { label: this.$t('OK') }
+      })
     }
   },
   mixins: [Category]

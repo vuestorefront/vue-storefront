@@ -13,13 +13,13 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{ page.title }}</router-link>
+                <router-link :to="localizedRoute(page.link)" @click.native="setContent(page.component)" class="cl-accent relative">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
         </div>
         <div class="static-content h4 lh35 col-sm-9">
-          <static-content :file="$props.page"/>
+          <component :is="activeComponent" />
         </div>
       </div>
     </div>
@@ -29,18 +29,20 @@
 <script>
 import i18n from '@vue-storefront/i18n'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-import StaticContent from 'theme/components/theme/StaticContent'
+import StaticExample from 'theme/components/theme/blocks/Static/Example'
 
 export default {
   components: {
-    Breadcrumbs,
-    StaticContent
+    Breadcrumbs
   },
   metaInfo () {
     return {
       title: this.$route.meta.title || this.$props.title,
       meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
     }
+  },
+  created () {
+    this.activeComponent = this.navigation.find(nav => nav.link === this.$route.path) ? this.navigation.find(nav => nav.link === this.$route.path).component : null
   },
   props: {
     title: {
@@ -52,17 +54,24 @@ export default {
       required: true
     }
   },
+  methods: {
+    setContent (component) {
+      this.activeComponent = component
+    }
+  },
   data () {
     return {
       navigation: [
-        { title: i18n.t('About us'), link: '/about-us' },
-        { title: i18n.t('Customer service'), link: '/customer-service' },
-        { title: i18n.t('Store locator'), link: '/store-locator' },
-        { title: i18n.t('Delivery'), link: '/delivery' },
-        { title: i18n.t('Return policy'), link: '/returns' },
-        { title: i18n.t('Privacy policy'), link: '/privacy' },
-        { title: i18n.t('Contact us'), link: '/contact' }
-      ]
+        { title: i18n.t('About us'), link: '/about-us', component: StaticExample },
+        { title: i18n.t('Customer service'), link: '/customer-service', component: StaticExample },
+        { title: i18n.t('Store locator'), link: '/store-locator', component: StaticExample },
+        { title: i18n.t('Delivery'), link: '/delivery', component: StaticExample },
+        { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
+        { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticExample },
+        { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
+        { title: i18n.t('Contact us'), link: '/contact', component: StaticExample }
+      ],
+      activeComponent: null
     }
   }
 }

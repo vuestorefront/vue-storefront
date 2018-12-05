@@ -32,7 +32,7 @@
 
 <script>
 // 3rd party dependecies
-import { prepareQuery } from '@vue-storefront/core/modules/product/queries/common'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
@@ -46,7 +46,7 @@ import Collection from 'theme/components/theme/blocks/Collection/Collection'
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 export default {
   mixins: [Home],
   components: {
@@ -85,7 +85,7 @@ export default {
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     const config = store.state.config
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Home ' + new Date())
+      Logger.info('Calling asyncData in Home (theme)')()
 
       let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
       let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })

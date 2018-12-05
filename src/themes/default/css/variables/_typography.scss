@@ -1,0 +1,17 @@
+// Typography
+// ==========
+// Font sizes and families
+//
+// stylelint-disable indentation
+
+// Font Families
+// -------------
+$font-fallbacks: (
+        sans-serif: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+        serif: 'Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif'
+);
+
+$font-families: (
+        primary: ("Roboto", #{(map-get($font-fallbacks, 'sans-serif'))}),
+        secondary: ("Playfair Display", map-get($font-fallbacks, 'serif'))
+) !default;

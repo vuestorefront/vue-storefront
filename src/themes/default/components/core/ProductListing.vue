@@ -12,14 +12,13 @@
 </template>
 
 <script>
-import ProductListing from '@vue-storefront/core/components/ProductListing'
 import ProductTile from 'theme/components/core/ProductTile'
 let lastHero = 0
 export default {
+  name: 'ProductListing',
   components: {
     ProductTile
   },
-  mixins: [ProductListing],
   props: {
     products: {
       type: null,

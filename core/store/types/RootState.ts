@@ -11,6 +11,7 @@ export default interface RootState {
   user: any,
   wishlist: any,
   attribute: string,
+  ui: any,
   category: {
     current_path: string,
     current_product_query: any,
@@ -29,5 +30,6 @@ export default interface RootState {
   twoStageCachingDisabled: boolean,
   userTokenInvalidated: string | null,
   userTokenInvalidateAttemptsCount: number,
-  userTokenInvalidateLock: number
+  userTokenInvalidateLock: number,
+  route?: any
 }

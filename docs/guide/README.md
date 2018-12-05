@@ -45,4 +45,4 @@ We are planning 1-2 milestones ahead. Our milestones are based on requirements f
 
 [See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
 
-[Check the feature list of 1.0](../basics/feature-list.md).
+[Check the feature list of 1.0](basics/feature-list.md).

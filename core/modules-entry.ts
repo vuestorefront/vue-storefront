@@ -1,17 +1,16 @@
 
-import { VueStorefrontModule } from './modules'
-import { Cart } from './modules/cart'
-import { Review } from './modules/review'
+import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Wishlist } from './modules/wishlist'
-import { Mailchimp } from './modules/mailchimp'
-import { Mailer } from './modules/mailer'
-// import { Example } from './modules/module-template'
-
+import { Cms } from './modules/cms'
+import { Order } from './modules/order'
+import { User } from './modules/user'
+import { registerModules } from 'src/modules'
+import { Breadcrumbs } from './modules/breadcrumbs'
 export const enabledModules: VueStorefrontModule[] = [
-  Cart,
-  Review,
-  Mailchimp,
-  Mailer,
+  Breadcrumbs,
   Wishlist,
-  // Example
+  Cms,
+  Order,
+  User,
+  ...registerModules
 ]

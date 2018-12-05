@@ -1,4 +1,4 @@
-import Product from '@vue-storefront/store/types/product/Product'
+import Product from '@vue-storefront/core/modules/catalog/types/Product'
 
 export const WishlistProduct = {
   name: 'Product',

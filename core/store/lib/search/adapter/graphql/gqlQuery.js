@@ -17,6 +17,15 @@ export function prepareGraphQlBody (Request) {
     case 'taxrule':
       query = require('./queries/taxrule.gql')
       break
+    case 'cms_page':
+      query = require('./queries/cmsPage.gql')
+      break
+    case 'cms_block':
+      query = require('./queries/cmsBlock.gql')
+      break
+    case 'cms_hierarhy':
+      query = require('./queries/cmsHierarchy.gql')
+      break
   }
 
   const body = JSON.stringify({
