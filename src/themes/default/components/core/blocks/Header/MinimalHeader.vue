@@ -13,17 +13,13 @@
               </template>
             </div>
           </div>
-          <div class="col-xs-2 visible-xs">
-            <search-icon class="p15 icon pointer" />
-          </div>
+          <div class="col-xs-2 visible-xs" />
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
-              <logo width="36px" height="41px"/>
+              <logo width="auto" height="41px"/>
             </div>
           </div>
-          <div class="col-xs-2 visible-xs">
-            <wishlist-icon class="p15 icon pointer" />
-          </div>
+          <div class="col-xs-2 visible-xs" />
           <div class="col-sm-4 col-xs-2 end-xs">
             <div class="inline-flex right-icons" />
           </div>
@@ -36,20 +32,15 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
-import Header from '@vue-storefront/core/components/blocks/Header/Header'
 import Logo from 'theme/components/core/Logo'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
-import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
-import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
 export default {
   components: {
-    WishlistIcon,
-    SearchIcon,
     Logo,
     ReturnIcon
   },
-  mixins: [Header, CurrentPage]
+  mixins: [CurrentPage]
 }
 </script>
 

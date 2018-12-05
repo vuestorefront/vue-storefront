@@ -1,7 +1,5 @@
 <template>
   <div class="sort-by">
-    <i @click="changeDirection" v-if="direction === 'asc'" :class="{'disabled' : sortby === ''}" class="cl-secondary sort-by__icon material-icons">arrow_drop_down</i>
-    <i @click="changeDirection" v-else :class="{'disabled' : sortby === ''}" class="cl-secondary sort-by__icon material-icons">arrow_drop_up</i>
     <select
       name="sortby"
       class="cl-secondary"
@@ -14,7 +12,7 @@
 </template>
 
 <script>
-import SortBy from '@vue-storefront/core/components/SortBy'
+import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
 export default {
   mixins: [SortBy]
 }
@@ -28,15 +26,12 @@ export default {
         display: inline-flex;
         position: relative;
         border-bottom: 1px solid $color-tertiary;
-        padding-right: 30px;
         select {
             @extend .h4;
             padding: 10px 0;
             font-size: 14px;
             border: none;
             width: 100%;
-            -moz-appearance: none;
-            -webkit-appearance: none;
             border-radius: 0;
             background-color: transparent;
             margin-right: 0;

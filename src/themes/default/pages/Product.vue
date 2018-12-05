@@ -70,31 +70,34 @@
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
                       <color-selector
-                        v-for="(c, i) in options.color"
+                        v-for="(c, i) in options[option.attribute_code]"
+                        v-if="isOptionAvailable(c)"
                         :key="i"
                         :id="c.id"
                         :label="c.label"
                         context="product"
-                        code="color"
-                        :class="{ active: c.id == configuration.color.id }"
+                        :code="option.attribute_code"
+                        :class="{ active: c.id == configuration[option.attribute_code].id }"
                       />
                     </div>
                     <div class="sizes" v-else-if="option.label == 'Size'">
                       <size-selector
-                        v-for="(s, i) in options.size"
+                        v-for="(s, i) in options[option.attribute_code]"
+                        v-if="isOptionAvailable(s)"
                         :key="i"
                         :id="s.id"
                         :label="s.label"
                         context="product"
-                        code="size"
+                        :code="option.attribute_code"
                         class="mr10 mb10"
-                        :class="{ active: s.id == configuration.size.id }"
+                        :class="{ active: s.id == configuration[option.attribute_code].id }"
                         v-focus-clean
                       />
                     </div>
                     <div :class="option.attribute_code" v-else>
                       <generic-selector
                         v-for="(s, i) in options[option.attribute_code]"
+                        v-if="isOptionAvailable(s)"
                         :key="i"
                         :id="s.id"
                         :label="s.label"
@@ -293,6 +296,20 @@ export default {
     showDetails (event) {
       this.detailsOpen = true
       event.target.classList.add('hidden')
+    },
+    notifyOutStock () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t('The product is out of stock and cannot be added to the cart!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    notifyWrongAttributes () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'warning',
+        message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
+        action1: { label: this.$t('OK') }
+      })
     }
   }
 }

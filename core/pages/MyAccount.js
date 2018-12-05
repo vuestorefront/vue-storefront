@@ -48,15 +48,6 @@ export default {
           console.error(err)
         }
       }
-    },
-    notify (title) {
-      if (title === 'My loyalty card' || title === 'My product reviews') {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-      }
     }
   },
   metaInfo () {

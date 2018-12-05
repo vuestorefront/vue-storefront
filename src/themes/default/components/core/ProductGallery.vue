@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import ProductGallery from '@vue-storefront/core/components/ProductGallery'
+import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
 import ProductGalleryZoom from './ProductGalleryZoom'
 import NoSSR from 'vue-no-ssr'
 import VueOfflineMixin from 'vue-offline/mixin'

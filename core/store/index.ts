@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { Plugin } from 'vuex'
-import * as types from './mutation-types'
 import * as localForage from 'localforage'
 import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
 import RootState from './types/RootState'
+import * as userTypes from '@vue-storefront/core/modules/user/store/mutation-types'
+import * as checkoutTypes from '@vue-storefront/core/modules/checkout/store/checkout/mutation-types'
+import * as cartTypes from '@vue-storefront/core/modules/cart/store/mutation-types'
+
+const types = {...userTypes, ...checkoutTypes, ...cartTypes }
 
 Vue.use(Vuex)
 
@@ -20,6 +24,7 @@ const state = {
   product: {},
   shipping: {},
   user: {},
+  ui: {},
   wishlist: {},
   attribute: '',
   category: {
@@ -41,20 +46,6 @@ const state = {
   userTokenInvalidated: null,
   userTokenInvalidateAttemptsCount: 0,
   userTokenInvalidateLock: 0
-}
-
-const mutations = {
-  TOPICS_LIST: (state, topics) => {
-    state.topics = topics
-  },
-
-  INCREMENT: (state) => {
-    state.count++
-  },
-
-  DECREMENT: (state) => {
-    state.count--
-  }
 }
 
 export function getMutationData (mutation) {
@@ -90,11 +81,6 @@ const plugins: Plugin<RootState>[] = [
       if (actionName === types.CART_LOAD_CART_SERVER_TOKEN) {
         Vue.prototype.$db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
           console.error(reason)
-        })
-      }
-      if (storeName === types.SN_COMPARE) { // check if this mutation is compare related
-        Vue.prototype.$db.compareCollection.setItem('current-compare', state.compare.items).catch((reason) => {
-          console.error(reason) // it doesn't work on SSR
         })
       }
       if (actionName === types.USER_INFO_LOADED) { // check if this mutation is user related
@@ -144,7 +130,6 @@ const plugins: Plugin<RootState>[] = [
 let rootStore = new Vuex.Store<RootState>({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state,
-  mutations,
   plugins
 })
 

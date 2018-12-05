@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: isOpen }">
+  <div class="sidebar-menu absolute mw-100 bg-cl-secondary" :class="{ active: isOpen }">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
+          <li @click="closeMenu" clatasss="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
             <router-link
               class="block px25 py20 cl-accent no-underline"
               :to="localizedRoute('/')"
@@ -39,6 +39,7 @@
               :id="category.id"
               :name="category.name"
               v-if="category.children_data.length > 0"
+              @click.native="activeSubMenu = category.id"
             />
             <router-link
               v-else
@@ -49,6 +50,7 @@
             </router-link>
 
             <sub-category
+              v-show="activeSubMenu === category.id"
               :category-links="category.children_data"
               :id="category.id"
               :parent-slug="category.slug"
@@ -117,10 +119,10 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 
-import SidebarMenu from '@vue-storefront/core/components/blocks/SidebarMenu/SidebarMenu'
+import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
 
@@ -132,6 +134,7 @@ export default {
   mixins: [SidebarMenu],
   data () {
     return {
+      activeSubMenu: null,
       myAccountLinks: [
         {
           id: 1,
@@ -173,15 +176,12 @@ export default {
     ...mapState({
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
-    }),
-    ...mapGetters('compare', {
-      compareIsActive: 'isActive'
     })
   },
   methods: {
     login () {
       this.$bus.$emit('modal-show', 'modal-signup')
-      this.$store.commit('ui/setOpenMyAccount', true)
+      this.$router.push({ name: 'my-account' })
     }
   }
 }

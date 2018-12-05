@@ -1,7 +1,7 @@
-import { union } from 'lodash-es'
+import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
-import { HttpError } from '@vue-storefront/core/lib/exceptions'
+import { HttpError } from '@vue-storefront/core/helpers/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
 import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
@@ -73,7 +73,7 @@ export default context => {
       if (!matchedComponents.length) {
         return reject(new HttpError('No components matched', 404))
       }
-      Promise.all(matchedComponents.map(Component => {
+      Promise.all(matchedComponents.map((Component: any) => {
         const components = Component.mixins ? Array.from(Component.mixins) : []
         union(components, [Component]).map(SubComponent => {
           if (SubComponent.preAsyncData) {

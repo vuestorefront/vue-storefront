@@ -2,12 +2,12 @@ import Vue from 'vue'
 import toString from 'lodash-es/toString'
 
 import store from '@vue-storefront/store'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-import i18n from '@vue-storefront/i18n'
-
+import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Category',
@@ -80,7 +80,7 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Category root ' + new Date())
+      Logger.info('Entering asyncData in Category Page (core)')()
       if (context) context.output.cacheTags.add(`category`)
       const defaultFilters = store.state.config.products.defaultFilters
       store.dispatch('category/list', { includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
@@ -181,13 +181,13 @@ export default {
 
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
 
-      const fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+      const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
       this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
         populateAggregations: false,
         searchProductQuery: filterQr,
         current: this.pagination.current,
         perPage: this.pagination.perPage,
-        configuration: fsC,
+        configuration: filtersConfig,
         append: false,
         includeFields: null,
         excludeFields: null
@@ -196,21 +196,24 @@ export default {
       }) // because already aggregated
     },
     onSortOrderChanged (param) {
+      this.pagination.current = 0
       if (param.attribute) {
+        const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
         let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
         this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
-          sort: param.attribute + ':' + param.direction,
+          sort: param.attribute,
           searchProductQuery: filterQr,
-          append: false
+          current: this.pagination.current,
+          perPage: this.pagination.perPage,
+          configuration: filtersConfig,
+          append: false,
+          includeFields: null,
+          excludeFields: null
         })
         this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
         })
       } else {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Please select the field which You like to sort by'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notify()
       }
     },
     validateRoute () {
@@ -259,7 +262,18 @@ export default {
     }
   },
   metaInfo () {
+    const storeView = currentStoreView()
     return {
+      link: [
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
+            name: 'category-amp',
+            params: {
+              slug: this.category.slug
+            }
+          }, storeView.storeCode)).href
+        }
+      ],
       title: htmlDecode(this.$route.meta.title || this.categoryName),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
     }

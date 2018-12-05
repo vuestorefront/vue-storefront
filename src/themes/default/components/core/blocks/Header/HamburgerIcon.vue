@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import HamburgerIcon from '@vue-storefront/core/components/blocks/Header/HamburgerIcon'
+import HamburgerIcon from '@vue-storefront/core/compatibility/components/blocks/Header/HamburgerIcon'
 
 export default {
   mixins: [HamburgerIcon]

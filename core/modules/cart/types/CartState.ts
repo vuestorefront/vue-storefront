@@ -1,4 +1,5 @@
 export default interface CartState {
+  isMicrocartOpen: boolean,
   itemsAfterPlatformTotals: any,
   platformTotals: any,
   platformTotalSegments: any,

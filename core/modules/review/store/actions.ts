@@ -1,14 +1,14 @@
 import Vue from 'vue'
-import { ActionTree } from "vuex"
-import { quickSearchByQuery } from "core/store/lib/search"
-import SearchQuery from 'core/store/lib/search/searchQuery'
+import { ActionTree } from 'vuex'
+import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
-import RootState from "@vue-storefront/store/types/RootState"
-import ReviewState from "../types/ReviewState"
+import RootState from '@vue-storefront/store/types/RootState'
+import ReviewState from '../types/ReviewState'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
-import rootStore from "@vue-storefront/store"
-import { ValidationError } from "core/store/lib/exceptions";
+import rootStore from '@vue-storefront/store'
+import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import Review from '@vue-storefront/core/modules/review/types/Review'
 const Ajv = require('ajv') // json validator
 
@@ -58,10 +58,10 @@ const actions: ActionTree<ReviewState, RootState> = {
     const review = {review: reviewData}
 
     if (!validate(review)) {
-      Vue.prototype.$bus.$emit('notification', {
+      rootStore.dispatch('notification/spawnNotification', {
         type: 'error',
         message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
-        action1: { label: i18n.t('OK'), action: 'close' }
+        action1: { label: i18n.t('OK') }
       })
       throw new ValidationError(validate.errors)
     } else {
@@ -84,19 +84,19 @@ const actions: ActionTree<ReviewState, RootState> = {
         .then((resp) => {
           Vue.prototype.$bus.$emit('notification-progress-stop')
           if (resp.code === 200) {
-            Vue.prototype.$bus.$emit('notification', {
+            rootStore.dispatch('notification/spawnNotification', {
               type: 'success',
               message: i18n.t('You submitted your review for moderation.'),
-              action1: { label: i18n.t('OK'), action: 'close' }
+              action1: { label: i18n.t('OK') }
             })
             Vue.prototype.$bus.$emit('clear-add-review-form')
           }
         }).catch(function() {
           Vue.prototype.$bus.$emit('notification-progress-stop')
-          Vue.prototype.$bus.$emit('notification', {
+          rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t('Something went wrong. Try again in a few seconds.'),
-            action1: { label: i18n.t('OK'), action: 'close' }
+            action1: { label: i18n.t('OK') }
           })
         });
     }

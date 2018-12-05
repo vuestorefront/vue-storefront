@@ -1,0 +1,25 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  position: relative;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  overflow-x: hidden;
+}
+
+#viewport {
+  overflow-x: hidden;
+}
+
+.no-scroll {
+  overflow: hidden;
+}

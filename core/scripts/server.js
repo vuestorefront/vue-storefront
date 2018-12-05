@@ -150,15 +150,12 @@ app.get('*', (req, res, next) => {
           '  </html>')
       return next()
     }
-    if (config.server.dynamicConfigReload) {
-      delete require.cache[require.resolve('config')]
-      config = require('config') // reload config
-    }
     const context = {
       url: req.url,
       output: {
         prepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: output.prepend() { return context.renderStyles() } to attach styles
         append: (context) => { return '' },
+        appendHead: (context) => { return '' },
         template: 'default',
         cacheTags: null
       },
@@ -189,6 +186,7 @@ app.get('*', (req, res, next) => {
 
       output = contentPrepend + output + contentAppend
       if (context.output.template) { // case when we've got the template name back from vue app
+        if (!isProd) context.output.template = 'default' // in dev mode we can not use pre-rendered HTML templates
         if (templatesCache[context.output.template]) { // please look at: https://github.com/vuejs/vue/blob/79cabadeace0e01fb63aa9f220f41193c0ca93af/src/server/template-renderer/index.js#L87 for reference
           output = templatesCache[context.output.template](context).replace('<!--vue-ssr-outlet-->', output)
         } else {
@@ -208,35 +206,63 @@ app.get('*', (req, res, next) => {
     }).catch(errorHandler)
   }
 
-  if (config.server.useOutputCache && cache) {
-    cache.get(
-      'page:' + req.url
-    ).then(output => {
-      if (output !== null) {
-        if (output.headers) {
-          for (const header of Object.keys(output.headers)) {
-            res.setHeader(header, output.headers[header])
+  const dynamicCacheHandler = () => {
+    if (config.server.useOutputCache && cache) {
+      cache.get(
+        'page:' + req.url
+      ).then(output => {
+        if (output !== null) {
+          if (output.headers) {
+            for (const header of Object.keys(output.headers)) {
+              res.setHeader(header, output.headers[header])
+            }
           }
-        }
-        res.setHeader('X-VS-Cache', 'Hit')
-        if (output.body) {
-          res.end(output.body)
+          res.setHeader('X-VS-Cache', 'Hit')
+          if (output.body) {
+            res.end(output.body)
+          } else {
+            res.setHeader('Content-Type', 'text/html')
+            res.end(output.body)
+          }
+          res.end(output)
+          console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+          next()
         } else {
           res.setHeader('Content-Type', 'text/html')
-          res.end(output.body)
+          res.setHeader('X-VS-Cache', 'Miss')
+          console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
+          dynamicRequestHandler(renderer) // render response
         }
-        res.end(output)
-        console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
-        next()
-      } else {
-        res.setHeader('Content-Type', 'text/html')
-        res.setHeader('X-VS-Cache', 'Miss')
-        console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
-        dynamicRequestHandler(renderer) // render response
-      }
-    }).catch(errorHandler)
+      }).catch(errorHandler)
+    } else {
+      dynamicRequestHandler(renderer)
+    }
+  }
+
+  if (config.server.dynamicConfigReload) {
+    delete require.cache[require.resolve('config')]
+    config = require('config') // reload config
+    if (typeof serverExtensions.configProvider === 'function') {
+      serverExtensions.configProvider(req).then(loadedConfig => {
+        config = Object.assign(config, loadedConfig) // merge loaded conf with build time conf
+        dynamicCacheHandler()
+      }).catch(error => {
+        if (config.server.dynamicConfigContinueOnError) {
+          dynamicCacheHandler()
+        } else {
+          console.log('config provider error:', error)
+          if (req.url !== '/error') {
+            res.redirect('/error')
+          }
+          dynamicCacheHandler()
+        }
+      })
+    } else {
+      config = require('config') // reload config
+      dynamicCacheHandler()
+    }
   } else {
-    dynamicRequestHandler(renderer)
+    dynamicCacheHandler()
   }
 })
 

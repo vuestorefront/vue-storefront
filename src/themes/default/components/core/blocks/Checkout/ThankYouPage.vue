@@ -19,6 +19,7 @@
               {{ $t('Your purchase') }}
             </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
+            <p v-if="OnlineOnly && lastOrderConfirmation" v-html="this.$t('The server order id has been set to ') + lastOrderConfirmation.backendOrderId"/>
             <p v-if="OnlineOnly" v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience')"/>
 
             <h4 v-if="OfflineOnly">
@@ -89,6 +90,9 @@ export default {
     }
   },
   computed: {
+    lastOrderConfirmation () {
+      return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
+    },
     isNotificationSupported () {
       if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return 'Notification' in window
@@ -96,6 +100,12 @@ export default {
     isPermissionGranted () {
       if (Vue.prototype.$isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
+    },
+    checkoutPersonalEmailAddress () {
+      return this.$store.state.checkout.personalDetails.emailAddress
+    },
+    mailerElements () {
+      return this.$store.state.config.mailer.contactAddress
     }
   },
   methods: {
@@ -108,26 +118,26 @@ export default {
     sendFeedback () {
       this.sendEmail(
         {
-          sourceAddress: this.$store.state.checkout.personalDetails.emailAddress,
-          targetAddress: this.$store.state.config.mailer.contactAddress,
+          sourceAddress: this.checkoutPersonalEmailAddress,
+          targetAddress: this.mailerElements.contactAddress,
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
-        this.notifySuccess,
-        this.notifyFailure
+        this.onSuccess,
+        this.onFailure
       )
     },
-    notifySuccess (message) {
-      this.$bus.$emit('notification', {
+    onSuccess (message) {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message,
-        action1: { label: this.$t('OK'), action: 'close' }
+        action1: { label: this.$t('OK') }
       })
-      if (this.$store.state.config.mailer.sendConfirmation) {
+      if (this.mailerElements.sendConfirmation) {
         this.sendEmail(
           {
-            sourceAddress: this.$store.state.config.mailer.contactAddress,
-            targetAddress: this.$store.state.checkout.personalDetails.emailAddress,
+            sourceAddress: this.mailerElements.contactAddress,
+            targetAddress: this.checkoutPersonalEmailAddress,
             subject: this.$t('Confirmation of receival'),
             emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
             confirmation: true
@@ -135,11 +145,11 @@ export default {
         )
       }
     },
-    notifyFailure (message) {
-      this.$bus.$emit('notification', {
+    onFailure (message) {
+      this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message,
-        action1: { label: this.$t('OK'), action: 'close' }
+        action1: { label: this.$t('OK') }
       })
     }
   },

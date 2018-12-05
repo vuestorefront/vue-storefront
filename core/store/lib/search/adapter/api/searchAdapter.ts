@@ -4,9 +4,9 @@ import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '../../../../helpers'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
-import SearchQuery from 'core/store/lib/search/searchQuery'
-import HttpQuery from 'core/store/types/search/HttpQuery'
-import Response from 'core/store/types/search/Response'
+import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import HttpQuery from '@vue-storefront/store/types/search/HttpQuery'
+import Response from '@vue-storefront/store/types/search/Response'
 
 export class SearchAdapter {
   public entities: any
@@ -28,7 +28,7 @@ export class SearchAdapter {
       ElasticsearchQueryBody = prepareElasticsearchQueryBody(Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
         ElasticsearchQueryBody['min_score'] = rootStore.state.config.elasticsearch.min_score
-      }      
+      }
     } else {
       // backward compatibility for old themes uses bodybuilder
       ElasticsearchQueryBody = Request.searchQuery
@@ -72,17 +72,18 @@ export class SearchAdapter {
     if (!Request.index || !Request.type) {
       throw new Error('Query.index and Query.type are required arguments for executing ElasticSearch query')
     }
-
+    if (rootStore.state.config.elasticsearch.queryMethod === 'GET') {
+      httpQuery.request = JSON.stringify(ElasticsearchQueryBody)
+    }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + buildURLQuery(httpQuery)
-
-    return fetch(url, { method: 'POST',
+    return fetch(url, { method: rootStore.state.config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(ElasticsearchQueryBody)
+      body: rootStore.state.config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     }).then(resp => { return resp.json() })
   }
 
@@ -168,6 +169,33 @@ export class SearchAdapter {
       },
       resultPorcessor: (resp, start, size) =>  {
         return this.handleResult(resp, 'review', start, size)
+      }
+    })
+    this.registerEntityType('cms_page', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_page', start, size)
+      }
+    })
+    this.registerEntityType('cms_block', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_block', start, size)
+      }
+    })
+    this.registerEntityType('cms_hierarchy', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_hierarchy', start, size)
       }
     })
   }

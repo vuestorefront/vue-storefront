@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import MyNewsletter from '@vue-storefront/core/components/blocks/MyAccount/MyNewsletter'
+import MyNewsletter from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyNewsletter'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 

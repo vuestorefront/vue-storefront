@@ -1,4 +1,4 @@
-import Response from 'core/store/types/search/Response'
+import Response from '@vue-storefront/store/types/search/Response'
 import map from 'lodash-es/map'
 import { slugify } from '../../../../../helpers'
 import rootStore from '../../../../../'
@@ -37,6 +37,18 @@ export function processProductsType (resp, start, size): Response {
 
       return Object.assign(item, options) // TODO: assign slugs server side
     }), // TODO: add scoring information
+    total: resp.total_count,
+    start: start,
+    perPage: size,
+    aggregations: resp.aggregations
+  }
+
+  return response
+}
+
+export function processCmsType (resp, start, size): Response {
+  const response = {
+    items: resp.items,
     total: resp.total_count,
     start: start,
     perPage: size,
