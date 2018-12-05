@@ -8,11 +8,7 @@
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
-<<<<<<< HEAD
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>,  Prestashop or Shopware) through the API.
-=======
-Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/pimcore2vuestorefront">Pimcore</a>, Prestashop or Shopware) through the API.
->>>>>>> origin/master
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
@@ -94,16 +90,6 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 
 ### Basics
 
-<<<<<<< HEAD
-* [Contribution and issue reporting guideness](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md)
-* [FAQ / Receipes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/FAQ%20and%20Receipes.md)
-* [Feature list](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Feature%20list.md)
-* [Vue Storefront Modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
-* [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md)
-* [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md)
-* [Entity Types](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Entity%20Types.md)
-* [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md)
-=======
 - [Project structure](https://divanteltd.github.io/vue-storefront/guide/basics/project-structure.html) - good for introduction (outdated, we are workiung on interactive explorer :) )
 - [Configuration file explained](https://divanteltd.github.io/vue-storefront/guide/basics/configuration.html)
 - [Vue Storefront Modules](https://divanteltd.github.io/vue-storefront/guide/modules/introduction.html)
@@ -114,7 +100,6 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 - [GraphQL Action Plan](https://divanteltd.github.io/vue-storefront/guide/basics/graphql.html)
 - [SSR Cache](https://divanteltd.github.io/vue-storefront/guide/basics/ssr-cache.html)
 - [Google Advanced Mobile Pages](https://divanteltd.github.io/vue-storefront/guide/basics/amp.html)
->>>>>>> origin/master
 
 ### Vue Storefront core and themes
 
@@ -142,19 +127,6 @@ Tutorial series on creating themes for Vue Storefront:
 - [Adding Custom Entity Types](https://divanteltd.github.io/vue-storefront/guide/data/entity-types.html)
 
 ### Integrations
-<<<<<<< HEAD
-* [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
-* [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
-* [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
-* [Vue Storefront + Pimcore](https://github.com/DivanteLtd/coreshop-vsbridge)
-* [Magento2 Product Reviews](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Reviews.md)
-* [PayPal Payments integration](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/PayPal%20payments%20support.md)
-* [Direct prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Direct%20Prices.md)
-* [Tier prices sync with Magento](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Tier%20prices.md)
-* [Shopping carts, totals and orders sync](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Totals%2C%20cart%2C%20orders%20sync%20with%20Magento.md)
-* [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
-* [Magento2 MultiStore support](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md)
-=======
 
 - [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 - [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
@@ -167,7 +139,6 @@ Tutorial series on creating themes for Vue Storefront:
 - [Shopping carts, totals and orders sync](https://divanteltd.github.io/vue-storefront/guide/integrations/totals-sync.html)
 - [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
 - [Magento2 MultiStore support](https://divanteltd.github.io/vue-storefront/guide/integrations/multistore.html)
->>>>>>> origin/master
 
 ### 'Default theme' contribution rules
 
@@ -214,12 +185,7 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## Other platforms
-<<<<<<< HEAD
 Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
-=======
-
-Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/pimcore2vuestorefront) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
->>>>>>> origin/master
 
 ## The license
 
