@@ -56,6 +56,3 @@ Here’s how to submit a pull request. <b>Pull request that dont meet this requi
 
 If you are making any new feature make sure it's adjusted to our new, modular approach. Read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md)
 
-## TypeScript
-
-Use TS features only in new modules and Vuex (read [TS Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/TypeScript%20Action%20Plan.md) for more information)
