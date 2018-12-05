@@ -72,8 +72,6 @@ function registerModules (modules: VueStorefrontModule[], store: Store<RootState
 
 let router: VueRouter = null
 
-Vue.use(VueRouter)
-
 // Will be depreciated in 1.7. Now we are using Logger instead of logs
 if (buildTimeConfig.console.verbosityLevel !== 'display-everything' && process.env.NODE_ENV === 'production') {
   once('__TAKE_OVER_CONSOLE__', () => {
@@ -83,6 +81,29 @@ if (buildTimeConfig.console.verbosityLevel !== 'display-everything' && process.e
 
 function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: Store<RootState> } {
   router = createRouter()
+
+  router.beforeEach((to, from, next) => {
+    if (to.matched.some(route => route.meta.requiresAuth)) {
+      const usersCollection = Vue.prototype.$db.usersCollection
+      usersCollection.getItem('current-token', (err, token) => {
+        if (err) {
+          next(err)
+        }
+        if (!token) {
+          next('/')
+          app.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: app.$t('You need to be logged in to see this page'),
+            action1: { label: app.$t('OK') }
+          })
+        } else {
+          next()
+        }
+      })
+    } else {
+      next()
+    }
+  })
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
@@ -105,6 +126,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 
+  Vue.use(VueRouter)
   Vue.use(Vuelidate)
   Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
   Vue.use(Meta)
