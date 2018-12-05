@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="col-xs-2 col-md-6 center-xs">
-            <logo width="36px" height="41px"/>
+            <logo width="auto" height="41px"/>
           </div>
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
