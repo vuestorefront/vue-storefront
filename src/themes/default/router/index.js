@@ -1,15 +1,14 @@
 import config from 'config'
-const Home = () => import(/* webpackChunkName: "vsf-home" */ 'theme/pages/Home.vue')
+const Home = () => import(/* webpackChunkName: "vsf-home", webpackPrefetch: true */ 'theme/pages/Home.vue')
 const PageNotFound = () => import(/* webpackChunkName: "vsf-not-found" */ 'theme/pages/PageNotFound.vue')
 const ErrorPage = () => import(/* webpackChunkName: "vsf-error" */ 'theme/pages/Error.vue')
-const Product = () => import(/* webpackChunkName: "vsf-product" */ 'theme/pages/Product.vue')
-const Category = () => import(/* webpackChunkName: "vsf-category" */ 'theme/pages/Category.vue')
+const Product = () => import(/* webpackChunkName: "vsf-product", webpackPrefetch: true */ 'theme/pages/Product.vue')
+const Category = () => import(/* webpackChunkName: "vsf-category", webpackPrefetch: true */ 'theme/pages/Category.vue')
 const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsPage.vue')
 const CmsBlockDemoPageSsr = () => import(/* webpackChunkName: "vsf-cms-demo" */ 'theme/pages/CmsBlockDemoPageSsr.vue')
-
-// Always prefetch for offline capabilities
 const Checkout = () => import(/* webpackChunkName: "checkout", webpackPrefetch: true  */ 'theme/pages/Checkout.vue')
-// group non-sritical routes into one bundle to limit network requests
+
+// group non-critical routes into one bundle to limit network requests
 const Compare = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/Compare.vue')
 const MyAccount = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/MyAccount.vue')
 const Static = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/Static.vue')
