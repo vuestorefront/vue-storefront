@@ -8,6 +8,7 @@ services:
     env_file: docker/vue-storefront/default.env
     environment:
       VS_ENV: dev
+    network_mode: host
     volumes:
       - '.babelrc:/var/www/.babelrc'
       - './config:/var/www/config'

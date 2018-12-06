@@ -72,17 +72,18 @@ export class SearchAdapter {
     if (!Request.index || !Request.type) {
       throw new Error('Query.index and Query.type are required arguments for executing ElasticSearch query')
     }
-
+    if (rootStore.state.config.elasticsearch.queryMethod === 'GET') {
+      httpQuery.request = JSON.stringify(ElasticsearchQueryBody)
+    }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + buildURLQuery(httpQuery)
-
-    return fetch(url, { method: 'POST',
+    return fetch(url, { method: rootStore.state.config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(ElasticsearchQueryBody)
+      body: rootStore.state.config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     }).then(resp => { return resp.json() })
   }
 

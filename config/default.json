@@ -32,7 +32,8 @@
       "index": "vue_storefront_catalog",
       "min_score": 0.02,
       "csrTimeout": 5000,
-      "ssrTimeout": 1000
+      "ssrTimeout": 1000,
+      "queryMethod": "POST"
     },
     "ssr": {
       "templates": {

@@ -1,4 +1,3 @@
-import { isServer } from '@vue-storefront/core/helpers'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Catalog } from "@vue-storefront/core/modules/catalog"
 import { Cart } from '@vue-storefront/core/modules/cart'
@@ -7,7 +6,7 @@ import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
 import { Mailchimp } from '../modules/mailchimp'
-import { Example } from '@vue-storefront/core/modules/module-template'
+import { Example } from './module-template'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Homepage } from "./homepage"

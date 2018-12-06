@@ -16,6 +16,7 @@ export default {
   mixins: [Composite, AddToCompare, CompareProduct],
   data () {
     return {
+      unavailableOptionsCount: 0,
       loading: false
     }
   },
@@ -190,7 +191,8 @@ export default {
         product: this.product,
         configuration: this.configuration,
         selectDefaultVariant: true,
-        fallbackToDefaultWhenNoAvailable: false
+        fallbackToDefaultWhenNoAvailable: false,
+        setProductErorrs: true
       }).then((selectedVariant) => {
         if (store.state.config.products.setFirstVarianAsDefaultInURL) {
           this.$router.push({params: { childSku: selectedVariant.sku }})
