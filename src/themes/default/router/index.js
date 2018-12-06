@@ -6,14 +6,12 @@ const Product = () => import(/* webpackChunkName: "vsf-product", webpackPrefetch
 const Category = () => import(/* webpackChunkName: "vsf-category", webpackPrefetch: true */ 'theme/pages/Category.vue')
 const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsPage.vue')
 const CmsBlockDemoPageSsr = () => import(/* webpackChunkName: "vsf-cms-demo" */ 'theme/pages/CmsBlockDemoPageSsr.vue')
-const Checkout = () => import(/* webpackChunkName: "checkout", webpackPrefetch: true  */ 'theme/pages/Checkout.vue')
-
-// group non-critical routes into one bundle to limit network requests
-const Compare = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/Compare.vue')
-const MyAccount = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/MyAccount.vue')
-const Static = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/Static.vue')
-const CustomCmsPage = () => import(/* webpackChunkName: "lazy-routes" */ 'theme/pages/CustomCmsPage.vue')
-const CmsData = () => import(/* webpackChunkName: "lazy-routes" */ 'src/modules/magento-2-cms/components/CmsData')
+const Checkout = () => import(/* webpackChunkName: "vsf-checkout", webpackPrefetch: true  */ 'theme/pages/Checkout.vue')
+const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue')
+const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
+const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue')
+const CustomCmsPage = () => import(/* webpackChunkName: "vsf-custom-cms" */ 'theme/pages/CustomCmsPage.vue')
+const CmsData = () => import(/* webpackChunkName: "vsf-data" */ 'src/modules/magento-2-cms/components/CmsData')
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
