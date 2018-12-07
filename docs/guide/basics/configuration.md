@@ -12,7 +12,7 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode.
+Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode. This limitation can by however solved with VS 1.4 special config variable. Now the config can be reloaded on-fly with each server request if config.server.dynamicConfigReload is set to true. However in that case the config is added to window.**INITIAL_STATE** with the responses.
 :::
 
 Please find the configuration properties reference below.
@@ -38,7 +38,7 @@ Vue Storefront starts a HTTP server to deliver the SSR (server side rendered) pa
 },
 ```
 
-This is redis configuration for the output cache. See additional information [here](../data/ssr-cache.md)
+This is redis configuration for the output cache. See additional information [here](../basics/ssr-cache.md)
 
 ## GraphQL
 
@@ -57,13 +57,23 @@ This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog
 "elasticsearch": {
   "httpAuth": "",
   "host": "localhost:8080/api/catalog",
-  "index": "vue_storefront_catalog"
+  "index": "vue_storefront_catalog",
+  "min_score": 0.02,
+  "csrTimeout": 5000,
+  "ssrTimeout": 1000,
+  "queryMethod": "POST"
 },
 ```
 
 Vue Storefront uses the Elastic Search Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog` endpoint which is kind of Elastic Search Proxy (dealing with the taxes, security itd.).
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
+
+Starting from Vue Storefront v1.6 user may set the: `config.elasticsearch.queryMethod` to either "POST" (default) / "GET". When "GET" is set, the ElasticSearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so Service Worker will now able to cache the results from ElasticSearch. Service Workers can not cache any POST requests currently.
+
+:::tip Notice
+Service worker is not caching the /api requests on development envs. (localhost) as the vue-storefront-api by default runs on different port (8080)
+:::
 
 ## SSR
 
@@ -450,6 +460,8 @@ When user places the order in the Offline mode and agrees to receive push notifi
 
 Please check the [core/service-worker/order.js](https://github.com/DivanteLtd/vue-storefront/tree/master/core/service-worker/order.js) for reference
 
+Starting with Vue Storefront v1.6 we changed the default order-placing behaviour. Currently the `config.orders.directBackendSync` is set to `true` be default. With this option enabled - if the user is online, Vue Storefront tries to pass the order immediately and synchronously (waiting for result) to the eCommerce backend. This option gives immediate and direct feedback to the user. If there is an app-level error (for example validation error on Magento side) user will be notified immediately. If there is transmission issue (no connection, servers are down etc) the order is being put into queue (as it was prior to 1.6). If `config.orders.directBackendSync` is set to false - then the legacy behaviour with queuing all the orders is being used. With `directBackendSync` set to true we do have access to the server confirmation (with backend orderId) in `store.state.order.last_order_confirmation`
+
 ## Local Forage
 
 ```json
@@ -493,7 +505,7 @@ We're using [localForage](https://github.com/localForage/localForage) library fo
 
 In the `users` section we can set the API endpoints for specific use-related operations. Most of the times you need just to change the basic url.
 
-When the `autoRefreshTokens` property is set to `true` (default) Vue Storefront will be trying to refresh the user tokens automatically when the session ends up. Please take a look at the [core/store/lib/task.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/lib/task.ts) for reference.
+When the `autoRefreshTokens` property is set to `true` (default) Vue Storefront will be trying to refresh the user tokens automatically when the session ends up. Please take a look at the [core/lib/sync/task.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/lib/sync/task.ts) for reference.
 
 ## Stock
 

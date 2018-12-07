@@ -7,12 +7,11 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index
 import rootStore from '@vue-storefront/store'
 
 import buildTimeConfig from 'config'
-import { execute } from '@vue-storefront/store/lib/task'
+import { execute } from '@vue-storefront/core/lib/sync/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
-
 require('@vue-storefront/core/service-worker/registration') // register the service worker
 
 declare var window: any
@@ -34,7 +33,7 @@ function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
-      message: i18n.t('The product or category is not available in Offline mode. Redirecting to Home.'),
+      message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
       action1: { label: i18n.t('OK') }
     })
     router.push('/')
@@ -64,6 +63,7 @@ function _ssrHydrateSubcomponents (components, next, to) {
     _commonErrorHandler(err, next)
   })
 }
+
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
@@ -75,7 +75,7 @@ router.onReady(() => {
         const currentStore = currentStoreView()
         if (storeCode !== '' && storeCode !== null) {
           if (storeCode !== currentStore.storeCode) {
-            document.location = to.path // full reload
+            (document as any).location = to.path // full reload
           } else {
             prepareStoreView(storeCode)
           }
@@ -89,7 +89,7 @@ router.onReady(() => {
     if (!activated.length) {
       return next()
     }
-    Promise.all(activated.map(c => { // TODO: update me for mixins support
+    Promise.all(activated.map((c: any) => { // TODO: update me for mixins support
       const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
       union(components, [c]).map(SubComponent => {
         if (SubComponent.preAsyncData) {
@@ -108,7 +108,6 @@ router.onReady(() => {
   })
   app.$mount('#app')
 })
-// TODO: Move the order queue here from service worker!
 /*
  * serial executes Promises sequentially.
  * @param {funcs} An array of funcs that return promises.
@@ -209,11 +208,10 @@ EventBus.$on('order/PROCESS_QUEUE', event => {
 })
 
 // Process the background tasks
-// todo rewrite and split across modules
+// todo rewrite and split across modules and move to task lib
 const mutex = {}
 EventBus.$on('sync/PROCESS_QUEUE', data => {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
-    console.log('Executing task queue')
     // event.data.config - configuration, endpoints etc
     const storeView = currentStoreView()
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
@@ -254,7 +252,7 @@ EventBus.$on('sync/PROCESS_QUEUE', data => {
         console.debug('Current User token = ' + currentToken)
         console.debug('Current Cart token = ' + currentCartId)
         syncTaskCollection.iterate((task, id, iterationNumber) => {
-          if (!task.transmited && !mutex[id]) { // not sent to the server yet
+          if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
             mutex[id] = true // mark this task as being processed
             fetchQueue.push(() => {
               return execute(task, currentToken, currentCartId).then(executedTask => {

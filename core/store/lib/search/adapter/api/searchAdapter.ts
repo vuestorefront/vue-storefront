@@ -72,17 +72,18 @@ export class SearchAdapter {
     if (!Request.index || !Request.type) {
       throw new Error('Query.index and Query.type are required arguments for executing ElasticSearch query')
     }
-
+    if (rootStore.state.config.elasticsearch.queryMethod === 'GET') {
+      httpQuery.request = JSON.stringify(ElasticsearchQueryBody)
+    }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + buildURLQuery(httpQuery)
-
-    return fetch(url, { method: 'POST',
+    return fetch(url, { method: rootStore.state.config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(ElasticsearchQueryBody)
+      body: rootStore.state.config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     }).then(resp => { return resp.json() })
   }
 
@@ -168,6 +169,33 @@ export class SearchAdapter {
       },
       resultPorcessor: (resp, start, size) =>  {
         return this.handleResult(resp, 'review', start, size)
+      }
+    })
+    this.registerEntityType('cms_page', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_page', start, size)
+      }
+    })
+    this.registerEntityType('cms_block', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_block', start, size)
+      }
+    })
+    this.registerEntityType('cms_hierarchy', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultPorcessor: (resp, start, size) =>  {
+        return this.handleResult(resp, 'cms_hierarchy', start, size)
       }
     })
   }

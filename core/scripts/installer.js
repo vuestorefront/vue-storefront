@@ -264,11 +264,12 @@ class Backend extends Abstract {
         config.imageable.whitelist.allowedHosts.push(host)
 
         config.magento2.url = urlParser(this.answers.m2_url).href
-        config.magento2.api.url = urlParser(this.answers.m2_api_url).href
-        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key
-        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret
-        config.magento2.api.accessToken = this.answers.m2_api_access_token
-        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret
+        config.magento2.imgUrl = this.answers.m2_url ? urlParser(this.answers.m2_url).href + '/pub/media/catalog/product' : config.magento2.api.imgUrl
+        config.magento2.api.url = urlParser(this.answers.m2_api_url).href || config.magento2.api.url
+        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key || config.magento2.api.consumerKey
+        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret || config.magento2.api.consumerSecret
+        config.magento2.api.accessToken = this.answers.m2_api_access_token || config.magento2.api.accessToken
+        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret || config.magento2.api.accessTokenSecret
 
         jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
@@ -732,21 +733,21 @@ let questions = [
     }
   },
   {
+    type: 'input',
+    name: 'm2_url',
+    message: 'Please provide your magento url',
+    default: 'http://demo-magento2.vuestorefront.io',
+    when: function (answers) {
+      return answers.is_remote_backend === false
+    }
+  },
+  {
     type: 'confirm',
     name: 'm2_api_oauth2',
     message: `Would You like to perform initial data import from Magento2 instance?`,
     default: false,
     when: function (answers) {
       return answers.is_remote_backend === false
-    }
-  },
-  {
-    type: 'input',
-    name: 'm2_url',
-    message: 'Please provide your magento url',
-    default: 'http://demo-magento2.vuestorefront.io',
-    when: function (answers) {
-      return answers.m2_api_oauth2 === true
     }
   },
   {

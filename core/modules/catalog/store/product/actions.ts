@@ -24,7 +24,7 @@ import rootStore from '@vue-storefront/store'
 import RootState from '@vue-storefront/store/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
-
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
 const PRODUCT_REENTER_TIMEOUT = 20000
 
 const actions: ActionTree<ProductState, RootState> = {
@@ -108,14 +108,14 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return context.dispatch('sync/execute', { url: rootStore.state.config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
+    return TaskQueue.execute({ url: rootStore.state.config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         mode: 'cors'
       },
       callback_event: 'prices-after-sync'
-    }, { root: true }).then(task => {
+    }).then((task: any) => {
       return task.result
     })
   },
@@ -405,7 +405,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (prod.type_id === 'configurable' && hasConfigurableChildren) {
           // set first available configuration
           // todo: probably a good idea is to change this [0] to specific id
-          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant })
+          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
         } else if (!skipCache || ('simple' === prod.type_id || 'downloadable' === prod.type_id)) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
         }
@@ -525,6 +525,11 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
 
+  setCurrentErrors (context, errors) {
+    if (errors && typeof errors === 'object') {
+      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { errors: errors }))
+    }
+  },  
   /**
    * Assign the custom options object to the currentl product
    */
@@ -656,7 +661,7 @@ const actions: ActionTree<ProductState, RootState> = {
     } else {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
         context.state.productLoadStart = Date.now()
-        Logger.info('Calling fetchAsync for Product Page (core)' , null, { parentSku, childSku })
+        Logger.info('Fetching product data asynchronously' , 'product', {parentSku, childSku})()
         Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
           rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details

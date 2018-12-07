@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@vue-storefront/store": "^1.4.3",
-    "@vue-storefront/module": "^1.5.0",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "express": "^4.14.0",
@@ -63,7 +62,6 @@
     "inquirer": "^3.3.0",
     "is-windows": "^1.0.1",
     "jsonfile": "^4.0.0",
-    "markdown-to-vue-loader": "^1.0.0",
     "memory-fs": "^0.4.1",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.9.3",

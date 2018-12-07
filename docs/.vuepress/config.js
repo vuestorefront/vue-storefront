@@ -18,6 +18,7 @@ module.exports = {
     sidebar: {
       '/guide/': [
         '',
+        'upgrade-notes/',
         {
           title: 'Installation',
           collapsable: false,
@@ -35,12 +36,13 @@ module.exports = {
             'basics/project-structure',
             'basics/configuration',
             'basics/contributing',
-            'basics/modules',
             'basics/feature-list',
             'basics/recipes',
             'basics/typescript',
             'basics/graphql',
             'basics/ssr-cache',
+            'basics/amp',
+            'basics/e2e',
           ],
         },
         {
@@ -55,6 +57,7 @@ module.exports = {
             'core-themes/service-workers',
             'core-themes/webpack',
             'core-themes/plugins',
+            'core-themes/stylesheets',
           ],
         },
         {
@@ -80,6 +83,14 @@ module.exports = {
           ],
         },
         {
+          title: 'Extensions',
+          collapsable: false,
+          children: [
+            'extensions/extending-api',
+            'extensions/extending-server-side-routes',
+          ],
+        },
+        {
           title: 'Working with Vuex',
           collapsable: false,
           children: [
@@ -90,32 +101,29 @@ module.exports = {
             'vuex/checkout-store',
             'vuex/order-store',
             'vuex/stock-store',
-            'vuex/sync-store',
             'vuex/user-store',
             'vuex/attribute-store',
-            'vuex/ui-store',
           ],
         },
         {
           title: 'Modules',
           collapsable: false,
-          children: ['modules/cart'],
+          children: ['modules/introduction', 'modules/cart', 'modules/user'],
         },
         {
-          title: 'Working with extensions',
+          title: 'Integrations',
           collapsable: false,
-          children: ['extensions/extensions', 'extensions/extending-api'],
+          children: [
+            'integrations/integrations',
+            'integrations/reviews',
+            'integrations/payment-gateway',
+            'integrations/paypal-payments',
+            'integrations/direct-prices-sync',
+            'integrations/tier-prices-sync',
+            'integrations/totals-sync',
+            'integrations/multistore',
+          ],
         },
-        // {
-        //   title: 'Integrations',
-        //   collapsable: false,
-        //   children: ['integrations/magento', 'integrations/multistore'],
-        // },
-        // {
-        //   title: 'Core API Modules docs',
-        //   collapsable: false,
-        //   children: ['api-modules/cart-module'],
-        // },
       ],
     },
   },

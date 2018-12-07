@@ -1,5 +1,6 @@
-export function afterRegistration(Vue, config, store) {
-  if (!Vue.prototype.$isServer) {
+import Vue from 'vue'
+export function afterRegistration(Vue, config, store, isServer){
+  if (!isServer) {
     store.dispatch('user/startSession')
 
     Vue.prototype.$bus.$on('user-before-logout', () => {

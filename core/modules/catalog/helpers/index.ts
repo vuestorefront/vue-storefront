@@ -28,18 +28,8 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
 }
 
 export function isOptionAvailableAsync (context, { product, configuration }) {
-  const variant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
-  if (variant) {
-    if (variant.status >= 2) { // disabled product
-      return false
-    }
-    if (variant.stock && !rootStore.state.config.products.listOutOfStockProducts) {
-      return variant.is_in_stock
-    }
-    return true
-  } else {
-    return false
-  }
+  const variant = findConfigurableChildAsync({ product: product, configuration: configuration, availabilityCheck: true })
+  return typeof variant !== 'undefined' && variant !== null
 }
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
@@ -64,7 +54,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           optionsAvailable = optionsAvailable.filter((opt) => {
             const config = {}
             config[optionKey] = opt
-            const variant = configureProductAsync(context, { product: product, configuration: config, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false })
+            const variant = isOptionAvailableAsync(context, { product: product, configuration: config })
             if (!variant) {
               console.log('No variant for', opt)
               Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
@@ -214,33 +204,36 @@ export function doPlatformPricesSync (products) {
         const childSkus = flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
         skus = union(skus, childSkus)
       }
-      console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
+      if (skus && skus.length > 0) {
+        console.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
+        rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
+          if (syncResult) {
+            syncResult = syncResult.items
 
-      rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
-        if (syncResult) {
-          syncResult = syncResult.items
+            for (let product of products) {
+              const backProduct = syncResult.find((itm) => { return itm.id === product.id })
+              if (backProduct) {
+                product.price_is_current = true // in case we're syncing up the prices we should mark if we do have current or not
+                product.price_refreshed_at = new Date()
+                product = syncProductPrice(product, backProduct)
 
-          for (let product of products) {
-            const backProduct = syncResult.find((itm) => { return itm.id === product.id })
-            if (backProduct) {
-              product.price_is_current = true // in case we're syncing up the prices we should mark if we do have current or not
-              product.price_refreshed_at = new Date()
-              product = syncProductPrice(product, backProduct)
-
-              if (product.configurable_children) {
-                for (let configurableChild of product.configurable_children) {
-                  const backProductChild = syncResult.find((itm) => { return itm.id === configurableChild.id })
-                  if (backProductChild) {
-                    configurableChild = syncProductPrice(configurableChild, backProductChild)
+                if (product.configurable_children) {
+                  for (let configurableChild of product.configurable_children) {
+                    const backProductChild = syncResult.find((itm) => { return itm.id === configurableChild.id })
+                    if (backProductChild) {
+                      configurableChild = syncProductPrice(configurableChild, backProductChild)
+                    }
                   }
                 }
+                // TODO: shall we update local storage here for the main product?
               }
-              // TODO: shall we update local storage here for the main product?
             }
           }
-        }
+          resolve(products)
+        })
+      } else { // empty list of products
         resolve(products)
-      })
+      }
       if (!rootStore.state.config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
         console.log('Returning products, the prices yet to come from backend!')
         for (let product of products) {
@@ -421,7 +414,35 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
+export function findConfigurableChildAsync({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+  let selectedVariant = product.configurable_children.find((configurableChild) => {
+
+    if (availabilityCheck) {
+      if (configurableChild.stock && !rootStore.state.config.products.listOutOfStockProducts) {
+        if (!configurableChild.is_in_stock) {
+          return false
+        }
+      }
+    }
+    if (configurableChild.status >= 2/**disabled product*/) {
+      return false
+    }
+    if (selectDefaultChildren) {
+      return true // return first
+    }
+    if (configuration.sku) {
+      return configurableChild.sku === configuration.sku // by sku or first one
+    } else {
+      return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
+        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
+        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
+      })
+    }
+  })
+  return selectedVariant
+}
+
+export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
@@ -440,21 +461,10 @@ export function configureProductAsync (context, { product, configuration, select
     })
     // find selected variant
     let desiredProductFound = false
-    let selectedVariant = product.configurable_children.find((configurableChild) => {
-      if (configurableChild.status >= 2/**disabled product*/) {
-        return false
-      }
-      if (configuration.sku) {
-        return configurableChild.sku === configuration.sku // by sku or first one
-      } else {
-        return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
-          return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
-        })
-      }
-    })
+    let selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
     if (!selectedVariant) {
       if (fallbackToDefaultWhenNoAvailable) {
-        selectedVariant = product.configurable_children[0]
+        selectedVariant = findConfigurableChildAsync({ product, selectDefaultChildren: true, availabilityCheck: true }) // return first available child
         desiredProductFound = false
       } else {
         desiredProductFound = false
@@ -473,6 +483,9 @@ export function configureProductAsync (context, { product, configuration, select
       if (!desiredProductFound) { // update the configuration
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
         configuration = context.state.current_configuration
+      }
+      if (setProductErorrs) {
+        product.errors = {} // clear the product errors
       }
       product.is_configured = true
 
@@ -493,6 +506,12 @@ export function configureProductAsync (context, { product, configuration, select
       }
       Vue.prototype.$bus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     }
+    if (!selectedVariant && setProductErorrs) { // can not find variant anyway, even the default one
+      product.errors.variants = i18n.t('No available product variants')
+      if (selectDefaultVariant) {
+        context.dispatch('setCurrent', product) // without the configuration
+      }
+    }    
     return selectedVariant
   } else {
     if (fallbackToDefaultWhenNoAvailable) {
