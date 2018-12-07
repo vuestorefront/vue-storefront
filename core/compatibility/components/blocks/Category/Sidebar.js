@@ -1,4 +1,5 @@
 import { buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CategorySidebar',
@@ -9,11 +10,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('category', ['getCurrentCategory', 'getCategoryActiveFilters']),
     category () {
-      return this.$store.state.category.current
+      return this.getCurrentCategory
     },
     activeFilters () {
-      return this.$store.state.category.filters.chosen
+      return this.getCategoryActiveFilters
     }
   },
   methods: {
