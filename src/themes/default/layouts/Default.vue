@@ -5,7 +5,11 @@
     <div id="viewport" class="w-100 relative">
       <microcart/>
       <search-panel/>
-      <wishlist/>
+      <no-ssr>
+        <transition name="slide-right">
+          <wishlist v-if="wishlistActive"/>
+        </transition>
+      </no-ssr>
       <sidebar-menu/>
       <main-header/>
       <router-view/>
@@ -23,13 +27,13 @@
 </template>
 
 <script>
+import NoSSR from 'vue-no-ssr'
 import { mapState } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 
-import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
 import Microcart from 'theme/components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from 'theme/components/core/blocks/SearchPanel/SearchPanel.vue'
@@ -55,7 +59,8 @@ export default {
   },
   computed: {
     ...mapState({
-      overlayActive: state => state.ui.overlay
+      overlayActive: state => state.ui.overlay,
+      wishlistActive: state => state.ui.wishlist
     })
   },
   methods: {
@@ -84,7 +89,7 @@ export default {
     MainHeader,
     MainFooter,
     Microcart,
-    Wishlist,
+    'Wishlist': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/Wishlist.vue'),
     SearchPanel,
     SidebarMenu,
     Overlay,
@@ -96,11 +101,22 @@ export default {
     CookieNotification,
     OfflineBadge,
     ModalSwitcher,
-    OrderConfirmation
+    OrderConfirmation,
+    'no-ssr': NoSSR
   }
 }
 </script>
 
 <style lang="scss" src="theme/css/main.scss">
 
+</style>
+<style lang="scss">
+.slide-right-enter, .slide-right-leave-to  {
+  transform: translateX(100%);
+  transition: transform 300ms;
+}
+.slide-right-enter-to, .slide-right-leave {
+  transform: translateX(0);
+  transition: transform 300ms;
+}
 </style>

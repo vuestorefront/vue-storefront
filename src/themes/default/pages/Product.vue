@@ -158,7 +158,7 @@
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <is-on-wishlist :product="product" />
+                <wishlist-button :product="product" />
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
@@ -246,11 +246,10 @@ import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue
 import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import IsOnWishlist from 'theme/components/core/blocks/Wishlist/IsOnWishlist'
 
 export default {
   components: {
-    IsOnWishlist,
+    'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
     AddToCart,
     Breadcrumbs,
     ColorSelector,

@@ -2,6 +2,12 @@ import { Wishlist as WishlistModule } from '../'
 
 export const IsOnWishlist = {
   name: 'isOnWishlist',
+  props: {
+    product: {
+      required: true,
+      type: Object
+    }
+  },
   created () {
     WishlistModule.register()
   },

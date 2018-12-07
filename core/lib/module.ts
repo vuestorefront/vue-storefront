@@ -66,7 +66,6 @@ export class VueStorefrontModule {
 
   public register (): VueStorefrontModuleConfig | void {
     if (!this._isRegistered) {
-      
       moduleExtendings.forEach(extending => {
         if (extending.key === this._c.key) this._extend(extending)
       })
