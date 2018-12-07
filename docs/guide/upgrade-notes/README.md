@@ -1,7 +1,131 @@
 # Upgrade notes
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
+## 1.5 -> 1.6
 
+With 1.6 we've introduced new modular architecture and moved most of theme-specific logic from core to default theme. It's probably the biggest update in VS history and first step to make future upgrades more and more seamless.
+
+Due to architectural changes `core/components` and `core/store/modules` folders were removed and reorganised into modules ( `core/modules`). In most cases the components API remained the same (if not we provided an API bridge in `core/compatibility/components` folder which allows you to benefit from new features without making changes in your theme). It's a good idea to look for imports refering to deleted folders after migration to be sure that we made a full update.
+
+Overally theme upgrade for default theme requires 105 files to be changed but 85% of this changes is just a new import path for core component which makes this update time-consuming but easy to follow and not risky.
+
+[Here](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f) you can find detailed information (as a upgrade commit with notes) about what needs to be changed in theme to support VS 1.6.
+
+#### Global changes
+- Notifications are now based on Vuex Store instead of Event Bus. We've also pulled hardcoded notifications from core to theme
+
+Change in every component:
+````js
+this.$bus.$emit('notification',
+````
+to:
+````js
+this.$store.dispatch('notification/spawnNotification',
+````
+Change in every store:
+````js
+Vue.prototype.$bus.$emit('notification',
+````
+to:
+````js
+rootStore.dispatch('notification/spawnNotification',
+````
+and make sure you are importing `rootStore`.
+- Lazy loading for non-SSR routes is now available
+
+You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from default theme [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/src/themes/default/router)
+
+- Extensions are now rewritten to modules (and extensions system will be depreciated in 1.7).
+
+If you havn't modified any extensions directly you don't need to change anything. If you made such changes you'd probably need to rewrite your extension to module.
+
+- Old event bus is removed to compatibility folder. From now we are trying to create new features without it and slowly depreciate event bus whenever it's possible. It'll be repalced with some enhanced module-based mechanism with event autosugesstion support.
+
+change all `@vue-storefront/core/plugins/event-bus` imports to `@vue-storefront/core/compatibility/plugins/event-bus`
+
+#### Components that were moved or API was changed and compatibility component was created.
+
+Required action: Change import path. In case of additional changes click on a component name to see how to update.
+
+- [`AddToCart.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-16a4dd1cbf1aaf74e001e6541fb27725)
+- [`Breadcrumbs.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-fa33732560b7c39ea7854f701c4187bf)
+- [`ColorSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-551ae89c6d9e297a662749ee02676d45)
+- [`GenericSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-cbd08cdda068c587e3146bb3441e2161)
+- [`NewsletterPopup.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7b6cae3e664a647ff7397d6692e61cd6)
+- [`Notification.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d91127b094ff36e25dd94834c3aded6a) + `exec` changed to `execAction`, added `execAction`
+- [`Overlay.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-66a3ae90ace32b95ebe4513c496f76ce)
+- [`PriceSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-f564bd3cf6c2687c23c442d1363fe97b)
+- [`ProductAttribute.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-b9783243d8666d5b2e46df608e6ace48)
+- [`ProductCustomOptions.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-14db476c8821b640e674f1e655340de5)
+- [`ProductGallery.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-66a4dfcf61217934307df12e9e3f14c6)
+- [`SizeSelector.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a83c265a63b7b594b5052ec61907cde1)
+- [`SortBy.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5dab270f8342facd10835e828e5d7509) + change from dropdown to select
+- [`ValidationError.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e80a538151f16af10b20efa810ae0bc3)
+- [`Login.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-3ac818c5cd6c41a9c9d7a3acba41cdb5)
+- [`Category/Sidebar.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-88e78ea0dd0f96c15c4a00d29922e44c) + added possibility to clear all filters
+- [`CartSummary.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bacd489920bede6d60bc9ce0b165e517)
+- [`OrderReview.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-958fa5f4d0d271422146a86119bde82d) + notifications moved from core to theme
+- [`Payment.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-878b5e4180d8f997d0b57a7dc5d28154)
+- [`PersonalDetails.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d8651354142bff547c667cdab2e87a9f)
+- [`Checkout/Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a08ecdd137cc1b32d02d458e3ae22079)
+- [`Shipping.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a83c265a63b7b594b5052ec61907cde1)
+- [`AccountIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-b25a4326cbb2102f3293084aefe6d4c8)
+- [`CompareIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4180179a247fd8ebb816f4d8e94e6c5b)
+- [`HamburgerIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-39d690ab85a291546f5ebe1606250fb5)
+- [`MicrocartIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-ddcf89d0ca46b06824190f07c87f6031)
+- [`Returnicon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-68dfc0097a84464e2f8196d0948b4a03)
+- [`WishlistIcon.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-fabd1714a4872a2bcf26619adbe0709c)
+- [`Microcart.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-ffba5dcba1456c20f565e314790cd450)
+- [`Microcart/Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5715f58dacfe621ce8d056e382f1be8b)
+- [`MyNewsletter.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-48b9d7ff2e2e8e6cf6965fd582e51957)
+- [`MyOrder.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a8dbaeacd2cf4fb6440959d7827372fa)
+- [`MyOrders.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4d60c889f1362249fc19756d60f8f9b1)
+- [`MyProfile.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-677b7e3129afc1c974c3bd08069662c7)
+- [`MyShippingDetails.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5ed705e03a497368b98d9ce41ec378de)
+- [`Related.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c1703e08c80fcacd8135eeb6d707aa95) + `refreshList` method changed
+- [`SearchPanel.gql.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-2020399a5c1abfc37c176bfcc5912293)
+- [`SearchPanel.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e2ff52db282530838ffce57893ed4a77)
+- [`SidebarMenu.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c341122656ef878fc532a5c34348a1ec) + bugfix (hide longer menus that are below currently active one), direct router link instead of event
+- [`Wishlist/Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7c0514d730223832fd2e1fae9d5f2068)
+- [`Wishlist.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-8dc4f61d36ae2b2ffc2a4c4603e844b8)
+- [`Collection.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-26a650b112a3b01efd1ff3a5c752aba1)
+- [`CustomCmsPage.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-8e52fc16e52baec382994cc11445d222) (extension)
+- [`Home.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-91bc0c9fe9fa95dd88900beff8975200)
+
+#### Components that were moved from core to theme
+
+Required action: Add moved content and remove core import. In case of additional changes click on a component name to see how to update.
+
+- [`Loader.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a2791ef5c57fb2459362720b4a624e53)
+- [`Modal.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-527c2bb9d04213a2aaf1aac75673bc71) + static content removed
+- [`ProductLinks.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-9ccb222e8d3decebb067729ee935899a)
+- [`ProductListing.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-000bc323621dca4883033c0e91f9125a)
+- [`ProductTile.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-4049e5b38efd1a5d0215fd71e32136a3) + core import moved to module
+- [`ProductSlider.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-624e75f15bdb9b2f7d5f417138c9f0ec)
+- [`ForgotPass.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-e2fbfb707a274bea8b9f7af3e3c57032)
+- [`Register.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-f5266afaec9d55f2fc93cf3b874b7288) + core import moved to module
+- [`SignUp.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-df0c798d67a63c4eef4d3141393db5f9)
+- [`BaseCheckbox.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-23e3b8989b402a011ee4cb3f985fa3ce)
+- [`BaseInput.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d209385c453bdf31b89bc51772bd2bda)
+- [`BaseRadioButton.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1493dcb05a06ce313807003d1774fa14)
+- [`BaseSelect.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c4c37e440fd8ec3deeacef085b48ed9f)
+- [`BaseTextArea.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-0ea48ec8c1545db8cbdacfd348f8bf75)
+- [`Header.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-5f4560c69df1a5f6d97f0b064b9b792f)
+- [`MainSlider.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-19c964e13db826a1358f30839627986b)
+- [`Reviews.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-d8861516b2c7dfc547b91e1066ca4755) + empty array instead of null, core import path changed
+- [`Compare.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-0aa476fa2f0314806d4afd620c80be54)
+
+#### Other
+- [`ProductBundleOption.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-32809917812e7c8c4571be70a693d65b) - splitted single option from `ProductBundleOptions.vue` component. 
+- [`ProductBundleOptions.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7ccee94c636406b1a82feddea3a7f520) - single option moved to separate component `ProductBundleOption.vue`, moved to module.
+- [`ThankYouPage.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-84c29c5b22568c31b021dc864221563f) added order id display, order confirmation, pulled notifications from core and added mail confirmation
+- [`main.scss`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c65e47159738f3552a22f16ec5c5974f) removed duplicated flexbox grid
+- [`index.template.html`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bf0804a2329350f8e9d9071e40cf1429) (+ all other templates that you may have like minimal, basic etc), added `{{{ output.appendHead() }}}, {{{ renderStyles() }}}	`
+- [`Category.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-eb709969add1ca4a266ac072cddde954) notifications moved to theme
+- [`Checkout.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1c6544c28d075f275812201fa42755de) notifications moved to theme
+- [`MyAccount.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bb873f532ed9a2efbb157af79a70e0f7) notifications moved to theme
+- [`Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-174db65df8e0c43df20b73b5bf16881b) minor changes in attribute var names that may influence the markup, notifications moved to theme
+- [`Static.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a3a9b6eeeba4c915c1ea1aae1c489ecc) Static pages are no longed using markdown files.
 ## 1.4 -> 1.5
 
 ### Modifications
