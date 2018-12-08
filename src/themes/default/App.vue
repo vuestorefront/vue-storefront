@@ -6,9 +6,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import DefaultLayout from './layouts/Default'
-import EmptyLayout from './layouts/Empty'
-import MinimalLayout from './layouts/Minimal'
+const DefaultLayout = () => import('./layouts/Default')
+const EmptyLayout = () => import('./layouts/Empty')
+const MinimalLayout = () => import('./layouts/Minimal')
 
 export default {
   data () {
