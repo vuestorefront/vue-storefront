@@ -1,6 +1,7 @@
 import { register } from 'register-service-worker'
+import { server } from 'config'
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || server.devServiceWorker) {
   register(`/service-worker.js`, {
     ready () {
       console.log(
