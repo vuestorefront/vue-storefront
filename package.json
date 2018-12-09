@@ -62,6 +62,7 @@
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "pm2": "^2.10.4",
     "reflect-metadata": "^0.1.12",
+    "register-service-worker": "^1.5.2",
     "vue": "^2.5.17",
     "vue-analytics": "^5.16.1",
     "vue-apollo": "^3.0.0-beta.19",
