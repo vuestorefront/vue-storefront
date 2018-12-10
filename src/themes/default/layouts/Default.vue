@@ -8,7 +8,7 @@
       <wishlist/>
       <sidebar-menu/>
       <main-header/>
-      <router-view/>
+      <slot/>
       <main-footer/>
       <notification/>
       <sign-up/>
