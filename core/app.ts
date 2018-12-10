@@ -38,6 +38,7 @@ import { enabledModules } from './modules-entry'
 // Will be depreciated in 1.7
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
+import  createFilters  from '../core/modules/filters/createFilters'
 import rootStore from '@vue-storefront/store';
 
 
@@ -93,7 +94,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
 
   // depreciated, will be removed in 1.7
-  const storeModules = themeModules || {} 
+  const storeModules = themeModules || {}
 
   // depreciated, will be removed in 1.7
   for (const moduleName of Object.keys(storeModules)) {
@@ -127,9 +128,8 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   })
 
   const filtersObject = filters()
-  Object.keys(filtersObject).forEach(key => {
-    Vue.filter(key, filtersObject[key])
-  })
+  // Init filters by plugin
+  Vue.use(createFilters, filtersObject)
 
   const httpLink = new HttpLink({
     uri: store.state.config.graphql.host.indexOf('://') >= 0 ? store.state.config.graphql.host : (store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql')
@@ -162,7 +162,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   })
 
   Vue.use(VueApollo)
-  
+
   const app = new Vue({
     router,
     store,
@@ -181,7 +181,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
 
   app.$emit('application-after-init', app)
-  
+
   return { app, router, store }
 }
 
