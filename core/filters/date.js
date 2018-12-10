@@ -6,6 +6,6 @@ import { currentStoreView } from '@vue-storefront/store/lib/multistore'
  * @param {String} format
  */
 export function date (date, format) {
-  const storeView = currentStoreView()
-  return new Date(date).toLocaleString(storeView.i18n.defaultLocale)
+  const { defaultLocale } = currentStoreView().i18n
+  return new Date(date.replace(/-/g, '/')).toLocaleString(defaultLocale)
 }
