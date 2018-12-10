@@ -1,3 +1,5 @@
 <template>
-  <router-view/>
+  <div>
+    <slot/>
+  </div>
 </template>

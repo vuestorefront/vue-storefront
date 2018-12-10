@@ -1,12 +1,17 @@
-import Home from 'theme/pages/Home.vue'
-import PageNotFound from 'theme/pages/PageNotFound.vue'
-import ErrorPage from 'theme/pages/Error.vue'
-import store from '@vue-storefront/store'
-import Product from 'theme/pages/Product.vue'
-import Category from 'theme/pages/Category.vue'
-import { Compare, Checkout, MyAccount, Static, CustomCmsPage, CmsData } from './asyncRoutes'
-import CmsPage from 'theme/pages/CmsPage.vue'
-import CmsBlockDemoPageSsr from 'theme/pages/CmsBlockDemoPageSsr.vue'
+import config from 'config'
+const Home = () => import(/* webpackChunkName: "vsf-home", webpackPrefetch: true */ 'theme/pages/Home.vue')
+const PageNotFound = () => import(/* webpackChunkName: "vsf-not-found" */ 'theme/pages/PageNotFound.vue')
+const ErrorPage = () => import(/* webpackChunkName: "vsf-error" */ 'theme/pages/Error.vue')
+const Product = () => import(/* webpackChunkName: "vsf-product", webpackPrefetch: true */ 'theme/pages/Product.vue')
+const Category = () => import(/* webpackChunkName: "vsf-category", webpackPrefetch: true */ 'theme/pages/Category.vue')
+const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsPage.vue')
+const CmsBlockDemoPageSsr = () => import(/* webpackChunkName: "vsf-cms-demo" */ 'theme/pages/CmsBlockDemoPageSsr.vue')
+const Checkout = () => import(/* webpackChunkName: "vsf-checkout", webpackPrefetch: true  */ 'theme/pages/Checkout.vue')
+const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue')
+const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
+const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue')
+const CustomCmsPage = () => import(/* webpackChunkName: "vsf-custom-cms" */ 'theme/pages/CustomCmsPage.vue')
+const CmsData = () => import(/* webpackChunkName: "vsf-data" */ 'src/modules/magento-2-cms/components/CmsData')
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -37,7 +42,7 @@ let routes = [
   { name: 'cms-block-demo-page-ssr', path: '/cms-block-demo-page-ssr', component: CmsBlockDemoPageSsr },
   { name: 'cms-page-sync', path: '/cms-page-sync', component: CmsData, props: {identifier: 'about-us', type: 'Page', sync: true} }
 ]
-if (!store.state.config.products.useShortCatalogUrls) {
+if (!config.products.useShortCatalogUrls) {
   routes = routes.concat([{ name: 'virtual-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'bundle-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
     { name: 'simple-product', path: '/p/:parentSku/:slug', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
