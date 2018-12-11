@@ -80,6 +80,7 @@ module.exports = {
             'data/elastic-queries',
             'data/database-tool',
             'data/entity-types',
+            'data/static-data',
           ],
         },
         {
