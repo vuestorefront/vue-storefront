@@ -4,7 +4,7 @@
       <div
         class="notification mt30 border-box cl-white"
         v-for="(notification, index) in notifications"
-        :key="index"
+        :key="`${notification.type}_${index}`"
         :class="notification.type"
       >
         <div
