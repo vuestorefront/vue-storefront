@@ -18,7 +18,7 @@ A summary of the current order
 
 **Props**
 
-- `isActive` - a boolean value representing if order review is active. Required to be `true`
+- `isActive` - boolean, required prop
 
 **Methods**
 
@@ -31,7 +31,7 @@ A component to handle payment operations
 
 **Props**
 
-- `isActive` - a boolean value representing if payment is active. Required to be `true`
+- `isActive` - boolean, required prop
 
 **Computed**
 
@@ -54,9 +54,69 @@ A component to handle payment operations
 
 ### Personal Details
 
+User's personal details component
+
+**Props**
+
+- `isActive` - boolean, required prop
+- `focusedField` - a string showing which field is focused
+
+**Computed**
+
+- `currentUser` - the current user mapped from application state
+
+**Methods**
+
+- `onLoggedIn` - populates `personalDetails` with data passed as a parameter
+- `sendDataToCheckout` - performs a check if an account is already created and emits `checkout-after-personalDetails` bus event
+- `edit` - emits `checkout-before-edit` bus event
+- `gotoAccount` - shows a sign-up modal
+
 ### Product
 
+The component representing a product
+
+**Props**
+
+- `product` - current product
+
+**Computed**
+
+- `thumbnail` - returns a thumbnail for product image
+
+**Methods**
+
+- `onProductChanged` - checks `event.item.sku` and if it's equal to `product.sku`, the force update will be triggered
+
 ### Shipping
+
+Component handling all the shipping logic
+
+**Props**
+
+- `isActive` - boolean, required prop
+
+**Computed**
+
+- `currentUser` - the current user mapped from application state
+- `shippingMethods` - available payment methods mapped from `payment/paymentMethods` getter
+- `checkoutShippingDetails` - mapped from `state.checkout.shippingDetails`
+- `paymentMethod` - mapped from `state.payment.methods`
+
+**Methods**
+
+- `onAfterShippingSet` - populates the `shipping` data property with a passed parameter
+- `onAfterPersonalDetail` - checks `isFilled` data property and if it's false, dispatches `checkout/updatePropValue` with user's first and last names
+- `sendDataToCheckout` - emits `checkout-after-shippingDetails` bus event; sets `isFilled` to `true`
+- `edit` - is `isFilled` is true, emits `checkout-before-edit` bus event and sets `isFilled` to `false`
+- `hasShippingDetails` - checks, if `currentUser` exists and has a property `default_shipping`; if so, populates `myAddressDetails` data property with `currentUser.addresses`
+- `useMyAddress` - checks `shipToMyAddress`; if `true`, populates `shipping` data property with `myAddressDetails`
+- `getShippingMethod` - gets the shipping method from `shippingMethods` data property
+- `getCountryName` - gets country name with country code
+- `changeCountry` - emits `checkout-before-shippingMethods` bus event
+- `getCurrentShippingMethod` - calculates a current shipping method with shipping method code
+- `changeShippingMethod` - if `getCurrentShippingMethod` exists, emits `checkout-after-shippingMethodChanged` bus event
+- `notInMethods` - checks if passed method is present in `shippingMethods`
 
 ## Store
 
