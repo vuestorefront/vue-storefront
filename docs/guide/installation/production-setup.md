@@ -70,7 +70,7 @@ Some additional materials:
 
 #### Nginx configuration
 
-[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree//master/docs/guide/installation/etc/nginx/sites-enabled/prod.vuestorefront.io).
+[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/master/docs/guide/installation/etc/nginx/sites-enabled/prod.vuestorefront.io).
 
 Create nginx config file from the template (please run as a root user):
 
