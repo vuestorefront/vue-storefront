@@ -122,13 +122,9 @@ app.use('/service-worker.js', serve('dist/service-worker.js', {
 const serverExtensions = require(resolve('src/server'))
 serverExtensions.registerUserServerRoutes(app)
 
-app.post('/invalidate', (req, res) => {
-  invalidateCache(req, res)
-})
+app.post('/invalidate', invalidateCache)
 
-app.get('/invalidate', (req, res) => {
-  invalidateCache(req, res)
-})
+app.get('/invalidate', invalidateCache)
 
 app.get('*', (req, res, next) => {
   const s = Date.now()
