@@ -2,7 +2,7 @@
 
 Category Store is designed to handle all actions related the categories data.
 
-This module works pretty tightly with Elastic Search and operates on the [Product data format](..data/elasticsearch.md)
+This module works pretty tightly with Elastic Search and operates on the [Product data format](../data/elasticsearch.md)
 
 ## State
 

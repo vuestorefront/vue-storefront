@@ -5,6 +5,7 @@ module.exports = {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
     editLinks: true,
+    sidebarDepth: 3,
     nav: [
       {
         text: 'YouTube',
