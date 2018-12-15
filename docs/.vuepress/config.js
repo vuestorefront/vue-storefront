@@ -112,6 +112,7 @@ module.exports = {
           children: [
             'modules/introduction',
             'modules/cart',
+            // 'modules/catalog',
             'modules/user',
             'modules/checkout',
             'modules/order',
