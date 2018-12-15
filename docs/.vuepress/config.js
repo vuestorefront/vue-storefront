@@ -109,7 +109,13 @@ module.exports = {
         {
           title: 'Modules',
           collapsable: false,
-          children: ['modules/introduction', 'modules/cart', 'modules/user'],
+          children: [
+            'modules/introduction',
+            'modules/cart',
+            'modules/user',
+            'modules/checkout',
+            'modules/order',
+          ],
         },
         {
           title: 'Integrations',
