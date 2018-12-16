@@ -21,7 +21,6 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('category/list', {})
   },
   methods: {
     onEscapePress () {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul
-      v-if="categoryLinks"
+      v-if="children"
       class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
       :style="styles"
     >
@@ -20,13 +20,13 @@
       <li
         class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         :key="link.slug"
-        v-for="link in categoryLinks"
+        v-for="link in children"
       >
         <sub-btn
           class="bg-cl-transparent brdr-none fs-medium"
           :id="link.id"
           :name="link.name"
-          v-if="link.children_data.length"
+          v-if="link.children_count"
         />
         <router-link
           v-else
@@ -38,7 +38,7 @@
         <sub-category
           :category-links="link.children_data"
           :id="link.id"
-          v-if="link.children_data.length"
+          v-if="link.children_count"
           :parent-slug="link.slug"
         />
       </li>
@@ -101,6 +101,13 @@ export default {
     }
   },
   computed: {
+    children () {
+      if (this.categoryLinks) {
+        return this.categoryLinks
+      } else {
+        return this.$store.state.category.list.filter(c => { return c.parent_id === this.id }) // return my child categories
+      }
+    },
     ...mapState({
       submenu: state => state.ui.submenu
     }),

@@ -30,12 +30,20 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.includeFields : null, skipCache = false }) {
+  list (context, { parent = null, key = null, value = null, level = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.includeFields : null, excludeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.excludeFields : null, skipCache = false }) {
     const commit = context.commit
 
     let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
-      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parent.id}})
+      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': typeof parent === 'object' ? parent.id : parent }})
+    }
+
+    if (level !== null) {
+      searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
+    }
+    
+    if (key !== null) {
+      searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
     }
 
     if (onlyActive === true) {
@@ -46,19 +54,19 @@ const actions: ActionTree<CategoryState, RootState> = {
       searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
     }
 
-    if (skipCache || (!context.state.list || context.state.list.length === 0)) {
-      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields }).then((resp) => {
-        commit(types.CATEGORY_UPD_CATEGORIES, resp)
-        Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
-        return resp
-      })
-    } else {
+//    if (skipCache || (!context.state.list || context.state.list.length === 0)) {
+    return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
+      commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
+      Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+      return resp
+    })
+/*    } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
         Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         resolve(resp)
       })
-    }
+    }*/
   },
 
   /**
@@ -69,13 +77,26 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true,  populateRequestCacheTags = true }) {
+  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true,  populateRequestCacheTags = true, skipCache = false }) {
     const state = context.state
     const commit = context.commit
     const dispatch = context.dispatch
 
     return new Promise((resolve, reject) => {
+      const fetchCat = ({ key, value }) => {
+        context.dispatch('list', { key: key, value: value, includeFields: null, excludeFields: null }).then(res => {
+          if (res && res.items && res.items.length) {
+            setcat(null, res.items[0])
+          } else {
+            reject(new Error('Category query returned empty result ' + key + ' = ' + value))
+          }
+        }).catch(reject)
+      }      
       let setcat = (error, mainCategory) => {
+
+        if (!mainCategory || value === 1 /* root category */) {
+          fetchCat({ key, value })          
+        }
         if (error) {
           console.error(error)
           reject(error)
@@ -126,20 +147,21 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
       }
 
-      if (state.list.length > 0) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
+/*      let localStateCategoryFound = false
+      if (state.list.length > 0 && !skipCache) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
         let category = state.list.find((itm) => { return itm[key] === value })
         // Check if category exists in the store OR we have recursively reached Default category (id=1)
         if (category || value === 1) {
+          localStateCategoryFound = true
           setcat(null, category)
-        } else {
-          reject(new Error('Category query returned empty result ' + key + ' = ' + value))
         }
+      }*/
+      if (skipCache || Vue.prototype.$isServer) {
+        fetchCat({ key, value })
       } else {
         const catCollection = Vue.prototype.$db.categoriesCollection
         // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
-        if (!catCollection.getItem(entityKeyName(key, value), setcat) && value !== 1) { // TODO: add API request in case item iis not found in the cache
-          reject(new Error('Category query returned empty result ' + key + ' = ' + value))
-        }
+        catCollection.getItem(entityKeyName(key, value), setcat)
       }
     })
   },
