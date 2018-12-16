@@ -137,7 +137,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       } else {
         const catCollection = Vue.prototype.$db.categoriesCollection
         // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
-        if (!catCollection.getItem(entityKeyName(key, value), setcat) && value !== 1) {
+        if (!catCollection.getItem(entityKeyName(key, value), setcat) && value !== 1) { // TODO: add API request in case item iis not found in the cache
           reject(new Error('Category query returned empty result ' + key + ' = ' + value))
         }
       }
