@@ -14,17 +14,15 @@ export default {
       rootCategories: 'category/list'
     })
   },
-  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      if (context) context.output.cacheTags.add(`home`)
-      Logger.info('Calling asyncData in Home Page (core)')()
-      EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
-        return resolve()
-      }).catch((err) => {
-        console.error(err)
-        reject(err)
-      })
-    })
+  async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+    if (context) context.output.cacheTags.add(`home`)
+    Logger.info('Calling asyncData in Home Page (core)')()
+    try {
+      await EventBus.$emitFilter('home-after-load', { store: store, route: route })
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
   },
   beforeMount () {
     this.$store.dispatch('category/reset')
