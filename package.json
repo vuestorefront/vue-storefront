@@ -44,7 +44,6 @@
     "lerna": "lerna"
   },
   "dependencies": {
-    "ajv": "^6.4.0",
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "^2.3.5",
     "apollo-link": "^1.2.2",
