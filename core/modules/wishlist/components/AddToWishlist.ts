@@ -9,9 +9,11 @@ export const AddToWishlist = {
       type: Object
     }
   },
+  created () {
+    WishlistModule.register()
+  },
   methods: {
     addToWishlist (product: Product) {
-      WishlistModule.register()
       return this.$store.state['wishlist'] ? this.$store.dispatch('wishlist/addItem', product) : false
     }
   }

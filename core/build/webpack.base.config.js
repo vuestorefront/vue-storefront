@@ -5,7 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const autoprefixer = require('autoprefixer')
 const HTMLPlugin = require('html-webpack-plugin')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const webpack = require('webpack')
 
 fs.writeFileSync(
@@ -47,28 +47,32 @@ const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     // generate output HTML
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
       filename: 'index.html',
+      chunksSortMode: 'none',
       inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
+      chunksSortMode: 'none',
       inject: isProd == false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexBasic) ? themedIndexBasic: 'src/index.basic.template.html',
       filename: 'index.basic.html',
+      chunksSortMode: 'none',
       inject: isProd == false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexAmp) ? themedIndexAmp: 'src/index.amp.template.html',
       filename: 'index.amp.html',
+      chunksSortMode: 'none',
       inject: isProd == false
     })
   ],
