@@ -4,7 +4,7 @@
     @click="switchFilter(id, label)"
     :aria-label="$t('Select color ') + label"
   >
-    <div
+    <span
       class="absolute brdr-circle brdr-1 brdr-cl-secondary block color-inside"
       :style="colorFrom(label)"
     />

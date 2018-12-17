@@ -53,7 +53,7 @@ const actions: ActionTree<OrderState, RootState> = {
             commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order: order, confirmation: task.result })
             Vue.prototype.$bus.$emit('order-after-placed', { order: order, confirmation: task.result })
           }
-          return task.result
+          return task
         }).catch(e => {
           rootStore.dispatch('notification/spawnNotification', {
             type: 'error',

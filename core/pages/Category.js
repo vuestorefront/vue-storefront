@@ -139,7 +139,7 @@ export default {
     if (!Vue.prototype.$isServer && this.lazyLoadProductsOnscroll) {
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
-      })
+      }, {passive: true})
     }
   },
   beforeDestroy () {

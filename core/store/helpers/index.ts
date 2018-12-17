@@ -21,8 +21,22 @@ export function slugify (text) {
  */
 
 export function getThumbnailPath (relativeUrl, width, height) {
-  if (relativeUrl && relativeUrl.indexOf('://') > 0) return relativeUrl
-  return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? `${rootStore.state.config.images.baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}` : rootStore.state.config.images.productPlaceholder || ''
+  if (rootStore.state.config.images.useExactUrlsNoProxy) {
+    return relativeUrl // this is exact url mode
+  } else {
+    let resultUrl
+    if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
+    let baseUrl = rootStore.state.config.images.proxyUrl ? rootStore.state.config.images.proxyUrl : rootStore.state.config.images.baseUrl // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
+    if (baseUrl.indexOf('{{') >= 0) {
+      baseUrl = baseUrl.replace('{{url}}', relativeUrl)
+      baseUrl = baseUrl.replace('{{width}}', width)
+      baseUrl = baseUrl.replace('{{height}}', height)
+      resultUrl = baseUrl
+    } else {
+      resultUrl = `${baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}`
+    }
+    return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : rootStore.state.config.images.productPlaceholder || ''
+  }
 }
 
 /**
