@@ -72,57 +72,44 @@ export default {
     // Load personal and shipping details for Checkout page from IndexedDB
     this.$store.dispatch('checkout/load')
   },
-  beforeMount () {
+  async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
-      this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' }).then((onboardingClaim) => {
-        if (!onboardingClaim) { // show onboarding info
-          this.$bus.$emit('modal-toggle', 'modal-onboard')
-          this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
-        }
-      })
+      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
+      if (!onboardingClaim) { // show onboarding info
+        this.$bus.$emit('modal-toggle', 'modal-onboard')
+        this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
+      }
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     const config = store.state.config
-    return new Promise((resolve, reject) => {
-      Logger.info('Calling asyncData in Home (theme)')()
 
-      let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-      let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
+    Logger.info('Calling asyncData in Home (theme)')()
 
-      store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
-        store.dispatch('product/list', {
-          query: newProductsQuery,
-          size: 8,
-          sort: 'created_at:desc',
-          includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
-        }).catch(err => {
-          reject(err)
-        }).then((res) => {
-          if (res) {
-            store.state.homepage.new_collection = res.items
-          }
+    let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+    let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
 
-          store.dispatch('product/list', {
-            query: coolBagsQuery,
-            size: 4,
-            sort: 'created_at:desc',
-            includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
-          }).then((res) => {
-            if (res) {
-              store.state.homepage.coolbags_collection = res.items
-            }
-            return resolve()
-          }).catch(err => {
-            reject(err)
-          })
-        }).catch(err => {
-          reject(err)
-        })
-      }).catch(err => {
-        reject(err)
-      })
+    await store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null })
+
+    const newProductsResult = await store.dispatch('product/list', {
+      query: newProductsQuery,
+      size: 8,
+      sort: 'created_at:desc',
+      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
     })
+    if (newProductsResult) {
+      store.state.homepage.new_collection = newProductsResult.items
+    }
+
+    const coolBagsResult = await store.dispatch('product/list', {
+      query: coolBagsQuery,
+      size: 4,
+      sort: 'created_at:desc',
+      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+    })
+    if (coolBagsResult) {
+      store.state.homepage.coolbags_collection = coolBagsResult.items
+    }
   }
 }
 </script>
