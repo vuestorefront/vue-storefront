@@ -131,6 +131,7 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
+            'integrations/product-reviews',
           ],
         },
       ],
