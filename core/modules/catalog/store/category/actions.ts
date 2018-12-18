@@ -13,6 +13,7 @@ import RootState from '@vue-storefront/store/types/RootState'
 import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import store from 'theme/store';
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -33,17 +34,22 @@ const actions: ActionTree<CategoryState, RootState> = {
   list (context, { parent = null, key = null, value = null, level = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.includeFields : null, excludeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.excludeFields : null, skipCache = false }) {
     const commit = context.commit
 
+    let customizedQuery = false // that means the parameteres are != defaults; with defaults parameter the data could be get from window.__INITIAL_STATE__ - this is optimisation trick
     let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
       searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': typeof parent === 'object' ? parent.id : parent }})
+      customizedQuery = true
     }
 
     if (level !== null) {
       searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
+      if (level !== rootStore.state.config.entities.category.categoriesDynamicPrefetchLevel) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
+      customizedQuery = true
     }
     
     if (key !== null) {
       searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+      customizedQuery = true
     }
 
     if (onlyActive === true) {
@@ -52,21 +58,21 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     if (onlyNotEmpty === true) {
       searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
+      customizedQuery = true
     }
-
-//    if (skipCache || (!context.state.list || context.state.list.length === 0)) {
+    if (skipCache || ((!context.state.list || context.state.list.length === 0) || customizedQuery)) {
     return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
       commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
       Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
       return resp
     })
-/*    } else {
+    } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
         Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         resolve(resp)
       })
-    }*/
+    }
   },
 
   /**
@@ -84,18 +90,24 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const fetchCat = ({ key, value }) => {
-        context.dispatch('list', { key: key, value: value, includeFields: null, excludeFields: null }).then(res => {
-          if (res && res.items && res.items.length) {
-            setcat(null, res.items[0])
-          } else {
-            reject(new Error('Category query returned empty result ' + key + ' = ' + value))
-          }
-        }).catch(reject)
-      }      
+        if (key !== 'id' || value >= rootStore.state.config.entities.category.categoriesRootCategorylId/* root category */) {
+          context.dispatch('list', { key: key, value: value }).then(res => {
+            if (res && res.items && res.items.length) {
+              setcat(null, res.items[0])
+            } else {
+              reject(new Error('Category query returned empty result ' + key + ' = ' + value))
+            }
+          }).catch(reject)
+        } else {
+          reject(new Error('Category query returned empty result ' + key + ' = ' + value))
+          return
+        }
+      }
       let setcat = (error, mainCategory) => {
 
-        if (!mainCategory || value === 1 /* root category */) {
-          fetchCat({ key, value })          
+        if (!mainCategory) {
+          fetchCat({ key, value })
+          return
         }
         if (error) {
           console.error(error)
@@ -114,7 +126,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             if (!category) {
               return
             }
-            if (category.parent_id) {
+            if (category.parent_id >= rootStore.state.config.entities.category.categoriesRootCategorylId) {
               dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
                 if (!sc) {
                   commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
@@ -147,21 +159,23 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
       }
 
-/*      let localStateCategoryFound = false
+      let foundInLocalCache = false
       if (state.list.length > 0 && !skipCache) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
         let category = state.list.find((itm) => { return itm[key] === value })
         // Check if category exists in the store OR we have recursively reached Default category (id=1)
-        if (category || value === 1) {
-          localStateCategoryFound = true
+        if (category && value >= rootStore.state.config.entities.category.categoriesRootCategorylId/** root category parent */) {
+          foundInLocalCache = true
           setcat(null, category)
         }
-      }*/
-      if (skipCache || Vue.prototype.$isServer) {
-        fetchCat({ key, value })
-      } else {
-        const catCollection = Vue.prototype.$db.categoriesCollection
-        // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
-        catCollection.getItem(entityKeyName(key, value), setcat)
+      }
+      if (!foundInLocalCache) {
+        if (skipCache || Vue.prototype.$isServer) {
+          fetchCat({ key, value })
+        } else {
+          const catCollection = Vue.prototype.$db.categoriesCollection
+          // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
+          catCollection.getItem(entityKeyName(key, value), setcat)
+        }
       }
     })
   },

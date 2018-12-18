@@ -9,7 +9,7 @@ export default {
   computed: {
     categories () {
       return this.$store.state.category.list.filter((op) => {
-        return op.level === 2 // display only the root level (level =1 => Default Category)
+        return op.level === (this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel ? this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel : 2) // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default
       })
     },
     ...mapState({

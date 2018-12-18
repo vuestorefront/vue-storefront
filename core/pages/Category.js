@@ -83,7 +83,7 @@ export default {
       Logger.info('Entering asyncData in Category Page (core)')()
       if (context) context.output.cacheTags.add(`category`)
       const defaultFilters = store.state.config.products.defaultFilters
-      store.dispatch('category/list', { level: store.state.config.entities.category.rootCategoriesLevel ? store.state.config.entities.category.rootCategoriesLevel : null, includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
+      store.dispatch('category/list', { level: store.state.config.entities.category.categoriesDynamicPrefetch && store.state.config.entities.category.categoriesDynamicPrefetchLevel ? store.state.config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
           includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.attribute.includeFields : null

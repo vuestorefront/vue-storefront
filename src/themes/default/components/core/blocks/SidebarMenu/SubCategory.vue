@@ -26,7 +26,7 @@
           class="bg-cl-transparent brdr-none fs-medium"
           :id="link.id"
           :name="link.name"
-          v-if="link.children_count"
+          v-if="link.children_count > 0"
         />
         <router-link
           v-else
@@ -38,7 +38,7 @@
         <sub-category
           :category-links="link.children_data"
           :id="link.id"
-          v-if="link.children_count"
+          v-if="link.children_count > 0"
           :parent-slug="link.slug"
         />
       </li>
@@ -102,7 +102,7 @@ export default {
   },
   computed: {
     children () {
-      if (this.categoryLinks) {
+      if (!this.$store.state.config.entities.category.categoriesDynamicPrefetch && (this.categoryLinks && this.categoryLinks.length > 0 && this.categoryLinks[0].name)) { // we're using dynamic prefetching and getting just category.children_data.id from 1.7
         return this.categoryLinks
       } else {
         return this.$store.state.category.list.filter(c => { return c.parent_id === this.id }) // return my child categories

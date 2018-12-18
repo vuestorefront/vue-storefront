@@ -20,8 +20,10 @@ const mutations: MutationTree<CategoryState> = {
       let catSlugSetter = (category) => {
         if (category.children_data) {
           for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
-            subcat = Object.assign(subcat, { slug: (subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '') })
-            catSlugSetter(subcat)
+            if (subcat.name) {
+              subcat = Object.assign(subcat, { slug: (subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '') })
+              catSlugSetter(subcat)
+            }
           }
         }
       }
