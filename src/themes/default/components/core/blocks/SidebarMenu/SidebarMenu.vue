@@ -32,13 +32,13 @@
             :key="category.slug"
             @click="closeMenu"
             v-for="category in categories"
-            v-if="category.product_count > 0 || category.children_data.length > 0"
+            v-if="category.product_count > 0 || category.children_count > 0"
           >
             <sub-btn
               class="bg-cl-transparent brdr-none fs-medium"
               :id="category.id"
               :name="category.name"
-              v-if="category.children_data.length > 0"
+              v-if="category.children_count > 0"
               @click.native="activeSubMenu = category.id"
             />
             <router-link
