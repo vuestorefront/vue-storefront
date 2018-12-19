@@ -601,8 +601,14 @@ const actions: ActionTree<ProductState, RootState> = {
       if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
         throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
       }
+      
       let subloaders = []
       if (product) {
+        const productFields = Object.keys(product)
+        subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details
+          filterValues: productFields,
+          includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
+        }, { root: true }))
         if (Vue.prototype.$isServer) {
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {
@@ -664,34 +670,26 @@ const actions: ActionTree<ProductState, RootState> = {
         Logger.info('Fetching product data asynchronously' , 'product', {parentSku, childSku})()
         Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
-          rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
-            filterValues: [true],
-            filterField: 'is_user_defined',
-            includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
-          }).catch(err => {
-            reject(err)
-          }).then((attrs) => {
-            context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
-              Promise.all(subpromises).then(subresults => {
-                Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
-                  context.state.productLoadStart = null
-                  return resolve()
-                }).catch((err) => {
-                  context.state.productLoadStart = null
-                  console.error(err)
-                  return resolve()
-                })
-              }).catch(errs => {
+          context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
+            Promise.all(subpromises).then(subresults => {
+              Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
                 context.state.productLoadStart = null
-                reject(errs)
+                return resolve()
+              }).catch((err) => {
+                context.state.productLoadStart = null
+                console.error(err)
+                return resolve()
               })
-            }).catch(err => {
+            }).catch(errs => {
               context.state.productLoadStart = null
-              reject(err)
-            }).catch(err => {
-              context.state.productLoadStart = null
-              reject(err)
+              reject(errs)
             })
+          }).catch(err => {
+            context.state.productLoadStart = null
+            reject(err)
+          }).catch(err => {
+            context.state.productLoadStart = null
+            reject(err)
           })
         })
       })
