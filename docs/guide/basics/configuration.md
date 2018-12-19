@@ -236,6 +236,10 @@ Please take a look at the [core/store/modules/cart](https://github.com/DivanteLt
 
 These settings are used just to configure the optimization strategy for different entity types. Please take a look that we have `productListWithChildren` and the `product` configuration separately. The former one is used in the Category page -> `core/pages/Category.js` and the latter is used in the Product page ->`core/pages/Product.js`
 
+### Dynamic Categories prefetching
+
+Starting with Vue Storefront 1.7 we've added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). This option switches the way the category tree is being fetched. Previously we were fetching the full categories tree. In some cases it can generate even few MB of payload. Currently with this option in place we're pre-fetching the categories on demand while user is browsing the category tree.
+
 ## Cart
 
 ```json
