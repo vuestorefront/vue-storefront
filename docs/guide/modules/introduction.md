@@ -32,7 +32,7 @@ This is the kind of modularity and extendibility we want in Vue Storefront and a
 
 ## What is the purpose of VS modules?
 
-The purpose is well described in [this discussion](https://github.com/DivanteLtd/vue-storefront/issues/1213). It can be sumamrized to:
+The purpose is well described in [this discussion](https://github.com/DivanteLtd/vue-storefront/issues/1213). It can be summarized to:
 
 - **Better extensibility**: We can extend each module or replace it completely with the new one. For example we may want to replace our Cart module with the one that allows to have multiple carts. With modules we can just detach current Cart module and repalce it with our new one. Another example can be using different modules for different content CMSes integration etc.
 - **Better developer experience**: Along with the modules we are introducing many features focused on delivering better, easier to jump in and more predictable developer experience. We changed the way you can compose components with features, added unit tests, TypeScript interfaces etc.
@@ -127,7 +127,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 
 ## Module registration
 
-All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
+All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](#extending-and-overriding-vue-storefront-modules)).
 
 All VS modules from `registerModules` will be registered during shop initialisation.
 
@@ -200,7 +200,7 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 ## Extending and overriding Vue Storefront Modules
 
-You can extend and modify all parts of any of Vue Storefront modules before it's registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
+You can extend and modify all parts of any of Vue Storefront modules before its registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
 
 Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The syntax for this purpose is extremely simple.
 
