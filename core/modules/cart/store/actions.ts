@@ -535,29 +535,41 @@ const actions: ActionTree<CartState, RootState> = {
           Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
-            rootStore.dispatch('cart/serverUpdateItem', {
-              sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-              qty: clientItem.qty,
-              product_option: clientItem.product_option
-            }, { root: true }).then((event) => {
-              _afterServerItemUpdated(event, clientItem)
-            })
-            serverCartUpdateRequired = true
+            if (event.force_client_state) {
+              rootStore.dispatch('cart/serverUpdateItem', {
+                sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+                qty: clientItem.qty,
+                product_option: clientItem.product_option
+              }, { root: true }).then((event) => {
+                _afterServerItemUpdated(event, clientItem)
+              })
+              serverCartUpdateRequired = true
+            } else {
+              rootStore.dispatch('cart/removeItem', {
+                product: clientItem
+              }, { root: true })
+            }
           }
         } else if (serverItem.qty !== clientItem.qty) {
           console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
           if (!event.dry_run) {
-            rootStore.dispatch('cart/serverUpdateItem', {
-              sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-              qty: clientItem.qty,
-              item_id: serverItem.item_id,
-              quoteId: serverItem.quote_id,
-              product_option: clientItem.product_option
-            }, { root: true }).then((event) => {
-              _afterServerItemUpdated(event, clientItem)
-            })
-            serverCartUpdateRequired = true
+            if (event.force_client_state) {
+              rootStore.dispatch('cart/serverUpdateItem', {
+                sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+                qty: clientItem.qty,
+                item_id: serverItem.item_id,
+                quoteId: serverItem.quote_id,
+                product_option: clientItem.product_option
+              }, { root: true }).then((event) => {
+                _afterServerItemUpdated(event, clientItem)
+              })
+              serverCartUpdateRequired = true
+            } else {
+              rootStore.dispatch('cart/updateItem', {
+                product: serverItem
+              }, { root: true })
+            }
           }
         } else {
           Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart')()
