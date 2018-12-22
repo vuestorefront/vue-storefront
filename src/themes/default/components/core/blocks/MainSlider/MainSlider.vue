@@ -33,7 +33,6 @@
 import NoSSR from 'vue-no-ssr'
 import sliderData from 'theme/resource/slider.json'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
-const { Carousel, Slide } = () => import('vue-carousel')
 
 export default {
   data () {
@@ -45,8 +44,8 @@ export default {
   },
   components: {
     ButtonOutline,
-    Carousel,
-    Slide,
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     'no-ssr': NoSSR
   },
   methods: {

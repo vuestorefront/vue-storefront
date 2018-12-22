@@ -30,7 +30,6 @@
 </template>
 <script>
 import NoSSR from 'vue-no-ssr'
-const { Carousel, Slide } = () => import('vue-carousel')
 
 export default {
   props: {
@@ -51,8 +50,8 @@ export default {
   },
   components: {
     'no-ssr': NoSSR,
-    Carousel,
-    Slide
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide)
   },
   mounted () {
     this.$store.commit('ui/setOverlay', true)

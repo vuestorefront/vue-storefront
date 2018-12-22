@@ -1,17 +1,11 @@
 import VueOffline from 'vue-offline'
 import store from '@vue-storefront/store'
 
-let Carousel, Slide
-import('vue-carousel').then(Slider => {
-  Carousel = Slider.Slide
-  Slide = Slider.Carousel
-})
-
 export const ProductGallery = {
   name: 'ProductGallery',
   components: {
-    Slide,
-    Carousel,
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     VueOffline
   },
   props: {
