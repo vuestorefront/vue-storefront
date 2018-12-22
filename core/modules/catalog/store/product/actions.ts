@@ -607,6 +607,8 @@ const actions: ActionTree<ProductState, RootState> = {
         const productFields = Object.keys(product)
         subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details
           filterValues: productFields,
+          only_visible: true,
+          only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
         }, { root: true }))
         if (Vue.prototype.$isServer) {
