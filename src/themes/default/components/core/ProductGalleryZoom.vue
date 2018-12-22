@@ -29,8 +29,9 @@
   </div>
 </template>
 <script>
-import { Carousel, Slide } from 'vue-carousel'
 import NoSSR from 'vue-no-ssr'
+const { Carousel, Slide } = () => import('vue-carousel')
+
 export default {
   props: {
     current: {

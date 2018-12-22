@@ -1,6 +1,11 @@
-import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
 import store from '@vue-storefront/store'
+
+let Carousel, Slide
+import('vue-carousel').then(Slider => {
+  Carousel = Slider.Slide
+  Slide = Slider.Carousel
+})
 
 export const ProductGallery = {
   name: 'ProductGallery',

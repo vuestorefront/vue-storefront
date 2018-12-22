@@ -31,10 +31,9 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-import { Carousel, Slide } from 'vue-carousel'
 import sliderData from 'theme/resource/slider.json'
-
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
+const { Carousel, Slide } = () => import('vue-carousel')
 
 export default {
   data () {
