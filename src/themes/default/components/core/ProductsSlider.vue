@@ -39,9 +39,8 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-const { Carousel, Slide } = () => import('vue-carousel')
-
 import ProductTile from 'theme/components/core/ProductTile'
+const { Carousel, Slide } = () => import('vue-carousel')
 
 export default {
   name: 'ProductsSlider',
