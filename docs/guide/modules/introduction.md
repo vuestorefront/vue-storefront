@@ -127,7 +127,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 
 ## Module registration
 
-All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
+All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](#extending-and-overriding-vue-storefront-modules)).
 
 All VS modules from `registerModules` will be registered during shop initialisation.
 
@@ -200,7 +200,7 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 ## Extending and overriding Vue Storefront Modules
 
-You can extend and modify all parts of any of Vue Storefront modules before it's registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
+You can extend and modify all parts of any of Vue Storefront modules before its registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
 
 Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The syntax for this purpose is extremely simple.
 
