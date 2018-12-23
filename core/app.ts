@@ -106,7 +106,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   // store.state.shipping.methods = shippingMethods
 
   Vue.use(Vuelidate)
-  Vue.use(VueLazyload, {attempt: 2})
+  Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
   Vue.use(Meta)
   Vue.use(VueObserveVisibility)
 

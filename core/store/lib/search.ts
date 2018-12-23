@@ -105,7 +105,7 @@ export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
-        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        cache.setItem(cacheKey, res, null, rootStore.state.config.elasticsearch.disableLocalStorageQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
           console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           res.cache = false

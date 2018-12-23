@@ -13,8 +13,12 @@
       "dynamicConfigReload": false,
       "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
-      "dynamicConfigInclude": []
+      "dynamicConfigInclude": [],
+      "elasticCacheQuota": 4096
     },
+    "seo": {
+      "useUrlDispatcher": false
+    },    
     "console": {
       "verbosityLevel": "only-errors"
     },
@@ -34,7 +38,8 @@
       "min_score": 0.02,
       "csrTimeout": 5000,
       "ssrTimeout": 1000,
-      "queryMethod": "POST"
+      "queryMethod": "GET",
+      "disableLocalStorageQueriesCache": true
     },
     "ssr": {
       "templates": {
@@ -217,14 +222,14 @@
         "cmsblock": "INDEXEDDB",
         "carts": "LOCALSTORAGE",
         "orders": "LOCALSTORAGE",
-        "wishlist": "INDEXEDDB",
+        "wishlist": "LOCALSTORAGE",
         "categories": "INDEXEDDB",
         "attributes": "LOCALSTORAGE",
         "products": "INDEXEDDB",
-        "elasticCache": "INDEXEDDB",
+        "elasticCache": "LOCALSTORAGE",
         "claims": "LOCALSTORAGE",
         "syncTasks": "LOCALSTORAGE",
-        "ordersHistory": "INDEXEDDB",
+        "ordersHistory": "LOCALSTORAGE",
         "checkoutFieldValues": "LOCALSTORAGE"
       }
     },
