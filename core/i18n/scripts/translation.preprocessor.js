@@ -34,11 +34,6 @@ module.exports = function (csvDirectories, config = null) {
     })
   })
 
-  languages.forEach((language) => {
-    console.debug(`Writing JSON file: ${language}.json`)
-    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
-  })
-
   if (config && config.i18n.bundleAllStoreviewLanguages) {
     const bundledLanguages = { 'en-US': messages['en-US'] } // fallback locale
     bundledLanguages[config.i18n.defaultLocale] = messages[config.i18n.defaultLocale] // default locale
@@ -51,5 +46,10 @@ module.exports = function (csvDirectories, config = null) {
       }
     })
     fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify(bundledLanguages))
+  } else {
+    languages.forEach((language) => {
+      console.debug(`Writing JSON file: ${language}.json`)
+      fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
+    })    
   }
 }
