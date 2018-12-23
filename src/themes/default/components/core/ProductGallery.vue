@@ -7,23 +7,19 @@
       :gallery="gallery"
       @close="toggleZoom"/>
     <div v-show="OfflineOnly">
-      <transition name="fade" appear>
-        <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
-      </transition>
+      <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
     </div>
     <div v-show="OnlineOnly">
       <div class="relative">
         <div v-if="gallery.length === 1">
-          <transition name="fade" appear>
-            <img
-              :src="defaultImage.src"
-              v-lazy="defaultImage"
-              class="mw-100 pointer"
-              ref="defaultImage"
-              :alt="product.name | htmlDecode"
-              itemprop="image"
-            >
-          </transition>
+          <img
+            :src="defaultImage.src"
+            v-lazy="defaultImage"
+            class="mw-100 pointer"
+            ref="defaultImage"
+            :alt="product.name | htmlDecode"
+            itemprop="image"
+          >
         </div>
         <div v-else>
           <no-ssr>

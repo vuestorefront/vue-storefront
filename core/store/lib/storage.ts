@@ -7,6 +7,33 @@ const CACHE_TIMEOUT_ITERATE = 2000
 const DISABLE_PERSISTANCE_AFTER = 1
 const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
+function roughSizeOfObject( object ) {
+  const objectList = []
+  const stack = [ object ]
+  let bytes = 0
+  while ( stack.length ) {
+    const value = stack.pop()
+    if ( typeof value === 'boolean' ) {
+      bytes += 4
+    }
+    else if ( typeof value === 'string' ) {
+      bytes += value.length * 2
+    }
+    else if ( typeof value === 'number' ) {
+      bytes += 8
+    } else if (
+      typeof value === 'object'
+      && objectList.indexOf( value ) === -1
+    ) {
+      objectList.push( value )
+      for( var i in value ) {
+        stack.push( value[ i ] )
+      }
+    }
+  }
+  return bytes
+}
+
 class LocalForageCacheDriver {
   private _collectionName: string;
   private _dbName: string;
@@ -17,10 +44,40 @@ class LocalForageCacheDriver {
   private _useLocalCacheByDefault: boolean;
   private cacheErrorsCount: any;
   private localCache: any;
+  private _storageQuota: number;
 
-  constructor (collection, useLocalCacheByDefault = true) {
+  constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
     const collectionName = collection._config.storeName
     const dbName = collection._config.name
+    this._storageQuota = storageQuota
+
+    if (this._storageQuota && !Vue.prototype.$isServer) {
+      const storageQuota = this._storageQuota      
+      const iterateFnc = this.iterate.bind(this)
+      const removeItemFnc = this.removeItem.bind(this)
+      setInterval(() => {
+        let storageSize = 0
+        this.iterate((item, id, number) => {
+          storageSize += roughSizeOfObject(item)
+        }, (err, result) => {
+          if ((storageSize / 1024) > storageQuota) {
+            Logger.info('Clearing out the storage ', 'cache', { storageSizeKB: Math.round(storageSize / 1024), storageQuotaKB: storageQuota })()
+            const howManyItemsToRemove = 100
+            const keysPurged = []
+            iterateFnc((item, id, number) => {
+              if (number < howManyItemsToRemove) { 
+                removeItemFnc(id)
+                keysPurged.push(id)
+              }
+            }, (err, result) => {
+              Logger.info('Cache purged', 'cache', { keysPurged })()
+            })
+          } else {
+            Logger.info('Storage size', 'cache', { storageSizeKB: Math.round(storageSize / 1024) })()
+          }
+        })
+      }, 30000)
+    }
     if (typeof this.cacheErrorsCount === 'undefined') {
       this.cacheErrorsCount = {}
     }
