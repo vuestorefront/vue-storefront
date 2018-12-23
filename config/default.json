@@ -38,7 +38,8 @@
       "min_score": 0.02,
       "csrTimeout": 5000,
       "ssrTimeout": 1000,
-      "queryMethod": "GET"
+      "queryMethod": "GET",
+      "disableLocalStorageQueriesCache": true
     },
     "ssr": {
       "templates": {

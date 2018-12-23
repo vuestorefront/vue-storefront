@@ -105,7 +105,7 @@ class LocalForageCacheDriver {
           if ((endTime - startTime) >= CACHE_TIMEOUT) {
             console.error('Cache promise resolved after [ms]', key, (endTime - startTime))
           }
-          if (!this._localCache[key]) {
+          if (!this._localCache[key] && result) {
             this._localCache[key] = result // populate the local cache for the next call
           }
           if (!isResolved) {
@@ -228,9 +228,15 @@ class LocalForageCacheDriver {
   // Unlike Gaia's implementation, the callback function is passed the value,
   // in case you want to operate on that value only after you're sure it
   // saved, or something like that.
-  setItem (key, value, callback?) {
+  setItem (key, value, callback?, memoryOnly = false) {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     this._localCache[key] = value
+    if (memoryOnly) {
+      return new Promise((resolve, reject) => {
+        if (isCallbackCallable) callback(null, null)
+        resolve(null)
+      })
+    }
     if (!Vue.prototype.$isServer) {
       if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER_SAVE && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
