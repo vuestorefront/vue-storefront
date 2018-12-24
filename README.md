@@ -66,18 +66,23 @@ Yes! There are more than 10 implementations happening right now and many live sh
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
 
 ## Roadmap
-[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most popular ones will be added to next milestones.
+
+[Here](https://github.com/DivanteLtd/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
+
+#### Roadmap planning
+[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to next milestones. You can also joj slack channel `#roadmap-planning` where we discuss next milestones.
+
 The process of adding new features to the roadmap looks like this:
 1. You create an issue and label it as `feature request`.
-2. One of VS Core team verifies the feature request and if the explaination is clear adds it to the `Roadmap` project so it's visible in the baord.
-3. Now people can vote for this feature to be added into next milestone with t`humb up` emoji.
+2. One of VS Core team verifies the feature request and if the explaination is clear adds it to the `Roadmap` project so it's visible in the board.
+3. Now people can vote for this feature to be added into next milestone with `thumb up` emoji.
 4. Feature requests with biggest popularity will be added into next milestones.
 
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
 
 Please note that bugfixes are treated separately and in most cases added to the milestones immediately.
 
-[Here](https://github.com/DivanteLtd/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
+
 
 [Check the feature list of 1.0](https://divanteltd.github.io/vue-storefront/guide/basics/feature-list.html).
 
