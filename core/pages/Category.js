@@ -25,7 +25,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category', ['getCurrentCategory', 'getCategorySearchOptions', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath']),
+    ...mapGetters('category', ['getCurrentCategory', 'getCurrentCategoryProductQuery', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath']),
     products () {
       return this.$store.state.product.list.items
     },
@@ -36,7 +36,7 @@ export default {
       return this.$store.state.product.list.total
     },
     currentQuery () {
-      return this.getCategorySearchOptions
+      return this.getCurrentCategoryProductQuery
     },
     isCategoryEmpty () {
       return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)
@@ -94,7 +94,7 @@ export default {
           reject(err)
         }).then((attrs) => {
           store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then((parentCategory) => {
-            let query = store.getters['category/getCategorySearchOptions']
+            let query = store.getters['category/getCurrentCategoryProductQuery']
             if (!query.searchProductQuery) {
               store.dispatch('category/mergeSearchOptions', {
                 searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
@@ -164,20 +164,20 @@ export default {
       return bottomOfPage || pageHeight < visible
     },
     pullMoreProducts () {
-      let current = this.getCategorySearchOptions.current + this.getCategorySearchOptions.perPage
+      let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage
       this.mergeSearchOptions({
         append: true,
         route: this.$route,
         store: this.$store,
         current
       })
-      this.pagination.current = this.getCategorySearchOptions.current
-      this.pagination.perPage = this.getCategorySearchOptions.perPage
-      if (this.getCategorySearchOptions.current <= this.productsTotal) {
+      this.pagination.current = this.getCurrentCategoryProductQuery.current
+      this.pagination.perPage = this.getCurrentCategoryProductQuery.perPage
+      if (this.getCurrentCategoryProductQuery.current <= this.productsTotal) {
         this.mergeSearchOptions({
           searchProductQuery: buildFilterProductsQuery(this.category, this.filters.chosen)
         })
-        return this.$store.dispatch('category/products', this.getCategorySearchOptions)
+        return this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
       }
     },
     onFilterChanged (filterOption) {
@@ -201,7 +201,7 @@ export default {
         includeFields: null,
         excludeFields: null
       })
-      this.$store.dispatch('category/products', this.getCategorySearchOptions).then((res) => {
+      this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery).then((res) => {
       }) // because already aggregated
     },
     onSortOrderChanged (param) {
@@ -219,7 +219,7 @@ export default {
           includeFields: null,
           excludeFields: null
         })
-        this.$store.dispatch('category/products', this.getCategorySearchOptions).then((res) => {
+        this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery).then((res) => {
         })
       } else {
         this.notify()
@@ -244,12 +244,12 @@ export default {
             append: false,
             populateAggregations: true
           })
-          if (!this.getCategorySearchOptions.searchProductQuery) {
+          if (!this.getCurrentCategoryProductQuery.searchProductQuery) {
             this.mergeSearchOptions({
               searchProductQuery
             })
           }
-          this.$store.dispatch('category/products', this.getCategorySearchOptions)
+          this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
           EventBus.$emitFilter('category-after-load', { store: this.$store, route: this.$route })
         }
       })
@@ -260,13 +260,13 @@ export default {
         key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
         value: this.$route.params.slug
       }).then((parentCategory) => {
-        if (!this.getCategorySearchOptions.searchProductQuery) {
+        if (!this.getCurrentCategoryProductQuery.searchProductQuery) {
           this.mergeSearchOptions({
             searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
             skipCache: true
           })
         }
-        this.$store.dispatch('category/products', this.getCategorySearchOptions)
+        this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
       })
     }
   },

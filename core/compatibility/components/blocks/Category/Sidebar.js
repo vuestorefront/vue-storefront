@@ -10,7 +10,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category', ['getCurrentCategory', 'getActiveCategoryFilters', 'getCategorySearchOptions']),
+    ...mapGetters('category', ['getCurrentCategory', 'getActiveCategoryFilters', 'getCurrentCategoryProductQuery']),
     category () {
       return this.getCurrentCategory
     },
@@ -26,7 +26,7 @@ export default {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
       this.$store.dispatch('category/searchProductQuery', buildFilterProductsQuery(this.category, this.activeFilters))
-      this.$store.dispatch('category/products', this.getCategorySearchOptions)
+      this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
     }
   }
 }
