@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" clatasss="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
+          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
             <router-link
               class="block px25 py20 cl-accent no-underline"
               :to="localizedRoute('/')"
@@ -32,13 +32,13 @@
             :key="category.slug"
             @click="closeMenu"
             v-for="category in categories"
-            v-if="category.product_count > 0 || category.children_data.length > 0"
+            v-if="category.product_count > 0 || category.children_count > 0"
           >
             <sub-btn
               class="bg-cl-transparent brdr-none fs-medium"
               :id="category.id"
               :name="category.name"
-              v-if="category.children_data.length > 0"
+              v-if="category.children_count > 0"
               @click.native="activeSubMenu = category.id"
             />
             <router-link

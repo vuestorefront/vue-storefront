@@ -24,7 +24,7 @@ export const ProductAttribute = {
       if (!parsedValues) {
         return this.emptyPlaceholder
       } else {
-        parsedValues = parsedValues.split(',')
+        parsedValues = typeof parsedValues === 'string' ? parsedValues.split(',') : parsedValues
         let results = []
         for (let parsedVal of parsedValues) {
           if (this.attribute.options) {

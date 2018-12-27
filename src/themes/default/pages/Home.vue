@@ -90,7 +90,7 @@ export default {
       let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
       let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
 
-      store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
+      store.dispatch('category/list', { level: store.state.config.entities.category.categoriesDynamicPrefetch && store.state.config.entities.category.categoriesDynamicPrefetchLevel ? store.state.config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: config.entities.optimize ? config.entities.category.includeFields : null, excludeFields: config.entities.optimize ? config.entities.category.excludeFields : null }).then((categories) => {
         store.dispatch('product/list', {
           query: newProductsQuery,
           size: 8,

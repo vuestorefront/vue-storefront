@@ -85,7 +85,7 @@ export default {
       Logger.info('Entering asyncData in Category Page (core)')()
       if (context) context.output.cacheTags.add(`category`)
       const defaultFilters = store.state.config.products.defaultFilters
-      store.dispatch('category/list', { includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
+      store.dispatch('category/list', { level: store.state.config.entities.category.categoriesDynamicPrefetch && store.state.config.entities.category.categoriesDynamicPrefetchLevel ? store.state.config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
           includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.attribute.includeFields : null
@@ -93,7 +93,7 @@ export default {
           console.error(err)
           reject(err)
         }).then((attrs) => {
-          store.dispatch('category/single', { key: 'slug', value: route.params.slug }).then((parentCategory) => {
+          store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then((parentCategory) => {
             let query = store.getters['category/getCategorySearchOptions']
             if (!query.searchProductQuery) {
               store.dispatch('category/mergeSearchOptions', {
@@ -143,7 +143,7 @@ export default {
     if (!Vue.prototype.$isServer && this.lazyLoadProductsOnscroll) {
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
-      })
+      }, {passive: true})
     }
   },
   beforeDestroy () {
@@ -229,7 +229,7 @@ export default {
       this.filters.chosen = {} // reset selected filters
       this.$bus.$emit('filter-reset')
 
-      this.$store.dispatch('category/single', { key: 'slug', value: this.$route.params.slug }).then(category => {
+      this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: this.$route.params.slug }).then(category => {
         if (!category) {
           this.$router.push('/')
         } else {
@@ -257,7 +257,7 @@ export default {
     onUserPricesRefreshed () {
       const defaultFilters = store.state.config.products.defaultFilters
       this.$store.dispatch('category/single', {
-        key: 'slug',
+        key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
         value: this.$route.params.slug
       }).then((parentCategory) => {
         if (!this.getCategorySearchOptions.searchProductQuery) {

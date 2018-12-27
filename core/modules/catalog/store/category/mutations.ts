@@ -16,27 +16,40 @@ const mutations: MutationTree<CategoryState> = {
     state.breadcrumbs.routes = breadCrumbRoutes(state.current_path)
   },
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
-    state.list = categories.items
-
-    for (let category of state.list) {
+    for (let category of categories.items) {
       let catSlugSetter = (category) => {
-        for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
-          subcat = Object.assign(subcat, { slug: (subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '') })
-          catSlugSetter(subcat)
+        if (category.children_data) {
+          for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
+            if (subcat.name) {
+              subcat = Object.assign(subcat, { slug: (subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '') })
+              catSlugSetter(subcat)
+            }
+          }
         }
       }
       catSlugSetter(category)
-      const catCollection = Vue.prototype.$db.categoriesCollection
-      try {
-        catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
-          console.error(reason) // it doesn't work on SSR
-        }) // populate cache by slug
-        catCollection.setItem(entityKeyName('id', category.id), category).catch((reason) => {
-          console.error(reason) // it doesn't work on SSR
-        }) // populate cache by id
-      } catch (e) {
-        console.error(e)
+      if (categories.includeFields == null) {
+        const catCollection = Vue.prototype.$db.categoriesCollection
+        try {
+          catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache by slug
+          catCollection.setItem(entityKeyName('id', category.id), category).catch((reason) => {
+            console.error(reason) // it doesn't work on SSR
+          }) // populate cache by id
+        } catch (e) {
+          console.error(e)
+        }
       }
+    }
+    if (state.list) {
+      categories.items.map(newCat => {
+        if (!state.list.find(existingCat => existingCat.id == newCat.id)) {
+          state.list.push(newCat)
+        }
+      })
+    } else {
+      state.list = categories.items
     }
   },
   [types.CATEGORY_ADD_AVAILABLE_FILTER] (state, {key, options = []}) {

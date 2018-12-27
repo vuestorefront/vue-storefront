@@ -8,12 +8,17 @@
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
-Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/pimcore2vuestorefront">Pimcore</a>, Prestashop or Shopware) through the API.
+Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>,  Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
 
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take alook at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
+
+If you're new and need some guidance feel free to reach anyone from core team on our slack:
+`@Filip Rakowski` `@pkarw` `@Bartek Igielski` `@David Rouyer` `@George`
+
+Want to invest some time in building future of eCommerce? we are looking for core team members willing us to help make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
@@ -65,6 +70,8 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
 [See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
 [Check the feature list of 1.0](https://divanteltd.github.io/vue-storefront/guide/basics/feature-list.html).
+
+If youd like to take part in roadmap planning feel free to join #roadmap-planning channel on our slack
 
 ## Documentation + table of contents
 
@@ -178,8 +185,7 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## Other platforms
-
-Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/pimcore2vuestorefront) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
+Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
 ## The license
 
@@ -346,7 +352,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://novatize.com/">
           <img
-            src="https://user-images.githubusercontent.com/18116406/39051246-62220fae-44a8-11e8-92d3-3bbe02644313.png"
+            src="https://divante.co/partners/Vue-Storefront/Novatize_Logo_K.png"
             alt="Novatize"
             width="150"
           >
@@ -476,19 +482,19 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
         <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.mediact.nl/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Logo-MediaCT-XL.png"
+            alt="MediaCT"
             height="50"
           >
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.improving.dk/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Improving_sh_logo.png"
+            alt="Improving"
             height="50"
           >
         </a>

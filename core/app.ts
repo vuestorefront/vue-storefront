@@ -86,7 +86,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
-  store.state.version = '1.5.0'
+  store.state.version = '1.6.0'
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
@@ -106,7 +106,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   // store.state.shipping.methods = shippingMethods
 
   Vue.use(Vuelidate)
-  Vue.use(VueLazyload, {attempt: 2})
+  Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
   Vue.use(Meta)
   Vue.use(VueObserveVisibility)
 
