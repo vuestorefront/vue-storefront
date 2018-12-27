@@ -1,6 +1,21 @@
 # Upgrade notes
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
+
+## 1.6 -> 1.7
+
+Starting from Vue Storefront 1.7 we've changed the Caching strategy + Offline ready features:
+
+- by default, the ElasticSearch Queries are executed using GET method - and therefore are cached by Service Worker (c - set it to POST for the previous behavior and if you're using graphql),
+- by default products and queries cache is set in the LocalStorage with a quota set to 4MB (`config.server.elasticCacheQuota`). If the storage quota is set, the cache purging is executed each 30s using LRU algorithm. Local Storage is limited to 5MB in most browsers
+- we've added `config.server.disableLocalStorageQueriesCache` which is set to true by default. When this option is on then we're not storing the ElasticSearch results in local cache - this is due to the fact that results are by default cached in Service Worker cache anyway.
+
+Backward compatibility - to reverse to the 1.0-1.6 behavior please set:
+
+- set `config.server.disableLocalStorageQueriesCache = false`,
+- set `config.elasticsearch.queryMethod = POST`
+- set `config.localForage.defaultDrivers.elasticCache = INDEXEDDB`
+
 ## 1.5 -> 1.6
 
 With 1.6 we've introduced new modular architecture and moved most of theme-specific logic from core to default theme. It's probably the biggest update in VS history and the first step to making future upgrades more and more seamless.
@@ -12,25 +27,35 @@ Overall theme upgrade for default theme requires 105 files to be changed but 85%
 [Here](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f) you can find detailed information (as a upgrade commit with notes) about what needs to be changed in theme to support VS 1.6.
 
 #### Global changes
+
 - Notifications are now based on Vuex Store instead of Event Bus. We've also pulled hardcoded notifications from core to theme
 
 Change in every component:
-````js
+
+```js
 this.$bus.$emit('notification',
-````
+```
+
 to:
-````js
+
+```js
 this.$store.dispatch('notification/spawnNotification',
-````
+```
+
 Change in every store:
-````js
+
+```js
 Vue.prototype.$bus.$emit('notification',
-````
+```
+
 to:
-````js
+
+```js
 rootStore.dispatch('notification/spawnNotification',
-````
+```
+
 and make sure you are importing `rootStore`.
+
 - Lazy loading for non-SSR routes is now available
 
 You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from default theme [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/src/themes/default/router)
@@ -116,15 +141,15 @@ Required action: Add moved content and remove core import. In case of additional
 - [`Compare.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-0aa476fa2f0314806d4afd620c80be54)
 
 #### Other
+
 - [`ProductBundleOption.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-32809917812e7c8c4571be70a693d65b) - splitted single option from `ProductBundleOptions.vue` component.
 - [`ProductBundleOptions.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7ccee94c636406b1a82feddea3a7f520) - single option moved to separate component `ProductBundleOption.vue`, moved to module.
 - [`ThankYouPage.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-84c29c5b22568c31b021dc864221563f) added order id display, order confirmation, pulled notifications from core and added mail confirmation
 - [`main.scss`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-c65e47159738f3552a22f16ec5c5974f) removed duplicated flexbox grid
-<<<<<<< HEAD
-- [`index.template.html`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bf0804a2329350f8e9d9071e40cf1429) (+ all other templates that you may have like minimal, basic etc), added output.appendHead(), renderStyles()    
-=======
-- [`index.template.html`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bf0804a2329350f8e9d9071e40cf1429) (+ all other templates that you may have like minimal, basic etc), added ` output.appendHead(), renderStyles()`
->>>>>>> main/develop
+  <<<<<<< HEAD
+- # [`index.template.html`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bf0804a2329350f8e9d9071e40cf1429) (+ all other templates that you may have like minimal, basic etc), added output.appendHead(), renderStyles()
+- [`index.template.html`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bf0804a2329350f8e9d9071e40cf1429) (+ all other templates that you may have like minimal, basic etc), added `output.appendHead(), renderStyles()`
+  > > > > > > > main/develop
 - [`Category.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-eb709969add1ca4a266ac072cddde954) notifications moved to theme
 - [`Checkout.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1c6544c28d075f275812201fa42755de) notifications moved to theme
 - [`MyAccount.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bb873f532ed9a2efbb157af79a70e0f7) notifications moved to theme
