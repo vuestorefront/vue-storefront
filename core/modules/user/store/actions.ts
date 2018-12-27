@@ -297,6 +297,10 @@ const actions: ActionTree<UserState, RootState> = {
       context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
       context.commit(types.USER_GROUP_CHANGED, null)
       context.commit(types.USER_INFO_LOADED, null)
+      context.dispatch('wishlist/clear', null, {root: true})
+      context.dispatch('checkout/savePersonalDetails', {}, {root: true})
+      context.dispatch('checkout/saveShippingDetails', {}, {root: true})
+      context.dispatch('checkout/savePaymentDetails', {}, {root: true})
   },
   /**
    * Logout user
@@ -316,7 +320,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
     const usersCollection = Vue.prototype.$db.usersCollection
     usersCollection.setItem('current-token', '')
-  
+
     if (rootStore.state.route.path === '/my-account') {
       // router.push('/')
     }
