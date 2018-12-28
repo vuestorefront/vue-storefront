@@ -621,7 +621,7 @@ const actions: ActionTree<CartState, RootState> = {
                 clientCartAddItems.push(
                   new Promise(resolve => {
                     productActionOptions(serverItem).then((actionOtions) => {
-                      rootStore.dispatch('product/single', { options: actionOtions, setCurrentProduct: true, selectDefaultVariant: false }).then((product) => {
+                      rootStore.dispatch('product/single', { options: actionOtions, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
                         resolve({ product: product, serverItem: serverItem })
                       })
                     })
