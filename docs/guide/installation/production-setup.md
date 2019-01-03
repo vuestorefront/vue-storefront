@@ -362,6 +362,13 @@ The only lines you need to alter are:
 
 You should put here the `allowedHosts` and `trustedHosts` for the Imageable - to download the product images. The domain name points to the **Magento2** instance where images are sourced. In this example Magento2 is running under **http://demo-magento2.vuestorefront.io**.
 
+ #### Using your own magento2 instance
+ In this case you'll have to update `magento2` config node with correct hostname in vue-storefront-api config file. To get all necessary Magento2 API data for `api` node, navigate to SYSTEM -> Extensions -> Integrations in Magento2 Admin.
+ - click Add new integration
+ - check the necessary permissions (check Catalog, Sales, My Account and Carts on API permissions tab )
+ - click Activate
+ - copy necessary keys, secrets and tokens into `api` section of vue-storefront-api config
+ 
 #### Build VS
 
 Before we can run Vue Storefront and Vue Storefront API we should build it in the production mode. To do so please just execute the following commands:
