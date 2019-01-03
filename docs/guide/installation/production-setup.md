@@ -250,18 +250,18 @@ It may take a few minutes. Once the modules are installed we can set configurati
 
 #### Vue Storefront configuration
 
-The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config).
+The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
 
 Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly.
 
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
+curl https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
 ```
 
 ... and ...
 
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
+curl https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
 ```
 
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
@@ -321,7 +321,7 @@ There are 27 more instances of `prod.vuestorefront.io` to be replaced with your 
 
 #### Vue Storefront API configuration
 
-The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config) requires almost no changes.
+The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config) requires almost no changes.
 
 The only lines you need to alter are:
 
