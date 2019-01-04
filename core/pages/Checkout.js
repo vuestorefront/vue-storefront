@@ -177,7 +177,12 @@ export default {
     onAfterPersonalDetails (receivedData, validationResult) {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
-      this.activateSection('shipping')
+      const isVirtualCart = this.$store.state.cart.isVirtualCart
+      if (isVirtualCart === true) {
+        this.activateSection('payment')
+      } else {
+        this.activateSection('shipping')
+      }
       this.savePersonalDetails()
       this.focusedField = null
     },
