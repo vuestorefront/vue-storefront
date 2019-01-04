@@ -525,6 +525,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
     </tr>
+     <tr>
+       <td align="center" valign="middle">
+        <a href="https://www.devmetokyo.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/devMeTokyo-logo.png"
+            alt="DevMe Tokyo"
+            height="50"
+          >
+        </a>
+      </td>
+         <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+        <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="">
+          <img
+            src=""
+            alt=""
+            height="50"
+          >
+        </a>
+      </td>
+    </tr>
   </tbody>
 </table>
 
