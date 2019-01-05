@@ -25,6 +25,9 @@ const actions: ActionTree<OrderState, RootState> = {
     if (!rootStore.state.config.orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
       Vue.prototype.$bus.$emit('order-after-placed', { order: order })
+      return {
+        resultCode: 200
+      }
     } else {
       Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
       try {

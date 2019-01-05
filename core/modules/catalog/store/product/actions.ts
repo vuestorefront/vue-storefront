@@ -79,12 +79,16 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
 
-          context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+          if (typeof catForBreadcrumbs !== 'undefined') {
+            context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+              setbrcmb(context.rootState.category.current_path)
+            }).catch(err => {
+              setbrcmb(context.rootState.category.current_path)
+              console.error(err)
+            })
+          } else {
             setbrcmb(context.rootState.category.current_path)
-          }).catch(err => {
-            setbrcmb(context.rootState.category.current_path)
-            console.error(err)
-          })
+          }
         }).catch(err => {
           console.error(err)
         })

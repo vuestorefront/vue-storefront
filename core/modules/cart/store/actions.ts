@@ -178,11 +178,11 @@ const actions: ActionTree<CartState, RootState> = {
       const commit = context.commit
       const state = context.state
 
-      if (!state.shipping || !state.shipping.method_code) {
+      if ((!state.shipping || !state.shipping.method_code) && (Array.isArray(context.rootGetters['shipping/shippingMethods'])) {
         let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
         commit(types.CART_UPD_SHIPPING, shippingMethod)
       }
-      if (!state.payment || !state.payment.code) {
+      if ((!state.payment || !state.payment.code) && Array.isArray(context.rootGetters['payment/paymentMethods'])) {
         let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
         commit(types.CART_UPD_PAYMENT, paymentMethod)
       }
@@ -387,8 +387,8 @@ const actions: ActionTree<CartState, RootState> = {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
         const paymentMethods = context.rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods ? shippingMethods.find(item => item.default) : null
-        let payment = paymentMethods ? paymentMethods.find(item => item.default) : null
+        let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default) : null
+        let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
         if (!shipping && shippingMethods && shippingMethods.length > 0) {
           shipping = shippingMethods[0]
         }
