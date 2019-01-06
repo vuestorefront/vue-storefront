@@ -262,12 +262,12 @@
     "localForage": {
       "defaultDrivers": {
         "user": "LOCALSTORAGE",
-        "cmspage": "INDEXEDDB",
-        "cmsblock": "INDEXEDDB",
+        "cmspage": "LOCALSTORAGE",
+        "cmsblock": "LOCALSTORAGE",
         "carts": "LOCALSTORAGE",
         "orders": "LOCALSTORAGE",
         "wishlist": "LOCALSTORAGE",
-        "categories": "INDEXEDDB",
+        "categories": "LOCALSTORAGE",
         "attributes": "LOCALSTORAGE",
         "products": "INDEXEDDB",
         "elasticCache": "LOCALSTORAGE",
