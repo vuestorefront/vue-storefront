@@ -251,7 +251,7 @@ The cart loader bypass feature is there because we're posting orders to Magento 
 
 ```json
 "cart": {
-  "server_merge_by_default": true,
+  "serverMergeByDefault": true,
 ```
 
 Server cart is being synchronized with the client's cart in the Vue Storefront by default. When it's not set the Vue Storefront will execute the server cart merge algorithm anyway - but using the `dryRun` option which means that only the following event will be emitted:

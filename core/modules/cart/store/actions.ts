@@ -197,7 +197,7 @@ const actions: ActionTree<CartState, RootState> = {
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               Logger.info('Cart token received from cache.', 'cache', token)()
               Logger.info('Pulling cart from server.','cart')()
-              context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default })
+              context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.serverMergeByDefault })
             } else {
               Logger.info('Creating server cart token', 'cart')()
               context.dispatch('serverCreate', { guestCart: false })
@@ -489,7 +489,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
       rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default }, { root: true })
+      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.serverMergeByDefault }, { root: true })
     } else {
       let resultString = event.result ? toString(event.result) : null
       if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
@@ -552,7 +552,7 @@ const actions: ActionTree<CartState, RootState> = {
           Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
-            if (event.force_client_state) {
+            if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanRemoveLocalItems) {
               rootStore.dispatch('cart/serverUpdateItem', {
                 sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
@@ -571,7 +571,7 @@ const actions: ActionTree<CartState, RootState> = {
           console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
           if (!event.dry_run) {
-            if (event.force_client_state) {
+            if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanModifyLocalItems) {
               rootStore.dispatch('cart/serverUpdateItem', {
                 sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
