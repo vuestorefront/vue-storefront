@@ -4,7 +4,7 @@
       "port": 3000,
       "protocol": "http",
       "api": "api",
-      "devServiceWorker": false,
+      "devServiceWorker": true,
       "useOutputCacheTagging": false,
       "useOutputCache": false,
       "outputCacheDefaultTtl": 86400,
