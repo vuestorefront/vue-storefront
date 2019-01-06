@@ -18,19 +18,21 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     let searchQuery = new SearchQuery()
 
-    const orgFilterValues = Object.assign({}, filterValues)
-    filterValues = filterValues.filter(fv => { // check the already loaded
-      if (filterField === 'attribute_id') return (typeof context.state.list_by_id[fv] === 'undefined' || context.state.list_by_id[fv] === null)
-      if (filterField === 'attribute_code') return (typeof context.state.list_by_code[fv] === 'undefined' || context.state.list_by_code[fv] === null)
-      return true
-    })
-    if (!filterValues || filterValues.length === 0) {
-      Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField})()
-      return Promise.resolve({
-        items: Object.values(context.state.list_by_code)
+    if (filterValues) {
+      const orgFilterValues = Object.assign({}, filterValues)
+      filterValues = filterValues.filter(fv => { // check the already loaded
+        if (filterField === 'attribute_id') return (typeof context.state.list_by_id[fv] === 'undefined' || context.state.list_by_id[fv] === null)
+        if (filterField === 'attribute_code') return (typeof context.state.list_by_code[fv] === 'undefined' || context.state.list_by_code[fv] === null)
+        return true
       })
+      if (!filterValues || filterValues.length === 0) {
+        Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField})()
+        return Promise.resolve({
+          items: Object.values(context.state.list_by_code)
+        })
+      }
+      searchQuery = searchQuery.applyFilter({key: filterField, value: {'in': filterValues}})
     }
-    searchQuery = searchQuery.applyFilter({key: filterField, value: {'in': filterValues}})
     if (only_user_defined) {
       searchQuery = searchQuery.applyFilter({key: 'is_user_defined', value: {'in': [true]}})
     }
