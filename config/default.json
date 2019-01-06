@@ -152,6 +152,7 @@
           "color_options",
           "id",
           "links",
+          "gift_message_available",
           "category_ids",
           "sku",
           "stock",
