@@ -191,7 +191,9 @@
     "cart": {
       "bypassCartLoaderForAuthorizedUsers": true,
       "multisiteCommonCart": true,
-      "server_merge_by_default": true,
+      "serverMergeByDefault": true,
+      "serverSyncCanRemoveLocalItems": false,
+      "serverSyncCanModifyLocalItems": false,
       "synchronize": true,
       "synchronize_totals": true,
       "setCustomProductOptions": true,
