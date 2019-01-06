@@ -80,7 +80,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
           resolve(resp)        
         } else {
           cacheStorage.getItem(cmsPagesStorageKey, (err, storedItems) => {
-            if (err) throw new Error(err)
+            if (err) reject(err)
             if (storedItems) {
               context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, storedItems)
               let resp = storedItems.find(p => p[key] === value)
