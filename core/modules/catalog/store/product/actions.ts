@@ -79,12 +79,16 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
 
-          context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+          if (typeof catForBreadcrumbs !== 'undefined') {
+            context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+              setbrcmb(context.rootState.category.current_path)
+            }).catch(err => {
+              setbrcmb(context.rootState.category.current_path)
+              console.error(err)
+            })
+          } else {
             setbrcmb(context.rootState.category.current_path)
-          }).catch(err => {
-            setbrcmb(context.rootState.category.current_path)
-            console.error(err)
-          })
+          }
         }).catch(err => {
           console.error(err)
         })
@@ -604,8 +608,10 @@ const actions: ActionTree<ProductState, RootState> = {
       
       let subloaders = []
       if (product) {
-        const productFields = Object.keys(product)
-        subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details
+        const productFields = Object.keys(product).filter(fieldName => {
+          return rootStore.state.config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
+        })
+        subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
           filterValues: productFields,
           only_visible: true,
           only_user_defined: true,
