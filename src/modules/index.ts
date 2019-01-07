@@ -16,6 +16,7 @@ import { Ui } from './ui-store'
 import { GoogleAnalytics } from './google-analytics';
 import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
+import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { Magento2CMS } from './magento-2-cms'
 
@@ -47,6 +48,7 @@ export const registerModules: VueStorefrontModule[] = [
   Magento2CMS,
   GoogleAnalytics,
   PaymentBackendMethods,
+  PaymentCashOnDelivery,
   RawOutputExample,
   AmpRenderer
   // Example

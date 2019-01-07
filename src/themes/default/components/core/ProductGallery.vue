@@ -32,6 +32,7 @@
               navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
               navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
               ref="carousel"
+              :speed="carouselTransitionSpeed"
             >
               <slide
                 v-for="images in gallery"
@@ -77,7 +78,8 @@ export default {
   },
   data () {
     return {
-      loaded: true
+      loaded: true,
+      carouselTransitionSpeed: 0
     }
   },
   methods: {
