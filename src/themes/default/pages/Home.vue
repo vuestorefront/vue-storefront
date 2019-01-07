@@ -26,12 +26,13 @@
       <tile-links />
     </section>
     <Onboard/>
-
+    <social-share />
   </div>
 </template>
 
 <script>
-// 3rd party dependecies
+import SocialShare from '@vue-storefront/core/modules/social-share/components/SocialShare.vue'
+// query constructor
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 // Core pages
@@ -55,7 +56,8 @@ export default {
     Onboard,
     ProductListing,
     PromotedOffers,
-    TileLinks
+    TileLinks,
+    SocialShare
   },
   computed: {
     categories () {
