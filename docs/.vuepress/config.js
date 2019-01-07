@@ -1,5 +1,4 @@
 module.exports = {
-  base: '/vue-storefront/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
