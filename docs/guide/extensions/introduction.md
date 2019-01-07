@@ -8,7 +8,6 @@ Depending on needs Vue Storefront extensions can have two parts:
 - On the server side extensions should be placed in `src/api/extensions` folder of `vue-storefront-api` and registered in config file
 
 # Writing extensions
-[section under construction]
 Here you can find two articles explaining how to create custom Vue Storefront extensions:
 - [How to create an Instagram Feed module for Vue Storefront](https://itnext.io/how-to-create-an-instagram-feed-module-for-vue-storefront-eaa03019b288)
 - [Developing a Vue Storefront payment module](https://www.develodesign.co.uk/news/development-of-the-paypal-module-for-vue-storefront/#.XCoa2h2Mmmo.twitter)
