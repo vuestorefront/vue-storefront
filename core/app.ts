@@ -92,7 +92,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
 
   // depreciated, will be removed in 1.7
-  const storeModules = themeModules || {} 
+  const storeModules = themeModules || {}
 
   // depreciated, will be removed in 1.7
   for (const moduleName of Object.keys(storeModules)) {
@@ -105,7 +105,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   // store.state.shipping.methods = shippingMethods
 
   Vue.use(Vuelidate)
-  Vue.use(VueLazyload, {attempt: 2})
+  Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
   Vue.use(Meta)
   Vue.use(VueObserveVisibility)
 
@@ -161,7 +161,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   })
 
   Vue.use(VueApollo)
-  
+
   const app = new Vue({
     router,
     store,
@@ -180,7 +180,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
 
   app.$emit('application-after-init', app)
-  
+
   return { app, router, store }
 }
 

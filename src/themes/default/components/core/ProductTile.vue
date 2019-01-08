@@ -20,7 +20,7 @@
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
         <img
           :alt="product.name"
-          :src="thumbnailObj.loading"
+          :src="thumbnailObj.src"
           v-lazy="thumbnailObj"
           height="300"
           width="310"

@@ -297,7 +297,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
     const usersCollection = Vue.prototype.$db.usersCollection
     usersCollection.setItem('current-token', '')
-  
+
     if (rootStore.state.route.path === '/my-account') {
       // router.push('/')
     }
