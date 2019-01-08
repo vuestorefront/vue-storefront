@@ -1,4 +1,4 @@
-# Google Advanced Mobile Pages
+# Google Accelerated Mobile Pages
 
 Google Advanced Mobile pages are available with Vue Storefront 1.6. By default, the Product and Category pages do support AMP. To get the AMP page You should use the following URL:
 `http://localhost:3000/c/hoodies-and-sweatshirts-24` -> `http://localhost:3000/amp/c/hoodies-and-sweatshirts-24`.
