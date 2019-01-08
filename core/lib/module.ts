@@ -78,3 +78,13 @@ export class VueStorefrontModule {
     }
   }
 }
+
+export function registerModules (modules: VueStorefrontModule[], store: Store<RootState>, router: any, context): void {
+  let registeredModules = []
+  modules.forEach(m => registeredModules.push(m.register(store, router)))
+  Logger.info('VS Modules registration finished.', 'module', {
+      succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
+      registrationOrder: registeredModules
+    }
+  )()
+}
