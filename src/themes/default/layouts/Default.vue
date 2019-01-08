@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="default-layout">
     <overlay v-if="overlayActive"/>
     <loader/>
     <div id="viewport" class="w-100 relative">
