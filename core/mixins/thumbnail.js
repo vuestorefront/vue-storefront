@@ -1,4 +1,4 @@
-import { getThumbnailPath as _thumbnailHelper } from '@vue-storefront/store/helpers'
+import { getThumbnailPath as _thumbnailHelper } from '@vue-storefront/core/helpers'
 
 export const thumbnail = {
   methods: {

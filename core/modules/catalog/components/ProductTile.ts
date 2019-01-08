@@ -1,4 +1,4 @@
-import { productThumbnailPath } from '@vue-storefront/store/helpers'
+import { productThumbnailPath } from '@vue-storefront/core/helpers'
 
 export const ProductTile = {
   name: 'ProductTile',
