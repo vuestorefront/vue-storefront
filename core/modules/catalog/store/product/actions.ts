@@ -612,8 +612,8 @@ const actions: ActionTree<ProductState, RootState> = {
           return rootStore.state.config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
         })
         subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
-          filterValues: productFields,
-          only_visible: true,
+          filterValues: rootStore.state.config.entities.product.useDynamicAttributeLoader ? productFields : null,
+          only_visible: rootStore.state.config.entities.product.useDynamicAttributeLoader ? true : false,
           only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
         }, { root: true }))
