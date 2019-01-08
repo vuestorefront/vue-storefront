@@ -1,12 +1,12 @@
 import config from 'config'
-const Home = () => import(/* webpackChunkName: "vsf-home", webpackPrefetch: true */ 'theme/pages/Home.vue')
+const Home = () => import(/* webpackChunkName: "vsf-home" */ 'theme/pages/Home.vue')
 const PageNotFound = () => import(/* webpackChunkName: "vsf-not-found" */ 'theme/pages/PageNotFound.vue')
 const ErrorPage = () => import(/* webpackChunkName: "vsf-error" */ 'theme/pages/Error.vue')
-const Product = () => import(/* webpackChunkName: "vsf-product", webpackPrefetch: true */ 'theme/pages/Product.vue')
-const Category = () => import(/* webpackChunkName: "vsf-category", webpackPrefetch: true */ 'theme/pages/Category.vue')
+const Product = () => import(/* webpackChunkName: "vsf-product" */ 'theme/pages/Product.vue')
+const Category = () => import(/* webpackChunkName: "vsf-category" */ 'theme/pages/Category.vue')
 const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsPage.vue')
 const CmsBlockDemoPageSsr = () => import(/* webpackChunkName: "vsf-cms-demo" */ 'theme/pages/CmsBlockDemoPageSsr.vue')
-const Checkout = () => import(/* webpackChunkName: "vsf-checkout", webpackPrefetch: true  */ 'theme/pages/Checkout.vue')
+const Checkout = () => import(/* webpackChunkName: "vsf-checkout" */ 'theme/pages/Checkout.vue')
 const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue')
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
 const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue')
@@ -21,12 +21,12 @@ let routes = [
   { name: 'magazine', path: '/magazine', component: Static, props: {page: 'lorem', title: 'Magazine'} },
   { name: 'sale', path: '/sale', component: Static, props: {page: 'lorem', title: 'Sale'} },
   { name: 'order-tracking', path: '/order-tracking', component: Static, props: {page: 'lorem', title: 'Track my Order'} },
-  { name: 'my-account', path: '/my-account', component: MyAccount },
-  { name: 'my-shipping-details', path: '/my-account/shipping-details', component: MyAccount, props: {activeBlock: 'MyShippingDetails'} },
-  { name: 'my-newsletter', path: '/my-account/newsletter', component: MyAccount, props: {activeBlock: 'MyNewsletter'} },
-  { name: 'my-orders', path: '/my-account/orders', component: MyAccount, props: {activeBlock: 'MyOrders'} },
-  { name: 'my-order', path: '/my-account/orders/:orderId', component: MyAccount, props: {activeBlock: 'MyOrder'} },
-  { name: 'my-recently-viewed', path: '/my-account/recently-viewed', component: MyAccount, props: {activeBlock: 'MyRecentlyViewed'} },
+  { name: 'my-account', path: '/my-account', component: MyAccount, meta: { requiresAuth: true } },
+  { name: 'my-shipping-details', path: '/my-account/shipping-details', component: MyAccount, props: { activeBlock: 'MyShippingDetails' }, meta: { requiresAuth: true } },
+  { name: 'my-newsletter', path: '/my-account/newsletter', component: MyAccount, props: { activeBlock: 'MyNewsletter' }, meta: { requiresAuth: true } },
+  { name: 'my-orders', path: '/my-account/orders', component: MyAccount, props: { activeBlock: 'MyOrders' }, meta: { requiresAuth: true } },
+  { name: 'my-order', path: '/my-account/orders/:orderId', component: MyAccount, props: { activeBlock: 'MyOrder' }, meta: { requiresAuth: true } },
+  { name: 'my-recently-viewed', path: '/my-account/recently-viewed', component: MyAccount, props: { activeBlock: 'MyRecentlyViewed' }, meta: { requiresAuth: true } },
   { name: 'customer-service', path: '/customer-service', component: Static, props: {page: 'lorem', title: 'Customer service'} },
   { name: 'store-locator', path: '/store-locator', component: Static, props: {page: 'lorem', title: 'Store locator'} },
   { name: 'size-guide', path: '/size-guide', component: Static, props: {page: 'lorem', title: 'Size guide'} },

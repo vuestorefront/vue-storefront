@@ -15,7 +15,6 @@ export default {
   mixins: [Composite, AddToCompare, CompareProduct],
   data () {
     return {
-      unavailableOptionsCount: 0,
       loading: false
     }
   },
@@ -77,7 +76,7 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
+    this.$bus.$on('product-after-removevariant', this.onAfterVariantChanged)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
@@ -175,7 +174,7 @@ export default {
           }))
       }
     },
-    onAfterRemovedVariant (payload) {
+    onAfterVariantChanged (payload) {
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {
