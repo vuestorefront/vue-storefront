@@ -13,6 +13,14 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    text: {
+      type: String,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -23,11 +31,10 @@ export default {
   methods: {
     share () {
       if (navigator.share) {
-        console.info('a')
         navigator.share({
-          title: 'Web Fundamentals',
-          text: 'Check out Web Fundamentals — it rocks!',
-          url: 'https://developers.google.com/web'
+          title: this.title,
+          text: this.text,
+          url: this.url || window.location.href
         })
       }
     }

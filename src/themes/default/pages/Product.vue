@@ -19,7 +19,7 @@
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
-              <web-share class="web-share"/>
+              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
             </h1>
             <div class="mb20 uppercase cl-secondary">
               sku: {{ product.sku }}
