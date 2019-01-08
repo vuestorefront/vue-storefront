@@ -35,10 +35,9 @@ import themeModules from 'theme/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be depreciated in 1.7
+// Will be depreciated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
-import rootStore from '@vue-storefront/store';
 
 
 function createRouter (): VueRouter {

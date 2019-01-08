@@ -9,6 +9,22 @@
 <script>
 // TODO: Use Web Share API and fall back for normal social share on desktop and unsupporting browsers
 export default {
-  name: 'WebShare'
+  name: 'WebShare',
+  computed: {
+    isSupported () {
+      return typeof window !== 'undefined' && navigator.share
+    }
+  },
+  methods: {
+    share () {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Web Fundamentals',
+          text: 'Check out Web Fundamentals — it rocks!',
+          url: 'https://developers.google.com/web'
+        })
+      }
+    }
+  }
 }
 </script>
