@@ -60,9 +60,9 @@ function createRouter (): VueRouter {
   })
 }
 
-function registerModules (modules: VueStorefrontModule[], store: Store<RootState>, router: VueRouter, context): void {
+function registerModules (modules: VueStorefrontModule[], context): void {
   let registeredModules = []
-  modules.forEach(m => registeredModules.push(m.register(store, router)))
+  modules.forEach(m => registeredModules.push(m.register()))
   Logger.info('VS Modules registration finished.', 'module', {
       succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
       registrationOrder: registeredModules
@@ -176,7 +176,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
     ssrContext
   }
 
-  registerModules(enabledModules, store, router, appContext)
+  registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
 

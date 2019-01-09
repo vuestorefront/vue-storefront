@@ -1,3 +1,4 @@
+// import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Catalog } from "@vue-storefront/core/modules/catalog"
 import { Cart } from '@vue-storefront/core/modules/cart'
@@ -13,7 +14,7 @@ import { Homepage } from "./homepage"
 import { Claims } from './claims'
 import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
-import { GoogleAnalytics } from './google-analytics';
+// import { GoogleAnalytics } from './google-analytics';
 import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
@@ -22,15 +23,20 @@ import { Magento2CMS } from './magento-2-cms'
 
 // Some modules  that still needs API refactoring are  temporary registered in core
 // This is how you can adjust any module with application-specific behavior
-const extendedExample = new VueStorefrontModule({
-  key: 'extend',
-  afterRegistration: function(isServer, config) {
-    console.info('Hello, im extended now!')
-  }
-})
+// const extendedExample = {
+//   key: 'example',
+//   afterRegistration: function(isServer, config) {
+//     console.info('Hello, im extended now!')
+//   }
+// }
 
-Example.extend(extendedExample)
+// extendModule(extendedExample)
 
+/**
+ * Some of the modules are registered lazily only when components from module are appearing on current page. 
+ * If you want to use this modules in pages without it's components you need to remember about registering module first
+ * - Wishlist
+ */
 export const registerModules: VueStorefrontModule[] = [
   Checkout,
   Catalog,
@@ -46,10 +52,10 @@ export const registerModules: VueStorefrontModule[] = [
   Claims,
   PromotedOffers,
   Magento2CMS,
-  GoogleAnalytics,
+  // GoogleAnalytics,
   PaymentBackendMethods,
   PaymentCashOnDelivery,
   RawOutputExample,
-  AmpRenderer
-  // Example
+  AmpRenderer,
+  Example
 ]

@@ -8,7 +8,6 @@ import { CompareProduct } from '@vue-storefront/core/modules/compare/components/
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 import omit from 'lodash-es/omit'
-
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
@@ -52,9 +51,6 @@ export default {
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && this.product[a.attribute_code]
       })
-    },
-    isOnWishlist () {
-      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
     },
     currentStore () {
       return currentStoreView()

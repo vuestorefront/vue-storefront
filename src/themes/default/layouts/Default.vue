@@ -35,6 +35,7 @@ import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfirmation.vue'
+import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
 
 import Head from 'theme/resource/head'
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
@@ -55,6 +56,7 @@ export default {
       isSidebarOpen: state => state.ui.sidebar,
       isMicrocartOpen: state => state.ui.microcart,
       isWishlistOpen: state => state.ui.wishlist
+
     })
   },
   methods: {
