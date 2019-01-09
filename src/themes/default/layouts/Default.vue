@@ -5,7 +5,7 @@
     <div id="viewport" class="w-100 relative">
       <microcart/>
       <search-panel/>
-      <wishlist >
+      <wishlist/>
       <sidebar-menu/>
       <main-header/>
       <slot/>
