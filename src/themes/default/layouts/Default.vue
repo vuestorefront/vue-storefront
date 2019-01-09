@@ -29,7 +29,6 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 
-import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
 import Microcart from 'theme/components/core/blocks/Microcart/Microcart.vue'
 import SidebarMenu from 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue'
 import SearchPanel from 'theme/components/core/blocks/SearchPanel/SearchPanel.vue'
@@ -44,6 +43,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import ModalSwitcher from 'theme/components/core/blocks/Switcher/Language.vue'
 import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfirmation.vue'
+import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
 
 import Head from 'theme/resource/head'
 
@@ -55,7 +55,8 @@ export default {
   },
   computed: {
     ...mapState({
-      overlayActive: state => state.ui.overlay
+      overlayActive: state => state.ui.overlay,
+      wishlistActive: state => state.ui.wishlist
     })
   },
   methods: {
