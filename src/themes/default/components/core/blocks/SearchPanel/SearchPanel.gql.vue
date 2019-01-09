@@ -16,6 +16,7 @@
         class="mr20 py10 brdr-none brdr-bottom-1 brdr-cl-primary no-outline h4"
         :placeholder="$t('Type what you are looking for...')"
         type="text"
+        autofocus="true"
       >
     </div>
     <ApolloQuery
@@ -45,13 +46,6 @@ export default {
     ProductTile
   },
   mixins: [SearchPanel],
-  mounted () {
-    this.$bus.$on('focusSearchInput', () => {
-      if (!this.$store.state.ui.searchpanel) {
-        this.$refs.search.focus()
-      }
-    })
-  },
   data () {
     return {
       query: ''
