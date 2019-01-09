@@ -49,6 +49,11 @@ import Modal from 'theme/components/core/Modal'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 
 export default {
+  mounted () {
+    this.$nextTick(() => {
+      this.$bus.$emit('modal-show', 'modal-newsletter')
+    })
+  },
   beforeDestroy () {
     this.$off('validation-error')
   },
