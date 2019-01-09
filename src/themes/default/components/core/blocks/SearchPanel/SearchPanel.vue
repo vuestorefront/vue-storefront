@@ -1,7 +1,7 @@
 <template>
   <div
     class="searchpanel fixed mw-100 bg-cl-primary cl-accent"
-    :class="{ active: isOpen }"
+    :class="{ active: showPanel }"
     data-testid="searchPanel"
   >
     <div class="close-icon-row">

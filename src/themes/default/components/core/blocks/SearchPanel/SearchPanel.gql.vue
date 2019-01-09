@@ -1,5 +1,5 @@
 <template>
-  <div class="searchpanel fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isOpen }">
+  <div class="searchpanel fixed mw-100 bg-cl-primary cl-accent" :class="{ active: showPanel }">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 pointer cl-accent" @click="closeSearchpanel">close</i>
