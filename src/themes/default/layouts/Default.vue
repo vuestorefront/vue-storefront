@@ -15,7 +15,6 @@
       <newsletter-popup/>
       <cookie-notification/>
       <offline-badge/>
-      <modal-switcher/>
       <order-confirmation :orders-data="ordersData"/>
     </div>
     <vue-progress-bar />
@@ -37,7 +36,6 @@ import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import NewsletterPopup from 'theme/components/core/NewsletterPopup.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
-import ModalSwitcher from 'theme/components/core/blocks/Switcher/Language.vue'
 import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfirmation.vue'
 
 import Head from 'theme/resource/head'
@@ -98,7 +96,6 @@ export default {
     NewsletterPopup,
     CookieNotification,
     OfflineBadge,
-    ModalSwitcher,
     OrderConfirmation
   }
 }
