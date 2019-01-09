@@ -6,7 +6,7 @@
       <microcart/>
       <search-panel v-if="isSearchPanelOpen"/>
       <wishlist/>
-      <sidebar-menu/>
+      <sidebar-menu v-if="isSidebarOpen"/>
       <main-header/>
       <slot/>
       <main-footer/>
@@ -31,7 +31,6 @@ import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 
 import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
 import Microcart from 'theme/components/core/blocks/Microcart/Microcart.vue'
-import SidebarMenu from 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue'
 
 import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
@@ -46,6 +45,7 @@ import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfir
 
 import Head from 'theme/resource/head'
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
+const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 
 export default {
   data () {
@@ -56,7 +56,8 @@ export default {
   computed: {
     ...mapState({
       overlayActive: state => state.ui.overlay,
-      isSearchPanelOpen: state => state.ui.searchpanel
+      isSearchPanelOpen: state => state.ui.searchpanel,
+      isSidebarOpen: state => state.ui.sidebar
     })
   },
   methods: {
