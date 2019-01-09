@@ -22,19 +22,21 @@
         :key="link.slug"
         v-for="link in children"
       >
-        <sub-btn
-          class="bg-cl-transparent brdr-none fs-medium"
-          :id="link.id"
-          :name="link.name"
-          v-if="link.children_count > 0"
-        />
-        <router-link
-          v-else
-          class="px25 py20 cl-accent no-underline col-xs"
-          :to="localizedRoute({ name: 'category', params: { id: link.id, slug: link.slug }})"
-        >
-          {{ link.name }}
-        </router-link>
+        <div v-if="isCurrentMenuShowed" class="subcategory-item">
+          <sub-btn
+            class="bg-cl-transparent brdr-none fs-medium"
+            :id="link.id"
+            :name="link.name"
+            v-if="link.children_count > 0"
+          />
+          <router-link
+            v-else
+            class="px25 py20 cl-accent no-underline col-xs"
+            :to="localizedRoute({ name: 'category', params: { id: link.id, slug: link.slug }})"
+          >
+            {{ link.name }}
+          </router-link>
+        </div>
         <sub-category
           :category-links="link.children_data"
           :id="link.id"
@@ -111,11 +113,17 @@ export default {
     ...mapState({
       submenu: state => state.ui.submenu
     }),
+    getSubmenu () {
+      return this.submenu
+    },
     styles () {
       const pos = this.submenu.path.indexOf(this.id)
       return pos !== -1 ? {
         zIndex: pos + 1
       } : false
+    },
+    isCurrentMenuShowed () {
+      return this.getSubmenu && this.getSubmenu.depth && this.getSubmenu.path[this.getSubmenu.depth - 1] === this.id
     }
   },
   methods: {
@@ -140,5 +148,10 @@ export default {
     top: 0;
     min-height: 100%;
     transform: translateX(-100%);
+  }
+
+  .subcategory-item {
+    display: flex;
+    width: 100%;
   }
 </style>
