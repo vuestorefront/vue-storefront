@@ -2,19 +2,19 @@
 # Table of contents
 
 **Introduction and motivation**
-- [What are VS Modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#what-are-vs-modules)
-- [Motivation](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#motivation)
-- [What is the purpose of VS modules?](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#what-is-the-purpose-of-vs-modules)
+- [What are VS Modules](#what-are-vs-modules)
+- [Motivation](#motivation)
+- [What is the purpose of VS modules?](#what-is-the-purpose-of-vs-modules)
 
 **Technical part**
-- [Module config and it's capabilities](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-config-and-capabilities)
-- [Module file structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-file-structure)
-- [Module registration](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-registration)
+- [Module config and it's capabilities](#module-config-and-capabilities)
+- [Module file structure](#module-file-structure)
+- [Module registration](#module-registration)
 
 **Patterns and good practices for common use cases**
-- [General rules and good practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#general-rules-and-good-practices)
-- [Adding new features as VS modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#adding-new-features-as-vs-modules)
-- [Extending and overriding Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-and-overriding-vue-storefront-modules)
+- [General rules and good practices](#general-rules-and-good-practices)
+- [Adding new features as VS modules](#adding-new-features-as-vs-modules)
+- [Extending and overriding Vue Storefront modules](#extending-and-overriding-vue-storefront-modules)
 
   
 # What are VS modules?
