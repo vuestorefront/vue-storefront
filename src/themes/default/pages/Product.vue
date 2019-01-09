@@ -159,23 +159,7 @@
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <button
-                  @click="isOnWishlist ? removeFromWishlist(product) : addToWishlist(product)"
-                  class="
-                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action h5 pointer cl-secondary
-                  "
-                  type="button"
-                  data-testid="addToWishlist"
-                >
-                  <i class="pr5 material-icons">{{ favoriteIcon }}</i>
-                  <template v-if="!isOnWishlist">
-                    {{ $t('Add to favorite') }}
-                  </template>
-                  <template v-else>
-                    {{ $t('Remove') }}
-                  </template>
-                </button>
+                <wishlist-button :product="product" />
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
@@ -266,6 +250,7 @@ import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
 export default {
   components: {
+    'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
     AddToCart,
     Breadcrumbs,
     ColorSelector,
@@ -289,11 +274,6 @@ export default {
     }
   },
   directives: { focusClean },
-  computed: {
-    favoriteIcon () {
-      return this.isOnWishlist ? 'favorite' : 'favorite_border'
-    }
-  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true

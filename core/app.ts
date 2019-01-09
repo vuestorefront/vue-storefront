@@ -154,7 +154,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
     ssrContext
   }
 
-  registerModules(enabledModules, store, router, appContext)
+  registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
 
