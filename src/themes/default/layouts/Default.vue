@@ -3,7 +3,7 @@
     <overlay v-if="overlayActive"/>
     <loader/>
     <div id="viewport" class="w-100 relative">
-      <microcart/>
+      <microcart v-if="isMicrocartOpen"/>
       <search-panel v-if="isSearchPanelOpen"/>
       <wishlist/>
       <sidebar-menu v-if="isSidebarOpen"/>
@@ -30,7 +30,6 @@ import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 
 import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
-import Microcart from 'theme/components/core/blocks/Microcart/Microcart.vue'
 
 import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
@@ -46,6 +45,7 @@ import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfir
 import Head from 'theme/resource/head'
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
+const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
 
 export default {
   data () {
@@ -57,7 +57,8 @@ export default {
     ...mapState({
       overlayActive: state => state.ui.overlay,
       isSearchPanelOpen: state => state.ui.searchpanel,
-      isSidebarOpen: state => state.ui.sidebar
+      isSidebarOpen: state => state.ui.sidebar,
+      isMicrocartOpen: state => state.ui.microcart
     })
   },
   methods: {
