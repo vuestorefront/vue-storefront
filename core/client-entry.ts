@@ -66,6 +66,7 @@ function _ssrHydrateSubcomponents (components, next, to) {
 
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
+    if (!from.name) return next() // do not resolve asyncData on server render - already been done
     if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)

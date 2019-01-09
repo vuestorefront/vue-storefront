@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="minimal-layout">
     <div id="viewport" class="w-100 relative">
       <minimal-header/>
       <slot/>
