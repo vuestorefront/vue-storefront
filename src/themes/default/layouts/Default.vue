@@ -5,11 +5,7 @@
     <div id="viewport" class="w-100 relative">
       <microcart/>
       <search-panel/>
-      <no-ssr>
-        <transition name="slide-right">
-          <wishlist v-if="wishlistActive"/>
-        </transition>
-      </no-ssr>
+      <wishlist >
       <sidebar-menu/>
       <main-header/>
       <slot/>
@@ -27,7 +23,6 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr'
 import { mapState } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
@@ -48,6 +43,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import ModalSwitcher from 'theme/components/core/blocks/Switcher/Language.vue'
 import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfirmation.vue'
+import Wishlist from 'theme/components/core/blocks/Wishlist/Wishlist.vue'
 
 import Head from 'theme/resource/head'
 
@@ -89,7 +85,7 @@ export default {
     MainHeader,
     MainFooter,
     Microcart,
-    'Wishlist': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/Wishlist.vue'),
+    Wishlist,
     SearchPanel,
     SidebarMenu,
     Overlay,
@@ -101,22 +97,11 @@ export default {
     CookieNotification,
     OfflineBadge,
     ModalSwitcher,
-    OrderConfirmation,
-    'no-ssr': NoSSR
+    OrderConfirmation
   }
 }
 </script>
 
 <style lang="scss" src="theme/css/main.scss">
 
-</style>
-<style lang="scss">
-.slide-right-enter, .slide-right-leave-to  {
-  transform: translateX(100%);
-  transition: transform 300ms;
-}
-.slide-right-enter-to, .slide-right-leave {
-  transform: translateX(0);
-  transition: transform 300ms;
-}
 </style>
