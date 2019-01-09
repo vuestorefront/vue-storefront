@@ -12,7 +12,6 @@
       <main-footer/>
       <notification/>
       <sign-up/>
-      <newsletter-popup/>
       <cookie-notification/>
       <offline-badge/>
       <order-confirmation :orders-data="ordersData"/>
@@ -33,7 +32,6 @@ import Loader from 'theme/components/core/Loader.vue'
 import Modal from 'theme/components/core/Modal.vue'
 import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
-import NewsletterPopup from 'theme/components/core/NewsletterPopup.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfirmation.vue'
@@ -93,7 +91,6 @@ export default {
     Notification,
     Modal,
     SignUp,
-    NewsletterPopup,
     CookieNotification,
     OfflineBadge,
     OrderConfirmation
