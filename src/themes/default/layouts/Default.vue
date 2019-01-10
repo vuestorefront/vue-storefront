@@ -14,7 +14,7 @@
       <sign-up/>
       <cookie-notification/>
       <offline-badge/>
-      <order-confirmation :orders-data="ordersData"/>
+      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
     </div>
     <vue-progress-bar />
   </div>
@@ -34,17 +34,18 @@ import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
-import OrderConfirmation from 'theme/components/core/blocks/Checkout/OrderConfirmation.vue'
 
 import Head from 'theme/resource/head'
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue')
+const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
 
 export default {
   data () {
     return {
+      loadOrderConfirmation: false,
       ordersData: []
     }
   },
@@ -60,6 +61,7 @@ export default {
   },
   methods: {
     onOrderConfirmation (payload) {
+      this.loadOrderConfirmation = true
       this.ordersData = payload
       EventBus.$emit('modal-show', 'modal-order-confirmation')
     }
