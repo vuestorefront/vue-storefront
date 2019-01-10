@@ -15,8 +15,6 @@
       </div>
     </section>
 
-    <collection :title="$t('New Luma Yoga Collection')" cover-image="/assets/collection.jpg" category="Women"/>
-
     <section class="container pb60 px15">
       <div class="row center-xs">
         <header class="col-md-12 pt40">
@@ -42,7 +40,6 @@ import ProductListing from 'theme/components/core/ProductListing'
 import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 
 // Theme local components
-import Collection from 'theme/components/theme/blocks/Collection/Collection'
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
@@ -50,7 +47,6 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 export default {
   mixins: [Home],
   components: {
-    Collection,
     HeadImage,
     Onboard,
     ProductListing,
