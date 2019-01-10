@@ -6,7 +6,7 @@ const VueSSRPlugin = require('vue-ssr-webpack-plugin')
 module.exports = merge(base, {
   mode: 'development',
   target: 'node',
-  entry: './core/server-entry.js',
+  entry: './core/server-entry.ts',
   output: {
     filename: 'server-bundle.js',
     libraryTarget: 'commonjs2'

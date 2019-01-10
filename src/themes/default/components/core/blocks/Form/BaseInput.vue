@@ -12,7 +12,7 @@
         :autocomplete="autocomplete"
         :value="value"
         :autofocus="autofocus"
-        :ref="focus ? name : false"
+        :ref="name"
         @input="$emit('input', $event.target.value)"
         @blur="$emit('blur')"
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
@@ -29,11 +29,12 @@
       "
       @click="togglePassType()"
       :aria-label="$t('Toggle password visibility')"
+      :title="$t('Toggle password visibility')"
     >
       {{ icon }}
     </button>
     <template v-if="validation">
-      <span class="block cl-error h6" v-if="validation.condition">
+      <span class="block cl-error h6 mt8" v-if="validation.condition">
         {{ validation.text }}
       </span>
     </template>
@@ -42,7 +43,7 @@
         v-for="(validation, index) in validations"
         :key="index"
         v-if="validation.condition"
-        class="block cl-error h6"
+        class="block cl-error h6 mt8"
         data-testid="errorMessage"
       >
         {{ validation.text }}
@@ -52,10 +53,87 @@
 </template>
 
 <script>
-import baseInput from 'core/components/blocks/Form/BaseInput'
-
 export default {
-  mixins: [baseInput]
+  name: 'BaseInput',
+  data () {
+    return {
+      passType: 'password',
+      iconActive: false,
+      icon: 'visibility'
+    }
+  },
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: [String, Number],
+      required: true
+    },
+    name: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    autocomplete: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    focus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    autofocus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    validation: {
+      type: Object,
+      required: false,
+      default: () => { }
+    },
+    validations: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  },
+  methods: {
+    togglePassType () {
+      if (this.passType === 'password') {
+        this.passType = 'text'
+        this.icon = 'visibility_off'
+      } else {
+        this.passType = 'password'
+        this.icon = 'visibility'
+      }
+    },
+    // setFocus sets focus on a field which has a value of 'ref' tag equal to fieldName
+    setFocus (fieldName) {
+      if (this.name === fieldName) {
+        this.$refs[this.name].focus()
+      }
+    }
+  },
+  created () {
+    if (this.type === 'password') {
+      this.iconActive = true
+    }
+  },
+  mounted () {
+    if (this.focus) {
+      this.$refs[this.name].focus()
+    }
+  }
 }
 </script>
 
@@ -88,7 +166,7 @@ export default {
     position:absolute;
     pointer-events:none;
     user-select: none;
-    left:5px;
+    left: 0;
     top: 10px;
     transition:0.2s ease all;
     -moz-transition:0.2s ease all;

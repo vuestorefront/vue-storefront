@@ -5,7 +5,7 @@
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
-          <div class="sorting col-sm-3 align-right"><SortBy /></div>
+          <div class="sorting col-sm-3 align-right"><sort-by /></div>
         </div>
       </div>
       <div class="container">
@@ -16,7 +16,7 @@
           >
             {{ $t('Filters') }}
           </button>
-          <div class="mobile-sorting col-xs-6 mt25"><SortBy /></div>
+          <div class="mobile-sorting col-xs-6 mt25"><sort-by /></div>
         </div>
       </div>
     </header>
@@ -25,7 +25,7 @@
         <div class="col-md-3 start-xs category-filters">
           <sidebar :filters="filters.available"/>
         </div>
-        <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
+        <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import Category from 'core/pages/Category'
+import Category from '@vue-storefront/core/pages/Category'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
@@ -79,6 +79,13 @@ export default {
     },
     closeFilters () {
       this.mobileFilters = false
+    },
+    notify () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t('Please select the field which You like to sort by'),
+        action1: { label: this.$t('OK') }
+      })
     }
   },
   mixins: [Category]

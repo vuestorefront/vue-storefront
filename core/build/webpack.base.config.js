@@ -4,26 +4,31 @@ const fs = require('fs')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const autoprefixer = require('autoprefixer')
+const HTMLPlugin = require('html-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require('webpack')
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
 )
 
-const extensionsRoot = '../../src/extensions'
 const themesRoot = '../../src/themes'
 
 const themeRoot = require('./theme-path')
-const themeComponents = themeRoot + '/components'
-const themeExtensions = themeRoot + '/extensions'
-const themePages = themeRoot + '/pages'
-const themePlugins = themeRoot + '/plugins'
-const themeFilters = themeRoot + '/filters'
-const themeMixins = themeRoot + '/mixins'
 const themeResources = themeRoot + '/resource'
-const themeStores = themeRoot + '/store'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
+const themedIndex = path.join(themeRoot, 'index.template.html')
+const themedIndexMinimal = path.join(themeRoot, 'index.minimal.template.html')
+const themedIndexBasic = path.join(themeRoot, 'index.basic.template.html')
+const themedIndexAmp = path.join(themeRoot, 'index.amp.template.html')
+
+const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
+translationPreprocessor([
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
+  path.resolve(__dirname, themeResources + '/i18n/')
+], config)
 
 const postcssConfig =  {
   loader: 'postcss-loader',
@@ -37,16 +42,39 @@ const postcssConfig =  {
     ]
   }
 };
-
+const isProd = process.env.NODE_ENV === 'production'
+// todo: usemultipage-webpack-plugin for multistore
 module.exports = {
   plugins: [
+    new webpack.ProgressPlugin(),
+    // new BundleAnalyzerPlugin(),
     new CaseSensitivePathsPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    // generate output HTML
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
+      filename: 'index.html',
+      inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
+      filename: 'index.minimal.html',
+      inject: isProd == false
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic: 'src/index.basic.template.html',
+      filename: 'index.basic.html',
+      inject: isProd == false
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp: 'src/index.amp.template.html',
+      filename: 'index.amp.html',
+      inject: isProd == false
+    })
   ],
   devtool: 'source-map',
   entry: {
-    app: './core/client-entry.js',
-    vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync']
+    app: './core/client-entry.ts'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -56,52 +84,25 @@ module.exports = {
   resolveLoader: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, extensionsRoot),
       path.resolve(__dirname, themesRoot)
     ],
   },
   resolve: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, extensionsRoot),
       path.resolve(__dirname, themesRoot)
     ],
-    extensions: ['.js', '.vue'],
+    extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
-      'core': path.resolve(__dirname, '../'),
-      'lib': path.resolve(__dirname, '../../src/lib'), // DEPRECIATED, avoid using this in your themes, will be removed in 1.1
       'src': path.resolve(__dirname, '../../src'),
-      // Core aliases
-      'components': path.resolve(__dirname, '../../src/components'),
-      'core/api': path.resolve(__dirname, '../api'),
-      'core/assets': path.resolve(__dirname, '../assets'),
-      'core/components': path.resolve(__dirname, '../components'),
-      'core/filters': path.resolve(__dirname, '../filters'),
-      'core/helpers': path.resolve(__dirname, '../helpers'),
-      'core/lib': path.resolve(__dirname, '../lib'),
-      'core/mixins': path.resolve(__dirname, '../mixins'),
-      'core/models': path.resolve(__dirname, '../models'),
-      'core/pages': path.resolve(__dirname, '../pages'),
-      'core/plugins': path.resolve(__dirname, '../plugins'),
-      'core/resource': path.resolve(__dirname, '../resource'),
-      'core/router': path.resolve(__dirname, '../router'),
-      'core/directives': path.resolve(__dirname, '../directives'),
-      // Ccre API Modules
-      'core/api/cart': path.resolve(__dirname, '../api/cart/index.js'),
+
       // Theme aliases
       'theme': themeRoot,
       'theme/app': themeApp,
-      'theme/components': themeComponents,
       'theme/css': themeCSS,
-      'theme/filters': themeFilters,
-      'theme/mixins': themeMixins,
-      'theme/pages': themePages,
-      'theme/plugins': themePlugins,
-      'theme/resource': themeResources,
-      'theme/store': themeStores,
-      'theme/extensions': themeExtensions
+      'theme/resource': themeResources
     }
   },
   module: {
@@ -116,15 +117,26 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          optimizeSSR: false,
           preserveWhitespace: false,
           postcss: [autoprefixer()],
         }
       },
       {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        },
+        exclude: /node_modules/
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        include: [
+          path.resolve(__dirname, '../../node_modules/@vue-storefront'),
+          path.resolve(__dirname, '../../src'),
+          path.resolve(__dirname, '../../core')
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -165,34 +177,13 @@ module.exports = {
         ]
       },
       {
-        test: /\.md$/,
-        use: [
-          'vue-loader',
-          {
-            loader: 'markdown-to-vue-loader',
-            options: {
-              componentWrapper: 'div'
-            }
-          }
-        ]
-      },
-      {
-        test: path.resolve(__dirname, '../lib/translation.preprocessor.js'),
-        use: [
-          {
-            loader: 'val-loader',
-            options: {
-              csvDirectories: [
-                path.resolve(__dirname, '../resource/i18n/'),
-                path.resolve(__dirname, themeResources + '/i18n/')
-              ]
-            }
-          }
-        ]
-      },
-      {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
         loader: 'url-loader?importLoaders=1&limit=10000'
+      },
+      {
+        test: /\.(graphqls|gql)$/,
+        exclude: /node_modules/,
+        loader: ['graphql-tag/loader']
       }
     ]
   }

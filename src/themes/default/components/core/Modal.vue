@@ -20,9 +20,8 @@
               </i>
               <slot name="header"/>
             </header>
-            <div class="modal-content pt30 pb60 px65" v-if="$slots.content || staticData">
+            <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
               <slot name="content"/>
-              <static-content :file="staticData" v-if="staticData"/>
             </div>
             <slot/>
           </div>
@@ -33,18 +32,63 @@
 </template>
 
 <script>
-import StaticContent from 'theme/components/theme/StaticContent'
-import Modal from 'core/components/Modal'
+import { mapMutations } from 'vuex'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
 export default {
-  components: {
-    StaticContent
+  name: 'Modal',
+  data () {
+    return {
+      isVisible: false
+    }
   },
-  mixins: [Modal],
+  methods: {
+    onHide (name, state, params) {
+      return name === this.name ? this.toggle(false) : false
+    },
+    onShow (name, state, params) {
+      return name === this.name ? this.toggle(true) : false
+    },
+    onToggle (name, state, params) {
+      if (name === this.name) {
+        state = typeof state === 'undefined' ? !this.isVisible : state
+        this.toggle(state)
+      }
+    },
+    onEscapePress () {
+      this.close()
+    },
+    ...mapMutations('ui', [
+      'setOverlay'
+    ]),
+    toggle (state) {
+      this.isVisible = state
+      state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
+    },
+    close () {
+      this.toggle(false)
+    }
+  },
+  beforeMount () {
+    this.$bus.$on('modal-toggle', this.onToggle)
+    this.$bus.$on('modal-show', this.onShow)
+    this.$bus.$on('modal-hide', this.onHide)
+  },
+  beforeDestroy () {
+    this.$bus.$off('modal-toggle', this.onToggle)
+    this.$bus.$off('modal-show', this.onShow)
+    this.$bus.$off('modal-hide', this.onHide)
+  },
+  mixins: [onEscapePress],
   props: {
-    staticData: {
-      type: String,
-      default: ''
+    name: {
+      required: true,
+      type: String
+    },
+    delay: {
+      required: false,
+      type: Number,
+      default: 300
     },
     width: {
       type: Number,
@@ -72,58 +116,58 @@ $z-index-modal: map-get($z-index, modal);
   overflow: auto;
   z-index: $z-index-modal;
   text-align: inherit;
-}
 
-.modal-wrapper {
-  display: table;
-  height: 100%;
-  width: 100%;
-  table-layout: fixed;
-  pointer-events: none;
-}
-
-.modal-center {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 945px;
-  margin: 0 auto;
-  max-width: 100%;
-  max-height: 100%;
-  z-index: $z-index-modal+1;
-  pointer-events: auto;
-
-  @media (max-width: 600px) {
-    min-height: 100%;
-    min-width: 100%;
-    margin: 0;
+  .modal-wrapper {
+    display: table;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    pointer-events: none;
   }
-}
 
-.modal-header {
-  position: relative;
+  .modal-center {
+    display: table-cell;
+    vertical-align: middle;
+  }
 
-  > * {
+  .modal-container {
+    width: 945px;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: $z-index-modal+1;
+    pointer-events: auto;
+
+    @media (max-width: 600px) {
+      min-height: 100%;
+      min-width: 100%;
       margin: 0;
+    }
   }
 
-  @media (max-width: 600px) {
-    padding: 25px 15px;
-  }
-}
+  .modal-header {
+    position: relative;
 
-.modal-content {
-  @media (max-width: 600px) {
-    padding: 30px 15px;
-  }
-}
+    > * {
+        margin: 0;
+    }
 
-.modal-close {
-  position: absolute;
-  cursor: pointer;
-  right: 0;
-  top: 0;
+    @media (max-width: 600px) {
+      padding: 25px 20px;
+    }
+  }
+
+  .modal-content {
+    @media (max-width: 600px) {
+      padding: 30px 20px;
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    top: 0;
+  }
 }
 </style>

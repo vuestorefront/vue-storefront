@@ -204,7 +204,7 @@
             <button-full
               data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
-              :class="{ 'ripple': true, 'button-disabled' : $v.shipping.$invalid}"
+              :disabled="$v.shipping.$invalid"
             >
               {{ $t('Continue to payment') }}
             </button-full>
@@ -254,7 +254,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import shipping from 'core/components/blocks/Checkout/Shipping'
+import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
@@ -270,7 +270,7 @@ export default {
     BaseInput,
     BaseSelect
   },
-  mixins: [shipping],
+  mixins: [Shipping],
   computed: {
     countryOptions () {
       return this.countries.map((item) => {

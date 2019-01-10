@@ -1,10 +1,10 @@
 <template>
-  <div class="inline-flex relative dropdown">
+  <div class="inline-flex relative dropdown"
+       data-testid="accountButton"
+       @click.self="goToAccount">
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
-      @click="goToAccount();"
-      data-testid="accountButton"
       :aria-label="$t('Open my account')"
     >
       <i class="material-icons block">account_circle</i>
@@ -27,21 +27,32 @@
 </template>
 
 <script>
-import i18n from 'core/lib/i18n'
-import AccountIcon from 'core/components/blocks/Header/AccountIcon'
+import AccountIcon from '@vue-storefront/core/compatibility/components/blocks/Header/AccountIcon'
 
 export default {
   mixins: [AccountIcon],
   data () {
     return {
       navigation: [
-        { title: i18n.t('My profile'), link: '/my-account' },
-        { title: i18n.t('My shipping details'), link: '/my-account/shipping-details' },
-        { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
-        { title: i18n.t('My orders'), link: '/my-account/orders' },
-        { title: i18n.t('My loyalty card'), link: '#' },
-        { title: i18n.t('My product reviews'), link: '#' }
+        { title: this.$t('My profile'), link: '/my-account' },
+        { title: this.$t('My shipping details'), link: '/my-account/shipping-details' },
+        { title: this.$t('My newsletter'), link: '/my-account/newsletter' },
+        { title: this.$t('My orders'), link: '/my-account/orders' },
+        { title: this.$t('My loyalty card'), link: '#' },
+        { title: this.$t('My product reviews'), link: '#' },
+        { title: this.$t('My Recently viewed products'), link: '/my-account/recently-viewed' }
       ]
+    }
+  },
+  methods: {
+    notify (title) {
+      if (title === 'My loyalty card' || title === 'My product reviews') {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'warning',
+          message: this.$t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
+          action1: { label: this.$t('OK') }
+        })
+      }
     }
   }
 }
@@ -54,6 +65,10 @@ export default {
 $color-icon-hover: color(secondary, $colors-background);
 
 .dropdown {
+
+  button {
+    pointer-events: none;
+  }
 
   .dropdown-content {
     display: none;

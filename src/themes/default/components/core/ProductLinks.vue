@@ -33,9 +33,13 @@
 </template>
 
 <script>
-import ProductLinks from 'core/components/ProductLinks'
 export default {
-  mixins: [ProductLinks]
+  props: {
+    products: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 

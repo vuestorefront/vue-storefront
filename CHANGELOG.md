@@ -6,6 +6,122 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Lazy loading for SSR and non-SSR routes
+- app splitted into modules
+
+### Removed
+- `vsf-payment-stripe` module integration removed from core
+
+### Changed
+- There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read  [more on this change](https://github.com/DivanteLtd/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/DivanteLtd/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
+- ProductSlider, ProductLinks, ProductListing moved to theme. 
+- Many theme-related logic moved to theme (+ deleted empty core components just with `name`)
+- Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
+- Better Vuex extensibility with modules 
+- VSModule `store` object changed to fulfil need of multiple vuex modules (see modules docs)
+- UI Store logic for Microcart moved to cart module
+- Extensions are now depreciated, theme-level extensions removed and src-level extension to be depreciated in 1.7
+- Theme-starter depreciated and removed (will be replaced with theme 2.0)
+- Header, Form components, (baseCheckbox, BaseInput, BaseRadioButton, BaseSelect, Basetextarea) Loader, MainSlider, Footer, SearchIcon, ForgotPass, SignUp and Modal core components moved to theme
+- extendStore deprecaiated and moved to compatibility folder
+
+## [1.5.0] - 2018.10.22
+
+### Added
+- Contact form mailer - #1875 - Akbar Abdrakhmanov @akbarik
+- oauth2 configuration in setup - #1865 - Krister Andersson @Cyclonecode
+- GraphQL schema extendibility in the API - Yoann Vié
+- A lot of new docs - Natalia Tepluhina @NataliTepluhina
+- Magento2 integrated importer
+- 'Apply' filters button on mobile category - #1709 - Damian Fiałkiewicz @Aekal
+
+### Changed
+- New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
+
+### Fixed
+- The `regionId` field added to Order interface - #1258 - Jim Hil @jimcreate78
+- SSR Memory leaks fixed - #1882 Tomasz Duda @tomasz-duda
+- E2E tests fixed - #1861 - Patryk Tomczyk @patzik
+- UI animations - #1857 - Javier Villanueva @jahvi
+- Disabled buttons fixed - #1852 - Patryk Tomczyk @patzik
+- Mailchimp / Newsletter modules rebuilt - Filip Rakowski @filrak
+- Search component UX fixes - #1862 - Adrian Cagaanan @diboy2
+
+## [1.4.0] - 2018.10.05
+
+### Added
+- GraphQL support - #1616 - Yuri Boyko @yuriboyko, Vladimir Plastovets @VladimirPlastovets => [PHOENIX MEDIA](https://www.phoenix-media.eu/)
+- Layout switching + Advanced output mechanisms - #1787 - Piotr Karwatka @pkarw
+- Dynamic config reload - #1800 - Piotr Karwatka @pkarw
+- VuePress based docs - #1728 - Natalia Tepluhina - @NataliaTepluhina
+- Output Cache - #1664, #1641 - Piotr Karwatka - @pkarw
+- Instalation docs improvements - #1735 - Aleksander Grygier - @allozaur
+- Magento Product Reviews support - Agata Firlejczyk @afirlejczyk, Tomek Kikowski @qiqqq
+- Console silent mode (disabled by default) - #1752 - Piotr Karwatka - @pkarw
+
+### Changed
+- Please check the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Upgrade%20notes.md) for the full list
+
+### Fixed
+- `docker-compose.yml` files updated - @kovinka
+- Non-core translations moved to theme resource files (i18n) - #1747 - David Rouyer @DavidRouyer
+- Non-core assets moved to the theme - #1739, #1740 - David Rouyer @DavidRouyer
+- Bug fixes: #1715, #1718, #1670
+- NPM packages cleanup - #1748 - David Rouyer @DavidRouyer
+- Filters were not updating - #1649 - Kacper Wierzbicki @vue-kacper
+- Breadcrumbs on the product page - #1745 - Agata Firlejczyk @afirlejczyk
+- Infinite scroll on mobile browsers - #1755 - Kacper Wierzbicki @vue-kacper
+- Coupon codes - #1759 - Tomek Kikowski @qiqqq
+
+## [1.3.0] - 2018.08.31
+
+### Added
+- TypeScript support - please check [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/basics/typescript.md) for details
+- New `core/modules` added regarding the [Refactor to modules plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md)
+- Price tier's support #1625
+- Qty field on product page #1617
+- Offline orders confirmation dialog has been added #1430
+- `pwa-compat` library has been added to support fully PWA manifests on legacy browsers
+- dynamic port allocation #1511
+
+### Removed
+- unused `libs`, `components`, `core/api/cart` webpack aliases
+- `global.$VS` has been replaced with `rootStore` #1624
+
+### Changed
+- `core` directory is now a `@vue-storefront/core` package, webpack alias and all related imports reflect this change [#1513]
+- `core/api` renamed to `core/modules`, mixin features moved to `core/modules/module_name/features`
+- `core/lib/i18n` moved into separate `@vue-storefront/i18n` package
+
+### Fixed
+- installer paths are now normalized (to support paths including spaces) #1645
+- status check added to the configurable_children products #1639
+- product info update when clicking the related products #1601
+- media gallery issues + mobile view
+- product slider fixes #1561
+- shipping carrier code is now passed with order #1520
+- SEO support fixes #1514
+- UX fixes
+- bundle size optimizations (translations)
+- password validation rules are now aligned (server/client) #1476
+
+## [1.2.0] - 2018-08-01
+
+### Fixed
+- Improved integration tests [#1471]
+- Minor taxcalc.js improvements [#1467]
+- Search by SKU fixed [#1455]
+- ProductList dbl click fix [#1438]
+
+### Added
+- Docker support for vue-storefront
+- Production config docs added [#1450]
+- Integration tests for Compare products added [#1422]
+- Wishlist module refactored to the new core/api standard + unit tests [#1434]
+- Dropdown components in MyProfile replaced with the base-select [#1463]
+- Magento2/CMS integration by block/page identifiers [#1452]
+
 ## [1.1.0] - 2018-07-02
 
 Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)**
@@ -123,7 +239,7 @@ Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-st
 - Google Analytics eCommerce extension
 - order_2_magento rebuilt from scratch, supporting customer accounts and authorized carts
 - Real-time cart synchronization with Magento - (last step before synchronizing the checkout promo rules with Magento!)
-- Product comparison 
+- Product comparison
 - Themes refactor
 - Lot of smaller tweaks
 
@@ -140,7 +256,7 @@ Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-st
 - Checkout tweaks and refactor,
 - Offline notification badge,
 - Wishlist,
-- Cookie notification bar 
+- Cookie notification bar
 - Security improvements (checksums for client-side processed data)
 - Lot of UI tweaks and refactors,
 - Updated installer with support for Linux and MacOSX

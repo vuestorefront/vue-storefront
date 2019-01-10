@@ -4,7 +4,6 @@
   	{{{ meta.inject().title.text() }}}
   	{{{ meta.inject().meta.text() }}}
 		{{{ meta.inject().link.text() }}}
-			
 		<script type="text/javascript">
 			WebFontConfig = {
 				google: { families: [ 'Playfair+Display:400,700', 'Roboto:400,700' ] }
@@ -19,13 +18,13 @@
 				s.parentNode.insertBefore(wf, s);
 			})(); 
 		</script>
-
-    <% for (var chunk of webpack.chunks) {
-        for (var file of chunk.files) {
-          if (file.match(/\.(js|css)$/)) { %>
-    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-  </head>
+		{{{ renderResourceHints() }}}
+		{{{ renderStyles() }}}
+		{{{ output.appendHead() }}}		
+	</head>
   <body>
-    <!--vue-ssr-outlet-->
+		<!--vue-ssr-outlet-->
+    {{{ renderState() }}}
+    {{{ renderScripts() }}}		
   </body>
 </html>

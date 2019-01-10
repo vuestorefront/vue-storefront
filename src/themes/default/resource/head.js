@@ -8,6 +8,7 @@ export default {
     { charset: 'utf-8' },
     { vmid: 'description', name: 'description', content: 'Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1, minimal-ui' },
+    { name: 'robots', content: 'index, follow' },
     { name: 'mobile-web-app-capable', content: 'yes' },
     { name: 'theme-color', content: '#ffffff' },
     { name: 'apple-mobile-web-app-status-bar-style', content: '#ffffff' }
@@ -25,5 +26,13 @@ export default {
     { rel: 'apple-touch-startup-image', href: '/assets/apple_splash_640.png', sizes: '640x1136' },
     { rel: 'manifest', href: '/assets/manifest.json' },
     { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
+  ],
+  script: [
+    {
+      src: 'https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js',
+      async: true,
+      integrity: 'sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA',
+      crossorigin: 'anonymous'
+    }
   ]
 }

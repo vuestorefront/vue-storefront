@@ -264,7 +264,7 @@
             <button-full
               @click.native="sendDataToCheckout"
               data-testid="paymentSubmit"
-              :class="{ 'button-disabled' : $v.payment.$invalid }"
+              :disabled="$v.payment.$invalid"
             >
               {{ $t('Go review the order') }}
             </button-full>
@@ -315,7 +315,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import Payment from 'core/components/blocks/Checkout/Payment'
+import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'

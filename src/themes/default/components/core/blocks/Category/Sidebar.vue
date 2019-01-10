@@ -3,8 +3,19 @@
     <h4>
       {{ $t('Filter') }}
     </h4>
-    <div v-for="(filter, filterIndex) in filters"
-         :key="filterIndex" v-if="filter.length">
+    <button
+      class="visible-xs no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+      @click="resetAllFilters"
+      :class="{'button-disabled': Object.keys(activeFilters).length === 0}"
+      :disabled="Object.keys(activeFilters).length === 0"
+    >
+      {{ $t('Clear') }}
+    </button>
+    <div
+      v-for="(filter, filterIndex) in filters"
+      :key="filterIndex"
+      v-if="filter.length"
+    >
       <h5>
         {{ $t(filterIndex + '_filter') }}
       </h5>
@@ -26,7 +37,7 @@
           :attribute_code="size"
           code="size"
           class="size-select mr10 mb10"
-          v-for="(size, index) in filter"
+          v-for="(size, index) in sortById(filter)"
           :key="index"
           :id="size.id"
           :label="size.label"
@@ -78,7 +89,7 @@
 </template>
 
 <script>
-import Sidebar from 'core/components/blocks/Category/Sidebar'
+import Sidebar from '@vue-storefront/core/compatibility/components/blocks/Category/Sidebar'
 
 import ColorSelector from 'theme/components/core/ColorSelector'
 import SizeSelector from 'theme/components/core/SizeSelector'

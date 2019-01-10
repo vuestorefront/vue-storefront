@@ -1,12 +1,10 @@
-// 3rd party dependecies
 import { mapGetters } from 'vuex'
 
-// Core dependecies
-import EventBus from 'core/plugins/event-bus'
-import i18n from 'core/lib/i18n'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import i18n from '@vue-storefront/i18n'
 
-// Core mixins
-import Composite from 'core/mixins/composite'
+import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Home',
@@ -16,14 +14,15 @@ export default {
       rootCategories: 'category/list'
     })
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Home root ' + new Date())
+      if (context) context.output.cacheTags.add(`home`)
+      Logger.info('Calling asyncData in Home Page (core)')()
       EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
         return resolve()
       }).catch((err) => {
         console.error(err)
-        return resolve()
+        reject(err)
       })
     })
   },

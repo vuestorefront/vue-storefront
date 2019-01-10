@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="select-wrapper relative">
     <select
       :name="name"
       :class="{
@@ -37,10 +37,46 @@
 </template>
 
 <script>
-import BaseSelect from 'core/components/blocks/Form/BaseSelect'
 
 export default {
-  mixins: [BaseSelect]
+  name: 'BaseSelect',
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    name: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    options: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    selected: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    autocomplete: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    validations: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  }
 }
 </script>
 
@@ -52,6 +88,22 @@ export default {
   $color-black: color(black);
   $color-puerto-rico: color(puerto-rico);
   $color-hover: color(tertiary, $colors-background);
+
+.select-wrapper {
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 6px 0 6px;
+    border-color: $color-tertiary transparent transparent transparent;
+    pointer-events: none;
+  }
 
   select {
     @extend .h4;
@@ -93,4 +145,5 @@ export default {
     font-size: 14px;
     color: $color-puerto-rico;
   }
+}
 </style>

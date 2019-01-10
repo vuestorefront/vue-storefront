@@ -28,27 +28,27 @@
         >
       </div>
 
-      <p class="mb0 cl-accent mt10">
+      <p class="mb0 cl-accent mt10" v-if="!onlyImage">
         {{ product.name | htmlDecode }}
       </p>
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
+        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
       >
         {{ product.originalPriceInclTax | price }}
       </span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
-        v-if="product.special_price && parseFloat(product.special_price) > 0"
+        v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0"
+        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
@@ -57,9 +57,8 @@
 </template>
 
 <script>
-import config from 'config'
 import rootStore from '@vue-storefront/store'
-import ProductTile from 'core/components/ProductTile'
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 
 export default {
   mixins: [ProductTile],
@@ -68,12 +67,22 @@ export default {
       type: Boolean,
       requred: false,
       default: true
+    },
+    onlyImage: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   methods: {
+    onProductPriceUpdate (product) {
+      if (product.sku === this.product.sku) {
+        Object.assign(this.product, product)
+      }
+    },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
+        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
           const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
@@ -90,12 +99,11 @@ export default {
       }
     }
   },
-  created () {
-    this.$bus.$on('product-after-priceupdate', (product) => {
-      if (product.sku === this.product.sku) {
-        Object.assign(this.product, product)
-      }
-    })
+  beforeMount () {
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
 </script>

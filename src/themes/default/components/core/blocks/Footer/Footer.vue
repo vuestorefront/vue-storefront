@@ -1,9 +1,9 @@
 <template>
-  <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckout }">
-    <newsletter class=" flex brdr-bottom-1 brdr-cl-secondary" v-if="!isCheckout"/>
+  <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckoutPage }">
+    <newsletter class=" flex brdr-bottom-1 brdr-cl-secondary" v-if="!isCheckoutPage"/>
     <div
       class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
-      v-if="!isCheckout"
+      v-if="!isCheckoutPage"
     >
       <div class="container">
         <div class="row m0 center-xs between-md">
@@ -85,25 +85,13 @@
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
-                  {{ $t('About us') }}
+                <router-link class="cl-secondary" :to="localizedRoute('/i/about-us')" exact>
+                  {{ $t('About us (Magento CMS)') }}
                 </router-link>
               </div>
               <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to custom Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/custom-cms-page')" exact>
-                  {{ $t('Custom Cms Page') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to synced Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/cms-page-sync')" exact>
-                  {{ $t('Cms Page Sync') }}
                 </router-link>
               </div>
             </div>
@@ -185,29 +173,16 @@
 </template>
 
 <script>
+import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
-import Footer from 'core/components/blocks/Footer/Footer'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 
 export default {
-  mixins: [Footer],
-  data () {
-    return {
-      isCheckout: false
-    }
-  },
-  created () {
-    if (this.$route.path === '/checkout') {
-      this.isCheckout = true
-    }
-  },
-  watch: {
-    '$route.path': function () {
-      if (this.$route.path === '/checkout') {
-        this.isCheckout = true
-      } else {
-        this.isCheckout = false
-      }
+  mixins: [CurrentPage],
+  name: 'MainFooter',
+  computed: {
+    multistoreEnabled () {
+      return this.$store.state.config.storeViews.multistore
     }
   },
   components: {

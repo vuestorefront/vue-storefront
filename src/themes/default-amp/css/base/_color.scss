@@ -1,0 +1,16 @@
+// Colors / backgrounds
+// =======================
+// Generate colors selectors
+// .cl-{#name-of-color}
+@include color-selectors(map_merge($colors, $colors-theme), 'cl', 'color');
+
+// .cl-{#palette}-{#name-of-color}
+@include color-selectors($colors-background, 'cl-bg', 'color');
+@include color-selectors($colors-border, 'cl-brdr', 'color');
+
+// Generate background-color selectors
+// .bg-cl-{#name-of-color}
+@include color-selectors(map_merge($colors, $colors-background), 'bg-cl', 'background-color');
+
+// .bg-cl-#{#palette}-{#name-of-color}
+@include color-selectors($colors-theme, 'bg-cl-th', 'background-color');

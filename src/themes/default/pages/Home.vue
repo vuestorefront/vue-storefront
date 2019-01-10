@@ -32,13 +32,10 @@
 
 <script>
 // 3rd party dependecies
-import builder from 'bodybuilder'
-
-// Core dependecies
-import config from 'config'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 // Core pages
-import Home from 'core/pages/Home'
+import Home from '@vue-storefront/core/pages/Home'
 
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
@@ -49,7 +46,7 @@ import Collection from 'theme/components/theme/blocks/Collection/Collection'
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 export default {
   mixins: [Home],
   components: {
@@ -76,7 +73,7 @@ export default {
     this.$store.dispatch('checkout/load')
   },
   beforeMount () {
-    if (global.$VS.__DEMO_MODE__) {
+    if (this.$store.state.__DEMO_MODE__) {
       this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' }).then((onboardingClaim) => {
         if (!onboardingClaim) { // show onboarding info
           this.$bus.$emit('modal-toggle', 'modal-onboard')
@@ -86,17 +83,22 @@ export default {
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    const config = store.state.config
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Home ' + new Date())
-      let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      Logger.info('Calling asyncData in Home (theme)')()
+
+      let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+      let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
+
       store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('product/list', {
           query: newProductsQuery,
           size: 8,
           sort: 'created_at:desc',
-          includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
-        }).then(function (res) {
+          includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+        }).catch(err => {
+          reject(err)
+        }).then((res) => {
           if (res) {
             store.state.homepage.new_collection = res.items
           }
@@ -105,14 +107,20 @@ export default {
             query: coolBagsQuery,
             size: 4,
             sort: 'created_at:desc',
-            includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
-          }).then(function (res) {
+            includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+          }).then((res) => {
             if (res) {
               store.state.homepage.coolbags_collection = res.items
             }
             return resolve()
+          }).catch(err => {
+            reject(err)
           })
+        }).catch(err => {
+          reject(err)
         })
+      }).catch(err => {
+        reject(err)
       })
     })
   }

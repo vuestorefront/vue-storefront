@@ -32,25 +32,26 @@
 </template>
 
 <script>
-import MyAccount from 'core/pages/MyAccount'
+import MyAccount from '@vue-storefront/core/pages/MyAccount'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
 import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
-import i18n from 'core/lib/i18n'
+import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
 
 export default {
   data () {
     return {
       navigation: [
-        { title: i18n.t('My profile'), link: '/my-account' },
-        { title: i18n.t('My shipping details'), link: '/my-account/shipping-details' },
-        { title: i18n.t('My newsletter'), link: '/my-account/newsletter' },
-        { title: i18n.t('My orders'), link: '/my-account/orders' },
-        { title: i18n.t('My loyalty card'), link: '#' },
-        { title: i18n.t('My product reviews'), link: '#' }
+        { title: this.$t('My profile'), link: '/my-account' },
+        { title: this.$t('My shipping details'), link: '/my-account/shipping-details' },
+        { title: this.$t('My newsletter'), link: '/my-account/newsletter' },
+        { title: this.$t('My orders'), link: '/my-account/orders' },
+        { title: this.$t('My loyalty card'), link: '#' },
+        { title: this.$t('My product reviews'), link: '#' },
+        { title: this.$t('My Recently viewed products'), link: '/my-account/recently-viewed' }
       ]
     }
   },
@@ -60,9 +61,21 @@ export default {
     MyShippingDetails,
     MyNewsletter,
     MyOrders,
-    MyOrder
+    MyOrder,
+    MyRecentlyViewed
   },
-  mixins: [MyAccount]
+  mixins: [MyAccount],
+  methods: {
+    notify (title) {
+      if (title === 'My loyalty card' || title === 'My product reviews') {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'warning',
+          message: this.$t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
+          action1: { label: this.$t('OK') }
+        })
+      }
+    }
+  }
 }
 </script>
 
@@ -71,20 +84,6 @@ export default {
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $color-tertiary: color(tertiary);
-
-#my_account {
-  select {
-    @extend .h4;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid $color-tertiary;
-    width: 100%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    background-color: transparent;
-  }
-}
 
 .static-menu {
   ul {

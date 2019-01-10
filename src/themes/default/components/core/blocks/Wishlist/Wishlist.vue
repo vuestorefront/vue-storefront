@@ -25,10 +25,17 @@
 </template>
 
 <script>
-import Wishlist from 'core/components/blocks/Wishlist/Wishlist'
+import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
 
 export default {
+  props: {
+    product: {
+      type: Object,
+      required: false,
+      default: () => { }
+    }
+  },
   components: {
     Product
   },

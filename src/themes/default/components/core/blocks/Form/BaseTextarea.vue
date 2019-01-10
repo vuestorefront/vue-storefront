@@ -3,7 +3,7 @@
     <div class="relative">
       <textarea
         class="
-          py10 w-100 border-box brdr-none brdr-bottom
+          mt10 pb10 w-100 border-box brdr-none brdr-bottom-1
           brdr-cl-primary h4 sans-serif
         "
         :class="{empty: value === ''}"
@@ -25,7 +25,7 @@
 
     <template v-if="validation">
       <span
-        class="block cl-error h6"
+        class="block cl-error h6 mt5"
         v-if="validation.condition"
       >
         {{ validation.text }}
@@ -37,7 +37,7 @@
         v-for="(validation, index) in validations"
         :key="index"
         v-if="validation.condition"
-        class="block cl-error h6"
+        class="block cl-error h6 mt5"
       >
         {{ validation.text }}
       </span>
@@ -46,10 +46,64 @@
 </template>
 
 <script>
-import BaseTextarea from 'core/components/blocks/Form/BaseTextarea'
-
 export default {
-  mixins: [BaseTextarea]
+  name: 'BaseTextarea',
+  data () {
+    return {
+      iconActive: false,
+      icon: 'visibility'
+    }
+  },
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: [String, Number],
+      required: true
+    },
+    name: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    autocomplete: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    focus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    autofocus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    validation: {
+      type: Object,
+      required: false,
+      default: () => {}
+    },
+    validations: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
+  },
+  mounted () {
+    if (this.focus) {
+      this.$refs[this.name].focus()
+    }
+  }
 }
 </script>
 
@@ -70,13 +124,14 @@ export default {
     }
     resize: none;
     background: inherit;
+    min-height: 100px;
   }
 
   label {
     color: #999;
     position: absolute;
     pointer-events: none;
-    left: 5px;
+    left: 0;
     top: 10px;
     transition: 0.2s ease all;
   }

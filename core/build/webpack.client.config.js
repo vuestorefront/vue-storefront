@@ -1,17 +1,23 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
-const HTMLPlugin = require('html-webpack-plugin')
-const path = require('path')
-const fs = require('fs')
-const themeRoot = require('./theme-path')
-const themedIndex = path.join(themeRoot, 'index.template.html')
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const config = merge(base, {
-  output: {
-    path: path.resolve(__dirname, '../../dist'),
-    publicPath: '/dist/',
-    filename: '[name].js'
+  optimization: {
+    splitChunks:  {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },    
+    runtimeChunk: {
+      name: "manifest",
+    }
   },
   mode: 'development',
   resolve: {
@@ -20,14 +26,12 @@ const config = merge(base, {
     }
   },
   plugins: [
+    //new BundleAnalyzerPlugin(),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'
     }),
-    // generate output HTML
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html'
-    })
+    new VueSSRClientPlugin()
   ]
 })
 

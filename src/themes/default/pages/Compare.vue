@@ -68,11 +68,12 @@
 </template>
 
 <script>
-import Compare from 'core/pages/Compare'
+import Compare from '@vue-storefront/core/pages/Compare'
 import Breadcrumbs from '../components/core/Breadcrumbs'
 import RemoveButton from '../components/core/blocks/Compare/RemoveButton'
 import ProductTile from '../components/core/ProductTile'
 import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   components: {
@@ -81,7 +82,19 @@ export default {
     RemoveButton,
     ProductAttribute
   },
-  mixins: [Compare]
+  mixins: [Compare],
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.title || i18n.t('Compare Products'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+    }
+  }
 }
 </script>
 
