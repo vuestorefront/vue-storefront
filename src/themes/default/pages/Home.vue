@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <main-slider />
+    <head-image />
 
     <promoted-offers/>
 
@@ -39,7 +39,7 @@ import Home from '@vue-storefront/core/pages/Home'
 
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
-import MainSlider from 'theme/components/core/blocks/MainSlider/MainSlider'
+import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 
 // Theme local components
 import Collection from 'theme/components/theme/blocks/Collection/Collection'
@@ -51,7 +51,7 @@ export default {
   mixins: [Home],
   components: {
     Collection,
-    MainSlider,
+    HeadImage,
     Onboard,
     ProductListing,
     PromotedOffers,
