@@ -65,7 +65,7 @@ export default {
         .map(pl => pl.linked_product_sku) : null
 
       let key = 'sku'
-      if (!(sku.length > 0)) {
+      if (sku === null || (sku.length === 0)) {
         sku = this.product.current.category.map(cat => cat.category_id)
         key = 'category_ids'
       }
