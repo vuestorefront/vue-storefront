@@ -71,17 +71,20 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
   // add choosedn filters
   for (let code of Object.keys(chosenFilters)) {
     const filter = chosenFilters[code]
-
+    if (!filter.id || !filter.id.length) {
+      return
+    }
     if (filter.attribute_code !== 'price') {
-      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'eq': filter.id}, scope: 'catalog'})
+      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'in': filter.id}, scope: 'catalog'})
     } else { // multi should be possible filter here?
       const rangeqr = {}
-      if (filter.from) {
-        rangeqr['gte'] = filter.from
+      let rangerArray = filter['id'][0].split("-")
+      if(rangerArray.lenght <= 1){
+        return
       }
-      if (filter.to) {
-        rangeqr['lte'] = filter.to
-      }
+      rangeqr['gte'] = rangerArray[0]
+      rangeqr['lte'] = rangerArray[1]
+      console.log('rangerDown', rangerArray[0])
       filterQr = filterQr.applyFilter({key: filter.attribute_code, value: rangeqr, scope: 'catalog'})
     }
   }

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import toString from 'lodash-es/toString'
+// import toString from 'lodash-es/toString'
 
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -172,49 +172,67 @@ export default {
       }
     },
     onFilterChanged (filterOption) {
-      this.pagination.current = 0
-      if (this.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-        Vue.delete(this.filters.chosen, filterOption.attribute_code)
-      } else {
-        Vue.set(this.filters.chosen, filterOption.attribute_code, filterOption)
+      if (!filterOption.attribute_code || !filterOption.id) {
+        return
       }
 
-      let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
+      this.pagination.current = 0
+      let filterIdsArray = []
+      let filterObject = {
+        attribute_code: filterOption.attribute_code,
+        id: filterIdsArray,
+        label: filterOption.label
+      }
+      if (store.state.config.filters.multipleSelect) {
+        if (this.filters.chosen[filterOption.attribute_code]) { // if there is something in vuex filters.choosen add it to local object
+          filterObject.id = this.filters.chosen[filterOption.attribute_code].id
+        }
+        if (filterObject.id.includes(filterOption.id)) { // then we need to delete this array element
+          Vue.delete(this.filters.chosen, filterOption.attribute_code)
+          if (filterObject.id.length > 1) {
+            let index = filterObject.id.indexOf(filterOption.id)
+            if (index > -1) {
+              filterObject.id.splice(index, 1)
+              Vue.set(this.filters.chosen, filterOption.attribute_code, filterObject)
+            }
+          }
+        } else {
+          filterObject.id.push(filterOption.id)
+          Vue.set(this.filters.chosen, filterOption.attribute_code, filterObject)
+        }
+      } else {
+        if (this.filters.chosen[filterOption.attribute_code] &&
+          ((filterOption.id === this.filters.chosen[filterOption.attribute_code].id[0]) ||
+            filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) {
+          Vue.delete(this.filters.chosen, filterOption.attribute_code)
+        } else {
+          filterIdsArray.push(filterOption.id)
+          Vue.set(this.filters.chosen, filterOption.attribute_code, filterObject)
+        }
+      }
 
-      const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+      this.setFilters()
+    },
+    setFilters () {
+      let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen, this.$store.state.category.current_product_query.filters)
+      let hasFilters = !(Object.keys(this.filters.chosen).length === 0 && this.filters.chosen.constructor === Object)
+      let fsC = null
+      if (hasFilters) {
+        fsC = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+      }
+
       this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
         populateAggregations: false,
         searchProductQuery: filterQr,
         current: this.pagination.current,
         perPage: this.pagination.perPage,
-        configuration: filtersConfig,
+        configuration: fsC,
         append: false,
         includeFields: null,
         excludeFields: null
       })
       this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
       }) // because already aggregated
-    },
-    onSortOrderChanged (param) {
-      this.pagination.current = 0
-      if (param.attribute) {
-        const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-        let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
-        this.$store.state.category.current_product_query = Object.assign(this.$store.state.category.current_product_query, {
-          sort: param.attribute,
-          searchProductQuery: filterQr,
-          current: this.pagination.current,
-          perPage: this.pagination.perPage,
-          configuration: filtersConfig,
-          append: false,
-          includeFields: null,
-          excludeFields: null
-        })
-        this.$store.dispatch('category/products', this.$store.state.category.current_product_query).then((res) => {
-        })
-      } else {
-        this.notify()
-      }
     },
     validateRoute () {
       this.filters.chosen = {} // reset selected filters

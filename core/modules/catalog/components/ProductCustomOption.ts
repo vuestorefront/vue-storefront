@@ -1,3 +1,4 @@
+import config from 'config'
 export const ProductCustomOption = {
   name: 'ProductCustomOption',
   props: {
@@ -37,13 +38,21 @@ export const ProductCustomOption = {
   },
   methods: {
     filterChanged (filterOption) {
-      if (filterOption.attribute_code === this.code) {
+      if(config.filters.multipleSelect && this.context === 'category'){
+        console.log('###Switch to multiple')
         if (filterOption.id === this.id) {
           this.active = !this.active
-        } else {
-          this.active = false
         }
-        // filterOption.id === this.id ? this.active = true : this.active = false
+      } else {
+        console.log('###Switch to one')
+        if (filterOption.attribute_code === this.code) {
+          if (filterOption.id === this.id) {
+            this.active = !this.active
+          } else {
+            this.active = false
+          }
+          // filterOption.id === this.id ? this.active = true : this.active = false
+        }
       }
     },
     filterReset (filterOption) {
