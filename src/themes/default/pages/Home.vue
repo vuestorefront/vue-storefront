@@ -24,12 +24,11 @@
       <tile-links />
     </section>
     <Onboard/>
-
   </div>
 </template>
 
 <script>
-// 3rd party dependecies
+// query constructor
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 // Core pages
