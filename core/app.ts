@@ -31,6 +31,7 @@ import App from 'theme/App.vue'
 import store from '@vue-storefront/store'
 
 import { enabledModules } from './modules-entry'
+import { lazyModules } from 'src/modules'
 
 // Will be depreciated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
@@ -146,6 +147,31 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
     provide: apolloProvider,
     render: h => h(App)
   })
+
+
+  const findModuleByStoreName = (storeNameToFind) => {
+    return lazyModules.find(module => {
+      return module.storeNames.includes(storeNameToFind)
+    })
+  }
+
+  const handler = {
+    apply: async function(target, self, args) {
+      const actionDetails = args[0].split('/')
+      const moduletoImport = findModuleByStoreName(actionDetails[0])
+      if (moduletoImport) {
+        const mod = await import(`@vue-storefront/core/modules/${moduletoImport.modulePath}/index.ts`)
+        mod[moduletoImport.exportName].register()
+        return target(...args)
+      } else {
+        return target(...args)
+      }
+    }
+  }
+
+  let dispatchProxy = new Proxy(store.dispatch, handler);
+
+  store.dispatch = dispatchProxy
 
   const appContext = {
     isServer: typeof window !== 'undefined',

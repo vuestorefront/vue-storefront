@@ -1,5 +1,4 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import { Wishlist as WishlistModule } from '../'
 
 export const AddToWishlist = {
   name: 'AddToWishlist',
@@ -8,9 +7,6 @@ export const AddToWishlist = {
       required: true,
       type: Object
     }
-  },
-  created () {
-    WishlistModule.register()
   },
   methods: {
     addToWishlist (product: Product) {

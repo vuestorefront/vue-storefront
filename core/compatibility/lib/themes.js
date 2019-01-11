@@ -13,12 +13,12 @@ export function plugins () {
   return corePlugins
 }
 
-/** DEPRECIATED will be removed in 1.7 */
+/** DEPRECIATED will be removed in 1.8 */
 export function mixins () {
   return merge(coreMixins, themeMixins)
 }
 
-/** DEPRECIATED will be removed in 1.7 */
+/** DEPRECIATED will be removed in 1.8 */
 export function filters () {
   return merge(themeFilters, coreFilters)
 }

@@ -1,5 +1,4 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import { Wishlist as WishlistModule } from '../'
 
 export const RemoveFromWishlist = {
   name: 'RemoveFromWishlist',
@@ -11,7 +10,6 @@ export const RemoveFromWishlist = {
   },
   methods: {
     removeFromWishlist (product: Product) {
-      WishlistModule.register()
       this.$store.dispatch('wishlist/removeItem', product)
     }
   }

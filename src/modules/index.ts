@@ -37,6 +37,16 @@ import { Magento2CMS } from './magento-2-cms'
  * If you want to use this modules in pages without it's components you need to remember about registering module first
  * - Wishlist
  */
+
+export const lazyModules = [
+  {
+    exportName: "Wishlist",
+    type: "core",
+    modulePath: "wishlist",
+    storeNames: ["wishlist"]
+  }
+]
+
 export const registerModules: VueStorefrontModule[] = [
   Checkout,
   Catalog,
