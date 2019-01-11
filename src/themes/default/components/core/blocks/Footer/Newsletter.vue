@@ -9,7 +9,7 @@
         </div>
         <div class="newsletter-button col-md-3 col-xs-12 end-md">
           <button-outline
-            @click.native="$bus.$emit('modal-show', 'modal-newsletter')"
+            @click.native="showNewsletterPopup"
             color="dark"
             data-testid="openNewsletterButton"
           >
@@ -18,15 +18,22 @@
         </div>
       </div>
     </div>
+    <newsletter-popup v-if="loadNewsletterPopup"/>
   </div>
 </template>
 
 <script>
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import { mapState } from 'vuex'
+const NewsletterPopup = () => import(/* webpackChunkName: "vsf-newsletter-modal" */ 'theme/components/core/NewsletterPopup.vue')
 
 export default {
   name: 'Newsletter',
+  data () {
+    return {
+      loadNewsletterPopup: false
+    }
+  },
   computed: {
     ...mapState({
       isOpen: state => state.ui.newsletterPopup,
@@ -36,10 +43,15 @@ export default {
   methods: {
     newsletterClick () {
       this.$store.commit('ui/setNewsletterPopup', !this.isOpen)
+    },
+    showNewsletterPopup () {
+      this.loadNewsletterPopup = true
+      this.$bus.$emit('modal-show', 'modal-newsletter')
     }
   },
   components: {
-    ButtonOutline
+    ButtonOutline,
+    NewsletterPopup
   }
 }
 </script>
