@@ -1,4 +1,3 @@
-import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/store/types/RootState'
 import Vue from 'vue'
@@ -26,7 +25,6 @@ import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
 import { plugins, mixins, filters } from '@vue-storefront/core/compatibility/lib/themes'
 import { once } from '@vue-storefront/core/helpers'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
-import { Logger } from '@vue-storefront/core/lib/logger'
 
 // Entrys
 import App from 'theme/App.vue'
