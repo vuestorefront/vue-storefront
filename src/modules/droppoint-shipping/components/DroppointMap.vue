@@ -55,7 +55,6 @@
 <script>
 import Vue from 'vue'
 import { required, minLength } from 'vuelidate/lib/validators'
-
 // GoogleMaps cannot be included while in SSR
 if (process.browser) {
   const VueGoogleMaps = require('vue2-google-maps')
@@ -162,7 +161,7 @@ export default {
       if (this.searchZipcode) {
         this.loading = true
         this.error = null
-        let endpoint = this.$config.droppointShipping[this.shippingMethod].endpoint
+        let endpoint = this.$store.state.config.droppointShipping[this.shippingMethod].endpoint
 
         this.$store.dispatch('droppoint-shipping/fetch', {
           url: endpoint + '/zipcode/' + encodeURIComponent(this.searchZipcode),

@@ -12,7 +12,7 @@ Each of these plugins works and is registered like a normal Vue.js plugin. You c
 Core plugins are exported in `core/plugins/index.js` file as JavaScript objects
 
 ```js
-export { EventBusPlugin, ConfigPlugin };
+export { EventBusPlugin };
 ```
 
 and then registered in `core/app.js`
@@ -23,9 +23,8 @@ Object.keys(pluginsObject).forEach(function(key) {
 });
 ```
 
-Currently there are two core plugins:
+Currently there is only one (depreciated) core plugin:
 
-- **config** - This plugin is responsible for easy access to your storefront config. It can be accessed via `this.$config` alias
 - **event-bus** - Global Event Bus that can be used in any place of the application via `this.$bus` alias. It also provides some functionalities for intercepting and modifying core events.
 
 ## Theme plugins
@@ -40,4 +39,3 @@ Vue.use(Vuetify);
 // other plugins
 ```
 
-If you want to make a custom plugin for your theme, you should create a directory for it in `src/{theme}/plugins` (eg. `src/{theme}/plugins/custom_plugin`) and register it in `src/{theme}/plugins/index.js` like a 3rd party plugin in example above.
