@@ -16,7 +16,7 @@ export class SearchAdapter {
     this.initBaseTypes()
   }
 
-  search (Request) {
+  async search (Request) {
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type )
     }
@@ -25,7 +25,7 @@ export class SearchAdapter {
 
     let ElasticsearchQueryBody = {}
     if (Request.searchQuery instanceof SearchQuery) {
-      ElasticsearchQueryBody = prepareElasticsearchQueryBody(Request.searchQuery)
+      ElasticsearchQueryBody = await prepareElasticsearchQueryBody(Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
         ElasticsearchQueryBody['min_score'] = rootStore.state.config.elasticsearch.min_score
       }
