@@ -1,4 +1,4 @@
-import { buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 
 export default {
   name: 'CategorySidebar',
