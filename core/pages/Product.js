@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex'
 
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
+import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
@@ -225,7 +225,6 @@ export default {
   metaInfo () {
     const storeView = currentStoreView()
     return {
-      title: htmlDecode(this.$route.meta.title || this.productName),
       link: [
         { rel: 'amphtml',
           href: this.$router.resolve(localizedRoute({
@@ -238,7 +237,8 @@ export default {
           }, storeView.storeCode)).href
         }
       ],
-      meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
+      title: htmlDecode(this.product.meta_title || this.productName),
+      meta: this.product.meta_description ? [{ vmid: 'description', description: htmlDecode(this.product.meta_description) }] : []
     }
   }
 }

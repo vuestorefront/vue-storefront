@@ -274,8 +274,8 @@ export default {
           }, storeView.storeCode)).href
         }
       ],
-      title: htmlDecode(this.$route.meta.title || this.categoryName),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
+      title: htmlDecode(this.category.meta_title || this.categoryName),
+      meta: this.category.meta_description ? [{ vmid: 'description', description: htmlDecode(this.category.meta_description) }] : []
     }
   }
 }
