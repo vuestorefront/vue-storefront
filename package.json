@@ -152,6 +152,9 @@
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.1.4"
   },
+  "peerDependencies": {
+    "vue-template-compiler": "^2.5.17"
+  },
   "browserslist": {
     "development": [
       "last 2 chrome versions",

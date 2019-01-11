@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu absolute mw-100 bg-cl-primary" :class="{ active: isOpen }">
+  <div class="sidebar-menu absolute mw-100 bg-cl-primary" :class="{ active: showMenu }">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
@@ -39,7 +39,6 @@
                 :id="category.id"
                 :name="category.name"
                 v-if="category.children_count > 0"
-                @click.native="activeSubMenu = category.id"
               />
               <router-link
                 v-else
@@ -51,7 +50,6 @@
             </div>
 
             <sub-category
-              v-show="activeSubMenu === category.id"
               :category-links="category.children_data"
               :id="category.id"
               :parent-slug="category.slug"
@@ -135,7 +133,6 @@ export default {
   mixins: [SidebarMenu],
   data () {
     return {
-      activeSubMenu: null,
       myAccountLinks: [
         {
           id: 1,
@@ -167,7 +164,8 @@ export default {
           name: i18n.t('My product reviews'),
           url: '#'
         }
-      ]
+      ],
+      componentLoaded: false
     }
   },
   computed: {
@@ -188,7 +186,15 @@ export default {
     },
     isCurrentMenuShowed () {
       return !this.getSubmenu || !this.getSubmenu.depth
+    },
+    showMenu () {
+      return this.isOpen && this.componentLoaded
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.componentLoaded = true
+    })
   },
   methods: {
     login () {
