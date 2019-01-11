@@ -222,7 +222,7 @@ export default {
 
       this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: this.$route.params.slug }).then(category => {
         if (!category) {
-          this.$router.push('/')
+          this.$router.push(this.localizedRoute('/'))
         } else {
           this.pagination.current = 0
           let searchProductQuery = baseFilterProductsQuery(this.$store.state.category.current, store.state.config.products.defaultFilters)
