@@ -161,7 +161,7 @@ export default {
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
         console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
-        this.$router.push({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
+        this.$router.replace({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
       }
     },
     onAfterPriceUpdate (product) {
