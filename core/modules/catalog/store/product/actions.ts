@@ -380,7 +380,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Search products by specific field
    * @param {Object} options
    */
-  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku', skipCache = false }) {
+  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, assignDefaultVariant = false, key = 'sku', skipCache = false }) {
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
@@ -409,7 +409,10 @@ const actions: ActionTree<ProductState, RootState> = {
         if (prod.type_id === 'configurable' && hasConfigurableChildren) {
           // set first available configuration
           // todo: probably a good idea is to change this [0] to specific id
-          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
+          const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
+          if (selectedVariant && assignDefaultVariant) {
+            prod = Object.assign(prod, selectedVariant)
+          }
         } else if (!skipCache || ('simple' === prod.type_id || 'downloadable' === prod.type_id)) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
         }
