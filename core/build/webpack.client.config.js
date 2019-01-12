@@ -26,7 +26,7 @@ const config = merge(base, {
     }
   },
   plugins: [
-    //new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'
