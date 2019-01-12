@@ -167,7 +167,7 @@
               @click.native="sendDataToCheckout"
               :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
             >
-              {{ $t(nextButtonText) }}
+              {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
             </button-full>
           </div>
           <div
@@ -238,15 +238,6 @@ export default {
     BaseInput
   },
   mixins: [PersonalDetails],
-  computed: {
-    nextButtonText () {
-      if (this.$store.state.cart.isVirtualCart) {
-        return 'Continue to payment'
-      } else {
-        return 'Continue to shipping'
-      }
-    }
-  },
   validations: {
     personalDetails: {
       firstName: {

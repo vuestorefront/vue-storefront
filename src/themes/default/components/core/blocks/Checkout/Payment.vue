@@ -6,7 +6,7 @@
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
-          {{ stepNo }}
+          {{ (isVirtualCart ? 2 : 3) }}
         </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
@@ -341,16 +341,6 @@ export default {
           label: item.name
         }
       })
-    },
-    isVirtualCart () {
-      return this.$store.state.cart.isVirtualCart
-    },
-    stepNo () {
-      if (this.$store.state.cart.isVirtualCart) {
-        return 2
-      } else {
-        return 3
-      }
     }
   },
   validations () {

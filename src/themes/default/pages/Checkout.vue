@@ -13,7 +13,7 @@
             :is-active="activeSection.personalDetails"
             :focused-field="focusedField"
           />
-          <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart"/>
+          <shipping class="line relative" :is-active="activeSection.shipping" v-if="!this.$store.state.cart.cartIsVirtual"/>
           <payment class="line relative" :is-active="activeSection.payment"/>
           <order-review class="line relative" :is-active="activeSection.orderReview"/>
           <div id="custom-steps"/>
@@ -47,11 +47,6 @@ export default {
     ThankYouPage
   },
   mixins: [Checkout],
-  computed: {
-    isVirtualCart () {
-      return this.$store.state.cart.isVirtualCart
-    }
-  },
   methods: {
     notifyEmptyCart () {
       this.$store.dispatch('notification/spawnNotification', {

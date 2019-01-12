@@ -58,6 +58,9 @@ const getters: GetterTree<CartState, RootState> = {
       code: state.platformTotals.coupon_code,
       discount: state.platformTotals.discount_amount
     }
+  },
+  isVirtualCart (state) {
+    return state.cartIsVirtual
   }
 }
 

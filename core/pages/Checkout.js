@@ -177,8 +177,8 @@ export default {
     onAfterPersonalDetails (receivedData, validationResult) {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
-      const isVirtualCart = this.$store.state.cart.isVirtualCart
-      if (isVirtualCart === true) {
+
+      if (this.$store.state.cart.cartIsVirtual === true) {
         this.activateSection('payment')
       } else {
         this.activateSection('shipping')

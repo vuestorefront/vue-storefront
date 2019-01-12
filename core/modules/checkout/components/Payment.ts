@@ -25,7 +25,8 @@ export const Payment = {
       currentUser: (state: RootState) => state.user.current
     }),
     ...mapGetters({
-      paymentMethods: 'payment/paymentMethods'
+      paymentMethods: 'payment/paymentMethods',
+      isVirtualCart: 'cart/isVirtualCart'
     })
   },
   created () {

@@ -6,7 +6,7 @@
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
-          {{ stepNo }}
+          {{ (isVirtualCart ? 3 : 4) }}
         </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
@@ -126,15 +126,6 @@ export default {
     ValidationError
   },
   mixins: [OrderReview, Composite],
-  computed: {
-    stepNo () {
-      if (this.$store.state.cart.isVirtualCart) {
-        return 3
-      } else {
-        return 4
-      }
-    }
-  },
   validations: {
     orderReview: {
       terms: {
