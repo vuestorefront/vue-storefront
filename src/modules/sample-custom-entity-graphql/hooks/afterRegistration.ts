@@ -1,5 +1,5 @@
 
-import SearchAdapterFactory from '@vue-storefront/store/lib/search/adapter/factory'
+import { getSearchAdapter } from '@vue-storefront/store/lib/search/adapter/searchAdapterFactory'
 import { processESResponseType } from '@vue-storefront/store/lib/search/adapter/graphql/processor/processType'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
@@ -8,14 +8,11 @@ const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
 export function afterRegistration (Vue, config, store, isServer) {
-  Vue.$on('application-after-init', () => {
+  Vue.$on('application-after-init', async () => {
     console.debug('Example of custom entity graphql extension')
 
-    // load Search adapter factory to handle graphql search adapter
-    const factory = new SearchAdapterFactory()
-
     // create graphQl searchAdapter
-    let searchAdapter = factory.getSearchAdapter('graphql')
+    let searchAdapter = await getSearchAdapter('graphql')
 
     // register custom entity type using registerEntityTypeByQuery
     // differnt graphql servers cold be used for different entity types

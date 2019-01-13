@@ -2,15 +2,9 @@ import Vue from 'vue'
 import { currentStoreView } from './multistore'
 import { sha3_224 } from 'js-sha3'
 import rootStore from '../'
-import SearchAdapterFactory from './search/adapter/factory'
+import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
 import Request from '../types/search/Request'
 import Response from '../types/search/Response'
-
-function getSearchAdapter(config) {
-  const factory = new SearchAdapterFactory()
-  let adapterName = config.server.api
-  return factory.getSearchAdapter(adapterName)
-}
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -28,8 +22,8 @@ export function isOnline () {
  * @param {Int} size page size
  * @return {Promise}
  */
-export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<Response> {
-  const searchAdapter = getSearchAdapter(rootStore.state.config)
+export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<Response> => {
+  const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
