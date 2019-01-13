@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const base = require('./webpack.base.config')
+const base = require('./webpack.base.config.ts')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
