@@ -3,7 +3,7 @@ import toString from 'lodash-es/toString'
 
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
