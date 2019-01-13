@@ -274,7 +274,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://www.summasolutions.net">
           <img
-            src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg"
+            src="https://divante.co/partners/Vue-Storefront/summa_logo_horizontal_rgb.jpg"
             alt="Summa Solutions"
             width="150"
           >
@@ -535,42 +535,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-         <td align="center" valign="middle">
-        <a href="">
-          <img
-            src=""
-            alt=""
-            height="50"
-          >
-        </a>
-      </td>
-        <td align="center" valign="middle">
-        <a href="">
-          <img
-            src=""
-            alt=""
-            height="50"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="">
-          <img
-            src=""
-            alt=""
-            height="50"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="">
-          <img
-            src=""
-            alt=""
-            height="50"
-          >
-        </a>
-      </td>
+     <td align="center" valign="middle"></td>
+   <td align="center" valign="middle"></td>
+  <td align="center" valign="middle"></td>
+<td align="center" valign="middle"></td>
     </tr>
   </tbody>
 </table>

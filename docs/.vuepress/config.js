@@ -86,6 +86,7 @@ module.exports = {
           title: 'Extensions',
           collapsable: false,
           children: [
+            'extensions/introduction',
             'extensions/extending-api',
             'extensions/extending-server-side-routes',
           ],
