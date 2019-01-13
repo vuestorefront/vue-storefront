@@ -222,7 +222,7 @@ export default {
 
       this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: this.$route.params.slug }).then(category => {
         if (!category) {
-          this.$router.push('/')
+          this.$router.push(this.localizedRoute('/'))
         } else {
           this.pagination.current = 0
           let searchProductQuery = baseFilterProductsQuery(this.$store.state.category.current, store.state.config.products.defaultFilters)
@@ -274,8 +274,8 @@ export default {
           }, storeView.storeCode)).href
         }
       ],
-      title: htmlDecode(this.$route.meta.title || this.categoryName),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
+      title: htmlDecode(this.category.meta_title || this.categoryName),
+      meta: this.category.meta_description ? [{ vmid: 'description', description: htmlDecode(this.category.meta_description) }] : []
     }
   }
 }

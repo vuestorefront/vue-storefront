@@ -29,8 +29,8 @@
   </div>
 </template>
 <script>
-import { Carousel, Slide } from 'vue-carousel'
 import NoSSR from 'vue-no-ssr'
+
 export default {
   props: {
     current: {
@@ -50,8 +50,8 @@ export default {
   },
   components: {
     'no-ssr': NoSSR,
-    Carousel,
-    Slide
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide)
   },
   mounted () {
     this.$store.commit('ui/setOverlay', true)

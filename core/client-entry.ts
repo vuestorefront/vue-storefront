@@ -10,7 +10,7 @@ import buildTimeConfig from 'config'
 import { execute } from '@vue-storefront/core/lib/sync/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
-import { prepareStoreView, storeCodeFromRoute, currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 import '@vue-storefront/core/service-worker/registration' // register the service worker
 
@@ -36,7 +36,7 @@ function _commonErrorHandler (err, reject) {
       message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
       action1: { label: i18n.t('OK') }
     })
-    router.push('/')
+    router.push(localizedRoute('/', currentStoreView().storeCode))
   } else {
     rootStore.dispatch('notification/spawnNotification', {
       type: 'error',
@@ -66,6 +66,7 @@ function _ssrHydrateSubcomponents (components, next, to) {
 
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
+    if (!from.name) return next() // do not resolve asyncData on server render - already been done
     if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)

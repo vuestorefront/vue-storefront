@@ -1,6 +1,9 @@
+import { Wishlist as WishlistModule } from '../'
+
 export const Wishlist = {
   name: 'Wishlist',
   created () {
+    WishlistModule.register()
     this.$store.dispatch('wishlist/load')
   },
   computed: {
@@ -13,7 +16,7 @@ export const Wishlist = {
   },
   methods: {
     closeWishlist () {
-      this.$store.commit('ui/setWishlist', false)
+      this.$store.dispatch('ui/toggleWishlist')
     }
   }
 }

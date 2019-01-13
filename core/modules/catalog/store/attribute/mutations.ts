@@ -31,8 +31,9 @@ const mutations: MutationTree<AttributeState> = {
         console.error(e)
       }
     }
-    state.list_by_code = attrHashByCode
-    state.list_by_id = attrHashById
+    Vue.set(state, 'list_by_code', attrHashByCode)
+    Vue.set(state, 'list_by_id', attrHashById)
+    Vue.prototype.$bus.$emit('product-after-attributes-loaded')
   }
 }
 

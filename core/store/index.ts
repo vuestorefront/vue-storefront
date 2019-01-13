@@ -165,7 +165,7 @@ export function initStore () {
       name: dbNamePrefix + 'shop',
       storeName: 'elasticCache',
       driver: localForage[config.localForage.defaultDrivers['elasticCache']]
-    })),
+    }), true, rootStore.state.config.server.elasticCacheQuota),
     productsCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'products',

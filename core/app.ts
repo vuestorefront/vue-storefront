@@ -60,9 +60,9 @@ function createRouter (): VueRouter {
   })
 }
 
-function registerModules (modules: VueStorefrontModule[], store: Store<RootState>, router: VueRouter, context): void {
+function registerModules (modules: VueStorefrontModule[], context): void {
   let registeredModules = []
-  modules.forEach(m => registeredModules.push(m.register(store, router)))
+  modules.forEach(m => registeredModules.push(m.register()))
   Logger.info('VS Modules registration finished.', 'module', {
       succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
       registrationOrder: registeredModules
@@ -93,7 +93,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
 
   // depreciated, will be removed in 1.7
-  const storeModules = themeModules || {} 
+  const storeModules = themeModules || {}
 
   // depreciated, will be removed in 1.7
   for (const moduleName of Object.keys(storeModules)) {
@@ -106,7 +106,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   // store.state.shipping.methods = shippingMethods
 
   Vue.use(Vuelidate)
-  Vue.use(VueLazyload, {attempt: 2})
+  Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
   Vue.use(Meta)
   Vue.use(VueObserveVisibility)
 
@@ -162,7 +162,7 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
   })
 
   Vue.use(VueApollo)
-  
+
   const app = new Vue({
     router,
     store,
@@ -176,12 +176,12 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
     ssrContext
   }
 
-  registerModules(enabledModules, store, router, appContext)
+  registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
 
   app.$emit('application-after-init', app)
-  
+
   return { app, router, store }
 }
 
