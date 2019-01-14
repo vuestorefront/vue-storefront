@@ -3,7 +3,7 @@ import toString from 'lodash-es/toString'
 
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -231,7 +231,7 @@ export default {
 
       this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: this.$route.params.slug }).then(category => {
         if (!category) {
-          this.$router.push('/')
+          this.$router.push(this.localizedRoute('/'))
         } else {
           this.pagination.current = 0
           let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, store.state.config.products.defaultFilters)
@@ -283,8 +283,8 @@ export default {
           }, storeView.storeCode)).href
         }
       ],
-      title: htmlDecode(this.$route.meta.title || this.categoryName),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
+      title: htmlDecode(this.category.meta_title || this.categoryName),
+      meta: this.category.meta_description ? [{ vmid: 'description', description: htmlDecode(this.category.meta_description) }] : []
     }
   }
 }

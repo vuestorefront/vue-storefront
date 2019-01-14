@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
-import { slugify, breadCrumbRoutes } from '@vue-storefront/store/helpers'
+import { slugify, breadCrumbRoutes } from '@vue-storefront/core/helpers'
 import { entityKeyName } from '@vue-storefront/store/lib/entities'
 import CategoryState from '../../types/CategoryState'
 import rootStore from '@vue-storefront/store'

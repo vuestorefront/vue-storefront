@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/store/helpers'
+import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { configureProductAsync, 
   doPlatformPricesSync, 
@@ -79,12 +79,16 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
 
-          context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+          if (typeof catForBreadcrumbs !== 'undefined') {
+            context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+            }).catch(err => {
+              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+              console.error(err)
+            })
+          } else {
             setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
-          }).catch(err => {
-            setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
-            console.error(err)
-          })
+          }
         }).catch(err => {
           console.error(err)
         })
@@ -376,7 +380,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Search products by specific field
    * @param {Object} options
    */
-  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku', skipCache = false }) {
+  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, assignDefaultVariant = false, key = 'sku', skipCache = false }) {
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
@@ -405,7 +409,10 @@ const actions: ActionTree<ProductState, RootState> = {
         if (prod.type_id === 'configurable' && hasConfigurableChildren) {
           // set first available configuration
           // todo: probably a good idea is to change this [0] to specific id
-          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
+          const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
+          if (selectedVariant && assignDefaultVariant) {
+            prod = Object.assign(prod, selectedVariant)
+          }
         } else if (!skipCache || ('simple' === prod.type_id || 'downloadable' === prod.type_id)) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
         }
@@ -604,10 +611,12 @@ const actions: ActionTree<ProductState, RootState> = {
       
       let subloaders = []
       if (product) {
-        const productFields = Object.keys(product)
-        subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details
-          filterValues: productFields,
-          only_visible: true,
+        const productFields = Object.keys(product).filter(fieldName => {
+          return rootStore.state.config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
+        })
+        subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+          filterValues: rootStore.state.config.entities.product.useDynamicAttributeLoader ? productFields : null,
+          only_visible: rootStore.state.config.entities.product.useDynamicAttributeLoader ? true : false,
           only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
         }, { root: true }))

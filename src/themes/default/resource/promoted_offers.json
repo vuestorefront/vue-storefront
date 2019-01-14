@@ -4,7 +4,7 @@
 	    "title": "Luma Performance",
 	    "subtitle": "Collection",
 	    "image": "/assets/slide_02.jpg",
-	    "link": "/c/women-20"
+	    "link": "/c/women"
 	  }
   ],
   "smallBanners": [
@@ -12,13 +12,13 @@
       "title": "Erin Renny",
       "subtitle": "New",
       "image": "/assets/ig/ig03.jpg",
-      "link": "/c/men-11"
+      "link": "/c/men"
     },
     {
       "title": "Eco-friendly",
       "subtitle": "Sales",
       "image": "/assets/ig/ig05.jpg",
-      "link": "/c/gear-3"
+      "link": "/c/gear"
     }
   ],
   "productBanners": [
@@ -26,7 +26,7 @@
 	    "title": "Eco-friendly",
 	    "subtitle": "Sales",
 	    "image": "/assets/ig/ig05.jpg",
-	    "link": "/c/gear-3"
+	    "link": "/c/gear"
 	  }
   ]
 }
