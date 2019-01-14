@@ -97,6 +97,7 @@ module.exports = {
           collapsable: false,
           children: [
             'vuex/introduction',
+            'vuex/vuex-conventions',
             'vuex/product-store',
             'vuex/category-store',
             'vuex/cart-store',
