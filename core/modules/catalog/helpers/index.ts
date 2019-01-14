@@ -11,7 +11,7 @@ import union from 'lodash-es/union'
 import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
-import { getThumbnailPath } from '@vue-storefront/store/helpers'
+import { getThumbnailPath } from '@vue-storefront/core/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {

@@ -60,33 +60,31 @@ export default {
   },
   methods: {
     refreshList () {
-      if (this.productLinks) {
-        let sku = this.productLinks
-          .filter(pl => pl.link_type === this.type)
-          .map(pl => pl.linked_product_sku)
+      let sku = this.productLinks ? this.productLinks
+        .filter(pl => pl.link_type === this.type)
+        .map(pl => pl.linked_product_sku) : null
 
-        let key = 'sku'
-        if (!(sku.length > 0)) {
-          sku = this.product.current.category.map(cat => cat.category_id)
-          key = 'category_ids'
-        }
-        let relatedProductsQuery = prepareRelatedQuery(key, sku)
-
-        this.$store.dispatch('product/list', {
-          query: relatedProductsQuery,
-          size: 8,
-          prefetchGroupProducts: false,
-          updateState: false
-        }).then((response) => {
-          if (response) {
-            this.$store.dispatch('product/related', {
-              key: this.type,
-              items: response.items
-            })
-            this.$forceUpdate()
-          }
-        })
+      let key = 'sku'
+      if (sku === null || (sku.length === 0)) {
+        sku = this.product.current.category.map(cat => cat.category_id)
+        key = 'category_ids'
       }
+      let relatedProductsQuery = prepareRelatedQuery(key, sku)
+
+      this.$store.dispatch('product/list', {
+        query: relatedProductsQuery,
+        size: 8,
+        prefetchGroupProducts: false,
+        updateState: false
+      }).then((response) => {
+        if (response) {
+          this.$store.dispatch('product/related', {
+            key: this.type,
+            items: response.items
+          })
+          this.$forceUpdate()
+        }
+      })
     }
   },
   computed: {

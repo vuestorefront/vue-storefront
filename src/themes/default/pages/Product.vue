@@ -19,6 +19,7 @@
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
+              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
             </h1>
             <div class="mb20 uppercase cl-secondary">
               sku: {{ product.sku }}
@@ -246,7 +247,7 @@ import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue
 import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
-
+import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
 export default {
   components: {
     'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
@@ -263,7 +264,8 @@ export default {
     PromotedOffers,
     RelatedProducts,
     Reviews,
-    SizeSelector
+    SizeSelector,
+    WebShare
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -466,4 +468,7 @@ $bg-secondary: color(secondary, $colors-background);
   font-size: 14px;
 }
 
+.web-share {
+  float: right;
+}
 </style>

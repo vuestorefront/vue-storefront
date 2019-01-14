@@ -1,6 +1,30 @@
 # Upgrade notes
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
+
+## 1.6 -> 1.7
+
+Starting from Vue Storefront 1.7 we've changed the Caching strategy + Offline ready features:
+- by default, the ElasticSearch Queries are executed using `GET` method - and therefore are cached by Service Worker (`config.elasticsearch.queryMethod` - set it to POST for the previous behavior and if You're using graphql),
+- by default products and queries cache is set in the `LocalStorage` with a quota set to 4MB (`config.server.elasticCacheQuota`). If the storage quota is set, the cache purging is executed each 30s using LRU algorithm. Local Storage is limited to 5MB in most browsers
+- we've added `config.server. disableLocalStorageQueriesCache` which is set to `true` by default. When this option is `on` then we're not storing the ElasticSearch results in local cache - this is due to the fact that results are by default cached in Service Worker cache anyway.
+
+Backward compatibility - to reverse to the 1.0-1.6 behavior please set:
+- set `config.server.disableLocalStorageQueriesCache` = `false`,
+- set `config.elasticsearch.queryMethod` = `POST`
+- set `config.localForage.defaultDrivers.elasticCache` = `INDEXEDDB`
+
+**NOTE:** The offline mode may not work properly in the development mode (localhost) because of Service Workers + lack of the bundle prefetching (bundles lazy loading).
+
+With 1.7 the number of attribute descriptors that are loaded on the product page is now limited and dynamically adjusted to the fields used in the product. This behaviour shouldn't have any negative impact on Your app, hovewer if You havent used the `attribute/list` action explicitly based on all attributes loaded by default (up to 1.6) this may cause the problems. You can switch off dynamic loader by setting the `config.entities.product.useDynamicAttributeLoader=false`. Details: [#2137](https://github.com/DivanteLtd/vue-storefront/pull/2137/files)
+
+Dynamic Categories prefetching (#2076). Starting with Vue Storefront 1.7 we've added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). This option switches the way the category tree is being fetched. Previously we were fetching the full categories tree. In some cases it can generate even few MB of payload. Currently with this option in place we're pre-fetching the categories on demand while user is browsing the category tree
+
+**NOTE:** Since we're no longer generating `category.slug` client's side - we need to have `category.url_key` field unique. If Your Magento2 url_keys are unique it will work without any changes. If not - please do use [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) to re-import the categories. There is a new `categories` importer option `--generateUniqueUrlKeys` which is set to true by default.
+
+With the new modules architecture available from 1.6 we've [updated the payment modules guide](https://github.com/DivanteLtd/vue-storefront/pull/2135). If You've used the custom payment (and basically any other) extensions please make sure You've already ported them to [new modules architecture](https://docs.vuestorefront.io/guide/modules/introduction.html).
+
+
 ## 1.5 -> 1.6
 
 With 1.6 we've introduced new modular architecture and moved most of theme-specific logic from core to default theme. It's probably the biggest update in VS history and the first step to making future upgrades more and more seamless.

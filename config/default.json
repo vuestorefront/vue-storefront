@@ -181,6 +181,12 @@
           "slug",
           "errors",
           "info",
+          "erin_recommends",
+          "special_from_date",
+          "news_from_date",
+          "custom_design_from",
+          "originalPrice",
+          "originalPriceInclTax",
           "parentSku",
           "options",
           "product_option",
@@ -230,6 +236,9 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "filterFieldMapping": {
         "category.name": "category.name.keyword"
+      },
+      "colorMappings": {
+        "Melange graphite": "#eeeeee"
       },
       "sortByAttributes": {
         "Latest": "updated_at",

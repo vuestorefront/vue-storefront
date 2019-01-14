@@ -47,7 +47,9 @@ const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
-    // new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin({
+    //   generateStatsFile: true
+    // }),
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     // generate output HTML
@@ -76,7 +78,6 @@ module.exports = {
       inject: isProd == false
     })
   ],
-  devtool: 'source-map',
   entry: {
     app: ['babel-polyfill', './core/client-entry.ts']
   },
