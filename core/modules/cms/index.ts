@@ -2,6 +2,7 @@ import { cmsPageModule } from './store/page'
 import { cmsBlockModule } from './store/block'
 import { cmsHierarchyModule } from './store/hierarchy'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { beforeRegistration } from './hooks/beforeRegistration'
 import { plugin } from './store/plugin'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
 
@@ -15,6 +16,7 @@ const moduleConfig: VueStorefrontModuleConfig = {
     { key: 'cmsBlock', module: cmsBlockModule },
     { key: 'cmsHierarchy', module: cmsHierarchyModule }
   ], plugin },
+  beforeRegistration
 }
 
 export const Cms = new VueStorefrontModule(moduleConfig)

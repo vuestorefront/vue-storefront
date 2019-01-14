@@ -55,69 +55,10 @@ export function initStore () {
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
   Vue.prototype.$db = {
     currentStoreCode: storeView.storeCode,
-    ordersCollection: new UniversalStorage(localForage.createInstance({
-      name: 'shop',
-      storeName: 'orders',
-      driver: localForage[config.localForage.defaultDrivers['orders']]
-    })),
-    categoriesCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'categories',
-      driver: localForage[config.localForage.defaultDrivers['categories']]
-    })),
-    attributesCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'attributes',
-      driver: localForage[config.localForage.defaultDrivers['attributes']]
-    })),
-    cartsCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'carts',
-      driver: localForage[config.localForage.defaultDrivers['carts']]
-    })),
-    elasticCacheCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'elasticCache',
-      driver: localForage[config.localForage.defaultDrivers['elasticCache']]
-    }), true, rootStore.state.config.server.elasticCacheQuota),
-    productsCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'products',
-      driver: localForage[config.localForage.defaultDrivers['products']]
-    })),
-    claimsCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'claims',
-      driver: localForage[config.localForage.defaultDrivers['claims']]
-    })),
-    compareCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'compare',
-      driver: localForage[config.localForage.defaultDrivers['compare']]
-    })),
-    usersCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'user',
-      driver: localForage[config.localForage.defaultDrivers['user']]
-    })),
     syncTaskCollection: new UniversalStorage(localForage.createInstance({
       name: dbNamePrefix + 'shop',
       storeName: 'syncTasks',
       driver: localForage[config.localForage.defaultDrivers['syncTasks']]
-    })),
-    checkoutFieldsCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'checkoutFieldValues',
-      driver: localForage[config.localForage.defaultDrivers['checkoutFieldValues']]
-    })),
-    ordersHistoryCollection: new UniversalStorage(localForage.createInstance({
-      name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
-      storeName: 'ordersHistory',
-      driver: localForage[config.localForage.defaultDrivers['ordersHistory']]
-    })),
-    cmsData: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'cms'
     }))
   }
 }
