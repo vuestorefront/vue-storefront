@@ -1,15 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Plugin } from 'vuex'
 import * as localForage from 'localforage'
 import UniversalStorage from './lib/storage'
 import { currentStoreView } from './lib/multistore'
 import RootState from './types/RootState'
-import * as userTypes from '@vue-storefront/core/modules/user/store/mutation-types'
-import * as checkoutTypes from '@vue-storefront/core/modules/checkout/store/checkout/mutation-types'
-import * as cartTypes from '@vue-storefront/core/modules/cart/store/mutation-types'
-
-const types = {...userTypes, ...checkoutTypes, ...cartTypes }
 
 Vue.use(Vuex)
 
@@ -46,18 +40,6 @@ const state = {
   userTokenInvalidated: null,
   userTokenInvalidateAttemptsCount: 0,
   userTokenInvalidateLock: 0
-}
-
-export function getMutationData (mutation) {
-  let nameArray = mutation.split('/')
-  let storeName, actionName
-  if (nameArray.length) {
-    storeName = nameArray[0]
-    actionName = nameArray.slice(1).join('/')
-    return { actionName, storeName }
-  } else {
-    console.error('Store mutation name is incorrectly formed')
-  }
 }
 
 let rootStore = new Vuex.Store<RootState>({
