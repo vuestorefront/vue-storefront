@@ -171,7 +171,13 @@ export default {
         return this.$store.dispatch('category/products', currentQuery)
       }
     },
+    deletePageFromQueryString () {
+      let query = this.$route.query
+      delete query['page']
+      this.$router.push({query})
+    },
     onFilterChanged (filterOption) {
+      this.deletePageFromQueryString() // if there is any 'page' get param, delete it
       if (!filterOption.attribute_code || !filterOption.id) {
         return
       }
@@ -187,31 +193,43 @@ export default {
         if (this.filters.chosen[filterOption.attribute_code]) { // if there is something in vuex filters.choosen add it to local object
           filterObject.id = this.filters.chosen[filterOption.attribute_code].id
         }
-        if (filterObject.id.includes(filterOption.id)) { // then we need to delete this array element
-          Vue.delete(this.filters.chosen, filterOption.attribute_code)
+        if (filterObject.id.includes(filterOption.id)) { // means that user want to deactivate filter, so delete this array element
+          this.clearStoreCurrentFilters(filterOption.attribute_code)
           if (filterObject.id.length > 1) {
             let index = filterObject.id.indexOf(filterOption.id)
             if (index > -1) {
               filterObject.id.splice(index, 1)
-              Vue.set(this.filters.chosen, filterOption.attribute_code, filterObject)
+              this.setStoreCurrentFilter(filterOption.attribute_code, filterObject)
             }
           }
         } else {
           filterObject.id.push(filterOption.id)
-          Vue.set(this.filters.chosen, filterOption.attribute_code, filterObject)
+          this.setStoreCurrentFilter(filterOption.attribute_code, filterObject)
         }
       } else {
         if (this.filters.chosen[filterOption.attribute_code] &&
           ((filterOption.id === this.filters.chosen[filterOption.attribute_code].id[0]) ||
             filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) {
-          Vue.delete(this.filters.chosen, filterOption.attribute_code)
+          this.clearStoreCurrentFilters(filterOption.attribute_code)
         } else {
           filterIdsArray.push(filterOption.id)
-          Vue.set(this.filters.chosen, filterOption.attribute_code, filterObject)
+          this.setStoreCurrentFilter(filterOption.attribute_code, filterObject)
         }
       }
-
-      this.setFilters()
+      if (store.state.config.filters.deepLinking) {
+        this.setFilterQueryString()
+      }
+      if (store.state.config.filters.instantFiltering) {
+        this.setFilters()
+      } else {
+        this.$bus.$on('filter-form-send', this.setFilters())
+      }
+    },
+    setStoreCurrentFilter (attributeCode, filterObject) {
+      Vue.set(this.filters.chosen, attributeCode, filterObject) // TODO change vue.set to commit, make new mutation
+    },
+    clearStoreCurrentFilters (attributeCode) {
+      Vue.delete(this.filters.chosen, attributeCode) // TODO change vue.delete to commit, make new mutation
     },
     setFilters () {
       let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen, this.$store.state.category.current_product_query.filters)
