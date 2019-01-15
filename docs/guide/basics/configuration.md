@@ -12,7 +12,7 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode.
+Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode. This limitation can by however solved with VS 1.4 special config variable. Now the config can be reloaded on-fly with each server request if `config.server.dynamicConfigReload` is set to true. However, in that case the config is added to `window.**INITIAL_STATE**` with the responses.
 :::
 
 Please find the configuration properties reference below.
@@ -57,13 +57,23 @@ This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog
 "elasticsearch": {
   "httpAuth": "",
   "host": "localhost:8080/api/catalog",
-  "index": "vue_storefront_catalog"
+  "index": "vue_storefront_catalog",
+  "min_score": 0.02,
+  "csrTimeout": 5000,
+  "ssrTimeout": 1000,
+  "queryMethod": "POST"
 },
 ```
 
 Vue Storefront uses the Elastic Search Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog` endpoint which is kind of Elastic Search Proxy (dealing with the taxes, security itd.).
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
+
+Starting from Vue Storefront v1.6 user may set the: `config.elasticsearch.queryMethod` to either "POST" (default) / "GET". When "GET" is set, the ElasticSearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so Service Worker will now able to cache the results from ElasticSearch. Service Workers can not cache any POST requests currently.
+
+:::tip Notice
+Service worker is not caching the /api requests on development envs. (localhost) as the vue-storefront-api by default runs on different port (8080)
+:::
 
 ## SSR
 
@@ -226,6 +236,10 @@ Please take a look at the [core/store/modules/cart](https://github.com/DivanteLt
 
 These settings are used just to configure the optimization strategy for different entity types. Please take a look that we have `productListWithChildren` and the `product` configuration separately. The former one is used in the Category page -> `core/pages/Category.js` and the latter is used in the Product page ->`core/pages/Product.js`
 
+### Dynamic Categories prefetching
+
+Starting with Vue Storefront 1.7 we've added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). This option switches the way the category tree is being fetched. Previously we were fetching the full categories tree. In some cases it can generate even few MB of payload. Currently with this option in place we're pre-fetching the categories on demand while user is browsing the category tree.
+
 ## Cart
 
 ```json
@@ -237,7 +251,7 @@ The cart loader bypass feature is there because we're posting orders to Magento 
 
 ```json
 "cart": {
-  "server_merge_by_default": true,
+  "serverMergeByDefault": true,
 ```
 
 Server cart is being synchronized with the client's cart in the Vue Storefront by default. When it's not set the Vue Storefront will execute the server cart merge algorithm anyway - but using the `dryRun` option which means that only the following event will be emitted:

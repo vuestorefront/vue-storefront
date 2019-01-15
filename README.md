@@ -114,7 +114,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 - [TypeScript Action Plan](https://divanteltd.github.io/vue-storefront/guide/basics/typescript.html)
 - [GraphQL Action Plan](https://divanteltd.github.io/vue-storefront/guide/basics/graphql.html)
 - [SSR Cache](https://divanteltd.github.io/vue-storefront/guide/basics/ssr-cache.html)
-- [Google Advanced Mobile Pages](https://divanteltd.github.io/vue-storefront/guide/basics/amp.html)
+- [Google Accelerated Mobile Pages](https://divanteltd.github.io/vue-storefront/guide/basics/amp.html)
 
 ### Vue Storefront core and themes
 

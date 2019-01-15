@@ -30,7 +30,7 @@ export default {
     validateRoute () {
       this.$store.dispatch('cmsPage/single', { value: this.$route.params.slug, setCurrent: true }).then(cmsPage => {
         if (!cmsPage) {
-          this.$router.push('/')
+          this.$router.push(this.localizedRoute('/'))
         }
       })
     }
