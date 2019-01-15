@@ -21,20 +21,30 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { Magento2CMS } from './magento-2-cms'
 
-// Some modules  that still needs API refactoring are  temporary registered in core
-// This is how you can adjust any module with application-specific behavior
-// const extendedExample = {
-//   key: 'example',
-//   afterRegistration: function(isServer, config) {
-//     console.info('Hello, im extended now!')
-//   }
-// }
 
-// extendModule(extendedExample)
+// This is how you can extend any of VS modues
+// const extendCartVuex = {
+//   actions: {
+//     load () {
+//       console.info('New load function')
+//     }
+//   }
+//  }
+
+//  const cartExtend = {
+//   key: 'cart',
+//   afterRegistration: function(isServer, config) {
+//     console.info('New afterRegistration hook')
+//   },
+//   store: { modules: [{ key: 'cart', module: extendCartVuex }] },
+//  }
+ 
+//  extendModule(cartExtend)
 
 /**
  * Some of the modules are registered lazily only when components from module are appearing on current page. 
  * If you want to use this modules in pages without it's components you need to remember about registering module first
+ * In VS 1.8 this modules will be semlessly lazyLoaded after proper action dispatch
  * - Wishlist
  */
 export const registerModules: VueStorefrontModule[] = [
