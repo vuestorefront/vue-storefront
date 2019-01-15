@@ -7,19 +7,23 @@
       :gallery="gallery"
       @close="toggleZoom"/>
     <div v-show="OfflineOnly">
-      <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
+      <transition name="fade" appear>
+        <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
+      </transition>
     </div>
     <div v-show="OnlineOnly">
       <div class="relative">
         <div v-if="gallery.length === 1">
-          <img
-            :src="defaultImage.src"
-            v-lazy="defaultImage"
-            class="mw-100 pointer"
-            ref="defaultImage"
-            :alt="product.name | htmlDecode"
-            itemprop="image"
-          >
+          <transition name="fade" appear>
+            <img
+              :src="defaultImage.src"
+              v-lazy="defaultImage"
+              class="mw-100 pointer"
+              ref="defaultImage"
+              :alt="product.name | htmlDecode"
+              itemprop="image"
+            >
+          </transition>
         </div>
         <div v-else>
           <no-ssr>
@@ -32,7 +36,6 @@
               navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
               navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
               ref="carousel"
-              :speed="carouselTransitionSpeed"
             >
               <slide
                 v-for="images in gallery"
@@ -78,8 +81,7 @@ export default {
   },
   data () {
     return {
-      loaded: true,
-      carouselTransitionSpeed: 0
+      loaded: true
     }
   },
   methods: {

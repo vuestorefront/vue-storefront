@@ -2,9 +2,15 @@ import Vue from 'vue'
 import { currentStoreView } from './multistore'
 import { sha3_224 } from 'js-sha3'
 import rootStore from '../'
-import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
+import SearchAdapterFactory from './search/adapter/factory'
 import Request from '../types/search/Request'
 import Response from '../types/search/Response'
+
+function getSearchAdapter(config) {
+  const factory = new SearchAdapterFactory()
+  let adapterName = config.server.api
+  return factory.getSearchAdapter(adapterName)
+}
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -22,8 +28,8 @@ export function isOnline () {
  * @param {Int} size page size
  * @return {Promise}
  */
-export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<Response> => {
-  const searchAdapter = await getSearchAdapter()
+export function quickSearchByQuery ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<Response> {
+  const searchAdapter = getSearchAdapter(rootStore.state.config)
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
@@ -99,7 +105,7 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
-        cache.setItem(cacheKey, res, null, rootStore.state.config.elasticsearch.disableLocalStorageQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        cache.setItem(cacheKey, res).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
           console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
           res.cache = false

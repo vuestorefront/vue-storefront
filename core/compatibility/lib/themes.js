@@ -22,3 +22,8 @@ export function mixins () {
 export function filters () {
   return merge(themeFilters, coreFilters)
 }
+
+/** DEPRECIATED will be removed in 1.7 */
+export function extendStore (coreStore, extendStore) {
+  return merge(coreStore, extendStore)
+}

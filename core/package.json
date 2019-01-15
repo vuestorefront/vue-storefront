@@ -75,7 +75,7 @@
     "url-loader": "^1.1.2",
     "url-parse": "^1.4.4",
     "vue-eslint-parser": "^2.0.3",
-    "vue-loader": "^15.5.1",
+    "vue-loader": "^15.4.2",
     "vue-ssr-webpack-plugin": "^3.0.0",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.25.1",

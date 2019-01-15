@@ -19,7 +19,6 @@
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
-              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
             </h1>
             <div class="mb20 uppercase cl-secondary">
               sku: {{ product.sku }}
@@ -159,7 +158,23 @@
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <wishlist-button :product="product" />
+                <button
+                  @click="isOnWishlist ? removeFromWishlist(product) : addToWishlist(product)"
+                  class="
+                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
+                    action h5 pointer cl-secondary
+                  "
+                  type="button"
+                  data-testid="addToWishlist"
+                >
+                  <i class="pr5 material-icons">{{ favoriteIcon }}</i>
+                  <template v-if="!isOnWishlist">
+                    {{ $t('Add to favorite') }}
+                  </template>
+                  <template v-else>
+                    {{ $t('Remove') }}
+                  </template>
+                </button>
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <button
@@ -247,10 +262,9 @@ import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue
 import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+
 export default {
   components: {
-    'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
     AddToCart,
     Breadcrumbs,
     ColorSelector,
@@ -264,8 +278,7 @@ export default {
     PromotedOffers,
     RelatedProducts,
     Reviews,
-    SizeSelector,
-    WebShare
+    SizeSelector
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -274,6 +287,11 @@ export default {
     }
   },
   directives: { focusClean },
+  computed: {
+    favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    }
+  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true
@@ -468,7 +486,4 @@ $bg-secondary: color(secondary, $colors-background);
   font-size: 14px;
 }
 
-.web-share {
-  float: right;
-}
 </style>

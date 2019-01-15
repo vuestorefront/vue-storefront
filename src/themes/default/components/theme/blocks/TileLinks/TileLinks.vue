@@ -19,43 +19,29 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import socialData from 'theme/resource/ig_feed.json'
+
 export default {
   name: 'TileLinks',
-  data () {
-    return {
-      social_tiles: [
-        {
-          image: '/assets/ig/ig01.jpg',
-          alt: 'Woman practicing on the beach'
-        },
-        {
-          image: '/assets/ig/ig02.jpg',
-          alt: 'Man practicing on the beach'
-        },
-        {
-          image: '/assets/ig/ig03.jpg',
-          alt: 'Woman drinks water form the bottle on the beach'
-        },
-        {
-          image: '/assets/ig/ig04.jpg',
-          alt: 'Man rests on the beach'
-        },
-        {
-          image: '/assets/ig/ig05.jpg',
-          alt: 'Woman practicing on the beach'
-        },
-        {
-          image: '/assets/ig/ig06.jpg',
-          alt: 'Man is holding a watter bottle'
-        }
-      ]
-    }
+  computed: {
+    ...mapGetters({
+      social_tiles: 'social/getSocialTiles'
+    })
+  },
+  created () {
+    this.updateSocialTiles(socialData)
+  },
+  methods: {
+    ...mapActions({
+      updateSocialTiles: 'social/updateSocialTiles'
+    })
   }
 }
 </script>
 
-<style lang='scss' scoped>
-@import '~theme/css/animations/transitions';
+<style lang="scss" scoped>
+@import "~theme/css/animations/transitions";
 
 .tile {
   display: flex;

@@ -30,7 +30,7 @@
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
     "cache": "node ./core/scripts/cache",
-    "dev": "yarn build:sw && node ./core/scripts/entry",
+    "dev": "node ./core/scripts/entry",
     "dev:sw": "yarn build:sw && node ./core/scripts/entry",
     "dev:inspect": "node --inspect ./core/scripts/entry",
     "build:sw": "cross-env NODE_ENV=production webpack --config ./core/build/webpack.prod.sw.config.js --mode production --progress --hide-modules",
@@ -44,6 +44,7 @@
     "lerna": "lerna"
   },
   "dependencies": {
+    "ajv": "^6.4.0",
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "^2.3.5",
     "apollo-link": "^1.2.2",
@@ -61,7 +62,6 @@
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "pm2": "^2.10.4",
     "reflect-metadata": "^0.1.12",
-    "register-service-worker": "^1.5.2",
     "vue": "^2.5.17",
     "vue-analytics": "^5.16.1",
     "vue-apollo": "^3.0.0-beta.19",
@@ -86,14 +86,12 @@
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.6",
     "babel-loader": "^7.1.3",
-    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.x",
     "babel-preset-stage-2": "^6.13.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "chai": "^4.1.2",
     "command-exists": "^1.2.2",
     "commander": "^2.18.0",
-    "compression-webpack-plugin": "^2.0.0",
     "cross-env": "^3.1.4",
     "css-loader": "^1.0.0",
     "cypress": "^3.0.2",
@@ -152,9 +150,6 @@
     "webpack-dev-middleware": "^3.4.0",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.1.4"
-  },
-  "peerDependencies": {
-    "vue-template-compiler": "^2.5.17"
   },
   "browserslist": {
     "development": [

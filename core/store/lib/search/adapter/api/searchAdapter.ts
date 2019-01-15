@@ -1,8 +1,8 @@
 import map from 'lodash-es/map'
-import rootStore from '@vue-storefront/store'
+import rootStore from '../../../../'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
-import { slugify } from '@vue-storefront/core/helpers'
+import { slugify } from '../../../../helpers'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/store/types/search/HttpQuery'
@@ -16,7 +16,7 @@ export class SearchAdapter {
     this.initBaseTypes()
   }
 
-  async search (Request) {
+  search (Request) {
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type )
     }
@@ -25,7 +25,7 @@ export class SearchAdapter {
 
     let ElasticsearchQueryBody = {}
     if (Request.searchQuery instanceof SearchQuery) {
-      ElasticsearchQueryBody = await prepareElasticsearchQueryBody(Request.searchQuery)
+      ElasticsearchQueryBody = prepareElasticsearchQueryBody(Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
         ElasticsearchQueryBody['min_score'] = rootStore.state.config.elasticsearch.min_score
       }
