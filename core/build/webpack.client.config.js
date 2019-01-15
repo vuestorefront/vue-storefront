@@ -9,13 +9,13 @@ const config = merge(base, {
     splitChunks:  {
       cacheGroups: {
         commons: {
-          test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/](vue|vuex|vue-router|vue-meta|vue-i18n|vuex-router-sync|vue-meta|localforage)[\\/]/,
           name: 'vendor',
           chunks: 'all',
         },
       },
-    },    
-    runtimeChunk: {
+    },   
+      runtimeChunk: {
       name: "manifest",
     }
   },
@@ -26,7 +26,7 @@ const config = merge(base, {
     }
   },
   plugins: [
-    //new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'

@@ -1,5 +1,6 @@
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import routes from './router'
+import '@vue-storefront/core/lib/passive-listeners'
 
 export default function (app, router, store, config, ssrContext) {
   // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes

@@ -30,7 +30,8 @@ export default {
   },
   data () {
     return {
-      minCountryPerColumn: 3
+      minCountryPerColumn: 3,
+      componentLoaded: false
     }
   },
   computed: {
@@ -47,6 +48,12 @@ export default {
       })
       return enableStoreViews.length > this.minCountryPerColumn
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.componentLoaded = true
+      this.$bus.$emit('modal-show', 'modal-switcher')
+    })
   },
   methods: {
     close () {

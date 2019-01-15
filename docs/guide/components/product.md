@@ -17,9 +17,9 @@ No props
 - `breadcrumbs` - a computed property that represents breadcrumbs for the current product. Gets its value from `product/breadcrumbs` Vuex store getter.
 - `configuration` - a computed property that represents an object that shows which attributes (like size and color) are chosen on the product. Gets its value from `product/currentConfiguration` Vuex store getter.
 - `options` - a computed property that represents an object that shows what attributes (like size and color) with what values are available on the product. Gets its value from `product/currentOptions` Vuex store getter.
-- `category` - a computed property representing a category object of the current product. Gets its value from `category/current` Vuex store getter.
-- `productName` - a computed property that represents a product name. Gets its value from `category/current` Vuex store getter.
-- `productId` - a computed property representing a product id. Gets its value from `category/current` Vuex store getter.
+- `category` - a computed property representing a category object of the current product. Gets its value from `category/getCurrentCategory` Vuex store getter.
+- `productName` - a computed property that represents a product name. Gets its value from `category/getCurrentCategory` Vuex store getter.
+- `productId` - a computed property representing a product id. Gets its value from `category/getCurrentCategory` Vuex store getter.
 - `isOnCompare` - a computed property that checks if a given product is in compare list.
 - `image` - a computed property that defines an image (thumbnail) that will be shown on the page and its size.
 - `customAttributes` - this is a subset of `attributesByCode` list of attributes that the current product has.

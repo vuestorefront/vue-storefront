@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/store/helpers'
+import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { configureProductAsync, 
   doPlatformPricesSync, 
@@ -44,11 +44,11 @@ const actions: ActionTree<ProductState, RootState> = {
     let breadcrumbsName = null
     let setbrcmb = (path) => {
       if (path.findIndex(itm => {
-        return itm.slug === context.rootState.category.current.slug
+        return itm.slug === context.rootGetters['category/getCurrentCategory'].slug
       }) < 0) {
         path.push({
-          slug: context.rootState.category.current.slug,
-          name: context.rootState.category.current.name
+          slug: context.rootGetters['category/getCurrentCategory'].slug,
+          name: context.rootGetters['category/getCurrentCategory'].name
         }) // current category at the end
       }
       // depreciated, TODO: base on breadcrumbs module 
@@ -79,12 +79,16 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
 
-          context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
-            setbrcmb(context.rootState.category.current_path)
-          }).catch(err => {
-            setbrcmb(context.rootState.category.current_path)
-            console.error(err)
-          })
+          if (typeof catForBreadcrumbs !== 'undefined') {
+            context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+            }).catch(err => {
+              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+              console.error(err)
+            })
+          } else {
+            setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+          }
         }).catch(err => {
           console.error(err)
         })
@@ -376,7 +380,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Search products by specific field
    * @param {Object} options
    */
-  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku', skipCache = false }) {
+  single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, assignDefaultVariant = false, key = 'sku', skipCache = false }) {
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
@@ -405,7 +409,10 @@ const actions: ActionTree<ProductState, RootState> = {
         if (prod.type_id === 'configurable' && hasConfigurableChildren) {
           // set first available configuration
           // todo: probably a good idea is to change this [0] to specific id
-          configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
+          const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
+          if (selectedVariant && assignDefaultVariant) {
+            prod = Object.assign(prod, selectedVariant)
+          }
         } else if (!skipCache || ('simple' === prod.type_id || 'downloadable' === prod.type_id)) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
         }
@@ -601,8 +608,18 @@ const actions: ActionTree<ProductState, RootState> = {
       if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
         throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
       }
+      
       let subloaders = []
       if (product) {
+        const productFields = Object.keys(product).filter(fieldName => {
+          return rootStore.state.config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
+        })
+        subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+          filterValues: rootStore.state.config.entities.product.useDynamicAttributeLoader ? productFields : null,
+          only_visible: rootStore.state.config.entities.product.useDynamicAttributeLoader ? true : false,
+          only_user_defined: true,
+          includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
+        }, { root: true }))
         if (Vue.prototype.$isServer) {
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {
@@ -664,34 +681,26 @@ const actions: ActionTree<ProductState, RootState> = {
         Logger.info('Fetching product data asynchronously' , 'product', {parentSku, childSku})()
         Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
-          rootStore.dispatch('attribute/list', { // load attributes to be shown on the product details
-            filterValues: [true],
-            filterField: 'is_user_defined',
-            includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
-          }).catch(err => {
-            reject(err)
-          }).then((attrs) => {
-            context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
-              Promise.all(subpromises).then(subresults => {
-                Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
-                  context.state.productLoadStart = null
-                  return resolve()
-                }).catch((err) => {
-                  context.state.productLoadStart = null
-                  console.error(err)
-                  return resolve()
-                })
-              }).catch(errs => {
+          context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
+            Promise.all(subpromises).then(subresults => {
+              Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
                 context.state.productLoadStart = null
-                reject(errs)
+                return resolve()
+              }).catch((err) => {
+                context.state.productLoadStart = null
+                console.error(err)
+                return resolve()
               })
-            }).catch(err => {
+            }).catch(errs => {
               context.state.productLoadStart = null
-              reject(err)
-            }).catch(err => {
-              context.state.productLoadStart = null
-              reject(err)
+              reject(errs)
             })
+          }).catch(err => {
+            context.state.productLoadStart = null
+            reject(err)
+          }).catch(err => {
+            context.state.productLoadStart = null
+            reject(err)
           })
         })
       })

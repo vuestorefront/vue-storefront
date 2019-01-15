@@ -5,6 +5,10 @@ You can modify the existing store actions by responding to events. Events are sp
 
 **You should put all the REST calls, Elasticsearch data queries inside the Vuex Actions**. This is our default design pattern for managing the data.
 
+## Vuex conventions
+
+Before you start working with vuex, it's recommended to get familiar with our [vuex conventions](./vuex-conventions.md)
+
 ## Vuex modules
 
 - [Product](Product%20Store.md)
