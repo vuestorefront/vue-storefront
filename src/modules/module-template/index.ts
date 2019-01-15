@@ -17,7 +17,7 @@ export const cacheStorage = initCacheStorage(KEY)
 // Put everything that should extend the base app here so it can be later registered as VS module
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { modules: [{ key: KEY, module }, { key: 'mailchimp', module: extendMailchimp }], plugin },
+  store: { modules: [{ key: KEY, module }], plugin },
   beforeRegistration,
   afterRegistration,
   router: { beforeEach, afterEach }

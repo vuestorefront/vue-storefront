@@ -621,17 +621,9 @@ const actions: ActionTree<CartState, RootState> = {
                 clientCartAddItems.push(
                   new Promise(resolve => {
                     productActionOptions(serverItem).then((actionOtions) => {
-                      if (actionOtions['childSku']) {
-                        rootStore.dispatch('product/single', { options: actionOtions, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
-                          rootStore.dispatch('product/configure', { product: product, configuration: { sku: actionOtions['childSku'] }, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: false }).then((selectedVariant) => {
-                            resolve({ product: Object.assign({}, product, selectedVariant), serverItem: serverItem })
-                          })
-                        })
-                      } else {
-                        rootStore.dispatch('product/single', { options: actionOtions, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
-                          resolve({ product: product, serverItem: serverItem })
-                        })
-                      }
+                      rootStore.dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+                        resolve({ product: product, serverItem: serverItem })
+                      })
                     })
                   })
                 )

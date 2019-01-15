@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/vue-storefront/',
+  base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
@@ -88,6 +88,7 @@ module.exports = {
           title: 'Extensions',
           collapsable: false,
           children: [
+            'extensions/introduction',
             'extensions/extending-api',
             'extensions/extending-server-side-routes',
           ],
@@ -97,6 +98,7 @@ module.exports = {
           collapsable: false,
           children: [
             'vuex/introduction',
+            'vuex/vuex-conventions',
             'vuex/product-store',
             'vuex/category-store',
             'vuex/cart-store',
