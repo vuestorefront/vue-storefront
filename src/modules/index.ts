@@ -1,4 +1,4 @@
-import { extendModule } from '@vue-storefront/core/lib/module'
+// import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Catalog } from "@vue-storefront/core/modules/catalog"
 import { Cart } from '@vue-storefront/core/modules/cart'
