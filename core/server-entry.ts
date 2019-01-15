@@ -51,9 +51,10 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
   })
 }
 
-export default async context => {
-  const { app, router, store } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
+export default context => {
   return new Promise((resolve, reject) => {
+    const { app, router, store } = createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
+
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta

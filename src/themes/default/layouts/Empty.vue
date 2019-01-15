@@ -1,5 +1,3 @@
 <template>
-  <div class="empty-layout">
-    <slot/>
-  </div>
+  <router-view/>
 </template>

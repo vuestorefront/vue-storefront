@@ -1,14 +1,14 @@
+import bodybuilder from 'bodybuilder'
 import getBoosts from '../../boost'
 import getMapping from '../../mapping'
 import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
 
-export async function prepareElasticsearchQueryBody (searchQuery) {
-  const bodybuilder = await import(/* webpackChunkName: "bodybuilder" */ 'bodybuilder')
+export function prepareElasticsearchQueryBody (searchQuery) {
   const optionsPrfeix = '_options'
   const queryText = searchQuery.getSearchText()
   const rangeOperators = ['gt', 'lt', 'gte', 'lte', 'moreq', 'from', 'to']
-  let query = bodybuilder.default()
+  let query = bodybuilder()
 
   // process applied filters
   const appliedFilters = cloneDeep(searchQuery.getAppliedFilters()) // copy as function below modifies the object

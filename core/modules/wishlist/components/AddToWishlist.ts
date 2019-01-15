@@ -1,16 +1,12 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import { Wishlist as WishlistModule } from '../'
 
 export const AddToWishlist = {
-  name: 'AddToWishlist',
+  name: 'AddToCart',
   props: {
     product: {
       required: true,
       type: Object
     }
-  },
-  created () {
-    WishlistModule.register()
   },
   methods: {
     addToWishlist (product: Product) {

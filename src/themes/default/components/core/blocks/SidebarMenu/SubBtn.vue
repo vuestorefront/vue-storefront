@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     next () {
-      if (this.$store.state.config.entities.category.categoriesDynamicPrefetch) this.$store.dispatch('category/list', { parent: this.id })
       this.$store.commit('ui/setSubmenu', {
         id: this.id,
         depth: ++this.submenu.depth

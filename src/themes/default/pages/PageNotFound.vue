@@ -64,6 +64,7 @@ export default {
   },
   methods: {
     toggleSearchpanel () {
+      this.$bus.$emit('focusSearchInput')
       this.$store.commit('ui/setSearchpanel', true)
     }
   },

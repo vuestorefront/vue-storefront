@@ -35,10 +35,8 @@ module.exports = function (csvDirectories, config = null) {
   })
 
   languages.forEach((language) => {
-    if (!config || !config.i18n.bundleAllStoreviewLanguages || (config.i18n.bundleAllStoreviewLanguages && language === 'en-US')) {
-      console.debug(`Writing JSON file: ${language}.json`)
-      fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
-    }
+    console.debug(`Writing JSON file: ${language}.json`)
+    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${language}.json`), JSON.stringify(messages[language]))
   })
 
   if (config && config.i18n.bundleAllStoreviewLanguages) {
