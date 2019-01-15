@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as localForage from 'localforage'
-import UniversalStorage from './lib/storage'
-import { currentStoreView } from './lib/multistore'
 import RootState from './types/RootState'
 
 Vue.use(Vuex)
@@ -48,17 +45,3 @@ let rootStore = new Vuex.Store<RootState>({
 })
 
 export default rootStore
-
-export function initStore () {
-  const config = rootStore.state.config
-  const storeView = currentStoreView()
-  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-  Vue.prototype.$db = {
-    currentStoreCode: storeView.storeCode,
-    syncTaskCollection: new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: 'syncTasks',
-      driver: localForage[config.localForage.defaultDrivers['syncTasks']]
-    }))
-  }
-}
