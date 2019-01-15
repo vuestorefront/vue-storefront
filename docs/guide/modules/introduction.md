@@ -1,10 +1,27 @@
 # Introduction
+# Table of contents
 
-## What are VS modules?
+**Introduction and motivation**
+- [What are VS Modules](#what-are-vs-modules)
+- [Motivation](#motivation)
+- [What is the purpose of VS modules?](#what-is-the-purpose-of-vs-modules)
 
-You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features.
+**Technical part**
+- [Module config and it's capabilities](#module-config-and-capabilities)
+- [Module file structure](#module-file-structure)
+- [Module registration](#module-registration)
 
-## Motivation
+**Patterns and good practices for common use cases**
+- [General rules and good practices](#general-rules-and-good-practices)
+- [Adding new features as VS modules](#adding-new-features-as-vs-modules)
+- [Extending and overriding Vue Storefront modules](#extending-and-overriding-vue-storefront-modules)
+
+  
+# What are VS modules?
+
+You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features. 
+
+# Motivation
 
 I believe that some neat metaphore can clearly describe the problem as well as a solution.
 

@@ -17,13 +17,12 @@ const actions: ActionTree<AttributeState, RootState> = {
     const commit = context.commit
 
     let searchQuery = new SearchQuery()
-
+    const orgFilterValues = filterValues ? [...filterValues] : []
     if (filterValues) {
-      const orgFilterValues = Object.assign({}, filterValues)
       filterValues = filterValues.filter(fv => { // check the already loaded
+        if (context.state.blacklist !== null && context.state.blacklist.includes(fv)) return false // return that this attribute is not on our blacklist
         if (filterField === 'attribute_id') return (typeof context.state.list_by_id[fv] === 'undefined' || context.state.list_by_id[fv] === null)
         if (filterField === 'attribute_code') return (typeof context.state.list_by_code[fv] === 'undefined' || context.state.list_by_code[fv] === null)
-        return true
       })
       if (!filterValues || filterValues.length === 0) {
         Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField})()
@@ -40,6 +39,13 @@ const actions: ActionTree<AttributeState, RootState> = {
       searchQuery = searchQuery.applyFilter({key: 'is_visible', value: {'in': [true]}})
     }
     return quickSearchByQuery({ entityType: 'attribute', query: searchQuery, includeFields: includeFields }).then((resp) => {
+      if (resp && Array.isArray(orgFilterValues) && orgFilterValues.length > 0) {
+        const foundValues = resp.items.map(attr => attr[filterField])
+        const toBlackList = filterValues.filter(ofv => !foundValues.includes(ofv))
+        toBlackList.map(tbl => {
+          if (!context.state.blacklist.includes(tbl)) context.state.blacklist.push(tbl)
+        }) // extend the black list of not-found atrbiutes
+      }
       commit(types.ATTRIBUTE_UPD_ATTRIBUTES, resp)
     })
   }
