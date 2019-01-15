@@ -217,42 +217,57 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 ## Extending and overriding Vue Storefront Modules
 
-You can extend and modify all parts of any of Vue Storefront modules before its registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
-
-Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The syntax for this purpose is extremely simple.
-
-We need to import both modules, use `extendedExample` to extend `Example` and export them so they can be registered in VS core.
-
-```js
-import { Example } from 'example-module';
-import { extendedExample } from 'extended-example-module';
-
-Example.extend(extendedExample);
-
-export const registerModules: VueStorefrontModule[] = [Example];
-```
-
-If you want to make complex changes with your own app-specific VS module (which is not a npm package) it's a good practice to keep this module inside `src/modules/{module-name}`.If you want to make small changes it's perfectly fine to create extening module in the registration file:
-
-```js
-import { Example } from '@vue-storefront/core/modules/module-template';
-
-const extendedExample = new VueStorefrontModule({
-  key: 'extend',
-  afterRegistration: function(Vue, config) {
-    console.info('Hello, im extended now!');
-  },
-});
-
-Example.extend(extendedExample);
-
-export const registerModules: VueStorefrontModule[] = [Example];
-```
-
-The `extend()` method of VS module will work like this:
-
+You can extend and modify all parts of any of Vue Storefront modules before its registration by providing a`VueStorefrontModuleConfig` object **with the same key** to `extendModule()` function. This config will be deep merged with module with the same key which means:
 - All Vuex stores with the same keys will be merged (conflicting actions/mutations will be overwritten, other will be added)
-- Leafs linke before/after hooks, store plugins or router object properties will be overwritten by the new ones if provided.
+- Leafs like before/after hooks, store plugins or router object properties will be overwritten by the new ones if provided.
+
+
+
+Let's see an example and assume we want to extend module `cart` by overriding it's `beforeRegistration` hook and `load` Vuex action.
+1. First we need to prepare a `VueStorefrontModuleConfig` that we will use to extend `cart` module. It must have same `key` value as module we want to extend.
+2. Next we need to pass this object to `extendModule` function
+3. That's all! Now when you will register `cart` module it will be extended with provided config.
+
+
+```js
+import { Cart } from '@vue-storefront/core/modules/cart'
+
+// 1. Preparation of new VSMConfig
+const extendCartVuex = {
+ actions: {
+   load () {
+     console.info('hey')
+   }
+ }
+}
+
+const extendCartAfterRegistration = function () {
+   console.info('Hello, im extended now!')
+ }
+
+const cartExtend = {
+ key: 'cart',
+ afterRegistration: extendCartAfterRegistration,
+ store: { modules: [{ key: 'cart', module: extendCartVuex }] },
+}
+
+// 2. After passing the object to extendmodule function it will be merged with Cart module during registration
+extendModule(cartExtend)
+
+export const registerModules: VueStorefrontModule[] = [Cart]
+```
+
+If you want to make complex changes with your own app-specific VS module (which is not a npm package) it's a good practice to keep this module inside `src/modules/{module-name}`. To extend module with another module just pass it's config to `extendModule` function
+
+```js
+import { Cart } from '@vue-storefront/core/modules/cart'
+import { ExtendCartModule } from 'extend-cart';
+
+
+extendModule(ExtendCartModule.config)
+
+export const registerModules: VueStorefrontModule[] = [Cart]
+```
 
 ## Contributions
 
