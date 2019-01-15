@@ -75,7 +75,7 @@ Some additional materials:
 Create nginx config file from the template (please run as a root user):
 
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/etc/nginx/sites-enabled/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
 ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
 ```
 
@@ -255,13 +255,13 @@ The full configuration files are available here to download: [vue-storefront](ht
 Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly.
 
 ```bash
-curl https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
 ```
 
 ... and ...
 
 ```bash
-curl https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
 ```
 
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:

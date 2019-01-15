@@ -6,6 +6,7 @@ import RootState from '@vue-storefront/store/types/RootState'
 import rootStore from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
+import { router } from '@vue-storefront/core/app'
 
 export interface VueStorefrontModuleConfig {
   key: string;
@@ -15,7 +16,14 @@ export interface VueStorefrontModuleConfig {
   afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
 }
 
+const moduleExtendings = []
+
+export function extendModule(moduleConfig) {
+  moduleExtendings.push(moduleConfig)
+}
+
 export class VueStorefrontModule {
+  private _isRegistered = false
   constructor (
     private _c: VueStorefrontModuleConfig,
   ) { }
@@ -49,32 +57,49 @@ export class VueStorefrontModule {
     if (beforeEach) routerInstance.beforeEach(beforeEach)
     if (afterEach) routerInstance.afterEach(afterEach)
   }
-
-  public extend (extendedConfig: VueStorefrontModule) {
+  
+  private _extend (extendedConfig: VueStorefrontModule) {
     const key = this._c.key
     this._c = merge(this._c, extendedConfig.config)
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
   }
 
-  public register (storeInstance, routerInstance): VueStorefrontModuleConfig | void {
-    let isUnique = true
-    if ( this._c.store) {
-      this._c.store.modules.forEach(store => {
-        if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
-          Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')()
-          isUnique = false
-        }
+  public register (): VueStorefrontModuleConfig | void {
+    if (!this._isRegistered) {
+      moduleExtendings.forEach(extending => {
+        if (extending.key === this._c.key) this._extend(extending)
       })
-    }
 
-    if (isUnique) {
-      const isServer = typeof window === undefined
-      if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, storeInstance.state.config, storeInstance, isServer)
-      if (this._c.store) VueStorefrontModule._extendStore(storeInstance, this._c.store.modules, this._c.store.plugin)
-      if (this._c.router) VueStorefrontModule._extendRouter(routerInstance, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
-      VueStorefrontModule._registeredModules.push(this._c)
-      if (this._c.afterRegistration) this._c.afterRegistration(Vue, storeInstance.state.config, storeInstance, isServer)
-      return this._c
+      let isUnique = true
+      if ( this._c.store) {
+        this._c.store.modules.forEach(store => {
+          if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
+            Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')()
+            isUnique = false
+          }
+        })
+      }
+  
+      if (isUnique) {
+        const isServer = typeof window === undefined
+        if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
+        if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
+        if (this._c.router) VueStorefrontModule._extendRouter(router, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
+        VueStorefrontModule._registeredModules.push(this._c)
+        this._isRegistered = true
+        if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config, rootStore, isServer)
+        return this._c
+      }
     }
   }
+}
+
+export function registerModules (modules: VueStorefrontModule[], context): void {
+  let registeredModules = []
+  modules.forEach(m => registeredModules.push(m.register()))
+  Logger.info('VS Modules registration finished.', 'module', {
+      succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
+      registrationOrder: registeredModules
+    }
+  )()
 }

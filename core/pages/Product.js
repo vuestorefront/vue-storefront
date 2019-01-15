@@ -2,13 +2,12 @@ import { mapGetters } from 'vuex'
 
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { htmlDecode, stripHTML } from '@vue-storefront/core/filters'
+import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 import omit from 'lodash-es/omit'
-
 import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
@@ -16,7 +15,6 @@ export default {
   mixins: [Composite, AddToCompare, CompareProduct],
   data () {
     return {
-      unavailableOptionsCount: 0,
       loading: false
     }
   },
@@ -30,7 +28,7 @@ export default {
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
-      category: 'category/current',
+      category: 'category/getCurrentCategory',
       gallery: 'product/productGallery'
     }),
     productName () {
@@ -53,9 +51,6 @@ export default {
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && this.product[a.attribute_code]
       })
-    },
-    isOnWishlist () {
-      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku)
     },
     currentStore () {
       return currentStoreView()
@@ -81,7 +76,7 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
+    this.$bus.$on('product-after-removevariant', this.onAfterVariantChanged)
     this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
@@ -166,7 +161,7 @@ export default {
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
         console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
-        this.$router.push({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
+        this.$router.replace({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
       }
     },
     onAfterPriceUpdate (product) {
@@ -179,7 +174,7 @@ export default {
           }))
       }
     },
-    onAfterRemovedVariant (payload) {
+    onAfterVariantChanged (payload) {
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {
@@ -230,7 +225,6 @@ export default {
   metaInfo () {
     const storeView = currentStoreView()
     return {
-      title: htmlDecode(this.$route.meta.title || this.productName),
       link: [
         { rel: 'amphtml',
           href: this.$router.resolve(localizedRoute({
@@ -243,7 +237,8 @@ export default {
           }, storeView.storeCode)).href
         }
       ],
-      meta: [{ vmid: 'description', description: this.product.short_description ? stripHTML(htmlDecode(this.product.short_description)) : htmlDecode(stripHTML(this.product.description)) }]
+      title: htmlDecode(this.product.meta_title || this.productName),
+      meta: this.product.meta_description ? [{ vmid: 'description', description: htmlDecode(this.product.meta_description) }] : []
     }
   }
 }

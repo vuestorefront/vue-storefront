@@ -55,7 +55,7 @@ export default {
     this.$store.dispatch('cart/load').then(() => {
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
-        this.$router.push('/')
+        this.$router.push(this.localizedRoute('/'))
       } else {
         this.stockCheckCompleted = false
         const checkPromises = []
@@ -118,7 +118,7 @@ export default {
     onCartAfterUpdate (payload) {
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
-        this.$router.push('/')
+        this.$router.push(this.localizedRoute('/'))
       }
     },
     onAfterShippingMethodChanged (payload) {
@@ -153,7 +153,7 @@ export default {
     onDoPlaceOrder (additionalPayload) {
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
-        this.$router.push('/')
+        this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload
         this.placeOrder()
