@@ -32,6 +32,10 @@ export class VueStorefrontModule {
     return this._c
   }
   
+  public set config (config) {
+    this._c = config
+  }
+
   private static _registeredModules: VueStorefrontModuleConfig[] = []
 
   private static _doesStoreAlreadyExists (key: string) : boolean {
@@ -60,7 +64,7 @@ export class VueStorefrontModule {
   
   private _extend (extendedConfig: VueStorefrontModule) {
     const key = this._c.key
-    this._c = merge(this._c, extendedConfig.config)
+    this._c = merge(this._c, extendedConfig)
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
   }
 
