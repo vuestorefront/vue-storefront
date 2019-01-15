@@ -13,7 +13,6 @@ import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -178,11 +177,11 @@ const actions: ActionTree<CartState, RootState> = {
       const commit = context.commit
       const state = context.state
 
-      if ((!state.shipping || !state.shipping.method_code) && (Array.isArray(context.rootGetters['shipping/shippingMethods']))) {
+      if (!state.shipping || !state.shipping.method_code) {
         let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
         commit(types.CART_UPD_SHIPPING, shippingMethod)
       }
-      if ((!state.payment || !state.payment.code) && Array.isArray(context.rootGetters['payment/paymentMethods'])) {
+      if (!state.payment || !state.payment.code) {
         let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
         commit(types.CART_UPD_PAYMENT, paymentMethod)
       }
@@ -197,7 +196,7 @@ const actions: ActionTree<CartState, RootState> = {
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               Logger.info('Cart token received from cache.', 'cache', token)()
               Logger.info('Pulling cart from server.','cart')()
-              context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.serverMergeByDefault })
+              context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default })
             } else {
               Logger.info('Creating server cart token', 'cart')()
               context.dispatch('serverCreate', { guestCart: false })
@@ -387,8 +386,8 @@ const actions: ActionTree<CartState, RootState> = {
         let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
         const paymentMethods = context.rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default) : null
-        let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
+        let shipping = shippingMethods ? shippingMethods.find(item => item.default) : null
+        let payment = paymentMethods ? paymentMethods.find(item => item.default) : null
         if (!shipping && shippingMethods && shippingMethods.length > 0) {
           shipping = shippingMethods[0]
         }
@@ -489,7 +488,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
       rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.serverMergeByDefault }, { root: true })
+      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.server_merge_by_default }, { root: true })
     } else {
       let resultString = event.result ? toString(event.result) : null
       if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
@@ -524,22 +523,6 @@ const actions: ActionTree<CartState, RootState> = {
       let serverCartUpdateRequired = false
       let clientCartUpdateRequired = false
       let cartHasItems = false
-      let clientCartAddItems = []
-      let productActionOptions = ((serverItem) => {
-        return new Promise(resolve => {
-          if (serverItem.product_type === 'configurable') {
-            let searchQuery = new SearchQuery()
-            searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': serverItem.sku}})
-            rootStore.dispatch('product/list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
-              if (resp.items.length >= 1) {
-                resolve({ sku: resp.items[0].sku, childSku: serverItem.sku })
-              }
-            })
-          } else {
-            resolve({ sku: serverItem.sku })
-          }
-        })
-      })
       const serverItems = event.result
       const clientItems = rootStore.state.cart.cartItems
       for (const clientItem of clientItems) {
@@ -552,41 +535,29 @@ const actions: ActionTree<CartState, RootState> = {
           Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
-            if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanRemoveLocalItems) {
-              rootStore.dispatch('cart/serverUpdateItem', {
-                sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                qty: clientItem.qty,
-                product_option: clientItem.product_option
-              }, { root: true }).then((event) => {
-                _afterServerItemUpdated(event, clientItem)
-              })
-              serverCartUpdateRequired = true
-            } else {
-              rootStore.dispatch('cart/removeItem', {
-                product: clientItem
-              }, { root: true })
-            }
+            rootStore.dispatch('cart/serverUpdateItem', {
+              sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+              qty: clientItem.qty,
+              product_option: clientItem.product_option
+            }, { root: true }).then((event) => {
+              _afterServerItemUpdated(event, clientItem)
+            })
+            serverCartUpdateRequired = true
           }
         } else if (serverItem.qty !== clientItem.qty) {
           console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
           if (!event.dry_run) {
-            if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanModifyLocalItems) {
-              rootStore.dispatch('cart/serverUpdateItem', {
-                sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                qty: clientItem.qty,
-                item_id: serverItem.item_id,
-                quoteId: serverItem.quote_id,
-                product_option: clientItem.product_option
-              }, { root: true }).then((event) => {
-                _afterServerItemUpdated(event, clientItem)
-              })
-              serverCartUpdateRequired = true
-            } else {
-              rootStore.dispatch('cart/updateItem', {
-                product: serverItem
-              }, { root: true })
-            }
+            rootStore.dispatch('cart/serverUpdateItem', {
+              sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+              qty: clientItem.qty,
+              item_id: serverItem.item_id,
+              quoteId: serverItem.quote_id,
+              product_option: clientItem.product_option
+            }, { root: true }).then((event) => {
+              _afterServerItemUpdated(event, clientItem)
+            })
+            serverCartUpdateRequired = true
           }
         } else {
           Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart')()
@@ -618,37 +589,24 @@ const actions: ActionTree<CartState, RootState> = {
                   quoteId: serverItem.quote_id
                 }, { root: true })
               } else {
-                clientCartAddItems.push(
-                  new Promise(resolve => {
-                    productActionOptions(serverItem).then((actionOtions) => {
-                      rootStore.dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
-                        resolve({ product: product, serverItem: serverItem })
-                      })
-                    })
+                clientCartUpdateRequired = true
+                cartHasItems = true
+                rootStore.dispatch('product/single', { options: { sku: serverItem.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+                  product.server_item_id = serverItem.item_id
+                  product.qty = serverItem.qty
+                  product.server_cart_id = serverItem.quote_id
+                  if (serverItem.product_option) {
+                    product.product_option = serverItem.product_option
+                  }
+                  rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
+                  // rootStore.dispatch('cart/updateItem', { product: product })
                   })
-                )
+                })
               }
             }
           }
         }
       }
-      if (clientCartAddItems.length) {
-        clientCartUpdateRequired = true
-        cartHasItems = true
-      }
-      Promise.all(clientCartAddItems).then((items) => {
-        items.map(({ product, serverItem }) => {
-          product.server_item_id = serverItem.item_id
-          product.qty = serverItem.qty
-          product.server_cart_id = serverItem.quote_id
-          if (serverItem.product_option) {
-            product.product_option = serverItem.product_option
-          }
-          rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
-          // rootStore.dispatch('cart/updateItem', { product: product })
-          })
-        })
-      })
 
       if (!event.dry_run) {
         if ((!serverCartUpdateRequired || clientCartUpdateRequired) && cartHasItems) {

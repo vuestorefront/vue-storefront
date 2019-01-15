@@ -60,11 +60,6 @@ export default {
       default: () => []
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      this.$bus.$emit('modal-show', 'modal-order-confirmation')
-    })
-  },
   methods: {
     confirmOrders () {
       ConfirmOrders.methods.confirmOrders.call(this)

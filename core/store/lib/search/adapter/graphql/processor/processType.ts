@@ -1,7 +1,7 @@
 import Response from '@vue-storefront/store/types/search/Response'
 import map from 'lodash-es/map'
-import { slugify } from '@vue-storefront/core/helpers'
-import rootStore from '@vue-storefront/store'
+import { slugify } from '../../../../../helpers'
+import rootStore from '../../../../../'
 
 export function processESResponseType (resp, start, size): Response {
   const response = {

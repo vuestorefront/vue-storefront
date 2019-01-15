@@ -1,7 +1,7 @@
 <template>
   <div
     class="microcart mw-100 fixed cl-accent"
-    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: showMicrocart }]"
+    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: isMicrocartOpen }]"
     data-testid="microcart"
   >
     <div class="row middle-xs bg-cl-primary top-sm">
@@ -135,8 +135,7 @@ export default {
   data () {
     return {
       addCouponPressed: false,
-      couponCode: '',
-      componentLoaded: false
+      couponCode: ''
     }
   },
   props: {
@@ -145,16 +144,6 @@ export default {
       required: false,
       default: () => false
     }
-  },
-  computed: {
-    showMicrocart () {
-      return this.isMicrocartOpen && this.componentLoaded
-    }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.componentLoaded = true
-    })
   },
   methods: {
     addDiscountCoupon () {

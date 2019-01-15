@@ -254,14 +254,3 @@ You need to add the attributes you'll like to have displayed to the `config/loca
 ```
 
 And then You can use proper controls for each individual filter [here](https://github.com/DivanteLtd/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue).
-
-## Collecting all VSF i18n phrases into a CSV.
-
-It might be very time consuming to translate the whole project to a foreign language. A good start is to properly collect all i18n phrases into a CSV file. The following line of bash code, would get the job done (a pipe-separated CSV file named i18n.csv would be created, adjust accordingly to your needs).
-
-Execute the following line on your project's root folder:
-
-```grep --include \*.js --include \*.vue -nrw  ./ -e 'i18n.t(' -e '$t(' -h | grep -o -P "(?<=t\(\').*(?=\'\))" | awk -F"'" -v OFS='|' '{ print $1,$1 }' > i18n.csv```
-
-The code basically looks into into all project files for all ```i18n.t('some string')``` and ```$t('some string') ``` occurences, parses an extracts the quoted tdxt of each occurence, and saves it into a pipe-separated CSV file, which you might help you to get your missing translations.
-

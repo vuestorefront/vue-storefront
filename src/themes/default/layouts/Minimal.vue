@@ -1,8 +1,8 @@
 <template>
-  <div class="minimal-layout">
+  <div id="app">
     <div id="viewport" class="w-100 relative">
       <minimal-header/>
-      <slot/>
+      <router-view/>
       <minimal-footer/>
     </div>
   </div>

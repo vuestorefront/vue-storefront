@@ -22,42 +22,18 @@ A component to handle redirects to user account page and user logout. Usually us
 
 **Methods**
 
-- `close` - closes sign-up modal
+- `close` - closes signup modal
 - `callLogin` - starts authentication process with emitting `notification-progress-start`, calls `user/login` action with user's email and password.
 - `switchElem` - triggers `setAuthElem` mutation with `register` parameter
 - `callForgotPassword` - triggers `setAuthElem` mutation with `forgot-pass` parameter
 
 ### Register
 
-**Methods**
-
-- `switchElem` - triggers `setAuthElem` mutation with `register` parameter
-- `close` - closes sign-up modal
-- `callRegister` - starts registration process with emitting `notification-progress-start`, calls `user/register` action with user's email, password, first name and last name.
+_Work in progress_
 
 ### UserAccount
 
-**Methods**
-
-- `onLoggedIn` - sets `currentUser` and `userCompany`. This method is called on `user-after-loggedin` bus event
-- `edit` - sets `isEdited` flag to `true`
-- `objectsEqual (a, b, excludedFields = [])` - checks if two passed objects are equal to each other
-- `updateProfile` - updates user profile with new data. Calls a method `exitSection(null, updatedProfile)`
-- `exitSection` - emits `myAccount-before-updateUser` bus event with updated user profile. Resets component user data to default values.
-- `getUserCompany` - finds user company
-- `getCountryName` - finds user country name
-
 ### UserShippingDetails
-
-**Methods**
-
-- `onLoggedIn` - sets `currentUser` and `shippingDetails`. This method is called on `user-after-loggedin` bus event
-- `edit` - sets `isEdited` flag to `true`
-- `updateDetails` - updates shipping details with new data. Calls a method `updatedShippingDetails`
-- `exitSection` - emits `myAccount-before-updateUser` bus event with updated shipping details. Resets component user data to default values
-- `fillCompanyAddress` - finds shipping details
-- `getCountryName` - finds country name
-- `hasBillingAddres` - returns `true` if user has a billing address
 
 ## Store
 

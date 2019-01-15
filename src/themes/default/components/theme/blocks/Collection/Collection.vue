@@ -45,17 +45,18 @@ export default {
       }
     }
   },
-  async beforeMount () {
+  beforeMount () {
     let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
 
-    const res = await this.$store.dispatch('product/list', {
+    this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'
+    }).then(res => {
+      if (res) {
+        this.products = res.items
+      }
     })
-    if (res) {
-      this.products = res.items
-    }
   },
   components: {
     ProductsSlider

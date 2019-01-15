@@ -2,7 +2,7 @@
 
 Category Store is designed to handle all actions related the categories data.
 
-This module works pretty tightly with Elastic Search and operates on the [Product data format](../data/elasticsearch.md)
+This module works pretty tightly with Elastic Search and operates on the [Product data format](..data/elasticsearch.md)
 
 ## State
 
@@ -35,7 +35,7 @@ The category state data:
 }
 ```
 
-Please note, that we're using the Magento like EAV attributes structure - so the values here are an attribute value indexes not the values itself. Please take a look at [Data formats](../data/elasticsearch.md) for a reference
+Please note, that we're using the Magento like EAV attributes structure - so the values here are an attribute value indexes not the values itself. Please take a look at [Data formats](..data/elasticsearch.md) for a reference
 
 - `current_path` - this is the list of category objects: from current category to the top level root,
 

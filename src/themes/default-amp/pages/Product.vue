@@ -163,6 +163,11 @@ export default {
     }
   },
   directives: { focusClean },
+  computed: {
+    favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    }
+  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true

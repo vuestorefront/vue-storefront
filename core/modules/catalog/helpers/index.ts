@@ -11,7 +11,7 @@ import union from 'lodash-es/union'
 import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
-import { getThumbnailPath } from '@vue-storefront/core/helpers'
+import { getThumbnailPath } from '@vue-storefront/store/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -499,9 +499,7 @@ export function configureProductAsync (context, { product, configuration, select
       }/* else {
         console.debug('Skipping configurable options setup', configuration)
       } */
-      const fieldsToOmit = ['name']
-      if (selectedVariant.image === "") fieldsToOmit.push('image')
-      selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
+      selectedVariant = omit(selectedVariant, 'name') // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', selectedVariant)

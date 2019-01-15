@@ -65,7 +65,22 @@ function createRenderer (bundle, clientManifest, template) {
   })
 }
 
-function invalidateCache (req, res) {
+const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
+  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+}, options))
+
+const themeRoot = require('../build/theme-path')
+
+app.use('/dist', serve('dist', true))
+app.use('/assets', serve(themeRoot + '/assets', true))
+app.use('/service-worker.js', serve('dist/service-worker.js', {
+  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
+}))
+
+const serverExtensions = require(resolve('src/server'))
+serverExtensions.registerUserServerRoutes(app)
+
+app.get('/invalidate', (req, res) => {
   if (config.server.useOutputCache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
@@ -105,26 +120,7 @@ function invalidateCache (req, res) {
   } else {
     utils.apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
   }
-}
-
-const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
-  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
-}, options))
-
-const themeRoot = require('../build/theme-path')
-
-app.use('/dist', serve('dist', true))
-app.use('/assets', serve(themeRoot + '/assets', true))
-app.use('/service-worker.js', serve('dist/service-worker.js', {
-  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
-}))
-
-const serverExtensions = require(resolve('src/server'))
-serverExtensions.registerUserServerRoutes(app)
-
-app.post('/invalidate', invalidateCache)
-
-app.get('/invalidate', invalidateCache)
+})
 
 app.get('*', (req, res, next) => {
   const s = Date.now()

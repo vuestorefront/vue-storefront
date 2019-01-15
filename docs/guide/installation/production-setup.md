@@ -75,7 +75,7 @@ Some additional materials:
 Create nginx config file from the template (please run as a root user):
 
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/etc/nginx/sites-enabled/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
 ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
 ```
 

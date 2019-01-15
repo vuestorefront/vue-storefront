@@ -12,14 +12,14 @@ export const AccountButton = {
   methods: {
     goToAccount () {
       if (this.currentUser) {
-        this.$router.push(this.localizedRoute('/my-account'))
+        this.$router.push('/my-account')
       } else {
         this.$bus.$emit('modal-show', 'modal-signup')
       }
     },
     logout () {
       this.$bus.$emit('user-before-logout')
-      this.$router.push(this.localizedRoute('/'))
+      this.$router.push('/')
     }
   }
 }

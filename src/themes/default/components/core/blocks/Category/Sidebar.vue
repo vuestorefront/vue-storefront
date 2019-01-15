@@ -23,6 +23,7 @@
       <div v-if="filterIndex==='color'">
         <color-selector
           context="category"
+          :attribute_code="color"
           code="color"
           v-for="(color, index) in filter"
           :key="index"
@@ -33,6 +34,7 @@
       <div v-else-if="filterIndex==='size'">
         <size-selector
           context="category"
+          :attribute_code="size"
           code="size"
           class="size-select mr10 mb10"
           v-for="(size, index) in sortById(filter)"
@@ -44,6 +46,7 @@
       <div v-else-if="filterIndex==='price'">
         <price-selector
           context="category"
+          :attribute_code="price"
           class="price-select mb10 block"
           code="price"
           v-for="(price, index) in filter"
@@ -52,11 +55,13 @@
           :from="price.from"
           :to="price.to"
           :content="price.label"
+          :label="price.label"
         />
       </div>
       <div v-else>
         <generic-selector
           context="category"
+          :attribute_code="filter.attribute_code"
           class="price-select mb10 block"
           :code="filterIndex"
           v-for="(option, index) in filter"

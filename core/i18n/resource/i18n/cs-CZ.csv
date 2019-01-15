@@ -24,7 +24,7 @@
 "Product price is unknown, product cannot be added to the cart!","Cena produktu není známa, produkt nelze přidat do košíku!"
 "My Account","Můj účet"
 "Type what you are looking for...","Zadejte, co hledáte..."
-"Home Page","Domovská stránka"
+"Home Page","Domovská stránka" 
 "Checkout","Koupit"
 "Subtotal incl. tax","Mezisoučet vč. daně"
 "Grand total","Celkový součet"
@@ -64,4 +64,3 @@
 "login","přihlásit se"
 "to account","na účet"
 "Are you sure you would like to remove this item from the shopping cart?","Opravdu chcete tuto položku odebrat z nákupního košíku?"
-"You need to be logged in to see this page","Pro zobrazení této stránky musíte být přihlášeni"

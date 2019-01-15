@@ -1,4 +1,3 @@
-// DEPRECATED -> Moved to Order.ts
 {
     "additionalProperties": false,
     "required": [ "products", "addressInformation" ],
