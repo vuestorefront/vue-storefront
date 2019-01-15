@@ -66,7 +66,6 @@ export class VueStorefrontModule {
     const key = this._c.key
     this._c = merge(this._c, extendedConfig)
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
-    debugger;
   }
 
   public register (): VueStorefrontModuleConfig | void {
