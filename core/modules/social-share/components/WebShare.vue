@@ -19,8 +19,7 @@ export default {
       required: true
     },
     url: {
-      type: String,
-      required: true
+      type: String
     }
   },
   computed: {
