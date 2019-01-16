@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import toString from 'lodash-es/toString'
 
+import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/core/helpers'
@@ -251,6 +252,15 @@ export default {
           }
           this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
           EventBus.$emitFilter('category-after-load', { store: this.$store, route: this.$route })
+        }
+      }).catch(err => {
+        if (err.message.indexOf('query returned empty result') > 0) {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
+            action1: { label: i18n.t('OK') }
+          })
+          this.$router.push(localizedRoute('/', currentStoreView().storeCode))
         }
       })
     },

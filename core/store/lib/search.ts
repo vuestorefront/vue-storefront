@@ -61,22 +61,6 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
         resolve(res)
         console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
         servedFromCache = true
-      } else {
-        if (!isOnline()) {
-          console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
-          res = {
-            items: [],
-            total: 0,
-            start: 0,
-            perPage: 0,
-            aggregations: {},
-            offline: true,
-            cache: true,
-            noresults: true
-          }
-          servedFromCache = true
-          resolve(res)
-        }
       }
     }).catch((err) => {
       console.error('Cannot read cache for ' + cacheKey + ', ' + err)
@@ -109,6 +93,20 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
         }
       }
     }).catch(err => {
+      if (!servedFromCache) {
+        console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        const res = {
+          items: [],
+          total: 0,
+          start: 0,
+          perPage: 0,
+          aggregations: {},
+          offline: true,
+          cache: true,
+          noresults: true
+        }
+        resolve(res)
+      }
       reject(err)
     })
   })
