@@ -8,7 +8,14 @@ Then click _Add new integration_ and just fill:
 
 - name (whatever)
 - your password to confirm the changes,
-- check Catalog, Sales, My Account, Carts and Stores > Settings > Configuration > Inventory Section on API permissions tab
+- on API permissions tab check the following resources:
+  - Catalog
+  - Sales
+  - My Account
+  - Carts
+  - Stores > Settings > Configuration > Inventory Section
+  - Stores > Taxes
+  - Stores > Attributes > Product
 - save
 
 ![Magento API](/vue-storefront/magento_2.png)
