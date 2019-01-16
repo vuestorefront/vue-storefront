@@ -13,11 +13,17 @@
 
 <script>
 import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
-
+import rootStore from '@vue-storefront/store'
 export default {
   mixins: [GenericSelector],
   methods: {
     colorFrom (label) {
+      if (rootStore.state.config.products.colorMappings) {
+        if (typeof rootStore.state.config.products.colorMappings[label] !== 'undefined') {
+          label = rootStore.state.config.products.colorMappings[label]
+        }
+      }
+      if (label.indexOf('/') >= 0) label = label.replace('/', ',') // to be honest - this is a hack for colors like "ink/white"
       if (label && label.toString().indexOf(',') >= 0) {
         return 'background: linear-gradient(' + label + ')'
       } else {

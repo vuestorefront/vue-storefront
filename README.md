@@ -8,7 +8,7 @@
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
-Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>,  Prestashop or Shopware) through the API.
+Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>, [BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront), Prestashop or Shopware) through the API.
 
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
@@ -67,8 +67,23 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 
 ## Roadmap
 
+[Here](https://github.com/DivanteLtd/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
+
+#### Roadmap planning
+[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to next milestones. You can also joj slack channel `#roadmap-planning` where we discuss next milestones.
+
+The process of adding new features to the roadmap looks like this:
+1. You create an issue and label it as `feature request`.
+2. One of VS Core team verifies the feature request and if the explaination is clear adds it to the `Roadmap` project so it's visible in the board.
+3. Now people can vote for this feature to be added into next milestone with `thumb up` emoji.
+4. Feature requests with biggest popularity will be added into next milestones.
+
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
-[See the roadmap](https://github.com/DivanteLtd/vue-storefront/milestones).
+
+Please note that bugfixes are treated separately and in most cases added to the milestones immediately.
+
+
+
 [Check the feature list of 1.0](https://divanteltd.github.io/vue-storefront/guide/basics/feature-list.html).
 
 If youd like to take part in roadmap planning feel free to join #roadmap-planning channel on our slack
@@ -131,7 +146,8 @@ Tutorial series on creating themes for Vue Storefront:
 - [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 - [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 - [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
-- [Vue Storefront + Pimcore](https://github.com/DivanteLtd/pimcore2vuestorefront)
+- [Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
+- [Vue Storefront + Pimcore](https://github.com/DivanteLtd/coreshop-vsbridge)
 - [Magento2 Product Reviews](https://divanteltd.github.io/vue-storefront/guide/integrations/reviews.html)
 - [PayPal Payments integration](https://divanteltd.github.io/vue-storefront/guide/integrations/paypal-payments.html)
 - [Direct prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/direct-prices-sync.html)
@@ -258,7 +274,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://www.summasolutions.net">
           <img
-            src="http://www.summasolutions.net/sites/all/themes/summa2015/images/logo-tablet.jpg"
+            src="https://divante.co/partners/Vue-Storefront/summa_logo_horizontal_rgb.jpg"
             alt="Summa Solutions"
             width="150"
           >
@@ -500,14 +516,29 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="">
+        <a href="https://www.absolutewebservices.com">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/absolute-logo.png"
+            alt="Absolute Web Services"
             height="50"
           >
         </a>
       </td>
+    </tr>
+     <tr>
+       <td align="center" valign="middle">
+        <a href="https://www.devmetokyo.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/devMeTokyo-logo.png"
+            alt="DevMe Tokyo"
+            height="50"
+          >
+        </a>
+      </td>
+     <td align="center" valign="middle"></td>
+   <td align="center" valign="middle"></td>
+  <td align="center" valign="middle"></td>
+<td align="center" valign="middle"></td>
     </tr>
   </tbody>
 </table>

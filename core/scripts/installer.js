@@ -264,7 +264,7 @@ class Backend extends Abstract {
         config.imageable.whitelist.allowedHosts.push(host)
 
         config.magento2.url = urlParser(this.answers.m2_url).href
-        config.magento2.imgUrl = this.answers.m2_url ? urlParser(this.answers.m2_url).href + '/pub/media/catalog/product' : config.magento2.api.imgUrl
+        config.magento2.imgUrl = this.answers.m2_url ? urlParser(this.answers.m2_url).href + '/pub/media/catalog/product' : config.magento2.imgUrl
         config.magento2.api.url = urlParser(this.answers.m2_api_url).href || config.magento2.api.url
         config.magento2.api.consumerKey = this.answers.m2_api_consumer_key || config.magento2.api.consumerKey
         config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret || config.magento2.api.consumerSecret

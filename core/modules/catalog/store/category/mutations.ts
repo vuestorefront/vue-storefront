@@ -52,12 +52,22 @@ const mutations: MutationTree<CategoryState> = {
       state.list = categories.items
     }
   },
+  [types.CATEGORY_ADD_AVAILABLE_FILTER] (state, {key, options = []}) {
+    Vue.set(state.filters.available, key, options)
+  },
   [types.CATEGORY_REMOVE_FILTERS] (state) {
     state.filters.chosen = {}
     state.current_product_query.configuration = {}
   },
   [types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY] (state, newQuery) {
     state.current_product_query = newQuery
+  },
+  [types.CATEGORY_SET_SEARCH_OPTIONS] (state, searchOptions) {
+    state.current_product_query = searchOptions || null
+  },
+  [types.CATEGORY_MERGE_SEARCH_OPTIONS] (state, searchOptions = {}) {
+    let currentOptions = state.current_product_query || {}
+    state.current_product_query = Object.assign(currentOptions, searchOptions)
   }
 }
 

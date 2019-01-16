@@ -28,7 +28,7 @@ export default {
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
-      category: 'category/current',
+      category: 'category/getCurrentCategory',
       gallery: 'product/productGallery'
     }),
     productName () {

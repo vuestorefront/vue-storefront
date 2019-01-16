@@ -13,10 +13,7 @@ import { sync } from 'vuex-router-sync'
 import VueObserveVisibility from 'vue-observe-visibility'
 
 // Apollo GraphQL client
-import ApolloClient from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import VueApollo from 'vue-apollo'
+import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 
 // TODO simplify by removing global mixins, plugins and filters - it can be done in normal 'vue' way
 import { registerTheme } from '@vue-storefront/core/lib/themes'
@@ -67,12 +64,12 @@ if (buildTimeConfig.console.verbosityLevel !== 'display-everything' && process.e
   })
 }
 
-function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: Store<RootState> } {
+const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
-  store.state.version = '1.6.0'
+  store.state.version = '1.7.0'
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
@@ -108,45 +105,19 @@ function createApp (ssrContext, config): { app: Vue, router: VueRouter, store: S
     Vue.filter(key, filtersObject[key])
   })
 
-  const httpLink = new HttpLink({
-    uri: store.state.config.graphql.host.indexOf('://') >= 0 ? store.state.config.graphql.host : (store.state.config.server.protocol + '://' + store.state.config.graphql.host + ':' + store.state.config.graphql.port + '/graphql')
-  })
-
-  const apolloClient = new ApolloClient({
-    link: httpLink,
-    cache: new InMemoryCache(),
-    connectToDevTools: true
-  })
-
-  let loading = 0
-
-  const apolloProvider = new VueApollo({
-    clients: {
-        a: apolloClient
-    },
-    defaultClient: apolloClient,
-    defaultOptions: {
-        // $loadingKey: 'loading',
-    },
-    watchLoading (state, mod) {
-        loading += mod
-        console.log('Global loading', loading, mod)
-    },
-    errorHandler (error) {
-        console.log('Global error handler')
-        console.error(error)
-    }
-  })
-
-  Vue.use(VueApollo)
-
-  const app = new Vue({
+  let vueOptions = {
     router,
     store,
     i18n,
-    provide: apolloProvider,
     render: h => h(App)
-  })
+  }
+
+  const apolloProvider = await getApolloProvider()
+  if (apolloProvider) {
+    Object.assign(vueOptions, {provider: apolloProvider})
+  }
+
+  const app = new Vue(vueOptions)
 
 
   const findModuleByStoreName = (storeNameToFind) => {
