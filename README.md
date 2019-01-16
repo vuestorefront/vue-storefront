@@ -13,12 +13,12 @@ Vue Storefront is a standalone PWA storefront for your eCommerce, possible to co
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
 
-**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take alook at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
+**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
 If you're new and need some guidance feel free to reach anyone from core team on our slack:
 `@Filip Rakowski` `@pkarw` `@Bartek Igielski` `@David Rouyer` `@George`
 
-Want to invest some time in building future of eCommerce? we are looking for core team members willing us to help make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
+Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
@@ -70,11 +70,11 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 [Here](https://github.com/DivanteLtd/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
 
 #### Roadmap planning
-[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to next milestones. You can also joj slack channel `#roadmap-planning` where we discuss next milestones.
+[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to next milestones. You can also join the slack channel `#roadmap-planning` where we discuss the next milestones.
 
 The process of adding new features to the roadmap looks like this:
 1. You create an issue and label it as `feature request`.
-2. One of VS Core team verifies the feature request and if the explaination is clear adds it to the `Roadmap` project so it's visible in the board.
+2. One of VS Core team verifies the feature request and if the explanation is clear, it is added to the `Roadmap` project so it's visible in the board.
 3. Now people can vote for this feature to be added into next milestone with `thumb up` emoji.
 4. Feature requests with biggest popularity will be added into next milestones.
 
@@ -105,7 +105,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 
 ### Basics
 
-- [Project structure](https://divanteltd.github.io/vue-storefront/guide/basics/project-structure.html) - good for introduction (outdated, we are workiung on interactive explorer :) )
+- [Project structure](https://divanteltd.github.io/vue-storefront/guide/basics/project-structure.html) - good for introduction (outdated, we are working on interactive explorer :) )
 - [Configuration file explained](https://divanteltd.github.io/vue-storefront/guide/basics/configuration.html)
 - [Vue Storefront Modules](https://divanteltd.github.io/vue-storefront/guide/modules/introduction.html)
 - [Contribution and issue reporting guideness](https://divanteltd.github.io/vue-storefront/guide/basics/contributing.html)
