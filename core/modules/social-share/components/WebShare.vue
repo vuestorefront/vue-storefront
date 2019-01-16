@@ -20,7 +20,9 @@ export default {
     },
     url: {
       type: String,
-      required: true
+      default () {
+        return typeof window !== 'undefined' ? window.location.href : ''
+      }
     }
   },
   computed: {
