@@ -1,0 +1,47 @@
+$motion-main: cubic-bezier(0.4, 0.0, 0.2, 1);
+$duration-main: .25s;
+
+$motion-exit: cubic-bezier(0.4, 0.0, 1, 1);
+$duration-exit: .2s;
+
+.fade-enter-active {
+  transition: opacity $duration-main;
+}
+
+.fade-leave-active {
+  transition: opacity $duration-exit;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0
+}
+
+.fade-in {
+  &-down-enter-active,
+  &-up-enter-active{
+    transition: all $duration-main $motion-main;
+  }
+
+  &-down-leave-active,
+  &-up-leave-active {
+    transition: all $duration-exit $motion-exit;
+  }
+
+  &-down-enter,
+  &-down-leave-to,
+  &-up-enter,
+  &-up-leave-to {
+    opacity: 0;
+  }
+
+  &-down-enter,
+  &-down-leave-to {
+    transform: translateY(-100%);
+  }
+
+  &-up-enter,
+  &-up-leave-to {
+    transform: translateY(100%);
+  }
+}
