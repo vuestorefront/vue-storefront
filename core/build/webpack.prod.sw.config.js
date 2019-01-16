@@ -59,7 +59,7 @@ module.exports = merge(base, {
         handler: "fastest"
       },{
         urlPattern: "/api/catalog/*",
-        handler: "fastest"
+        handler: "networkFirst"
       },{
         urlPattern: "/api/*",
         handler: "networkFirst"
