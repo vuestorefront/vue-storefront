@@ -1,13 +1,14 @@
 import rootStore from '../'
 import { loadLanguageAsync } from '@vue-storefront/i18n'
-import { initializeSyncTaskStorage } from '@vue-storefront/core//lib/sync/task'
+import { initializeSyncTaskStorage } from '@vue-storefront/core/lib/sync/task'
+import { StoreView } from '@vue-storefront/core/types/storeView'
 import Vue from 'vue'
 
-export function currentStoreView () {
+export function currentStoreView () : StoreView {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode) {
+export function prepareStoreView (storeCode: string) : StoreView {
   const config = rootStore.state.config
   let storeView = { // current, default store
     tax: config.tax,

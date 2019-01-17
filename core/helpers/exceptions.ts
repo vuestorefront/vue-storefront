@@ -3,7 +3,7 @@ export class HttpError {
   public code
   public name
 
-  constructor (message: string, code: string) {
+  constructor (message: string, code: number) {
     this.message = message
     this.code = code
     this.name = 'HttpError'

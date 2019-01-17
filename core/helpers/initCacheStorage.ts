@@ -4,7 +4,7 @@ import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import rootStore from '@vue-storefront/store'
 
 /** Inits cache storage for given module. By default via local storage */
-export function initCacheStorage(key, localised = true) {
+export function initCacheStorage(key: string, localised = true) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
   const config = rootStore.state.config
