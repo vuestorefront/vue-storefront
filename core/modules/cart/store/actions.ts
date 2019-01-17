@@ -666,16 +666,6 @@ const actions: ActionTree<CartState, RootState> = {
         console.error(event.result)
       }
     }
-    // Set isVirtualCart to true if downloadable or virtual products in cart
-    const clientCartItems = rootStore.state.cart.cartItems
-    const isVirtualCart = clientCartItems.every((itm) => {
-      return itm.type_id === 'downloadable' || itm.type_id === 'virtual' // check for downloadable & virtual products
-    })
-    context.state.cartIsVirtual = false
-    if (isVirtualCart) {
-      context.state.cartIsVirtual = true
-      console.debug('Found virtual cart')
-    }
   },
   servercartAfterItemUpdated (context, event) {
     const originalCartItem = JSON.parse(event.payload.body).cartItem

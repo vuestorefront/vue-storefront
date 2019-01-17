@@ -12,7 +12,6 @@ export const module: Module<CartState, any> = {
     platformTotals: null,
     platformTotalSegments: null,
     cartIsLoaded: false,
-    cartIsVirtual: false,
     cartServerPullAt: 0,
     cartServerTotalsAt: 0,
     cartServerCreatedAt: 0,

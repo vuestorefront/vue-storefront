@@ -60,7 +60,9 @@ const getters: GetterTree<CartState, RootState> = {
     }
   },
   isVirtualCart (state) {
-    return state.cartIsVirtual
+    return state.cartItems.every((itm) => {
+      return itm.type_id === 'downloadable' || itm.type_id === 'virtual' // check for downloadable & virtual products
+    })
   }
 }
 

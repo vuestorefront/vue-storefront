@@ -4,7 +4,6 @@ export default interface CartState {
   platformTotals: any,
   platformTotalSegments: any,
   cartIsLoaded: boolean,
-  cartIsVirtual: boolean,
   cartServerPullAt: number,
   cartServerTotalsAt: number,
   cartServerCreatedAt: number,
