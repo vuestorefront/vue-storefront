@@ -241,6 +241,8 @@ npm run seo redirects — —oldFormat=true | false
 
 Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
 
+**Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating it's value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
+
 ## You need to choose options for your item message when hit API for add to cart a configurable product
 
 This is because the demo data dump works on the `demo-magento2.vuestorefront.io` instance attribute ids. Please re-import all product data using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront)
