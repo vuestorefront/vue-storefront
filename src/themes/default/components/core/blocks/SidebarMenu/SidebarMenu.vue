@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu absolute mw-100 bg-cl-primary" :class="{ active: showMenu }">
+  <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: showMenu }">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
