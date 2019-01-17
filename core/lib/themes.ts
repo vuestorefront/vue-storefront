@@ -1,5 +1,5 @@
 export function registerTheme (themeName, app, routes, store, config, ssrContext) {
-  let themeEntryPoint = require('theme/index.js')
+  let themeEntryPoint = require('theme/index.js').initTheme
   if (themeEntryPoint != null && themeEntryPoint.hasOwnProperty('default')) {
     themeEntryPoint.default(app, routes, store, config, ssrContext) // register theme
   } else {
