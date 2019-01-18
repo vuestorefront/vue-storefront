@@ -44,15 +44,15 @@ const store = {
       }
       state.submenu.depth = state.submenu.depth > 0 && depth
     },
-    setSearchpanel (state, action) {
+    setSearchpanel ({state, dispatch}, action) {
       state.searchpanel = action === true
       state.overlay = action === true
+      dispatch('category/deleteSidebarSelectedCategory')
     },
     setWishlist (state, action) {
       state.wishlist = action === true
       state.overlay = action === true
     },
-
     setOverlay (state, action) {
       state.overlay = action === true
     },

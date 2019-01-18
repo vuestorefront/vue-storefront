@@ -45,6 +45,7 @@ export const Search = {
       } else {
         this.products = []
         this.emptyResults = 0
+        this.$store.dispatch('category/deleteSidebarSelectedCategory')
       }
     },
     seeMore () {
@@ -65,6 +66,7 @@ export const Search = {
       } else {
         this.products = []
         this.emptyResults = 0
+        this.$store.dispatch('category/deleteSidebarSelectedCategory')
       }
     }
   },
