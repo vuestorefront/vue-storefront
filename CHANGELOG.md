@@ -6,12 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Hotjar extension (#840)
+
 ### Changed
 - IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
 - Dynamic attributes loader (#2137)
 - Dynamic categories prefetching (#2076)
 - New payment's module architecture (#2135)
 - Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
+- Fixed isServer flag in module hooks (#840)
 
 ## [1.6.0] - 2018.12.05
 
