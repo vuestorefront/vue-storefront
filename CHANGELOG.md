@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Hotjar extension - #840 - Łukasz Romanowicz @lukeromanowicz
+
 ### Changed
 - IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
 - Dynamic attributes loader (#2137)
