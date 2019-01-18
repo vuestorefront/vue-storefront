@@ -42,7 +42,12 @@
         <category-panel :product-categories="categories" />
       </div>
       <div class="product-listing row">
-        <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in allProducts" :product="product"/>
+        <product-tile
+          v-for="product in allProducts"
+          :key="product.id"
+          :product="product"
+          @click.native="closeSearchpanel"
+        />
         <transition name="fade">
           <div v-if="emptyResults" class="no-results relative center-xs h4 col-md-12">
             {{ $t('No results were found.') }}
