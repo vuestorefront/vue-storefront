@@ -3,7 +3,6 @@ import { Wishlist as WishlistModule } from '../'
 export const Wishlist = {
   name: 'Wishlist',
   created () {
-    WishlistModule.register()
     this.$store.dispatch('wishlist/load')
   },
   computed: {
