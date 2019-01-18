@@ -25,6 +25,7 @@ export const Search = {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setSearchpanel', false)
+      this.$store.dispatch('category/deleteSidebarSelectedCategory')
     },
     buildSearchQuery (queryText) {
       let searchQuery = prepareQuickSearchQuery(queryText)

@@ -20,6 +20,7 @@ export default {
       this.$store.commit('ui/setWishlist', false)
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
+      this.$store.dispatch('category/deleteSidebarSelectedCategory')
     }
   }
 }
