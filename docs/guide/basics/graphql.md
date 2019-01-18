@@ -56,7 +56,7 @@ this.$store
   });
 ```
 
-[More information on how to query the data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+[More information on how to query the data](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/data/elastic-queries.md).
 
 **bodybuilder** queries are still supported by our backward-compatibility mode so if you've used bodybuilder in your theme, it's fine as long as you're using the `api` mode for the backend queries.
 

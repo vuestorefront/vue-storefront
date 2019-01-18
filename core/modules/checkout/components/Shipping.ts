@@ -1,5 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {

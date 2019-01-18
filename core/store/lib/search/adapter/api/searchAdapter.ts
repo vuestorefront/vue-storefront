@@ -5,8 +5,8 @@ import fetch from 'isomorphic-fetch'
 import { slugify } from '@vue-storefront/core/helpers'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import HttpQuery from '@vue-storefront/store/types/search/HttpQuery'
-import Response from '@vue-storefront/store/types/search/Response'
+import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
+import Response from '@vue-storefront/core/types/search/Response'
 
 export class SearchAdapter {
   public entities: any
