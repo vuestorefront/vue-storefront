@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
 import CmsBlockState from '../../types/CmsBlockState'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 
 const getters: GetterTree<CmsBlockState, RootState> = {
   cmsBlocks: (state) => state.items,
