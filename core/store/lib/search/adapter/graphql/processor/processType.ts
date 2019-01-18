@@ -1,4 +1,4 @@
-import Response from '@vue-storefront/store/types/search/Response'
+import Response from '@vue-storefront/core/types/search/Response'
 import map from 'lodash-es/map'
 import { slugify } from '@vue-storefront/core/helpers'
 import rootStore from '@vue-storefront/store'
