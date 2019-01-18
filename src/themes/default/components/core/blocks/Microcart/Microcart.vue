@@ -104,6 +104,7 @@
         >
           {{ $t('Go to checkout') }}
         </button-full>
+        <instant-checkout-btn />
       </div>
     </div>
   </div>
@@ -115,6 +116,8 @@ import Microcart from '@vue-storefront/core/compatibility/components/blocks/Micr
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
+import InstantCheckoutBtn from 'src/modules/instant-checkout/components/Button.vue'
+
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
@@ -125,7 +128,8 @@ export default {
     Product,
     ButtonFull,
     ButtonOutline,
-    BaseInput
+    BaseInput,
+    InstantCheckoutBtn
   },
   mixins: [
     Microcart,
