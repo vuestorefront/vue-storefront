@@ -7,8 +7,8 @@
         'empty': !selected
       }"
       :autocomplete="autocomplete"
-      @focus="$emit('focus');"
-      @blur="$emit('blur');"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
       @change="$emit('input', $event.target.value)"
     >
       <option v-if="!selected"/>
@@ -23,7 +23,7 @@
     </select>
     <label>{{ placeholder }}</label>
 
-    <template if="validations">
+    <template v-if="validations">
       <span
         v-for="(validation, index) in validations"
         :key="index"
