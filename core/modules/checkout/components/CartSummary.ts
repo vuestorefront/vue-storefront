@@ -6,7 +6,8 @@ export const CartSummary = {
   mixins: [Microcart],
   computed: {
     ...mapGetters({
-      totals: 'cart/totals'
+      totals: 'cart/totals',
+      isVirtualCart: 'cart/isVirtualCart'
     })
   }
 }

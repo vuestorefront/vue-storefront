@@ -7,7 +7,6 @@ import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
 import { Mailchimp } from '../modules/mailchimp'
-import { Example } from './module-template'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Homepage } from "./homepage"
@@ -21,20 +20,30 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { Magento2CMS } from './magento-2-cms'
 
-// Some modules  that still needs API refactoring are  temporary registered in core
-// This is how you can adjust any module with application-specific behavior
-// const extendedExample = {
-//   key: 'example',
-//   afterRegistration: function(isServer, config) {
-//     console.info('Hello, im extended now!')
-//   }
-// }
 
-// extendModule(extendedExample)
+// This is how you can extend any of VS modues
+// const extendCartVuex = {
+//   actions: {
+//     load () {
+//       console.info('New load function')
+//     }
+//   }
+//  }
+
+//  const cartExtend = {
+//   key: 'cart',
+//   afterRegistration: function(isServer, config) {
+//     console.info('New afterRegistration hook')
+//   },
+//   store: { modules: [{ key: 'cart', module: extendCartVuex }] },
+//  }
+ 
+//  extendModule(cartExtend)
 
 /**
  * Some of the modules are registered lazily only when components from module are appearing on current page. 
  * If you want to use this modules in pages without it's components you need to remember about registering module first
+ * In VS 1.8 this modules will be semlessly lazyLoaded after proper action dispatch
  * - Wishlist
  */
 export const registerModules: VueStorefrontModule[] = [
@@ -57,5 +66,4 @@ export const registerModules: VueStorefrontModule[] = [
   PaymentCashOnDelivery,
   RawOutputExample,
   AmpRenderer,
-  Example
 ]

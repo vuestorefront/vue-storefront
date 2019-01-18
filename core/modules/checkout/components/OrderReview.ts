@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 
 export const OrderReview ={
@@ -15,6 +16,11 @@ export const OrderReview ={
         terms: false
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      isVirtualCart: 'cart/isVirtualCart'
+    })
   },
   methods: {
     placeOrder () {

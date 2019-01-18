@@ -182,7 +182,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Filter category products
    */
   products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false }) {
-    rootStore.state.category.current_product_query = {
+    context.dispatch('setSearchOptions', {
       populateAggregations,
       filters,
       current,
@@ -192,7 +192,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration,
       append,
       sort
-    }
+    })
 
     let prefetchGroupProducts = true
     if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
@@ -262,7 +262,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (populateAggregations === true && res.aggregations) { // populate filter aggregates
           for (let attrToFilter of filters) { // fill out the filter options
-            Vue.set(rootStore.state.category.filters.available, attrToFilter, [])
+            let filterOptions = []
 
             let uniqueFilterValues = new Set<string>()
             if (attrToFilter !== 'price') {
@@ -280,7 +280,7 @@ const actions: ActionTree<CategoryState, RootState> = {
               uniqueFilterValues.forEach(key => {
                 const label = optionLabel(rootStore.state.attribute, { attributeKey: attrToFilter, optionId: key })
                 if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
-                  rootStore.state.category.filters.available[attrToFilter].push({
+                  filterOptions.push({
                     id: key,
                     label: label
                   })
@@ -293,7 +293,7 @@ const actions: ActionTree<CategoryState, RootState> = {
                 let index = 0
                 let count = res.aggregations['agg_range_' + attrToFilter].buckets.length
                 for (let option of res.aggregations['agg_range_' + attrToFilter].buckets) {
-                  rootStore.state.category.filters.available[attrToFilter].push({
+                  filterOptions.push({
                     id: option.key,
                     from: option.from,
                     to: option.to,
@@ -303,6 +303,10 @@ const actions: ActionTree<CategoryState, RootState> = {
                 }
               }
             }
+            context.dispatch('addAvailableFilter', {
+              key: attrToFilter,
+              options: filterOptions
+            })
           }
         }
       }
@@ -340,11 +344,20 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     return productPromise
   },
+  addAvailableFilter ({commit}, {key, options} = {}) {
+    if(key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
+  },
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)
   },
   searchProductQuery (context, productQuery) {
     context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
+  },
+  setSearchOptions ({commit}, searchOptions) {
+    commit(types.CATEGORY_SET_SEARCH_OPTIONS, searchOptions)
+  },
+  mergeSearchOptions ({commit}, searchOptions) {
+    commit(types.CATEGORY_MERGE_SEARCH_OPTIONS, searchOptions)
   }
 }
 
