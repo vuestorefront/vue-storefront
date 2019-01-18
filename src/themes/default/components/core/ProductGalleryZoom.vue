@@ -92,7 +92,7 @@ $z-index-gallery: map-get($z-index, overlay) + 1;
     padding: 20px;
     height: 750px;
     max-height: 100%;
-    max-width: 750px;
+    justify-content: space-evenly;
 
     @media (max-width: 767px) {
       top: 50%;
@@ -142,6 +142,7 @@ $z-index-gallery: map-get($z-index, overlay) + 1;
   }
 
   &__gallery {
+    max-width: 600px;
     height: 100%;
     flex: 1;
 
