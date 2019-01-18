@@ -3,6 +3,7 @@
     type="button"
     class="bg-cl-transparent brdr-none inline-flex"
     @click="openSidebarMenu"
+    on="tap:openSidebarMenu"
     :aria-label="$t('Open menu')"
     data-testid="menuButton"
   >
