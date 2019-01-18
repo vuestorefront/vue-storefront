@@ -44,6 +44,7 @@ module.exports = {
             'basics/ssr-cache',
             'basics/amp',
             'basics/e2e',
+            'basics/events-list'
           ],
         },
         {
