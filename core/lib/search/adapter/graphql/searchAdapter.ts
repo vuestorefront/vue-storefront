@@ -1,9 +1,9 @@
-import rootStore from '../../../../'
+import rootStore from '@vue-storefront/store'
 import { prepareQueryVars } from './gqlQuery'
-import { currentStoreView, prepareStoreView } from '../../../multistore'
+import { currentStoreView, prepareStoreView } from '@vue-storefront/store/lib/multistore'
 import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import SearchQuery from '../../searchQuery'
 
 export class SearchAdapter {
 

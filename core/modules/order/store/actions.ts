@@ -6,7 +6,7 @@ import RootState from '@vue-storefront/store/types/RootState'
 import OrderState from '../types/OrderState'
 import { Order } from '../types/Order'
 import rootStore from '@vue-storefront/store'
-import { isOnline } from '@vue-storefront/store/lib/search'
+import { isOnline } from '@vue-storefront/core/lib/search'
 import i18n from '@vue-storefront/i18n'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 const actions: ActionTree<OrderState, RootState> = {

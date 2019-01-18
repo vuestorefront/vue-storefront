@@ -1,10 +1,43 @@
 import Vue from 'vue'
-import { currentStoreView } from './multistore'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { sha3_224 } from 'js-sha3'
-import rootStore from '../'
+import rootStore from '@vue-storefront/store'
 import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
-import Request from '../types/search/Request'
-import Response from '../types/search/Response'
+
+export interface HttpQuery {
+  q?: string
+  size: number
+  from: number
+  sort: string
+  request?: string,
+  _source_exclude?: string
+  _source_include?: string
+}
+
+export interface Request {
+  store: any
+  type: string
+  searchQuery: any
+  size: number
+  groupId: any
+  groupToken: any
+  from: number
+  sort: string
+  _sourceExclude?: string
+  _sourceInclude?: string
+}
+
+export interface Response {
+  items: any[]
+  total: number
+  start: number
+  perPage: number
+  aggregations: any
+  offline?: boolean
+  cache?: boolean
+  noresults?: boolean
+}
+
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {

@@ -3,10 +3,9 @@ import rootStore from '@vue-storefront/store'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '@vue-storefront/core/helpers'
-import { currentStoreView, prepareStoreView } from '../../../multistore'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import HttpQuery from '@vue-storefront/store/types/search/HttpQuery'
-import Response from '@vue-storefront/store/types/search/Response'
+import { currentStoreView, prepareStoreView } from '@vue-storefront/store/lib/multistore'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { HttpQuery, Response} from '@vue-storefront/core/lib/search'
 
 export class SearchAdapter {
   public entities: any
