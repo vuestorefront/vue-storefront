@@ -1,7 +1,7 @@
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const base = require('./webpack.base.config')
-const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import base from './webpack.base.config'
+import VueSSRClientPlugin from 'vue-server-renderer/client-plugin'
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const config = merge(base, {
@@ -14,7 +14,7 @@ const config = merge(base, {
           chunks: 'all',
         },
       },
-    },   
+    },
       runtimeChunk: {
       name: "manifest",
     }
@@ -35,4 +35,4 @@ const config = merge(base, {
   ]
 })
 
-module.exports = config;
+export default config;
