@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dynamic categories prefetching (#2076)
 - New payment's module architecture (#2135)
 - Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
+- `store/lib/search` has been moved to `core/lib/search`. All search related types from `store/types/search` are now exported in `core/lib/search.ts` (#2225)
 
 ## [1.6.0] - 2018.12.05
 
