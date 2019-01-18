@@ -8,11 +8,11 @@ That was our first goal, but the second was to provide the full data safety and 
 
 This is the reason that we've got the direct Shopping cart sync with Magento2. Whenever the user add something to the cart we're checking the stock and synchronize the local in-browser cart with CMS.
 
-![This is the dynamic requests architecture](/vue-storefront/Vue-storefront-architecture-proxy-requests.png)
+![This is the dynamic requests architecture](../images/Vue-storefront-architecture-proxy-requests.png)
 
 In the backward direction we're always getting the current Totals - after applied Magento shopping cart rules and discounts to display the proper data to the user. This synchronization is implemented to still keep the Vue Storefront platform agnostic - `vue-storefront-api` layer is in charge of translating the platform specific API formats to the Vue Storefront general data abstraction.
 
-![This is how the cart sync works](/vue-storefront/cart-sync.png)
+![This is how the cart sync works](../images/cart-sync.png)
 
 As you can see the synchronization works like a sequence of the network calls to the `vue-storefront-api`:
 
@@ -77,7 +77,7 @@ The last missing block is the catalog prices sync. This can be very easily enabl
 
 One of the cool features of Vue Storefront is queued order sync. This means whenever user makes and order in the application we store the order in the local browser cache (indexedDb instance) and send it to the server as fast as the Internet connection is available.
 
-![Orders are stored locally before they're send to the server](/vue-storefront/orders-collection.png)
+![Orders are stored locally before they're send to the server](../images/orders-collection.png)
 
 On the server side the `vue-storefront-api` is the first line which the Order is crossing on its way back to Magento2. No matter if the shopping cart was synchronized (as described above) or not the order will be converted to Magento2 object.
 
@@ -89,4 +89,4 @@ This process doesn't require much additional configuration:
 2. You must have the "Orders" section marked On within the "Permissions" section of Magento Integration ([see the previous tutorial for the reference on how to set it up](../installation/magento.md)).
 3. After the configuration step You just run `npm run o2m` inside your `vue-storefront-api` directory.
 
-![This is the output of o2m after successfull setup](/vue-storefront/o2m-output.png)
+![This is the output of o2m after successfull setup](../images/o2m-output.png)
