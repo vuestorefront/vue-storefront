@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import RecentlyViewedState from '../types/RecentlyViewedState'
 import { cacheStorage } from '../'
 
