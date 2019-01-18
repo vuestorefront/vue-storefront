@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New payment's module architecture (#2135)
 - Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
 - Fixed isServer flag in module hooks (#840)
+- Location of type files (#2226)
 
 ## [1.6.0] - 2018.12.05
 
