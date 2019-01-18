@@ -635,6 +635,17 @@ This is the currently applied theme path. After changing it Vue Storefront need 
 
 You can put your Google Analytics ID in here as to be used by the analytics extension.
 
+## Hotjar
+
+```json
+"hotjar": {
+  "id": false
+},
+```
+
+You can put your Hotjar Site ID in here as to be used by the hotjar extension.
+
+
 ## CMS
 
 ```json

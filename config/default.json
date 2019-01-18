@@ -367,6 +367,9 @@
     "analytics": {
       "id": false
     },
+    "hotjar": {
+      "id": false
+    },
     "cms": {
       "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
       "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
