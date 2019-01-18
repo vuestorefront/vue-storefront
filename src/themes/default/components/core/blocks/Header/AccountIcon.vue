@@ -1,11 +1,15 @@
 <template>
   <div class="inline-flex relative dropdown"
        data-testid="accountButton"
-       @click.self="goToAccount">
+       @click.self="goToAccount"
+       @keyup.enter="goToAccount"
+       tabindex="0"
+       role="button"
+       :aria-label="$t('Open my account')"
+  >
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
-      :aria-label="$t('Open my account')"
     >
       <i class="material-icons block">account_circle</i>
     </button>
@@ -92,8 +96,17 @@ $color-icon-hover: color(secondary, $colors-background);
   }
 
   @media (min-width: 768px) {
-    &:hover .dropdown-content {
+    &:hover .dropdown-content,
+    &:focus .dropdown-content {
       display: block;
+    }
+
+    &:focus-within {
+      background-color: $color-icon-hover;
+      opacity: 1;
+      .dropdown-content {
+        display: block;
+      }
     }
   }
 
