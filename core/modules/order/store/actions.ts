@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import * as types from './mutation-types'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/store/types/RootState'
 import OrderState from '../types/OrderState'

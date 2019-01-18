@@ -3,7 +3,7 @@ import rootStore from '@vue-storefront/store'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '@vue-storefront/core/helpers'
-import { currentStoreView, prepareStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { HttpQuery, Response} from '@vue-storefront/core/lib/search'
 

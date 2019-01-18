@@ -1,4 +1,4 @@
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 /**
  * Converts date to format provided as an argument or defined in config file (if argument not provided)
