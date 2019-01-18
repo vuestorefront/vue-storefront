@@ -2,7 +2,7 @@ import { ActionTree } from "vuex"
 import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
 import * as types from './mutation-types'
 import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import RootState from '@vue-storefront/store/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState';
 import CmsPageState from "../../types/CmsPageState"
 import { cacheStorage  } from '../../'
 import { cmsPagesStorageKey } from './'
