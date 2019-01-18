@@ -2,6 +2,10 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.7 -> next
+- `store/lib/search` has been moved to `core/lib/search`. All search related types from `store/types/search` are now exported in `core/lib/search.ts`
+
+
 ## 1.6 -> 1.7
 
 Starting from Vue Storefront 1.7 we've changed the Caching strategy + Offline ready features:
