@@ -4,7 +4,7 @@ import { sha3_224 } from 'js-sha3'
 import rootStore from '../'
 import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
 import Request from '../types/search/Request'
-import Response from '../types/search/Response'
+import Response from '@vue-storefront/core/types/search/Response'
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
