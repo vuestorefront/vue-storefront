@@ -168,7 +168,7 @@ const invokeClientEntry = async () => {
             })
               .then(jsonResponse => {
                 if (jsonResponse && jsonResponse.code === 200) {
-                  console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
+                  console.info('SearchResponse for: ' + orderId + ' = ' + jsonResponse.result)
                   orderData.transmited = true
                   orderData.transmited_at = new Date()
                   ordersCollection.setItem(orderId.toString(), orderData)

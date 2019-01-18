@@ -3,41 +3,8 @@ import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 import { sha3_224 } from 'js-sha3'
 import rootStore from '@vue-storefront/store'
 import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
-
-export interface HttpQuery {
-  q?: string
-  size: number
-  from: number
-  sort: string
-  request?: string,
-  _source_exclude?: string
-  _source_include?: string
-}
-
-export interface Request {
-  store: any
-  type: string
-  searchQuery: any
-  size: number
-  groupId: any
-  groupToken: any
-  from: number
-  sort: string
-  _sourceExclude?: string
-  _sourceInclude?: string
-}
-
-export interface Response {
-  items: any[]
-  total: number
-  start: number
-  perPage: number
-  aggregations: any
-  offline?: boolean
-  cache?: boolean
-  noresults?: boolean
-}
-
+import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
+import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 
 export function isOnline () {
   if (typeof navigator !== 'undefined') {
@@ -55,14 +22,14 @@ export function isOnline () {
  * @param {Int} size page size
  * @return {Promise}
  */
-export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<Response> => {
+export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<SearchResponse> => {
   const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
     const storeView = currentStoreView()
-    const Request: Request = {
+    const Request: SearchRequest = {
       store: storeCode || storeView.storeCode, // TODO: add grouped product and bundled product support
       type: entityType,
       searchQuery: query,

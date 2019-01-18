@@ -45,7 +45,7 @@ export function afterRegistration (Vue, config, store, isServer) {
     // create an empty SearchQuery to get all data for new custom entity
     const searchQuery = new SearchQuery()
 
-    // prepare a Request object
+    // prepare a SearchRequest object
     const Request = {
       store: storeView.storeCode, // TODO: add grouped product and bundled product support
       type: TEST_ENTITY_TYPE,
