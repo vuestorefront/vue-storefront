@@ -7,7 +7,7 @@ import fetch from 'isomorphic-fetch'
 import * as localForage from 'localforage'
 import rootStore from '@vue-storefront/store'
 import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/core/lib/multistore'
-import Task from '@vue-storefront/store/types/task/Task'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/store/lib/entities'
@@ -126,7 +126,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           })
         }
       }
-      console.debug('Response for: ' + task.task_id + ' = ' + jsonResponse.result)
+      console.debug('SearchResponse for: ' + task.task_id + ' = ' + jsonResponse.result)
       task.transmited = true
       task.transmited_at = new Date()
       task.result = jsonResponse.result

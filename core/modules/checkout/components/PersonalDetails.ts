@@ -1,5 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 
 export const PersonalDetails = {
   name: 'PersonalDetails',

@@ -1,5 +1,5 @@
 import { Store } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
 import buildTimeConfig from 'config'
 

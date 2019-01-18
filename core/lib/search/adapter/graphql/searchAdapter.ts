@@ -29,7 +29,7 @@ export class SearchAdapter {
 
     const storeView = (Request.store === null) ? currentStoreView() : prepareStoreView(Request.store)
     if (storeView.storeCode === undefined || storeView.storeCode == null || !Request.type) {
-      throw new Error('Store and Request.type are required arguments for executing Graphql query')
+      throw new Error('Store and SearchRequest.type are required arguments for executing Graphql query')
     }
 
     const gqlQueryVars = prepareQueryVars(Request)
