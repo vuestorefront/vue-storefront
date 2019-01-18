@@ -3,15 +3,15 @@
     <overlay v-if="overlayActive"/>
     <loader/>
     <div id="viewport" class="w-100 relative">
-      <microcart v-if="isMicrocartOpen"/>
-      <transition name="slide-left">
-        <search-panel v-if="isSearchPanelOpen"/>
-      </transition>
-      <wishlist v-if="isWishlistOpen"/>
+      <main-header/>
       <transition name="slide-right">
         <sidebar-menu v-if="isSidebarOpen"/>
       </transition>
-      <main-header/>
+      <transition name="slide-left">
+        <microcart v-if="isMicrocartOpen"/>
+        <search-panel v-if="isSearchPanelOpen"/>
+        <wishlist v-if="isWishlistOpen"/>
+      </transition>
       <slot/>
       <main-footer/>
       <notification/>
