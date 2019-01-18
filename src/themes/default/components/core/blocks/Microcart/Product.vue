@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="flex py15 mr10 align-right start-xs between-sm actions">
-      <div v-if="!product.totals">
+      <div class="prices">
         <span class="h4 serif cl-error price-special" v-if="product.special_price">
           {{ product.priceInclTax * product.qty | price }}&nbsp;
         </span>
@@ -61,17 +61,6 @@
         </span>
         <span class="h4 serif price-regular" v-if="!product.special_price" data-testid="productPrice">
           {{ product.priceInclTax * product.qty | price }}
-        </span>
-      </div>
-      <div v-if="product.totals">
-        <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
-          {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
-        </span>
-        <span class="h6 serif price-original" v-if="product.totals.discount_amount">
-          {{ product.totals.row_total_incl_tax | price }}
-        </span>
-        <span class="h4 serif price-regular" v-if="!product.totals.discount_amount">
-          {{ product.totals.row_total_incl_tax | price }}
         </span>
       </div>
       <div class="links">
