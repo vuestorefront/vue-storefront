@@ -14,7 +14,7 @@ import { Claims } from './claims'
 import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
-import { Hotjar } from './hotjar';
+// import { Hotjar } from './hotjar';
 import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
@@ -63,7 +63,7 @@ export const registerModules: VueStorefrontModule[] = [
   PromotedOffers,
   Magento2CMS,
   // GoogleAnalytics,
-  Hotjar,
+  // Hotjar,
   PaymentBackendMethods,
   PaymentCashOnDelivery,
   RawOutputExample,
