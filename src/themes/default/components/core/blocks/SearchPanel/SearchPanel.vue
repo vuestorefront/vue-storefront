@@ -38,8 +38,8 @@
           </div>
         </div>
       </div>
-      <div v-if="products.length > 0" class="categories">
-        <category-panel :product-categories="categories"/>
+      <div v-if="allProducts.length > 0 && categories.length > 1" class="categories">
+        <category-panel :product-categories="categories" />
       </div>
       <div class="product-listing row">
         <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in allProducts" :product="product"/>
@@ -49,7 +49,7 @@
           </div>
         </transition>
       </div>
-      <div v-show="OnlineOnly" v-if="products.length >= 18" class="buttons-set align-center py35 mt20 px40">
+      <div v-show="OnlineOnly" v-if="allProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
         <button @click="seeMore" v-if="readMore"
                 class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
                 type="button">
@@ -88,10 +88,13 @@ export default {
   },
   data () {
     return {
-      allProducts: this.products
+      allProducts: this.products || []
     }
   },
   watch: {
+    products (newValue) {
+      this.allProducts = this.products
+    },
     selectedCategory (categoryToFilter) {
       const filtered = this.products.filter(product => {
         if (product.category.length > 0) {
