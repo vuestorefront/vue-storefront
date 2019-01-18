@@ -20,9 +20,9 @@ const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 const themedIndex = path.join(themeRoot, 'index.template.html')
-const themedIndexMinimal = path.join(themeRoot, 'index.minimal.template.html')
-const themedIndexBasic = path.join(themeRoot, 'index.basic.template.html')
-const themedIndexAmp = path.join(themeRoot, 'index.amp.template.html')
+const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
+const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
+const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
