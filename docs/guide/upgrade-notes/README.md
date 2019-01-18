@@ -1,13 +1,41 @@
 # Upgrade notes
 
-We're trying to keep the upgrade process as easy as it's possible. Unfortunately sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:.
+We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
+
+## 1.6 -> 1.7
+
+Starting from Vue Storefront 1.7 we've changed the Caching strategy + Offline ready features:
+- by default, the ElasticSearch Queries are executed using `GET` method - and therefore are cached by Service Worker (`config.elasticsearch.queryMethod` - set it to POST for the previous behavior and if You're using graphql),
+- by default products and queries cache is set in the `LocalStorage` with a quota set to 4MB (`config.server.elasticCacheQuota`). If the storage quota is set, the cache purging is executed each 30s using LRU algorithm. Local Storage is limited to 5MB in most browsers
+- we've added `config.server. disableLocalStorageQueriesCache` which is set to `true` by default. When this option is `on` then we're not storing the ElasticSearch results in local cache - this is due to the fact that results are by default cached in Service Worker cache anyway.
+- `module.extend` has been changed to `extendModule`. You can find usage example in `src/modules/index.ts`.
+- [routes](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-a334a7caeb7f61836f8c1178d92de3e0), [layouts](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-48863b9fe31d7713222ec5709ef5a4fa) and component, which are not visible at page rendering are now loaded when they are needed
+- Every store manipulation should be done by dispatching actions. Invoke store dispatch on `category/mergeSearchOptions` when manipulating `store.state.category.current_product_query` somewhere.
+- [here](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422) are all changes in default themes
+
+Backward compatibility - to reverse to the 1.0-1.6 behavior please set:
+- set `config.server.disableLocalStorageQueriesCache` = `false`,
+- set `config.elasticsearch.queryMethod` = `POST`
+- set `config.localForage.defaultDrivers.elasticCache` = `INDEXEDDB`
+
+**NOTE:** The offline mode may not work properly in the development mode (localhost) because of Service Workers + lack of the bundle prefetching (bundles lazy loading).
+
+With 1.7 the number of attribute descriptors that are loaded on the product page is now limited and dynamically adjusted to the fields used in the product. This behaviour shouldn't have any negative impact on Your app, hovewer if You havent used the `attribute/list` action explicitly based on all attributes loaded by default (up to 1.6) this may cause the problems. You can switch off dynamic loader by setting the `config.entities.product.useDynamicAttributeLoader=false`. Details: [#2137](https://github.com/DivanteLtd/vue-storefront/pull/2137/files)
+
+Dynamic Categories prefetching (#2076). Starting with Vue Storefront 1.7 we've added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). This option switches the way the category tree is being fetched. Previously we were fetching the full categories tree. In some cases it can generate even few MB of payload. Currently with this option in place we're pre-fetching the categories on demand while user is browsing the category tree
+
+**NOTE:** Since we're no longer generating `category.slug` client's side - we need to have `category.url_key` field unique. If Your Magento2 url_keys are unique it will work without any changes. If not - please do use [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) to re-import the categories. There is a new `categories` importer option `--generateUniqueUrlKeys` which is set to true by default.
+
+With the new modules architecture available from 1.6 we've [updated the payment modules guide](https://github.com/DivanteLtd/vue-storefront/pull/2135). If You've used the custom payment (and basically any other) extensions please make sure You've already ported them to [new modules architecture](https://docs.vuestorefront.io/guide/modules/introduction.html).
+
+
 ## 1.5 -> 1.6
 
-With 1.6 we've introduced new modular architecture and moved most of theme-specific logic from core to default theme. It's probably the biggest update in VS history and first step to make future upgrades more and more seamless.
+With 1.6 we've introduced new modular architecture and moved most of theme-specific logic from core to default theme. It's probably the biggest update in VS history and the first step to making future upgrades more and more seamless.
 
-Due to architectural changes `core/components` and `core/store/modules` folders were removed and reorganised into modules ( `core/modules`). In most cases the components API remained the same (if not we provided an API bridge in `core/compatibility/components` folder which allows you to benefit from new features without making changes in your theme). It's a good idea to look for imports refering to deleted folders after migration to be sure that we made a full update.
+Due to architectural changes `core/components` and `core/store/modules` folders were removed and reorganised into modules ( `core/modules`). In most cases, the components API remained the same (if not we provided an API bridge in `core/compatibility/components` folder which allows you to benefit from new features without making changes in your theme). It's a good idea to look for imports referring to deleted folders after migration to be sure that we made a full update.
 
-Overally theme upgrade for default theme requires 105 files to be changed but 85% of this changes is just a new import path for core component which makes this update time-consuming but easy to follow and not risky.
+Overall theme upgrade for default theme requires 105 files to be changed but 85% of this changes is just a new import path for core component which makes this update time-consuming but easy to follow and not risky.
 
 [Here](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f) you can find detailed information (as a upgrade commit with notes) about what needs to be changed in theme to support VS 1.6.
 
@@ -35,17 +63,17 @@ and make sure you are importing `rootStore`.
 
 You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from default theme [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/src/themes/default/router)
 
-- Extensions are now rewritten to modules (and extensions system will be depreciated in 1.7).
+- Extensions are now rewritten to modules (and extensions system will be deprecated in 1.7).
 
-If you havn't modified any extensions directly you don't need to change anything. If you made such changes you'd probably need to rewrite your extension to module.
+If you haven't modified any extensions directly you don't need to change anything. If you made such changes you'd probably need to rewrite your extension to a module.
 
-- Old event bus is removed to compatibility folder. From now we are trying to create new features without it and slowly depreciate event bus whenever it's possible. It'll be repalced with some enhanced module-based mechanism with event autosugesstion support.
+- Old event bus is moved to the compatibility folder. From now we are trying to create new features without it and slowly depreciate event bus whenever it's possible. It'll be replaced with some enhanced module-based mechanism with event autosuggestion support.
 
 change all `@vue-storefront/core/plugins/event-bus` imports to `@vue-storefront/core/compatibility/plugins/event-bus`
 
-#### Components that were moved or API was changed and compatibility component was created.
+#### Components that were moved or API was changed and the compatibility component was created.
 
-Required action: Change import path. In case of additional changes click on a component name to see how to update.
+Required action: Change the import path. In case of additional changes click on a component name to see how to update.
 
 - [`AddToCart.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-16a4dd1cbf1aaf74e001e6541fb27725)
 - [`Breadcrumbs.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-fa33732560b7c39ea7854f701c4187bf)
@@ -126,6 +154,7 @@ Required action: Add moved content and remove core import. In case of additional
 - [`MyAccount.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bb873f532ed9a2efbb157af79a70e0f7) notifications moved to theme
 - [`Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-174db65df8e0c43df20b73b5bf16881b) minor changes in attribute var names that may influence the markup, notifications moved to theme
 - [`Static.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a3a9b6eeeba4c915c1ea1aae1c489ecc) Static pages are no longed using markdown files.
+
 ## 1.4 -> 1.5
 
 ### Modifications
@@ -156,7 +185,7 @@ However, this change is not involving any required actions to port the code but 
 
 #### Reviews
 
-We've added the Reviews support, however Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
+We've added the Reviews support, however, Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
 
 #### Microcart
 
@@ -194,8 +223,8 @@ We've added the Reviews support, however Magento2 is still lacking Reviews suppo
 
 ### Changes
 
-1. We've removed event emit from client-entry.js with online status information. Instead of this we are using now [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
-2. We've removed isOnline variable from Microcart.js, instead of this we are using now variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
+1. We've removed event emit from client-entry.js with online status information. Instead of this, we are using now [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
+2. We've removed isOnline variable from Microcart.js, instead of this, we are using now variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
 
 ### Upgrade step by step
 
@@ -239,7 +268,7 @@ It was redundant
 
 #### `{theme}/service-worker-ext.js` moved to `{theme}/service-worker/index.js`
 
-Now it mirrors `core/` folder structure which is desired behavior
+Now it mirrors `core/` folder structure which is desired behaviour
 
 ### vue-storefront-api docker support has been extended
 
@@ -249,7 +278,7 @@ We've added the possibility to run the `vue-storefront-api` fully in docker (pre
 
 ### Default storage of the shopping carts and user data moved to localStorage
 
-Currently there is an config option to setup the default local storage configs: https://github.com/DivanteLtd/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If You like the previous behaviour of storing the carts in the indexedDb - please change the config backend to `INDEXEDDB`.
+Currently, there is an config option to setup the default local storage configs: https://github.com/DivanteLtd/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If You like the previous behaviour of storing the carts in the indexedDb - please change the config backend to `INDEXEDDB`.
 
 ### mage2vuestorefront improvements
 
@@ -299,7 +328,7 @@ This release contains three important refactoring efforts:
 
 1. We've changed the user-account endpoints and added the token-reneval mechanism which is configured by `config.users.autoRefreshTokens`; if set to true and user token will expire - VS will try to refresh it.
 
-2. Moreover we've separated the user-account entpoints - so please copy the following defaults from `default.json` to Your `local.json` and set the correct api endpoints:
+2. Moreover, we've separated the user-account entpoints - so please copy the following defaults from `default.json` to Your `local.json` and set the correct api endpoints:
 
 ```json
     "users": {
@@ -346,7 +375,7 @@ The endpoints are also set by the `yarn installer` so You can try to reinstall V
 
 If `optimize` is set to false - it's a fallback to the previous behaviour (getting all fields).
 
-4. Another cool feature is `twoStageCaching` enabled by default. It means that for the Category page VS is getting only the minimum number of JSON fields required to display the ProductTiles and shortly after it downloads by the second request the full objects to store them im local cache.
+4. Another cool feature is `twoStageCaching` enabled by default. It means that for the Category page VS is getting only the minimum number of JSON fields required to display the ProductTiles and shortly after it downloads by the second request the full objects to store them in local cache.
 
 5. We've tweaked the Service Worker to better cache the app - it sometimes can generate kind of frustration if your home page is now cached in the SW (previously was not). Feel free to use `Clear Storage` in Your Developers tools :)
 

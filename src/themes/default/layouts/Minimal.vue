@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div class="minimal-layout">
     <div id="viewport" class="w-100 relative">
       <minimal-header/>
-      <router-view/>
+      <slot/>
       <minimal-footer/>
     </div>
   </div>
@@ -13,7 +13,7 @@ import { mapState } from 'vuex'
 import MinimalHeader from 'theme/components/core/blocks/Header/MinimalHeader.vue'
 import MinimalFooter from 'theme/components/core/blocks/Footer/MinimalFooter.vue'
 
-import Head from 'theme/resource/head'
+import Head from 'theme/head'
 
 export default {
   data () {

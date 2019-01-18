@@ -1,10 +1,11 @@
 module.exports = {
-  base: '/vue-storefront/',
+  base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
     editLinks: true,
+    sidebarDepth: 3,
     nav: [
       {
         text: 'YouTube',
@@ -80,12 +81,14 @@ module.exports = {
             'data/elastic-queries',
             'data/database-tool',
             'data/entity-types',
+            'data/static-data',
           ],
         },
         {
           title: 'Extensions',
           collapsable: false,
           children: [
+            'extensions/introduction',
             'extensions/extending-api',
             'extensions/extending-server-side-routes',
           ],
@@ -95,6 +98,7 @@ module.exports = {
           collapsable: false,
           children: [
             'vuex/introduction',
+            'vuex/vuex-conventions',
             'vuex/product-store',
             'vuex/category-store',
             'vuex/cart-store',
@@ -108,7 +112,14 @@ module.exports = {
         {
           title: 'Modules',
           collapsable: false,
-          children: ['modules/introduction', 'modules/cart', 'modules/user'],
+          children: [
+            'modules/introduction',
+            'modules/cart',
+            // 'modules/catalog',
+            'modules/user',
+            'modules/checkout',
+            'modules/order',
+          ],
         },
         {
           title: 'Integrations',
@@ -122,6 +133,7 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
+            'integrations/product-reviews',
           ],
         },
       ],

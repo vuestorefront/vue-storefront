@@ -1,19 +1,20 @@
+# Introduction
 # Table of contents
 
 **Introduction and motivation**
-- [What are VS Modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#what-are-vs-modules)
-- [Motivation](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#motivation)
-- [What is the purpose of VS modules?](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#what-is-the-purpose-of-vs-modules)
+- [What are VS Modules](#what-are-vs-modules)
+- [Motivation](#motivation)
+- [What is the purpose of VS modules?](#what-is-the-purpose-of-vs-modules)
 
 **Technical part**
-- [Module config and it's capabilities](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-config-and-capabilities)
-- [Module file structure](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-file-structure)
-- [Module registration](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#module-registration)
+- [Module config and it's capabilities](#module-config-and-capabilities)
+- [Module file structure](#module-file-structure)
+- [Module registration](#module-registration)
 
 **Patterns and good practices for common use cases**
-- [General rules and good practices](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#general-rules-and-good-practices)
-- [Adding new features as VS modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#adding-new-features-as-vs-modules)
-- [Extending and overriding Vue Storefront modules](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-and-overriding-vue-storefront-modules)
+- [General rules and good practices](#general-rules-and-good-practices)
+- [Adding new features as VS modules](#adding-new-features-as-vs-modules)
+- [Extending and overriding Vue Storefront modules](#extending-and-overriding-vue-storefront-modules)
 
   
 # What are VS modules?
@@ -24,9 +25,9 @@ You can think about each module as a one, independent feature available in Vue S
 
 I believe that some neat metaphore can clearly describe the problem as well as a solution.
 
-To better illustrate the whole concept I'll try to explain it with lego bricks. 
+To better illustrate the whole concept I'll try to explain it with lego bricks.
 
-Let's say we have a box with 90 lego bricks that we can use to build some fancy things like Towers, Castles, or Helicopters. Unfortunately due to some stupid EU regulations we can only have 3 different colors of bricks in our box. As we all know not every color is accurate for every structure that can be built  so we need to swap one color with a different one from the shop from time to time to have bricks in colors that are best-suited for our next lego project. 
+Let's say we have a box with 90 lego bricks that we can use to build some fancy things like Towers, Castles, or Helicopters. Unfortunately due to some stupid EU regulations we can only have 3 different colors of bricks in our box. As we all know not every color is accurate for every structure that can be built so we need to swap one color with a different one from the shop from time to time to have bricks in colors that are best-suited for our next lego project.
 
 Cool, but there is one problem - since we have all our bricks in one box they look more or less like this:
 
@@ -34,69 +35,86 @@ Cool, but there is one problem - since we have all our bricks in one box they lo
 
 When we want to replace the green bricks with, let's say, the black ones we need to look for each green brick separately among all the others which can take a lot of time... and there is still a chance that we will miss some of them! Not to mention that finding the particular green brick that we need to finish the palm tree we are building ([this one!](https://www.thedailybrick.co.uk/media/catalog/product/cache/1/image/700x700/9df78eab33525d08d6e5fb8d27136e95/l/e/lego_small_palm_leaf_8_x_3__6148__lego-green-small-palm-leaf-8-x-3-6148-30-257873-61.jpg)) will require looking for it among all the other bricks which can make this task extremely difficult and time-consuming.
 
-This is obviously not a situation that we want to end up in with our small lego empire. Neither we want it with Vue Storefront since it's meant to be easly extendable so you can replace your green bricks (or current user cart feature/cms provider/cms content provider) with the black ones (different cart feature with multiple carts, wordpress instead of prismic for content etc) without looking for each of them among all the bricks and without worrying that you will miss some of them and EU will confiscate all the bricks that you have! We also want to make it easier to find the exact brick that we want right now to finish this damn palm tree! 
+This is obviously not a situation that we want to end up in with our small lego empire. Neither we want it with Vue Storefront since it's meant to be easly extendable so you can replace your green bricks (or current user cart feature/cms provider/cms content provider) with the black ones (different cart feature with multiple carts, wordpress instead of prismic for content etc) without looking for each of them among all the bricks and without worrying that you will miss some of them and EU will confiscate all the bricks that you have! We also want to make it easier to find the exact brick that we want right now to finish this damn palm tree!
 
 So how we make this horrible situation better?
 
-Introducing... (drums in the background) ***bricks grouped by colors***! (wows in the background)
-  
+Introducing... (drums in the background) **_bricks grouped by colors_**! (wows in the background)
+
 <img src="https://sh-s7-live-s.legocdn.com/is/image/LEGO/6177?$PDPDefault$" style="width: 150px;" />
-  
+
 When we have our bricks grouped by their colors (and in a separate boxes - modules) it's much easier to find this green brick that we needed for a palm tree since we only need to search in a small subset of all bricks. Moreover when we want to replace green bricks with the black ones then instead of looking for all the grren represenattives one by one we are just replacing their box with the one containing black bricks. We also don't need to worry that something was left since we know that all the green bricks were in the box.
 
 This is the kind of modularity and extendibility we want in Vue Storefront and architecture we are currently rewriting it into.
 
-# What is the purpose of VS modules?
+## What is the purpose of VS modules?
 
 The purpose is well described in [this discussion](https://github.com/DivanteLtd/vue-storefront/issues/1213). It can be sumamrized to:
-- **Better extensibility**: We can extend each module or replace it completely with the new one. For example we may want to replace our Cart module with the one that allows to have multiple carts. With modules we can just detach current Cart module and repalce it with our new one. Another example can be using different modules for different content CMSes integration etc. 
+
+- **Better extensibility**: We can extend each module or replace it completely with the new one. For example we may want to replace our Cart module with the one that allows to have multiple carts. With modules we can just detach current Cart module and repalce it with our new one. Another example can be using different modules for different content CMSes integration etc.
 - **Better developer experience**: Along with the modules we are introducing many features focused on delivering better, easier to jump in and more predictable developer experience. We changed the way you can compose components with features, added unit tests, TypeScript interfaces etc.
 - **Better upgradability**: Each module is a separate NPM package therefore can be upgraded independently and since it have all the logic encapsulated it shouldn't break any other parts of the application when detached, modified or replaced.
 
+## Module config and capabilities
 
-# Module config and capabilities
-
-Module config is the object that is required to instantiate VS module. The config object you'll provide is later used to extend and hook into different parts of the application (like router, Vuex etc). 
+Module config is the object that is required to instantiate VS module. The config object you'll provide is later used to extend and hook into different parts of the application (like router, Vuex etc).
 Please use this object as the only part that is responsible for extending Vue Storefront. Otherwise it may stop working after some breaking core updates.
 
 Vue Storefront module object with provided config should be exported in `index.ts` entry point. Ideally it should be a named export named the same as modules key.
 
 This is how the signature of Vue Storefront Module looks like:
+
 ```js
 interface VueStorefrontModuleConfig {
   key: string;
-  store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
-  router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
-  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>) => void,
+  store?: {
+    modules?: { key: string, module: Module<any, any> }[],
+    plugin?: Function,
+  };
+  router?: {
+    routes?: RouteConfig[],
+    beforeEach?: NavigationGuard,
+    afterEach?: NavigationGuard,
+  };
+  beforeRegistration?: (
+    Vue?: VueConstructor,
+    config?: Object,
+    store?: Store<RootState>,
+  ) => void;
+  afterRegistration?: (
+    Vue?: VueConstructor,
+    config?: Object,
+    store?: Store<RootState>,
+  ) => void;
 }
 ```
 
 See code [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/index.ts)
-#### `key` (required)
+
+### `key` (required)
 
 Key is an ID of your module. It's used to identify your module and to set keys in all key-based extendings that module is doing (like creating namespaced store). This key should be unique.
 
-#### `store`
+### `store`
 
-Entry point for Vuex. 
+Entry point for Vuex.
+
 - `modules` - array of Vuyex modules to register under given keys
 - `plugin` - you can provide your own Vuex plugin here
 
-
-####  `router`
+### `router`
 
 Entry point for vue-router. You can provide additional routes and [navigation guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) here.
 
-#### `beforeRegistration`
+### `beforeRegistration`
 
 Function that'll be called before registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
 
-#### `afterRegistration`
+### `afterRegistration`
 
 Function that'll be called after registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
 
-# Module file structure
+## Module file structure
 
 Below you can see recommended file structure for VS module. All of the core ones are organised in this way.
 Try to have similar file structure inside the ones that you create. If all of modules will implement similar architeture it'll be easier to maintain and understand them. If there is no purpose in organising some of it's parts differently try to avoid it.
@@ -112,7 +130,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
   - `mutation-types.ts` - Mutation strings represented by variables to use instead of plain strings
   - `plugins.ts` - Good place to put vuex plugin. Should be used in `store.plugins` config object
 - `types` - TypeScript types associated with module
-- `test` - Folder with unit tests which is *required* for every new or rewritten module. 
+- `test` - Folder with unit tests which is _required_ for every new or rewritten module.
 - `hooks` - before/after hooks that are called before and after registration of module.
   - `beforeRegistration.ts` - Should be used in `beforeRegistration` config property.
   - `afterRegistration.ts` - Should be used in `afterRegistration` config property.
@@ -124,65 +142,65 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 - `helpers` - everything else that is meant to support modules behavior
 - `index.js` - entry point for the module. Should export VueStorefrontModule. It's also a good place to instantiate cache storage.
 
-# Module registration
+## Module registration
 
-All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md#extending-module-from-theme-before-registration)).
+All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](#extending-and-overriding-vue-storefront-modules)).
 
 All VS modules from `registerModules` will be registered during shop initialisation.
 
+---
 
------------------------------------
-
-
-
-# General rules and good practices
+## General rules and good practices
 
 First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
 
 0. **MOST IMPORTANT RULE** Try to encapsulate all the logic required for module to work inside the module. You can import it in other parts of the app but the logic itself should be in a module
 1. **Try not to rely on any other data sources than provided ones and `@vue-storefront/store` package.**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves. Try to think about each module as a standalone npm package.
-2. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
-````js
+1. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
+
+```js
 export const Microcart = {
   name: 'Microcart',
   computed: {
-    productsInCart () : Product[] {
-      return this.$store.state.cart.cartItems
+    productsInCart(): Product[] {
+      return this.$store.state.cart.cartItems;
     },
-    appliedCoupon () : AppliedCoupon | false {
-      return this.$store.getters['cart/coupon']
+    appliedCoupon(): AppliedCoupon | false {
+      return this.$store.getters['cart/coupon'];
     },
-    totals () : CartTotalSegments {
-      return this.$store.getters['cart/totals']
+    totals(): CartTotalSegments {
+      return this.$store.getters['cart/totals'];
     },
-    isMicrocartOpen () : boolean {
-      return this.$store.state.ui.microcart
-    }
+    isMicrocartOpen(): boolean {
+      return this.$store.state.ui.microcart;
+    },
   },
   methods: {
-    applyCoupon (code: String) : Promise<boolean> {
-      return this.$store.dispatch('cart/applyCoupon', code)
+    applyCoupon(code: String): Promise<boolean> {
+      return this.$store.dispatch('cart/applyCoupon', code);
     },
-    removeCoupon () : Promise<boolean> {
-      return this.$store.dispatch('cart/removeCoupon')
+    removeCoupon(): Promise<boolean> {
+      return this.$store.dispatch('cart/removeCoupon');
     },
-    toggleMicrocart () : void {
-      this.$store.dispatch('ui/toggleMicrocart')
-    }
-  }
-}
-````
-3. Don't use EventBus. 
+    toggleMicrocart(): void {
+      this.$store.dispatch('ui/toggleMicrocart');
+    },
+  },
+};
+```
+
+3. Don't use EventBus.
 4. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event. Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
-````js 
+
+```js
 addToCart(product, success, failure) {
-  this.$store.dispatch('cart/addToCart').then(res => 
+  this.$store.dispatch('cart/addToCart').then(res =>
     success(res)
   ).catch(err =>
     failure(err)
-  ) 
+  )
 }
-````
+```
 
 Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
 
@@ -191,56 +209,66 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 7. If your module core functionality is an integration with external service better name it the same as this service (for example `mailchimp`)
 8. Use named exports and typecheck.
 
-# Adding new features as VS modules
+## Adding new features as VS modules
 
-- If you are creating a new feature first think if it's not just extending currently existing one . If you are sure that feature you want to provide is completely new then it should be introduced as new VS module. 
+- If you are creating a new feature first think if it's not just extending currently existing one . If you are sure that feature you want to provide is completely new then it should be introduced as new VS module.
 - Provide unique key that should represent the feature or 3rd party system name (if the module is an integration)
 - Try not to rely on data and logic from other modules if your module is not directly extending it. It'll be more reusable and remain working even after extensive VS core updates.
 
-# Extending and overriding Vue Storefront Modules
+## Extending and overriding Vue Storefront Modules
 
-You can extend and modify all parts of any of Vue Storefront modules before it's registration with a new `VueStorefrontModule` object that will be merged into the currently existing one. Their configs will be deep merged and conflicting leafs will be overwritten.
-
-Let's see an example and assume we have module `Example` that we want to extend with module `extendedExample`. To do this we just need to use `VueStorefrontModule.extend()` method on `Example` module before it's registration inside `src/modules/index.ts`. The syntax for this purpose is extremely simple.
-
-We need to import both modules, use `extendedExample` to extend `Example` and export them so they can be registered in VS core.
-
-````js
-import { Example } from 'example-module'
-import { extendedExample } from 'extended-example-module'
-
-Example.extend(extendedExample)
-
-export const registerModules: VueStorefrontModule[] = [
-  Example
-]
-````
-
-If you want to make complex changes with your own app-specific VS module (which is not a npm package) it's a good practice to keep this module inside `src/modules/{module-name}`.If you want to make small changes it's perfectly fine to create extening module in the registration file:
-
-````js
-import { Example } from '@vue-storefront/core/modules/module-template'
-
-const extendedExample = new VueStorefrontModule({
-  key: 'extend',
-  afterRegistration: function(Vue, config) {
-    console.info('Hello, im extended now!')
-  }
-})
-
-Example.extend(extendedExample)
-
-export const registerModules: VueStorefrontModule[] = [
-  Example
-]
-````
-The `extend()` method of VS module will work like this:
-
+You can extend and modify all parts of any of Vue Storefront modules before its registration by providing a`VueStorefrontModuleConfig` object **with the same key** to `extendModule()` function. This config will be deep merged with module with the same key which means:
 - All Vuex stores with the same keys will be merged (conflicting actions/mutations will be overwritten, other will be added)
-- Leafs linke before/after hooks, store plugins or router object properties will be overwritten by the new ones if provided.
+- Leafs like before/after hooks, store plugins or router object properties will be overwritten by the new ones if provided.
 
 
-# Contributions
+
+Let's see an example and assume we want to extend module `cart` by overriding it's `beforeRegistration` hook and `load` Vuex action.
+1. First we need to prepare a `VueStorefrontModuleConfig` that we will use to extend `cart` module. It must have same `key` value as module we want to extend.
+2. Next we need to pass this object to `extendModule` function
+3. That's all! Now when you will register `cart` module it will be extended with provided config.
+
+
+```js
+import { Cart } from '@vue-storefront/core/modules/cart'
+
+// 1. Preparation of new VSMConfig
+const extendCartVuex = {
+ actions: {
+   load () {
+     console.info('hey')
+   }
+ }
+}
+
+const extendCartAfterRegistration = function () {
+   console.info('Hello, im extended now!')
+ }
+
+const cartExtend = {
+ key: 'cart',
+ afterRegistration: extendCartAfterRegistration,
+ store: { modules: [{ key: 'cart', module: extendCartVuex }] },
+}
+
+// 2. After passing the object to extendmodule function it will be merged with Cart module during registration
+extendModule(cartExtend)
+
+export const registerModules: VueStorefrontModule[] = [Cart]
+```
+
+If you want to make complex changes with your own app-specific VS module (which is not a npm package) it's a good practice to keep this module inside `src/modules/{module-name}`. To extend module with another module just pass it's config to `extendModule` function
+
+```js
+import { Cart } from '@vue-storefront/core/modules/cart'
+import { ExtendCartModule } from 'extend-cart';
+
+
+extendModule(ExtendCartModule.config)
+
+export const registerModules: VueStorefrontModule[] = [Cart]
+```
+
+## Contributions
 
 Please introduce every new feature as a standalone, encapsulated module. We also need your help in rewriting Vue Storefront to modular approach - [here](https://github.com/DivanteLtd/vue-storefront/issues?q=is%3Aissue+is%3Aopen+label%3A%22API+Module%22) you can find tasks related to this architectural change and [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md) is the tutorial how to approach applying this changes.
-

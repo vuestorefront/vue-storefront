@@ -31,7 +31,7 @@ User cart with a products list and price summary.
 
 - `applyCoupon(code)` - applies cart coupon
 - `removeCoupon` - removes currently applied cart coupon
-- 'toggleMicrocart' - open/close microcart
+- `toggleMicrocart` - open/close microcart
 
 ### MicrocartButton
 

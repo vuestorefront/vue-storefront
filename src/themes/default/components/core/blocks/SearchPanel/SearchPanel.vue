@@ -1,7 +1,7 @@
 <template>
   <div
     class="searchpanel fixed mw-100 bg-cl-primary cl-accent"
-    :class="{ active: isOpen }"
+    :class="{ active: showPanel }"
     data-testid="searchPanel"
   >
     <div class="close-icon-row">
@@ -33,6 +33,7 @@
               class="search-panel-input"
               :placeholder="$t('Type what you are looking for...')"
               type="text"
+              autofocus="true"
             >
           </div>
         </div>
@@ -70,14 +71,7 @@ export default {
   components: {
     ProductTile
   },
-  mixins: [SearchPanel, VueOfflineMixin],
-  mounted () {
-    this.$bus.$on('focusSearchInput', () => {
-      if (!this.$store.state.ui.searchpanel) {
-        this.$refs.search.focus()
-      }
-    })
-  }
+  mixins: [SearchPanel, VueOfflineMixin]
 }
 </script>
 

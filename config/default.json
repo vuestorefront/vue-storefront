@@ -4,6 +4,7 @@
       "port": 3000,
       "protocol": "http",
       "api": "api",
+      "devServiceWorker": false,
       "useOutputCacheTagging": false,
       "useOutputCache": false,
       "outputCacheDefaultTtl": 86400,
@@ -12,8 +13,12 @@
       "dynamicConfigReload": false,
       "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
-      "dynamicConfigInclude": []
+      "dynamicConfigInclude": [],
+      "elasticCacheQuota": 4096
     },
+    "seo": {
+      "useUrlDispatcher": false
+    },    
     "console": {
       "verbosityLevel": "only-errors"
     },
@@ -33,7 +38,8 @@
       "min_score": 0.02,
       "csrTimeout": 5000,
       "ssrTimeout": 1000,
-      "queryMethod": "POST"
+      "queryMethod": "GET",
+      "disableLocalStorageQueriesCache": true
     },
     "ssr": {
       "templates": {
@@ -110,32 +116,91 @@
       "twoStageCaching": true,
       "optimizeShoppingCart": true,
       "category": {
-        "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count", "path"]
+        "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count", "path"],
+        "excludeFields": [ "sgn" ],
+        "categoriesRootCategorylId": 2,
+        "categoriesDynamicPrefetchLevel": 2,
+        "categoriesDynamicPrefetch": true
       },
       "attribute": {
-        "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices" ]
+        "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
       },
       "productList": {
         "sort": "",
         "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax" ],
-        "excludeFields": [ "description", "configurable_options", "sgn" ]
+        "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
       },
       "productListWithChildren": {
         "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_key", "status", "tier_prices"],
-        "excludeFields": [ "description", "sgn"]
+        "excludeFields": [ "description", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options"]
       },
       "review": {
         "excludeFields": ["review_entity", "review_status"]
       },
       "product": {
-        "excludeFields": [ "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image"],
-        "includeFields": null
+        "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image", "sgn", "*.sgn"],
+        "includeFields": null,
+        "useDynamicAttributeLoader": true,
+        "standardSystemFields": [
+          "description",
+          "configurable_options",
+          "tsk",
+          "custom_attributes",
+          "size_options",
+          "regular_price",
+          "final_price",
+          "price",
+          "color_options",
+          "id",
+          "links",
+          "gift_message_available",
+          "category_ids",
+          "sku",
+          "stock",
+          "image",
+          "thumbnail",
+          "visibility",
+          "type_id",
+          "tax_class_id",
+          "media_gallery",
+          "url_key",
+          "max_price",
+          "minimal_regular_price",
+          "special_price",
+          "minimal_price",
+          "name",
+          "configurable_children",
+          "max_regular_price",
+          "category",
+          "status",
+          "priceTax",
+          "priceInclTax",
+          "specialPriceTax",
+          "specialPriceInclTax",
+          "_score",
+          "slug",
+          "errors",
+          "info",
+          "erin_recommends",
+          "special_from_date",
+          "news_from_date",
+          "custom_design_from",
+          "originalPrice",
+          "originalPriceInclTax",
+          "parentSku",
+          "options",
+          "product_option",
+          "qty",
+          "is_configured"
+        ]
       }
     },
     "cart": {
       "bypassCartLoaderForAuthorizedUsers": true,
       "multisiteCommonCart": true,
-      "server_merge_by_default": true,
+      "serverMergeByDefault": true,
+      "serverSyncCanRemoveLocalItems": false,
+      "serverSyncCanModifyLocalItems": false,
       "synchronize": true,
       "synchronize_totals": true,
       "setCustomProductOptions": true,
@@ -155,7 +220,7 @@
     },
     "products": {
       "useShortCatalogUrls": false,
-      "useMagentoUrlKeys": false,
+      "useMagentoUrlKeys": true,
       "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
       "configurableChildrenStockPrefetchDynamic": false,
@@ -171,6 +236,9 @@
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "filterFieldMapping": {
         "category.name": "category.name.keyword"
+      },
+      "colorMappings": {
+        "Melange graphite": "#eeeeee"
       },
       "sortByAttributes": {
         "Latest": "updated_at",
@@ -208,18 +276,18 @@
     "localForage": {
       "defaultDrivers": {
         "user": "LOCALSTORAGE",
-        "cmspage": "INDEXEDDB",
-        "cmsblock": "INDEXEDDB",
+        "cmspage": "LOCALSTORAGE",
+        "cmsblock": "LOCALSTORAGE",
         "carts": "LOCALSTORAGE",
         "orders": "LOCALSTORAGE",
-        "wishlist": "INDEXEDDB",
-        "categories": "INDEXEDDB",
+        "wishlist": "LOCALSTORAGE",
+        "categories": "LOCALSTORAGE",
         "attributes": "LOCALSTORAGE",
         "products": "INDEXEDDB",
-        "elasticCache": "INDEXEDDB",
+        "elasticCache": "LOCALSTORAGE",
         "claims": "LOCALSTORAGE",
         "syncTasks": "LOCALSTORAGE",
-        "ordersHistory": "INDEXEDDB",
+        "ordersHistory": "LOCALSTORAGE",
         "checkoutFieldValues": "LOCALSTORAGE"
       }
     },
