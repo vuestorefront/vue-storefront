@@ -2,6 +2,7 @@ import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/store'
 import VueOfflineMixin from 'vue-offline/mixin'
+import { mapGetters } from 'vuex'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
@@ -37,6 +38,11 @@ export default {
       focusedField: null
     }
   },
+  computed: {
+    ...mapGetters({
+      isVirtualCart: 'cart/isVirtualCart'
+    })
+  },
   beforeMount () {
     // TO-DO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
@@ -55,7 +61,7 @@ export default {
     this.$store.dispatch('cart/load').then(() => {
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
-        this.$router.push('/')
+        this.$router.push(this.localizedRoute('/'))
       } else {
         this.stockCheckCompleted = false
         const checkPromises = []
@@ -118,7 +124,7 @@ export default {
     onCartAfterUpdate (payload) {
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
-        this.$router.push('/')
+        this.$router.push(this.localizedRoute('/'))
       }
     },
     onAfterShippingMethodChanged (payload) {
@@ -153,7 +159,7 @@ export default {
     onDoPlaceOrder (additionalPayload) {
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
-        this.$router.push('/')
+        this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload
         this.placeOrder()
@@ -177,7 +183,12 @@ export default {
     onAfterPersonalDetails (receivedData, validationResult) {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
-      this.activateSection('shipping')
+
+      if (this.isVirtualCart === true) {
+        this.activateSection('payment')
+      } else {
+        this.activateSection('shipping')
+      }
       this.savePersonalDetails()
       this.focusedField = null
     },

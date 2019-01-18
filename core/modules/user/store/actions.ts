@@ -2,14 +2,13 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
-import { ValidationError } from '@vue-storefront/store/lib/exceptions'
 import i18n from '@vue-storefront/i18n'
 import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 import RootState from '@vue-storefront/store/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-const Ajv = require('ajv') // json validator
+import { UserProfile } from '../types/UserProfile';
 // import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<UserState, RootState> = {
@@ -229,34 +228,16 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  update (context, userData) {
-    const ajv = new Ajv()
-    const userProfileSchema = require('./userProfile.schema.json')
-    const userProfileSchemaExtension = require('./userProfile.schema.extension.json')
-    const validate = ajv.compile(Object.assign(userProfileSchema, userProfileSchemaExtension))
-
-    if (!validate(userData)) { // schema validation of user profile data
-      rootStore.dispatch('notification/spawnNotification', {
-        type: 'error',
-        message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
-        action1: { label: i18n.t('OK') }
-      })
-      throw new ValidationError(validate.errors)
-    } else {
-      return new Promise((resolve, reject) => {
-        TaskQueue.queue({ url: rootStore.state.config.users.me_endpoint,
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors',
-            body: JSON.stringify(userData)
-          },
-          callback_event: 'store:user/userAfterUpdate'
-        }).then(task => {
-          resolve()
-        })
-      })
-    }
+  async update (context, userData:UserProfile) {
+    await TaskQueue.queue({ url: rootStore.state.config.users.me_endpoint,
+      payload: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        body: JSON.stringify(userData)
+      },
+      callback_event: 'store:user/userAfterUpdate'
+    })
   },
   refreshCurrentUser (context, userData) {
     context.commit(types.USER_INFO_LOADED, userData)
@@ -297,6 +278,10 @@ const actions: ActionTree<UserState, RootState> = {
       context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
       context.commit(types.USER_GROUP_CHANGED, null)
       context.commit(types.USER_INFO_LOADED, null)
+      context.dispatch('wishlist/clear', null, {root: true})
+      context.dispatch('checkout/savePersonalDetails', {}, {root: true})
+      context.dispatch('checkout/saveShippingDetails', {}, {root: true})
+      context.dispatch('checkout/savePaymentDetails', {}, {root: true})
   },
   /**
    * Logout user
@@ -316,7 +301,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
     const usersCollection = Vue.prototype.$db.usersCollection
     usersCollection.setItem('current-token', '')
-  
+
     if (rootStore.state.route.path === '/my-account') {
       // router.push('/')
     }

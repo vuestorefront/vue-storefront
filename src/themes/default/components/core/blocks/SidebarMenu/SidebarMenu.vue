@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu absolute mw-100 bg-cl-secondary" :class="{ active: isOpen }">
+  <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: showMenu }">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" clatasss="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
+          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
             <router-link
               class="block px25 py20 cl-accent no-underline"
               :to="localizedRoute('/')"
@@ -31,32 +31,31 @@
             class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
             :key="category.slug"
             @click="closeMenu"
-            v-for="category in categories"
-            v-if="category.product_count > 0 || category.children_data.length > 0"
+            v-for="category in visibleCategories"
           >
-            <sub-btn
-              class="bg-cl-transparent brdr-none fs-medium"
-              :id="category.id"
-              :name="category.name"
-              v-if="category.children_data.length > 0"
-              @click.native="activeSubMenu = category.id"
-            />
-            <router-link
-              v-else
-              class="px25 py20 cl-accent no-underline col-xs"
-              :to="localizedRoute({ name: 'category', params: { id: category.id, slug: category.slug }})"
-            >
-              {{ category.name }}
-            </router-link>
+            <div v-if="isCurrentMenuShowed" class="subcategory-item">
+              <sub-btn
+                class="bg-cl-transparent brdr-none fs-medium"
+                :id="category.id"
+                :name="category.name"
+                v-if="category.children_count > 0"
+              />
+              <router-link
+                v-else
+                class="px25 py20 cl-accent no-underline col-xs"
+                :to="localizedRoute({ name: 'category', params: { id: category.id, slug: category.slug }})"
+              >
+                {{ category.name }}
+              </router-link>
+            </div>
 
             <sub-category
-              v-show="activeSubMenu === category.id"
               :category-links="category.children_data"
               :id="category.id"
               :parent-slug="category.slug"
             />
           </li>
-          <li @click="closeMenu">
+          <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/sale')"
@@ -65,7 +64,7 @@
               {{ $t('Sale') }}
             </router-link>
           </li>
-          <li @click="closeMenu">
+          <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/magazine')"
@@ -74,7 +73,7 @@
               {{ $t('Magazine') }}
             </router-link>
           </li>
-          <li @click="closeMenu" v-if="compareIsActive">
+          <li @click="closeMenu" v-if="compareIsActive && isCurrentMenuShowed" class="bg-cl-secondary">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/compare')"
@@ -83,7 +82,7 @@
               {{ $t('Compare products') }}
             </router-link>
           </li>
-          <li @click="closeMenu">
+          <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/order-tracking')"
@@ -92,7 +91,7 @@
               {{ $t('Track my order') }}
             </router-link>
           </li>
-          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-secondary flex">
+          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
             <sub-btn
               v-if="currentUser"
               :name="$t('My account')"
@@ -104,7 +103,7 @@
               :id="'foo'"
             />
             <a
-              v-if="!currentUser"
+              v-if="!currentUser && isCurrentMenuShowed"
               href="#"
               @click.prevent="login"
               class="block w-100 px25 py20 cl-accent no-underline fs-medium-small"
@@ -134,7 +133,6 @@ export default {
   mixins: [SidebarMenu],
   data () {
     return {
-      activeSubMenu: null,
       myAccountLinks: [
         {
           id: 1,
@@ -166,7 +164,8 @@ export default {
           name: i18n.t('My product reviews'),
           url: '#'
         }
-      ]
+      ],
+      componentLoaded: false
     }
   },
   computed: {
@@ -176,6 +175,25 @@ export default {
     ...mapState({
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
+    }),
+    getSubmenu () {
+      return this.submenu
+    },
+    visibleCategories () {
+      return this.categories.filter(category => {
+        return category.product_count > 0 || category.children_count > 0
+      })
+    },
+    isCurrentMenuShowed () {
+      return !this.getSubmenu || !this.getSubmenu.depth
+    },
+    showMenu () {
+      return this.isOpen && this.componentLoaded
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.componentLoaded = true
     })
   },
   methods: {
@@ -237,6 +255,11 @@ $color-mine-shaft: color(mine-shaft);
     a {
       color: $color-mine-shaft;
     }
+  }
+
+  .subcategory-item {
+    display: flex;
+    width: 100%;
   }
 
   button {

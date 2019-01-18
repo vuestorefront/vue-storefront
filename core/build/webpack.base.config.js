@@ -20,9 +20,9 @@ const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 const themedIndex = path.join(themeRoot, 'index.template.html')
-const themedIndexMinimal = path.join(themeRoot, 'index.minimal.template.html')
-const themedIndexBasic = path.join(themeRoot, 'index.basic.template.html')
-const themedIndexAmp = path.join(themeRoot, 'index.amp.template.html')
+const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
+const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
+const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
@@ -47,34 +47,39 @@ const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
-    // new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin({
+    //   generateStatsFile: true
+    // }),
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     // generate output HTML
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
       filename: 'index.html',
+      chunksSortMode: 'none',
       inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
+      chunksSortMode: 'none',
       inject: isProd == false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexBasic) ? themedIndexBasic: 'src/index.basic.template.html',
       filename: 'index.basic.html',
+      chunksSortMode: 'none',
       inject: isProd == false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexAmp) ? themedIndexAmp: 'src/index.amp.template.html',
       filename: 'index.amp.html',
+      chunksSortMode: 'none',
       inject: isProd == false
     })
   ],
-  devtool: 'source-map',
   entry: {
-    app: './core/client-entry.ts'
+    app: ['babel-polyfill', './core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
