@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import PromotedOffersState from '../types/PromotedOffersState'
 
 const actions: ActionTree<PromotedOffersState, RootState> = {

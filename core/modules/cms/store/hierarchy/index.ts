@@ -1,6 +1,6 @@
 import { Module } from 'vuex'
 import actions from './actions'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import CmsHierarchyState from '../../types/CmsHierarchyState'
 
 export const cmsHierarchyModule: Module<CmsHierarchyState, RootState> = {

@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import CmsPageState from '../../types/CmsPageState'
 
 const getters: GetterTree<CmsPageState, RootState> = {
