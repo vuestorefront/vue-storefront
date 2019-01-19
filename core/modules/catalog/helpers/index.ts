@@ -11,7 +11,7 @@ import union from 'lodash-es/union'
 import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
-import { getThumbnailPath } from '@vue-storefront/store/helpers'
+import { getThumbnailPath } from '@vue-storefront/core/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -356,7 +356,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
     for (let option of product.configurable_options) {
       let attribute_code
       let attribute_label
-      if (option.attribute_id) { 
+      if (option.attribute_id) {
         let attr = context.rootState.attribute.list_by_id[option.attribute_id]
         if (!attr) {
           console.error('Wrong attribute given in configurable_options - can not find by attribute_id', option)
@@ -368,7 +368,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       } else {
         if (!option.attribute_code) {
           console.error('Wrong attribute given in configurable_options - no attribute_code', option)
-          continue        
+          continue
         } else { // we do have attribute_code!
           attribute_code = option.attribute_code
           attribute_label = option.frontend_label ? option.frontend_label : option.default_frontend_label
@@ -419,7 +419,7 @@ export function findConfigurableChildAsync({ product, configuration = null, sele
 
     if (availabilityCheck) {
       if (configurableChild.stock && !rootStore.state.config.products.listOutOfStockProducts) {
-        if (!configurableChild.is_in_stock) {
+        if (!configurableChild.stock.is_in_stock) {
           return false
         }
       }
@@ -513,7 +513,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', product) // without the configuration
       }
-    }    
+    }
     return selectedVariant
   } else {
     if (fallbackToDefaultWhenNoAvailable) {

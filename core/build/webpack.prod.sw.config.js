@@ -6,7 +6,7 @@ const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 module.exports = merge(base, {
   mode: 'production',
   target: 'web',
-  entry: './core/service-worker/index.js',
+  entry: ['babel-polyfill', './core/service-worker/index.js'],
   output: {
     filename: 'core-service-worker.js'
   },
@@ -59,7 +59,7 @@ module.exports = merge(base, {
         handler: "fastest"
       },{
         urlPattern: "/api/catalog/*",
-        handler: "fastest"
+        handler: "networkFirst"
       },{
         urlPattern: "/api/*",
         handler: "networkFirst"

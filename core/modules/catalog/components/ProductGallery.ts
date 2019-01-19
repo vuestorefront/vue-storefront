@@ -1,12 +1,11 @@
-import { Carousel, Slide } from 'vue-carousel'
 import VueOffline from 'vue-offline'
 import store from '@vue-storefront/store'
 
 export const ProductGallery = {
   name: 'ProductGallery',
   components: {
-    Slide,
-    Carousel,
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     VueOffline
   },
   props: {
@@ -40,6 +39,16 @@ export const ProductGallery = {
     setTimeout(() => {
       this.selectVariant()
       this.$forceUpdate()
+      if (this.$refs.carousel) {
+        let navigation = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
+        let pagination = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
+        if (navigation !== undefined) {
+          navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
+        }
+        if (pagination !== undefined) {
+          pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
+        }
+      }
     }, 0)
     document.addEventListener('keydown', this.handleEscKey)
   },
@@ -58,6 +67,9 @@ export const ProductGallery = {
       if (this.$refs.carousel) {
         this.$refs.carousel.goToPage(index)
       }
+    },
+    increaseCarouselTransitionSpeed () {
+      this.carouselTransitionSpeed = 500
     },
     selectVariant () {
       if (store.state.config.products.gallery.mergeConfigurableChildren) {

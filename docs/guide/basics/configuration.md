@@ -12,7 +12,7 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode. This limitation can by however solved with VS 1.4 special config variable. Now the config can be reloaded on-fly with each server request if config.server.dynamicConfigReload is set to true. However in that case the config is added to window.**INITIAL_STATE** with the responses.
+Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes you shall re-build the app - even when using the `yarn dev` mode. This limitation can by however solved with VS 1.4 special config variable. Now the config can be reloaded on-fly with each server request if `config.server.dynamicConfigReload` is set to true. However, in that case the config is added to `window.**INITIAL_STATE**` with the responses.
 :::
 
 Please find the configuration properties reference below.
@@ -236,6 +236,10 @@ Please take a look at the [core/store/modules/cart](https://github.com/DivanteLt
 
 These settings are used just to configure the optimization strategy for different entity types. Please take a look that we have `productListWithChildren` and the `product` configuration separately. The former one is used in the Category page -> `core/pages/Category.js` and the latter is used in the Product page ->`core/pages/Product.js`
 
+### Dynamic Categories prefetching
+
+Starting with Vue Storefront 1.7 we've added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). This option switches the way the category tree is being fetched. Previously we were fetching the full categories tree. In some cases it can generate even few MB of payload. Currently with this option in place we're pre-fetching the categories on demand while user is browsing the category tree.
+
 ## Cart
 
 ```json
@@ -247,7 +251,7 @@ The cart loader bypass feature is there because we're posting orders to Magento 
 
 ```json
 "cart": {
-  "server_merge_by_default": true,
+  "serverMergeByDefault": true,
 ```
 
 Server cart is being synchronized with the client's cart in the Vue Storefront by default. When it's not set the Vue Storefront will execute the server cart merge algorithm anyway - but using the `dryRun` option which means that only the following event will be emitted:
@@ -291,6 +295,12 @@ If this option is set to `true`, in case of custom-options supporting products, 
 ```
 
 If this option is set to `true`, in case of configurable products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of configurable options (for example color and size). Otherwise the simple product (accordingly to the selected configurable_options) will be added to the shopping cart instead.
+
+```json
+  "displayItemDiscounts": true
+```
+
+If this option is set to `true`, Vue Storefront will add use price item with discount to the shopping cart. Otherwise the product price and special will be added to the shopping cart instead.
 
 ```json
   "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
@@ -630,6 +640,17 @@ This is the currently applied theme path. After changing it Vue Storefront need 
 ```
 
 You can put your Google Analytics ID in here as to be used by the analytics extension.
+
+## Hotjar
+
+```json
+"hotjar": {
+  "id": false
+},
+```
+
+You can put your Hotjar Site ID in here as to be used by the hotjar extension.
+
 
 ## CMS
 

@@ -4,12 +4,14 @@ import isNaN from 'lodash-es/isNaN'
 import isUndefined from 'lodash-es/isUndefined'
 import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
+import * as localForage from 'localforage'
 import rootStore from '@vue-storefront/store'
-import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
-import Task from '@vue-storefront/store/types/task/Task'
+import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/store/lib/multistore'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/store/lib/entities'
+import UniversalStorage from '@vue-storefront/store/lib/storage'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -159,4 +161,15 @@ export function execute (task: Task, currentToken = null, currentCartId = null):
   return new Promise((resolve, reject) => {
     _internalExecute(resolve, reject, task, currentToken, currentCartId)
   })
+}
+
+export function initializeSyncTaskStorage () {
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
+  Vue.prototype.$db.syncTaskCollection = new UniversalStorage(localForage.createInstance({
+    name: dbNamePrefix + 'shop',
+    storeName: 'syncTasks',
+    driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
+  }))
 }

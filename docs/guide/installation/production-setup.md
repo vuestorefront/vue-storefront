@@ -70,7 +70,7 @@ Some additional materials:
 
 #### Nginx configuration
 
-[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io).
+[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/master/docs/guide/installation/etc/nginx/sites-enabled/prod.vuestorefront.io).
 
 Create nginx config file from the template (please run as a root user):
 
@@ -250,18 +250,18 @@ It may take a few minutes. Once the modules are installed we can set configurati
 
 #### Vue Storefront configuration
 
-The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config).
+The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
 
 Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly.
 
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
 ```
 
 ... and ...
 
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/doc/production-setup/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
+curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
 ```
 
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
@@ -321,7 +321,7 @@ There are 27 more instances of `prod.vuestorefront.io` to be replaced with your 
 
 #### Vue Storefront API configuration
 
-The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vue-storefront/tree/develop/doc/production-setup/vue-storefront-api/config) requires almost no changes.
+The [provided vue-storefront-api configuration](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config) requires almost no changes.
 
 The only lines you need to alter are:
 
@@ -362,6 +362,13 @@ The only lines you need to alter are:
 
 You should put here the `allowedHosts` and `trustedHosts` for the Imageable - to download the product images. The domain name points to the **Magento2** instance where images are sourced. In this example Magento2 is running under **http://demo-magento2.vuestorefront.io**.
 
+ #### Using your own magento2 instance
+ In this case you'll have to update `magento2` config node with correct hostname in vue-storefront-api config file. To get all necessary Magento2 API data for `api` node, navigate to SYSTEM -> Extensions -> Integrations in Magento2 Admin.
+ - click Add new integration
+ - check the necessary permissions (check Catalog, Sales, My Account and Carts on API permissions tab )
+ - click Activate
+ - copy necessary keys, secrets and tokens into `api` section of vue-storefront-api config
+ 
 #### Build VS
 
 Before we can run Vue Storefront and Vue Storefront API we should build it in the production mode. To do so please just execute the following commands:

@@ -1,5 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
@@ -25,7 +25,8 @@ export const Payment = {
       currentUser: (state: RootState) => state.user.current
     }),
     ...mapGetters({
-      paymentMethods: 'payment/paymentMethods'
+      paymentMethods: 'payment/paymentMethods',
+      isVirtualCart: 'cart/isVirtualCart'
     })
   },
   created () {
