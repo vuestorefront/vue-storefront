@@ -22,7 +22,7 @@ export default {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
       this.$store.dispatch('category/searchProductQuery', buildFilterProductsQuery(this.category, this.activeFilters))
-      this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
+      this.$store.dispatch('category/products', {searchProductQuery: this.getCurrentCategoryProductQuery})
     }
   }
 }
