@@ -8,8 +8,8 @@ let baseServerConfig = require('./webpack.server.config')
 const themeRoot = require('./theme-path')
 const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 
-let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true })
-let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true })
+let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true }).default;
+let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true }).default;
 
 module.exports = function setupDevServer (app, cb) {
   let bundle
