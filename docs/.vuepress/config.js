@@ -43,7 +43,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e',
+            'basics/e2e'
           ],
         },
         {
@@ -69,6 +69,7 @@ module.exports = {
             'components/category-page',
             'components/product',
             'components/modal',
+            'components/events-list'
           ],
         },
         {
