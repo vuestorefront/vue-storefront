@@ -16,6 +16,7 @@ import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
+import { googleTagManager } from './google-tag-manager';
 import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
@@ -39,11 +40,11 @@ import { Magento2CMS } from './magento-2-cms'
 //   },
 //   store: { modules: [{ key: 'cart', module: extendCartVuex }] },
 //  }
- 
+
 //  extendModule(cartExtend)
 
 /**
- * Some of the modules are registered lazily only when components from module are appearing on current page. 
+ * Some of the modules are registered lazily only when components from module are appearing on current page.
  * If you want to use this modules in pages without it's components you need to remember about registering module first
  * In VS 1.8 this modules will be semlessly lazyLoaded after proper action dispatch
  * - Wishlist
@@ -64,6 +65,7 @@ export const registerModules: VueStorefrontModule[] = [
   Claims,
   PromotedOffers,
   Magento2CMS,
+  googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
   PaymentBackendMethods,
