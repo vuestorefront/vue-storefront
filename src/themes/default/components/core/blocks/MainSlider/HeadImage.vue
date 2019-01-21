@@ -1,23 +1,21 @@
 <template>
   <section class="head-image w-100 bg-cl-th-accent cl-white">
-    <div class="container w-100" v-lazy:background-image="currentImage.image">
-      <div class="row middle-xs center-xs">
-        <div class="col-md-12 px10p">
-          <p
-            class="subtitle mb0 serif uppercase h3 align-center"
-            data-testid="mainSliderSubtitle"
-          >
-            {{ currentImage.subtitle }}
-          </p>
-          <h1 class="title mt0 mb30 align-center" data-testid="mainSliderTitle">
-            {{ currentImage.title }}
-          </h1>
-          <div class="align-center inline-flex">
-            <button-outline :link="currentImage.link" color="light">
-              {{ currentImage.button_text }}
-            </button-outline>
-          </div>
-        </div>
+    <div class="container w-100 h-100 cl-black" v-lazy:background-image="currentImage.image">
+      <div class="head-image-content">
+        <h1 class="title" data-testid="mainSliderTitle">
+          {{ currentImage.title }}
+        </h1>
+        <p
+          class="subtitle mb0 serif h3"
+          data-testid="mainSliderSubtitle"
+        >
+          {{ currentImage.subtitle }}
+        </p>
+        <!-- <div class="align-center inline-flex">
+          <button-outline :link="currentImage.link" color="light">
+            {{ currentImage.button_text }}
+          </button-outline>
+        </div> -->
       </div>
     </div>
   </section>
@@ -46,20 +44,36 @@ export default {
 <style lang="scss" scoped>
 .head-image {
   display: none;
-
   @media (min-width: 767px) {
     display: inherit;
   }
+
+  .head-image-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 15%;
+
+    .title {
+      font-size: 3.4rem;
+      margin-bottom: 0;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      max-width: 340px;
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.2rem;
+    }
+  }
 }
-h1 {
-  font-size: 72px;
-}
+
 .head-image {
   height: 640px;
 }
 .container {
   background-size: cover;
-  background-position: center;
+  background-position: bottom center;
   background-repeat: no-repeat;
 }
 .row {
