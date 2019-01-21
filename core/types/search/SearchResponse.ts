@@ -1,4 +1,4 @@
-export default interface Response {
+interface SearchResponse {
   items: any[]
   total: number
   start: number
@@ -7,4 +7,8 @@ export default interface Response {
   offline?: boolean
   cache?: boolean
   noresults?: boolean
+}
+
+export {
+  SearchResponse
 }

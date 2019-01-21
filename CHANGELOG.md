@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed isServer flag in module hooks (#840)
 - Location of type files (#2226)
 - Support regional characters in urls
+- `store/lib/search` has been moved to `core/lib/search` (#2225)
 
 ## [1.6.0] - 2018.12.05
 

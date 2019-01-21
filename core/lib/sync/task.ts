@@ -126,7 +126,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           })
         }
       }
-      console.debug('Response for: ' + task.task_id + ' = ' + jsonResponse.result)
+      console.debug('SearchResponse for: ' + task.task_id + ' = ' + jsonResponse.result)
       task.transmited = true
       task.transmited_at = new Date()
       task.result = jsonResponse.result
