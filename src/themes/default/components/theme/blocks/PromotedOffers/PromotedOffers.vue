@@ -49,15 +49,15 @@
       >
         <router-link :to="localizedRoute(banner.link)">
           <div
-            class="offer offer-product border-box p5 flex center-xs middle-xs bg-cl-th-accent"
+            class="offer offer-product border-box p5 flex bg-cl-th-accent"
             v-lazy:background-image="banner.image"
           >
-            <p class="subtitle m0 serif h3 uppercase">
-              {{ banner.subtitle }}
-            </p>
             <h2 class="title m0 h1">
               {{ banner.title }}
             </h2>
+            <p class="subtitle m0 serif h3 uppercase">
+              {{ banner.subtitle }}
+            </p>
           </div>
         </router-link>
       </div>
