@@ -10,7 +10,7 @@ import buildTimeConfig from 'config'
 import { execute } from '@vue-storefront/core/lib/sync/task'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
-import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
+import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 import '@vue-storefront/core/service-worker/registration' // register the service worker
 
@@ -168,7 +168,7 @@ const invokeClientEntry = async () => {
             })
               .then(jsonResponse => {
                 if (jsonResponse && jsonResponse.code === 200) {
-                  console.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
+                  console.info('SearchResponse for: ' + orderId + ' = ' + jsonResponse.result)
                   orderData.transmited = true
                   orderData.transmited_at = new Date()
                   ordersCollection.setItem(orderId.toString(), orderData)

@@ -4,9 +4,9 @@ import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '@vue-storefront/core/helpers'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
-import Response from '@vue-storefront/core/types/search/Response'
+import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 
 export class SearchAdapter {
   public entities: any
@@ -87,7 +87,7 @@ export class SearchAdapter {
     }).then(resp => { return resp.json() })
   }
 
-  handleResult (resp, type, start = 0, size = 50): Response {
+  handleResult (resp, type, start = 0, size = 50): SearchResponse {
     if (resp === null) {
       throw new Error('Invalid ES result - null not exepcted')
     }

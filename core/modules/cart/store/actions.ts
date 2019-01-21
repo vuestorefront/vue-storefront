@@ -4,7 +4,7 @@ import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
-import { currentStoreView, localizedRoute} from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
 import RootState from '@vue-storefront/core/types/RootState'
 import CartState from '../types/CartState'
@@ -13,7 +13,7 @@ import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
