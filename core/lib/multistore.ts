@@ -2,6 +2,7 @@ import rootStore from '../store'
 import { loadLanguageAsync } from '@vue-storefront/i18n'
 import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
+import { Route } from 'vue-router'
 
 export interface StoreView {
   storeCode: string,
@@ -35,7 +36,7 @@ export function currentStoreView () : StoreView {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode) : StoreView {
+export function prepareStoreView (storeCode: string) : StoreView {
   const config = rootStore.state.config
   let storeView = { // current, default store
     tax: config.tax,
@@ -68,7 +69,7 @@ export function prepareStoreView (storeCode) : StoreView {
   return storeView
 }
 
-export function storeCodeFromRoute (matchedRoute) {
+export function storeCodeFromRoute (matchedRoute: Route) : string {
   if (matchedRoute) {
     for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
       if (matchedRoute.path.indexOf('/' + storeCode + '/') === 0 || matchedRoute.path === '/' + storeCode) {
@@ -81,7 +82,7 @@ export function storeCodeFromRoute (matchedRoute) {
   }
 }
 
-export function adjustMultistoreApiUrl (url) {
+export function adjustMultistoreApiUrl (url: string) : string {
   const storeView = currentStoreView()
   if (storeView.storeCode) {
     const urlSep = (url.indexOf('?') > 0) ? '&' : '?'
@@ -90,7 +91,7 @@ export function adjustMultistoreApiUrl (url) {
   return url
 }
 
-export function localizedRoute (routeObj, storeCode) {
+export function localizedRoute (routeObj: Route | string, storeCode: string) {
   if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
