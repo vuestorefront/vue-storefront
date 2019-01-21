@@ -2,12 +2,41 @@ import rootStore from '../store'
 import { loadLanguageAsync } from '@vue-storefront/i18n'
 import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
+import { Route } from 'vue-router'
 
-export function currentStoreView () {
+export interface StoreView {
+  storeCode: string,
+  disabled?: boolean,
+  storeId: any,
+  name?: string,
+  url?: string,
+  elasticsearch: {
+    host: string,
+    index: string
+  },
+  tax: {
+    sourcePriceIncludesTax: boolean,
+    defaultCountry: string,
+    defaultRegion: null | string,
+    calculateServerSide: boolean
+  },
+  i18n: {
+    fullCountryName: string,
+    fullLanguageName: string,
+    defaultLanguage: string,
+    defaultCountry: string,
+    defaultLocale: string,
+    currencyCode: string,
+    currencySign: string,
+    dateFormat: string
+  }
+}
+
+export function currentStoreView () : StoreView {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode) {
+export function prepareStoreView (storeCode: string) : StoreView {
   const config = rootStore.state.config
   let storeView = { // current, default store
     tax: config.tax,
@@ -40,7 +69,7 @@ export function prepareStoreView (storeCode) {
   return storeView
 }
 
-export function storeCodeFromRoute (matchedRoute) {
+export function storeCodeFromRoute (matchedRoute: Route) : string {
   if (matchedRoute) {
     for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
       if (matchedRoute.path.indexOf('/' + storeCode + '/') === 0 || matchedRoute.path === '/' + storeCode) {
@@ -53,7 +82,7 @@ export function storeCodeFromRoute (matchedRoute) {
   }
 }
 
-export function adjustMultistoreApiUrl (url) {
+export function adjustMultistoreApiUrl (url: string) : string {
   const storeView = currentStoreView()
   if (storeView.storeCode) {
     const urlSep = (url.indexOf('?') > 0) ? '&' : '?'
@@ -62,7 +91,7 @@ export function adjustMultistoreApiUrl (url) {
   return url
 }
 
-export function localizedRoute (routeObj, storeCode) {
+export function localizedRoute (routeObj: Route | string, storeCode: string) {
   if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {

@@ -16,9 +16,13 @@ export interface VueStorefrontModuleConfig {
   afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
 }
 
-const moduleExtendings = []
+const moduleExtendings: VueStorefrontModuleConfig[] = []
 
-export function extendModule(moduleConfig) {
+/** Provide `VueStorefrontModule` config that will be merged with module with the same `key` as this config. 
+ * It's important to call this function before module is registered.
+ * 
+ * Read more: [here](https://docs.vuestorefront.io/guide/modules/introduction.html#extending-and-overriding-vue-storefront-modules) */
+export function extendModule(moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
 
@@ -32,6 +36,7 @@ export class VueStorefrontModule {
     return this._c
   }
   
+  /** Use only if you want to explicitly modify module config. Otherwise it's much easier to use `extendModule` */
   public set config (config) {
     this._c = config
   }
@@ -62,7 +67,7 @@ export class VueStorefrontModule {
     if (afterEach) routerInstance.afterEach(afterEach)
   }
   
-  private _extend (extendedConfig: VueStorefrontModule) {
+  private _extend (extendedConfig: VueStorefrontModuleConfig) {
     const key = this._c.key
     this._c = merge(this._c, extendedConfig)
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()

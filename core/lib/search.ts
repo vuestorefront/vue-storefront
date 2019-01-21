@@ -7,7 +7,8 @@ import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
 import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 
-export function isOnline () {
+// TODO - use one from helpers instead
+export function isOnline () : boolean {
   if (typeof navigator !== 'undefined') {
     return navigator.onLine
   } else {
