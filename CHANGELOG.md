@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Hotjar extension (#840)
-- Events list page in docs (#776)
+- Slide animations to menu, search, wishlist and minicart components
+- Events list page in docs (#776
 
 ### Changed
 - IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
