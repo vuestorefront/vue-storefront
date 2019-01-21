@@ -5,7 +5,7 @@ import merge from 'lodash-es/merge'
 import RootState from '@vue-storefront/core/types/RootState'
 import rootStore from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
+import { setupMultistoreRoutes } from './multistore'
 import { router } from '@vue-storefront/core/app'
 
 export interface VueStorefrontModuleConfig {

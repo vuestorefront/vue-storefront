@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/core/helpers'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync, 
   doPlatformPricesSync, 
   filterOutUnavailableVariants, 

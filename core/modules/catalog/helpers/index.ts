@@ -10,7 +10,7 @@ import union from 'lodash-es/union'
 // TODO: Remove this dep
 import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {

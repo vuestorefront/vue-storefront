@@ -1,4 +1,4 @@
-import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { localizedRoute as localizedRouteHelper, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export const multistore = {
   methods: {
