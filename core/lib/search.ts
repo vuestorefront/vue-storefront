@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { sha3_224 } from 'js-sha3'
 import rootStore from '@vue-storefront/store'

@@ -14,6 +14,7 @@ import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
+
 const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Reset current category and path
