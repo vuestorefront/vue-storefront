@@ -3,11 +3,39 @@ import { loadLanguageAsync } from '@vue-storefront/i18n'
 import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
 
-export function currentStoreView () {
+export interface StoreView {
+  storeCode: string,
+  disabled?: boolean,
+  storeId: any,
+  name?: string,
+  url?: string,
+  elasticsearch: {
+    host: string,
+    index: string
+  },
+  tax: {
+    sourcePriceIncludesTax: boolean,
+    defaultCountry: string,
+    defaultRegion: null | string,
+    calculateServerSide: boolean
+  },
+  i18n: {
+    fullCountryName: string,
+    fullLanguageName: string,
+    defaultLanguage: string,
+    defaultCountry: string,
+    defaultLocale: string,
+    currencyCode: string,
+    currencySign: string,
+    dateFormat: string
+  }
+}
+
+export function currentStoreView () : StoreView {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode) {
+export function prepareStoreView (storeCode) : StoreView {
   const config = rootStore.state.config
   let storeView = { // current, default store
     tax: config.tax,

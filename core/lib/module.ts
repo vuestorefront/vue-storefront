@@ -16,9 +16,9 @@ export interface VueStorefrontModuleConfig {
   afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
 }
 
-const moduleExtendings = []
+const moduleExtendings: VueStorefrontModuleConfig[] = []
 
-export function extendModule(moduleConfig) {
+export function extendModule(moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
 
