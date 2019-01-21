@@ -5,7 +5,7 @@ import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
 
 import Composite from '@vue-storefront/core/mixins/composite'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   name: 'Checkout',

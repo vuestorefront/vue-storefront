@@ -5,7 +5,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { execute as taskExecute, _prepareTask } from './task'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '../multistore'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 function queue (task) {

@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import RootState from '@vue-storefront/core/types/RootState'
 import TaxState from '../../types/TaxState'
 

@@ -1,6 +1,6 @@
-import rootStore from '../'
+import rootStore from '../store'
 import { loadLanguageAsync } from '@vue-storefront/i18n'
-import { initializeSyncTaskStorage } from '@vue-storefront/core//lib/sync/task'
+import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
 
 export function currentStoreView () {

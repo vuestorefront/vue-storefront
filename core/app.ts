@@ -19,7 +19,7 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index.js'
 import { registerModules } from '@vue-storefront/core/lib/module'
-import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
+import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
