@@ -18,7 +18,7 @@ After changing anything in `{themename}/service-worker/index.js`, despite you're
 
 2. Reload Service worker in Dev Tools (in Chrome - just click **"Unregister"** and reload the page, new SW will be installed).
 
-![How to work with service-workers in Chrome](/vue-storefront/chrome-dev-console.png)
+![How to work with service-workers in Chrome](../images/chrome-dev-console.png)
 
 ## Communication with the app
 
