@@ -122,10 +122,19 @@ export default {
     .title {
       text-align: center;
       margin-top: 2rem;
+      @media (max-width: 767px) {
+        background-color: rgba(255,255,255,0.4);
+        padding: 0.5rem;
+        line-height: 2.4rem;
+      }
     }
 
     .subtitle {
       font-family: 'Roboto', sans-serif;
+      @media (max-width: 767px) {
+        background-color: rgba(255,255,255,0.4);
+        padding: 0.5rem;
+      }
     }
   }
   .offer-small {
