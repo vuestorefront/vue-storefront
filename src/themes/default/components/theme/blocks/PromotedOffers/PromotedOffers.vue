@@ -67,7 +67,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import promotedOffers from 'theme/resource/promoted_offers.json'
 
 export default {
   name: 'PromotedOffers',
@@ -81,23 +80,10 @@ export default {
   computed: {
     ...mapGetters({
       banners: 'promoted/getPromotedOffers'
-    }),
-    getLanguageResourceName () {
-      if (this.$store.state.storeView && this.$store.state.storeView.storeCode) {
-        return `${this.$store.state.storeView.storeCode}_promoted_offers.json`
-      }
-    }
+    })
   },
   async created () {
-    this.updatePromotedOffers(promotedOffers)
-    if (this.getLanguageResourceName) {
-      try {
-        const promotedOffersModule = await import(/* webpackChunkName: "vsf-promoted-offers-[request]" */ `theme/resource/banners/${this.getLanguageResourceName}`)
-        this.updatePromotedOffers(promotedOffersModule)
-      } catch (err) {
-        console.debug('Unable to load promotedOffers', err)
-      }
-    }
+    await this.updatePromotedOffers()
   },
   methods: {
     ...mapActions({

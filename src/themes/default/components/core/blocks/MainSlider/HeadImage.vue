@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { image } from 'theme/resource/main-image.json'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 
 export default {
@@ -31,27 +30,11 @@ export default {
   },
   data () {
     return {
-      image: null
     }
   },
   computed: {
-    getLanguageResourceName () {
-      if (this.$store.state.storeView && this.$store.state.storeView.storeCode) {
-        return `${this.$store.state.storeView.storeCode}_main-image.json`
-      }
-    },
     currentImage () {
-      return this.image || image
-    }
-  },
-  async created () {
-    if (this.getLanguageResourceName) {
-      try {
-        const imageModule = await import(/* webpackChunkName: "vsf-head-img-[request]" */ `theme/resource/banners/${this.getLanguageResourceName}`)
-        this.image = imageModule.image
-      } catch (err) {
-        console.debug('Unable to load headImage', err)
-      }
+      return this.$store.state.storeView.headImage
     }
   }
 }
