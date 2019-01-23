@@ -1,0 +1,32 @@
+{
+  "mainBanners": [
+	  {
+	    "title": "Büro lässig",
+	    "subtitle": "Kollektion",
+	    "image": "/assets/ban1.png",
+	    "link": "/c/frauen-20"
+	  }
+  ],
+  "smallBanners": [
+    {
+      "title": "Sheinen",
+      "subtitle": "Zubehör",
+      "image": "/assets/ban2.png",
+      "link": "/c/herren-11"
+    },
+    {
+      "title": "Der Frühling kommt",
+      "subtitle": "Hüte",
+      "image": "/assets/ban3.png",
+      "link": "/c/gert-3"
+    }
+  ],
+  "productBanners": [
+	  {
+	    "title": "Der Frühling kommt",
+	    "subtitle": "Hüte",
+	    "image": "/assets/ban3.png",
+	    "link": "/c/gert-3"
+	  }
+  ]
+}

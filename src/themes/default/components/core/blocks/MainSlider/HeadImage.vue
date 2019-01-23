@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import { image } from 'theme/resource/main-image.json'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -34,9 +34,9 @@ export default {
     }
   },
   computed: {
-    currentImage () {
-      return image
-    }
+    ...mapGetters({
+      currentImage: 'promoted/getHeadImage'
+    })
   }
 }
 </script>

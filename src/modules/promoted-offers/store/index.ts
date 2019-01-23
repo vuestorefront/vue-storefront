@@ -12,7 +12,8 @@ export const module: Module<PromotedOffersState, RootState> = {
       mainBanners: [],
       smallBanners: [],
       productBanners: []
-    }
+    },
+    headImage: null
   },
   getters,
   actions,

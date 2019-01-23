@@ -67,7 +67,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import promotedOffers from 'theme/resource/promoted_offers.json'
 
 export default {
   name: 'PromotedOffers',
@@ -83,8 +82,8 @@ export default {
       banners: 'promoted/getPromotedOffers'
     })
   },
-  created () {
-    this.updatePromotedOffers(promotedOffers)
+  async created () {
+    await this.updatePromotedOffers()
   },
   methods: {
     ...mapActions({
