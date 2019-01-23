@@ -16,7 +16,7 @@ const actions: ActionTree<PromotedOffersState, RootState> = {
     let mainImageResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_main-image` : `main-image`
     try {
       const imageModule = await import(/* webpackChunkName: "vsf-head-img-[request]" */ `theme/resource/${mainImageResource}.json`)
-      rootState.storeView.headImage = imageModule.image // TODO after multistore refactor should be an action
+      commit('SET_HEAD_IMAGE', imageModule.image)
     } catch (err) {
       console.debug('Unable to load headImage', err)
     }

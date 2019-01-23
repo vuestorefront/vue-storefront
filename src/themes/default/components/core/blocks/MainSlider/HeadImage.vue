@@ -23,6 +23,7 @@
 
 <script>
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -33,9 +34,9 @@ export default {
     }
   },
   computed: {
-    currentImage () {
-      return this.$store.state.storeView.headImage
-    }
+    ...mapGetters({
+      currentImage: 'promoted/getHeadImage'
+    })
   }
 }
 </script>
