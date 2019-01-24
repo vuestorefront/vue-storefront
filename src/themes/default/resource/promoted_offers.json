@@ -3,7 +3,7 @@
 	  {
 	    "title": "Office casual",
 	    "subtitle": "Collection",
-	    "image": "/assets/ban1.png",
+	    "image": "/assets/ban1.jpg",
 	    "link": "/c/women-20"
 	  }
   ],
@@ -11,13 +11,13 @@
     {
       "title": "Shine on",
       "subtitle": "Accesories",
-      "image": "/assets/ban2.png",
+      "image": "/assets/ban2.jpg",
       "link": "/c/men-11"
     },
     {
       "title": "Spring is coming",
       "subtitle": "Hats",
-      "image": "/assets/ban3.png",
+      "image": "/assets/ban3.jpg",
       "link": "/c/gear-3"
     }
   ],
@@ -25,7 +25,7 @@
 	  {
 	    "title": "Spring is coming",
 	    "subtitle": "Hats",
-	    "image": "/assets/ban3.png",
+	    "image": "/assets/ban3.jpg",
 	    "link": "/c/gear-3"
 	  }
   ]

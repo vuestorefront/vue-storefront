@@ -3,7 +3,7 @@
 	  {
 	    "title": "Büro lässig",
 	    "subtitle": "Kollektion",
-	    "image": "/assets/ban1.png",
+	    "image": "/assets/ban1.jpg",
 	    "link": "/c/frauen-20"
 	  }
   ],
@@ -11,13 +11,13 @@
     {
       "title": "Sheinen",
       "subtitle": "Zubehör",
-      "image": "/assets/ban2.png",
+      "image": "/assets/ban2.jpg",
       "link": "/c/herren-11"
     },
     {
       "title": "Der Frühling kommt",
       "subtitle": "Hüte",
-      "image": "/assets/ban3.png",
+      "image": "/assets/ban3.jpg",
       "link": "/c/gert-3"
     }
   ],
@@ -25,7 +25,7 @@
 	  {
 	    "title": "Der Frühling kommt",
 	    "subtitle": "Hüte",
-	    "image": "/assets/ban3.png",
+	    "image": "/assets/ban3.jpg",
 	    "link": "/c/gert-3"
 	  }
   ]
