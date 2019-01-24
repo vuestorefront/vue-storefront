@@ -3,7 +3,7 @@
 	  {
 	    "title": "Ufficio casual",
 	    "subtitle": "Collezione",
-	    "image": "/assets/ban1.png",
+	    "image": "/assets/ban1.jpg",
 	    "link": "/c/la-donne-20"
 	  }
   ],
@@ -11,13 +11,13 @@
     {
       "title": "Brilla",
       "subtitle": "Accessori",
-      "image": "/assets/ban2.png",
+      "image": "/assets/ban2.jpg",
       "link": "/c/signori-11"
     },
     {
       "title": "La primavera sta arrivando",
       "subtitle": "Cappelli",
-      "image": "/assets/ban3.png",
+      "image": "/assets/ban3.jpg",
       "link": "/c/equipaggiamento-3"
     }
   ],
@@ -25,7 +25,7 @@
 	  {
 	    "title": "La primavera sta arrivando",
 	    "subtitle": "Cappelli",
-	    "image": "/assets/ban3.png",
+	    "image": "/assets/ban3.jpg",
 	    "link": "/c/equipaggiamento-3"
 	  }
   ]
