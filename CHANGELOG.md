@@ -6,12 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Hotjar extension (#840)
+- Slide animations to menu, search, wishlist and minicart components
+- Events list page in docs (#776
+
 ### Changed
 - IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
 - Dynamic attributes loader (#2137)
 - Dynamic categories prefetching (#2076)
 - New payment's module architecture (#2135)
 - Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
+- Fixed isServer flag in module hooks (#840)
+- Location of type files (#2226)
+- Support regional characters in urls
+- `store/lib/search` has been moved to `core/lib/search` (#2225)
+- `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
 
 ## [1.6.0] - 2018.12.05
 
@@ -24,10 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read  [more on this change](https://github.com/DivanteLtd/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/DivanteLtd/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
-- ProductSlider, ProductLinks, ProductListing moved to theme. 
+- ProductSlider, ProductLinks, ProductListing moved to theme.
 - Many theme-related logic moved to theme (+ deleted empty core components just with `name`)
 - Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
-- Better Vuex extensibility with modules 
+- Better Vuex extensibility with modules
 - VSModule `store` object changed to fulfil need of multiple vuex modules (see modules docs)
 - UI Store logic for Microcart moved to cart module
 - Extensions are now depreciated, theme-level extensions removed and src-level extension to be depreciated in 1.7

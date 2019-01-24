@@ -1,9 +1,9 @@
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const base = require('./webpack.base.config')
-const VueSSRPlugin = require('vue-ssr-webpack-plugin')
+import webpack from 'webpack';
+import merge from 'webpack-merge';
+import base from './webpack.base.config';
+import VueSSRPlugin from 'vue-ssr-webpack-plugin';
 
-module.exports = merge(base, {
+export default merge(base, {
   mode: 'development',
   target: 'node',
   entry: ['babel-polyfill', './core/server-entry.ts'],

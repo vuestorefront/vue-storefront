@@ -1,7 +1,7 @@
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const base = require('./webpack.base.config')
-const SWPrecachePlugin = require('sw-precache-webpack-plugin')
+import webpack from 'webpack';
+import merge from 'webpack-merge';
+import base from './webpack.base.config';
+import SWPrecachePlugin from 'sw-precache-webpack-plugin';
 
 module.exports = merge(base, {
   mode: 'production',
@@ -91,6 +91,6 @@ module.exports = merge(base, {
         handler: "networkFirst"
       }],
       "importScripts": ['/dist/core-service-worker.js'] /* custom logic */
-    })    
+    })
   ]
 })

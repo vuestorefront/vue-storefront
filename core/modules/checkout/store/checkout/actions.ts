@@ -3,7 +3,7 @@ import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/store'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import CheckoutState from '../../types/CheckoutState'
 
 const actions: ActionTree<CheckoutState, RootState> = {

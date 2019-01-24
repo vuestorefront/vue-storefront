@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/core/helpers'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync, 
   doPlatformPricesSync, 
   filterOutUnavailableVariants, 
@@ -13,15 +13,15 @@ import { configureProductAsync,
   getMediaGallery, 
   configurableChildrenImages, 
   attributeImages } from '../../helpers'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { entityKeyName } from '@vue-storefront/store/lib/entities'
 import { optionLabel } from '../../helpers/optionLabel'
-import { quickSearchByQuery, isOnline } from '@vue-storefront/store/lib/search'
+import { quickSearchByQuery, isOnline } from '@vue-storefront/core/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from  'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/store'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'

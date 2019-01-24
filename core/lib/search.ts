@@ -1,12 +1,14 @@
 import Vue from 'vue'
-import { currentStoreView } from './multistore'
-import { sha3_224 } from 'js-sha3'
-import rootStore from '../'
-import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
-import Request from '../types/search/Request'
-import Response from '../types/search/Response'
 
-export function isOnline () {
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { sha3_224 } from 'js-sha3'
+import rootStore from '@vue-storefront/store'
+import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
+import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
+import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
+
+// TODO - use one from helpers instead
+export function isOnline () : boolean {
   if (typeof navigator !== 'undefined') {
     return navigator.onLine
   } else {
@@ -22,14 +24,14 @@ export function isOnline () {
  * @param {Int} size page size
  * @return {Promise}
  */
-export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<Response> => {
+export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<SearchResponse> => {
   const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
   return new Promise((resolve, reject) => {
     const storeView = currentStoreView()
-    const Request: Request = {
+    const Request: SearchRequest = {
       store: storeCode || storeView.storeCode, // TODO: add grouped product and bundled product support
       type: entityType,
       searchQuery: query,

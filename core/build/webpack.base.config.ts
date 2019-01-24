@@ -1,12 +1,12 @@
-const path = require('path')
-const config = require('config')
-const fs = require('fs')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const autoprefixer = require('autoprefixer')
-const HTMLPlugin = require('html-webpack-plugin')
+import path from 'path';
+import config from 'config';
+import fs from 'fs';
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import VueLoaderPlugin from 'vue-loader/lib/plugin';
+import autoprefixer from 'autoprefixer';
+import HTMLPlugin from 'html-webpack-plugin';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const webpack = require('webpack')
+import webpack from 'webpack';
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -15,7 +15,7 @@ fs.writeFileSync(
 
 const themesRoot = '../../src/themes'
 
-const themeRoot = require('./theme-path')
+import themeRoot from './theme-path';
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
@@ -44,7 +44,7 @@ const postcssConfig =  {
 };
 const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
-module.exports = {
+export default {
   plugins: [
     new webpack.ProgressPlugin(),
     // new BundleAnalyzerPlugin({

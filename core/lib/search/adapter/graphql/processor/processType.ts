@@ -1,9 +1,9 @@
-import Response from '@vue-storefront/store/types/search/Response'
+import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import map from 'lodash-es/map'
 import { slugify } from '@vue-storefront/core/helpers'
 import rootStore from '@vue-storefront/store'
 
-export function processESResponseType (resp, start, size): Response {
+export function processESResponseType (resp, start, size): SearchResponse {
   const response = {
     items: map(resp.hits.hits, hit => {
       return Object.assign(hit._source, {
@@ -22,7 +22,7 @@ export function processESResponseType (resp, start, size): Response {
   return response
 }
 
-export function processProductsType (resp, start, size): Response {
+export function processProductsType (resp, start, size): SearchResponse {
   const response = {
     items: map(resp.items, item => {
       let options = {}
@@ -46,7 +46,7 @@ export function processProductsType (resp, start, size): Response {
   return response
 }
 
-export function processCmsType (resp, start, size): Response {
+export function processCmsType (resp, start, size): SearchResponse {
   const response = {
     items: resp.items,
     total: resp.total_count,

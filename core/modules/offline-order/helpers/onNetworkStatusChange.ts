@@ -4,7 +4,7 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 
 import UniversalStorage from '@vue-storefront/store/lib/storage'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export function onNetworkStatusChange (store) {
   console.log('Are we online: ' + navigator.onLine)
