@@ -147,6 +147,7 @@ Tutorial series on creating themes for Vue Storefront:
 - [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
 - [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
 - [Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
+- [Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
 - [Vue Storefront + Pimcore](https://github.com/DivanteLtd/coreshop-vsbridge)
 - [Magento2 Product Reviews](https://divanteltd.github.io/vue-storefront/guide/integrations/reviews.html)
 - [PayPal Payments integration](https://divanteltd.github.io/vue-storefront/guide/integrations/paypal-payments.html)
@@ -535,8 +536,16 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-     <td align="center" valign="middle"></td>
-   <td align="center" valign="middle"></td>
+   <td align="center" valign="middle">
+        <a href="https://coreshopsolutions.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/coreshop-solutions.png"
+            alt="CoreShop Solutions"
+            height="40"
+          >
+        </a>
+      </td>
+       <td align="center" valign="middle"></td>
   <td align="center" valign="middle"></td>
 <td align="center" valign="middle"></td>
     </tr>

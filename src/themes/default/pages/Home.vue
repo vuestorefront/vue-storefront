@@ -105,6 +105,9 @@ export default {
     if (coolBagsResult) {
       store.state.homepage.coolbags_collection = coolBagsResult.items
     }
+
+    await store.dispatch('promoted/updateHeadImage')
+    await store.dispatch('promoted/updatePromotedOffers')
   }
 }
 </script>
