@@ -41,18 +41,18 @@ module.exports = merge(base, {
         },
         {
         urlPattern: "/pwa.html", /** cache the html stub  */
-        handler: "fastest"
+        handler: "networkFirst"
       },{
         urlPattern: "/", /** cache the html stub for homepage  */
-        handler: "fastest"
+        handler: "networkFirst"
       },
       {
         urlPattern: "/p/*", /** cache the html stub  */
-        handler: "fastest"
+        handler: "networkFirst"
       },
       {
         urlPattern: "/c/*", /** cache the html stub  */
-        handler: "fastest"
+        handler: "networkFirst"
       },
       {
         urlPattern: "/img/(.*)",
