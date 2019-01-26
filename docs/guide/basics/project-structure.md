@@ -23,7 +23,7 @@ Below you can find the Vue Storefront project structure with explanations and co
   - `helpers` - Global helpers
   - `lib` - Core libraries allowing functionalities like theme support, modules etc
   - `mixins` - Core Vue mixins
-  = `i18n` - Internationalization plugin
+  - `i18n` - Internationalization plugin
   - `modules` - core VSModules. Read more about modules [here](https://divanteltd.github.io/vue-storefront/guide/modules/introduction.html)
   - `pages` - Vue Storefront core pages
   - `scripts` - scripts like installer
