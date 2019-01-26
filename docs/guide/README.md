@@ -46,22 +46,27 @@ Knowing this three concepts allows you to confidentially work with Vue Storefron
 
 Useful materials: [Vue Storefront project structure](https://docs.vuestorefront.io/guide/basics/project-structure.html)
 
-Installing Vue Storefront
-When you want to play with Vue Storefront there are 3options:
-This is everything you need to have VS working with our demo backend.you can set up the frontend connected to our demo backend platform (best to try out the Vue Storefront)
-you can set up frontend with your own vue-storefront-api and database dumped from demo
-you can set up frontend with vue-storefront-api connected to your eCommerce backend
+## Installing Vue Storefront
+When you want to play with Vue Storefront there are 3 options:
+- you can set up the frontend connected to our demo backend platform (best to try out the Vue Storefront)
+- you can set up frontend with your own vue-storefront-api and database dumped from demo
+- you can set up frontend with vue-storefront-api connected to your eCommerce backend
 
-To do any of this simply type yarn installer in the root of the project and answer the questions in the console. Once the installation is done type yarn dev to run your project (by default of port 3000). No matter what option you choose you can change the settings in config file later.
-Vue Storefront config file
+To do any of this simply type `yarn installer` in the root of the project and answer the questions in the console. Once the installation is done type yarn dev to run your project (by default of port 3000). No matter what option you choose you can change the settings in config file later.
+## Vue Storefront config file
 Most of the Vue Storefront configuration (like active theme, backend API addresses, multistore setup etc) is done through it's config file that can be found under config folder. The default.json file contains all the default setup. 
+
 For your own implementation you should create a local.json file and include fields from default.json that you want to override. This two files will be merged in favour of local.json during a build process. If you will use installer to set up your Vue Storefront instance it'll generate proper config files.
-Building themes in Vue Storefront
+## Building themes in Vue Storefront
 While making themes in Vue Storefront in most cases all you need to take care of is creating your own HTML and CSS markup. All required business logic is exposed by core with it's core modules and can be easly injected into any of theme components.
 The mechanism of injecting core business logic into themes is very simple. We are using Vue.js mixins to keep upgradable business logic in the core. So assuming we have a core Microcart component with business logic like this (left side)
-Business logic from core component can be easly injected into any theme component as a Vue.js mixin.we can easly inject it into any of our theme components (right side) just my importing it and adding as a mixin mixins: [Microcart]. This is all you need to make use of core business logic inside your theme. With this approach we can easly ship updates to all core components without breaking your shop.
+
+Business logic from core component can be easly injected into any theme component as a Vue.js mixin.we can easly inject it into any of our theme components (right side) just my importing it and adding as a mixin `mixins: [Microcart]`. This is all you need to make use of core business logic inside your theme. With this approach we can easly ship updates to all core components without breaking your shop.
+
 The easiest way to create your own theme is to create a copy of the default one, change it's name in it's package.json file, change active theme in config/local.json and run yarnto make lerna linking (which we are using for monorepos).
-Offline mode and cache
+
+## Offline mode and cache
+
 Vue Storefront is still working even while user is offline. We managed to do this by making heavy use of the browser cache. 
 For the static assets (only prod) we are using sw-precache plugin (config can be found in core/build/webpack.prod.sw.config.js ). They are cached in Service Worker and can be inspected under Application tab of your dev tools
 
