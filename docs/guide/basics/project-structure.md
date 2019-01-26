@@ -23,15 +23,16 @@ Below you can find the Vue Storefront project structure with explanations and co
   - `helpers` - Global helpers
   - `lib` - Core libraries allowing functionalities like theme support, modules etc
   - `mixins` - Core Vue mixins
+  = `i18n` - Internationalization plugin
   - `modules` - core VSModules. Read more about modules [here](https://divanteltd.github.io/vue-storefront/guide/modules/introduction.html)
   - `pages` - Vue Storefront core pages
-  - `plugins` - Core Vue plugins
   - `scripts` - scripts like installer
   - `service-worker` - Core service worker. It's merged with `sw-precache` data from `build` and `{theme}/service-worker-ext.js`
   - `store` - Core Vuex stores (related: [Working with Vuex](../vuex/introduction.md), [Working with data](../data/data.md)). **This part is depreciated and will be slowly migrated to modules and lib folder**
+  - `types` - Core TypeScript typings
 
 - `src` - Main project folder containing Vue Storefront core and themes. This is your app playground so you can modify this folder.
   - `modules` - project-specific VSModules and extensions
   - `themes` - Vue Storefront core theme along with amp-theme. You can change the active theme in `config/` folder.
-  - `server` - additional Express routes that you can add to the folder
+  - `server` - additional Express routes
 
