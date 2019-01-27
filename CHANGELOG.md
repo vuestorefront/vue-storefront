@@ -5,13 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- clear search filters on mobile - @patzick #2282
+- SSR problem on checkout page on reload - @vue-kacper #2220
+- Improved offline mode handlers - @pkarw #2217
+- url_key adjustment after m2vs fix - @pkarw #2215
+- Service worker removed from dev mode because of the side effects - @pkarw
+- `networkFirst` first caching strategy for /api/catalog - @pkarw
 
 ### Changed
-- IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
-- Dynamic attributes loader (#2137)
-- Dynamic categories prefetching (#2076)
-- New payment's module architecture (#2135)
-- Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
+- compress banner images - @patzick #2280
+
+### Added
+- Translations of banners - @patzick #2276
+- Banners title background on mobile - @patzick #2272
+- New main site look - @patzick #2266
+
 ## [1.7.1] - 2019.01.15
 ### Fixed
 - Corrected scrolled sidebar menu position
