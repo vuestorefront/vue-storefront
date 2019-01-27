@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dynamic categories prefetching (#2076)
 - New payment's module architecture (#2135)
 - Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
+- Support regional characters in urls - Backport of @aekal's #2243
 
 ## [1.6.0] - 2018.12.05
 
