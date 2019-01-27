@@ -12,9 +12,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dynamic categories prefetching (#2076)
 - New payment's module architecture (#2135)
 - Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
+## [1.7.1] - 2019.01.15
+### Fixed
+- Corrected scrolled sidebar menu position
+
+## [1.7.0] - 2019.01.15
+### Added
+- Dynamic categories prefetching — @pkarw #2100
+- Per-route codesplitting for SSR pages — @patzick #2068
+- async/await support — @patzick #2092
+- IndexedDB replacement and new caching mechanism — @pkarw #2112
+- Web Share module — @filrak #2143
+- Backward compatibility option for dynamic attribute loader — @pkarw #2137
+- Japanese translation — @moksahero #2150
+- Dutch translation — @StefGeraets #2163
+- Using meta_title and meta_description fields from Magento on product/category page — @qiqqq #2158
+- Color mapping feature — @pkarw #2175
+- Out of the box GZIP compression and sourcemap removal in prod mode — @patzick #2186
+
+### Changed / Improved
+- Invalidate output cache using POST - @Cyclonecode #2084
+- NGNIX installation improvements for docs — @janmyszkier #2080
+- HTML semantics improvements — @patzick #2094
+- Lazy loading of non-critical third party libs and vendor optimization — @patzick @filrak @qiqqq
+- Extra NL translation keys — @nlekv #2104
+- Optimization for the number of attributes to be stored in Vuex store — @pkarw #1654
+- Service Worker registration from any route — @patzick #2070
+- Production setup docs improvements — @janmyszkier #2126
+- Various changes and additions to our docs by @NataliaTepluhina
+- Payment docs update — @pkarw #2135
+- Added bash command for collecting i18n phrases to docs — @qbo-tech #2149
+- SEO and scrolling performance fixes — @filrak #2066
+
+### Fixed
+- Fix Notification.vue compiling issue on prod - @ladrua #2079
+- Fix wishlist toggle bug — @shkodasv #2086
+- findConfigurableChildAsync — fix checking stock for configurable child — @afirlejczyk #2097
+- Fix cart synchronization — @valeriish #2106
+- Fix hydration issue for lazy loaded chunks — @patzick #2115
+- Clear missing fields after user logout — @sniffy1988 #2117
+- Fix AMP naming ( ^^ ) for docs -@pgol #2118
+- Fix Cart Configurable Item pulled from Magento — @valeriish #2119
+- Fix product configuration after cart items server pull — @valeriish #2122
+- Fix gallery switching when entering product — @vue-kacper #2123
+- Fix multiple placing order invocation after changing payment methods — @patzick #2133
+- Remove extra space after every comma for non-(multi)select product attributes — @patzick #2133
+- Fix side-menu scrolling — @patzick #2140
+- Fix back button not properly working from a configurable product page — @qiqqq #2151
+- Fix submenu not visible on a deeper level — @patzick #2152
+- vue-carousel removed from homepage - @patzick #2153 #2154
+- Use localized routes for redirects to home page and account page — @grimasod #2157
+- ProductLinks fixed in Related products component — @pkarw #2168
+- Fix Cart Configurable Item pulled from Magento loaded as Simple — @pkarw @valeriish #2169 #2181
+
+### Depreciated
+- extendStore depreciation - @filrak #2143
+- ValidationError class depreciation - @filrak #2143
 
 ## [1.6.0] - 2018.12.05
-
 ### Added
 - Lazy loading for SSR and non-SSR routes
 - app splitted into modules
