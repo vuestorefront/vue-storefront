@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Special price dates checking - backport of @igloczek's #2245
+- SSR detection in components - @patzick #2173
 
 ### Added
 - Translations of banners - @patzick #2276

@@ -7,6 +7,7 @@ import rootStore from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
 import { router } from '@vue-storefront/core/app'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export interface VueStorefrontModuleConfig {
   key: string;
@@ -85,7 +86,6 @@ export class VueStorefrontModule {
       }
   
       if (isUnique) {
-        const isServer = typeof window === undefined
         if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
         if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
         if (this._c.router) VueStorefrontModule._extendRouter(router, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)

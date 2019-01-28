@@ -5,6 +5,7 @@ import VueOfflineMixin from 'vue-offline/mixin'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
   name: 'Checkout',
@@ -218,7 +219,7 @@ export default {
       return isValid
     },
     activateHashSection () {
-      if (typeof window !== 'undefined') {
+      if (!isServer) {
         var urlStep = window.location.hash.replace('#', '')
         if (this.activeSection.hasOwnProperty(urlStep) && this.activeSection[urlStep] === false) {
           this.activateSection(urlStep)
@@ -237,7 +238,7 @@ export default {
         this.activeSection[section] = false
       }
       this.activeSection[sectionToActivate] = true
-      if (typeof window !== 'undefined') window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
+      if (!isServer) window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
     },
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
