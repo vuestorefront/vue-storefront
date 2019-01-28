@@ -1,3 +1,5 @@
+import { isServer } from '@vue-storefront/core/helpers'
+
 /** VS message logger. By default works only on dev mode */
 const Logger = {
   /**
@@ -9,7 +11,7 @@ const Logger = {
    * @param context meaningful data related to this message
    */
   info : function (message: string, tag: string = null, context: any = null) : () => void {
-    if (typeof window !== 'undefined') {
+    if (!isServer) {
       if (tag) {
         let msg ='%cVSF%c %c' + tag +'%c ' + message
         return console.log.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', { context });
@@ -29,7 +31,7 @@ const Logger = {
    * @param context meaningful data related to this message
    */
   warn: function (message: string, tag: string = null, context: any = null) : () => void {
-    if (typeof window !== 'undefined') {
+    if (!isServer) {
       if (tag) {
         return console.warn.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', { context });
       } else {
@@ -48,7 +50,7 @@ const Logger = {
    * @param context meaningful data related to this message
    */
   error: function (message: string, tag: string = null, context: any = null) : () => void {
-    if (typeof window !== 'undefined') {
+    if (!isServer) {
       if (tag) {
         return console.error.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', { context });
       } else {
