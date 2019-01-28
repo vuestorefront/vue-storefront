@@ -1,3 +1,21 @@
+function isSpecialPriceActive(fromDate, toDate) {
+  const now = new Date()
+  fromDate = new Date(fromDate) || false
+  toDate = new Date(toDate) || false
+
+  if (fromDate && toDate) {
+    return fromDate < now && toDate > now
+  }
+
+  if (fromDate && !toDate) {
+    return fromDate < now
+  }
+
+  if (!fromDate && toDate) {
+    return toDate > now
+  }
+}
+
 export function updateProductPrices (product, rate, sourcePriceInclTax = false) {
   const rateFactor = parseFloat(rate.rate) / 100
   product.price = parseFloat(product.price)
@@ -22,7 +40,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
   product.specialPriceInclTax = specialPriceExclTax + product.specialPriceTax
 
   if (product.special_price && (product.special_price < product.price)) {
-    if ((product.special_to_date && new Date(product.special_to_date) < new Date()) || (product.special_from_date && new Date(product.special_from_date) > new Date())) {
+    if (!isSpecialPriceActive(product.special_from_date, product.special_to_date)) {
       product.special_price = 0 // out of the dates period
     } else {
       product.originalPrice = priceExclTax
@@ -67,7 +85,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
       configurableChild.specialPriceInclTax = specialPriceExclTax + configurableChild.specialPriceTax
 
       if (configurableChild.special_price && (configurableChild.special_price < configurableChild.price)) {
-        if ((configurableChild.special_to_date && new Date(configurableChild.special_to_date) < new Date()) || (configurableChild.special_from_date && new Date(configurableChild.special_from_date) > new Date())) {
+        if (!isSpecialPriceActive(configurableChild.special_from_date, configurableChild.special_to_date)) {
           configurableChild.special_price = 0 // out of the dates period
         } else {
           configurableChild.originalPrice = priceExclTax

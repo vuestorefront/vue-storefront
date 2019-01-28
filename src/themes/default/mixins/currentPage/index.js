@@ -1,3 +1,5 @@
+import { isServer } from '@vue-storefront/core/helpers'
+
 export default {
   data () {
     return {
@@ -34,7 +36,7 @@ export default {
     },
     // Check if history is empty
     isHistoryEmpty () {
-      if (typeof window !== 'undefined') {
+      if (!isServer) {
         return window.history.length <= 1
       }
 
