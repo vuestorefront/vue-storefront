@@ -4,32 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.7.2] - 2019.01.28
 ### Fixed
-- clear search filters on mobile - @patzick #2282
-- SSR problem on checkout page on reload - @vue-kacper #2220
-- Improved offline mode handlers - @pkarw #2217
-- url_key adjustment after m2vs fix - @pkarw #2215
+- clear search filters on mobile - @patzick (#2282)
+- SSR problem on checkout page on reload - @vue-kacper (#2220)
+- Improved offline mode handlers - @pkarw (#2217)
+- url_key adjustment after m2vs fix - @pkarw (#2215)
 - Service worker removed from dev mode because of the side effects - @pkarw
 - `networkFirst` first caching strategy for /api/catalog - @pkarw
+- Special price dates checking - backport of @igloczek's (#2245)
+- SSR detection in components - @patzick (#2173)
 
 ### Changed
-- compress banner images - @patzick #2280
-- IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
+- compress banner images - @patzick (#2280)
 - Dynamic attributes loader (#2137)
 - Dynamic categories prefetching (#2076)
 - New payment's module architecture (#2135)
-- Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
-- Support regional characters in urls - Backport of @aekal's #2243
-
-### Fixed
-- Special price dates checking - backport of @igloczek's #2245
-- SSR detection in components - @patzick #2173
+- Support regional characters in urls - Backport of @aekal's (#2243)
 
 ### Added
-- Translations of banners - @patzick #2276
-- Banners title background on mobile - @patzick #2272
-- New main site look - @patzick #2266
+- Translations of banners - @patzick (#2276)
+- Banners title background on mobile - @patzick (#2272)
+- New main site look - @patzick (#2266)
 
 ## [1.7.1] - 2019.01.15
 ### Fixed
@@ -62,6 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Payment docs update — @pkarw #2135
 - Added bash command for collecting i18n phrases to docs — @qbo-tech #2149
 - SEO and scrolling performance fixes — @filrak #2066
+- Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
+- IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
 
 ### Fixed
 - Fix Notification.vue compiling issue on prod - @ladrua #2079
