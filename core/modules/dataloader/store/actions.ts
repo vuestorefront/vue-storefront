@@ -16,7 +16,7 @@ export const actions: ActionTree<DataLoaderState, any> = {
       return ac.execute(actionContext) // function must return Promise
     })
     if (actionsToExecute.length > 0) {
-      Logger.info('Executing data lodaer actions(' + actionsToExecute.length + ')', 'dataloader')()
+      Logger.info('Executing data loader actions(' + actionsToExecute.length + ')', 'dataloader')()
     }
     return Promise.all(actionsToExecute).then(results => {
       actionsToExecute.map(ac => ac.executedAt = new Date())

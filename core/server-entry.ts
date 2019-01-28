@@ -27,29 +27,29 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       return Promise.resolve(null)
     }
   })).then(() => {
-    if (buildTimeConfig.ssr.useInitialStateFilter) {
-      context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
-    } else {
-      context.state = store.state
-    }
-    if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
-      context.state = omit(store.state, ['config'])
-    } else {
-      const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
-      const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
-      console.log(excludeFromConfig, includeFromConfig)
-      if (includeFromConfig && includeFromConfig.length > 0) {
-        context.state.config = pick(context.state.config, includeFromConfig)
+    store.dispatch('dataloader/flush', { store, route: router.currentRoute }).then((r) => { 
+      if (buildTimeConfig.ssr.useInitialStateFilter) {
+        context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
+      } else {
+        context.state = store.state
       }
-      if (excludeFromConfig && excludeFromConfig.length > 0) {
-        context.state.config = omit(context.state.config, excludeFromConfig)
+      if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
+        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ?  [...store.state.config.ssr.initialStateFilter, 'config'] : ['config'])
+      } else {
+        const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
+        const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
+        console.log(excludeFromConfig, includeFromConfig)
+        if (includeFromConfig && includeFromConfig.length > 0) {
+          context.state.config = pick(context.state.config, includeFromConfig)
+        }
+        if (excludeFromConfig && excludeFromConfig.length > 0) {
+          context.state.config = omit(context.state.config, excludeFromConfig)
+        }
       }
-    }
-    store.dispatch('dataloader/flush', { store, route: router.currentRoute }).then((r) => { resolve (app) }).catch(err => {
+      resolve (app)
+    }).catch(err => {
       _commonErrorHandler(err, reject)
     })
-
-    resolve(app)
   }).catch(err => {
     _commonErrorHandler(err, reject)
   })
