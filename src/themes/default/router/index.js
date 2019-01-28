@@ -7,6 +7,7 @@ import Category from 'theme/pages/Category.vue'
 import { Compare, Checkout, MyAccount, Static, CustomCmsPage, CmsData } from './asyncRoutes'
 import CmsPage from 'theme/pages/CmsPage.vue'
 import CmsBlockDemoPageSsr from 'theme/pages/CmsBlockDemoPageSsr.vue'
+import CmsPrismic from 'theme/pages/CmsPrismic.vue'
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -35,6 +36,7 @@ let routes = [
   { name: 'error', path: '/error', component: ErrorPage, meta: { layout: 'minimal' } },
   { name: 'custom-cms-page', path: '/custom-cms-page', component: CustomCmsPage },
   { name: 'cms-block-demo-page-ssr', path: '/cms-block-demo-page-ssr', component: CmsBlockDemoPageSsr },
+  { name: 'cms-prismic', path: '/cms-prismic', component: CmsPrismic },
   { name: 'cms-page-sync', path: '/cms-page-sync', component: CmsData, props: {identifier: 'about-us', type: 'Page', sync: true} }
 ]
 if (!store.state.config.products.useShortCatalogUrls) {

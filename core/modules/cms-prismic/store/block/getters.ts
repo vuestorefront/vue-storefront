@@ -3,13 +3,12 @@ import CmsBlockState from '../../types/CmsBlockState'
 import RootState from '@vue-storefront/store/types/RootState'
 
 const getters: GetterTree<CmsBlockState, RootState> = {
-  cmsBlocks: (state) => state.items,
-  cmsBlockIdentifier: (state) => (identifier) => {
-    return state.items.find(item => item.identifier === identifier)
+  contentById: (state) => (id) => {
+    return state.id.find(item => item.id === id)
   },
-  cmsBlockId: (state) => (id) => {
-    return state.items.find(item => item.id === id)
-  },
+  contentByType: (state) => (type) => {
+    return state.type.find(item => item.type === type)
+  }
 }
 
 export default getters

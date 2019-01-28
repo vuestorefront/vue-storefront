@@ -1,9 +1,9 @@
 import { ActionTree } from "vuex"
-import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
 import * as types from './mutation-types'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
 import RootState from '@vue-storefront/store/types/RootState';
 import CmsBlockState from "../../types/CmsBlockState"
+import fetch from 'isomorphic-fetch'
+import config from  'config'
 
 const actions: ActionTree<CmsBlockState, RootState> = {
 
@@ -11,79 +11,64 @@ const actions: ActionTree<CmsBlockState, RootState> = {
    * Retrieve cms blocks
    *
    * @param context
-   * @param {any} filterValues
-   * @param {any} filterField
-   * @param {any} size
-   * @param {any} start
-   * @param {any} excludeFields
-   * @param {any} includeFields
+   * @param {any} type
+   * @param {any} orderings
+   * @param {any} contentId
+   * @param {any} filter
+   * @param {any} filterOption
+   * @param skipCache
    * @returns {Promise<T> & Promise<any>}
    */
-  list (context, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
-    let query = new SearchQuery()
-    if (filterValues) {
-      query = query.applyFilter({key: filterField, value: {'like': filterValues}})
-    }
-    if (skipCache || (!context.state.items || context.state.items.length === 0)) {
-      return quickSearchByQuery({ query, entityType: 'cms_block', excludeFields, includeFields })
-      .then((resp) => {
-        context.commit(types.CMS_BLOCK_UPDATE_CMS_BLOCKS, resp.items)
-        return resp.items
-      })
-      .catch(err => {
-        console.error(err)
-      })
-    } else {
-      return new Promise((resolve, reject) => {
-        let resp = context.state.items
-        resolve(resp)
-      })
-    }
-  },
-
-  /**
-   * Retrieve single cms block by key value
-   *
-   * @param context
-   * @param {any} key
-   * @param {any} value
-   * @param {any} excludeFields
-   * @param {any} includeFields
-   * @returns {Promise<T> & Promise<any>}
-   */
-  single (context, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false }) {
-    const state = context.state
-    if (skipCache || (!state.items || state.items.length === 0)) {
-      let query = new SearchQuery()
-      if (value) {
-        query = query.applyFilter({key: key, value: {'like': value}})
+  load (context, {type, orderings, contentId, filter, filterOption}) {
+    let url
+    if (config.prismic) {
+      if (type) {
+        url = (config.prismic.byType)
+          .replace('{{type}}', type)
+      } else if (orderings) {
+        url = (config.prismic.byTag)
+          .replace('{{tag}}', orderings)
+      } else if (contentId && filter) {
+        url = (config.prismic.contentIdFilter)
+          .replace('{{contentId}}', contentId)
+          .replace('{{filter}}', filter)
+          .replace('{{filterOption}}', filterOption)
+      } else if (contentId && !filter) {
+        url = (config.prismic.contentId)
+          .replace('{{contentId}}', contentId)
+      } else {
+        return false
       }
-      return quickSearchByQuery({ query, entityType: 'cms_block', excludeFields, includeFields })
-      .then((resp) => {
-        context.commit(types.CMS_BLOCK_ADD_CMS_BLOCK, resp.items[0])
-        return resp.items[0]
-      })
-      .catch(err => {
-        console.error(err)
-      })
-    } else {
-      return new Promise((resolve, reject) => {
-        if (state.items.length > 0) {
-          let cmsBlock = state.items.find((itm) => { return itm[key] === value })
-          if (cmsBlock) {
-            resolve(cmsBlock)
-          } else {
-            reject(new Error('CMS block query returned empty result ' + key + ' = ' + value))
+      return fetch(url, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        mode: 'cors'}
+      )
+        .then((response) => {
+          return response.json()
+        })
+        .then((json) => {
+          if (!json.result) {
+            return false
           }
-        } else {
-          resolve()
-        }
-      })
+          if (contentId && json.result) {
+            if (json.result[0]) {
+              json.result[0].id = contentId
+              context.commit(types.CMS_PRISMIC_ADD_CONTENT_BY_ID, json.result[0])
+              return json.result
+            }
+          } else if (type && json.result) {
+            if (json.result[0]) {
+              json.result[0].id = contentId
+              context.commit(types.CMS_PRISMIC_ADD_CONTENT_BY_TYPE, json.result)
+              return json.result
+            }
+          }
+        })
+        .catch((e) => {
+          console.error('CMS fetch error:' + e)
+        })
     }
-  },
-
-  addItem ({ commit }, block) {
-    commit(types.CMS_BLOCK_ADD_CMS_BLOCK, block )
   }
 }
 

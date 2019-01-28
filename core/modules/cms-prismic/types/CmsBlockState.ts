@@ -1,3 +1,4 @@
 export default interface CmsBlockState {
-  items: any[]
+  type: any[],
+  id: any[]
 }

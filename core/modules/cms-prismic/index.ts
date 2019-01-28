@@ -1,18 +1,16 @@
-import { cmsPageModule } from './store/page'
 import { cmsBlockModule } from './store/block'
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
 import { plugin } from './store/plugin'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
 
-export const KEY = 'cms-prismic'
+export const KEY = 'prismic'
 export const cacheStorage = initCacheStorage(KEY)
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   store: { modules: [
-    { key: 'cmsPage', module: cmsPageModule },
-    { key: 'cmsBlock', module: cmsBlockModule },
+    { key: 'prismic', module: cmsBlockModule },
   ], plugin },
 }
 
-export const Cms = new VueStorefrontModule(moduleConfig)
+export const Prismic = new VueStorefrontModule(moduleConfig)
