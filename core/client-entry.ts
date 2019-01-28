@@ -60,7 +60,9 @@ const invokeClientEntry = async () => {
         return Promise.resolve(null)
       }
     })).then(() => {
-      next()
+      rootStore.dispatch('dataloader/flush', { store, route: to }).then(next).catch(err => {
+        _commonErrorHandler(err, next)
+      })
     }).catch(err => {
       _commonErrorHandler(err, next)
     })

@@ -45,6 +45,10 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
         context.state.config = omit(context.state.config, excludeFromConfig)
       }
     }
+    store.dispatch('dataloader/flush', { store, route: router.currentRoute }).then((r) => { resolve (app) }).catch(err => {
+      _commonErrorHandler(err, reject)
+    })
+
     resolve(app)
   }).catch(err => {
     _commonErrorHandler(err, reject)
