@@ -2,6 +2,7 @@ import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
 import buildTimeConfig from 'config'
+import { isServer } from '@vue-storefront/core/helpers'
 
 // Plugins
 import i18n from '@vue-storefront/i18n'
@@ -113,7 +114,7 @@ const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRou
   const app = new Vue(vueOptions)
 
   const appContext = {
-    isServer: typeof window !== 'undefined',
+    isServer,
     ssrContext
   }
 

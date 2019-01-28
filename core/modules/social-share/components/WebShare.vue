@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { isServer } from '@vue-storefront/core/helpers'
+
 export default {
   name: 'WebShare',
   props: {
@@ -27,7 +29,7 @@ export default {
   },
   computed: {
     isSupported () {
-      return typeof window !== 'undefined' && navigator.share
+      return !isServer && navigator.share
     }
   },
   methods: {
