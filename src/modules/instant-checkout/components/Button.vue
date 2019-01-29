@@ -33,7 +33,8 @@ export default {
         requestPayerPhone: true,
         requestShipping: true,
         shippingType: 'shipping'
-      }
+      },
+      shippingOptions: []
     }
   },
   computed: {
@@ -85,24 +86,6 @@ export default {
       }
 
       return bucket
-    },
-    shippingOptions () {
-      const shipping = []
-
-      this.$store.state.shipping.methods.forEach(method => {
-        shipping.push({
-          id: method.method_code,
-          carrier_code: method.carrier_code,
-          label: method.method_title,
-          selected: this.$store.state.shipping.methods[0].method_code === method.method_code,
-          amount: {
-            currency: storeView.i18n.currencyCode,
-            value: method.price_incl_tax
-          }
-        })
-      })
-
-      return shipping
     },
     selectedShippingOption () {
       return this.shippingOptions.filter(option => {
@@ -166,30 +149,83 @@ export default {
         option.selected = option.id === selectedId
       })
 
-      this.$store.dispatch('cart/refreshTotals', {
-        country: this.country,
-        method_code: this.selectedShippingOption[0].id,
-        carrier_code: this.selectedShippingOption[0].carrier_code,
-        payment_method: null
-      }).then(() => {
-        event.updateWith({
-          displayItems: this.bucket,
-          shippingOptions: this.shippingOptions,
-          total: this.total
+      const dataToUpdate = new Promise((resolve, reject) => {
+        this.$store.dispatch('cart/refreshTotals', {
+          country: this.country,
+          method_code: this.selectedShippingOption[0].id,
+          carrier_code: this.selectedShippingOption[0].carrier_code,
+          payment_method: null
+        }).then(() => {
+          resolve({
+            displayItems: this.bucket,
+            shippingOptions: this.shippingOptions,
+            total: this.total
+          })
+        }).catch(e => {
+          console.error(e)
+          reject(e)
         })
       })
+
+      event.updateWith(dataToUpdate)
     },
     shippingAddressChange (event) {
       const shippingAddress = event.target.shippingAddress
       this.country = shippingAddress.country
+
+      const dataToUpdate = new Promise((resolve, reject) => {
+        this.updateShippingOptions()
+          .then(() => {
+            return this.$store.dispatch('cart/refreshTotals', {
+              country: this.country,
+              method_code: this.selectedShippingOption[0].id,
+              carrier_code: this.selectedShippingOption[0].carrier_code,
+              payment_method: null
+            })
+          }).then(() => {
+            resolve({
+              displayItems: this.bucket,
+              shippingOptions: this.shippingOptions,
+              total: this.total
+            })
+          }).catch(e => {
+            console.error(e)
+            reject(e)
+          })
+      })
+
+      event.updateWith(dataToUpdate)
+    },
+    updateShippingOptions () {
+      return new Promise((resolve, reject) => {
+        rootStore.dispatch('cart/getShippingMethods', {
+          country_id: this.country
+        }).then(() => {
+          this.shippingOptions = []
+          this.$store.state.shipping.methods.forEach(method => {
+            this.shippingOptions.push({
+              id: method.method_code,
+              carrier_code: method.carrier_code,
+              label: method.method_title,
+              selected: this.$store.state.shipping.methods[0].method_code === method.method_code,
+              amount: {
+                currency: storeView.i18n.currencyCode,
+                value: method.price_incl_tax
+              }
+            })
+          })
+          resolve()
+        }).catch(e => {
+          console.error(e)
+          reject(e)
+        })
+      })
     }
   },
   mounted () {
     if (window.PaymentRequest) {
       this.supported = true
-      rootStore.dispatch('cart/getShippingMethods', {
-        country_id: this.country
-      })
+      this.updateShippingOptions()
     }
   }
 }

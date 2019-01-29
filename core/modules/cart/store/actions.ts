@@ -360,73 +360,84 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   getShippingMethods (context, address) {
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-      TaskQueue.execute({ url: rootStore.state.config.cart.shippingmethods_endpoint,
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors',
-          body: JSON.stringify({
-            address: address
-          })
-        },
-        silent: true
-      }).then((task: any) => {
-        if (task.result.length > 0) {
-          rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
-        }
-      }).catch(e => {
-        console.error(e)
-      })
-    }
-  },
-  refreshTotals (context, methodsData) {
-    const storeView = currentStoreView()
-    if (rootStore.state.config.cart.synchronize_totals) {
-      if (!methodsData) {
-        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
-        const shippingMethods = context.rootGetters['shipping/shippingMethods']
-        const paymentMethods = context.rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default) : null
-        let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
-        if (!shipping && shippingMethods && shippingMethods.length > 0) {
-          shipping = shippingMethods[0]
-        }
-        if (!payment && paymentMethods && paymentMethods.length > 0) {
-          payment = paymentMethods[0]
-        }
-        methodsData = {
-          country: country,
-          method_code: shipping ? shipping.method_code : null,
-          carrier_code: shipping ? shipping.carrier_code : null,
-          payment_method: payment.code
-        }
-      }
-      if (methodsData.country && methodsData.carrier_code) {
-        TaskQueue.execute({ url: rootStore.state.config.cart.shippinginfo_endpoint,
+    return new Promise((resolve, reject) => {
+      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        TaskQueue.execute({ url: rootStore.state.config.cart.shippingmethods_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify({
-              addressInformation: {
-                shippingAddress: {
-                  countryId: methodsData.country
-                },
-                shippingCarrierCode: methodsData.carrier_code,
-                shippingMethodCode: methodsData.method_code
-              }
+              address: address
             })
           },
-          silent: true,
-          callback_event: 'store:cart/servercartAfterTotals'
+          silent: true
+        }).then((task: any) => {
+          if (task.result) {
+            rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
+            resolve(task.result)
+          }
         }).catch(e => {
           console.error(e)
+          reject(e)
         })
-      } else {
-        context.dispatch('cart/serverTotals', {}, { root: true })
       }
-    }
+    })
+  },
+  refreshTotals (context, methodsData) {
+    return new Promise((resolve, reject) => {
+      const storeView = currentStoreView()
+      if (rootStore.state.config.cart.synchronize_totals) {
+        if (!methodsData) {
+          let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
+          const shippingMethods = context.rootGetters['shipping/shippingMethods']
+          const paymentMethods = context.rootGetters['payment/paymentMethods']
+          let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default) : null
+          let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
+          if (!shipping && shippingMethods && shippingMethods.length > 0) {
+            shipping = shippingMethods[0]
+          }
+          if (!payment && paymentMethods && paymentMethods.length > 0) {
+            payment = paymentMethods[0]
+          }
+          methodsData = {
+            country: country,
+            method_code: shipping ? shipping.method_code : null,
+            carrier_code: shipping ? shipping.carrier_code : null,
+            payment_method: payment.code
+          }
+        }
+        if (methodsData.country && methodsData.carrier_code) {
+          TaskQueue.execute({ url: rootStore.state.config.cart.shippinginfo_endpoint,
+            payload: {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors',
+              body: JSON.stringify({
+                addressInformation: {
+                  shippingAddress: {
+                    countryId: methodsData.country
+                  },
+                  shippingCarrierCode: methodsData.carrier_code,
+                  shippingMethodCode: methodsData.method_code
+                }
+              })
+            },
+            silent: true,
+            callback_event: 'store:cart/servercartAfterTotals'
+          }).then((task : any) => {
+            if (task.result) {
+              resolve(task.result)
+            }
+          }).catch(e => {
+            console.error(e)
+            reject(e)
+          })
+        } else {
+          context.dispatch('cart/serverTotals', {}, { root: true })
+        }
+      }
+    })
   },
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
