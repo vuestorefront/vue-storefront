@@ -21,10 +21,10 @@ describe('[notification] Notification.ts', () => {
   it('adds a notification', () => {
     const wrapper = shallowMount(TestInstance, { store, localVue })
     wrapper.find('button#spawn-notification-button').trigger('click')
-    expect(store.getters['notification/notifications'].length).to.equal(1)
-    expect(store.getters['notification/notifications'][0].type).to.equal('error')
-    expect(store.getters['notification/notifications'][0].message).to.equal('Test message')
-    expect(store.getters['notification/notifications'][0].action1.label).to.equal('OK')
+    expect(store.getters['notification/notifications'].length).toEqual(1)
+    expect(store.getters['notification/notifications'][0].type).toEqual('error')
+    expect(store.getters['notification/notifications'][0].message).toEqual('Test message')
+    expect(store.getters['notification/notifications'][0].action1.label).toEqual('OK')
   })
 
   it('removes a notification after 5 seconds', function(done) {
@@ -33,7 +33,7 @@ describe('[notification] Notification.ts', () => {
     wrapper.find('button#spawn-notification-button').trigger('click')
     setTimeout(() => {
       try {
-        expect(store.getters['notification/notifications'].length).to.equal(0)
+        expect(store.getters['notification/notifications'].length).toEqual(0)
         done()
       } catch(e) {
         done(e)
@@ -47,7 +47,7 @@ describe('[notification] Notification.ts', () => {
     wrapper.find('button#spawn-notification-button2').trigger('click')
     setTimeout(() => {
       try {
-        expect(store.getters['notification/notifications'].length).to.equal(0)
+        expect(store.getters['notification/notifications'].length).toEqual(0)
         done()
       } catch(e) {
         done(e)

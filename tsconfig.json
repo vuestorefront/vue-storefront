@@ -14,7 +14,8 @@
     "baseUrl": ".",
     "types": [
       "reflect-metadata",
-      "node"
+      "node",
+      "jest"
     ],
     "paths": {
       "core/*": ["core/*"],
