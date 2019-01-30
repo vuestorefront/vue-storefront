@@ -142,6 +142,7 @@ export default {
       payment
         .show()
         .then(response => {
+          // TODO handle payment
           this.$store.dispatch('order/placeOrder', this.createOrder(response), {root: true}).then(result => {
             if (!result.resultCode || result.resultCode === 200) {
               response.complete()
