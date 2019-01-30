@@ -478,7 +478,6 @@ No props
 
 - `stockCheckCompleted` - a boolean prop that shows if all products in cart (if any) have been checked for availability (whether they are in stock or not).
 - `stockCheckOK` - a boolean prop that shows if all products in cart are in stock.
-- `orderPlaced` - a boolean prop that is set to true after `order-after-placed` event has been triggered, defining a successful placement of an order.
 - `activeSection` - an object that consists of 4 boolean props: _personalDetails_, _shipping_, _payment_ and _orderReview_, - that define which section of Checkout page is currently active. At any point of time only one section can be active.
 - `order` - an order object, that consists of all necessary order information that will be sent to the backend to place it.
 - `personalDetails` - an object that contains personal details part of the Checkout page.
@@ -527,7 +526,7 @@ Defines several event listeners to communicate with child components.
 - **'checkout.cartSummary'** - _this event listener is not called anywhere._
 - **'checkout.placeOrder'** event listener is called by OrderReview child component. It has an optional _userId_ parameter that is passed to it in case user registers a new account at the checkout. With or without _userId_ this event listener calls _placeOrder_ method.
 - **'checkout.edit'** event listener activates a section of Checkout page, name of which is passed to it in a parameter.
-- **'order-after-placed'** event listener sets _orderPlaced_ prop to true.
+- **'order-after-placed'** event listener is called after placed order
 
 #### beforeMount
 
