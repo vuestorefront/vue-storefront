@@ -435,6 +435,7 @@ const actions: ActionTree<CartState, RootState> = {
           })
         } else {
           context.dispatch('cart/serverTotals', {}, { root: true })
+          resolve()
         }
       }
     })
