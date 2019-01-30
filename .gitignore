@@ -9,6 +9,7 @@ config/local.json
 var
 build/config.json
 core/build/config.json
+core/build/cache-version.json
 theme.js
 desktop.ini
 src/themes/catalog/resource/i18n.json
