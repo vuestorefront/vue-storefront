@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support regional characters in urls
 - `store/lib/search` has been moved to `core/lib/search` (#2225)
 - `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
-- After checkout create logged-in cart for logged-in users if using order Direct Backend Sync (#2302)
+- After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
 
 ## [1.7.2] - 2019.01.28
 ### Fixed
