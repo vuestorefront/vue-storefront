@@ -6,6 +6,7 @@ import { Checkout } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
+import { Wishlist } from '@vue-storefront/core/modules/wishlist'
 import { Mailchimp } from '../modules/mailchimp'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
@@ -55,6 +56,7 @@ export const registerModules: VueStorefrontModule[] = [
   Compare,
   Review,
   Mailer,
+  Wishlist,
   Mailchimp,
   Notification,
   Ui,

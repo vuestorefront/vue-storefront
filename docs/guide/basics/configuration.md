@@ -297,6 +297,12 @@ If this option is set to `true`, in case of custom-options supporting products, 
 If this option is set to `true`, in case of configurable products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of configurable options (for example color and size). Otherwise the simple product (accordingly to the selected configurable_options) will be added to the shopping cart instead.
 
 ```json
+  "displayItemDiscounts": true
+```
+
+If this option is set to `true`, Vue Storefront will add use price item with discount to the shopping cart. Otherwise the product price and special will be added to the shopping cart instead.
+
+```json
   "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
   "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
   "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
@@ -327,6 +333,8 @@ When this option is set to `true`, Vue Storefront will use the alternative routi
 
 When `useMagentoUrlKeys` is set to `true` the `product.url_key` value will be used for product and category slugs used in the URL building process. Otherwise the slug will be generated based on the product or category name.
 Please take a look at the [core/store/lib/search.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/lib/search.ts) and [core/store/modules/category/mutations.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category/mutations.ts) for reference
+
+**Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating it's value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
 
 ```json
   "configurableChildrenStockPrefetchStatic": false,

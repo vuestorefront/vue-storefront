@@ -1,7 +1,8 @@
 import { Store } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
 import buildTimeConfig from 'config'
+import { isServer } from '@vue-storefront/core/helpers'
 
 // Plugins
 import i18n from '@vue-storefront/i18n'
@@ -19,7 +20,7 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index.js'
 import { registerModules } from '@vue-storefront/core/lib/module'
-import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
+import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
@@ -113,7 +114,7 @@ const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRou
   const app = new Vue(vueOptions)
 
   const appContext = {
-    isServer: typeof window !== 'undefined',
+    isServer,
     ssrContext
   }
 

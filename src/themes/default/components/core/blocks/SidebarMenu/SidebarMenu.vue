@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: showMenu }">
+  <div class="sidebar-menu fixed mw-100 bg-cl-secondary">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
@@ -186,9 +186,6 @@ export default {
     },
     isCurrentMenuShowed () {
       return !this.getSubmenu || !this.getSubmenu.depth
-    },
-    showMenu () {
-      return this.isOpen && this.componentLoaded
     }
   },
   mounted () {
@@ -221,16 +218,10 @@ $color-mine-shaft: color(mine-shaft);
   left: 0;
   overflow: hidden;
   overflow-y: auto;
-  transform: translateX(-100%);
   z-index: 3;
-  transition: transform $duration-main $motion-main;
 
   @media (max-width: 767px) {
     width: 100vh;
-  }
-
-  &.active {
-    transform: translateX(0);
   }
 
   &__list {

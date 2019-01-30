@@ -4,21 +4,103 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.8.0] - UNRELEASED
+### Changed / Improved
+- Fixed isServer flag in module hooks (#840)
+- Location of type files (#2226)
+- Support regional characters in urls
+- `store/lib/search` has been moved to `core/lib/search` (#2225)
+- `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
+- After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
+
+## [1.7.2] - 2019.01.28
+### Fixed
+- clear search filters on mobile - @patzick (#2282)
+- SSR problem on checkout page on reload - @vue-kacper (#2220)
+- Improved offline mode handlers - @pkarw (#2217)
+- url_key adjustment after m2vs fix - @pkarw (#2215)
+- Service worker removed from dev mode because of the side effects - @pkarw
+- `networkFirst` first caching strategy for /api/catalog - @pkarw
+- Special price dates checking - backport of @igloczek's (#2245)
+- SSR detection in components - @patzick (#2173)
 
 ### Added
 - Hotjar extension (#840)
+- Slide animations to menu, search, wishlist and minicart components
+- Events list page in docs (#776
 
 ### Changed
-- IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
+- compress banner images - @patzick (#2280)
 - Dynamic attributes loader (#2137)
 - Dynamic categories prefetching (#2076)
 - New payment's module architecture (#2135)
+- Support regional characters in urls - Backport of @aekal's (#2243)
+
+### Added
+- Translations of banners - @patzick (#2276)
+- Banners title background on mobile - @patzick (#2272)
+- New main site look - @patzick (#2266)
+
+## [1.7.1] - 2019.01.15
+### Fixed
+- Corrected scrolled sidebar menu position
+
+## [1.7.0] - 2019.01.15
+### Added
+- Dynamic categories prefetching — @pkarw #2100
+- Per-route codesplitting for SSR pages — @patzick #2068
+- async/await support — @patzick #2092
+- IndexedDB replacement and new caching mechanism — @pkarw #2112
+- Web Share module — @filrak #2143
+- Backward compatibility option for dynamic attribute loader — @pkarw #2137
+- Japanese translation — @moksahero #2150
+- Dutch translation — @StefGeraets #2163
+- Using meta_title and meta_description fields from Magento on product/category page — @qiqqq #2158
+- Color mapping feature — @pkarw #2175
+- Out of the box GZIP compression and sourcemap removal in prod mode — @patzick #2186
+
+### Changed / Improved
+- Invalidate output cache using POST - @Cyclonecode #2084
+- NGNIX installation improvements for docs — @janmyszkier #2080
+- HTML semantics improvements — @patzick #2094
+- Lazy loading of non-critical third party libs and vendor optimization — @patzick @filrak @qiqqq
+- Extra NL translation keys — @nlekv #2104
+- Optimization for the number of attributes to be stored in Vuex store — @pkarw #1654
+- Service Worker registration from any route — @patzick #2070
+- Production setup docs improvements — @janmyszkier #2126
+- Various changes and additions to our docs by @NataliaTepluhina
+- Payment docs update — @pkarw #2135
+- Added bash command for collecting i18n phrases to docs — @qbo-tech #2149
+- SEO and scrolling performance fixes — @filrak #2066
 - Established Vuex naming conventions. TLDR - we strongly recommend to use vuex getters instead of mapping state itself (#2069)
-- Fixed isServer flag in module hooks (#840)
+- IndexedDb changed to LocalStorage + ServiceWorker native caching (#2112)
+
+### Fixed
+- Fix Notification.vue compiling issue on prod - @ladrua #2079
+- Fix wishlist toggle bug — @shkodasv #2086
+- findConfigurableChildAsync — fix checking stock for configurable child — @afirlejczyk #2097
+- Fix cart synchronization — @valeriish #2106
+- Fix hydration issue for lazy loaded chunks — @patzick #2115
+- Clear missing fields after user logout — @sniffy1988 #2117
+- Fix AMP naming ( ^^ ) for docs -@pgol #2118
+- Fix Cart Configurable Item pulled from Magento — @valeriish #2119
+- Fix product configuration after cart items server pull — @valeriish #2122
+- Fix gallery switching when entering product — @vue-kacper #2123
+- Fix multiple placing order invocation after changing payment methods — @patzick #2133
+- Remove extra space after every comma for non-(multi)select product attributes — @patzick #2133
+- Fix side-menu scrolling — @patzick #2140
+- Fix back button not properly working from a configurable product page — @qiqqq #2151
+- Fix submenu not visible on a deeper level — @patzick #2152
+- vue-carousel removed from homepage - @patzick #2153 #2154
+- Use localized routes for redirects to home page and account page — @grimasod #2157
+- ProductLinks fixed in Related products component — @pkarw #2168
+- Fix Cart Configurable Item pulled from Magento loaded as Simple — @pkarw @valeriish #2169 #2181
+
+### Depreciated
+- extendStore depreciation - @filrak #2143
+- ValidationError class depreciation - @filrak #2143
 
 ## [1.6.0] - 2018.12.05
-
 ### Added
 - Lazy loading for SSR and non-SSR routes
 - app splitted into modules
@@ -28,10 +110,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read  [more on this change](https://github.com/DivanteLtd/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/DivanteLtd/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
-- ProductSlider, ProductLinks, ProductListing moved to theme. 
+- ProductSlider, ProductLinks, ProductListing moved to theme.
 - Many theme-related logic moved to theme (+ deleted empty core components just with `name`)
 - Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
-- Better Vuex extensibility with modules 
+- Better Vuex extensibility with modules
 - VSModule `store` object changed to fulfil need of multiple vuex modules (see modules docs)
 - UI Store logic for Microcart moved to cart module
 - Extensions are now depreciated, theme-level extensions removed and src-level extension to be depreciated in 1.7
@@ -292,30 +374,3 @@ Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-st
 ## [0.2.0-alpha.0] - 2017-11-15
 ### Fixed
 - Lazy loaded blocks size fixed
-
-
-[Unreleased]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.5...HEAD
-
-[1.0.5]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.4...v1.0.5
-
-[1.0.4]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.3...v1.0.4
-
-[1.0.3]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.2...v1.0.3
-
-[1.0.2]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.1...v1.0.2
-
-[1.0.1]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.0...v1.0.1
-
-[1.0.0]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.0-rc.3...v1.0.0
-
-[1.0.0-rc.3]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.0-rc.2...v1.0.0-rc.3
-
-[1.0.0-rc.2]: https://github.com/DivanteLtd/vue-storefront/compare/v1.0.0-rc.0...v1.0.0-rc.2
-
-[1.0.0-rc.0]: https://github.com/DivanteLtd/vue-storefront/compare/v0.4.0...v1.0.0-rc.0
-
-[0.4.0]: https://github.com/DivanteLtd/vue-storefront/compare/v0.3.0...v0.4.0
-
-[0.3.0]: https://github.com/DivanteLtd/vue-storefront/compare/v0.2.1-alpha.0...v0.0.3
-
-[0.2.1-alpha.0]: https://github.com/DivanteLtd/vue-storefront/compare/v0.2.0-alpha.0...v0.2.1-alpha.0

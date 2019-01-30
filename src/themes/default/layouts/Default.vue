@@ -3,11 +3,15 @@
     <overlay v-if="overlayActive"/>
     <loader/>
     <div id="viewport" class="w-100 relative">
-      <microcart v-if="isMicrocartOpen"/>
-      <search-panel v-if="isSearchPanelOpen"/>
-      <wishlist v-if="isWishlistOpen"/>
-      <sidebar-menu v-if="isSidebarOpen"/>
       <main-header/>
+      <transition name="slide-right">
+        <sidebar-menu v-if="isSidebarOpen"/>
+      </transition>
+      <transition name="slide-left">
+        <microcart v-if="isMicrocartOpen"/>
+        <search-panel v-if="isSearchPanelOpen"/>
+        <wishlist v-if="isWishlistOpen"/>
+      </transition>
       <slot/>
       <main-footer/>
       <notification/>
@@ -101,6 +105,22 @@ export default {
 }
 </script>
 
-<style lang="scss" src="theme/css/main.scss">
+<style lang="scss" src="theme/css/main.scss"></style>
+<style lang="scss" scoped>
+  .slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active {
+    transition: transform .25s;
+  }
 
+  .slide-left-enter,
+  .slide-left-leave-to {
+    transform: translateX(100%);
+  }
+
+  .slide-right-enter,
+  .slide-right-leave-to {
+    transform: translateX(-100%);
+  }
 </style>

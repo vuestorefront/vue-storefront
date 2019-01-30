@@ -1,7 +1,6 @@
 <template>
   <div
     class="searchpanel fixed mw-100 bg-cl-primary cl-accent"
-    :class="{ active: showPanel }"
     data-testid="searchPanel"
   >
     <div class="close-icon-row">
@@ -86,8 +85,6 @@ export default {
   top: 0;
   right: 0;
   z-index: 3;
-  transform: translateX(100%);
-  transition: transform 300ms $motion-main;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -141,10 +138,6 @@ export default {
       padding-left: map-get($grid-gutter-widths, xs) / 2;
       padding-right: map-get($grid-gutter-widths, xs) / 2;
     }
-  }
-
-  &.active {
-    transform: translateX(0);
   }
 
   .close-icon {

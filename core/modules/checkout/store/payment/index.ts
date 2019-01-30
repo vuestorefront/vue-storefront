@@ -1,5 +1,5 @@
 import { Module } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import PaymentState from '../../types/PaymentState'
 
 export const paymentModule: Module<PaymentState, RootState> = {

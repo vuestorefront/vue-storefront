@@ -4,7 +4,7 @@
 
 VueStorefront stores most of the catalog data within the ElasticSearch data store. Please have a look at our architecture diagram:
 
-![Architecture diagram](/vue-storefront/Vue-storefront-architecture.png).
+![Architecture diagram](../images/Vue-storefront-architecture.png).
 
 To properly access ElasticSearch data, you should implement a specific Vuex action. Here is an example of [vuex action for getting the data](https://github.com/DivanteLtd/vue-storefront/blob/c954b96f6633a201e10bed1d2e4c0def1aeb3071/core/store/modules/category.js#L38) :
 

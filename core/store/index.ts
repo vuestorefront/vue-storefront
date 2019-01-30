@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import RootState from './types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 
 Vue.use(Vuex)
 

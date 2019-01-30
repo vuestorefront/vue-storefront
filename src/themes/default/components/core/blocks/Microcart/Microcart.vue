@@ -1,7 +1,7 @@
 <template>
   <div
     class="microcart mw-100 fixed cl-accent"
-    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: showMicrocart }]"
+    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
     data-testid="microcart"
   >
     <div class="row middle-xs bg-cl-primary top-sm">
@@ -150,11 +150,6 @@ export default {
       default: () => false
     }
   },
-  computed: {
-    showMicrocart () {
-      return this.isMicrocartOpen && this.componentLoaded
-    }
-  },
   mounted () {
     this.$nextTick(() => {
       this.componentLoaded = true
@@ -202,13 +197,8 @@ export default {
     height: 100%;
     width: 800px;
     min-width: 320px;
-    transform: translateX(100%);
-    transition: transform 300ms $motion-main;
     overflow-y: auto;
     overflow-x: hidden;
-    &.active {
-      transform: translateX(0)
-    }
   }
 
   .close {

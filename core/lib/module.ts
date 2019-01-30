@@ -2,11 +2,14 @@ import { Module, Store } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue, { VueConstructor } from 'vue'
 import merge from 'lodash-es/merge'
-import RootState from '@vue-storefront/store/types/RootState'
+import some from 'lodash-es/some'
+import find from 'lodash-es/find'
+import RootState from '@vue-storefront/core/types/RootState'
 import rootStore from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
+import { setupMultistoreRoutes } from './multistore'
 import { router } from '@vue-storefront/core/app'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export interface VueStorefrontModuleConfig {
   key: string;
@@ -16,9 +19,13 @@ export interface VueStorefrontModuleConfig {
   afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
 }
 
-const moduleExtendings = []
+const moduleExtendings: VueStorefrontModuleConfig[] = []
 
-export function extendModule(moduleConfig) {
+/** Provide `VueStorefrontModule` config that will be merged with module with the same `key` as this config.
+ * It's important to call this function before module is registered.
+ *
+ * Read more: [here](https://docs.vuestorefront.io/guide/modules/introduction.html#extending-and-overriding-vue-storefront-modules) */
+export function extendModule(moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
 
@@ -31,7 +38,8 @@ export class VueStorefrontModule {
   public get config () {
     return this._c
   }
-  
+
+  /** Use only if you want to explicitly modify module config. Otherwise it's much easier to use `extendModule` */
   public set config (config) {
     this._c = config
   }
@@ -61,11 +69,31 @@ export class VueStorefrontModule {
     if (beforeEach) routerInstance.beforeEach(beforeEach)
     if (afterEach) routerInstance.afterEach(afterEach)
   }
-  
-  private _extend (extendedConfig: VueStorefrontModule) {
+
+  private _extend (extendedConfig: VueStorefrontModuleConfig) {
+    const mergedStore = { modules: [] };
     const key = this._c.key
+    const originalStore = this._c.store
+    const extendedStore = extendedConfig.store
+    delete this._c.store
+    delete extendedConfig.store
     this._c = merge(this._c, extendedConfig)
+    mergedStore.modules = this._mergeStore(originalStore, extendedStore)
+    this._c.store = mergedStore
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
+  }
+
+  private _mergeStore(originalStore, extendedStore) {
+    let mergedArray = []
+    originalStore.modules.map(item => {
+      mergedArray.push(merge(item, find(extendedStore.modules, { 'key' : item.key })));
+    })
+    extendedStore.modules.map(extendedStoreItem => {
+      if(some(originalStore.modules, { 'key' : extendedStoreItem.key}) === false){
+        mergedArray.push(extendedStoreItem)
+      }
+    })
+    return mergedArray
   }
 
   public register (): VueStorefrontModuleConfig | void {
@@ -83,9 +111,7 @@ export class VueStorefrontModule {
           }
         })
       }
-  
       if (isUnique) {
-        const isServer = typeof window === 'undefined'
         if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
         if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
         if (this._c.router) VueStorefrontModule._extendRouter(router, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
