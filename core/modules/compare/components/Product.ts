@@ -1,9 +1,9 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import moduleComponentMounted from '@vue-storefront/core/modules/compare/mixins/moduleComponentMounted'
+import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
 
 export const CompareProduct = {
   name: 'CompareProduct',
-  mixins: [moduleComponentMounted],
+  mixins: [compareMountedMixin],
   computed: {
     isOnCompare () : boolean {
       return this.$store.getters['compare/isOnCompare'](this.product)

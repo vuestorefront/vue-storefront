@@ -1,9 +1,9 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import moduleComponentMounted from '@vue-storefront/core/modules/compare/mixins/moduleComponentMounted'
+import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
 
 export const Compare = {
   name: 'Compare',
-  mixins: [moduleComponentMounted],
+  mixins: [compareMountedMixin],
   computed: {
     items () : Product[] {
       return this.$store.state.compare.items
