@@ -13,7 +13,7 @@ import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 import '@vue-storefront/core/service-worker/registration' // register the service worker
-
+import { AsyncDataLoader } from './lib/asyncdataloader'
 declare var window: any
 
 const invokeClientEntry = async () => {
@@ -60,7 +60,7 @@ const invokeClientEntry = async () => {
         return Promise.resolve(null)
       }
     })).then(() => {
-      rootStore.dispatch('dataloader/flush', { store, route: to }).then(next).catch(err => {
+      AsyncDataLoader.flush({ store, route: to, context: null }).then(next).catch(err => {
         _commonErrorHandler(err, next)
       })
     }).catch(err => {

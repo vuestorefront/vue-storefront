@@ -8,7 +8,6 @@ import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
 import { Wishlist } from '@vue-storefront/core/modules/wishlist'
 import { Mailchimp } from '../modules/mailchimp'
-import { DataLoader } from '@vue-storefront/core/modules/dataloader'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Homepage } from "./homepage"
@@ -22,7 +21,7 @@ import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { Magento2CMS } from './magento-2-cms'
-import { Example } from './module-template'
+// import { Example } from './module-template'
 
 // This is how you can extend any of VS modues
 // const extendCartVuex = {
@@ -57,7 +56,6 @@ export const registerModules: VueStorefrontModule[] = [
   Review,
   Mailer,
   Wishlist,
-  DataLoader,
   Mailchimp,
   Notification,
   Ui,
@@ -71,6 +69,6 @@ export const registerModules: VueStorefrontModule[] = [
   PaymentBackendMethods,
   PaymentCashOnDelivery,
   RawOutputExample,
-  AmpRenderer,
-  Example
+  AmpRenderer/*,
+  Example*/
 ]
