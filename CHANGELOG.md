@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- cache key used to store output chache in redis
+- Cache key used to store output chache in redis - @igloczek (#2309)
+
+### Fixed
+- Missing `no-ssr` wrapper around user specific content, which leads to broken app in production mode - @igloczek (#2314)
 
 ## [1.7.2] - 2019.01.28
 ### Fixed
