@@ -18,6 +18,7 @@
     "lru-cache": "^4.0.1",
     "redis-tag-cache": "^1.2.1",
     "remove-accents": "^0.4.2",
+    "uuid": "^3.3.2",
     "vue": "^2.5.17",
     "vue-carousel": "^0.6.9",
     "vue-i18n": "^8.0.0",
