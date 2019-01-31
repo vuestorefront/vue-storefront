@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Fix SSR mismatch in `compare` and `wishlist` modules. Load data from local cache after component is mounted - @patzick (#2321)
 
 ## [1.7.3] - 2019.01.31
 ### Fixed

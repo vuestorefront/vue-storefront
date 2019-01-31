@@ -1,7 +1,9 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
+import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
 
 export const Compare = {
   name: 'Compare',
+  mixins: [compareMountedMixin],
   computed: {
     items () : Product[] {
       return this.$store.state.compare.items
@@ -12,7 +14,6 @@ export const Compare = {
     }
   },
   created () {
-    this.$store.dispatch('compare/load')
     this.$store.dispatch('attribute/list', {
       filterValues: [true],
       filterField: 'is_user_defined'
