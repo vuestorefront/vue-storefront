@@ -5,6 +5,6 @@
 
 export default {
   mounted () {
-    if (this.$store.state.wishlist) this.$store.dispatch('wishlist/load')
+    this.$store.dispatch('wishlist/load')
   }
 }
