@@ -3,6 +3,18 @@ const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
 const VueSSRPlugin = require('vue-ssr-webpack-plugin')
 
+// when output cache is enabled generate cache version key
+const config = require('config')
+const fs = require('fs')
+const path = require('path')
+const uuid = require('uuid/v4')
+if (config.server.useOutputCache) {
+  fs.writeFileSync(
+    path.join(__dirname, 'cache-version.json'),
+    JSON.stringify(uuid())
+  )
+}
+
 module.exports = merge(base, {
   mode: 'development',
   target: 'node',
