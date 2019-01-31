@@ -49,7 +49,7 @@
         "amp": "dist/index.amp.html"
       },
       "executeMixedinAsyncData": true,
-      "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "dataloader"],
+      "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
       "useInitialStateFilter": true
     },
     "defaultStoreCode": "",
