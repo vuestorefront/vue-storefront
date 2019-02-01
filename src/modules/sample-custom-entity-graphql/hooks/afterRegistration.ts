@@ -7,7 +7,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
-export function afterRegistration (Vue, config, store, isServer) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   Vue.$on('application-after-init', async () => {
     console.debug('Example of custom entity graphql extension')
 

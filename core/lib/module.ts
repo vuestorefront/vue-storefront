@@ -11,12 +11,19 @@ import { setupMultistoreRoutes } from './multistore'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 
+export interface VSF {
+  Vue?: VueConstructor, 
+  config?: Object, 
+  store?: Store<RootState>, 
+  isServer?: boolean
+}
+
 export interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean,) => void,
-  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
+  beforeRegistration?: (VSF: VSF) => void,
+  afterRegistration?: (VSF: VSF) => void,
 }
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
@@ -97,6 +104,12 @@ export class VueStorefrontModule {
   }
 
   public register (): VueStorefrontModuleConfig | void {
+    const VSF = {
+      Vue, 
+      config: rootStore.state.config, 
+      store: rootStore, 
+      isServer
+    }
     if (!this._isRegistered) {
       moduleExtendings.forEach(extending => {
         if (extending.key === this._c.key) this._extend(extending)
@@ -112,12 +125,12 @@ export class VueStorefrontModule {
         })
       }
       if (isUnique) {
-        if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
+        if (this._c.beforeRegistration) this._c.beforeRegistration(VSF)
         if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
         if (this._c.router) VueStorefrontModule._extendRouter(router, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
         VueStorefrontModule._registeredModules.push(this._c)
         this._isRegistered = true
-        if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config, rootStore, isServer)
+        if (this._c.afterRegistration) this._c.afterRegistration(VSF)
         return this._c
       }
     }

@@ -34,7 +34,7 @@ Here is an example of "Cash on delivery" payment method main logic. It's placed 
 import InfoComponent from '../components/Info.vue'
 import rootStore from '@vue-storefront/store'
 
-export function afterRegistration(Vue, config, store, isServer) {
+export function afterRegistration({ Vue, config, store, isServer }) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   const placeOrder = function () {
     Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
