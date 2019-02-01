@@ -91,7 +91,7 @@
               {{ $t('Track my order') }}
             </router-link>
           </li>
-          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
+          <li @click="login" class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
             <sub-btn
               v-if="currentUser"
               :name="$t('My account')"
@@ -105,7 +105,7 @@
             <a
               v-if="!currentUser && isCurrentMenuShowed"
               href="#"
-              @click.prevent="login"
+              @click.prevent="closeMenu"
               class="block w-100 px25 py20 cl-accent no-underline fs-medium-small"
             >
               {{ $t('My account') }}
