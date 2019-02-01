@@ -25,8 +25,10 @@ export default {
     resetAllFilters () {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
-      this.$store.dispatch('category/searchProductQuery', buildFilterProductsQuery(this.category, this.activeFilters))
-      this.$store.dispatch('category/mergeSearchOptions', {searchProductQuery: {}})
+      this.$store.dispatch('category/searchProductQuery', {})
+      this.$store.dispatch('category/mergeSearchOptions', {
+        searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
+      })
       this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
     }
   }
