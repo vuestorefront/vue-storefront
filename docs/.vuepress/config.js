@@ -1,4 +1,4 @@
-limodule.exports = {
+module.exports = {
   base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
