@@ -382,6 +382,7 @@
       "max_count": 500
     },
     "usePriceTiers": false,
+    "useZeroPriceProduct": true,
     "boost": {
       "name": 3,
       "category.name": 1,

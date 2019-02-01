@@ -36,7 +36,7 @@ import { AsyncDataLoader } from '@vue-storefront/core/lib/asyncdataloader'
     execute: ({ route, store, context }) => {
       return new Promise ((resolve, reject) => {
         if (route.name === 'bundle-product') {
-          store.state.dataFetchedForBundleProducts = 'this is just example data fetched by loader'
+          store.dispatch('actionName')
         }
         resolve(null)
       })
