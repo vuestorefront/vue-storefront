@@ -50,7 +50,7 @@
               {{ $t('What we can improve?') }}
             </h3>
             <p class="mb25">
-              {{ $t('Your feedback is important fo us. Let us know what we could improve.') }}
+              {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
             </p>
             <form @submit.prevent="sendFeedback">
               <base-textarea
