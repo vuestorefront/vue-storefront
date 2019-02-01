@@ -1,14 +1,14 @@
 version: '2.0'
 services:
   app:
-    # image: divante/vue-storefront:latest
+    container_name: vue-storefront
     build:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
     env_file: docker/vue-storefront/default.env
     environment:
       VS_ENV: dev
-    network_mode: host
+    network_mode: bridge
     volumes:
       - '.babelrc:/var/www/.babelrc'
       - './config:/var/www/config'
@@ -26,4 +26,4 @@ services:
     tmpfs:
       - /var/www/dist
     ports:
-      - '3000:3000'
+      - '80'

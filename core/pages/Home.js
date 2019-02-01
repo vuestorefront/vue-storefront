@@ -17,11 +17,11 @@ export default {
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     if (context) context.output.cacheTags.add(`home`)
-    Logger.info('Calling asyncData in Home Page (core)')()
+    Logger.info('Calling asyncData in Home Page (core)')
     try {
       await EventBus.$emitFilter('home-after-load', { store: store, route: route })
     } catch (e) {
-      console.error(e)
+      Logger.error(e)
       throw e
     }
   },

@@ -1,5 +1,6 @@
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const OrderReview ={
   name: 'OrderReview',
@@ -56,7 +57,7 @@ export const OrderReview ={
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')
-        console.error(err)
+        Logger.error(err, 'checkout')
       })
     }
   }

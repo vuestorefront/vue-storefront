@@ -6,6 +6,7 @@ import RootState from '@vue-storefront/core/types/RootState';
 import CmsPageState from "../../types/CmsPageState"
 import { cacheStorage  } from '../../'
 import { cmsPagesStorageKey } from './'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CmsPageState, RootState> = {
 
@@ -33,7 +34,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
         return resp.items
       })
       .catch(err => {
-        console.error(err)
+        Logger.error(err, 'cms')
       })
     } else {
       return new Promise((resolve, reject) => {

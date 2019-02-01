@@ -86,7 +86,7 @@ export default async context => {
         })
         if (Component.asyncData) {
           Component.asyncData({ store, route: router.currentRoute, context: context }).then((result) => { // always execute the asyncData() from the top most component first
-            console.debug('Top-most asyncData executed')
+            Logger.debug('Top-most asyncData executed')
             _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
           }).catch((err) => {
             _commonErrorHandler(err, reject)

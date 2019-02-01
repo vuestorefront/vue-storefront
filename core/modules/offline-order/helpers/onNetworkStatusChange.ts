@@ -7,7 +7,7 @@ import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export function onNetworkStatusChange (store) {
-  console.log('Are we online: ' + navigator.onLine)
+  Logger.log('Are we online: ' + navigator.onLine, 'offline-order')
 
   if (typeof navigator !== 'undefined' && navigator.onLine) {
     EventBus.$emit('sync/PROCESS_QUEUE', { config: store.state.config }) // process checkout queue
@@ -30,7 +30,7 @@ export function onNetworkStatusChange (store) {
           ordersToConfirm.push(order)
         }
       }).catch(err => {
-        console.error(err)
+        Logger.error(err, 'offline-order')
       })
 
       if (ordersToConfirm.length > 0) {

@@ -40,7 +40,7 @@ export const Search = {
           this.start = this.start + this.size
           this.emptyResults = resp.items.length < 1
         }).catch((err) => {
-          console.error(err)
+          Logger.error(err, 'components-search')
         })
       } else {
         this.products = []
@@ -60,7 +60,7 @@ export const Search = {
           this.start = this.start + this.size
           this.emptyResults = this.products.length < 1
         }).catch((err) => {
-          console.error(err)
+          Logger.error(err, 'components-search')
         })
       } else {
         this.products = []
