@@ -3,6 +3,7 @@ import { getSearchAdapter } from '@vue-storefront/core/lib/search/adapter/search
 import { processESResponseType } from '@vue-storefront/core/lib/search/adapter/graphql/processor/processType'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
