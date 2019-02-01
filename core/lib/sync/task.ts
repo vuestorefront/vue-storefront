@@ -126,7 +126,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           })
         }
       }
-      Logger.debug('Response for: ' + task.task_id + ' = ' + jsonResponse.result, 'sync')()
+      Logger.debug('Response for: ' + task.task_id + ' = ' + JSON.stringify(jsonResponse.result), 'sync')()
       task.transmited = true
       task.transmited_at = new Date()
       task.result = jsonResponse.result

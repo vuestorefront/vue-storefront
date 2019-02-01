@@ -68,7 +68,7 @@ class Logger
   debug (message: string, tag: string = null, context: any = null) : () => void {
     if (!isServer && this.canPrint('debug')) {
       if (tag) {
-        return console.debug.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('white'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context);
+        return console.debug.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('grey'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context);
       } else {
         return console.debug.bind(window.console, '%cVSF%c ' + message, bgColorStyle('white'), 'font-weight: normal', context);
       }

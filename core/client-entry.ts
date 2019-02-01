@@ -172,7 +172,7 @@ const invokeClientEntry = async () => {
             })
               .then(jsonResponse => {
                 if (jsonResponse && jsonResponse.code === 200) {
-                  Logger.info('Response for: ' + orderId + ' = ' + jsonResponse.result)()
+                  Logger.info('Response for: ' + orderId + ' = ' + JSON.stringify(jsonResponse.result))()
                   orderData.transmited = true
                   orderData.transmited_at = new Date()
                   ordersCollection.setItem(orderId.toString(), orderData)
