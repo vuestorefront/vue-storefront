@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `store/lib/search` has been moved to `core/lib/search` (#2225)
 - `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
-
+- Changed beforeRegistration and afterRegiostration hooks signature. Now it contains only one object VSF. The subfields are the same as before so changing `beforeRegistration( Vue, config, store, isServer )` to `beforeRegistration({ Vue, config, store, isServer })`(and same with `afterRegistration`) is enough to make a proper migration to new API.
 ## [1.7.3] - 2019.01.31
 ### Fixed
 - Output cache between build, cache versioning added - @igloczek (#2309)
