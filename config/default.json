@@ -20,7 +20,8 @@
       "useUrlDispatcher": false
     },    
     "console": {
-      "verbosityLevel": "only-errors"
+      "showErrorOnProduction" : true,
+      "verbosityLevel": "display-everything"
     },
     "redis": {
       "host": "localhost",
