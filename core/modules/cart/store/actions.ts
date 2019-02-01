@@ -227,7 +227,7 @@ const actions: ActionTree<CartState, RootState> = {
     let productIndex = 0
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
-      if (product.priceInclTax <= 0) {
+      if ((rootStore.state.config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
