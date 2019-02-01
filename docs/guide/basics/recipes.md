@@ -64,7 +64,7 @@ Then if you like to do some VS updates you probably need to just pull the change
 
 Where can we add filters and extra configurable options for the products? For example, I've just added an iPhone X as an example. And I want to add the storage as an option.
 
-![How to add additional custom attribute?](/vue-storefront/Apple_iPhone_X.png)
+![How to add additional custom attribute?](../images/Apple_iPhone_X.png)
 
 To do so, you need to modify the theme, changing the following snippet:
 
@@ -240,6 +240,8 @@ npm run seo redirects — —oldFormat=true | false
 - `oldFormat` - should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (`oldFormat` = `!useShortCatalogUrls`)
 
 Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
+
+**Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating it's value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
 
 ## You need to choose options for your item message when hit API for add to cart a configurable product
 

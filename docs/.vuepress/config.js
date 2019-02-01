@@ -1,4 +1,4 @@
-module.exports = {
+limodule.exports = {
   base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
@@ -83,6 +83,7 @@ module.exports = {
             'data/database-tool',
             'data/entity-types',
             'data/static-data',
+            'data/data-loader'
           ],
         },
         {

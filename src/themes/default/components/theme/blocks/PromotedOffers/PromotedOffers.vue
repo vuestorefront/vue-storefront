@@ -1,5 +1,5 @@
 <template>
-  <section v-if="!singleBanner" class="offers container my30 px15">
+  <section v-if="!singleBanner" class="offers container my30 px15 cl-black">
     <div class="row">
       <div
         class="offer-container col-xs-12 col-sm-6 pb15"
@@ -8,15 +8,15 @@
       >
         <router-link :to="localizedRoute(banner.link)">
           <div
-            class="offer border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
+            class="offer"
             v-lazy:background-image="banner.image"
           >
-            <p class="subtitle m0 serif h3 uppercase">
-              {{ banner.subtitle }}
-            </p>
             <h2 class="title m0 h1">
               {{ banner.title }}
             </h2>
+            <p class="subtitle m0 serif h3 uppercase">
+              {{ banner.subtitle }}
+            </p>
           </div>
         </router-link>
       </div>
@@ -29,11 +29,11 @@
         >
           <router-link :to="localizedRoute(banner.link)">
             <div
-              class="offer offer-small border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
+              class="offer offer-small border-box p5 flex bg-cl-th-accent"
               v-lazy:background-image="banner.image"
             >
-              <p class="subtitle m0 serif h3 uppercase">{{ banner.subtitle }}</p>
               <h2 class="title m0 h1">{{ banner.title }}</h2>
+              <p class="subtitle m0 serif h3 uppercase">{{ banner.subtitle }}</p>
             </div>
           </router-link>
         </div>
@@ -49,15 +49,15 @@
       >
         <router-link :to="localizedRoute(banner.link)">
           <div
-            class="offer offer-product border-box p5 flex center-xs middle-xs cl-white bg-cl-th-accent"
+            class="offer offer-product border-box p5 flex bg-cl-th-accent"
             v-lazy:background-image="banner.image"
           >
-            <p class="subtitle m0 serif h3 uppercase">
-              {{ banner.subtitle }}
-            </p>
             <h2 class="title m0 h1">
               {{ banner.title }}
             </h2>
+            <p class="subtitle m0 serif h3 uppercase">
+              {{ banner.subtitle }}
+            </p>
           </div>
         </router-link>
       </div>
@@ -67,7 +67,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import promotedOffers from 'theme/resource/promoted_offers.json'
 
 export default {
   name: 'PromotedOffers',
@@ -83,8 +82,8 @@ export default {
       banners: 'promoted/getPromotedOffers'
     })
   },
-  created () {
-    this.updatePromotedOffers(promotedOffers)
+  async created () {
+    await this.updatePromotedOffers()
   },
   methods: {
     ...mapActions({
@@ -102,19 +101,39 @@ export default {
   }
   .offer {
     height: 735px;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    opacity: 0.9;
+    opacity: 1;
     transition: 0.3s all;
 
     &:hover {
-      opacity: 1;
+      opacity: 0.9;
     }
 
     @media (max-width: 767px) {
       height: 200px;
+    }
+
+    .title {
+      text-align: center;
+      margin-top: 2rem;
+      @media (max-width: 767px) {
+        background-color: rgba(255,255,255,0.4);
+        padding: 0.5rem;
+        line-height: 2.4rem;
+      }
+    }
+
+    .subtitle {
+      font-family: 'Roboto', sans-serif;
+      @media (max-width: 767px) {
+        background-color: rgba(255,255,255,0.4);
+        padding: 0.5rem;
+      }
     }
   }
   .offer-small {
