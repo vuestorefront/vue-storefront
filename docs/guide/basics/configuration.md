@@ -672,14 +672,6 @@ This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be se
 
 When set to `true` we're using Magento2 feature of tiered prices (individual prices set for client's groups). The prices are set in `product.tier_prices` property.
 
-## Manage products with price zero
-
-```json
-"useZeroPriceProduct": true,
-```
-
-Set to `true` if you want customer can add products with price zero to cart, otherwise an error is returned. Set true by default
-
 ## Boost
 
 ```json
