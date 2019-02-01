@@ -169,7 +169,7 @@ export default {
       if (product.sku === this.product.sku) {
         // join selected variant object to the store
         this.$store.dispatch('product/setCurrent', omit(product, ['name']))
-          .catch(err => Logger.error({()
+          .catch(err => Logger.error({
             info: 'Dispatch product/setCurrent in Product.vue',
             err
           }))
@@ -201,7 +201,7 @@ export default {
           }
           this.notifyWrongAttributes()
         }
-      }).catch(err => Logger.error({()
+      }).catch(err => Logger.error({
         info: 'Dispatch product/configure in Product.vue',
         err
       }))

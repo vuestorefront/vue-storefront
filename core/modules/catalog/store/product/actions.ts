@@ -141,7 +141,7 @@ const actions: ActionTree<ProductState, RootState> = {
               setCurrentProduct: false,
               selectDefaultVariant: false,
               skipCache: skipCache
-            }).catch(err => { Logger.error(err) }).then((asocProd) => {()
+            }).catch(err => { Logger.error(err) }).then((asocProd) => {
               if (asocProd) {
                 pl.product = asocProd
                 pl.product.qty = 1
@@ -173,7 +173,7 @@ const actions: ActionTree<ProductState, RootState> = {
               setCurrentProduct: false,
               selectDefaultVariant: false,
               skipCache: skipCache
-            }).catch(err => { Logger.error(err) }).then((asocProd) => {()
+            }).catch(err => { Logger.error(err) }).then((asocProd) => {
               if (asocProd) {
                 pl.product = asocProd
                 pl.product.qty = pl.qty

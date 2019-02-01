@@ -5,7 +5,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 if (process.env.NODE_ENV === 'production' || server.devServiceWorker) {
   register(`/service-worker.js`, {
     ready () {
-      Logger.log(()
+      Logger.log(
         'App is being served from cache by a service worker.'
       )
     },
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production' || server.devServiceWorker) {
       Logger.log('New content is available, please refresh.')()
     },
     offline () {
-      Logger.log(()
+      Logger.log(
         'No internet connection found. App is running in offline mode.'
       )
     },
