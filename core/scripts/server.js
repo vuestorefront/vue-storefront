@@ -7,10 +7,12 @@ let config = require('config')
 const TagCache = require('redis-tag-cache').default
 const utils = require('./server/utils')
 const compile = require('lodash.template')
+
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
   interpolate: /{{{([\s\S]+?)}}}/g
 }
+
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
@@ -18,11 +20,15 @@ const app = express()
 
 let cache
 if (config.server.useOutputCache) {
+  const cacheKey = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'build', 'cache-version.json')) || '')
+  const redisConfig = Object.assign(config.redis, { keyPrefix: cacheKey })
+
   cache = new TagCache({
-    redis: config.redis,
-    defaultTimeout: config.server.outputCacheDefaultTtl // Expire records after a day (even if they weren't invalidated)
+    redis: redisConfig,
+    defaultTimeout: config.server.outputCacheDefaultTtl
   })
-  console.log('Redis cache set', config.redis)
+
+  console.log('Redis cache set', redisConfig)
 }
 
 const templatesCache = {}
@@ -111,7 +117,7 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 }, options))
 
-const themeRoot = require('../build/theme-path')
+const themeRoot = require('../build/theme-path.ts')
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))

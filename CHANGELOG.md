@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
 
+## [1.7.3] - 2019.01.31
+### Fixed
+- Output cache between build, cache versioning added - @igloczek (#2309)
+- Missing `no-ssr` wrapper around user specific content, which leads to broken app in production mode - @igloczek (#2314)
+
 ## [1.7.2] - 2019.01.28
 ### Fixed
 - clear search filters on mobile - @patzick (#2282)

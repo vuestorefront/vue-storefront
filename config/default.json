@@ -76,7 +76,7 @@
         "amp": "dist/index.amp.html"
       },
       "executeMixedinAsyncData": true,
-      "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
+      "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "dataloader"],
       "useInitialStateFilter": true
     },
     "defaultStoreCode": "",
@@ -409,6 +409,7 @@
       "max_count": 500
     },
     "usePriceTiers": false,
+    "useZeroPriceProduct": true,
     "query": {
       "inspirations": {
         "filter": [
