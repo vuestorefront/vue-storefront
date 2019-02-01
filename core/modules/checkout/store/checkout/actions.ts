@@ -26,14 +26,14 @@ const actions: ActionTree<CheckoutState, RootState> = {
       })
     } catch (e) {
       if (e.name === 'ValidationError') {
-        Logger.error('Internal validation error; Order entity is not compliant with the schema' + e.messages, 'checkout')
+        Logger.error('Internal validation error; Order entity is not compliant with the schema' + e.messages, 'checkout')()
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
           action1: { label: i18n.t('OK') }
         })
       } else {
-        Logger.error(e, 'checkout')
+        Logger.error(e, 'checkout')()
       }
     }
   },

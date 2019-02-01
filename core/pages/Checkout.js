@@ -72,7 +72,7 @@ export default {
             checkPromises.push(new Promise((resolve, reject) => {
               Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
                 if (err || !item) {
-                  if (err) Logger.error(err)
+                  if (err) Logger.error(err)()
                   resolve(null)
                 } else {
                   product.stock = item.result
@@ -145,7 +145,7 @@ export default {
       this.confirmation = payload.confirmation
       this.orderPlaced = true
       this.$store.dispatch('checkout/setThankYouPage', true)
-      Logger.debug(payload.order)
+      Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {
       this.activateSection(section)

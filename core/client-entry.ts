@@ -105,7 +105,7 @@ const invokeClientEntry = async () => {
         })
         if (c.asyncData) {
           c.asyncData({ store, route: to }).then(result => { // always execute the asyncData() from the top most component first
-            Logger.debug('Top-most asyncData executed')
+            Logger.debug('Top-most asyncData executed')()
             _ssrHydrateSubcomponents(components, next, to)
           }).catch(next)
         } else {
@@ -121,7 +121,7 @@ const invokeClientEntry = async () => {
   * @example
   * const urls = ['/url1', '/url2', '/url3']
   * serial(urls.map(url => () => $.ajax(url)))
-  *     .then(Logger.log.bind(Logger))
+  *     .then(Logger.log.bind(Logger))()
   */
   const serial = funcs =>
     funcs.reduce((promise, func) =>
@@ -131,7 +131,7 @@ const invokeClientEntry = async () => {
   // TODO: move to external file
   EventBus.$on('order/PROCESS_QUEUE', event => {
     if (typeof navigator !== 'undefined' && navigator.onLine) {
-      Logger.log('Sending out orders queue to server ...')
+      Logger.log('Sending out orders queue to server ...')()
 
       const storeView = currentStoreView()
       const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
@@ -155,7 +155,7 @@ const invokeClientEntry = async () => {
             const orderData = order
             const orderId = id
 
-            Logger.log('Pushing out order ' + orderId)
+            Logger.log('Pushing out order ' + orderId)()
             return fetch(config.orders.endpoint,
               {
                 method: 'POST',
@@ -167,17 +167,17 @@ const invokeClientEntry = async () => {
                 return response.json()
               } else {
                 orderMutex[id] = false
-                Logger.error('Error with response - bad content-type!')
+                Logger.error('Error with response - bad content-type!')()
               }
             })
               .then(jsonResponse => {
                 if (jsonResponse && jsonResponse.code === 200) {
-                  Logger.info('Response for: ' + orderId + ' = ' + jsonResponse.result)
+                  Logger.info('Response for: ' + orderId + ' = ' + jsonResponse.result)()
                   orderData.transmited = true
                   orderData.transmited_at = new Date()
                   ordersCollection.setItem(orderId.toString(), orderData)
                 } else {
-                  Logger.error(jsonResponse)
+                  Logger.error(jsonResponse)()
                 }
                 orderMutex[id] = false
               }).catch(err => {
@@ -185,31 +185,31 @@ const invokeClientEntry = async () => {
                   navigator.serviceWorker.ready.then(registration => {
                     registration.sync.register('orderSync')
                       .then(() => {
-                        Logger.log('Order sync registered')
+                        Logger.log('Order sync registered')()
                       })
                       .catch(error => {
-                        Logger.log('Unable to sync', error)
+                        Logger.log('Unable to sync', error)()
                       })
                   })
                 }
-                Logger.error('Error sending order: ' + orderId, err)
+                Logger.error('Error sending order: ' + orderId, err)()
                 orderMutex[id] = false
               })
           })
         }
       }, (err, result) => {
-        if (err) Logger.error(err)
-        Logger.log('Iteration has completed')
+        if (err) Logger.error(err)()
+        Logger.log('Iteration has completed')()
 
         // execute them serially
         serial(fetchQueue)
           .then(res => {
-            Logger.info('Processing orders queue has finished')
+            Logger.info('Processing orders queue has finished')()
             // store.dispatch('cart/serverPull', { forceClientState: false })
           })
       }).catch(err => {
         // This code runs if there were any errors
-        Logger.log(err)
+        Logger.log(err)()
       })
     }
   })
@@ -241,11 +241,11 @@ const invokeClientEntry = async () => {
 
       usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
         if (err) {
-          Logger.error(err)
+          Logger.error(err)()
         }
         cartsCollection.getItem('current-cart-token', (err, currentCartId) => {
           if (err) {
-            Logger.error(err)
+            Logger.error(err)()
           }
 
           if (!currentCartId && store.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
@@ -256,8 +256,8 @@ const invokeClientEntry = async () => {
             currentToken = store.state.user.token
           }
           const fetchQueue = []
-          Logger.debug('Current User token = ' + currentToken)
-          Logger.debug('Current Cart token = ' + currentCartId)
+          Logger.debug('Current User token = ' + currentToken)()
+          Logger.debug('Current Cart token = ' + currentCartId)()
           syncTaskCollection.iterate((task, id, iterationNumber) => {
             if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
               mutex[id] = true // mark this task as being processed
@@ -267,19 +267,21 @@ const invokeClientEntry = async () => {
                   mutex[id] = false
                 }).catch(err => {
                   mutex[id] = false
-                  Logger.error(err)
+                  Logger.error(err)()
                 })
               })
             }
           }, (err, result) => {
-            if (err) Logger.error(err)
-            Logger.debug('Iteration has completed')
+            if (err) Logger.error(err)()
+            Logger.debug('Iteration has completed')()
             // execute them serially
             serial(fetchQueue)
-              .then(res => Logger.debug('Processing sync tasks queue has finished'))
+              .then(res => {
+                Logger.debug('Processing sync tasks queue has finished')()
+              })
           }).catch(err => {
             // This code runs if there were any errors
-            Logger.log(err)
+            Logger.log(err)()
           })
         })
       })

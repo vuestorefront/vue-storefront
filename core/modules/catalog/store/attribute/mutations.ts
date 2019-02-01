@@ -29,7 +29,7 @@ const mutations: MutationTree<AttributeState> = {
           Logger.error(reason, 'mutations') // it doesn't work on SSR
         }) // populate cache by id
       } catch (e) {
-        Logger.error(e, 'mutations')
+        Logger.error(e, 'mutations')()
       }
     }
     Vue.set(state, 'list_by_code', attrHashByCode)

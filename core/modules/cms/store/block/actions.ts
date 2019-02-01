@@ -32,7 +32,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         return resp.items
       })
       .catch(err => {
-        Logger.error(err, 'cms')
+        Logger.error(err, 'cms')()
       })
     } else {
       return new Promise((resolve, reject) => {
@@ -65,7 +65,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         return resp.items[0]
       })
       .catch(err => {
-        Logger.error(err, 'cms')
+        Logger.error(err, 'cms')()
       })
     } else {
       return new Promise((resolve, reject) => {

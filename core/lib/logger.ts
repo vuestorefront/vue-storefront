@@ -4,7 +4,7 @@ import buildTimeConfig from 'config'
 const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
 
 /** VS message logger. By default works only on dev mode */
-class Logger 
+class Logger
 {
 
   /**
@@ -24,9 +24,9 @@ class Logger
 
   /**
    * Logger constructor
-   * 
-   * @param verbosityLevel 
-   * @param showErrorOnProduction 
+   *
+   * @param verbosityLevel
+   * @param showErrorOnProduction
    */
   constructor(verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false) {
     this.verbosityLevel = verbosityLevel;
@@ -36,8 +36,8 @@ class Logger
 
   /**
    * Check if method can print into console
-   * 
-   * @param string method 
+   *
+   * @param string method
    */
   canPrint(method: string) {
     let allowedMethods = [];
@@ -48,7 +48,7 @@ class Logger
       allowedMethods = ['error']
     } else if (this.verbosityLevel === 'no-console' || (this.isProduction === true && this.showErrorOnProduction === false)) {
       allowedMethods = []
-    } 
+    }
 
     if (allowedMethods.indexOf(method) === -1) {
       return false;
@@ -58,10 +58,10 @@ class Logger
   }
 
   /**
-   * Inform about debug events happening in the app 
+   * Inform about debug events happening in the app
    * Don't forget to invoke created function after passing arguments to keep context
    * `Logger.debug(...args)()`
-   * @param message 
+   * @param message
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
@@ -78,10 +78,10 @@ class Logger
   }
 
   /**
-   * Inform about log events happening in the app 
+   * Inform about log events happening in the app
    * Don't forget to invoke created function after passing arguments to keep context
    * `Logger.log(...args)()`
-   * @param message 
+   * @param message
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
@@ -90,10 +90,10 @@ class Logger
   }
 
   /**
-   * Inform about succesful events happening in the app 
+   * Inform about succesful events happening in the app
    * Don't forget to invoke created function after passing arguments to keep context
    * `Logger.info(...args)()`
-   * @param message 
+   * @param message
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
@@ -113,7 +113,7 @@ class Logger
    * Inform about potential problems that may be a cause of app break
    * Don't forget to invoke created function after passing arguments to keep context
    * `Logger.warn(...args)()`
-   * @param message 
+   * @param message
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
@@ -133,7 +133,7 @@ class Logger
    * Inform about errors that will break the app
    * Don't forget to invoke created function after passing arguments to keep context
    * `Logger.error(...args)()`
-   * @param message 
+   * @param message
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */

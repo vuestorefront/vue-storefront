@@ -17,7 +17,7 @@ const actions: ActionTree<UserState, RootState> = {
     const cache = Vue.prototype.$db.usersCollection
     cache.getItem('current-token', (err, res) => {
       if (err) {
-        Logger.error(err, 'user')
+        Logger.error(err, 'user')()
         return
       }
 
@@ -28,7 +28,7 @@ const actions: ActionTree<UserState, RootState> = {
         if (rootStore.state.config.usePriceTiers) {
           Vue.prototype.$db.usersCollection.getItem('current-user', (err, userData) => {
             if (err) {
-              Logger.error(err, 'user')
+              Logger.error(err, 'user')()
               return
             }
 
@@ -118,7 +118,7 @@ const actions: ActionTree<UserState, RootState> = {
       const usersCollection = Vue.prototype.$db.usersCollection
       usersCollection.getItem('current-refresh-token', (err, refreshToken) => {
         if (err) {
-          Logger.error(err, 'user')
+          Logger.error(err, 'user')()
         }
         let url = rootStore.state.config.users.refresh_endpoint
         if (rootStore.state.config.storeViews.multistore) {
@@ -175,7 +175,7 @@ const actions: ActionTree<UserState, RootState> = {
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
         cache.getItem('current-user', (err, res) => {
           if (err) {
-            Logger.error(err, 'user')
+            Logger.error(err, 'user')()
             return
           }
 
@@ -187,7 +187,7 @@ const actions: ActionTree<UserState, RootState> = {
 
             resolve(res)
             resolvedFromCache = true
-            Logger.log('Current user served from cache', 'user')
+            Logger.log('Current user served from cache', 'user')()
           }
         })
       }
@@ -311,7 +311,7 @@ const actions: ActionTree<UserState, RootState> = {
     // TODO: Make it as an extension from users module
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        Logger.debug('No User token, user unathorized', 'user')
+        Logger.debug('No User token, user unathorized', 'user')()
         return resolve(null)
       }
       const cache = Vue.prototype.$db.ordersHistoryCollection
@@ -320,7 +320,7 @@ const actions: ActionTree<UserState, RootState> = {
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
         cache.getItem('orders-history', (err, res) => {
           if (err) {
-            Logger.error(err, 'user')
+            Logger.error(err, 'user')()
             return
           }
 
@@ -330,7 +330,7 @@ const actions: ActionTree<UserState, RootState> = {
 
             resolve(res)
             resolvedFromCache = true
-            Logger.log('Current user order history served from cache', 'user')
+            Logger.log('Current user order history served from cache', 'user')()
           }
         })
       }

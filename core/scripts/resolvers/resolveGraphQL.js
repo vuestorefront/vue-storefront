@@ -38,11 +38,11 @@ export const getApolloProvider = async () => {
       },
       watchLoading (state, mod) {
         loading += mod
-        Logger.log('Global loading', loading, mod)
+        Logger.log('Global loading', loading, mod)()
       },
       errorHandler (error) {
-        Logger.log('Global error handler')
-        Logger.error(error)
+        Logger.log('Global error handler')()
+        Logger.error(error)()
       }
     })
 

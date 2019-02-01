@@ -34,7 +34,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
         return resp.items
       })
       .catch(err => {
-        Logger.error(err, 'cms')
+        Logger.error(err, 'cms')()
       })
     } else {
       return new Promise((resolve, reject) => {
@@ -78,7 +78,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
         let resp = context.state.items.find(p => p[key] === value)
         if (resp) {
           if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
-          resolve(resp)        
+          resolve(resp)
         } else {
           cacheStorage.getItem(cmsPagesStorageKey, (err, storedItems) => {
             if (err) reject(err)

@@ -57,7 +57,7 @@ export const OrderReview ={
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')
-        Logger.error(err, 'checkout')
+        Logger.error(err, 'checkout')()
       })
     }
   }

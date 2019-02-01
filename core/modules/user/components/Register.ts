@@ -26,7 +26,7 @@ export const Register = {
       // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
-        Logger.debug(result, 'user')
+        Logger.debug(result, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
@@ -44,7 +44,7 @@ export const Register = {
       }).catch(err => {
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
-        Logger.error(err, 'user')
+        Logger.error(err, 'user')()
       })
     }
   }

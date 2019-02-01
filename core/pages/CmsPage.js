@@ -22,7 +22,7 @@ export default {
       }).then(page => {
         resolve(page)
       }).catch(err => {
-        Logger.error(err)
+        Logger.error(err)()
         reject(err)
       })
     })

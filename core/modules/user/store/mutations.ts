@@ -8,7 +8,7 @@ const mutations: MutationTree<UserState> = {
     state.token = payload.newToken
     if (payload.meta && payload.meta.refreshToken) {
       state.refreshToken = payload.meta.refreshToken // store the refresh token
-      Logger.log('Refresh token is set to' + state.refreshToken, 'user')
+      Logger.log('Refresh token is set to' + state.refreshToken, 'user')()
     }
   },
   [types.USER_START_SESSION] (state) {

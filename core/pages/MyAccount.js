@@ -36,7 +36,7 @@ export default {
           this.$store.dispatch('user/update', { customer: updatedData })
         } catch (err) {
           this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
-          Logger.error(err)
+          Logger.error(err)()
         }
       }
     }

@@ -18,8 +18,8 @@ export const CancelOrders = {
           ordersCollection.removeItem(id)
         }
       }).catch(err => {
-        Logger.error(err, 'offline-order')
-        Logger.log('Not transmitted orders have been deleted', 'offline-order')
+        Logger.error(err, 'offline-order')()
+        Logger.log('Not transmitted orders have been deleted', 'offline-order')()
       })
     }
   }

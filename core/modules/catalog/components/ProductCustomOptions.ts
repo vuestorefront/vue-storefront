@@ -83,7 +83,7 @@ export const ProductCustomOptions = {
             this.product.errors['custom_options_' + fieldName] = null
           }
         } else {
-          Logger.error('No validation rule found for ' + validationRule, 'components-product-custom-options')
+          Logger.error('No validation rule found for ' + validationRule, 'components-product-custom-options')()
           this.validation.results[fieldName] = { error: false, message: '' }
         }
       } else {

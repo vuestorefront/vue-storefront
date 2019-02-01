@@ -41,7 +41,7 @@ export const Search = {
           this.start = this.start + this.size
           this.emptyResults = resp.items.length < 1
         }).catch((err) => {
-          Logger.error(err, 'components-search')
+          Logger.error(err, 'components-search')()
         })
       } else {
         this.products = []
@@ -61,7 +61,7 @@ export const Search = {
           this.start = this.start + this.size
           this.emptyResults = this.products.length < 1
         }).catch((err) => {
-          Logger.error(err, 'components-search')
+          Logger.error(err, 'components-search')()
         })
       } else {
         this.products = []

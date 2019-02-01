@@ -100,12 +100,12 @@ export default {
           this.$store.dispatch('recently-viewed/addItem', this.product)
         }).catch((err) => {
           this.loading = false
-          Logger.error(err)
+          Logger.error(err)()
           this.notifyOutStock()
           this.$router.back()
         })
       } else {
-        Logger.error('Error with loading = true in Product.vue; Reload page')
+        Logger.error('Error with loading = true in Product.vue; Reload page')()
       }
     },
     addToWishlist (product) {
@@ -161,7 +161,7 @@ export default {
     },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
-        Logger.log('Redirecting to parent, configurable product', this.parentProduct.sku)
+        Logger.log('Redirecting to parent, configurable product', this.parentProduct.sku)()
         this.$router.replace({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
       }
     },
@@ -169,7 +169,7 @@ export default {
       if (product.sku === this.product.sku) {
         // join selected variant object to the store
         this.$store.dispatch('product/setCurrent', omit(product, ['name']))
-          .catch(err => Logger.error({
+          .catch(err => Logger.error({()
             info: 'Dispatch product/setCurrent in Product.vue',
             err
           }))
@@ -201,7 +201,7 @@ export default {
           }
           this.notifyWrongAttributes()
         }
-      }).catch(err => Logger.error({
+      }).catch(err => Logger.error({()
         info: 'Dispatch product/configure in Product.vue',
         err
       }))

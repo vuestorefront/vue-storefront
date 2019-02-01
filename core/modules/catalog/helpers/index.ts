@@ -57,7 +57,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
             config[optionKey] = opt
             const variant = isOptionAvailableAsync(context, { product: product, configuration: config })
             if (!variant) {
-              Logger.log('No variant for' + opt, 'helper')
+              Logger.log('No variant for' + opt, 'helper')()
               Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
               removedOptions++
               return false
@@ -66,7 +66,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
               return true
             }
           })
-          Logger.debug('Options still available' + optionsAvailable + removedOptions, 'helper')
+          Logger.debug('Options still available' + optionsAvailable + removedOptions, 'helper')()
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
@@ -94,24 +94,24 @@ export function filterOutUnavailableVariants (context, product) {
               confChildSkus = remove(confChildSkus, (skuToCheck) => skuToCheck === confChild.sku)
             }
           }
-          Logger.debug('Cached stock items and delta' + stockItems + confChildSkus)
+          Logger.debug('Cached stock items and delta' + stockItems + confChildSkus)()
           if (confChildSkus.length > 0) {
             context.dispatch('stock/list', { skus: confChildSkus }, {root: true}).then((task) => {
               if (task && task.resultCode === 200) {
                 const diffLog = []
                 _filterChildrenByStockitem(context, union(task.result, stockItems), product, diffLog)
-                Logger.debug('Filtered configurable_children with the network call' + diffLog, 'helper')
+                Logger.debug('Filtered configurable_children with the network call' + diffLog, 'helper')()
                 resolve()
               } else {
-                Logger.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)', 'helper')
+                Logger.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)', 'helper')()
               }
             }).catch(err => {
-              Logger.error(err, 'helper')
+              Logger.error(err, 'helper')()
             })
           } else {
             const diffLog = []
             _filterChildrenByStockitem(context, stockItems, product, diffLog)
-            Logger.debug('Filtered configurable_children without the network call' + diffLog, 'helper')
+            Logger.debug('Filtered configurable_children without the network call' + diffLog, 'helper')()
             resolve()
           }
         } else {
@@ -122,12 +122,12 @@ export function filterOutUnavailableVariants (context, product) {
       if (!rootStockCached) {
         context.dispatch('stock/list', { skus: [product.sku] }, {root: true}).then((task) => {
           _filterRootProductByStockitem(context, task && task.result && task.result.length ? task.result[0] : null, product, reject)
-          Logger.debug('Filtered root product stock with the network call')
+          Logger.debug('Filtered root product stock with the network call')()
           _filterConfigurableHelper()
         })
       } else {
         _filterRootProductByStockitem(context, rootStockCached, product, reject)
-        Logger.debug('Filtered root product stock without the network call')
+        Logger.debug('Filtered root product stock without the network call')()
         _filterConfigurableHelper()
       }
     } else {
@@ -157,7 +157,7 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
     product.special_price = 0 // the same price as original; it's not a promotion
   }
   Vue.prototype.$bus.$emit('product-after-priceupdate', product)
-  // Logger.log(product.sku, product, backProduct)
+  // Logger.log(product.sku, product, backProduct)()
   return product
 }
 /**
@@ -206,7 +206,7 @@ export function doPlatformPricesSync (products) {
         skus = union(skus, childSkus)
       }
       if (skus && skus.length > 0) {
-        Logger.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return
+        Logger.log('Starting platform prices sync for', skus) // TODO: add option for syncro and non syncro return()
         rootStore.dispatch('product/syncPlatformPricesOver', { skus: skus }, { root: true }).then((syncResult) => {
           if (syncResult) {
             syncResult = syncResult.items
@@ -236,7 +236,7 @@ export function doPlatformPricesSync (products) {
         resolve(products)
       }
       if (!rootStore.state.config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
-        Logger.log('Returning products, the prices yet to come from backend!')
+        Logger.log('Returning products, the prices yet to come from backend!')()
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
           product.price_refreshed_at = null
@@ -255,7 +255,7 @@ export function doPlatformPricesSync (products) {
 export function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
     if (rootStore.state.config.tax.calculateServerSide) {
-      Logger.debug('Taxes calculated server side, skipping')
+      Logger.debug('Taxes calculated server side, skipping')()
       doPlatformPricesSync(products).then((products) => {
         resolve(products)
       })
@@ -299,7 +299,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         })
 
         if (!option) {
-          Logger.error('Wrong option id for setProductOptions', configOption.attribute_code)
+          Logger.error('Wrong option id for setProductOptions', configOption.attribute_code)()
           return null
         }
         let existingOption = configurable_item_options.find(cop => {
@@ -319,7 +319,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
         existingOption.value = configOption.label
       }
     }
-    // Logger.debug('Server product options object', product_option)
+    // Logger.debug('Server product options object', product_option)()
     return product_option
   } else {
     return null
@@ -360,7 +360,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       if (option.attribute_id) {
         let attr = context.rootState.attribute.list_by_id[option.attribute_id]
         if (!attr) {
-          Logger.error('Wrong attribute given in configurable_options - can not find by attribute_id', option)
+          Logger.error('Wrong attribute given in configurable_options - can not find by attribute_id', option)()
           continue
         } else {
           attribute_code = attr.attribute_code
@@ -368,7 +368,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         }
       } else {
         if (!option.attribute_code) {
-          Logger.error('Wrong attribute given in configurable_options - no attribute_code', option)
+          Logger.error('Wrong attribute given in configurable_options - no attribute_code', option)()
           continue
         } else { // we do have attribute_code!
           attribute_code = option.attribute_code
@@ -477,7 +477,7 @@ export function configureProductAsync (context, { product, configuration, select
     if (typeof navigator !== 'undefined') {
       if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
         selectedVariant.image = context.state.offlineImage
-        Logger.debug('Image offline fallback to ', context.state.offlineImage)
+        Logger.debug('Image offline fallback to ', context.state.offlineImage)()
       }
     }
     if (selectedVariant) {
@@ -498,7 +498,7 @@ export function configureProductAsync (context, { product, configuration, select
           selectedVariant.options = _internalMapOptions(productOption)
         }
       }/* else {
-        Logger.debug('Skipping configurable options setup', configuration)
+        Logger.debug('Skipping configurable options setup', configuration)()
       } */
       const fieldsToOmit = ['name']
       if (selectedVariant.image === "") fieldsToOmit.push('image')

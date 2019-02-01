@@ -29,7 +29,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       return Promise.resolve(null)
     }
   })).then(() => {
-    AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /*AsyncDataLoaderActionContext*/).then((r) => { 
+    AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /*AsyncDataLoaderActionContext*/).then((r) => {
       if (buildTimeConfig.ssr.useInitialStateFilter) {
         context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
       } else {
@@ -87,7 +87,7 @@ export default async context => {
         })
         if (Component.asyncData) {
           Component.asyncData({ store, route: router.currentRoute, context: context }).then((result) => { // always execute the asyncData() from the top most component first
-            Logger.debug('Top-most asyncData executed')
+            Logger.debug('Top-most asyncData executed')()
             _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
           }).catch((err) => {
             _commonErrorHandler(err, reject)

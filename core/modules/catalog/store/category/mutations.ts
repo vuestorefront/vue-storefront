@@ -39,7 +39,7 @@ const mutations: MutationTree<CategoryState> = {
             Logger.error(reason, 'category') // it doesn't work on SSR
           }) // populate cache by id
         } catch (e) {
-          Logger.error(e, 'category')
+          Logger.error(e, 'category')()
         }
       }
     }

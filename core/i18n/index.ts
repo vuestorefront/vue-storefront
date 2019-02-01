@@ -28,7 +28,7 @@ export function loadLanguageAsync (lang: string): Promise<string> {
           loadedLanguages.push(lang)
           return setI18nLanguage(lang)
         }).catch(err => {
-          Logger.debug('Unable to load translation')
+          Logger.debug('Unable to load translation')()
           return ''
         })
       }

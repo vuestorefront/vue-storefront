@@ -67,7 +67,7 @@ export default {
     }
   },
   preAsyncData ({ store, route }) {
-    Logger.log('preAsyncData query setup')
+    Logger.log('preAsyncData query setup')()
     store.dispatch('category/setSearchOptions', {
       populateAggregations: true,
       store: store,
@@ -91,7 +91,7 @@ export default {
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
           includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.attribute.includeFields : null
         }).catch(err => {
-          Logger.error(err)
+          Logger.error(err)()
           reject(err)
         }).then((attrs) => {
           store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then((parentCategory) => {
@@ -107,29 +107,29 @@ export default {
                   EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
                     return resolve()
                   }).catch((err) => {
-                    Logger.error(err)
+                    Logger.error(err)()
                     return resolve()
                   })
                 }).catch(err => {
-                  Logger.error(err)
+                  Logger.error(err)()
                   reject(err)
                 })
               } else {
                 const err = new Error('Category query returned empty result')
-                Logger.error(err)
+                Logger.error(err)()
                 reject(err)
               }
             }).catch(err => {
-              Logger.error(err)
+              Logger.error(err)()
               reject(err)
             })
           }).catch(err => {
-            Logger.error(err)
+            Logger.error(err)()
             reject(err)
           })
         })
       }).catch(err => {
-        Logger.error(err)
+        Logger.error(err)()
         reject(err)
       })
     })

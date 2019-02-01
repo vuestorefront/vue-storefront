@@ -44,4 +44,4 @@ const AsyncDataLoader = {
   }
 }
 
-export { AsyncDataLoader, AsyncDataLoaderActionContext, AsyncDataLoaderAction } 
+export { AsyncDataLoader, AsyncDataLoaderActionContext, AsyncDataLoaderAction }

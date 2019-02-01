@@ -19,11 +19,11 @@ const mutations: MutationTree<OrderState> = {
     order.updated_at = new Date()
 
     ordersCollection.setItem(orderId.toString(), order, (err, resp) => {
-      if (err) Logger.error(err, 'order')
+      if (err) Logger.error(err, 'order')()
       if (!order.transmited) {
         Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
       }
-      Logger.info('Order placed, orderId = ' + orderId, 'order')
+      Logger.info('Order placed, orderId = ' + orderId, 'order')()
     }).catch((reason) => {
       Logger.error(reason, 'order') // it doesn't work on SSR
     }) // populate cache

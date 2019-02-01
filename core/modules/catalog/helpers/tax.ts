@@ -126,18 +126,18 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
         if (rate.tax_country_id === taxCountry && (rate.region_name === taxRegion || rate.tax_region_id === 0 || !rate.region_name)) {
           updateProductPrices(product, rate, sourcePriceInclTax)
           rateFound = true
-          Logger.debug('Tax rate ' + rate.code + ' = ' + rate.rate + '% found for ' + taxCountry + ' / ' + taxRegion, 'helper-tax')
+          Logger.debug('Tax rate ' + rate.code + ' = ' + rate.rate + '% found for ' + taxCountry + ' / ' + taxRegion, 'helper-tax')()
           break
         }
       }
     } else {
-      Logger.debug('No such tax class id: ' + product.tax_class_id, 'helper-tax')
+      Logger.debug('No such tax class id: ' + product.tax_class_id, 'helper-tax')()
     }
   } else  {
-    Logger.debug('No  tax class set for: ' + product.sku, 'helper-tax')
+    Logger.debug('No  tax class set for: ' + product.sku, 'helper-tax')()
   }
   if (!rateFound) {
-    Logger.log('No such tax class id: ' + product.tax_class_id + ' or rate not found for ' + taxCountry + ' / ' + taxRegion, 'helper-tax')
+    Logger.log('No such tax class id: ' + product.tax_class_id + ' or rate not found for ' + taxCountry + ' / ' + taxRegion, 'helper-tax')()
     updateProductPrices(product, {rate: 0})
 
     product.priceInclTax = product.price

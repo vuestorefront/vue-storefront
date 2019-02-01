@@ -12,7 +12,7 @@ const actions: ActionTree<TaxState, RootState> = {
    */
   list (context, { entityType = 'taxrule' }) {
     if (context.state.rules.length > 0) {
-      Logger.info('Tax rules served from local memory', 'tax')
+      Logger.info('Tax rules served from local memory', 'tax')()
       return new Promise((resolve, reject) => {
         resolve({ items: context.state.rules })
       })

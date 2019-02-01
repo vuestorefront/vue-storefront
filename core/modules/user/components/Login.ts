@@ -27,7 +27,7 @@ export const Login = {
           this.close()
         }
       }).catch(err => {
-        Logger.error(err, 'user')
+        Logger.error(err, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
       })

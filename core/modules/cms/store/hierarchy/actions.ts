@@ -24,7 +24,7 @@ const actions: ActionTree<CmsHierarchyState, RootState> = {
     }
 
     return quickSearchByQuery({ query, entityType, excludeFields, includeFields }).catch(err => {
-      Logger.error(err, 'cms')
+      Logger.error(err, 'cms')()
     })
   }
 }

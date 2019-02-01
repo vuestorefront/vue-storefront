@@ -11,7 +11,7 @@ const mutations: MutationTree<TaxState> = {
     for (let tc of taxClasses.items) { // we store each product separately in cache to have offline acces for products/single method
       const cacheKey = entityKeyName('tc', tc.id)
       cache.setItem(cacheKey, tc).catch((err) => {
-        Logger.error('Cannot store cache for ' + cacheKey + ', ' + err)
+        Logger.error('Cannot store cache for ' + cacheKey + ', ' + err)()
       })
     }
     state.rules = taxClasses.items // extract fields from ES _source
