@@ -1,12 +1,14 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
+const compile = require('lodash.template')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
+
 const cache = require('./utils/cache-instance')
+const apiStatus = require('./utils/api-status')
+
 let config = require('config')
-const utils = require('./server/utils')
-const compile = require('lodash.template')
 
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
@@ -63,7 +65,7 @@ function invalidateCache (req, res) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
         console.error('Invalid cache invalidation key')
-        utils.apiStatus(res, 'Invalid cache invalidation key', 500)
+        apiStatus(res, 'Invalid cache invalidation key', 500)
         return
       }
       console.log(`Clear cache request for [${req.query.tag}]`)
@@ -86,17 +88,17 @@ function invalidateCache (req, res) {
         }
       })
       Promise.all(subPromises).then(r => {
-        utils.apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
+        apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
-        utils.apiStatus(res, error, 500)
+        apiStatus(res, error, 500)
         console.error(error)
       })
     } else {
-      utils.apiStatus(res, 'Invalid parameters for Clear cache request', 500)
+      apiStatus(res, 'Invalid parameters for Clear cache request', 500)
       console.error('Invalid parameters for Clear cache request')
     }
   } else {
-    utils.apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
+    apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
   }
 }
 
