@@ -7,6 +7,7 @@ import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
 import buildTimeConfig from 'config'
 import { AsyncDataLoader } from './lib/asyncdataloader';
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {

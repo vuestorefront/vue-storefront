@@ -13,6 +13,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 
 const actions: ActionTree<CategoryState, RootState> = {
