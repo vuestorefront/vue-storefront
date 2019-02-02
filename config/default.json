@@ -39,7 +39,34 @@
       "csrTimeout": 5000,
       "ssrTimeout": 1000,
       "queryMethod": "GET",
-      "disableLocalStorageQueriesCache": true
+      "disableLocalStorageQueriesCache": true,
+      "searchScoring": {
+        "attributes": {
+          "attribute_code": {
+            "scoreValues": { "attribute_value": { "weight": 1 } }
+          }
+        },
+        "fuzziness": 2,
+        "cutoff_frequency":  0.01,
+        "max_expansions": 3,
+        "minimum_should_match": "75%",
+        "prefix_length": 2, 
+        "boost_mode": "multiply",
+        "score_mode": "multiply", 
+        "max_boost": 100,
+        "function_min_score": 1
+      },
+      "searchableAttributes": {
+        "name": {
+          "boost": 4
+        },
+        "sku": {
+          "boost": 2
+        },
+        "category.name": {
+          "boost": 1
+        }
+      }
     },
     "ssr": {
       "templates": {
@@ -383,14 +410,6 @@
     },
     "usePriceTiers": false,
     "useZeroPriceProduct": true,
-    "boost": {
-      "name": 3,
-      "category.name": 1,
-      "short_description": 1,
-      "description": 1,
-      "sku": 1,
-      "configurable_children.sku": 1
-    },
     "query": {
       "inspirations": {
         "filter": [
@@ -427,3 +446,4 @@
     }
 
 }
+

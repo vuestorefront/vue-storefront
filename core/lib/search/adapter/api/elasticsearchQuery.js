@@ -1,3 +1,5 @@
+import getFunctionScores from '../../score'
+import getMultiMatchConfig from '../../multimatch'
 import getBoosts from '../../boost'
 import getMapping from '../../mapping'
 import cloneDeep from 'lodash-es/cloneDeep'
@@ -94,19 +96,29 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
       }
     }
   }
-
-  if (queryText !== '') {
-    query = query.andQuery('bool', b => b.orQuery('match_phrase_prefix', 'name', { query: queryText, boost: getBoosts('name'), slop: 2 })
-      .orQuery('match_phrase', 'category.name', { query: queryText, boost: getBoosts('category.name') })
-      .orQuery('match_phrase', 'short_description', { query: queryText, boost: getBoosts('short_description') })
-      .orQuery('match_phrase', 'description', { query: queryText, boost: getBoosts('description') })
-      .orQuery('bool', b => b.orQuery('terms', 'sku', queryText.split('-'))
-        .orQuery('terms', 'configurable_children.sku', queryText.split('-'))
-        .orQuery('match_phrase', 'sku', { query: queryText, boost: getBoosts('sku') })
-        .orQuery('match_phrase', 'configurable_children.sku', { query: queryText, boost: getBoosts('configurable_children.sku') }))
-    )
+  // Get searchable fields based on user-defined config.
+  let getQueryBody = function (b) {
+    let searchableAttributes = config.elasticsearch.hasOwnProperty('searchableAttributes') ? config.elasticsearch.searchableAttributes : {'name': {'boost': 1}}
+    let searchableFields = [
+    ]
+    for (const attribute of Object.keys(searchableAttributes)) {
+      searchableFields.push(attribute + '^' + getBoosts(attribute))
+    }
+    return b.orQuery('multi_match', 'fields', searchableFields, getMultiMatchConfig(queryText))
+      .orQuery('bool', b => b.orQuery('terms', 'configurable_children.sku', queryText.split('-'))
+        .orQuery('match_phrase', 'sku', { query: queryText, boost: 1 })
+        .orQuery('match_phrase', 'configurable_children.sku', { query: queryText, boost: 1 })
+      )
   }
-
+  if (queryText !== '') {
+    let functionScore = getFunctionScores()
+    // Build bool or function_scrre accordingly
+    if (functionScore) {
+      query = query.query('function_score', functionScore, getQueryBody)
+    } else {
+      query = query.query('bool', getQueryBody)
+    }
+  }
   const queryBody = query.build()
 
   return queryBody
