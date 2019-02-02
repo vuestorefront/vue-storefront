@@ -1,15 +1,15 @@
-import store from '@vue-storefront/store'
+import config from 'config'
 
 export default function getBoosts (attribute = '') {
-  let boosts = [
+  let searchableAttributes = [
   ]
 
-  if (store.state.boost) {
-    boosts = store.state.config.boost
+  if (config.elasticsearch.hasOwnProperty('searchableAttributes') && config.elasticsearch.searchableAttributes[attribute]) {
+    searchableAttributes = config.elasticsearch.searchableAttributes[attribute]
   }
 
-  if (boosts.hasOwnProperty(attribute)) {
-    return boosts[attribute]
+  if (searchableAttributes.hasOwnProperty('boost')) {
+    return searchableAttributes['boost']
   }
 
   return 1
