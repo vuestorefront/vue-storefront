@@ -1,7 +1,7 @@
-import getFunctionScores from '../../score'
-import getMultiMatchConfig from '../../multimatch'
-import getBoosts from '../../boost'
-import getMapping from '../../mapping'
+import getFunctionScores from './elasticsearch/score'
+import getMultiMatchConfig from './elasticsearch/multimatch'
+import getBoosts from './elasticsearch/boost'
+import getMapping from './elasticsearch/mapping'
 import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
 
