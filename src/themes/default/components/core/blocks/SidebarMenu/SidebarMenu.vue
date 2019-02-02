@@ -82,15 +82,6 @@
               {{ $t('Compare products') }}
             </router-link>
           </li>
-          <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
-            <router-link
-              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              :to="localizedRoute('/order-tracking')"
-              exact
-            >
-              {{ $t('Track my order') }}
-            </router-link>
-          </li>
           <li @click="login" class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
             <sub-btn
               v-if="currentUser"
