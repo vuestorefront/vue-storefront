@@ -403,7 +403,7 @@ export default {
           },
           zipCode: {
             required,
-            minLength: minLength(4)
+            minLength: minLength(3)
           },
           city: {
             required
