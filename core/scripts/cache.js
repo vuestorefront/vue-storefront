@@ -2,19 +2,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 const program = require('commander')
 const config = require('config')
-const TagCache = require('redis-tag-cache').default
-
-let cache
-if (config.server.useOutputCache) {
-  cache = new TagCache({
-    redis: config.redis,
-    defaultTimeout: config.server.outputCacheDefaultTtl // Expire records after a day (even if they weren't invalidated)
-  })
-  Logger.log('Redis cache set', config.redis)()
-} else {
-  Logger.error('Output cache is disabled in the config')()
-}
-
+const cache = require('./utils/cache-instance')
 program
   .command('clear')
   .option('-t|--tag <tag>', 'tag name, available tags: ' + config.server.availableCacheTags.join(', '), '*')

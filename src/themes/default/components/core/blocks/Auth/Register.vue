@@ -42,10 +42,16 @@
             v-model="firstName"
             @blur="$v.firstName.$touch()"
             :placeholder="$t('First name *')"
-            :validation="{
-              condition: !$v.firstName.required && $v.firstName.$error,
-              text: $t('Field is required.')
-            }"
+            :validations="[
+              {
+                condition: !$v.firstName.required && $v.firstName.$error,
+                text: $t('Field is required.')
+              },
+              {
+                condition: !$v.firstName.minLength,
+                text: $t('Name must have at least 2 letters.')
+              }
+            ]"
           />
           <base-input
             class="col-xs-6"
@@ -143,6 +149,7 @@ export default {
       email
     },
     firstName: {
+      minLength: minLength(2),
       required
     },
     lastName: {

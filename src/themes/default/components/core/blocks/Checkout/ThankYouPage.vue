@@ -119,7 +119,7 @@ export default {
       this.sendEmail(
         {
           sourceAddress: this.checkoutPersonalEmailAddress,
-          targetAddress: this.mailerElements.contactAddress,
+          targetAddress: this.mailerElements,
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
@@ -136,7 +136,7 @@ export default {
       if (this.mailerElements.sendConfirmation) {
         this.sendEmail(
           {
-            sourceAddress: this.mailerElements.contactAddress,
+            sourceAddress: this.mailerElements,
             targetAddress: this.checkoutPersonalEmailAddress,
             subject: this.$t('Confirmation of receival'),
             emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
