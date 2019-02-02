@@ -61,7 +61,7 @@
             v-model="lastName"
             @blur="$v.lastName.$touch()"
             :placeholder="$t('Last name *')"
-            :validations="{
+            :validation="{
               condition: !$v.lastName.required && $v.lastName.$error,
               text: $t('Field is required.')
             }"
