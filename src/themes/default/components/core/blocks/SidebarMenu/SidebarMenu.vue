@@ -92,6 +92,7 @@
               v-if="currentUser"
               :my-account-links="myAccountLinks"
               :id="'foo'"
+              @click.native="closeMenu"
             />
             <a
               v-if="!currentUser && isCurrentMenuShowed"
@@ -186,8 +187,12 @@ export default {
   },
   methods: {
     login () {
-      this.$bus.$emit('modal-show', 'modal-signup')
-      this.$router.push({ name: 'my-account' })
+      if (!this.currentUser && this.isCurrentMenuShowed) {
+        this.$nextTick(() => {
+          this.$bus.$emit('modal-show', 'modal-signup')
+          this.$router.push({ name: 'my-account' })
+        })
+      }
     }
   }
 }

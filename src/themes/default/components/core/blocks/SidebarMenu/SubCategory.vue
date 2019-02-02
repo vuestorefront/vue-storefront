@@ -129,6 +129,7 @@ export default {
   methods: {
     logout () {
       this.$bus.$emit('user-before-logout')
+      this.$router.push(this.localizedRoute('/'))
     },
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
