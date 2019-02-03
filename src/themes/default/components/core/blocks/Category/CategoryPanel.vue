@@ -13,7 +13,7 @@
           class="categories__button no-outline bg-cl-transparent py10 px20"
           :class="{ 'categories__button--active': value.includes(category.category_id) }"
           type="button"
-          @click="filterProducts(category)"
+          @click="toggleCategory(category)"
         >
           {{ category.name }}
         </button>
@@ -38,19 +38,14 @@ export default {
     return {
     }
   },
-  computed: {
-    activeCategory () {
-      if (this.value.length) {
-        return this.categories.find(category => category.category_id === this.value[0])
-      }
-    }
-  },
   methods: {
-    filterProducts (category) {
-      this.$emit('input', [category.category_id])
-    },
-    deleteFilter () {
-      this.$store.dispatch('category/deleteSidebarSelectedCategory')
+    toggleCategory (category) {
+      const isSelected = this.value.includes(category.category_id)
+      if (isSelected) {
+        this.$emit('input', this.value.filter(categoryId => categoryId !== category.category_id))
+      } else {
+        this.$emit('input', [...this.value, category.category_id])
+      }
     }
   }
 }
@@ -81,6 +76,10 @@ export default {
     &--active {
       background: #333;
       color: #fff;
+    }
+
+    &--active {
+      text-decoration: underline;
     }
   }
 
