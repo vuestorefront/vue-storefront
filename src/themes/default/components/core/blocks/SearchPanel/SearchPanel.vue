@@ -37,12 +37,13 @@
           </div>
         </div>
       </div>
-      <div v-if="allProducts.length > 0 && categories.length > 1" class="categories">
-        <category-panel :product-categories="categories" />
+      <div v-if="visibleProducts.length && categories.length" class="categories">
+        <pre> {{ selectedCategoryIds }} </pre>
+        <category-panel :product-categories="categories" v-model="selectedCategoryIds"/>
       </div>
       <div class="product-listing row">
         <product-tile
-          v-for="product in allProducts"
+          v-for="product in visibleProducts"
           :key="product.id"
           :product="product"
           @click.native="closeSearchpanel"
@@ -53,7 +54,7 @@
           </div>
         </transition>
       </div>
-      <div v-show="OnlineOnly" v-if="allProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
+      <div v-show="OnlineOnly" v-if="visibleProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
         <button @click="seeMore" v-if="readMore"
                 class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
                 type="button">
@@ -83,34 +84,24 @@ export default {
   mixins: [SearchPanel, VueOfflineMixin],
   data () {
     return {
-      allProducts: this.products || []
+      selectedCategoryIds: []
     }
   },
   computed: {
+    visibleProducts () {
+      const productList = this.products || []
+      if (this.selectedCategoryIds.length) {
+        return productList.filter(product => product.category_ids.some(categoryId => {
+          const catId = parseInt(categoryId)
+          return this.selectedCategoryIds.includes(catId)
+        }))
+      }
+      return productList
+    },
     categories () {
       return this.products.map(product => {
         return product.category
       })
-    },
-    selectedCategory () {
-      return this.$store.state.category.sidebar_selected_category
-    }
-  },
-  watch: {
-    products (newValue) {
-      this.allProducts = this.products
-    },
-    selectedCategory (categoryToFilter) {
-      const filtered = this.products.filter(product => {
-        if (product.category.length > 0) {
-          return !!product.category.find(oneCategory => (categoryToFilter.category_id === oneCategory.category_id))
-        }
-      })
-      if (filtered.length > 0) {
-        this.allProducts = filtered
-      } else {
-        this.allProducts = this.products
-      }
     }
   }
 }

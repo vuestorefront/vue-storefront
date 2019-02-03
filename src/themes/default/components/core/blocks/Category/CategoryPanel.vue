@@ -84,7 +84,7 @@ export default {
   methods: {
     filterProducts (category, buttonIndex) {
       this.isFilterHidden = buttonIndex
-      this.$store.dispatch('category/addSidebarSelectedCategory', category)
+      this.$emit('input', [category.category_id])
     },
     deleteFilter () {
       this.isFilterHidden = false
