@@ -1,41 +1,19 @@
 <template>
   <div class="categories">
     <div
-      v-if="activeCategory"
-      class="categories__handler"
-    >
-      <h4 class="categories__heading">
-        {{ $t('Active filter') }}
-      </h4>
-
-      <button
-        class="categories__button categories__button--active no-outline py10 px20"
-        type="button"
-        @click="deleteFilter"
-      >
-        <span class="categories__button-text">
-          {{ activeCategory.name }}
-        </span>
-
-        <i class="fs-medium material-icons">close</i>
-      </button>
-    </div>
-
-    <div
-      v-if="categories.length > 1"
       class="categories__handler"
     >
       <h4 class="categories__heading">
         {{ $t('Filter by categories') }}
       </h4>
 
-      <template v-for="(category, index) in categories">
+      <template v-for="category in categories">
         <button
-          v-if="isFilterHidden !== index"
-          :key="index"
+          :key="category.category_id"
           class="categories__button no-outline bg-cl-transparent py10 px20"
+          :class="{ 'categories__button--active': value.includes(category.category_id) }"
           type="button"
-          @click="filterProducts(category, index)"
+          @click="filterProducts(category)"
         >
           {{ category.name }}
         </button>
@@ -50,25 +28,28 @@ export default {
     categories: {
       type: Array,
       required: true
+    },
+    value: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
     return {
-      isFilterHidden: false
     }
   },
   computed: {
     activeCategory () {
-      return this.$store.state.category.sidebar_selected_category
+      if (this.value.length) {
+        return this.categories.find(category => category.category_id === this.value[0])
+      }
     }
   },
   methods: {
-    filterProducts (category, buttonIndex) {
-      this.isFilterHidden = buttonIndex
+    filterProducts (category) {
       this.$emit('input', [category.category_id])
     },
     deleteFilter () {
-      this.isFilterHidden = false
       this.$store.dispatch('category/deleteSidebarSelectedCategory')
     }
   }
@@ -96,14 +77,10 @@ export default {
     border: 2px solid #333;
     transition: all 0.2s ease;
 
-    &:hover {
+    &:hover,
+    &--active {
       background: #333;
       color: #fff;
-    }
-
-    &--active {
-      margin-right: 0;
-      margin-bottom: 0;
     }
   }
 

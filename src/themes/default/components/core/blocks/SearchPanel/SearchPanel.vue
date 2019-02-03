@@ -37,8 +37,7 @@
           </div>
         </div>
       </div>
-      <div v-if="visibleProducts.length && categories.length" class="categories">
-        <pre> {{ selectedCategoryIds }} </pre>
+      <div v-if="visibleProducts.length && categories.length > 1" class="categories">
         <category-panel :categories="categories" v-model="selectedCategoryIds"/>
       </div>
       <div class="product-listing row">
