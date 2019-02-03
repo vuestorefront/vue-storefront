@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.8.0] - UNRELEASED
 ### Added
 - Chinese translation added (#2341)
+- Categories filter in search view - @kjugi, @patzick (#1710)
 
 ### Changed / Improved
 - Fixed isServer flag in module hooks (#840)
