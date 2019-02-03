@@ -37,15 +37,23 @@
           </div>
         </div>
       </div>
+      <div v-if="allProducts.length > 0 && categories.length > 1" class="categories">
+        <category-panel :product-categories="categories" />
+      </div>
       <div class="product-listing row">
-        <product-tile @click.native="closeSearchpanel" :key="product.id" v-for="product in products" :product="product"/>
+        <product-tile
+          v-for="product in allProducts"
+          :key="product.id"
+          :product="product"
+          @click.native="closeSearchpanel"
+        />
         <transition name="fade">
           <div v-if="emptyResults" class="no-results relative center-xs h4 col-md-12">
             {{ $t('No results were found.') }}
           </div>
         </transition>
       </div>
-      <div v-show="OnlineOnly" v-if="products.length >= 18" class="buttons-set align-center py35 mt20 px40">
+      <div v-show="OnlineOnly" v-if="allProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
         <button @click="seeMore" v-if="readMore"
                 class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
                 type="button">
@@ -65,12 +73,46 @@
 import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
 import VueOfflineMixin from 'vue-offline/mixin'
+import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
 
 export default {
   components: {
-    ProductTile
+    ProductTile,
+    CategoryPanel
   },
-  mixins: [SearchPanel, VueOfflineMixin]
+  mixins: [SearchPanel, VueOfflineMixin],
+  data () {
+    return {
+      allProducts: this.products || []
+    }
+  },
+  computed: {
+    categories () {
+      return this.products.map(product => {
+        return product.category
+      })
+    },
+    selectedCategory () {
+      return this.$store.state.category.sidebar_selected_category
+    }
+  },
+  watch: {
+    products (newValue) {
+      this.allProducts = this.products
+    },
+    selectedCategory (categoryToFilter) {
+      const filtered = this.products.filter(product => {
+        if (product.category.length > 0) {
+          return !!product.category.find(oneCategory => (categoryToFilter.category_id === oneCategory.category_id))
+        }
+      })
+      if (filtered.length > 0) {
+        this.allProducts = filtered
+      } else {
+        this.allProducts = this.products
+      }
+    }
+  }
 }
 </script>
 
