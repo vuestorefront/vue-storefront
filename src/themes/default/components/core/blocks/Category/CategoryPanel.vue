@@ -47,7 +47,7 @@
 <script>
 export default {
   props: {
-    productCategories: {
+    categories: {
       type: Array,
       required: true
     }
@@ -60,25 +60,6 @@ export default {
   computed: {
     activeCategory () {
       return this.$store.state.category.sidebar_selected_category
-    },
-    categories () {
-      const flatArray = []
-      const uniqueArray = []
-
-      // Convert all showed productCategories to flat - one obj, one category
-      this.productCategories.forEach(item => {
-        flatArray.push(...item)
-      })
-
-      // Filter only for unique values
-      flatArray.forEach(item => {
-        if (!uniqueArray.find(category => (item.category_id === category.category_id))) {
-          uniqueArray.push(item)
-        }
-      })
-
-      // Return only unique values
-      return uniqueArray
     }
   },
   methods: {

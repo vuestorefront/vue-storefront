@@ -39,7 +39,7 @@
       </div>
       <div v-if="visibleProducts.length && categories.length" class="categories">
         <pre> {{ selectedCategoryIds }} </pre>
-        <category-panel :product-categories="categories" v-model="selectedCategoryIds"/>
+        <category-panel :categories="categories" v-model="selectedCategoryIds"/>
       </div>
       <div class="product-listing row">
         <product-tile
@@ -99,9 +99,13 @@ export default {
       return productList
     },
     categories () {
-      return this.products.map(product => {
-        return product.category
+      const categoriesMap = {}
+      this.products.forEach(product => {
+        [...product.category].forEach(category => {
+          categoriesMap[category.category_id] = category
+        })
       })
+      return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
     }
   }
 }
