@@ -106,6 +106,11 @@ export default {
       })
       return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
     }
+  },
+  watch: {
+    categories () {
+      this.selectedCategoryIds = []
+    }
   }
 }
 </script>
