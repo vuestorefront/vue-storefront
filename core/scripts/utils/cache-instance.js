@@ -2,20 +2,19 @@ const fs = require('fs')
 const path = require('path')
 const TagCache = require('redis-tag-cache').default
 const config = require('config')
+let cache = false
 
-module.exports = () => {
-  if (config.server.useOutputCache) {
-    return false
-  }
-
-  const cacheVersionPath = path.join(__dirname, '..', 'build', 'cache-version.json')
+if (config.server.useOutputCache) {
+  const cacheVersionPath = path.resolve(path.join('core', 'build', 'cache-version.json'))
   const cacheKey = JSON.parse(fs.readFileSync(cacheVersionPath) || '')
   const redisConfig = Object.assign(config.redis, { keyPrefix: cacheKey })
 
   console.log('Redis cache set', redisConfig)
 
-  return new TagCache({
+  cache = new TagCache({
     redis: redisConfig,
     defaultTimeout: config.server.outputCacheDefaultTtl
   })
 }
+
+module.exports = cache

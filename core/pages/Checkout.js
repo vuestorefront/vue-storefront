@@ -7,6 +7,7 @@ import { mapGetters } from 'vuex'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Checkout',
@@ -71,7 +72,7 @@ export default {
             checkPromises.push(new Promise((resolve, reject) => {
               Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
                 if (err || !item) {
-                  if (err) console.error(err)
+                  if (err) Logger.error(err)()
                   resolve(null)
                 } else {
                   product.stock = item.result
@@ -144,7 +145,7 @@ export default {
       this.confirmation = payload.confirmation
       this.orderPlaced = true
       this.$store.dispatch('checkout/setThankYouPage', true)
-      console.debug(payload.order)
+      Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {
       this.activateSection(section)

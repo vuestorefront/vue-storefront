@@ -3,13 +3,14 @@ import { getSearchAdapter } from '@vue-storefront/core/lib/search/adapter/search
 import { processESResponseType } from '@vue-storefront/core/lib/search/adapter/graphql/processor/processType'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
 export function afterRegistration (Vue, config, store, isServer) {
   Vue.$on('application-after-init', async () => {
-    console.debug('Example of custom entity graphql extension')
+    Logger.debug('Example of custom entity graphql extension')()
 
     // create graphQl searchAdapter
     let searchAdapter = await getSearchAdapter('graphql')
@@ -56,7 +57,7 @@ export function afterRegistration (Vue, config, store, isServer) {
     // apply test search
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, 0, 200)
-      console.log('Testentity response: ', res)
+      Logger.log('Testentity response: ', res)()
     })
   })
 }

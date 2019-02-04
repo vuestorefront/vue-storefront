@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const state = {
   cmsPages: [],
@@ -35,8 +36,8 @@ const actions = {
         }
       })
       .catch((err) => {
-        console.log(err)
-        console.error('You need to install a custom Magento module from Snow.dog to make the CMS magick happen. Please go to https://github.com/SnowdogApps/magento2-cms-api and follow the instructions')
+        Logger.log(err)()
+        Logger.error('You need to install a custom Magento module from Snow.dog to make the CMS magick happen. Please go to https://github.com/SnowdogApps/magento2-cms-api and follow the instructions')()
       })
   }
 }

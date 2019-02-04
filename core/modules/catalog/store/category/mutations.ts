@@ -5,6 +5,7 @@ import { slugify, breadCrumbRoutes } from '@vue-storefront/core/helpers'
 import { entityKeyName } from '@vue-storefront/store/lib/entities'
 import CategoryState from '../../types/CategoryState'
 import rootStore from '@vue-storefront/store'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
@@ -32,13 +33,13 @@ const mutations: MutationTree<CategoryState> = {
         const catCollection = Vue.prototype.$db.categoriesCollection
         try {
           catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
-            console.error(reason) // it doesn't work on SSR
+            Logger.error(reason, 'category') // it doesn't work on SSR
           }) // populate cache by slug
           catCollection.setItem(entityKeyName('id', category.id), category).catch((reason) => {
-            console.error(reason) // it doesn't work on SSR
+            Logger.error(reason, 'category') // it doesn't work on SSR
           }) // populate cache by id
         } catch (e) {
-          console.error(e)
+          Logger.error(e, 'category')()
         }
       }
     }
