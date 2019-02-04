@@ -2,7 +2,7 @@
   <div
     class="inline-flex relative dropdown"
     data-testid="accountButton"
-    @click.self="goToAccount"
+    @click.self="goToAccount();showMenu = true;"
     @keyup.enter="goToAccount"
     tabindex="0"
     role="button"
