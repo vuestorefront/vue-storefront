@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `store/lib/search` has been moved to `core/lib/search` (#2225)
 - `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
+- Output cache clearing supports versioning - @igloczek (#2333 + #2359)
 
 ## [1.7.3] - 2019.01.31
 ### Fixed
