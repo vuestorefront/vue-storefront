@@ -1,5 +1,5 @@
-import path from 'path'
-import detectInstalled from 'detect-installed'
+const path = require('path')
+const detectInstalled = require('detect-installed')
 const config = require('./config.json')
 
 let themePath = ''
@@ -12,7 +12,5 @@ else {
   themeName = themeName.replace('@vue-storefront/theme-', '')
   themePath = path.resolve(__dirname, '../../src/themes/' + themeName)
 }
-
-export default themePath
 
 module.exports = themePath
