@@ -6,6 +6,7 @@ import RootState from '@vue-storefront/core/types/RootState';
 import CmsPageState from "../../types/CmsPageState"
 import { cacheStorage  } from '../../'
 import { cmsPagesStorageKey } from './'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CmsPageState, RootState> = {
 
@@ -33,7 +34,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
         return resp.items
       })
       .catch(err => {
-        console.error(err)
+        Logger.error(err, 'cms')()
       })
     } else {
       return new Promise((resolve, reject) => {
@@ -77,7 +78,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
         let resp = context.state.items.find(p => p[key] === value)
         if (resp) {
           if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
-          resolve(resp)        
+          resolve(resp)
         } else {
           cacheStorage.getItem(cmsPagesStorageKey, (err, storedItems) => {
             if (err) reject(err)

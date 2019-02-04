@@ -1,4 +1,5 @@
 import i18n from '@vue-storefront/i18n'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const Login = {
   name: 'Login',
@@ -26,7 +27,7 @@ export const Login = {
           this.close()
         }
       }).catch(err => {
-        console.error(err)
+        Logger.error(err, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
       })
