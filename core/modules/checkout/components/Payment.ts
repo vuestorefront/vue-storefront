@@ -106,7 +106,7 @@ export const Payment = {
           zipCode: '',
           phoneNumber: '',
           taxId: '',
-          paymentMethod: this.paymentMethods[0].code
+          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
         }
       }
     },
@@ -124,7 +124,7 @@ export const Payment = {
           apartmentNumber: shippingDetails.apartmentNumber,
           zipCode: shippingDetails.zipCode,
           phoneNumber: shippingDetails.phoneNumber,
-          paymentMethod: this.paymentMethods[0].code
+          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
         }
         this.sendToBillingAddress = false
         this.generateInvoice = false
@@ -152,7 +152,7 @@ export const Payment = {
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
               phoneNumber: addresses[i].telephone,
-              paymentMethod: this.paymentMethods[0].code
+              paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
             }
             this.generateInvoice = true
           }
