@@ -5,9 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.8.0] - UNRELEASED
+### Added
+- Chinese translation added (#2341)
+- Categories filter in search view - @kjugi, @patzick (#1710)
+
 ### Changed / Improved
 - Fixed isServer flag in module hooks (#840)
 - Location of type files (#2226)
+- Elastic Search fuzzy search + other improvements (#2340)
 - Support regional characters in urls
 - `store/lib/search` has been moved to `core/lib/search` (#2225)
 - `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
