@@ -111,11 +111,11 @@ api.cart.order(null, cartId, {
       "additional_data":orderData.addressInformation.payment_method_additional
   }
 }, isThisAuthOrder).then(result => {
-  logger.info(THREAD_ID, result)
+  logger.info(THREAD_ID, result)()
   if(job) job.progress(currentStep++, TOTAL_STEPS);
 
-  logger.info(THREAD_ID + '[OK] Order placed with ORDER ID', result);
-  logger.debug(THREAD_ID + result)
+  logger.info(THREAD_ID + '[OK] Order placed with ORDER ID', result);()
+  logger.debug(THREAD_ID + result)()
   redisClient.set("order$$id$$" + orderData.order_id, JSON.stringify(
   {
       platform_order_id: result,

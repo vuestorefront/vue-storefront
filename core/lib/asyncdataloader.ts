@@ -1,5 +1,5 @@
 import { isServer } from '@vue-storefront/core/helpers'
-import { Logger } from './logger'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const DEFAULT_ACTION_CATEGORY = 'asyncData'
 // Data loader queues all the data fetching operations and runs them at once - to be usedf for example in the `asyncData()` functions
@@ -44,4 +44,4 @@ const AsyncDataLoader = {
   }
 }
 
-export { AsyncDataLoader, AsyncDataLoaderActionContext, AsyncDataLoaderAction } 
+export { AsyncDataLoader, AsyncDataLoaderActionContext, AsyncDataLoaderAction }

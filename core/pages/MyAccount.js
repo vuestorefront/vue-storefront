@@ -1,6 +1,7 @@
 import i18n from '@vue-storefront/i18n'
 
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'MyAccount',
@@ -35,7 +36,7 @@ export default {
           this.$store.dispatch('user/update', { customer: updatedData })
         } catch (err) {
           this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
-          console.error(err)
+          Logger.error(err)()
         }
       }
     }

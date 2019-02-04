@@ -1,10 +1,11 @@
 import i18n from '@vue-storefront/i18n'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Error',
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      console.log('Calling asyncData for Error page ' + new Date())
+      Logger.log('Calling asyncData for Error page ' + new Date())()
       if (context) {
         context.output.cacheTags.add(`error`)
       }

@@ -2,6 +2,7 @@ import { mapMutations } from 'vuex'
 import * as types from '../store/product/mutation-types'
 import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 function _fieldName (co) {
   return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
@@ -96,7 +97,7 @@ export const ProductBundleOptions = {
               this.product.errors['bundle_options_' + fieldName] = null
             }
           } else {
-            console.error('No validation rule found for ', validationRule)
+            Logger.error('No validation rule found for ' + validationRule, 'components-product-bundle-options')()
             this.$set(this.validationResults, fieldName, validationResult)
           }
         } else {
