@@ -45,7 +45,7 @@
             type="number"
             autofocus
             v-model.number="qty"
-            @change="updateQuantity"
+            @blur="updateQuantity"
             data-testid="productQtyInput"
           >
         </span>
