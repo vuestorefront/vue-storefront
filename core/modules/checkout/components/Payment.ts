@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import toString from 'lodash-es/toString'
 
 export const Payment = {
   name: 'Payment',
@@ -70,7 +71,7 @@ export const Payment = {
           let id = this.currentUser.default_billing
           let addresses = this.currentUser.addresses
           for (let i = 0; i < addresses.length; i++) {
-            if (addresses[i].id === Number(id)) {
+            if (toString(addresses[i].id) === toString(id)) {
               this.payment = {
                 firstName: addresses[i].firstname,
                 lastName: addresses[i].lastname,
@@ -139,7 +140,7 @@ export const Payment = {
         let id = this.currentUser.default_billing
         let addresses = this.currentUser.addresses
         for (let i = 0; i < addresses.length; i++) {
-          if (addresses[i].id === Number(id)) {
+          if (toString(addresses[i].id) === toString(id)) {
             this.payment = {
               firstName: addresses[i].firstname,
               lastName: addresses[i].lastname,

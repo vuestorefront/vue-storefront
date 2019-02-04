@@ -1,4 +1,5 @@
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import toString from 'lodash-es/toString'
 
 export const UserShippingDetails = {
   name: 'MyShippingDetails',
@@ -76,7 +77,7 @@ export const UserShippingDetails = {
         if (this.currentUser.hasOwnProperty('default_shipping')) {
           let index
           for (let i = 0; i < this.currentUser.addresses.length; i++) {
-            if (this.currentUser.addresses[i].id === Number(this.currentUser.default_shipping)) {
+            if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
               index = i
             }
           }
@@ -126,7 +127,7 @@ export const UserShippingDetails = {
       if (this.useCompanyAddress) {
         let index
         for (let i = 0; i < this.currentUser.addresses.length; i++) {
-          if (this.currentUser.addresses[i].id === Number(this.currentUser.default_billing)) {
+          if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_billing)) {
             index = i
           }
         }
@@ -150,7 +151,7 @@ export const UserShippingDetails = {
         if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
           let index
           for (let i = 0; i < this.currentUser.addresses.length; i++) {
-            if (this.currentUser.addresses[i].id === Number(this.currentUser.default_shipping)) {
+            if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
               index = i
             }
           }
