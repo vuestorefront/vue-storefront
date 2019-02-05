@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Chinese translation added (#2341)
 - Categories filter in search view - @kjugi, @patzick (#1710)
+- AsyncDataLoader feature - @pkarw (#2300)
 
 ### Changed / Improved
 - Fixed isServer flag in module hooks (#840)
@@ -18,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
 - Output cache clearing supports versioning - @igloczek (#2333 + #2359)
+- Cash on delivery + Shipping addresses fixed for virtual products (#2366)
+- Magento 2.3 MSI work-around (it's still not supported fully) (#2366)
+- ElasticSearch fuzzy search, scoring, boosting + other improvements - @qbo-tech (#2340)
 
 ## [1.7.3] - 2019.01.31
 ### Fixed
