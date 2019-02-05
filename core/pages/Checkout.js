@@ -266,20 +266,6 @@ export default {
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
-          shippingAddress: {
-            region: this.shipping.state,
-            region_id: this.shipping.region_id ? this.shipping.region_id : 0,
-            country_id: this.shipping.country,
-            street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-            company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
-            telephone: this.shipping.phoneNumber,
-            postcode: this.shipping.zipCode,
-            city: this.shipping.city,
-            firstname: this.shipping.firstName,
-            lastname: this.shipping.lastName,
-            email: this.personalDetails.emailAddress,
-            region_code: this.shipping.region_code ? this.shipping.region_code : ''
-          },
           billingAddress: {
             region: this.payment.state,
             region_id: this.payment.region_id ? this.payment.region_id : 0,
@@ -300,6 +286,22 @@ export default {
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
+        }
+      }
+      if (!this.isVirtualCart) {
+        this.order.addressInformation.shippingAddress = {
+          region: this.shipping.state,
+          region_id: this.shipping.region_id ? this.shipping.region_id : 0,
+          country_id: this.shipping.country,
+          street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
+          company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
+          telephone: this.shipping.phoneNumber,
+          postcode: this.shipping.zipCode,
+          city: this.shipping.city,
+          firstname: this.shipping.firstName,
+          lastname: this.shipping.lastName,
+          email: this.personalDetails.emailAddress,
+          region_code: this.shipping.region_code ? this.shipping.region_code : ''
         }
       }
       return this.order
