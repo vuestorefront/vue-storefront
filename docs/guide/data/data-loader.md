@@ -15,12 +15,13 @@ So there we have the AsyncLoader :)
 Take a look at the `src/module-template/hooks/beforeRegistration` for an example:
 
 ```js
-import { AsyncDataLoader } from '@vue-storefront/core/lib/asyncdataloader'
+import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader'
   AsyncDataLoader.push({ // this is an example showing how to call data loader from another module
     execute: ({ route, store, context }) => {
       return new Promise ((resolve, reject) => {
-        store.state.exampleDataFetchedByLoader = 'this is just example data fetched by loader'
-        resolve(null)
+        store.dispatch('example/dataloader').then((results) => {
+          resolve(results)
+        })
       })
     }
   })
@@ -31,14 +32,17 @@ That's all! The action enqueued in here will be executed with every SSR request 
 You can selectively execute the fetching logic by checking the `route` or `context` objects provided:
 
 ```js
-import { AsyncDataLoader } from '@vue-storefront/core/lib/asyncdataloader'
+import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader'
   AsyncDataLoader.push({ // this is an example showing how to call data loader from another module
     execute: ({ route, store, context }) => {
       return new Promise ((resolve, reject) => {
         if (route.name === 'bundle-product') {
-          store.dispatch('actionName')
+          store.dispatch('example/dataloader').then((results) => {
+            resolve(results)
+          })
+        } else {
+          resolve(null)
         }
-        resolve(null)
       })
     }
   })
