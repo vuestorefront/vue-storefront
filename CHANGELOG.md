@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cash on delivery + Shipping addresses fixed for virtual products (#2366)
 - Magento 2.3 MSI work-around (it's still not supported fully) (#2366)
 - ElasticSearch fuzzy search, scoring, boosting + other improvements - @qbo-tech (#2340)
+- Improved user account menu UX on desktop - @vue-kacper (#2363)
 
 ## [1.7.3] - 2019.01.31
 ### Fixed
