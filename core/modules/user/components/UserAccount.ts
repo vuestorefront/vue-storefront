@@ -1,4 +1,5 @@
 const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
+import toString from 'lodash-es/toString'
 
 export const UserAccount = {
   name: 'UserAccount',
@@ -92,7 +93,7 @@ export const UserAccount = {
         if (updatedProfile.hasOwnProperty('default_billing')) {
           let index
           for (let i = 0; i < updatedProfile.addresses.length; i++) {
-            if (updatedProfile.addresses[i].id === Number(updatedProfile.default_billing)) {
+            if (toString(updatedProfile.addresses[i].id) === toString(updatedProfile.default_billing)) {
               index = i
             }
           }
@@ -172,7 +173,7 @@ export const UserAccount = {
       if (user.hasOwnProperty('default_billing')) {
         let index
         for (let i = 0; i < this.currentUser.addresses.length; i++) {
-          if (user.addresses[i].id === Number(user.default_billing)) {
+          if (toString(user.addresses[i].id) === toString(user.default_billing)) {
             index = i
           }
         }
