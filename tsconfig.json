@@ -30,7 +30,8 @@
     "core/**/*.ts",
     "core/**/*.vue",
     "tests/**/*.ts",
-    "module/**/*.ts"
+    "module/**/*.ts",
+    "core/build/theme-path.js"
   ],
   "exclude": [
     "node_modules"

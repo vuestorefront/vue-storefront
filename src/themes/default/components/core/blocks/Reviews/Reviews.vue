@@ -23,6 +23,10 @@
                   {
                     condition: $v.formData.name.$error && !$v.formData.name.required,
                     text: $t('Field is required')
+                  },
+                  {
+                    condition: !$v.formData.name.minLength,
+                    text: $t('Name must have at least 2 letters.')
                   }
                 ]"
               />
@@ -95,7 +99,7 @@
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators'
+import { required, email, minLength } from 'vuelidate/lib/validators'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
@@ -179,6 +183,7 @@ export default {
   validations: {
     formData: {
       name: {
+        minLength: minLength(2),
         required
       },
       email: {

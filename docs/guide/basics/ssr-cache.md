@@ -91,11 +91,11 @@ After doing so, please add the `asyncData` method to your page code assigning th
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`home`)
-      console.log('Entering asyncData for Home root ' + new Date())
+      Logger.log('Entering asyncData for Home root ' + new Date())()
       EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
         return resolve()
       }).catch((err) => {
-        console.error(err)
+        Logger.error(err)()
         reject(err)
       })
     })

@@ -1,5 +1,9 @@
+/**
+* @deprecated This module has been created before Vue.js v2.6.0. From 2.6.x on please do preferably use the `serverPrefetch` hook to sync SSR Vuex data. More info: https://ssr.vuejs.org/api/#serverprefetch
+* @description Please note: This module can be used not only for `asyncData` extensibility but also for simplyfying the data loaders in Vuex actions or other components - basicaly everywhere where we must `wait` for some async operations to complete.
+*/
 import { isServer } from '@vue-storefront/core/helpers'
-import { Logger } from './logger'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const DEFAULT_ACTION_CATEGORY = 'asyncData'
 // Data loader queues all the data fetching operations and runs them at once - to be usedf for example in the `asyncData()` functions
@@ -44,4 +48,4 @@ const AsyncDataLoader = {
   }
 }
 
-export { AsyncDataLoader, AsyncDataLoaderActionContext, AsyncDataLoaderAction } 
+export { AsyncDataLoader, AsyncDataLoaderActionContext, AsyncDataLoaderAction }
