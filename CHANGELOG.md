@@ -5,14 +5,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.8.0] - UNRELEASED
+### Added
+- Chinese translation added (#2341)
+- Categories filter in search view - @kjugi, @patzick (#1710)
+- AsyncDataLoader feature - @pkarw (#2300)
+
 ### Changed / Improved
+- Bundle products price calculation fix (#2371)
 - Fixed isServer flag in module hooks (#840)
 - Location of type files (#2226)
+- Elastic Search fuzzy search + other improvements (#2340)
 - Support regional characters in urls
 - `store/lib/search` has been moved to `core/lib/search` (#2225)
 - `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
+<<<<<<< HEAD
 - Changed beforeRegistration and afterRegiostration hooks signature. Now it contains only one object VSF. The subfields are the same as before so changing `beforeRegistration( Vue, config, store, isServer )` to `beforeRegistration({ Vue, config, store, isServer })`(and same with `afterRegistration`) is enough to make a proper migration to new API.
+=======
+- Output cache clearing supports versioning - @igloczek (#2333 + #2359)
+- Cash on delivery + Shipping addresses fixed for virtual products (#2366)
+- Magento 2.3 MSI work-around (it's still not supported fully) (#2366)
+- ElasticSearch fuzzy search, scoring, boosting + other improvements - @qbo-tech (#2340)
+- Improved user account menu UX on desktop - @vue-kacper (#2363)
+- Improved paddings on select fields - @patzick (#2361)
+
+>>>>>>> main/develop
 ## [1.7.3] - 2019.01.31
 ### Fixed
 - Output cache between build, cache versioning added - @igloczek (#2309)
@@ -100,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use localized routes for redirects to home page and account page — @grimasod #2157
 - ProductLinks fixed in Related products component — @pkarw #2168
 - Fix Cart Configurable Item pulled from Magento loaded as Simple — @pkarw @valeriish #2169 #2181
+- turned off compression plugin, nginx serves brotli compression  — @patzick #2254
 
 ### Depreciated
 - extendStore depreciation - @filrak #2143

@@ -27,7 +27,7 @@ import { Magento2CMS } from './magento-2-cms'
 // const extendCartVuex = {
 //   actions: {
 //     load () {
-//       console.info('New load function')
+//       Logger.info('New load function')()
 //     }
 //   }
 //  }
@@ -35,15 +35,15 @@ import { Magento2CMS } from './magento-2-cms'
 //  const cartExtend = {
 //   key: 'cart',
 //   afterRegistration: function(isServer, config) {
-//     console.info('New afterRegistration hook')
+//     Logger.info('New afterRegistration hook')()
 //   },
 //   store: { modules: [{ key: 'cart', module: extendCartVuex }] },
 //  }
- 
+
 //  extendModule(cartExtend)
 
 /**
- * Some of the modules are registered lazily only when components from module are appearing on current page. 
+ * Some of the modules are registered lazily only when components from module are appearing on current page.
  * If you want to use this modules in pages without it's components you need to remember about registering module first
  * In VS 1.8 this modules will be semlessly lazyLoaded after proper action dispatch
  * - Wishlist

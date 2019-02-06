@@ -1,4 +1,4 @@
-limodule.exports = {
+module.exports = {
   base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
@@ -103,11 +103,7 @@ limodule.exports = {
             'vuex/vuex-conventions',
             'vuex/product-store',
             'vuex/category-store',
-            'vuex/cart-store',
-            'vuex/checkout-store',
-            'vuex/order-store',
             'vuex/stock-store',
-            'vuex/user-store',
             'vuex/attribute-store',
           ],
         },
