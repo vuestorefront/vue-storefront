@@ -95,7 +95,6 @@
     "chai": "^4.1.2",
     "command-exists": "^1.2.2",
     "commander": "^2.18.0",
-    "compression-webpack-plugin": "^2.0.0",
     "cross-env": "^3.1.4",
     "css-loader": "^1.0.0",
     "cypress": "^3.0.2",
