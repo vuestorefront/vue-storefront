@@ -274,7 +274,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !Vue.prototype.$isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       Logger.debug('Entity cache is enabled for productList')()
@@ -333,7 +333,7 @@ const actions: ActionTree<ProductState, RootState> = {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
               })
           }
-          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts) {
+          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !Vue.prototype.$isServer) {
             context.dispatch('setupAssociated', { product: prod })
           }
         }
@@ -353,7 +353,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   configureBundleAsync(context, product) {
-    context.dispatch(
+    return context.dispatch(
       'setupAssociated', {
         product: product ,
         skipCache: true
@@ -368,7 +368,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param product
    */
   configureGroupedAsync(context, product) {
-    context.dispatch(
+    return context.dispatch(
       'setupAssociated', {
         product: product,
         skipCache: true
@@ -436,19 +436,18 @@ const actions: ActionTree<ProductState, RootState> = {
               resolve(setupProduct(prd))
             }
             if (setCurrentProduct || selectDefaultVariant) {
-              context.dispatch('setupVariants', { product: prd }).then(_returnProductNoCacheHelper)
-            } else {
-              _returnProductNoCacheHelper(null)
-            }
-
-            if (skipCache && setCurrentProduct || selectDefaultVariant) {
+              const subConfigPromises = []
               if ('bundle' === prd.type_id) {
-                context.dispatch('configureBundleAsync', prd);
+                subConfigPromises.push(context.dispatch('configureBundleAsync', prd))
               }
 
               if ('grouped' === prd.type_id) {
-                context.dispatch('configureGroupedAsync', prd);
+                subConfigPromises.push(context.dispatch('configureGroupedAsync', prd))
               }
+              subConfigPromises.push(context.dispatch('setupVariants', { product: prd }))
+              Promise.all(subConfigPromises).then(_returnProductNoCacheHelper)
+            } else {
+              _returnProductNoCacheHelper(null)
             }
           } else {
             reject(new Error('Product query returned empty result'))
@@ -482,17 +481,15 @@ const actions: ActionTree<ProductState, RootState> = {
               }
             }
             if (setCurrentProduct || selectDefaultVariant) {
-              context.dispatch('setupVariants', { product: res }).then(_returnProductFromCacheHelper)
-
-              if (skipCache && setCurrentProduct || selectDefaultVariant) {
-                if ('bundle' === res.type_id) {
-                  context.dispatch('configureBundleAsync', res);
-                }
-
-                if ('grouped' === res.type_id) {
-                  context.dispatch('configureGroupedAsync', res);
-                }
+              const subConfigPromises = []
+              subConfigPromises.push(context.dispatch('setupVariants', { product: res }))
+              if ('bundle' === res.type_id) {
+                subConfigPromises.push(context.dispatch('configureBundleAsync', res))
               }
+              if ('grouped' === res.type_id) {
+                subConfigPromises.push(context.dispatch('configureGroupedAsync', res))
+              }
+              Promise.all(subConfigPromises).then(_returnProductFromCacheHelper)
             } else {
               _returnProductFromCacheHelper(null)
             }
@@ -561,7 +558,7 @@ const actions: ActionTree<ProductState, RootState> = {
       const productOriginal = context.getters.productOriginal
 
       if (!context.state.offlineImage) {
-        context.state.offlineImage = productThumbnailPath(productOriginal, true)
+        context.state.offlineImage = productThumbnailPath(productOriginal ? productOriginal /** in case if it's not yet set */ : productVariant, true)
         Logger.debug('Image offline fallback set to ' + context.state.offlineImage, 'product')()
       }
       // check if passed variant is the same as original
@@ -625,11 +622,11 @@ const actions: ActionTree<ProductState, RootState> = {
         subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
 
         // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
-        if (product.type_id === 'grouped' || product.type_id === 'bundle') {
+        /* if (product.type_id === 'grouped' || product.type_id === 'bundle') { -- moved to "product/single"
           subloaders.push(context.dispatch('setupAssociated', { product: product }).then((subloaderresults) => {
             context.dispatch('setCurrent', product) // because setup Associated can modify the product price we need to update the current product
           }))
-        }
+        } */
 
         context.dispatch('setProductGallery', { product: product })
 
