@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - AsyncDataLoader feature - @pkarw (#2300)
 
 ### Changed / Improved
+- Bundle products price calculation fix (#2371)
 - Fixed isServer flag in module hooks (#840)
 - Location of type files (#2226)
 - Elastic Search fuzzy search + other improvements (#2340)
