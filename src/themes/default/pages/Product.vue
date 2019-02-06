@@ -161,7 +161,7 @@
               <div class="col-xs-6 col-sm-3 col-md-6">
                 <wishlist-button :product="product" />
               </div>
-              <div class="col-xs-6 col-sm-3 col-md-6">
+              <div class="col-xs-6 col-sm-3 col-md-6 product__add-to-compare">
                 <button
                   @click="isOnCompare ? removeFromList('compare') : addToList('compare')"
                   class="
@@ -305,6 +305,15 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
+
+.product {
+  &__add-to-compare {
+    display: none;
+    @media (min-width: 767px) {
+      display: block;
+    }
+  }
+}
 
 .breadcrumbs {
   @media (max-width: 767px) {
