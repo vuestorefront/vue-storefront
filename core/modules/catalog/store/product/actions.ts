@@ -215,28 +215,36 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   /**
+   * Load required configurable attributes
+   * @param context 
+   * @param product
+   */
+  loadConfigurableAttributes(context, { product }) {
+    let attributeKey = 'attribute_id'
+    const configurableAttrKeys = product.configurable_options.map(opt => {
+      if (opt.attribute_id) {
+        attributeKey = 'attribute_id'
+        return opt.attribute_id
+      } else {
+        attributeKey = 'attribute_code'
+        return opt.attribute_code
+      }
+    })
+    return context.dispatch('attribute/list', {
+      filterValues: configurableAttrKeys,
+      filterField: attributeKey
+    }, { root: true })
+  },
+  /**
    * Setup product current variants
    */
   setupVariants (context, { product }) {
     let subloaders = []
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
-      let attributeKey = 'attribute_id'
-      const configurableAttrKeys = product.configurable_options.map(opt => {
-        if (opt.attribute_id) {
-          attributeKey = 'attribute_id'
-          return opt.attribute_id
-        } else {
-          attributeKey = 'attribute_code'
-          return opt.attribute_code
-        }
-      })
-      subloaders.push(context.dispatch('attribute/list', {
-        filterValues: configurableAttrKeys,
-        filterField: attributeKey
-      }, { root: true }).then((attributes) => {
+
+      subloaders.push(context.dispatch('product/loadConfigurableAttributes', { product }, { root: true }).then((attributes) => {
         context.state.current_options = {
         }
-
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
@@ -568,6 +576,7 @@ const actions: ActionTree<ProductState, RootState> = {
           context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
       }
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
+      return productUpdated
     } else Logger.debug('Unable to update current product.', 'product')()
   },
   /**
