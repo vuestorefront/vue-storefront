@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ElasticSearch fuzzy search, scoring, boosting + other improvements - @qbo-tech (#2340)
 - Improved user account menu UX on desktop - @vue-kacper (#2363)
 - Improved paddings on select fields - @patzick (#2361)
+- Improved fetching customAttributes - @afirlejczyk
 
 ## [1.7.3] - 2019.01.31
 ### Fixed
