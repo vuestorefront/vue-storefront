@@ -76,16 +76,8 @@ interface VueStorefrontModuleConfig {
     beforeEach?: NavigationGuard,
     afterEach?: NavigationGuard,
   };
-  beforeRegistration?: (
-    Vue?: VueConstructor,
-    config?: Object,
-    store?: Store<RootState>,
-  ) => void;
-  afterRegistration?: (
-    Vue?: VueConstructor,
-    config?: Object,
-    store?: Store<RootState>,
-  ) => void;
+  beforeRegistration?: (VSF) => void;
+  afterRegistration?: (VSF) => void;
 }
 ```
 
@@ -108,12 +100,26 @@ Entry point for vue-router. You can provide additional routes and [navigation gu
 
 ### `beforeRegistration`
 
-Function that'll be called before registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
+Function that'll be called before registering the module both on server and client side. You have access to VSF object here.
 
+The `VSF` object is an instance of your Vue Storefront shop. It contains following properties 
+````js
+    Vue?: VueConstructor,
+    config?: Object,
+    store?: Store<RootState>,
+    isServer?: boolean
+````
 ### `afterRegistration`
 
-Function that'll be called after registering the module both on server and client side. You have access to `Vue`, `store` and `config` instances inside.
+Function that'll be called after registering the module both on server and client side. You have access to VSF object here.
 
+The `VSF` object is an instance of your Vue Storefront shop. It contains following properties 
+````js
+    Vue?: VueConstructor,
+    config?: Object,
+    store?: Store<RootState>,
+    isServer?: boolean
+````
 ## Module file structure
 
 Below you can see recommended file structure for VS module. All of the core ones are organised in this way.
@@ -241,7 +247,7 @@ const extendCartVuex = {
  }
 }
 
-const extendCartAfterRegistration = function () {
+const extendCartAfterRegistration = function (VSF) {
    console.info('Hello, im extended now!')
  }
 
