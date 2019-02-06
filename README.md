@@ -567,7 +567,14 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
 </td>
-<td align="center" valign="middle"></td>
+<td align="center" valign="middle">
+<a href="http://rightshore.consulting/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/rightshore-consulting.png"
+            alt="Rightshore Consulting"
+            height="40"
+          >
+        </a></td>
     </tr>
   </tbody>
 </table>
