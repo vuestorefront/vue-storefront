@@ -111,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use localized routes for redirects to home page and account page — @grimasod #2157
 - ProductLinks fixed in Related products component — @pkarw #2168
 - Fix Cart Configurable Item pulled from Magento loaded as Simple — @pkarw @valeriish #2169 #2181
+- service worker prefetch now only compressed js files — @patzick #2254
 
 ### Depreciated
 - extendStore depreciation - @filrak #2143

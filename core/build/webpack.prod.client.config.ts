@@ -9,7 +9,10 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 const prodClientConfig = merge(baseClientConfig, {
   mode: 'production',
   plugins: [
-    new CompressionPlugin()
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+      deleteOriginalAssets: true
+    })
   ]
 })
 
