@@ -209,7 +209,7 @@ app.get('*', (req, res, next) => {
     <div>Waiting for compilation...</div>
   </body>
   </html>`
-  
+
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
       res.setHeader('Content-Type', 'text/html')
