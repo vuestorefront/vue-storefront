@@ -56,7 +56,6 @@
     "express": "^4.14.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
-    "html-loader": "^0.5.5",
     "isomorphic-fetch": "^2.2.1",
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
