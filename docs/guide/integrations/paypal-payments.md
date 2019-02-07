@@ -4,7 +4,7 @@ Vue Storefront is supporting PayPal payments with PayPal Payment extension for [
 
 ## The architecture
 
-![Architecture diagram](/vue-storefront/paypal.svg)
+![Architecture diagram](../images/paypal.svg)
 
 
 ## Installation:

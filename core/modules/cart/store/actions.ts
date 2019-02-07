@@ -4,16 +4,16 @@ import * as types from './mutation-types'
 import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
-import { currentStoreView, localizedRoute} from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import CartState from '../types/CartState'
 import isString from 'lodash-es/isString'
 import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -29,7 +29,7 @@ function _updateClientItem (event, clientItem) {
 }
 
 function _afterServerItemUpdated (event, clientItem = null) {
-  console.debug('Cart item server sync', event)
+  Logger.debug('Cart item server sync' + event, 'cart')()
   if (clientItem === null) {
     rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
       if (cartItem) {
@@ -49,7 +49,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_LOAD_CART, [])
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
     if (rootStore.state.config.cart.synchronize) {
-      rootStore.dispatch('cart/serverCreate', { guestCart: true }, {root: true}) // guest cart because when the order hasn't been passed to magento yet it will repopulate your cart
+      rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to magento yet it will repopulate your cart
     }
   },
   save (context) {
@@ -75,7 +75,7 @@ const actions: ActionTree<CartState, RootState> = {
           const storeView = currentStoreView()
           if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
             context.state.cartServerMethodsRefreshAt = Date.now()
-            console.debug('Refreshing payment & shipping methods')
+            Logger.debug('Refreshing payment & shipping methods', 'cart')()
             rootStore.dispatch('cart/getPaymentMethods')
             if (context.state.cartItems.length > 0) {
               let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
@@ -86,7 +86,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         })
       } else {
-        console.log('Too short interval for refreshing the cart or items not changed', newItemsHash, context.state.cartItemsHash)
+        Logger.log('Too short interval for refreshing the cart or items not changed' + newItemsHash + context.state.cartItemsHash, 'cart')()
       }
     }
   },
@@ -105,7 +105,7 @@ const actions: ActionTree<CartState, RootState> = {
           callback_event: 'store:cart/servercartAfterTotals'
         })
       } else {
-        console.log('Too short interval for refreshing the cart totals')
+        Logger.log('Too short interval for refreshing the cart totals', 'cart')()
       }
     }
   },
@@ -227,7 +227,7 @@ const actions: ActionTree<CartState, RootState> = {
     let productIndex = 0
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
-      if (product.priceInclTax <= 0) {
+      if ((rootStore.state.config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
@@ -355,7 +355,7 @@ const actions: ActionTree<CartState, RootState> = {
         rootStore.dispatch('payment/replaceMethods', paymentMethods, { root: true })
         Vue.prototype.$bus.$emit('set-unique-payment-methods', uniqueBackendMethods)
       }).catch(e => {
-        console.error(e)
+        Logger.error(e, 'cart')()
       })
     }
   },
@@ -376,7 +376,7 @@ const actions: ActionTree<CartState, RootState> = {
           rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
         }
       }).catch(e => {
-        console.error(e)
+        Logger.error(e, 'cart')()
       })
     }
   },
@@ -421,7 +421,7 @@ const actions: ActionTree<CartState, RootState> = {
           silent: true,
           callback_event: 'store:cart/servercartAfterTotals'
         }).catch(e => {
-          console.error(e)
+          Logger.error(e, 'cart')()
         })
       } else {
         context.dispatch('cart/serverTotals', {}, { root: true })
@@ -444,7 +444,7 @@ const actions: ActionTree<CartState, RootState> = {
             resolve(task.result)
           }
         }).catch(e => {
-          console.error(e)
+          Logger.error(e, 'cart')()
           reject(e)
         })
       }
@@ -468,7 +468,7 @@ const actions: ActionTree<CartState, RootState> = {
             reject(false)
           }
         }).catch(e => {
-          console.log(e)
+          Logger.log(e, 'cart')()
           reject(e)
         })
       }
@@ -477,7 +477,7 @@ const actions: ActionTree<CartState, RootState> = {
   userAfterLoggedin () {
     Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
       if (err) {
-        console.error(err)
+        Logger.error(err, 'cart')()
       }
       if (!rootStore.state.config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
         rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
@@ -494,10 +494,10 @@ const actions: ActionTree<CartState, RootState> = {
       let resultString = event.result ? toString(event.result) : null
       if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
         if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
-          console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
+          Logger.log('Bypassing with guest cart' + rootStore.state.cart.bypassCount, 'cart')()
           rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
           rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
-          console.error(event.result)
+          Logger.error(event.result, 'cart')()
         }
       }
     }
@@ -515,7 +515,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: totalsObj, platformTotalSegments: platformTotalSegments })
     } else {
-      console.error(event.result)
+      Logger.error(event.result, 'cart')()
     }
   },
   servercartAfterPulled (context, event) {
@@ -549,7 +549,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
 
         if (!serverItem) {
-          Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')
+          Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
             if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanRemoveLocalItems) {
@@ -568,7 +568,7 @@ const actions: ActionTree<CartState, RootState> = {
             }
           }
         } else if (serverItem.qty !== clientItem.qty) {
-          console.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)
+          Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
           if (!event.dry_run) {
             if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanModifyLocalItems) {
@@ -589,8 +589,8 @@ const actions: ActionTree<CartState, RootState> = {
             }
           }
         } else {
-          Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart')()
-          // console.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })
+          Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart', 'cart')()
+          // Logger.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })()
           if (!event.dry_run) {
             rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } }, { root: true })
           }
@@ -610,7 +610,7 @@ const actions: ActionTree<CartState, RootState> = {
               if (event.force_client_state) {
                 Logger.info('Removing product from cart', 'cart', serverItem)()
 
-                console.log('Removing item', serverItem.sku, serverItem.item_id)
+                Logger.log('Removing item' + serverItem.sku + serverItem.item_id, 'cart')()
                 serverCartUpdateRequired = true
                 rootStore.dispatch('cart/serverDeleteItem', {
                   sku: serverItem.sku,
@@ -658,12 +658,12 @@ const actions: ActionTree<CartState, RootState> = {
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
        Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
     } else {
-      console.error(event.result) // override with guest cart
+      Logger.error(event.result, 'cart') // override with guest cart()
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
-        console.log('Bypassing with guest cart', rootStore.state.cart.bypassCount)
+        Logger.log('Bypassing with guest cart' + rootStore.state.cart.bypassCount, 'cart')()
         rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
         rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
-        console.error(event.result)
+        Logger.error(event.result, 'cart')()
       }
     }
   },
@@ -674,7 +674,7 @@ const actions: ActionTree<CartState, RootState> = {
       if (originalCartItem.item_id) {
         rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
           if (cartItem) {
-            console.log('Restoring qty after error', originalCartItem.sku, cartItem.prev_qty)
+            Logger.log('Restoring qty after error' + originalCartItem.sku + cartItem.prev_qty, 'cart')()
             if (cartItem.prev_qty > 0) {
               rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
               Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })

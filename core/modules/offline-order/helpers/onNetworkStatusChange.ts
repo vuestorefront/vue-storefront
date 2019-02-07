@@ -4,10 +4,11 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 
 import UniversalStorage from '@vue-storefront/store/lib/storage'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export function onNetworkStatusChange (store) {
-  console.log('Are we online: ' + navigator.onLine)
+  Logger.log('Are we online: ' + navigator.onLine, 'offline-order')()
 
   if (typeof navigator !== 'undefined' && navigator.onLine) {
     EventBus.$emit('sync/PROCESS_QUEUE', { config: store.state.config }) // process checkout queue
@@ -30,7 +31,7 @@ export function onNetworkStatusChange (store) {
           ordersToConfirm.push(order)
         }
       }).catch(err => {
-        console.error(err)
+        Logger.error(err, 'offline-order')()
       })
 
       if (ordersToConfirm.length > 0) {

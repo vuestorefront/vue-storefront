@@ -297,6 +297,12 @@ If this option is set to `true`, in case of custom-options supporting products, 
 If this option is set to `true`, in case of configurable products, Vue Storefront will add the main SKU to the shopping cart and set the `product_option` sub-object of the shopping cart item to currently configured set of configurable options (for example color and size). Otherwise the simple product (accordingly to the selected configurable_options) will be added to the shopping cart instead.
 
 ```json
+  "displayItemDiscounts": true
+```
+
+If this option is set to `true`, Vue Storefront will add use price item with discount to the shopping cart. Otherwise the product price and special will be added to the shopping cart instead.
+
+```json
   "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
   "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
   "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
@@ -637,6 +643,17 @@ This is the currently applied theme path. After changing it Vue Storefront need 
 
 You can put your Google Analytics ID in here as to be used by the analytics extension.
 
+## Hotjar
+
+```json
+"hotjar": {
+  "id": false
+},
+```
+
+You can put your Hotjar Site ID in here as to be used by the hotjar extension.
+
+
 ## CMS
 
 ```json
@@ -654,6 +671,14 @@ This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be se
 ```
 
 When set to `true` we're using Magento2 feature of tiered prices (individual prices set for client's groups). The prices are set in `product.tier_prices` property.
+
+## Manage products with price zero
+
+```json
+"useZeroPriceProduct": true,
+```
+
+Set to `true` if you want customer can add products with price zero to cart, otherwise an error is returned. Set true by default
 
 ## Boost
 

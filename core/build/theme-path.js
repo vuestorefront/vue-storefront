@@ -2,7 +2,7 @@ const path = require('path')
 const detectInstalled = require('detect-installed')
 const config = require('./config.json')
 
-let themePath = '';
+let themePath = ''
 let themeName = config.theme
 
 if (detectInstalled.sync(config.theme, { local: true })) {

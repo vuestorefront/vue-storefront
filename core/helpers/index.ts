@@ -1,6 +1,7 @@
 import rootStore from '@vue-storefront/store'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -151,7 +152,7 @@ export function once (key, fn) {
   const { process = {} } = global
   const processKey = key + '__ONCE__'
   if (!process.hasOwnProperty(processKey)) {
-    console.debug(`Once ${key}`)
+    Logger.debug(`Once ${key}`, 'helper')()
     process[processKey] = true
     fn()
   }

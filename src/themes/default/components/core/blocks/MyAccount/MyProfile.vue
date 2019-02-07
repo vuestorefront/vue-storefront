@@ -36,7 +36,7 @@
           },
           {
             condition: !$v.currentUser.firstname.minLength,
-            text: $t('Name must have at least 3 letters.')
+            text: $t('Name must have at least 2 letters.')
           }
         ]"
       />
@@ -394,7 +394,7 @@ export default {
     currentUser: {
       firstname: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(2)
       },
       lastname: {
         required

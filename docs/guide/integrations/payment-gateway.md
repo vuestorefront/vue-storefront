@@ -34,7 +34,7 @@ Here is an example of "Cash on delivery" payment method main logic. It's placed 
 import InfoComponent from '../components/Info.vue'
 import rootStore from '@vue-storefront/store'
 
-export function afterRegistration(Vue, config, store, isServer) {
+export function afterRegistration({ Vue, config, store, isServer }) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   const placeOrder = function () {
     Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
@@ -111,11 +111,11 @@ api.cart.order(null, cartId, {
       "additional_data":orderData.addressInformation.payment_method_additional
   }
 }, isThisAuthOrder).then(result => {
-  logger.info(THREAD_ID, result)
+  logger.info(THREAD_ID, result)()
   if(job) job.progress(currentStep++, TOTAL_STEPS);
 
-  logger.info(THREAD_ID + '[OK] Order placed with ORDER ID', result);
-  logger.debug(THREAD_ID + result)
+  logger.info(THREAD_ID + '[OK] Order placed with ORDER ID', result);()
+  logger.debug(THREAD_ID + result)()
   redisClient.set("order$$id$$" + orderData.order_id, JSON.stringify(
   {
       platform_order_id: result,

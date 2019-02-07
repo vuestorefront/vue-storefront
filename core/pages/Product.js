@@ -3,12 +3,13 @@ import { mapGetters } from 'vuex'
 import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode } from '@vue-storefront/core/filters'
-import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Product',
@@ -49,7 +50,7 @@ export default {
     },
     customAttributes () {
       return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_user_defined && parseInt(a.is_visible_on_front) && this.product[a.attribute_code]
+        return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.product[a.attribute_code]
       })
     },
     currentStore () {
@@ -99,12 +100,12 @@ export default {
           this.$store.dispatch('recently-viewed/addItem', this.product)
         }).catch((err) => {
           this.loading = false
-          console.error(err)
+          Logger.error(err)()
           this.notifyOutStock()
           this.$router.back()
         })
       } else {
-        console.error('Error with loading = true in Product.vue; Reload page')
+        Logger.error('Error with loading = true in Product.vue; Reload page')()
       }
     },
     addToWishlist (product) {
@@ -160,7 +161,7 @@ export default {
     },
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
-        console.log('Redirecting to parent, configurable product', this.parentProduct.sku)
+        Logger.log('Redirecting to parent, configurable product', this.parentProduct.sku)()
         this.$router.replace({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
       }
     },
@@ -168,7 +169,7 @@ export default {
       if (product.sku === this.product.sku) {
         // join selected variant object to the store
         this.$store.dispatch('product/setCurrent', omit(product, ['name']))
-          .catch(err => console.error({
+          .catch(err => Logger.error({
             info: 'Dispatch product/setCurrent in Product.vue',
             err
           }))
@@ -200,7 +201,7 @@ export default {
           }
           this.notifyWrongAttributes()
         }
-      }).catch(err => console.error({
+      }).catch(err => Logger.error({
         info: 'Dispatch product/configure in Product.vue',
         err
       }))

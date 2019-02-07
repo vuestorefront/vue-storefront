@@ -1,4 +1,4 @@
-import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
+import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import routes from './router'
 

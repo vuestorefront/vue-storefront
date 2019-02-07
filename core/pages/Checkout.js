@@ -2,10 +2,12 @@ import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/store'
 import VueOfflineMixin from 'vue-offline/mixin'
+import { mapGetters } from 'vuex'
 
 import Composite from '@vue-storefront/core/mixins/composite'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Checkout',
@@ -38,6 +40,11 @@ export default {
       focusedField: null
     }
   },
+  computed: {
+    ...mapGetters({
+      isVirtualCart: 'cart/isVirtualCart'
+    })
+  },
   beforeMount () {
     // TO-DO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
@@ -65,7 +72,7 @@ export default {
             checkPromises.push(new Promise((resolve, reject) => {
               Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
                 if (err || !item) {
-                  if (err) console.error(err)
+                  if (err) Logger.error(err)()
                   resolve(null)
                 } else {
                   product.stock = item.result
@@ -138,7 +145,7 @@ export default {
       this.confirmation = payload.confirmation
       this.orderPlaced = true
       this.$store.dispatch('checkout/setThankYouPage', true)
-      console.debug(payload.order)
+      Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {
       this.activateSection(section)
@@ -178,7 +185,12 @@ export default {
     onAfterPersonalDetails (receivedData, validationResult) {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
-      this.activateSection('shipping')
+
+      if (this.isVirtualCart === true) {
+        this.activateSection('payment')
+      } else {
+        this.activateSection('shipping')
+      }
       this.savePersonalDetails()
       this.focusedField = null
     },
@@ -254,20 +266,6 @@ export default {
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
-          shippingAddress: {
-            region: this.shipping.state,
-            region_id: this.shipping.region_id ? this.shipping.region_id : 0,
-            country_id: this.shipping.country,
-            street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-            company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
-            telephone: this.shipping.phoneNumber,
-            postcode: this.shipping.zipCode,
-            city: this.shipping.city,
-            firstname: this.shipping.firstName,
-            lastname: this.shipping.lastName,
-            email: this.personalDetails.emailAddress,
-            region_code: this.shipping.region_code ? this.shipping.region_code : ''
-          },
           billingAddress: {
             region: this.payment.state,
             region_id: this.payment.region_id ? this.payment.region_id : 0,
@@ -288,6 +286,22 @@ export default {
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
+        }
+      }
+      if (!this.isVirtualCart) {
+        this.order.addressInformation.shippingAddress = {
+          region: this.shipping.state,
+          region_id: this.shipping.region_id ? this.shipping.region_id : 0,
+          country_id: this.shipping.country,
+          street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
+          company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
+          telephone: this.shipping.phoneNumber,
+          postcode: this.shipping.zipCode,
+          city: this.shipping.city,
+          firstname: this.shipping.firstName,
+          lastname: this.shipping.lastName,
+          email: this.personalDetails.emailAddress,
+          region_code: this.shipping.region_code ? this.shipping.region_code : ''
         }
       }
       return this.order

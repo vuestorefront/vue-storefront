@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import PromotedOffersState from '../types/PromotedOffersState'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<PromotedOffersState, RootState> = {
   async updatePromotedOffers ({commit, rootState}, data) {
@@ -9,7 +10,7 @@ const actions: ActionTree<PromotedOffersState, RootState> = {
       const promotedOffersModule = await import(/* webpackChunkName: "vsf-promoted-offers-[request]" */ `theme/resource/${promotedBannersResource}.json`)
       commit('updatePromotedOffers', promotedOffersModule)
     } catch (err) {
-      console.debug('Unable to load promotedOffers', err)
+      Logger.debug('Unable to load promotedOffers' + err)()
     }
   },
   async updateHeadImage ({commit, rootState}, data) {
@@ -18,7 +19,7 @@ const actions: ActionTree<PromotedOffersState, RootState> = {
       const imageModule = await import(/* webpackChunkName: "vsf-head-img-[request]" */ `theme/resource/${mainImageResource}.json`)
       commit('SET_HEAD_IMAGE', imageModule.image)
     } catch (err) {
-      console.debug('Unable to load headImage', err)
+      Logger.debug('Unable to load headImage' + err)()
     }
   }
 }

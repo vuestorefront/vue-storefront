@@ -64,7 +64,7 @@ Then if you like to do some VS updates you probably need to just pull the change
 
 Where can we add filters and extra configurable options for the products? For example, I've just added an iPhone X as an example. And I want to add the storage as an option.
 
-![How to add additional custom attribute?](/vue-storefront/Apple_iPhone_X.png)
+![How to add additional custom attribute?](../images/Apple_iPhone_X.png)
 
 To do so, you need to modify the theme, changing the following snippet:
 

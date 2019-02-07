@@ -34,10 +34,10 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>
-      <h4 class="h3 mb0">
+      <h4 class="h3 mb0" v-if="!isVirtualCart">
         {{ $t('Shipping') }}
       </h4>
-      <p class="cl-tertiary lh20">
+      <p class="cl-tertiary lh20" v-if="!isVirtualCart">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>

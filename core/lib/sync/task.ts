@@ -4,12 +4,14 @@ import isNaN from 'lodash-es/isNaN'
 import isUndefined from 'lodash-es/isUndefined'
 import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
+import * as localForage from 'localforage'
 import rootStore from '@vue-storefront/store'
-import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
-import Task from '@vue-storefront/store/types/task/Task'
+import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/store/lib/entities'
+import UniversalStorage from '@vue-storefront/store/lib/storage'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -27,21 +29,21 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
-  
+
   if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
-    console.log('Waiting for rootStore.state.userTokenInvalidateLock to release for', task.url)
+    Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for '+ task.url, 'sync')()
     _sleep(1000).then(() => {
-      console.log('Another try for rootStore.state.userTokenInvalidateLock for ', task.url)
+      Logger.log('Another try for rootStore.state.userTokenInvalidateLock for ' + task.url, 'sync')()
       _internalExecute(resolve, reject, task, currentToken, currentCartId)
     })
     return // return but not resolve
   } else if (rootStore.state.userTokenInvalidateLock < 0) {
-    console.error('Aborting the network task', task.url, rootStore.state.userTokenInvalidateLock)
-    resolve({ code: 401, message: i18n.t('Error refreshing user token. User is not authorized to access the resource') })
+    Logger.error('Aborting the network task' + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
+    resolve({ code: 401, message: i18n.t('Error refreshing user token. User is not authorized to access the resource') })()
     return
   } else {
     if (rootStore.state.userTokenInvalidated) {
-      console.log('Using new user token', rootStore.state.userTokenInvalidated)
+      Logger.log('Using new user token' + rootStore.state.userTokenInvalidated, 'sync')()
       currentToken = rootStore.state.userTokenInvalidated
     }
   }
@@ -57,7 +59,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       return response.json()
     } else {
       const msg = i18n.t('Error with response - bad content-type!')
-      console.error(msg)
+      Logger.error(msg.toString(), 'sync')()
       reject(msg)
     }
   }).then((jsonResponse) => {
@@ -65,7 +67,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       if (parseInt(jsonResponse.code) !== 200) {
         let resultString = jsonResponse.result ? toString(jsonResponse.result) : null
         if (resultString && (resultString.indexOf(i18n.t('not authorized')) >= 0 || resultString.indexOf('not authorized')) >= 0 && currentToken !== null) { // the token is no longer valid, try to invalidate it
-          console.error('Invalid token - need to be revalidated', currentToken, task.url, rootStore.state.userTokenInvalidateLock)
+          Logger.error('Invalid token - need to be revalidated' + currentToken + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
           if (isNaN(rootStore.state.userTokenInvalidateAttemptsCount) || isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)) rootStore.state.userTokenInvalidateAttemptsCount = 0
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
 
@@ -74,7 +76,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
             if (!rootStore.state.userTokenInvalidateLock) {
               rootStore.state.userTokenInvalidateLock++
               if (rootStore.state.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
-                console.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.')
+                Logger.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.', 'sync')()
                 rootStore.state.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
                 TaskQueue.clearNotTransmited()
@@ -86,32 +88,32 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                 })
                 rootStore.state.userTokenInvalidateAttemptsCount = 0
               } else {
-                console.info('Invalidation process in progress (autoRefreshTokens is set to true)', rootStore.state.userTokenInvalidateAttemptsCount, rootStore.state.userTokenInvalidateLock)
+                Logger.info('Invalidation process in progress (autoRefreshTokens is set to true)' + rootStore.state.userTokenInvalidateAttemptsCount + rootStore.state.userTokenInvalidateLock, 'sync')()
                 rootStore.state.userTokenInvalidateAttemptsCount++
                 rootStore.dispatch('user/refresh').then((resp) => {
                   if (resp.code === 200) {
                     rootStore.state.userTokenInvalidateLock = 0
                     rootStore.state.userTokenInvalidated = resp.result
-                    console.info('User token refreshed successfully', resp.result)
+                    Logger.info('User token refreshed successfully' + resp.result, 'sync')()
                   } else {
                     rootStore.state.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
                     Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
                     TaskQueue.clearNotTransmited()
-                    console.error('Error refreshing user token', resp.result)
+                    Logger.error('Error refreshing user token' + resp.result, 'sync')()
                   }
                 }).catch((excp) => {
                   rootStore.state.userTokenInvalidateLock = -1
                   rootStore.dispatch('user/logout', { silent: true })
                   Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
                   TaskQueue.clearNotTransmited()
-                  console.error('Error refreshing user token', excp)
+                  Logger.error('Error refreshing user token' + excp, 'sync')()
                 })
               }
             }
             if (rootStore.state.userTokenInvalidateAttemptsCount <= AUTO_REFRESH_MAX_ATTEMPTS) _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
           } else {
-            console.info('Invalidation process is disabled (autoRefreshTokens is set to false)')
+            Logger.info('Invalidation process is disabled (autoRefreshTokens is set to false)', 'sync')()
             rootStore.dispatch('user/logout', { silent: true })
             Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
           }
@@ -124,7 +126,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           })
         }
       }
-      console.debug('Response for: ' + task.task_id + ' = ' + jsonResponse.result)
+      Logger.debug('Response for: ' + task.task_id + ' = ' + JSON.stringify(jsonResponse.result), 'sync')()
       task.transmited = true
       task.transmited_at = new Date()
       task.result = jsonResponse.result
@@ -144,11 +146,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       }
     } else {
       const msg = i18n.t('Unhandled error, wrong response format!')
-      console.error(msg)
+      Logger.error(msg.toString(), 'sync')()
       reject(msg)
     }
   }).catch((err) => {
-    console.error(err)
+    Logger.error(err, 'sync')()
     reject(err)
   })
 }
@@ -159,4 +161,15 @@ export function execute (task: Task, currentToken = null, currentCartId = null):
   return new Promise((resolve, reject) => {
     _internalExecute(resolve, reject, task, currentToken, currentCartId)
   })
+}
+
+export function initializeSyncTaskStorage () {
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+
+  Vue.prototype.$db.syncTaskCollection = new UniversalStorage(localForage.createInstance({
+    name: dbNamePrefix + 'shop',
+    storeName: 'syncTasks',
+    driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
+  }))
 }

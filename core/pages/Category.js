@@ -6,7 +6,7 @@ import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-import { currentStoreView, localizedRoute } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
@@ -67,7 +67,7 @@ export default {
     }
   },
   preAsyncData ({ store, route }) {
-    console.log('preAsyncData query setup')
+    Logger.log('preAsyncData query setup')()
     store.dispatch('category/setSearchOptions', {
       populateAggregations: true,
       store: store,
@@ -91,7 +91,7 @@ export default {
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
           includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.attribute.includeFields : null
         }).catch(err => {
-          console.error(err)
+          Logger.error(err)()
           reject(err)
         }).then((attrs) => {
           store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then((parentCategory) => {
@@ -107,29 +107,29 @@ export default {
                   EventBus.$emitFilter('category-after-load', { store: store, route: route }).then((results) => {
                     return resolve()
                   }).catch((err) => {
-                    console.error(err)
+                    Logger.error(err)()
                     return resolve()
                   })
                 }).catch(err => {
-                  console.error(err)
+                  Logger.error(err)()
                   reject(err)
                 })
               } else {
                 const err = new Error('Category query returned empty result')
-                console.error(err)
+                Logger.error(err)()
                 reject(err)
               }
             }).catch(err => {
-              console.error(err)
+              Logger.error(err)()
               reject(err)
             })
           }).catch(err => {
-            console.error(err)
+            Logger.error(err)()
             reject(err)
           })
         })
       }).catch(err => {
-        console.error(err)
+        Logger.error(err)()
         reject(err)
       })
     })

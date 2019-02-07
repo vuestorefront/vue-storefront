@@ -7,8 +7,8 @@
         'empty': !selected
       }"
       :autocomplete="autocomplete"
-      @focus="$emit('focus');"
-      @blur="$emit('blur');"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
       @change="$emit('input', $event.target.value)"
     >
       <option v-if="!selected"/>
@@ -23,7 +23,7 @@
     </select>
     <label>{{ placeholder }}</label>
 
-    <template if="validations">
+    <template v-if="validations">
       <span
         v-for="(validation, index) in validations"
         :key="index"
@@ -107,7 +107,6 @@ export default {
 
   select {
     @extend .h4;
-    padding: 10px 0;
     border: none;
     border-bottom: 1px solid $color-tertiary;
     width: 100%;
@@ -134,7 +133,6 @@ export default {
     position: absolute;
     pointer-events: none;
     user-select: none;
-    left: 13px;
     top: 10px;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;

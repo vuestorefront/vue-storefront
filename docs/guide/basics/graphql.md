@@ -7,7 +7,7 @@ Starting with Vue Storefront 1.4.0 (currently on develop branch) we're supportin
 
 You can set the desired API format in the `config/local.json` - and `vue-storefront-api` is supporting both of them, however [the default is still set to `api`](https://github.com/DivanteLtd/vue-storefront/blob/4cbf866ca93f917b04461d3ae139a2d26ddf552a/config/default.json#L6).
 
-We've introduced an abstract [`SearchQuery`](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/store/lib/search) interface with switchable Query Adapters to provide the abstraction layer. This is ultra cool feature especially when you're integrating Vue Storefront with custom backend application: you're able [to create your own adapter](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/store/lib/search/adapter/factory.js) to customize the way data is gathered from the backend.
+We've introduced an abstract [`SearchQuery`](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/store/lib/search) interface with switchable Query Adapters to provide the abstraction layer. This is ultra cool feature especially when you're integrating Vue Storefront with custom backend application: you're able [to create your own adapter](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/lib/search/adapter) to customize the way data is gathered from the backend.
 
 From now on the **bodybuilder** package is **deprecated** and you should start using the `SearchQuery` interface to build the search queries that will be translated to GraphQL / API queries.
 
@@ -56,7 +56,7 @@ this.$store
   });
 ```
 
-[More information on how to query the data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+[More information on how to query the data](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/data/elastic-queries.md).
 
 **bodybuilder** queries are still supported by our backward-compatibility mode so if you've used bodybuilder in your theme, it's fine as long as you're using the `api` mode for the backend queries.
 
