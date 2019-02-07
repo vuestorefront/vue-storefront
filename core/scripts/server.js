@@ -7,7 +7,7 @@ const resolve = file => path.resolve(rootPath, file)
 
 const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
-
+const HTMLContent = require('../pages/Compilation')
 let config = require('config')
 
 const compileOptions = {
@@ -137,16 +137,7 @@ app.get('*', (req, res, next) => {
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
       res.setHeader('Content-Type', 'text/html')
-      res.status(202).end('<html lang="en">\n' +
-          '    <head>\n' +
-          '      <meta charset="utf-8">\n' +
-          '      <title>Loading</title>\n' +
-          '      <meta http-equiv="refresh" content="10">\n' +
-          '    </head>\n' +
-          '    <body>\n' +
-          '      Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!\n' +
-          '    </body>\n' +
-          '  </html>')
+      res.status(202).end(HTMLContent)
       return next()
     }
     const context = {

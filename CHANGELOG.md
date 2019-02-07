@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 - Theme structure improvements - @filrak (#2223)
 - Type interfaces and refactor - @filrak (#2227, #2267)
+- Changed beforeRegistration and afterRegistration hooks signature. Now it contains only one object VSF. The subfields are the same as before so changing `beforeRegistration( Vue, config, store, isServer )` to `beforeRegistration({ Vue, config, store, isServer })`(and same with `afterRegistration`) is enough to make a proper migration to new API. - @filrak (#2330)
 - Typo fixes - @youanden, Micheledinocera (#2229, #2329)
 - Bundle products price calculation fix - @pkarw (#2371)
 - Added hotjar snippet and dixed isServer flag in module hooks - @lukeromanowicz (#840)

@@ -8,7 +8,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
-export function afterRegistration (Vue, config, store, isServer) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   Vue.$on('application-after-init', async () => {
     Logger.debug('Example of custom entity graphql extension')()
 
