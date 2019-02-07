@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.8.0] - 2019.02.07
+Additional migration tips are available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
+
 ### Added
 - Chinese translation added - @wadereye (#2265)
 - Categories filter in search view - @kjugi, @patzick (#1710)
