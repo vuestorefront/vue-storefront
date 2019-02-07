@@ -1,15 +1,16 @@
 
-import { getSearchAdapter } from '@vue-storefront/store/lib/search/adapter/searchAdapterFactory'
-import { processESResponseType } from '@vue-storefront/store/lib/search/adapter/graphql/processor/processType'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import { getSearchAdapter } from '@vue-storefront/core/lib/search/adapter/searchAdapterFactory'
+import { processESResponseType } from '@vue-storefront/core/lib/search/adapter/graphql/processor/processType'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
-export function afterRegistration (Vue, config, store, isServer) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   Vue.$on('application-after-init', async () => {
-    console.debug('Example of custom entity graphql extension')
+    Logger.debug('Example of custom entity graphql extension')()
 
     // create graphQl searchAdapter
     let searchAdapter = await getSearchAdapter('graphql')
@@ -45,7 +46,7 @@ export function afterRegistration (Vue, config, store, isServer) {
     // create an empty SearchQuery to get all data for new custom entity
     const searchQuery = new SearchQuery()
 
-    // prepare a Request object
+    // prepare a SearchRequest object
     const Request = {
       store: storeView.storeCode, // TODO: add grouped product and bundled product support
       type: TEST_ENTITY_TYPE,
@@ -56,7 +57,7 @@ export function afterRegistration (Vue, config, store, isServer) {
     // apply test search
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, 0, 200)
-      console.log('Testentity response: ', res)
+      Logger.log('Testentity response: ', res)()
     })
   })
 }

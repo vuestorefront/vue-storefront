@@ -1,9 +1,10 @@
 import { ActionTree } from "vuex"
-import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import RootState from '@vue-storefront/store/types/RootState';
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import RootState from '@vue-storefront/core/types/RootState';
 import CmsBlockState from "../../types/CmsBlockState"
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CmsBlockState, RootState> = {
 
@@ -31,7 +32,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         return resp.items
       })
       .catch(err => {
-        console.error(err)
+        Logger.error(err, 'cms')()
       })
     } else {
       return new Promise((resolve, reject) => {
@@ -64,7 +65,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         return resp.items[0]
       })
       .catch(err => {
-        console.error(err)
+        Logger.error(err, 'cms')()
       })
     } else {
       return new Promise((resolve, reject) => {

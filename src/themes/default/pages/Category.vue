@@ -11,7 +11,7 @@
       <div class="container">
         <div class="row m0">
           <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
+            class="col-xs-5 mt25 mr15 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
             @click="openFilters"
           >
             {{ $t('Filters') }}
@@ -31,7 +31,7 @@
           </div>
           <sidebar class="mobile-filters-body" :filters="filters.available"/>
         </div>
-        <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsCounter }} items</p>
+        <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
         <div class="col-md-9 pt20 px10 border-box products-list">
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>

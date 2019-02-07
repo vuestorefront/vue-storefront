@@ -22,7 +22,9 @@ export default {
     },
     url: {
       type: String,
-      default: ''
+      default () {
+        return typeof window !== 'undefined' ? window.location.href : ''
+      }
     }
   },
   computed: {

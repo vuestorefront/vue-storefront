@@ -43,7 +43,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e',
+            'basics/e2e'
           ],
         },
         {
@@ -69,6 +69,7 @@ module.exports = {
             'components/category-page',
             'components/product',
             'components/modal',
+            'components/events-list'
           ],
         },
         {
@@ -82,6 +83,7 @@ module.exports = {
             'data/database-tool',
             'data/entity-types',
             'data/static-data',
+            'data/data-loader'
           ],
         },
         {
@@ -101,11 +103,7 @@ module.exports = {
             'vuex/vuex-conventions',
             'vuex/product-store',
             'vuex/category-store',
-            'vuex/cart-store',
-            'vuex/checkout-store',
-            'vuex/order-store',
             'vuex/stock-store',
-            'vuex/user-store',
             'vuex/attribute-store',
           ],
         },

@@ -26,7 +26,12 @@ export const ProductAttribute = {
       } else if (this.attribute.frontend_input !== 'multiselect' && this.attribute.frontend_input !== 'select') {
           return parsedValues.toString()
       } else {
-        parsedValues = typeof parsedValues === 'string' ? parsedValues.split(',') : [ parsedValues ]
+        parsedValues = typeof parsedValues === 'string' ? parsedValues.split(',') : parsedValues
+
+        if (!Array.isArray(parsedValues)) {
+          parsedValues = [parsedValues]
+        }
+
         let results = []
         for (let parsedVal of parsedValues) {
           if (this.attribute.options) {

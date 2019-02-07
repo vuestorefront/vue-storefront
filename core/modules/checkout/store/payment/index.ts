@@ -1,6 +1,7 @@
 import { Module } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import PaymentState from '../../types/PaymentState'
+import rootStore from '@vue-storefront/store'
 
 export const paymentModule: Module<PaymentState, RootState> = {
   namespaced: true,
@@ -25,7 +26,10 @@ export const paymentModule: Module<PaymentState, RootState> = {
   },
   getters: {
     paymentMethods (state) {
-      return state.methods
+      const isVirtualCart = rootStore.getters['cart/isVirtualCart']
+      return state.methods.filter(method => { 
+        return (!isVirtualCart || method.code !== 'cashondelivery')
+       })
     }
   }
 }

@@ -15,7 +15,10 @@
             <i
               class="material-icons icon p15 pointer"
               @click="accept"
+              @keyup.enter="accept"
               data-testid="closeCookieButton"
+              tabindex="0"
+              role="button"
             >
               close
             </i>

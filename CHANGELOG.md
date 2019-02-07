@@ -4,8 +4,67 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-- Fix SSR mismatch in `compare` and `wishlist` modules. Load data from local cache after component is mounted - @patzick (#2321)
+## [1.8.0] - 2019.02.07
+Additional migration tips are available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
+
+### Added
+- Chinese translation added - @wadereye (#2265)
+- Categories filter in search view - @kjugi, @patzick (#1710)
+- AsyncDataLoader feature - @pkarw (#2300)
+- Events list page in docs - @jablpiotrek (#776)
+- Keyboard support for account and cookie close buttons - @anqaka (#2258)
+- Support typescript in build scripts - @marlass, @patzick (#2260, #2273, #2324)
+- Possibility to have sticky notifications - @phoenixdev-kl (#2307)
+- Added a scss to manage global form style - @lorenaramonda (#2316)
+- Manage products with zero price - @MarcoGrecoBitbull (#2327)
+
+### Changed / Improved
+- Theme structure improvements - @filrak (#2223)
+- Type interfaces and refactor - @filrak (#2227, #2267)
+- Changed beforeRegistration and afterRegistration hooks signature. Now it contains only one object VSF. The subfields are the same as before so changing `beforeRegistration( Vue, config, store, isServer )` to `beforeRegistration({ Vue, config, store, isServer })`(and same with `afterRegistration`) is enough to make a proper migration to new API. - @filrak (#2330)
+- Typo fixes - @youanden, Micheledinocera (#2229, #2329)
+- Bundle products price calculation fix - @pkarw (#2371)
+- Added hotjar snippet and dixed isServer flag in module hooks - @lukeromanowicz (#840)
+- Location of type files - @kruchy8 (#2226)
+- Improved theme registration - @lukeromanowicz (#2233)
+- SSR renderings for logged in users - @vue-kacper (#2234)
+- ElasticSearch fuzzy search - @qbo-tech (#2340, #2354)
+- Documentation improvements - @martaradziszewska, @wilfriedwolf, @fvillata, @pkarw (#2210, #2244, #2289, #2369)
+- Support regional characters in urls - @Aekal (#2243)
+- `store/lib/search` has been moved to `core/lib/search` - @lukeromanowicz (#2225)
+- `store/lib/multistore` has been moved to `core/lib/multistore` - @lukeromanowicz (#2224)
+- BaseSelect syntax improvements - @jszczech (#2237)
+- Optional cart discounts display on  side cart - @mcspronko (#1758)
+- Special price dates checking - backport of @igloczek's (#2245)
+- Category filters reset functionality on mobile - @vue-kacper, @patzick, @renatocason (#2262)
+- Improve sortBy mobile view - @martaradziszewska (#2251)
+- Slide animations to menu, search, wishlist and minicart components - @Aekal (#2256)
+- Fixed wishlist store module to not be lazy loaded - @vue-kacper (#2249)
+- Share webpack typescript config with docker container - @lukeromanowicz (#2269)
+- After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
+- Output cache clearing supports versioning - @igloczek (#2333, #2359)
+- Cash on delivery + Shipping addresses fixed for virtual products - @pkarw (#2366)
+- Improved static pages caching strategy - @pkarw (#2281)
+- Magento 2.3 MSI work-around (it's still not supported fully) - @pkarw (#2366)
+- Product zoom picture centered - @ptylek (#2178)
+- Fixed tracking in analytics module - @jahvi (#2278)
+- Improved merge the store modules array with extended module config - @DaanKouters (#2274)
+- ElasticSearch fuzzy search, scoring, boosting + other improvements - @qbo-tech (#2340)
+- Turned off compression plugin, nginx serves brotli compression  — @patzick (#2254)
+- Improved user account menu UX on desktop - @vue-kacper (#2363)
+- Added About us missing route - @lorenaramonda (#2320)
+- Fixed used variable for products count in category - @renatocason (#2304)
+- Override console with logger - @daaru00 (#2235)
+- Fixed variable call about feedback email - @PhantomDraven (#2318)
+- Output cache clearing versioning - @igloczek (#2333)
+- Improved paddings on select fields - @patzick (#2361)
+- Fixed lack of modal backdrop - @vue-kacper, @giuliachiola (#2319)
+- Form validations and improvements - @vue-kacper (#2348, #2349, #2347)
+- Changing product quantity in catr - @mdanilowicz (#2345)
+- Product attribute values as array - @afirlejczyk (#2379)
+- Improved fetching customAttributes - @afirlejczyk (#2107)
+- Removed compare button from product mobile view - @patzick (#2370)
+- Configurable options attribute descriptor - @pkarw (#2384)
 
 ## [1.7.3] - 2019.01.31
 ### Fixed
@@ -20,8 +79,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - url_key adjustment after m2vs fix - @pkarw (#2215)
 - Service worker removed from dev mode because of the side effects - @pkarw
 - `networkFirst` first caching strategy for /api/catalog - @pkarw
-- Special price dates checking - backport of @igloczek's (#2245)
 - SSR detection in components - @patzick (#2173)
+
+### Added
+- Hotjar extension (#840)
 
 ### Changed
 - compress banner images - @patzick (#2280)

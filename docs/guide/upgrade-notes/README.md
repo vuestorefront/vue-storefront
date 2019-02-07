@@ -2,6 +2,22 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.7 -> 1.8
+Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
+
+- `store/types` have been moved to new module called `core/types`.
+- `store/lib/search` has been moved to `core/lib/search`.
+- `store/lib/multistore.ts` has been moved to `core/lib/multistore.ts`
+- `@vue-storefront/store/lib/multistore` has been [moved](https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-87917f882ffc57fb755b1cc82ffa9e28L11) to `@vue-storefront/core/lib/multistore`
+- new [styles](https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-ae72dc903f169eb56d716cd5ac99df35R1) file for form elements
+- removed unused `src/themes/default/filters/index.js` file - check if you're not using it as well
+- `src/themes/default/resource/head.js` has been moved to `src/themes/default/head.js`
+- `src/themes/default/index.basic.template.html` has been moved to `src/themes/default/templates/index.basic.template.html`
+- `src/themes/default/index.minimal.template.html` has been moved to `src/themes/default/templates/index.minimal.template.html`
+- `src/themes/default/index.template.html` has been moved to `src/themes/default/templates/index.template.html`
+
+
+
 ## 1.6 -> 1.7
 
 Starting from Vue Storefront 1.7 we've changed the Caching strategy + Offline ready features:

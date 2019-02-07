@@ -20,7 +20,8 @@
       "useUrlDispatcher": false
     },    
     "console": {
-      "verbosityLevel": "only-errors"
+      "showErrorOnProduction" : true,
+      "verbosityLevel": "display-everything"
     },
     "redis": {
       "host": "localhost",
@@ -39,7 +40,34 @@
       "csrTimeout": 5000,
       "ssrTimeout": 1000,
       "queryMethod": "GET",
-      "disableLocalStorageQueriesCache": true
+      "disableLocalStorageQueriesCache": true,
+      "searchScoring": {
+        "attributes": {
+          "attribute_code": {
+            "scoreValues": { "attribute_value": { "weight": 1 } }
+          }
+        },
+        "fuzziness": 2,
+        "cutoff_frequency":  0.01,
+        "max_expansions": 3,
+        "minimum_should_match": "75%",
+        "prefix_length": 2, 
+        "boost_mode": "multiply",
+        "score_mode": "multiply", 
+        "max_boost": 100,
+        "function_min_score": 1
+      },
+      "searchableAttributes": {
+        "name": {
+          "boost": 4
+        },
+        "sku": {
+          "boost": 2
+        },
+        "category.name": {
+          "boost": 1
+        }
+      }
     },
     "ssr": {
       "templates": {
@@ -206,6 +234,7 @@
       "setCustomProductOptions": true,
       "setConfigurableProductOptions": true,
       "askBeforeRemoveProduct": true,
+      "displayItemDiscounts": true,
       "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
       "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
       "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
@@ -226,7 +255,7 @@
       "configurableChildrenStockPrefetchDynamic": false,
       "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
       "filterUnavailableVariants": false,
-      "listOutOfStockProducts": false,
+      "listOutOfStockProducts": true,
       "preventConfigurableChildrenDirectAccess": true,
       "alwaysSyncPlatformPricesOver": false,
       "clearPricesBeforePlatformSync": false,
@@ -367,6 +396,9 @@
     "analytics": {
       "id": false
     },
+    "hotjar": {
+      "id": false
+    },
     "cms": {
       "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
       "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
@@ -378,14 +410,7 @@
       "max_count": 500
     },
     "usePriceTiers": false,
-    "boost": {
-      "name": 3,
-      "category.name": 1,
-      "short_description": 1,
-      "description": 1,
-      "sku": 1,
-      "configurable_children.sku": 1
-    },
+    "useZeroPriceProduct": true,
     "query": {
       "inspirations": {
         "filter": [
@@ -422,3 +447,4 @@
     }
 
 }
+

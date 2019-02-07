@@ -50,7 +50,7 @@
               {{ $t('What we can improve?') }}
             </h3>
             <p class="mb25">
-              {{ $t('Your feedback is important fo us. Let us know what we could improve.') }}
+              {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
             </p>
             <form @submit.prevent="sendFeedback">
               <base-textarea
@@ -119,7 +119,7 @@ export default {
       this.sendEmail(
         {
           sourceAddress: this.checkoutPersonalEmailAddress,
-          targetAddress: this.mailerElements.contactAddress,
+          targetAddress: this.mailerElements,
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
@@ -136,7 +136,7 @@ export default {
       if (this.mailerElements.sendConfirmation) {
         this.sendEmail(
           {
-            sourceAddress: this.mailerElements.contactAddress,
+            sourceAddress: this.mailerElements,
             targetAddress: this.checkoutPersonalEmailAddress,
             subject: this.$t('Confirmation of receival'),
             emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
