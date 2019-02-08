@@ -10,6 +10,7 @@ import { Wishlist } from '@vue-storefront/core/modules/wishlist'
 import { Mailchimp } from '../modules/mailchimp'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
+import { Url } from '@vue-storefront/core/modules/url'
 import { Homepage } from "./homepage"
 import { Claims } from './claims'
 import { PromotedOffers } from './promoted-offers'
@@ -69,6 +70,7 @@ export const registerModules: VueStorefrontModule[] = [
   PaymentBackendMethods,
   PaymentCashOnDelivery,
   RawOutputExample,
-  AmpRenderer/*,
+  AmpRenderer,
+  Url/*,
   Example*/
 ]

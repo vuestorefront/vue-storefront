@@ -1,0 +1,1 @@
+export const REGISTER_MAPPING = 'REGISTER_MAPPING'
