@@ -19,7 +19,7 @@ describe('Cart beforeRegistration', () => {
   });
 
   it('hook initializes cart cache without sufix in name', () => {
-    const configMock = {
+    const config = {
       cart: {
         multisiteCommonCart: true
       },
@@ -34,13 +34,13 @@ describe('Cart beforeRegistration', () => {
     (<Mock> currentStoreView).mockReturnValueOnce({});
     (<Mock><unknown> UniversalStorage).mockImplementationOnce(() => storageMock);
 
-    beforeRegistration(Vue, configMock, undefined, undefined);
+    beforeRegistration({ Vue, config, store: undefined, isServer: undefined });
 
     expect(Vue.prototype.$db.cartsCollection).toEqual(storageMock);
   });
 
   it('hook initializes cart cache with storeCode sufix in name', () => {
-    const configMock = {
+    const config = {
       cart: {
         multisiteCommonCart: false
       },
@@ -55,7 +55,7 @@ describe('Cart beforeRegistration', () => {
     (<Mock> currentStoreView).mockReturnValueOnce({ storeCode: 'baz'});
     (<Mock><unknown> UniversalStorage).mockImplementationOnce(() => storageMock);
 
-    beforeRegistration(Vue, configMock, undefined, undefined);
+    beforeRegistration({ Vue, config, store: undefined, isServer: undefined });
 
     expect(localForage.createInstance).toBeCalledWith({
       name: 'baz-shop',

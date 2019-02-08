@@ -33,7 +33,7 @@ describe('Cart afterRegistration', () => {
       }
     };
 
-    afterRegistration(Vue, {}, new Vuex.Store(storeMock), false)
+    afterRegistration({ Vue, config: {}, store: new Vuex.Store(storeMock), isServer: false})
 
     expect(storeMock.modules.cart.actions.load).toBeCalled()
   });
@@ -45,7 +45,7 @@ describe('Cart afterRegistration', () => {
 
     (<Mock> cartCacheHandlerFactory).mockReturnValueOnce(cartCacheHandler);
 
-    afterRegistration(Vue, {}, store, true);
+    afterRegistration({ Vue, config: {}, store, isServer: true });
 
     expect(storeSpy).toBeCalledWith(cartCacheHandler);
   });
