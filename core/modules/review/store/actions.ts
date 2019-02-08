@@ -10,6 +10,7 @@ import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/store'
 import Review from '@vue-storefront/core/modules/review/types/Review'
 import { ReviewRequest } from '@vue-storefront/core/modules/review/types/ReviewRequest'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<ReviewState, RootState> = {
   /**
@@ -39,7 +40,7 @@ const actions: ActionTree<ReviewState, RootState> = {
     quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       context.commit(types.REVIEW_UPD_REVIEWS, resp)
     }).catch(err => {
-      console.error(err)
+      Logger.error(err, 'review')()
     })
   },
 

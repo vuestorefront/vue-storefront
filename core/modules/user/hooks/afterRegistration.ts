@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as types from './../store/mutation-types'
 
-export function afterRegistration(Vue, config, store, isServer){
+export function afterRegistration({ Vue, config, store, isServer }){
   if (!isServer) {
     store.dispatch('user/startSession')
 

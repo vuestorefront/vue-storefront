@@ -49,7 +49,7 @@
               },
               {
                 condition: !$v.personalDetails.firstName.minLength,
-                text: $t('Name must have at least 3 letters.')
+                text: $t('Name must have at least 2 letters.')
               }
             ]"
           />
@@ -242,7 +242,7 @@ export default {
     personalDetails: {
       firstName: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(2)
       },
       lastName: {
         required

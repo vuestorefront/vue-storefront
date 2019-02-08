@@ -52,7 +52,7 @@ class LocalForageCacheDriver {
     this._storageQuota = storageQuota
 
     if (this._storageQuota && !Vue.prototype.$isServer) {
-      const storageQuota = this._storageQuota      
+      const storageQuota = this._storageQuota
       const iterateFnc = this.iterate.bind(this)
       const removeItemFnc = this.removeItem.bind(this)
       setInterval(() => {
@@ -65,7 +65,7 @@ class LocalForageCacheDriver {
             const howManyItemsToRemove = 100
             const keysPurged = []
             iterateFnc((item, id, number) => {
-              if (number < howManyItemsToRemove) { 
+              if (number < howManyItemsToRemove) {
                 removeItemFnc(id)
                 keysPurged.push(id)
               }
@@ -124,7 +124,7 @@ class LocalForageCacheDriver {
         } else {
           this._localForageCollection = localForage.createInstance(existingConfig)
         }
-        console.log('DB recreated with', existingConfig, destVersionNumber)
+        Logger.log('DB recreated with', existingConfig, destVersionNumber)()
       }
     }
   }
@@ -136,7 +136,7 @@ class LocalForageCacheDriver {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     let isResolved = false
     if (this._useLocalCacheByDefault && this._localCache[key]) {
-      // console.debug('Local cache fallback for GET', key)
+      // Logger.debug('Local cache fallback for GET', key)()
       return new Promise((resolve, reject) => {
         const value = typeof this._localCache[key] !== 'undefined' ? this._localCache[key] : null
         if (isCallbackCallable) callback(null, value)
@@ -147,7 +147,7 @@ class LocalForageCacheDriver {
     if (!Vue.prototype.$isServer) {
       if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
-          console.error('Persistent cache disabled becasue of previous errors [get]', key)
+          Logger.error('Persistent cache disabled becasue of previous errors [get]', key)()
           this._persistenceErrorNotified = true
         }
         return new Promise((resolve, reject) => {
@@ -156,11 +156,11 @@ class LocalForageCacheDriver {
         })
       } else {
         const startTime = new Date().getTime()
-        // console.debug('No local cache fallback for GET', key)
+        // Logger.debug('No local cache fallback for GET', key)()
         const promise = this._localForageCollection.ready().then(() => this._localForageCollection.getItem(key).then(result => {
           const endTime = new Date().getTime()
           if ((endTime - startTime) >= CACHE_TIMEOUT) {
-            console.error('Cache promise resolved after [ms]', key, (endTime - startTime))
+            Logger.error('Cache promise resolved after [ms]' + key + (endTime - startTime))()
           }
           if (!this._localCache[key] && result) {
             this._localCache[key] = result // populate the local cache for the next call
@@ -171,7 +171,7 @@ class LocalForageCacheDriver {
             }
             isResolved = true
           } else {
-            console.debug('Skipping return value as it was previously resolved')
+            Logger.debug('Skipping return value as it was previously resolved')()
           }
           return result
         }).catch(err => {
@@ -179,7 +179,7 @@ class LocalForageCacheDriver {
           if (!isResolved) {
             if (isCallbackCallable) callback(null, typeof this._localCache[key] !== 'undefined' ? this._localCache[key] : null)
           }
-          console.error(err)
+          Logger.error(err)()
           isResolved = true
         }))
 
@@ -211,7 +211,7 @@ class LocalForageCacheDriver {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     let globalIterationNumber = 1
     if (this._useLocalCacheByDefault) {
-      // console.debug('Local cache iteration')
+      // Logger.debug('Local cache iteration')()
       for (const localKey in this._localCache) {
         if (isIteratorCallable) {
           iterator(this._localCache[localKey], localKey, globalIterationNumber)
@@ -228,7 +228,7 @@ class LocalForageCacheDriver {
             iterator(value, key, globalIterationNumber)
             globalIterationNumber++
           } else {
-            // console.debug('Skipping iteration key because local cache executed', key)
+            // Logger.debug('Skipping iteration key because local cache executed', key)()
           }
         } else {
           iterator(value, key, iterationNumber)
@@ -239,7 +239,7 @@ class LocalForageCacheDriver {
       isResolved = true
     })).catch(err => {
       this._lastError = err
-      console.error(err)
+      Logger.error(err)()
       if (!isResolved) {
         isResolved = true
         if (isCallbackCallable) callback(err, null)
@@ -297,7 +297,7 @@ class LocalForageCacheDriver {
     if (!Vue.prototype.$isServer) {
       if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER_SAVE && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
-          console.error('Persistent cache disabled becasue of previous errors [set]', key)
+          Logger.error('Persistent cache disabled becasue of previous errors [set]', key)()
           this._persistenceErrorNotified = true
         }
         return new Promise((resolve, reject) => {

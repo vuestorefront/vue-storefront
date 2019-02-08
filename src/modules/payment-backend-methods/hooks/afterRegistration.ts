@@ -1,6 +1,6 @@
 import * as types from './../store/mutation-types'
 
-export function afterRegistration(Vue, config, store, isServer) {
+export function afterRegistration({ Vue, config, store, isServer }) {
 
   let correctPaymentMethod = false
 

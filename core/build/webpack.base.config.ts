@@ -107,7 +107,10 @@ export default {
       'theme': themeRoot,
       'theme/app': themeApp,
       'theme/css': themeCSS,
-      'theme/resource': themeResources
+      'theme/resource': themeResources,
+
+      // Backward compatible
+      '@vue-storefront/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
     }
   },
   module: {

@@ -68,7 +68,7 @@ module.exports = merge(base, {
         handler: "networkFirst"
       },{
         urlPattern: "/index.html",
-        handler: "fastest"
+        handler: "networkFirst"
       },{
         urlPattern: "/assets/*",
         handler: "fastest"

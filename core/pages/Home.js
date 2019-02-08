@@ -21,7 +21,7 @@ export default {
     try {
       await EventBus.$emitFilter('home-after-load', { store: store, route: route })
     } catch (e) {
-      console.error(e)
+      Logger.error(e)()
       throw e
     }
   },

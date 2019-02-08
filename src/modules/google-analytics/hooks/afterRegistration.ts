@@ -1,4 +1,4 @@
-export function afterRegistration (Vue, config, store, isServer) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   if (config.analytics.id && !isServer) {
     Vue.prototype.$bus.$on('order-after-placed', event => {
       const order = event.order
