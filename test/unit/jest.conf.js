@@ -1,5 +1,5 @@
 module.exports = {
-  rootDir: './',
+  rootDir: '../../',
   moduleFileExtensions: [
     'js',
     'ts',
@@ -19,6 +19,8 @@ module.exports = {
   coverageDirectory: '<rootDir>/test/unit/coverage',
   collectCoverageFrom: [
     'src/**/*.{js,ts,vue}',
-    'core/**/*.{js,ts,vue}'
+    'core/**/*.{js,ts,vue}',
+    '!src/**/types/*.{js,ts}',
+    '!core/**/types/*.{js,ts}'
   ]
 }
