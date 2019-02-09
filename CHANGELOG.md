@@ -17,6 +17,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Possibility to have sticky notifications - @phoenixdev-kl (#2307)
 - Added a scss to manage global form style - @lorenaramonda (#2316)
 - Manage products with zero price - @MarcoGrecoBitbull (#2327)
+- Hotjar integration - @lukeromanowicz (#840)
 
 ### Changed / Improved
 - Theme structure improvements - @filrak (#2223)
@@ -24,7 +25,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Changed beforeRegistration and afterRegistration hooks signature. Now it contains only one object VSF. The subfields are the same as before so changing `beforeRegistration( Vue, config, store, isServer )` to `beforeRegistration({ Vue, config, store, isServer })`(and same with `afterRegistration`) is enough to make a proper migration to new API. - @filrak (#2330)
 - Typo fixes - @youanden, Micheledinocera (#2229, #2329)
 - Bundle products price calculation fix - @pkarw (#2371)
-- Added hotjar snippet and dixed isServer flag in module hooks - @lukeromanowicz (#840)
+- Fixed isServer flag in module registration hooks - @lukeromanowicz (#840)
 - Location of type files - @kruchy8 (#2226)
 - Improved theme registration - @lukeromanowicz (#2233)
 - SSR renderings for logged in users - @vue-kacper (#2234)
