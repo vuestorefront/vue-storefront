@@ -6,7 +6,7 @@ import rootStore from '@vue-storefront/store'
 export const paymentModule: Module<PaymentState, RootState> = {
   namespaced: true,
   state: {
-    methods: [{"code":"cashondelivery","title":"Cash On Delivery","is_server_method":true}]
+    methods: [{"code":"cashondelivery","title":"Cash On Delivery","is_server_method":false}]
   },
   mutations: {
     addMethod (state, paymentMethod) {
