@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.8.2] - 2019.02.11
-- Fixed docker-compose configuration for network_mode and TS build config
+- Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
 
 ## [1.8.1] - 2019.02.10
 This is hot-fix release for fixing the payment methods switching issue when both: `payments-cash-on-delivery` and `payments-backend-methods` modules enabled.
