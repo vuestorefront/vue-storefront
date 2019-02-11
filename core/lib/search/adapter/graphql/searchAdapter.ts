@@ -229,7 +229,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsPage\'')
           }
         }
       }
@@ -251,7 +251,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsBlock\'')
           }
         }
       }
@@ -273,7 +273,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsHierarchy\'')
           }
         }
       }
