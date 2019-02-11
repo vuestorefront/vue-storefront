@@ -19,6 +19,7 @@ const mutations: MutationTree<CartState> = {
       Vue.prototype.$bus.$emit('cart-before-add', { product: item })
       state.cartItems.push(item)
     } else {
+      Vue.prototype.$bus.$emit('cart-before-update', { product: record })
       record.qty += parseInt((product.qty ? product.qty : 1))
     }
   },
@@ -54,8 +55,8 @@ const mutations: MutationTree<CartState> = {
       Vue.prototype.$bus.$emit('cart-before-itemchanged', { item: record })
       record = Object.assign(record, product)
       Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: record })
+      state.cartSavedAt = Date.now()
     }
-    state.cartSavedAt = Date.now()
   },
   [types.CART_UPD_SHIPPING] (state, shippingMethod) {
     state.shipping = shippingMethod

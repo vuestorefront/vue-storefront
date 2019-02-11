@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as types from '../../../store/mutation-types'
 
-import Mock = jest.Mock;
 import { cartCacheHandlerFactory } from "../../../helpers/cartCacheHandler";
 
 Vue.use(Vuex);

@@ -35,6 +35,7 @@
     "core/build/theme-path.js"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }
