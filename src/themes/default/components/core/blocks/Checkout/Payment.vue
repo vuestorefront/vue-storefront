@@ -380,7 +380,7 @@ export default {
         payment: {
           firstName: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(2)
           },
           lastName: {
             required
