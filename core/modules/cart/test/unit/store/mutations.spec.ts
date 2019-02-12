@@ -602,17 +602,17 @@ describe('Cart mutations', () => {
     expect(stateMock).toEqual(expectedState);
   });
 
-  /** @todo update below with real-like data to show what it is for */
   it('CART_UPD_TOTALS updates totals related data', () => {
     const stateMock = {};
     const expectedState = {
       itemsAfterPlatformTotals: ['foo'],
       platformTotals: {
-        bar: 1
+        bar: 1 /** @todo replace with real alike data to show what it can be filled with */
       },
-      platformTotalSegments: {
-        baz: 2
-      }
+      platformTotalSegments: [
+        {'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36},
+        {'code': 'grand_total', 'title': 'Grand Total', 'value': 39.36, 'area': 'footer'}
+      ]
     };
     const wrapper = (mutations: any) => mutations[types.CART_UPD_TOTALS](
       stateMock,

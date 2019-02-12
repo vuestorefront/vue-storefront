@@ -1,14 +1,5 @@
 import cartGetters from '../../../store/getters';
 
-jest.mock('lodash-es/sumBy', () => (array, iteratee) => {
-  let a = 0;
-
-  array.forEach((el) => {
-    a += iteratee(el);
-  });
-
-  return a;
-});
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 
 describe('Cart getters', () => {
@@ -17,12 +8,22 @@ describe('Cart getters', () => {
     jest.clearAllMocks();
   });
 
-  /** @todo refactor description in tests below and mock of this test if you actually know what platformTotalSegments are and what's their content */
   it('totals returns platform total segments if they has been saved in store', () => {
     const stateMock = {
-      platformTotalSegments: {
-        foo: 'bar'
-      }
+      platformTotalSegments: [
+        {'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36},
+        {'code': 'shipping', 'title': 'Shipping & Handling (Flat Rate - Fixed)', 'value': 5},
+        {'code': 'discount', 'title': 'Discount', 'value': -4.8},
+        {'code': 'tax', 'title': 'Tax', 'value': 6.26, 'area': 'taxes',
+          'extension_attributes': {
+            'tax_grandtotal_details': [{
+              'amount': 6.26,
+              'rates': [{'percent': '23', 'title': 'VAT23-PL'}],
+              'group_id': 1
+            }]
+          }},
+        {'code': 'grand_total', 'title': 'Grand Total', 'value': 38.46, 'area': 'footer'}
+      ]
     };
     const wrapper = (getters: any) => getters.totals(stateMock);
 

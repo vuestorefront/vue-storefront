@@ -49,7 +49,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_LOAD_CART, [])
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
     if (rootStore.state.config.cart.synchronize) {
-      rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to magento yet it will repopulate your cart
+      context.dispatch('serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to magento yet it will repopulate your cart
     }
   },
   save (context) {

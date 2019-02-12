@@ -33,7 +33,7 @@ describe('Cart afterRegistration', () => {
       }
     };
 
-    afterRegistration({ Vue, config: {}, store: new Vuex.Store(storeMock), isServer: false})
+    afterRegistration({ Vue, config: {}, store: new Vuex.Store(storeMock), isServer: false});
 
     expect(storeMock.modules.cart.actions.load).toBeCalled()
   });

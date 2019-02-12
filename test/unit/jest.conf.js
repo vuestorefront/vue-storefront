@@ -22,5 +22,8 @@ module.exports = {
     'core/**/*.{js,ts,vue}',
     '!src/**/types/*.{js,ts}',
     '!core/**/types/*.{js,ts}'
+  ],
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/(?!lodash)'
   ]
 }

@@ -137,5 +137,4 @@ describe('Microcart', () => {
 
     expect(storeMock.modules.ui.actions.toggleMicrocart).toBeCalled();
   });
-
 });
