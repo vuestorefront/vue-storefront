@@ -88,6 +88,9 @@ export const ProductGallery = {
       if (this.isZoomOpen && event.keyCode === 27) {
         this.toggleZoom()
       }
+    },
+    initVideo (video) {
+      console.log(video)
     }
   }
 }

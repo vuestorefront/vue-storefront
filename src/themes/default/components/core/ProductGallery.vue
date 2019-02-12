@@ -37,7 +37,7 @@
               <slide
                 v-for="images in gallery"
                 :key="images.src">
-                <div class="bg-cl-secondary">
+                <div class="bg-cl-secondary" :class="{'video-container h-100': images.video}">
                   <img
                     class="product-image inline-flex pointer mw-100"
                     v-lazy="images"
@@ -47,6 +47,13 @@
                     data-testid="productGalleryImage"
                     itemprop="image"
                   >
+                  <div
+                    v-if="images.video"
+                    class="gallery-video"
+                    @click="initVideo(images.video)"
+                  >
+                    <i class="material-icons">play_circle_outline</i>
+                  </div>
                 </div>
               </slide>
             </carousel>
@@ -139,6 +146,38 @@ img[lazy=loading] {
 .thumbnails {
   div {
     margin: 0 20px 20px 0;
+  }
+}
+
+.video-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .gallery-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+
+    > .material-icons {
+      position: absolute;
+      left: 0;
+      right: 0;
+      color: #fff;
+      font-size: 120px;
+      top: calc( 50% - 60px);
+      transition: transform ease 0.3s;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      > .material-icons {
+        transform: scale(1.1);
+      }
+    }
   }
 }
 </style>
