@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.9.0]
 ### Changed / Improved
-- Updated CONTRIBUTING.md with better spelling and grammar
+- Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2425)
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
