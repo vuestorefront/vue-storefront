@@ -148,7 +148,7 @@ Tutorial series on creating themes for Vue Storefront:
 ### Integrations
 
 - [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
-- [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
+- [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge), [Magento 1.9 native indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer)
 - [Vue Storefront + with Magento checkout](https://github.com/Vendic/magento2-external-checkout)
 - [Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
 - [Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
