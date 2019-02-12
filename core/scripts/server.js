@@ -124,7 +124,7 @@ app.get('/invalidate', invalidateCache)
 app.get('*', (req, res, next) => {
   const s = Date.now()
   const errorHandler = err => {
-    if (err && err.code === 404) {
+    if (err && err.code === 404 || err.message.indexOf('Failed to resolve') >= 0/* Vue Router error - Vue Router encapsulates the HttpError returned by UrlDispatcher; haven't found a better way to handle it */) {
       res.redirect('/page-not-found')
     } else {
       res.redirect('/error')
