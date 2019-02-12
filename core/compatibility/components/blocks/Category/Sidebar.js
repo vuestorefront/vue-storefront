@@ -1,5 +1,6 @@
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { mapGetters } from 'vuex'
+import pickBy from 'lodash-es/pickBy'
 
 export default {
   name: 'CategorySidebar',
@@ -16,6 +17,12 @@ export default {
     },
     activeFilters () {
       return this.getActiveCategoryFilters
+    },
+    availableFilters () {
+      return pickBy(this.filters, (filter) => { return (filter.length) })
+    },
+    hasActiveFilters () {
+      return Object.keys(this.activeFilters).length !== 0
     }
   },
   methods: {

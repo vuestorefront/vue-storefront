@@ -3,7 +3,7 @@ import { AccountButton } from '@vue-storefront/core/modules/user/components/Acco
 export default {
   name: 'AccountIcon',
   data () {
-    // theme-specific, depreciated
+    // theme-specific, deprecated
     return {
       navigation: []
     }

@@ -7,7 +7,7 @@ import remove from 'lodash-es/remove'
 import groupBy from 'lodash-es/groupBy'
 import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
-// TODO: Remove this dep
+// TODO: Remove this dependency
 import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
@@ -22,7 +22,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
       context.state.current.errors = product.errors
       Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
       if (rootStore.state.config.products.listOutOfStockProducts === false) {
-        errorCallback(new Error('Product query returned empty result'))
+        errorCallback(new Error('Product query returned an empty result'))
       }
     }
   }
@@ -103,7 +103,7 @@ export function filterOutUnavailableVariants (context, product) {
                 Logger.debug('Filtered configurable_children with the network call' + diffLog, 'helper')()
                 resolve()
               } else {
-                Logger.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet :)', 'helper')()
+                Logger.error('Cannot sync the availability of the product options. Please update the vue-storefront-api or switch on the Internet', 'helper')()
               }
             }).catch(err => {
               Logger.error(err, 'helper')()

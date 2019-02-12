@@ -1,4 +1,4 @@
-// depreciated moved to store
+// deprecated moved to store
 export default {
   name: 'Notification',
   data () {

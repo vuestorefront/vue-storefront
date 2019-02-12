@@ -33,7 +33,7 @@ import store from '@vue-storefront/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be depreciated in 1.8
+// Will be deprecated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
 
