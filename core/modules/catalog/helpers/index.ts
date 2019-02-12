@@ -13,6 +13,7 @@ import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isServer } from '@vue-storefront/core/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -235,7 +236,7 @@ export function doPlatformPricesSync (products) {
       } else { // empty list of products
         resolve(products)
       }
-      if (!rootStore.state.config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
+      if (!rootStore.state.config.products.waitForPlatformSync && !isServer) {
         Logger.log('Returning products, the prices yet to come from backend!')()
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not

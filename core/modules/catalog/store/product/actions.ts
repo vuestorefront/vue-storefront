@@ -25,6 +25,8 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { isServer } from '@vue-storefront/core/helpers'
+
 const PRODUCT_REENTER_TIMEOUT = 20000
 
 const actions: ActionTree<ProductState, RootState> = {
@@ -282,7 +284,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !Vue.prototype.$isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       Logger.debug('Entity cache is enabled for productList')()
@@ -341,7 +343,7 @@ const actions: ActionTree<ProductState, RootState> = {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
               })
           }
-          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !Vue.prototype.$isServer) {
+          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {
             context.dispatch('setupAssociated', { product: prod })
           }
         }
@@ -623,7 +625,7 @@ const actions: ActionTree<ProductState, RootState> = {
           only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
         }, { root: true }))
-        if (Vue.prototype.$isServer) {
+        if (isServer) {
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {
           context.dispatch('filterUnavailableVariants', { product: product }) // exec async

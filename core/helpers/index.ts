@@ -54,7 +54,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: (rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
+      route_link: rootStore.state.config.seo.useUrlDispatcher ? ('/' + sc.url_path) : ((rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug)
     })
   }
 

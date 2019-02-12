@@ -17,8 +17,6 @@ export const actions: ActionTree<UrlState, any> = {
   },
   mapUrl ({ state, dispatch }, { url }) {
     return new Promise ((resolve, reject) => {
-      console.log(url)
-      console.log(state.dispatcherMap)
       if (state.dispatcherMap.hasOwnProperty(url)) {
         return resolve (state.dispatcherMap[url])
       }

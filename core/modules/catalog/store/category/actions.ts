@@ -14,6 +14,7 @@ import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isServer } from '@vue-storefront/core/helpers'
 
 
 const actions: ActionTree<CategoryState, RootState> = {
@@ -170,7 +171,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
       }
       if (!foundInLocalCache) {
-        if (skipCache || Vue.prototype.$isServer) {
+        if (skipCache || isServer) {
           fetchCat({ key, value })
         } else {
           const catCollection = Vue.prototype.$db.categoriesCollection
@@ -197,7 +198,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
 
     let prefetchGroupProducts = true
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
       includeFields = rootStore.state.config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
       excludeFields = rootStore.state.config.entities.productListWithChildren.excludeFields
       prefetchGroupProducts = false
@@ -322,7 +323,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
       Logger.log('Using two stage caching for performance optimization - executing second stage product caching', 'category') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize()
       rootStore.dispatch('product/list', {
         query: precachedQuery,

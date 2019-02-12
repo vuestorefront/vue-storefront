@@ -6,6 +6,7 @@ import { execute as taskExecute, _prepareTask } from './task'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/store/lib/storage'
 import { currentStoreView } from '../multistore'
+import { isServer } from '@vue-storefront/core/helpers'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 function queue (task) {
@@ -41,7 +42,7 @@ function execute (task) { // not offline task
     driver: localForage[rootStore.state.config.localForage.defaultDrivers['carts']]
   }))
   return new Promise((resolve, reject) => {
-    if (Vue.prototype.$isServer) {
+    if (isServer) {
       taskExecute(task, null, null).then((result) => {
         resolve(result)
       }).catch(err => {
