@@ -131,7 +131,7 @@ export class VueStorefrontModule {
           if (this._c.beforeRegistration.length === 1 ) { 
             this._c.beforeRegistration(VSF) 
           } else {
-            Logger.warn('You are using outdated signature for beforeRegistration hook that soon will be depreciated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#beforeregistration', 'module', this._c.key)()
+            Logger.warn('You are using outdated signature for beforeRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#beforeregistration', 'module', this._c.key)()
             this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
           }
         }
@@ -143,7 +143,7 @@ export class VueStorefrontModule {
           if (this._c.afterRegistration.length === 1 ) {
             this._c.afterRegistration(VSF)
            } else {
-            Logger.warn('You are using outdated signature for afterRegistration hook that soon will be depreciated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#afterregistration', 'module', this._c.key)()
+            Logger.warn('You are using outdated signature for afterRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#afterregistration', 'module', this._c.key)()
             this._c.afterRegistration(Vue, rootStore.state.config, rootStore, isServer)
            } 
         }

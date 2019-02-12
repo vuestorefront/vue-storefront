@@ -3,7 +3,7 @@
 Below you can find solutions for most common problems and advises for typical config changes required by Vue Storefront.
 If you solved any new issues by yourself please let us know on [slack](http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
 
-## Problem starting docker while installing the vue-storefront
+## Problem starting Docker while installing the vue-storefront
 
 In case you get the following error:
 
@@ -11,7 +11,7 @@ In case you get the following error:
 ┌────────────────────────────────────────────────────────────────────────────┐
 │ ERROR                                                                      │
 │                                                                            │
-│ Can't start docker in background.                                          │
+│ Can't start Docker in background.                                          │
 │                                                                            │
 │ Please check log file for details: /tmp/vue-storefront/var/log/install.log │
 └────────────────────────────────────────────────────────────────────────────┘

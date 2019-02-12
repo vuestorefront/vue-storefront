@@ -50,7 +50,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Improve sortBy mobile view - @martaradziszewska (#2251)
 - Slide animations to menu, search, wishlist and minicart components - @Aekal (#2256)
 - Fixed wishlist store module to not be lazy loaded - @vue-kacper (#2249)
-- Share webpack typescript config with docker container - @lukeromanowicz (#2269)
+- Share webpack typescript config with Docker container - @lukeromanowicz (#2269)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
 - Output cache clearing supports versioning - @igloczek (#2333, #2359)
 - Cash on delivery + Shipping addresses fixed for virtual products - @pkarw (#2366)

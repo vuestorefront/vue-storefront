@@ -6,7 +6,7 @@
     </h4>
     <div class="bg-cl-secondary px20 py20">
       <p>
-        You are to pay for this order upon delivery.
+        You are going to pay for this order upon delivery.
       </p>
     </div>
   </div>
