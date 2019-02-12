@@ -4,17 +4,15 @@
       {{ $t('Filter') }}
     </h4>
     <button
-      class="visible-xs no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+      class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
       @click="resetAllFilters"
-      :class="{'button-disabled': Object.keys(activeFilters).length === 0}"
-      :disabled="Object.keys(activeFilters).length === 0"
+      v-show="hasActiveFilters"
     >
       {{ $t('Clear') }}
     </button>
     <div
-      v-for="(filter, filterIndex) in filters"
+      v-for="(filter, filterIndex) in availableFilters"
       :key="filterIndex"
-      v-if="filter.length"
     >
       <h5>
         {{ $t(filterIndex + '_filter') }}
