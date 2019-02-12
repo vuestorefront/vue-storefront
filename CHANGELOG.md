@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.9.0] - 2019.02.12
+### Changed / Improved
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
+- Improved configuration.md (spelling etc.) - @ruthgeridema
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
