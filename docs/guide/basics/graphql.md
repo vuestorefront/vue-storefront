@@ -11,7 +11,7 @@ We've introduced an abstract [`SearchQuery`](https://github.com/DivanteLtd/vue-s
 
 From now on the **bodybuilder** package is **deprecated** and you should start using the `SearchQuery` interface to build the search queries that will be translated to GraphQL / API queries.
 
-Here is an example on how to build the Query:
+Here is an example of how to build the Query:
 
 ```js
 export function prepareRelatedQuery(key, sku) {

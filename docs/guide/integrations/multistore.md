@@ -46,7 +46,7 @@ node --harmony cli.js taxrule --partitions=1 --removeNonExistient=true
 node --harmony cli.js products --partitions=1 --removeNonExistient=true
 ```
 
-As you may see it's just a **it** or **de** store code which is added to the base Magento2 REST API urls that makes the difference and then the **INDEX_NAME** set to the dedicated index name.
+As you may see it's just a **it** or **de** store code which is added to the base Magento2 REST API URLs that makes the difference and then the **INDEX_NAME** set to the dedicated index name.
 
 In the result You should get:
 
@@ -160,7 +160,7 @@ The storeCode may be switched by ENV variable set before runing `npm run dev` / 
 
 - `export STORE_CODE=de && npm run dev` will run the shop with the `de` shop loaded
 
-Another option - usefull when using multistore mode with the nginx/varnish mode is to set the shop code by the `x-vs-store-code` http reqeuest header.
+Another option - usefull when using multistore mode with the NGINX/varnish mode is to set the shop code by the `x-vs-store-code` http reqeuest header.
 
 ## Changing the UI for specific store views
 
@@ -168,9 +168,9 @@ If you would like to modify the routes or change some particular components rega
 
 ```js
 export default function(app, router, store) {
-  // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
+  // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the URLs and the names of the routes
   // You can do it on your own and then be able to customize the components used for example for German storeView checkout
-  // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:
+  // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the URLs by Your own like:
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   router.addRoutes(routes);
   setupMultistoreRoutes(config, router, routes);
