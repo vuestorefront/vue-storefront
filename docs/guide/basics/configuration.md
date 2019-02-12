@@ -282,7 +282,7 @@ Please take a look at the [core/store/modules/cart](https://github.com/DivanteLt
   "synchronize_totals": true,
 ```
 
-Similarly to the `synchronize` option, you may want to disable or enable (the default behavior) the shopping cart totals sync with the backend platform. If it's set to `true`, the shopping cart totals will be overridden by the Magento, Pimcore or any other platform you're using totals whenever user will add, remove or change any item in the shopping cart.
+Similarly to the `synchronize` option you may want to disable or enable (the default behaviour) the shopping cart totals sync with the backend platform. If it's set to `true`, the shopping cart totals will be overridden by the Magento, Pimcore or any other platform you're using totals whenever user will add, remove or change any item in the shopping cart.
 
 ```json
   "setCustomProductOptions": true,
