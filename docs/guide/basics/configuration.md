@@ -150,7 +150,7 @@ This URL is used only in the `Switcher` component. Typically it equals just to `
     },
 ```
 
-ElasticSearch settings can be overriden in the specific `storeView` config. You can use different ElasticSearch instance powering specific `storeView`.
+ElasticSearch settings can be overridden in the specific `storeView` config. You can use different ElasticSearch instance powering specific `storeView`.
 
 ```json
     "tax": {
@@ -282,7 +282,7 @@ Please take a look at the [core/store/modules/cart](https://github.com/DivanteLt
   "synchronize_totals": true,
 ```
 
-Similarly to the `synchronize` option you may want to disable or enable (the default behaviour) the shopping cart totals sync with the backend platform. If it's set to `true`, the shopping cart totals will be overriden by the Magento, Pimcore or any other platform you're using totals whenever user will add, remove or change any item in the shopping cart.
+Similarly to the `synchronize` option you may want to disable or enable (the default behaviour) the shopping cart totals sync with the backend platform. If it's set to `true`, the shopping cart totals will be overridden by the Magento, Pimcore or any other platform you're using totals whenever user will add, remove or change any item in the shopping cart.
 
 ```json
   "setCustomProductOptions": true,
@@ -377,7 +377,7 @@ This property is used in the [core/store/modules/product/actions.ts](https://git
   "clearPricesBeforePlatformSync": false,
 ```
 
-This is related to `alwaysSyncPlatformPricesOver` and whet it's set to true, the prices provided from the ElasticSearch will be always overriden to zero before rendering the dynamic prices.
+This is related to `alwaysSyncPlatformPricesOver` and whet it's set to true, the prices provided from the ElasticSearch will be always overridden to zero before rendering the dynamic prices.
 
 ```json
   "waitForPlatformSync": false,
