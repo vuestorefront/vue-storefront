@@ -133,11 +133,15 @@ class Logger
    * @param context meaningful data related to this message
    */
   warn (message: any, tag: string = null, context: any = null) : () => void {
-    if (!isServer && this.canPrint('warn')) {
-      if (tag) {
-        return console.warn.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+    if (this.canPrint('warn')) {
+      if (!isServer) {
+        if (tag) {
+          return console.warn.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+        } else {
+          return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context);
+        }
       } else {
-        return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context);
+        return console.warn.bind(console, this.convertToString(message), context);
       }
     } else {
       return function () {}
@@ -154,10 +158,14 @@ class Logger
    */
   error (message: any, tag: string = null, context: any = null) : () => void {
     if (this.canPrint('error')) { // we should display SSR errors for better monitoring + error handling
-      if (tag) {
-        return console.error.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+      if (!isServer) {
+        if (tag) {
+          return console.error.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+        } else {
+          return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context);
+        }
       } else {
-        return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context);
+        return console.error.bind(console, this.convertToString(message), context);
       }
     } else {
       return function () {}

@@ -2,7 +2,7 @@ import map from 'lodash-es/map'
 import rootStore from '@vue-storefront/store'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
-import { slugify } from '@vue-storefront/core/helpers'
+import { slugify, buildURLQuery } from '@vue-storefront/core/helpers'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
@@ -20,9 +20,6 @@ export class SearchAdapter {
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type )
     }
-
-    const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIComponent).join('=')).join('&')
-
     let ElasticsearchQueryBody = {}
     if (Request.searchQuery instanceof SearchQuery) {
       ElasticsearchQueryBody = await prepareElasticsearchQueryBody(Request.searchQuery)

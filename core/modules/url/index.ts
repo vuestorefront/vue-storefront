@@ -17,7 +17,6 @@ let _matchedRouteData = null
 const _handleDispatcherNotFound = (routeName: string):void => {
   Logger.error('Route not found ' + routeName, 'dispatcher')()
   if (isServer) {
-    console.log('Klejnot')
     throw new HttpError('UrlDispatcher query returned empty result', 404)
   } else {
     router.push('/page-not-found')        
@@ -47,7 +46,7 @@ const moduleConfig: VueStorefrontModuleConfig = {
   router: { routes: [
     { name: 'urldispatcher', path: '*', component: UrlDispatcher, beforeEnter: (to, from, next) => {
         if (store.state.config.seo.useUrlDispatcher) {
-          store.dispatch('url/mapUrl', { url: to.fullPath }, { root: true }).then((routeData) => {
+          store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
             if (routeData) {
               Object.keys(routeData).map(key => {
                 to.params[key] = routeData[key]
@@ -56,8 +55,8 @@ const moduleConfig: VueStorefrontModuleConfig = {
             }
             next()
           }).catch(e => {
-            console.error(e)
-            next()
+            Logger.error(e, 'dispatcher')()
+            next('/page-not-found')
           })
         } else {
           next()

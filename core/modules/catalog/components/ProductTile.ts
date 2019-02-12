@@ -16,14 +16,23 @@ export const ProductTile = {
   },
   computed: {
     productLink () {
-      return this.localizedRoute(this.$store.state.config.seo.useUrlDispatcher ? this.product.url_path : {
-        name: this.product.type_id + '-product',
-        params: {
-          parentSku: this.product.parentSku ? this.product.parentSku : this.product.sku,
-          slug: this.product.slug,
-          childSku: this.product.sku
-        }
-      })
+      return ((this.$store.state.config.seo.useUrlDispatcher) ? 
+        this.localizedDispatcherRoute({
+          fullPath: this.$store.state.config.seo.useUrlDispatcher ? this.product.url_path : null,
+          params: {
+            childSku: this.product.sku === this.product.parentSku ? null : this.product.sku
+          }
+        })
+      :
+        this.localizedRoute({
+          name: this.product.type_id + '-product',
+          params: {
+            parentSku: this.product.parentSku ? this.product.parentSku : this.product.sku,
+            slug: this.product.slug,
+            childSku: this.product.sku
+          }
+        })
+      )   
     },  
     thumbnail () {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, image is going to be 'red'
