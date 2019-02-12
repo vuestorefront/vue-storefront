@@ -20,7 +20,8 @@ export const actions: ActionTree<UrlState, any> = {
   mapUrl ({ state, dispatch }, { url, query }) {
     const parsedQuery = typeof query === 'string' ? parseURLQuery(query) : query
     if (url && url[0] === '/') url = url.slice(1)
-    url = url.slice(0, url.indexOf('?'))
+    const queryPos = url.indexOf('?')
+    if (queryPos > 0) url = url.slice(0, queryPos)
 
     return new Promise ((resolve, reject) => {
       if (state.dispatcherMap.hasOwnProperty(url)) {
