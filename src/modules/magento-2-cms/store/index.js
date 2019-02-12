@@ -37,7 +37,7 @@ const actions = {
       })
       .catch((err) => {
         Logger.log(err)()
-        Logger.error('You need to install a custom Magento module from Snow.dog to make the CMS magick happen. Please go to https://github.com/SnowdogApps/magento2-cms-api and follow the instructions')()
+        Logger.error('You need to install a custom Magento module from Snow.dog to make the CMS magic happen. Please go to https://github.com/SnowdogApps/magento2-cms-api and follow the instructions')()
       })
   }
 }

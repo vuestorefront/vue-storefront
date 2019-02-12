@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.9.0]
 ### Changed / Improved
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
-- Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2425)
+- Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2425, #2426)
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
@@ -55,7 +55,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Improve sortBy mobile view - @martaradziszewska (#2251)
 - Slide animations to menu, search, wishlist and minicart components - @Aekal (#2256)
 - Fixed wishlist store module to not be lazy loaded - @vue-kacper (#2249)
-- Share webpack typescript config with docker container - @lukeromanowicz (#2269)
+- Share webpack typescript config with Docker container - @lukeromanowicz (#2269)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
 - Output cache clearing supports versioning - @igloczek (#2333, #2359)
 - Cash on delivery + Shipping addresses fixed for virtual products - @pkarw (#2366)
