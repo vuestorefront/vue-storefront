@@ -13,6 +13,7 @@ import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import Url from 'url-parse'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -529,23 +530,66 @@ export function configureProductAsync (context, { product, configuration, select
  */
 
 export function getMediaGallery (product) {
-    let mediaGallery = []
-    if (product.media_gallery) {
-        for (let mediaItem of product.media_gallery) {
-            if (mediaItem.image) {
-                let computedImage = {
-                  'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                  'loading': getThumbnailPath(product.image, 310, 300),
-                  'video': null
-                }
-                if (mediaItem.vid) {
-                  computedImage.video = mediaItem.vid
-                }
-                mediaGallery.push(computedImage)
-            }
-        }
+  let mediaGallery = []
+  if (product.media_gallery) {
+      for (let mediaItem of product.media_gallery) {
+          if (mediaItem.image) {
+              let computedImage = {
+                'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+                'loading': getThumbnailPath(product.image, 310, 300),
+                'video': null
+              }
+              if (mediaItem.vid) {
+                computedImage.video = computeVideoData(mediaItem.vid)
+              }
+              mediaGallery.push(computedImage)
+          }
+      }
+  }
+  return mediaGallery
+}
+
+
+/**
+* Process video data to provide the proper 
+* provider and attributes
+* 
+* @param videoData Object
+*/
+
+function computeVideoData (videoData) {
+  let videoId = '';
+  let type = '';
+  let videoUrl = new Url(videoData.url);
+
+  if (videoUrl.host.match(/youtube\.com/) && videoUrl.search) {
+    videoId = videoUrl.search.split('v=')[1];
+
+    if (videoId) {
+      let ampersandPosition = videoId.indexOf('&');
+
+      if (ampersandPosition === -1) {
+          return videoId;
+      }
+
+      videoId = videoId.substring(0, ampersandPosition);
+      type = 'youtube';
     }
-    return mediaGallery
+  } else if (videoUrl.host.match(/youtube\.com|youtu\.be|youtube-nocookie.com/)) {
+    videoId = videoUrl.pathname.replace(/^\/(embed\/|v\/)?/, '').replace(/\/.*/, '');
+    type = 'youtube';
+  } else if (videoUrl.host.match(/vimeo\.com/)) {
+    type = 'vimeo';
+    let vimeoRegex = new RegExp(['https?:\\/\\/(?:www\\.|player\\.)?vimeo.com\\/(?:channels\\/(?:\\w+\\/)',
+        '?|groups\\/([^\\/]*)\\/videos\\/|album\\/(\\d+)\\/video\\/|video\\/|)(\\d+)(?:$|\\/|\\?)'
+    ].join(''));
+    videoId = videoUrl.href.match(vimeoRegex)[3];
+  }
+  return {
+    ...videoData,
+    type: type,
+    id: videoId
+  }
 }
 
 /**

@@ -35,10 +35,11 @@
               :speed="carouselTransitionSpeed"
             >
               <slide
-                v-for="images in gallery"
+                v-for="(images, index) in gallery"
                 :key="images.src">
-                <div class="bg-cl-secondary" :class="{'video-container h-100': images.video}">
+                <div class="bg-cl-secondary" :class="{'video-container h-100 flex relative': images.video}">
                   <img
+                    v-show="videoStarted !== index"
                     class="product-image inline-flex pointer mw-100"
                     v-lazy="images"
                     ref="images"
@@ -49,10 +50,26 @@
                   >
                   <div
                     v-if="images.video"
-                    class="gallery-video"
-                    @click="initVideo(images.video)"
+                    v-show="videoStarted !== index"
+                    class="gallery-video absolute w-100 h-100"
+                    @click="videoStarted = index"
                   >
-                    <i class="material-icons">play_circle_outline</i>
+                    <i class="material-icons absolute">play_circle_outline</i>
+                  </div>
+                  <div v-if="videoStarted === index" class="iframe-wrapper absolute w-100">
+                    <div class="iframe-container w-100">
+                      <iframe
+                        v-if="images.video.type === 'vimeo'"
+                        class="absolute w-100 h-100"
+                        :src="`https://player.vimeo.com/video/${images.video.id}?autoplay=1`"
+                        webkitallowfullscreen mozallowfullscreen allowfullscreen/>
+                      <iframe
+                        v-else-if="images.video.type === 'youtube'"
+                        class="absolute w-100 h-100"
+                        :src="`https://www.youtube.com/embed/${images.video.id}?autoplay=1`"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        webkitallowfullscreen mozallowfullscreen allowfullscreen/>
+                    </div>
                   </div>
                 </div>
               </slide>
@@ -86,12 +103,16 @@ export default {
   data () {
     return {
       loaded: true,
-      carouselTransitionSpeed: 0
+      carouselTransitionSpeed: 0,
+      videoStarted: null
     }
   },
   methods: {
     validateRoute () {
       this.$forceUpdate()
+    },
+    clearVideo () {
+      this.videoStarted = null
     }
   }
 }
@@ -150,19 +171,13 @@ img[lazy=loading] {
 }
 
 .video-container {
-  position: relative;
-  display: flex;
   align-items: center;
   justify-content: center;
 
   .gallery-video {
-    position: absolute;
-    width: 100%;
-    height: 100%;
     top: 0;
 
     > .material-icons {
-      position: absolute;
       left: 0;
       right: 0;
       color: #fff;
@@ -176,6 +191,20 @@ img[lazy=loading] {
 
       > .material-icons {
         transform: scale(1.1);
+      }
+    }
+  }
+
+  .iframe-wrapper {
+    left: 0;
+
+    .iframe-container {
+      padding-top: 56.25%;
+
+      iframe {
+        top: 0;
+        left: 0;
+        border: none;
       }
     }
   }
