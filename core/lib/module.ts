@@ -102,16 +102,16 @@ export class VueStorefrontModule {
         if (extending.key === this._c.key) this._extend(extending)
       })
 
-      let isUnique = true
+      let areStoresUnique = true
       if ( this._c.store) {
         this._c.store.modules.forEach(store => {
           if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
             Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')()
-            isUnique = false
+            areStoresUnique = false
           }
         })
       }
-      if (isUnique) {
+      if (areStoresUnique) {
         if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
         if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
         if (this._c.router) VueStorefrontModule._extendRouter(router, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
@@ -132,4 +132,8 @@ export function registerModules (modules: VueStorefrontModule[], context): void 
       registrationOrder: registeredModules
     }
   )()
+}
+
+export function createModule(config: VueStorefrontModuleConfig) {
+  return new VueStorefrontModule(config)
 }
