@@ -13,8 +13,9 @@ const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
     context.commit(types.WISH_LOAD_WISH, [])
   },
-  load (context) {
-    const commit = context.commit
+  load ({ commit, getters }, force: boolean = false) {
+    if (!force && getters.isWishlistLoaded) return
+    commit(types.SET_WISHLIST_LOADED)
     cacheStorage.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)
