@@ -33,6 +33,7 @@
               navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
               ref="carousel"
               :speed="carouselTransitionSpeed"
+              @pageChange="clearVideo"
             >
               <slide
                 v-for="(images, index) in gallery"
