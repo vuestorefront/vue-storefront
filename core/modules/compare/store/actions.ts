@@ -9,8 +9,9 @@ import CompareState from '../types/CompareState'
 import { cacheStorage } from '../'
 import { Logger } from '@vue-storefront/core/lib/logger'
 const actions: ActionTree<CompareState, RootState> = {
-  load (context) {
-    const commit = context.commit
+  load ({ commit, getters }, force: boolean = false) {
+    if (!force && getters.isCompareLoaded) return
+    commit(types.SET_COMPARE_LOADED)
     cacheStorage.getItem('current-compare', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
