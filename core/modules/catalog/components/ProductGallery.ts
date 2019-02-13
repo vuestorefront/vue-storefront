@@ -4,8 +4,6 @@ import store from '@vue-storefront/store'
 export const ProductGallery = {
   name: 'ProductGallery',
   components: {
-    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
-    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     VueOffline
   },
   props: {
@@ -24,11 +22,6 @@ export const ProductGallery = {
     product: {
       type: Object,
       required: true
-    }
-  },
-  data () {
-    return {
-      isZoomOpen: false
     }
   },
   beforeMount () {
@@ -50,12 +43,10 @@ export const ProductGallery = {
         }
       }
     }, 0)
-    document.addEventListener('keydown', this.handleEscKey)
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-product', this.selectVariant)
     this.$bus.$off('product-after-load', this.selectVariant)
-    document.removeEventListener('keydown', this.handleEscKey)
   },
   computed: {
     defaultImage () {
@@ -79,14 +70,6 @@ export const ProductGallery = {
           this.navigate(index)
         }
         this.$forceUpdate()
-      }
-    },
-    toggleZoom () {
-      this.isZoomOpen = !this.isZoomOpen
-    },
-    handleEscKey (event) {
-      if (this.isZoomOpen && event.keyCode === 27) {
-        this.toggleZoom()
       }
     }
   }
