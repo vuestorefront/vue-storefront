@@ -1,11 +1,12 @@
 import VueOffline from 'vue-offline'
-import store from '@vue-storefront/store'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
 export const ProductGallery = {
   name: 'ProductGallery',
   components: {
     VueOffline
   },
+  mixins: [onEscapePress],
   props: {
     gallery: {
       type: Array,
@@ -24,18 +25,6 @@ export const ProductGallery = {
       required: true
     }
   },
-  beforeMount () {
-    this.$bus.$on('filter-changed-product', this.selectVariant)
-    this.$bus.$on('product-after-load', this.selectVariant)
-  },
-  mounted () {
-    document.addEventListener('keydown', this.handleEscKey)
-  },
-  beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.selectVariant)
-    this.$bus.$off('product-after-load', this.selectVariant)
-    document.removeEventListener('keydown', this.handleEscKey)
-  },
   computed: {
     defaultImage () {
       return this.gallery.length ? this.gallery[0] : false
@@ -45,8 +34,8 @@ export const ProductGallery = {
     toggleZoom () {
       this.isZoomOpen = !this.isZoomOpen
     },
-    handleEscKey (event) {
-      if (this.isZoomOpen && event.keyCode === 27) {
+    onEscapePress () {
+      if (this.isZoomOpen) {
         this.toggleZoom()
       }
     }
