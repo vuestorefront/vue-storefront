@@ -25,7 +25,7 @@ export const ProductBundleOptions = {
   },
   computed: {
     /**
-     * Error messages map for validation options.
+     * Error messages map for validation options
      */
     errorMessages () {
       let messages = {}

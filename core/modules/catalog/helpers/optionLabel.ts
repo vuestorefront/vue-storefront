@@ -22,7 +22,7 @@ export function optionLabel (state, { attributeKey, searchBy = 'code', optionId 
       if (toString(op.value) === toString(optionId)) {
         return op
       }
-    }) // TODO: i18n support with multi website attribute names
+    }) // TODO: i18n support with  multi-website attribute names
 
     if (opt) {
       if (!state.labels[attributeKey]) {

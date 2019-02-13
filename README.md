@@ -15,7 +15,7 @@ The project is in the **production ready** phase.
 
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
-If you're new and need some guidance feel free to reach anyone from core team on our slack:
+If you're new and need some guidance feel free to reach anyone from the core team on our slack:
 - `@Filip Rakowski` (frontend, architecture and best practices related stuff)
 - `@pkarw` (integrations and backend related stuff)
 - `@ptomczyk` (frontend related stuff)
@@ -28,7 +28,7 @@ Want to invest some time in building the future of eCommerce? we are looking for
 
 See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakowski/vue-storefront-basics)
 
-**Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that don't meet this requirements will not be merged**
+**Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that doesn't meet these requirements will not be merged**
 
 ## See it in action
 
@@ -74,13 +74,13 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 [Here](https://github.com/DivanteLtd/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
 
 #### Roadmap planning
-[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to next milestones. You can also join the slack channel `#roadmap-planning` where we discuss the next milestones.
+[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to the next milestones. You can also join the slack channel `#roadmap-planning` where we discuss the next milestones.
 
 The process of adding new features to the roadmap looks like this:
 1. You create an issue and label it as `feature request`.
 2. One of VS Core team verifies the feature request and if the explanation is clear, it is added to the `Roadmap` project so it's visible in the board.
 3. Now people can vote for this feature to be added into next milestone with `thumb up` emoji.
-4. Feature requests with biggest popularity will be added into next milestones.
+4. Feature requests with the biggest popularity will be added into next milestones.
 
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
 
@@ -148,7 +148,7 @@ Tutorial series on creating themes for Vue Storefront:
 ### Integrations
 
 - [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
-- [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
+- [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge), [Magento 1.9 native indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer)
 - [Vue Storefront + with Magento checkout](https://github.com/Vendic/magento2-external-checkout)
 - [Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
 - [Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
@@ -171,7 +171,7 @@ Check [Vue Storefront Awesome](https://github.com/frqnck/awesome-vue-storefront)
 
 ## The business challenges
 
-Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
+Vue Storefront was created to solve a set of key business challenges from the world of the shopping experience. Our goal for the application is to provide the solution with:
 
 - The ultrafast front-end for the store - with the PWA approach we can now render the catalog of products within milliseconds;
 - The endurance for traffic overloads on the store;
@@ -193,7 +193,7 @@ Besides a big improvement for the shopping experience, we also want to create a 
 
 ## The design
 
-The application is prepared to be fully customized in design through theming system.
+The application is prepared to be fully customized in design through the theming system.
 With the current version we work on raw, basic template of typical eCommerce for a fashion industry.
 In the project we used [Material Icons](https://github.com/google/material-design-icons).
 
@@ -206,7 +206,7 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## Other platforms
-Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
+Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea of how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
 ## The license
 
@@ -220,7 +220,7 @@ If you have discovered a 🐜 or have a feature suggestion, feel free to create 
 
 ## Workshops
 
-If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](https://products.divante.co/vuestorefront/)
+If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for a dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](https://products.divante.co/vuestorefront/)
 
 ## Support us!
 
@@ -579,7 +579,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   </tbody>
 </table>
 
-Partners are encouraged to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
+Partners are encouraged to support the project in various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
 If you like to become our Partner just let us know via contributors@vuestorefront.io.
 

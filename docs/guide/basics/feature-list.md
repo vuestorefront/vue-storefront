@@ -1,6 +1,6 @@
 # Feature list
 
-Vue Storefront is Platform Agnostic Headless Frontend for eCommerce. Here we tried to put all the features available in 1.0 alltogether:
+Vue Storefront is Platform Agnostic Headless Frontend for eCommerce. Here we tried to put all the features available in 1.0 altogether:
 
 ## Vue Storefront unique features
 
@@ -62,7 +62,7 @@ Vue Storefront is Platform Agnostic Headless Frontend for eCommerce. Here we tri
 - Bundled Products Options
 - Customer Group Pricing
 - New Items Promotional Tool
-- On Page Upsells and Cross Sells
+- On Page Upsells and Cross-Sells
 - Wishlist Management
 
 ### Order Management
@@ -72,8 +72,8 @@ Standard Magento2 features - all supported:
 - View, edit, create and fulfill orders from admin panel
 - Create one or multiple invoices, shipments and credit memos per order to allow for split fulfillment
 - Print invoices and packing slips
-- Call Center (phone) order creation - includes ability to create new customer, or select existing customer and view - shopping cart, wishlist, last ordered items, and compared products list, as well as select addresses, give discounts and assign custom prices
-- Create re-orders for customers from administration panel
+- Call Center (phone) order creation - includes ability to create a new customer, or select existing customer and view - shopping cart, wishlist, last ordered items, and compared products list, as well as select addresses, give discounts and assign custom prices
+- Create re-orders for customers from the administration panel
 - Email Notifications of Orders
 - RSS feed of New Orders
 
@@ -98,12 +98,12 @@ Standard Magento2 features - all supported:
 
 ### Catalog Management Support
 
-- Inventory Management with Backordered items, Minimum and Maximum quantities
+- Inventory Management with Backordered items, Minimum, and Maximum quantities
 - Simple, Configurable (e.g. size, color, etc.), Bundled and Grouped Products
 - Virtual Products
 - Downloadable/Digital Products
 - Available via customization: Customer Personalized Products – upload text for embroidery, monogramming, etc.
-- Tax Rates per location, customer group and product type
+- Tax Rates per location, customer group, and product type
 - Attribute Sets for quick product creation of different item types
 - Create Store-specific attributes on the fly
 - Media Manager with automatic image resizing and watermarking

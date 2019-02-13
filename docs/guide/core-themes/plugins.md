@@ -2,10 +2,10 @@
 
 In Vue Storefront there are two types of plugins:
 
-- **Core plugins** - placed in `core/plugins` and available for any theme and extension. You shouldn't modify these plugins as they are part of upgradable core.
+- **Core plugins** - placed in `core/plugins` and available for any theme and extension. You shouldn't modify these plugins as they are part of the upgradable core.
 - **Theme plugins** - placed in `src/{theme}/plugins` and available only for specific theme
 
-Each of these plugins works and is registered like a normal Vue.js plugin. You can read about them [here](https://vuejs.org/v2/guide/plugins.html)
+Each of these plugins works and is registered as a normal Vue.js plugin. You can read about them [here](https://vuejs.org/v2/guide/plugins.html)
 
 ## Core plugins
 
@@ -40,4 +40,4 @@ Vue.use(Vuetify);
 // other plugins
 ```
 
-If you want to make a custom plugin for your theme, you should create a directory for it in `src/{theme}/plugins` (eg. `src/{theme}/plugins/custom_plugin`) and register it in `src/{theme}/plugins/index.js` like a 3rd party plugin in example above.
+If you want to make a custom plugin for your theme, you should create a directory for it in `src/{theme}/plugins` (eg. `src/{theme}/plugins/custom_plugin`) and register it in `src/{theme}/plugins/index.js` like a 3rd party plugin in the example above.
