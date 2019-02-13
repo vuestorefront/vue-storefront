@@ -80,6 +80,10 @@ export default {
       }
     }
   },
+  beforeDestroy () {
+    this.$bus.$off('filter-changed-product', this.selectVariant)
+    this.$bus.$off('product-after-load', this.selectVariant)
+  },
   methods: {
     navigate (index) {
       if (this.$refs.carousel) {
