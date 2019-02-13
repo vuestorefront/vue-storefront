@@ -41,10 +41,11 @@ import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/
 import ProductGalleryOverlay from './ProductGalleryOverlay'
 import NoSSR from 'vue-no-ssr'
 import VueOfflineMixin from 'vue-offline/mixin'
+const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue')
 
 export default {
   components: {
-    'ProductGalleryCarousel': () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue'),
+    ProductGalleryCarousel,
     'no-ssr': NoSSR,
     ProductGalleryOverlay
   },
