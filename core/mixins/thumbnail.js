@@ -3,7 +3,7 @@ import { getThumbnailPath as _thumbnailHelper } from '@vue-storefront/core/helpe
 export const thumbnail = {
   methods: {
     /**
-     * Return thumbnail url for specific base url
+     * Return thumbnail URL for specific base url
      * @param {String} relativeUrl
      * @param {Int} width
      * @param {Int} height

@@ -51,7 +51,7 @@ const actions: ActionTree<ProductState, RootState> = {
           name: context.rootGetters['category/getCurrentCategory'].name
         }) // current category at the end
       }
-      // depreciated, TODO: base on breadcrumbs module
+      // deprecated, TODO: base on breadcrumbs module
       context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
     }
 

@@ -13,7 +13,7 @@ export function beforeRegistration({ Vue, config, store, isServer }) {
     })
   } else {
     Logger.warn(
-      'Google Analytics extensions is not working. Ensure Google Analytics account ID is defined in config',
+      'Google Analytics extension is not working. Ensure Google Analytics account ID is defined in config',
       'GA'
     )()
   }

@@ -1,6 +1,6 @@
 # Events List
 
-To keep track and make debugging of `$bus.$emit` events across components easier, here is a list of such events that are triggered by compontnes of default theme.
+To keep track and make debugging of `$bus.$emit` events across components easier, here is a list of such events that are triggered by components of the default theme.
 
 ## ForgotPass
 
