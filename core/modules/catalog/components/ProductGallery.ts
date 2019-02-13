@@ -29,7 +29,6 @@ export const ProductGallery = {
     this.$bus.$on('product-after-load', this.selectVariant)
   },
   mounted () {
-    this.$forceUpdate()
     document.addEventListener('keydown', this.handleEscKey)
   },
   beforeDestroy () {
@@ -50,6 +49,6 @@ export const ProductGallery = {
       if (this.isZoomOpen && event.keyCode === 27) {
         this.toggleZoom()
       }
-    }    
+    }
   }
 }
