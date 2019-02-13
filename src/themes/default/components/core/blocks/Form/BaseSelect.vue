@@ -11,7 +11,7 @@
       @blur="$emit('blur')"
       @change="$emit('input', $event.target.value)"
     >
-      <option v-if="!selected"/>
+      <option disabled selected value v-if="!selected"/>
       <option
         v-for="(option, key) in options"
         :key="key"
