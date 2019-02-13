@@ -110,60 +110,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.media-gallery {
-  text-align: center;
-  height: 100%;
-  &.open {
-    z-index: 3;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    .product-zoom {
-      @media (max-width: 767px) {
-        position: absolute;
-        top: 50%;
-        transform: translate(0,-50%);
-        -webkit-transform: translate(0,-50%);
-        -moz-transform: translate(0,-50%);
-        -ms-transform: translate(0,-50%);
-        -o-transform: translate(0,-50%);
-      }
-    }
-  }
-}
-.offline-image {
-  width: 100%;
-}
-.zoom-in {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-img {
-  opacity: 0.9;
-  mix-blend-mode: multiply;
-  vertical-align: top;
-  &:hover {
-    opacity: 1;
-  }
-}
-img[lazy=error] {
-  width: 100%;
-}
-img[lazy=loading] {
-  width: 100%;
-}
-
-.thumbnails {
-  div {
-    margin: 0 20px 20px 0;
-  }
-}
-</style>
 <style lang="scss">
-.media-gallery {
+.media-gallery-carousel {
   .VueCarousel-pagination {
     position: absolute;
     bottom: 15px;
