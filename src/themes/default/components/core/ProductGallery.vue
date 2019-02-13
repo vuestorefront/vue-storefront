@@ -58,18 +58,21 @@
                     <i class="material-icons absolute">play_circle_outline</i>
                   </div>
                   <div v-if="videoStarted === index" class="iframe-wrapper absolute w-100">
+                    <LoaderScoped v-if="!iframeLoaded"/>
                     <div class="iframe-container w-100">
                       <iframe
                         v-if="images.video.type === 'vimeo'"
                         class="absolute w-100 h-100"
                         :src="`https://player.vimeo.com/video/${images.video.id}?autoplay=1`"
-                        webkitallowfullscreen mozallowfullscreen allowfullscreen/>
+                        webkitallowfullscreen mozallowfullscreen allowfullscreen
+                        @load="iframeIsLoaded()"/>
                       <iframe
                         v-else-if="images.video.type === 'youtube'"
                         class="absolute w-100 h-100"
                         :src="`https://www.youtube.com/embed/${images.video.id}?autoplay=1`"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        webkitallowfullscreen mozallowfullscreen allowfullscreen/>
+                        webkitallowfullscreen mozallowfullscreen allowfullscreen
+                        @load="iframeIsLoaded()"/>
                     </div>
                   </div>
                 </div>
@@ -87,6 +90,7 @@
 </template>
 
 <script>
+import LoaderScoped from 'theme/components/core/LoaderScoped.vue'
 import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
 import ProductGalleryZoom from './ProductGalleryZoom'
 import NoSSR from 'vue-no-ssr'
@@ -95,7 +99,8 @@ import VueOfflineMixin from 'vue-offline/mixin'
 export default {
   components: {
     'no-ssr': NoSSR,
-    ProductGalleryZoom
+    ProductGalleryZoom,
+    LoaderScoped
   },
   mixins: [ProductGallery, VueOfflineMixin],
   watch: {
@@ -105,15 +110,23 @@ export default {
     return {
       loaded: true,
       carouselTransitionSpeed: 0,
-      videoStarted: null
+      videoStarted: null,
+      iframeLoaded: false
     }
   },
   methods: {
     validateRoute () {
       this.$forceUpdate()
     },
+    initVideo (index) {
+      this.videoStarted = index
+    },
     clearVideo () {
       this.videoStarted = null
+      this.iframeLoaded = false
+    },
+    iframeIsLoaded () {
+      this.iframeLoaded = true
     }
   }
 }
