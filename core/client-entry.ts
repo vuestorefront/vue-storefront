@@ -68,9 +68,13 @@ const invokeClientEntry = async () => {
       _commonErrorHandler(err, next)
     })
   }
-
+  let _appMounted = false
   router.onReady(() => {
     router.beforeResolve((to, from, next) => {
+      if (config.seo.useUrlDispatcher && !_appMounted) { // async components that are used by UrlDispatcher can't be hydrated in router.onReady() as in that case we havent' yet had the final, post-routed component loaded
+        app.$mount('#app')
+        _appMounted = true
+      }  
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
@@ -112,7 +116,10 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    app.$mount('#app')
+    if (!config.seo.useUrlDispatcher) { // if UrlDispatcher is enabled, we're mounting the app in `beforeResolve` - shortly after the component is loaded
+      app.$mount('#app')
+      _appMounted = true
+    }
   })
   /*
   * serial executes Promises sequentially.

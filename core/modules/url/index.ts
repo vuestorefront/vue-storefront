@@ -42,28 +42,36 @@ const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
   store: { modules: [{ key: KEY, module }] },
   beforeRegistration,
-  afterRegistration,
-  router: { routes: [
-    { name: 'urldispatcher', path: '*', component: UrlDispatcher, beforeEnter: (to, from, next) => {
-        if (store.state.config.seo.useUrlDispatcher) {
-          store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
-            if (routeData) {
-              Object.keys(routeData).map(key => {
-                to.params[key] = routeData[key]
-              })
-              _matchedRouteData = routeData
-            }
-            next()
-          }).catch(e => {
-            Logger.error(e, 'dispatcher')()
-            next('/page-not-found')
-          })
-        } else {
-          next()
-        }
-      } 
-    }
-  ] }
+  afterRegistration
 }
 
+export const UrlDispatchMapper = (to) => {
+  return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
+    if (routeData) {
+      Object.keys(routeData.params).map(key => {
+        to.params[key] = routeData.params[key]
+      })
+      return routeData
+    } else {
+      return null
+    }
+  })
+}
+
+export const UrlDispatcherGuard = (to, from, next) => { 
+  if (store.state.config.seo.useUrlDispatcher) {
+    UrlDispatchMapper(to).then((routeData) => {
+        _matchedRouteData = routeData
+      next()
+    }).catch(e => {
+      Logger.error(e, 'dispatcher')()
+      next('/page-not-found')
+    })
+  } else {
+    next()
+  }
+}
+export const DispatcherRoutes = [
+  { name: 'urldispatcher', path: '*', component: UrlDispatcher, beforeEnter: UrlDispatcherGuard }
+] 
 export const Url = new VueStorefrontModule(moduleConfig)

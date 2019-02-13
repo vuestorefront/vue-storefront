@@ -49,15 +49,20 @@ export const actions: ActionTree<UrlState, any> = {
           const product = products.items[0]
           resolve({
             name: product.type_id + '-product',
-            parentSku: product.sku,
-            childSku: params['childSku'] ? params['childSku'] : null
+            params: {
+              slug: product.slug,
+              parentSku: product.sku,
+              childSku: params['childSku'] ? params['childSku'] : product.sku
+            }
           })
         } else {
           dispatch('category/single', { key: 'url_path', value: url }, { root: true }).then((category) => {
             if (category !== null) {
               resolve({
                 name: 'category',
-                slug: category.slug
+                params: {
+                  slug: category.slug
+                }
               })
             } else {
               resolve(null)

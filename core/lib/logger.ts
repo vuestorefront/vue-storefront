@@ -141,7 +141,7 @@ class Logger
           return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context);
         }
       } else {
-        return console.warn.bind(console, this.convertToString(message), context);
+        return console.warn.bind(console, message, context);
       }
     } else {
       return function () {}
@@ -165,7 +165,7 @@ class Logger
           return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context);
         }
       } else {
-        return console.error.bind(console, this.convertToString(message), context);
+        return console.error.bind(console, message, context);
       }
     } else {
       return function () {}

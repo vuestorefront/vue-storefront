@@ -10,6 +10,7 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multi
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
+import { UrlDispatchMapper } from '@vue-storefront/core/modules/url'
 
 export default {
   name: 'Category',
@@ -59,7 +60,6 @@ export default {
     }
   },
   watch: {
-    '$route': 'validateRoute',
     bottom (bottom) {
       if (bottom) {
         this.pullMoreProducts()
@@ -155,6 +155,20 @@ export default {
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
   },
+  beforeRouteUpdate (to, from, next) {
+    if (this.$store.state.config.seo.useUrlDispatcher) {
+      return UrlDispatchMapper(to).then(routeData => {
+        if (routeData.name === this.$route.name) {
+          this.validateRoute(routeData)
+        } else {
+          this.$router.push(routeData)
+        }
+      })
+    } else {
+      this.validateRoute()
+      next()
+    }
+  },
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),
     bottomVisible () {
@@ -226,11 +240,11 @@ export default {
         this.notify()
       }
     },
-    validateRoute () {
+    validateRoute (route = this.$route) {
       this.filters.chosen = {} // reset selected filters
       this.$bus.$emit('filter-reset')
 
-      this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: this.$route.params.slug }).then(category => {
+      this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
         if (!category) {
           this.$router.push(this.localizedRoute('/'))
         } else {
@@ -251,7 +265,7 @@ export default {
             })
           }
           this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-          EventBus.$emitFilter('category-after-load', { store: this.$store, route: this.$route })
+          EventBus.$emitFilter('category-after-load', { store: this.$store, route: route })
         }
       }).catch(err => {
         if (err.message.indexOf('query returned empty result') > 0) {

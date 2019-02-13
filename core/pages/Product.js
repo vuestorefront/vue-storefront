@@ -10,6 +10,7 @@ import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/hel
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { UrlDispatchMapper } from '@vue-storefront/core/modules/url'
 
 export default {
   name: 'Product',
@@ -62,8 +63,22 @@ export default {
     if (context) context.output.cacheTags.add(`product`)
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
-  watch: {
-    '$route.params.parentSku': 'validateRoute'
+  beforeRouteUpdate (to, from, next) {
+    if (this.$store.state.config.seo.useUrlDispatcher) {
+      return UrlDispatchMapper(to).then(routeData => {
+        if (routeData !== null) {
+          if (routeData.name === this.$route.name) {
+            this.validateRoute(routeData)
+          } else {
+            this.$router.push(routeData) // TODO: it can't be redirect to the routed url because hte url will be changed
+          }
+          next()
+        }
+      })
+    } else {
+      this.validateRoute()
+      next()
+    }
   },
   beforeDestroy () {
     this.$bus.$off('product-after-removevariant')
@@ -90,10 +105,10 @@ export default {
     this.$store.dispatch('recently-viewed/addItem', this.product)
   },
   methods: {
-    validateRoute () {
+    validateRoute (route = this.$route) {
       if (!this.loading) {
         this.loading = true
-        this.$store.dispatch('product/fetchAsync', { parentSku: this.$route.params.parentSku, childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null }).then(res => {
+        this.$store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null }).then(res => {
           this.loading = false
           this.defaultOfflineImage = this.product.image
           this.onStateCheck()

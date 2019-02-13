@@ -99,7 +99,7 @@ export function localizedRoute (routeObj: Route | string, storeCode: string) {
         routeObj.name = storeCode + '-' + routeObj.name
       }
       if (routeObj.path) {
-        routeObj.path = '/' + storeCode + '/' + routeObj.path.slice(1)
+        routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
       }
     } else {
       return '/' + storeCode + routeObj
