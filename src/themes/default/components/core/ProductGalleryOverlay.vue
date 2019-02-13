@@ -7,9 +7,9 @@
     <no-ssr>
       <product-gallery-zoom-carousel
         v-if="showProductGalleryZoomCarousel"
-        :current="current"
+        :current-slide="currentSlide"
         :gallery="gallery"
-        product-name="productName"
+        :product-name="productName"
       />
     </no-ssr>
   </div>
@@ -20,7 +20,7 @@ import NoSSR from 'vue-no-ssr'
 export default {
   name: 'ProductGalleryOverlay',
   props: {
-    current: {
+    currentSlide: {
       type: Number,
       required: false,
       default: 0

@@ -44,7 +44,7 @@ import { Carousel, Slide } from 'vue-carousel'
 export default {
   name: 'ProductGalleryZoomCarousel',
   props: {
-    current: {
+    currentSlide: {
       type: Number,
       required: false,
       default: 0
@@ -68,11 +68,24 @@ export default {
     Slide
   },
   mounted () {
-    this.navigate(this.current)
+    this.navigate(this.currentSlide)
+    if (this.$refs.zoomCarousel) {
+      let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
+      let pagination = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
+      if (navigation !== undefined) {
+        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
+      }
+      if (pagination !== undefined) {
+        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
+      }
+    }
   },
   methods: {
     navigate (key) {
       this.$refs.zoomCarousel.goToPage(key)
+    },
+    increaseCarouselTransitionSpeed () {
+      this.carouselTransitionSpeed = 500
     }
   }
 }

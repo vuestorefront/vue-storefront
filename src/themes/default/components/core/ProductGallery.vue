@@ -16,12 +16,19 @@
           >
         </div>
         <div v-else>
+          <product-gallery-overlay
+            v-if="isZoomOpen"
+            :current-slide="currentSlide"
+            :product-name="product.name"
+            :gallery="gallery"
+            @close="toggleZoom"/>
           <no-ssr>
             <product-gallery-carousel
               v-if="showProductGalleryCarousel"
               :gallery="gallery"
               :configuration="configuration"
-              :product-name="product.name"/>
+              :product-name="product.name"
+              @toggle="openOverlay"/>
           </no-ssr>
         </div>
       </div>
@@ -31,13 +38,15 @@
 
 <script>
 import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
+import ProductGalleryOverlay from './ProductGalleryOverlay'
 import NoSSR from 'vue-no-ssr'
 import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   components: {
     'ProductGalleryCarousel': () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue'),
-    'no-ssr': NoSSR
+    'no-ssr': NoSSR,
+    ProductGalleryOverlay
   },
   mixins: [ProductGallery, VueOfflineMixin],
   watch: {
@@ -45,13 +54,19 @@ export default {
   },
   data () {
     return {
-      showProductGalleryCarousel: false
+      isZoomOpen: false,
+      showProductGalleryCarousel: false,
+      currentSlide: 0
     }
   },
   mounted () {
     this.showProductGalleryCarousel = true
   },
   methods: {
+    openOverlay (currentSlide) {
+      this.currentSlide = currentSlide
+      this.toggleZoom()
+    },
     validateRoute () {
       this.$forceUpdate()
     }

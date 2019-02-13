@@ -29,24 +29,13 @@ export const ProductGallery = {
     this.$bus.$on('product-after-load', this.selectVariant)
   },
   mounted () {
-    setTimeout(() => {
-      this.selectVariant()
-      this.$forceUpdate()
-      if (this.$refs.carousel) {
-        let navigation = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
-        let pagination = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
-        if (navigation !== undefined) {
-          navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
-        }
-        if (pagination !== undefined) {
-          pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
-        }
-      }
-    }, 0)
+    this.$forceUpdate()
+    document.addEventListener('keydown', this.handleEscKey)
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-product', this.selectVariant)
     this.$bus.$off('product-after-load', this.selectVariant)
+    document.removeEventListener('keydown', this.handleEscKey)
   },
   computed: {
     defaultImage () {
@@ -54,23 +43,13 @@ export const ProductGallery = {
     }
   },
   methods: {
-    navigate (index) {
-      if (this.$refs.carousel) {
-        this.$refs.carousel.goToPage(index)
-      }
+    toggleZoom () {
+      this.isZoomOpen = !this.isZoomOpen
     },
-    increaseCarouselTransitionSpeed () {
-      this.carouselTransitionSpeed = 500
-    },
-    selectVariant () {
-      if (store.state.config.products.gallery.mergeConfigurableChildren) {
-        let option = this.configuration[store.state.config.products.gallery.variantsGroupAttribute]
-        if (typeof option !== 'undefined' && option !== null) {
-          let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
-          this.navigate(index)
-        }
-        this.$forceUpdate()
+    handleEscKey (event) {
+      if (this.isZoomOpen && event.keyCode === 27) {
+        this.toggleZoom()
       }
-    }
+    }    
   }
 }

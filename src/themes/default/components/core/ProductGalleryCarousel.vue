@@ -1,11 +1,5 @@
 <template>
   <div class="media-gallery-carousel">
-    <product-gallery-overlay
-      v-if="isZoomOpen"
-      :current="$refs.carousel.currentPage"
-      :product-name="productName"
-      :gallery="gallery"
-      @close="toggleZoom" />
     <carousel
       :per-page="1"
       :mouse-drag="false"
@@ -25,7 +19,7 @@
             class="product-image inline-flex pointer mw-100"
             v-lazy="images"
             ref="images"
-            @dblclick="toggleZoom"
+            @dblclick="openOverlay"
             :alt="productName | htmlDecode"
             data-testid="productGalleryImage"
             itemprop="image"
@@ -35,7 +29,7 @@
     </carousel>
     <i
       class="zoom-in material-icons p15 cl-bgs-tertiary pointer"
-      @click="toggleZoom"
+      @click="openOverlay"
     >zoom_in</i>
   </div>
 </template>
@@ -43,7 +37,6 @@
 <script>
 import store from '@vue-storefront/store'
 import { Carousel, Slide } from 'vue-carousel'
-import ProductGalleryOverlay from './ProductGalleryOverlay'
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -63,14 +56,12 @@ export default {
   },
   data () {
     return {
-      carouselTransitionSpeed: 300,
-      isZoomOpen: false
+      carouselTransitionSpeed: 300
     }
   },
   components: {
     Carousel,
-    Slide,
-    ProductGalleryOverlay
+    Slide
   },
   beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
@@ -78,10 +69,16 @@ export default {
   },
   mounted () {
     this.selectVariant()
-    document.addEventListener('keydown', this.handleEscKey)
-  },
-  beforeDestroy () {
-    document.removeEventListener('keydown', this.handleEscKey)
+    if (this.$refs.carousel) {
+      let navigation = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
+      let pagination = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
+      if (navigation !== undefined) {
+        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
+      }
+      if (pagination !== undefined) {
+        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
+      }
+    }
   },
   methods: {
     navigate (index) {
@@ -98,13 +95,12 @@ export default {
         }
       }
     },
-    toggleZoom () {
-      this.isZoomOpen = !this.isZoomOpen
+    openOverlay () {
+      const currentSlide = this.$refs.carousel.currentPage
+      this.$emit('toggle', currentSlide)
     },
-    handleEscKey (event) {
-      if (this.isZoomOpen && event.keyCode === 27) {
-        this.toggleZoom()
-      }
+    increaseCarouselTransitionSpeed () {
+      this.carouselTransitionSpeed = 500
     }
   }
 }
