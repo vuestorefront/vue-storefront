@@ -8,7 +8,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
-export function afterRegistration (Vue, config, store, isServer) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   Vue.$on('application-after-init', async () => {
     Logger.debug('Example of custom entity graphql extension')()
 
@@ -20,7 +20,7 @@ export function afterRegistration (Vue, config, store, isServer) {
     // resolver for testentity should be implemented on the graphql server provided
     searchAdapter.registerEntityTypeByQuery(TEST_ENTITY_TYPE, {
       url: 'http://localhost:8080/graphql/',
-      query: require('./queries/testentity.gql'),
+      query: require('../queries/testentity.gql'),
       queryProcessor: (query) => {
         // function that can modify the query each time before it's being executed
         return query

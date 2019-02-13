@@ -357,22 +357,21 @@ export function populateProductConfigurationAsync (context, { product, selectedV
     for (let option of product.configurable_options) {
       let attribute_code
       let attribute_label
-      if (option.attribute_id) {
-        let attr = context.rootState.attribute.list_by_id[option.attribute_id]
-        if (!attr) {
-          Logger.error('Wrong attribute given in configurable_options - can not find by attribute_id', option)()
-          continue
-        } else {
-          attribute_code = attr.attribute_code
-          attribute_label = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
-        }
+      if (option.attribute_code) {
+        attribute_code = option.attribute_code
+        attribute_label = option.label ? option.label : (option.frontend_label ? option.frontend_label : option.default_frontend_label)
       } else {
-        if (!option.attribute_code) {
-          Logger.error('Wrong attribute given in configurable_options - no attribute_code', option)()
-          continue
-        } else { // we do have attribute_code!
-          attribute_code = option.attribute_code
-          attribute_label = option.frontend_label ? option.frontend_label : option.default_frontend_label
+        if (option.attribute_id) {
+          let attr = context.rootState.attribute.list_by_id[option.attribute_id]
+          if (!attr) {
+            Logger.error('Wrong attribute given in configurable_options - can not find by attribute_id', option)()
+            continue
+          } else {
+            attribute_code = attr.attribute_code
+            attribute_label = attr.frontend_label ? attr.frontend_label : attr.default_frontend_label
+          }
+        } else {
+          Logger.error('Wrong attribute given in configurable_options - no attribute_code / attribute_id', option)()
         }
       }
       let selectedOption = null

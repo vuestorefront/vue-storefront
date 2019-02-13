@@ -149,7 +149,7 @@ Tutorial series on creating themes for Vue Storefront:
 
 - [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 - [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge)
-- [Vue Storefront + with Magento checkout](https://github.com/DivanteLtd/magento2-external-checkout)
+- [Vue Storefront + with Magento checkout](https://github.com/Vendic/magento2-external-checkout)
 - [Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
 - [Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
 - [Vue Storefront + Pimcore](https://github.com/DivanteLtd/coreshop-vsbridge)
@@ -549,9 +549,32 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
-       <td align="center" valign="middle"></td>
-  <td align="center" valign="middle"></td>
-<td align="center" valign="middle"></td>
+       <td align="center" valign="middle">
+        <a href="https://aureatelabs.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Aureate-Labs-Logo.png"
+            alt="Aureate Labs"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.guapa.nl/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Guapa-color.png"
+            alt="Guapa eCommerce"
+            height="40"
+          >
+        </a>
+</td>
+<td align="center" valign="middle">
+<a href="http://rightshore.consulting/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/rightshore-consulting.png"
+            alt="Rightshore Consulting"
+            height="40"
+          >
+        </a></td>
     </tr>
   </tbody>
 </table>
