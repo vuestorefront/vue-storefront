@@ -28,7 +28,8 @@ export const ProductGallery = {
   },
   data () {
     return {
-      isZoomOpen: false
+      isZoomOpen: false,
+      currentPage: 0
     }
   },
   beforeMount () {
@@ -88,6 +89,9 @@ export const ProductGallery = {
       if (this.isZoomOpen && event.keyCode === 27) {
         this.toggleZoom()
       }
+    },
+    pageChange (index) {
+      this.currentPage = index
     }
   }
 }

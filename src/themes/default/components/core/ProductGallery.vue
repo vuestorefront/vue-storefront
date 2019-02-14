@@ -33,14 +33,14 @@
               navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
               ref="carousel"
               :speed="carouselTransitionSpeed"
-              @pageChange="clearVideo"
+              @pageChange="pageChange"
             >
               <slide
                 v-for="(images, index) in gallery"
                 :key="images.src">
                 <div class="bg-cl-secondary" :class="{'video-container h-100 flex relative': images.video}">
                   <img
-                    v-show="videoStarted !== index"
+                    v-show="hideImage !== index"
                     class="product-image inline-flex pointer mw-100"
                     v-lazy="images"
                     ref="images"
@@ -49,32 +49,11 @@
                     data-testid="productGalleryImage"
                     itemprop="image"
                   >
-                  <div
-                    v-if="images.video"
-                    v-show="videoStarted !== index"
-                    class="gallery-video absolute w-100 h-100"
-                    @click="videoStarted = index"
-                  >
-                    <i class="material-icons absolute">play_circle_outline</i>
-                  </div>
-                  <div v-if="videoStarted === index" class="iframe-wrapper absolute w-100">
-                    <LoaderScoped v-if="!iframeLoaded"/>
-                    <div class="iframe-container w-100">
-                      <iframe
-                        v-if="images.video.type === 'vimeo'"
-                        class="absolute w-100 h-100"
-                        :src="`https://player.vimeo.com/video/${images.video.id}?autoplay=1`"
-                        webkitallowfullscreen mozallowfullscreen allowfullscreen
-                        @load="iframeIsLoaded()"/>
-                      <iframe
-                        v-else-if="images.video.type === 'youtube'"
-                        class="absolute w-100 h-100"
-                        :src="`https://www.youtube.com/embed/${images.video.id}?autoplay=1`"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        webkitallowfullscreen mozallowfullscreen allowfullscreen
-                        @load="iframeIsLoaded()"/>
-                    </div>
-                  </div>
+                  <product-video
+                    v-if="images.video && (index === currentPage)"
+                    v-bind="images.video"
+                    :index="index"
+                    @video-started="onVideoStarted"/>
                 </div>
               </slide>
             </carousel>
@@ -90,9 +69,9 @@
 </template>
 
 <script>
-import LoaderScoped from 'theme/components/core/LoaderScoped.vue'
 import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
 import ProductGalleryZoom from './ProductGalleryZoom'
+import ProductVideo from './ProductVideo'
 import NoSSR from 'vue-no-ssr'
 import VueOfflineMixin from 'vue-offline/mixin'
 
@@ -100,7 +79,7 @@ export default {
   components: {
     'no-ssr': NoSSR,
     ProductGalleryZoom,
-    LoaderScoped
+    ProductVideo
   },
   mixins: [ProductGallery, VueOfflineMixin],
   watch: {
@@ -110,23 +89,19 @@ export default {
     return {
       loaded: true,
       carouselTransitionSpeed: 0,
-      videoStarted: null,
-      iframeLoaded: false
+      hideImage: null
     }
   },
   methods: {
     validateRoute () {
       this.$forceUpdate()
     },
-    initVideo (index) {
-      this.videoStarted = index
+    onVideoStarted (index) {
+      this.hideImage = index
     },
-    clearVideo () {
-      this.videoStarted = null
-      this.iframeLoaded = false
-    },
-    iframeIsLoaded () {
-      this.iframeLoaded = true
+    pageChange (index) {
+      this.hideImage = null
+      this.currentPage = index
     }
   }
 }
@@ -187,41 +162,6 @@ img[lazy=loading] {
 .video-container {
   align-items: center;
   justify-content: center;
-
-  .gallery-video {
-    top: 0;
-
-    > .material-icons {
-      left: 0;
-      right: 0;
-      color: #fff;
-      font-size: 120px;
-      top: calc( 50% - 60px);
-      transition: transform ease 0.3s;
-    }
-
-    &:hover {
-      cursor: pointer;
-
-      > .material-icons {
-        transform: scale(1.1);
-      }
-    }
-  }
-
-  .iframe-wrapper {
-    left: 0;
-
-    .iframe-container {
-      padding-top: 56.25%;
-
-      iframe {
-        top: 0;
-        left: 0;
-        border: none;
-      }
-    }
-  }
 }
 </style>
 <style lang="scss">
