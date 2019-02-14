@@ -39,6 +39,7 @@
 <script>
 import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
 import ProductGalleryOverlay from './ProductGalleryOverlay'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import NoSSR from 'vue-no-ssr'
 import VueOfflineMixin from 'vue-offline/mixin'
 const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue')
@@ -49,7 +50,11 @@ export default {
     'no-ssr': NoSSR,
     ProductGalleryOverlay
   },
-  mixins: [ProductGallery, VueOfflineMixin],
+  mixins: [
+    ProductGallery,
+    VueOfflineMixin,
+    onEscapePress
+  ],
   watch: {
     '$route': 'validateRoute'
   },
@@ -70,6 +75,14 @@ export default {
     },
     validateRoute () {
       this.$forceUpdate()
+    },
+    toggleZoom () {
+      this.isZoomOpen = !this.isZoomOpen
+    },
+    onEscapePress () {
+      if (this.isZoomOpen) {
+        this.toggleZoom()
+      }
     }
   }
 }
