@@ -14,6 +14,9 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import Url from 'url-parse'
+// import queryString from 'querystring'
+import queryString from 'qs'
+import { url } from 'inspector';
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -534,15 +537,11 @@ export function getMediaGallery (product) {
   if (product.media_gallery) {
       for (let mediaItem of product.media_gallery) {
           if (mediaItem.image) {
-              let computedImage = {
+              mediaGallery.push({
                 'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
                 'loading': getThumbnailPath(product.image, 310, 300),
-                'video': null
-              }
-              if (mediaItem.vid) {
-                computedImage.video = computeVideoData(mediaItem.vid)
-              }
-              mediaGallery.push(computedImage)
+                'video': computeVideoData(mediaItem)
+              })
           }
       }
   }
@@ -552,41 +551,34 @@ export function getMediaGallery (product) {
 
 /**
 * Process video data to provide the proper 
-* provider and attributes
+* provider and attributes.
+* Currently supports YouTube and Vimeo
 * 
-* @param videoData Object
+* @param mediaItem Object
 */
 
-function computeVideoData (videoData) {
-  let videoId = '';
-  let type = '';
-  let videoUrl = new Url(videoData.url);
-
-  if (videoUrl.host.match(/youtube\.com/) && videoUrl.search) {
-    videoId = videoUrl.search.split('v=')[1];
-
-    if (videoId) {
-      let ampersandPosition = videoId.indexOf('&');
-
-      if (ampersandPosition === -1) {
-          return videoId;
-      }
-
-      videoId = videoId.substring(0, ampersandPosition);
-      type = 'youtube';
-    }
-  } else if (videoUrl.host.match(/youtube\.com|youtu\.be|youtube-nocookie.com/)) {
-    videoId = videoUrl.pathname.replace(/^\/(embed\/|v\/)?/, '').replace(/\/.*/, '');
-    type = 'youtube';
-  } else if (videoUrl.host.match(/vimeo\.com/)) {
-    type = 'vimeo';
-    let vimeoRegex = new RegExp(['https?:\\/\\/(?:www\\.|player\\.)?vimeo.com\\/(?:channels\\/(?:\\w+\\/)',
-        '?|groups\\/([^\\/]*)\\/videos\\/|album\\/(\\d+)\\/video\\/|video\\/|)(\\d+)(?:$|\\/|\\?)'
-    ].join(''));
-    videoId = videoUrl.href.match(vimeoRegex)[3];
+function computeVideoData (mediaItem) {
+  if (!mediaItem.vid || !mediaItem.vid.url) {
+    return null
   }
+
+  let videoId = null,
+      type = null,
+      youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/,
+      vimeoRegex = new RegExp(['https?:\\/\\/(?:www\\.|player\\.)?vimeo.com\\/(?:channels\\/(?:\\w+\\/)',
+        '?|groups\\/([^\\/]*)\\/videos\\/|album\\/(\\d+)\\/video\\/|video\\/|)(\\d+)(?:$|\\/|\\?)'
+      ].join(''));
+  
+  if (mediaItem.vid.url.match(youtubeRegex)) {
+    videoId = RegExp.$1
+    type = 'youtube'
+  } else if (mediaItem.vid.url.match(vimeoRegex)) {
+    videoId = RegExp.$3
+    type = 'vimeo'
+  }
+
   return {
-    ...videoData,
+    ...mediaItem.vid,
     type: type,
     id: videoId
   }
