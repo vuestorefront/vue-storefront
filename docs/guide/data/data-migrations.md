@@ -18,7 +18,7 @@ which runs the migrations against `migrations` folder.
 
 ## How to add new migration?
 
-You can add a new migration by simply adding a file to `migrations` directory (not recommended) or using cmdline tool:
+You can add a new migration by simply adding a file to `migrations` directory (not recommended) or using command line tool:
 
 ```bash
 npm run migrate create name-of-my-migration
