@@ -54,7 +54,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 $z-index-gallery: map-get($z-index, overlay) + 1;
 
