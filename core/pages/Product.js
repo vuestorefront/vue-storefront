@@ -66,17 +66,15 @@ export default {
   beforeRouteUpdate (to, from, next) {
     if (this.$store.state.config.seo.useUrlDispatcher) {
       return UrlDispatchMapper(to).then(routeData => {
-        if (routeData !== null) {
-          if (routeData.name === this.$route.name) {
-            this.validateRoute(routeData)
-          } else {
-            this.$router.push(routeData) // TODO: it can't be redirect to the routed url because hte url will be changed
-          }
+        if (routeData.name.indexOf('product') >= 0) {
+          this.validateRoute(routeData)
           next()
+        } else {
+          document.location = to.fullPath
         }
       })
     } else {
-      this.validateRoute()
+      this.validateRoute(to)
       next()
     }
   },

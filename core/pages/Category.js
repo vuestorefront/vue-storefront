@@ -158,14 +158,15 @@ export default {
   beforeRouteUpdate (to, from, next) {
     if (this.$store.state.config.seo.useUrlDispatcher) {
       return UrlDispatchMapper(to).then(routeData => {
-        if (routeData.name === this.$route.name) {
+        if (routeData.name.indexOf('category') >= 0) {
           this.validateRoute(routeData)
+          next()
         } else {
-          this.$router.push(routeData)
+          document.location = to.fullPath
         }
       })
     } else {
-      this.validateRoute()
+      this.validateRoute(to)
       next()
     }
   },
