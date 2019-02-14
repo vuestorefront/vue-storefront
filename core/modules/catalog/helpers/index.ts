@@ -13,10 +13,6 @@ import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import Url from 'url-parse'
-// import queryString from 'querystring'
-import queryString from 'qs'
-import { url } from 'inspector';
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -540,48 +536,12 @@ export function getMediaGallery (product) {
               mediaGallery.push({
                 'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
                 'loading': getThumbnailPath(product.image, 310, 300),
-                'video': computeVideoData(mediaItem)
+                'video': mediaItem.vid
               })
           }
       }
   }
   return mediaGallery
-}
-
-
-/**
-* Process video data to provide the proper 
-* provider and attributes.
-* Currently supports YouTube and Vimeo
-* 
-* @param mediaItem Object
-*/
-
-function computeVideoData (mediaItem) {
-  if (!mediaItem.vid || !mediaItem.vid.url) {
-    return null
-  }
-
-  let videoId = null,
-      type = null,
-      youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/,
-      vimeoRegex = new RegExp(['https?:\\/\\/(?:www\\.|player\\.)?vimeo.com\\/(?:channels\\/(?:\\w+\\/)',
-        '?|groups\\/([^\\/]*)\\/videos\\/|album\\/(\\d+)\\/video\\/|video\\/|)(\\d+)(?:$|\\/|\\?)'
-      ].join(''));
-  
-  if (mediaItem.vid.url.match(youtubeRegex)) {
-    videoId = RegExp.$1
-    type = 'youtube'
-  } else if (mediaItem.vid.url.match(vimeoRegex)) {
-    videoId = RegExp.$3
-    type = 'vimeo'
-  }
-
-  return {
-    ...mediaItem.vid,
-    type: type,
-    id: videoId
-  }
 }
 
 /**
