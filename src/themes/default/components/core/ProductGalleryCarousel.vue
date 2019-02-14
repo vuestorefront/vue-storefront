@@ -110,8 +110,36 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .media-gallery-carousel {
+  position: relative;
+  text-align: center;
+  height: 100%;
+}
+.zoom-in {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+img {
+  opacity: 0.9;
+  mix-blend-mode: multiply;
+  vertical-align: top;
+  &:hover {
+    opacity: 1;
+  }
+}
+img[lazy=error] {
+  width: 100%;
+}
+img[lazy=loading] {
+  width: 100%;
+}
+</style>
+
+<style lang="scss">
+.media-gallery-carousel,
+.media-zoom-carousel {
   .VueCarousel-pagination {
     position: absolute;
     bottom: 15px;

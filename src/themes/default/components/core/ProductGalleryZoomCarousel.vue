@@ -1,39 +1,42 @@
 <template>
-  <div class="media-zoom-carousel__container row flex">
-    <ul class="media-zoom-carousel__thumbs m0 p0">
-      <li class="media-zoom-carousel__thumb" v-for="(images, key) in gallery" :key="images.src">
-        <span class="bg-cl-secondary block">
-          <img :src="images.src" ref="images" @click="navigate(key)" :alt="productName | htmlDecode">
-        </span>
-      </li>
-    </ul>
-    <div class="media-zoom-carousel__gallery">
-      <carousel
-        :per-page="1"
-        :mouse-drag="false"
-        :navigation-enabled="true"
-        pagination-active-color="#828282"
-        pagination-color="transparent"
-        navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
-        navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
-        ref="zoomCarousel"
-        :speed="carouselTransitionSpeed"
-      >
-        <slide
-          v-for="images in gallery"
-          :key="images.src">
-          <div class="bg-cl-secondary">
-            <img
-              class="product-image inline-flex pointer mw-100"
-              v-lazy="images"
-              ref="images"
-              :alt="productName | htmlDecode"
-              data-testid="productGalleryImage"
-              itemprop="image"
-            >
-          </div>
-        </slide>
-      </carousel>
+  <div class="media-zoom-carousel">
+    <div class="media-zoom-carousel__container row flex">
+      <ul class="media-zoom-carousel__thumbs m0 p0">
+        <li class="media-zoom-carousel__thumb" v-for="(images, key) in gallery" :key="images.src">
+          <span class="bg-cl-secondary block">
+            <img :src="images.src" ref="images" @click="navigate(key)" :alt="productName | htmlDecode">
+          </span>
+        </li>
+      </ul>
+      <div class="media-zoom-carousel__gallery">
+        <carousel
+          :per-page="1"
+          :mouse-drag="false"
+          :navigation-enabled="true"
+          pagination-active-color="#828282"
+          pagination-color="transparent"
+          navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
+          navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
+          ref="zoomCarousel"
+          class="media-zoom-carousel__carousel"
+          :speed="carouselTransitionSpeed"
+        >
+          <slide
+            v-for="images in gallery"
+            :key="images.src">
+            <div class="media-zoom-carousel__slide  bg-cl-secondary">
+              <img
+                class="product-image inline-flex pointer mw-100"
+                v-lazy="images"
+                ref="images"
+                :alt="productName | htmlDecode"
+                data-testid="productGalleryImage"
+                itemprop="image"
+              >
+            </div>
+          </slide>
+        </carousel>
+      </div>
     </div>
   </div>
 </template>
@@ -91,7 +94,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 
 .media-zoom-carousel {
@@ -169,10 +172,7 @@ export default {
     }
   }
 
-  &__carousel,
-  .VueCarousel-wrapper,
-  .VueCarousel-inner,
-  .VueCarousel-slide {
+  &__carousel {
     height: 100%;
   }
 
@@ -190,5 +190,15 @@ export default {
     }
   }
 
+}
+</style>
+
+<style lang="scss">
+.media-zoom-carousel {
+  .VueCarousel-wrapper,
+  .VueCarousel-inner,
+  .VueCarousel-slide {
+    height: 100%;
+  }
 }
 </style>
