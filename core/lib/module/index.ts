@@ -58,7 +58,7 @@ class VueStorefrontModule {
     if (afterEach) routerInstance.afterEach(afterEach)
   }
 
-  private _extend (extendedConfig: VueStorefrontModuleConfig) : void {
+  private _extendModule (extendedConfig: VueStorefrontModuleConfig) : void {
     const mergedStore = { modules: [] };
     const key = this._c.key
     const originalStore = this._c.store
@@ -91,10 +91,10 @@ class VueStorefrontModule {
       store: rootStore, 
       isServer
     }
-    
+
     if (!this._isRegistered) {
       moduleExtendings.forEach(extending => {
-        if (extending.key === this._c.key) this._extend(extending)
+        if (extending.key === this._c.key) this._extendModule(extending)
       })
 
       let areStoresUnique = true
