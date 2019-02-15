@@ -78,6 +78,7 @@ export default {
       inject: isProd == false
     })
   ],
+  devtool: 'source-map',
   entry: {
     app: ['babel-polyfill', './core/client-entry.ts']
   },

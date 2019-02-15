@@ -10,7 +10,6 @@ import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/hel
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { UrlDispatchMapper } from '@vue-storefront/core/modules/url'
 
 export default {
   name: 'Product',
@@ -64,16 +63,7 @@ export default {
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   beforeRouteUpdate (to, from, next) {
-    if (this.$store.state.config.seo.useUrlDispatcher) {
-      return UrlDispatchMapper(to).then(routeData => {
-        if (routeData.name.indexOf('product') >= 0) {
-          this.validateRoute(routeData)
-          next()
-        } else {
-          document.location = to.fullPath
-        }
-      })
-    } else {
+    if (!this.$store.state.config.seo.useUrlDispatcher) {
       this.validateRoute(to)
       next()
     }

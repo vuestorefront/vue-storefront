@@ -10,7 +10,6 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multi
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
-import { UrlDispatchMapper } from '@vue-storefront/core/modules/url'
 
 export default {
   name: 'Category',
@@ -156,16 +155,7 @@ export default {
     }
   },
   beforeRouteUpdate (to, from, next) {
-    if (this.$store.state.config.seo.useUrlDispatcher) {
-      return UrlDispatchMapper(to).then(routeData => {
-        if (routeData.name.indexOf('category') >= 0) {
-          this.validateRoute(routeData)
-          next()
-        } else {
-          document.location = to.fullPath
-        }
-      })
-    } else {
+    if (!this.$store.state.config.seo.useUrlDispatcher) {
       this.validateRoute(to)
       next()
     }

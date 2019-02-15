@@ -9,12 +9,13 @@ import { HttpError } from '@vue-storefront/core/helpers/exceptions'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger';
+import UrlClientDispatcher from './pages/UrlClientDispatcher.vue'
 
 export const KEY = 'url'
 export const cacheStorage = initCacheStorage(KEY)
 let _matchedRouteData = null
 
-const _handleDispatcherNotFound = (routeName: string):void => {
+export const _handleDispatcherNotFound = (routeName: string):void => {
   Logger.error('Route not found ' + routeName, 'dispatcher')()
   if (isServer) {
     throw new HttpError('UrlDispatcher query returned empty result', 404)
@@ -22,7 +23,7 @@ const _handleDispatcherNotFound = (routeName: string):void => {
     router.push('/page-not-found')        
   }  
 }
-const UrlDispatcher = ():any => {
+const UrlServerDispatcher = ():any => {
   if (store.state.config.seo.useUrlDispatcher && _matchedRouteData) {
     const userRoute = userRoutes.find(r => r.name === _matchedRouteData['name'])
     if (userRoute) {
@@ -72,6 +73,7 @@ export const UrlDispatcherGuard = (to, from, next) => {
   }
 }
 export const DispatcherRoutes = [
-  { name: 'urldispatcher', path: '*', component: UrlDispatcher, beforeEnter: UrlDispatcherGuard }
+  { name: 'urldispatcher', path: '*', component: isServer ? UrlServerDispatcher : UrlClientDispatcher, beforeEnter: isServer ? UrlDispatcherGuard : null }
+  //{ name: 'urldispatcher', path: '*', component: UrlServerDispatcher, beforeEnter: UrlDispatcherGuard }
 ] 
 export const Url = new VueStorefrontModule(moduleConfig)

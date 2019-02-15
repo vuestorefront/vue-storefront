@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <component :is="layout">
-      <router-view/>
+      <router-view :key="$route.fullPath"/>
     </component>
   </div>
 </template>

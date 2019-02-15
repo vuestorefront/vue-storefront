@@ -93,9 +93,9 @@ const invokeClientEntry = async () => {
         }
       }
       let diffed = false
-      const activated = matched.filter((c, i) => {
+      const activated = config.seo.useUrlDispatcher ? matched : (matched.filter((c, i) => {
         return diffed || (diffed = (prevMatched[i] !== c))
-      })
+      }))
       if (!activated.length) {
         return next()
       }
