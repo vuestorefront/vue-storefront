@@ -18,6 +18,17 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
     for (let category of categories.items) {
+      if (rootStore.state.config.seo.useUrlDispatcher && category.url_path) {
+        rootStore.dispatch('url/registerMapping', {
+          url: category.url_path,
+          routeData: {
+            params: {
+              'slug': category.slug
+            },
+            'name': 'category'
+          }
+        }, { root: true })
+      }      
       let catSlugSetter = (category) => {
         if (category.children_data) {
           for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
