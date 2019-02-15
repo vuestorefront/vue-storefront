@@ -93,6 +93,9 @@ export function adjustMultistoreApiUrl (url: string) : string {
 }
 
 export function localizedRoute (routeObj: Route | string, storeCode: string) {
+  if (rootStore.state.config.seo.useUrlDispatcher) {
+    if (routeObj && typeof routeObj === 'object' && routeObj.fullPath) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }), storeCode)
+  }
   if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
@@ -115,6 +118,7 @@ export function localizedDispatcherRoute (routeObj: Route | string, storeCode: s
   if (routeObj && typeof routeObj === 'object' && routeObj.fullPath) { // case of using dispatcher
     return '/' + ((rootStore.state.config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + routeObj.fullPath + (routeObj.params ? ('?' + buildURLQuery(routeObj.params)) : '')
   } else {
+    return routeObj
   }
 }
 
