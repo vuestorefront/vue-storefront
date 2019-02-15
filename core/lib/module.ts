@@ -11,14 +11,14 @@ import { setupMultistoreRoutes } from './multistore'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 
-export interface VSF {
+interface VSF {
   Vue?: VueConstructor, 
   config?: Object, 
   store?: Store<RootState>, 
   isServer?: boolean
 }
 
-export interface VueStorefrontModuleConfig {
+interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
@@ -26,12 +26,15 @@ export interface VueStorefrontModuleConfig {
   afterRegistration?: (VSF: VSF | VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
 }
 
+const VSF = {
+  Vue, 
+  config: rootStore.state.config, 
+  store: rootStore, 
+  isServer
+}
 const moduleExtendings: VueStorefrontModuleConfig[] = []
+const registeredModules: VueStorefrontModuleConfig[] = []
 
-/** Provide `VueStorefrontModule` config that will be merged with module with the same `key` as this config.
- * It's important to call this function before module is registered.
- *
- * Read more: [here](https://docs.vuestorefront.io/guide/modules/introduction.html#extending-and-overriding-vue-storefront-modules) */
 export function extendModule(moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
@@ -51,16 +54,15 @@ export class VueStorefrontModule {
     this._c = config
   }
 
-  private static _registeredModules: VueStorefrontModuleConfig[] = []
 
   private static _doesStoreAlreadyExists (key: string) : boolean {
-    let moduleExists = false
-    VueStorefrontModule._registeredModules.forEach(m => {
+    let storeExists = false
+    registeredModules.forEach(m => {
       if (m.store) {
-        if (m.store.modules.some(m => m.key === key)) moduleExists = true
+        if (m.store.modules.some(m => m.key === key)) storeExists = true
       }
     })
-    return moduleExists
+    return storeExists
   }
 
   private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
@@ -77,7 +79,7 @@ export class VueStorefrontModule {
     if (afterEach) routerInstance.afterEach(afterEach)
   }
 
-  private _extend (extendedConfig: VueStorefrontModuleConfig) {
+  private _extend (extendedConfig: VueStorefrontModuleConfig) : void {
     const mergedStore = { modules: [] };
     const key = this._c.key
     const originalStore = this._c.store
@@ -105,13 +107,6 @@ export class VueStorefrontModule {
 
   public register (): VueStorefrontModuleConfig | void {
 
-    const VSF = {
-      Vue, 
-      config: rootStore.state.config, 
-      store: rootStore, 
-      isServer
-    }
-
     if (!this._isRegistered) {
       moduleExtendings.forEach(extending => {
         if (extending.key === this._c.key) this._extend(extending)
@@ -137,7 +132,7 @@ export class VueStorefrontModule {
         }
         if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
         if (this._c.router) VueStorefrontModule._extendRouter(router, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
-        VueStorefrontModule._registeredModules.push(this._c)
+        registeredModules.push(this._c)
         this._isRegistered = true
         if (this._c.afterRegistration) {
           if (this._c.afterRegistration.length === 1 ) {
@@ -154,8 +149,7 @@ export class VueStorefrontModule {
 }
 
 export function registerModules (modules: VueStorefrontModule[], context): void {
-  let registeredModules = []
-  modules.forEach(m => registeredModules.push(m.register()))
+  modules.forEach(m => m.register())
   Logger.info('VS Modules registration finished.', 'module', {
       succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
       registrationOrder: registeredModules
@@ -163,6 +157,15 @@ export function registerModules (modules: VueStorefrontModule[], context): void 
   )()
 }
 
-export function createModule(config: VueStorefrontModuleConfig) {
+export function isModuleRegistered(key: string) : boolean {
+  return registeredModules.find(m => m.key === key) ? true : false
+}
+
+export function createModule(config: VueStorefrontModuleConfig) : VueStorefrontModule {
   return new VueStorefrontModule(config)
+}
+
+export {
+  VSF,
+  VueStorefrontModuleConfig,
 }
