@@ -17,19 +17,32 @@ const dispatcherRoutine = (to, from, next) => {
         if (userRoute) {
           userRoute.component().then(rootComponent => {
             _matchingComponentInstance = rootComponent.default
-            if (_matchingComponentInstance.asyncData) {
-              AsyncDataLoader.push({ // this is an example showing how to call data loader from another module
-                execute: _matchingComponentInstance.asyncData
-              })
-            }
-            if (_matchingComponentInstance.mixins) {
-              _matchingComponentInstance.mixins.map(m => {
-                if (m.asyncData) {
-                  AsyncDataLoader.push({ // this is an example showing how to call data loader from another module
-                    execute: m.asyncData
-                  })
-                }
-              })
+
+            if (from.name) { // don't execute the action on the Client's side of the SSR actions
+              if (_matchingComponentInstance.asyncData) {
+                AsyncDataLoader.push({
+                  execute: _matchingComponentInstance.asyncData
+                })
+              }
+              if (_matchingComponentInstance.preAsyncData) {
+                AsyncDataLoader.push({
+                  execute: _matchingComponentInstance.preAsyncData
+                })
+              }
+              if (_matchingComponentInstance.mixins) {
+                _matchingComponentInstance.mixins.map(m => {
+                  if (m.preAsyncData) {
+                    AsyncDataLoader.push({ // this is an example showing how to call data loader from another module
+                      execute: m.preAsyncData
+                    })
+                  }
+                  if (m.asyncData) {
+                    AsyncDataLoader.push({ // this is an example showing how to call data loader from another module
+                      execute: m.asyncData
+                    })
+                  }
+                })
+              }
             }
             next()
           })

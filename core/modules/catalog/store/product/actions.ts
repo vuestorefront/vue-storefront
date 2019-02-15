@@ -49,6 +49,7 @@ const actions: ActionTree<ProductState, RootState> = {
         return itm.slug === context.rootGetters['category/getCurrentCategory'].slug
       }) < 0) {
         path.push({
+          url_path: context.rootGetters['category/getCurrentCategory'].url_path,
           slug: context.rootGetters['category/getCurrentCategory'].slug,
           name: context.rootGetters['category/getCurrentCategory'].name
         }) // current category at the end

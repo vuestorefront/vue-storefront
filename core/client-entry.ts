@@ -70,11 +70,12 @@ const invokeClientEntry = async () => {
   }
   let _appMounted = false
   router.onReady(() => {
-    router.beforeResolve((to, from, next) => {
-      if (config.seo.useUrlDispatcher && !_appMounted) { // async components that are used by UrlDispatcher can't be hydrated in router.onReady() as in that case we havent' yet had the final, post-routed component loaded
+    router.afterEach((to, from)  => {
+      if (config.seo.useUrlDispatcher && !_appMounted) { // hydrate after each other request
         app.$mount('#app')
-        _appMounted = true
-      }  
+      }
+    })
+    router.beforeResolve((to, from, next) => { // this is NOT CALLED after SSR request as no component is being resolved client side
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
