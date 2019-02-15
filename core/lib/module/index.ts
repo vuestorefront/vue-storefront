@@ -11,16 +11,14 @@ import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 import { VSF, VueStorefrontModuleConfig } from './types'
 
-
+const moduleExtendings: VueStorefrontModuleConfig[] = []
+const registeredModules: VueStorefrontModuleConfig[] = []
 const VSF: VSF = {
   Vue, 
   config: rootStore.state.config, 
   store: rootStore, 
   isServer
 }
-
-const moduleExtendings: VueStorefrontModuleConfig[] = []
-const registeredModules: VueStorefrontModuleConfig[] = []
 
 function extendModule(moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
