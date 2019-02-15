@@ -13,12 +13,6 @@ import { VSF, VueStorefrontModuleConfig } from './types'
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
 const registeredModules: VueStorefrontModuleConfig[] = []
-const VSF: VSF = {
-  Vue, 
-  config: rootStore.state.config, 
-  store: rootStore, 
-  isServer
-}
 
 function extendModule(moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
@@ -91,7 +85,13 @@ class VueStorefrontModule {
   }
 
   public register (): VueStorefrontModuleConfig | void {
-
+    const VSF: VSF = {
+      Vue, 
+      config: rootStore.state.config, 
+      store: rootStore, 
+      isServer
+    }
+    
     if (!this._isRegistered) {
       moduleExtendings.forEach(extending => {
         if (extending.key === this._c.key) this._extend(extending)
