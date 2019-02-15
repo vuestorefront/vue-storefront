@@ -27,7 +27,7 @@ By default cart and totals sync is disabled. To make it work You just need to fo
 
 1. Please generate the Magento2 API accesses. In our first tutorial there is an [explanation on how to do this](../installation/magento.md).
 
-2. Use the oauth keys from the previous step to properly configure the `vue-storefront-api` data layer (it should've been installed locally on your computer / server). To do so you need to modify the `conf/local.json` and paste the authorization data to the `magento2.api` section:
+2. Use the OAuth keys from the previous step to properly configure the `vue-storefront-api` data layer (it should've been installed locally on your computer / server). To do so you need to modify the `conf/local.json` and paste the authorization data to the `magento2.api` section:
 
 ```json
 "magento2": {

@@ -43,9 +43,9 @@ import { Magento2CMS } from './magento-2-cms'
 //  extendModule(cartExtend)
 
 /**
- * Some of the modules are registered lazily only when components from module are appearing on current page.
- * If you want to use this modules in pages without it's components you need to remember about registering module first
- * In VS 1.8 this modules will be semlessly lazyLoaded after proper action dispatch
+ * Some of the modules are registered lazily only when components from the module are appearing on current page.
+ * If you want to use this module in pages without its components you need to remember about registering module first
+ * In VS 1.8 this modules will be seamlessly lazyLoaded after proper action dispatch
  * - Wishlist
  */
 export const registerModules: VueStorefrontModule[] = [

@@ -32,7 +32,7 @@ export const Payment = {
   },
   created () {
     if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
-      this.payment.paymentMethod = this.paymentMethods[0].code
+      this.payment.paymentMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].code : 'cashondelivery'
     }
   },
   mounted () {

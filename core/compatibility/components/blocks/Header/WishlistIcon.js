@@ -10,17 +10,17 @@ export default {
     }
   },
   computed: {
-    // depreciated in this component
+    // deprecated in this component
     isWishlistOpen () {
       return this.$store.state.ui.wishlist
     }
   },
   methods: {
-    // depreciated
+    // deprecated
     closeWishlist () {
       this.$store.commit('ui/setWishlist', false)
     },
-    // depreciated
+    // deprecated
     openWishlist () {
       this.$store.commit('ui/setWishlist', true)
     },

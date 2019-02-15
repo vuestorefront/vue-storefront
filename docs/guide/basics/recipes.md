@@ -3,7 +3,7 @@
 Below you can find solutions for most common problems and advises for typical config changes required by Vue Storefront.
 If you solved any new issues by yourself please let us know on [slack](http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
 
-## Problem starting docker while installing the vue-storefront
+## Problem starting Docker while installing the vue-storefront
 
 In case you get the following error:
 
@@ -11,7 +11,7 @@ In case you get the following error:
 ┌────────────────────────────────────────────────────────────────────────────┐
 │ ERROR                                                                      │
 │                                                                            │
-│ Can't start docker in background.                                          │
+│ Can't start Docker in background.                                          │
 │                                                                            │
 │ Please check log file for details: /tmp/vue-storefront/var/log/install.log │
 └────────────────────────────────────────────────────────────────────────────┘
@@ -58,9 +58,9 @@ Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefro
 ## What's the recommended way to use git on custom development
 
 One of the options is to do kind of fork - or just to get the whole repo to your Git service.
-Then if you like to do some VS updates you probably need to just pull the changes from our origins. Another option will be available as soon as we manage to separate the core as a npm module
+Then if you like to do some VS updates you probably need to just pull the changes from our origins. Another option will be available as soon as we manage to separate the core as an npm module
 
-## How to add custom configurable attributes to Product page
+## How to add custom configurable attributes to the Product page
 
 Where can we add filters and extra configurable options for the products? For example, I've just added an iPhone X as an example. And I want to add the storage as an option.
 
@@ -98,7 +98,7 @@ To do so, you need to modify the theme, changing the following snippet:
 
 You must add UI controls for additional configurable attributes.
 
-## Product name changed to SKU when adding to cart / on product page
+## Product name changed to SKU when adding to cart / on the product page
 
 By default, when the user selects any specific product variant on the `Product.vue` page for `configurable` products - the title, picture, price and other attributes are changed to corresponding `simple` one (within `product.configurable_children`). If in the Magento panel the product names of the variants are set to SKU or anything else, then the correct behavior is that the product name change to it when selects variant.
 
@@ -121,7 +121,7 @@ To correct this behavior you can:
 
 After following the Tutorial on [how to connect to Magento2](../installation/magento.md) the prices are updated just after manually running [mage2vuestorefront cli command](https://github.com/DivanteLtd/mage2vuestorefront).
 
-However there is an option to get the prices dynamically. To do so you must change the config inside `conf/local.json` from the default (`conf/default.json`):
+However, there is an option to get the prices dynamically. To do so you must change the config inside `conf/local.json` from the default (`conf/default.json`):
 
 ```json
   "products": {
@@ -145,8 +145,8 @@ to:
   },
 ```
 
-To make it work you need have Magento2 oauth keys configured in your `vue-storefront-api` - `conf/local.json`.
-This change means that each time product list will be displayed, VS will get fresh prices directly from Magento without the need to re-index ElasticSearch.
+To make it work you need have Magento2 Oauth keys configured in your `vue-storefront-api` - `conf/local.json`.
+This change means that each time the product list will be displayed, VS will get fresh prices directly from Magento without the need to re-index ElasticSearch.
 
 ## No products found! after node --harmony cli.js fullreindex
 
@@ -175,7 +175,7 @@ To display the proper prices and totals after Magento calculates all the discoun
 
 To make it work you need have Magento2 oauth keys configured in your `vue-storefront-api` - `conf/local.json`.
 
-After this change you need to restart the `yarn dev` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
+After this change, you need to restart the `yarn dev` command to take the config changes into consideration by the VS. All the cart actions (add to cart, remove from cart, modify the qty) are now synchronized directly with Magento2 - for both: guest and logged in clients.
 
 ## How to prevent an error "Can’t build storefront npm"
 
@@ -191,11 +191,11 @@ npm run installer
 
 ## How to integrate 3rd party platform? Do you think it could be used with a legacy bespoke PHP eCommerce?
 
-Yes I believe it could. You should expose the API accordingly to our [spec](../extensions/extending-api.md) and the second step is to [create a data bridge](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6) to fill out the ElasticSearch with the current catalog data.
+Yes, I believe it could. You should expose the API accordingly to our [spec](../extensions/extending-api.md) and the second step is to [create a data bridge](https://medium.com/@piotrkarwatka/how-to-connect-3rd-party-platform-to-vue-storefront-df9cb30779f6) to fill out the ElasticSearch with the current catalog data.
 
 ## Is there any documentation on integrating payment gateways?
 
-We're working on kind of boilerplate for payment modules. Right now please just take a look at a [live example](https://github.com/develodesign/vue-storefront-stripe) and try to follow the design patterns from there. The task where boilerplate + docs will show up is: [https://github.com/DivanteLtd/vue-storefront/issues/923](https://github.com/DivanteLtd/vue-storefront/issues/923).
+We're working on kind of boilerplate for payment modules. Right now please just take a look at a [live example](https://github.com/develodesign/vue-storefront-stripe) and try to follow the design patterns from there. The task where boilerplate + docs will show up is [https://github.com/DivanteLtd/vue-storefront/issues/923](https://github.com/DivanteLtd/vue-storefront/issues/923).
 
 ## Is there any internationalization support?
 
@@ -205,7 +205,7 @@ The currency is set in the `local.json` configuration file and it's (along with 
 
 ## If 10k products are on the site will it create a high bandwidth download when you navigate on the site for the first time on a mobile device
 
-Not necessarily. Vue Storefront is caching products from the categories browsed. This is default solution which can be changed by modifying `core/store/lib/search.js`
+Not necessarily. Vue Storefront is caching products from the categories browsed. This is the default solution which can be changed by modifying `core/store/lib/search.js`
 
 ## How to add/remove/change field types in the ElasticSearch schema
 
@@ -221,7 +221,7 @@ Unfortunately, Magento extensions are not compliant with any PWA available solut
 
 If the extensions are not playing with the User Interface, probably they will work with VS out of the box, as we're using the standard Magento2 API calls for the integration part.
 
-## How to support Multistore / Multiwebsite setup
+## How to support Multistore / Multi website setup
 
 Please check the [Multistore setup](../integrations/multistore.md) guide for details
 
@@ -229,9 +229,9 @@ Please check the [Multistore setup](../integrations/multistore.md) guide for det
 
 If you would like to have a Category filter working with configurable products, you need to expand the `product.configurable_children.attrName` to `product.attrName_options` array. This is automatically done by [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) for all attributes set as `product.configurable_options` (by default: color, size). If you like to add additional fields like `manufacturer` to the filters, you need to expand `product.manufacturer_options` field. The easiest way to do so is to set `config.product.expandConfigurableFilters` to `['manufacturer']` and re-run the `mage2vuestorefront` indexer.
 
-## How to redirect original Magento2 urls to Vue Storefront
+## How to redirect original Magento2 URLs to Vue Storefront
 
-There is a SEO redirects generator for nginx -> `https://serverfault.com/a/441517` available within the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api/commit/2c7e10b4c4294f222f7a1aae96627d6a0e23f30e). Now you can generate SEO map redirecting users from the original Magento urls to Vue Storefront URLs by running:
+There is an SEO redirects generator for NGINX -> `https://serverfault.com/a/441517` available within the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api/commit/2c7e10b4c4294f222f7a1aae96627d6a0e23f30e). Now you can generate SEO map redirecting users from the original Magento URLs to Vue Storefront URLs by running:
 
 ```bash
 npm run seo redirects — —oldFormat=true | false
@@ -239,9 +239,9 @@ npm run seo redirects — —oldFormat=true | false
 
 - `oldFormat` - should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (`oldFormat` = `!useShortCatalogUrls`)
 
-Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
+Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using the current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
 
-**Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating it's value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
+**Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating its value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
 
 ## You need to choose options for your item message when hit API for add to cart a configurable product
 
@@ -259,11 +259,11 @@ And then You can use proper controls for each individual filter [here](https://g
 
 ## Collecting all VSF i18n phrases into a CSV.
 
-It might be very time consuming to translate the whole project to a foreign language. A good start is to properly collect all i18n phrases into a CSV file. The following line of bash code, would get the job done (a pipe-separated CSV file named i18n.csv would be created, adjust accordingly to your needs).
+It might be very time consuming to translate the whole project into a foreign language. A good start is to properly collect all i18n phrases into a CSV file. The following line of bash code would get the job done (a pipe-separated CSV file named i18n.csv would be created, adjust accordingly to your needs).
 
 Execute the following line on your project's root folder:
 
 ```grep --include \*.js --include \*.vue -nrw  ./ -e 'i18n.t(' -e '$t(' -h | grep -o -P "(?<=t\(\').*(?=\'\))" | awk -F"'" -v OFS='|' '{ print $1,$1 }' > i18n.csv```
 
-The code basically looks into into all project files for all ```i18n.t('some string')``` and ```$t('some string') ``` occurences, parses an extracts the quoted tdxt of each occurence, and saves it into a pipe-separated CSV file, which you might help you to get your missing translations.
+The code basically looks into all project files for all ```i18n.t('some string')``` and ```$t('some string') ``` occurrences, parses an extracts the quoted text of each occurrence, and saves it into a pipe-separated CSV file, which you might help you to get your missing translations.
 

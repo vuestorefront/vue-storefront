@@ -11,12 +11,19 @@ import { setupMultistoreRoutes } from './multistore'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 
+export interface VSF {
+  Vue?: VueConstructor, 
+  config?: Object, 
+  store?: Store<RootState>, 
+  isServer?: boolean
+}
+
 export interface VueStorefrontModuleConfig {
   key: string;
   store?: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function };
   router?: { routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard },
-  beforeRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean,) => void,
-  afterRegistration?: (Vue?: VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
+  beforeRegistration?: (VSF: VSF | VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
+  afterRegistration?: (VSF: VSF | VueConstructor, config?: Object, store?: Store<RootState>, isServer?: boolean) => void,
 }
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
@@ -97,6 +104,14 @@ export class VueStorefrontModule {
   }
 
   public register (): VueStorefrontModuleConfig | void {
+
+    const VSF = {
+      Vue, 
+      config: rootStore.state.config, 
+      store: rootStore, 
+      isServer
+    }
+
     if (!this._isRegistered) {
       moduleExtendings.forEach(extending => {
         if (extending.key === this._c.key) this._extend(extending)
@@ -106,18 +121,32 @@ export class VueStorefrontModule {
       if ( this._c.store) {
         this._c.store.modules.forEach(store => {
           if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
-            Logger.error('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')()
+            Logger.warn('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')()
             isUnique = false
           }
         })
       }
       if (isUnique) {
-        if (this._c.beforeRegistration) this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
+        if (this._c.beforeRegistration) {
+          if (this._c.beforeRegistration.length === 1 ) { 
+            this._c.beforeRegistration(VSF) 
+          } else {
+            Logger.warn('You are using outdated signature for beforeRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#beforeregistration', 'module', this._c.key)()
+            this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
+          }
+        }
         if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
         if (this._c.router) VueStorefrontModule._extendRouter(router, this._c.router.routes, this._c.router.beforeEach, this._c.router.afterEach)
         VueStorefrontModule._registeredModules.push(this._c)
         this._isRegistered = true
-        if (this._c.afterRegistration) this._c.afterRegistration(Vue, rootStore.state.config, rootStore, isServer)
+        if (this._c.afterRegistration) {
+          if (this._c.afterRegistration.length === 1 ) {
+            this._c.afterRegistration(VSF)
+           } else {
+            Logger.warn('You are using outdated signature for afterRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#afterregistration', 'module', this._c.key)()
+            this._c.afterRegistration(Vue, rootStore.state.config, rootStore, isServer)
+           } 
+        }
         return this._c
       }
     }

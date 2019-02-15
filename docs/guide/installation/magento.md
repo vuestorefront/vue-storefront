@@ -20,7 +20,7 @@ Then click _Add new integration_ and just fill:
 
 ![Magento API](../images/magento_2.png)
 
-In the result you’ll click _Activate_ and get some oauth access tokens:
+In the result you’ll click _Activate_ and get some OAuth access tokens:
 
 ![Magento tokens](../images/magento_3.png)
 
@@ -30,7 +30,7 @@ In the result you’ll click _Activate_ and get some oauth access tokens:
 
 Magento2 data import is now integrated into `vue-storefront-api` for simplicity. It's still managed by the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) - added as a dependency to `vue-storefront-api`.
 
-After setting the `config.magento2.api` section using yours Magento2 oauth credentials:
+After setting the `config.magento2.api` section using yours Magento2 OAuth credentials:
 
 ```json
  "magento2": {
@@ -65,7 +65,7 @@ yarn mage2vs import
 
 ### Manual integration
 
-As a first step, you need to to install [mage2vuestorefront ](https://github.com/DivanteLtd/mage2vuestorefront):
+As a first step, you need to install [mage2vuestorefront ](https://github.com/DivanteLtd/mage2vuestorefront):
 
 ```bash
 git clone https://github.com/DivanteLtd/mage2vuestorefront.git mage2vs
@@ -168,7 +168,7 @@ Starting from Vue Storefront v1.6 now we have a special switch in `vue-storefron
 
 ## Synchronizing shopping carts
 
-By default shopping carts are not synchronized in the real time  -  just after the order is placed, Magento2 cart is created etc.
+By default shopping carts are not synchronized in the real-time  -  just after the order is placed, Magento2 cart is created etc.
 
 This was limiting behavior because you need to keep the user cart most current all the time to get Magento2 shopping cart promotion rules into the action .
 
