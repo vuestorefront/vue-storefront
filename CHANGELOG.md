@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0]
+### Changed / Improved
+- Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
+- Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
+- Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
+- Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
+
+## [1.8.2] - 2019.02.11
+- Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
+
+## [1.8.1] - 2019.02.10
+This is hot-fix release for fixing the payment methods switching issue when both: `payments-cash-on-delivery` and `payments-backend-methods` modules enabled.
+
+### Changed / Improved
+ - Fixed doubled invlication of `placeOrder` when both: `payments-cash-on-delivery` and `payments-backend-methods` modules enabled - #2405
+
 ## [1.8.0] - 2019.02.07
 Additional migration tips are available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
 
@@ -17,6 +33,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Possibility to have sticky notifications - @phoenixdev-kl (#2307)
 - Added a scss to manage global form style - @lorenaramonda (#2316)
 - Manage products with zero price - @MarcoGrecoBitbull (#2327)
+- Hotjar integration - @lukeromanowicz (#840)
 
 ### Changed / Improved
 - Theme structure improvements - @filrak (#2223)
@@ -24,7 +41,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Changed beforeRegistration and afterRegistration hooks signature. Now it contains only one object VSF. The subfields are the same as before so changing `beforeRegistration( Vue, config, store, isServer )` to `beforeRegistration({ Vue, config, store, isServer })`(and same with `afterRegistration`) is enough to make a proper migration to new API. - @filrak (#2330)
 - Typo fixes - @youanden, Micheledinocera (#2229, #2329)
 - Bundle products price calculation fix - @pkarw (#2371)
-- Added hotjar snippet and dixed isServer flag in module hooks - @lukeromanowicz (#840)
+- Fixed isServer flag in module registration hooks - @lukeromanowicz (#840)
 - Location of type files - @kruchy8 (#2226)
 - Improved theme registration - @lukeromanowicz (#2233)
 - SSR renderings for logged in users - @vue-kacper (#2234)
@@ -40,7 +57,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Improve sortBy mobile view - @martaradziszewska (#2251)
 - Slide animations to menu, search, wishlist and minicart components - @Aekal (#2256)
 - Fixed wishlist store module to not be lazy loaded - @vue-kacper (#2249)
-- Share webpack typescript config with docker container - @lukeromanowicz (#2269)
+- Share webpack typescript config with Docker container - @lukeromanowicz (#2269)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
 - Output cache clearing supports versioning - @igloczek (#2333, #2359)
 - Cash on delivery + Shipping addresses fixed for virtual products - @pkarw (#2366)

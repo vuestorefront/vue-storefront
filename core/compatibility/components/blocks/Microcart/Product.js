@@ -4,7 +4,7 @@ import i18n from '@vue-storefront/i18n'
 
 export default {
   data () {
-    // depreciated
+    // deprecated
     return {
       qty: 0,
       isEditing: false

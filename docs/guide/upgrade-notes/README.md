@@ -7,8 +7,7 @@ Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/
 
 - `store/types` have been moved to new module called `core/types`.
 - `store/lib/search` has been moved to `core/lib/search`.
-- `store/lib/multistore.ts` has been moved to `core/lib/multistore.ts`
-- `@vue-storefront/store/lib/multistore` has been [moved](https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-87917f882ffc57fb755b1cc82ffa9e28L11) to `@vue-storefront/core/lib/multistore`
+- `store/lib/multistore.ts` has been [moved](https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-87917f882ffc57fb755b1cc82ffa9e28L11) to `core/lib/multistore.ts`
 - new [styles](https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-ae72dc903f169eb56d716cd5ac99df35R1) file for form elements
 - removed unused `src/themes/default/filters/index.js` file - check if you're not using it as well
 - `src/themes/default/resource/head.js` has been moved to `src/themes/default/head.js`
@@ -288,7 +287,7 @@ Now it mirrors `core/` folder structure which is desired behaviour
 
 ### vue-storefront-api docker support has been extended
 
-We've added the possibility to run the `vue-storefront-api` fully in docker (previously just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
+We've added the possibility to run the `vue-storefront-api` fully in Docker (previously just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
 
 **PLEASE NOTE:** We've changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update Your config files automatically by running: `npm run migrate` in the `vue-storefront-api` folder.
 

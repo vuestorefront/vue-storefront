@@ -263,7 +263,7 @@ extendModule(cartExtend)
 export const registerModules: VueStorefrontModule[] = [Cart]
 ```
 
-If you want to make complex changes with your own app-specific VS module (which is not a npm package) it's a good practice to keep this module inside `src/modules/{module-name}`. To extend module with another module just pass it's config to `extendModule` function
+If you want to make complex changes with your own app-specific VS module (which is not an npm package) it's a good practice to keep this module inside `src/modules/{module-name}`. To extend module with another module just pass it's config to `extendModule` function
 
 ```js
 import { Cart } from '@vue-storefront/core/modules/cart'
