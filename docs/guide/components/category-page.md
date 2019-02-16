@@ -9,16 +9,16 @@ No props
 - `pagination` - an object that defines two settings:
   - `perPage` of product items to load per page, currently set to 50
   - `offset` that probably defines which page has been last loaded, currently set to 0 and isn't changed anywhere.
-- `enabled` - enables/disables paging. When it's disabled it lazy-loads other products on scroll
+- `enabled` - enables/disables paging. When it's disabled it lazy-loads other products on a scroll
 - `filters.available`, `filters.chosen` - a set of filters that user has defined on Category page - there we have available filters and chosen filter values
-- `products` - computed property that returns a list of product items of current category from the Vuex store.
-- `isCategoryEmpty` - computed property that returns `true` if product list of current category is empty.
-- `category` - computed property that returns current category from the Vuex store.
+- `products` - computed property that returns a list of product items of the current category from the Vuex store.
+- `isCategoryEmpty` - computed property that returns `true` if the product list of the current category is empty.
+- `category` - computed property that returns the current category from the Vuex store.
 - `categoryName` - category name.
 - `categoryId` - category ID.
 - `breadcrumbs` - breadcrumbs for the current category from the Vuex store.
-- `productsCounter` - how many products are in the category.
-- `lazyLoadProductsOnscroll` - allows lazy-loading more products on scroll, by default it's true
+- `productsTotal` - how many products are in the category.
+- `lazyLoadProductsOnscroll` - allows lazy-loading more products on a scroll, by default it's true
 
 ## Methods
 
@@ -37,7 +37,7 @@ Since the app is using SSR, this method prefetches and resolves the asynchronous
 
 ### beforeMount
 
-`filter-changed-category` event listener is initialized. The event is fired when user selects custom filter value.
+`filter-changed-category` event listener is initialized. The event is fired when the user selects custom filter value.
 
 ### beforeDestroy
 

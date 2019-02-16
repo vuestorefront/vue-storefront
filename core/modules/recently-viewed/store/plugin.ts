@@ -1,5 +1,6 @@
 import * as types from './mutation-types'
 import { cacheStorage } from '../'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export function plugin (mutation, state) {
   const type = mutation.type

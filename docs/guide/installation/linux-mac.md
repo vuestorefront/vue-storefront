@@ -76,7 +76,7 @@ After you answered all the questions, the installation process will start (it mi
 
 Your project should contain 2 folders at this moment: `vue-storefront` and `vue-storefront-api`. Vue Storefront should be running on `http://localhost:3000`:
 
-![Storefront screenshot](/vue-storefront/storefront.png)
+![Storefront screenshot](../images/storefront.png)
 
 ## Manual installation
 
@@ -128,7 +128,7 @@ nano config/local.json
 The config file is quite simple, but here you have some comments: [Config file for vue-storefront](https://github.com/DivanteLtd/vue-storefront/wiki/Config-file-format-for-vue-storefront).
 
 :::tip NOTE
-We're using powerful node.js library for config files, check the docs to learn more on it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config).
+We're using the powerful node.js library for config files, check the docs to learn more on it: [https://github.com/lorenwest/node-config](https://github.com/lorenwest/node-config).
 :::
 
 To import these products we'll use `elasticdump` - which is provided by default with `package.json` dependencies and yarn command. Then, we need to update the structures in the database to the latest version (data migrations).
@@ -152,7 +152,7 @@ Clone the image files for default product database (we're using [Magento2 exampl
 git clone https://github.com/magento/magento2-sample-data.git var/magento2-sample-data
 ```
 
-If you choose to use **standard** mode, the application is already running in the background. However, if you decided to stay with the **legacy** mode, you must start the application manually using following command (development mode with dynamic file reloads when changed):
+If you choose to use **standard** mode, the application is already running in the background. However, if you decided to stay with the **legacy** mode, you must start the application manually using the following command (development mode with dynamic file reloads when changed):
 
 ```bash
 yarn dev

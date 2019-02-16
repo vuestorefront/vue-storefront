@@ -1,4 +1,4 @@
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import store from '@vue-storefront/store'
 
 export function prepareQuickSearchQuery (queryText) {

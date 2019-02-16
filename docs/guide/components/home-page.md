@@ -1,7 +1,7 @@
 # Core Home Page
 
 :::tip Note
-Core page has almost zero functionality, everything is in theme component, which definitely needs be replaced to core.
+Core page has almost zero functionality, everything is in theme component, which definitely needs to be replaced to the core.
 :::
 
 ## Props
@@ -22,4 +22,4 @@ No methods
 
 ### beforeMount
 
-Clears Vuex store entries that define current category by dispatching `category/reset` action.
+Clears Vuex store entries that define the current category by dispatching `category/reset` action.

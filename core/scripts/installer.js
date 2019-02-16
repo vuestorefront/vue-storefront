@@ -192,10 +192,10 @@ class Backend extends Abstract {
    */
   dockerComposeUp () {
     return new Promise((resolve, reject) => {
-      Message.info('Starting docker in background...')
+      Message.info('Starting Docker in background...')
 
       if (shell.exec(`docker-compose up -d > /dev/null 2>&1`).code !== 0) {
-        reject(new Error('Can\'t start docker in background.'))
+        reject(new Error('Can\'t start Docker in background.'))
       }
       // Adding 20sec timer for ES to get up and running
       // before starting restoration and migration processes
@@ -204,7 +204,7 @@ class Backend extends Abstract {
   }
 
   /**
-   * Validate magento integration settings.
+   * Validate Magento integration settings.
    *
    * @returns {Promise}
    */
@@ -212,16 +212,16 @@ class Backend extends Abstract {
     return new Promise((resolve, reject) => {
       const Magento2Client = require('magento2-rest-client').Magento2Client
 
-      Message.info(`Validating magento integration configuration...`)
+      Message.info(`Validating Magento integration configuration...`)
 
       let m2Url = urlParser(this.answers.m2_url).href
       let apiUrl = urlParser(this.answers.m2_api_url).href
 
       if (!m2Url.length) {
-        reject(new Error('Invalid magento url supplied.'))
+        reject(new Error('Invalid Magento URL supplied.'))
       }
       if (!apiUrl.length) {
-        reject(new Error('Invalid magento rest api url supplied.'))
+        reject(new Error('Invalid Magento rest API URL supplied.'))
       }
 
       let options = {
@@ -237,7 +237,7 @@ class Backend extends Abstract {
         .then((categories) => {
           resolve()
         }).catch((e) => {
-          reject(new Error('Invalid magento integration settings. Original error: ' + e))
+          reject(new Error('Invalid Magento integration settings. Original error: ' + e))
         })
     })
   }
@@ -321,7 +321,7 @@ class Backend extends Abstract {
    */
   importElasticSearch () {
     return new Promise((resolve, reject) => {
-      Message.info('Importing data from magento into ElasticSearch...')
+      Message.info('Importing data from Magento into ElasticSearch...')
 
       if (shell.exec(`yarn mage2vs import >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
         reject(new Error('Can\'t import data into ElasticSearch.'))
@@ -332,7 +332,7 @@ class Backend extends Abstract {
   }
 
   /**
-   * Cloning magento sample data
+   * Cloning Magento sample data
    *
    * @returns {Promise}
    */
@@ -735,7 +735,7 @@ let questions = [
   {
     type: 'input',
     name: 'm2_url',
-    message: 'Please provide your magento url',
+    message: 'Please provide your Magento url',
     default: 'http://demo-magento2.vuestorefront.io',
     when: function (answers) {
       return answers.is_remote_backend === false
@@ -753,7 +753,7 @@ let questions = [
   {
     type: 'input',
     name: 'm2_api_url',
-    message: 'Please provide the url to your magento rest api',
+    message: 'Please provide the URL to your Magento rest API',
     default: 'http://demo-magento2.vuestorefront.io/rest',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
