@@ -23,15 +23,6 @@ class VueStorefrontModule {
     private _c: VueStorefrontModuleConfig,
   ) { }
 
-  public get config () {
-    return this._c
-  }
-
-  /** Use only if you want to explicitly modify module config. Otherwise it's much easier to use `extendModule` */
-  public set config (config) {
-    this._c = config
-  }
-
   private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
     if (modules) modules.forEach(store => storeInstance.registerModule(store.key, store.module))
     if (plugin) storeInstance.subscribe(plugin)
@@ -59,6 +50,15 @@ class VueStorefrontModule {
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
   }
 
+  public get config () {
+    return this._c
+  }
+
+  /** Use only if you want to explicitly modify module config. Otherwise it's much easier to use `extendModule` */
+  public set config (config) {
+    this._c = config
+  }
+  
   public register (): VueStorefrontModuleConfig | void {
     if (!this._isRegistered) {
       let areStoresUnique = true
