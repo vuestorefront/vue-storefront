@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.9.0]
 ### Changed / Improved
+- Way of creating VS Modules was changed to use factory method instead of explict object creation Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
+
+The proces of creating new module with factory method and looks like following:
+````js
+import { createModule } from '@vue-storefront/core/lib/module'
+
+const moduleConfig: VueStorefrontModuleConfig = { 
+  // VS module config 
+}
+
+const module = createModule(moduleConfig)
+````
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
 - Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
