@@ -10,6 +10,7 @@ import { setupMultistoreRoutes } from '..//multistore'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 import { VSF, VueStorefrontModuleConfig } from './types'
+import { doesStoreAlreadyExists } from './helpers'
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
 const registeredModules: VueStorefrontModuleConfig[] = []
@@ -31,17 +32,6 @@ class VueStorefrontModule {
   /** Use only if you want to explicitly modify module config. Otherwise it's much easier to use `extendModule` */
   public set config (config) {
     this._c = config
-  }
-
-
-  private static _doesStoreAlreadyExists (key: string) : boolean {
-    let storeExists = false
-    registeredModules.forEach(m => {
-      if (m.store) {
-        if (m.store.modules.some(m => m.key === key)) storeExists = true
-      }
-    })
-    return storeExists
   }
 
   private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
@@ -85,27 +75,28 @@ class VueStorefrontModule {
   }
 
   public register (): VueStorefrontModuleConfig | void {
-    const VSF: VSF = {
-      Vue, 
-      config: rootStore.state.config, 
-      store: rootStore, 
-      isServer
-    }
-
     if (!this._isRegistered) {
+      let areStoresUnique = true
+      const VSF: VSF = {
+        Vue, 
+        config: rootStore.state.config, 
+        store: rootStore, 
+        isServer
+      }
+
       moduleExtendings.forEach(extending => {
         if (extending.key === this._c.key) this._extendModule(extending)
       })
 
-      let areStoresUnique = true
-      if ( this._c.store) {
+      if (this._c.store) {
         this._c.store.modules.forEach(store => {
-          if (VueStorefrontModule._doesStoreAlreadyExists(store.key)) {
+          if (doesStoreAlreadyExists(store.key, registeredModules)) {
             Logger.warn('Error during "' + this._c.key + '" module registration! Store with key "' + store.key + '" already exists!', 'module')()
             areStoresUnique = false
           }
         })
       }
+
       if (areStoresUnique) {
         if (this._c.beforeRegistration) {
           if (this._c.beforeRegistration.length === 1 ) { 
