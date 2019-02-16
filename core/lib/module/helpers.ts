@@ -13,7 +13,6 @@ function doesStoreAlreadyExists (key: string, registeredModules: VueStorefrontMo
   return false
 }
 
-
 function mergeStores (
   originalStore: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function }, 
   extendedStore:  { modules?: { key: string, module: Module<any, any> }[], plugin?: Function }
