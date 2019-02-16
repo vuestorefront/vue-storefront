@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu fixed mw-100 bg-cl-secondary" :class="{ active: showMenu }">
+  <div class="sidebar-menu fixed mw-100 bg-cl-secondary">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
       <div class="col-xs bg-cl-primary" v-if="submenu.depth">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
@@ -82,16 +82,7 @@
               {{ $t('Compare products') }}
             </router-link>
           </li>
-          <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
-            <router-link
-              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              :to="localizedRoute('/order-tracking')"
-              exact
-            >
-              {{ $t('Track my order') }}
-            </router-link>
-          </li>
-          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
+          <li @click="login" class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
             <sub-btn
               v-if="currentUser"
               :name="$t('My account')"
@@ -101,11 +92,12 @@
               v-if="currentUser"
               :my-account-links="myAccountLinks"
               :id="'foo'"
+              @click.native="closeMenu"
             />
             <a
               v-if="!currentUser && isCurrentMenuShowed"
               href="#"
-              @click.prevent="login"
+              @click.prevent="closeMenu"
               class="block w-100 px25 py20 cl-accent no-underline fs-medium-small"
             >
               {{ $t('My account') }}
@@ -186,9 +178,6 @@ export default {
     },
     isCurrentMenuShowed () {
       return !this.getSubmenu || !this.getSubmenu.depth
-    },
-    showMenu () {
-      return this.isOpen && this.componentLoaded
     }
   },
   mounted () {
@@ -198,8 +187,12 @@ export default {
   },
   methods: {
     login () {
-      this.$bus.$emit('modal-show', 'modal-signup')
-      this.$router.push({ name: 'my-account' })
+      if (!this.currentUser && this.isCurrentMenuShowed) {
+        this.$nextTick(() => {
+          this.$bus.$emit('modal-show', 'modal-signup')
+          this.$router.push({ name: 'my-account' })
+        })
+      }
     }
   }
 }
@@ -221,16 +214,10 @@ $color-mine-shaft: color(mine-shaft);
   left: 0;
   overflow: hidden;
   overflow-y: auto;
-  transform: translateX(-100%);
   z-index: 3;
-  transition: transform $duration-main $motion-main;
 
   @media (max-width: 767px) {
     width: 100vh;
-  }
-
-  &.active {
-    transform: translateX(0);
   }
 
   &__list {

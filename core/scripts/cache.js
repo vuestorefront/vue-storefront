@@ -1,17 +1,6 @@
 const program = require('commander')
 const config = require('config')
-const TagCache = require('redis-tag-cache').default
-
-let cache
-if (config.server.useOutputCache) {
-  cache = new TagCache({
-    redis: config.redis,
-    defaultTimeout: config.server.outputCacheDefaultTtl // Expire records after a day (even if they weren't invalidated)
-  })
-  console.log('Redis cache set', config.redis)
-} else {
-  console.error('Output cache is disabled in the config')
-}
+const cache = require('./utils/cache-instance')
 
 program
   .command('clear')

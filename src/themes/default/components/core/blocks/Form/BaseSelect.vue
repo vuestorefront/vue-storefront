@@ -11,7 +11,7 @@
       @blur="$emit('blur')"
       @change="$emit('input', $event.target.value)"
     >
-      <option v-if="!selected"/>
+      <option disabled selected value v-if="!selected"/>
       <option
         v-for="(option, key) in options"
         :key="key"
@@ -107,7 +107,6 @@ export default {
 
   select {
     @extend .h4;
-    padding: 10px 0;
     border: none;
     border-bottom: 1px solid $color-tertiary;
     width: 100%;
@@ -134,7 +133,7 @@ export default {
     position: absolute;
     pointer-events: none;
     user-select: none;
-    left: 13px;
+    left: 0;
     top: 10px;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;

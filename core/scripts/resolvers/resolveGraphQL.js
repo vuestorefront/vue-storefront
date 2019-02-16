@@ -1,5 +1,6 @@
 import { server, graphql } from 'config'
 import Vue from 'vue'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const getApolloProvider = async () => {
   if (server.api === 'graphql') {
@@ -37,11 +38,11 @@ export const getApolloProvider = async () => {
       },
       watchLoading (state, mod) {
         loading += mod
-        console.log('Global loading', loading, mod)
+        Logger.log('Global loading', loading, mod)()
       },
       errorHandler (error) {
-        console.log('Global error handler')
-        console.error(error)
+        Logger.log('Global error handler')()
+        Logger.error(error)()
       }
     })
 
