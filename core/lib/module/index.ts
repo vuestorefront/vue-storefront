@@ -2,15 +2,13 @@ import { Module } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue from 'vue'
 import merge from 'lodash-es/merge'
-import some from 'lodash-es/some'
-import find from 'lodash-es/find'
 import rootStore from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { setupMultistoreRoutes } from '..//multistore'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 import { VSF, VueStorefrontModuleConfig } from './types'
-import { doesStoreAlreadyExists } from './helpers'
+import { doesStoreAlreadyExists, mergeStores } from './helpers'
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
 const registeredModules: VueStorefrontModuleConfig[] = []
@@ -56,22 +54,9 @@ class VueStorefrontModule {
     delete this._c.store
     delete extendedConfig.store
     this._c = merge(this._c, extendedConfig)
-    mergedStore.modules = this._mergeStore(originalStore, extendedStore)
+    mergedStore.modules = mergeStores(originalStore, extendedStore)
     this._c.store = mergedStore
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
-  }
-
-  private _mergeStore(originalStore, extendedStore) {
-    let mergedArray = []
-    originalStore.modules.map(item => {
-      mergedArray.push(merge(item, find(extendedStore.modules, { 'key' : item.key })));
-    })
-    extendedStore.modules.map(extendedStoreItem => {
-      if(some(originalStore.modules, { 'key' : extendedStoreItem.key}) === false){
-        mergedArray.push(extendedStoreItem)
-      }
-    })
-    return mergedArray
   }
 
   public register (): VueStorefrontModuleConfig | void {
