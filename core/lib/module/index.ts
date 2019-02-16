@@ -134,7 +134,7 @@ function registerModules (modules: VueStorefrontModule[], context): void {
 }
 
 function isModuleRegistered(key: string) : boolean {
-  return registeredModules.find(m => m.key === key) ? true : false
+  return registeredModules.some(m => m.key === key)
 }
 
 function createModule(config: VueStorefrontModuleConfig) : VueStorefrontModule {
