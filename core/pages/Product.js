@@ -63,10 +63,8 @@ export default {
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   beforeRouteUpdate (to, from, next) {
-    if (!this.$store.state.config.seo.useUrlDispatcher) {
-      this.validateRoute(to)
-      next()
-    }
+    this.validateRoute(to) // TODO: remove because client-entry.ts is executing `asyncData` anyway
+    next()
   },
   beforeDestroy () {
     this.$bus.$off('product-after-removevariant')

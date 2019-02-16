@@ -155,10 +155,8 @@ export default {
     }
   },
   beforeRouteUpdate (to, from, next) {
-    if (!this.$store.state.config.seo.useUrlDispatcher) {
-      this.validateRoute(to)
-      next()
-    }
+    this.validateRoute(to)
+    next()
   },
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),

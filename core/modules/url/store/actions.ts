@@ -5,6 +5,7 @@ import * as types from './mutation-types'
 import { cacheStorage } from '../'
 import { parseURLQuery } from '@vue-storefront/core/helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { addDynamicRoute } from '../helpers'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -16,6 +17,16 @@ export const actions: ActionTree<UrlState, any> = {
         resolve(routeData)
       }).catch(() => reject())
     })
+  },
+  /**
+   * Register dynamic vue-router routes
+   */
+  registerDynamicRoutes ({ state }) {
+    if (state.dispatcherMap) {
+      for (const [url, routeData] of Object.entries(state.dispatcherMap)) {
+        addDynamicRoute (routeData, url)
+      }
+    }
   },
   mapUrl ({ state, dispatch }, { url, query }) {
     const parsedQuery = typeof query === 'string' ? parseURLQuery(query) : query
@@ -31,7 +42,10 @@ export const actions: ActionTree<UrlState, any> = {
         if (routeData !== null) {
           return resolve(routeData)
         } else {
-          dispatch('mappingFallback', { url, params: parsedQuery }).then(resolve).catch(reject)
+          dispatch('mappingFallback', { url, params: parsedQuery }).then((routeData) => {
+            dispatch('registerMapping', { url, routeData }) // register mapping for further usage
+            resolve(routeData)
+          }).catch(reject)
         }
       }).catch(reject)
     })

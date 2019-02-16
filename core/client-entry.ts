@@ -26,12 +26,14 @@ const invokeClientEntry = async () => {
   if (window.__INITIAL_STATE__) {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
   }
+  if (config.seo.useUrlDispatcher) {
+    store.dispatch('url/registerDynamicRoutes', {}, { root: true })
+  }  
   if (config.storeViews.multistore === true) {
     if ((storeCode = store.state.user.current_storecode)) {
       prepareStoreView(storeCode)
     }
   }
-
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -70,11 +72,6 @@ const invokeClientEntry = async () => {
   }
   let _appMounted = false
   router.onReady(() => {
-    router.afterEach((to, from)  => {
-      if (config.seo.useUrlDispatcher && !_appMounted) { // hydrate after each other request
-        app.$mount('#app')
-      }
-    })
     router.beforeResolve((to, from, next) => { // this is NOT CALLED after SSR request as no component is being resolved client side
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
@@ -93,14 +90,10 @@ const invokeClientEntry = async () => {
           }
         }
       }
-      let diffed = false
-      const activated = config.seo.useUrlDispatcher ? matched : (matched.filter((c, i) => {
-        return diffed || (diffed = (prevMatched[i] !== c))
-      }))
-      if (!activated.length) {
+      if (!matched.length) {
         return next()
       }
-      Promise.all(activated.map((c: any) => { // TODO: update me for mixins support
+      Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
         const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {
           if (SubComponent.preAsyncData) {
@@ -117,10 +110,7 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    if (!config.seo.useUrlDispatcher) { // if UrlDispatcher is enabled, we're mounting the app in `beforeResolve` - shortly after the component is loaded
-      app.$mount('#app')
-      _appMounted = true
-    }
+    app.$mount('#app')
   })
   /*
   * serial executes Promises sequentially.

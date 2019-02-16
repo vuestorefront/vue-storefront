@@ -4,7 +4,6 @@ import routes from './router'
 import Vue from 'vue'
 import VueProgressBar from 'vue-progressbar'
 import '@vue-storefront/core/lib/passive-listeners'
-import { DispatcherRoutes } from '@vue-storefront/core/modules/url'
 Vue.use(VueProgressBar)
 
 const themeEntry = App
@@ -15,9 +14,6 @@ function initTheme (app, router, store, config, ssrContext) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
   router.addRoutes(routes)
-  if (config.seo.useUrlDispatcher) { // we must add Dispatcher routes at the very - therefore it's not possible to add these routes from the Module level
-    router.addRoutes(DispatcherRoutes)
-  }
 }
 
 export {
