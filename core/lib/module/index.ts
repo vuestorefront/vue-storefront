@@ -46,7 +46,7 @@ class VueStorefrontModule {
     if (afterEach) routerInstance.afterEach(afterEach)
   }
 
-  private _extendModule (extendedConfig: VueStorefrontModuleConfig) : void {
+  private _extendModule (extendedConfig: VueStorefrontModuleConfig): void {
     const mergedStore = { modules: [] };
     const key = this._c.key
     const originalStore = this._c.store
@@ -118,11 +118,11 @@ function registerModules (modules: VueStorefrontModule[], context): void {
   )()
 }
 
-function isModuleRegistered(key: string) : boolean {
+function isModuleRegistered (key: string): boolean {
   return registeredModules.some(m => m.key === key)
 }
 
-function createModule(config: VueStorefrontModuleConfig) : VueStorefrontModule {
+function createModule (config: VueStorefrontModuleConfig): VueStorefrontModule {
   return new VueStorefrontModule(config)
 }
 
