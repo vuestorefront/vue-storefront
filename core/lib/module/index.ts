@@ -13,9 +13,27 @@ import { doesStoreAlreadyExists, mergeStores } from './helpers'
 const moduleExtendings: VueStorefrontModuleConfig[] = []
 const registeredModules: VueStorefrontModuleConfig[] = []
 
+function registerModules (modules: VueStorefrontModule[], context): void {
+  modules.forEach(m => m.register())
+  Logger.info('VS Modules registration finished.', 'module', {
+      succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
+      registrationOrder: registeredModules
+    }
+  )()
+}
+
+function isModuleRegistered (key: string): boolean {
+  return registeredModules.some(m => m.key === key)
+}
+
+function createModule (config: VueStorefrontModuleConfig): VueStorefrontModule {
+  return new VueStorefrontModule(config)
+}
+
 function extendModule(moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
+
 
 class VueStorefrontModule {
   private _isRegistered = false
@@ -107,23 +125,6 @@ class VueStorefrontModule {
       }
     }
   }
-}
-
-function registerModules (modules: VueStorefrontModule[], context): void {
-  modules.forEach(m => m.register())
-  Logger.info('VS Modules registration finished.', 'module', {
-      succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
-      registrationOrder: registeredModules
-    }
-  )()
-}
-
-function isModuleRegistered (key: string): boolean {
-  return registeredModules.some(m => m.key === key)
-}
-
-function createModule (config: VueStorefrontModuleConfig): VueStorefrontModule {
-  return new VueStorefrontModule(config)
 }
 
 export {
