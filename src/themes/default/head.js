@@ -25,12 +25,7 @@ export default {
     { rel: 'apple-touch-startup-image', href: '/assets/apple_splash_750.png', sizes: '750x1334' },
     { rel: 'apple-touch-startup-image', href: '/assets/apple_splash_640.png', sizes: '640x1136' },
     { rel: 'manifest', href: '/assets/manifest.json' },
-    {
-      rel: 'preload',
-      href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
-      as: 'style',
-      onload: "this.rel='stylesheet'"
-    }
+    { rel: 'preload', href: 'https://fonts.googleapis.com/icon?family=Material+Icons', as: 'style', onload: "this.onload=null;this.rel='stylesheet'" }
   ],
   script: [
     {
