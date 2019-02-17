@@ -4,7 +4,7 @@
 import { Route } from 'vue-router'
 import store from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { addDynamicRoute } from '../helpers'
+import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 
 export const UrlDispatchMapper = (to) => {
   return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
@@ -19,10 +19,13 @@ export const UrlDispatchMapper = (to) => {
   })
 }
 export function beforeEach(to: Route, from: Route, next) {
-  if (to.matched.length == 0) {
+  const fullPath = normalizeUrlPath(to.fullPath)
+  const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
+  const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name.startsWith('urldispatcher')
+  if (to.matched.length == 0 || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
-        const dynamicRoute = addDynamicRoute(routeData, to.fullPath)
+        const dynamicRoute = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
         if (dynamicRoute) {
           next(dynamicRoute)
         } else {
@@ -30,7 +33,7 @@ export function beforeEach(to: Route, from: Route, next) {
           next('/page-not-found')
         }
       } else {
-        Logger.error('No mapping found for ' + to.fullPath, 'dispatcher')()
+        Logger.error('No mapping found for ' + fullPath, 'dispatcher')()
         next('/page-not-found')
       }
     }).catch(e => {
