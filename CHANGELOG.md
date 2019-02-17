@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.9.0]
 ### Changed / Improved
 - Fixed an issue where the correct image for a product configuration wasn't set on the product page image carousel. Also added the fix on the productcarousel in the zoom component - @DaanKouters (#2419)
+- Way of creating VS Modules was changed to use factory method instead of explict object creation. - @filrak (#2434)
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
 - Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
