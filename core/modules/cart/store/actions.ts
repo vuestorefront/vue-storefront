@@ -236,7 +236,7 @@ const actions: ActionTree<CartState, RootState> = {
         continue
       }
       if (rootStore.state.config.entities.optimize && rootStore.state.config.entities.optimizeShoppingCart) {
-        product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category', 'category_ids', 'product_links', 'stock', 'description'])
+        product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category_ids', 'product_links', 'stock', 'description'])
       }
       if (product.errors !== null && typeof product.errors !== 'undefined') {
         let productCanBeAdded = true
