@@ -26,9 +26,6 @@ const invokeClientEntry = async () => {
   if (window.__INITIAL_STATE__) {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
   }
-  if (config.seo.useUrlDispatcher) {
-    store.dispatch('url/registerDynamicRoutes', {}, { root: true })
-  }  
   if (config.storeViews.multistore === true) {
     if ((storeCode = store.state.user.current_storecode)) {
       prepareStoreView(storeCode)

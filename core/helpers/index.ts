@@ -6,6 +6,7 @@ import chain from 'lodash-es/chain'
 import partial from 'lodash-es/partial'
 import split from 'lodash-es/split'
 import { type } from 'os';
+import { currentStoreView } from 'core/lib/multistore'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -85,7 +86,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: rootStore.state.config.seo.useUrlDispatcher ? ('/' + sc.url_path) : ((rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug)
+      route_link: formatCategoryLink(sc, currentStoreView().storeCode)
     })
   }
 
