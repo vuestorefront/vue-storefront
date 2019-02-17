@@ -1,8 +1,7 @@
 import userRoutes from 'theme/router'
 import { router } from '@vue-storefront/core/app'
-import * as entities from '@vue-storefront/store/lib/entities'
 import rootStore from '@vue-storefront/store'
-import { localizedDispatcherRoute, localizedRoute } from 'core/lib/multistore'
+import { localizedDispatcherRoute, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { Route } from 'vue-router/types/router';
 
 export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {

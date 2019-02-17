@@ -2,11 +2,7 @@ import rootStore from '@vue-storefront/store'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import chain from 'lodash-es/chain'
-import partial from 'lodash-es/partial'
-import split from 'lodash-es/split'
-import { type } from 'os';
-import { currentStoreView } from 'core/lib/multistore'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -86,7 +82,7 @@ export function breadCrumbRoutes (categoryPath) {
   for (let sc of categoryPath) {
     tmpRts.push({
       name: sc.name,
-      route_link: formatCategoryLink(sc, currentStoreView().storeCode)
+      route_link: formatCategoryLink(sc)
     })
   }
 
