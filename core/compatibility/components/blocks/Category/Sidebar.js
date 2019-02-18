@@ -1,4 +1,5 @@
-import { buildFilterProductsQuery } from '@vue-storefront/store/helpers'
+import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CategorySidebar',
@@ -9,11 +10,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('category', ['getCurrentCategory', 'getActiveCategoryFilters', 'getCurrentCategoryProductQuery']),
     category () {
-      return this.$store.state.category.current
+      return this.getCurrentCategory
     },
     activeFilters () {
-      return this.$store.state.category.filters.chosen
+      return this.getActiveCategoryFilters
     }
   },
   methods: {
@@ -23,8 +25,11 @@ export default {
     resetAllFilters () {
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
-      this.$store.dispatch('category/searchProductQuery', buildFilterProductsQuery(this.category, this.activeFilters))
-      this.$store.dispatch('category/products', this.$store.state.category.current_product_query)
+      this.$store.dispatch('category/searchProductQuery', {})
+      this.$store.dispatch('category/mergeSearchOptions', {
+        searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
+      })
+      this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
     }
   }
 }

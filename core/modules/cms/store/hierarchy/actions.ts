@@ -1,8 +1,9 @@
 import { ActionTree } from "vuex"
-import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import RootState from '@vue-storefront/store/types/RootState';
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import RootState from '@vue-storefront/core/types/RootState';
 import CmsHierarchyState from "../../types/CmsHierarchyState"
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CmsHierarchyState, RootState> = {
   /**
@@ -23,7 +24,7 @@ const actions: ActionTree<CmsHierarchyState, RootState> = {
     }
 
     return quickSearchByQuery({ query, entityType, excludeFields, includeFields }).catch(err => {
-      console.error(err)
+      Logger.error(err, 'cms')()
     })
   }
 }

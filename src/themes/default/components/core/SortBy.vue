@@ -28,7 +28,6 @@ export default {
         border-bottom: 1px solid $color-tertiary;
         select {
             @extend .h4;
-            padding: 10px 0;
             font-size: 14px;
             border: none;
             width: 100%;

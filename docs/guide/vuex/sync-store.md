@@ -49,7 +49,7 @@ An example URL with variables: `http://localhost:8080/api/cart/totals?token={{to
 The task object and then the results are stored within the `tasksCollection` indexedDb data table under the key of `task.task_id`
 :::
 
-![syncTasks local collection stores the tasks and the results](/vue-storefront/syncTasks-example.png)
+![syncTasks local collection stores the tasks and the results](../images/syncTasks-example.png)
 
 ## Helpers
 

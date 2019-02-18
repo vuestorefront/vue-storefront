@@ -2,7 +2,7 @@ import { Module } from 'vuex'
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import PromotedOffersState from '../types/PromotedOffersState'
 
 export const module: Module<PromotedOffersState, RootState> = {
@@ -12,7 +12,8 @@ export const module: Module<PromotedOffersState, RootState> = {
       mainBanners: [],
       smallBanners: [],
       productBanners: []
-    }
+    },
+    headImage: null
   },
   getters,
   actions,

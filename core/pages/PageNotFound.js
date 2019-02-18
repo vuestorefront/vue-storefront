@@ -4,13 +4,14 @@ import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'PageNotFound',
   mixins: [Composite],
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for PageNotFound ' + new Date())
+      Logger.log('Entering asyncData for PageNotFound ' + new Date())()
       if (context) context.output.cacheTags.add(`page-not-found`)
       let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
       store.dispatch('category/list', {}).then(categories => {
@@ -24,7 +25,7 @@ export default {
             EventBus.$emitFilter('pagenotfound-after-load', { store: store, route: route }).then(results => {
               return resolve()
             }).catch(err => {
-              console.error(err)
+              Logger.error(err)()
               return resolve()
             })
           }

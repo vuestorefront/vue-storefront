@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Vue Storefront Core",
   "license": "MIT",
   "main": "app.js",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@vue-storefront/store": "^1.6.0",
+    "@vue-storefront/store": "^1.7.0",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "express": "^4.14.0",
@@ -17,6 +17,8 @@
     "lodash-es": "^4.17.10",
     "lru-cache": "^4.0.1",
     "redis-tag-cache": "^1.2.1",
+    "remove-accents": "^0.4.2",
+    "uuid": "^3.3.2",
     "vue": "^2.5.17",
     "vue-carousel": "^0.6.9",
     "vue-i18n": "^8.0.0",
@@ -75,7 +77,7 @@
     "url-loader": "^1.1.2",
     "url-parse": "^1.4.4",
     "vue-eslint-parser": "^2.0.3",
-    "vue-loader": "^15.4.2",
+    "vue-loader": "^15.5.1",
     "vue-ssr-webpack-plugin": "^3.0.0",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.25.1",

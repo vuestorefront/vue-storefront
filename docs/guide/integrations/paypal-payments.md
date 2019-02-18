@@ -4,63 +4,80 @@ Vue Storefront is supporting PayPal payments with PayPal Payment extension for [
 
 ## The architecture
 
-![Architecture diagram](/vue-storefront/paypal.svg)
+![Architecture diagram](../images/paypal.svg)
 
-## Installation using NPM
 
-Add the extension to your Vue Storefront `package.json` using:
+## Installation:
 
-```bash
+By hand (preferer):
+```shell
+$ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/src/modules/paypal
+```
+
+Or as dependency. Add the extension to your Vue Storefront `package.json` using:
+```shell
 $ npm install vsf-payment-paypal --save
 ```
 
-Add `vsf-payment-paypal` to the `extensions/index.js`
-
-```js
-export default [
-  require('@vue-storefront/extension-droppoint-shipping/index.js'),
-  require('@vue-storefront/extension-google-analytics/index.js'),
-  require('@vue-storefront/extension-mailchimp-subscribe/index.js'),
-  require('@vue-storefront/extension-payment-backend-methods/index.js'),
-  require('@vue-storefront/extension-payment-cash-on-delivery/index.js'),
-  require('@vue-storefront/extension-template/index.js'),
-  require('vsf-payment-stripe/index.js'),
-  require('src/extensions/cms/index.js'),
-
-  require('vsf-payment-paypal/index.js'),
-];
-```
-
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
-
-```js
+```json
 "paypal": {
   "env": "sandbox",
-  "create_endpoint": "http://localhost:8080/api/ext/paypal-payment/create",
-  "execute_endpoint": "http://localhost:8080/api/ext/paypal-payment/execute",
-  "style": {
-    "size": "small",
-    "color": "gold",
-    "shape": "pill"
+  "endpoint": {
+    "create": "http://localhost:8080/api/ext/payment-paypal/create",
+    "execute": "http://localhost:8080/api/ext/payment-paypal/execute"
   }
 }
 ```
 
-Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
-
-## Vue Storefront API
-
-After setting up the Vue Storefront extension - please setup the API with [https://github.com/develodesign/vsf-payment-paypal-api#readme](https://github.com/develodesign/vsf-payment-paypal-api#readme).
-
-This API extension execute payment to PayPal gateway.
-It use [`develodesign/m2-paypal-payment`](https://github.com/develodesign/m2-paypal-payment) composer module so you have to install it in your Magento instance.
-
-in your `local.json` file you should register the extension:
-`"registeredExtensions": ["mailchimp-subscribe", "example-magento-api", "paypal-payment"],`
-
-And need add the `paypal` settings to `extensions` key in `local.json`:
+And enable cart sync with server (for corrected totals calculation by getters):
 
 ```json
+"cart": {
+  ...
+  "synchronize": true,
+  "synchronize_totals": true
+}
+```
+
+Integrate the Paypal Button to Order Review component in theme folder:
+
+```shell
+cp ./src/modules/paypal/components/core/blocks/Checkout/OrderReview.vue ./src/themes/default/components/core/blocks/Checkout/OrderReview.vue
+```
+
+Registration the Paypal module. Go to `./src/modules/index.ts`
+```js
+...
+import { GoogleAnalytics } from './google-analytics';
+import { Paypal } from './paypal';
+
+export const registerModules: VueStorefrontModule[] = [
+  ...
+  GoogleAnalytics,
+  Paypal
+]
+```
+
+
+## PayPal payment API extension
+
+Install additional extension for `vue-storefront-api`:
+```shell
+$ mkdir -p ../vue-storefront-api/src/api/extensions/payment-paypal
+$ cp -f ./api-ext/index.js ../vue-storefront-api/src/api/extensions/payment-paypal/
+```
+
+Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
+```
+"registeredExtensions": [
+    ...
+    "payment-paypal"
+]
+```
+
+And add the `paypal` settings to `extensions` key:
+```
   "extensions": {
     "mailchimp": {
       ...
@@ -73,9 +90,22 @@ And need add the `paypal` settings to `extensions` key in `local.json`:
   }
 ```
 
-The API endpoitns are:
+## Magento2 integration
 
-```
-/api/ext/paypal-payment/create
-/api/ext/paypal-payment/execute
+This API extension execute payment to PayPal gateway.
+It use `develodesign/m2-paypal-payment` [The custom Paypal payment method for Magento2](https://github.com/develodesign/m2-paypal-payment) composer module so you have to install it in your Magento instance.
+
+## Customization
+
+Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
+
+```json
+"paypal": {
+  ...
+  "style": {
+    "size": "small",
+    "color": "gold",
+    "shape": "pill"
+  }
+}
 ```

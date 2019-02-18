@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import toString from 'lodash-es/toString'
 
 export const Shipping = {
   name: 'Shipping',
@@ -87,7 +88,7 @@ export const Shipping = {
           let id = this.currentUser.default_shipping
           let addresses = this.currentUser.addresses
           for (let i = 0; i < addresses.length; i++) {
-            if (addresses[i].id === Number(id)) {
+            if (toString(addresses[i].id) === toString(id)) {
               this.myAddressDetails = addresses[i]
               return true
             }

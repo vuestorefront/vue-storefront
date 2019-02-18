@@ -1,0 +1,72 @@
+{
+    "port": 8080,
+    "objHashSecret": "__SECRET_CHANGE_ME__",
+    "bodyLimit": "100kb",
+    "corsHeaders": [
+        "Link"
+    ],
+    "kue": {},
+    "tax": {
+        "defaultCountry": "PL",
+        "defaultRegion": "",
+        "calculateServerSide": true
+    },
+    "platform": "magento2",
+    "registeredExtensions": [
+        "mailchimp-subscribe"
+    ],
+    "extensions": {
+        "mailchimp": {
+            "listId": "e06875a7e1",
+            "apiKey": "a9a3318ea7d30f5c5596bd4a78ae0985-us3",
+            "apiUrl": "https://us3.api.mailchimp.com/3.0"
+        }
+    },
+    "magento2": {
+        "url": "http://demo-magento2.vuestorefront.io/",
+        "imgUrl": "http://demo-magento2.vuestorefront.io/media/catalog/product",
+        "magentoUserName": "",
+        "magentoUserPassword": "",
+        "httpUserName": "",
+        "httpUserPassword": "",
+        "api": {
+            "url": "http://demo-magento2.vuestorefront.io/rest",
+            "consumerKey": "byv3730rhoulpopcq64don8ukb8lf2gq",
+            "consumerSecret": "u9q4fcobv7vfx9td80oupa6uhexc27rb",
+            "accessToken": "040xx3qy7s0j28o3q0exrfop579cy20m",
+            "accessTokenSecret": "7qunl3p505rubmr7u1ijt7odyialnih9"
+        }
+    },
+    "imageable": {
+        "namespace": "",
+        "maxListeners": 512,
+        "imageSizeLimit": 1024,
+        "timeouts": {
+            "convert": 5000,
+            "identify": 100,
+            "download": 1000
+        },
+        "whitelist": {
+            "allowedHosts": [
+                ".*divante.pl",
+                ".*vuestorefront.io"
+            ],
+            "trustedHosts": [
+                ".*divante.pl",
+                ".*vuestorefront.io"
+            ]
+        },
+        "keepDownloads": true,
+        "maxDownloadCacheSize": 1000,
+        "tmpPathRoot": "/tmp"
+    },
+    "elasticsearch": {
+        "host": "localhost",
+        "port": "9200",
+        "indices": [
+            "vue_storefront_catalog",
+            "vue_storefront_catalog_it",
+            "vue_storefront_catalog_de"
+        ]
+    }
+}

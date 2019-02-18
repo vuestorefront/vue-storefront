@@ -2,10 +2,12 @@ import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/helpers/exceptions'
-import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/store/lib/multistore'
+import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
 import buildTimeConfig from 'config'
+import { AsyncDataLoader } from './lib/async-data-loader'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -27,34 +29,37 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       return Promise.resolve(null)
     }
   })).then(() => {
-    if (buildTimeConfig.ssr.useInitialStateFilter) {
-      context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
-    } else {
-      context.state = store.state
-    }
-    if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
-      context.state = omit(store.state, ['config'])
-    } else {
-      const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
-      const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
-      console.log(excludeFromConfig, includeFromConfig)
-      if (includeFromConfig && includeFromConfig.length > 0) {
-        context.state.config = pick(context.state.config, includeFromConfig)
+    AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /*AsyncDataLoaderActionContext*/).then((r) => {
+      if (buildTimeConfig.ssr.useInitialStateFilter) {
+        context.state = omit(store.state, store.state.config.ssr.initialStateFilter)
+      } else {
+        context.state = store.state
       }
-      if (excludeFromConfig && excludeFromConfig.length > 0) {
-        context.state.config = omit(context.state.config, excludeFromConfig)
+      if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
+        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ?  [...store.state.config.ssr.initialStateFilter, 'config'] : ['config'])
+      } else {
+        const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
+        const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
+        console.log(excludeFromConfig, includeFromConfig)
+        if (includeFromConfig && includeFromConfig.length > 0) {
+          context.state.config = pick(context.state.config, includeFromConfig)
+        }
+        if (excludeFromConfig && excludeFromConfig.length > 0) {
+          context.state.config = omit(context.state.config, excludeFromConfig)
+        }
       }
-    }
-    resolve(app)
+      resolve (app)
+    }).catch(err => {
+      _commonErrorHandler(err, reject)
+    })
   }).catch(err => {
     _commonErrorHandler(err, reject)
   })
 }
 
-export default context => {
+export default async context => {
+  const { app, router, store } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
   return new Promise((resolve, reject) => {
-    const { app, router, store } = createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
-
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
@@ -82,7 +87,7 @@ export default context => {
         })
         if (Component.asyncData) {
           Component.asyncData({ store, route: router.currentRoute, context: context }).then((result) => { // always execute the asyncData() from the top most component first
-            console.debug('Top-most asyncData executed')
+            Logger.debug('Top-most asyncData executed')()
             _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
           }).catch((err) => {
             _commonErrorHandler(err, reject)

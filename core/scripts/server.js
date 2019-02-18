@@ -1,29 +1,24 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
+const compile = require('lodash.template')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
+
+const cache = require('./utils/cache-instance')
+const apiStatus = require('./utils/api-status')
+const HTMLContent = require('../pages/Compilation')
 let config = require('config')
-const TagCache = require('redis-tag-cache').default
-const utils = require('./server/utils')
-const compile = require('lodash.template')
+
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
   interpolate: /{{{([\s\S]+?)}}}/g
 }
+
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
 const app = express()
-
-let cache
-if (config.server.useOutputCache) {
-  cache = new TagCache({
-    redis: config.redis,
-    defaultTimeout: config.server.outputCacheDefaultTtl // Expire records after a day (even if they weren't invalidated)
-  })
-  console.log('Redis cache set', config.redis)
-}
 
 const templatesCache = {}
 let renderer
@@ -65,27 +60,12 @@ function createRenderer (bundle, clientManifest, template) {
   })
 }
 
-const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
-  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
-}, options))
-
-const themeRoot = require('../build/theme-path')
-
-app.use('/dist', serve('dist', true))
-app.use('/assets', serve(themeRoot + '/assets', true))
-app.use('/service-worker.js', serve('dist/service-worker.js', {
-  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
-}))
-
-const serverExtensions = require(resolve('src/server'))
-serverExtensions.registerUserServerRoutes(app)
-
-app.get('/invalidate', (req, res) => {
+function invalidateCache (req, res) {
   if (config.server.useOutputCache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
         console.error('Invalid cache invalidation key')
-        utils.apiStatus(res, 'Invalid cache invalidation key', 500)
+        apiStatus(res, 'Invalid cache invalidation key', 500)
         return
       }
       console.log(`Clear cache request for [${req.query.tag}]`)
@@ -108,19 +88,38 @@ app.get('/invalidate', (req, res) => {
         }
       })
       Promise.all(subPromises).then(r => {
-        utils.apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
+        apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
-        utils.apiStatus(res, error, 500)
+        apiStatus(res, error, 500)
         console.error(error)
       })
     } else {
-      utils.apiStatus(res, 'Invalid parameters for Clear cache request', 500)
+      apiStatus(res, 'Invalid parameters for Clear cache request', 500)
       console.error('Invalid parameters for Clear cache request')
     }
   } else {
-    utils.apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
+    apiStatus(res, 'Cache invalidation is not required, output cache is disabled', 200)
   }
-})
+}
+
+const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
+  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+}, options))
+
+const themeRoot = require('../build/theme-path')
+
+app.use('/dist', serve('dist', true))
+app.use('/assets', serve(themeRoot + '/assets', true))
+app.use('/service-worker.js', serve('dist/service-worker.js', {
+  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
+}))
+
+const serverExtensions = require(resolve('src/server'))
+serverExtensions.registerUserServerRoutes(app)
+
+app.post('/invalidate', invalidateCache)
+
+app.get('/invalidate', invalidateCache)
 
 app.get('*', (req, res, next) => {
   const s = Date.now()
@@ -138,16 +137,7 @@ app.get('*', (req, res, next) => {
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
       res.setHeader('Content-Type', 'text/html')
-      res.status(202).end('<html lang="en">\n' +
-          '    <head>\n' +
-          '      <meta charset="utf-8">\n' +
-          '      <title>Loading</title>\n' +
-          '      <meta http-equiv="refresh" content="10">\n' +
-          '    </head>\n' +
-          '    <body>\n' +
-          '      Vue Storefront: waiting for compilation... refresh in 30s :-) Thanks!\n' +
-          '    </body>\n' +
-          '  </html>')
+      res.status(202).end(HTMLContent)
       return next()
     }
     const context = {

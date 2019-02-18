@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import RootState from '@vue-storefront/store/types/RootState'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import RootState from '@vue-storefront/core/types/RootState'
 import TaxState from '../../types/TaxState'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<TaxState, RootState> = {
   /**
@@ -12,7 +12,7 @@ const actions: ActionTree<TaxState, RootState> = {
    */
   list (context, { entityType = 'taxrule' }) {
     if (context.state.rules.length > 0) {
-      console.info('Tax rules served from local memory')
+      Logger.info('Tax rules served from local memory', 'tax')()
       return new Promise((resolve, reject) => {
         resolve({ items: context.state.rules })
       })

@@ -2,19 +2,27 @@
 
 The tool is using Magento2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento2 admin panel and click: _System -> Integrations_
 
-![Magento Admin Panel](/vue-storefront/magento_1.png)
+![Magento Admin Panel](../images/magento_1.png)
 
 Then click _Add new integration_ and just fill:
 
 - name (whatever)
 - your password to confirm the changes,
-- check Catalog, Sales, My Account and Carts on API permissions tab — save
+- on API permissions tab check the following resources:
+  - Catalog
+  - Sales
+  - My Account
+  - Carts
+  - Stores > Settings > Configuration > Inventory Section
+  - Stores > Taxes
+  - Stores > Attributes > Product
+- save
 
-![Magento API](/vue-storefront/magento_2.png)
+![Magento API](../images/magento_2.png)
 
 In the result you’ll click _Activate_ and get some oauth access tokens:
 
-![Magento tokens](/vue-storefront/magento_3.png)
+![Magento tokens](../images/magento_3.png)
 
 ## Integrating Magento2 with your local instance
 

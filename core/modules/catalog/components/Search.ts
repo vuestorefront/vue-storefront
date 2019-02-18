@@ -2,7 +2,8 @@ import { mapState } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const Search = {
   name: 'SearchPanel',
@@ -40,7 +41,7 @@ export const Search = {
           this.start = this.start + this.size
           this.emptyResults = resp.items.length < 1
         }).catch((err) => {
-          console.error(err)
+          Logger.error(err, 'components-search')()
         })
       } else {
         this.products = []
@@ -60,7 +61,7 @@ export const Search = {
           this.start = this.start + this.size
           this.emptyResults = this.products.length < 1
         }).catch((err) => {
-          console.error(err)
+          Logger.error(err, 'components-search')()
         })
       } else {
         this.products = []

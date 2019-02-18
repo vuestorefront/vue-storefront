@@ -1,5 +1,5 @@
 <template>
-  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isWishlistOpen }">
+  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 pointer cl-accent" @click="closeWishlist">close</i>
@@ -51,14 +51,10 @@ export default {
     top: 0;
     right: 0;
     z-index: 3;
-    transform: translateX(100%);
-    transition: transform 300ms $motion-main;
+    // transform: translateX(100%);
+    // transition: transform 300ms $motion-main;
     overflow-y: auto;
     overflow-x: hidden;
-
-    &.active {
-      transform: translateX(0)
-    }
   }
   i {
     opacity: 0.6;

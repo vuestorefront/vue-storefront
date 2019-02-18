@@ -1,11 +1,12 @@
 import { ActionTree } from "vuex"
-import { quickSearchByQuery } from '@vue-storefront/store/lib/search'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import RootState from '@vue-storefront/store/types/RootState';
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import RootState from '@vue-storefront/core/types/RootState';
 import CmsPageState from "../../types/CmsPageState"
 import { cacheStorage  } from '../../'
 import { cmsPagesStorageKey } from './'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CmsPageState, RootState> = {
 
@@ -33,7 +34,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
         return resp.items
       })
       .catch(err => {
-        console.error(err)
+        Logger.error(err, 'cms')()
       })
     } else {
       return new Promise((resolve, reject) => {
@@ -73,18 +74,25 @@ const actions: ActionTree<CmsPageState, RootState> = {
         throw err
       })
     } else {
-      cacheStorage.getItem(cmsPagesStorageKey, (err, storedItems) => {
-        if (err) throw new Error(err)
-        if (storedItems) {
-          context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, storedItems)
-          return storedItems.find(p => p[key] === value)
-        }
-      })
       return new Promise((resolve, reject) => {
-        let resp = context.state.items.find(p => p[key])
-        if (!resp) reject(new Error('CMS query returned empty result'))
-        if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
-        resolve(resp)
+        let resp = context.state.items.find(p => p[key] === value)
+        if (resp) {
+          if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
+          resolve(resp)
+        } else {
+          cacheStorage.getItem(cmsPagesStorageKey, (err, storedItems) => {
+            if (err) reject(err)
+            if (storedItems) {
+              context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, storedItems)
+              let resp = storedItems.find(p => p[key] === value)
+              if (!resp) reject(new Error('CMS query returned empty result'))
+              if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
+              resolve(resp)
+            } else {
+              reject(new Error('CMS query returned empty result'))
+            }
+          })
+        }
       })
     }
   },

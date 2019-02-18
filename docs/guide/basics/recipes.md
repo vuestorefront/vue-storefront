@@ -64,7 +64,7 @@ Then if you like to do some VS updates you probably need to just pull the change
 
 Where can we add filters and extra configurable options for the products? For example, I've just added an iPhone X as an example. And I want to add the storage as an option.
 
-![How to add additional custom attribute?](/vue-storefront/Apple_iPhone_X.png)
+![How to add additional custom attribute?](../images/Apple_iPhone_X.png)
 
 To do so, you need to modify the theme, changing the following snippet:
 
@@ -241,6 +241,8 @@ npm run seo redirects — —oldFormat=true | false
 
 Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
 
+**Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating it's value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
+
 ## You need to choose options for your item message when hit API for add to cart a configurable product
 
 This is because the demo data dump works on the `demo-magento2.vuestorefront.io` instance attribute ids. Please re-import all product data using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront)
@@ -254,3 +256,14 @@ You need to add the attributes you'll like to have displayed to the `config/loca
 ```
 
 And then You can use proper controls for each individual filter [here](https://github.com/DivanteLtd/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue).
+
+## Collecting all VSF i18n phrases into a CSV.
+
+It might be very time consuming to translate the whole project to a foreign language. A good start is to properly collect all i18n phrases into a CSV file. The following line of bash code, would get the job done (a pipe-separated CSV file named i18n.csv would be created, adjust accordingly to your needs).
+
+Execute the following line on your project's root folder:
+
+```grep --include \*.js --include \*.vue -nrw  ./ -e 'i18n.t(' -e '$t(' -h | grep -o -P "(?<=t\(\').*(?=\'\))" | awk -F"'" -v OFS='|' '{ print $1,$1 }' > i18n.csv```
+
+The code basically looks into into all project files for all ```i18n.t('some string')``` and ```$t('some string') ``` occurences, parses an extracts the quoted tdxt of each occurence, and saves it into a pipe-separated CSV file, which you might help you to get your missing translations.
+

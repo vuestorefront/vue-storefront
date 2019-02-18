@@ -3,10 +3,12 @@ import { ActionTree } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 // requires cart module
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import RootState from '@vue-storefront/store/types/RootState'
+import RootState from '@vue-storefront/core/types/RootState'
 import StockState from '../../types/StockState'
 import rootStore from '@vue-storefront/store'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
 const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
@@ -51,7 +53,7 @@ const actions: ActionTree<StockState, RootState> = {
           }
           resolve(task) // if online we can return ok because it will be verified anyway
         }).catch((err) => {
-          console.error(err)
+          Logger.error(err, 'stock')()
           resolve(null)
         })
       } else {
@@ -69,7 +71,7 @@ const actions: ActionTree<StockState, RootState> = {
         if (cartItem && event.result.code !== 'ENOTFOUND') {
           if (!event.result.is_in_stock) {
             if (!rootStore.state.config.stock.allowOutOfStockInCart) {
-              console.log('Removing product from cart', event.product_sku)
+              Logger.log('Removing product from cart' + event.product_sku, 'stock')()
               rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: { sku: event.product_sku } }, {root: true})
             } else {
               rootStore.dispatch('cart/updateItem', { product: { errors: { stock: i18n.t('Out of the stock!') }, sku: event.product_sku, is_in_stock: false } })
@@ -80,8 +82,8 @@ const actions: ActionTree<StockState, RootState> = {
           Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })
         }
       })
-      console.debug('Stock quantity checked for ' + event.result.product_id + ', response time: ' + (event.transmited_at - event.created_at) + ' ms')
-      console.debug(event)
+      Logger.debug('Stock quantity checked for ' + event.result.product_id + ', response time: ' + (event.transmited_at - event.created_at) + ' ms', 'stock')()
+      Logger.debug(event, 'stock')()
     }, 500)
   }
 }
