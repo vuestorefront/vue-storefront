@@ -143,9 +143,10 @@
                 <label class="qty-label flex" for="quantity">{{ $t('Quantity') }}</label>
                 <input
                   type="number"
-                  min="0"
+                  min="1"
                   class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
                   id="quantity"
+                  @blur="validateQty"
                   focus
                   v-model="product.qty"
                 >
@@ -292,6 +293,11 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
+    },
+    validateQty (e) {
+      if (e.target.value <= 0) {
+        this.product.qty = 1
+      }
     }
   }
 }
