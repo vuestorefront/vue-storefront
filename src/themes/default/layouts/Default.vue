@@ -60,7 +60,6 @@ export default {
       isSidebarOpen: state => state.ui.sidebar,
       isMicrocartOpen: state => state.ui.microcart,
       isWishlistOpen: state => state.ui.wishlist
-
     })
   },
   methods: {
@@ -68,7 +67,13 @@ export default {
       this.loadOrderConfirmation = true
       this.ordersData = payload
       EventBus.$emit('modal-show', 'modal-order-confirmation')
+    },
+    fetchMenuData () {
+      return this.$store.dispatch('category/list', { includeFields: this.$store.state.config.entities.optimize ? this.$store.state.config.entities.category.includeFields : null })
     }
+  },
+  serverPrefetch () {
+    return this.fetchMenuData()
   },
   beforeMount () {
     // Progress bar on top of the page
