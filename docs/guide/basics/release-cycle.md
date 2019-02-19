@@ -16,5 +16,5 @@ So assuming next version ix 1.x the two-month cycle will look as following:
 
 During RC features Pull Request with new features after feedback and acceptance are normally merged to `develop` branch. 
 After entering the Stabilization Phase we are tagging current develop branch, creating a `RC-x` (where `x` is a number of current version) branch from it and working on stabilization there. 
-During the stabilization phase new features are merged to zdevelopz branch and will be merged on next `RC` phase.
+During the stabilization phase new features are merged to develop branch and will be merged on next `RC` phase.
 
