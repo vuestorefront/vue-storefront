@@ -2,7 +2,7 @@
 
 This document describes how Vue Storefront code versions are released. You'll learn how the release process looks like, what are the acceptance criteria, what is our git flow and which branch to use as a stable one.
 
-# How Vue Storefrotn versiosn are released
+# How Vue Storefront versions are released
 
 From version 1.9 we release each of VSF versions in two phases
 - **Release Candidate phase (RC)** also called "feature version". This version contains all the new features, improvements and additions to the API along with minor bugfixes. New features and additions are merged and released **only** during this phase. The API of features introduced during this phase may slightly change.
