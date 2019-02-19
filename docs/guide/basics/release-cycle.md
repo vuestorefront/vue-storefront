@@ -8,7 +8,7 @@ From version 1.9 we release each of VSF versions in two phases
 - **Release Candidate phase (RC)** also called "feature version". This version contains all the new features, improvements and additions to the API along with minor bugfixes. New features and additions are merged and released **only** during this phase. The API of features introduced during this phase may slightly change.
 - **Stabilization phase** is the one that ends up with production-ready version. During this phase we do only stabilization and bugfixing for previously introduced features. No new features and API additions are merged. PRs from RC version are tested and their API is simplified and/or adjusted according to feedback. 
 
-So assuming next version ix 1.x the two-month cycle will look as following:
+So assuming next version is 1.x the two-month cycle will look as following:
 - v1.x-RC.y - unstable version with cutting-edge features ready to test and feedback
 - v1.x.y - stable version of the software **ready for production use**.
 
