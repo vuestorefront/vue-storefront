@@ -10,7 +10,7 @@
 <script>
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/store'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 const storeView = currentStoreView()
 
 export default {
