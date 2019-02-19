@@ -20,12 +20,15 @@
           ref="zoomCarousel"
           class="media-zoom-carousel__carousel"
           :speed="carouselTransitionSpeed"
+          @pageChange="pageChange"
         >
           <slide
-            v-for="images in gallery"
+            v-for="(images, index) in gallery"
             :key="images.src">
-            <div class="media-zoom-carousel__slide  bg-cl-secondary">
+            <div class="media-zoom-carousel__slide  bg-cl-secondary"
+                 :class="{'video-container h-100 flex relative': images.video}">
               <img
+                v-show="hideImage !== index"
                 class="product-image inline-flex pointer mw-100"
                 v-lazy="images"
                 ref="images"
@@ -33,6 +36,11 @@
                 data-testid="productGalleryImage"
                 itemprop="image"
               >
+              <product-video
+                v-if="images.video && (index === currentPage)"
+                v-bind="images.video"
+                :index="index"
+                @video-started="onVideoStarted"/>
             </div>
           </slide>
         </carousel>
@@ -43,6 +51,7 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
+import ProductVideo from './ProductVideo'
 
 export default {
   name: 'ProductGalleryZoomCarousel',
@@ -63,12 +72,15 @@ export default {
   },
   data () {
     return {
-      carouselTransitionSpeed: 300
+      carouselTransitionSpeed: 300,
+      currentPage: 0,
+      hideImage: null
     }
   },
   components: {
     Carousel,
-    Slide
+    Slide,
+    ProductVideo
   },
   mounted () {
     this.navigate(this.currentSlide)
@@ -89,6 +101,13 @@ export default {
     },
     increaseCarouselTransitionSpeed () {
       this.carouselTransitionSpeed = 500
+    },
+    pageChange (index) {
+      this.currentPage = index
+      this.hideImage = null
+    },
+    onVideoStarted (index) {
+      this.hideImage = index
     }
   }
 }
@@ -190,6 +209,11 @@ export default {
     }
   }
 
+}
+
+.video-container {
+  align-items: center;
+  justify-content: center;
 }
 </style>
 
