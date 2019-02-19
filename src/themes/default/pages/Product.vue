@@ -141,20 +141,26 @@
             <div class="row m0 mb15" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
               <div>
                 <label class="qty-label flex" for="quantity">{{ $t('Quantity') }}</label>
-                <input
+                <base-input
                   type="number"
-                  min="1"
-                  class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
+                  :min="1"
+                  class="m0 no-outline qty-input"
                   id="quantity"
-                  @blur="validateQty"
                   focus
+                  @input="validateQty"
                   v-model="product.qty"
-                >
-              </div>
+                  :validations="[
+                    {
+                      condition: $v.product.qty.$error && !$v.product.qty.minValue,
+                      text: 'Quantity must be above 0'
+                    }
+                  ]"
+              /></div>
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
+                :disabled="product.qty <= 0"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -231,6 +237,8 @@
 </template>
 
 <script>
+import { minValue } from 'vuelidate/lib/validators'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -266,7 +274,8 @@ export default {
     RelatedProducts,
     Reviews,
     SizeSelector,
-    WebShare
+    WebShare,
+    BaseInput
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -294,9 +303,14 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    validateQty (e) {
-      if (e.target.value <= 0) {
-        this.product.qty = 1
+    validateQty () {
+      this.$v.$touch()
+    }
+  },
+  validations: {
+    product: {
+      qty: {
+        minValue: minValue(1)
       }
     }
   }
@@ -472,8 +486,6 @@ $bg-secondary: color(secondary, $colors-background);
 }
 
 .qty-input {
-  border-style: solid;
-  border-width: 0 0 1px 0;
   width: 90px;
 }
 

@@ -19,7 +19,7 @@ export default {
       this.$forceUpdate()
     },
     canBeAdded (product) {
-      return formatProductMessages(product.errors) !== ''
+      return formatProductMessages(product.errors) !== '' || product.qty <= 0
     }
   },
   beforeMount () {

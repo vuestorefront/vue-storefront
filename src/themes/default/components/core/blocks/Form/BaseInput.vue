@@ -10,6 +10,8 @@
         :type="type === 'password' ? passType : type"
         :name="name"
         :autocomplete="autocomplete"
+        :min="min"
+        :max="max"
         :value="value"
         :autofocus="autofocus"
         :ref="name"
@@ -70,6 +72,16 @@ export default {
     value: {
       type: [String, Number],
       default: ''
+    },
+    min: {
+      type: Number,
+      required: false,
+      default: null
+    },
+    max: {
+      type: Number,
+      required: false,
+      default: null
     },
     name: {
       type: String,
