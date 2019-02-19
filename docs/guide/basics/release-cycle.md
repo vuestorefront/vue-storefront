@@ -9,7 +9,7 @@ From version 1.9 we release each of VSF versions in two phases
 - **Stabilization phase** is the one that ends up with production-ready version. During this phase we do only stabilization and bugfixing for previously introduced features. No new features and API additions are merged. PRs from RC version are tested and their API is simplified and/or adjusted according to feedback. 
 
 So assuming next version ix 1.x the two-month cycle will look as following:
-- 1.xRC - unstable version with cutting-edge features ready to test and feedback
+- v1.x-RC.y - unstable version with cutting-edge features ready to test and feedback
 - 1.x - stable version of the software **ready for production use**.
 
 # How new features are merged
