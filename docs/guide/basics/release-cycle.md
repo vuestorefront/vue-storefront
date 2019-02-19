@@ -10,7 +10,7 @@ From version 1.9 we release each of VSF versions in two phases
 
 So assuming next version ix 1.x the two-month cycle will look as following:
 - v1.x-RC.y - unstable version with cutting-edge features ready to test and feedback
-- 1.x - stable version of the software **ready for production use**.
+- v1.x.y - stable version of the software **ready for production use**.
 
 # How new features are merged
 
