@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import config from 'config'
 import { mapState } from 'vuex'
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
@@ -25,6 +26,14 @@ export default {
     layout () {
       return `${(this.$route.meta.layout || 'default')}-layout`
     }
+  },
+  methods: {
+    fetchMenuData () {
+      return this.$store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null })
+    }
+  },
+  serverPrefetch () {
+    return this.fetchMenuData()
   },
   components: {
     DefaultLayout,
