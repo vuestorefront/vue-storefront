@@ -33,6 +33,12 @@
         </div>
       </div>
       <div class="h5 pt5 cl-accent lh25 qty">
+        <base-input-number
+          :name="$t('Quantity')"
+          :value="product.qty"
+          @input="updateQuantity"
+          :min="1"
+        />
         <span>
           {{ $t('Qty') }}
         </span>
@@ -92,11 +98,13 @@ import Product from '@vue-storefront/core/compatibility/components/blocks/Microc
 
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 
 export default {
   components: {
     EditButton,
-    RemoveButton
+    RemoveButton,
+    BaseInputNumber
   },
   mixins: [Product],
   data () {

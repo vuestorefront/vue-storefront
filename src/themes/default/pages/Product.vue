@@ -140,7 +140,7 @@
             />
             <div class="row m0 mb15" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
               <base-input-number
-                :name="$t('Quantityy')"
+                :name="$t('Quantity')"
                 v-model="product.qty"
                 :min="1"
               />

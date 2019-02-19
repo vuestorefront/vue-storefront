@@ -35,13 +35,14 @@ export default {
         this.removeFromCart()
       }
     },
-    updateQuantity () {
+    updateQuantity (newQuantity) {
+      console.error('====> UPDATE QTY')
       // additional logic will be moved to theme
-      this.qty = parseInt(this.qty)
-      if (this.qty <= 0) {
-        this.qty = this.product.qty
-      }
-      MicrocartProduct.methods.updateQuantity.call(this, this.qty)
+      // let quantity = parseInt(newQuantity)
+      // if (this.qty <= 0) {
+      //   this.qty = this.product.qty
+      // }
+      MicrocartProduct.methods.updateQuantity.call(this, newQuantity)
       this.isEditing = !this.isEditing
     },
     onProductChanged (event) {
