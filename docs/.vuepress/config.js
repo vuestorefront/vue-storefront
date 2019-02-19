@@ -33,6 +33,7 @@ module.exports = {
           title: 'Basics',
           collapsable: false,
           children: [
+            'basics/release-cycle',
             'basics/project-structure',
             'basics/configuration',
             'basics/contributing',
