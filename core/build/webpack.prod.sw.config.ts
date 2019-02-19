@@ -68,7 +68,7 @@ module.exports = merge(base, {
         handler: "networkFirst"
       },{
         urlPattern: "/index.html",
-        handler: "fastest"
+        handler: "networkFirst"
       },{
         urlPattern: "/assets/*",
         handler: "fastest"
@@ -79,15 +79,15 @@ module.exports = merge(base, {
         urlPattern: "/dist/(.*)",
         handler: "fastest"
       },{
-        urlPattern: "/*/*", /** this is new product url format  */
+        urlPattern: "/*/*", /** this is new product URL format  */
         handler: "networkFirst"
       },
       {
-        urlPattern: "/*/*/*", /** this is new product url format  */
+        urlPattern: "/*/*/*", /** this is new product URL format  */
         handler: "networkFirst"
       },
       {
-        urlPattern: "/*", /** this is new category url format  */
+        urlPattern: "/*", /** this is new category URL format  */
         handler: "networkFirst"
       }],
       "importScripts": ['/dist/core-service-worker.js'] /* custom logic */

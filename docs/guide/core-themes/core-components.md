@@ -4,9 +4,9 @@
 
 In Vue Storefront there are two types of components:
 
-- **Core components**  - In core components we implemented all basic business logic for e-commerce shop, so you don't need to write it from scratch by yourself. You can make use of them in your themes where all you need to do is styling and creating the HTML markup. Every core component provides an interface to interact with. This interface can be extended or overwritten in your theme if you need it. Core components should be injected to themes as mixins. They contain only business logic - HTML markup and styling should be done in themes. You can usually find core compoennts inside `components` folder of every module.
+- **Core components**  - In core components, we implemented all basic business logic for e-commerce shop, so you don't need to write it from scratch by yourself. You can make use of them in your themes where all you need to do is styling and creating the HTML markup. Every core component provides an interface to interact with. This interface can be extended or overwritten in your theme if you need it. Core components should be injected to themes as mixins. They contain only business logic - HTML markup and styling should be done in themes. You can usually find core components inside `components` folder of every module.
 
-- **Theme components**  - Theme components is what you really see in the app. They can inherit business logic from core components or be created as theme-specific components. All CSS, HTML sand ui-specific logic hould be placed in theme. 
+- **Theme components**  - Theme components is what you really see in the app. They can inherit business logic from core components or be created as theme-specific components. All CSS, HTML sand ui-specific logic should be placed in theme. 
 
 ## Working with core components
 
@@ -57,14 +57,14 @@ export default {
 
 Core pages are placed in `core/pages` folder.
 
-## Overriding and extending core compoennts and pages
+## Overriding and extending core components and pages
 
-Since core components are just plain JavaScript objects you can easly modify them before mixing in in your theme.
+Since core components are just plain JavaScript objects you can easily modify them before mixing in in your theme.
 
 ```js
 import YourCorePage from '@vue-storefront/core/pages/YourCorePage'
 
-YourCorePage.methods.foo = function () { console.log('Overrided method foo')
+YourCorePage.methods.foo = function () { Logger.log('Overrided method foo')()
 
 export default {
   ...

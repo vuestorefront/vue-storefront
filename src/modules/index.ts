@@ -23,12 +23,13 @@ import { RawOutputExample } from './raw-output-example'
 import { Magento2CMS } from './magento-2-cms'
 import { InstantCheckout } from './instant-checkout'
 
+// import { Example } from './module-template'
 
 // This is how you can extend any of VS modues
 // const extendCartVuex = {
 //   actions: {
 //     load () {
-//       console.info('New load function')
+//       Logger.info('New load function')()
 //     }
 //   }
 //  }
@@ -36,17 +37,17 @@ import { InstantCheckout } from './instant-checkout'
 //  const cartExtend = {
 //   key: 'cart',
 //   afterRegistration: function(isServer, config) {
-//     console.info('New afterRegistration hook')
+//     Logger.info('New afterRegistration hook')()
 //   },
 //   store: { modules: [{ key: 'cart', module: extendCartVuex }] },
 //  }
- 
+
 //  extendModule(cartExtend)
 
 /**
- * Some of the modules are registered lazily only when components from module are appearing on current page. 
- * If you want to use this modules in pages without it's components you need to remember about registering module first
- * In VS 1.8 this modules will be semlessly lazyLoaded after proper action dispatch
+ * Some of the modules are registered lazily only when components from the module are appearing on current page.
+ * If you want to use this module in pages without its components you need to remember about registering module first
+ * In VS 1.8 this modules will be seamlessly lazyLoaded after proper action dispatch
  * - Wishlist
  */
 export const registerModules: VueStorefrontModule[] = [
@@ -71,5 +72,6 @@ export const registerModules: VueStorefrontModule[] = [
   PaymentCashOnDelivery,
   RawOutputExample,
   AmpRenderer,
-  InstantCheckout
+  InstantCheckout/*,
+  Example*/
 ]

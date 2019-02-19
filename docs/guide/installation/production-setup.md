@@ -11,14 +11,14 @@ To run Vue Storefront in the production mode without Docker/Kubernetes you'll ne
 Assumptions for the rest of this tutorial:
 
 - You're having root access to Debian Linux machine;
-- We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/DivanteLtd/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api); the ports **should not be exposed** as they will be hidden behind **nginx proxy**;
+- We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/DivanteLtd/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api); the ports **should not be exposed** as they will be hidden behind **NGINX proxy**;
 - We're using **prod.vuestorefront.io** as a domain name - please replace it with your host URL address;
 - We assume that you have SSL certificate for **prod.vuestorefront.io** (or your domain of course). SSL encryption is required for PWA + service workers;
 
 General Solution Architecture:
-_USER -> nginx proxy -> vue-storefront / vue-storefront-api_
+_USER -> NGINX proxy -> vue-storefront / vue-storefront-api_
 
-We'll be hiding the `vue-storefront` and `vue-storefront-api` services behind nginx proxy. You can use nginx for caching proxy, but in our case it will be just forwarding the requests without cache (as VS is pretty fast and caching is not required). The key features we're using are: SSL encryption, gzip-encoding, url routing (to merge `vue-storefront` and `vue-storefront-api` services under one domain).
+We'll be hiding the `vue-storefront` and `vue-storefront-api` services behind NGINX proxy. You can use NGINX for caching proxy, but in our case it will be just forwarding the requests without cache (as VS is pretty fast and caching is not required). The key features we're using are: SSL encryption, gzip-encoding, url routing (to merge `vue-storefront` and `vue-storefront-api` services under one domain).
 
 ### Prerequisites
 
@@ -59,7 +59,7 @@ apt-get install nginx
 
 ### Nginx
 
-We decided to use **nginx** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as a backend.
+We decided to use **NGINX** as a HTTP proxy - exposed in front of the users, handling the network traffic and dealing with the `vue-storefront` and the `vue-storefront-api` apps as a backend.
 
 This is a general rule of setting up a production node.js app which gives you a lot of flexibility regarding the SSL, gzip compression, URL routing and other techniques to be configured without additional hassle. You can use any other proxy server for this purpose - such as Varnish or Apache2 + mod_proxy.
 
@@ -72,7 +72,7 @@ Some additional materials:
 
 [Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/master/docs/guide/installation/etc/nginx/sites-enabled/prod.vuestorefront.io).
 
-Create nginx config file from the template (please run as a root user):
+Create NGINX config file from the template (please run as a root user):
 
 ```bash
 curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
@@ -88,7 +88,7 @@ nano /etc/nginx/ssl/prod.vuestorefront.io.key
 nano /etc/nginx/ssl/dhparam.pem
 ```
 
-Now you can run the nginx:
+Now you can run the NGINX:
 
 ```bash
 /etc/init.d/nginx restart
@@ -145,7 +145,7 @@ add_header X-XSS-Protection "1; mode=block";
 add_header X-Robots-Tag none;
 ```
 
-Here we go with the SSL settings - based on our best experiences from the past. Please read details in the [nginx documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) if you like ;)
+Here we go with the SSL settings - based on our best experiences from the past. Please read details in the [NGINX documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) if you like ;)
 
 ```
 gzip on;
@@ -197,7 +197,7 @@ The last proxy is used for serving product images. It's a proxy to [`vue-storefr
 
 #### Apache2 configuration
 
-In case you are already using the apache2 web-server in your environment as well and can't (or don't want) to use nginx, you can also set up apache2 as an reverse proxy instead of nginx. This is done by adding this block to your apache2 virtual host.
+In case you are already using the apache2 web-server in your environment as well and can't (or don't want) to use NGINX, you can also set up apache2 as an reverse proxy instead of nginx. This is done by adding this block to your apache2 virtual host.
 
 ```
 ProxyRequests off
@@ -219,7 +219,7 @@ You also need to enable [mod_proxy](https://httpd.apache.org/docs/current/mod/mo
 
 ### Vue Storefront and Vue Storefront API
 
-After you have the nginx set up, you should get a `502 error` when accessing the https://prod.vuestorefront.io. This is totally fine! We've just missed the most important step which is running backend services that will power up our installation. Now nginx is trying to connect to `localhost:3000` for `vue-storefront` and `localhost:8080` for `vue-storefront-api` without any success.
+After you have the NGINX set up, you should get a `502 error` when accessing the https://prod.vuestorefront.io. This is totally fine! We've just missed the most important step which is running backend services that will power up our installation. Now nginx is trying to connect to `localhost:3000` for `vue-storefront` and `localhost:8080` for `vue-storefront-api` without any success.
 
 We create a Linux user called `vuestorefront` and go to `/home/www/vuestorefront` which is our home directory.
 
@@ -297,7 +297,7 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
 },
 ```
 
-We're setting up the product's endpoint to https://prod.vuestorefront.io/api/catalog (please use your domain accordingly of course). As you may notice, the `/api` url is proxied by the nginx to `localhost:8080` - our `vue-storefront-api` instance.
+We're setting up the product's endpoint to https://prod.vuestorefront.io/api/catalog (please use your domain accordingly of course). As you may notice, the `/api` url is proxied by the NGINX to `localhost:8080` - our `vue-storefront-api` instance.
 
 ```json
 "cart": {

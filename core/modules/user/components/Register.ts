@@ -1,4 +1,5 @@
 import i18n from '@vue-storefront/i18n'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const Register = {
   name: 'Register',
@@ -25,7 +26,7 @@ export const Register = {
       // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
-        console.debug(result)
+        Logger.debug(result, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
@@ -43,7 +44,7 @@ export const Register = {
       }).catch(err => {
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
-        console.error(err)
+        Logger.error(err, 'user')()
       })
     }
   }

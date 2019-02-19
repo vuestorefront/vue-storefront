@@ -4,14 +4,91 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.8.0] - UNRELEASED
+## [1.9.0]
 ### Changed / Improved
-- Fixed isServer flag in module hooks (#840)
-- Location of type files (#2226)
-- Support regional characters in urls
-- `store/lib/search` has been moved to `core/lib/search` (#2225)
-- `store/lib/multistore` has been moved to `core/lib/multistore` (#2224)
+- Fixed an issue where the correct image for a product configuration wasn't set on the product page image carousel. Also added the fix on the productcarousel in the zoom component - @DaanKouters (#2419)
+- Way of creating VS Modules was changed to use factory method instead of explict object creation. - @filrak (#2434)
+- Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
+- Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
+- Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
+- Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
+
+## [1.8.2] - 2019.02.11
+- Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
+
+## [1.8.1] - 2019.02.10
+This is hot-fix release for fixing the payment methods switching issue when both: `payments-cash-on-delivery` and `payments-backend-methods` modules enabled.
+
+### Changed / Improved
+ - Fixed doubled invlication of `placeOrder` when both: `payments-cash-on-delivery` and `payments-backend-methods` modules enabled - #2405
+
+## [1.8.0] - 2019.02.07
+Additional migration tips are available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
+
+### Added
+- Chinese translation added - @wadereye (#2265)
+- Categories filter in search view - @kjugi, @patzick (#1710)
+- AsyncDataLoader feature - @pkarw (#2300)
+- Events list page in docs - @jablpiotrek (#776)
+- Keyboard support for account and cookie close buttons - @anqaka (#2258)
+- Support typescript in build scripts - @marlass, @patzick (#2260, #2273, #2324)
+- Possibility to have sticky notifications - @phoenixdev-kl (#2307)
+- Added a scss to manage global form style - @lorenaramonda (#2316)
+- Manage products with zero price - @MarcoGrecoBitbull (#2327)
+- Hotjar integration - @lukeromanowicz (#840)
+
+### Changed / Improved
+- Theme structure improvements - @filrak (#2223)
+- Type interfaces and refactor - @filrak (#2227, #2267)
+- Changed beforeRegistration and afterRegistration hooks signature. Now it contains only one object VSF. The subfields are the same as before so changing `beforeRegistration( Vue, config, store, isServer )` to `beforeRegistration({ Vue, config, store, isServer })`(and same with `afterRegistration`) is enough to make a proper migration to new API. - @filrak (#2330)
+- Typo fixes - @youanden, Micheledinocera (#2229, #2329)
+- Bundle products price calculation fix - @pkarw (#2371)
+- Fixed isServer flag in module registration hooks - @lukeromanowicz (#840)
+- Location of type files - @kruchy8 (#2226)
+- Improved theme registration - @lukeromanowicz (#2233)
+- SSR renderings for logged in users - @vue-kacper (#2234)
+- ElasticSearch fuzzy search - @qbo-tech (#2340, #2354)
+- Documentation improvements - @martaradziszewska, @wilfriedwolf, @fvillata, @pkarw (#2210, #2244, #2289, #2369)
+- Support regional characters in urls - @Aekal (#2243)
+- `store/lib/search` has been moved to `core/lib/search` - @lukeromanowicz (#2225)
+- `store/lib/multistore` has been moved to `core/lib/multistore` - @lukeromanowicz (#2224)
+- BaseSelect syntax improvements - @jszczech (#2237)
+- Optional cart discounts display on  side cart - @mcspronko (#1758)
+- Special price dates checking - backport of @igloczek's (#2245)
+- Category filters reset functionality on mobile - @vue-kacper, @patzick, @renatocason (#2262)
+- Improve sortBy mobile view - @martaradziszewska (#2251)
+- Slide animations to menu, search, wishlist and minicart components - @Aekal (#2256)
+- Fixed wishlist store module to not be lazy loaded - @vue-kacper (#2249)
+- Share webpack typescript config with Docker container - @lukeromanowicz (#2269)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
+- Output cache clearing supports versioning - @igloczek (#2333, #2359)
+- Cash on delivery + Shipping addresses fixed for virtual products - @pkarw (#2366)
+- Improved static pages caching strategy - @pkarw (#2281)
+- Magento 2.3 MSI work-around (it's still not supported fully) - @pkarw (#2366)
+- Product zoom picture centered - @ptylek (#2178)
+- Fixed tracking in analytics module - @jahvi (#2278)
+- Improved merge the store modules array with extended module config - @DaanKouters (#2274)
+- ElasticSearch fuzzy search, scoring, boosting + other improvements - @qbo-tech (#2340)
+- Turned off compression plugin, nginx serves brotli compression  — @patzick (#2254)
+- Improved user account menu UX on desktop - @vue-kacper (#2363)
+- Added About us missing route - @lorenaramonda (#2320)
+- Fixed used variable for products count in category - @renatocason (#2304)
+- Override console with logger - @daaru00 (#2235)
+- Fixed variable call about feedback email - @PhantomDraven (#2318)
+- Output cache clearing versioning - @igloczek (#2333)
+- Improved paddings on select fields - @patzick (#2361)
+- Fixed lack of modal backdrop - @vue-kacper, @giuliachiola (#2319)
+- Form validations and improvements - @vue-kacper (#2348, #2349, #2347)
+- Changing product quantity in catr - @mdanilowicz (#2345)
+- Product attribute values as array - @afirlejczyk (#2379)
+- Improved fetching customAttributes - @afirlejczyk (#2107)
+- Removed compare button from product mobile view - @patzick (#2370)
+- Configurable options attribute descriptor - @pkarw (#2384)
+
+## [1.7.3] - 2019.01.31
+### Fixed
+- Output cache between build, cache versioning added - @igloczek (#2309)
+- Missing `no-ssr` wrapper around user specific content, which leads to broken app in production mode - @igloczek (#2314)
 
 ## [1.7.2] - 2019.01.28
 ### Fixed
@@ -21,13 +98,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - url_key adjustment after m2vs fix - @pkarw (#2215)
 - Service worker removed from dev mode because of the side effects - @pkarw
 - `networkFirst` first caching strategy for /api/catalog - @pkarw
-- Special price dates checking - backport of @igloczek's (#2245)
 - SSR detection in components - @patzick (#2173)
 
 ### Added
 - Hotjar extension (#840)
-- Slide animations to menu, search, wishlist and minicart components
-- Events list page in docs (#776
 
 ### Changed
 - compress banner images - @patzick (#2280)

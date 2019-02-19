@@ -83,6 +83,7 @@ module.exports = {
             'data/database-tool',
             'data/entity-types',
             'data/static-data',
+            'data/data-loader'
           ],
         },
         {
@@ -102,11 +103,7 @@ module.exports = {
             'vuex/vuex-conventions',
             'vuex/product-store',
             'vuex/category-store',
-            'vuex/cart-store',
-            'vuex/checkout-store',
-            'vuex/order-store',
             'vuex/stock-store',
-            'vuex/user-store',
             'vuex/attribute-store',
           ],
         },

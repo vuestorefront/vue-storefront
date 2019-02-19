@@ -3,6 +3,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
 import buildTimeConfig from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 // Plugins
 import i18n from '@vue-storefront/i18n'
@@ -32,7 +33,7 @@ import store from '@vue-storefront/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be depreciated in 1.8
+// Will be deprecated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
 
@@ -58,13 +59,6 @@ function createRouter (): VueRouter {
 let router: VueRouter = null
 
 Vue.use(VueRouter)
-
-// Will be depreciated in 1.7. Now we are using Logger instead of logs
-if (buildTimeConfig.console.verbosityLevel !== 'display-everything' && process.env.NODE_ENV === 'production') {
-  once('__TAKE_OVER_CONSOLE__', () => {
-    takeOverConsole(buildTimeConfig.console.verbosityLevel)
-  })
-}
 
 const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
   router = createRouter()
