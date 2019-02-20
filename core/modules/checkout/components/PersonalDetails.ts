@@ -54,7 +54,6 @@ export const PersonalDetails = {
     edit () {
       if (this.isFilled) {
         this.$bus.$emit('checkout-before-edit', 'personalDetails')
-        this.isFilled = false
       }
     },
     gotoAccount () {
