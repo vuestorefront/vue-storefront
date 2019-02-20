@@ -147,7 +147,7 @@
                   class="m0 no-outline qty-input"
                   id="quantity"
                   focus
-                  @input="validateQty"
+                  @input="$v.$touch()"
                   v-model="product.qty"
                   :validations="[
                     {
@@ -302,9 +302,6 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
-    },
-    validateQty () {
-      this.$v.$touch()
     }
   },
   validations: {

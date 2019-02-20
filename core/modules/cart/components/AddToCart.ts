@@ -6,6 +6,10 @@ export const AddToCart = {
     product: {
       required: true,
       type: Object
+    },
+    disabled: {
+      required: false,
+      type: Boolean
     }
   },
   methods: {
