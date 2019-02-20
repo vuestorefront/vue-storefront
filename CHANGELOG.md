@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Depreciated / Removed
-- `@vue-storefront/store` package depreciated - @filrak
+- `@vue-storefront/store` package deprecated - @filrak
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
