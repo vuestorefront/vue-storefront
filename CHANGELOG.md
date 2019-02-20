@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
 - Updated to Vue 2.6.6 - @filrak (#2456)
 - Null sidebar menu data on static page fixed - @filrak (#2456)
+- Fix cannot edit previous steps in checkout - @filrak (#2457)
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
