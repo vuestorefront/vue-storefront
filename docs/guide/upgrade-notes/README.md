@@ -15,7 +15,7 @@ const moduleConfig: VueStorefrontModuleConfig = {
 
 const module = createModule(moduleConfig)
 ````
-
+- `@vue-storefront/store` package has been depreciated. Just change imports to `@vue-storefront/core/store`.
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
 
@@ -261,7 +261,7 @@ We've added the Reviews support, however, Magento2 is still lacking Reviews supp
 
 To get access to rootStore import it by
 
-`import rootStore from '@vue-storefront/store'`
+`import rootStore from '@vue-storefront/core/store'`
 
 #### cms extenstion was renamed to extension-magento2-cms
 

@@ -1,4 +1,4 @@
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 const config = store.state.config
 // deprecated, use vuex store instead
 const ConfigPlugin = {

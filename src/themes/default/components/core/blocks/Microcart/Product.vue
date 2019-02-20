@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import EditButton from './EditButton'
