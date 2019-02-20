@@ -4,6 +4,7 @@ import * as types from './../store/mutation-types'
 export function afterRegistration({ Vue, config, store, isServer }){
   if (!isServer) {
     store.dispatch('user/startSession')
+    store.dispatch('user/loadUserEarly')
 
     Vue.prototype.$bus.$on('user-before-logout', () => {
       store.dispatch('user/logout', { silent: false })
