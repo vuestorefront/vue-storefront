@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix cannot edit previous steps in checkout - @filrak (#2457)
 - Improve images loading on category page, corrected alt view and blinking problem - @patzick (#2465)
 
+
+### Deprecated / Removed
+- `@vue-storefront/store` package deprecated - @filrak
+
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
 

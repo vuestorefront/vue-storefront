@@ -1,5 +1,5 @@
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
 export function prepareQuery ({queryText = '', filters = [], queryConfig = ''}) {
   let query = new SearchQuery()
