@@ -21,7 +21,6 @@
         <img
           :alt="product.name"
           :src="thumbnailObj.src"
-          v-lazy="thumbnailObj"
           height="300"
           width="310"
           data-testid="productImage"
@@ -147,6 +146,8 @@ $color-white: color(white);
   overflow: hidden;
   max-height: 300px;
   height: 300px;
+  display: flex;
+  align-items: center;
 
   &:hover {
     img {
