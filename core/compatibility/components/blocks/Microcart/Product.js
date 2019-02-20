@@ -6,7 +6,6 @@ export default {
   data () {
     // deprecated
     return {
-      qty: 0
     }
   },
   beforeMount () {
