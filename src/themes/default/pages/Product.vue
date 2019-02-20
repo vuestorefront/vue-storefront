@@ -138,18 +138,12 @@
               v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
-            <div class="row m0 mb15" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
-              <div>
-                <label class="qty-label flex" for="quantity">{{ $t('Quantity') }}</label>
-                <input
-                  type="number"
-                  min="0"
-                  class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
-                  id="quantity"
-                  focus
-                  v-model="product.qty"
-                >
-              </div>
+            <div class="row m0 mb35" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+              <base-input-number
+                :name="$t('Quantity')"
+                v-model="product.qty"
+                :min="1"
+              />
             </div>
             <div class="row m0">
               <add-to-cart
@@ -248,6 +242,8 @@ import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+
 export default {
   components: {
     'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
@@ -265,7 +261,8 @@ export default {
     RelatedProducts,
     Reviews,
     SizeSelector,
-    WebShare
+    WebShare,
+    BaseInputNumber
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -463,18 +460,6 @@ $bg-secondary: color(secondary, $colors-background);
 .product-image {
   mix-blend-mode: multiply;
   width: 460px;
-}
-
-.qty-input {
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  width: 90px;
-}
-
-.qty-label {
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 14px;
 }
 
 .web-share {
