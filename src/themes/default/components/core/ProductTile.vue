@@ -146,6 +146,7 @@ $color-white: color(white);
   width: 100%;
   overflow: hidden;
   max-height: 300px;
+  height: 300px;
 
   &:hover {
     img {
