@@ -47,7 +47,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Retrieve authenticated user from browser cache synchronously
    */
-  loadUserEarly (context) {
+  loadFromCache (context) {
     const storeView = currentStoreView()
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
     const user = localStorage.getItem(`${dbNamePrefix}shop/user/current-user`);
