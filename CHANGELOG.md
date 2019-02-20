@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to Vue 2.6.6 - @filrak (#2456)
 - Null sidebar menu data on static page fixed - @filrak (#2456)
 - Fix cannot edit previous steps in checkout - @filrak (#2457)
-
+- Fix links in footer to static pages bug - @filrak (#2464)
 
 ### Depreciated / Removed
 - `@vue-storefront/store` package depreciated - @filrak
