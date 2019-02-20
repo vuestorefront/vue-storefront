@@ -15,7 +15,8 @@ export const ProductVideo = {
     },
     index: {
       type: Number,
-      required: false
+      required: false,
+      default: 0
     }
   },
   data () {

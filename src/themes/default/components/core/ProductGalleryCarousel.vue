@@ -17,7 +17,7 @@
         :key="images.src">
         <div class="bg-cl-secondary" :class="{'video-container h-100 flex relative': images.video}">
           <img
-            v-show="hideImage !== index"
+            v-show="hideImageAtIndex !== index"
             class="product-image inline-flex pointer mw-100"
             v-lazy="images"
             ref="images"
@@ -66,7 +66,7 @@ export default {
     return {
       carouselTransitionSpeed: 300,
       currentPage: 0,
-      hideImage: null
+      hideImageAtIndexAtIndex: null
     }
   },
   components: {
@@ -119,10 +119,10 @@ export default {
     },
     pageChange (index) {
       this.currentPage = index
-      this.hideImage = null
+      this.hideImageAtIndex = null
     },
     onVideoStarted (index) {
-      this.hideImage = index
+      this.hideImageAtIndex = index
     }
   }
 }
