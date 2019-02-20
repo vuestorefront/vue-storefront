@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix cannot edit previous steps in checkout - @filrak (#2457)
 
 
-### Depreciated / Removed
+### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
 
 ## [1.8.2] - 2019.02.11
