@@ -6,8 +6,7 @@ export default {
   data () {
     // deprecated
     return {
-      qty: 0,
-      isEditing: false
+      qty: 0
     }
   },
   beforeMount () {
@@ -36,14 +35,9 @@ export default {
       }
     },
     updateQuantity (newQuantity) {
-      console.error('====> UPDATE QTY')
-      // additional logic will be moved to theme
-      // let quantity = parseInt(newQuantity)
-      // if (this.qty <= 0) {
-      //   this.qty = this.product.qty
-      // }
-      MicrocartProduct.methods.updateQuantity.call(this, newQuantity)
-      this.isEditing = !this.isEditing
+      let quantity = parseInt(newQuantity)
+      if (quantity < 1) quantity = 1
+      MicrocartProduct.methods.updateQuantity.call(this, quantity)
     },
     onProductChanged (event) {
       // deprecated, will be moved to theme or removed in the near future #1742
@@ -55,11 +49,6 @@ export default {
       if (event.item.sku === this.product.sku) {
         this.removeFromCart(event.item)
       }
-    },
-    switchEdit () {
-      // will be moved to default theme in the near future
-      this.isEditing ? this.updateQuantity() : this.qty = this.product.qty
-      this.isEditing = !this.isEditing
     }
   },
   mixins: [

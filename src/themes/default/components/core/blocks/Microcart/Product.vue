@@ -36,25 +36,9 @@
         <base-input-number
           :name="$t('Quantity')"
           :value="product.qty"
-          @input="updateQuantity"
+          @blur="updateQuantity"
           :min="1"
         />
-        <span>
-          {{ $t('Qty') }}
-        </span>
-        <span class="weight-700" :class="{ hidden: isEditing }" data-testid="productQty">
-          {{ product.qty }}
-        </span>
-        <span :class="{ hidden: !isEditing }">
-          <input
-            class="h6"
-            type="number"
-            autofocus
-            v-model.number="qty"
-            @blur="updateQuantity"
-            data-testid="productQtyInput"
-          >
-        </span>
       </div>
     </div>
     <div class="flex py15 mr10 align-right start-xs between-sm actions">
@@ -81,9 +65,6 @@
         </span>
       </div>
       <div class="links">
-        <div @click="switchEdit">
-          <edit-button />
-        </div>
         <div class="mt5" @click="removeItem">
           <remove-button />
         </div>

@@ -9,6 +9,7 @@
       :focus="autofocus"
       :value="value"
       @input="$emit('input', $event.target.value)"
+      @blur="$emit('blur', $event.target.value)"
     >
   </div>
 </template>
@@ -44,8 +45,6 @@ export default {
     getInputId () {
       return `input_${this._uid}`
     }
-  },
-  methods: {
   }
 }
 </script>
@@ -53,21 +52,21 @@ export default {
 <style lang="scss" scoped>
   @import '~theme/css/variables/colors';
   @import '~theme/css/helpers/functions/color';
-  $color-tertiary: color(tertiary);
-  $color-black: color(black);
-  $color-puerto-rico: color(puerto-rico);
-  $color-hover: color(tertiary, $colors-background);
 
   .base-input-number {
+    width: 100%;
+
     &__input {
       border-style: solid;
       border-width: 0 0 1px 0;
       width: 50px;
+      height: 1.7rem;
+      line-height: 1.7rem;
     }
 
     &__label {
-      cursor: pointer;
       font-size: 14px;
+      max-width: 100px;
     }
   }
 
