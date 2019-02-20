@@ -17,13 +17,15 @@
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }, {'product-image--loaded': imageLoaded}]">
         <img
+          class="product-image__content"
           :alt="product.name"
           :src="thumbnailObj.src"
           height="300"
           width="310"
           data-testid="productImage"
+          @load="imageLoaded = true"
         >
       </div>
 
@@ -61,6 +63,11 @@ import { ProductTile } from '@vue-storefront/core/modules/catalog/components/Pro
 
 export default {
   mixins: [ProductTile],
+  data () {
+    return {
+      imageLoaded: false
+    }
+  },
   props: {
     labelsActive: {
       type: Boolean,
@@ -145,9 +152,25 @@ $color-white: color(white);
   width: 100%;
   overflow: hidden;
   max-height: 300px;
-  height: 300px;
+  height: 270px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  background-image: url('/assets/placeholder.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60% auto;
+
+  &__content {
+    display: none;
+  }
+
+  &--loaded {
+    background-image: none;
+
+    .product-image__content {
+      display: block;
+    }
+  }
 
   &:hover {
     img {
