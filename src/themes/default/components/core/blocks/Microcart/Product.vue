@@ -77,13 +77,11 @@
 import rootStore from '@vue-storefront/store'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
-import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 
 export default {
   components: {
-    EditButton,
     RemoveButton,
     BaseInputNumber
   },
