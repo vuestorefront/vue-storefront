@@ -22,25 +22,25 @@ During the stabilization phase new features are merged to develop branch and wil
 
 ### 1. Development phase
 
-The first phase of cycle we're mostly focusing on features and improvements. Branches in that phase should be created from actual `develop`, also PRs should be pointed to this branch. Changes merged to develop are available to test on https://test.storefrontcloud.io
+The first phase of cycle we're mostly focusing on features and improvements. Branches in that phase should be created from actual `develop`, also PRs should be pointed to this branch. Changes merged to `develop` are available to test on https://test.storefrontcloud.io
 
 ![Development phase](./assets/release-cycle-1.png)
 
 ### 2. Release Candidate phase
 
-At some point, when milestone for next minor versions is completed, we're creating new branch from `develop` called `RC-x.y` (example: `rc-1.9`).
-After that new branch is tagged as first RC for version (example `v1.9.0-RC.1`). Then it's ready for testing by community.
-During tests, feedback and stabilisation there could be multiple RC releases on this branch. When improvement is made on this phase, then branch should be created from actual `rc-x.y` and should not contain features at this point - only improvements for current release.
+At some point, when milestone for next minor versions is completed, we're creating new branch from `develop` called `rc-x.y` (example: `rc-1.9`).
+After that new branch is tagged as first RC for version (example `v1.9.0-rc.1`). Then it's ready for testing by community.
+During tests, feedback and stabilization there could be multiple Release Candidate versions on this branch. When improvement is made on this phase, then branch should be created from actual `rc-x.y` and should not contain features at this point - only improvements for current release.
 When release branch is updated, then should `develop` should be synchronized with it.
 
 ![Release Candidate phase](./assets/release-cycle-2.png)
 
 ### 3. Release phase
 
-When RC version is stable, then release branch is merged into `master` and tagged as next stable version (example `v1.9.0`). After that currently merged release branch is deleted and starts new development phase. Yet, it some critical bug is discovered on current stable version, then new branch should be created from actual `master` and merged into `hotfix-x.y.z` (where `z` is next path intertion; example: `hotfix-1.9.1`). After merging and testing hotfixes, this branch (like release branch before) is merged into `master` and tag by next path version from hotfix branch name.
+When RC version is stable, then release branch is merged into `master` and tagged as next stable version (example `v1.9.0`). After that currently merged release branch is deleted and starts new development phase. If some critical bug is discovered on current stable version, then new hotfix (for example `hotfix/v1.9.1`, following [Semantic Versioning rules](https://semver.org/)) branch should be created from actual `master`. After merging and testing hotfixes, this branch (like release branch before) is merged into `master` and tagged following [Semantic Versioning rules](https://semver.org/).
 
 ![Release phase](./assets/release-cycle-3.png)
 
 ### Summary
 
-Important thing to notice is that this releasing cycle ensures stable and reliable Storefront releases. Phases are also not blocking new features - you can develop new features on any phase, but it should be merged only to develop and go through whole cycle.
+Important thing to notice is that this releasing cycle ensures stable and reliable Storefront releases. Phases are also not blocking new features - you can develop new features on any phase, but it should be merged only to `develop` branch and go through whole cycle.
