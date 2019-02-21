@@ -57,12 +57,10 @@ export default {
       this.activeComponent = component
     }
   },
-  watch: {
-    '$route.name': {
-      immediate: true,
-      handler: function () {
-        this.activeComponent = this.navigation.find(nav => nav.link === this.$route.path) ? this.navigation.find(nav => nav.link === this.$route.path).component : null
-      }
+  computed: {
+    activeComponent () {
+      const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
+      return matchedNav ? matchedNav.component : null
     }
   },
   data () {
@@ -76,8 +74,7 @@ export default {
         { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
         { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
         { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
-      ],
-      activeComponent: null
+      ]
     }
   }
 }
