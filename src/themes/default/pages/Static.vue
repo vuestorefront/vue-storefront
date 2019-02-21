@@ -13,7 +13,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link :to="localizedRoute(page.link)" @click.native="setContent(page.component)" class="cl-accent relative">{{ page.title }}</router-link>
+                <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
@@ -50,11 +50,6 @@ export default {
     page: {
       type: String,
       required: true
-    }
-  },
-  methods: {
-    setContent (component) {
-      this.activeComponent = component
     }
   },
   computed: {
