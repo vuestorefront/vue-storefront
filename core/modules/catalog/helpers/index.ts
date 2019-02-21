@@ -535,7 +535,7 @@ export function getMediaGallery (product) {
           if (mediaItem.image) {
               mediaGallery.push({
                 'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                'loading': getThumbnailPath(product.image, 310, 300),
+                'loading': getThumbnailPath(mediaItem.image, 310, 300),
                 'video': mediaItem.vid
               })
           }
@@ -560,7 +560,7 @@ export function configurableChildrenImages(product) {
             if (groupedByAttribute[confChild][0].image) {
                 configurableChildrenImages.push({
                     'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product.image, 310, 300),
+                    'loading': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
                     'id': confChild
                 })
             }
