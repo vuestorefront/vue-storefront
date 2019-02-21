@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import RootState from '@vue-storefront/core/types/RootState'

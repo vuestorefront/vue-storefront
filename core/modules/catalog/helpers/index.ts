@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
@@ -529,18 +529,19 @@ export function configureProductAsync (context, { product, configuration, select
  */
 
 export function getMediaGallery (product) {
-    let mediaGallery = []
-    if (product.media_gallery) {
-        for (let mediaItem of product.media_gallery) {
-            if (mediaItem.image) {
-                mediaGallery.push({
-                    'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product.image, 310, 300)
-                })
-            }
-        }
-    }
-    return mediaGallery
+  let mediaGallery = []
+  if (product.media_gallery) {
+      for (let mediaItem of product.media_gallery) {
+          if (mediaItem.image) {
+              mediaGallery.push({
+                'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+                'loading': getThumbnailPath(product.image, 310, 300),
+                'video': mediaItem.vid
+              })
+          }
+      }
+  }
+  return mediaGallery
 }
 
 /**

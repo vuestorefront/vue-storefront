@@ -13,10 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
 - Wishlist and compare items are loaded from local cache only once, instead of every time when module component is rendered - @patzick (#2431)
 - Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
+- Added video support in Product Gallery component. - @rain2o (#2433)
 - Improved product quantity change component in product and cart - @patzick (#2398, #2437)
 - Updated to Vue 2.6.6 - @filrak (#2456)
 - Null sidebar menu data on static page fixed - @filrak (#2456)
 - Fix cannot edit previous steps in checkout - @filrak (#2457)
+- Fix links in footer to static pages bug - @filrak (#2464)
+- Improve images loading on category page, corrected alt view and blinking problem - @patzick (#2465)
+- Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
+
+
+### Deprecated / Removed
+- `@vue-storefront/store` package deprecated - @filrak
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
