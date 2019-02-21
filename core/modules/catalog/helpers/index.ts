@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
