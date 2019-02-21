@@ -66,7 +66,7 @@ export default {
     return {
       carouselTransitionSpeed: 300,
       currentPage: 0,
-      hideImageAtIndexAtIndex: null
+      hideImageAtIndex: null
     }
   },
   components: {
