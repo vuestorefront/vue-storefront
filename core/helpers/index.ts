@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
 import { Logger } from '@vue-storefront/core/lib/logger'

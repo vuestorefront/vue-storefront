@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
 

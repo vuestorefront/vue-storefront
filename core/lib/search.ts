@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { sha3_224 } from 'js-sha3'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
 import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'

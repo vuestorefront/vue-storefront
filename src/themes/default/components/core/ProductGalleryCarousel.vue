@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 import { Carousel, Slide } from 'vue-carousel'
 
 export default {
