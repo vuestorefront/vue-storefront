@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Null sidebar menu data on static page fixed - @filrak (#2456)
 - Fix cannot edit previous steps in checkout - @filrak (#2457)
 - Improve images loading on category page, corrected alt view and blinking problem - @patzick (#2465)
+- Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
 
 
 ### Deprecated / Removed
