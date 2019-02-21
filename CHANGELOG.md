@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix links in footer to static pages bug - @filrak (#2464)
 - Improve images loading on category page, corrected alt view and blinking problem - @patzick (#2465)
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
-
+- fix breadcrumbs changing too early - @filrak (#2469)
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
