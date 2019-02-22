@@ -47,6 +47,7 @@ class Logger
         return JSON.stringify(payload)
       }
     }
+    return JSON.stringify(payload) 
   }
 
   /**

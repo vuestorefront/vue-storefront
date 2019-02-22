@@ -67,9 +67,8 @@ const invokeClientEntry = async () => {
       _commonErrorHandler(err, next)
     })
   }
-  let _appMounted = false
   router.onReady(() => {
-    router.beforeResolve((to, from, next) => { // this is NOT CALLED after SSR request as no component is being resolved client side
+    router.beforeResolve((to, from, next) => {
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
