@@ -18,7 +18,7 @@ export function beforeEach(to: Route, from: Route, next) {
           action1: { label: i18n.t('OK') }
         })
       } else {
-        if (!from.matched.length) {
+        if (!from.name) {
           next('/')
           setTimeout(()=> {
             router.push(to.path)

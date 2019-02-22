@@ -14,6 +14,13 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 const actions: ActionTree<UserState, RootState> = {
   startSession (context) {
+    const storeView = currentStoreView()
+    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+    const user = localStorage.getItem(`${dbNamePrefix}shop/user/current-user`);
+    if (user) {
+      context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
+    }
+
     context.commit(types.USER_START_SESSION)
     const cache = Vue.prototype.$db.usersCollection
     cache.getItem('current-token', (err, res) => {
@@ -43,17 +50,6 @@ const actions: ActionTree<UserState, RootState> = {
       }
       Vue.prototype.$bus.$emit('session-after-started')
     })
-  },
-  /**
-   * Retrieve authenticated user from browser cache synchronously
-   */
-  loadFromCache (context) {
-    const storeView = currentStoreView()
-    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-    const user = localStorage.getItem(`${dbNamePrefix}shop/user/current-user`);
-    if (user) {
-      context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
-    }
   },
   /**
    * Send password reset link for specific e-mail
