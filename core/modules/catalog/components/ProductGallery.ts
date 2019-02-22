@@ -24,8 +24,5 @@ export const ProductGallery = {
     }
   },
   computed: {
-    defaultImage () {
-      return this.gallery.length ? this.gallery[0] : false
-    }
   }
 }
