@@ -64,9 +64,9 @@ export default {
   },
   data () {
     return {
-      carouselTransitionSpeed: 300,
+      carouselTransitionSpeed: 0,
       currentPage: 0,
-      hideImageAtIndexAtIndex: null
+      hideImageAtIndex: null
     }
   },
   components: {
@@ -140,11 +140,11 @@ export default {
   right: 0;
 }
 img {
-  opacity: 0.9;
+  opacity: 1;
   mix-blend-mode: multiply;
   vertical-align: top;
   &:hover {
-    opacity: 1;
+    opacity: 0.9;
   }
 }
 img[lazy=error] {
@@ -152,6 +152,10 @@ img[lazy=error] {
 }
 img[lazy=loading] {
   width: 100%;
+}
+img[lazy=loaded] {
+  -webkit-animation: none;
+  animation: none;
 }
 
 .video-container {
