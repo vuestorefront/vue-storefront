@@ -93,7 +93,7 @@ export function adjustMultistoreApiUrl (url: string) : string {
 }
 
 export function localizedRoute (routeObj: Route | string, storeCode: string) {
-  if (routeObj && typeof routeObj === 'object' && routeObj.fullPath) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }), storeCode)
+  if (routeObj && routeObj.fullPath) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }), storeCode)
   if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
