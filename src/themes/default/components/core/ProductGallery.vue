@@ -21,7 +21,8 @@
             :current-slide="currentSlide"
             :product-name="product.name"
             :gallery="gallery"
-            @close="toggleZoom"/>
+            @close="toggleZoom"
+          />
           <no-ssr>
             <product-gallery-carousel
               v-if="showProductGalleryCarousel"
@@ -92,6 +93,10 @@ export default {
 .media-gallery {
   text-align: center;
   height: 100%;
+  background-image: url('/assets/placeholder.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40% auto;
 }
 .offline-image {
   width: 100%;
