@@ -8,9 +8,13 @@
         <sidebar-menu v-if="isSidebarOpen"/>
       </transition>
       <transition name="slide-left">
-        <microcart v-if="isMicrocartOpen"/>
         <search-panel v-if="isSearchPanelOpen"/>
-        <wishlist v-if="isWishlistOpen"/>
+        <sidebar v-if="isWishlistOpen">
+          <wishlist v-if="isWishlistOpen"/>
+        </sidebar>
+        <sidebar v-if="isMicrocartOpen">
+          <microcart v-if="isMicrocartOpen"/>
+        </sidebar>
       </transition>
       <slot/>
       <main-footer/>
@@ -27,7 +31,7 @@
 <script>
 import { mapState } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-
+import Sidebar from 'theme/components/theme/Sidebar.vue'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 
@@ -105,7 +109,8 @@ export default {
     SignUp,
     CookieNotification,
     OfflineBadge,
-    OrderConfirmation
+    OrderConfirmation,
+    Sidebar
   }
 }
 </script>
