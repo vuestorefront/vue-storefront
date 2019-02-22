@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
 - fix breadcrumbs changing too early - @filrak (#2469)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481)
+- fix price is never below 0 and user can't add 0 or below 0 products to cart @RakowskiPrzemyslaw (#2437)
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak

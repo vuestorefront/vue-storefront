@@ -11,6 +11,22 @@
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event.target.value)"
     >
+    <template v-if="validation">
+      <span class="block cl-error h6 mt8" v-if="validation.condition">
+        {{ validation.text }}
+      </span>
+    </template>
+    <template v-else-if="validations">
+      <span
+        v-for="(validation, index) in validations"
+        :key="index"
+        v-if="validation.condition"
+        class="block cl-error h6 mt8"
+        data-testid="errorMessage"
+      >
+        {{ validation.text }}
+      </span>
+    </template>
   </div>
 </template>
 
@@ -39,6 +55,16 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    validation: {
+      type: Object,
+      required: false,
+      default: () => { }
+    },
+    validations: {
+      type: Array,
+      required: false,
+      default: () => []
     }
   },
   computed: {
