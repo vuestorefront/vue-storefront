@@ -64,17 +64,18 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     if (skipCache || ((!context.state.list || context.state.list.length === 0) || customizedQuery)) {
     return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
-    for (let category of resp.items) {
-      if (category.url_path) {
-        rootStore.dispatch('url/registerMapping', {
-          url: category.url_path,
-          routeData: {
-            params: {
-              'slug': category.slug
-            },
-            'name': 'category'
-          }
-        }, { root: true })
+      for (let category of resp.items) {
+        if (category.url_path) {
+          rootStore.dispatch('url/registerMapping', {
+            url: category.url_path,
+            routeData: {
+              params: {
+                'slug': category.slug
+              },
+              'name': 'category'
+            }
+          }, { root: true })
+        }
       }
       commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
       Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })

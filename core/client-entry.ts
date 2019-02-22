@@ -31,6 +31,7 @@ const invokeClientEntry = async () => {
       prepareStoreView(storeCode)
     }
   }
+  store.dispatch('url/registerDynamicRoutes', {}, { root: true })
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {

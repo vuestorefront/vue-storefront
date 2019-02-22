@@ -6,7 +6,15 @@ import { cacheStorage } from '../'
 import { parseURLQuery } from '@vue-storefront/core/helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
+import { storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
+const _parametrizedRoutedata = (routeData, query, storeCodeInPath) => {
+  routeData.params = Object.assign({}, routeData.params || {}, query)
+  if (storeCodeInPath) {
+    routeData.name = storeCodeInPath + '-' + routeData.name
+  }
+  return routeData
+}
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
@@ -31,19 +39,20 @@ export const actions: ActionTree<UrlState, any> = {
   },
   mapUrl ({ state, dispatch }, { url, query }) {
     const parsedQuery = typeof query === 'string' ? parseURLQuery(query) : query
-    url = normalizeUrlPath(url)
+    const storeCodeInPath = storeCodeFromRoute(url)
+    url = normalizeUrlPath(url, true)
 
     return new Promise ((resolve, reject) => {
-      if (state.dispatcherMap.hasOwnProperty(url)) {
-        return resolve (state.dispatcherMap[url])
+      if (state.dispatcherMap[url]) {
+        return resolve (_parametrizedRoutedata(state.dispatcherMap[url], query, storeCodeInPath))
       }
       cacheStorage.getItem(url).then(routeData => {
         if (routeData !== null) {
-          return resolve(routeData)
+          return resolve(_parametrizedRoutedata(routeData, query, storeCodeInPath))
         } else {
           dispatch('mappingFallback', { url, params: parsedQuery }).then((routeData) => {
             dispatch('registerMapping', { url, routeData }) // register mapping for further usage
-            resolve(routeData)
+            resolve(_parametrizedRoutedata(routeData, query, storeCodeInPath))
           }).catch(reject)
         }
       }).catch(reject)

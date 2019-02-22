@@ -1,15 +1,32 @@
 import userRoutes from 'theme/router'
 import { router } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/store'
-import { localizedDispatcherRoute, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { localizedDispatcherRoute, localizedRoute, currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import { Route } from 'vue-router/types/router';
 
 export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
   const userRoute = userRoutes.find(r => r.name === routeData.name)
   if (userRoute) {
-    const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })
-    if (addToRoutes) router.addRoutes([dynamicRoute])
-    return dynamicRoute
+    const config = rootStore.state.config
+    if (addToRoutes) {
+      const routes = []
+      const rootDynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })
+      routes.push(rootDynamicRoute)
+      if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
+        for (let storeCode of config.storeViews.mapStoreUrlsFor) {
+          if (storeCode) {
+            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((rootStore.state.config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}-${storeCode}` })
+            routes.push(dynamicRoute)
+          }
+        }
+      }
+      router.addRoutes(routes)
+      return routes
+    } else {
+      const storeView = currentStoreView()
+      const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((rootStore.state.config.defaultStoreCode !== storeView.storeCode) ? (storeView.storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}` })
+      return dynamicRoute
+    }
   } else {
     return null
   }
@@ -19,8 +36,9 @@ export function findRouteByPath(fullPath) {
   return userRoutes.find(r => r.fullPath === fullPath)
 }
 
-export function normalizeUrlPath(url) {
+export function normalizeUrlPath(url, removeStoreCode = true) {
   if (url && url.length > 0) {
+    url = removeStoreCodeFromRoute(url)
     if (url[0] === '/') url = url.slice(1)
     const queryPos = url.indexOf('?')
     if (queryPos > 0) url = url.slice(0, queryPos)

@@ -25,7 +25,8 @@ export function beforeEach(to: Route, from: Route, next) {
   if (to.matched.length == 0 || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
-        const dynamicRoute = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
+        let dynamicRoute = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
+        if (Array.isArray(dynamicRoute)) dynamicRoute = dynamicRoute[0] // if multistore enabled
         if (dynamicRoute) {
           next(dynamicRoute)
         } else {

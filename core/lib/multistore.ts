@@ -70,10 +70,11 @@ export function prepareStoreView (storeCode: string) : StoreView {
   return storeView
 }
 
-export function storeCodeFromRoute (matchedRoute: Route) : string {
-  if (matchedRoute) {
+export function storeCodeFromRoute (matchedRouteOrUrl: Route | string) : string {
+  if (matchedRouteOrUrl) {
     for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
-      if (matchedRoute.path.indexOf('/' + storeCode + '/') === 0 || matchedRoute.path === '/' + storeCode) {
+      const urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+      if (urlPath.indexOf('/' + storeCode + '/') === 0 || urlPath === '/' + storeCode) {
         return storeCode
       }
     }
@@ -82,7 +83,19 @@ export function storeCodeFromRoute (matchedRoute: Route) : string {
     return ''
   }
 }
-
+export function removeStoreCodeFromRoute (matchedRouteOrUrl: Route | string) : Route | string {
+  const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
+  if (storeCodeInRoute !== '') {
+    if (typeof matchedRouteOrUrl === 'object') {
+      matchedRouteOrUrl.path.replace('/' + storeCodeInRoute + '/', '')
+      return matchedRouteOrUrl
+    } else {
+      return matchedRouteOrUrl.replace('/' + storeCodeInRoute + '/', '')
+    }
+  } else {
+    return matchedRouteOrUrl
+  }
+}
 export function adjustMultistoreApiUrl (url: string) : string {
   const storeView = currentStoreView()
   if (storeView.storeCode) {
@@ -93,7 +106,7 @@ export function adjustMultistoreApiUrl (url: string) : string {
 }
 
 export function localizedRoute (routeObj: Route | string, storeCode: string) {
-  if (routeObj && routeObj.fullPath) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }), storeCode)
+  if (typeof routeObj === 'object' && routeObj && routeObj.fullPath) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }), storeCode)
   if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {

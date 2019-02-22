@@ -192,6 +192,7 @@
           "tax_class_id",
           "media_gallery",
           "url_key",
+          "url_path",
           "max_price",
           "minimal_regular_price",
           "special_price",
