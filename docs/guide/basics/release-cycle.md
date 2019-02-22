@@ -15,7 +15,7 @@ So assuming next version is 1.x the two-month cycle will look as following:
 ## How new features are merged
 
 During RC features Pull Request with new features after feedback and acceptance are normally merged to `develop` branch. 
-After entering the Stabilization Phase we are tagging current develop branch, creating a `RC-x` (where `x` is a number of current version) branch from it and working on stabilization there. 
+After entering the Stabilization Phase we are tagging current develop branch, creating a `release/x` (where `x` is a number of current version) branch from it and working on stabilization there. 
 During the stabilization phase new features are merged to develop branch and will be merged on next `RC` phase.
 
 ## Release cycle flow
@@ -28,9 +28,9 @@ The first phase of cycle we're mostly focusing on features and improvements. Bra
 
 ### 2. Release Candidate phase
 
-At some point, when milestone for next minor versions is completed, we're creating new branch from `develop` called `rc-x.y` (example: `rc-1.9`).
+At some point, when milestone for next minor versions is completed, we're creating new branch from `develop` called `release/vx.y` (example: `release/v1.9`).
 After that new branch is tagged as first RC for version (example `v1.9.0-rc.1`). Then it's ready for testing by community.
-During tests, feedback and stabilization there could be multiple Release Candidate versions on this branch. When improvement is made on this phase, then branch should be created from actual `rc-x.y` and should not contain features at this point - only improvements for current release.
+During tests, feedback and stabilization there could be multiple Release Candidate versions on this branch. When improvement is made on this phase, then branch should be created from actual `release/vx.y` and should not contain features at this point - only improvements for current release.
 When release branch is updated, then should `develop` should be synchronized with it.
 
 ![Release Candidate phase](./assets/release-cycle-2.png)
