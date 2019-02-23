@@ -3,7 +3,7 @@ import { ActionTree } from 'vuex';
 import * as types from './mutation-types'
 // you can use this storage if you want to enable offline capabilities
 import { cacheStorage } from '../'
-import { parseURLQuery } from '@vue-storefront/core/helpers'
+import queryString from 'query-string'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
@@ -38,7 +38,7 @@ export const actions: ActionTree<UrlState, any> = {
     }
   },
   mapUrl ({ state, dispatch }, { url, query }) {
-    const parsedQuery = typeof query === 'string' ? parseURLQuery(query) : query
+    const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url, true)
 

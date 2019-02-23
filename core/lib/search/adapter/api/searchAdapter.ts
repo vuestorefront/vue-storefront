@@ -2,7 +2,8 @@ import map from 'lodash-es/map'
 import rootStore from '@vue-storefront/store'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
-import { slugify, buildURLQuery } from '@vue-storefront/core/helpers'
+import { slugify } from '@vue-storefront/core/helpers'
+import queryString from 'query-string'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
@@ -73,7 +74,7 @@ export class SearchAdapter {
       httpQuery.request = JSON.stringify(ElasticsearchQueryBody)
     }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
-    url = url + '?' + buildURLQuery(httpQuery)
+    url = url + '?' + queryString.stringify(httpQuery)
     return fetch(url, { method: rootStore.state.config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {

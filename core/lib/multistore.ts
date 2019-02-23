@@ -3,7 +3,7 @@ import { loadLanguageAsync } from '@vue-storefront/i18n'
 import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
 import { Route } from 'vue-router'
-import { buildURLQuery } from '@vue-storefront/core/helpers'
+import queryString from 'query-string'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export interface StoreView {
@@ -119,16 +119,16 @@ export function localizedRoute (routeObj: Route | string, storeCode: string) {
   }
   return routeObj
 }
-
 export function localizedDispatcherRoute (routeObj: Route | string, storeCode: string) {
   if (typeof routeObj === 'string') {
     return '/' + storeCode + routeObj
   } 
-  if (routeObj && typeof routeObj === 'object' && routeObj.fullPath) { // case of using dispatcher
-    return '/' + ((rootStore.state.config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + routeObj.fullPath + (routeObj.params ? ('?' + buildURLQuery(routeObj.params)) : '')
-  } else {
-    return routeObj
+  if (routeObj && routeObj.fullPath) { // case of using dispatcher
+    const routeCodePrefix = rootStore.state.config.defaultStoreCode !== storeCode ? `/${storeCode}` : ''
+    const qrStr = queryString.stringify(routeObj.params)
+    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
   }
+  return routeObj
 }
 
 export function setupMultistoreRoutes (config, router, routes) {

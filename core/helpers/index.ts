@@ -20,34 +20,7 @@ export function slugify (text) {
     .replace(/[^\w-]+/g, '') // Remove all non-word chars
     .replace(/--+/g, '-') // Replace multiple - with single -
 }
-/**
- * 
- * @param obj Build URL query string
- */
-export function buildURLQuery (obj, removeNullValues = true) {  
-  let pairs = Object.entries(obj)
-  if (removeNullValues) pairs = pairs.filter(pair => {
-    if (pair.length == 2 && !pair[1]) return false
-    return true
-  })
-  return (pairs.map(pair => {
-    return pair.map(encodeURIComponent).join('=')
-  }).join('&'))
-}
 
-export function parseURLQuery (queryString) {
-  if (queryString === null || typeof queryString !== 'string') return {}
-  const params = {}
-  let queries, temp, i, l
-  // Split into key/value pairs
-  queries = queryString.split("&")
-  // Convert the array of strings into an object
-  for ( i = 0, l = queries.length; i < l; i++ ) {
-      temp = queries[i].split('=')
-      params[temp[0]] = temp[1]
-  }
-  return params
-}
 /**
  * @param relativeUrl
  * @param width
