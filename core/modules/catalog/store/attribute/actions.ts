@@ -4,7 +4,7 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import AttributeState from '../../types/AttributeState'
 import RootState from '@vue-storefront/core/types/RootState'
 import { ActionTree } from 'vuex'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<AttributeState, RootState> = {

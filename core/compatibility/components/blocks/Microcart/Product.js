@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { MicrocartProduct } from '@vue-storefront/core/modules/cart/components/Product.ts'
 import i18n from '@vue-storefront/i18n'
 

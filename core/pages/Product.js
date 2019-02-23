@@ -1,6 +1,6 @@
 import { mapGetters } from 'vuex'
 
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'

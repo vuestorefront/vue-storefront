@@ -10,12 +10,14 @@
       navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
       ref="carousel"
       :speed="carouselTransitionSpeed"
+      @pageChange="pageChange"
     >
       <slide
-        v-for="images in gallery"
+        v-for="(images, index) in gallery"
         :key="images.src">
-        <div class="bg-cl-secondary">
+        <div class="bg-cl-secondary" :class="{'video-container h-100 flex relative': images.video}">
           <img
+            v-show="hideImageAtIndex !== index"
             class="product-image inline-flex pointer mw-100"
             v-lazy="images"
             ref="images"
@@ -24,6 +26,11 @@
             data-testid="productGalleryImage"
             itemprop="image"
           >
+          <product-video
+            v-if="images.video && (index === currentPage)"
+            v-bind="images.video"
+            :index="index"
+            @video-started="onVideoStarted"/>
         </div>
       </slide>
     </carousel>
@@ -35,8 +42,9 @@
 </template>
 
 <script>
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 import { Carousel, Slide } from 'vue-carousel'
+import ProductVideo from './ProductVideo'
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -56,12 +64,15 @@ export default {
   },
   data () {
     return {
-      carouselTransitionSpeed: 300
+      carouselTransitionSpeed: 0,
+      currentPage: 0,
+      hideImageAtIndex: null
     }
   },
   components: {
     Carousel,
-    Slide
+    Slide,
+    ProductVideo
   },
   beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
@@ -105,6 +116,13 @@ export default {
     },
     increaseCarouselTransitionSpeed () {
       this.carouselTransitionSpeed = 500
+    },
+    pageChange (index) {
+      this.currentPage = index
+      this.hideImageAtIndex = null
+    },
+    onVideoStarted (index) {
+      this.hideImageAtIndex = index
     }
   }
 }
@@ -122,11 +140,11 @@ export default {
   right: 0;
 }
 img {
-  opacity: 0.9;
+  opacity: 1;
   mix-blend-mode: multiply;
   vertical-align: top;
   &:hover {
-    opacity: 1;
+    opacity: 0.9;
   }
 }
 img[lazy=error] {
@@ -134,6 +152,15 @@ img[lazy=error] {
 }
 img[lazy=loading] {
   width: 100%;
+}
+img[lazy=loaded] {
+  -webkit-animation: none;
+  animation: none;
+}
+
+.video-container {
+  align-items: center;
+  justify-content: center;
 }
 </style>
 

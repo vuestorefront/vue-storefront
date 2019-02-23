@@ -303,6 +303,12 @@ If this option is set to `true`, in case of configurable products, Vue Storefron
 If this option is set to `true`, Vue Storefront will add use price item with a discount to the shopping cart. Otherwise, the product price and special will be added to the shopping cart instead.
 
 ```json
+  "minicartCountType": "quantities",
+```
+
+If this option is set to `items`, Vue Storefront will calculate the cart count based on items instead of the item quantities.
+
+```json
   "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
   "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
   "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
