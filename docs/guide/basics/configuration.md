@@ -191,7 +191,7 @@ The internationalization settings are used by the translation engine (`defautlLo
 
 If this option is set to true, Vue Storefront will be limiting the data got from the API endpoints to the `includeFields` and remove all the `excludeFields` as set for all the specific entities below. This option is set to `true` by default as the JSON objects could ... be of significant size!
 
-This option property is referenced in the [core/store/modules/product](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/product), [core/store/modules/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category), [core/store/modules/attribute](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/attribute)
+This option property is referenced in the [core/modules/catalog/store/product](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/product), [core/modules/catalog/store/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category), [core/modules/catalog/store/attribute](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/attribute)
 
 ```json
   "twoStageCaching": true,
@@ -201,7 +201,7 @@ Vue Storefront caches all the data entities got from `vue-storefront-api` into i
 
 In such a case we're using a strategy called `twoStageCaching` which works like it executes two parallel server requests at once to get the required product, category or attribute feeds. The first request is with the limited fields and the second is for full records. Only the second request is cached **but\*\*** the first (which typically ends-up faster) is used for displaying the Category or Product page.
 
-Please take a look at the [core/store/modules/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category) for the reference.
+Please take a look at the [core/modules/catalog/store/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category) for the reference.
 
 ```json
   "optimizeShoppingCart": true,
@@ -209,7 +209,7 @@ Please take a look at the [core/store/modules/category](https://github.com/Divan
 
 Vue Storefront product objects can be quite large ones. They consist of `configurable_children`, `media_gallery` and other information. Quite significant for rendering the Product and Category pages but not so useful in the Shopping cart. To limit the shopping cart size (as it's transferred to the server while making an order) this option is being used.
 
-Please take a look at the [core/store/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart).
+Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart).
 
 ```json
   "category": {
@@ -244,7 +244,7 @@ Starting with Vue Storefront 1.7 we've added a configuration option `config.enti
 
 ```json
 "cart": {
-  "bypassCartLoaderForAuthorizedUsers": true,,
+  "bypassCartLoaderForAuthorizedUsers": true,
 ```
 
 The cart loader bypass feature is there because we're posting orders to Magento asynchronously - it may happen that directly after placing an order, the Magento’s user still have the same quote id and after browsing through VS Store old items will be restored to the shopping cart. Now you can disable this behavior by setting `bypassCartLoaderForAuthorizedUsers` option to `false`
@@ -268,7 +268,7 @@ EventBus.$emit('servercart-after-diff', {
 
 In the event handler, one can handle the merge process manually - for example displaying the proper information to the user before the real merge takes place.
 
-Please have a look at the [core/store/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart) for a reference.
+Please have a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart) for a reference.
 
 ```json
   "synchronize": true,
@@ -276,7 +276,7 @@ Please have a look at the [core/store/modules/cart](https://github.com/DivanteLt
 
 If it's set to `true` the `serverPull` Vuex method will be executed whenever the user adds, removes or edits any product in the shopping cart. This method syncs the client's side shopping cart with the server side one.
 
-Please take a look at the [core/store/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart) for a reference.
+Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart) for a reference.
 
 ```json
   "synchronize_totals": true,
