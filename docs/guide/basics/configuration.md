@@ -629,7 +629,7 @@ Internationalization settings are used by the translation engine (`defautlLocale
 },
 ```
 
-This property is used by the mailchimp extension (See [src/extensions](https://github.com/DivanteLtd/vue-storefront/tree/master/src/extensions) for a reference).
+This property is used by the mailchimp extension (See [src/extensions](https://github.com/DivanteLtd/vue-storefront-api/tree/master/src/api/extensions) for a reference).
 
 ## Theme
 
