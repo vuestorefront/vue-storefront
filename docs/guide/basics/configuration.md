@@ -161,7 +161,7 @@ ElasticSearch settings can be overridden in the specific `storeView` config. You
     },
 ```
 
-Taxes section is used by the [core/store/lib/taxcalc.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/taxcalc.ts). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/helpers/tax). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous unidentified user (which country is not set yet).
 
@@ -578,7 +578,7 @@ When `demomode` is set to `true`, Vue Storefront will display the "Welcome to Vu
 },
 ```
 
-Taxes section is used by the [core/store/lib/taxcalc.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/lib/taxcalc.ts). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous unidentified user (which country is not set yet).
 
