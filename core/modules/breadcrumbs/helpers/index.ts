@@ -1,4 +1,3 @@
-import rootStore from '@vue-storefront/store'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 // Duplicate of breadCrumbRoutes, to repalce it soon. 

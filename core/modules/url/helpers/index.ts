@@ -1,5 +1,5 @@
 import { router } from '@vue-storefront/core/app'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { localizedDispatcherRoute, localizedRoute, currentStoreView, removeStoreCodeFromRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import { Route, Dictionary } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
