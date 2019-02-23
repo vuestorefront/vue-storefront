@@ -347,7 +347,7 @@ Please take a look at the [core/lib/search.ts](https://github.com/DivanteLtd/vue
   "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
 ```
 
-Vue Storefront tries to dynamically get the stock quantities for simple products related to the configurable ones (products included in the `configurabe_children` array). If the `configurableChildrenStockPrefetchStatic` is set to `true`, the stock items are prefetched from the Category page level. Please take a look at the [core/store/modules/category/actions.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category/actions.ts). The second option - `configurableChildrenStockPrefetchStaticPrefetchCount` sets how many products in the category should be prefetched using this mechanism.
+Vue Storefront tries to dynamically get the stock quantities for simple products related to the configurable ones (products included in the `configurabe_children` array). If the `configurableChildrenStockPrefetchStatic` is set to `true`, the stock items are prefetched from the Category page level. Please take a look at the [core/modules/catalog/store/category/actions.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category/actions.ts). The second option - `configurableChildrenStockPrefetchStaticPrefetchCount` sets how many products in the category should be prefetched using this mechanism.
 
 ```json
   "configurableChildrenStockPrefetchDynamic": false,
