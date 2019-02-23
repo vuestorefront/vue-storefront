@@ -338,7 +338,7 @@ When this option is set to `true`, Vue Storefront will use the alternative routi
 ```
 
 When `useMagentoUrlKeys` is set to `true` the `product.url_key` value will be used for product and category slugs used in the URL building process. Otherwise, the slug will be generated based on the product or category name.
-Please take a look at the [core/lib/search.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/lib/search.ts) and [core/store/modules/category/mutations.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category/mutations.ts) for reference
+Please take a look at the [core/lib/search.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/lib/search.ts) and [core/modules/catalog/store/category/mutations.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category/mutations.ts) for reference
 
 **Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating its value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
 
