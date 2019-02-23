@@ -668,7 +668,7 @@ You can put your Hotjar Site ID in here as to be used by the hotjar extension.
 }
 ```
 
-This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be set when using the [src/extensions/cms](https://github.com/DivanteLtd/vue-storefront/tree/master/src/extensions/cms)
+This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be set when using the [src/api/extensions/cms-data](https://github.com/DivanteLtd/vue-storefront-api/tree/master/src/api/extensions/cms-data)
 
 ## Use price tiers
 
