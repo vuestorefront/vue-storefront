@@ -1,9 +1,9 @@
 import * as localForage from 'localforage'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 
-import UniversalStorage from '@vue-storefront/store/lib/storage'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 

@@ -14,13 +14,13 @@ import { configureProductAsync,
   configurableChildrenImages,
   attributeImages } from '../../helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { entityKeyName } from '@vue-storefront/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import { optionLabel } from '../../helpers/optionLabel'
 import { quickSearchByQuery, isOnline } from '@vue-storefront/core/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from  'lodash-es/uniqBy'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
@@ -104,7 +104,7 @@ const actions: ActionTree<ProductState, RootState> = {
       routes: breadCrumbRoutes,
       current: breadcrumbsName
     }
-    context.dispatch('breadcrumbs/set', breadcrumbs, { root: true })
+    context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {

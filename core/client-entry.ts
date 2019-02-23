@@ -4,11 +4,11 @@ import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 
 import buildTimeConfig from 'config'
 import { execute } from '@vue-storefront/core/lib/sync/task'
-import UniversalStorage from '@vue-storefront/store/lib/storage'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'

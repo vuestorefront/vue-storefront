@@ -1,7 +1,7 @@
 import * as localForage from 'localforage'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
-import UniversalStorage from '@vue-storefront/store/lib/storage'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const CancelOrders = {

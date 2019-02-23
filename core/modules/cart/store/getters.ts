@@ -45,7 +45,11 @@ const getters: GetterTree<CartState, RootState> = {
       return totalsArray
     }
   },
-  totalQuantity (state) {
+  totalQuantity (state, getters, rootStore) {
+    if (rootStore.config.cart.minicartCountType === 'items') {
+      return state.cartItems.length
+    }
+
     return sumBy(state.cartItems, (p) => {
       return p.qty
     })

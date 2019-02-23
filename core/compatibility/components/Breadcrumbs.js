@@ -8,7 +8,7 @@ export default {
     },
     activeRoute: {
       type: String,
-      required: true
+      default: ''
     }
   }
 }

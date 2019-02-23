@@ -1,5 +1,5 @@
 import map from 'lodash-es/map'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '@vue-storefront/core/helpers'
