@@ -6,7 +6,8 @@ import store from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
-import { storeCodeFromRoute, prepareStoreView } from '@vue-storefront/core/lib/multistore'
+import { storeCodeFromRoute, prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import Vue from 'vue'
 
 export const UrlDispatchMapper = (to) => {
   return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
@@ -50,7 +51,12 @@ export function beforeEach(to: Route, from: Route, next) {
       }
     }).catch(e => {
       Logger.error(e, 'dispatcher')()
-      next('/page-not-found')
+      if (!isServer) {
+        next('/page-not-found') 
+      } else {
+        const storeCode = currentStoreView().storeCode
+        Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :D
+      }
     })
   } else {
     next()
