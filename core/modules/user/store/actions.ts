@@ -8,11 +8,19 @@ import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import { UserProfile } from '../types/UserProfile';
+import { UserProfile } from '../types/UserProfile'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 // import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<UserState, RootState> = {
   startSession (context) {
+    const storeView = currentStoreView()
+    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+    const user = localStorage.getItem(`${dbNamePrefix}shop/user/current-user`);
+    if (user) {
+      context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
+    }
+
     context.commit(types.USER_START_SESSION)
     const cache = Vue.prototype.$db.usersCollection
     cache.getItem('current-token', (err, res) => {
