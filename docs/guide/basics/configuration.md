@@ -98,7 +98,7 @@ This option is referenced in the [core/client-entry.ts](https://github.com/Divan
 "defaultStoreCode": "",
 ```
 
-This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend - please just set it so. This config variable is referenced in the [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts)
+This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend - please just set it so. This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts)
 
 ## Store views
 
@@ -110,7 +110,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 
 If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](../integrations/multistore.md) will be included in the request flow.
 
-You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
+You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
 
 `storeViews` section contains one or more additional store views configured to serve proper i18n translations, tax settings etc. Please find the docs for this section below.
 
