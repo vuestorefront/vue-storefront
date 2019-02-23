@@ -24,7 +24,7 @@ export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
       return routes
     } else {
       const storeView = currentStoreView()
-      const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((rootStore.state.config.defaultStoreCode !== storeView.storeCode) ? (storeView.storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}` })
+      const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })
       return dynamicRoute
     }
   } else {
@@ -52,7 +52,7 @@ export function formatCategoryLink(category) {
 export function formatProductLink(product, storeCode) {
   if(rootStore.state.config.seo.useUrlDispatcher) {
     const routeData: Route = {
-      fullPath: rootStore.state.config.seo.useUrlDispatcher ? product.url_path : null,
+      fullPath: product.url_path,
       params: {
         childSku: product.sku === product.parentSku ? null : product.sku
       },
