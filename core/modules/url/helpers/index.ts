@@ -1,11 +1,11 @@
-import userRoutes from 'theme/router'
 import { router } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/store'
 import { localizedDispatcherRoute, localizedRoute, currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import { Route } from 'vue-router/types/router';
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
-  const userRoute = userRoutes.find(r => r.name === routeData.name)
+  const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     const config = rootStore.state.config
     if (addToRoutes) {
@@ -20,7 +20,7 @@ export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
           }
         }
       }
-      router.addRoutes(routes)
+      RouterManager.addRoutes(routes, router)
       return routes
     } else {
       const storeView = currentStoreView()
@@ -33,12 +33,11 @@ export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
 }
 
 export function findRouteByPath(fullPath) {
-  return userRoutes.find(r => r.fullPath === fullPath)
+  return RouterManager.findByPath(fullPath)
 }
 
 export function normalizeUrlPath(url, removeStoreCode = true) {
   if (url && url.length > 0) {
-    url = removeStoreCodeFromRoute(url)
     if (url[0] === '/') url = url.slice(1)
     const queryPos = url.indexOf('?')
     if (queryPos > 0) url = url.slice(0, queryPos)

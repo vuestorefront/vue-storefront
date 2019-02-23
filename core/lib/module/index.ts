@@ -9,6 +9,7 @@ import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 import { VSF, VueStorefrontModuleConfig } from './types'
 import { doesStoreAlreadyExists, mergeStores } from './helpers'
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
 const registeredModules: VueStorefrontModuleConfig[] = []
@@ -49,7 +50,7 @@ class VueStorefrontModule {
   private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
     if (routes) {
       setupMultistoreRoutes(rootStore.state.config, routerInstance, routes)
-      routerInstance.addRoutes(routes)
+      RouterManager.addRoutes(routes, routerInstance)
     }
     if (beforeEach) routerInstance.beforeEach(beforeEach)
     if (afterEach) routerInstance.afterEach(afterEach)

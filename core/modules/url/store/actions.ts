@@ -6,11 +6,11 @@ import { cacheStorage } from '../'
 import { parseURLQuery } from '@vue-storefront/core/helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
-import { storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
 const _parametrizedRoutedata = (routeData, query, storeCodeInPath) => {
   routeData.params = Object.assign({}, routeData.params || {}, query)
-  if (storeCodeInPath) {
+  if (storeCodeInPath && !routeData.name.startsWith(storeCodeInPath + '-')) {
     routeData.name = storeCodeInPath + '-' + routeData.name
   }
   return routeData
@@ -65,6 +65,7 @@ export const actions: ActionTree<UrlState, any> = {
   mappingFallback ({ commit, dispatch }, { url, params }) {
     return new Promise ((resolve, reject) => {
       const productQuery = new SearchQuery()
+      url = removeStoreCodeFromRoute(url)
       productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
       dispatch('product/list', { query: productQuery }, { root: true }).then((products) => {
        if (products && products.items.length > 0) {

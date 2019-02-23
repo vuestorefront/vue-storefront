@@ -4,6 +4,7 @@ import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
 import { Route } from 'vue-router'
 import { buildURLQuery } from '@vue-storefront/core/helpers'
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export interface StoreView {
   storeCode: string,
@@ -73,8 +74,9 @@ export function prepareStoreView (storeCode: string) : StoreView {
 export function storeCodeFromRoute (matchedRouteOrUrl: Route | string) : string {
   if (matchedRouteOrUrl) {
     for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
-      const urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
-      if (urlPath.indexOf('/' + storeCode + '/') === 0 || urlPath === '/' + storeCode) {
+      let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+      if (urlPath.length > 0 && urlPath[0] !== '/') urlPath = '/' + urlPath
+      if (urlPath.startsWith('/' + storeCode + '/') || urlPath === '/' + storeCode) {
         return storeCode
       }
     }
@@ -86,12 +88,8 @@ export function storeCodeFromRoute (matchedRouteOrUrl: Route | string) : string 
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: Route | string) : Route | string {
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
   if (storeCodeInRoute !== '') {
-    if (typeof matchedRouteOrUrl === 'object') {
-      matchedRouteOrUrl.path.replace('/' + storeCodeInRoute + '/', '')
-      return matchedRouteOrUrl
-    } else {
-      return matchedRouteOrUrl.replace('/' + storeCodeInRoute + '/', '')
-    }
+    let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+    return urlPath.replace(storeCodeInRoute + '/', '')
   } else {
     return matchedRouteOrUrl
   }
@@ -142,7 +140,7 @@ export function setupMultistoreRoutes (config, router, routes) {
           const localRoute = localizedRoute(Object.assign({}, route), storeCode)
           storeRoutes.push(localRoute)
         }
-        router.addRoutes(storeRoutes)
+        RouterManager.addRoutes(storeRoutes, router)
       }
     }
   }

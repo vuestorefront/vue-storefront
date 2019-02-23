@@ -5,6 +5,8 @@ import { Route } from 'vue-router'
 import store from '@vue-storefront/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
+import { isServer } from '@vue-storefront/core/helpers'
+import { storeCodeFromRoute, prepareStoreView } from '@vue-storefront/core/lib/multistore'
 
 export const UrlDispatchMapper = (to) => {
   return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
@@ -19,6 +21,15 @@ export const UrlDispatchMapper = (to) => {
   })
 }
 export function beforeEach(to: Route, from: Route, next) {
+  if (isServer) {
+    if (store.state.config.storeViews.multistore === true) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
+      const storeCode = storeCodeFromRoute(to)
+      if (storeCode !== '' && storeCode !== null) {
+        prepareStoreView(storeCode)
+      }
+    }
+  }
+
   const fullPath = normalizeUrlPath(to.fullPath)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name.startsWith('urldispatcher')
