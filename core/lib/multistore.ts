@@ -2,9 +2,17 @@ import rootStore from '../store'
 import { loadLanguageAsync } from '@vue-storefront/i18n'
 import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
-import { Route } from 'vue-router'
 import queryString from 'query-string'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
+import VueRouter, { RouteConfig, RawLocation } from 'vue-router';
+
+export interface LocalizedRoute {
+  path?: string,
+  name?: string,
+  hash?: string,
+  params?: object,
+  fullPath?: string,
+}
 
 export interface StoreView {
   storeCode: string,
@@ -71,7 +79,7 @@ export function prepareStoreView (storeCode: string) : StoreView {
   return storeView
 }
 
-export function storeCodeFromRoute (matchedRouteOrUrl: Route | string) : string {
+export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string) : string {
   if (matchedRouteOrUrl) {
     for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
       let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
@@ -85,7 +93,7 @@ export function storeCodeFromRoute (matchedRouteOrUrl: Route | string) : string 
     return ''
   }
 }
-export function removeStoreCodeFromRoute (matchedRouteOrUrl: Route | string) : Route | string {
+export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string) : LocalizedRoute | string {
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
   if (storeCodeInRoute !== '') {
     let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
@@ -103,8 +111,8 @@ export function adjustMultistoreApiUrl (url: string) : string {
   return url
 }
 
-export function localizedRoute (routeObj: Route | string, storeCode: string) {
-  if (typeof routeObj === 'object' && routeObj && routeObj.fullPath) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }), storeCode)
+export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
+  if (typeof routeObj === 'object' && routeObj && (<LocalizedRoute>routeObj).fullPath) return localizedDispatcherRoute(<LocalizedRoute>Object.assign({}, routeObj, { params: null }), storeCode)
   if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
@@ -119,7 +127,7 @@ export function localizedRoute (routeObj: Route | string, storeCode: string) {
   }
   return routeObj
 }
-export function localizedDispatcherRoute (routeObj: Route | string, storeCode: string) {
+export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): any {
   if (typeof routeObj === 'string') {
     return '/' + storeCode + routeObj
   } 
@@ -131,7 +139,7 @@ export function localizedDispatcherRoute (routeObj: Route | string, storeCode: s
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router, routes) {
+export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]) {
   if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
     for (let storeCode of config.storeViews.mapStoreUrlsFor) {
       if (storeCode) {

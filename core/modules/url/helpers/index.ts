@@ -1,7 +1,7 @@
 import { router } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/store'
-import { localizedDispatcherRoute, localizedRoute, currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
-import { Route } from 'vue-router/types/router';
+import { localizedDispatcherRoute, localizedRoute, currentStoreView, removeStoreCodeFromRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
+import { Route, Dictionary } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
@@ -51,30 +51,21 @@ export function formatCategoryLink(category) {
 
 export function formatProductLink(product, storeCode) {
   if(rootStore.state.config.seo.useUrlDispatcher) {
-    const routeData: Route = {
+    const routeData: LocalizedRoute = {
       fullPath: product.url_path,
       params: {
         childSku: product.sku === product.parentSku ? null : product.sku
-      },
-      path: null,
-      hash: null,
-      query: null,
-      matched: null
+      }
     }
     return localizedDispatcherRoute(routeData, storeCode)
-  } else { 
-    const routeData: Route = {
+  } else {
+    const routeData: LocalizedRoute = {
       name: product.type_id + '-product',
       params: {
         parentSku: product.parentSku ? product.parentSku : product.sku,
         slug: product.slug,
         childSku: product.sku
-      },
-      fullPath: null,
-      path: null,
-      hash: null,
-      query: null,
-      matched: null
+      }
     }
     return localizedRoute(routeData, storeCode)
   }

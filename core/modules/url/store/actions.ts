@@ -18,7 +18,7 @@ const _parametrizedRoutedata = (routeData, query, storeCodeInPath) => {
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
-  registerMapping ({ commit }, { url, routeData }) {
+  registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
     return new Promise ((resolve, reject) => {
       commit(types.REGISTER_MAPPING, { url, routeData })
       cacheStorage.setItem(url, routeData).then(result => {
@@ -37,7 +37,7 @@ export const actions: ActionTree<UrlState, any> = {
       }
     }
   },
-  mapUrl ({ state, dispatch }, { url, query }) {
+  mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string}) {
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url, true)
@@ -62,10 +62,10 @@ export const actions: ActionTree<UrlState, any> = {
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
-  mappingFallback ({ commit, dispatch }, { url, params }) {
+  mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
     return new Promise ((resolve, reject) => {
       const productQuery = new SearchQuery()
-      url = removeStoreCodeFromRoute(url)
+      url = (removeStoreCodeFromRoute(url) as string)
       productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
       dispatch('product/list', { query: productQuery }, { root: true }).then((products) => {
        if (products && products.items.length > 0) {
