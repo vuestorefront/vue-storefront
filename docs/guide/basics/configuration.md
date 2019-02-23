@@ -49,7 +49,7 @@ This is redis configuration for the output cache. See additional information [he
 },
 ```
 
-This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md) and this section is being used when `server.api` is set to `graphql` (default is "api")
+This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog](https://docs.vuestorefront.io/guide/basics/graphql.html) and this section is being used when `server.api` is set to `graphql` (default is "api")
 
 ## ElasticSearch
 
@@ -740,4 +740,4 @@ This is a list of priorities for search feature (higher boost = more important s
   }
 ```
 
-Search queries used by specific components (for example Related products); the format of the query has been described [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md)
+Search queries used by specific components (for example Related products); the format of the query has been described [here](https://docs.vuestorefront.io/guide/data/elastic-queries.html)
