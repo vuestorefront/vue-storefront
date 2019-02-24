@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix breadcrumbs changing too early - @filrak (#2469)
 - add cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481, #2382)
+- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
