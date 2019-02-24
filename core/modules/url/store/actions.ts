@@ -26,7 +26,7 @@ export const actions: ActionTree<UrlState, any> = {
   /**
    * Register dynamic vue-router routes
    */
-  registerDynamicRoutes ({ state, dispatch }) {
+  async registerDynamicRoutes ({ state, dispatch }) {
     if (state.dispatcherMap) {
       for (const [url, routeData] of Object.entries(state.dispatcherMap)) {
         processDynamicRoute (routeData, url)
