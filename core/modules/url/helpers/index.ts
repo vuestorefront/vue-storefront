@@ -36,7 +36,7 @@ export function findRouteByPath(fullPath) {
   return RouterManager.findByPath(fullPath)
 }
 
-export function normalizeUrlPath(url, removeStoreCode = true) {
+export function normalizeUrlPath(url) {
   if (url && url.length > 0) {
     if (url[0] === '/') url = url.slice(1)
     const queryPos = url.indexOf('?')
