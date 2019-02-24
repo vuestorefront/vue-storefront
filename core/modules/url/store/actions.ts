@@ -18,13 +18,10 @@ const _parametrizedRoutedata = (routeData, query, storeCodeInPath) => {
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
-  registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
-    return new Promise ((resolve, reject) => {
-      commit(types.REGISTER_MAPPING, { url, routeData })
-      cacheStorage.setItem(url, routeData).then(result => {
-        resolve(routeData)
-      }).catch(() => reject())
-    })
+  async registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
+    commit(types.REGISTER_MAPPING, { url, routeData })
+    await cacheStorage.setItem(url, routeData)
+    return routeData
   },
   /**
    * Register dynamic vue-router routes
