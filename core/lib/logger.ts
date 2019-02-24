@@ -39,14 +39,7 @@ class Logger
    */
   convertToString (payload: any) {
     if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') return payload
-    if (Array.isArray(payload)) return JSON.stringify(payload)
-    if (typeof payload === 'object') {
-      if (payload.hasOwnProperty('message')) {
-        return payload.message
-      } else {
-        return JSON.stringify(payload)
-      }
-    }
+    if (payload && payload.message) return payload.message
     return JSON.stringify(payload) 
   }
 
