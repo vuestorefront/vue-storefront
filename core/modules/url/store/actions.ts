@@ -9,6 +9,7 @@ import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
 const _parametrizedRoutedata = (routeData, query, storeCodeInPath) => {
+  routeData = Object.assign({}, routeData)
   routeData.params = Object.assign({}, routeData.params || {}, query)
   if (storeCodeInPath && !routeData.name.startsWith(storeCodeInPath + '-')) {
     routeData.name = storeCodeInPath + '-' + routeData.name
@@ -55,43 +56,36 @@ export const actions: ActionTree<UrlState, any> = {
       }).catch(reject)
     })
   },
+  
   /**
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
-  mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
-    return new Promise ((resolve, reject) => {
-      const productQuery = new SearchQuery()
-      url = (removeStoreCodeFromRoute(url) as string)
-      productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
-      dispatch('product/list', { query: productQuery }, { root: true }).then((products) => {
-       if (products && products.items.length > 0) {
-          const product = products.items[0]
-          resolve({
-            name: product.type_id + '-product',
-            params: {
-              slug: product.slug,
-              parentSku: product.sku,
-              childSku: params['childSku'] ? params['childSku'] : product.sku
-            }
-          })
-        } else {
-          dispatch('category/single', { key: 'url_path', value: url }, { root: true }).then((category) => {
-            if (category !== null) {
-              resolve({
-                name: 'category',
-                params: {
-                  slug: category.slug
-                }
-              })
-            } else {
-              resolve(null)
-            }
-          }).catch(e => reject(e))
+  async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
+    const productQuery = new SearchQuery()
+    url = (removeStoreCodeFromRoute(url) as string)
+    productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
+    const products = await dispatch('product/list', { query: productQuery }, { root: true })
+    if (products && products.items && products.items.length) {
+      const product = products.items[0]
+      return {
+        name: product.type_id + '-product',
+        params: {
+          slug: product.slug,
+          parentSku: product.sku,
+          childSku: params['childSku'] ? params['childSku'] : product.sku
         }
-      }).catch(e => reject(e))
-
-
-    })
+      }
+    } else {
+      const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
+      if (category !== null) {
+        return {
+          name: 'category',
+          params: {
+            slug: category.slug
+          }
+        }
+      }
+    }
   }
 }
