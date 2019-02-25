@@ -155,7 +155,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="product.qty <= 0"
+                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
