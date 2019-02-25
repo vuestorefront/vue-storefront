@@ -8,13 +8,13 @@
         <sidebar-menu v-if="isSidebarOpen"/>
       </transition>
       <transition name="slide-left">
-        <sidebar :async-component="SearchPanel" :is-open="isSearchPanelOpen" />
+        <async-sidebar :async-component="SearchPanel" :is-open="isSearchPanelOpen" />
       </transition>
       <transition name="slide-left">
-        <sidebar :async-component="Microcart" :is-open="isMicrocartOpen" />
+        <async-sidebar :async-component="Microcart" :is-open="isMicrocartOpen" />
       </transition>
       <transition name="slide-left">
-        <sidebar :async-component="Wishlist" :is-open="isWishlistOpen" />
+        <async-sidebar :async-component="Wishlist" :is-open="isWishlistOpen" />
       </transition>
       <slot/>
       <main-footer/>
@@ -31,9 +31,9 @@
 <script>
 import { mapState } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import Sidebar from 'theme/components/theme/blocks/Sidebar/Sidebar.vue'
-import LoadingSpinner from 'theme/components/theme/blocks/Sidebar/LoadingSpinner.vue'
-import LoadingError from 'theme/components/theme/blocks/Sidebar/LoadingError.vue'
+import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
+import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
+import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 import Overlay from 'theme/components/core/Overlay.vue'
