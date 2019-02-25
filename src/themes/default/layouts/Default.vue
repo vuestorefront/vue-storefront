@@ -127,7 +127,7 @@ export default {
     CookieNotification,
     OfflineBadge,
     OrderConfirmation,
-    Sidebar
+    AsyncSidebar
   }
 }
 </script>
