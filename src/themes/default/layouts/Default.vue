@@ -8,7 +8,9 @@
         <sidebar-menu v-if="isSidebarOpen"/>
       </transition>
       <transition name="slide-left">
-        <search-panel v-if="isSearchPanelOpen"/>
+        <sidebar v-if="isSearchPanelOpen">
+          <search-panel v-if="isSearchPanelOpen"/>
+        </sidebar>
         <sidebar v-if="isWishlistOpen">
           <wishlist v-if="isWishlistOpen"/>
         </sidebar>
@@ -31,10 +33,11 @@
 <script>
 import { mapState } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import Sidebar from 'theme/components/theme/Sidebar.vue'
+import Sidebar from 'theme/components/theme/blocks/Sidebar/Sidebar.vue'
+import LoadingSpinner from 'theme/components/theme/blocks/Sidebar/LoadingSpinner.vue'
+import LoadingError from 'theme/components/theme/blocks/Sidebar/LoadingError.vue'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
-
 import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
 import Modal from 'theme/components/core/Modal.vue'
@@ -42,12 +45,23 @@ import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
-
 import Head from 'theme/head'
+
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
-const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
-const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue')
+const Microcart = () => ({
+  component: import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/theme/blocks/Sidebar/LoadingError.vue'),
+  loading: LoadingSpinner,
+  error: LoadingError,
+  timeout: 3000
+})
+const Wishlist = () => ({
+  component: import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue'),
+  loading: LoadingSpinner,
+  error: LoadingError,
+  timeout: 3000
+})
+
 const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
 
 export default {
