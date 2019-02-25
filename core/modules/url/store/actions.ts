@@ -9,12 +9,12 @@ import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
 const _parametrizedRoutedata = (routeData, query, storeCodeInPath) => {
-  routeData = Object.assign({}, routeData)
-  routeData.params = Object.assign({}, routeData.params || {}, query)
-  if (storeCodeInPath && !routeData.name.startsWith(storeCodeInPath + '-')) {
-    routeData.name = storeCodeInPath + '-' + routeData.name
+  const rdx = Object.assign({}, routeData)
+  rdx.params = Object.assign({}, rdx.params || {}, query)
+  if (storeCodeInPath && !rdx.name.startsWith(storeCodeInPath + '-')) {
+    rdx.name = storeCodeInPath + '-' + rdx.name
   }
-  return routeData
+  return rdx
 }
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
