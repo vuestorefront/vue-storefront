@@ -1,13 +1,18 @@
 <template>
   <div class="wrapper">
-    <p class="row" v-if="OnlineOnly">
+    <div class="row" v-if="OnlineOnly">
       <i class="material-icons icon">error</i>
       <span>An error occured while loading the component. </span>
-      <span class="reload" @click="reload">Try again</span>
-    </p>
-    <p class="row" v-if="OfflineOnly">
-      <i class="material-icons icon">error</i> Component couldn't be loaded due to lack of network connectivity.
-    </p>
+      <div>
+        <span class="link" @click="reload">Try again</span> /
+        <span class="link" @click="close"> Close</span>
+      </div>
+    </div>
+    <div class="row" v-if="OfflineOnly">
+      <i class="material-icons icon">error</i>
+      <span>Component couldn't be loaded due to lack of network connectivity.</span>
+      <span class="link" @click="close">Close</span>
+    </div>
   </div>
 </template>
 
@@ -20,6 +25,9 @@ export default {
   methods: {
     reload () {
       this.$parent.getComponent()
+    },
+    close () {
+      this.$parent.close()
     }
   }
 }
@@ -37,9 +45,9 @@ export default {
 }
 .icon {
   font-size: 45px;
-  margin: 0px;
+  margin: 5px;
 }
-.reload {
+.link {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -47,7 +55,7 @@ export default {
   justify-content: center;
   text-align: center;
 }
-p {
+div {
   text-align: center;
   line-height: 25px;
   & > * {

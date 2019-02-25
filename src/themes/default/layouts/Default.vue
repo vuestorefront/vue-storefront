@@ -7,9 +7,21 @@
       <transition name="slide-right">
         <sidebar-menu v-if="isSidebarOpen"/>
       </transition>
-      <async-sidebar :async-component="SearchPanel" :is-open="isSearchPanelOpen"/>
-      <async-sidebar :async-component="Microcart" :is-open="isMicrocartOpen" />
-      <async-sidebar :async-component="Wishlist" :is-open="isWishlistOpen" />
+      <async-sidebar
+        :async-component="SearchPanel"
+        :is-open="isSearchPanelOpen"
+        :close="() => $store.commit('ui/setSearchpanel', false)"
+      />
+      <async-sidebar
+        :async-component="Microcart"
+        :is-open="isMicrocartOpen"
+        :close="() => $store.commit('ui/setMicrocart', false)"
+      />
+      <async-sidebar
+        :async-component="Wishlist"
+        :is-open="isWishlistOpen"
+        :close="() => $store.commit('ui/setWishlist', false)"
+      />
       <slot/>
       <main-footer/>
       <notification/>
@@ -39,16 +51,14 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import Head from 'theme/head'
 
+const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
 const SidebarMenu = () => import(
   /* webpackPreload: true */
   /* webpackChunkName: "vsf-sidebar-menu" */
   'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue'
 )
-const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
-
 const Microcart = () => ({
   component: import(
-    /* webpackPreload: true */
     /* webpackChunkName: "vsf-microcart" */
     'theme/components/core/blocks/Microcart/Microcart.vue'
   ),
@@ -56,7 +66,6 @@ const Microcart = () => ({
   error: LoadingError,
   timeout: 3000
 })
-
 const Wishlist = () => ({
   component: import(
     /* webpackPreload: true */
@@ -67,9 +76,11 @@ const Wishlist = () => ({
   error: LoadingError,
   timeout: 3000
 })
-
 const SearchPanel = () => ({
-  component: import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue'),
+  component: import(
+    /* webpackChunkName: "vsf-search-panel" */
+    'theme/components/core/blocks/SearchPanel/SearchPanel.vue'
+  ),
   loading: LoadingSpinner,
   error: LoadingError,
   timeout: 3000

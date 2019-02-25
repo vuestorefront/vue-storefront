@@ -21,6 +21,10 @@ export default {
     isOpen: {
       type: Boolean,
       required: true
+    },
+    close: {
+      type: Function,
+      required: true
     }
   },
   data () {

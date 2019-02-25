@@ -50,7 +50,6 @@ const store = {
       state.wishlist = action === true
       state.overlay = action === true
     },
-    
     setOverlay (state, action) {
       state.overlay = action === true
     },
@@ -62,9 +61,6 @@ const store = {
     }
   },
   actions: {
-    closeEverything ({ commit }) {
-
-    },
     toggleMicrocart ({ commit, state }) {
       commit('setMicrocart', !state.microcart)
     },
