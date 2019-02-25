@@ -11,28 +11,17 @@
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event.target.value)"
     >
-    <template v-if="validation">
-      <span class="block cl-error h6 mt8" v-if="validation.condition">
-        {{ validation.text }}
-      </span>
-    </template>
-    <template v-else-if="validations">
-      <span
-        v-for="(validation, index) in validations"
-        :key="index"
-        v-if="validation.condition"
-        class="block cl-error h6 mt8"
-        data-testid="errorMessage"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <BaseInputsValidation :validations="validations" :validation="validation"/>
   </div>
 </template>
 
 <script>
+import BaseInputsValidation from './BaseInputsValidation.vue'
 export default {
   name: 'BaseInput',
+  components: {
+    BaseInputsValidation
+  },
   data () {
     return {
     }

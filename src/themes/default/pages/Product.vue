@@ -143,7 +143,7 @@
                 :name="$t('Quantity')"
                 v-model="product.qty"
                 :min="1"
-                @input="$v.$touch()"
+                @blur="$v.$touch()"
                 :validations="[
                   {
                     condition: $v.product.qty.$error && !$v.product.qty.minValue,
