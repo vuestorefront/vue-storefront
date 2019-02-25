@@ -38,10 +38,10 @@
           v-model="password"
           @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
-          :validation="{
+          :validations="[{
             condition: !$v.password.required && $v.password.$error,
             text: $t('Field is required.')
-          }"
+          }]"
         />
         <div class="row">
           <base-checkbox

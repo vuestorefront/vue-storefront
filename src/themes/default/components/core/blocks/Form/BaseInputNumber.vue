@@ -11,16 +11,16 @@
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event.target.value)"
     >
-    <BaseInputsValidation :validations="validations" :validation="validation"/>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 
 <script>
-import BaseInputsValidation from './BaseInputsValidation.vue'
+import ValidationMessages from './ValidationMessages.vue'
 export default {
   name: 'BaseInput',
   components: {
-    BaseInputsValidation
+    ValidationMessages
   },
   data () {
     return {
@@ -45,14 +45,8 @@ export default {
       required: false,
       default: false
     },
-    validation: {
-      type: Object,
-      required: false,
-      default: () => { }
-    },
     validations: {
       type: Array,
-      required: false,
       default: () => []
     }
   },
