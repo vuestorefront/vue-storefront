@@ -2,14 +2,38 @@
   <div
     class="right-sidebar mw-100 fixed cl-accent bg-cl-primary"
     data-testid="sidebar"
+    v-if="isOpen"
   >
-    <slot />
+    <component :is="component" v-if="isOpen" />
   </div>
 </template>
 
 <script>
 // todo: add left sidebar option
 export default {
+  props: {
+    asyncComponent: {
+      type: Function,
+      required: true
+    },
+    isOpen: {
+      type: Boolean,
+      required: true
+    }
+  },
+  data () {
+    return {
+      component: null
+    }
+  },
+  created () {
+    this.getComponent()
+  },
+  methods: {
+    getComponent () {
+      this.component = this.asyncComponent.bind({})
+    }
+  }
 }
 </script>
 

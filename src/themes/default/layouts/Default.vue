@@ -8,15 +8,13 @@
         <sidebar-menu v-if="isSidebarOpen"/>
       </transition>
       <transition name="slide-left">
-        <sidebar v-if="isSearchPanelOpen">
-          <search-panel v-if="isSearchPanelOpen"/>
-        </sidebar>
-        <sidebar v-if="isWishlistOpen">
-          <wishlist v-if="isWishlistOpen"/>
-        </sidebar>
-        <sidebar v-if="isMicrocartOpen">
-          <microcart v-if="isMicrocartOpen"/>
-        </sidebar>
+        <sidebar :async-component="SearchPanel" :is-open="isSearchPanelOpen" />
+      </transition>
+      <transition name="slide-left">
+        <sidebar :async-component="Microcart" :is-open="isMicrocartOpen" />
+      </transition>
+      <transition name="slide-left">
+        <sidebar :async-component="Wishlist" :is-open="isWishlistOpen" />
       </transition>
       <slot/>
       <main-footer/>
@@ -47,8 +45,9 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import Head from 'theme/head'
 
-const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
+const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
+
 const Microcart = () => ({
   component: import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue'),
   loading: LoadingSpinner,
@@ -61,14 +60,21 @@ const Wishlist = () => ({
   error: LoadingError,
   timeout: 3000
 })
-
-const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
+const SearchPanel = () => ({
+  component: import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue'),
+  loading: LoadingSpinner,
+  error: LoadingError,
+  timeout: 3000
+})
 
 export default {
   data () {
     return {
       loadOrderConfirmation: false,
-      ordersData: []
+      ordersData: [],
+      Microcart,
+      Wishlist,
+      SearchPanel
     }
   },
   computed: {
@@ -112,9 +118,6 @@ export default {
   components: {
     MainHeader,
     MainFooter,
-    Microcart,
-    Wishlist,
-    SearchPanel,
     SidebarMenu,
     Overlay,
     Loader,

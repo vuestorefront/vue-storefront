@@ -3,7 +3,7 @@
     <p class="row" v-if="OnlineOnly">
       <i class="material-icons icon">error</i>
       <span>An error occured while loading the component. </span>
-      <span class="reload" @click="reload">Reload page</span>
+      <span class="reload" @click="reload">Try again</span>
     </p>
     <p class="row" v-if="OfflineOnly">
       <i class="material-icons icon">error</i> Component couldn't be loaded due to lack of network connectivity.
@@ -18,7 +18,7 @@ export default {
   mixins: [VueOfflineMixin],
   methods: {
     reload () {
-      window.location.reload()
+      this.$parent.getComponent()
     }
   }
 }
@@ -36,7 +36,7 @@ export default {
 }
 .icon {
   font-size: 45px;
-  margin: 10px;
+  margin: 0px;
 }
 .reload {
   text-decoration: underline;
