@@ -81,11 +81,17 @@ export default {
 <style lang="scss" scoped>
 .media-gallery {
   text-align: center;
+  width: 100%;
   height: 100%;
+  min-height: calc(90vw * 1.1);
   background-image: url('/assets/placeholder.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 40% auto;
+
+  @media only screen and (min-width:768px) {
+    min-height: inherit;
+  }
 
   &--loaded {
     background-image: none;
