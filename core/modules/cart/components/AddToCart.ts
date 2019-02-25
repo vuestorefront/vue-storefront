@@ -8,8 +8,8 @@ export const AddToCart = {
       type: Object
     },
     disabled: {
-      required: false,
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   methods: {
