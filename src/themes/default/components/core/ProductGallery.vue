@@ -5,32 +5,21 @@
     </div>
     <div v-show="OnlineOnly">
       <div class="relative">
-        <div v-if="gallery.length === 1">
-          <img
-            :src="defaultImage.src"
-            v-lazy="defaultImage"
-            class="mw-100 pointer"
-            ref="defaultImage"
-            :alt="product.name | htmlDecode"
-            itemprop="image"
-          >
-        </div>
-        <div v-else>
-          <product-gallery-overlay
-            v-if="isZoomOpen"
-            :current-slide="currentSlide"
-            :product-name="product.name"
+        <product-gallery-overlay
+          v-if="isZoomOpen"
+          :current-slide="currentSlide"
+          :product-name="product.name"
+          :gallery="gallery"
+          @close="toggleZoom"
+        />
+        <no-ssr>
+          <product-gallery-carousel
+            v-if="showProductGalleryCarousel"
             :gallery="gallery"
-            @close="toggleZoom"/>
-          <no-ssr>
-            <product-gallery-carousel
-              v-if="showProductGalleryCarousel"
-              :gallery="gallery"
-              :configuration="configuration"
-              :product-name="product.name"
-              @toggle="openOverlay"/>
-          </no-ssr>
-        </div>
+            :configuration="configuration"
+            :product-name="product.name"
+            @toggle="openOverlay"/>
+        </no-ssr>
       </div>
     </div>
   </div>
@@ -92,6 +81,10 @@ export default {
 .media-gallery {
   text-align: center;
   height: 100%;
+  background-image: url('/assets/placeholder.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40% auto;
 }
 .offline-image {
   width: 100%;
