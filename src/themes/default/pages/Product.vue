@@ -147,7 +147,7 @@
                 :validations="[
                   {
                     condition: $v.product.qty.$error && !$v.product.qty.minValue,
-                    text: 'Quantity must be above 0'
+                    text: $t('Quantity must be above 0')
                   }
                 ]"
               />

@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     isProductDisabled () {
-      return formatProductMessages(this.product.errors) !== '' || this.disabled
+      return this.disabled || formatProductMessages(this.product.errors) !== ''
     }
   },
   beforeMount () {
