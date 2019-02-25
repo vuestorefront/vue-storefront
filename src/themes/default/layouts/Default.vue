@@ -38,8 +38,6 @@
 import { mapState } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
-import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
-import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 import Overlay from 'theme/components/core/Overlay.vue'
@@ -52,39 +50,10 @@ import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import Head from 'theme/head'
 
 const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
-const SidebarMenu = () => import(
-  /* webpackPreload: true */
-  /* webpackChunkName: "vsf-sidebar-menu" */
-  'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue'
-)
-const Microcart = () => ({
-  component: import(
-    /* webpackChunkName: "vsf-microcart" */
-    'theme/components/core/blocks/Microcart/Microcart.vue'
-  ),
-  loading: LoadingSpinner,
-  error: LoadingError,
-  timeout: 3000
-})
-const Wishlist = () => ({
-  component: import(
-    /* webpackPreload: true */
-    /* webpackChunkName: "vsf-wishlist" */
-    'theme/components/core/blocks/Wishlist/Wishlist.vue'
-  ),
-  loading: LoadingSpinner,
-  error: LoadingError,
-  timeout: 3000
-})
-const SearchPanel = () => ({
-  component: import(
-    /* webpackChunkName: "vsf-search-panel" */
-    'theme/components/core/blocks/SearchPanel/SearchPanel.vue'
-  ),
-  loading: LoadingSpinner,
-  error: LoadingError,
-  timeout: 3000
-})
+const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
+const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
+const Wishlist = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue')
+const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
 
 export default {
   data () {

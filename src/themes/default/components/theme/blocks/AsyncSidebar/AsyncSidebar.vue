@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
+import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
 // todo: add left sidebar option
 export default {
   props: {
@@ -37,7 +39,13 @@ export default {
   },
   methods: {
     getComponent () {
-      this.component = this.asyncComponent.bind({})
+      const asyncComponent = this.asyncComponent.bind({})
+      this.component = () => ({
+        component: asyncComponent(),
+        loading: LoadingSpinner,
+        error: LoadingError,
+        timeout: 3000
+      })
     }
   }
 }
