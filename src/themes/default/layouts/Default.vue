@@ -41,7 +41,7 @@ import Head from 'theme/head'
 
 const SidebarMenu = () => import(
   /* webpackPreload: true */
-  /* webpackChunkName: "vsf-sidebar-menu" */ 
+  /* webpackChunkName: "vsf-sidebar-menu" */
   'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue'
 )
 const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
@@ -49,7 +49,7 @@ const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmat
 const Microcart = () => ({
   component: import(
     /* webpackPreload: true */
-    /* webpackChunkName: "vsf-microcart" */ 
+    /* webpackChunkName: "vsf-microcart" */
     'theme/components/core/blocks/Microcart/Microcart.vue'
   ),
   loading: LoadingSpinner,
@@ -60,7 +60,7 @@ const Microcart = () => ({
 const Wishlist = () => ({
   component: import(
     /* webpackPreload: true */
-    /* webpackChunkName: "vsf-wishlist" */ 
+    /* webpackChunkName: "vsf-wishlist" */
     'theme/components/core/blocks/Wishlist/Wishlist.vue'
   ),
   loading: LoadingSpinner,
