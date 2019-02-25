@@ -62,6 +62,9 @@ const store = {
     }
   },
   actions: {
+    closeEverything ({ commit }) {
+
+    },
     toggleMicrocart ({ commit, state }) {
       commit('setMicrocart', !state.microcart)
     },

@@ -1,11 +1,13 @@
 <template>
-  <div
-    class="right-sidebar mw-100 fixed cl-accent bg-cl-primary"
-    data-testid="sidebar"
-    v-if="isOpen"
-  >
-    <component :is="component" v-if="isOpen" />
-  </div>
+  <transition name="slide-left">
+    <div
+      class="right-sidebar mw-100 fixed cl-accent bg-cl-primary"
+      data-testid="sidebar"
+      v-if="isOpen"
+    >
+      <component :is="component"/>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -39,6 +41,23 @@ export default {
 
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
+
+  .slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active {
+    transition: transform .25s;
+  }
+
+  .slide-left-enter,
+  .slide-left-leave-to {
+    transform: translateX(100%);
+  }
+
+  .slide-right-enter,
+  .slide-right-leave-to {
+    transform: translateX(-100%);
+  }
 
   .right-sidebar {
     top: 0;
