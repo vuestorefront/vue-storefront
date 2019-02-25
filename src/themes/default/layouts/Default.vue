@@ -50,7 +50,7 @@ import Head from 'theme/head'
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => ({
-  component: import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/theme/blocks/Sidebar/LoadingError.vue'),
+  component: import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue'),
   loading: LoadingSpinner,
   error: LoadingError,
   timeout: 3000
