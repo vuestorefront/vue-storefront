@@ -39,9 +39,8 @@ export default {
   },
   methods: {
     getComponent () {
-      const asyncComponent = this.asyncComponent.bind({})
       this.component = () => ({
-        component: asyncComponent(),
+        component: this.asyncComponent(),
         loading: LoadingSpinner,
         error: LoadingError,
         timeout: 3000
