@@ -25,7 +25,7 @@
       <async-sidebar
         :async-component="Wishlist"
         :is-open="isWishlistOpen"
-        :close="() => $store.commit('ui/setWishlist', false)"
+        @close="$store.commit('ui/setWishlist')"
         direction="right"
       />
       <slot/>
