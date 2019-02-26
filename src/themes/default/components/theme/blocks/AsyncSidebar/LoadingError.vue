@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     reload () {
-      this.$parent.getComponent()
+      this.$emit('reload')
     },
     close () {
       this.$emit('close')
