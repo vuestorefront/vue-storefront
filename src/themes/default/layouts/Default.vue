@@ -8,13 +8,11 @@
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
         @close="$store.commit('ui/setSearchpanel')"
-        direction="right"
       />
       <async-sidebar
         :async-component="Microcart"
         :is-open="isMicrocartOpen"
         @close="$store.commit('ui/setMicrocart')"
-        direction="right"
       />
       <async-sidebar
         :async-component="SidebarMenu"
@@ -26,7 +24,6 @@
         :async-component="Wishlist"
         :is-open="isWishlistOpen"
         @close="$store.commit('ui/setWishlist')"
-        direction="right"
       />
       <slot/>
       <main-footer/>

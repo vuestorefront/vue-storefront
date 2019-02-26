@@ -14,7 +14,7 @@
 <script>
 import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
 import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
-// todo: add left sidebar option
+
 export default {
   props: {
     asyncComponent: {
@@ -25,15 +25,10 @@ export default {
       type: Boolean,
       default: false
     },
-    /** Action that closes the modal. should set value referenced by `isOpen` to false */
-    close: {
-      type: Function,
-      required: true
-    },
     /** "right" or "left"  */
     direction: {
       type: String,
-      default: 'left'
+      default: 'right'
     }
   },
   data () {
