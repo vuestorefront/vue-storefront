@@ -5,17 +5,9 @@ import * as types from './mutation-types'
 import { cacheStorage } from '../'
 import queryString from 'query-string'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { processDynamicRoute, normalizeUrlPath } from '../helpers'
+import { processDynamicRoute, normalizeUrlPath, parametrizeRouteData } from '../helpers'
 import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
-const _parametrizedRoutedata = (routeData, query, storeCodeInPath) => {
-  const rdx = Object.assign({}, routeData)
-  rdx.params = Object.assign({}, rdx.params || {}, query)
-  if (storeCodeInPath && !rdx.name.startsWith(storeCodeInPath + '-')) {
-    rdx.name = storeCodeInPath + '-' + rdx.name
-  }
-  return rdx
-}
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
@@ -42,15 +34,15 @@ export const actions: ActionTree<UrlState, any> = {
 
     return new Promise ((resolve, reject) => {
       if (state.dispatcherMap[url]) {
-        return resolve (_parametrizedRoutedata(state.dispatcherMap[url], query, storeCodeInPath))
+        return resolve (parametrizeRouteData(state.dispatcherMap[url], query, storeCodeInPath))
       }
       cacheStorage.getItem(url).then(routeData => {
         if (routeData !== null) {
-          return resolve(_parametrizedRoutedata(routeData, query, storeCodeInPath))
+          return resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
         } else {
           dispatch('mappingFallback', { url, params: parsedQuery }).then((routeData) => {
             dispatch('registerMapping', { url, routeData }) // register mapping for further usage
-            resolve(_parametrizedRoutedata(routeData, query, storeCodeInPath))
+            resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
           }).catch(reject)
         }
       }).catch(reject)

@@ -4,6 +4,15 @@ import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-s
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
+export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
+  const parametrizedRoute = Object.assign({}, routeData)
+  parametrizedRoute.params = Object.assign({}, parametrizedRoute.params || {}, query)
+  if (storeCodeInPath && !parametrizedRoute.name.startsWith(storeCodeInPath + '-')) {
+    parametrizedRoute.name = storeCodeInPath + '-' + parametrizedRoute.name
+  }
+  return parametrizedRoute
+}
+
 export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
