@@ -51,15 +51,15 @@ export function getThumbnailPath (relativeUrl, width, height) {
  * @param {Array} categoryPath
  */
 export function breadCrumbRoutes (categoryPath) {
-  const tmpRts = []
-  for (let sc of categoryPath) {
-    tmpRts.push({
-      name: sc.name,
-      route_link: formatCategoryLink(sc)
+  const breadCrumbRoutes = []
+  for (let category of categoryPath) {
+    breadCrumbRoutes.push({
+      name: category.name,
+      route_link: formatCategoryLink(category)
     })
   }
 
-  return tmpRts
+  return breadCrumbRoutes
 }
 
 /**
