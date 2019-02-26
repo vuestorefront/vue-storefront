@@ -19,7 +19,7 @@
       <async-sidebar
         :async-component="SidebarMenu"
         :is-open="isSidebarOpen"
-        :close="() => $store.commit('ui/setSidebar', false)"
+        @close="$store.commit('ui/setSidebar')"
         direction="left"
       />
       <async-sidebar
