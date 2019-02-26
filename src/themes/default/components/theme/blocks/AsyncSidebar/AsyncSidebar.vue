@@ -6,7 +6,7 @@
       data-testid="sidebar"
       v-if="isOpen"
     >
-      <component :is="component"/>
+      <component :is="component" @close="$emit('close')" @reload="getComponent" />
     </div>
   </transition>
 </template>
