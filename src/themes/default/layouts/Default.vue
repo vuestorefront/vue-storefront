@@ -7,7 +7,7 @@
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
-        :close="() => $store.commit('ui/setSearchpanel', false)"
+        @close="$store.commit('ui/setSearchpanel')"
         direction="right"
       />
       <async-sidebar
