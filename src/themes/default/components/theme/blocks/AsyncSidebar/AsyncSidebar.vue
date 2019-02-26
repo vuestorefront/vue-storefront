@@ -23,7 +23,7 @@ export default {
     },
     isOpen: {
       type: Boolean,
-      required: true
+      default: false
     },
     /** Action that closes the modal. should set value referenced by `isOpen` to false */
     close: {
