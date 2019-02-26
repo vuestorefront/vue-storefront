@@ -13,7 +13,7 @@
       <async-sidebar
         :async-component="Microcart"
         :is-open="isMicrocartOpen"
-        :close="() => $store.commit('ui/setMicrocart', false)"
+        @close="$store.commit('ui/setMicrocart')"
         direction="right"
       />
       <async-sidebar
