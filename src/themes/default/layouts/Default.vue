@@ -7,25 +7,25 @@
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
-        :close="() => $store.commit('ui/setSearchpanel', false)"
+        @close="$store.commit('ui/setSearchpanel')"
         direction="right"
       />
       <async-sidebar
         :async-component="Microcart"
         :is-open="isMicrocartOpen"
-        :close="() => $store.commit('ui/setMicrocart', false)"
+        @close="$store.commit('ui/setMicrocart')"
         direction="right"
       />
       <async-sidebar
         :async-component="SidebarMenu"
         :is-open="isSidebarOpen"
-        :close="() => $store.commit('ui/setSidebar', false)"
+        @close="$store.commit('ui/setSidebar')"
         direction="left"
       />
       <async-sidebar
         :async-component="Wishlist"
         :is-open="isWishlistOpen"
-        :close="() => $store.commit('ui/setWishlist', false)"
+        @close="$store.commit('ui/setWishlist')"
         direction="right"
       />
       <slot/>

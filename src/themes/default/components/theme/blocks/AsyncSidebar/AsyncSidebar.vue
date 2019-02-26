@@ -6,7 +6,7 @@
       data-testid="sidebar"
       v-if="isOpen"
     >
-      <component :is="component"/>
+      <component :is="component" @close="$emit('close')" @reload="getComponent" />
     </div>
   </transition>
 </template>
@@ -23,7 +23,7 @@ export default {
     },
     isOpen: {
       type: Boolean,
-      required: true
+      default: false
     },
     /** Action that closes the modal. should set value referenced by `isOpen` to false */
     close: {
@@ -33,7 +33,7 @@ export default {
     /** "right" or "left"  */
     direction: {
       type: String,
-      required: true
+      default: 'left'
     }
   },
   data () {
