@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.8.3] - 2019.02.27
 ### Fixed
-- Problem with placing second order (unbinding payment methods after first order) - @patzick (#2503)
+- Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
