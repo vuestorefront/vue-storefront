@@ -32,7 +32,7 @@ export default {
       this.$parent.getComponent()
     },
     close () {
-      this.$parent.close()
+      this.$emit('close')
     }
   }
 }
