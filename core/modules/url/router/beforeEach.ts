@@ -25,7 +25,7 @@ export function beforeEach(to: Route, from: Route, next) {
   if (isServer) {
     if (store.state.config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
       const storeCode = storeCodeFromRoute(to)
-      if (storeCode !== '' && storeCode !== null) {
+      if (storeCode) {
         prepareStoreView(storeCode)
       }
     }
