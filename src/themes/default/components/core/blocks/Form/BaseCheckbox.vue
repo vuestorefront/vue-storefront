@@ -41,7 +41,7 @@ export default {
       required: true
     },
     validations: {
-      type: Object,
+      type: Array,
       default: () => []
     },
     disabled: {
