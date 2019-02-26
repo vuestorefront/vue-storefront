@@ -1,7 +1,7 @@
 import { router } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/core/store'
-import { localizedDispatcherRoute, localizedRoute, currentStoreView, removeStoreCodeFromRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
-import { Route, Dictionary, RouteConfig } from 'vue-router/types/router';
+import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
+import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
@@ -31,11 +31,11 @@ export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string,
   }
 }
 
-export function findRouteByPath(fullPath) {
+export function findRouteByPath(fullPath: string): RouteConfig {
   return RouterManager.findByPath(fullPath)
 }
 
-export function normalizeUrlPath(url) {
+export function normalizeUrlPath(url: string): string {
   if (url && url.length > 0) {
     if (url[0] === '/') url = url.slice(1)
     const queryPos = url.indexOf('?')
@@ -44,11 +44,11 @@ export function normalizeUrlPath(url) {
   return url  
 }
 
-export function formatCategoryLink(category) {
+export function formatCategoryLink(category: { url_path: string, slug: string }): string {
   return rootStore.state.config.seo.useUrlDispatcher ? ('/' + category.url_path) : ((rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + category.slug)  
 }
 
-export function formatProductLink(product, storeCode) {
+export function formatProductLink(product: { parentSku?: string, sku: string, url_path?: string, type_id: string , slug: string}, storeCode): string | LocalizedRoute {
   if(rootStore.state.config.seo.useUrlDispatcher) {
     const routeData: LocalizedRoute = {
       fullPath: product.url_path,

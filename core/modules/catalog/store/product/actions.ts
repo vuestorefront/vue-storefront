@@ -97,12 +97,11 @@ const actions: ActionTree<ProductState, RootState> = {
         })
       )
     }
-    // TODO: To repreciate and use breadcrumbs module
-    context.state.breadcrumbs.name = product.name
     breadcrumbsName = product.name
     const breadcrumbs = {
       routes: breadCrumbRoutes,
-      current: breadcrumbsName
+      current: breadcrumbsName,
+      name: breadcrumbsName
     }
     context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     return Promise.all(subloaders)
