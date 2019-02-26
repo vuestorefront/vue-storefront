@@ -1,15 +1,15 @@
 <template>
   <div class="sidebar">
-    <h4>
-      {{ $t('Filter') }}
+    <h4 class="sidebar__header">
+      <span> {{ $t('Filter') }} </span>
+      <button
+        class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+        @click="resetAllFilters"
+        v-show="hasActiveFilters"
+      >
+        {{ $t('Clear') }}
+      </button>
     </h4>
-    <button
-      class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
-      @click="resetAllFilters"
-      v-show="hasActiveFilters"
-    >
-      {{ $t('Clear') }}
-    </button>
     <div
       v-for="(filter, filterIndex) in availableFilters"
       :key="filterIndex"
@@ -99,3 +99,14 @@ export default {
   mixins: [Sidebar]
 }
 </script>
+
+<style lang="scss" scoped>
+.sidebar {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 47px;
+  }
+}
+</style>

@@ -25,6 +25,9 @@ export default {
       return Object.keys(this.activeFilters).length !== 0
     }
   },
+  mounted () {
+    this.resetAllFilters()
+  },
   methods: {
     sortById (filters) {
       return [...filters].sort((a, b) => { return a.id - b.id })
