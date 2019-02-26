@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
 - Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
+- Wishlist and compare items are loaded from local cache only once, instead of every time when module component is rendered - @patzick (#2431)
 - Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
 - Added video support in Product Gallery component. - @rain2o (#2433)
 - Improved product quantity change component in product and cart - @patzick (#2398, #2437)
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
 - Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
+- Inconsistent filters behaviour - clear filters on page load - @patzick (#2435)
 - fix price is never below 0 and user can't add 0 or below 0 products to cart @RakowskiPrzemyslaw (#2437)
 - Check for placing single order in case of error in any payment module - @patzick (#2409)
 
