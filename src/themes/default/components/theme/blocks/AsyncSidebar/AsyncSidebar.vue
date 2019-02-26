@@ -33,7 +33,7 @@ export default {
     /** "right" or "left"  */
     direction: {
       type: String,
-      required: true
+      default: 'left'
     }
   },
   data () {
