@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
 
+## [1.8.3] - 2019.02.27
+### Fixed
+- Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
+
 ### Changed / Improved
 - The `core/helpers` parsing URL methods exchanged to `query-string` package
 - Fixed an issue where the correct image for a product configuration wasn't set on the product page image carousel. Also added the fix on the productcarousel in the zoom component - @DaanKouters (#2419)
@@ -28,8 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
 - fix breadcrumbs changing too early - @filrak (#2469)
 - add cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
-- improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488)
+- improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
 - Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
+- fix price is never below 0 and user can't add 0 or below 0 products to cart @RakowskiPrzemyslaw (#2437)
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak

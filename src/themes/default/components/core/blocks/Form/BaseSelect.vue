@@ -23,23 +23,18 @@
     </select>
     <label>{{ placeholder }}</label>
 
-    <template v-if="validations">
-      <span
-        v-for="(validation, index) in validations"
-        :key="index"
-        v-if="validation.condition"
-        class="block cl-error h6"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations"/>
   </div>
 </template>
 
 <script>
+import ValidationMessages from './ValidationMessages.vue'
 
 export default {
   name: 'BaseSelect',
+  components: {
+    ValidationMessages
+  },
   props: {
     id: {
       type: String,
@@ -73,7 +68,6 @@ export default {
     },
     validations: {
       type: Array,
-      required: false,
       default: () => []
     }
   }
