@@ -576,6 +576,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a></td>
     </tr>
+         <tr>
+     <td align="center" valign="middle"> 
+<a href="https://webisoft.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/webisoft.png"
+            alt="Webisoft"
+            height="30"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="http://madepeople.se">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/MadePeople.png"
+            alt="Made People"
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
   </tbody>
 </table>
 
