@@ -49,7 +49,7 @@ This is redis configuration for the output cache. See additional information [he
 },
 ```
 
-This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md) and this section is being used when `server.api` is set to `graphql` (default is "api")
+This is optional GraphQL endpoint; we're now supporting graphQL for the [catalog](https://docs.vuestorefront.io/guide/basics/graphql.html) and this section is being used when `server.api` is set to `graphql` (default is "api")
 
 ## ElasticSearch
 
@@ -98,7 +98,7 @@ This option is referenced in the [core/client-entry.ts](https://github.com/Divan
 "defaultStoreCode": "",
 ```
 
-This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend - please just set it so. This config variable is referenced in the [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts)
+This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend - please just set it so. This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts)
 
 ## Store views
 
@@ -110,7 +110,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 
 If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](../integrations/multistore.md) will be included in the request flow.
 
-You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/store/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
+You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
 
 `storeViews` section contains one or more additional store views configured to serve proper i18n translations, tax settings etc. Please find the docs for this section below.
 
@@ -161,7 +161,7 @@ ElasticSearch settings can be overridden in the specific `storeView` config. You
     },
 ```
 
-Taxes section is used by the [core/store/lib/taxcalc.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/lib/taxcalc.ts). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/helpers/tax). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous unidentified user (which country is not set yet).
 
@@ -191,7 +191,7 @@ The internationalization settings are used by the translation engine (`defautlLo
 
 If this option is set to true, Vue Storefront will be limiting the data got from the API endpoints to the `includeFields` and remove all the `excludeFields` as set for all the specific entities below. This option is set to `true` by default as the JSON objects could ... be of significant size!
 
-This option property is referenced in the [core/store/modules/product](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/product), [core/store/modules/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category), [core/store/modules/attribute](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/attribute)
+This option property is referenced in the [core/modules/catalog/store/product](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/product), [core/modules/catalog/store/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category), [core/modules/catalog/store/attribute](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/attribute)
 
 ```json
   "twoStageCaching": true,
@@ -201,7 +201,7 @@ Vue Storefront caches all the data entities got from `vue-storefront-api` into i
 
 In such a case we're using a strategy called `twoStageCaching` which works like it executes two parallel server requests at once to get the required product, category or attribute feeds. The first request is with the limited fields and the second is for full records. Only the second request is cached **but\*\*** the first (which typically ends-up faster) is used for displaying the Category or Product page.
 
-Please take a look at the [core/store/modules/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category) for the reference.
+Please take a look at the [core/modules/catalog/store/category](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category) for the reference.
 
 ```json
   "optimizeShoppingCart": true,
@@ -209,7 +209,7 @@ Please take a look at the [core/store/modules/category](https://github.com/Divan
 
 Vue Storefront product objects can be quite large ones. They consist of `configurable_children`, `media_gallery` and other information. Quite significant for rendering the Product and Category pages but not so useful in the Shopping cart. To limit the shopping cart size (as it's transferred to the server while making an order) this option is being used.
 
-Please take a look at the [core/store/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart).
+Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart).
 
 ```json
   "category": {
@@ -244,7 +244,7 @@ Starting with Vue Storefront 1.7 we've added a configuration option `config.enti
 
 ```json
 "cart": {
-  "bypassCartLoaderForAuthorizedUsers": true,,
+  "bypassCartLoaderForAuthorizedUsers": true,
 ```
 
 The cart loader bypass feature is there because we're posting orders to Magento asynchronously - it may happen that directly after placing an order, the Magento’s user still have the same quote id and after browsing through VS Store old items will be restored to the shopping cart. Now you can disable this behavior by setting `bypassCartLoaderForAuthorizedUsers` option to `false`
@@ -268,7 +268,7 @@ EventBus.$emit('servercart-after-diff', {
 
 In the event handler, one can handle the merge process manually - for example displaying the proper information to the user before the real merge takes place.
 
-Please have a look at the [core/store/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart) for a reference.
+Please have a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart) for a reference.
 
 ```json
   "synchronize": true,
@@ -276,7 +276,7 @@ Please have a look at the [core/store/modules/cart](https://github.com/DivanteLt
 
 If it's set to `true` the `serverPull` Vuex method will be executed whenever the user adds, removes or edits any product in the shopping cart. This method syncs the client's side shopping cart with the server side one.
 
-Please take a look at the [core/store/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/cart) for a reference.
+Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart) for a reference.
 
 ```json
   "synchronize_totals": true,
@@ -301,6 +301,12 @@ If this option is set to `true`, in case of configurable products, Vue Storefron
 ```
 
 If this option is set to `true`, Vue Storefront will add use price item with a discount to the shopping cart. Otherwise, the product price and special will be added to the shopping cart instead.
+
+```json
+  "minicartCountType": "quantities",
+```
+
+If this option is set to `items`, Vue Storefront will calculate the cart count based on items instead of the item quantities.
 
 ```json
   "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
@@ -332,7 +338,7 @@ When this option is set to `true`, Vue Storefront will use the alternative routi
 ```
 
 When `useMagentoUrlKeys` is set to `true` the `product.url_key` value will be used for product and category slugs used in the URL building process. Otherwise, the slug will be generated based on the product or category name.
-Please take a look at the [core/store/lib/search.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/lib/search.ts) and [core/store/modules/category/mutations.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category/mutations.ts) for reference
+Please take a look at the [core/lib/search.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/lib/search.ts) and [core/modules/catalog/store/category/mutations.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category/mutations.ts) for reference
 
 **Please note:** As `url_key` field must be unique across categories collection. Therefore - we're by default generating its value based on name + category id. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if You'd like to keep the `url_key` as they come from Magento2.
 
@@ -341,7 +347,7 @@ Please take a look at the [core/store/lib/search.ts](https://github.com/DivanteL
   "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
 ```
 
-Vue Storefront tries to dynamically get the stock quantities for simple products related to the configurable ones (products included in the `configurabe_children` array). If the `configurableChildrenStockPrefetchStatic` is set to `true`, the stock items are prefetched from the Category page level. Please take a look at the [core/store/modules/category/actions.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules/category/actions.ts). The second option - `configurableChildrenStockPrefetchStaticPrefetchCount` sets how many products in the category should be prefetched using this mechanism.
+Vue Storefront tries to dynamically get the stock quantities for simple products related to the configurable ones (products included in the `configurabe_children` array). If the `configurableChildrenStockPrefetchStatic` is set to `true`, the stock items are prefetched from the Category page level. Please take a look at the [core/modules/catalog/store/category/actions.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/store/category/actions.ts). The second option - `configurableChildrenStockPrefetchStaticPrefetchCount` sets how many products in the category should be prefetched using this mechanism.
 
 ```json
   "configurableChildrenStockPrefetchDynamic": false,
@@ -572,7 +578,7 @@ When `demomode` is set to `true`, Vue Storefront will display the "Welcome to Vu
 },
 ```
 
-Taxes section is used by the [core/store/lib/taxcalc.ts](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/lib/taxcalc.ts). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous unidentified user (which country is not set yet).
 
@@ -623,7 +629,7 @@ Internationalization settings are used by the translation engine (`defautlLocale
 },
 ```
 
-This property is used by the mailchimp extension (See [src/extensions](https://github.com/DivanteLtd/vue-storefront/tree/master/src/extensions) for a reference).
+This property is used by the mailchimp extension (See [src/extensions](https://github.com/DivanteLtd/vue-storefront-api/tree/master/src/api/extensions) for a reference).
 
 ## Theme
 
@@ -662,7 +668,7 @@ You can put your Hotjar Site ID in here as to be used by the hotjar extension.
 }
 ```
 
-This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be set when using the [src/extensions/cms](https://github.com/DivanteLtd/vue-storefront/tree/master/src/extensions/cms)
+This is the URL endpoint of the Snow.dog Magento2 CMS extensions - need to be set when using the [src/api/extensions/cms-data](https://github.com/DivanteLtd/vue-storefront-api/tree/master/src/api/extensions/cms-data)
 
 ## Use price tiers
 
@@ -734,4 +740,4 @@ This is a list of priorities for search feature (higher boost = more important s
   }
 ```
 
-Search queries used by specific components (for example Related products); the format of the query has been described [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md)
+Search queries used by specific components (for example Related products); the format of the query has been described [here](https://docs.vuestorefront.io/guide/data/elastic-queries.html)

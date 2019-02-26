@@ -12,13 +12,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
 - Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
+- Added video support in Product Gallery component. - @rain2o (#2433)
+- Improved product quantity change component in product and cart - @patzick (#2398, #2437)
 - Updated to Vue 2.6.6 - @filrak (#2456)
 - Null sidebar menu data on static page fixed - @filrak (#2456)
 - Fix cannot edit previous steps in checkout - @filrak (#2457)
+- Fixed route guard ssr problem - @vue-kacper (#2364)
+- Fix links in footer to static pages bug - @filrak (#2464)
+- Fix links at docs, Basics/Configuration file explained - @daksamit (#2490)
+- Improve images loading on category page, corrected alt view and blinking problem - @patzick (#2465)
+- Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
+- fix breadcrumbs changing too early - @filrak (#2469)
+- add cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
+- improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
+- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
 
-
-### Depreciated / Removed
-- `@vue-storefront/store` package depreciated - @filrak
+### Deprecated / Removed
+- `@vue-storefront/store` package deprecated - @filrak
 
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)

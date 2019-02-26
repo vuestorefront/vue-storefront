@@ -19,7 +19,8 @@
     "paths": {
       "core/*": ["core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
-      "core/modules/*": ["./core/modules/*"]
+      "core/modules/*": ["./core/modules/*"],
+      "@vue-storefront/*": ["./"]
     },
     "lib": ["es2017", "dom"]
   },
@@ -31,7 +32,6 @@
     "core/**/*.vue",
     "tests/**/*.ts",
     "module/**/*.ts",
-    "core/build/theme-path.js"
   ],
   "exclude": [
     "node_modules"

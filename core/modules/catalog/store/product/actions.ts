@@ -101,7 +101,7 @@ const actions: ActionTree<ProductState, RootState> = {
       routes: breadCrumbRoutes,
       current: breadcrumbsName
     }
-    context.dispatch('breadcrumbs/set', breadcrumbs, { root: true })
+    context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {

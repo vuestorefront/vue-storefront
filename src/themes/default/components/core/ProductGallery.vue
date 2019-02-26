@@ -1,37 +1,26 @@
 <template>
-  <div class="media-gallery">
+  <div class="media-gallery" :class="{'media-gallery--loaded': carouselLoaded}">
     <div v-show="OfflineOnly">
       <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
     </div>
-    <div v-show="OnlineOnly">
-      <div class="relative">
-        <div v-if="gallery.length === 1">
-          <img
-            :src="defaultImage.src"
-            v-lazy="defaultImage"
-            class="mw-100 pointer"
-            ref="defaultImage"
-            :alt="product.name | htmlDecode"
-            itemprop="image"
-          >
-        </div>
-        <div v-else>
-          <product-gallery-overlay
-            v-if="isZoomOpen"
-            :current-slide="currentSlide"
-            :product-name="product.name"
-            :gallery="gallery"
-            @close="toggleZoom"/>
-          <no-ssr>
-            <product-gallery-carousel
-              v-if="showProductGalleryCarousel"
-              :gallery="gallery"
-              :configuration="configuration"
-              :product-name="product.name"
-              @toggle="openOverlay"/>
-          </no-ssr>
-        </div>
-      </div>
+    <div v-show="OnlineOnly" class="relative">
+      <product-gallery-overlay
+        v-if="isZoomOpen"
+        :current-slide="currentSlide"
+        :product-name="product.name"
+        :gallery="gallery"
+        @close="toggleZoom"
+      />
+      <no-ssr>
+        <product-gallery-carousel
+          v-if="showProductGalleryCarousel"
+          :gallery="gallery"
+          :configuration="configuration"
+          :product-name="product.name"
+          @toggle="openOverlay"
+          @loaded="carouselLoaded = true"
+        />
+      </no-ssr>
     </div>
   </div>
 </template>
@@ -62,7 +51,8 @@ export default {
     return {
       isZoomOpen: false,
       showProductGalleryCarousel: false,
-      currentSlide: 0
+      currentSlide: 0,
+      carouselLoaded: false
     }
   },
   mounted () {
@@ -91,7 +81,21 @@ export default {
 <style lang="scss" scoped>
 .media-gallery {
   text-align: center;
+  width: 100%;
   height: 100%;
+  min-height: calc(90vw * 1.1);
+  background-image: url('/assets/placeholder.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40% auto;
+
+  @media only screen and (min-width:768px) {
+    min-height: inherit;
+  }
+
+  &--loaded {
+    background-image: none;
+  }
 }
 .offline-image {
   width: 100%;

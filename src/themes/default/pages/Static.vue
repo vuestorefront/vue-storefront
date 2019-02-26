@@ -13,7 +13,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link :to="localizedRoute(page.link)" @click.native="setContent(page.component)" class="cl-accent relative">{{ page.title }}</router-link>
+                <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
@@ -52,17 +52,10 @@ export default {
       required: true
     }
   },
-  methods: {
-    setContent (component) {
-      this.activeComponent = component
-    }
-  },
-  watch: {
-    '$route.name': {
-      immediate: true,
-      handler: function () {
-        this.activeComponent = this.navigation.find(nav => nav.link === this.$route.path) ? this.navigation.find(nav => nav.link === this.$route.path).component : null
-      }
+  computed: {
+    activeComponent () {
+      const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
+      return matchedNav ? matchedNav.component : null
     }
   },
   data () {
@@ -76,8 +69,7 @@ export default {
         { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
         { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
         { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
-      ],
-      activeComponent: null
+      ]
     }
   }
 }
