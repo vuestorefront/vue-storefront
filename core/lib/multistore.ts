@@ -139,7 +139,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]) {
+export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void  {
   if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
     for (let storeCode of config.storeViews.mapStoreUrlsFor) {
       if (storeCode) {

@@ -10,7 +10,7 @@ import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute 
 import Vue from 'vue'
 
 export const UrlDispatchMapper = (to) => {
-  return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
+  return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }).then((routeData) => {
     if (routeData) {
       Object.keys(routeData.params).map(key => {
         to.params[key] = routeData.params[key]
@@ -23,9 +23,9 @@ export const UrlDispatchMapper = (to) => {
 }
 export function beforeEach(to: Route, from: Route, next) {
   if (isServer) {
-    if (store.state.config.storeViews.multistore === true) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
+    if (store.state.config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
       const storeCode = storeCodeFromRoute(to)
-      if (storeCode !== '' && storeCode !== null) {
+      if (storeCode) {
         prepareStoreView(storeCode)
       }
     }
