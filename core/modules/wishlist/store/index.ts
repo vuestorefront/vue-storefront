@@ -7,9 +7,13 @@ import WishlistState from '../types/WishlistState'
 export const module:Module<WishlistState, RootState> = {
   namespaced: true,
   state: {
+    loaded: false,
     items: []
   },
   actions,
-  mutations
+  mutations,
+  getters: {
+    isWishlistLoaded: state => state.loaded
+  }
 }
 

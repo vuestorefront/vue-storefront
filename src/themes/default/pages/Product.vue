@@ -46,7 +46,7 @@
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ product.priceInclTax * product.qty | price }}
+                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
                 </div>
               </div>
               <div
@@ -143,11 +143,19 @@
                 :name="$t('Quantity')"
                 v-model="product.qty"
                 :min="1"
+                @blur="$v.$touch()"
+                :validations="[
+                  {
+                    condition: $v.product.qty.$error && !$v.product.qty.minValue,
+                    text: $t('Quantity must be above 0')
+                  }
+                ]"
               />
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
+                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -224,6 +232,7 @@
 </template>
 
 <script>
+import { minValue } from 'vuelidate/lib/validators'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -289,6 +298,13 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
+    }
+  },
+  validations: {
+    product: {
+      qty: {
+        minValue: minValue(1)
+      }
     }
   }
 }
