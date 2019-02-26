@@ -6,7 +6,7 @@ import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
-import { storeCodeFromRoute, prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import Vue from 'vue'
 
 export const UrlDispatchMapper = (to) => {
@@ -37,10 +37,9 @@ export function beforeEach(to: Route, from: Route, next) {
   if (!to.matched.length || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
-        let dynamicRoute = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
-        if (Array.isArray(dynamicRoute)) dynamicRoute = dynamicRoute[0] // if multistore enabled
-        if (dynamicRoute) {
-          next(dynamicRoute)
+        let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
+        if (dynamicRoutes && dynamicRoutes.length > 0) {
+          next(dynamicRoutes[0])
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
           next('/page-not-found')

@@ -127,7 +127,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   }
   return routeObj
 }
-export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): any {
+export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
   if (typeof routeObj === 'string') {
     return '/' + storeCode + routeObj
   } 

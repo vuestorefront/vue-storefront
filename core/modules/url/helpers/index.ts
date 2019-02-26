@@ -1,10 +1,10 @@
 import { router } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/core/store'
 import { localizedDispatcherRoute, localizedRoute, currentStoreView, removeStoreCodeFromRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
-import { Route, Dictionary } from 'vue-router/types/router';
+import { Route, Dictionary, RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
-export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
+export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     const config = rootStore.state.config
@@ -23,9 +23,8 @@ export function processDynamicRoute(routeData, fullPath, addToRoutes = true) {
       RouterManager.addRoutes(routes, router)
       return routes
     } else {
-      const storeView = currentStoreView()
       const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })
-      return dynamicRoute
+      return [dynamicRoute]
     }
   } else {
     return null
