@@ -1,5 +1,5 @@
 <template>
-  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent">
+  <div class="wishlist cl-accent">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 pointer cl-accent" @click="closeWishlist">close</i>
@@ -45,17 +45,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/animations/transitions";
-  .wishlist {
-    height: 100vh;
-    width: 800px;
-    top: 0;
-    right: 0;
-    z-index: 3;
-    // transform: translateX(100%);
-    // transition: transform 300ms $motion-main;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
   i {
     opacity: 0.6;
     &:hover {
