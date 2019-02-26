@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
 - Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
-- Added async sidebar component with async off-screen components error handling and fetch retrying after coming back online - @filrak (#2500)
+- Added async sidebar component with async off-screen components error handling and fetch retrying after coming back online - @filrak (#2408, #2451)
 - fix price is never below 0 and user can't add 0 or below 0 products to cart @RakowskiPrzemyslaw (#2437)
 
 ### Deprecated / Removed
