@@ -10,7 +10,7 @@ import { storeCodeFromRoute, prepareStoreView, currentStoreView } from '@vue-sto
 import Vue from 'vue'
 
 export const UrlDispatchMapper = (to) => {
-  return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }, { root: true }).then((routeData) => {
+  return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }).then((routeData) => {
     if (routeData) {
       Object.keys(routeData.params).map(key => {
         to.params[key] = routeData.params[key]
