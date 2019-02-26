@@ -1,4 +1,4 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { createModule } from '@vue-storefront/core/lib/module'
 import { afterRegistration } from './hooks/afterRegistration'
 
 const store = {
@@ -7,13 +7,9 @@ const store = {
     key: null
   }
 };
-
 const KEY = 'hotjar';
-
-const moduleConfig: VueStorefrontModuleConfig = {
+export const Hotjar = createModule({
   key: KEY,
   store: { modules: [{ key: KEY, module: store }] },
   afterRegistration
-};
-
-export const Hotjar = new VueStorefrontModule(moduleConfig);
+});

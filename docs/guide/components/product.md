@@ -9,9 +9,9 @@ No props
 - `loading` - if `true` indicates the product is currently being loaded from the backend.
 - `favorite` - an object that defines 1) if the current product is in the list of favorite products and 2) name of an icon that will be shown to indicate its status in relation to being in the list of favorite products.
 - `compare` - defines if the current product is in compare list.
-- `product` - a computed property that represents current product that is shown on the page. Initially gets its value from `product/productCurrent` Vuex store getter. Includes all the options like size and color that user sets on the page.
-- `originalProduct` - a computed property that represents current product in its initial state. Gets its value from `product/productOriginal` Vuex store getter.
-- `parentProduct` - a computed property that represents current product parent product, if any. Gets its value from `product/productParent` Vuex store getter.
+- `product` - a computed property that represents the current product that is shown on the page. Initially gets its value from `product/productCurrent` Vuex store getter. Includes all the options like size and color that the user sets on the page.
+- `originalProduct` - a computed property that represents the current product in its initial state. Gets its value from `product/productOriginal` Vuex store getter.
+- `parentProduct` - a computed property that represents the current product parent product, if any. Gets its value from `product/productParent` Vuex store getter.
 - `attributesByCode` - a computed property that returns the list of all product attributes by their code. Gets its value from `attribute/attributeListByCode` Vuex store getter.
 - `attributesById` - a computed property that returns the list of all product attributes by their id. Gets its value from `attribute/attributeListById` Vuex store getter. **This prop is not used anywhere**.
 - `breadcrumbs` - a computed property that represents breadcrumbs for the current product. Gets its value from `product/breadcrumbs` Vuex store getter.
@@ -33,16 +33,16 @@ No props
 Sets attributes on the product according to what the user has chosen on the page. Dispatches `product/configure` action.
 
 :::tip Note
-This method is called when 'filter-changed-product' event is triggered, but it's not triggered anywhere in the code.
+This method is called when the 'filter-changed-product' event is triggered, but it's not triggered anywhere in the code.
 :::
 
 _Parameters_
 
-- `filterOption` - an object that represents an attribute that have changed on the product.
+- `filterOption` - an object that represents an attribute that has changed on the product.
 
 #### fetchData (store, route)
 
-Fetches current product data from the backend by dispatching `product/single` action. Also dispatches several other actions to get breadcrumbs, product attributes, variants for configurable product, also to set sub-products if the product is grouped.
+Fetches current product data from the backend by dispatching `product/single` action. Also dispatches several other actions to get breadcrumbs, product attributes, variants for a configurable product, also to set sub-products if the product is grouped.
 
 _Parameters_
 
@@ -51,7 +51,7 @@ _Parameters_
 
 #### loadData ({ store, route })
 
-Dispatches `product/reset` action that sets current product to original product, nullifies all the configuration and options, then calls `fetchData` method to load current product data.
+Dispatches `product/reset` action that sets current product to the original product, nullifies all the configuration and options, then calls the `fetchData` method to load current product data.
 
 _Parameters_
 
@@ -59,7 +59,7 @@ _Parameters_
 
 #### stateCheck
 
-If current product has a parent, redirects to a parent product page. Then checks if the current product is in the wishlist or in the compare list, sets `favorite` and `compare` props accordingly.
+If the current product has a parent, redirects to a parent product page. Then checks if the current product is in the wishlist or in the compare list, sets `favorite` and `compare` props accordingly.
 
 _Parameters_
 No parameters
@@ -93,7 +93,7 @@ _Parameters_
 
 ### asyncData
 
-Since the app is using SSR, this method prefetches and resolves the asynchronous data before rendering happens and saves it to Vuex store. On Product page this is done by calling `loadData` method.
+Since the app is using SSR, this method prefetches and resolves the asynchronous data before rendering happens and saves it to Vuex store. On Product page, this is done by calling `loadData` method.
 
 The `asyncData` fires the `product-after-load` event which can be used to populate the Vuex SSR store for additional data regarding the product.
 

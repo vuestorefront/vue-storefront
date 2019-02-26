@@ -1,11 +1,8 @@
 import { module } from './store'
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { createModule } from '@vue-storefront/core/lib/module'
 
 export const KEY = 'notification'
-
-const moduleConfig: VueStorefrontModuleConfig = {
+export const Notification = createModule({
   key: KEY,
   store: { modules: [{ key: KEY, module }] },
-}
-
-export const Notification = new VueStorefrontModule(moduleConfig)
+})

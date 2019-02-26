@@ -1,4 +1,4 @@
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
 export default function getMapping (attribute, entityType = 'products') {
   let mapping = [

@@ -19,7 +19,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
 
     Vue.prototype.$bus.$on('checkout-before-placeOrder', placeOrder)
 
-    // Mount the info component when required.
+    // Mount the info component when required
     Vue.prototype.$bus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
       let methods = store.state['payment-backend-methods'].methods
       if (methods !== null && methods.find(item => (item.code === paymentMethodCode && item.is_server_method === true))) {

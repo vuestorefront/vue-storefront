@@ -1,6 +1,6 @@
 # SSR Cache
 
-Vue Storefront generates the Server Side rendered pages to improve the SEO results. In the latest version of Vue Storefront we've added the Output cache option (disabled by default) to improve performance.
+Vue Storefront generates the Server Side rendered pages to improve the SEO results. In the latest version of Vue Storefront, we've added the Output cache option (disabled by default) to improve performance.
 
 The output cache is set by the following `config/local.json` variables:
 
@@ -41,13 +41,13 @@ The tags can be used to invalidate the Varnish cache if you're using it. [Read m
 
 If both `useOutputCache` and `useOutputCacheTagging` options are set to `true` - Vue Storefront is using Output Cache stored in Redis (configured in the `redis` section of the config file). Cache is tagged with Dynamic tags and can be invalidated using a special webhook:
 
-Example call to clear all pages containing specific product and category:
+An example call to clear all pages containing specific product and category:
 
 ```bash
 curl http://localhost:3000/invalidate?tag=P1852,C20
 ```
 
-Example call to clear all product, category and home pages:
+An example call to clear all product, category and homepages:
 
 ```bash
 curl http://localhost:3000/invalidate?tag=product,category,home
@@ -70,7 +70,7 @@ npm run cache clear -- --tag=*
 
 Available tag keys are set in the `config.server.availableCacheTags` (by default: `"product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"`)
 
-**Dynamic cache invalidation:** Recent version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) supports output cache invalidation. Output cache is being tagged with the product and categories id (products and categories used on specific page). Mage2vuestorefront can invalidate cache of a product and category pages if you set the following ENV variables:
+**Dynamic cache invalidation:** Recent version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) supports output cache invalidation. Output cache is being tagged with the product and categories id (products and categories used on a specific page). Mage2vuestorefront can invalidate the cache of a product and category pages if you set the following ENV variables:
 
 ```bash
 export VS_INVALIDATE_CACHE_URL=http://localhost:3000/invalidate?key=SECRETKEY&tag=

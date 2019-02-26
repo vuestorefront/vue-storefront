@@ -15,7 +15,7 @@
 - [General rules and good practices](#general-rules-and-good-practices)
 - [Adding new features as VS modules](#adding-new-features-as-vs-modules)
 - [Extending and overriding Vue Storefront modules](#extending-and-overriding-vue-storefront-modules)
-
+- [Creating third party modules](#Creating-3rd-party-modules)
   
 # What are VS modules?
 
@@ -161,7 +161,7 @@ All VS modules from `registerModules` will be registered during shop initialisat
 First take a look at module template. It cointains great examples, good practices and explainations for everything that can be putted in module.
 
 0. **MOST IMPORTANT RULE** Try to encapsulate all the logic required for module to work inside the module. You can import it in other parts of the app but the logic itself should be in a module
-1. **Try not to rely on any other data sources than provided ones and `@vue-storefront/store` package.**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves. Try to think about each module as a standalone npm package.
+1. **Try not to rely on any other modules. Keep everuything encapsualted and only rely on core helpers and libs**. Use other stores only if it's the only way to achieve some functionality and import `rootStore` for this purposes. Modules should be standalone and rely only on themeselves. Try to think about each module as a standalone npm package.
 1. Place all reusable features as a Vuex actions (e.g. `addToCart(product)`, `subscribeNewsletter()` etc) instead of placing them in components. try to use getters for modified or filtered values from state. We are trying to place most of the logic in Vuex stores to allow easier core updates. Here is a good example of such externalisation.
 
 ```js
@@ -195,8 +195,7 @@ export const Microcart = {
 };
 ```
 
-3. Don't use EventBus.
-4. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event. Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
+3. If you want to inform about success/failure of core component's method you can eaither use a callback or scoped event. Omit Promises if you thing that function can be called from the template and you'll need the resolved value. This is a good example of method that you can call either on `template` ot `script` section:
 
 ```js
 addToCart(product, success, failure) {
@@ -217,6 +216,7 @@ Try to choose method basing on use case. [This](https://github.com/DivanteLtd/vu
 
 ## Adding new features as VS modules
 
+- If you want to crete a new module copy content from `src/module-template` and use the parts that you need.
 - If you are creating a new feature first think if it's not just extending currently existing one . If you are sure that feature you want to provide is completely new then it should be introduced as new VS module.
 - Provide unique key that should represent the feature or 3rd party system name (if the module is an integration)
 - Try not to rely on data and logic from other modules if your module is not directly extending it. It'll be more reusable and remain working even after extensive VS core updates.
@@ -263,7 +263,7 @@ extendModule(cartExtend)
 export const registerModules: VueStorefrontModule[] = [Cart]
 ```
 
-If you want to make complex changes with your own app-specific VS module (which is not a npm package) it's a good practice to keep this module inside `src/modules/{module-name}`. To extend module with another module just pass it's config to `extendModule` function
+If you want to make complex changes with your own app-specific VS module (which is not an npm package) it's a good practice to keep this module inside `src/modules/{module-name}`. To extend module with another module just pass it's config to `extendModule` function
 
 ```js
 import { Cart } from '@vue-storefront/core/modules/cart'
@@ -274,6 +274,10 @@ extendModule(ExtendCartModule.config)
 
 export const registerModules: VueStorefrontModule[] = [Cart]
 ```
+
+## Creating third party modules
+
+If you want to create third party module just copy the `src/modules/module-template` raw code to your repo. Don't use any transpilation and build tools since it prevents proper tree shaking and optimization. Building handled by Vue Storefront build tools. Package name needst to start with `vsf-` prefix to be included into Vue Storefront build process
 
 ## Contributions
 
