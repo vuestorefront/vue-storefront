@@ -4,23 +4,29 @@
     <loader/>
     <div id="viewport" class="w-100 relative">
       <main-header/>
-      <transition name="slide-right">
-        <sidebar-menu v-if="isSidebarOpen"/>
-      </transition>
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
         :close="() => $store.commit('ui/setSearchpanel', false)"
+        direction="right"
       />
       <async-sidebar
         :async-component="Microcart"
         :is-open="isMicrocartOpen"
         :close="() => $store.commit('ui/setMicrocart', false)"
+        direction="right"
+      />
+      <async-sidebar
+        :async-component="SidebarMenu"
+        :is-open="isSidebarOpen"
+        :close="() => $store.commit('ui/setSidebar', false)"
+        direction="left"
       />
       <async-sidebar
         :async-component="Wishlist"
         :is-open="isWishlistOpen"
         :close="() => $store.commit('ui/setWishlist', false)"
+        direction="right"
       />
       <slot/>
       <main-footer/>
@@ -49,7 +55,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import Head from 'theme/head'
 
-const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
+const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
 const Wishlist = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue')
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
@@ -62,7 +68,8 @@ export default {
       ordersData: [],
       Microcart,
       Wishlist,
-      SearchPanel
+      SearchPanel,
+      SidebarMenu
     }
   },
   computed: {
@@ -121,21 +128,3 @@ export default {
 </script>
 
 <style lang="scss" src="theme/css/main.scss"></style>
-<style lang="scss" scoped>
-  .slide-left-enter-active,
-  .slide-left-leave-active,
-  .slide-right-enter-active,
-  .slide-right-leave-active {
-    transition: transform .25s;
-  }
-
-  .slide-left-enter,
-  .slide-left-leave-to {
-    transform: translateX(100%);
-  }
-
-  .slide-right-enter,
-  .slide-right-leave-to {
-    transform: translateX(-100%);
-  }
-</style>

@@ -46,7 +46,6 @@ export default {
   height: 100vh;
   background: #ff847b;
   color: white;
-  padding: 20px;
 }
 .icon {
   font-size: 45px;

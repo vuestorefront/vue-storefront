@@ -1,7 +1,8 @@
 <template>
-  <transition name="slide-left">
+  <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
     <div
-      class="right-sidebar mw-100 fixed cl-accent bg-cl-primary"
+      class="mw-100 fixed cl-accent bg-cl-primary"
+      :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
       data-testid="sidebar"
       v-if="isOpen"
     >
@@ -24,8 +25,14 @@ export default {
       type: Boolean,
       required: true
     },
+    /** Action that closes the modal. should set value referenced by `isOpen` to false */
     close: {
       type: Function,
+      required: true
+    },
+    /** "right" or "left"  */
+    direction: {
+      type: String,
       required: true
     }
   },
@@ -79,6 +86,20 @@ export default {
     min-width: 320px;
     overflow-y: auto;
     overflow-x: hidden;
+  }
+
+  .left-sidebar{
+    height: 100vh;
+    width: 350px;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    z-index: 3;
+
+    @media (max-width: 767px) {
+      width: 100vh;
+    }
   }
 
   .close {
