@@ -22,6 +22,11 @@ import VueOfflineMixin from 'vue-offline/mixin'
 export default {
   name: 'LoadingError',
   mixins: [VueOfflineMixin],
+  mounted () {
+    this.$on('online', () => {
+      this.reload()
+    })
+  },
   methods: {
     reload () {
       this.$parent.getComponent()
