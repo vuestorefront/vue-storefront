@@ -90,6 +90,7 @@ export default {
         pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
       }
     }
+    this.$emit('loaded')
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-product', this.selectVariant)

@@ -1,5 +1,5 @@
 <template>
-  <button-full @click.native="addToCart(product)" :disabled="canBeAdded(product)" data-testid="addToCart">
+  <button-full @click.native="addToCart(product)" :disabled="isProductDisabled" data-testid="addToCart">
     {{ $t('Add to cart') }}
   </button-full>
 </template>
@@ -17,9 +17,11 @@ export default {
   methods: {
     onAfterRemovedVariant () {
       this.$forceUpdate()
-    },
-    canBeAdded (product) {
-      return formatProductMessages(product.errors) !== ''
+    }
+  },
+  computed: {
+    isProductDisabled () {
+      return this.disabled || formatProductMessages(this.product.errors) !== ''
     }
   },
   beforeMount () {
