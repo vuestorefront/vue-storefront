@@ -4,8 +4,8 @@ export function afterRegistration({ Vue, config, store, isServer }) {
 
   let correctPaymentMethod = false
 
-  // Place the order. The payload is empty as we don't have any specific info to add for this payment method '{}'
-  const placeOrder = function () {
+  // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
+  const placeOrder = () => {
     if (correctPaymentMethod) {
       Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
     }

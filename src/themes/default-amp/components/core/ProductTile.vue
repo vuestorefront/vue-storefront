@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 
 export default {

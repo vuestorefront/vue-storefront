@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
 
@@ -112,7 +112,7 @@ export default {
     this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
     this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
     this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$off('checkout-before-placeOrder') // this is intentional exception as the payment methods are dynamically binding to the before-placeOrder event
+    this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
     this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
     this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)

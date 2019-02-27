@@ -29,7 +29,7 @@ import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 
 import { once } from '@vue-storefront/core/helpers'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 

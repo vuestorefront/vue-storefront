@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import { entityKeyName } from '@vue-storefront/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import * as types from './mutation-types'
 import AttributeState from '../../types/AttributeState'
 import { Logger } from '@vue-storefront/core/lib/logger'

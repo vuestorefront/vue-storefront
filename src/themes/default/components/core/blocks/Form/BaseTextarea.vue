@@ -23,31 +23,18 @@
       </label>
     </div>
 
-    <template v-if="validation">
-      <span
-        class="block cl-error h6 mt5"
-        v-if="validation.condition"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
-
-    <template v-else-if="validations">
-      <span
-        v-for="(validation, index) in validations"
-        :key="index"
-        v-if="validation.condition"
-        class="block cl-error h6 mt5"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations"/>
   </div>
 </template>
 
 <script>
+import ValidationMessages from './ValidationMessages.vue'
+
 export default {
   name: 'BaseTextarea',
+  components: {
+    ValidationMessages
+  },
   data () {
     return {
       iconActive: false,
@@ -88,14 +75,8 @@ export default {
       required: false,
       default: false
     },
-    validation: {
-      type: Object,
-      required: false,
-      default: () => {}
-    },
     validations: {
       type: Array,
-      required: false,
       default: () => []
     }
   },

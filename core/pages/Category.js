@@ -2,7 +2,7 @@ import Vue from 'vue'
 import toString from 'lodash-es/toString'
 
 import i18n from '@vue-storefront/i18n'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'

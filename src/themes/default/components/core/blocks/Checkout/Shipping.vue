@@ -71,10 +71,10 @@
             v-model.trim="shipping.lastName"
             @blur="$v.shipping.lastName.$touch()"
             autocomplete="family-name"
-            :validation="{
+            :validations="[{
               condition: $v.shipping.lastName.$error && !$v.shipping.lastName.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -85,10 +85,10 @@
             v-model.trim="shipping.streetAddress"
             @blur="$v.shipping.streetAddress.$touch()"
             autocomplete="address-line1"
-            :validation="{
+            :validations="[{
               condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -99,10 +99,10 @@
             v-model.trim="shipping.apartmentNumber"
             @blur="$v.shipping.apartmentNumber.$touch()"
             autocomplete="address-line2"
-            :validation="{
+            :validations="[{
               condition: $v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -113,10 +113,10 @@
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
             autocomplete="address-level2"
-            :validation="{
+            :validations="[{
               condition: $v.shipping.city.$error && !$v.shipping.city.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input

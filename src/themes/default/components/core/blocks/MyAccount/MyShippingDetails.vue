@@ -50,10 +50,10 @@
           :placeholder="`${$t('Last name')} *`"
           v-model.trim="shippingDetails.lastName"
           @input="$v.shippingDetails.lastName.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.lastName.required && $v.shippingDetails.lastName.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-checkbox
@@ -74,10 +74,10 @@
           :placeholder="`${$t('Street name')} *`"
           v-model.trim="shippingDetails.street"
           @input="$v.shippingDetails.street.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.street.required && $v.shippingDetails.street.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -88,10 +88,10 @@
           :placeholder="`${$t('House/Apartment number')} *`"
           v-model.trim="shippingDetails.house"
           @input="$v.shippingDetails.house.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.house.required && $v.shippingDetails.house.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -102,10 +102,10 @@
           :placeholder="`${$t('City')} *`"
           v-model.trim="shippingDetails.city"
           @input="$v.shippingDetails.city.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
