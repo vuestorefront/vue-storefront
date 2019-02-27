@@ -1,6 +1,6 @@
 ### Related issues
 
-(put links to related issues here)
+closes (put link to related issue here)
 
 ### Short description and why it's useful
 

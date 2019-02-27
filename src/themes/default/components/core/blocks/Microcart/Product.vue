@@ -33,22 +33,12 @@
         </div>
       </div>
       <div class="h5 pt5 cl-accent lh25 qty">
-        <span>
-          {{ $t('Qty') }}
-        </span>
-        <span class="weight-700" :class="{ hidden: isEditing }" data-testid="productQty">
-          {{ product.qty }}
-        </span>
-        <span :class="{ hidden: !isEditing }">
-          <input
-            class="h6"
-            type="number"
-            autofocus
-            v-model.number="qty"
-            @blur="updateQuantity"
-            data-testid="productQtyInput"
-          >
-        </span>
+        <base-input-number
+          :name="$t('Quantity')"
+          :value="product.qty"
+          @blur="updateQuantity"
+          :min="1"
+        />
       </div>
     </div>
     <div class="flex py15 mr10 align-right start-xs between-sm actions">
@@ -63,7 +53,7 @@
           {{ product.priceInclTax * product.qty | price }}
         </span>
       </div>
-      <div class="prices" v-if="product.totals && displayItemDiscounts">
+      <div class="prices" v-else-if="product.totals">
         <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
           {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
         </span>
@@ -74,10 +64,12 @@
           {{ product.totals.row_total_incl_tax | price }}
         </span>
       </div>
+      <div class="prices" v-else>
+        <span class="h4 serif price-regular">
+          {{ product.regular_price * product.qty | price }}
+        </span>
+      </div>
       <div class="links">
-        <div @click="switchEdit">
-          <edit-button />
-        </div>
         <div class="mt5" @click="removeItem">
           <remove-button />
         </div>
@@ -87,16 +79,16 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
-import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 
 export default {
   components: {
-    EditButton,
-    RemoveButton
+    RemoveButton,
+    BaseInputNumber
   },
   mixins: [Product],
   data () {

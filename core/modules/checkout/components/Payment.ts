@@ -53,7 +53,6 @@ export const Payment = {
     edit () {
       if (this.isFilled) {
         this.$bus.$emit('checkout-before-edit', 'payment')
-        this.isFilled = false
       }
     },
     hasBillingData () {

@@ -23,7 +23,7 @@
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 export default {
   components: {
     Modal
