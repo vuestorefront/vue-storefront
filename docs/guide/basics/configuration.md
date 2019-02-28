@@ -734,4 +734,4 @@ This is a list of priorities for search feature (higher boost = more important s
   }
 ```
 
-Search queries used by specific components (for example Related products); the format of the query has been described [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md)
+Search queries used by specific components (for example Related products); the format of the query has been described [here](https://docs.vuestorefront.io/guide/data/elastic-queries.html)
