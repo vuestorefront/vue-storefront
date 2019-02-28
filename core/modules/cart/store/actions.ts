@@ -13,6 +13,7 @@ import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
+import { isServer } from '@vue-storefront/core/helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 
 const CART_PULL_INTERVAL_MS = 2000
@@ -56,12 +57,12 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize && !isServer) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
         context.state.cartItemsHash = newItemsHash
-        TaskQueue.execute({ url: rootStore.state.config.cart.pull_endpoint, // sync the cart
+        return TaskQueue.execute({ url: rootStore.state.config.cart.pull_endpoint, // sync the cart
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -91,9 +92,9 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize_totals && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize_totals && !isServer) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
-        context.state.cartServerPullAt = Date.now()
+        context.state.cartServerTotalsAt = Date.now()
         TaskQueue.execute({ url: rootStore.state.config.cart.totals_endpoint, // sync the cart
           payload: {
             method: 'GET',
@@ -110,7 +111,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverCreate (context, { guestCart = false }) {
-    if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         const task = { url: guestCart ? rootStore.state.config.cart.create_endpoint.replace('{{token}}', '') : rootStore.state.config.cart.create_endpoint, // sync the cart
           payload: {
