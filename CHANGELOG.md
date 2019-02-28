@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9] - unreleased
+### Added
+- Unit tests of cart module written in jest - @lromanowicz (#2305)
+
+### Deprecated / Removed
+- Unit tests in Karma are now removed in favor of jest - @lromanowicz (#2305)
+
 ## [1.8.3] - 2019.02.27
 ### Added
 - New reactive helper to check online state. Usage: `import { onlineHelper } from '@vue-storefront/core/helpers'` and then `onlineHelper.isOnline` - @patzick (#2510)
