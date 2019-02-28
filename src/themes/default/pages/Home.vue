@@ -84,8 +84,6 @@ export default {
     let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
     let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
 
-    await store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null })
-
     const newProductsResult = await store.dispatch('product/list', {
       query: newProductsQuery,
       size: 8,

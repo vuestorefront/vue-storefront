@@ -2,10 +2,11 @@ import Vue from 'vue'
 
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { sha3_224 } from 'js-sha3'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
 import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 // TODO - use one from helpers instead
 export function isOnline () : boolean {
@@ -61,7 +62,8 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
         res.noresults = false
         res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
         resolve(res)
-        console.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        Logger.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
+
         servedFromCache = true
       }
     }).catch((err) => {
@@ -87,7 +89,7 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
       if (res) { // otherwise it can be just a offline mode
         cache.setItem(cacheKey, res, null, rootStore.state.config.elasticsearch.disableLocalStorageQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
-          console.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+          Logger.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
           res.cache = false
           res.noresults = false
           res.offline = false
@@ -96,7 +98,7 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
       }
     }).catch(err => {
       if (!servedFromCache) {
-        console.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))
+        Logger.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
         const res = {
           items: [],
           total: 0,

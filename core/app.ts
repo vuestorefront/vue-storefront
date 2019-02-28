@@ -29,11 +29,11 @@ import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 
 import { once } from '@vue-storefront/core/helpers'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be depreciated in 1.8
+// Will be deprecated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
 

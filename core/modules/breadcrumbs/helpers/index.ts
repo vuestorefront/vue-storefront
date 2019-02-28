@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 
 // Duplicate of breadCrumbRoutes, to repalce it soon. 
 /** Parse category path for product/category  */

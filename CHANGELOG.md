@@ -4,6 +4,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.3] - 2019.02.27
+### Added
+- New reactive helper to check online state. Usage: `import { onlineHelper } from '@vue-storefront/core/helpers'` and then `onlineHelper.isOnline` - @patzick (#2510)
+
+### Fixed
+- Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
+
+### Changed / Improved
+- Fixed an issue where the correct image for a product configuration wasn't set on the product page image carousel. Also added the fix on the productcarousel in the zoom component - @DaanKouters (#2419)
+- Way of creating VS Modules was changed to use factory method instead of explict object creation. - @filrak (#2434)
+- Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
+- Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
+- Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390,#2399)
+- Wishlist and compare items are loaded from local cache only once, instead of every time when module component is rendered - @patzick (#2431)
+- Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
+- Added video support in Product Gallery component. - @rain2o (#2433)
+- Improved product quantity change component in product and cart - @patzick (#2398, #2437)
+- Updated to Vue 2.6.6 - @filrak (#2456)
+- Null sidebar menu data on static page fixed - @filrak (#2456)
+- Fix cannot edit previous steps in checkout - @filrak, @patzick (#2438)
+- Fixed route guard ssr problem - @vue-kacper (#2364)
+- Fix links in footer to static pages bug - @filrak (#2464)
+- Fix links at docs, Basics/Configuration file explained - @daksamit (#2490)
+- Improve images loading on category page, corrected alt view and blinking problem - @patzick (#2465)
+- Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
+- fix breadcrumbs changing too early - @filrak (#2469)
+- add cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
+- improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
+- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
+- Added async sidebar component with async off-screen components error handling and fetch retrying after coming back online - @filrak (#2408, #2451)
+- Inconsistent filters behaviour - clear filters on page load - @patzick (#2435)
+- fix price is never below 0 and user can't add 0 or below 0 products to cart @RakowskiPrzemyslaw (#2437)
+- Check for placing single order in case of error in any payment module - @patzick (#2409)
+- Display prices in products added in offline mode. - @patzick (#2450)
+
+### Deprecated / Removed
+- `@vue-storefront/store` package deprecated - @filrak
+
 ## [1.8.2] - 2019.02.11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
 
@@ -50,7 +88,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Improve sortBy mobile view - @martaradziszewska (#2251)
 - Slide animations to menu, search, wishlist and minicart components - @Aekal (#2256)
 - Fixed wishlist store module to not be lazy loaded - @vue-kacper (#2249)
-- Share webpack typescript config with docker container - @lukeromanowicz (#2269)
+- Share webpack typescript config with Docker container - @lukeromanowicz (#2269)
 - After checkout create logged-in cart for logged-in users if using order Direct Backend Sync - @grimasod (#2302)
 - Output cache clearing supports versioning - @igloczek (#2333, #2359)
 - Cash on delivery + Shipping addresses fixed for virtual products - @pkarw (#2366)

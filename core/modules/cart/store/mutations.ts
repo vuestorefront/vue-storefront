@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import * as types from './mutation-types'
 import CartState from '../types/CartState'
 
