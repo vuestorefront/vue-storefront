@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
-import UniversalStorage from '@vue-storefront/store/lib/storage';
+import UniversalStorage from '@vue-storefront/core/store/lib/storage';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { beforeRegistration } from '../../../hooks/beforeRegistration';
 import Mock = jest.Mock;
 import * as localForage from "localforage";
 
 jest.mock('localforage', () => ({ createInstance: jest.fn(), someDriver: {}} ));
-jest.mock('@vue-storefront/store/lib/storage', () => jest.fn());
+jest.mock('@vue-storefront/core/store/lib/storage', () => jest.fn());
 jest.mock('@vue-storefront/core/lib/multistore', () => ({ currentStoreView: jest.fn() }));
 
 Vue.prototype.$db = {};

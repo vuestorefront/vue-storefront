@@ -1,14 +1,23 @@
 import cartGetters from '../../../store/getters';
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
+jest.mock('@vue-storefront/core/helpers', () => ({
+  onlineHelper: {
+    get isOnline() {
+      return true
+    }
+  }
+}));
 
 describe('Cart getters', () => {
+  const isOnlineSpy = jest.spyOn(onlineHelper, 'isOnline', 'get');
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('totals returns platform total segments if they has been saved in store', () => {
+  it('totals returns platform total segments if they has been saved in store and client is online', () => {
     const stateMock = {
       platformTotalSegments: [
         {'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36},
@@ -33,6 +42,26 @@ describe('Cart getters', () => {
   it(`totals returns totals without shipping and payment prices having neither platformTotalSegments 
   nor additional prices`, () => {
     const stateMock = {
+      cartItems: [
+        {qty: 1, priceInclTax: 1},
+        {qty: 2, priceInclTax: 2}
+      ]
+    };
+    const wrapper = (getters: any) => getters.totals(stateMock);
+
+    expect(wrapper(cartGetters)).toEqual([
+      {"code": "subtotalInclTax", "title": "Subtotal incl. tax", "value": 5},
+      {"code": "grand_total", "title": "Grand total", "value": 5}
+    ]);
+  });
+
+  it(`totals returns totals even when there are platform total segments but client is offline`, () => {
+    isOnlineSpy.mockReturnValueOnce(false);
+    const stateMock = {
+      platformTotalSegments: [
+        {'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36},
+        {'code': 'shipping', 'title': 'Shipping & Handling (Flat Rate - Fixed)', 'value': 5}
+      ],
       cartItems: [
         {qty: 1, priceInclTax: 1},
         {qty: 2, priceInclTax: 2}
@@ -110,16 +139,46 @@ describe('Cart getters', () => {
     ]);
   });
 
-  it('totalQuantity returns total quantity of all products in cart', () => {
+  it('totalQuantity returns total quantity of all products in cart if minicart configuration is set to quantities', () => {
     const stateMock = {
       cartItems: [
         {qty: 1},
         {qty: 2}
       ]
     };
-    const wrapper = (getters: any) => getters.totalQuantity(stateMock);
+
+    const rootStoreMock = {
+      config: {
+        cart: {
+          minicartCountType: 'quantities'
+        }
+      }
+    };
+
+    const wrapper = (getters: any) => getters.totalQuantity(stateMock, {}, rootStoreMock);
 
     expect(wrapper(cartGetters)).toBe(3);
+  });
+
+  it('totalQuantity returns number of different products instead of their sum if minicart configuration is set to items', () => {
+    const stateMock = {
+      cartItems: [
+        {qty: 1},
+        {qty: 2}
+      ]
+    };
+
+    const rootStoreMock = {
+      config: {
+        cart: {
+          minicartCountType: 'items'
+        }
+      }
+    };
+
+    const wrapper = (getters: any) => getters.totalQuantity(stateMock, {}, rootStoreMock);
+
+    expect(wrapper(cartGetters)).toBe(2);
   });
 
   it('coupon returns coupon information when coupon has been applied to the cart', () => {
