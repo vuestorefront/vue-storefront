@@ -85,6 +85,9 @@ export default {
       Logger.info('Entering asyncData in Category Page (core)')()
       if (context) context.output.cacheTags.add(`category`)
       const defaultFilters = store.state.config.products.defaultFilters
+      store.dispatch('category/resetFilters')
+      EventBus.$emit('filter-reset')
+
       store.dispatch('category/list', { level: store.state.config.entities.category.categoriesDynamicPrefetch && store.state.config.entities.category.categoriesDynamicPrefetchLevel ? store.state.config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.category.includeFields : null }).then((categories) => {
         store.dispatch('attribute/list', { // load filter attributes for this specific category
           filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
@@ -230,7 +233,7 @@ export default {
       }
     },
     validateRoute (route = this.$route) {
-      this.filters.chosen = {} // reset selected filters
+      this.$store.dispatch('category/resetFilters')
       this.$bus.$emit('filter-reset')
 
       this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
