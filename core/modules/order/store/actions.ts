@@ -9,13 +9,21 @@ import rootStore from '@vue-storefront/core/store'
 import { isOnline } from '@vue-storefront/core/lib/search'
 import i18n from '@vue-storefront/i18n'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { sha3_224 } from 'js-sha3'
+
 const actions: ActionTree<OrderState, RootState> = {
   /**
    * Place order - send it to service worker queue
    * @param {Object} commit method
    * @param {Order} order order data to be send
    */
-  async placeOrder ({ commit }, order:Order) {
+  async placeOrder ({ commit, getters }, order:Order) {
+    // Check if order is already processed/processing
+    const currentOrderHash = sha3_224(JSON.stringify(order))
+    const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
+    if (isAlreadyProcessed) return
+    commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
+
     const storeView = currentStoreView()
     if (storeView.storeCode) {
       order.store_code = storeView.storeCode
@@ -48,6 +56,7 @@ const actions: ActionTree<OrderState, RootState> = {
         }
         return task
       } catch (e) {
+        commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('The order can not be transfered because of server error. Order has been queued'),

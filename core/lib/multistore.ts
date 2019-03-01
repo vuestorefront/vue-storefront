@@ -43,6 +43,7 @@ export interface StoreView {
 }
 
 export function currentStoreView () : StoreView {
+  // TODO: Change to getter all along our code
   return rootStore.state.storeView
 }
 

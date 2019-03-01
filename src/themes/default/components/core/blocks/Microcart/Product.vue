@@ -53,7 +53,7 @@
           {{ product.priceInclTax * product.qty | price }}
         </span>
       </div>
-      <div class="prices" v-if="product.totals && displayItemDiscounts">
+      <div class="prices" v-else-if="product.totals">
         <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
           {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
         </span>
@@ -62,6 +62,11 @@
         </span>
         <span class="h4 serif price-regular" v-if="!product.totals.discount_amount">
           {{ product.totals.row_total_incl_tax | price }}
+        </span>
+      </div>
+      <div class="prices" v-else>
+        <span class="h4 serif price-regular">
+          {{ product.regular_price * product.qty | price }}
         </span>
       </div>
       <div class="links">

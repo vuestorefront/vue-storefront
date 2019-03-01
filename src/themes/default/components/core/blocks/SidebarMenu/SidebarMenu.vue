@@ -199,7 +199,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~theme/css/animations/transitions";
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
@@ -211,11 +211,7 @@ $color-mine-shaft: color(mine-shaft);
 .sidebar-menu {
   height: 100vh;
   width: 350px;
-  top: 0;
-  left: 0;
   overflow: hidden;
-  overflow-y: auto;
-  z-index: 3;
 
   @media (max-width: 767px) {
     width: 100vh;
