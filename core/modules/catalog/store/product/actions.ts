@@ -622,7 +622,7 @@ const actions: ActionTree<ProductState, RootState> = {
           only_visible: rootStore.state.config.entities.product.useDynamicAttributeLoader ? true : false,
           only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
-        }, { root: true })
+        }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
         if (Vue.prototype.$isServer) {
           subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
