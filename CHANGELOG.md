@@ -6,13 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.8.3] - 2019.02.27
 
-
-# Added
+### Added
 - New reactive helper to check online state. Usage: `import { onlineHelper } from '@vue-storefront/core/helpers'` and then `onlineHelper.isOnline` - @patzick (#2510)
 
 ### Fixed
 - Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
 - Remaking order on user orders page - @patzick (#2480)
+- state.ts not bound in the module-template - @pkarw (#2496)
 - Validation in the Myprofile section for postcode field - @pkarw (#1317)
 - Non-integer qty of product added to the cart - @pkarw (#2517)
 
