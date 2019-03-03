@@ -1,6 +1,6 @@
 <template>
   <div class="base-input-number">
-    <label class="base-input-number__label flex" :for="getInputId">{{ name }}</label>
+    <label class="base-input-number__label cl-primary flex" :for="getInputId">{{ name }}</label>
     <input
       :id="getInputId"
       type="number"
