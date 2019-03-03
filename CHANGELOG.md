@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
 - Remaking order on user orders page - @patzick (#2480)
 - Images blinking on category page - @pkarw (#2523)
+- Validation in the Myprofile section for postcode field - @pkarw (#1317)
+- Non-integer qty of product added to the cart - @pkarw (#2517)
 
 ### Changed / Improved
 - Fixed an issue where the correct image for a product configuration wasn't set on the product page image carousel. Also added the fix on the productcarousel in the zoom component - @DaanKouters (#2419)
