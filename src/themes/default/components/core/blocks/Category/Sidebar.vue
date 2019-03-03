@@ -52,10 +52,10 @@
           :content="price.label"
         />
       </div>
-      <div v-else>
+      <div v-else class="sidebar__inline-selecors">
         <generic-selector
           context="category"
-          class="price-select mb10 block"
+          class="mr10 mb10 block"
           :code="filterIndex"
           v-for="(option, index) in filter"
           :key="index"
@@ -107,6 +107,10 @@ export default {
     justify-content: space-between;
     align-items: center;
     min-height: 47px;
+  }
+
+  &__inline-selecors {
+    display: flex;
   }
 }
 </style>

@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix price is never below 0 and user can't add 0 or below 0 products to cart @RakowskiPrzemyslaw (#2437)
 - Check for placing single order in case of error in any payment module - @patzick (#2409)
 - Display prices in products added in offline mode. - @patzick (#2450)
+- Improved styles on recommentation filters - @patzick (#2458)
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
