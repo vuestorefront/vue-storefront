@@ -152,13 +152,21 @@ $color-white: color(white);
   width: 100%;
   overflow: hidden;
   max-height: 300px;
-  height: 270px;
+  height: 100%;
+  min-height: 155px;
   display: flex;
   align-items: flex-end;
   background-image: url('/assets/placeholder.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 60% auto;
+
+  @media (min-width: 768px) {
+    min-height: 190px;
+  }
+  @media (min-width: 1200px) {
+    min-height: 300px;
+  }
 
   &__content {
     display: none;
