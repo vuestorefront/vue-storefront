@@ -7,7 +7,8 @@ import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpack from 'webpack';
-
+// temporary
+import WorkboxPlugin from '@vue-storefront/core/modules/pwa/webpack-plugin'
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
@@ -16,6 +17,7 @@ fs.writeFileSync(
 const themesRoot = '../../src/themes'
 
 import themeRoot from './theme-path';
+import webpackPlugin from '@vue-storefront/core/modules/pwa/webpack-plugin';
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
@@ -46,6 +48,7 @@ const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
 export default {
   plugins: [
+    webpackPlugin,
     new webpack.ProgressPlugin(),
     // new BundleAnalyzerPlugin({
     //   generateStatsFile: true
