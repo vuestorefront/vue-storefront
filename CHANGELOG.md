@@ -4,13 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.8.3] - 2019.02.27
+## [1.8.3] - 2019.03.03
 ### Added
 - New reactive helper to check online state. Usage: `import { onlineHelper } from '@vue-storefront/core/helpers'` and then `onlineHelper.isOnline` - @patzick (#2510)
 
 ### Fixed
 - Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
 - Remaking order on user orders page - @patzick (#2480)
+- Images blinking on category page - @pkarw (#2523)
 
 ### Changed / Improved
 - Fixed an issue where the correct image for a product configuration wasn't set on the product page image carousel. Also added the fix on the productcarousel in the zoom component - @DaanKouters (#2419)
@@ -39,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix price is never below 0 and user can't add 0 or below 0 products to cart @RakowskiPrzemyslaw (#2437)
 - Check for placing single order in case of error in any payment module - @patzick (#2409)
 - Display prices in products added in offline mode. - @patzick (#2450)
+- Updated cypress dependency for e2e tests - @lukeromanowicz (#2518)
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
