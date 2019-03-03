@@ -1,6 +1,6 @@
 <template>
   <div
-    class="microcart mw-100 fixed cl-accent"
+    class="microcart cl-accent"
     :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
     data-testid="microcart"
   >
@@ -185,17 +185,6 @@ export default {
 
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
-
-  .microcart {
-    top: 0;
-    right: 0;
-    z-index: 3;
-    height: 100%;
-    width: 800px;
-    min-width: 320px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
 
   .close {
     i {
