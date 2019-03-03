@@ -227,6 +227,7 @@ const actions: ActionTree<CartState, RootState> = {
     let productIndex = 0
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
+      if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
       if ((rootStore.state.config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
@@ -399,7 +400,7 @@ const actions: ActionTree<CartState, RootState> = {
           country: country,
           method_code: shipping ? shipping.method_code : null,
           carrier_code: shipping ? shipping.carrier_code : null,
-          payment_method: payment.code
+          payment_method: payment ? payment.code : null
         }
       }
       if (methodsData.country && methodsData.carrier_code) {
