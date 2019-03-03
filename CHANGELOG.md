@@ -5,12 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.8.3] - 2019.02.27
+
 ### Added
 - New reactive helper to check online state. Usage: `import { onlineHelper } from '@vue-storefront/core/helpers'` and then `onlineHelper.isOnline` - @patzick (#2510)
 
 ### Fixed
 - Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
 - Remaking order on user orders page - @patzick (#2480)
+- state.ts not bound in the module-template - @pkarw (#2496)
 - Validation in the Myprofile section for postcode field - @pkarw (#1317)
 - Non-integer qty of product added to the cart - @pkarw (#2517)
 
@@ -25,10 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added video support in Product Gallery component. - @rain2o (#2433)
 - Improved product quantity change component in product and cart - @patzick (#2398, #2437)
 - Updated to Vue 2.6.6 - @filrak (#2456)
-- Null sidebar menu data on static page fixed - @filrak (#2456)
+- Null sidebar menu data on static page fixed - @filrak (#2449, #2441)
 - Fix cannot edit previous steps in checkout - @filrak, @patzick (#2438)
 - Fixed route guard ssr problem - @vue-kacper (#2364)
-- Fix links in footer to static pages bug - @filrak (#2464)
+- Fix links in footer to static pages bug - @filrak (#2452)
 - Fix links at docs, Basics/Configuration file explained - @daksamit (#2490)
 - Improve images loading on category page, corrected alt view and blinking problem - @patzick (#2465)
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
