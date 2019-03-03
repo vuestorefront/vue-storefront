@@ -29,11 +29,11 @@ import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 
 import { once } from '@vue-storefront/core/helpers'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be depreciated in 1.8
+// Will be deprecated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
 
@@ -65,7 +65,7 @@ const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRou
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
-  store.state.version = '1.7.0'
+  store.state.version = '1.8.3'
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext

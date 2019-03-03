@@ -18,7 +18,7 @@ Key features of Vue Storefront are:
 ## How it connects with backend platforms?
 Vue Storefront manages to be platform agnostic thanks to the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api) and dedicated API connectors for eCommerce backend platforms. The data format in vue-storefront-api is always the same for any platform which means no matter which eCommerce backend you'll use your frontend remains without changes.
 
-It's a great strategy for migrations since you can easly migrate from one platform to another (or it's other version like magento 1 -> 2) without touching your frontend.
+It's a great strategy for migrations since you can easly migrate from one platform to another (or it's other version like Magento 1 -> 2) without touching your frontend.
 
 ![Architecture diagram](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/master/docs/.vuepress/public/GitHub-Architecture-VS.png)
 

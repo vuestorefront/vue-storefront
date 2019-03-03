@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
 import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
@@ -49,7 +49,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_LOAD_CART, [])
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
     if (rootStore.state.config.cart.synchronize) {
-      rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to magento yet it will repopulate your cart
+      rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
   save (context) {
@@ -227,6 +227,7 @@ const actions: ActionTree<CartState, RootState> = {
     let productIndex = 0
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
+      if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
       if ((rootStore.state.config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
@@ -399,7 +400,7 @@ const actions: ActionTree<CartState, RootState> = {
           country: country,
           method_code: shipping ? shipping.method_code : null,
           carrier_code: shipping ? shipping.carrier_code : null,
-          payment_method: payment.code
+          payment_method: payment ? payment.code : null
         }
       }
       if (methodsData.country && methodsData.carrier_code) {

@@ -4,6 +4,9 @@ import * as types from './mutation-types'
 import ProductState, { PagedProductList } from '../../types/ProductState'
 
 const mutations: MutationTree<ProductState> = {
+  [types.CATALOG_SET_BREADCRUMBS] (state, payload) {
+    state.breadcrumbs = payload
+  },
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {
     state.related[key] = items
     Vue.prototype.$bus.$emit('product-after-related', { key: key, items: items })

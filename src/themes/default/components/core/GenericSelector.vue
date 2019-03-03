@@ -26,6 +26,7 @@ export default {
     height: 40px;
     padding-left: 8px;
     padding-right: 8px;
+    min-width: 50px;
 
     &:hover,
     &:focus {

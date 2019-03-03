@@ -2,7 +2,7 @@ import { WishlistProduct } from '@vue-storefront/core/modules/wishlist/component
 export default {
   name: 'Product',
   methods: {
-    // depreciated
+    // deprecated
     closeWishlist () {
       this.$store.commit('ui/setWishlist', false)
     }

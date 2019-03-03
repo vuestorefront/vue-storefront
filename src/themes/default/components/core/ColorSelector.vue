@@ -13,7 +13,7 @@
 
 <script>
 import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 export default {
   mixins: [GenericSelector],
   methods: {

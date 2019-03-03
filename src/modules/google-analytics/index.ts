@@ -1,4 +1,4 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { createModule } from '@vue-storefront/core/lib/module'
 import { beforeRegistration } from './hooks/beforeRegistration'
 import { afterRegistration } from './hooks/afterRegistration'
 
@@ -10,12 +10,9 @@ const store = {
 }
 
 const KEY = 'google-analytics'
-
-const moduleConfig: VueStorefrontModuleConfig = {
+export const GoogleAnalytics = createModule({
   key: KEY,
   store: { modules: [{ key: KEY, module: store }] },
   beforeRegistration,
   afterRegistration
-}
-
-export const GoogleAnalytics = new VueStorefrontModule(moduleConfig)
+})
