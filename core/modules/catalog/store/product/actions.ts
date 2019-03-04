@@ -25,7 +25,6 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import { isServer } from '@vue-storefront/core/helpers'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
