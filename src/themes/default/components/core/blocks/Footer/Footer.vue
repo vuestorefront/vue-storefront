@@ -143,6 +143,7 @@
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links" data-testid="bottomLinks">
             <li class="inline-flex">
+              <span class="footer__version-info"> {{ getVersionInfo }} </span>
               <router-link
                 class="cl-tertiary mr10 underline"
                 to="/legal"
@@ -178,6 +179,9 @@ export default {
   computed: {
     multistoreEnabled () {
       return this.$store.state.config.storeViews.multistore
+    },
+    getVersionInfo () {
+      return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
     }
   },
   components: {
@@ -215,6 +219,14 @@ $color-secondary: color(secondary);
   @media (max-width: 767px) {
     padding: 0;
   }
+}
+
+.footer__version-info {
+  display: flex;
+  align-self: center;
+  color: $color-secondary;
+  margin-right: 12px;
+  font-size: 0.8rem;
 }
 
 .underline {
