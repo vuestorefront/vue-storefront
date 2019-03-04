@@ -142,8 +142,8 @@
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links" data-testid="bottomLinks">
+            <li class="footer__version-info"> {{ getVersionInfo }} </li>
             <li class="inline-flex">
-              <span class="footer__version-info"> {{ getVersionInfo }} </span>
               <router-link
                 class="cl-tertiary mr10 underline"
                 to="/legal"
@@ -213,6 +213,15 @@ $color-secondary: color(secondary);
 }
 .links {
   list-style-type: none;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
 }
 
 .bottom-links {
@@ -223,10 +232,12 @@ $color-secondary: color(secondary);
 
 .footer__version-info {
   display: flex;
-  align-self: center;
   color: $color-secondary;
-  margin-right: 12px;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
+  @media (min-width: 768px) {
+    margin-right: 1rem;
+    font-size: 0.8rem;
+  }
 }
 
 .underline {
