@@ -100,7 +100,7 @@
     "commander": "^2.18.0",
     "cross-env": "^3.1.4",
     "css-loader": "^1.0.0",
-    "cypress": "^3.0.2",
+    "cypress": "^3.1.5",
     "d3-dsv": "^1.0.8",
     "detect-installed": "^2.0.4",
     "empty-dir": "^1.0.0",
