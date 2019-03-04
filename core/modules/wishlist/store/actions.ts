@@ -2,8 +2,8 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
-import { htmlDecode } from '@vue-storefront/store/lib/filters'
-import rootStore from '@vue-storefront/store'
+import { htmlDecode } from '@vue-storefront/core/store/lib/filters'
+import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
 import WishlistState from '../types/WishlistState'
 import { cacheStorage } from '../'
@@ -13,8 +13,9 @@ const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
     context.commit(types.WISH_LOAD_WISH, [])
   },
-  load (context) {
-    const commit = context.commit
+  load ({ commit, getters }, force: boolean = false) {
+    if (!force && getters.isWishlistLoaded) return
+    commit(types.SET_WISHLIST_LOADED)
     cacheStorage.getItem('current-wishlist', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.WISH_LOAD_WISH, storedItems)

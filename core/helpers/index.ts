@@ -1,7 +1,8 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import Vue from 'vue'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -159,3 +160,10 @@ export function once (key, fn) {
 }
 
 export const isServer: boolean = typeof window === 'undefined'
+
+// Online/Offline helper
+export const onlineHelper = Vue.observable({ 
+  isOnline: isServer || navigator.onLine 
+})
+!isServer && window.addEventListener('online',  () => onlineHelper.isOnline = true)
+!isServer && window.addEventListener('offline', () => onlineHelper.isOnline = false)

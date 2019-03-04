@@ -5,13 +5,13 @@ import isUndefined from 'lodash-es/isUndefined'
 import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
 import * as localForage from 'localforage'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import * as entities from '@vue-storefront/store/lib/entities'
-import UniversalStorage from '@vue-storefront/store/lib/storage'
+import * as entities from '@vue-storefront/core/store/lib/entities'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 

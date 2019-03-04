@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { breadCrumbRoutes, productThumbnailPath } from '@vue-storefront/core/helpers'
+import { breadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
@@ -14,13 +14,13 @@ import { configureProductAsync,
   configurableChildrenImages,
   attributeImages } from '../../helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { entityKeyName } from '@vue-storefront/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import { optionLabel } from '../../helpers/optionLabel'
 import { quickSearchByQuery, isOnline } from '@vue-storefront/core/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from  'lodash-es/uniqBy'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
@@ -51,7 +51,7 @@ const actions: ActionTree<ProductState, RootState> = {
           name: context.rootGetters['category/getCurrentCategory'].name
         }) // current category at the end
       }
-      // depreciated, TODO: base on breadcrumbs module
+      // deprecated, TODO: base on breadcrumbs module
       context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
     }
 
@@ -101,7 +101,7 @@ const actions: ActionTree<ProductState, RootState> = {
       routes: breadCrumbRoutes,
       current: breadcrumbsName
     }
-    context.dispatch('breadcrumbs/set', breadcrumbs, { root: true })
+    context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {
@@ -617,18 +617,20 @@ const actions: ActionTree<ProductState, RootState> = {
         const productFields = Object.keys(product).filter(fieldName => {
           return rootStore.state.config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
         })
-        subloaders.push(context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+        const attributesPromise = context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
           filterValues: rootStore.state.config.entities.product.useDynamicAttributeLoader ? productFields : null,
           only_visible: rootStore.state.config.entities.product.useDynamicAttributeLoader ? true : false,
           only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
-        }, { root: true }))
+        }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
         if (Vue.prototype.$isServer) {
+          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {
+          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
           context.dispatch('filterUnavailableVariants', { product: product }) // exec async
         }
-        subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+        subloaders.push(attributesPromise)
 
         // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
         /* if (product.type_id === 'grouped' || product.type_id === 'bundle') { -- moved to "product/single"

@@ -1,4 +1,4 @@
-// depreciated as theme-specific
+// deprecated as theme-specific
 export default {
   name: 'ReturnIcon',
   props: {

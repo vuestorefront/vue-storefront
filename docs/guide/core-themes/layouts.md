@@ -1,6 +1,6 @@
 # Layouts and advanced output operations
 
-Starting from version 1.4.0 Vue Storefront allows you to switch the html templates and layouts dynamically in the SSR mode.
+Starting from version 1.4.0 Vue Storefront allows you to switch the HTML templates and layouts dynamically in the SSR mode.
 
 This feature can be very useful for non-standard rendering scenarios like:
 
@@ -10,20 +10,20 @@ This feature can be very useful for non-standard rendering scenarios like:
 
 ## How it works
 
-Before 1.4.0 Vue Storefront generated the output by mix of:
+Before 1.4.0 Vue Storefront generated the output by a mix of:
 
 - taking the base HTML template `src/index.template.html`,
 - rendering the `src/themes/default/App.vue` root component,
 - injecting the Vue SSR output into the template + adding CSS styles, script references etc. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
 
 This mode is still in place and it's enabled by default.
-What we've changed is **you can now select which html template + layout your app is routing in per-route manner**.
+What we've changed is **you can now select which HTML template + layout your app is routing in per-route manner**.
 
 ## Changelog
 
 The changes we've introduced:
 
-- now distinct routes can set `context.output.template` in `asyncData` method. By doing so you can skip using `dist/index.html` (which contains typical HTML5 elements - like `<head>`). This is important when we're going to generate either AMPHTML pages (that cannot contain any `<script>` tags) or xml files - you name it
+- now distinct routes can set `context.output.template` in `asyncData` method. By doing so you can skip using `dist/index.html` (which contains typical HTML5 elements - like `<head>`). This is important when we're going to generate either AMPHTML pages (that cannot contain any `<script>` tags) or XML files - you name it
 - distinct routes can set `meta.layout` and by doing so switch the previously constant `App.vue` layout file
 - you've got access to server `context` object in `asyncData` and two new features - `output.prepend` and `output.append` have been created to allow you control the rendering flow of the template
 
@@ -51,7 +51,7 @@ You can add more templates. All you need is to set the proper `config.ssr.templa
     },
 ```
 
-Templates paths are relative to root folder of `vue-storefront`. You can also set the template to none (`""`) to skip it. This option can be useful for XML / JSON / widgets rendering that do not require the whole HTML layout.
+Templates paths are relative to the root folder of `vue-storefront`. You can also set the template to none (`""`) to skip it. This option can be useful for XML / JSON / widgets rendering that does not require the whole HTML layout.
 
 ## Examples
 
@@ -72,7 +72,7 @@ Vue component to render the XML:
 ```js
 <template>
   <raw-content>
-    This page is using empty layout set in routes + no html template
+    This page is using empty layout set in routes + no HTML template
   </raw-content>
 </template>
 
@@ -182,6 +182,6 @@ const contentAppend =
 output = contentPrepend + output + contentAppend;
 ```
 
-Please note, that the `context` contains lot of interesting features you can use to control the CSS, SCRIPT and META injection. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
+Please note, that the `context` contains a lot of interesting features you can use to control the CSS, SCRIPT and META injection. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
 
 **Note: [The context object = Vue.prototype.$ssrContext](https://ssr.vuejs.org/guide/head.html)**

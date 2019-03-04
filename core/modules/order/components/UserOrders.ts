@@ -13,7 +13,7 @@ export const UserOrders = {
     }
   },
   methods: {
-    reorder (products) {
+    remakeOrder (products) {
       products.forEach(item => {
         this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
           product.qty = item.qty_ordered

@@ -79,7 +79,6 @@ export const Shipping = {
     edit () {
       if (this.isFilled) {
         this.$bus.$emit('checkout-before-edit', 'shipping')
-        this.isFilled = false
       }
     },
     hasShippingDetails () {

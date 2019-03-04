@@ -11,7 +11,7 @@
       @blur="$emit('blur')"
       @change="$emit('input', $event.target.value)"
     >
-      <option v-if="!selected"/>
+      <option disabled selected value v-if="!selected"/>
       <option
         v-for="(option, key) in options"
         :key="key"
@@ -23,23 +23,18 @@
     </select>
     <label>{{ placeholder }}</label>
 
-    <template v-if="validations">
-      <span
-        v-for="(validation, index) in validations"
-        :key="index"
-        v-if="validation.condition"
-        class="block cl-error h6"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations"/>
   </div>
 </template>
 
 <script>
+import ValidationMessages from './ValidationMessages.vue'
 
 export default {
   name: 'BaseSelect',
+  components: {
+    ValidationMessages
+  },
   props: {
     id: {
       type: String,
@@ -73,7 +68,6 @@ export default {
     },
     validations: {
       type: Array,
-      required: false,
       default: () => []
     }
   }
@@ -133,6 +127,7 @@ export default {
     position: absolute;
     pointer-events: none;
     user-select: none;
+    left: 0;
     top: 10px;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;

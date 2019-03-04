@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
@@ -40,7 +40,7 @@ export class SearchAdapter {
       variables: gqlQueryVars
     })
 
-    // define graphql url from searchAdapter entity or use default graphQl host with storeCode param
+    // define GraphQL url from searchAdapter entity or use default graphQl host with storeCode param
     let urlGql = ''
     if (this.entities[Request.type].url) {
       urlGql = this.entities[Request.type].url
@@ -66,7 +66,7 @@ export class SearchAdapter {
   /**
    * register entit type using registerEntityTypeByQuery
    * @param {string} gql gql file path
-   * @param {String} url server url
+   * @param {String} url server URL
    * @param {function} queryProcessor some function which can update query if needed
    * @param {function} resultPorcessor process results of response
    * @return {Object}
@@ -85,8 +85,8 @@ export class SearchAdapter {
 
   /**
    * register entit type using registerEntityTypeByQuery
-   * @param {graphQl} query is the graphql query
-   * @param {String} url server url
+   * @param {graphQl} query is the GraphQL query
+   * @param {String} url server URL
    * @param {function} queryProcessor some function which can update query if needed
    * @param {function} resultPorcessor process results of response
    * @return {Object}
@@ -229,7 +229,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsPage\'')
           }
         }
       }
@@ -251,7 +251,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsBlock\'')
           }
         }
       }
@@ -273,7 +273,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsHierarchy\'')
           }
         }
       }
