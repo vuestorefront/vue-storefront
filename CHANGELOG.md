@@ -19,7 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Problem with placing second order (unbinding payment methods after first order) - @patzick (#2195, #2503)
 
 ### Changed / Improved
-- The `core/helpers` parsing URL methods exchanged to `query-string` package
 - Fixed an issue where the correct image for a product configuration wasn't set on the product page image carousel. Also added the fix on the productcarousel in the zoom component - @DaanKouters (#2419)
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. - @filrak (#2434)
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
