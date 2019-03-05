@@ -352,7 +352,7 @@
     },
     "demomode": false,
     "tax": {
-      "defaultCountry": "PL",
+      "defaultCountry": "US",
       "defaultRegion": "",
       "sourcePriceIncludesTax": false,
       "calculateServerSide": true
