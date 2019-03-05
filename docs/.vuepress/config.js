@@ -34,6 +34,7 @@ module.exports = {
           title: 'Basics',
           collapsable: false,
           children: [
+            'basics/release-cycle',
             'basics/project-structure',
             'basics/configuration',
             'basics/contributing',
@@ -43,7 +44,8 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e'
+            'basics/e2e',
+            'basics/url'
           ],
         },
         {

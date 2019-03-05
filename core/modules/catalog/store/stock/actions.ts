@@ -5,7 +5,7 @@ import i18n from '@vue-storefront/i18n'
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import StockState from '../../types/StockState'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { Logger } from '@vue-storefront/core/lib/logger'
 

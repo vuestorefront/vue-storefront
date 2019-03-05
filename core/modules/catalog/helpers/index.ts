@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
@@ -13,6 +13,7 @@ import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isServer } from '@vue-storefront/core/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -235,7 +236,7 @@ export function doPlatformPricesSync (products) {
       } else { // empty list of products
         resolve(products)
       }
-      if (!rootStore.state.config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
+      if (!rootStore.state.config.products.waitForPlatformSync && !isServer) {
         Logger.log('Returning products, the prices yet to come from backend!')()
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
@@ -529,18 +530,19 @@ export function configureProductAsync (context, { product, configuration, select
  */
 
 export function getMediaGallery (product) {
-    let mediaGallery = []
-    if (product.media_gallery) {
-        for (let mediaItem of product.media_gallery) {
-            if (mediaItem.image) {
-                mediaGallery.push({
-                    'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product.image, 310, 300)
-                })
-            }
-        }
-    }
-    return mediaGallery
+  let mediaGallery = []
+  if (product.media_gallery) {
+      for (let mediaItem of product.media_gallery) {
+          if (mediaItem.image) {
+              mediaGallery.push({
+                'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+                'loading': getThumbnailPath(mediaItem.image, 310, 300),
+                'video': mediaItem.vid
+              })
+          }
+      }
+  }
+  return mediaGallery
 }
 
 /**
@@ -559,7 +561,7 @@ export function configurableChildrenImages(product) {
             if (groupedByAttribute[confChild][0].image) {
                 configurableChildrenImages.push({
                     'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product.image, 310, 300),
+                    'loading': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
                     'id': confChild
                 })
             }

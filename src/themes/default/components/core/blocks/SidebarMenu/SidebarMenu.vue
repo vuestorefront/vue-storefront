@@ -43,7 +43,7 @@
               <router-link
                 v-else
                 class="px25 py20 cl-accent no-underline col-xs"
-                :to="localizedRoute({ name: 'category', params: { id: category.id, slug: category.slug }})"
+                :to="localizedRoute({ name: 'category', fullPath: category.url_path, params: { id: category.id, slug: category.slug }})"
               >
                 {{ category.name }}
               </router-link>
@@ -53,6 +53,7 @@
               :category-links="category.children_data"
               :id="category.id"
               :parent-slug="category.slug"
+              :parent-path="category.url_path"
             />
           </li>
           <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
@@ -198,7 +199,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~theme/css/animations/transitions";
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
@@ -210,11 +211,7 @@ $color-mine-shaft: color(mine-shaft);
 .sidebar-menu {
   height: 100vh;
   width: 350px;
-  top: 0;
-  left: 0;
   overflow: hidden;
-  overflow-y: auto;
-  z-index: 3;
 
   @media (max-width: 767px) {
     width: 100vh;

@@ -19,7 +19,7 @@ import themeRoot from './theme-path';
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
-const themedIndex = path.join(themeRoot, 'index.template.html')
+const themedIndex = path.join(themeRoot, '/templates/index.template.html')
 const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
@@ -78,6 +78,7 @@ export default {
       inject: isProd == false
     })
   ],
+  devtool: 'source-map',
   entry: {
     app: ['babel-polyfill', './core/client-entry.ts']
   },
@@ -110,7 +111,7 @@ export default {
       'theme/resource': themeResources,
 
       // Backward compatible
-      '@vue-storefront/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
+      '@vue-storefront/core/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
     }
   },
   module: {

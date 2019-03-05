@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
 import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
@@ -14,6 +14,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { isServer } from '@vue-storefront/core/helpers'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -56,7 +57,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize && !isServer) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
@@ -91,7 +92,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize_totals && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize_totals && !isServer) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         context.state.cartServerPullAt = Date.now()
         TaskQueue.execute({ url: rootStore.state.config.cart.totals_endpoint, // sync the cart
@@ -110,7 +111,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverCreate (context, { guestCart = false }) {
-    if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         const task = { url: guestCart ? rootStore.state.config.cart.create_endpoint.replace('{{token}}', '') : rootStore.state.config.cart.create_endpoint, // sync the cart
           payload: {
@@ -174,7 +175,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   load (context) {
     return new Promise((resolve, reject) => {
-      if (Vue.prototype.$isServer) return
+      if (isServer) return
       const commit = context.commit
       const state = context.state
 
@@ -227,6 +228,7 @@ const actions: ActionTree<CartState, RootState> = {
     let productIndex = 0
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
+      if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
       if ((rootStore.state.config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
@@ -373,7 +375,7 @@ const actions: ActionTree<CartState, RootState> = {
           },
           silent: true
         }).then((task: any) => {
-          if (task.result) {
+          if (task.result.length > 0) {
             rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
             resolve(task.result)
           }

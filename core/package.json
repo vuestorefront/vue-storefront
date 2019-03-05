@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "1.7.0",
+  "version": "1.9.0-rc.1",
   "description": "Vue Storefront Core",
   "license": "MIT",
   "main": "app.js",
@@ -8,7 +8,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@vue-storefront/store": "^1.7.0",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "express": "^4.14.0",
@@ -16,10 +15,11 @@
     "localforage": "^1.7.2",
     "lodash-es": "^4.17.10",
     "lru-cache": "^4.0.1",
+    "query-string": "^6.2.0",
     "redis-tag-cache": "^1.2.1",
     "remove-accents": "^0.4.2",
     "uuid": "^3.3.2",
-    "vue": "^2.5.17",
+    "vue": "^2.6.6",
     "vue-carousel": "^0.6.9",
     "vue-i18n": "^8.0.0",
     "vue-lazyload": "^1.2.6",
@@ -27,7 +27,7 @@
     "vue-observe-visibility": "^0.4.1",
     "vue-offline": "^1.0.8",
     "vue-router": "^3.0.1",
-    "vue-server-renderer": "^2.5.17",
+    "vue-server-renderer": "^2.6.6",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
@@ -79,7 +79,7 @@
     "vue-eslint-parser": "^2.0.3",
     "vue-loader": "^15.5.1",
     "vue-ssr-webpack-plugin": "^3.0.0",
-    "vue-template-compiler": "^2.5.17",
+    "vue-template-compiler": "^2.6.6",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.4.0",

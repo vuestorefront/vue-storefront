@@ -2,8 +2,8 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { entityKeyName } from '@vue-storefront/store/lib/entities'
-import rootStore from '@vue-storefront/store'
+import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
+import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import chunk from 'lodash-es/chunk'
 import trim from 'lodash-es/trim'
@@ -14,6 +14,7 @@ import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isServer } from '@vue-storefront/core/helpers'
 
 
 const actions: ActionTree<CategoryState, RootState> = {
@@ -63,6 +64,19 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     if (skipCache || ((!context.state.list || context.state.list.length === 0) || customizedQuery)) {
     return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
+      for (let category of resp.items) {
+        if (category.url_path) {
+          rootStore.dispatch('url/registerMapping', {
+            url: category.url_path,
+            routeData: {
+              params: {
+                'slug': category.slug
+              },
+              'name': 'category'
+            }
+          }, { root: true })
+        }
+      }
       commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
       Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
       return resp
@@ -170,7 +184,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
       }
       if (!foundInLocalCache) {
-        if (skipCache || Vue.prototype.$isServer) {
+        if (skipCache || isServer) {
           fetchCat({ key, value })
         } else {
           const catCollection = Vue.prototype.$db.categoriesCollection
@@ -197,7 +211,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
 
     let prefetchGroupProducts = true
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
       includeFields = rootStore.state.config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
       excludeFields = rootStore.state.config.entities.productListWithChildren.excludeFields
       prefetchGroupProducts = false
@@ -322,7 +336,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
       Logger.log('Using two stage caching for performance optimization - executing second stage product caching', 'category') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize()
       rootStore.dispatch('product/list', {
         query: precachedQuery,

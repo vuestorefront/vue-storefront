@@ -1,6 +1,6 @@
 import { mapMutations } from 'vuex'
 import * as types from '../store/product/mutation-types'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 

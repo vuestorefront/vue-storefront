@@ -32,7 +32,7 @@ const config = merge(base, {
       'process.env.VUE_ENV': '"client"'
     }),
     new VueSSRClientPlugin()
-  ]
+  ],
 })
 
 export default config;

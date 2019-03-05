@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'

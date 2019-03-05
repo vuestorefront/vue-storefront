@@ -25,18 +25,23 @@ export default {
       return Object.keys(this.activeFilters).length !== 0
     }
   },
+  mounted () {
+    this.resetAllFilters()
+  },
   methods: {
     sortById (filters) {
       return [...filters].sort((a, b) => { return a.id - b.id })
     },
     resetAllFilters () {
-      this.$bus.$emit('filter-reset')
-      this.$store.dispatch('category/resetFilters')
-      this.$store.dispatch('category/searchProductQuery', {})
-      this.$store.dispatch('category/mergeSearchOptions', {
-        searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
-      })
-      this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
+      if (this.hasActiveFilters) {
+        this.$bus.$emit('filter-reset')
+        this.$store.dispatch('category/resetFilters')
+        this.$store.dispatch('category/searchProductQuery', {})
+        this.$store.dispatch('category/mergeSearchOptions', {
+          searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
+        })
+        this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
+      }
     }
   }
 }
