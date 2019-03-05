@@ -83,6 +83,7 @@ export default {
       'process.env.__BUILDTIME__': JSON.stringify(moment().format('YYYY-MM-DD HH:mm:ss'))
     })
   ],
+  devtool: 'source-map',
   entry: {
     app: ['babel-polyfill', './core/client-entry.ts']
   },

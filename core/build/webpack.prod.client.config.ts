@@ -7,6 +7,7 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 
 const prodClientConfig = merge(baseClientConfig, {
   mode: 'production',
+  devtool: 'nosources-source-map',
   plugins: [
   ]
 })

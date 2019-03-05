@@ -25,6 +25,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+
 const PRODUCT_REENTER_TIMEOUT = 20000
 
 const actions: ActionTree<ProductState, RootState> = {
@@ -47,6 +48,7 @@ const actions: ActionTree<ProductState, RootState> = {
         return itm.slug === context.rootGetters['category/getCurrentCategory'].slug
       }) < 0) {
         path.push({
+          url_path: context.rootGetters['category/getCurrentCategory'].url_path,
           slug: context.rootGetters['category/getCurrentCategory'].slug,
           name: context.rootGetters['category/getCurrentCategory'].name
         }) // current category at the end
@@ -94,12 +96,11 @@ const actions: ActionTree<ProductState, RootState> = {
         })
       )
     }
-    // TODO: To repreciate and use breadcrumbs module
-    context.state.breadcrumbs.name = product.name
     breadcrumbsName = product.name
     const breadcrumbs = {
       routes: breadCrumbRoutes,
-      current: breadcrumbsName
+      current: breadcrumbsName,
+      name: breadcrumbsName
     }
     context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     return Promise.all(subloaders)
@@ -282,7 +283,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !Vue.prototype.$isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       Logger.debug('Entity cache is enabled for productList')()
@@ -316,6 +317,18 @@ const actions: ActionTree<ProductState, RootState> = {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
             Object.assign(product, selectedVariant)
           }
+          if (product.url_path) {
+            rootStore.dispatch('url/registerMapping', {
+              url: product.url_path,
+              routeData: {
+                params: {
+                  'parentSku': product.parentSku,
+                  'slug': product.slug
+                },
+                'name': product.type_id + '-product'
+              }
+            }, { root: true })
+          }
         }
       }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
@@ -341,7 +354,7 @@ const actions: ActionTree<ProductState, RootState> = {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
               })
           }
-          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !Vue.prototype.$isServer) {
+          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {
             context.dispatch('setupAssociated', { product: prod })
           }
         }
@@ -623,7 +636,7 @@ const actions: ActionTree<ProductState, RootState> = {
           only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
         }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
-        if (Vue.prototype.$isServer) {
+        if (isServer) {
           subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {
