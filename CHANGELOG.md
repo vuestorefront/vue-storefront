@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.9.0-rc.1] - UNRELEASED
 
 ### Added
-- 
+- - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
 ### Fixed
 - 
 ### Changed / Improved
-- 
+- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
 
 ## [1.8.3] - 2019.03.03
 

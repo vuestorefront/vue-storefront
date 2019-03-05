@@ -31,7 +31,7 @@ const invokeClientEntry = async () => {
       prepareStoreView(storeCode)
     }
   }
-
+  store.dispatch('url/registerDynamicRoutes')
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -68,7 +68,6 @@ const invokeClientEntry = async () => {
       _commonErrorHandler(err, next)
     })
   }
-
   router.onReady(() => {
     router.beforeResolve((to, from, next) => {
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
@@ -88,14 +87,10 @@ const invokeClientEntry = async () => {
           }
         }
       }
-      let diffed = false
-      const activated = matched.filter((c, i) => {
-        return diffed || (diffed = (prevMatched[i] !== c))
-      })
-      if (!activated.length) {
+      if (!matched.length) {
         return next()
       }
-      Promise.all(activated.map((c: any) => { // TODO: update me for mixins support
+      Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
         const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {
           if (SubComponent.preAsyncData) {
