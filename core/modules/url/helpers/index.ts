@@ -58,7 +58,7 @@ export function formatCategoryLink(category: { url_path: string, slug: string })
 }
 
 export function formatProductLink(product: { parentSku?: string, sku: string, url_path?: string, type_id: string , slug: string}, storeCode): string | LocalizedRoute {
-  if(rootStore.state.config.seo.useUrlDispatcher) {
+  if(rootStore.state.config.seo.useUrlDispatcher && product.url_path) {
     const routeData: LocalizedRoute = {
       fullPath: product.url_path,
       params: {
