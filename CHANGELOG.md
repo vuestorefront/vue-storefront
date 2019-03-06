@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 
 ### Changed / Improved
 - The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
-- Material Icons are loaded asynchronously - @JKrupinski (#2060)
+- Material Icons are loaded asynchronously - @JKrupinski  @filrak (#2060)
 
 ## [1.8.3] - 2019.03.03
 
