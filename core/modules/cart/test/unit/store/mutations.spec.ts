@@ -382,7 +382,7 @@ describe('Cart mutations', () => {
             qty: 10,
           }
         ],
-        cartSavedAt: new Date(0)
+        cartSavedAt: 0
       };
       const expectedState = { ...stateMock };
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM](
@@ -456,7 +456,7 @@ describe('Cart mutations', () => {
             qty: 10,
           }
         ],
-        cartSavedAt: new Date(0)
+        cartSavedAt: 0
       };
       const expectedState = {
         cartItems: [
@@ -499,7 +499,7 @@ describe('Cart mutations', () => {
             qty: 10,
           }
         ],
-        cartSavedAt: new Date(0)
+        cartSavedAt: 0
       };
       const expectedState = { ...stateMock };
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
@@ -521,7 +521,7 @@ describe('Cart mutations', () => {
   it('CART_UPD_SHIPPING sets given shipping method', () => {
     const stateMock = {
       shipping: 'foo',
-      cartSavedAt: new Date(0)
+      cartSavedAt: 0
     };
     const expectedState = {
       shipping: 'bar',
@@ -605,6 +605,7 @@ describe('Cart mutations', () => {
   it('CART_UPD_TOTALS updates totals related data', () => {
     const stateMock = {};
     const expectedState = {
+      cartServerTotalsAt: 1445412480000,
       itemsAfterPlatformTotals: ['foo'],
       platformTotals: {
         bar: 1 /** @todo replace with real alike data to show what it can be filled with */
@@ -623,6 +624,8 @@ describe('Cart mutations', () => {
       }
     );
 
+    Date.now = jest.fn(() => expectedState.cartServerTotalsAt);
+
     wrapper(cartMutations);
 
     expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-updatetotals', {
@@ -635,7 +638,7 @@ describe('Cart mutations', () => {
   it('CART_UPD_PAYMENT sets given payment method', () => {
     const stateMock = {
       payment: 'foo',
-      cartSavedAt: new Date(0)
+      cartSavedAt: 0
     };
     const expectedState = {
       payment: 'bar',

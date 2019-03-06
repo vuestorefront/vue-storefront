@@ -1,17 +1,19 @@
 import Vue from 'vue'
 
-import * as types from "../../../store/mutation-types";
+import * as types from '../../../store/mutation-types';
 import cartActions from '../../../store/actions';
+import config from 'config';
 import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from "../../../../../lib/sync";
 import * as coreHelper from '@vue-storefront/core/helpers';
-import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 jest.mock('@vue-storefront/core/store',() => ({
   dispatch: jest.fn(),
   state: {}
 }));
+jest.mock('config', () => ({}));
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('js-sha3',() => ({ sha3_224: jest.fn() }));
 jest.mock('@vue-storefront/core/lib/multistore',() => ({
@@ -46,6 +48,7 @@ describe('Cart actions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
+    Object.keys(config).forEach(function(key) { delete config[key]; });
   });
 
   it('serverTokenClear clears cart token', () => {
@@ -65,13 +68,7 @@ describe('Cart actions', () => {
     };
     const wrapper = (actions: any) => actions.clear(contextMock);
 
-    (rootStore as any).state = {
-      config: {
-        cart: {
-          synchronize: false,
-        },
-      }
-    };
+    config.cart = { synchronize: false };
 
     wrapper(cartActions);
 
@@ -85,16 +82,8 @@ describe('Cart actions', () => {
       dispatch: jest.fn()
     };
 
-    (rootStore as any).state = {
-      config: {
-        cart: {
-          synchronize: true,
-        },
-        orders: {
-          directBackendSync: true,
-        }
-      }
-    };
+    config.cart = { synchronize: true };
+    config.orders = { directBackendSync: true };
 
     const wrapper = (actions: any) => actions.clear(contextMock);
 
@@ -109,16 +98,8 @@ describe('Cart actions', () => {
       dispatch: jest.fn()
     };
 
-    (rootStore as any).state = {
-      config: {
-        cart: {
-          synchronize: true,
-        },
-        orders: {
-          directBackendSync: false,
-        }
-      }
-    };
+    config.cart = { synchronize: true };
+    config.orders = { directBackendSync: false };
 
     const wrapper = (actions: any) => actions.clear(contextMock);
 
@@ -152,12 +133,8 @@ describe('Cart actions', () => {
         }
       };
 
+      config.cart = { synchronize: true };
       (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
         checkout: {
           shippingDetails: {
             country: 'pl'
@@ -206,12 +183,8 @@ describe('Cart actions', () => {
         }
       };
 
+      config.cart = { synchronize: true };
       (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
         checkout: {
           shippingDetails: { }
         }
@@ -254,12 +227,8 @@ describe('Cart actions', () => {
         }
       };
 
+      config.cart = { synchronize: true };
       (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
         checkout: {
           shippingDetails: {
             country: 'pl'
@@ -300,13 +269,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
-      };
+      config.cart = { synchronize: true };
 
       const expectedState = {
         cartItems: [],
@@ -338,13 +301,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
-      };
+      config.cart = { synchronize: true };
 
       const expectedState = {
         cartItems: [],
@@ -377,13 +334,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
-      };
+      config.cart = { synchronize: true };
 
       const expectedState = {
         cartItems: [],
@@ -415,13 +366,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
-      };
+      config.cart = { synchronize: true };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000003000);
@@ -445,13 +390,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        },
-      };
+      config.cart = { synchronize: true };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000000050);
@@ -469,13 +408,7 @@ describe('Cart actions', () => {
         dispatch: jest.fn(),
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: false,
-          }
-        }
-      };
+      config.cart = { synchronize: false };
 
       const wrapper = (actions: any) => actions.serverPull(contextMock, {});
 
@@ -489,13 +422,7 @@ describe('Cart actions', () => {
         dispatch: jest.fn()
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        }
-      };
+      config.cart = { synchronize: true };
 
       const wrapper = (actions: any) => actions.serverPull(contextMock, {});
 
@@ -514,20 +441,10 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-          }
-        }
-      };
-
-      const expectedState = {
-        cartServerTotalsAt: 1000003000,
-      };
+      config.cart = { synchronize_totals: true };
 
       isServerSpy.mockReturnValueOnce(false);
-      Date.now = jest.fn(() => expectedState.cartServerTotalsAt);
+      Date.now = jest.fn(() => 1000003000);
       (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
       const wrapper = (actions: any) => actions.serverTotals(contextMock, {});
@@ -535,8 +452,6 @@ describe('Cart actions', () => {
       await wrapper(cartActions);
 
       expect(TaskQueue.execute).toBeCalled();
-
-      expect(contextMock.state).toEqual(expectedState);
     });
 
     it('pulls latest totals from server forcing client state if it\'s configured to do so', async () => {
@@ -546,20 +461,10 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-          }
-        }
-      };
-
-      const expectedState = {
-        cartServerTotalsAt: 1000003000,
-      };
+      config.cart = { synchronize_totals: true };
 
       isServerSpy.mockReturnValueOnce(false);
-      Date.now = jest.fn(() => expectedState.cartServerTotalsAt);
+      Date.now = jest.fn(() => 1000003000);
       (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
       const wrapper = (actions: any) => actions.serverTotals(contextMock, { forceClientState: true });
@@ -576,13 +481,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-          }
-        }
-      };
+      config.cart = { synchronize_totals: true };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000000050);
@@ -597,13 +496,7 @@ describe('Cart actions', () => {
     it('does not do anything if totals synchronization is off', () => {
       const contextMock = {};
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: false,
-          }
-        }
-      };
+      config.cart = { synchronize_totals: false };
 
       const wrapper = (actions: any) => actions.serverTotals(contextMock, {});
 
@@ -615,13 +508,7 @@ describe('Cart actions', () => {
     it('does not do anything in SSR environment', () => {
       const contextMock = {};
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-          }
-        }
-      };
+      config.cart = { synchronize_totals: true };
 
       const wrapper = (actions: any) => actions.serverTotals(contextMock, {});
 
@@ -640,13 +527,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        }
-      };
+      config.cart = { synchronize: true };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000003000);
@@ -666,13 +547,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-            create_endpoint: 'http://example.url/guest-cart/{{token}}'
-          }
-        }
+      config.cart = {
+        synchronize: true,
+        create_endpoint: 'http://example.url/guest-cart/{{token}}'
       };
 
       isServerSpy.mockReturnValueOnce(false);
@@ -692,13 +569,7 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        }
-      };
+      config.cart = { synchronize: true };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000000050);
@@ -713,13 +584,7 @@ describe('Cart actions', () => {
     it('does not do anything if totals synchronization is off', () => {
       const contextMock = {};
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: false,
-          }
-        }
-      };
+      config.cart = { synchronize: false };
 
       const wrapper = (actions: any) => actions.serverCreate(contextMock, {});
 
@@ -731,13 +596,7 @@ describe('Cart actions', () => {
     it('does not do anything in SSR environment', () => {
       const contextMock = {};
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize: true,
-          }
-        }
-      };
+      config.cart = { synchronize: true };
 
       const wrapper = (actions: any) => actions.serverCreate(contextMock, {});
 
@@ -758,13 +617,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-            updateitem_endpoint: 'http://endpoint.com/cart/update-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: true,
+        updateitem_endpoint: 'http://endpoint.com/cart/update-item'
       };
 
       const cartItemMock = {
@@ -791,13 +646,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: false,
-            updateitem_endpoint: 'http://endpoint.com/cart/update-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: false,
+        updateitem_endpoint: 'http://endpoint.com/cart/update-item'
       };
 
       const cartItemMock = {
@@ -832,13 +683,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-            updateitem_endpoint: 'http://endpoint.com/cart/update-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: true,
+        updateitem_endpoint: 'http://endpoint.com/cart/update-item'
       };
 
       const cartItemMock = {
@@ -866,13 +713,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: false,
-            updateitem_endpoint: 'http://endpoint.com/cart/update-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: false,
+        updateitem_endpoint: 'http://endpoint.com/cart/update-item'
       };
 
       const cartItemMock = {
@@ -902,13 +745,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-            deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: true,
+        deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
       };
 
       const cartItemMock = {
@@ -936,13 +775,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: false,
-            deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: false,
+        deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
       };
 
       const cartItemMock = {
@@ -981,13 +816,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: true,
-            deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: true,
+        deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
       };
 
       isServerSpy.mockReturnValueOnce(false);
@@ -1017,13 +848,9 @@ describe('Cart actions', () => {
         }
       };
 
-      (rootStore as any).state = {
-        config: {
-          cart: {
-            synchronize_totals: false,
-            deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
-          }
-        }
+      config.cart = {
+        synchronize_totals: false,
+        deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
       };
 
       isServerSpy.mockReturnValueOnce(false);

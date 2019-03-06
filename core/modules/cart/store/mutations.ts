@@ -76,6 +76,7 @@ const mutations: MutationTree<CartState> = {
     state.cartServerToken = token
   },
   [types.CART_UPD_TOTALS] (state, { itemsAfterTotals, totals, platformTotalSegments }) {
+    state.cartServerTotalsAt = Date.now()
     state.itemsAfterPlatformTotals = itemsAfterTotals
     state.platformTotals = totals
     state.platformTotalSegments = platformTotalSegments
