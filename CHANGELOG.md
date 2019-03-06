@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 - The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
-- Material Icons are loaded asynchronously - @JKrupinski (#2060)
 - Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 
