@@ -221,7 +221,7 @@
         </div>
       </div>
     </section>
-    <reviews v-show="OnlineOnly"/>
+    <reviews :original-product="originalProduct.id" :current-product="product.id" v-show="OnlineOnly"/>
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"

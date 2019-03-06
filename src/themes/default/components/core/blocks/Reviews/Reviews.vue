@@ -119,10 +119,17 @@ export default {
       }
     }
   },
-  computed: {
-    product () {
-      return this.$store.state.product
+  props: {
+    originalProduct: {
+      type: Number,
+      required: true
     },
+    currentProduct: {
+      type: Number,
+      required: true
+    }
+  },
+  computed: {
     currentUser () {
       return this.$store.state.user.current
     }
@@ -135,11 +142,11 @@ export default {
       }
     },
     refreshList () {
-      this.$store.dispatch('review/list', { productId: this.product.current.id })
+      this.$store.dispatch('review/list', { productId: this.originalProduct })
     },
     submit () {
       this.addReview({
-        'product_id': this.product.current.id,
+        'product_id': this.currentProduct,
         'title': this.formData.summary,
         'detail': this.formData.review,
         'nickname': this.formData.name,
