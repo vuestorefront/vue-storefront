@@ -9,17 +9,14 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import Vue from 'vue'
 
-export const UrlDispatchMapper = (to) => {
-  return store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query }).then((routeData) => {
-    if (routeData) {
-      Object.keys(routeData.params).map(key => {
-        to.params[key] = routeData.params[key]
-      })
-      return routeData
-    } else {
-      return null
-    }
-  })
+export const UrlDispatchMapper = async (to) => {
+  const routeData = await store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query })
+  if (routeData) {
+    Object.keys(routeData.params).map(key => {
+      to.params[key] = routeData.params[key]
+    })
+    return routeData
+  }
 }
 export function beforeEach(to: Route, from: Route, next) {
   if (isServer) {
