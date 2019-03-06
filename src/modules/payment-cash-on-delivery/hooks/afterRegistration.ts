@@ -10,7 +10,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     }
   }
 
-  if (!Vue.prototype.$isServer) {
+  if (!isServer) {
     // Update the methods
     let paymentMethodConfig = {
       'title': 'Cash on delivery',
