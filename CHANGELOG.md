@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
-- Unit tests of cart module written in jest - @lromanowicz (#2305)
+- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
 
 ### Fixed
 - 
@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 - The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
 - Material Icons are loaded asynchronously - @JKrupinski (#2060)
-- Unit tests in Karma are now removed in favor of jest - @lromanowicz (#2305)
+- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
+- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 
 ## [1.8.3] - 2019.03.03
 
