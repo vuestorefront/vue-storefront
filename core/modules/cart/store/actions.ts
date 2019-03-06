@@ -14,6 +14,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { isServer } from '@vue-storefront/core/helpers'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -56,7 +57,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize && !isServer) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
@@ -91,7 +92,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize_totals && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize_totals && !isServer) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         context.state.cartServerPullAt = Date.now()
         TaskQueue.execute({ url: rootStore.state.config.cart.totals_endpoint, // sync the cart
@@ -110,7 +111,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverCreate (context, { guestCart = false }) {
-    if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
+    if (rootStore.state.config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         const task = { url: guestCart ? rootStore.state.config.cart.create_endpoint.replace('{{token}}', '') : rootStore.state.config.cart.create_endpoint, // sync the cart
           payload: {
@@ -174,7 +175,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   load (context) {
     return new Promise((resolve, reject) => {
-      if (Vue.prototype.$isServer) return
+      if (isServer) return
       const commit = context.commit
       const state = context.state
 
@@ -361,73 +362,85 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   getShippingMethods (context, address) {
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-      TaskQueue.execute({ url: rootStore.state.config.cart.shippingmethods_endpoint,
-        payload: {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors',
-          body: JSON.stringify({
-            address: address
-          })
-        },
-        silent: true
-      }).then((task: any) => {
-        if (task.result.length > 0) {
-          rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
-        }
-      }).catch(e => {
-        Logger.error(e, 'cart')()
-      })
-    }
-  },
-  refreshTotals (context, methodsData) {
-    const storeView = currentStoreView()
-    if (rootStore.state.config.cart.synchronize_totals) {
-      if (!methodsData) {
-        let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
-        const shippingMethods = context.rootGetters['shipping/shippingMethods']
-        const paymentMethods = context.rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default) : null
-        let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
-        if (!shipping && shippingMethods && shippingMethods.length > 0) {
-          shipping = shippingMethods[0]
-        }
-        if (!payment && paymentMethods && paymentMethods.length > 0) {
-          payment = paymentMethods[0]
-        }
-        methodsData = {
-          country: country,
-          method_code: shipping ? shipping.method_code : null,
-          carrier_code: shipping ? shipping.carrier_code : null,
-          payment_method: payment ? payment.code : null
-        }
-      }
-      if (methodsData.country && methodsData.carrier_code) {
-        TaskQueue.execute({ url: rootStore.state.config.cart.shippinginfo_endpoint,
+    return new Promise((resolve, reject) => {
+      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        TaskQueue.execute({ url: rootStore.state.config.cart.shippingmethods_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify({
-              addressInformation: {
-                shippingAddress: {
-                  countryId: methodsData.country
-                },
-                shippingCarrierCode: methodsData.carrier_code,
-                shippingMethodCode: methodsData.method_code
-              }
+              address: address
             })
           },
-          silent: true,
-          callback_event: 'store:cart/servercartAfterTotals'
+          silent: true
+        }).then((task: any) => {
+          if (task.result.length > 0) {
+            rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
+            resolve(task.result)
+          }
         }).catch(e => {
           Logger.error(e, 'cart')()
+          reject(e)
         })
-      } else {
-        context.dispatch('cart/serverTotals', {}, { root: true })
       }
-    }
+    })
+  },
+  refreshTotals (context, methodsData) {
+    return new Promise((resolve, reject) => {
+      const storeView = currentStoreView()
+      if (rootStore.state.config.cart.synchronize_totals) {
+        if (!methodsData) {
+          let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
+          const shippingMethods = context.rootGetters['shipping/shippingMethods']
+          const paymentMethods = context.rootGetters['payment/paymentMethods']
+          let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default) : null
+          let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
+          if (!shipping && shippingMethods && shippingMethods.length > 0) {
+            shipping = shippingMethods[0]
+          }
+          if (!payment && paymentMethods && paymentMethods.length > 0) {
+            payment = paymentMethods[0]
+          }
+          methodsData = {
+            country: country,
+            method_code: shipping ? shipping.method_code : null,
+            carrier_code: shipping ? shipping.carrier_code : null,
+            payment_method: payment.code
+          }
+        }
+        if (methodsData.country && methodsData.carrier_code) {
+          TaskQueue.execute({ url: rootStore.state.config.cart.shippinginfo_endpoint,
+            payload: {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors',
+              body: JSON.stringify({
+                addressInformation: {
+                  shippingAddress: {
+                    countryId: methodsData.country
+                  },
+                  shippingCarrierCode: methodsData.carrier_code,
+                  shippingMethodCode: methodsData.method_code
+                }
+              })
+            },
+            silent: true,
+            callback_event: 'store:cart/servercartAfterTotals'
+          }).then((task : any) => {
+            if (task.result) {
+              resolve(task.result)
+            }
+          }).catch(e => {
+            Logger.error(e, 'cart')()
+            reject(e)
+          })
+        } else {
+          context.dispatch('cart/serverTotals', {}, { root: true })
+          resolve()
+        }
+      }
+    })
   },
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
